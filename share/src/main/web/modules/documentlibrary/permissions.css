@@ -1,0 +1,44 @@
+.permissions .hd .light
+{
+   font-weight: normal;
+}
+
+.permissions select
+{
+   width: 26.5em;
+}
+
+.permissions .yui-gd
+{
+   padding: 0.2em !important;
+}
+
+.permissions .yui-gd .yui-u
+{
+   padding: 0.2em !important;
+}
+
+.permissions .yui-gd .yui-u.first
+{
+   width: auto !important;
+   padding-top: 0.75em !important;
+   margin-left: 0.5em;
+   margin-right: -1em;
+}
+
+.permissions .yui-gd .yui-u.first.reset-btn
+{
+   padding-top: 0em !important;
+}
+
+.permissions .groups
+{
+   border: 1px solid #c0c0c0;
+   margin: 0em 1em 1em 1em;
+   padding-bottom: 0.3em;
+}
+
+.permissions h2
+{
+   padding: 0.5em 1em 0.75em 1em !important;
+}

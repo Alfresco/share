@@ -1,0 +1,48 @@
+.document-sync h2 .document-sync-link
+{
+   background-image: url(../documentlibrary/images/document-cloud-sync-16.png);
+}
+
+.document-sync h2 .document-unsync-link
+{
+   background-image: url(../documentlibrary/images/document-cloud-unsync-16.png);
+}
+
+.document-sync h2 .document-requestsync-link
+{
+   background-image: url(../documentlibrary/images/document-request-sync-16.png);
+}
+
+.document-sync a.cloud-sync-details-failed-show-link,
+.document-sync a.cloud-sync-details-failed-hide-link,
+.document-sync a.cloud-sync-details-failed-show-link-transient,
+.document-sync a.cloud-sync-details-failed-hide-link-transient
+{
+   color: #4F94C9;
+}
+
+.document-sync .cloud-sync-details-failed,
+.document-sync .cloud-sync-details-failed-detailed
+{
+   margin-right: 10px;
+   margin-top: 0;
+}
+
+.document-sync .cloud-sync-details-failed-transient,
+.document-sync .cloud-sync-details-failed-detailed-transient
+{
+   margin-bottom: 5px;
+   margin-right: 10px;
+   margin-top: 10px;
+}
+
+.document-sync .cloud-sync-details-success
+{
+   height: 5px;
+}
+
+.document-sync .document-sync-formContainer
+{
+   padding-left: 15px;
+   padding-top: 1em;
+}

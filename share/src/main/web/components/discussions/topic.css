@@ -1,0 +1,238 @@
+
+/* tag library */
+/* Tag lib */
+.editNodeForm .taglibrary {
+  margin-bottom : 10px;
+  margin-left : 115px;	
+}
+
+/*******************
+ * WYSIWYG CONTENT *
+********************/
+.yuieditor strong {
+  font-weight: bold;
+}
+.yuieditor em {
+  font-style: italic; 
+}
+.yuieditor ul, .yuieditor ol {
+  padding-left: 40px;
+}
+.yuieditor ul li {
+  list-style-type: disc; 
+}
+.yuieditor ol li {
+  list-style-type: decimal; 
+}
+
+
+/****************
+ * NODE DETAIL *
+*****************/
+.topicview {
+  border: 1px solid #c6c6c6;
+  margin: 20px;
+  margin-bottom: 0px;
+}
+.node .authorPicture, .reply .authorPicture, .comment .authorPicture {
+  text-align: center;
+  margin-right: 10px;
+  width: 100px;
+  position: relative;
+  float: left;
+}
+.topicview .nodeFooter,.postview .nodeFooter {
+  /* background:  #F8FAFB; */
+  background: transparent;
+  border: none;
+  margin-top: 5px;
+}
+.topicview .nodeContent, .comment .nodeContent, .reply .nodeContent {
+  margin-left: 110px;
+}
+
+.topicview .nodeFooter, .comment .commentFooter, .reply .nodeFooter {
+  margin-left: 110px;
+}
+
+
+
+/********
+ * NODE *
+*********/
+.node, .reply, .comment {
+  padding: 20px 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+  display: inline-block;
+}
+html>body .node, .reply, .comment {
+  display: block;
+}
+.node table td,
+.reply table td,
+.comment table td {
+  vertical-align: top;
+}
+.node.simple{
+  padding: 5px;
+}
+
+.node .published {
+  margin: 5px 0 10px 0;
+}
+
+.node .nodeTitle a {
+  font-size: 131%;
+  line-height: 130%;
+  color: #2b6eb5;
+}
+
+.node .nodeStatus {
+  font-size: 131%;
+  line-height: 130%;
+}
+
+.nodeAttrLabel
+{
+  line-height: 130%;
+  color: #606060;
+}
+.nodeAttrValue
+{
+  line-height: 130%;
+  color: #333333;
+}
+.nodeAttrValue a
+{
+  color: #2b6eb5;
+}
+.node .userLink
+{
+  line-height: 150%;
+  color: #999999;
+}
+.nodeContent
+{
+  line-height: 150%;
+  margin-right: 140px;
+  padding-right: 40px;
+}
+
+.nodeFooter
+{
+  background-color: #f8f8f8;
+  border-top: 1px dashed #c6c6c6;
+  border-bottom: 1px solid #c6c6c6;
+  padding: 1px;
+}
+.nodeFooter .tagLabel
+{
+  background: transparent url(../images/tag-16.png) no-repeat scroll 0 0;
+  padding-left: 20px;
+}
+
+.replyTo
+{
+  background:transparent url(../images/reply-to-discussion-16.png) no-repeat scroll 0 0;
+  padding-left: 20px;
+}
+
+
+
+/*************
+ * EDIT BLOC *
+**************/
+.nodeEdit {
+  margin: 10px 0 0 15px;
+  width: 150px;
+  position: relative;
+  float: right;
+}
+
+.nodeEdit div, .replyEdit div
+{
+  padding: 2px 19px;
+}
+.node.simple .nodeEdit {
+  width: 200px;
+}
+.nodeEdit .action-link {
+  font-weight: normal;
+  font-size: 93%;
+  line-height: 150%;
+  color: #2B6EB5;
+}
+
+.nodeEdit .onViewNode {
+  background: url(../images/view-discussion-16.png) no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+.nodeEdit .onAddReply {
+  background: url(../images/reply-to-discussion-16.png) no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+.nodeEdit .onEditTopic {
+  background:url(../images/edit-discussion-16.png) no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+.nodeEdit .onEditBlogPost {
+  background:url(../images/edit-blog-16.png) no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+.nodeEdit .onDeleteTopic {
+  background: url('../images/delete-discussion-16.png') no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+.nodeEdit .onDeleteBlogPost {
+  background: url('../images/delete-blog-16.png') no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+.nodeEdit .onUpdateExternal {
+  background: url(../images/update-external-16.png) no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+.nodeEdit .onPublishExternal {
+  background: url(../images/publish-external-16.png) no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+.nodeEdit .onUnpublishExternal {
+  background: url(../images/unpublish-external-16.png) no-repeat scroll 0 2px;
+  padding-left: 20px;
+}
+
+/********
+ * FORM *
+*********/
+.editNodeForm {
+  margin: 4px;
+  border: thin solid #000;
+  padding: 4px;
+  background-color: #FAFAFA;
+}
+.editNodeForm label {
+  width: 100px;
+  float: left;
+  text-align: right;
+  clear: left;
+  margin: 5px 15px 7px 0;
+}
+.editNodeForm input, .editNodeForm textarea {
+  margin-bottom: 15px;
+}
+.editNodeForm .yui-editor-container {
+  margin: 0px 0px 10px 114px;
+}
+
+.editNodeForm .nodeFormAction {
+  margin: 25px 0 10px 115px;
+}
+
+/***********
+ * GENERAL *
+************/
+.spacer {
+  margin: 0 7px;
+  color: #ccc;
+  font-size: 116%;
+}

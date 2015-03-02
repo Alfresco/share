@@ -1,0 +1,16 @@
+.quickshare-node-header
+{
+   margin-bottom: 2em;
+}
+
+.quickshare-node-header-info-thumbnail
+{
+   float: left;
+   padding: 0.5em 0.5em 1em 0;
+}
+
+.quickshare-node-header-info-title
+{
+   padding: 0.5em 0 0.2em;
+}
+

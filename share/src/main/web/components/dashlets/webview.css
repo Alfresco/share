@@ -1,0 +1,41 @@
+.webview .title a.iframe-title
+{
+   background: url("../images/new-window-16.png") no-repeat 100% 0;
+   padding-right: 20px;
+}
+
+.webview .default-title,
+.webview .notsecure-title,
+.webview .iframe-title,
+.webview .default-body,
+.webview .notsecure-body,
+.webview .iframe-body
+{
+   display: none;
+}
+
+.webview-default .default-title,
+.webview-notsecure .notsecure-title,
+.webview-iframe .iframe-title
+{
+   display: inline;
+}
+
+.webview-default .default-body,
+.webview-notsecure .notsecure-body,
+.webview-iframe .iframe-body
+{
+   display: block;
+}
+
+.webview .scrollablePanel
+{
+   height: 200px;
+   overflow: hidden;
+}
+
+.webview .default-body,
+.webview .notsecure-body
+{
+   padding: 10px;
+}

@@ -1,0 +1,1280 @@
+/* Site-wide Styles */
+
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner
+{
+    border: none;
+}
+
+.yui-overlay,
+.sticky-wrapper,
+.sticky-footer
+{
+   font-family: Arial, sans-serif;
+   color: #666666;
+}
+
+.sticky-footer
+{
+   font-size: 81%;
+}
+
+.sticky-wrapper a,
+.sticky-wrapper a:visited,
+.sticky-wrapper a:hover,
+.sticky-footer a,
+.sticky-footer a:visited,
+.sticky-footer a:hover,
+.yui-overlay a,
+.yui-overlay a:visited,
+.yui-overlay a:hover
+{
+   color: #000;
+   text-decoration: none;
+}
+
+.sticky-wrapper a:hover,
+.yui-overlay a:hover,
+.sticky-footer a:hover
+{
+   text-decoration: underline;
+}
+
+.sticky-wrapper h1,
+.yui-overlay h1
+{
+   font-family: Helvetica, Arial, sans-serif;
+   font-size: 140%;
+   font-weight: normal;
+}
+
+.sticky-wrapper h2,
+.yui-overlay h2
+{
+   font-size: 123.1%;
+}
+
+h2.thin
+{
+   font-weight: normal;
+}
+
+h1 .light,
+h1 .lighter,
+h2 .light,
+h2 .lighter
+{
+   color: #c7dbeb;
+}
+
+.sticky-wrapper h3,
+.yui-overlay h3
+{
+   font-size: 108%;
+}
+
+.sticky-wrapper h4,
+.yui-overlay h4
+{
+   font-weight: bold;
+}
+
+h3 .light,
+h3 .lighter,
+h4 .light,
+h4 .lighter
+{
+   color: #a2a2a2;
+}
+
+.sticky-wrapper hr
+{
+   color: #E4E4E4;
+   background-color: #E4E4E4;
+}
+
+.sticky-wrapper label,
+.share-form .viewmode-label
+{
+   color: #606060;
+   margin-right: 0.4em;
+}
+
+.alfresco-share .sticky-wrapper
+{
+   background-color: #fff;
+}
+
+.alfresco-guest .sticky-wrapper
+{
+   background: none;
+}
+
+.label
+{
+   font-weight: bold;
+}
+
+.error
+{
+   color: red;
+}
+
+.alfresco-share .sticky-wrapper .error
+{
+   background: white !important;
+   color: red !important;
+   font-weight: bold;
+   padding: 0.2em 1em;
+}
+
+.alfresco-share .sticky-wrapper .error-alt
+{
+   background-color: red !important;
+   color: white !important;
+   font-weight: bold;
+   padding: 0.2em 1em;
+}
+
+.light
+{
+   font-weight: normal;
+}
+
+.lighter
+{
+   font-size: 93%;
+   font-weight: normal;
+}
+
+.faded
+{
+   color: #aaa;
+}
+
+/* DASHLETS */
+
+.dashlet
+{
+   border: 1px solid #d7d7d7;
+   background-color: white;
+}
+
+.dashlet .title
+{
+   background-color: #eeeeee;
+   background-image: url(images/dashlet-title-bg.png);
+   background-repeat: repeat-x;
+}
+
+.dashlet .feed
+{
+   background-image: url(images/feed-icon-16.png);
+   background-repeat: no-repeat;
+}
+
+.dashlet .toolbar
+{
+   background-color: #f8f8f8;
+   border-bottom: 1px solid #e8e8e8;
+}
+
+
+.dashlet .body
+{
+   background-color: #FFF;
+}
+
+.dashlet .welcome-body a,
+.dashlet .welcome-body a:visited,
+.dashlet .welcome-body a:hover
+{
+   color: #f6931c;
+}
+
+.dashlet .detail-list-item
+{
+   border-bottom: 1px dashed #e9e9e9;
+}
+
+.yui-skin-yellowTheme .yui-panel
+{
+   border-bottom: medium none;
+}
+
+.yui-skin-yellowTheme .mask
+{
+   opacity: 0.2;
+}
+
+.yui-skin-yellowTheme .yui-panel .hd,
+.yui-skin-yellowTheme .yui-panel .form-buttons,
+.yui-skin-yellowTheme .yui-panel .bdft,
+.yui-skin-yellowTheme .yui-panel .ft
+{
+   color: #333333;
+   background: #f3f3f3; 
+   border-bottom: 1px solid #C5C7C6;
+   border-left-color: #C5C7C6;
+   border-right-color: #C5C7C6;
+}
+
+.yui-skin-yellowTheme .yui-panel .hd
+{
+   font-size: 123.1%;
+   font-weight: bold;
+   border-bottom: 1px solid #C5C7C6;
+}
+
+.yui-skin-yellowTheme .yui-panel .form-buttons,
+.yui-skin-yellowTheme .yui-panel .bdft
+{
+   font-size: 100%;
+   border-top: 1px solid #C5C7C6;
+}
+
+.yui-skin-yellowTheme .yui-panel div.form-fields
+{
+   border-bottom: none;
+}
+
+.yui-skin-yellowTheme .yui-panel .ft
+{
+   border-top: 1px solid #C5C7C6;
+   padding: 5px;
+}
+
+.yui-skin-yellowTheme .yui-panel .bd
+{
+   color: #333333;
+   background-color: #fff;
+   border-left-color: #C5C7C6;
+   border-right-color: #C5C7C6;
+}
+
+.yui-skin-yellowTheme .yui-panel .bd .yui-resize .yui-resize-handle
+{
+   background-color: #F7FDF8;
+}
+
+/* Data Lists: DataTable (Needs to appear before yui-dt-highlighted rule) */
+
+.yui-skin-yellowTheme .datagrid tr.yui-dt-even
+{
+   background-color: #ffffff;
+}
+.yui-skin-yellowTheme .datagrid tr.yui-dt-even td.yui-dt-asc,
+.yui-skin-yellowTheme .datagrid tr.yui-dt-even td.yui-dt-desc
+{
+   background-color: #f8f8f8;
+}
+
+.yui-skin-yellowTheme .datagrid tr.yui-dt-odd
+{
+   background-color: #f8f8f8;
+}
+.yui-skin-yellowTheme .datagrid tr.yui-dt-odd td.yui-dt-asc,
+.yui-skin-yellowTheme .datagrid tr.yui-dt-odd td.yui-dt-desc
+{
+   background-color: #f0f0f0;
+}
+
+/* End Data Lists */
+
+.yui-skin-yellowTheme .yui-dt-data tr.yui-dt-highlighted td.yui-dt-asc,
+.yui-skin-yellowTheme .yui-dt-data tr.yui-dt-highlighted td.yui-dt-desc
+{
+   background-color: #ffee9e; 
+   cursor: auto;
+}
+
+.yui-skin-yellowTheme .yui-dt-message,
+.yui-skin-yellowTheme .yui-dt-message tr.yui-dt-highlighted
+{
+   background-color: white;
+}
+
+/* Style the default message  */
+
+.yui-skin-yellowTheme #message .bd
+{
+   background-color: #808080;
+   color: white;
+}
+
+.yui-skin-yellowTheme #message .bd span.wait
+{
+   background-image: url(images/wait.gif);
+   background-repeat: no-repeat;
+}
+
+.yui-skin-yellowTheme .yui-overlay-hidden #message .bd span.wait
+{
+   display: none;
+}
+
+/* Style the default prompt */
+
+.yui-skin-yellowTheme #prompt,
+.yui-skin-yellowTheme #userInput
+{
+   border-top: 1px solid #C5C7C6;
+   border-bottom: 1px solid #C5C7C6;
+   background-color: #E3EDE6;
+}
+
+.yui-skin-yellowTheme #prompt .bd,
+.yui-skin-yellowTheme #userInput .bd
+{
+   background-color: #e3ebec;
+}
+
+.yui-skin-yellowTheme #prompt .ft,
+.yui-skin-yellowTheme #userInput .ft
+{
+   border-left: 1px solid #c4c5c5;
+   border-right: 1px solid #c4c5c5;
+   background-color: #F3F3F3;
+}
+
+/* Page title and navigation styles */
+
+.page-title
+{
+   background-color: #6CA5CE;
+   color: white;
+}
+
+.page-title a,
+.page-title a:visited
+{
+   color: #000;
+}
+
+.page-title a:hover
+{
+   color: #fff;
+}
+
+.page-title h1 span
+{
+   color: #000;
+}
+
+.site-navigation
+{
+   background-color: #fff7c9;
+   border-bottom: 1px solid #f0dc89;
+   color: white;
+}
+
+span.navigation-separator,
+span.navigation-item,
+span.navigation-item-alt
+{
+   color: #9fc6e1;
+}
+
+span.navigation-item a,
+span.navigation-item a:visited
+{
+   color: #666666;
+}
+
+span.navigation-item a.active-page,
+span.navigation-item a.active-page:visited,
+span.navigation-item a:hover
+{
+   color: #666666;
+}
+
+span.navigation-item a.active-page, span.navigation-item a.active-page:visited, span.navigation-item a:hover {
+text-decoration: underline; 
+}
+
+span.navigation-separator
+{
+   border-right: 1px dotted #666666;
+}
+
+span.navigation-separator-alt
+{
+   border-right: 1px solid #3a6c38;
+}
+
+/* Standard toolbars */
+
+.share-toolbar,
+.toolbar
+{
+   border-bottom: 1px solid #ebebeb;
+}
+
+.share-toolbar .action-bar,
+.toolbar .action-bar
+{
+   border-right: 1px solid #ebebeb;
+}
+
+.share-toolbar .separator,
+.toolbar .separator
+{
+   border: medium none;
+   border-right: 1px dotted #3a6c38;
+}
+
+.share-toolbar .backLink
+{
+   background-image: url(../../components/images/back-arrow.png);
+   background-position: left center;
+   background-repeat: no-repeat;
+   color: #333333;
+   padding: 0 5px 0 19px;
+   margin-right: 5px;
+}
+
+.share-toolbar .forwardLink
+{
+   background-image: url(../../components/images/forward-arrow-16.png);
+   background-position: right center;
+   background-repeat: no-repeat;
+   color: #333333;
+   padding: 0 21px 0 5px;
+   margin-right: 5px;
+}
+
+.sticky-wrapper strong
+{
+   font-weight: bold;
+}
+
+.sticky-wrapper em
+{
+   font-style: italic;
+}
+
+.rich-content a.wiki-missing-page
+{
+   color: #CC2200 !important;
+}
+
+
+/* Share forms */
+
+.share-form .form-container .form-fields
+{
+   border: 1px solid #c2c2c2 !important;
+   background-color: #fffff2;
+   width: 800px;
+}
+
+.yui-skin-yellowTheme .yui-navset .yui-content
+{
+   background: #fff7c9;
+}
+
+.input,
+.sticky-wrapper input[type="text"],
+.sticky-wrapper input[type="password"],
+.sticky-wrapper textarea,
+.sticky-wrapper select,
+.yui-overlay input[type="text"],
+.yui-overlay input[type="password"],
+.yui-overlay textarea,
+.yui-overlay select,
+.form-element-border,
+.share-form .yui-dt table
+{
+   border: 1px solid #AAA99E;
+   font-weight: normal;
+}
+
+.share-form .yui-dt table td.yui-dt-last
+{
+   border-right: none;
+}
+
+.form-element-background-color
+{
+   background-color: #FFFFFF;
+}
+
+/* same as theme-color-2 */
+
+.toolbar .link a:hover,
+.members-bar .member-link a:hover
+{
+   color: #009300;
+}
+
+/* Richtext Editor Plug-ins */
+
+.yui-toolbar-container .yui-toolbar-alfresco-imagelib span.yui-toolbar-icon,
+span.mce_alfresco-imagelibrary
+{
+   background-position: 0 0 !important;
+   background-image: url(images/alfresco-imagelib.png) !important;
+}
+
+.mce_alfresco-imagelibrary img
+{
+   background-position: 0px 2px !important;
+}
+
+.yui-toolbar-container .yui-toolbar-alfresco-imagelib span.yui-toolbar-icon,
+span.mce_alfresco-linklibrary
+{
+   background-position: 0 0 !important;
+   background-image: url(images/alfresco-linklib.png) !important;
+}
+
+.mce_alfresco-linklibrary img
+{
+   background-position: 0px 2px !important;
+}
+
+/* Point the YUI button to the themed sprite */
+
+.yui-skin-yellowTheme .yui-button
+{
+   background-image: url(images/sprite.png);
+}
+
+/* Override YUI Button styles for - flat button style */
+
+.yui-skin-yellowTheme div.flat-button span.yui-button
+{
+   background: none;
+   border-color: transparent;
+}
+
+.yui-skin-yellowTheme div.flat-button span.yui-button span.first-child
+{
+   border-color: transparent;
+}
+
+.yui-skin-yellowTheme div.flat-button span.yui-button-hover,
+.yui-skin-yellowTheme div.flat-button span.yui-button-focus
+{
+   background: transparent url(images/sprite.png) repeat-x scroll 0 0;
+   border-color: #808080;
+}
+
+.yui-skin-yellowTheme div.flat-button span.yui-button-hover span.first-child,
+.yui-skin-yellowTheme div.flat-button span.yui-button-focus span.first-child
+{
+   border-color: #808080;
+}
+
+.yui-skin-yellowTheme div.flat-button span.yui-radio-button-checked,
+.yui-skin-yellowTheme div.flat-button span.yui-checkbox-button-checked
+{
+   background: #f6931c none;
+}
+
+/* Override checked styles for doclist */
+
+.yui-skin-yellowTheme .no-check-bg div.flat-button span.yui-radio-button-checked,
+.yui-skin-yellowTheme .no-check-bg div.flat-button span.yui-checkbox-button-checked,
+.yui-skin-yellowTheme .no-check-bg div.flat-button span.yui-radio-button-checked,
+.yui-skin-yellowTheme .no-check-bg div.flat-button span.yui-checkbox-button-checked
+{
+   background: none;
+}
+
+/* Ensure hover state can be activated */
+
+.yui-skin-yellowTheme .no-check-bg div.flat-button span.yui-button-hover,
+.yui-skin-yellowTheme .no-check-bg div.flat-button span.yui-button-focus
+{
+   background: transparent url(images/sprite.png) repeat-x scroll 0 0;
+   border-color: #808080;
+}
+
+/* Override YUI Button styles for - title button style */
+
+.yui-skin-yellowTheme .title-button .yui-button
+{
+   background: transparent url(images/title-button-bg.png) repeat-x 0 0;
+   border-color: #dab311;
+}
+
+.yui-skin-yellowTheme .title-button a:hover
+{
+   color: #000;
+}
+
+.yui-skin-yellowTheme .title-button .yui-button .first-child,
+.yui-skin-yellowTheme .title-button .yui-button
+{
+   border-color: #dab311;
+}
+
+/* Override YUI Button styles for - attention button style */
+
+.yui-skin-yellowTheme .alfresco-attention-yui-button,
+.yui-skin-yellowTheme .alfresco-attention-yui-button span.first-child
+{
+   border-color: #e0b000;
+}
+
+.yui-skin-yellowTheme .alfresco-attention-yui-button.yui-button
+{
+   background-position: 0 -2000px;
+}
+
+.yui-skin-yellowTheme .alfresco-attention-yui-button.yui-button-hover
+{
+   background-position: 0 -2100px;
+}
+
+.yui-skin-yellowTheme .alfresco-attention-yui-button.yui-button-disabled
+{
+   background-position: 0 -2200px;
+}
+
+
+/* Paginator link styling */
+
+.yui-skin-yellowTheme .yui-pg-container span
+{
+   color: #606060;
+}
+
+.yui-skin-yellowTheme .yui-pg-container span.yui-pg-page.yui-pg-current-page
+{
+   color: #333333;
+   font-weight: bold;
+}
+
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-first,
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-previous,
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-page,
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-next,
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-last
+{
+   border-color: #CBCBCB;
+   color: #F6931C;
+   text-decoration: none;
+}
+
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-first:hover,
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-previous:hover,
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-page:hover,
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-next:hover,
+.yui-skin-yellowTheme .yui-pg-container a.yui-pg-last:hover
+{
+   text-decoration: underline;
+}
+
+/* A combination of a link and splitbutton wrapped inside a span */
+
+.yui-skin-yellowTheme .link-menu-button .yui-button span button
+{
+   color: #4C4C4C;
+   font-size: 2px;
+   background-image: url(images/link-menu-button-arrow.png);
+   background-position: center center;
+}
+
+body.yui-skin-yellowTheme .link-menu-button .yui-button.yui-button-hover
+{
+   background-color: #FFFFFF;
+   border: 1px solid #d88119;
+}
+
+body.yui-skin-yellowTheme .link-menu-button.link-menu-button-menu-active .yui-button.yui-button-hover
+{
+   border-color: transparent;
+   background-color: transparent;
+}
+
+.yui-skin-yellowTheme .link-menu-button .yui-button span.first-child,
+.yui-skin-yellowTheme .link-menu-button .yui-button.yui-button-activeoption span.first-child,
+.yui-skin-yellowTheme .link-menu-button .yui-button.yui-button-hover span.first-child
+{
+   border-width: 0;
+}
+
+.yui-skin-yellowTheme .link-menu-button span.link-menu-button-link
+{
+   border-right: 1px #BDBDBD solid;
+}
+
+body.yui-skin-yellowTheme .link-menu-button.link-menu-button-menu-active
+{
+   background-color: #FFFFFF;
+   border: 1px solid #d88119;
+}
+
+.yui-skin-yellowTheme .link-menu-button.link-menu-button-menu-active .yui-button.yui-menu-button-hover
+{
+   border: 1px solid #FFFFFF;
+}
+
+.topiclist .yui-dt-liner
+{
+   padding: 0;
+}
+
+/* blog/wiki action items links */
+
+body.yui-skin-yellowTheme .wikipage .editPage a:hover,
+body.yui-skin-yellowTheme .wikipage .deletePage a:hover,
+body.yui-skin-yellowTheme .wikipage .detailsPage a:hover,
+body.yui-skin-yellowTheme .nodeEdit .onEditBlogPost a:hover,
+body.yui-skin-yellowTheme .nodeEdit .onDeleteBlogPost a:hover
+{
+   
+}
+
+/* YUI Menu */
+
+body.yui-skin-yellowTheme .yuimenu .bd
+{
+   border: 1px solid #d88119; 
+}
+
+body.yui-skin-yellowTheme .yuimenu .bd a:focus
+{
+   outline: none;
+   background-color: #f6931c;
+   color: #FFF;
+}
+
+/* YUI Menu roll over state */
+
+body.yui-skin-yellowTheme .yuimenuitemlabel
+{
+   text-decoration: none;
+}
+
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected
+{
+   background-color: #f6931c;
+}
+
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected div .yuimenuitemlabel,
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected div .yuimenuitemlabel a
+{
+   color: #333333; 
+}
+
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected .yuimenuitemlabel,
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected .yuimenuitemlabel a,
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected div ul li.yuimenuitem-selected .yuimenuitemlabel,
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected div ul li.yuimenuitem-selected .yuimenuitemlabel a,
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected span.description
+{
+   color: #FFF;
+}
+
+body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem .yuimenuitemlabel-disabled
+{
+   color: #A6A6A6;
+   cursor: default;
+}
+
+/*end YUI Menu */
+
+/* Location */
+
+.yui-skin-yellowTheme .location-path,
+.yui-skin-yellowTheme .location-site
+{
+   background-position: left 50%;
+   background-repeat: no-repeat;
+   padding: 2px 0 2px 20px;
+}
+
+.yui-skin-yellowTheme .location-none
+{
+   margin-left: 0.5em;
+}
+
+.yui-skin-yellowTheme .location-path
+{
+   background-image: url(../../components/documentlibrary/images/folder-closed-16.png);
+   margin-left: 0.5em;
+}
+
+.yui-skin-yellowTheme .location-site
+{
+   background-image: url(../../components/images/site-16.png);
+}
+
+/* end Location*/
+
+/* Doclist */
+
+body.yui-skin-yellowTheme .doclist .more-actions a:active,
+body.yui-skin-yellowTheme .doclist .more-actions a:hover
+{
+   background-color: #FFEE9E;
+   color: #333;
+}
+
+body.yui-skin-yellowTheme .doclist div.more-actions
+{
+   border: 1px solid #f6931c; 
+}
+
+body.yui-skin-yellowTheme .doclist .action-set a:active,
+body.yui-skin-yellowTheme .doclist .action-set a:hover,
+body.yui-skin-yellowTheme .doclist .action-set .highlighted,
+#divCalendarContent .yui-dt-col-actions a:active,
+#divCalendarContent .yui-dt-col-actions a:hover
+{
+   border: 1px solid #f6931c; 
+}
+
+body.yui-skin-yellowTheme .yui-dt-data tr.yui-dt-highlighted,
+body.yui-skin-yellowTheme .doclist tr.yui-dt-odd.yui-dt-highlighted,
+body.yui-skin-yellowTheme .doclist tr.yui-dt-even.yui-dt-highlighted,
+body.yui-skin-yellowTheme .links-body tr.links-selected-row,
+body.yui-skin-yellowTheme .over,
+.topicview
+{
+   background-color: #f5faff; 
+}
+
+.site-members .search-controls
+{
+   background-color: #F5F5F5;
+}
+
+body.yui-skin-yellowTheme .doclist tr.yui-dt-odd.yui-dt-highlighted td.yui-dt-last,
+body.yui-skin-yellowTheme .doclist tr.yui-dt-even.yui-dt-highlighted td.yui-dt-last
+{
+   border-left: 1px solid #cae4ff; 
+}
+
+body.yui-skin-yellowTheme .categoryview .category .ygtvtn,
+body.yui-skin-yellowTheme .categoryview .category .ygtvtm,
+body.yui-skin-yellowTheme .categoryview .category .ygtvtmh, body.yui-skin-yellowTheme .categoryview .category .ygtvtmhh,
+body.yui-skin-yellowTheme .categoryview .category .ygtvtp,
+body.yui-skin-yellowTheme .categoryview .category .ygtvtph, body.yui-skin-yellowTheme .categoryview .category .ygtvtphh,
+body.yui-skin-yellowTheme .categoryview .category .ygtvln,
+body.yui-skin-yellowTheme .categoryview .category .ygtvlm,
+body.yui-skin-yellowTheme .categoryview .category .ygtvlmh, body.yui-skin-yellowTheme .categoryview .category .ygtvlmhh,
+body.yui-skin-yellowTheme .categoryview .category .ygtvlp,
+body.yui-skin-yellowTheme .categoryview .category .ygtvlph, body.yui-skin-yellowTheme .categoryview .category .ygtvlphh,
+body.yui-skin-yellowTheme .categoryview .category .ygtvdepthcell
+{
+   background-image: url(images/categoryview-sprite.gif);
+   padding: 1px;
+}
+
+body.yui-skin-yellowTheme .treeview a:focus,
+body.yui-skin-yellowTheme .category a:focus
+{
+   outline: 1px solid #ccc;
+}
+
+body.yui-skin-yellowTheme .treeview .ygtvtn,
+body.yui-skin-yellowTheme .treeview .ygtvtm,
+body.yui-skin-yellowTheme .treeview .ygtvtmh,
+body.yui-skin-yellowTheme .treeview .ygtvtmhh,
+body.yui-skin-yellowTheme .treeview .ygtvtp,
+body.yui-skin-yellowTheme .treeview .ygtvtph,
+body.yui-skin-yellowTheme .treeview .ygtvtphh,
+body.yui-skin-yellowTheme .treeview .ygtvln,
+body.yui-skin-yellowTheme .treeview .ygtvlm,
+body.yui-skin-yellowTheme .treeview .ygtvlmh,
+body.yui-skin-yellowTheme .treeview .ygtvlmhh,
+body.yui-skin-yellowTheme .treeview .ygtvlp,
+body.yui-skin-yellowTheme .treeview .ygtvlph,
+body.yui-skin-yellowTheme .treeview .ygtvlphh,
+body.yui-skin-yellowTheme .treeview .ygtvdepthcell
+{
+   background-image: url(images/treeview-sprite.gif) !important;
+}
+
+/* end doclist */
+
+/* invite page */
+
+.inviteusersbyemail .byemailbody
+{
+   background-color: #fbfbfb;
+}
+
+.people-finder .results
+{
+   background-color: #f9fcfd;
+}
+
+.yui-skin-yellowTheme .dayview h2, .weekview h2,
+.yui-skin-yellowTheme .calendar.weekview thead th,
+.yui-skin-yellowTheme .calendar.monthview thead th
+{
+   color: #000;
+}
+
+/* filter list link */
+
+.yui-skin-yellowTheme li.selected, 
+body.yui-skin-yellowTheme .treeview .selected,
+body.yui-skin-yellowTheme .categoryview .selected,
+body.yui-skin-yellowTheme .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-item-selected
+{
+   background-color: #ffee9e;
+}
+
+/* these rules need to be separate from the above for ie6 */
+.yui-skin-yellowTheme .treeview .selected > table,
+.yui-skin-yellowTheme .categoryview .selected > table
+{
+   background-color: #ffee9e;
+}
+
+.yui-skin-yellowTheme .filter a.disabled,
+.yui-skin-yellowTheme .filter a.disabled:active,
+.yui-skin-yellowTheme .filter a.disabled:hover,
+.yui-skin-yellowTheme .filter a.disabled:visited,
+.yui-skin-yellowTheme .tags a.disabled,
+.yui-skin-yellowTheme .tags a.disabled:active,
+.yui-skin-yellowTheme .tags a.disabled:hover,
+.yui-skin-yellowTheme .tags a.disabled:visited
+{
+   color: #a6a6a6;
+   cursor: not-allowed;
+}
+
+.yui-skin-yellowTheme .filter a:hover,
+.yui-skin-yellowTheme .tags a:hover
+{
+   text-decoration: none;
+}
+
+/* Link color */
+
+.yui-skin-yellowTheme .node .nodeTitle a,
+.yui-skin-yellowTheme .node .nodeURL a,
+.yui-skin-yellowTheme .nodeAttrValue a,
+.yui-skin-yellowTheme .nodeFooter .tag a,
+.yui-skin-yellowTheme .yui-dt-highlighted .tag a,
+.yui-skin-yellowTheme .yui-dt-highlighted .category a,
+.yui-skin-yellowTheme .yui-dt-highlighted .item-social a,
+.yui-skin-yellowTheme a.wiki-tag-link,
+.yui-skin-yellowTheme .node .userLink a,
+.yui-skin-yellowTheme .site-members h3 a,
+.yui-skin-yellowTheme .yui-calendar td.calcell a,
+.yui-skin-yellowTheme .doclist .documents a,
+.yui-skin-yellowTheme .attrValue a,
+.yui-skin-yellowTheme .detail .item a,
+.yui-skin-yellowTheme .info .meta-value a,
+.yui-skin-yellowTheme .rules-none a,
+.yui-skin-yellowTheme .agendaview a,
+.yui-skin-yellowTheme a.previousEvents,
+.yui-skin-yellowTheme a.nextEvents,
+.yui-skin-yellowTheme div.channels a
+{
+   color: #F6931C;
+}
+
+.yui-skin-yellowTheme .tag a,
+.yui-skin-yellowTheme .category a,
+.yui-skin-yellowTheme .item-social a,
+.yui-skin-yellowTheme .document-tags .tag
+{
+   color: #333;
+}
+
+.yui-skin-yellowTheme .tag a,
+.yui-skin-yellowTheme .document-tags .tag
+{
+   background-color: #f0f0f0;
+}
+
+.cmis .body a
+{
+   color: #F6931C;
+}
+
+.yui-skin-yellowTheme .rules-list a
+{
+   color: #666666;
+}
+
+/* Calendar */
+
+/* Day/Week timed events */
+.fc-content .fc-event-skin
+{
+   background-color: #f6931c;
+   border-color: #DC7A04;
+   color: #FFFFFF;
+}
+
+/* Month view timed events */
+.fc-content .fc-view-month .fc-event-skin
+{
+   background-color: transparent;
+   border-color: transparent;
+   color: #f6931c;
+}
+
+/* All day events */
+.fc-content .fc-event-allday .fc-event-skin,
+.fc-content a.fc-event.fc-event-allday,
+.fc-content .fc-view-month .fc-event-multiday .fc-event-skin,
+.fc-content .fc-view-month a.fc-event.fc-event-multiday
+{
+   background-color: #f6931c;
+   border-color: #f6931c;
+   color: #FFFFFF;
+}
+
+
+.fc-content a.fc-event-skin:hover
+{
+   color: #FFFFFF;
+}
+
+/* End Calendar */
+
+
+/* Document */
+
+.document-version
+{
+   background-color: #aaa;
+   color: #fff;
+}
+
+/* Twisters */
+
+.alfresco-twister-open
+{
+   background: transparent url(images/expanded.png) no-repeat scroll 0 50%;
+}
+
+.alfresco-twister-closed
+{
+   background: transparent url(images/collapsed.png) no-repeat scroll 0 50% !important;
+}
+
+/* Preview Tooltip */
+
+.yui-tt .bd
+{
+   background-color: #f4faff !important;
+   border: 1px solid #333 !important;
+   padding: 4px 4px 1px !important;
+   text-align: left;
+}
+
+
+/* Theme colors */
+
+.theme-color-1,
+a.theme-color-1,
+a.theme-color-1:visited,
+a.theme-color-1:hover
+{
+   color: #f6931c;
+}
+
+.theme-color-2,
+a.theme-color-2,
+a.theme-color-2:visited,
+a.theme-color-2:hover
+{
+   color: #666666;
+}
+
+.theme-color-3,
+a.theme-color-3,
+a.theme-color-3:visited,
+a.theme-color-3:hover
+{
+   color: #fff;
+}
+
+.theme-color-4,
+a.theme-color-4,
+a.theme-color-4:visited,
+a.theme-color-4:hover
+{
+   color: #009300;
+}
+
+.theme-color-5,
+a.theme-color-5,
+a.theme-color-5:visited,
+a.theme-color-5:hover
+{
+   color: #fff;   
+}
+
+/* Theme background colors */
+
+.theme-bg-color-1,
+div.theme-bg-color-1
+{
+   background-image: url(./images/title-bg.png);
+   border-top: 1px solid #dbb003;
+   border-bottom: 1px solid #DBB003; 
+}
+
+.theme-bg-color-2,
+div.theme-bg-color-2
+{
+   background-color: #fffdf4; 
+}
+
+.theme-bg-color-3,
+div.theme-bg-color-3
+{
+   background-color: #f8f8f8;
+}
+
+.theme-bg-color-4,
+div.theme-bg-color-4
+{
+   background-color: #fff;
+}
+
+.theme-bg-color-5,
+div.theme-bg-color-5
+{
+   background-color: #2FB42C;
+}
+
+.theme-bg-color-6,
+div.theme-bg-color-6
+{
+   background-color: #F4FAFF;
+}
+
+/* Used for editing - same as meta data fields */
+
+.theme-bg-color-7,
+div.theme-bg-color-7
+{
+   background-color: #F5FFF2;
+}
+
+.theme-bg-color-8,
+div.theme-bg-color-8
+{
+   background-color: #FFFFFF;
+}
+
+.theme-bg-1
+{
+   
+}
+
+.theme-bg-2
+{
+   background-color: #F8F8F8;
+   background-image: -webkit-gradient(
+       linear,
+       left top,
+       left bottom,
+       color-stop(0, #fff),
+       color-stop(1, #f6f6f6)
+   );
+   background-image: -moz-linear-gradient(
+       center top,
+       #fff 0%,
+       #f6f6f6 100%
+   );
+}
+
+.theme-bg-3
+{
+   background-color: #CCCCCC;
+   background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0, rgb(204,204,204)),
+      color-stop(1, rgb(232,232,232))
+   );
+   background-image: -moz-linear-gradient(
+       center top,
+       rgb(204,204,204) 0%,
+       rgb(232,232,232) 100%
+   );
+}
+
+.theme-bg-4
+{
+   background-color: #33FF66;
+   background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0, rgb(51,255,102)),
+      color-stop(1, rgb(51,153,102))
+   );
+   background-image: -moz-linear-gradient(
+      top,
+      rgb(51,255,102) 0%,
+      rgb(51,153,102) 100%
+   );
+}
+
+.theme-bg-selected
+{
+   background-color: #fff7c9;
+}
+
+/* Theme border type/colors */
+
+.theme-border-1
+{
+   border-color: #468058;
+}
+
+.theme-border-2
+{
+   border-color: #2FB42C;
+}
+
+.theme-border-3
+{
+   border: 1px solid #c6c6c6 !important;
+}
+
+.theme-border-4
+{
+   border: 1px solid #DDD6A0;
+}
+
+.theme-border-5
+{
+   border: 1px solid #c2c2c2;
+}
+
+.alfresco-guest .theme-overlay
+{
+   padding-left: 24px;
+   font-family: Open Sans,Arial,Helvetica,sans-serif;
+   color: #333;
+   border: 1px solid #ccc;
+   background-color: #fff;
+   box-shadow: 0.33px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.theme-company-logo
+{
+   height: 48px;
+   width: 428px;
+   background: transparent url(images/logo.png) no-repeat;
+}
+
+.theme-flow-arrow
+{
+   margin:  0;
+   padding: 0;
+	width: 50px;
+   height: 98px;
+   background: url(images/flow-arrow.png) no-repeat;
+}

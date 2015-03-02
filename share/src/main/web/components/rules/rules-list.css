@@ -1,0 +1,183 @@
+.rules-list
+{
+   padding: 1em;
+}
+
+.rules-list .rules-list-bar-icon,
+.rules-list-item .no,
+.rules-list-item .active-icon,
+.rules-list-item .rule-icon
+{
+   padding: 0.5em;
+   margin-left: 0.25em;
+   margin-right: 0.25em;
+   background-repeat: no-repeat;
+}
+
+.rules-list .rules-list-bar
+{
+   border: 1px solid #C8C8C8;
+   border-bottom: none;
+   height: 2.2em;
+   line-height:2.2em;
+   background-color: #FFFFF6;
+   margin-top:0.5em;
+}
+
+.rules-list .rules-list-bar-icon
+{
+   margin-left: 0.75em;
+   background-position: center center;
+   background-image: url(../images/info-16.png);
+   padding-left:7px;
+}
+
+.rules-list .rules-list-container
+{
+   background-color: #FBFBFB;
+   border: 1px solid #C8C8C8;
+   overflow: auto;
+}
+
+.rules-list .rules-list-container.inherited
+{
+   height: 10.5em;   
+}
+
+.rules-list .rules-list-container.folder
+{
+   min-height: 10.5em;
+}
+
+.rules-list li.message
+{
+   padding-left: 0.5em;
+}
+
+.rules-list-item
+{
+   clear: both;
+   border-bottom: 1px dotted #ECECEC;
+   padding: 0.5em 0;
+   background-color: #FBFBFB;
+   text-align: left;
+}
+
+.rules-list .rules-list-item:hover
+{
+   background-color: #F4FAFF;
+}
+
+.rules-list .rules-list-item.selected
+{
+   background-color: #dceaf4;
+}
+
+.rules-list-item .rule-icons
+{
+   float: left;
+   width: 20%;
+}
+.rules-list-item .info
+{
+   float: left;
+   width: 75%;
+}
+
+.rules-list-item .clear
+{
+   clear: both;
+   height: 1px;
+}
+
+.rules-list-item .active-icon
+{
+   background-image: url(../images/enabled-on-16.png);
+   background-position: center 0.3em;
+}
+
+.rules-list-item .active-icon.disabled
+{
+   background-image: url(../images/enabled-off-16.png);
+   background-position: center 0.35em;
+}
+
+.rules-list-item .rule-icon
+{
+   background-image: url(../images/rule-16.png);
+   background-position: center 0.35em;
+   margin-right: 0.5em;
+}
+
+.rules-list-item .info .inherited-folder
+{
+   margin-left: 0.5em;  
+}
+
+.rules-list-item .info .title
+{
+   font-weight: bold;
+}
+
+/* Make the pointer indicate the item is first of all clickable even though its draggable as well */ 
+.rules-list-item.dnd-draggable
+{
+   cursor: pointer;
+}
+
+/* Display all borders when dragged */
+.rules-list-item.dnd-focused
+{
+   border: 1px solid #C8C8C8;
+}
+
+/* But only bottom when selected inside list */
+.rules-list .rules-list-container .rules-list-item.dnd-focused
+{
+   border: none;
+   border-bottom: 1px dotted #ECECEC;
+}
+
+/* Make shadow display a bottom border as well */
+.rules-list-item.dnd-shadow
+{
+   visibility: visible;
+   border-bottom: 1px dotted #ECECEC;
+}
+
+/* filter = folder */
+
+.rules-list .rules-list-container.folder li .info .inherited,
+.rules-list .rules-list-container.folder li .info .inherited-from,
+.rules-list .rules-list-container.folder li .info .inherited-folder
+{
+   display: none;
+}
+
+/* filter = inherited */
+
+.rules-list .rules-list-container.inherited li .info .inherited,
+.rules-list .rules-list-container.inherited li .description
+{
+   display: none;
+}
+
+
+/* filter = all */
+
+.rules-list .rules-list-container.all li .info .inherited-from,
+.rules-list .rules-list-container.all li .info .inherited-folder
+{
+   display: none;
+}
+
+.rules-list .rules-list-container.all li .description
+{
+   clear: both;
+}
+
+.rules-list .rules-button-container
+{
+   text-align: center;
+   padding-top: 0.5em;   
+}

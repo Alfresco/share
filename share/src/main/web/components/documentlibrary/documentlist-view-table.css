@@ -1,0 +1,223 @@
+
+.doclist .simple-detailed .table-view span.first-child
+{
+    background-image: url(images/table-view-off-16.png);
+}
+
+.doclist .simple-detailed .table-view.yui-button-checked span.first-child
+{
+    background-image: url(images/table-view-on-16.png);
+}
+
+/* Actions: table view */
+
+.doclist .alf-table div.action-set > div 
+{
+  float: left;
+}
+
+.doclist .alf-table div.action-set div.onActionShowMore
+{
+   clear: both;
+   float: none;
+}
+
+.doclist .alf-table div.action-set a.action-link span,
+.doclist .alf-table div.action-set a.simple-link span
+{
+   display: none;
+}
+.doclist .alf-table div.action-set a.action-link, 
+.doclist .alf-table div.action-set a.simple-link,
+.doclist .alf-table div.action-set a.show-more {
+    padding: 0 0 0 24px;	
+}
+
+.doclist .alf-table div.action-set div.more-actions
+{
+    margin-left: -142px;
+}
+
+.doclist .alf-table div.action-set div.more-actions div
+{
+   float: none;
+}
+
+.doclist .alf-table div.action-set div.more-actions a.action-link span,
+.doclist .alf-table div.action-set div.more-actions a.simple-link span
+{
+   display: block;
+}
+
+.doclist .documents.alf-table {
+    overflow: scroll;
+}
+
+.doclist .documents.alf-table thead {
+    display: table-header-group;
+}
+.doclist .documents.alf-table thead .yui-dt-col-nodeRef .yui-dt-label {
+	display: none;
+}
+.doclist .documents.alf-table thead .yui-dt-col-status .yui-dt-label {
+    display: none;
+}
+.doclist .documents.alf-table thead .yui-dt-col-thumbnail .yui-dt-label {
+    display: none;
+}
+.doclist .documents.alf-table thead .yui-dt-col-fileName .yui-dt-label {
+    padding-left: 20px;
+}
+.doclist .documents.alf-table thead .alf-editable .yui-dt-label {
+    padding-left: 20px;
+}
+
+.doclist .documents.alf-table .filename {
+    font-size: inherit;
+    padding-bottom: 0;
+}
+.doclist .documents.alf-table .filename .title, .doclist .documents.alf-table .yui-dt-col-fileName .detail {
+	display: none;
+}
+
+.doclist .documents.alf-table .yui-dt-liner {
+    padding: 2px 4px;
+    min-height: 18px;
+}
+
+.doclist .documents.alf-table td.yui-dt-col-actions .yui-dt-liner {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.doclist .documents.alf-table .yui-dt-col-thumbnail .yui-dt-liner {
+    text-align: inherit;
+    width: 16px;
+}
+.doclist .documents.alf-table .thumbnail {
+    width: 16px;
+    height: 16px;
+    padding-top: 0;	
+}
+.doclist .documents.alf-table .thumbnail img {
+	width: 16px;
+    min-height: 16px;
+}
+.doclist .documents.alf-table .folder-small img {
+    width: 16px;
+    min-height: 16px;
+}
+.doclist .documents.alf-table .alf-nowrap .yui-dt-liner {
+    white-space: nowrap;
+}
+
+.doclist .documents.alf-table .detail {
+    line-height: inherit;
+    min-height: inherit;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+.doclist .documents.alf-table .alf-editable .detail {
+	padding-left: 20px;
+}
+.doclist .documents.alf-table .status {
+    height: 16px;
+}
+
+.alf-table-config-button
+{ 
+    float: right;
+}
+.doclist .documents.alf-table .alf-table-config-button
+{ 
+    visibility: visible;	
+}
+.doclist .alf-table-config-button span.first-child {
+    background-image: url(images/table-config.png);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    min-height: 16px;
+    padding: 0 2px;
+}
+.doclist .alf-table-config-button span.first-child button {
+    padding: none;
+}
+
+.alf-table-config-dialog
+{ 
+    visibility: hidden;
+}
+
+.alf-table-config-dialog.yui-panel .bd
+{
+    color: inherit !important;
+    padding: 10px 16px 16px 16px;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    overflow: scroll;
+}
+.alf-table-config-dialog.yui-panel .hd {
+    border: none;
+    background: none;
+    line-height: 1;
+}
+.alf-table-config-dialog .dt-dlg-pickercol {
+	clear: both;
+	padding: 0.25em 0;
+	border-bottom: 1px solid #CCC;
+	height: 2em;
+}
+.alf-table-config-dialog .dt-dlg-pickerkey {
+	float: left;
+	line-height: 2;
+}
+.alf-table-config-dialog .dt-dlg-pickerbtns {
+	float: right;
+}
+.alf-table-config-dialog .yui-radio-button-checked button {
+    color: #CCC;
+}
+
+.doclist .documents.alf-table.yui-dt .yui-dt-data td {
+    border-bottom: 1px solid #EEE;
+    border-right: 1px solid #EEE;
+    background: none;
+}
+.doclist .documents.alf-table.yui-dt th.yui-dt-hidden, .doclist .documents.alf-table.yui-dt td.yui-dt-hidden {
+	border-right: none;
+	display: none;
+}
+
+.doclist .yui-gb .yui-u,
+.doclist .yui-g .yui-gb .yui-u,
+.doclist .yui-gb .yui-g,
+.doclist .yui-gb .yui-gb,
+.doclist .yui-gb .yui-gc,
+.doclist .yui-gb .yui-gd,
+.doclist .yui-gb .yui-ge,
+.doclist .yui-gb .yui-gf,
+.doclist .yui-gc .yui-u,
+.doclist .yui-gc .yui-g,
+.doclist .yui-gd .yui-u {
+    width: 39% !important;
+}
+.doclist .yui-gc div.first,
+.doclist .yui-gd .yui-u {
+    width: 58% !important;
+}
+
+/* Ensure that the edit pencil appears within the table */
+.alf-table .insitu-edit {
+  margin-left: 0;
+}
+
+.alf-table .insitu-edit + span {
+  margin-left: 20px;
+}
+.alf-table .insitu-edit + form > input {
+  margin-left: 20px;
+}

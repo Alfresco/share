@@ -1,0 +1,36 @@
+#bd .cloudAuth
+{
+   display: block;
+}
+
+.cloudAuth .existing-connection
+{
+   display: none;
+}
+
+/* Display appropriate content depending on connected state. */
+.cloudAuth.connected .existing-connection
+{
+   display: block;
+}
+
+.cloudAuth.connected .not-connected
+{
+   display: none;
+}
+
+.cloudAuth div.header-bar
+{
+   margin-bottom:10px;
+}
+
+.cloudAuth div.not-connected,
+.cloudAuth div.existing-connection
+{
+   padding-left:20px;
+}
+
+.cloudAuth div.signin
+{
+   margin-left:1.5em;
+}

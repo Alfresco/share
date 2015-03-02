@@ -1,0 +1,166 @@
+.comments-list
+{
+   text-align: left;
+}
+
+.comments-list h2
+{
+   margin-top: 1em;
+   margin-bottom: 1em;
+}
+
+.comments-list .comments-list-actions .left
+{
+   float: left;
+   width: 28%;
+}
+
+.comments-list .comments-list-actions .right
+{
+   float: right;
+   text-align: right;
+   width: 70%;
+}
+
+.comments-list .icon
+{
+   float: left;
+   width: 15%;
+   line-height: 3em;
+   min-height: 3em;
+   text-align: center;
+}
+
+.comments-list .details
+{
+   float: right;
+   width: 83%;
+}
+
+.comments-list .details .info
+{
+   float: left;
+   width: 78%;
+}
+
+.comments-list .details .comment-actions
+{
+   float: right;
+   width: 20%;
+   text-align: right;
+}
+
+.comments-list .details .comment-actions a.delete-comment
+{
+   background: transparent url(../images/delete-16.png) no-repeat scroll center center;
+}
+
+a.help-link
+{
+   background: transparent url(../images/header/help.png) no-repeat scroll center center;
+   text-align: right;
+   margin-left: 0.4em;
+   border-radius: 5px;
+}
+
+.comments-list .comment-form form
+{
+   float: right;
+   width: 83%;
+}
+
+.comments-list .comment-form .help-text
+{
+   margin-top: 0.4em;
+   padding: 0.6em;
+   background-color: #ffffcc;
+   border: 1px solid #cacaca;
+   font-size: 77%;
+   border-radius: 5px;
+}
+
+.comments-list .details .comment-actions a.edit-comment
+{
+   background: transparent url(../images/edit-16.png) no-repeat scroll center center;
+}
+
+.comments-list .details .comment-actions a
+{
+   cursor: pointer;
+   padding: 1em 0.75em;
+   visibility: hidden;
+   text-decoration: none;
+}
+
+.comments-list .details .comment-content
+{
+   clear: both;
+   list-style-type: disc;
+}
+
+.comments-list .details .comment-content ul li,
+.comments-list .details .comment-content ol li
+{
+   list-style-position: inside;
+}
+
+.comments-list .details .comment-content ul li
+{
+   list-style-type: inherit;
+}
+
+.comments-list .details .comment-content ol li
+{
+   list-style-type: inherit;
+}
+
+div.comment-content
+{
+   word-wrap: break-word;
+}
+
+.comments-list tr.yui-dt-highlighted .details .comment-actions a
+{
+   visibility: visible;
+}
+
+.comments-list .alfresco-datatable td .yui-dt-liner
+{
+   padding: 0;
+}
+
+.comments-list .comment-details
+{
+   padding: 0.5em 1em 0.25em;
+}
+
+.comments-list .comment-form
+{
+   padding: 1em;
+   margin-bottom: 1em;
+   height: 19em;
+}
+
+.comments-list .comment-form h2
+{
+   margin-top: 0;
+}
+
+.comments-list .comment-form img
+{
+   float: left;
+   min-height: 3em;
+   line-height: 3em;
+   text-align: center;
+}
+
+.comments-list .comment-form form
+{
+   float: right;
+   width: 83%;
+}
+
+.comments-list .comment-form .buttons
+{
+   margin-top: 1em;
+}

@@ -1,0 +1,1599 @@
+tr.odd td
+{
+   background-color: #f8f8f8;
+}
+
+tr.even td
+{
+   background-color: #FFFFFF;
+}
+
+#week-view
+{
+   border: 1px solid #c0c0c0;
+}
+
+#week-view th
+{
+   height: 2em;
+   text-align: center;
+   vertical-align: middle;
+}
+
+#week-view th a
+{
+   text-decoration: none;
+}
+
+#week-view .label
+{
+   text-align: center;
+}
+
+.yui-content
+{
+   background: #FFFFFF;
+}
+
+#month-view
+{
+   width: 100%;
+   border-collapse: collapse;
+}
+
+#month-view th
+{
+   text-align: center;
+   border-bottom: 1px solid #CCCCCC;
+   font-weight: normal;
+   color: #000000;
+}
+
+#month-view td
+{
+   height: 80px;
+   width: 14%;
+   vertical-align: top;
+   margin: 0;
+   padding: 0;
+   border: 1px solid #CCCCCC;
+}
+
+div.dayLabel
+{
+   text-align: right;
+   padding-right: 5px;
+   margin: 0;
+}
+
+div.dayLabel a
+{
+   text-decoration: none;
+   color: #000000;
+}
+
+div.cal-event-entry
+{
+   font-size: 11px;
+   padding-left: 5px;
+   color: #000000;
+}
+
+#monthLabel
+{
+   font-weight: bold;
+   text-align: center;
+}
+
+div.boxOutline
+{
+   margin: 0;
+   overflow: hidden;
+}
+
+.today
+{
+   background-color: #FFFFCC;
+}
+
+#calendarcontainer
+{
+   padding: 10px;
+   width: 182px;
+}
+
+#calendarmenu
+{
+   border: 1px solid #bfbfbf;
+   position: absolute;
+   overflow: visible;
+}
+
+#calendarendpicker a,
+#calendarpicker a
+{
+   background: url(images/calendar-16.png) center center no-repeat;
+   text-align: left;
+   text-indent: -10em;
+   overflow: hidden;
+   *margin-left: 10em; /* For IE */
+   *padding: 0 0.7em; /* For IE */
+   *vertical-align: top; /* For IE */
+   white-space: nowrap;
+}
+
+#year-field
+{
+   width: 3em;
+}
+
+#datefields
+{
+   border: solid 1px #666;
+   padding: .5em;
+}
+
+#calendarpicker,
+#calendarendpicker
+{
+   vertical-align: middle;
+}
+
+#calendar-view
+{
+   visibility: hidden;
+}
+
+#calendar-view .date-title
+{
+   color: #000;
+   font-size: 146.5%;
+   padding: 0.3em 0 0.7em 0.5em;
+   text-align: center;
+}
+
+#calTitle
+{
+   font-size: 146%;
+   color: #333;
+   padding: 0.5em;
+   border-bottom: 1px solid #D4D4D4;
+   margin-left: -10px;
+}
+
+#calTitle span.tagged
+{
+   color: #808080;
+   margin-left: 0.5em;
+   font-size: 90%;
+}
+
+/* Styles calendar dashlet */
+
+.yui-skin-sam .yui-calendar td.event
+{
+   background-color: #999;
+}
+
+.yui-skin-default .yui-calendar td.calcell.today a
+{
+   background-color: #FFFFCC;
+   color: #000000;
+}
+
+.yui-skin-default .yui-calendar td.calcell.today
+{
+   background-color: #FFFFFF;
+}
+
+
+.yui-skin-default .yui-calendar td.calcell.today.calcellhover
+{
+   background-color: #000000;
+}
+
+.yui-skin-default .yui-calendar td.calcell.today.calcellhover a
+{
+   color: #000000;
+}
+
+/* Day view styles */
+
+div.timeLabel
+{
+   border-bottom: 2px solid #c0c0c0;
+   height: 30px;
+   padding-right: 1px;
+   padding-top: 4px;
+   text-align: center;
+   width: 56px;
+}
+
+div.timeLabel.last
+{
+   border-bottom: none;
+}
+
+#timeLabels
+{
+   float: left;
+   width: 57px;
+   border-right: 1px solid black;
+}
+
+div.dayEventsView
+{
+   float: left;
+   font-size: 11px;
+   text-align: left;
+   position: relative;
+   height: 100px;
+}
+
+#dayContainer
+{
+   float: left;
+   width: 100%;
+   border: 1px solid #a0a0a0;
+}
+
+div.dayEvent
+{
+   position: absolute;
+   font-size: 11px;
+   text-align: left;
+   border: 1px solid black;
+   width: 80px;
+}
+
+/* Styling for the agenda view */
+
+div.dayheader
+{
+   width: auto;
+   border-bottom: 1px solid #000;
+   font-size: 16px;
+   font-weight: bold;
+   margin-bottom: 5px;
+}
+
+table.daytable
+{
+   width: auto;
+}
+
+table.daytable td.timelabel
+{
+   width: 7%;
+}
+
+table.daytable td
+{
+   font-size: 12px;
+   color: #333;
+   text-align: left;
+   padding: 2px;
+}
+
+div.no-agenda-items
+{
+   padding: 1em;
+}
+
+div.agenda-item
+{
+   margin-top: 20px;
+   margin-bottom: 20px;
+}
+
+div.agenda-item div.cal-event-entry
+{
+   color: #333;
+   font-size: 108%;
+   padding: 2px;
+   text-align: left;
+}
+
+div.cal-event-entry a
+{
+   text-decoration: none;
+}
+
+div.calendar-currentMonth
+{
+   margin-right: 15px;
+   text-align: center;
+   clear: left;
+}
+
+.calendar-bar .align-right
+{
+   text-align: right;
+}
+
+.agendaview thead {
+   display: none;
+}
+
+/* Override default textfield width for start and end time textfields */
+
+span.eventTime  input[type="text"]
+{
+   width: 5em;
+}
+
+.eventDeselect
+{
+   opacity: 0.4;
+   filter: alpha(opacity=40);
+}
+
+span.eventTime label
+{
+   padding-right: 4px;
+}
+
+/* The top spacing should go on the table in order to prevent a large whitespace while content is loading. */
+
+#calendar
+{
+   margin: 0 10px;
+   padding: 5px;
+}
+
+#calendar table
+{
+   margin: 0.5em 0 1em;
+}
+
+.alfresco-share .yui-calcontainer
+{
+   background-color: #fff;
+   border: none;
+}
+
+.alfresco-share .yui-navset .yui-content,
+.alfresco-share .yui-navset .yui-navset-top .yui-content
+{
+   border-color: #a0a0a0;
+}
+
+/**
+   Margin and padding on body element
+   can introduce errors in determining
+   element position and are not recommended;
+   we turn them off as a foundation for YUI
+   CSS treatments.
+*/
+
+body
+{
+   margin: 0;
+   padding: 0;
+}
+
+.vcalendar table
+{
+   width: 100%;
+   border: 1px solid #EAEAEA;
+   border-width: 1px 0;
+}
+
+.calendar.monthview td
+{
+   height: 10.1em;
+/* width:9.1em; */
+   border: 1px solid #EAEAEA;
+   border-width: 1px 1px 0 0;
+   padding: 0;
+   z-index: 0;
+   max-width: 10em;
+   overflow: hidden;
+}
+
+.calendar.monthview div.day,
+.monthview div.day
+{
+   height: 100%;
+   width: 100%;
+}
+
+.calendar  td.disabled
+{
+   background-color: #F3F7FB;
+}
+
+.calendar  td.disabled div
+{
+   background-color: #F3F7FB;
+   color: #999;
+   height: 100%;
+}
+
+.calendar td a.dayLabel
+{
+   text-align: right;
+/* float:right; */
+   display: block;
+   margin: 0.7em 0.7em 0 0;
+   font-size: 85%;
+   color: #000;
+   text-decoration: none;
+   clear: both;
+}
+
+.calendar.weekview thead th,
+.calendar.monthview thead th
+{
+   height: 2.5em;
+   border: 1px solid #EAEAEA;
+   border-width: 0 1px 0 0;
+   text-align: center;
+   font-weight: normal;
+   font-size: 100%;
+}
+
+.calendar.weekview thead th
+{
+   border-width: 0 0 1px 1px;
+}
+
+.calendar.weekview tbody th
+{
+   border-width: 0 0 1px 0;
+   vertical-align: top;
+/* height:4.5em; */
+}
+
+.calendar.weekview th
+{
+   background: none #fff;
+   border: 1px solid #EAEAEA;
+}
+
+ul.dayEvents
+{
+/* margin: 0 0.6em; */
+   padding: 0;
+   font-size: 85%;
+   clear: both;
+   z-index: 1;
+}
+
+ul.dayEvents li
+{
+   padding-left: 0.5em;
+   list-style-type: disc;
+   list-style-position: inside;
+   cursor: pointer;
+   font-size: 107%;
+/* border:1px solid black; */
+}
+
+ul.dayEvents li,ul.dayEvents li a
+{
+   text-decoration: none;
+}
+
+ul.dayEvents li a:hover
+{
+   text-decoration: underline;
+}
+
+ul.dayEvents li.moreEvents
+{
+   list-style: none;
+   font-weight: bold;
+   text-align: center;
+   bottom: 3px;
+   *margin-top: 0;
+   font-size: 107%;
+}
+
+.monthview ul.dayEvents li.vevent div
+{
+   display: inline;
+}
+
+.calendar.monthview ul
+{
+   *zoom: 1;
+}
+
+.calendar.monthview ul.showing
+{
+   z-index: 1;
+   position: absolute;
+   height: auto;
+   min-height: 10em;
+   border-bottom: 1px solid #EAEAEA;
+   width: 100%;
+   top: 13px;
+   *top: 22px;
+}
+
+.calendar.monthview ul.showing li.moreEvents
+{
+   margin-top: 1em;
+}
+
+.calendar.monthview td .highlight
+{
+   position: relative;
+}
+
+.calendar.monthview td .highlight #addEventButton
+{
+   bottom: 10px;
+   right: 10px;
+   position: absolute;
+   text-indent: 0;
+   border: none;
+   width: 3em;
+   background: none;
+   cursor: pointer;
+}
+
+/* TODO  add background images for chevrons; no need to be in markup */
+
+div.allday
+{
+   margin: 0;
+   padding: 0;
+   color: #fff;
+   clear: both;
+   float: left;
+   width: 100%;
+   font-size: 85%;
+}
+
+div.allday, div.allday a
+{
+   text-decoration: none;
+}
+
+.dayview table
+{
+   width: 100%;
+   border: 1px solid #EAEAEA;
+   border-width: 2px 0;
+   border-collapse: separate;
+}
+
+.dayview th
+{
+   vertical-align: top;
+   width: 4em;
+   color: #999;
+   font-weight: normal;
+   border-right: 1px solid #EAEAEA;
+}
+
+.dayview th,
+.dayview td
+{
+   border-bottom: 2px solid #EAEAEA;
+}
+
+.dayview tr.alldayRow
+{
+   height: 4em;
+}
+
+div.fifteen
+{
+   height: 1.06em;
+}
+
+div.thirty
+{
+   height: 2.12em;
+}
+
+div.hour1
+{
+   height: 4.6em;
+}
+
+div.hour2
+{
+   height: 9.2em;
+}
+
+div.hour3
+{
+   height: 13.8em;
+}
+
+div.hour4
+{
+   height: 18.4em;
+}
+
+.dayview .day .hourSegment:last-child
+{
+   border: none;
+}
+
+.vcalendar.dayview .vevent .dtstart
+{
+   margin: 0.5em 0.25em;
+   display: inline-block;
+}
+
+.vcalendar.dayview .vevent a.summary
+{
+   margin-left: 0.4em;
+}
+
+.vcalendar.dayview .vevent .dtstart,
+.vcalendar.dayview .vevent .dtend
+{
+   position: static;
+   text-indent: 0;
+   font-weight: bold;
+}
+
+.dayview div.vevent
+{
+   background: none;
+   border-width: 0 0 0 10px;
+   border-style: solid;
+   width: 99.3%;
+}
+
+.vcalendar div.weekview div.vevent p.dates
+{
+   position: static;
+   text-indent: 0;
+   padding-top: 0;
+   display: inline;
+   font-weight: bold;
+   *vertical-align: middle;
+}
+
+.dayview div.vevent div
+{
+   height: 100%;
+}
+
+.dayview div.vevent div.yui-resize-handle
+{
+   height: 5px;
+   border: 0;
+   -moz-opacity: 0;
+   filter: alpha(opacity=0);
+   opacity: 0;
+}
+
+.dayview div.vevent div.yui-resize-handle-b-active,
+.weekview div.vevent.allday div,
+.dayview div.vevent.allday div
+{
+   -moz-opacity: 1.0;
+   filter: alpha(opacity=100);
+   opacity: 1.0;
+}
+
+/* Week view specific css */
+
+.calendar.weekview tbody tr.alldayRow th
+{
+   vertical-align: middle;
+}
+
+.calendar.weekview tbody tr.alldayRow td div.target
+{
+   height: 8em;
+/* width:100%; */
+}
+
+.current
+{
+   background-color: #FFFEDF;
+}
+
+.calendar.weekview tbody td
+{
+   width: auto;
+   min-width: 105px;
+/* width:inherit; */
+   padding: 0;
+/* text-align:right; */
+   font-size: 100%;
+   color: #999;
+   margin-right: 0.5em;
+}
+
+.calendar.weekview tbody tr.alldayRow th
+{
+   height: 1em;
+   width: 105px;
+/* position:relative; */
+}
+
+.dayview h2,
+.weekview h2
+{
+   font-weight: normal;
+   font-size: 100%;
+   margin: 2px auto;
+   text-align: center;
+   width: 100%;
+}
+
+tr.alldayRow
+{
+   height: 8em;
+}
+
+tr.alldayRow td
+{
+   height: auto;
+   margin: 4em 0;
+   vertical-align: top;
+   border-bottom: 1px solid #EAEAEA;
+}
+
+.calendar.weekview tbody tr.alldayRow td
+{
+   border-left: 1px dashed #EAEAEA;
+   height: 52px;
+}
+
+.calendar.weekview tbody tr.alldayRow td.last
+{
+   border-right: none;
+}
+
+.vcalendar .vevent .location,
+.vcalendar .vevent .description,
+.vcalendar .vevent .duration,
+.vcalendar .vevent .category,
+.vcalendar .multipleAllDay .location,
+.vcalendar .multipleAllDay .description,
+.vcalendar .multipleAllDay .duration,
+.vcalendar .multipleAllDay .category,
+.vcalendar div.vevent .offset,
+#addEventButton,
+ul.dayEvents li.hidden,
+.agendaview .vevent .location,
+.agendaview .vevent .duration,
+.agendaview .vevent .description,
+.agendaview .vevent .category,
+div.vevent.allday p.dates
+{
+   position: absolute;
+   text-indent: -999em;
+   line-height: 0px;
+}
+
+.vcalendar div.vevent.allday p.dates,
+.vcalendar div.multipleAllDay.allday p.dates,
+.monthview .vevent p.dates
+{
+   display: none;
+}
+
+.vcalendar .vevent .dtstart,
+.vcalendar .vevent .dtend,
+.vcalendar .vevent .location,
+.vcalendar .vevent .description,
+.vcalendar .vevent .summary,
+.vcalendar .vevent p
+{
+   text-decoration: none;
+}
+
+div.allday a,
+div.multipleAllDay,
+div.vevent *
+{
+   color: #FFF;
+   font-size: 100%;
+}
+
+div.multipleAllDay,
+div.vevent
+{
+/* text-align: right; */
+/* position:absolute; */
+/* right:0; */
+   color: #fff;
+   width: inherit;
+   font-size: 85%;
+   cursor: pointer;
+}
+
+.weekview div.vevent, .dayview div.vevent div
+{
+   -moz-opacity: .80;
+   filter: alpha(opacity=80);
+   opacity: .80;
+}
+
+.weekview .alldayRow div.vevent
+{
+   -moz-opacity: 1.0;
+   filter: alpha(opacity=100);
+   opacity: 1.0;
+}
+
+.weekview div.vevent div
+{
+   margin: 0 0.5em;
+   padding: 0.5em 0;
+}
+
+.weekview .vevent
+{
+/* padding:0.5em 0 0.5em 0.5em; */
+   position: absolute;
+/* background-color:#2B6EB5;*/
+   overflow: hidden;
+}
+
+/* for week view and non allday events */
+
+.weekview .vevent .dtstart,
+.weekview .vevent .dtend,
+.weekview .vevent p
+{
+   text-indent: 0;
+   position: static;
+   font-weight: bold;
+}
+
+.ie .hourSegment
+{
+   height: 26px;
+}
+
+.hourSegment
+{
+   min-height: 50%;
+   height: 25px;
+   cursor: pointer;
+   border-bottom: 1px solid #EAEAEA;
+/* position:relative; */
+}
+
+.hourSegment.last
+{
+   border: none;
+}
+
+.weekview div.day,
+.dayview div.day
+{
+/* height:3.5em; */
+   border: 1px solid #EAEAEA;
+   border-width: 0 1px 2px 1px;
+}
+
+.dayview div.day
+{
+   border-bottom: 0;
+}
+
+div.vevent.allday,
+div.multipleAllDay.allday
+{
+   position: static;
+   width: 100%;
+   font-size: 100%;
+   border-left: 0;
+}
+
+div.multipleAllDay.allday div,
+div.vevent.allday div
+{
+   padding: 5px;
+}
+
+div.allday,
+div.multipleAllDay
+{
+   border: 1px solid white;
+   border-width: 1px 0 0 0;
+}
+
+div.hourSegment .vevent
+{
+   position: absolute;
+   z-index: 3;
+}
+
+.hour
+{
+   height: 52px;
+}
+
+#ygddfdiv
+{
+   background-color: #fff;
+}
+
+.weekview .vevent p.dates,
+.dayview .vevent p.dates
+{
+   display: block;
+   padding: 0;
+   vertical-align: top;
+}
+
+/* agenda view */
+
+.agendaview
+{
+   border-bottom: 1px solid #D4D4D4;
+   margin-left: -10px;
+}
+
+.agendaview h1
+{
+   border-bottom: 1px solid #D4D4D4;
+   height: auto;
+   padding: 0 1em;
+}
+
+.agendaview h2
+{
+   border-bottom: 1px solid #D4D4D4;
+   display: block;
+   padding: 0.5em 1em 0.1em;
+   font-size: 100%;
+   font-weight: bold;
+   margin: 1em 0 0;
+}
+
+.agendaview h1
+{
+   font-weight: normal;
+   margin: 0;
+   font-size: 121%;
+}
+
+.agendaview ul
+{
+   list-style: none;
+   margin: 1em 0 1em 1.3em;
+   padding: 0;
+}
+
+div.agendaview ul li
+{
+   margin-bottom: 0.5em;
+   background: none;
+}
+
+.agendaview ul a
+{
+   text-decoration: none;
+}
+
+.agendaview ul a:hover
+{
+   text-decoration: underline;
+}
+
+.agendaview ul span.dtstart,
+.agendaview ul span.dtend
+{
+   font-weight: bold;
+}
+
+.agendaview ul a.summary
+{
+   margin-left: 1em;
+}
+
+.agendaview div.allday
+{
+   width: 7.1em;
+   margin-right: 0.9em;
+}
+
+.agendaview p.dates
+{
+   display: inline;
+}
+
+.agendaview .allday p.dates
+{
+   margin: 0;
+   padding: 0;
+   width: 6em;
+   display: -moz-inline-stack;
+   display: inline-block;
+   zoom: 1;
+   *display: inline;
+}
+
+.agendaview .allday p.dates span
+{
+   display: none;
+}
+
+/* IE7 doesn't hover unless this rule is applied */
+
+.ie .yui-resize .yui-resize-handle
+{
+   border: 1px solid transparent;
+}
+
+.ie .yui-resize .yui-resize-handle-inner-b
+{
+   height: 100%;
+}
+
+/* Dialog */
+
+#calendarDialog
+{
+   display: none;
+}
+
+.yui-skin-sam .yui-dialog .ft span.default button
+{
+   color: #000;
+}
+
+#calPopup_c
+{
+   position: absolute;
+   width: 14em;
+}
+
+#calPopup_c table
+{
+   border: 0;
+}
+
+#calendarDialog legend
+{
+   font-weight: bold;
+   margin: 0;
+   padding: 0;
+}
+
+#calendarDialog fieldset
+{
+   border: 0;
+   border-bottom: 1px dashed black;
+   padding: 0.5em 0;
+   margin: 0.5em 0;
+}
+
+#calendarDialog fieldset div
+{
+   margin: 0.5em 0;
+}
+
+#calendarDialog label
+{
+   float: left;
+   width: 7em;
+}
+
+#calendarDialog label.time
+{
+   width: auto;
+   float: none;
+/* margin-right: 0.5em; */
+}
+
+#calendarDialog #dtstarttime,
+#calendarDialog #dtendtime
+{
+   width: 6em;
+}
+
+#calendarDialog input,
+#calendarDialog textarea
+{
+   width: 80%;
+}
+
+#calendarDialog input.date
+{
+   width: 60%;
+}
+
+#calendarDialog fieldset div div.inside
+{
+   margin: 0 0 0 7em;
+}
+
+#calendarDialog fieldset div span
+{
+   color: #4DA1CF;
+}
+
+.invalid
+{
+   background-color: #4DA1CF;
+}
+
+/* dialog */
+
+.taglibrary .title
+{
+   clear: left;
+}
+
+.create-event.yui-panel .yui-gd  .yui-u
+{
+   width: 70%;
+}
+
+.create-event.yui-panel .yui-gd .yui-u.first
+{
+   width: 20%;
+   text-align: right;
+}
+
+.create-event.yui-panel .yui-gd  .wide
+{
+   width: 95%;
+   *width: 94%;
+}
+
+.create-event.yui-panel .yui-g h2
+{
+   width: 21%;
+   text-align: right;
+   font-size: 114%;
+}
+
+#calendarendpicker,
+#calendarpicker
+{
+   background: none;
+   border: 0;
+}
+
+#calendarendpicker span,
+#calendarpicker span
+{
+   border: 0;
+}
+
+#calendarendpicker a,
+#calendarpicker a
+{
+   background: transparent url(images/calendar-16-2.png) no-repeat scroll 5px 3px;
+   *background-position: 0 0;
+}
+
+/* Mini calendar stylings */
+
+.alfresco-share .yui-calendar .calnavright,
+.alfresco-share .yui-calendar .calnavleft
+{
+   height: auto;
+   width: 30px;
+   top: -3px;
+}
+
+.alfresco-share .yui-calendar .calnavright
+{
+   background: url(images/cal-next-but.png) no-repeat;
+   *height: 21px;
+}
+
+.alfresco-share .yui-calendar .calnavleft
+{
+   background: url(images/cal-prev-but.png) no-repeat;
+   *height: 21px;
+}
+
+.alfresco-share div.calendar-currentMonth .yui-button
+{
+   background: url(images/toolbar-unchecked-gradient.gif) 0 0;
+}
+
+.alfresco-share div.calendar-currentMonth .yui-button-checked
+{
+   background: url(images/toolbar-checked-gradient.gif) 0 0;
+}
+
+.alfresco-share div.calendar-currentMonth .yui-link-button a
+{
+   color: #464646;
+}
+
+.yui-skin-default div.calendar-currentMonth .yui-link-button a
+{
+   color: #464646;
+}
+
+#collapseTrigger td
+{
+   padding: 0.5em;
+   text-align: center;
+   border-bottom: 1px solid #EAEAEA;
+}
+tr.early {
+  /*display:none;*/
+}
+
+/* Agenda view styles */
+
+#divCalendarContent
+{
+   border-left-width: 0;
+   margin-left: 223px; /* This gets overridden by Alfresco.widget.resizer, but default here prevents jumping during page load. */
+}
+
+#divCalendarContent h2.dayTitle
+{
+   margin-top: 1em;
+}
+
+#divCalendarContent .yui-dt table
+{
+   border-width: 0;
+   width: 100%;
+}
+
+.yui-dt-data:focus
+{
+   outline: none;
+}
+
+#divCalendarContent .yui-dt td
+{
+   border: none;
+   vertical-align: top;
+   border-bottom: 1px solid white;
+}
+
+#divCalendarContent .yui-dt-col-start
+{
+   width: 16%;
+}
+
+#divCalendarContent .yui-dt-col-name
+{
+   width: 22%;
+}
+
+#divCalendarContent .yui-dt-col-where
+{
+   width: 20%;
+}
+
+#divCalendarContent .yui-dt-col-desc
+{
+   width: 28%;
+}
+
+#divCalendarContent .yui-dt-col-actions
+{
+   width: 14%;
+}
+
+/* The default body padding prevents the side bar from joining up at the bottom, and default margin at the side. remove them */
+
+#bd
+{
+   padding-bottom: 0;
+   margin: auto -10px;
+}
+
+#divCalendarContent .yui-dt-col-start div
+{
+   padding-left: 38px;
+   background: url("images/calendarEntry.png") no-repeat 15px 8px;
+}
+
+.yui-dt-col-actions a
+{
+   display: block;
+   float: left;
+   width: 20px;
+   height: 16px;
+   text-indent: -999em;
+   background: transparent no-repeat 2px;
+   margin-right: 5px;
+   border: 1px solid transparent;
+}
+
+#divCalendarContent .yui-dt-col-where .yui-dt-liner
+{
+   background: url("images/location.png") no-repeat 15px 8px;
+   padding-left: 36px;
+}
+
+#divCalendarContent .yui-dt-col-where .yui-dt-liner.empty
+{
+   background-image: none;
+}
+
+#divCalendarContent .infoAction,
+#divCalendarContent .editAction,
+#divCalendarContent .deleteAction
+{
+   float: right;
+   display: none;
+}
+
+#divCalendarContent .yui-dt-highlighted .infoAction,
+#divCalendarContent .yui-dt-highlighted .editAction,
+#divCalendarContent .yui-dt-highlighted .deleteAction
+{
+   display: block;
+}
+
+#divCalendarContent .infoAction
+{
+   background-image: url("images/eventInfo.png");
+}
+
+#divCalendarContent .editAction
+{
+   background-image: url("images/editEvent.png");
+}
+
+#divCalendarContent .deleteAction
+{
+   background-image: url("images/deleteEvent.png");
+}
+
+.previousEvents,
+.nextEvents
+{
+   display: block;
+   padding: 5px;
+   margin: 0.5em;
+}
+
+.previousEvents,
+.nextEvents
+{
+   float: right;
+}
+
+.eventCount
+{
+   font-size: 70%;
+}
+
+.alfresco-share tr.yui-dt-odd,
+.alfresco-share tr.yui-dt-even
+{
+   background-color: transparent;
+}
+
+.alfresco-share .yui-dt-liner
+{
+   padding: 8px 10px;
+}
+
+a.showMore, 
+a.showLess
+{
+   font-size: 90%;
+}
+
+.ical-feed .yui-button
+{
+   float: right;
+}
+
+.instructionTitle
+{
+   display: block;
+   font-family: Helvetica,Arial,sans-serif;
+   font-size: 167%;
+   margin-bottom: 20px;
+   margin-top: 10px;
+}
+
+div.noEvent
+{
+   margin: 1.5em;
+   padding-bottom: 1.5em;
+}
+
+div.noEvent span
+{
+   font-size: 120%;
+}
+
+div.noEvent a.addEvent
+{
+   background: transparent url("images/addeventsketch.png") top left no-repeat;
+   padding: 18px 0 18px 56px;
+}
+
+div.filter.tags
+{
+   padding-left: 15px;
+}
+
+#divCalendarFilters
+{
+   width: 215px;
+}
+
+/* Turn off default border/bg on mini calendar title */
+
+.yui-skin-default .yui-calendar a.calnav,
+.yui-skin-default .yui-calendar a.calnav:hover
+{
+   background: none;
+   border: none;
+}
+
+/* Popup Cal close button */
+
+.yui-skin-default .yui-calcontainer .title
+{
+   background: none;
+   padding: 0;
+}
+
+/* Prevent long descriptions from breaking the layout: */
+
+#eventInfoPanel
+{
+   overflow-x: hidden;
+   word-wrap: break-word;
+}
+
+#eventInfoPanel .descriptionOverflow
+{
+   max-height: 10em;
+   overflow-y: auto;
+   word-wrap: normal;
+}
+
+/* FullCalendar Overrides */
+
+div.fullCalendar
+{
+   color:#333333;
+}
+
+div.fullCalendar .fc-content
+{
+   left: -9px;
+}
+
+div.fullCalendar .fc-header-title h2
+{
+   padding: 6px 0;
+   font-size:146%;
+   font-weight: normal;
+}
+
+div.fullCalendar th
+{
+   padding: 2px 0;
+}
+
+div.fullCalendar .fc-widget-header,
+div.fullCalendar .fc-widget-content
+{
+    border-color: #EAEAEA;
+}
+
+div.fullCalendar a.fc-event:hover
+{
+   text-decoration: none;
+   color:inherit;
+}
+
+/* Remove pseudo rounded corners */
+div.fullCalendar .fc-event-allday .fc-event-inner,
+div.fullCalendar .fc-view-month .fc-event-multiday .fc-event-inner
+{
+   border: none;
+   margin: 0;
+   line-height:1.8em;
+}
+
+div.fullCalendar .fc-event-time
+{
+   font-weight: bold;
+   padding: 0 0 0 5px;
+}
+
+div.fullCalendar .fc-view-month .fc-event-time
+{
+   padding: 0;
+}
+
+div.fullCalendar .fc-view-month .fc-event-multiday .fc-event-time
+{
+   padding-left: 5px;
+}
+
+div.fullCalendar .fc-event-title
+{
+   padding: 0 0 0 5px;
+}
+
+div.fullCalendar .fc-agenda-days .fc-event-title
+{
+   padding-top:2px;
+}
+
+div.fullCalendar .fc-event-vert .fc-event-bg
+{
+   opacity: 0.2;
+}
+
+.fc-grid .fc-day-number
+{
+   cursor: pointer;
+   float: none;
+   margin: 0 4px 0 2px;
+   margin: 0 2px;
+   padding: 0;
+   width: auto;
+}
+
+.fc-grid .fc-other-month .fc-day-number {
+   color: #CACACA;
+   opacity: 1;
+}
+
+/* Only show the edit icon if the user has the right permissions (denoted by the calendar-editable class) */
+.calendar-editable .fc-grid .fc-widget-content:hover .fc-day-number
+{
+   background: url("images/add-event-16-2.png") no-repeat right 3px;
+}
+
+.fc-event-vert .ui-resizable-s
+{
+   text-indent: -9999px;
+}
+
+.fc-content .fc-view-month .fc-event-skin
+{
+   font-size: 12px;
+}
+
+/* This is needed to place all YUI generated content above the events. */
+.yuimenu
+{
+   z-index:50 !important;
+}
+
+/* Work hours button */
+.calendar-bar div.flat-button.work-hours
+{
+   padding: 0;
+   float:left;
+   margin-top: 8px;
+}
+
+.calendar-bar .work-hours .yui-button span.first-child
+{
+    background: url("images/work-hours-off-16.png") no-repeat 5px 5px;
+}
+
+.calendar-bar .work-hours .yui-button-checked span.first-child
+{
+    background: url("images/work-hours-on-16.png") no-repeat 5px 5px;
+}
+
+div.calendar-bar div.flat-button.work-hours span.yui-checkbox-button-checked
+{
+   background-color: transparent;
+}
+
+div.calendar-bar div.flat-button.work-hours span.yui-checkbox-button-disabled
+{
+   opacity: 0.3;
+}
+/* Remove Bold headings */
+.yui-skin-default .yui-calendar .calheader,
+.yui-skin-default .yui-calendar .calweekdaycell,
+div.fullCalendar th.fc-widget-header
+{
+   font-weight: normal;
+}

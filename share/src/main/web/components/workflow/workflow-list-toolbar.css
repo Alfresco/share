@@ -1,0 +1,32 @@
+.workflow-list-toolbar
+{
+   margin: 0px -10px;   
+}
+
+.workflow-list-toolbar .header-bar
+{
+   clear: both;
+   min-height: 1.7em;
+   padding: 4px 0.5em 9px;
+}
+
+.workflow-list-toolbar .hidden
+{
+   visibility: hidden;
+}
+
+.workflow-list-toolbar .left
+{
+   float: left;
+}
+
+.workflow-list-toolbar .right
+{
+   float: right;
+}
+
+.workflow-list-toolbar .start-workflow span.first-child
+{
+   background: url("../images/workflow-16.png") no-repeat scroll 12px 4px transparent;
+   padding-left: 22px;
+}

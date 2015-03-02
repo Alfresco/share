@@ -1,0 +1,247 @@
+.task-list
+{
+   clear: both;
+}
+
+/* task-list bar */
+.task-list .task-list-bar
+{
+   border-bottom: 1px dashed #c0c0c0;
+   margin: 0 -10px;
+   padding: 4px 0 6px;
+}
+
+.task-list .task-list-bar-bottom
+{
+   border-top: 1px dashed #d9d9d9;
+   margin-top: 2em;
+   display: none;
+}
+
+.task-list span.separator
+{
+   border-right: 1px dotted #457A9C;
+   border-top: medium none;
+   margin: 0 4px;
+   padding: 2px 0;
+   position: relative;
+   top: -4px;
+   vertical-align: bottom;
+}
+/* task-list bar Buttons and Paginator */
+
+.task-list .task-list-bar .thin,
+.task-list .task-list-bar .paginator
+{
+   padding: 4px 1em;
+   margin: 0;
+}
+
+.task-list .task-list-bar .yui-u
+{
+   text-align: right;
+}
+
+.task-list .task-list-bar .yui-u.first
+{
+   text-align: left;
+}
+
+.task-list .task-list-bar .yui-pg-current
+{
+   margin-right: 0;
+}
+
+/* Data Table */
+
+.task-list .tasks table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.task-list .tasks thead
+{
+   display: none;
+}
+
+.task-list .tasks tbody
+{
+   outline: none;
+}
+
+.task-list .tasks .yui-dt table
+{
+   border: none;
+}
+
+.task-list tr.yui-dt-odd
+{
+   background-color: #ffffff;
+}
+
+.task-list .tasks.yui-dt .yui-dt-data td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: top;
+}
+
+.task-list .tasks.yui-dt .yui-dt-data .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.task-list .tasks.yui-dt tr.yui-dt-first td
+{
+   border-top: medium none;
+}
+
+.task-list .tasks.yui-dt td.yui-dt-last
+{
+   border-left: 1px solid #fff;
+   vertical-align: middle;
+}
+
+.task-list .yui-dt-liner
+{
+   padding: 4px;
+}
+
+.task-list .tasks.yui-dt tr.yui-dt-first td.yui-dt-empty,
+.task-list .tasks.yui-dt tr.yui-dt-first td.yui-dt-loading
+{
+   border-right: medium none;
+   padding: 0.5em 1em;
+}
+
+.task-list .yui-dt-error
+{
+   background: red;
+   color: white;
+   font-weight: bold;
+   margin: 1em auto;
+   padding: 1em;
+}
+
+/* This rule is vital to workaround a Firefox mouseout bug */
+
+.task-list .yui-dt-col-2
+{
+   overflow: visible;
+}
+
+/* Cell Renderers */
+
+.task-list .tasks
+{
+   color: #333333;
+   margin: 0 -10px 0 -8px;
+}
+
+.task-list .tasks .yui-dt-col-id .yui-dt-liner
+{
+   padding: 0.5em 1em;
+   text-align: center;
+}
+
+
+.task-list .tasks .yui-dt-col-title .yui-dt-liner div
+{
+   float: left;
+   margin-top: 0.5em;
+   min-width: 15em;
+}
+
+.task-list .tasks .yui-dt-col-title .yui-dt-liner div.type
+{
+   clear: both;
+}
+
+.task-list .tasks .yui-dt-col-title .yui-dt-liner div.status
+{
+   clear: both;
+}
+
+.task-list .tasks .yui-dt-col-title .yui-dt-liner div.description
+{
+   clear: both;
+}
+
+.task-list .tasks .yui-dt-col-title .yui-dt-liner div.initiator
+{
+   clear: both;
+   margin-bottom: 0.5em;
+}
+
+.task-list .tasks .yui-dt-col-title .yui-dt-liner div.unassigned
+{
+   clear: both;
+   margin-top: 0;
+   margin-bottom: 0.5em;
+}
+
+.task-list .tasks .yui-dt-col-title .yui-dt-liner div.unassigned .unassigned-task
+{
+   padding: 0.15em 0.4em;
+   text-transform: uppercase;
+   font-size: 80%;
+}
+
+.task-list .task-edit-link,
+.task-list .task-view-link,
+.task-list .workflow-view-link
+{
+   background: no-repeat scroll 4px 1px;
+   border: 1px solid transparent;
+   padding: 2px 0 2px 30px;
+   min-height: 16px;
+}
+
+.task-list .task-edit-link
+{
+   background-image: url( ../images/edit-16.png );
+}
+
+.task-list .task-view-link
+{
+   background-image: url( ../images/task-16.png );
+}
+
+.task-list .workflow-view-link
+{
+   background-image: url( ../images/workflow-16.png );
+}
+
+.task-list .task-edit-link a,
+.task-list .task-view-link a,
+.task-list .workflow-view-link a
+{
+   min-height: 2em;
+   cursor: pointer;
+   color: #2B6EB5;
+   outline-color: invert;
+   outline-width: medium;
+   text-decoration: none;
+   border: 1px solid transparent;
+}
+
+.task-list .task-edit-link-over,
+.task-list .task-view-link-over,
+.task-list .workflow-view-link-over
+{
+   background-color: #FFF;
+   border: 1px solid #2B6EB5;
+   cursor: pointer;
+}
+
+.task-list .tasks td.yui-dt-last .yui-dt-liner
+{
+   visibility: hidden;
+}
+
+.task-list .tasks tr:hover td.yui-dt-last .yui-dt-liner
+{
+   visibility: visible;
+   border-left: 1px solid #c5e6e9;
+}

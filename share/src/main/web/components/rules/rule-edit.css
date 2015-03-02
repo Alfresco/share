@@ -1,0 +1,129 @@
+.rule-edit
+{
+   padding: 1em;
+}
+
+.rule-edit .caption,
+.rule-edit .rule-form,
+.rule-edit .main-buttons
+{
+   width: 62em;
+}
+
+.rule-edit .caption
+{
+   text-align: right;
+   padding: 0 1em 0.5em 1em;
+}
+
+.rule-edit .rule-form
+{
+   padding:0 1em 1em !important;
+   margin-bottom: 1em;
+}
+
+.rule-edit .mandatory-indicator
+{
+   color: green;
+   margin-left: 0.4em;
+   margin-right: 0.4em;
+}
+
+.rule-edit .form-field
+{
+   float: left;
+   width: 29em;
+}
+
+.rule-edit .rule-form input[type=text]
+{
+   width: 25em;
+}
+
+.rule-edit .rule-form input[type=checkbox]
+{
+   margin-right: 0.25em;
+}
+
+.rule-edit .form-field.description textarea
+{
+   width: 62em;
+   height:2.5em;
+}
+
+.rule-edit .form-field.title label,
+.rule-edit .form-field.description label
+{
+   clear: both;
+   display: block;
+   margin-bottom: 0.1em;
+}
+
+.rule-edit h2
+{
+   padding-top: 1.2em;   
+}
+
+.rule-edit h2,
+.rule-edit .form-field.description,
+.rule-edit .form-field.applyToChildren,
+.rule-edit .main-buttons
+{
+   clear: both;
+}
+
+.rule-edit .form-field.title
+{
+   padding-bottom: 0.5em;
+}
+
+.rule-edit .form-field.scriptRef,
+.rule-edit .form-field.applyToChildren
+{
+   margin-top: 0.6em;
+}
+
+.rule-edit .form-field.scriptRef
+{
+   margin-left: 1.6em;
+}
+
+.rule-edit .form-field.scriptRef select
+{
+   margin-top: 0.25em;
+   width: auto;
+}
+
+.rule-edit .main-buttons
+{
+   text-align: center;
+}
+
+.rule-edit .create-header,
+.rule-edit .edit-header,
+.rule-edit .main-buttons .create-buttons,
+.rule-edit .main-buttons .edit-buttons
+{
+   display: none;
+}
+
+.rule-edit.edit-mode   .edit-header,
+.rule-edit.create-mode .create-header,
+.rule-edit.create-mode .main-buttons .create-buttons,
+.rule-edit.edit-mode   .main-buttons .edit-buttons
+{
+   display: inline;
+}
+
+.rule-edit .unless .rule-config
+{
+   border-top: none;
+}
+
+.rule-edit .configuration-separator
+{
+   background-image: url(../images/green-arrow-small.png);
+   background-position: center center;
+   background-repeat: no-repeat;
+   padding: 0.4em;
+}

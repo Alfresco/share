@@ -1,0 +1,46 @@
+.categoryview .tree
+{
+   display: none;
+   padding: 0.5em 0 1em;
+}
+
+.categoryview .ygtvspacer
+{
+   display: block;
+   width: 18px;
+}
+
+.categoryview .ygtvchildren
+{
+   width: 100%;
+}
+
+.categoryview .ygtvitem
+{
+   background-color: #ffffff;
+   overflow-x: hidden;
+}
+
+.categoryview .ygtvlabel,
+.categoryview .ygtvlabel:link,
+.categoryview .ygtvlabel:visited,
+.categoryview .ygtvlabel:hover
+{
+   background: none;
+   color: #000;
+   white-space: nowrap;
+}
+
+.categoryview .ygtverror,
+.categoryview .ygtverror:link,
+.categoryview .ygtverror:visited,
+.categoryview .ygtverror:hover
+{
+   background: red;
+   color: white;
+}
+
+.categoryview .selected
+{
+   background-color: #dceaf4;
+}

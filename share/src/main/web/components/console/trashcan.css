@@ -1,0 +1,87 @@
+.trashcan
+{
+   margin: 16px 10px 10px;
+}
+
+.trashcan .title
+{
+   font-size: 123.1%;
+   font-weight: bold;
+   padding-bottom: 0.75em;
+}
+
+.trashcan .name
+{
+   font-size: 116%;
+   padding-bottom: 0.2em;
+}
+
+.trashcan .desc
+{
+   padding-bottom: 0.2em;
+}
+
+.trashcan .align-right
+{
+   text-align: right;
+}
+
+.trashcan .row
+{
+   padding: 0.333em;
+}
+
+.trashcan .label
+{
+   display: block;
+   float: left;
+   padding: 0.2em 0.8em 0 1em;
+   width: 10em;
+   font-weight: bold;
+}
+
+.trashcan .buttons
+{
+   padding-bottom: 1em;
+   padding-top: 0.5em;
+   text-align: center;
+}
+
+/* Data Table */
+.trashcan .yui-dt table
+{
+   border: 1px solid #d9d9d9;
+   width: 100%;
+}
+
+.trashcan .yui-dt thead
+{
+   display: none;
+}
+
+.trashcan .yui-dt tbody
+{
+   outline: none;
+}
+
+.trashcan .yui-dt tr.yui-dt-even,
+.trashcan .yui-dt tr.yui-dt-odd
+{
+   background-color: #ffffff;
+}
+
+.trashcan .yui-dt td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+}
+
+.trashcan .yui-dt td .yui-dt-liner
+{
+   padding: 6px;
+}
+
+.trashcan .yui-dt .yui-dt-message td
+{
+   border: medium none;
+}

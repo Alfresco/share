@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="DataList Page Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">
+    <test name="DataList Page Test">
+        <classes>
+            <class name="org.alfresco.po.share.site.datalist.DataListPageTest"/>
+        </classes>
+    </test>
+</suite>

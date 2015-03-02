@@ -1,0 +1,44 @@
+.sitesearch .search-icon span.first-child
+{
+   background: url("../images/search-16.png") no-repeat scroll 12px 4px transparent;
+   padding-left: 24px;
+}
+
+.sitesearch .search-text
+{
+   padding-top: 3px;
+}
+
+.sitesearch .alfresco-datatable td .yui-dt-liner
+{
+   padding: 6px;
+   margin-left: 8px;
+}
+
+.sitesearch table td.thumbnail img
+{
+   box-shadow: 3px 3px 5px #888;
+}
+
+.sitesearch .resultSizeLabel
+{
+   color: black;
+   display: block;
+   float: left;
+   padding-top: 6px;
+}
+
+.sitesearch .toolbar
+{
+   padding: 2px 5px 1px;
+}
+
+.sitesearch input[type="text"]
+{
+   width: auto;
+}
+
+.sitesearch div.flat-button span.yui-button
+{
+   margin-left: -5px;
+}

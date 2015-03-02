@@ -1,0 +1,59 @@
+.rules-linked
+{
+   padding: 1em;
+}
+
+.rules-linked .rules-info,
+.rules-linked .main-buttons,
+.rules-linked .link-info
+{
+   padding: 1em;
+   width: 62em;
+}
+
+.rules-linked .rules-info
+{
+   padding: 0.5em 1em;
+   margin-bottom: 1em;
+}
+
+.rules-linked .rules-info span
+{
+   background-image: url(../images/info-16.png);
+   background-position: left center;
+   background-repeat: no-repeat;
+   padding-left: 2em;
+}
+
+.rules-linked .yui-g
+{
+   margin-top: 1em;
+}
+
+.rules-linked .yui-g .yui-u
+{
+   text-align: right;
+   padding-top: 1em;
+}
+
+.rules-linked .yui-g .yui-u.first
+{
+   text-align: left;
+   padding-top:0;   
+}
+
+.rules-linked .yui-g .yui-u.first .info
+{
+   background-image: url(../documentlibrary/images/folder-48.png);
+   background-position: left center;
+   background-repeat: no-repeat;
+   line-height: 2em;
+   padding-bottom: 0.5em;
+   padding-left: 6em;
+   padding-top: 1em;
+}
+
+.rules-linked .main-buttons
+{   
+   text-align: center;
+}

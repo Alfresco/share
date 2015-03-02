@@ -1,0 +1,123 @@
+
+
+.yui-columnbrowser .yui-columnbrowser-column-header,
+.yui-columnbrowser .yui-columnbrowser-column-footer
+{
+   height: 1.8em;
+   line-height: 1.8em;
+   background: #D8D8DA url(../../../../../yui/assets/skins/default/sprite.png) repeat-x scroll 0 0;
+}
+
+.yui-columnbrowser .yui-columnbrowser-column-header span
+{
+   padding-left: 1em;
+   margin: 0;
+}
+
+.yui-columnbrowser .yui-columnbrowser-column-footer .yui-pg-container
+{
+   padding-right: 1.5em;
+   margin: 0;
+   text-align: center;
+}
+
+/* YUI Carousel 2.8.1 fails to calculate size on this element if its not set using px */
+.yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column
+{
+   height: 370px;
+}
+
+.yui-columnbrowser .yui-columnbrowser-column .yui-columnbrowser-column-body {
+    height: 25em;
+}
+
+.yui-columnbrowser .yui-carousel-element li
+{
+   border:medium none;
+}
+
+.yui-columnbrowser.yui-carousel .yui-carousel-item-selected
+{
+   border: none;
+   border-right: 1px solid #BBBBBB;
+   margin: 0;
+}
+
+.yui-columnbrowser.yui-carousel .yui-columnbrowser-column
+{
+   border: none;
+   border-right: 1px solid #BBBBBB;
+   margin: 0;
+}
+
+.yui-columnbrowser.yui-columnbrowser-multiple .yui-carousel-content li.yui-columnbrowser-column div.yui-columnbrowser-column-body {
+    overflow-y: scroll;
+}
+
+.yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a {
+    margin: 0 0;
+    padding: 2px;
+}
+
+.yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-column-has-next {
+    background-image: url(arrow-off.gif);
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+.yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-item-selected {
+    background-color: #dceaf4;
+}
+
+.yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-item-active {
+
+}
+
+/* IE6 cannot grok element selectors with chained class names */
+html>body .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-column-has-next.columnbrowser-active {
+    background-image: url(arrow-on.gif);
+}
+
+.yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-error {
+    background-image: url(../../../../assets/skins/default/error.gif);
+    color: red;
+}
+
+.yui-columnbrowser.yui-carousel .yui-columnbrowser-column .yui-columnbrowser-item .yui-columnbrowser-item-label
+{
+   background-image: url(folder.png);
+   background-repeat: no-repeat;
+   background-position: 0px center;
+   margin-left:0.5em;
+   padding-left:2em;
+}
+
+.yui-columnbrowser .yui-columnbrowser-item .yui-columnbrowser-item-buttons
+{
+   margin-right:1em;
+}
+
+.yui-columnbrowser-breadcrumb
+{
+   line-height: 2em;
+   padding-left: 1em;
+}
+
+.yui-columnbrowser-breadcrumb .yui-columnbrowser-breadcrumb-item
+{
+   background-image: url(folder.png);
+   background-repeat: no-repeat;
+   background-position: 0px center;
+   margin-left:0.5em;
+   padding-left:1.5em;
+}
+
+.yui-columnbrowser-breadcrumb .yui-columnbrowser-breadcrumb-item
+{
+   cursor: pointer;
+}
+
+.yui-columnbrowser-breadcrumb .yui-columnbrowser-breadcrumb-item .yui-columnbrowser-breadcrumb-item-separator
+{
+   margin-left: 0.4em;
+}

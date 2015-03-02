@@ -1,0 +1,20 @@
+.toolbar
+{
+   clear: left;
+   margin: 0 -10px 1px;
+   min-height: 1.2em;
+   padding: 10px 0px;
+}
+
+.toolbar .separator,
+.toolbar .link
+{
+   float: left;
+   padding-left: 10px;
+}
+
+.toolbar .separator
+{
+   margin: 0 2px 0 0;
+   padding: 0 0 0 10px;
+}

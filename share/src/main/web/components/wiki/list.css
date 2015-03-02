@@ -1,0 +1,106 @@
+.pagelist
+{
+   margin: 0 -10px;
+}
+
+.noWikiPages
+{
+   padding: 1em;
+}
+
+.wikipage
+{
+   border-bottom: 1px dashed #D9D9D9;
+   padding: 1em 0 0;
+}
+
+.wikipage .pageTitle
+{
+/*   color: #2b6eb5;*/
+   font-size: 116%;
+}
+
+.wikipage div.pageTitle,
+.wikipage .publishedDetails
+{
+   padding-left: 1em;
+}
+
+.wikipage .pageCopy
+{
+   line-height: 150%;
+   padding: 1em;
+}
+
+.wikipage .pageTags
+{
+   background-color: #f0f0f0;
+   padding: 0.5em 0;
+}
+
+.spacer
+{
+   border-right: 1px solid #bababa;
+	font-size: 11pt;
+	margin-right: 0.5em;
+	padding-right: 0.5em;
+}
+
+.attrLabel
+{
+	font-size: 10pt;
+	line-height: 130%;
+	color: #606060;
+}
+
+.attrValue
+{
+	font-size: 10pt;
+	line-height: 130%;
+	color: #333333;
+}
+
+.attrValue a {
+	color: #2b6eb5;
+}
+
+.wikiPageDeselect
+{
+   display: none;
+}
+
+.actionPanel
+{
+   float: right;
+   padding-right: 1em;
+}
+
+.actionPanel div
+{
+   background-repeat: no-repeat;
+   min-height: 16px;
+	padding: 2px 0px 4px 20px;
+}
+
+.actionPanel .editPage
+{
+   background-image: url(../images/edit-wiki-16.png);
+}
+
+.actionPanel .deletePage
+{
+   background-image: url(../images/delete-wiki-16.png);
+}
+ 
+.actionPanel .detailsPage
+{
+   background-image: url(../images/wiki-details-16.png);
+}
+
+.tagDetails
+{
+   background: transparent url(../images/tag-16.png) no-repeat 12px 0;
+   padding-left: 32px;
+}
+
+
