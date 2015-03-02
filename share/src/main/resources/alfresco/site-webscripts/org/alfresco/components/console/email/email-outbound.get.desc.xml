@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Email (Outbound) Tool</shortname>
+  <description>Administration Console - Email (Outbound) Tool</description>
+  <url>/components/console/email-outbound</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

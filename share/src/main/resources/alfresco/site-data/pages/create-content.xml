@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Create Content</title>
+   <title-id>page.createContent.title</title-id>
+   <description>Create text-based content</description>
+   <description-id>page.createContent.description</description-id>
+   <template-instance>create-content</template-instance>
+   <authentication>user</authentication>
+</page>

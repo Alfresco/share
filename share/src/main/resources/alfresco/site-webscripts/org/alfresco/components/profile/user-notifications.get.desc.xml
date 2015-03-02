@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>User Notifications</shortname>
+  <description>Change user notification settings</description>
+  <url>/components/profile/user-notifications</url>
+</webscript>

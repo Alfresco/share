@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Sent invites list</shortname>
+  <description>Sent invites list</description>
+  <url>/components/invite/sent-invites</url>
+</webscript>

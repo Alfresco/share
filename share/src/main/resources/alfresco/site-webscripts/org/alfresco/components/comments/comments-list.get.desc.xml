@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Comments component</shortname>
+  <description>Displays comments for a node</description>
+  <url>/components/comments/list</url>
+</webscript>

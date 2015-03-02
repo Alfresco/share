@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/my-tasks</template-type>
+   <components>
+
+      <!-- All Filter -->
+      <component>
+         <region-id>all-filter</region-id>
+         <url>/components/workflow/filter/all</url>
+         <properties>
+            <mode>tasks</mode>
+         </properties>
+      </component>
+
+      <!-- Due Filter -->
+      <component>
+         <region-id>due-filter</region-id>
+         <url>/components/workflow/filter/due</url>
+      </component>
+
+      <!-- Priority Filter -->
+      <component>
+         <region-id>priority-filter</region-id>
+         <url>/components/workflow/filter/priority</url>
+      </component>
+
+      <!-- Assignee Filter -->
+      <component>
+         <region-id>assignee-filter</region-id>
+         <url>/components/workflow/filter/assignee</url>
+      </component>
+
+      <!-- Toolbar -->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/workflow/task-list-toolbar</url>
+      </component>
+
+      <!-- List -->
+      <component>
+         <region-id>list</region-id>
+         <url>/components/workflow/task-list</url>
+      </component>
+
+   </components>
+</template-instance>

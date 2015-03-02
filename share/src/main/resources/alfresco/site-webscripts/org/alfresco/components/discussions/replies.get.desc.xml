@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Discussions Replies component</shortname>
+  <description>Discussions: Displays replies to a topic</description>
+  <url>/components/discussions/replies</url>
+</webscript>

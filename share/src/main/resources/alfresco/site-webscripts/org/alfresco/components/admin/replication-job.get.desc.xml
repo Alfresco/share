@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Replication Job</shortname>
+  <description>Admin: Create and Edit Replication Jobs</description>
+  <url>/components/admin/replication-job</url>
+</webscript>

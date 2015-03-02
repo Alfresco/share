@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Sysadmin Tool</shortname>
+  <description>Administration Console - Sysadmin Tool</description>
+  <url>/components/console/sysadmin</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

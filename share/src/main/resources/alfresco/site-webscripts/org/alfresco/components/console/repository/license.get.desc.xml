@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console License Tool</shortname>
+  <description>Administration Console - License Tool</description>
+  <url>/components/console/license</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

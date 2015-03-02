@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>document-sync</shortname>
+  <description>Document Details Sync Component</description>
+  <url>/components/document-details/document-sync</url>
+</webscript>

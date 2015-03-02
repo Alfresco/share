@@ -1,0 +1,8 @@
+<filters>
+
+   <filter id="new" label="link.new" />
+   <filter id="hot" label="link.hot" />
+   <filter id="all" label="link.all" />
+   <filter id="mine" label="link.mine" />
+
+</filters>

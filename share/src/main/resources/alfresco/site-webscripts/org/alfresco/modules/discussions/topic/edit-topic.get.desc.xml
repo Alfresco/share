@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>edit-form</shortname>
+  <description>Returns an edit topic form</description>
+  <url>/modules/discussions/topic/edit-topic</url>
+  <format default="html"/>
+</webscript>

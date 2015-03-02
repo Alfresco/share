@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Rule Edit</title>
+   <title-id>page.ruleEdit.title</title-id>
+   <description>Rule edit</description>
+   <description-id>page.ruleEdit.description</description-id>
+   <template-instance>rule-edit</template-instance>
+   <authentication>user</authentication>
+</page>

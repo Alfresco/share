@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Page Title</shortname>
+  <description>Component printing out the title of the page</description>
+  <url>/components/head/title</url>
+</webscript>

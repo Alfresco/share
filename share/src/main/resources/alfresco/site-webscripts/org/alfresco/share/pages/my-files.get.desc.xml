@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>My Files page definition</shortname>
+  <description>This WebScript defines the My Files page.</description>
+  <family>Share</family>
+  <url>/my-files</url>
+</webscript>

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Search Title</shortname>
+  <description>Title component used in the search page</description>
+  <url>/components/title/search-title</url>
+</webscript>

@@ -1,0 +1,16 @@
+<extension>
+   <modules>
+      <module>
+         <id>Debug Disabler Extension</id>
+         <description>Applies config to disable debug</description>
+         <configurations>
+            <config replace="true">
+               <flags>
+                  <client-debug>false</client-debug>
+                  <client-debug-autologging>false</client-debug-autologging>
+               </flags>
+            </config>
+         </configurations>
+      </module>
+   </modules>
+</extension>

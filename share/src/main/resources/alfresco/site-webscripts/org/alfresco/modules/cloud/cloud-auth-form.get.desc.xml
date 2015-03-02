@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>cloud-auth-form</shortname>
+  <description>A form for entering Cloud Authentication Details</description>
+  <url>/cloud/cloud-auth-form</url>
+</webscript>

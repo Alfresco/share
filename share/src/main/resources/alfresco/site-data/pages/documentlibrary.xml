@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Document Library</title>
+   <title-id>page.documentLibrary.title</title-id>
+   <description>Document library with Tree view</description>
+   <description-id>page.documentLibrary.description</description-id>
+   <template-instance>documentlibrary</template-instance>
+   <authentication>user</authentication>
+</page>

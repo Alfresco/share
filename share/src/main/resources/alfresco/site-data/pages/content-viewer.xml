@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Content Viewer</title>
+   <title-id>page.contentViewer.title</title-id>
+   <description>Page for viewing the content of a node ref</description>
+   <description-id>page.contentViewer.description</description-id>
+   <template-instance>content-viewer</template-instance>
+   <authentication>user</authentication>
+</page>

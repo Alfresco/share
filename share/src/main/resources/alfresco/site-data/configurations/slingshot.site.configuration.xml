@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+   <name>Slingshot Project</name>
+   <description>Slingshot Project</description>
+   <source-id>site</source-id>
+   <properties>
+      <theme>lightTheme</theme>
+      <root-page>site-index</root-page>
+   </properties>
+</configuration>

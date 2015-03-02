@@ -1,0 +1,6 @@
+<webscript>
+    <shortname>Event Listing</shortname>
+    <description>List of all upcoming events for a site</description>
+    <url>/components/calendar/ical/eventList-{site}.ics</url>
+    <format default="calendar">argument</format>
+</webscript>

@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>hdp</id>
+   <template-instance>share-hybrid-template</template-instance>
+   <authentication>user</authentication>
+</page>

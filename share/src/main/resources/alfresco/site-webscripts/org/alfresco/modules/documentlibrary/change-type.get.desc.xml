@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>change-type</shortname>
+  <description>Change Type module primarily for Document Library</description>
+  <url>/modules/documentlibrary/change-type</url>
+</webscript>

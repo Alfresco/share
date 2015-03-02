@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>A view component for content in the repository</shortname>
+  <description>Displays a nodeRef</description>
+  <url>/components/content-viewer</url>
+</webscript>

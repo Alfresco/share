@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Groups list</shortname>
+  <description>Groups list</description>
+  <url>/components/invite/groupslist</url>
+</webscript>

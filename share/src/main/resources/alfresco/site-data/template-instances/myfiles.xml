@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/myfiles</template-type>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/simple-title</url>
+         <properties>
+            <title>page.myFiles.title</title>
+         </properties>
+      </component>
+
+      <!-- Actions -->
+      <component>
+         <region-id>actions-common</region-id>
+         <url>/components/documentlibrary/actions-common</url>
+         <properties>
+            <dependencyGroup>documentlibrary</dependencyGroup>
+         </properties>
+      </component>
+
+      <component>
+         <region-id>documentlist_v2</region-id>
+         <url>/components/documentlibrary/myfiles</url>
+         <properties>
+            <pagination>true</pagination>
+            <dependencyGroup>documentlibrary</dependencyGroup>
+         </properties>
+      </component>
+      
+      <!-- Filter -->
+      <component>
+         <region-id>filter</region-id>
+         <url>/components/documentlibrary/filter</url>
+      </component>
+
+      <!-- Tree -->
+      <component>
+         <region-id>tree</region-id>
+         <url>/components/documentlibrary/myfiles/tree</url>
+      </component>
+
+      <!-- Categories -->
+      <component>
+         <region-id>categories</region-id>
+         <url>/components/documentlibrary/categories</url>
+      </component>
+
+      <!-- Tags -->
+      <component>
+         <region-id>tags</region-id>
+         <url>/components/myfiles/tag-filter</url>
+      </component>
+
+      <!-- Uploaders -->
+      <component>
+         <region-id>html-upload</region-id>
+         <url>/components/upload/html-upload</url>
+      </component>
+      <component>
+         <region-id>flash-upload</region-id>
+         <url>/components/upload/flash-upload</url>
+      </component>
+      <component>
+         <region-id>file-upload</region-id>
+         <url>/components/upload/file-upload</url>
+      </component>
+      <component>
+         <region-id>dnd-upload</region-id>
+         <url>/components/upload/dnd-upload</url>
+      </component>
+      <component>
+         <region-id>archive-and-download</region-id>
+         <url>/components/download/archive</url>
+      </component>
+
+      <!-- Custom Code -->
+      <component>
+         <region-id>doclib-custom</region-id>
+         <url>/components/documentlibrary/doclib-custom</url>
+      </component>
+
+   </components>
+</template-instance>

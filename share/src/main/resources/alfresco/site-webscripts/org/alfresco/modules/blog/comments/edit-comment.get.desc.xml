@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>edit-comment</shortname>
+  <description>Get a comment edit form</description>
+  <url>/modules/blog/comments/edit-comment</url>
+  <format default="html"/>
+</webscript>

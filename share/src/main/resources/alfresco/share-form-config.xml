@@ -1,0 +1,1623 @@
+<alfresco-config>
+
+   <!-- cm:content type (existing nodes) -->
+   <config evaluator="node-type" condition="cm:content">
+      <forms>
+         <!-- Default form configuration for the cm:content type -->
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="mimetype" />
+               <show id="cm:author" force="true" />
+               <show id="size" for-mode="view" />
+               <show id="cm:creator" for-mode="view" />
+               <show id="cm:created" for-mode="view" />
+               <show id="cm:modifier" for-mode="view" />
+               <show id="cm:modified" for-mode="view" />
+               
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+               
+               <!-- cm:dublincore aspect -->
+               <show id="cm:publisher"/>
+               <show id="cm:contributor"/>
+               <show id="cm:type"/>
+               <show id="cm:identifier"/>
+               <show id="cm:dcsource"/>
+               <show id="cm:coverage"/>
+               <show id="cm:rights"/>
+               <show id="cm:subject"/>
+               
+               <!-- cm:complianceable aspect -->
+               <show id="cm:removeAfter" />
+               
+               <!-- cm:effectivity aspect -->
+               <show id="cm:from"/>
+               <show id="cm:to"/>
+               
+               <!--  cm:summarizable aspect -->
+               <show id="cm:summary" />
+               
+               <!-- cm:translatable aspect -->
+               <show id="cm:translations" />
+               
+               <!-- cm:localizable aspect -->
+               <show id="cm:locale" />
+               
+               <!-- cm:ownable aspect -->
+               <show id="cm:owner" />
+               
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+               
+               <!-- cm:emailed aspect -->
+               <show id="cm:originator" />
+               <show id="cm:addressee" />
+               <show id="cm:addressees" />
+               <show id="cm:sentdate" />
+               <show id="cm:subjectline" />
+               
+               <!-- exif:exif aspect -->
+               <show id="exif:dateTimeOriginal" />
+               <show id="exif:pixelXDimension" />
+               <show id="exif:pixelYDimension" />
+               <show id="exif:exposureTime" />
+               <show id="exif:fNumber" />
+               <show id="exif:flash" />
+               <show id="exif:focalLength" />
+               <show id="exif:isoSpeedRatings" />
+               <show id="exif:manufacturer" />
+               <show id="exif:model" />
+               <show id="exif:software" />
+               <show id="exif:orientation" />
+               <show id="exif:xResolution" />
+               <show id="exif:yResolution" />
+               <show id="exif:resolutionUnit" />
+
+               <!-- audio:audio aspect -->
+               <show id="audio:album" />
+               <show id="audio:artist" />
+               <show id="audio:composer" />
+               <show id="audio:engineer" />
+               <show id="audio:genre" />
+               <show id="audio:trackNumber" />
+               <show id="audio:releaseDate" />
+               <show id="audio:sampleRate" />
+               <show id="audio:sampleType" />
+               <show id="audio:channelType" />
+               <show id="audio:compressor" />
+               
+               <!-- cm:indexControl aspect -->
+               <show id="cm:isIndexed" />
+               <show id="cm:isContentIndexed" />
+               
+               <!-- cm:geographic aspect -->
+               <show id="cm:latitude" />
+               <show id="cm:longitude" />
+               
+               <!-- surf:widget aspect -->
+               <show id="surf:widgetType"/>
+               <show id="surf:mid"/>
+               <show id="surf:label"/>
+               
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                 <control>
+                    <control-param name="maxLength">255</control-param>
+                 </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/mimetype.ftl" />
+               </field>
+               <field id="size">
+                  <control template="/org/alfresco/components/form/controls/size.ftl" />
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:originator" read-only="true" />
+               <field id="cm:addressee" read-only="true" />
+               <field id="cm:addressees" read-only="true" />
+               <field id="cm:sentdate" read-only="true" />
+               <field id="cm:subjectline" read-only="true" />
+            </appearance>
+         </form>
+
+         <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:name">
+                 <control>
+                    <control-param name="maxLength">255</control-param>
+                 </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+         
+         <!-- Document Library Inline Edit form -->
+         <form id="doclib-inline-edit">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:content" force="true" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                 <control>
+                    <control-param name="maxLength">255</control-param>
+                 </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:content" label-id="">
+                  <control>
+                     <control-param name="editorAppearance">explorer</control-param>
+                     <control-param name="forceEditor">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- cm:folder type (existing nodes) -->
+   <config evaluator="node-type" condition="cm:folder">
+      <forms>
+         <!-- Default form configuration for the cm:folder type -->
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+
+               <!-- emailserver:aliasable aspect -->
+               <show id="emailserver:alias" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                 <control>
+                    <control-param name="maxLength">255</control-param>
+                 </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+          </form>
+
+          <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:name">
+                 <control>
+                    <control-param name="maxLength">255</control-param>
+                 </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+          </form>
+      </forms>
+   </config>
+
+   <!-- cm:content type (creating nodes) -->
+   <config evaluator="model-type" condition="cm:content">
+      <forms>
+         <!-- Default Create Content form -->
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:content" force="true" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="mimetype" />
+               <show id="app:editInline" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                 <control>
+                    <control-param name="maxLength">255</control-param>
+                 </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:content" label-id="">
+                  <control>
+                     <control-param name="editorAppearance">explorer</control-param>
+                  </control>
+               </field>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">mimeType</control-param>
+                  </control>
+               </field>
+               <field id="app:editInline">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">editInline</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+         <!-- Search form -->
+         <form id="search">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="mimetype" />
+               <show id="cm:modified" />
+               <show id="cm:modifier" />
+            </field-visibility>
+            <appearance>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/mimetype.ftl" />
+               </field>
+               <field id="cm:modifier">
+                  <control>
+                     <control-param name="forceEditable">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:modified">
+                  <control template="/org/alfresco/components/form/controls/daterange.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- cm:folder type (creating nodes) -->
+   <config evaluator="model-type" condition="cm:folder">
+      <forms>
+         <!-- Document Library Common form -->
+         <form id="doclib-common">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+            </field-visibility>
+            <create-form template="../documentlibrary/forms/doclib-common.ftl" />
+            <appearance>
+               <field id="cm:name">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" >
+                     <control-param name="maxLength">255</control-param>
+                  </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+            </appearance>
+         </form>
+         <!-- Search form -->
+         <form id="search">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+
+   <!-- trx:transferTarget content type (editing) -->
+   <config evaluator="node-type" condition="trx:transferTarget">
+      <forms>
+         <!-- Default form configuration for the trx:transferTarget type -->
+         <form>
+              <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="trx:endpointhost" />
+               <show id="trx:endpointport" />
+               <show id="trx:endpointpath" />
+               <show id="trx:endpointprotocol" />
+               <show id="trx:username" for-mode="edit"/>
+               <show id="trx:password" for-mode="edit"/>
+               <show id="trx:enabled" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="trx:password">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl">
+                     <control-param name="password">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+
+         <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+              <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="trx:endpointhost" />
+               <show id="trx:endpointport" />
+               <show id="trx:endpointpath" />
+               <show id="trx:endpointprotocol" />
+               <show id="trx:username" for-mode="edit"/>
+               <show id="trx:password" for-mode="edit"/>
+               <show id="trx:enabled" force="true" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="trx:password">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl">
+                     <control-param name="password">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- trx:fileTransferTarget content type (editing) -->
+   <config evaluator="node-type" condition="trx:fileTransferTarget">
+      <forms>
+         <!-- Default form configuration for the trx:fileTransferTarget type -->
+         <form>
+              <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="trx:endpointhost" />
+               <show id="trx:endpointport" />
+               <show id="trx:endpointpath" />
+               <show id="trx:endpointprotocol" />
+               <show id="trx:username" for-mode="edit"/>
+               <show id="trx:password" for-mode="edit"/>
+               <show id="trx:fileTransferRootNode" />
+               <show id="trx:enabled" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="trx:password">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl">
+                     <control-param name="password">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+
+         <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+              <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="trx:endpointhost" />
+               <show id="trx:endpointport" />
+               <show id="trx:endpointpath" />
+               <show id="trx:endpointprotocol" />
+               <show id="trx:username" for-mode="edit"/>
+               <show id="trx:password" for-mode="edit"/>
+               <show id="trx:fileTransferRootNode" />
+               <show id="trx:enabled" force="true" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="trx:password">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl">
+                     <control-param name="password">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- JMX Form Config -->
+   
+   <!-- Runtime -->
+   <config evaluator="string-compare" condition="Alfresco:Name=Runtime">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="FreeMemory" />
+               <show id="MaxMemory" />
+               <show id="TotalMemory" />
+            </field-visibility>
+            <appearance>
+               <set id="runtime" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="FreeMemory" label-id="runtime.field.FreeMemory" set="runtime" />
+               <field id="MaxMemory" label-id="runtime.field.MaxMemory" set="runtime" />
+               <field id="TotalMemory" label-id="runtime.field.TotalMemory" set="runtime" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Repository Descriptor Current -->
+   <config evaluator="string-compare" condition="Alfresco:Name=RepositoryDescriptor,Type=Current">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="Id" />
+               <show id="Schema" />
+               <show id="Version" />
+               <show id="VersionLabel" />
+               <show id="VersionMajor" />
+               <show id="VersionMinor" />
+               <show id="VersionRevision" />
+               <show id="VersionBuild" />
+               <show id="VersionNumber" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="version" appearance="title" label-id="repository-server.set.version" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="Id" label-id="repository-server.field.Id" />
+               <field id="Schema" label-id="repository-server.field.Schema" />
+               <field id="Version" label-id="repository-server.field.Version" set="version"/>
+               <field id="VersionLabel" label-id="repository-server.field.VersionLabel" set="version" />
+               <field id="VersionMajor" label-id="repository-server.field.VersionMajor" set="version" />
+               <field id="VersionMinor" label-id="repository-server.field.VersionMinor" set="version" />
+               <field id="VersionRevision" label-id="repository-server.field.VersionRevision" set="version" />
+               <field id="VersionBuild" label-id="repository-server.field.VersionBuild" set="version" />
+               <field id="VersionNumber" label-id="repository-server.field.VersionNumber" set="version" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Repository Descriptor Installed -->
+   <config evaluator="string-compare" condition="Alfresco:Name=RepositoryDescriptor,Type=Initially Installed">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="Id" />
+               <show id="Schema" />
+               <show id="Version" />
+               <show id="VersionLabel" />
+               <show id="VersionMajor" />
+               <show id="VersionMinor" />
+               <show id="VersionRevision" />
+               <show id="VersionBuild" />
+               <show id="VersionNumber" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="version" appearance="title" label-id="repository-installed.set.version" template="/org/alfresco/components/form/2-column-set.ftl" />
+
+               <field id="Id" label-id="repository-installed.field.Id" />
+               <field id="Schema" label-id="repository-installed.field.Schema" />
+
+               <field id="Version" label-id="repository-installed.field.Version" set="version" />
+               <field id="VersionLabel" label-id="repository-installed.field.VersionLabel" set="version" />
+               <field id="VersionMinor" label-id="repository-installed.field.VersionMinor" set="version" />
+               <field id="VersionMajor" label-id="repository-installed.field.VersionMajor" set="version" />
+               <field id="VersionRevision" label-id="repository-installed.field.VersionRevision" set="version" />
+               <field id="VersionBuild" label-id="repository-installed.field.VersionBuild" set="version" />
+               <field id="VersionNumber" label-id="repository-installed.field.VersionNumber" set="version" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Authority -->
+   <config evaluator="string-compare" condition="Alfresco:Name=Authority">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="NumberOfGroups" />
+               <show id="NumberOfUsers" />
+            </field-visibility>
+            <appearance>
+                <set id="authorities" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+                <field id="NumberOfGroups" label-id="authority.field.NumberOfGroups" set="authorities" />
+                <field id="NumberOfUsers" label-id="authority.field.NumberOfUsers" set="authorities" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- License Descriptor -->
+   <config evaluator="string-compare" condition="Alfresco:Name=License">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="Subject" />
+               <show id="Days" />
+               <show id="Holder" />
+               <show id="ValidUntil" />
+               <show id="LicenseMode" />
+               <show id="MaxDocs" />
+               <show id="MaxUsers" />
+               <show id="RemainingDays" />
+               <show id="Issued" />
+               <show id="Issuer" />
+               <show id="HeartBeatDisabled" />
+               <show id="CloudSyncKeyAvailable" />
+               <show id="mbean_operations" for-mode="edit" />
+            </field-visibility>
+            <appearance>
+               <set id="license" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="operations" appearance="" />
+               <field id="Subject" label-id="license.field.Subject" set="license" />
+               <field id="Days" label-id="license.field.Days" set="license" />
+               <field id="Holder" label-id="license.field.Holder" set="license" />
+               <field id="ValidUntil" label-id="license.field.ValidUntil" set="license" />
+               <field id="LicenseMode" label-id="license.field.LicenseMode" set="license" />
+               <field id="MaxDocs" label-id="license.field.MaxDocs" set="license" />
+               <field id="MaxUsers" label-id="license.field.MaxUsers" set="license" />
+               <field id="RemainingDays" label-id="license.field.RemainingDays" set="license" />
+               <field id="Issued" label-id="license.field.Issued" set="license" />
+               <field id="Issuer" label-id="license.field.Issuer" set="license" />
+               <field id="HeartBeatDisabled" label-id="license.field.HeartBeatDisabled" set="license">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="CloudSyncKeyAvailable" label-id="license.field.CloudSyncKeyAvailable" set="license">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="mbean_operations" set="operations" />
+            </appearance>
+
+         </form>
+      </forms>
+   </config>
+
+   <!-- OpenOffice Jodconverter (subsystem) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=OOoJodconverter,id1=default">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="jodconverter.enabled" />
+               <show id="jodconverter.maxTasksPerProcess" />
+               <show id="jodconverter.officeHome" />
+               <show id="jodconverter.portNumbers" />
+               <show id="jodconverter.taskExecutionTimeout" />
+               <show id="jodconverter.taskQueueTimeout" />
+            </field-visibility>
+            <appearance>
+               <set id="openoffice_jod" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="jodconverter.enabled" label-id="ooojodconverter.field.jodconverter.enabled" set="openoffice_jod">
+                 <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="jodconverter.maxTasksPerProcess" label-id="ooojodconverter.field.jodconverter.maxTasksPerProcess" set="openoffice_jod" />
+               <field id="jodconverter.officeHome" label-id="ooojodconverter.field.jodconverter.officeHome" set="openoffice_jod" />
+               <field id="jodconverter.portNumbers" label-id="ooojodconverter.field.jodconverter.portNumbers" set="openoffice_jod" />
+               <field id="jodconverter.taskExecutionTimeout" label-id="ooojodconverter.field.jodconverter.taskExecutionTimeout" set="openoffice_jod" />
+               <field id="jodconverter.taskQueueTimeout" label-id="ooojodconverter.field.jodconverter.taskQueueTimeout" set="openoffice_jod" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- OpenOffice (Subsystem) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=OOoDirect,id1=default">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="ooo.enabled" />
+               <show id="ooo.exe" />
+               <show id="ooo.host" />
+               <show id="ooo.port" />
+            </field-visibility>
+            <appearance>
+               <set id="openoffice" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="ooo.enabled" label-id="openoffice-subsystem.field.ooo.enabled" set="openoffice">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="ooo.exe" label-id="openoffice-subsystem.field.ooo.exe" set="openoffice" />
+               <field id="ooo.host" label-id="openoffice-subsystem.field.ooo.host" set="openoffice" />
+               <field id="ooo.port" label-id="openoffice-subsystem.field.ooo.port" set="openoffice" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+
+   <!-- OpenOffice (non-Subsystem) -->
+   <config evaluator="string-compare" condition="Alfresco:Name=OpenOffice">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="available" />
+               <show id="ooName" />
+               <show id="ooOpenSourceContext" />
+               <show id="ooSetupExtension" />
+               <show id="ooSetupVersion" />
+               <show id="ooSetupVersionAboutBox" />
+               <show id="ooXMLFileFormatName" />
+               <show id="ooXMLFileFormatVersion" />
+            </field-visibility>
+            <appearance>
+               <set id="openoffice" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="available" appearance="title" label-id="openoffice.field.available" set="openoffice" />
+               <field id="ooName" label-id="openoffice.field.ooName" set="openoffice" />
+               <field id="ooOpenSourceContext" label-id="openoffice.field.ooOpenSourceContext" set="openoffice" />
+               <field id="ooSetupExtension" label-id="openoffice.field.ooSetupExtension" set="openoffice" />
+               <field id="ooSetupVersion" label-id="openoffice.field.ooSetupVersion" set="openoffice" />
+               <field id="ooSetupVersionAboutBox" label-id="openoffice.field.ooSetupVersionAboutBox" set="openoffice" />
+               <field id="ooXMLFileFormatName" label-id="openoffice.field.ooXMLFileFormatName" set="openoffice" />
+               <field id="ooXMLFileFormatVersion" label-id="openoffice.field.ooXMLFileFormatVersion" set="openoffice" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- pdf2swf -->
+   <config evaluator="string-compare" condition="Alfresco:Name=ContentTransformer,Type=pdf2swf">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="Available" />
+               <show id="VersionString" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="VersionString" label-id="pdf2swf.field.VersionString" read-only="true" />
+               <field id="Available" label-id="pdf2swf.field.Available" read-only="true" >
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- ImageMagick -->
+   <config evaluator="string-compare" condition="Alfresco:Name=ContentTransformer,Type=ImageMagick">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="Available" />
+               <show id="VersionString" />
+            </field-visibility>
+            <appearance>
+               <set id="imagemagick" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="Available" label-id="transformer-imagemagick.field.Available" read-only="true" set="imagemagick">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="VersionString" label-id="transformer-imagemagick.field.VersionString" read-only="true" set="imagemagick" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Fileservers -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=fileServers,id1=default">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="filesystem.name" />
+               
+               <show id="cifs.enabled" />
+               <show id="cifs.hostannounce" />
+               <show id="cifs.serverName" />
+               <show id="cifs.domain" />
+               <show id="cifs.sessionTimeout" />
+
+               <show id="ftp.enabled" />
+               <show id="ftp.port" />
+               <show id="ftp.dataPortFrom" />
+               <show id="ftp.dataPortTo" />
+            </field-visibility>
+            <appearance>
+               <set id="filesystem" appearance="title" label-id="fileservers.set.filesystem" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="cifs" appearance="title" label-id="fileservers.set.cifs" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="ftp" appearance="title" label-id="fileservers.set.ftp" template="/org/alfresco/components/form/2-column-set.ftl" />
+
+               <field id="filesystem.name" label-id="fileservers.field.filesystem.name" description-id="fileservers.field.filesystem.name.description" 
+                      set="filesystem">
+                  <control>
+                    <control-param name="maxLength">1024</control-param>
+                 </control>
+               </field>
+
+               <field id="cifs.enabled" label-id="fileservers.field.cifs.enabled" set="cifs">
+                 <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="cifs.serverName" label-id="fileservers.field.cifs.serverName" set="cifs">
+                 <control>
+                    <control-param name="maxLength">15</control-param>
+                 </control>
+               </field>
+               <field id="cifs.domain" label-id="fileservers.field.cifs.domain" set="cifs">
+                  <control>
+                    <control-param name="maxLength">1024</control-param>
+                 </control>
+               </field>
+               <field id="cifs.hostannounce" label-id="fileservers.field.cifs.hostannounce" set="cifs">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="cifs.sessionTimeout" label-id="fileservers.field.cifs.sessionTimeout" set="cifs">
+                  <control template="/org/alfresco/components/form/controls/number.ftl"/>
+                  <constraint-handlers>
+                     <constraint type="NUMBER" validation-handler="Alfresco.forms.validation.number" event="keyup" />
+                  </constraint-handlers>    
+               </field>
+               <field id="ftp.enabled" label-id="fileservers.field.ftp.enabled" set="ftp">
+                 <control template="/org/alfresco/components/form/controls/checkbox.ftl"/>
+               </field>
+               <field id="ftp.port" label-id="fileservers.field.ftp.port" set="ftp">
+                  <control template="/org/alfresco/components/form/controls/number.ftl"/>
+                  <constraint-handlers>
+                     <constraint type="NUMBER" validation-handler="Alfresco.forms.validation.number" event="keyup" />
+                  </constraint-handlers>               
+                  </field>
+               <field id="ftp.dataPortFrom" label-id="fileservers.field.ftp.dataPortFrom" set="ftp">
+                  <control template="/org/alfresco/components/form/controls/number.ftl"/>
+                  <constraint-handlers>
+                     <constraint type="NUMBER" validation-handler="Alfresco.forms.validation.number" event="keyup" />
+                  </constraint-handlers>
+               </field>                
+               <field id="ftp.dataPortTo" label-id="fileservers.field.ftp.dataPortTo" set="ftp" >
+                  <control template="/org/alfresco/components/form/controls/number.ftl"/>
+                  <constraint-handlers>
+                     <constraint type="NUMBER" validation-handler="Alfresco.forms.validation.number" event="keyup" />
+                  </constraint-handlers>    
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- Sysadmin -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=sysAdmin,id1=default">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="alfresco.context" />
+               <show id="alfresco.host" />
+               <show id="alfresco.port" />
+               <show id="alfresco.protocol" />
+               <show id="share.context" />
+               <show id="share.host" />
+               <show id="share.port" />
+               <show id="share.protocol" />
+               <show id="server.allowedusers" />
+               <show id="server.maxusers" />
+               <show id="server.allowWrite" />
+            </field-visibility>
+            <appearance>
+               <set id="sysAdmin" appearance="title" label-id="form.set.general"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="alfresco.context" label-id="sysadmin.field.alfresco.context" set="sysAdmin" />
+               <field id="alfresco.host" label-id="sysadmin.field.alfresco.host" set="sysAdmin" />
+               <field id="alfresco.port" label-id="sysadmin.field.alfresco.port" set="sysAdmin" />
+               <field id="alfresco.protocol" label-id="sysadmin.field.alfresco.protocol" set="sysAdmin">
+                 <control template="/org/alfresco/components/form/controls/selectone.ftl">
+                    <control-param name="options">http|http,https|https</control-param>
+                 </control>
+               </field>
+               <field id="server.allowedusers" label-id="sysadmin.field.server.allowedusers" set="sysAdmin" />
+               <field id="server.maxusers" label-id="sysadmin.field.server.maxusers" set="sysAdmin" />
+               <field id="server.allowWrite" label-id="sysadmin.field.server.transaction.allow-writes" set="sysAdmin">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="share.context" label-id="sysadmin.field.share.context" set="sysAdmin" />
+               <field id="share.host" label-id="sysadmin.field.share.host" set="sysAdmin" />
+               
+               <field id="share.port" label-id="sysadmin.field.share.port" set="sysAdmin">
+                  <constraint-handlers>
+                     <constraint type="NUMBER" validation-handler="Alfresco.forms.validation.number" event="keyup" />
+                  </constraint-handlers>
+               </field>
+               
+               <field id="share.protocol" label-id="sysadmin.field.share.protocol" set="sysAdmin">
+                 <control template="/org/alfresco/components/form/controls/selectone.ftl">
+                    <control-param name="options">http|http,https|https</control-param>
+                 </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Inbound Email -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=email,id1=inbound">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="email.inbound.enabled" />
+               <show id="email.inbound.unknownUser" />
+               
+               <show id="email.server.enabled" />
+               <show id="email.server.allowed.senders" />
+               <show id="email.server.blocked.senders" />       
+               <show id="email.server.domain" />
+               <show id="email.server.port" />
+               <show id="email.server.connections.max" />
+               <show id="email.server.enableTLS" />
+               <show id="email.server.requireTLS" />
+               <show id="email.server.hideTLS" />
+               
+            </field-visibility>
+            <appearance>
+               <set id="inbound" appearance="title" label-id="email-inbound.set.service"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="inbound-server" appearance="title" label-id="email-inbound.set.server"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="inbound-tls" appearance="title" label-id="email-inbound.set.tls"
+                    template="/org/alfresco/components/form/3-column-set.ftl" />     
+               <field id="email.inbound.enabled" label-id="email-inbound.field.email.inbound.enabled" set="inbound">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="email.inbound.unknownUser" label-id="email-inbound.field.email.inbound.unknownUser" set="inbound" />
+               <field id="email.server.allowed.senders" label-id="email-inbound.field.email.server.allowed.senders" set="inbound-server" />
+               <field id="email.server.blocked.senders" label-id="email-inbound.field.email.server.blocked.senders" set="inbound-server" />
+               <field id="email.server.enabled" label-id="email-inbound.field.email.server.enabled" set="inbound-server">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="email.server.domain" label-id="email-inbound.field.email.server.domain" set="inbound-server" />
+               <field id="email.server.port" label-id="email-inbound.field.email.server.port" set="inbound-server" />
+               <field id="email.server.connections.max" label-id="email-inbound.field.email.server.connections.max" set="inbound-server" />
+               
+               <field id="email.server.enableTLS" label-id="email-inbound.field.email.server.enableTLS" set="inbound-tls" >
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="email.server.requireTLS" label-id="email-inbound.field.email.server.requireTLS" set="inbound-tls" >
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="email.server.hideTLS" label-id="email-inbound.field.email.server.hideTLS" set="inbound-tls" >
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- Outbound Email -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=email,id1=outbound">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="mail.host"/>
+               <show id="mail.port" />
+               <show id="mail.encoding" />
+               <show id="mail.from.enabled" />
+               <show id="mail.from.default" />
+               <show id="mail.protocol" />
+               <show id="mail.smtp.auth" />
+               <show id="mail.smtps.auth" />
+               <show id="mail.username" />
+               <show id="mail.password" for-mode="edit" />
+               <show id="mail.testmessage.send" />
+               <show id="mail.testmessage.to" />
+               <show id="mail.testmessage.subject" />
+               <show id="mail.testmessage.send" />
+               <show id="mail.testmessage.text" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="form.set.general"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="auth" appearance="title" label-id="email-outbound.set.auth" />
+               <set id="testmessage" appearance="title" label-id="email-outbound.set.test-message" />
+               
+               <field id="mail.host" label-id="email-outbound.field.mail.host" />
+               <field id="mail.port" label-id="email-outbound.field.mail.port" />
+               <field id="mail.protocol" label-id="email-outbound.field.mail.protocol" />
+               <field id="mail.encoding" label-id="email-outbound.field.mail.encoding" />
+               <field id="mail.from.enabled" label-id="email-outbound.field.mail.from.enabled">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="mail.from.default" label-id="email-outbound.field.mail.from.default" />
+               <field id="mail.smtp.auth" label-id="email-outbound.field.mail.smtp.auth" set="auth">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="mail.smtps.auth" label-id="email-outbound.field.mail.smtps.auth" set="auth">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+           
+               <field id="mail.username" label-id="email-outbound.field.mail.username" set="auth" />
+               <field id="mail.password" label-id="email-outbound.field.mail.password" set="auth">
+                  <control>
+                     <control-param name="password">true</control-param>
+                  </control>
+               </field>
+               <field id="mail.testmessage.send" label-id="email-outbound.field.mail.testmessage.send" set="testmessage">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="mail.testmessage.to" label-id="email-outbound.field.mail.testmessage.to" set="testmessage" />
+               <field id="mail.testmessage.subject" label-id="email-outbound.field.mail.testmessage.subject" set="testmessage" />
+               <field id="mail.testmessage.text" label-id="email-outbound.field.mail.testmessage.text" set="testmessage" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- IMAP (Subsystem) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=imap,id1=default">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="imap.server.enabled" />
+               <show id="imap.mail.from.default" />
+               <show id="imap.mail.to.default" />
+               <show id="imap.server.attachments.extraction.enabled" />
+               <show id="imap.server.host" />
+               <show id="imap.server.port" />
+            </field-visibility>
+            <appearance>
+               <set id="imap" appearance="title" label-id="imap.set.imap" template="/org/alfresco/components/form/2-column-set.ftl" />
+
+               <field id="imap.config.home.folderPath" label-id="imap.field.imap.config.home.folderPath" set="imap" />
+               <field id="imap.config.home.rootPath" label-id="imap.field.imap.config.home.rootPath" set="imap" />
+               <field id="imap.config.home.store" label-id="imap.field.imap.config.home.store" set="imap" />
+               <field id="imap.server.attachments.extraction.enabled" label-id="imap.field.imap.server.attachments.extraction.enabled" set="imap" >
+                    <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="imap.mail.from.default" label-id="imap.field.imap.mail.from.default" set="imap" />
+               <field id="imap.mail.to.default" label-id="imap.field.imap.mail.to.default" set="imap" />
+               <field id="imap.server.enabled" label-id="imap.field.imap.server.enabled" set="imap">
+                 <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="imap.server.host" label-id="imap.field.imap.server.host" set="imap" />
+               <field id="imap.server.port" label-id="imap.field.imap.server.port" set="imap" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- ActivitiesFeed (Subsystem) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=ActivitiesFeed,id1=default">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="activities.feed.notifier.enabled" />
+               <show id="activities.feed.notifier.repeatIntervalMins" />
+               <show id="activities.feed.max.ageMins" />
+               <show id="activities.feed.max.size" />
+            </field-visibility>
+            <appearance>
+               <set id="activities" appearance="title" label-id="activities.set.activities" template="/org/alfresco/components/form/2-column-set.ftl" />
+
+               <field id="activities.feed.notifier.enabled" label-id="activities.field.feed.notifier.enabled" set="activities">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="activities.feed.notifier.repeatIntervalMins" label-id="activities.field.feed.notifier.repeatIntervalMins" set="activities" />
+               <field id="activities.feed.max.ageMins" label-id="activities.field.feed.max.ageMins" set="activities" />
+               <field id="activities.feed.max.size" label-id="activities.field.feed.max.size" set="activities" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- Subscriptions (subsystem) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=Subscriptions,id1=default">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="subscriptions.enabled" />
+            </field-visibility>
+            <appearance>
+               <set id="subscriptions" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="subscriptions.enabled" label-id="subscriptions.field.subscriptions.enabled" set="subscriptions">
+                 <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- Workflow -->
+   <config evaluator="string-compare" condition="Alfresco:Name=WorkflowInformation">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="ActivitiEngineEnabled" />
+               <show id="ActivitiWorkflowDefinitionsVisible" />
+               <show id="NumberOfActivitiTaskInstances" />
+               <show id="NumberOfActivitiWorkflowDefinitionsDeployed" />
+               <show id="NumberOfActivitiWorkflowInstances" />
+               <show id="JBPMEngineEnabled" />
+               <show id="JBPMWorkflowDefinitionsVisible" />
+               <show id="NumberOfJBPMTaskInstances" />
+               <show id="NumberOfJBPMWorkflowDefinitionsDeployed" />
+               <show id="NumberOfJBPMWorkflowInstances" />
+            </field-visibility>
+            <appearance>
+               <set id="activiti" appearance="title" label-id="workflow.set.engine.activiti"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="jbpm" appearance="title" label-id="workflow.set.engine.jbpm"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+               
+               <field id="ActivitiEngineEnabled" label-id="workflow.field.enabled.activiti" set="activiti">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="ActivitiWorkflowDefinitionsVisible" label-id="workflow.field.definitions.visible" set="activiti">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="JBPMEngineEnabled" label-id="workflow.field.enabled.jbpm" set="jbpm">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="JBPMWorkflowDefinitionsVisible" label-id="workflow.field.definitions.visible" set="jbpm">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="NumberOfActivitiTaskInstances" label-id="workflow.field.number.tasks" set="activiti" />
+               <field id="NumberOfActivitiWorkflowDefinitionsDeployed" label-id="workflow.field.number.definitions" set="activiti" />
+               <field id="NumberOfActivitiWorkflowInstances" label-id="workflow.field.number.workflows" set="activiti" />
+               <field id="NumberOfJBPMTaskInstances" label-id="workflow.field.number.tasks" set="jbpm" />
+               <field id="NumberOfJBPMWorkflowDefinitionsDeployed" label-id="workflow.field.number.definitions" set="jbpm" />
+               <field id="NumberOfJBPMWorkflowInstances" label-id="workflow.field.number.workflows" set="jbpm" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- Search (lucene) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=Search,id1=managed,id2=lucene">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="index.recovery.mode" />
+               <show id="lucene.indexer.contentIndexingEnabled" />
+               <show id="index.tracking.disableInTransactionIndexing" />
+               <show id="dir.indexes" for-mode="view" />
+
+               <show id="dir.indexes.backup" />
+               <show id="index.backup.cronExpression" />
+
+               <show id="fts.indexer.batchSize" />
+               <show id="lucene.maxAtomicTransformationTime" />
+               <show id="index.reindexMissingContent.cronExpression" />
+               <show id="lucene.indexer.maxFieldLength" />
+               <show id="lucene.indexer.mergerMaxMergeDocs" />
+               <show id="lucene.indexer.mergerMergeFactor" />
+            </field-visibility>
+            <appearance>
+               <set id="lucene" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="lucene.backup" appearance="bordered-panel" label-id="lucene.set.backup" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="lucene.advanced" appearance="bordered-panel" label-id="lucene.set.advanced" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="dir.indexes" set="lucene" label-id="lucene.field.dir.indexes" />
+               <field id="index.recovery.mode" set="lucene" label-id="lucene.field.index.recovery.mode">
+                 <control template="/org/alfresco/components/form/controls/selectone.ftl">
+                    <control-param name="options">VALIDATE|VALIDATE,AUTO|AUTO,FULL|FULL</control-param>
+                 </control>
+               </field>
+               <field id="lucene.indexer.contentIndexingEnabled" set="lucene" label-id="lucene.field.lucene.indexer.contentIndexingEnabled" description-id="lucene.field.description.lucene.indexer.contentIndexingEnabled">
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+                <field id="index.tracking.disableInTransactionIndexing" set="lucene" label-id="lucene.field.index.tracking.disableInTransactionIndexing" >
+                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+
+               <field id="dir.indexes.backup" set="lucene.backup" label-id="lucene.backup.field.dir.indexes.backup" />
+               <field id="index.backup.cronExpression" set="lucene.backup" label-id="lucene.backup.field.index.backup.cronExpression" />
+
+               <field id="fts.indexer.batchSize" set="lucene.advanced" label-id="lucene.advanced.field.fts.indexer.batchSize" />
+               <field id="lucene.maxAtomicTransformationTime" set="lucene.advanced" label-id="lucene.advanced.field.lucene.maxAtomicTransformationTime" />
+               <field id="index.reindexMissingContent.cronExpression" set="lucene.advanced" label-id="lucene.advanced.field.index.reindexMissingContent.cronExpression" />
+               <field id="lucene.indexer.maxFieldLength" set="lucene.advanced" label-id="lucene.advanced.field.indexer.maxFieldLength" />
+               <field id="lucene.indexer.mergerMaxMergeDocs" set="lucene.advanced" label-id="lucene.field.indexer.mergerMaxMergeDocs" />
+               <field id="lucene.indexer.mergerMergeFactor" set="lucene.advanced" label-id="lucene.field.indexer.mergerMergeFactor" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Search (solr) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=Search,id1=managed,id2=solr">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="search.solrTrackingSupport.enabled" />
+               <show id="solr.host" />
+               <show id="solr.port" />
+               <show id="solr.port.ssl" />
+
+               <show id="tracker.alfresco.active" for-mode="view" />
+               <show id="tracker.alfresco.lag" for-mode="view" />
+               <!-- <show id="tracker.alfresco.lag.duration" /> -->
+               <show id="tracker.alfresco.last.indexed.txn" for-mode="view" />
+               <show id="tracker.alfresco.approx.txns.remaining" for-mode="view" />
+               <show id="tracker.alfresco.approx.indexing.time.remaining" for-mode="view" />
+               
+               <show id="tracker.archive.active" for-mode="view" />
+               <show id="tracker.archive.lag" for-mode="view" />
+               <!-- <show id="tracker.archive.lag.duration" /> -->
+               <show id="tracker.archive.last.indexed.txn" for-mode="view" />
+               <show id="tracker.archive.approx.txns.remaining" for-mode="view" />
+               <show id="tracker.archive.approx.indexing.time.remaining" for-mode="view" />
+               
+               <!-- Backup Properties -->
+               <show id="solr.backup.alfresco.cronExpression" />
+               <show id="solr.backup.alfresco.remoteBackupLocation" />
+               <show id="solr.backup.alfresco.numberToKeep" />
+               <show id="solr.backup.archive.cronExpression" />
+               <show id="solr.backup.archive.remoteBackupLocation" />
+               <show id="solr.backup.archive.numberToKeep" />
+
+            </field-visibility>
+            <appearance>
+               <set id="solr" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="solr.spacesstore" appearance="bordered-panel" label-id="solr.set.spacesstore" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="solr.archivestore" appearance="bordered-panel" label-id="solr.set.archivestore" template="/org/alfresco/components/form/2-column-set.ftl" />
+
+               <field id="search.solrTrackingSupport.enabled" set="solr" label-id="solr.field.search.solrTrackingSupport.enabled" help-id="solr.help.search.solrTrackingSupport.enabled">
+                      <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="solr.host" set="solr" label-id="solr.field.solr.host" help-id="solr.help.field.solr.host">
+                      <control>
+                         <control-param name="style">width: 250px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.port" set="solr" label-id="solr.field.solr.port" help-id="solr.help.field.solr.port">
+                      <control>
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.port.ssl" set="solr" label-id="solr.field.solr.port.ssl" help-id="solr.help.field.solr.port.ssl">
+                      <control>
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.active" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.active">
+                      <control template="/org/alfresco/components/form/controls/checkbox.ftl">
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.lag" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.lag" help-id="solr.help.field.tracker.alfresco.lag">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.lag.duration" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.lag.duration"/>
+               <field id="tracker.alfresco.last.indexed.txn" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.last.indexed.txn" help-id="solr.help.field.tracker.alfresco.last.indexed.txn">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.approx.txns.remaining" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.approx.txns.remaining" help-id="solr.help.field.tracker.alfresco.approx.txns.remaining">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.approx.indexing.time.remaining" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.approx.indexing.time.remaining" help-id="solr.help.field.tracker.alfresco.approx.indexing.time.remaining">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.active" set="solr.archivestore" label-id="solr.field.tracker.archive.active">
+                      <control template="/org/alfresco/components/form/controls/checkbox.ftl">
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.lag" set="solr.archivestore" label-id="solr.field.tracker.alfresco.lag" help-id="solr.help.field.tracker.alfresco.lag">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.lag.duration" set="solr.archivestore" label-id="solr.field.tracker.archive.lag.duration"/>
+               <field id="tracker.archive.last.indexed.txn" set="solr.archivestore" label-id="solr.field.tracker.archive.last.indexed.txn" help-id="solr.help.field.tracker.archive.last.indexed.txn">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.approx.txns.remaining" set="solr.archivestore" label-id="solr.field.tracker.archive.approx.txns.remaining" help-id="solr.help.field.tracker.archive.approx.txns.remaining">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.approx.indexing.time.remaining" set="solr.archivestore" label-id="solr.field.tracker.archive.approx.indexing.time.remaining" help-id="solr.help.field.tracker.archive.approx.indexing.time.remaining">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.alfresco.cronExpression" set="solr.spacesstore" label-id="solr.field.solr.backup.alfresco.cronExpression">
+                      <control>
+                         <control-param name="style">width: 200px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.alfresco.remoteBackupLocation" set="solr.spacesstore" label-id="solr.field.solr.backup.alfresco.remoteBackupLocation" help-id="solr.help.solr.backup.alfresco.remoteBackupLocation">
+                      <control>
+                         <control-param name="style">width: 325px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.alfresco.numberToKeep" set="solr.spacesstore" label-id="solr.field.solr.backup.alfresco.numberToKeep" help-id="solr.help.solr.backup.alfresco.numberToKeep">
+                      <control>
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.archive.cronExpression" set="solr.archivestore" label-id="solr.field.solr.backup.archive.cronExpression">
+                      <control>
+                         <control-param name="style">width: 200px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.archive.remoteBackupLocation" set="solr.archivestore" label-id="solr.field.solr.backup.archive.remoteBackupLocation" help-id="solr.help.solr.backup.archive.remoteBackupLocation">
+                      <control>
+                         <control-param name="style">width: 325px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.archive.numberToKeep" set="solr.archivestore" label-id="solr.field.solr.backup.archive.numberToKeep" help-id="solr.help.solr.backup.archive.numberToKeep">
+                      <control>
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+    <!-- Search (solr4) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=Search,id1=managed,id2=solr4">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="search.solrTrackingSupport.enabled" />
+               <show id="solr.host" />
+               <show id="solr.port" />
+               <show id="solr.port.ssl" />
+
+               <show id="tracker.alfresco.active" for-mode="view" />
+               <show id="tracker.alfresco.lag" for-mode="view" />
+               <!-- <show id="tracker.alfresco.lag.duration" /> -->
+               <show id="tracker.alfresco.last.indexed.txn" for-mode="view" />
+               <show id="tracker.alfresco.approx.txns.remaining" for-mode="view" />
+               <show id="tracker.alfresco.approx.indexing.time.remaining" for-mode="view" />
+               
+               <show id="tracker.archive.active" for-mode="view" />
+               <show id="tracker.archive.lag" for-mode="view" />
+               <!-- <show id="tracker.archive.lag.duration" /> -->
+               <show id="tracker.archive.last.indexed.txn" for-mode="view" />
+               <show id="tracker.archive.approx.txns.remaining" for-mode="view" />
+               <show id="tracker.archive.approx.indexing.time.remaining" for-mode="view" />
+               
+               <!-- Backup Properties -->
+               <show id="solr.backup.alfresco.cronExpression" />
+               <show id="solr.backup.alfresco.remoteBackupLocation" />
+               <show id="solr.backup.alfresco.numberToKeep" />
+               <show id="solr.backup.archive.cronExpression" />
+               <show id="solr.backup.archive.remoteBackupLocation" />
+               <show id="solr.backup.archive.numberToKeep" />
+
+            </field-visibility>
+            <appearance>
+               <set id="solr" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="solr.spacesstore" appearance="bordered-panel" label-id="solr.set.spacesstore" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="solr.archivestore" appearance="bordered-panel" label-id="solr.set.archivestore" template="/org/alfresco/components/form/2-column-set.ftl" />
+
+               <field id="search.solrTrackingSupport.enabled" set="solr" label-id="solr.field.search.solrTrackingSupport.enabled" help-id="solr.help.search.solrTrackingSupport.enabled">
+                      <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
+               </field>
+               <field id="solr.host" set="solr" label-id="solr.field.solr.host" help-id="solr.help.field.solr.host">
+                      <control>
+                         <control-param name="style">width: 250px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.port" set="solr" label-id="solr.field.solr.port" help-id="solr.help.field.solr.port">
+                      <control>
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.port.ssl" set="solr" label-id="solr.field.solr.port.ssl" help-id="solr.help.field.solr.port.ssl">
+                      <control>
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.active" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.active">
+                      <control template="/org/alfresco/components/form/controls/checkbox.ftl">
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.lag" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.lag" help-id="solr.help.field.tracker.alfresco.lag">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.lag.duration" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.lag.duration"/>
+               <field id="tracker.alfresco.last.indexed.txn" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.last.indexed.txn" help-id="solr.help.field.tracker.alfresco.last.indexed.txn">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.approx.txns.remaining" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.approx.txns.remaining" help-id="solr.help.field.tracker.alfresco.approx.txns.remaining">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.alfresco.approx.indexing.time.remaining" set="solr.spacesstore" label-id="solr.field.tracker.alfresco.approx.indexing.time.remaining" help-id="solr.help.field.tracker.alfresco.approx.indexing.time.remaining">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.active" set="solr.archivestore" label-id="solr.field.tracker.archive.active">
+                      <control template="/org/alfresco/components/form/controls/checkbox.ftl">
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.lag" set="solr.archivestore" label-id="solr.field.tracker.alfresco.lag" help-id="solr.help.field.tracker.alfresco.lag">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.lag.duration" set="solr.archivestore" label-id="solr.field.tracker.archive.lag.duration"/>
+               <field id="tracker.archive.last.indexed.txn" set="solr.archivestore" label-id="solr.field.tracker.archive.last.indexed.txn" help-id="solr.help.field.tracker.archive.last.indexed.txn">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.approx.txns.remaining" set="solr.archivestore" label-id="solr.field.tracker.archive.approx.txns.remaining" help-id="solr.help.field.tracker.archive.approx.txns.remaining">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="tracker.archive.approx.indexing.time.remaining" set="solr.archivestore" label-id="solr.field.tracker.archive.approx.indexing.time.remaining" help-id="solr.help.field.tracker.archive.approx.indexing.time.remaining">
+                      <control>
+                         <control-param name="style">width: 100px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.alfresco.cronExpression" set="solr.spacesstore" label-id="solr.field.solr.backup.alfresco.cronExpression">
+                      <control>
+                         <control-param name="style">width: 200px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.alfresco.remoteBackupLocation" set="solr.spacesstore" label-id="solr.field.solr.backup.alfresco.remoteBackupLocation" help-id="solr.help.solr.backup.alfresco.remoteBackupLocation">
+                      <control>
+                         <control-param name="style">width: 325px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.alfresco.numberToKeep" set="solr.spacesstore" label-id="solr.field.solr.backup.alfresco.numberToKeep" help-id="solr.help.solr.backup.alfresco.numberToKeep">
+                      <control>
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.archive.cronExpression" set="solr.archivestore" label-id="solr.field.solr.backup.archive.cronExpression">
+                      <control>
+                         <control-param name="style">width: 200px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.archive.remoteBackupLocation" set="solr.archivestore" label-id="solr.field.solr.backup.archive.remoteBackupLocation" help-id="solr.help.solr.backup.archive.remoteBackupLocation">
+                      <control>
+                         <control-param name="style">width: 325px;</control-param>
+                      </control>
+               </field>
+               <field id="solr.backup.archive.numberToKeep" set="solr.archivestore" label-id="solr.field.solr.backup.archive.numberToKeep" help-id="solr.help.solr.backup.archive.numberToKeep">
+                      <control>
+                         <control-param name="style">width: 50px;</control-param>
+                      </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Search (manager) -->
+   <config evaluator="string-compare" condition="Alfresco:Type=Configuration,Category=Search,id1=manager">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="sourceBeanName" />
+            </field-visibility>
+            <appearance>
+               <set id="searchmanager" appearance="title" label-id="form.set.general" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field id="sourceBeanName" set="searchmanager" label-id="searchmanager.field.sourceBeanName">
+                 <control template="/org/alfresco/components/form/controls/selectone.ftl">
+                    <control-param name="options">lucene|Lucene,solr|Solr,solr4|Solr 4</control-param>
+                 </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Transform Repo Action -->
+   <config evaluator="string-compare" condition="transform">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="mime-type" />
+               <show id="destination-folder" />
+            </field-visibility>
+            <appearance>
+               <field id="mime-type" label-id="transform.field.mime-type" />
+               <field id="destination-folder" label-id="transform.field.destination-folder" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+  
+   <!-- Transform Image Repo Action -->
+   <config evaluator="string-compare" condition="transform-image">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="mime-type" />
+               <show id="convert-command" />
+               <show id="destination-folder" />
+            </field-visibility>
+            <appearance>
+               <field id="mime-type" label-id="transform-image.field.mime-type">
+                  <control template="/org/alfresco/components/form/controls/selectone.ftl">
+                    <control-param name="options">image/gif|GIF Image,image/jpeg|JPEG Image,image/png|PNG Image</control-param>
+                 </control>
+               </field>
+               <field id="convert-command" label-id="transform-image.field.convert-command" />
+               <field id="destination-folder" label-id="transform-image.field.destination-folder" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+  
+   <!-- Execute Script Repo Action -->
+   <config evaluator="string-compare" condition="script">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="script-ref" />
+            </field-visibility>
+            <appearance>
+               <field id="script-ref" label-id="script.field.script-ref"/>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+  <!-- CLOUD-796 / ALF-16226 - for custom content type (after being sync'ed) - is there a better way -->
+   <config evaluator="aspect" condition="sync:syncSetMemberNode">
+      <forms>
+         <form>
+            <field-visibility>
+                <hide id="sync:otherNodeRefString" />
+                <hide id="sync:remoteModified" />
+                <hide id="sync:remoteModifier" />
+                <hide id="sync:syncRequested" />
+                <hide id="sync:directSync" />
+                <hide id="sync:syncOwner" />
+                <hide id="sync:syncTime" />
+                <hide id="sync:syncLock" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+   <config evaluator="aspect" condition="sync:synced">
+      <forms>
+         <form>
+            <field-visibility>
+                <hide id="sync:thisVersionLabel" />
+                <hide id="sync:remoteVersionLabel" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+   <config evaluator="aspect" condition="sync:failed">
+      <forms>
+         <form>
+            <field-visibility>
+                <hide id="sync:errorCode" />
+                <hide id="sync:errorDetails" />
+                <hide id="sync:errorTime" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+   <config evaluator="aspect" condition="sync:transientError">
+      <forms>
+         <form>
+            <field-visibility>
+                <hide id="sync:transientErrorCode" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="aspect" condition="dp:restrictable">
+      <forms>
+         <form>
+            <field-visibility>
+                <show id="dp:offlineExpiresAfter" />
+            </field-visibility>
+            <appearance>
+                <field id="dp:offlineExpiresAfter">
+                    <control template="/org/alfresco/components/form/controls/distributionpolicies/offlinetimeout.ftl" />
+                </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+</alfresco-config>

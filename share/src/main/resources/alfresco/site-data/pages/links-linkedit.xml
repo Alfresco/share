@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>links-linkedit</id>
+   <page-type>links-linkedit</page-type>
+   <title>Links: create or edit link</title>
+   <title-id>page.linkCreateEdit.title</title-id>
+   <description>Displays a form to create or edit link</description>
+   <description-id>page.linkCreateEdit.description</description-id>
+   <template-instance>links-linkedit</template-instance>
+   <authentication>user</authentication>
+</page>

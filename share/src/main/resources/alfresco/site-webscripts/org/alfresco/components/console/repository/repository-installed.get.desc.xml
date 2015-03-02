@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Repository Installed Tool</shortname>
+  <description>Administration Console - Repository Installed Tool</description>
+  <url>/components/console/repository-installed</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>path-navigation</shortname>
+  <description>Path navigation component used in the folder details page</description>
+  <url>/components/folder-details/path</url>
+</webscript>

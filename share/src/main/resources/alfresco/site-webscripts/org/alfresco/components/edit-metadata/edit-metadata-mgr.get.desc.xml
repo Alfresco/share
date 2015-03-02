@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>edit-metadata-mgr</shortname>
+  <description>Edit Properties Manager Component</description>
+  <url>/components/edit-metadata/edit-metadata-mgr</url>
+</webscript>

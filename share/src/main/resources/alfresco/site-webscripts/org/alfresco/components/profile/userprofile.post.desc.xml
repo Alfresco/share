@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>User Profile Edit</shortname>
+  <description>User Profile Edit POST form submission processing</description>
+  <format default="json" />
+  <url>/components/profile/userprofile</url>
+  <authentication>user</authentication>
+</webscript>

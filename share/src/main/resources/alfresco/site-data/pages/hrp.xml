@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>hrp</id>
+   <template-instance>share-hybrid-remote-template</template-instance>
+   <authentication>user</authentication>
+</page>

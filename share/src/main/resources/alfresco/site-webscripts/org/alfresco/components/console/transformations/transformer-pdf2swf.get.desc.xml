@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Transformer pdf2swf Tool</shortname>
+  <description>Administration Console - Transformer pdf2swf Tool</description>
+  <url>/components/console/transformer-pdf2swf</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

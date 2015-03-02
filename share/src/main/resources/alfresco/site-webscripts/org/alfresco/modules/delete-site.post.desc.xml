@@ -1,0 +1,10 @@
+<webscript>
+   <shortname>Delete Site Module Repository Call</shortname>
+   <description>
+      Will redirect post to the repo to delete the site in the repo
+      and then remove the AVM sitestore model object artifacts.
+   </description>
+   <format default="json"/>
+   <url>/modules/delete-site</url>
+   <authentication>user</authentication>
+</webscript>

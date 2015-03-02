@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>pending-invites</id>
+   <page-type>pending-invites</page-type>
+   <title>Pending Invites</title>
+   <title-id>page.pendingInvites.title</title-id>
+   <description>Pending Invites</description>
+   <description-id>page.pendingInvites.description</description-id>
+   <template-instance>pending-invites</template-instance>
+   <authentication>user</authentication>
+</page>

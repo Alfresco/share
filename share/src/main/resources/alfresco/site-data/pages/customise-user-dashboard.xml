@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>customise-user-dashboard</id>      
+   <title>Customize User Dashboard</title>
+   <title-id>page.customiseUserDashboard.title</title-id>
+   <description>Customize dashboard layout and dashlets for a user dashboard</description>
+   <description-id>page.customiseUserDashboard.description</description-id>
+   <template-instance>customise-user-dashboard</template-instance>
+   <authentication>user</authentication>
+</page>

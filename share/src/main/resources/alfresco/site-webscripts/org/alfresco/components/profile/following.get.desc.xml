@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Following</shortname>
+  <description>Lists people that the user follows</description>
+  <url>/components/profile/following</url>
+</webscript>

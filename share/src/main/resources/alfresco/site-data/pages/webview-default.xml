@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Default webview page</title>
+   <title-id>page.defaultWebView.title</title-id>
+   <description>Displays default text for a webview dashlet</description>
+   <description-id>page.defaultWebView.description</description-id>
+   <template-instance>webview-default</template-instance>
+   <authentication>user</authentication>
+</page>

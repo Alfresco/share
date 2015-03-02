@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/my-workflows</template-type>
+   <components>
+
+      <!-- All Filter -->
+      <component>
+         <region-id>all-filter</region-id>
+         <url>/components/workflow/filter/all</url>
+         <properties>
+            <mode>workflows</mode>
+         </properties>
+      </component>
+
+      <!-- Due Filter -->
+      <component>
+         <region-id>due-filter</region-id>
+         <url>/components/workflow/filter/due</url>
+      </component>
+
+      <!-- Started Filter -->
+      <component>
+         <region-id>started-filter</region-id>
+         <url>/components/workflow/filter/started</url>
+      </component>
+
+      <!-- Priority Filter -->
+      <component>
+         <region-id>priority-filter</region-id>
+         <url>/components/workflow/filter/priority</url>
+      </component>
+
+      <!-- Workflow Type Filter -->
+      <component>
+         <region-id>workflow-type-filter</region-id>
+         <url>/components/workflow/filter/workflow-type</url>
+      </component>
+
+      <!-- Toolbar -->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/workflow/workflow-list-toolbar</url>
+      </component>
+
+      <!-- Workflo List -->
+      <component>
+         <region-id>list</region-id>
+         <url>/components/workflow/workflow-list</url>
+      </component>
+
+   </components>
+</template-instance>

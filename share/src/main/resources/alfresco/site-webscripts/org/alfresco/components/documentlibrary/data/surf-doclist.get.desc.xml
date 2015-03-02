@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>surf-doclist</shortname>
+  <description>Web Tier Document List Component - doclist data webscript endpoint</description>
+  <url>/components/documentlibrary/data/{webscript}/{params}</url>
+  <url>/components/documentlibrary/data/site/{site}/{webscript}/{params}</url>
+  <format default="json">argument</format>
+</webscript>

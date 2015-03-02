@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Sites list for a User</title>
+   <title-id>page.userSites.title</title-id>
+   <description>Lists sites that a user belongs to</description>
+   <description-id>page.userSites.description</description-id>
+   <template-instance>user-sites</template-instance>
+   <authentication>user</authentication>
+</page>

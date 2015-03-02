@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>wikipage</shortname>
+  <description>Wiki - Page of a specific version</description>
+  <url>/components/wiki/version/{siteId}/{pageTitle}/{versionId}</url>
+  <format default="mediawiki">argument</format>
+</webscript>

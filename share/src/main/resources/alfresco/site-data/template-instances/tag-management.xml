@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/tag-management</template-type>
+   <components>
+      <component>
+         <region-id>tag-management</region-id>
+         <url>/components/admin/tag-management</url>
+      </component>
+   </components>
+</template-instance>

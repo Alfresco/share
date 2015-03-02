@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Manage Sites Page</shortname>
+  <description>This WebScript defines the Manage Sites page - it should be accessible to Admins and Site Admins only and Network Admins on the Cloud</description>
+  <family>admin-console</family>
+  <family>sites-console</family>
+  <family>cloud-console</family>
+  <url>/components/console/manage-sites</url>
+</webscript>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>discussions-topicview</id>
+   <page-type>discussions-topicview</page-type>
+   <title>Discussions: display topic detail view</title>
+   <title-id>page.discussionsTopicView.title</title-id>
+   <description>Displays the topic detail view</description>
+   <description-id>page.discussionsTopicView.description</description-id>
+   <template-instance>discussions-topicview</template-instance>
+   <authentication>user</authentication>
+</page>

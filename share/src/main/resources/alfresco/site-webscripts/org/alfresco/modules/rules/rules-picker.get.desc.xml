@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>rules-picker</shortname>
+  <description>Rules Picker module</description>
+  <url>/modules/rules/rules-picker</url>
+</webscript>

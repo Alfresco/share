@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>WebView Config post</shortname>
+  <description>Configuration dialog for WebView dashlet</description>
+  <url>/modules/webview/config/{componentId}</url>
+  <format default="json">argument</format>
+  <authentication>user</authentication>
+</webscript>

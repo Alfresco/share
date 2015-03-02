@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>folder-tags-actions</shortname>
+  <description>Folder Tag Component</description>
+  <url>/components/folder-details/folder-tags</url>
+</webscript>

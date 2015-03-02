@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Linked Rules</shortname>
+  <description>Displays information about the source folder from where the rules are linked</description>
+  <url>/components/rules/rules-linked</url>
+</webscript>

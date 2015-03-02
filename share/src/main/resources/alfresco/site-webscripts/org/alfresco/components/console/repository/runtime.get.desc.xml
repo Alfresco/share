@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Admin Console Runtime Tool</shortname>
+  <description>Administration Console - Runtime Tool</description>
+  <url>/components/console/runtime</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:ENTERPRISE</family>
+</webscript>

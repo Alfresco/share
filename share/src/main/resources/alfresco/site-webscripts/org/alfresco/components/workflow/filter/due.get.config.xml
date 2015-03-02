@@ -1,0 +1,9 @@
+<config>
+   <filters>
+      <filter id="due" data="today" label="link.today"/>
+      <filter id="due" data="tomorrow" label="link.tomorrow" />
+      <filter id="due" data="next7Days" label="link.next7Days" />
+      <filter id="due" data="overdue" label="link.overdue" />
+      <filter id="due" data="noDate" label="link.noDate" />
+   </filters>
+</config>

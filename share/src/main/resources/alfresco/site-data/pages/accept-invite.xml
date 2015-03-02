@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Accept invitation</title>
+   <title-id>page.acceptInvite.title</title-id>
+   <description>Accept invitation page. Loading the page will trigger the site invitation to be accepted and enables the account of the user if still disabled</description>
+   <description-id>page.acceptInvite.description</description-id>
+   <template-instance>accept-invite</template-instance>
+   <authentication>none</authentication>
+</page>

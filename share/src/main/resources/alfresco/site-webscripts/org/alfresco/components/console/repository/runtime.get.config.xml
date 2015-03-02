@@ -1,0 +1,8 @@
+<config>
+   <title>tool.runtime.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Name=Runtime</itemId>
+   </form>
+   <editable>false</editable>
+</config>

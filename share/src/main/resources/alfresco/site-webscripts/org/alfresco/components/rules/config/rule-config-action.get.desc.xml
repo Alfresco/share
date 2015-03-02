@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Rule Config Action</shortname>
+  <description>Rule Config for Rules actions</description>
+  <url>/components/rules/config/action</url>
+</webscript>

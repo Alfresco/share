@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<presets>
+   <!-- Well known preset used to generate the default Collaboration Site dashboard -->
+   <preset id="site-dashboard">
+      <components>         
+         <!-- title -->
+         <component>
+            <scope>page</scope>
+            <region-id>title</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/title/collaboration-title</url>
+         </component>
+         <!-- navigation -->
+         <component>
+            <scope>page</scope>
+            <region-id>navigation</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/navigation/collaboration-navigation</url>
+         </component>
+         <!-- dashboard components -->
+         <component>
+            <scope>page</scope>
+            <region-id>component-1-1</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/colleagues</url>
+            <properties>
+               <height>504</height>
+            </properties>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-2-1</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/docsummary</url>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-2-2</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/activityfeed</url>
+         </component>
+      </components>
+      <pages>
+         <page id="site/${siteid}/dashboard">
+            <title>Collaboration Site Dashboard</title>
+            <title-id>page.siteDashboard.title</title-id>
+            <description>Collaboration site's dashboard page</description>
+            <description-id>page.siteDashboard.description</description-id>
+            <template-instance>dashboard-2-columns-wide-right</template-instance>
+            <authentication>user</authentication>
+            <properties>
+               <sitePages>[{"pageId":"documentlibrary"}]</sitePages>
+            </properties>
+         </page>
+      </pages>
+   </preset>
+   
+   <!-- Well known preset used to generate the default User dashboard -->
+   <preset id="user-dashboard">
+      <components>
+         <!-- title -->
+         <component>
+            <scope>page</scope>
+            <region-id>title</region-id>
+            <source-id>user/${userid}/dashboard</source-id>
+            <url>/components/title/user-dashboard-title</url>
+         </component>
+         <!-- dashboard components -->
+         <component>
+            <scope>page</scope>
+            <region-id>full-width-dashlet</region-id>
+            <source-id>user/${userid}/dashboard</source-id>
+            <url>/components/dashlets/dynamic-welcome</url>
+            <properties>
+               <dashboardType>user</dashboardType>
+            </properties>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-1-1</region-id>
+            <source-id>user/${userid}/dashboard</source-id>
+            <url>/components/dashlets/my-sites</url>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-1-2</region-id>
+            <source-id>user/${userid}/dashboard</source-id>
+            <url>/components/dashlets/my-tasks</url>
+         </component>
+         <component>
+             <scope>page</scope>
+             <region-id>component-2-1</region-id>
+             <source-id>user/${userid}/dashboard</source-id>
+             <url>/components/dashlets/my-activities</url>
+         </component>
+         <component>
+             <scope>page</scope>
+             <region-id>component-2-2</region-id>
+             <source-id>user/${userid}/dashboard</source-id>
+             <url>/components/dashlets/my-documents</url>
+             <properties>
+                <height>240</height>
+             </properties>
+         </component>
+      </components>
+      <pages>
+         <page id="user/${userid}/dashboard">
+            <title>User Dashboard</title>
+            <title-id>page.userDashboard.title</title-id>
+            <description>Users dashboard page</description>
+            <description-id>page.userDashboard.description</description-id>
+            <template-instance>dashboard-2-columns-wide-right</template-instance>
+            <authentication>user</authentication>
+         </page>
+      </pages>
+   </preset>
+
+   <!-- Well known preset used to generate the default RM Site dashboard -->
+   <preset id="rm-site-dashboard">
+      <components>
+         <!-- title -->
+         <component>
+            <scope>page</scope>
+            <region-id>title</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/title/collaboration-title</url>
+         </component>
+         <!-- navigation -->
+         <component>
+            <scope>page</scope>
+            <region-id>navigation</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/navigation/collaboration-navigation</url>
+         </component>
+         <!-- dashboard components -->
+         <component>
+            <scope>page</scope>
+            <region-id>component-1-1</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/colleagues</url>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-2-1</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/docsummary</url>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-2-2</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/activityfeed</url>
+         </component>
+      </components>
+      <pages>
+         <page id="site/${siteid}/dashboard">
+            <title>Records Management Site Dashboard</title>
+            <title-id>page.rmSiteDashboard.title</title-id>
+            <description>Records Management site's dashboard page</description>
+            <description-id>page.rmSiteDashboard.description</description-id>
+            <template-instance>dashboard-2-columns-wide-right</template-instance>
+            <authentication>user</authentication>
+            <properties>
+               <sitePages>[{"pageId":"documentlibrary"}, {"pageId":"rmsearch"}]</sitePages>
+               <pageMetadata>{"documentlibrary":{"titleId":"page.rmDocumentLibrary.title", "descriptionId":"page.rmDocumentLibrary.description", "type":"dod5015"}}</pageMetadata>
+            </properties>
+         </page>
+      </pages>
+   </preset>
+
+   <!-- Well known preset used to generate the Sharepoint protocol integration Site -->
+   <preset id="document-workspace">
+      <components>
+         <!-- title -->
+         <component>
+            <scope>page</scope>
+            <region-id>title</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/title/collaboration-title</url>
+         </component>
+         <!-- navigation -->
+         <component>
+            <scope>page</scope>
+            <region-id>navigation</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/navigation/collaboration-navigation</url>
+         </component>
+         <!-- dashboard components -->
+         <component>
+            <scope>page</scope>
+            <region-id>component-1-1</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/colleagues</url>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-2-1</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/docsummary</url>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-2-2</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/activityfeed</url>
+         </component>
+      </components>
+      <pages>
+         <page id="site/${siteid}/dashboard">
+            <title>Document Workspace Dashboard</title>
+            <title-id>page.workspace.title</title-id>
+            <description>Document Workspace dashboard page</description>
+            <description-id>page.workspace.description</description-id>
+            <template-instance>dashboard-2-columns-wide-left</template-instance>
+            <authentication>user</authentication>
+            <properties>
+               <sitePages>[{"pageId":"documentlibrary"}, {"pageId":"links"}]</sitePages>
+            </properties>
+         </page>
+      </pages>
+   </preset>
+
+   <!-- Well known preset used to generate the Sharepoint protocol integration meeting Site -->
+   <preset id="meeting-workspace">
+      <components>
+         <!-- title -->
+         <component>
+            <scope>page</scope>
+            <region-id>title</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/title/collaboration-title</url>
+         </component>
+         <!-- navigation -->
+         <component>
+            <scope>page</scope>
+            <region-id>navigation</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/navigation/collaboration-navigation</url>
+         </component>
+         <!-- dashboard components -->
+         <component>
+            <scope>page</scope>
+            <region-id>component-1-1</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/colleagues</url>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-2-1</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/docsummary</url>
+         </component>
+         <component>
+            <scope>page</scope>
+            <region-id>component-2-2</region-id>
+            <source-id>site/${siteid}/dashboard</source-id>
+            <url>/components/dashlets/activityfeed</url>
+         </component>
+      </components>
+      <pages>
+         <page id="site/${siteid}/dashboard">
+            <title>Meeting Workspace Dashboard</title>
+            <title-id>page.meeting_workspace.title</title-id>
+            <description>Meeting Workspace dashboard page</description>
+            <description-id>page.meeting_workspace.description</description-id>
+            <template-instance>dashboard-2-columns-wide-left</template-instance>
+            <authentication>user</authentication>
+            <properties>
+               <sitePages>[{"pageId":"documentlibrary"}, {"pageId":"calendar"}]</sitePages>
+            </properties>
+         </page>
+      </pages>
+   </preset>
+
+
+</presets>

@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Share Full Page</shortname>
+  <description>This WebScript is used by the "share-template-type" and is used to create the template for rendering an entire page of Dojo-based widgets</description>
+  <family>Share</family>
+  <url>/share/full-page/template</url>
+</webscript>

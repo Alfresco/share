@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>cloudUrl</shortname>
+   <description>Wraps shareUrl webscript and converts local node to remote node</description>
+   <url>/cloud/cloudUrl</url>
+   <format default="json">argument</format>
+</webscript>

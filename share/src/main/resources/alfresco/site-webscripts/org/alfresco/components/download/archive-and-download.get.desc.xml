@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Archive and download nodes</shortname>
+  <description>Handles the UI for the creation and subsequent download of an archive of nodes</description>
+  <url>/components/download/archive</url>
+</webscript>

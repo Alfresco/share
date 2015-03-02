@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>My Documents</shortname>
+   <description>Dashlet to list documents associated with the current user</description>
+   <family>user-dashlet</family>
+   <url>/components/dashlets/my-documents</url>
+</webscript>

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>eventinfo</shortname>
+  <description>Calendar: Event Information Panel</description>
+  <url>/components/calendar/info</url>
+</webscript>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>add-groups</id>
+   <page-type>add-groups</page-type>
+   <title>Add Groups</title>
+   <title-id>page.addGroups.title</title-id>
+   <description>Site Groups</description>
+   <description-id>page.addGroups.description</description-id>
+   <template-instance>add-groups</template-instance>
+   <authentication>user</authentication>
+</page>

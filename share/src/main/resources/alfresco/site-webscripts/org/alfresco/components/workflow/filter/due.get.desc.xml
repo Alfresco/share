@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Due Filter</shortname>
+  <description>Due filter</description>
+  <url>/components/workflow/filter/due</url>
+</webscript>

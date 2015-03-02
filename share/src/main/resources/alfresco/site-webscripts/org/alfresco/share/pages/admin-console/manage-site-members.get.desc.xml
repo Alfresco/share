@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Manage Sites Members Page</shortname>
+  <description>This WebScript defines the Manage Site Members page - it should be accessible to Admins only</description>
+  <family>Share</family>
+  <url>/manage-site-members</url>
+</webscript>

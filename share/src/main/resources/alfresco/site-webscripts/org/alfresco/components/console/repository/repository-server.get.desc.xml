@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Repository Server Tool</shortname>
+  <description>Administration Console - Repository Server Tool</description>
+  <url>/components/console/repository-server</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

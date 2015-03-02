@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>task-details-actions</shortname>
+  <description>Displays task details edit action</description>
+  <url>/components/workflow/task-details-actions</url>
+</webscript>

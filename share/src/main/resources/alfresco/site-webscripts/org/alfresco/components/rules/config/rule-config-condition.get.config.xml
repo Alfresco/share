@@ -1,0 +1,156 @@
+<rule-config type="condition">
+
+   <!--
+      The Javascript class that will handle the config.
+      Override this class if i.e. new customisations needs to be added
+   -->
+   <component>Alfresco.RuleConfigCondition</component>
+
+   <config-definitions webscript="/api/actionconditiondefinitions">
+      <!--
+         Action Condition Definitions that we don't want displayed in the menu
+      -->
+      <remove>
+         <condition name="composite-condition"/>
+         <condition name="compare-text-property"/>
+         <condition name="compare-integer-property"/>
+         <condition name="compare-date-property"/>
+      </remove>
+   </config-definitions>
+
+   <constraints webscript="/api/actionConstraints"/>
+   
+   <menu>
+      <group>
+         <condition name="no-condition"/>
+      </group>
+      <group>
+         <property type="d:text" name="*"/>
+      </group>
+      <group>
+         <property dataType="d:int" name="*"/>
+         <property dataType="d:long" name="*"/>
+         <property dataType="d:double" name="*"/>
+         <property dataType="d:float" name="*"/>         
+      </group>
+      <group>
+         <condition name="compare-mime-type"/>
+      </group>
+      <group>
+         <property dataType="d:date" name="*"/>
+         <property dataType="d:datetime" name="*"/>
+      </group>
+      <group>
+         <property dataType="d:text" name="cm:creator"/>
+         <property dataType="d:text" name="cm:modifier"/>
+         <property dataType="d:text" name="cm:author"/>
+      </group>
+      <group>
+         <property name="*"/>
+      </group>
+      <group>
+         <condition name="has-tag"/>
+         <condition name="in-category"/>
+      </group>
+      <group>
+         <condition name="is-subtype"/>
+      </group>
+      <group>
+         <condition name="has-aspect"/>
+      </group>
+      <group>
+         <condition name="*"/>
+      </group>
+      <group>
+         <item id="show-more"/>
+      </group>
+   </menu>
+
+   <defaults>
+      <property>cm:name</property>
+      <property>cm:title</property>
+      <property>cm:description</property>
+      <property>cm:created</property>
+      <property>cm:creator</property>
+      <property>cm:modified</property>
+      <property>cm:modifier</property>
+      <property>cm:author</property>
+      <property>cm:content:MIME_TYPE</property>
+      <property>cm:content:SIZE</property>
+      <property>cm:content:ENCODING</property>
+   </defaults>
+
+   <property-evaluators>
+      <property type="d:any">
+         <evaluator name="EQUALS"/>
+      </property>
+      <property type="d:text">
+         <evaluator name="EQUALS"/>
+         <evaluator name="CONTAINS"/>
+         <evaluator name="BEGINS"/>
+         <evaluator name="ENDS"/>
+      </property>
+      <property type="d:mltext">
+         <evaluator name="EQUALS"/>
+         <evaluator name="CONTAINS"/>
+         <evaluator name="BEGINS"/>
+         <evaluator name="ENDS"/>
+      </property>
+      <property type="d:date">
+         <evaluator name="EQUALS"/>
+         <evaluator name="GREATER_THAN"/>
+         <evaluator name="GREATER_THAN_EQUAL"/>
+         <evaluator name="LESS_THAN"/>
+         <evaluator name="LESS_THAN_EQUAL"/>
+      </property>
+      <property type="d:datetime">
+         <evaluator name="EQUALS"/>
+         <evaluator name="GREATER_THAN"/>
+         <evaluator name="GREATER_THAN_EQUAL"/>
+         <evaluator name="LESS_THAN"/>
+         <evaluator name="LESS_THAN_EQUAL"/>
+      </property>
+      <property type="d:int">
+         <evaluator name="EQUALS"/>
+         <evaluator name="GREATER_THAN"/>
+         <evaluator name="GREATER_THAN_EQUAL"/>
+         <evaluator name="LESS_THAN"/>
+         <evaluator name="LESS_THAN_EQUAL"/>
+      </property>
+      <property type="d:long">
+         <evaluator name="EQUALS"/>
+         <evaluator name="GREATER_THAN"/>
+         <evaluator name="GREATER_THAN_EQUAL"/>
+         <evaluator name="LESS_THAN"/>
+         <evaluator name="LESS_THAN_EQUAL"/>
+      </property>
+      <property type="d:float">
+         <evaluator name="EQUALS"/>
+         <evaluator name="GREATER_THAN"/>
+         <evaluator name="GREATER_THAN_EQUAL"/>
+         <evaluator name="LESS_THAN"/>
+         <evaluator name="LESS_THAN_EQUAL"/>
+      </property>
+      <property type="d:double">
+         <evaluator name="EQUALS"/>
+         <evaluator name="GREATER_THAN"/>
+         <evaluator name="GREATER_THAN_EQUAL"/>
+         <evaluator name="LESS_THAN"/>
+         <evaluator name="LESS_THAN_EQUAL"/>
+      </property>
+      <property type="d:childassocref">
+         <evaluator name="EQUALS"/>
+      </property>
+   </property-evaluators>
+
+   <customise>
+      <property name="compare-property-value">ComparePropertyValue</property>
+      <property name="compare-mime-type">CompareMimeType</property>
+      <condition name="is-subtype">IsSubType</condition>
+      <condition name="has-aspect">HasAspect</condition>
+      <condition name="has-tag">HasTag</condition>
+      <condition name="in-category">InCategory</condition>
+      <item id="show-more">ShowMore</item>
+   </customise>
+
+</rule-config>

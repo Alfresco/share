@@ -1,0 +1,6 @@
+<toolbar>
+   <actionSet>
+      <action type="action-link" id="onActionDuplicate" permission="create" label="menu.selected-items.duplicate" />
+      <action type="action-link" id="onActionDelete" permission="delete" label="menu.selected-items.delete" />
+   </actionSet>
+</toolbar>

@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Blog posts</shortname>
+  <description>Get all posts for a blog using same filter and params as in
+     repo webscript for url /api/blog/site/{site}/{container}/posts</description>
+  <url>/components/blog/site/{site}/{container}/posts</url>
+  <url>/components/blog/site/{site}/{container}/posts/{filter}</url>
+  <format default="json">argument</format>
+</webscript>

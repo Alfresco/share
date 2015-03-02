@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>All Filter</shortname>
+  <description>All filter that deselects all other filters</description>
+  <url>/components/workflow/filter/all</url>
+</webscript>
