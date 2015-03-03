@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>Blog</shortname>
-  <description>Get a blog</description>
-  <url>/components/blog/post/site/{site}/{container}/{path}</url>
-  <format default="json">argument</format>
-</webscript>

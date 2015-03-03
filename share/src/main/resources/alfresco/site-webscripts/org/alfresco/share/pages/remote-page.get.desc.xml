@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>Remote Page</shortname>
-  <description>Retrieves a remotely stored page definition by name</description>
-  <family>Share</family>
-  <url>/remote-page</url>
-</webscript>

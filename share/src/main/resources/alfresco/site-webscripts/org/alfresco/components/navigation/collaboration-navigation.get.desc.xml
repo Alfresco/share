@@ -1,5 +1,0 @@
-<webscript>
-  <shortname>Collaboration Navigation</shortname>
-  <description>Navigation component used in the collaboration site</description>
-  <url>/components/navigation/collaboration-navigation</url>
-</webscript>

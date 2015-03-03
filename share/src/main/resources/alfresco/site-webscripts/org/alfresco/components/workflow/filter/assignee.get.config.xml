@@ -1,6 +1,0 @@
-<config>
-   <filters>
-      <filter id="assignee" data="me" label="link.me"/>
-      <filter id="assignee" data="unassigned" label="link.unassigned" />
-   </filters>
-</config>

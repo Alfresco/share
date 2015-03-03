@@ -1,5 +1,0 @@
-<webscript>
-  <shortname>Data Loader</shortname>
-  <description>Loads common data and fires it in an event that so it can be reused multiple components on the page</description>
-  <url>/components/data/data-loader</url>
-</webscript>

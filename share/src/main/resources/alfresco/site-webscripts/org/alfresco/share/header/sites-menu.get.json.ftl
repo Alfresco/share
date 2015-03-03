@@ -1,1 +1,0 @@
-${jsonUtils.toJSONString(sitesMenu)} 

@@ -1,7 +1,0 @@
-<filters>
-
-   <filter id="all" label="link.all" />
-   <filter id="user" label="link.user" />
-   <filter id="recent" label="link.recent" />
-
-</filters>
