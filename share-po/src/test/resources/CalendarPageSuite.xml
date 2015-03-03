@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Calendar Page Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">
+    <test name="Calendar Page Test">
+        <classes>
+            <class name="org.alfresco.po.share.site.calendar.CalendarPageTest"/>
+        </classes>
+    </test>
+</suite>
