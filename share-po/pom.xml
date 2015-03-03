@@ -4,9 +4,8 @@
     <artifactId>share-po</artifactId>
     <parent>
         <groupId>org.alfresco</groupId>
-        <artifactId>alfresco-parent</artifactId>
+        <artifactId>alfresco-share-parent</artifactId>
         <version>5.1-BF-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -99,18 +98,6 @@
     
     <!-- Package Application into a standalone  -->
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-        <testResources>
-            <testResource>
-                 <directory>src/test/resources</directory>
-            </testResource>
-        </testResources> 
         <plugins>
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
