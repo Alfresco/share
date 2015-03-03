@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Customize Site</title>
+   <title-id>page.customiseSite.title</title-id>
+   <description>Add and remove pages from a site</description>
+   <description-id>page.customiseSite.description</description-id>
+   <template-instance>customise-site</template-instance>
+   <authentication>user</authentication>
+</page>

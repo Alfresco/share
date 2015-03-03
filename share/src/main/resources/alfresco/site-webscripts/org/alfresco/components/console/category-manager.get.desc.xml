@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Admin Console Category Manager</shortname>
+  <description>Administration Console - Category Manager</description>
+  <url>/components/console/category-manager</url>
+  <family>admin-console</family>
+</webscript>

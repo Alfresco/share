@@ -1,0 +1,133 @@
+.group-finder
+{
+   color: #000;
+   margin: 1em 0 0;
+}
+
+.group-finder.list
+{
+   margin-bottom: 10px;
+}
+
+.group-finder .finder-wrapper
+{
+   border: 1px solid #c0c0c0;
+   margin-top: 10px;
+}
+
+.group-finder .results table
+{
+   width: 100%;
+   border: none;
+}
+
+.group-finder .results table thead
+{
+   display: none;
+}
+
+.group-finder .yui-dt td
+{
+   border-bottom: 1px dashed #D7D7D7;
+   border-right: medium none;
+}
+
+.group-finder .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.group-finder tr.yui-dt-odd,
+.group-finder tr.yui-dt-even
+{
+   background-color: #ffffff;
+   cursor: auto;
+}
+
+.group-finder .title
+{
+   color: #008000;
+   font-size: 108%;
+}
+
+.group-finder .search-bar
+{
+   border-bottom: 1px dashed #c0c0c0;
+   height: 2em;
+   padding: 0.5em;
+}
+
+.group-finder .search-bar div
+{
+   float: left;
+}
+
+.group-finder .search-text
+{
+   padding: 0.1em 1em 0.5em 0.5em;
+}
+
+.group-finder .search-text input
+{
+   width: 20em;
+}
+
+.group-finder .group-search-button button
+{
+   background: transparent url(../images/search-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.group-finder .results
+{
+   clear: both;
+   overflow: auto;
+   position: relative !important;
+}
+
+.group-finder .detail
+{
+   line-height: 1.4em;
+}
+
+.group-finder h3.itemname
+{
+   padding-bottom: 0.2em;
+}
+
+.group-finder .detail span
+{
+   color: #656565;
+}
+
+.group-finder .detail .item
+{
+   padding-right: 1em;
+}
+
+/* Compact Mode */
+.group-finder.compact div.title
+{
+   display: none;
+}
+
+.group-finder.compact .search-text input
+{
+   width: 14em;
+   padding: 3px;
+}
+
+.group-finder.compact .results
+{
+   height: 160px;
+}
+
+.group-finder.compact img.avatar
+{
+   width: 32px;
+}
+
+.group-finder.compact div.detail
+{
+   display: inline;
+}

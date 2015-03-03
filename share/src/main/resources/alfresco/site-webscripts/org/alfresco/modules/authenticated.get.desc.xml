@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Authenticated</shortname>
+   <description>Test if the current user is authenticated - i.e. if the user Session is valid.</description>
+   <url>/modules/authenticated</url>
+   <format default="json">argument</format>
+</webscript>

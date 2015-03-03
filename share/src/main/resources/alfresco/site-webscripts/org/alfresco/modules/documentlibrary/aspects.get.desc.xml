@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>aspects</shortname>
+  <description>Document Aspects module primarily for Document Library</description>
+  <url>/modules/documentlibrary/aspects</url>
+</webscript>

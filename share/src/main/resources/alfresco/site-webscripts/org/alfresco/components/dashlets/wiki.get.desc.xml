@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Wiki</shortname>
+   <description>Display a wiki page, selected by the user.</description>
+   <family>site-dashlet</family>
+   <url>/components/dashlets/wiki</url>
+</webscript>

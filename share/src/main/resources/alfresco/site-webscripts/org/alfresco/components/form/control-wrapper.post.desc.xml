@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Form Control Wrapper Component</shortname>
+  <description>Component that renders a Forms Control without it having to live within a Form</description>
+  <url>/components/form/control-wrapper</url>
+</webscript>

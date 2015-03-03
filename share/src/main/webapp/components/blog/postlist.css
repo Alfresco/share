@@ -1,0 +1,312 @@
+.postlist-infobar
+{
+   border-bottom: thin solid #C6C6C6;
+   height: 3em;
+   margin: 0 -10px;
+   padding-right: 10px;
+   padding-top: 0.5em;
+   width: auto;
+}
+
+.postlist-infobar div.hideable
+{
+   float: left;
+}
+
+.postlist-infobar .hidden
+{
+   display: none;
+}
+
+.postlist-infobar .listTitle
+{
+   font-weight: normal;
+   font-size: 123.1%;
+   color: #333333;
+   padding: 5px 14px;
+}
+
+.postlist-infobar .paginator
+{
+   float: left;
+   text-align: center;
+}
+
+.postlist-infobar .simple-view
+{
+   text-align: right;
+}
+
+/* DataTable css */
+
+.blog-postlist
+{
+   clear: left;
+   margin: 0 -8px;
+}
+
+.blog-postlist table
+{
+   width: 100%;
+   border: none !important;
+}
+
+.blog-postlist table thead
+{
+   display: none;
+}
+
+.blog-postlist table .yui-dt-empty
+{
+   background-color: transparent;
+}
+
+.blog-postlist table .yui-dt-liner
+{
+   padding: 0px;
+}
+
+.blog-postlist .yui-dt-error
+{
+   background: red;
+   color: white;
+   font-weight: bold;
+   margin: 1em auto;
+   padding: 1em;
+}
+
+.blog-postlist table .yui-dt-empty .yui-dt-liner,
+.blog-postlist table .yui-dt-error .yui-dt-liner
+{
+   padding: 4px 10px;
+}
+
+
+.blog-postlist table tr.yui-dt-odd
+{
+   background-color: #fff;
+}
+
+.blog-postlist table td
+{
+   border: none !important;
+}
+
+.blog-postlist .row-separator
+{
+   border-bottom: 1px solid #c6c6c6;
+}
+
+.blog-postlist tr.yui-dt-odd .node
+{
+   border-color: #EDF5FF;
+}
+
+.alfresco-share .sticky-wrapper .blog-postlist .content ul,
+.alfresco-share .sticky-wrapper .blog-postlist .content ol
+{
+    padding: 0.5em 0 0.5em 1.3em;
+}
+
+.yuieditor ul li
+{
+   list-style-type: inherit;
+}
+
+.yuieditor ol li
+{
+   list-style-type: inherit;
+}
+
+/* List elements */
+
+.blog-postlist .post
+{
+   padding: 0.25em 1em;
+}
+
+.nodeEdit
+{
+   float: right;
+   margin: 10px 0 0 15px;
+   position: relative;
+   width: 11em;
+}
+
+.nodeEdit div, .replyEdit div
+{
+   padding: 2px 0 2px 20px;
+   margin-bottom: 4px;
+}
+
+.blog-postlist .simple .nodeEdit
+{
+   width: 300px;
+   text-align: right;
+   margin: 4px;
+}
+
+.blog-postlist .simple .nodeContent
+{
+   min-height: 2em;
+}
+
+.nodeEdit .action-link
+{
+   font-size: 93%;
+   line-height: 150%;
+   color: #2B6EB5;
+}
+
+.nodeEdit .onViewNode
+{
+   background: url(../images/view-discussion-16.png) no-repeat scroll 0px 0px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onAddReply
+{
+   background: url(../images/reply-to-discussion-16.png) no-repeat scroll 0px 0px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onEditNode,
+.nodeEdit .onEditReply,
+.nodeEdit .onEditComment
+{
+   background: url(../images/edit-discussion-16.png) no-repeat scroll 0px 0px;
+   margin-right: 10px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onEditBlogPost
+{
+   background: url(../images/edit-blog-16.png) no-repeat scroll 0px 0px;
+   margin-right: 10px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onDeleteNode,
+.nodeEdit .onDeleteReply,
+.nodeEdit .onDeleteComment
+{
+   background: url('../images/delete-discussion-16.png') no-repeat scroll 0px 0px;
+   margin-right: 10px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onDeleteBlogPost
+{
+   background: url('../images/delete-blog-16.png') no-repeat scroll 0px 0px;
+   margin-right: 10px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onUpdateExternal
+{
+   background: url(../images/update-external-16.png) no-repeat scroll 0px 0px;
+   margin-right: 10px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onPublishExternal
+{
+   background: url(../images/publish-external-16.png) no-repeat scroll 0px 0px;
+   margin-right: 10px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onUnpublishExternal
+{
+   background: url(../images/unpublish-external-16.png) no-repeat scroll 0px 0px;
+   margin-right: 10px;
+   padding-left: 20px;
+}
+
+.node .published
+{
+   margin: 5px 0 10px 0;
+}
+
+.node .nodeTitle a
+{
+   font-size: 131%;
+   line-height: 130%;
+   color: #2b6eb5;
+}
+
+.node .nodeStatus
+{
+   font-size: 131%;
+   line-height: 130%;
+}
+
+.nodeAttrLabel
+{
+   color: #606060;
+}
+
+.nodeAttrValue
+{
+   line-height: 130%;
+   color: #333333;
+}
+
+.nodeAttrValue a
+{
+   color: #2b6eb5;
+}
+
+.node .userLink
+{
+   font-weight: bold;
+   line-height: 150%;
+   color: #999999;
+}
+
+.node .userLink a
+{
+   color: #2b6eb5;
+}
+
+.nodeContent
+{
+   font-size: 100%;
+   line-height: 150%;
+   margin-right: 11em;
+   min-height: 6.5em;
+   padding-right: 2em;
+}
+
+.nodeFooter
+{
+   background-color: #f8f8f8;
+   border-top: 1px dashed #c6c6c6;
+   border-bottom: 1px solid #c6c6c6;
+   clear: both;
+   padding: 4px;
+}
+
+.nodeFooter .tagLabel
+{
+   background: transparent url(../images/tag-16.png) no-repeat scroll 0 0;
+   padding-left: 20px;
+}
+
+.nodeFooter .separator
+{
+   border-right: 1px dotted #457A9C;
+   margin-right: 10px;
+   padding-left: 10px;
+}
+
+.replyTo
+{
+   background: transparent url(../images/reply-to-discussion-16.png) no-repeat scroll 0 0;
+   padding-left: 20px;
+}
+
+.spacer
+{
+   padding: 0.5em;
+}

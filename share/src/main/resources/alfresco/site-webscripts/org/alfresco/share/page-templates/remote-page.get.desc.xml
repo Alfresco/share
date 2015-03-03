@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Share Remote Page</shortname>
+  <description>This WebScript is used by the "share-remote-template-type" and is used to create the template for remotely defined pages referenced by page name</description>
+  <family>Share</family>
+  <url>/share/remote-page/template</url>
+</webscript>

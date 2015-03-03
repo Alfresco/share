@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/site-members</template-type>
+   <description>Site members page</description>
+   <properties>
+      <pageFamily>site-members</pageFamily>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Members Bar -->
+      <component>
+         <region-id>membersbar</region-id>
+         <url>/components/invite/members-bar</url>
+      </component>
+
+      <!-- Site Member -->
+      <component>
+         <region-id>site-members</region-id>
+         <url>/components/site-members</url>
+         <properties>
+            <minSearchTermLength>0</minSearchTermLength>
+            <setFocus>true</setFocus>
+         </properties>
+      </component>
+
+   </components>
+</template-instance>

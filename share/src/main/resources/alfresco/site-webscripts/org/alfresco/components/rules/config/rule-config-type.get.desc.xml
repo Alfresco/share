@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Rule Config Type</shortname>
+  <description>Rule Config for Rules types</description>
+  <url>/components/rules/config/type</url>
+</webscript>

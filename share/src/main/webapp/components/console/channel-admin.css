@@ -1,0 +1,152 @@
+.channels
+{
+   margin: 16px 10px 10px;
+}
+
+.channels .new-button
+{
+   text-align: right;
+}
+
+.channels .title
+{
+   font-size: 123.1%;
+   font-weight: bold;
+   padding-bottom: 0.5em;
+}
+
+div.channel
+{
+   text-align: center;
+   position: relative; /* Needed to contain inline edit icon which uses absolute positioning */
+}
+
+div.channel .channelName
+{
+   color: #333333;
+	margin-left: -22px;
+	padding: 2px 0 2px 22px;
+}
+
+.channelName:hover
+{
+	background-color:#E4E4E4;
+}
+
+div.channel .channelActions
+{
+   display: block;
+   margin: 0 auto;
+}
+
+div.channel.notAuthorised
+{
+   background: transparent url('images/publishing-failed-status-16.png') no-repeat 38px 2px;
+}
+
+div.channel img
+{
+   display: block;
+   width: 64px;
+   height: 64px;
+   margin: 2px auto;
+}
+
+div.channel .channelActions a
+{
+   font-size: 0.8em;
+   padding: 0 4px;
+}
+
+div.channel .channelActions a.reauth
+{
+   border-right: 1px solid #CACACA;
+   border-left: 1px solid #CACACA;
+}
+
+div.channel .channelActions a.first
+{
+   border-left: 1px solid #CACACA;
+}
+
+div.channellist tr
+{
+   display: block;
+   float: left;
+   width: 180px;
+   margin-left: 25px;
+	min-height: 10em;
+}
+
+div.channellist tr td
+{
+   border: none !important;
+   display: block;
+}
+
+div.channellist td.yui-dt-empty
+{
+   width: 600px;
+}
+
+.newChannelAction img
+{
+   width: 16px;
+   height: 16px;
+}
+
+a.newChannelAction
+{
+   text-decoration: none;
+   background-repeat: no-repeat;
+   background-position: 0 3px;
+   padding-left: 20px;
+   display: block;
+   line-height: 22px;
+}
+
+.newChannelAction span
+{
+   padding-left: 2px;
+}
+
+/* Insitu Editor Styling */
+div.channellist form.insitu-edit input
+{
+   margin-right:0;
+   width: 160px;
+	text-align:center;
+	margin-top:2px;
+}
+
+div.channellist span.insitu-edit
+{
+   margin-top: 0px;
+   left:0;/* Contained by position:relative on div.channel */
+}
+
+.permissions-show {
+	display:none;
+}
+
+div.channels.managePermissions .permissions-hide 
+{
+	display:none;
+}
+
+div.channels.managePermissions .permissions-show 
+{
+   display:block;
+}
+
+.form-container .form-fields
+{
+   padding: 1em 1em 0;
+}
+
+.channels iframe
+{
+   height:1px;
+   width: 1px;
+   border: 0;
+}

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>sharedfiles-tag-filter</shortname>
+  <description>Shared Files Tag Filter Component</description>
+  <url>/components/sharedfiles/tag-filter</url>
+</webscript>

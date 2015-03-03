@@ -1,0 +1,79 @@
+/*
+ * Custom image library plugin for YUI editor
+ *
+ *
+ */
+#gutter1
+{
+   overflow: hidden;
+   text-align: left;
+   visibility: hidden;
+}
+
+#gutter1 .bd
+{
+   background-color: #F2F2F2;
+   border-left: none;
+   height: 95%;
+   overflow: hidden;
+   width: 260px;
+}
+
+#gutter1 ul
+{
+   list-style-type: none;
+}
+
+#gutter1 ul li
+{
+   display: inline;
+   float: left;
+   margin: 0;
+   padding: 0;
+}
+
+#gutter1 img
+{
+   border: 1px dashed #808080;
+   cursor: pointer;
+   height: 50px;
+   margin: 2px 4px;
+   width: 50px;
+}
+
+#image_results
+{
+   height: 90%;
+   margin-left: 2px;
+   overflow: hidden;
+   position: static;
+}
+
+#image_results p
+{
+   padding: 0.5em;
+   margin-bottom: 1em;
+}
+
+#gutter1 .tip
+{
+   display: block;
+   font-size: 85%;
+   margin: 0.5em;
+   padding-left: 23px;
+   position: relative;
+   text-align: left;
+}
+
+#gutter1 .tip span.icon-info
+{
+   background-image: url(css/sprite.png);
+   background-position: -106px -32px;
+   background-position: -84px -32px;
+   display: block;
+   height: 20px;
+   left: 0pt;
+   position: absolute;
+   top: 0pt;
+   width: 20px;
+}

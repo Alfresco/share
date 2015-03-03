@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Admin Console</title>
+   <title-id>page.adminConsole.title</title-id>
+   <description>Administration and Management Console</description>
+   <description-id>page.adminConsole.description</description-id>
+   <template-instance>console</template-instance>
+   <authentication>admin</authentication>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/simple-title</url>
+         <properties>
+            <title>page.adminConsole.title</title>
+         </properties>
+      </component>
+
+      <!-- Tools -->
+      <component>
+         <region-id>tools</region-id>
+         <url>/components/console/tools</url>
+      </component>
+
+   </components>
+</page>

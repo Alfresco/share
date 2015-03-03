@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+    <template-type>org/alfresco/reject-invite</template-type>
+    <components>
+
+       <!-- Reject Invite -->
+       <component>
+          <region-id>reject-invite</region-id>
+          <url>/components/invite/reject-invite</url>
+       </component>
+
+    </components>
+</template-instance>

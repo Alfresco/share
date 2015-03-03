@@ -1,0 +1,45 @@
+
+.blog-toolbar .new-blog button
+{
+   background: transparent url(../images/new-blog-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.blog-toolbar .new-blog .yui-button-disabled button
+{
+   background-image: url(../images/new-blog-16.png);
+}
+
+.blog-toolbar .configure-blog button
+{
+   background: transparent url(../images/configure-blog-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.blog-toolbar .new-blog .yui-button-disabled button
+{
+   background-image: url(../images/configure-blog-16.png);
+}
+
+.blog-toolbar .rss-feed
+{
+   float: right;
+}
+
+.blog-toolbar .rss-feed a
+{
+   background: transparent url(../images/feed-icon-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.blog-toolbar .rss-feed .yui-button-disabled a
+{
+   background-image: url(../images/feed-icon-disabled-16.png);
+}
+
+.blog-toolbar .hide
+{
+   display: none;
+   padding: 0;
+   width: 0;
+}

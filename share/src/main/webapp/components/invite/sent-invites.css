@@ -1,0 +1,141 @@
+.sent-invites
+{
+   margin: 0 1em 1em 1em;
+}
+
+/* general */
+
+.sent-invites .title
+{
+   font-size: 108%;
+   line-height: 2.5em;
+}
+
+.sent-invites .sent-invites-wrapper
+{
+   border: 1px solid #c0c0c0;
+}
+
+/* search bar */
+
+.sent-invites .search-controls
+{
+   border-bottom: 1px dashed #c0c0c0;
+   min-height: 2em;
+   padding: 0.5em;
+}
+
+.sent-invites .search-controls div
+{
+   float: left;
+}
+
+.sent-invites .search-label
+{
+   padding: 0.5em 1em 0.5em 0.5em;
+}
+
+.sent-invites .search-text
+{
+   padding: 0.3em 1em 0.5em 0.5em;
+}
+
+.sent-invites .search-button button
+{
+   background: transparent url(../images/search-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+/* tool bar */
+
+.sent-invites .tool-bar
+{
+   background-color: #f6f6f6;
+   border-bottom: 1px dotted #C0C0C0;
+   padding: 6px;
+}
+
+.sent-invites .tools
+{
+   text-align: right;
+}
+
+/* results table */
+
+.sent-invites .results table
+{
+   width: 100%;
+   border: none;
+}
+
+.sent-invites .results table thead
+{
+   display: none;
+}
+
+.sent-invites .results table td
+{
+   border-right: medium none;
+   border-top: 1px solid #f0f0f0;
+}
+
+.sent-invites .results table .yui-dt-empty
+{
+   background-color: transparent;
+}
+
+.sent-invites tr.yui-dt-odd
+{
+   background-color: #ffffff;
+}
+
+.sent-invites .pending
+{
+   color: #848484;
+   background: #f2f5f7;
+}
+
+.sent-invites .accepted
+{
+   background: #f0f8f1;
+   colo: #43a92d;
+}
+
+.sent-invites .declined
+{
+   background: #fcf4f5;
+   color: #dc3d3d;
+}
+
+.sent-invites .status
+{
+   text-align: center;
+}
+
+.sent-invites .yui-dt-col-0
+{
+   height: 100%;
+}
+
+.sent-invites .attr-label
+{
+   color: #606060;
+}
+
+.sent-invites .attr-value
+{
+   color: #333333;
+}
+
+.to-invitee
+{
+   font-size: 116%;
+   margin: 5px 0px 5px 0px;
+   style: block;
+}
+
+.sent-invites .separator
+{
+   color: #000;
+   margin: 0em 0.5em 0em 0.5em;
+}

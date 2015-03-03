@@ -1,0 +1,22 @@
+.tags h2
+{
+   margin-top: 1em;
+   padding-left: 1em;
+}
+
+.tags ul
+{
+   padding: 0.5em 0 1em;
+}
+
+.tags li
+{
+   overflow: hidden;
+   padding: 4px 0 3px 20px;
+}
+
+.tags li:first-of-type
+{
+   margin-bottom: 5px;
+   padding-bottom: 7px;
+}

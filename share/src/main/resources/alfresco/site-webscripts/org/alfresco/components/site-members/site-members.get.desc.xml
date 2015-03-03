@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>site-members</shortname>
+  <description>Site Members component</description>
+  <url>/components/site-members</url>
+</webscript>

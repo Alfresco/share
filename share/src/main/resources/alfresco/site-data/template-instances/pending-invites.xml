@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/pending-invites</template-type>
+   <description>Pending invites page</description>
+   <properties>
+      <pageFamily>site-members</pageFamily>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Members Bar -->
+      <component>
+         <region-id>membersbar</region-id>
+         <url>/components/invite/members-bar</url>
+      </component>
+
+      <!-- Sent Invites -->
+      <component>
+         <region-id>sent-invites</region-id>
+         <url>/components/invite/sent-invites</url>
+         <properties>
+            <minSearchTermLength>0</minSearchTermLength>
+         </properties>
+      </component>
+
+   </components>
+</template-instance>

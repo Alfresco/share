@@ -1,0 +1,6 @@
+<filters>
+
+   <filter id="editingMe" label="link.editingMe" />
+   <filter id="favourites" label="link.favourites" />
+
+</filters>

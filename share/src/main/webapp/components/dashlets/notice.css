@@ -1,0 +1,20 @@
+.notice-dashlet .text-content {
+}
+.notice-dashlet .text-content h1, .notice-dashlet .text-content h2, .notice-dashlet .text-content h3, .notice-dashlet .text-content h4, .notice-dashlet .text-content h5, .notice-dashlet .text-content h6 {
+   margin-top: 10px;
+}
+.notice-dashlet .text-content p {
+}
+.notice-dashlet .text-content ul li {
+   list-style-type: inherit; 
+   list-style-position: inside;
+}
+.notice-dashlet .text-content ol li {
+   list-style-type: inherit; 
+   list-style-position: inside;
+}
+.dashlet.notice-dashlet .body > div
+{
+   padding-left: 8px;
+   padding-right: 8px;
+}

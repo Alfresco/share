@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/user-cloud-auth</template-type>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/profile-title</url>
+      </component>
+
+      <!-- Toolbar -->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/profile/userprofile-toolbar</url>
+      </component>
+
+      <!-- User Notifications -->
+      <component>
+         <region-id>user-cloud-auth</region-id>
+         <url>/components/profile/cloud-auth</url>
+      </component>
+
+   </components>
+</template-instance>

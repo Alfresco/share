@@ -1,0 +1,368 @@
+/* Center text and buttons inside p elements */
+
+.archive-and-download p
+{
+   text-align: center;
+}
+
+.archive-and-download div.browse-wrapper
+{
+   text-align: center;
+}
+
+.archive-and-download div.browse-wrapper div.center
+{
+   padding-top: 0.5em;
+   line-height: 2em;
+   margin-left: auto;
+   margin-right: auto;
+   width: 18em;
+}
+
+.archive-and-download div.browse-wrapper div.browse,
+.archive-and-download div.browse-wrapper div.label
+{
+   float: left;
+}
+
+.archive-and-download div.tip-wrapper
+{
+   padding-top: 0.5em;
+   line-height: 2em;
+   text-align: center;
+   clear: both;
+}
+
+.archive-and-download div.status-wrapper
+{
+   padding-bottom: 0.5em;
+   text-align: left;
+   margin-left: 1em;
+}
+
+.archive-and-download .browse,
+.archive-and-download .tip
+{
+   float: left;
+}
+
+.archive-and-download .browse
+{
+   width: 38px;
+   height: 26px;
+   margin-left: 10px;
+   margin-right: 10px;
+}
+
+/* Bug fix for ubuntu that requires flash move  element to get resized to get displayed */
+
+.archive-and-download .browse.button-fix
+{
+   width: 39px;
+}
+
+/* Bug fix for mac gecko browsers where flash movie gets re-instantiated */
+
+.reinstantiated-fix .archive-and-download span.yui-button
+{
+	overflow:visible;
+}
+
+.archive-and-download .tip
+{
+   height: 40px;
+   line-height: 40px;
+}
+
+.archive-and-download div.section span.status
+{
+   margin-left: 210px;
+}
+
+/* Add some padding to the file list so it looks centered */
+
+.archive-and-download .bd .fileUpload-filelist-table
+{
+   padding: 0.8em;
+}
+
+/* Remove the padding inherited from the panel for divs in the file list */
+
+.archive-and-download .fileUpload-filelist-table div.yui-dt-hd
+{
+   height: 1px;
+   padding: 0;
+}
+
+.archive-and-download .fileUpload-filelist-table tbody.yui-dt-message td
+{
+   border: none;
+}
+
+.archive-and-download .fileUpload-filelist-table tbody.yui-dt-message tr td div.yui-dt-empty
+{
+   border: none;
+   padding: 0.5em !important;
+}
+
+/* Create a visible gray line beneath each row */
+
+.archive-and-download .fileUpload-filelist-table tbody .yui-dt-liner
+{
+   border-bottom-style: solid;
+   border-bottom-color: #CBCBCB;
+   border-bottom-width: 1px;
+   margin: 0;
+   padding: 0;
+   white-space: nowrap;
+}
+
+/* Width of the file list - needs to override YUI element style setting */
+
+.archive-and-download .fileUpload-filelist-table .yui-dt table
+{
+   width: 300px !important;
+}
+
+/* Hide the table header */
+
+.archive-and-download .fileUpload-filelist-table .yui-dt table thead
+{
+   display: none;
+}
+
+/**
+ * If an element with "position: relative;" is used inside
+ * another element with "overflow: scroll;" IE takes the inner element "out of
+ * the flow" which makes statically positioned on the screen ignoring to be
+ * hidden and following the scrollbar.
+ *
+ * In this component, position relative is used for the progress bars, but
+ * a YUI button is also used which causes the same problem.
+ *
+ * If the outer element also has "position: relative;" it works though.
+ */
+
+.archive-and-download .fileUpload-filelist-table .yui-dt-bd
+{
+   position: relative;
+   width: 300px;
+   overflow-x: hidden;
+}
+
+/* Style left column and its elements */
+
+.archive-and-download .fileUpload-filelist-table tbody .col-left
+{
+   height: 40px;
+   width: 100px;
+}
+
+.archive-and-download .fileupload-left-div
+{
+   text-align: center;
+   height: 40px;
+   background-color: #FAF9F9;
+}
+
+.archive-and-download .fileupload-percentage-span
+{
+   font-weight: bold;
+   font-size: 123.1%;
+   line-height: 2.5em;
+}
+
+.archive-and-download .fileupload-contentType-menu
+{
+   position: relative;
+   top: 10px;
+}
+
+/* Style center column and its elements */
+
+.archive-and-download .fileUpload-filelist-table tbody .col-center
+{
+   height: 40px;
+   width: 400px;
+}
+
+.archive-and-download .fileupload-center-div
+{
+   background-color: #FFFFFF;
+   position: relative;
+   height: 40px;
+   padding: 0;
+   margin: 0;
+   overflow: hidden;
+}
+
+.archive-and-download .fileupload-docImage-img
+{
+   position: absolute;
+   left: 5px;
+   top: 4px;
+}
+
+.archive-and-download .fileupload-status-img
+{
+   position: relative;
+   top: 12px;
+}
+
+.archive-and-download .fileupload-progressInfo-span
+{
+   position: absolute;
+   left: 40px;
+   top: 4px;
+   font-weight: bold;
+   font-size: 108%;
+}
+
+.archive-and-download .fileupload-filesize-span
+{
+   position: absolute;
+   left: 41px;
+   top: 22px;
+   font-size: 85%;
+}
+
+.archive-and-download .fileupload-center-div .fileupload-progressSuccess-span,
+.archive-and-download .fileupload-center-div .fileupload-progressFailure-span,
+.archive-and-download .fileupload-center-div .fileupload-progressFinished-span
+{
+   position: absolute;
+   top: 0px;
+   left: -400px;
+   height: 40px;
+   width: 400px;
+}
+
+.archive-and-download .fileupload-center-div .fileupload-progressSuccess-span
+{
+   background-color: #9AC68C;
+}
+
+.archive-and-download .fileupload-center-div .fileupload-progressFinished-span
+{
+   background-color: #DCECCC;
+}
+
+.archive-and-download .fileupload-center-div .fileupload-progressFailure-span
+{
+   background-color: #E98B3C;
+}
+
+.archive-and-download .aggregate-progress-div
+{
+   background-color: #FFFFFF;
+   border: 1px solid #7F7F7F;
+   height: 20px;
+   margin-bottom: 0.8em;
+   margin-left: 0.8em;
+   overflow: hidden;
+   padding: 0;
+   position: relative;
+   width: 300px;
+}
+
+.archive-and-download .aggregate-progressSuccess-span
+{
+   background-color: #9AC68C;
+   position: absolute;
+   top: 0px;
+   left: -300px;
+   height: 20px;
+   width: 300px;
+}
+
+/* Style right column and its elements */
+
+.archive-and-download .fileUpload-filelist-table tbody .col-right,
+.archive-and-download .fileUpload-filelist-table tbody .col-right div.fileupload-right-div
+{
+   height: 40px;
+   width: 130px;
+}
+
+.archive-and-download .fileupload-right-div
+{
+   text-align: center;
+   height: 40px;
+}
+
+.archive-and-download .fileUpload-filelist-table tbody .col-right
+{
+   background-color: #FAF9F9;
+   border-style: none;
+}
+
+.archive-and-download .fileupload-fileButton-span
+{
+   position: relative;
+   top: 7px;
+}
+
+.archive-and-download .fileupload-fileButton-span button
+{
+   padding-left: 2.5em;
+   background: url(../images/remove-16.png) 10% 50% no-repeat;
+}
+
+.archive-and-download .fileupload-status-span
+{
+   background: url(../images/delete-16.png) 10% 50% no-repeat;
+   position: absolute;
+   left: 5px;
+   top: 4px;	
+}
+
+.archive-and-download .fileUpload-filelist-table.yui-dt.yui-dt-scrollable tbody.yui-dt-data tr.yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+/* General styling */
+
+.archive-and-download
+{
+   width: 320px;
+}
+
+.archive-and-download .yui-gd div.first
+{
+   width: 10.5em;
+}
+
+.archive-and-download textarea
+{
+   width: 30em;
+}
+
+.archive-and-download .title-folder
+{
+   padding: 0 2px 0 4px;
+   vertical-align: text-bottom;
+}
+
+.dnd-file-selection-control
+{
+   height: 25px;
+}
+
+.dnd-file-selection-button
+{
+   opacity: 0;
+   top: 0;
+   left: 0;
+   position: absolute;
+}
+
+.dnd-file-selection-button-overlay
+{
+   padding: 0 50px !important;
+}
+
+.dnd-file-selection-button-overlay-wrapper
+{
+   position: relative;
+}

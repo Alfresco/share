@@ -1,0 +1,14 @@
+<config>
+   <filters>
+      <filter name="topics">
+         <option value="mine" label="mine" />
+         <option value="all" label="all" />
+      </filter>
+      <filter name="history">
+         <option value="1" label="1day" />
+         <option value="7" label="7days" />
+         <option value="14" label="14days" />
+         <option value="28" label="28days" />
+      </filter>
+   </filters>
+</config>

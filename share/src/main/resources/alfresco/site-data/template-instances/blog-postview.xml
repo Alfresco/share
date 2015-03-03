@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/blog-postview</template-type>
+   <properties>
+      <pageFamily>blog-postlist</pageFamily>
+      <container>blog</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Toolbar-->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/blog/toolbar</url>
+         <properties>
+            <showNavigationBar>true</showNavigationBar>
+         </properties>
+      </component>
+
+      <!-- View Post-->
+      <component>
+         <region-id>postview</region-id>
+         <url>/components/blog/postview</url>
+      </component>
+
+      <!-- Comments -->
+      <component>
+         <region-id>comments</region-id>
+         <url>/components/comments/list</url>
+         <properties>
+            <nodeRef>{nodeRef}</nodeRef>
+            <activityType>blog</activityType>
+         </properties>
+      </component>
+
+   </components>
+</template-instance>

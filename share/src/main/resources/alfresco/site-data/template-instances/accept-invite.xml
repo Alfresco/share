@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/accept-invite</template-type>
+   <components>
+
+      <!-- Accept invite -->
+      <component>
+         <region-id>accept-invite</region-id>
+         <url>/components/invite/accept-invite</url>
+      </component>
+
+   </components>
+</template-instance>

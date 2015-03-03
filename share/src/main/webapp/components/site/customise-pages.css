@@ -1,0 +1,113 @@
+h1.sub-title
+{
+   margin: 0 10px;
+}
+
+.customise-pages
+{
+   margin: 0 10px;
+}
+
+.customise-pages .page-list-tooltip
+{
+   border-bottom: none !important;
+   min-height: 2em;
+   line-height: 2em;
+}
+
+.customise-pages .page-list-tooltip span
+{
+   background-image: url("../../components/images/info-16.png");
+   background-position: 0.75em center;
+   background-repeat: no-repeat;
+   padding: 1em 2.5em;
+}
+
+.customise-pages h2
+{
+   margin-top: 1em;
+   margin-bottom: 0.5em;
+}
+
+.customise-pages .page-list-wrapper
+{
+   clear: both;
+   height: 14em;
+   margin-bottom: 2em;   
+   overflow-x: auto;
+   overflow-y: hidden;
+}
+
+.customise-pages .available-pages
+{
+   height: 11em;
+}
+
+.customise-pages .page-list-wrapper .page-list
+{
+   padding: 1em;
+   height: 12em;
+   white-space:nowrap;
+}
+
+.customise-pages .available-pages .page-list
+{
+   height: 9em;
+   overflow-y: hidden;
+}
+
+.customise-pages-page-list-item img
+{
+   padding: 0.75em;
+}
+
+.customise-pages-page-list-item .actions
+{
+   margin-top: 0.25em;
+   font-size: 80%;
+}
+
+.customise-pages-page-list-item
+{                                                                     
+   text-align: center;
+   min-width: 10em;
+   padding-left: 0.25em;
+   padding-left: 0.25em;
+   display: inline-block;
+   height: 12em;
+   overflow-y: visible;
+}
+
+.customise-pages-page-list-item h3.title,
+.customise-pages-page-list-item div.type,
+.customise-pages-page-list-item div.actions
+{
+   display: block;
+}
+
+.customise-pages-page-list-item h3.type
+{
+   display: none;
+}
+
+.customise-pages .available-pages .customise-pages-page-list-item h3.title,
+.customise-pages .available-pages .customise-pages-page-list-item div.type,
+.customise-pages .available-pages .customise-pages-page-list-item div.actions
+{
+   display: none;
+}
+
+.customise-pages .available-pages .customise-pages-page-list-item h3.type
+{
+   display: block;
+}
+
+.customise-pages .buttons
+{
+   text-align: center;
+}
+
+.customise-pages .flat-button
+{
+   padding-bottom: 1em;
+}

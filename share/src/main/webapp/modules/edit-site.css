@@ -1,0 +1,20 @@
+.edit-site
+{
+   width: 40em;
+}
+
+.edit-site span.help
+{
+   font-size: 81%;   
+}
+
+.edit-site .moderated 
+{
+   padding-left:2em;
+}
+
+.edit-site textarea
+{
+   resize: vertical;
+   overflow: auto;
+}

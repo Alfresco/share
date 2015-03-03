@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>My Files (YUI DocLib)</shortname>
+  <description>Document Library: Combination of document list and toolbar (User Home)</description>
+  <url>/components/documentlibrary/myfiles</url>
+</webscript>

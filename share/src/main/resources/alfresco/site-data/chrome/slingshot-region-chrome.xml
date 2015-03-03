@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chrome>
+   <title>Slingshot Region Chrome</title>
+
+   <!-- Define the rendering processors for this chrome -->	
+   <processor mode="view">
+      <id>webtemplate</id>
+      <uri>slingshot-region-chrome</uri>
+   </processor>
+   <processor mode="edit">
+      <id>webtemplate</id>
+      <uri>${mode.view.uri}</uri>
+   </processor>   
+   
+</chrome>

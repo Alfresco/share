@@ -1,0 +1,8 @@
+<config>
+   <title>tool.solr.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Type=Configuration,Category=Search,id1=managed,id2=solr</itemId>
+   </form>
+   <editable>true</editable>
+</config>

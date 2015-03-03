@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>discussionstoolbar</shortname>
+  <description>Discussions: Toolbar</description>
+  <url>/components/discussions/toolbar</url>
+</webscript>

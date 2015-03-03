@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Saved Search</shortname>
+   <description>Saved Search Dashlet</description>
+   <family>dashlet</family>
+   <url>/components/dashlets/saved-search</url>
+</webscript>

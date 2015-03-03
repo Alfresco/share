@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Blog comments component</shortname>
+  <description>Blog: Displays comments to a post</description>
+  <url>/components/blog/comments</url>
+</webscript>

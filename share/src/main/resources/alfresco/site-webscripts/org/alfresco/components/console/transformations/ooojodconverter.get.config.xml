@@ -1,0 +1,8 @@
+<config>
+   <title>tool.ooojodconverter.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Type=Configuration,Category=OOoJodconverter,id1=default</itemId>
+   </form>
+   <editable>false</editable>
+</config>

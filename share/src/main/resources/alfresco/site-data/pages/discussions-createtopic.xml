@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>discussions-createtopic</id>
+   <page-type>discussions-createtopic</page-type>
+   <title>Discussions: view create topic page</title>
+   <title-id>page.discussionsCreateTopic.title</title-id>
+   <description>Displays the form to create a topic</description>
+   <description-id>page.discussionsCreateTopic.description</description-id>
+   <template-instance>discussions-createtopic</template-instance>
+   <authentication>user</authentication>
+</page>

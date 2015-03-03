@@ -1,0 +1,31 @@
+h1.sub-title
+{
+   margin: 0 10px;
+   padding-bottom: 0.5em;
+}
+
+h2
+{
+   color: #606060;
+   font-weight: normal;
+}
+
+h2.instructions
+{
+   color: #009300;
+}
+
+h2 span
+{
+   color: #333333;
+}
+
+h3.padded
+{
+   padding: 0.5em 0;
+}
+
+#bd
+{
+   width: 980px;
+}

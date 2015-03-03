@@ -1,0 +1,211 @@
+.global-folder .hd .light
+{
+   font-weight: normal;
+}
+
+.global-folder .wrapper
+{
+   padding-top: 0.5em;
+}
+
+.global-folder h3
+{
+   padding-left: 0.5em;
+}
+
+.global-folder .bdft
+{
+   clear: both;
+}
+
+.global-folder .bdft .yui-button-disabled button
+{
+   color:#aaa;
+}
+
+/* Columns */
+
+.global-folder .mode,
+.global-folder .site,
+.global-folder .container,
+.global-folder .path
+{
+   float: left;
+   height: 23em;
+}
+
+.global-folder .repository-mode .site,
+.global-folder .container,
+.global-folder .repository-mode .container
+{
+   display: none;
+}
+
+.global-folder .repository-mode .treeview
+{
+   width: 48em;
+}
+
+
+/* Mode Select */
+
+.global-folder .mode span
+{
+   clear: left;
+   float: left;
+}
+
+.global-folder .mode span.yui-button
+{
+   margin: 0.5em 0.5em 0px;
+}
+
+.global-folder .mode span.default
+{
+   background-position: 0pt -1400px;
+   border-color: #304369;
+}
+
+.global-folder .mode span.default button
+{
+   color: #fff;
+}
+
+.global-folder .mode button
+{
+   height: 2em;
+   width: 10em;
+}
+
+
+/* Site and container pickers */
+
+/* Ensure site-picker.width + container-picker.width + treeview.width = 46em */
+.global-folder .site-picker
+{
+   border: 1px solid #e0e0e0;
+   float: left;
+   height: 20em;
+   margin: 0.5em 0.5em 0px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   width: 14em;
+}
+
+.global-folder .container-picker
+{
+   border: 1px solid #e0e0e0;
+   float: left;
+   height: 20em;
+   margin: 0.5em 0.5em 0px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   width: 14em;
+}
+
+.global-folder .site-picker h4
+{
+   background-image: url(images/site-16.png);
+   background-repeat: no-repeat;
+   padding-left: 20px;
+   padding-bottom: 0.3em;
+}
+
+.global-folder .container-picker h4
+{
+   background-image: url(images/open-folder-16.png);
+   background-repeat: no-repeat;
+   padding-left: 20px;
+   padding-bottom: 0.3em;
+}
+
+.global-folder .site-picker .last a,
+.global-folder .container-picker .last a
+{
+   border-bottom: medium none;
+}
+
+.global-folder .site-picker a,
+.global-folder .container-picker a
+{
+   border-bottom: 1px dashed #d7d7d7;
+   display: block;
+   padding: 0.5em;
+}
+.global-folder .site-picker a:active,
+.global-folder .site-picker a:hover,
+.global-folder .container-picker a:active,
+.global-folder .container-picker a:hover
+{
+   background-color: #dceaf4;
+   text-decoration: none;
+}
+
+.global-folder .site-picker a.selected,
+.global-folder .container-picker a.selected
+{
+   background-color: #dceaf4;
+}
+
+
+/* Tree view */
+
+.global-folder .treeview
+{
+   border: 1px solid #e0e0e0;
+   height: 20em;
+   margin: 0.5em 0.5em 0px;
+   overflow-y: auto;
+   width: 33em;
+}
+
+.global-folder .treeview .ygtvspacer
+{
+   display: block;
+   width: 18px;
+}
+
+.global-folder .treeview .ygtvchildren
+{
+   background-color: #ffffff;
+   width: 100%;
+}
+
+.global-folder .treeview .ygtvitem
+{
+   overflow-x: visible;
+}
+
+.global-folder .ygtvitem .no-permission
+{
+   color: #c0c0c0;
+}
+
+.global-folder .ygtvitem .folders-trimmed
+{
+   color: #f00;
+}
+
+.global-folder .ygtvlabel,
+.global-folder .ygtvlabel:link,
+.global-folder .ygtvlabel:visited,
+.global-folder .ygtvlabel:hover
+{
+   background: none;
+   color: #000;
+   white-space: nowrap;
+}
+
+.global-folder .ygtverror,
+.global-folder .ygtverror:link,
+.global-folder .ygtverror:visited,
+.global-folder .ygtverror:hover
+{
+   background: red;
+   color: white;
+}
+
+.global-folder .selected
+{
+   background-color: #dceaf4;
+}

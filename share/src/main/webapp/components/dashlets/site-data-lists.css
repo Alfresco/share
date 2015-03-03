@@ -1,0 +1,14 @@
+.site-data-lists div.list
+{
+   float: left;
+}
+
+.site-data-lists div.detail-list-item
+{
+   min-height: 2em;
+}
+
+.site-data-lists div.description
+{
+   clear: left;
+}

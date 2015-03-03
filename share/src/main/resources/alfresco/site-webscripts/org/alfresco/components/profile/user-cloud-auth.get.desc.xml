@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>User Notifications</shortname>
+  <description>Change user cloud authentication settings</description>
+  <url>/components/profile/cloud-auth</url>
+</webscript>

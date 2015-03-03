@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-type>
+	<title>Site index landing page template type</title>
+	<description>Site index landing page JSP Template Type</description>
+
+	<!-- Define the rendering processors for this template type -->	
+	<processor mode="view">
+		<id>jsp</id>
+		<jsp-path>/site-index.jsp</jsp-path>
+	</processor>
+
+</template-type>

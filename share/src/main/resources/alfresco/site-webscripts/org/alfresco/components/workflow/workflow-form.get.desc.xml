@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>workflow-form</shortname>
+  <description>Displays a workflow form if a workflowData event has been fired</description>
+  <url>/components/workflow/workflow-form</url>
+</webscript>

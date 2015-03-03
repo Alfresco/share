@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>blog-postedit</id>
+   <page-type>blog-postedit</page-type>
+   <title>Blog: create or edit blog post</title>
+   <title-id>page.blogCreateEdit.title</title-id>
+   <description>Displays a form to create or edit a post</description>
+   <description-id>page.blogCreateEdit.description</description-id>
+   <template-instance>blog-postedit</template-instance>
+   <authentication>user</authentication>
+</page>

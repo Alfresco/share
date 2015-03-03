@@ -1,0 +1,113 @@
+/* Style YUI components */
+
+.customise-layout .currentLayout
+{
+   margin: 0 10px;
+}
+
+/* Add padding and make sure left: float doesn't place them in a row */
+.customise-layout div.currentLayout,
+.customise-layout div.layouts,
+{
+   padding-top: 1em;
+   padding-bottom: 1em;
+   clear: both;
+}
+
+/* Make sure left: float doesn't place them in a row */
+.customise-layout hr
+{
+   clear: both;
+}
+
+/* Center the contents in the section */
+.customise-layout div.currentLayout div,
+.customise-layout div.layouts div
+{
+   text-align: center;
+}
+
+/* Marginise and align text and buttons */
+.customise-layout div.text,
+.customise-layout div.buttons
+{
+   width: 52em;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+/* Left align text */
+.customise-layout div.text
+{
+   text-align: left !important;
+   padding-bottom: 1em;
+   padding-top: 1em;
+}
+
+/* Center buttons */
+.customise-layout div.buttons
+{
+   padding: 1em 0;
+   text-align: center;
+}
+
+/* Style the lists containing dashlets */
+.customise-layout ul
+{
+   list-style: none;
+   padding: 1em;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.customise-layout div.layouts
+{
+   margin: 0 10px;
+}
+
+/* Set width and height of the layouts list */
+.customise-layout div.layouts ul
+{
+   width: 58em;
+}
+
+/* Set the layout width and let them flow in the list */
+.customise-layout div.layouts ul li
+{
+   width: 25em;
+   float: left;
+   margin: 0em 2em 3em;
+   text-align: left;
+}
+
+/* Align the layout description to the left */
+.customise-layout div.layouts ul li .layoutDescription
+{
+   color: #333;
+   padding: 0em 0.5em 0.5em 1em;
+   text-align: left;
+}
+.customise-layout div.layouts ul li .layoutDescription b
+{
+}
+
+/* Make the layout box gray and center it's content*/
+.customise-layout .layoutBox
+{
+   background-color: #f7f7f7;
+   text-align: center;
+}
+
+/* Center the layout image */
+.customise-layout .layoutIcon
+{
+   padding: 1em;
+   vertical-align: middle;
+   height: 10em;
+   cursor: pointer;   
+}
+
+.customise-layout div.currentLayout .layoutIcon
+{
+   border-bottom: 1px solid #ccc;
+}

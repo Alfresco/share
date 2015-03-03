@@ -1,0 +1,8 @@
+<config>
+   <title>tool.searchmanager.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Type=Configuration,Category=Search,id1=manager</itemId>
+   </form>
+   <editable>true</editable>
+</config>

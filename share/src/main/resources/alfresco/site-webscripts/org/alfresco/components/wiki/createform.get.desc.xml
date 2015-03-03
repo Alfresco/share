@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>wiki-createform</shortname>
+  <description>Displays a form to create a wiki page</description>
+  <url>/components/wiki/createform</url>
+</webscript>

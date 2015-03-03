@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Create or edit link</shortname>
+  <description>Create or edit link form</description>
+  <url>/components/links/linkedit</url>
+</webscript>

@@ -1,0 +1,16 @@
+<rule-config type="type">
+
+   <component>Alfresco.RuleConfigType</component>
+
+   <config-definitions webscript="/api/ruletypes"/>
+   
+   <menu>
+      <group>
+         <type name="inbound"/>
+         <type name="update"/>
+         <type name="outbound"/>
+         <type name="*"/>
+      </group>
+   </menu>
+
+</rule-config>

@@ -1,0 +1,76 @@
+/* Toolbars */
+
+.my-tasks .toolbar .yui-pg-container,
+.my-tasks .toolbar .yui-pg-container .yui-pg-current
+{
+   line-height: 2;
+   margin: 0 0 0 0.3em;
+   padding: 0;
+}
+
+/* Body */
+
+.my-tasks .body h4
+{
+   margin-bottom: 0.2em;
+}
+
+.my-tasks .body .unassigned-task
+{
+   padding: 0.15em;
+   text-transform: uppercase;
+   font-size: 80%;
+}
+
+/* Data Table */
+
+.my-tasks .yui-dt-col-isPooled div
+{
+   text-align: center   
+}
+
+.my-tasks .yui-dt-col-isPooled img
+{
+   margin-bottom: 0.5em;
+}
+
+.my-tasks .yui-dt-col-title .yui-dt-liner
+{
+   line-height: 1.4;
+   padding-top: 0;
+}
+
+.my-tasks .task-delayed
+{
+   padding-left: 1.5em;
+   background: url(../images/warning-16.png) no-repeat; 
+}
+
+.my-tasks a.view-task,
+.my-tasks a.edit-task
+{
+   cursor: pointer;
+   padding: 1em 0.75em;
+   visibility: hidden;
+}
+
+.my-tasks a.view-task
+{
+   background: url(../images/task-16.png) no-repeat center;
+}
+
+.my-tasks a.edit-task
+{
+   background: url(../images/edit-16.png) no-repeat center;
+}
+
+.my-tasks .yui-dt-col-name a:active,
+.my-tasks .yui-dt-col-name a:hover
+{
+   text-decoration: none;
+}
+
+.my-tasks .yui-dt-highlighted a
+{
+   visibility: visible;
+}

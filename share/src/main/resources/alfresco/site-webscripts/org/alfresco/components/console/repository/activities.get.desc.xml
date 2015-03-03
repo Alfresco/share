@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Activities Feed Tool</shortname>
+  <description>Administration Console - Activities Feed Tool</description>
+  <url>/components/console/activities</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

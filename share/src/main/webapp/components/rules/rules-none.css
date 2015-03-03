@@ -1,0 +1,35 @@
+.rules-none .rules-info,
+.rules-none .dialog-options
+{
+   margin: 1em;
+   width: 35em;
+   padding: 0.5em 1em;
+}
+
+.rules-none .rules-info span
+{
+   background-image: url(../images/info-16.png);
+   background-position: left center;
+   background-repeat: no-repeat;
+   padding: 0.5em 0.5em 0.5em 2em;
+}
+
+.rules-none .dialog-options
+{
+   padding: 1em;
+}
+
+.rules-none .dialog-options .dialog-option
+{
+   padding-top: 1em;
+}
+
+.rules-none .dialog-options .dialog-option a
+{
+   margin-bottom: 0.5em;
+}
+
+.rules-header .rules-actions .inherit span
+{
+   border-color: transparent;
+}

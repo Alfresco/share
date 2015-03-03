@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>workflow-details-header</shortname>
+  <description>Displays workflow details header and links</description>
+  <url>/components/workflow/workflow-details-header</url>
+</webscript>

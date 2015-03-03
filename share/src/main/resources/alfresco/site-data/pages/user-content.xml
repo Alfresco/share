@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Last edited content list for a User</title>
+   <title-id>page.userContent.title</title-id>
+   <description>Lists content that a user has last edited</description>
+   <description-id>page.userContent.description</description-id>
+   <template-instance>user-content</template-instance>
+   <authentication>user</authentication>
+</page>

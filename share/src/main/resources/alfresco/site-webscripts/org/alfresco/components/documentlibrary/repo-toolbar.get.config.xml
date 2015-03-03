@@ -1,0 +1,11 @@
+<toolbar>
+   <!-- The create content menu can be configured in share-documentlibrary-config.xml -->
+   <actionSets>
+      <actionSet id="default">
+         <action type="action-link" id="onActionCopyTo" label="menu.selected-items.copy" />
+         <action type="action-link" id="onActionMoveTo" permission="Delete" label="menu.selected-items.move" />
+         <action type="action-link" id="onActionDelete" permission="Delete" label="menu.selected-items.delete" />
+         <action type="action-link" id="onActionAssignWorkflow" asset="document" label="menu.selected-items.assign-workflow" />
+      </actionSet>
+   </actionSets>
+</toolbar>

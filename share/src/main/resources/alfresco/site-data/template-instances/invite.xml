@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/invite</template-type>
+   <description>Invite users page</description>
+   <properties>
+      <pageFamily>site-members</pageFamily>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Members Bar -->
+      <component>
+         <region-id>membersbar</region-id>
+         <url>/components/invite/members-bar</url>
+      </component>
+
+      <!-- People Finder -->
+      <component>
+         <region-id>people-finder</region-id>
+         <url>/components/people-finder/people-finder</url>
+         <properties>      
+            <setFocus>true</setFocus>
+            <addButtonSuffix>&gt;&gt;</addButtonSuffix>      
+            <dataWebScript>api/sites/[siteId]/potentialmembers?authorityType=USER</dataWebScript>
+         </properties>
+      </component>
+
+      <!-- Add Email -->
+      <component>
+         <region-id>addemail</region-id>
+         <url>/components/invite/addemail</url>
+      </component>
+
+      <!-- Invitation List -->
+      <component>
+         <region-id>invitationlist</region-id>
+         <url>/components/invite/invitationlist</url>
+      </component>
+
+   </components>
+</template-instance>

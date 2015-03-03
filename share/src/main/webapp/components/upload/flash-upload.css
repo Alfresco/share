@@ -1,0 +1,310 @@
+/* Center text and buttons inside p elements */
+
+embed:focus
+{
+   outline: 1px dotted;
+}
+
+object:focus
+{
+   outline: 1px dotted;
+}
+
+.flash-upload p
+{
+   text-align: center;
+}
+
+.flash-upload div.browse-wrapper
+{
+   text-align: center;
+}
+
+.flash-upload div.browse-wrapper div.center
+{
+   padding-top: 0.5em;
+   line-height: 2em;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.flash-upload div.browse-wrapper div.browse,
+.flash-upload div.browse-wrapper div.label
+{
+   float: left;
+}
+
+.flash-upload div.tip-wrapper
+{
+   padding-top: 0.5em;
+   line-height: 2em;
+   text-align: center;
+   clear: both;
+}
+
+.flash-upload div.status-wrapper
+{
+   padding-bottom: 0.5em;
+   text-align: center;
+}
+
+.flash-upload .browse,
+.flash-upload .tip
+{
+   float: left;
+}
+
+.flash-upload .browse
+{
+   width: 38px;
+   height: 26px;
+   margin-left: 10px;
+   margin-right: 10px;
+}
+
+/* Bug fix for ubuntu that requires flash move  element to get resized to get displayed */
+
+.flash-upload .browse.button-fix
+{
+   width: 39px;
+}
+
+/* Bug fix for mac gecko browsers where flash movie gets re-instantiated */
+
+.reinstantiated-fix .flash-upload span.yui-button
+{
+	overflow:visible;
+}
+
+.flash-upload .tip
+{
+   height: 40px;
+   line-height: 40px;
+}
+
+.flash-upload div.section span.status
+{
+   margin-left: 210px;
+}
+
+/* Add some padding to the file list so it looks centered */
+
+.flash-upload .bd .fileUpload-filelist-table
+{
+   padding: 0.8em;
+}
+
+/* Remove the padding inherited from the panel for divs in the file list */
+
+.flash-upload .fileUpload-filelist-table div.yui-dt-hd
+{
+   height: 1px;
+   padding: 0;
+}
+
+.flash-upload .fileUpload-filelist-table tbody.yui-dt-message td
+{
+   border: none;
+}
+
+.flash-upload .fileUpload-filelist-table tbody.yui-dt-message tr td div.yui-dt-empty
+{
+   border: none;
+   padding: 0.5em !important;
+}
+
+/* Create a visible gray line beneath each row */
+
+.flash-upload .fileUpload-filelist-table tbody .yui-dt-liner
+{
+   border-bottom-style: solid;
+   border-bottom-color: #CBCBCB;
+   border-bottom-width: 1px;
+   margin: 0;
+   padding: 0;
+   white-space: nowrap;
+}
+
+/* Width of the file list - needs to override YUI element style setting */
+
+.flash-upload .fileUpload-filelist-table .yui-dt table
+{
+   width: 620px !important;
+}
+
+/* Hide the table header */
+
+.flash-upload .fileUpload-filelist-table .yui-dt table thead
+{
+   display: none;
+}
+
+/**
+ * If an element with "position: relative;" is used inside
+ * another element with "overflow: scroll;" IE takes the inner element "out of
+ * the flow" which makes statically positioned on the screen ignoring to be
+ * hidden and following the scrollbar.
+ *
+ * In this component, position relative is used for the progress bars, but
+ * a YUI button is also used which causes the same problem.
+ *
+ * If the outer element also has "position: relative;" it works though.
+ */
+
+.flash-upload .fileUpload-filelist-table .yui-dt-bd
+{
+   position: relative;
+   width: 620px;
+   overflow-x: hidden;
+}
+
+/* Style left column and its elements */
+
+.flash-upload .fileUpload-filelist-table tbody .col-left
+{
+   height: 40px;
+   width: 100px;
+}
+
+.flash-upload .fileupload-left-div
+{
+   text-align: center;
+   height: 40px;
+   background-color: #FAF9F9;
+}
+
+.flash-upload .fileupload-percentage-span
+{
+   font-weight: bold;
+   font-size: 123.1%;
+   line-height: 2.5em;
+}
+
+.flash-upload .fileupload-contentType-menu
+{
+   position: relative;
+   top: 10px;
+}
+
+/* Style center column and its elements */
+
+.flash-upload .fileUpload-filelist-table tbody .col-center
+{
+   height: 40px;
+   width: 400px;
+}
+
+.flash-upload .fileupload-center-div
+{
+   background-color: #FFFFFF;
+   position: relative;
+   height: 40px;
+   padding: 0;
+   margin: 0;
+   overflow: hidden;
+}
+
+.flash-upload .fileupload-docImage-img
+{
+   position: absolute;
+   left: 5px;
+   top: 4px;
+}
+
+.flash-upload .fileupload-progressInfo-span
+{
+   position: absolute;
+   left: 40px;
+   top: 4px;
+   font-weight: bold;
+   font-size: 108%;
+}
+
+.flash-upload  .fileupload-filesize-span
+{
+   position: absolute;
+   left: 41px;
+   top: 22px;
+   font-size: 85%;
+}
+
+.flash-upload .fileupload-center-div .fileupload-progressSuccess-span,
+.flash-upload .fileupload-center-div .fileupload-progressFailure-span,
+.flash-upload .fileupload-center-div .fileupload-progressFinished-span
+{
+   position: absolute;
+   top: 0px;
+   left: -400px;
+   height: 40px;
+   width: 400px;
+}
+
+.flash-upload .fileupload-center-div .fileupload-progressSuccess-span
+{
+   background-color: #9AC68C;
+}
+
+.flash-upload .fileupload-center-div .fileupload-progressFinished-span
+{
+   background-color: #DCECCC;
+}
+
+.flash-upload .fileupload-center-div .fileupload-progressFailure-span
+{
+   background-color: #E98B3C;
+}
+
+/* Style right column and its elements */
+
+.flash-upload .fileUpload-filelist-table tbody .col-right,
+.flash-upload .fileUpload-filelist-table tbody .col-right div.fileupload-right-div
+{
+   height: 40px;
+   width: 130px;
+}
+
+.flash-upload .fileupload-right-div
+{
+   text-align: center;
+   height: 40px;
+   position: relative;
+   top: 7px;
+}
+
+.flash-upload .fileUpload-filelist-table tbody .col-right
+{
+   background-color: #FAF9F9;
+   border-style: none;
+}
+
+.flash-upload .fileupload-fileButton-span
+{
+}
+
+.flash-upload .fileupload-fileButton-span button
+{
+   padding-left: 2.5em;
+   background: url(../images/remove-16.png) 10% 50% no-repeat;
+}
+
+.flash-upload .fileUpload-filelist-table.yui-dt.yui-dt-scrollable tbody.yui-dt-data tr.yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+/* General styling */
+
+.flash-upload
+{
+   width: 640px;
+}
+
+.flash-upload .yui-gd div.first
+{
+   width: 10.5em;
+}
+
+.flash-upload textarea
+{
+   width: 30em;
+}

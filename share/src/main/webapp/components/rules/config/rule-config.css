@@ -1,0 +1,222 @@
+.rule-config
+{
+   margin: 0;
+   border: 1px solid #C8C8C8;
+}
+
+.rule-config div.rule-config-header
+{
+   background:#FFFFFF url(../../images/header-bg.png) repeat-x scroll 0 0;
+   border-bottom: 1px solid #C8C8C8;
+   height: 2.2em;
+   line-height: 2.2em;
+}
+
+.rule-config div.rule-config-title
+{
+   padding-left: 1em;
+   color: #008000;
+   float: left;
+}
+
+.rule-config ul.rule-config-body
+{
+   background-color: #FFFFFF;
+   clear: both;
+   padding: 0;
+   margin: 0;
+}
+
+.rule-config div.rule-config-header span.yui-menu-button
+{
+   background-image: url(../../../yui/assets/skins/default/sprite.png);
+   background-position:left -100px;
+   float: right;
+   border: none;
+   margin: 0;
+}
+
+.rule-config div.rule-config-header span.yui-menu-button:hover
+{
+   background-position:left -50px;
+}
+
+.rule-config div.rule-config-header span.yui-menu-button span.first-child
+{
+   border: none;
+   border-left: 1px solid #C8C8C8;
+   display: block;
+   /*height: 2.2em;*/
+   margin: 0;
+}
+
+.rule-config div.rule-config-header .yui-menu-button-menu
+{
+   border: 1px solid #C8C8C8;
+}
+
+
+.rule-config ul.rule-config-body li.config
+{
+   margin: 0;
+   padding: 0 1em;
+   clear: both;
+}
+
+.rule-config ul.rule-config-body div.name
+{
+   float: left;
+}
+
+.rule-config.edit ul.rule-config-body div.name
+{
+   margin-left: 0;
+   padding-left: 1.3em;
+}
+
+.rule-config ul.rule-config-body
+{
+   padding-top: 0.5em;
+}
+
+.rule-config ul.rule-config-body div.name select
+{
+   width: auto;
+}
+
+.rule-config ul.rule-config-body div.name select optgroup
+{
+   padding-top: 0.25em;
+   padding-bottom: 0.25em;
+   border-bottom:1px dashed #DDDDDD;
+}
+
+.rule-config ul.rule-config-body div.parameters
+{
+   float: left;
+}
+
+.rule-config ul.rule-config-body div.clear
+{
+   clear: both;
+}
+
+.rule-config ul.rule-config-body div.parameters div.inlineable
+{
+   display: inline;
+   float: none;
+}
+
+.rule-config ul.rule-config-body div.actions
+{
+   float: right;
+}
+
+.rule-config.text ul.rule-config-body div.name,
+.rule-config.text ul.rule-config-body div.parameters,
+.rule-config.text ul.rule-config-body div.actions
+{
+   min-height: 2em;
+}
+
+.rule-config.edit ul.rule-config-body div.name,
+.rule-config.edit ul.rule-config-body div.parameters,
+.rule-config.edit ul.rule-config-body div.actions
+{
+   min-height: 2.2em;
+}
+
+.rule-config ul.rule-config-body div.parameters .error
+{
+   color: #ff6666;
+}
+
+.rule-config ul.rule-config-body div.parameters label,
+.rule-config ul.rule-config-body div.parameters .param
+{
+   margin-left: 0.5em;
+}
+
+.rule-config ul.rule-config-body div.parameters input[type=text]
+{
+   width: 13em;
+   margin-left: 0.5em;
+}
+
+.rule-config ul.rule-config-body div.parameters select
+{
+   width: auto;
+   margin-left: 0.5em;
+}
+
+.rule-config ul.rule-config-body div.parameters .add-extra-parameter-button,
+.rule-config ul.rule-config-body div.parameters .delete-extra-parameter-button
+{
+   cursor: pointer;
+   padding: 0.25em;
+}
+
+.rule-config ul.rule-config-body div.parameters .paramtype_d_date     input.datepicker-date,
+.rule-config ul.rule-config-body div.parameters .paramtype_d_datetime input.datepicker-date
+{
+   width: 5em;
+}
+
+.rule-config ul.rule-config-body div.parameters .paramtype_d_date     input.datepicker-time,
+.rule-config ul.rule-config-body div.parameters .paramtype_d_datetime input.datepicker-time
+{
+   width: 2.8em;
+}
+
+.rule-config ul.rule-config-body div.parameters .unit
+{
+   margin-left: 0.5em;   
+}
+
+  
+.rule-config ul.rule-config-body div.parameters .datepicker
+{
+   display: none;
+   left:-16em;
+   position:absolute;
+   width:14em;
+}
+
+.rule-config ul.rule-config-body div.parameters .datepicker-icon
+{
+   vertical-align: -0.3em;
+   margin: 0 0.4em;
+}
+
+.rule-config ul.rule-config-body div.parameters .yui-button button,
+.rule-config ul.rule-config-body div.actions .yui-button button
+{
+   font-size: 75%;
+}
+
+.rule-config ul.rule-config-body div.actions .yui-button button
+{
+   width: 2.5em;
+   text-align: left;
+}
+
+.rule-config ul.rule-config-body div.parameters .yui-button
+{
+   margin-left: 0.55em;
+}
+
+.rule-config ul.rule-config-body.single div.actions .remove-config.yui-button
+{
+   display: none;
+}
+
+.rule-config ul.rule-config-body .config
+{
+   background-repeat: no-repeat;
+   background-position:0.6em 0.4em;
+}
+
+.rule-config ul.rule-config-body li.config.invalid
+{
+   background-image: url(../../form/images/warning-16.png);
+}

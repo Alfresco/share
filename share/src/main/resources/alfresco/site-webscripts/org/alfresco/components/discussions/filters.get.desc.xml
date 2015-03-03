@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Discussions Filter</shortname>
+  <description>Discussions: Filter Component</description>
+  <url>/components/discussions/filters</url>
+</webscript>

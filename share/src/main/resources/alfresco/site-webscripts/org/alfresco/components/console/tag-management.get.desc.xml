@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Admin Console Tag Management Tool</shortname>
+  <description>Administration Console - Tag Management Tool</description>
+  <url>/components/console/tag-management</url>
+  <family>admin-console</family>
+</webscript>

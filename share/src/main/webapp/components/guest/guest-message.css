@@ -1,0 +1,13 @@
+.guest-message
+{
+   padding: 1.5em 2em;
+}
+
+.guest-message .theme-company-logo
+{
+   margin-bottom: 1em;
+}
+.guest-message a
+{
+   text-decoration:underline;
+}

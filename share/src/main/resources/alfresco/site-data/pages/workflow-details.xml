@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Workflow Details</title>
+   <title-id>page.workflowDetails.title</title-id>
+   <description>Page displaying workflow details</description>
+   <description-id>page.workflowDetails.description</description-id>
+   <template-instance>workflow-details</template-instance>
+   <authentication>user</authentication>
+   <components>
+
+      <!-- Data Header -->
+      <component>
+         <region-id>data-header</region-id>
+         <url>/components/workflow/workflow-details-header</url>
+      </component>
+
+      <!-- Data Form -->
+      <component>
+         <region-id>data-form</region-id>
+         <url>/components/workflow/workflow-form</url>
+      </component>
+
+      <!-- Data Actions -->
+      <component>
+         <region-id>data-actions</region-id>
+         <url>/components/workflow/workflow-details-actions</url>
+      </component>
+
+      <!-- Data Loader -->
+      <component>
+         <region-id>data-loader</region-id>
+         <url>/components/data/data-loader</url>
+         <properties>
+            <url>api/workflow-instances/{workflowId}?includeTasks=true</url>
+            <eventName>workflowDetailedData</eventName>
+            <eventData>data</eventData>
+         </properties>
+      </component>
+
+   </components>
+</page>

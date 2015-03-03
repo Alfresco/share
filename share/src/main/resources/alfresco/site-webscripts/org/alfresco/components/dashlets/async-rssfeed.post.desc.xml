@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Asynchronous RSS Feed POST</shortname>
+   <description>Processes the contents of an RSS feed which has previously been retrieved by the client (this WebScript is intended to be called asynchronously from the client).</description>
+   <format default="json"></format>
+   <url>/components/dashlets/async-rssfeed/protocol/{protocol}/limit/{limit}/target/{target}?feed-url={feedUrl}</url>
+</webscript>

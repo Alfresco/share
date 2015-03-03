@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Site Content Report</shortname>
+   <description>Displays a chart of the site's content</description>
+   <family>site-dashlet</family>
+   <url>/components/dashlets/site-content-report</url>
+</webscript>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Quick Share Redirect</title>
+   <description>Page for redirecting shared content to their correct Share page</description>
+   <template-instance>quickshare-redirect</template-instance>
+   <authentication>user</authentication>
+</page>

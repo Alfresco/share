@@ -1,0 +1,1598 @@
+<alfresco-config>
+
+   <!-- ************************************** -->
+   <!-- Workflow Definition Form Configuration -->
+   <!-- ************************************** -->
+
+   <!--
+      When workflows are started some bpm:workflowXxx properties are copied to the task and named bpm:xxx
+      I.e The bpm:workflowDueDate workflow property becomes the bpm:dueDate task property.
+   -->
+
+   <!-- Ad Hoc Workflow Definition -->
+   <config evaluator="string-compare" condition="jbpm$wf:adhoc">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.assign_to" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+
+   <!-- Activiti Ad Hoc Workflow Definition -->
+   <config evaluator="string-compare" condition="activiti$activitiAdhoc">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+               		 <control-param name="showTime">false</control-param>
+               		 <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.assign_to" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Review and Approve Workflow Definition -->
+   <config evaluator="string-compare" condition="jbpm$wf:review">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Activiti Review and Approve Workflow Definition -->
+   <config evaluator="string-compare" condition="activiti$activitiReview">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                      <control-param name="showTime">false</control-param>
+                      <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Pooled Review and Approve Workflow Definition -->
+   <config evaluator="string-compare" condition="jbpm$wf:reviewpooled">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:groupAssignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:groupAssignee" label-id="workflow.field.review_group" set="assignee" />
+               <field id="wf:requiredApprovePercent" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Activiti Pooled Review and Approve Workflow Definition -->
+   <config evaluator="string-compare" condition="activiti$activitiReviewPooled">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:groupAssignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                      <control-param name="showTime">false</control-param>
+                      <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:groupAssignee" label-id="workflow.field.review_group" set="assignee" />
+               <field id="wf:requiredApprovePercent" label-id="workflow.field.requiredApprovePercent" set="assignee">
+                  <control template="/org/alfresco/components/form/controls/percentage-approve.ftl">
+                     <control-param name="minValue">1</control-param>
+                     <control-param name="maxValue">100</control-param>
+                  </control>
+               </field>
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="string-compare" condition="jbpm$wf:parallelreview">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignees" />
+               <show id="wf:requiredApprovePercent" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignees" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="wf:requiredApprovePercent" set="assignee" />
+               <field id="bpm:assignees" label-id="workflow.field.reviewers" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="string-compare" condition="activiti$activitiParallelReview">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignees" />
+               <show id="wf:requiredApprovePercent" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignees" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                      <control-param name="showTime">false</control-param>
+                      <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="wf:requiredApprovePercent" label-id="workflow.field.requiredApprovePercent" set="assignee">
+                  <control template="/org/alfresco/components/form/controls/percentage-approve.ftl">
+                     <control-param name="minValue">1</control-param>
+                     <control-param name="maxValue">100</control-param>
+                  </control>
+               </field>
+               <field id="bpm:assignees" label-id="workflow.field.reviewers" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="string-compare" condition="jbpm$wf:parallelgroupreview">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:groupAssignee" />
+               <show id="wf:requiredApprovePercent" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="wf:requiredApprovePercent" set="assignee" />
+               <field id="bpm:groupAssignee" label-id="workflow.field.review_group" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="string-compare" condition="activiti$activitiParallelGroupReview">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:groupAssignee" />
+               <show id="wf:requiredApprovePercent" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                      <control-param name="showTime">false</control-param>
+                      <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="wf:requiredApprovePercent" label-id="workflow.field.requiredApprovePercent" set="assignee">
+                  <control template="/org/alfresco/components/form/controls/percentage-approve.ftl">
+                     <control-param name="minValue">1</control-param>
+                     <control-param name="maxValue">100</control-param>
+                  </control>
+               </field>
+               <field id="bpm:groupAssignee" label-id="workflow.field.review_group" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Lifecycle Workflow Definition -->
+   <config evaluator="string-compare" condition="jbpm$wfl:lifecycleapproval">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+    <config evaluator="string-compare" condition="activiti$activitiLifecycleApproval">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                      <control-param name="showTime">false</control-param>
+                      <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+    <!-- Activiti Timer Ad Hoc Workflow Definition -->
+   <config evaluator="string-compare" condition="activiti$activitiAdhocTimer">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                      <control-param name="showTime">false</control-param>
+                      <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.assign_to" set="assignee" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other">
+                  <control template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- ***************************** -->
+   <!-- Start Task Form Configuration -->
+   <!-- ***************************** -->
+
+   <!--
+      NOTE: The forms with 'workflow-details' are used in the Workflow Details page.
+   -->
+
+   <config evaluator="task-type" condition="bpm:startTask">
+      <forms>
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="bpm:sendEMailNotifications" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="bpm:sendEMailNotifications" set="other" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="bpm:activitiStartTask">
+      <forms>
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="bpm:sendEMailNotifications" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="bpm:sendEMailNotifications" set="other" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:submitAdhocTask">
+      <forms>
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="bpm:sendEMailNotifications" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="bpm:sendEMailNotifications" set="other" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:submitReviewTask">
+      <forms>
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="bpm:sendEMailNotifications" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:submitGroupReviewTask">
+      <forms>
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="bpm:groupAssignee" />
+               <show id="wf:requiredApprovePercent" />
+               <show id="bpm:sendEMailNotifications" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="bpm:groupAssignee" label-id="workflow.field.review_group" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:taskId" />
+               <show id="wf:requiredApprovePercent" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:requiredApprovePercent" set="info" />
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:submitParallelReviewTask">
+      <forms>
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="wf:requiredApprovePercent" />
+               <show id="bpm:sendEMailNotifications" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:taskId" />
+               <show id="wf:requiredApprovePercent" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:sendEMailNotifications" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="other" appearance="title" label-id="workflow.set.other" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:requiredApprovePercent" set="info" />
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:sendEMailNotifications" set="other" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="inwf:inviteToSiteTask">
+      <forms>
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="inwf:inviteeFirstName" />
+               <show id="inwf:inviteeLastName" />
+               <show id="inwf:inviteeEmail" />
+               <show id="inwf:inviteeRole" />
+               <show id="inwf:resourceTitle" />
+               <show id="inwf:resourceDescription" />
+               <show id="inwf:inviterUserName" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+            </appearance>
+         </form>
+
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:taskId" />
+               <show id="inwf:inviteeFirstName" />
+               <show id="inwf:inviteeLastName" />
+               <show id="inwf:inviteeEmail" />
+               <show id="inwf:inviteeRole" />
+               <show id="inwf:resourceTitle" />
+               <show id="inwf:resourceDescription" />
+               <show id="inwf:inviterUserName" />
+               <show id="bpm:status" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="inwf:inviteeFirstName" set="info" />
+               <field id="inwf:inviteeLastName" set="info" />
+               <field id="inwf:inviteeEmail" set="info" />
+               <field id="inwf:inviteeRole" set="info" />
+               <field id="inwf:resourceTitle" set="info" />
+               <field id="inwf:resourceDescription" set="info" />
+               <field id="inwf:inviterUserName" set="info" />
+               <field id="bpm:status" set="progress" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="imwf:moderatedInvitationSubmitTask">
+      <forms>
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="imwf:inviteeUserName" />
+               <show id="imwf:resourceName" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+            </appearance>
+         </form>
+
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:taskId" />
+               <show id="imwf:inviteeUserName" />
+               <show id="imwf:resourceName" />
+               <show id="bpm:status" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="imwf:inviteeUserName" set="info" />
+               <field id="imwf:resourceName" set="info" />
+               <field id="bpm:status" set="progress" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- *********************** -->
+   <!-- Task Form Configuration -->
+   <!-- *********************** -->
+
+   <config evaluator="task-type" condition="bpm:workflowTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:adhocTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:completedAdhocTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:reviewTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!--  Activiiti Review Task -->
+   <config evaluator="task-type" condition="wf:activitiReviewTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="wf:reviewOutcome" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="wf:reviewOutcome" label-id="workflow.field.outcome" set="response">
+                  <control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:approvedTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:rejectedTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:approvedParallelTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="wf:reviewerCount" />
+               <show id="wf:approveCount" />
+               <show id="wf:requiredPercent" />
+               <show id="wf:actualPercent" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="outcome" appearance="title" label-id="workflow.set.outcome"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:reviewerCount" set="outcome">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:approveCount" set="outcome">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:requiredPercent" set="outcome">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:actualPercent" set="outcome">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wf:rejectedParallelTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="wf:reviewerCount" />
+               <show id="wf:approveCount" />
+               <show id="wf:requiredPercent" />
+               <show id="wf:actualPercent" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="outcome" appearance="title" label-id="workflow.set.outcome"
+                    template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:reviewerCount" set="outcome">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:approveCount" set="outcome">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:requiredPercent" set="outcome">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="wf:actualPercent" set="outcome">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="inwf:invitePendingTask">
+      <forms>
+         <form>
+            <view-form template="/org/alfresco/components/form/invite-task-form.ftl" />
+            <edit-form template="/org/alfresco/components/form/invite-task-form.ftl" />
+            <field-visibility>
+               <show id="inwf:resourceTitle" />
+               <show id="inwf:resourceDescription" />
+               <show id="inwf:inviteeRole" />
+               <show id="bpm:priority" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="inwf:activitiInvitePendingTask">
+      <forms>
+         <form>
+            <view-form template="/org/alfresco/components/form/invite-task-form.ftl" />
+            <edit-form template="/org/alfresco/components/form/invite-task-form.ftl" />
+            <field-visibility>
+               <show id="inwf:resourceTitle" />
+               <show id="inwf:resourceDescription" />
+               <show id="inwf:inviteeRole" />
+               <show id="bpm:priority" />
+               <show id="bpm:comment" />
+               <show id="inwf:inviteOutcome" />
+            </field-visibility>
+            <appearance>
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="inwf:inviteOutcome" label-id="workflow.field.outcome" set="response">
+                  <control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="inwf:acceptInviteTask">
+      <forms>
+         <form>
+            <view-form template="/org/alfresco/components/form/invite-accepted-task-form.ftl" />
+            <edit-form template="/org/alfresco/components/form/invite-accepted-task-form.ftl" />
+            <field-visibility>
+               <show id="inwf:resourceTitle" />
+               <show id="inwf:resourceDescription" />
+               <show id="inwf:inviteeFirstName" />
+               <show id="inwf:inviteeLastName" />
+               <show id="bpm:priority" />
+               <show id="transitions" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="inwf:rejectInviteTask">
+      <forms>
+         <form>
+            <view-form template="/org/alfresco/components/form/invite-rejected-task-form.ftl" />
+            <edit-form template="/org/alfresco/components/form/invite-rejected-task-form.ftl" />
+            <field-visibility>
+               <show id="inwf:resourceTitle" />
+               <show id="inwf:resourceDescription" />
+               <show id="inwf:inviteeFirstName" />
+               <show id="inwf:inviteeLastName" />
+               <show id="bpm:priority" />
+               <show id="transitions" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="imwf:moderatedInvitationReviewTask">
+      <forms>
+         <form>
+            <view-form template="/org/alfresco/components/form/invite-request-task-form.ftl" />
+            <edit-form template="/org/alfresco/components/form/invite-request-task-form.ftl" />
+            <field-visibility>
+               <show id="imwf:inviteeUserName" />
+               <show id="imwf:resourceName" />
+               <show id="bpm:priority" />
+               <show id="imwf:reviewComments" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+               <field id="imwf:reviewComments" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="imwf:activitiModeratedInvitationReviewTask">
+      <forms>
+         <form>
+            <view-form template="/org/alfresco/components/form/invite-request-task-form.ftl" />
+            <edit-form template="/org/alfresco/components/form/invite-request-task-form.ftl" />
+            <field-visibility>
+               <show id="imwf:inviteeUserName" />
+               <show id="imwf:resourceName" />
+               <show id="bpm:priority" />
+               <show id="bpm:comment" />
+               <show id="imwf:reviewOutcome" />
+            </field-visibility>
+            <appearance>
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="imwf:reviewOutcome" label-id="workflow.field.outcome" set="response">
+                  <control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+</alfresco-config>

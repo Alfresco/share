@@ -1,0 +1,4 @@
+<wiki>
+   <!-- If set to "true" will allow all HTML tags to be displayed, otherwise a safe subset only -->
+   <allowUnfilteredHTML>false</allowUnfilteredHTML>
+</wiki>

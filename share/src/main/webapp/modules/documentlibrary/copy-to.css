@@ -1,0 +1,198 @@
+.copy-to .hd .light
+{
+   font-weight: normal;
+}
+
+.copy-to .wrapper
+{
+   padding-top: 0.5em;
+}
+
+.copy-to h3
+{
+   padding-left: 0.5em;
+}
+
+.copy-to .bdft
+{
+   clear: both;
+}
+
+/* Columns */
+
+.copy-to .mode,
+.copy-to .site,
+.copy-to .container,
+.copy-to .path
+{
+   float: left;
+   height: 23em;
+}
+
+.copy-to .repository-mode .site,
+.copy-to .repository-mode .container
+{
+   display: none;
+}
+
+.copy-to .repository-mode .treeview
+{
+   width: 48em;
+}
+
+
+/* Mode Select */
+
+.copy-to .mode span
+{
+   clear: left;
+   float: left;
+}
+
+.copy-to .mode span.yui-button
+{
+   margin: 0.5em 0.5em 0px;
+}
+
+.copy-to .mode span.default
+{
+   background-position: 0pt -1400px;
+   border-color: #304369;
+}
+
+.copy-to .mode span.default button
+{
+   color: #fff;
+}
+
+.copy-to .mode button
+{
+   height: 4em;
+   width: 10em;
+}
+
+
+/* Site and container pickers */
+
+/* Ensure site-picker.width + container-picker.width + treeview.width = 46em */
+.copy-to .site-picker
+{
+   border: 1px solid #e0e0e0;
+   float: left;
+   height: 20em;
+   margin: 0.5em 0.5em 0px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   width: 14em;
+}
+
+.copy-to .container-picker
+{
+   border: 1px solid #e0e0e0;
+   float: left;
+   height: 20em;
+   margin: 0.5em 0.5em 0px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   width: 14em;
+}
+
+.copy-to .site-picker h4
+{
+   background-image: url(images/site-16.png);
+   background-repeat: no-repeat;
+   padding-left: 20px;
+}
+
+.copy-to .container-picker h4
+{
+   background-image: url(images/open-folder-16.png);
+   background-repeat: no-repeat;
+   padding-left: 20px;
+}
+
+.copy-to .site-picker .last a,
+.copy-to .container-picker .last a
+{
+   border-bottom: medium none;
+}
+
+.copy-to .site-picker a,
+.copy-to .container-picker a
+{
+   border-bottom: 1px dashed #d7d7d7;
+   display: block;
+   padding: 0.5em 1px;
+}
+.copy-to .site-picker a:active,
+.copy-to .site-picker a:hover,
+.copy-to .container-picker a:active,
+.copy-to .container-picker a:hover
+{
+   background-color: #dceaf4;
+   text-decoration: none;
+}
+
+.copy-to .site-picker a.selected,
+.copy-to .container-picker a.selected
+{
+   background-color: #dceaf4;
+}
+
+
+/* Tree view */
+
+.copy-to .treeview
+{
+   border: 1px solid #e0e0e0;
+   height: 20em;
+   margin: 0.5em 0.5em 0px;
+   overflow-y: auto;
+   width: 18em;
+}
+
+.copy-to .treeview .ygtvspacer
+{
+   display: block;
+   width: 18px;
+}
+
+.copy-to .treeview .ygtvchildren
+{
+   background-color: #ffffff;
+   width: 100%;
+}
+
+.copy-to .treeview .ygtvitem
+{
+   overflow-x: visible;
+}
+
+.copy-to .ygtvitem .no-permission
+{
+   color: #c0c0c0;
+}
+
+.copy-to .ygtvlabel,
+.copy-to .ygtvlabel:link,
+.copy-to .ygtvlabel:visited,
+.copy-to .ygtvlabel:hover
+{
+   background: none;
+   color: #000;
+   white-space: nowrap;
+}
+
+.copy-to .ygtverror,
+.copy-to .ygtverror:link,
+.copy-to .ygtverror:visited,
+.copy-to .ygtverror:hover
+{
+   background: red;
+   color: white;
+}
+
+.copy-to .selected
+{
+   background-color: #dceaf4;
+}

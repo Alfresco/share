@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>My Document Workspaces</shortname>
+   <description>Component used to list document workspaces a user belongs to</description>
+   <family>user-dashlet</family>
+   <url>/components/dashlets/my-workspaces</url>
+</webscript>

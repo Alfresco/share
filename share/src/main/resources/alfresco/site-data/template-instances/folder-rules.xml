@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/folder-rules</template-type>
+   <properties>
+      <pageFamily>documentlibrary</pageFamily>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <sub-components>
+            <sub-component id="default">
+               <evaluations>
+                  <!-- if in site: Site title -->
+                  <evaluation id="site">
+                     <evaluators>
+                        <evaluator type="site.component.evaluator"/>
+                     </evaluators>
+                     <url>/components/title/collaboration-title</url>
+                  </evaluation>
+                  <!-- otherwise: Repository title -->
+                  <evaluation id="repo">
+                     <url>/components/title/simple-title</url>
+                     <properties>
+                        <title>title.repository</title>
+                        <subtitle>title.browser</subtitle>
+                     </properties>
+                  </evaluation>
+               </evaluations>
+            </sub-component>
+         </sub-components>
+      </component>
+
+      <!-- Site Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <sub-components>
+            <sub-component id="default">
+               <evaluations>
+                  <!-- if in site: Site title -->
+                  <evaluation id="site">
+                     <evaluators>
+                        <evaluator type="site.component.evaluator"/>
+                     </evaluators>
+                     <url>/components/navigation/collaboration-navigation</url>
+                  </evaluation>
+               </evaluations>
+            </sub-component>
+         </sub-components>
+      </component>
+
+      <!-- Rules Path -->
+      <component>
+         <region-id>path</region-id>
+         <sub-components>
+            <sub-component id="default">
+               <evaluations>
+                  <!-- if in site: Site header -->
+                  <evaluation id="site">
+                     <evaluators>
+                        <evaluator type="site.component.evaluator"/>
+                     </evaluators>
+                     <url>/components/node-details/node-header</url>
+                     <properties>
+                        <nodeRef>{nodeRef}</nodeRef>
+                        <rootPage>documentlibrary</rootPage>
+                        <rootLabelId>path.documents</rootLabelId>
+                        <showOnlyLocation>true</showOnlyLocation>
+                        <showFavourite>false</showFavourite>
+                        <showLikes>false</showLikes>
+                        <showComments>false</showComments>
+                        <showQuickShare>false</showQuickShare>
+                        <showDownload>false</showDownload>
+                     </properties>
+                  </evaluation>
+                  
+                  <!-- Check the page context using the "pagecontext" component evaluator
+                       for access from either the "My Files" or "Shared Files" contexts. (the
+                       page context is set via a URL token and the context allows the library
+                       root to be set so that the folder path is displayed correctly) -->
+                  <evaluation id="myfiles">
+                     <evaluators>
+                        <evaluator type="pagecontext.component.evaluator">
+                           <params>
+                              <pagecontext>mine</pagecontext>
+                           </params>
+                        </evaluator>
+                     </evaluators>
+                     <url>/components/node-details/node-header</url>
+                     <properties>
+                        <nodeRef>{nodeRef}</nodeRef>
+                        <libraryRoot>alfresco://user/home</libraryRoot>
+                        <rootPage>context/mine/myfiles</rootPage>
+                        <rootLabelId>location.path.myfiles</rootLabelId>
+                        <showOnlyLocation>true</showOnlyLocation>
+                        <showFavourite>false</showFavourite>
+                        <showLikes>false</showLikes>
+                        <showComments>false</showComments>
+                        <showQuickShare>false</showQuickShare>
+                        <showDownload>false</showDownload>
+                     </properties>
+                  </evaluation>
+                  <evaluation id="shared">
+                     <evaluators>
+                        <evaluator type="pagecontext.component.evaluator">
+                           <params>
+                              <pagecontext>shared</pagecontext>
+                           </params>
+                        </evaluator>
+                     </evaluators>
+                     <url>/components/node-details/node-header</url>
+                     <properties>
+                        <nodeRef>{nodeRef}</nodeRef>
+                        <libraryRoot>alfresco://company/shared</libraryRoot>
+                        <rootPage>context/shared/sharedfiles</rootPage>
+                        <rootLabelId>location.path.shared</rootLabelId>
+                        <showOnlyLocation>true</showOnlyLocation>
+                        <showFavourite>false</showFavourite>
+                        <showLikes>false</showLikes>
+                        <showComments>false</showComments>
+                        <showQuickShare>false</showQuickShare>
+                        <showDownload>false</showDownload>
+                     </properties>
+                  </evaluation>
+                  
+                  <!-- otherwise: Repo header -->
+                  <evaluation id="repo">
+                     <url>/components/node-details/node-header</url>
+                     <properties>
+                        <nodeRef>{nodeRef}</nodeRef>
+                        <rootPage>repository</rootPage>
+                        <rootLabelId>path.repository</rootLabelId>
+                        <showOnlyLocation>true</showOnlyLocation>
+                        <showFavourite>false</showFavourite>
+                        <showLikes>false</showLikes>
+                        <showComments>false</showComments>
+                        <showQuickShare>false</showQuickShare>
+                        <showDownload>false</showDownload>
+                     </properties>
+                  </evaluation>
+               </evaluations>
+            </sub-component>
+         </sub-components>
+      </component>
+
+      <!-- Rules Header -->
+      <component>
+         <region-id>rules-header</region-id>
+         <url>/components/rules/rules-header</url>
+      </component>
+
+      <!-- Linked Rules -->
+      <component>
+         <region-id>rules-linked</region-id>
+         <url>/components/rules/rules-linked</url>
+      </component>
+
+      <!-- Inherited Rules -->
+      <component>
+         <region-id>inherited-rules</region-id>
+         <url>/components/rules/rules-list</url>
+         <properties>
+            <filter>inherited</filter>
+         </properties>
+      </component>
+
+      <!-- Folder Rules -->
+      <component>
+         <region-id>folder-rules</region-id>
+         <url>/components/rules/rules-list</url>
+         <properties>
+            <filter>folder</filter>
+            <selectDefault>true</selectDefault>
+            <editable>true</editable>
+         </properties>
+      </component>
+
+      <!-- Rule Details -->
+      <component>
+         <region-id>rule-details</region-id>
+         <url>/components/rules/rule-details</url>
+      </component>
+
+      <!-- No Rules -->
+      <component>
+         <region-id>rules-none</region-id>
+         <url>/components/rules/rules-none</url>
+      </component>
+
+   </components>
+</template-instance>

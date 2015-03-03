@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Admin Console Node Browser</shortname>
+  <description>Administration Console - Node Browser</description>
+  <url>/components/console/node-browser</url>
+  <family>admin-console</family>
+</webscript>

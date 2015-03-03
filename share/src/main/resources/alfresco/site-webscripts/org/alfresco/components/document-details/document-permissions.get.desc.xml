@@ -1,0 +1,22 @@
+<webscript>
+   <shortname>document-permissions-actions</shortname>
+   <description>
+      <![CDATA[
+      Document Permissions Component<br/>
+      Refreshes on "filesPermissionsUpdated".
+      ]]>
+   </description>
+   <url>/components/document-details/document-permissions</url>
+   <arg>
+      <shortname>htmlid</shortname>
+      <description><![CDATA[A GUID that can be used by client side JavaScript to get hold of the markup in the Dom.]]></description>
+   </arg>
+   <arg>
+      <shortname>nodeRef</shortname>
+      <description><![CDATA[Reference to the node to display permissions for.]]></description>
+   </arg>
+   <arg>
+      <shortname>site</shortname>
+      <description><![CDATA[(Optional) The shortname of the site the document lives in.]]></description>
+   </arg>
+</webscript>

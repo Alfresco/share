@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>rule-property-picker</shortname>
+  <description>Rules Property picker</description>
+  <url>/modules/rules/property-picker</url>
+</webscript>

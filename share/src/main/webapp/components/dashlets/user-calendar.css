@@ -1,0 +1,53 @@
+.user-calendar .scrollableList
+{
+   padding: 0;
+}
+
+.user-calendar .icon
+{
+   padding: 4px;
+}
+
+.user-calendar .detail
+{
+   padding: 4px;
+}
+
+.user-calendar .yui-dt table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.user-calendar .yui-dt thead
+{
+   display: none;
+}
+
+.user-calendar .yui-dt tbody
+{
+   outline: none;
+}
+
+.user-calendar .yui-dt tr.yui-dt-even,
+.user-calendar .yui-dt tr.yui-dt-odd
+{
+   background-color: #F9FCFD;
+}
+
+.user-calendar .yui-dt td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: top;
+}
+
+.user-calendar .yui-dt td .yui-dt-liner
+{
+   padding: 4px 6px;
+}
+
+.user-calendar .yui-dt .yui-dt-message td
+{
+   border: medium none;
+}

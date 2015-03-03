@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Transformer ImageMagick Tool</shortname>
+  <description>Administration Console - Transformer ImageMagick Tool</description>
+  <url>/components/console/transformer-imagemagick</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>
