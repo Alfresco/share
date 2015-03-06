@@ -1,0 +1,43 @@
+.inviteusersbyemail
+{
+   margin: 1em 0 0;
+}
+
+.inviteusersbyemail .title
+{
+   font-size: 108%;
+   padding: 12px 0px 12px 8px;
+}
+
+.inviteusersbyemail .byemailbody
+{
+   border: 1px dashed #c0c0c0;
+   padding: 0.5em 0.5em 1em;
+}
+
+.inviteusersbyemail .byemailbody .byemailuser
+{
+   width: 100%;
+}
+
+.inviteusersbyemail .byemailbody .byemailuser td
+{
+   padding: 4px;
+   white-space: nowrap;
+}
+
+.inviteusersbyemail .byemailbody .byemailuser .elabel
+{
+   padding-left: 15px
+}
+
+.inviteusersbyemail .byemailbody .byemailuser .einput
+{
+   width: 99%;
+}
+
+.inviteusersbyemail .byemailbody .byemailuser .byemailadd
+{
+   padding-right: 3px;
+   vertical-align: top;
+}

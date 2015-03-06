@@ -1,0 +1,110 @@
+.web-preview .PdfJs
+{
+   height: 450px;
+}
+.web-preview .PdfJs iframe
+{
+   max-height: 100%;
+   max-width: 100%;
+   overflow: auto;
+   width:100%;
+   /* Height is view area above minus control bar height */ 
+   height:430px;
+   background-color: #FFFFFF;
+}
+
+.web-preview .Embed
+{
+   height: 450px;
+}
+.web-preview .Embed iframe
+{
+   max-height: 100%;
+   max-width: 100%;
+   overflow: auto;
+   width:100%;
+   /* Height is view area above minus control bar height */ 
+   height:430px;
+   background-color: #FFFFFF;
+}
+
+.iframe-view-controls {
+  background-color: #eee;
+  background: -o-linear-gradient(bottom,#eee 0%,#fff 100%);
+  background: -moz-linear-gradient(center bottom, #eee 0%, #fff 100%);
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0.0, #ddd), color-stop(1.0, #fff));
+  border-bottom: 1px solid #CCC;
+  padding: 3px 0px 0px 1px;
+  height: 20px;
+  width: 100%;
+  z-index: 1;
+  white-space:nowrap;
+  overflow: hidden;
+}
+
+.iframe-view-separator {
+  display: inline;
+  border-left: 1px solid #d3d3d3;
+  border-right: 1px solid #fff;
+  height: 16px;
+  width:0px;
+  margin: 4px;
+}
+.iframe-viewer-button a.action-link,
+.iframe-viewer-button a.simple-link,
+.iframe-viewer-button a.show-more
+{
+   background-position: 4px 1px;
+   background-repeat: no-repeat;
+   border: 1px solid transparent;
+   min-height: 16px;
+   padding: 2px 5px 2px 24px;
+
+}
+
+.iframe-viewer-button a:active,
+.iframe-viewer-button a:hover,
+.iframe-viewer-button .highlighted
+{
+   background-color: #fff;
+   border: 1px solid #2b6eb5;
+   text-decoration: none;
+   padding-right: 5px;
+}
+
+/* Reset yui button in filmstrip */
+.previewer .yui-overlay ul
+{
+    padding: 0 !important;
+    margin-left: 0 !important;
+    list-style-position: inside !important;
+}
+
+.previewer .yui-overlay li
+{
+    list-style: none !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+    float: none;
+}
+
+/* Overrides for filmstrip view */
+.alf-filmstrip .web-preview .previewer.Embed,
+.alf-filmstrip .web-preview .previewer.PdfJs,
+.alf-filmstrip .web-preview .previewer.Prettify,
+.alf-filmstrip .web-preview .previewer.WebODF
+{
+   margin-top: 47px;
+}
+/* Ensure that Maximise view still works */
+.alf-filmstrip .web-preview .previewer.PdfJs.fullPage
+{
+   margin-top: auto;
+}
+.alf-filmstrip-content-only .web-preview .previewer.Embed,
+.alf-filmstrip-content-only .web-preview .previewer.PdfJs,
+.alf-filmstrip-content-only .web-preview .previewer.Prettify,
+.alf-filmstrip-content-only .web-preview .previewer.WebODF
+{
+    margin-top: 1px;
+}

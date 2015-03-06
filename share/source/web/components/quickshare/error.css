@@ -1,0 +1,32 @@
+.quickshare-error
+{
+   margin: 2em 25% 0 25%;
+   padding: 2em 4em;
+   background-color: #fff;
+   border-radius: 0.5em;
+}
+
+.quickshare-error h1
+{
+   text-align: center;
+   font-size: 210%;
+   letter-spacing: -0.7px;
+   padding-bottom: 1em;
+   color: #666;
+}
+
+.quickshare-error p.message
+{
+   padding: 0 1em;
+   margin-top: 1.5em;
+   margin-bottom: 1.5em;
+   font-size: 138.5%;
+   color: #666;
+}
+
+.quickshare-error p.broken-file-icon
+{
+   padding-left: 5em;
+   background: url(../images/broken-file.png) no-repeat 1em 0;
+   min-height: 4em;
+}

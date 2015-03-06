@@ -1,0 +1,17 @@
+.start-workflow .workflow-definition
+{
+   float:left;
+   margin-top:0.5em;
+   padding-left:1em;
+}
+
+.start-workflow .yuimenu .yuimenuitem .description
+{
+   padding: 0 20px;
+}
+
+.start-workflow .yuimenu .yuimenuitem
+{
+   margin: 0.25em 0;
+}
+

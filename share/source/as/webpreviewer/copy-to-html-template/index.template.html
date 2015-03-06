@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Alfresco Web Previewer</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<script type="text/javascript" src="swfobject.js"></script>
+      <script type="text/javascript" src="extMouseWheel.js"></script>
+      <script type="text/javascript">
+
+	   	var i18n = {
+            file:
+            {
+               title: "Some document.pdf"
+            },
+	   		label:
+	   		{
+	   			actualSize: "Actual Size",
+	            fitPage: "Fit Page",
+            	fitWidth: "Fit Width",
+            	fitHeight: "Fit Height",
+            	fullscreen: "Fullscreen",
+            	fullwindow: "Maximize",
+            	fullwindow_escape: "Press Esc to exit full window mode",
+            	page: "Page",
+            	pageOf: "of"
+	   		},
+	   		errors: {
+            	"error": "The content cannot be displayed due to an unknown error.",
+              	"content": "The content cannot be displayed because it is not of type png, jpg, gif or swf.",
+              	"io": "The preview could not be loaded from the server."
+           	}
+	   	};
+
+		   var onPreviewEvent = function (event, objectId)
+		   {
+		   	if (event.event)
+            {
+               var wrapper;
+	            if (event.event.type == "onFullWindowClick")
+	            {
+	               // Called when "Maximize" button was clicked
+	               wrapper = document.getElementById("wrapper");
+	               wrapper.style.width = "100%";
+	               wrapper.style.height = "100%";
+	               wrapper.style.position = "absolute";
+	            }
+	            else if (event.event.type == "onFullWindowEscape")
+	            {
+	               wrapper = document.getElementById("wrapper");
+	               wrapper.style.width = "600px";
+	               wrapper.style.height = "700px";
+	               wrapper.style.position = "static";
+	            }
+	         }
+	         else if (event.error)
+	         {
+	            // Inform the user about the failure
+	            alert(i18n.errors[event.error.code] || "Error");
+	         }
+		   };
+
+		   var myPreviewLogger = function (msg, level, objectId)
+		   {
+		   	if (console && console.log) {
+		   		console.log("WebPreviewer(" + objectId + ")[" + level + "]: " + msg);
+		   	}
+		   };
+
+			// Url to the result of the pdf2swf conversion (make sure the -T flag was turned on during the transformation)
+			var url = "assets/test/small-webpreview.swf?noCache=" + (new Date().getTime());
+			var flashvars =
+			{
+				fileName: i18n.file.title,
+            paging: true,  // If false only 1 page is displayed at a time
+            url: url,
+            jsCallback: "onPreviewEvent", // Optional but needed if Maximize button shall work
+            jsLogger: "myPreviewLogger", // Optional
+            show_fullscreen_button: true, // Set to false to hide "Fullscreen" button
+            show_fullwindow_button: true,	// Set to false to hide "Maximize" button
+            disable_i18n_input_fix: false, // Set to true to stop fix from being sed if it causes problem for some reason
+            i18n_actualSize: i18n.label.actualSize,
+            i18n_fitPage: i18n.label.fitPage,
+            i18n_fitWidth: i18n.label.fitWidth,
+            i18n_fitHeight: i18n.label.fitHeight,
+            i18n_fullscreen: i18n.label.fullscreen,
+            i18n_fullwindow: i18n.label.fullwindow,
+            i18n_fullwindow_escape: i18n.label.fullwindow_escape,
+            i18n_page: i18n.label.page,
+            i18n_pageOf: i18n.label.pageOf
+			};
+
+			var params =
+			{
+				allowScriptAccess: "sameDomain", // Allow JavaScript & ActionScript to connect
+            allowFullScreen: "true", // To allow the "Fullscreen" button to work
+            wmode: "transparent" // Remove if you don't plan to display html elements on top of the previewer (will increase performace slightly)
+         };
+
+			var attributes =
+			{
+				id: "previewer",
+				name: "previewer" // Must match id to make extMouseWheel.js work (scrolling on MacOSX)
+			};
+
+			swfobject.embedSWF("WebPreviewer.swf", "previewer", "100%", "100%", "9.0.124", false, flashvars, params, attributes);
+
+		</script>
+
+	</head>
+	<body style="padding: 0; margin: 0;">
+	   <!-- Wrapper makes mouse wheel scrolling work on MacOSX and will be resized when "Maximized" is clicked -->
+	   <div id="wrapper" style="width: 600px; height: 700px;">
+			<div id="previewer">
+			   <!-- The entire "previewer" div will be replaced with the flash embed/object tag -->
+			   Please install Flash to be able to preview the document.<br/>
+				<a href="http://www.adobe.com/go/getflashplayer">
+					<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+				</a>
+			</div>
+		</div>
+	</body>
+</html>

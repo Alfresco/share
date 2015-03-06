@@ -1,0 +1,197 @@
+/* History Manager */
+#yui-history-iframe
+{
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 1px;
+   height: 1px;
+   visibility: hidden;
+}
+
+.node-browser
+{
+   margin: 16px 10px 10px;
+}
+
+.node-browser .title
+{
+   font-size: 123.1%;
+   font-weight: bold;
+   padding-bottom: 0.5em;
+}
+
+.node-browser .align-right
+{
+   text-align: right;
+}
+
+.node-browser .separator
+{
+   margin-bottom: 0.8em;
+}
+
+.node-browser .search-bar
+{
+   padding: 0.4em;
+}
+
+.node-browser .yui-button
+{
+   vertical-align: middle;
+}
+
+/*.node-browser .search-button
+{
+   margin-top: -2.0em;
+   padding-left: 49em;
+}*/
+
+.node-browser .search-text textarea
+{
+   padding: 3px;
+   width: 50em;
+   height: 3em;
+}
+
+.node-browser .search-text .yui-button
+{
+   vertical-align: top;
+}
+
+.node-browser .search-text
+{
+	margin-top: 0.8em;
+}
+
+.node-browser .search-main
+{
+   border: 1px solid #D7D7D7;
+}
+
+.node-browser .results table
+{
+   width: 100%;
+   border: none;
+}
+
+.node-browser .row
+{
+   padding: 0.333em;
+}
+
+.node-browser .label
+{
+   display: block;
+   float: left;
+   padding: 0.2em 0.8em 0 1em;
+   width: 10em;
+   font-weight: bold;
+}
+
+.node-browser .buttons
+{
+   padding-bottom: 1em;
+   padding-top: 0.5em;
+   text-align: center;
+}
+
+.node-browser .view-main
+{
+   border: 1px solid #D7D7D7;
+   padding-bottom: 1em;
+}
+
+.node-browser .header-bar
+{
+   height: 1.1em;
+   padding: 0.3em;
+   margin: 1.0em;
+   background-color: #e3eaec;
+   border-bottom: 2px solid #f0f3f4;
+   font-weight: bold;
+   font-size: 116%;
+}
+
+.node-browser .field-row
+{
+   padding: 0.333em;
+}
+
+.node-browser .name-label
+{
+   margin-left: 96px;
+   font-size: 123.1%;
+   line-height: 1.7em;
+}
+
+.node-browser .field-label
+{
+   margin-left: 96px;
+   line-height: 1.5em;
+}
+
+.node-browser .field-label-right
+{
+   clear: left;
+   display: block;
+   padding-right: 0.8em;
+   width: 9em;
+   margin-left: 2em;
+   text-align: right;
+   font-weight: bold;
+}
+
+.node-browser .field-value
+{
+   float: left;
+   margin-left: 12em;
+   margin-top: -1.2em;
+}
+
+.node-browser .list
+{
+   margin: 0.5em 2em;
+}
+
+.node-browser .node-properties table,
+.node-browser .node-children table,
+.node-browser .node-parents table,
+.node-browser .node-assocs table,
+.node-browser .node-source-assocs table,
+.node-browser .node-permissions table
+{
+   border: 1px solid #D7D7D7;
+   border-right-width: 0px;
+}
+
+.node-browser .node-aspects
+{
+	line-height: 1.7em;
+}
+
+.node-browser .node-permissions .name-label
+{
+   margin-left: 5em;
+}
+
+.node-browser .node-permissions .field-label
+{
+   margin-left: 5em;
+}
+
+.node-browser .node-permissions-info .field-label-right
+{
+   width: 7em;
+   margin-left: 0em;
+}
+
+.node-browser .node-permissions-info .field-value
+{
+   margin-left: 8em;
+}
+
+.node-browser .node-value-label
+{
+	font-style: italic;
+}

@@ -1,0 +1,10 @@
+.create-event
+{
+   width: 45em;
+}
+
+/* To make sure FF2 doesn't hide the calndar menu with other elements */ 
+.create-event .overflow
+{
+   overflow: visible !important;
+}

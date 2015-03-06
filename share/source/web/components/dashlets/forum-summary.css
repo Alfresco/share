@@ -1,0 +1,38 @@
+.forumsummary .new-topic span.first-child a
+{
+   background: transparent url("../images/new-blog-16.png") no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.forumsummary .alfresco-datatable td .yui-dt-liner
+{
+   padding: 4px 4px 4px 10px;
+}
+
+.forumsummary .resultSizeLabel
+{
+   color: black;
+   display: block;
+   float: left;
+   padding-top: 6px;
+}
+
+.forumsummary .toolbar
+{
+   padding: 2px 5px 1px;
+}
+
+.forumsummary .node
+{
+   padding: 0px;
+}
+
+.forumsummary .node .nodeStatus
+{
+   font-size: 100%;
+}
+
+.forumsummary .node .nodeTitle a
+{
+   font-size: 100%;
+}

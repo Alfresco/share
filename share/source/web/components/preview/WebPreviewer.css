@@ -1,0 +1,72 @@
+/* CSS file */
+
+Application
+{	
+	backgroundGradientAlphas: 1.0, 1.0;
+	backgroundGradientColors: #454545, #828282;	
+}
+
+.fileNameLabel
+{
+	font-weight: bold;
+}
+
+.previewerChrome
+{
+	vertical-gap: 0;
+}
+
+.headerApplicationControlBar
+{		
+	fill-alphas: 1.0, 1.0;
+	fill-colors: #E8EAEB, #DDE0E2;
+	corner-radius: 0;		
+	horizontal-gap: 5;
+	drop-shadow-enabled: false;
+}
+
+.zoomOutButton,
+.zoomSlider,
+.zoomInButton,
+.previousButton,
+.nextButton
+{		
+	corner-radius: 3;
+}
+
+.pageTextInput
+{
+	text-align: center;
+}
+
+.noOfPagesLabel
+{
+	padding-left: 0;
+	text-align: left;
+}
+
+.of
+{
+	padding-right: 0;
+	text-align: right;
+}
+
+.headerSeparator
+{
+	border-color: #FFFFFF;
+	border-style:solid;
+	border-thickness: 1;
+	strokeColor: #bfc3c4;	
+}
+
+.chromeSeparator
+{
+	stroke-color: #181515;
+}
+
+.zoomPercentageTextInput,
+.pageTextInput
+{
+	text-align: right;
+}
+

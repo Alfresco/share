@@ -1,0 +1,110 @@
+/* Data Table */
+.my-meeting-workspaces .yui-dt table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.my-meeting-workspaces .yui-dt thead
+{
+   display: none;
+}
+
+.my-meeting-workspaces .yui-dt tbody
+{
+   outline: none;
+}
+
+.my-meeting-workspaces .yui-dt tr.yui-dt-even,
+.my-meeting-workspaces .yui-dt tr.yui-dt-odd
+{
+   background-color: #ffffff;
+}
+
+.my-meeting-workspaces .yui-dt td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: top;
+}
+
+.my-meeting-workspaces .yui-dt td .yui-dt-liner
+{
+   padding: 4px 6px;
+}
+
+.my-meeting-workspaces .yui-dt .yui-dt-message td
+{
+   border: medium none;
+}
+
+/**
+ * Favourite document indicator.
+ * Note: We can't use the same "enabled" class on normal and IMAP favourites because IE6 can't cope
+ *       with the selector. No, really. Nice work, Microsoft muppets.
+*/
+.my-meeting-workspaces a.favourite-site,
+.my-meeting-workspaces a.imap-favourite-site
+{
+   background-image: url(../images/star-deselected_16x16.png);
+   background-position: center;
+   background-repeat: no-repeat;
+   cursor: pointer;
+   padding: 6px 8px;
+}
+.my-meeting-workspaces a.imap-favourite-site
+{
+   background-image: url(../images/imap-fav-deselected-16.png);
+}
+.my-meeting-workspaces a.favourite-site.enabled
+{
+   background-image: url(../images/star-selected_16x16.png);
+}
+.my-meeting-workspaces a.imap-favourite-site.imap-enabled
+{
+   background-image: url(../images/imap-fav-selected-16.png);
+}
+.my-meeting-workspaces a.favourite-site:active,
+.my-meeting-workspaces a.favourite-site:hover,
+.my-meeting-workspaces a.imap-favourite-site:active,
+.my-meeting-workspaces a.imap-favourite-site:hover
+{
+   text-decoration: none;
+}
+
+.my-meeting-workspaces div.site-title
+{
+   background-image: url(../images/site-24.png);
+   background-repeat: no-repeat;
+   background-position: 0 0;
+   min-height: 24px;
+   padding-left: 32px;
+   padding-top: 0.2em;
+}
+
+.my-meeting-workspaces div.site-description
+{
+   margin-left: 32px;
+   position: relative;
+   top: -4px;
+}
+
+.my-meeting-workspaces a.delete-site
+{
+   background-image: url(../images/remove-icon-16.png);
+   background-repeat: no-repeat;
+   background-position: center;
+   cursor: pointer;
+   padding: 1em;
+   visibility: hidden;
+}
+.my-meeting-workspaces a.delete-site:active,
+.my-meeting-workspaces a.delete-site:hover
+{
+   text-decoration: none;
+}
+
+.my-meeting-workspaces .yui-dt-highlighted a.delete-site
+{
+   visibility: visible;
+}

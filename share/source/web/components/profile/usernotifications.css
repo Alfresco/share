@@ -1,0 +1,32 @@
+.notifications
+{
+   display: none;
+}
+
+.notifications .row
+{
+   padding: 0.333em;
+}
+
+.notifications .label
+{
+   display: block;
+   float: left;
+   padding-right: 0.8em;
+   padding-top: 0.2em;
+   width: 16em;
+   text-align: right;
+   font-weight: bold;
+}
+
+.notifications input
+{
+   margin-top: 0.25em;
+}
+
+.notifications .buttons
+{
+   padding-bottom: 1em;
+   padding-top: 0.5em;
+   text-align: center;
+}

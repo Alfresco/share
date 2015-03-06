@@ -1,0 +1,23 @@
+.colleagues .toolbar .paginator
+{
+   line-height: 2;
+   margin: 0 0 0 0.3em;
+   padding: 0;
+}
+
+.colleagues .detail-list-item
+{
+   min-height: 48px;
+}
+
+.colleagues .info
+{
+   border-bottom: 1px solid #E9E9E9;
+   padding: 1em;
+   text-align: center;
+}
+
+.colleagues .user-status
+{
+   margin-top: 4px;
+}

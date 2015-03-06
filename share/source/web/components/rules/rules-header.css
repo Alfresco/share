@@ -1,0 +1,28 @@
+.rules-header
+{
+   padding: 1em;
+}
+
+.rules-header .rules-actions
+{
+   text-align: right;
+}
+
+.rules-header .rules-actions .inherit span
+{
+   border-color: transparent;
+   border-right: 1px solid #ccc;
+}
+
+.rules-header .inherit span.first-child
+{
+   padding-left: 22px;
+}
+.rules-header .inherit-on span.first-child
+{
+   background: transparent url(../images/inherited-on-16.png) no-repeat 12px 4px;
+}
+.rules-header .inherit-off span.first-child
+{
+   background: transparent url(../images/inherited-off-16.png) no-repeat 12px 4px;
+}

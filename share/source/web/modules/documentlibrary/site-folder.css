@@ -1,0 +1,71 @@
+.site-folder .hd .light
+{
+   font-weight: normal;
+}
+
+.site-folder .treeview
+{
+   height: 20em;
+   overflow-y: auto;
+   padding: 0.5em;
+}
+
+.site-folder .treeview
+{
+   border: 1px solid #e0e0e0;
+   height: 20em;
+   margin: 0.5em;
+   overflow-y: auto;
+   width: 38em;
+}
+
+.site-folder .treeview .ygtvspacer
+{
+   display: block;
+   width: 18px;
+}
+
+.site-folder .treeview .ygtvchildren
+{
+   background-color: #ffffff;
+   width: 100%;
+}
+
+.site-folder .treeview .ygtvitem
+{
+   overflow-x: visible;
+}
+
+.site-folder .ygtvitem .no-permission
+{
+   color: #c0c0c0;
+}
+
+.site-folder .ygtvitem .folders-trimmed
+{
+   color: #f00;
+}
+
+.site-folder .ygtvlabel,
+.site-folder .ygtvlabel:link,
+.site-folder .ygtvlabel:visited,
+.site-folder .ygtvlabel:hover
+{
+   background: none;
+   color: #000;
+   white-space: nowrap;
+}
+
+.site-folder .ygtverror,
+.site-folder .ygtverror:link,
+.site-folder .ygtverror:visited,
+.site-folder .ygtverror:hover
+{
+   background: red;
+   color: white;
+}
+
+.site-folder .selected
+{
+   background-color: #dceaf4;
+}

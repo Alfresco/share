@@ -1,0 +1,282 @@
+/* Header Component */
+
+.header
+{
+   padding-top: 0px;
+}
+
+.header .yui-overlay-hidden
+{
+   display: none;
+}
+
+.header .yuimenu .bd
+{
+   zoom: normal;
+   border: 1px solid #84B4D5;
+   background-color: #FFFFFF;
+   padding: 0;
+   margin-top: 2px;
+}
+
+.header .yuimenu .bd ul li.yuimenuitem .yuimenuitemlabel
+{
+   color: #68A2D2;
+   cursor: pointer;
+   display: block;
+   padding: 4px 15px;
+   text-decoration: none;
+}
+
+.header .yuimenu .bd ul li.yuimenuitem .yuimenuitemlabel
+{
+   display: block;
+   padding-left: 37px;
+   text-decoration: none;
+}
+
+/* Menu: Selected state */
+
+.header .yuimenu .bd ul li.yuimenuitem-selected
+{
+   background-color: #7BA9CE;
+}
+
+.header .yuimenu .bd ul li.yuimenuitem-selected .yuimenuitemlabel
+{
+   color: #FFFFFF;
+}
+
+/* Menu: disabled */
+
+.header .yuimenu .bd ul li.yuimenuitem .yuimenuitemlabel.disabled
+{
+   color: #ccc;
+   background-color: #FFF;
+   cursor: default;
+}
+
+/* Left-side spacing */
+
+.header .header-left
+{
+   float: left;
+}
+
+.header .header-left .logo-spacer
+{
+   display: inline-block;
+   vertical-align: top;
+   width: 6px;
+   margin-right: 6px;
+   height: 50px;
+   margin-top: 1px;
+   border-right: 1px dotted #dfdfdf;
+}
+
+/* Application Items */
+
+.header .app-items
+{
+   display: inline-block;
+}
+
+.header .app-items span.yui-button
+{
+   background: none;
+   border: medium none;
+}
+
+.header .app-items span.yui-button span.first-child
+{
+   background-position: 50% 2px;
+   background-repeat: no-repeat;
+   border: medium none;
+}
+
+.header .app-items span.yui-button span.first-child a,
+.header .app-items span.yui-button span.first-child button
+{
+   padding: 18px 4px 0;
+   text-decoration: none;
+}
+
+.header .app-items span.yui-button span.first-child button
+{
+   background-position: 110% 45%;
+   min-width: 4em;
+}
+
+/* Firefox line-height bug fix */
+@-moz-document url-prefix()
+{
+   .header .app-items span.yui-button span.first-child button
+   {
+      padding: 22px 4px 5px;
+   }
+}
+/* Firefox 6+ bug fix */
+@-moz-document regexp(".*")
+{
+   .header .app-items span.yui-button span.first-child button
+   {
+      margin-bottom: -1px;
+      padding: 18px 4px 0;
+   }
+}
+
+
+.header .app-items div.yuimenu div.bd ul li.yuimenuitem .yuimenuitemlabel
+{
+   background-position: 15px 50%;
+   background-repeat: no-repeat;
+}
+
+.header .app-items div.yuimenu div.bd ul li.yuimenuitem span.yuimenuitemlabel a
+{
+   padding-left: 20px;
+}
+
+/* User Items */
+
+.header .user-items
+{
+   float: right;
+}
+
+.header .user-items .user-status
+{
+   text-align: right;
+}
+
+.header .user-items .user-status span.yui-button span.first-child
+{
+   padding-left: 0;
+}
+
+.header .user-items .yuimenu
+{
+   visibility: hidden;
+}
+
+.header .user-items span.separator
+{
+   border-left: 1px dotted #dfdfdf;
+   display: inline-block;
+   margin-left: 4px;
+   position: relative;
+   top: -5px;
+}
+
+.header .user-items div.user-items-wrapper > span.yui-button,
+.header .search-box > span.yui-button
+{
+   background: none;
+   border-width: 0px;
+}
+
+.header .user-items span.yui-button span.first-child
+{
+   background-repeat: no-repeat;
+   border-width: 0px;
+   background-position: left center;
+}
+
+.header .user-items div.yuimenu div.bd ul li.yuimenuitem .yuimenuitemlabel
+{
+   background-position: 15px 50%;
+   background-repeat: no-repeat;
+}
+
+.header .user-items div.yuimenu div.bd ul li.yuimenuitem span.yuimenuitemlabel a
+{
+}
+
+.header .user-items div.search-box
+{
+   border: 1px solid #a0a0a0;
+   float: right;
+   height: 20px;
+   position: relative;
+   top: -2px;
+   border-radius: 16px;
+}
+
+.header .user-items div.search-box span.yui-button
+{
+   height: 20px;
+   margin-right: -2px;
+}
+
+.header .user-items div.search-box span.yui-button span.first-child
+{
+   background-position: 3px 2px;
+}
+
+.header .user-items div.search-box span.yui-button span.first-child button
+{
+   min-height: 20px;
+   padding: 0 30px 0 0;
+   width: 36px;
+}
+
+.header .user-items div.search-box input[type="text"]
+{
+   border-color: white;
+   display: inline-block;
+   margin-right: 6px;
+   padding: 0;
+   position: relative;
+   top: -2px;
+}
+
+.header .user-items div.search-box input.faded
+{
+   opacity: 0.5;
+}
+
+.header .user-items div.yuimenu div.bd ul li.user-menuitem
+{
+   background-color: #fff;
+   border-bottom: 1px dotted #dfdfdf;
+   min-height: 9em;
+}
+
+.header .user-items a.avatar
+{
+   display: inline-block;
+   left: 0;
+   outline: medium none;
+   padding: 0 10px 4px !important;
+   position: absolute;
+   width: 64px;
+   height: 64px;
+   overflow: hidden;
+}
+
+.header .user-items span.user-status
+{
+   display: inline-block;
+   margin: 0 10px 0 80px;
+}
+
+.header .user-items span.user-status div.user-status-time
+{
+   width: 15em;
+   padding: 2px;
+}
+
+.header .user-items span.user-status span.yui-button
+{
+   border-width: 1px 0px;
+}
+
+.header .user-items span.user-status span.yui-button span.first-child
+{
+   border-width: 0px 1px;
+}
+
+.header .yui-overlay
+{
+   text-align: left;
+}

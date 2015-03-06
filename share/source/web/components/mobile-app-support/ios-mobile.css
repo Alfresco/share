@@ -1,0 +1,75 @@
+div.ios-mobile
+{
+   display: none;
+   margin-bottom: 2pt;
+}
+
+div.ios-mobile a
+{
+   display: block;
+   background: url(ios-mobile-icon.png) 10pt center no-repeat;
+   background-color: #eee;
+   border: 1pt solid #888;
+   border-radius: 16pt;
+   box-shadow: 1px 1px 1px #ccc;
+   font-size: 14pt;
+   margin: 4pt 0 0;
+   padding: 14pt 6pt 14pt 64pt;
+   text-decoration: none;
+   -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+div.ios-mobile a:hover
+{
+   text-decoration: none;
+}
+div.ios-mobile:active a,
+div.ios-mobile:active span
+{
+   background-color: #44f;
+   color: #fff;
+   text-decoration: none;
+}
+
+div.ios-mobile span
+{
+   color: #444;
+   font-size: 76%;
+   position: relative;
+   top: 0.2em;
+}
+
+/* iPad [portrait + landscape] */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px)
+{
+}
+/* iPad Retina support */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)
+{
+   div.ios-mobile a
+   {
+      background-image: url(ios-mobile-icon@2x.png);
+      background-size: 60px 60px;
+  }
+}
+
+/* iPhone [portrait + landscape] */
+@media only screen and (max-device-width: 480px)
+{
+   div.ios-mobile a
+   {
+      /* Deliberate use of @2x icon here */
+      background-image: url(ios-mobile-icon@2x.png);
+      border: 1pt solid #888;
+      font-size: 21pt;
+      margin-top: 10pt;
+      padding-left: 120pt;
+   }
+}
+/* iPhone Retina support */
+@media only screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)
+{
+   div.ios-mobile a
+   {
+      background-size: 130px 130px;
+  }
+}

@@ -1,0 +1,75 @@
+.global-folder.rules-picker .rules
+{
+   float: left;
+   height: 23em;
+   width: 15em;
+}
+
+.global-folder.rules-picker .treeview
+{
+   width: 15em !important;
+}
+
+.global-folder.rules-picker .repository-mode .treeview
+{
+   width: 30em;
+}
+
+.global-folder.rules-picker .rule-picker
+{
+   border: 1px solid #e0e0e0;
+   float: left;
+   height: 20em;
+   margin: 0.5em 0.5em 0px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   width: 14em;
+}
+
+.global-folder.rules-picker .rule-picker span.rule h4 span
+{
+   background-image: url(../../components/images/rule-16.png);
+   background-repeat: no-repeat;
+   padding-left: 20px;
+   padding-bottom: 0.3em;
+}
+
+.global-folder.rules-picker .rule-picker span.rule h4 input
+{
+   margin-right: 0.5em;
+}
+
+.global-folder.rules-picker .rule-picker .last span.rule
+{
+   border-bottom: medium none;
+}
+
+.global-folder.rules-picker .rule-picker span.rule
+{
+   cursor: default;
+   border-bottom: 1px dashed #d7d7d7;
+   display: block;
+   padding: 0.5em;
+   color: #000000;
+}
+
+
+.global-folder.rules-picker .rule-picker span.rule span.description
+{
+   margin-left: 3em;
+   display: block;   
+}
+
+/*
+.global-folder .rule-picker a:active,
+.global-folder .rule-picker a:hover
+{
+   background-color: #dceaf4;
+   text-decoration: none;
+}
+
+.global-folder .rule-picker a.selected
+{
+   background-color: #dceaf4;
+}
+*/

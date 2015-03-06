@@ -1,0 +1,21 @@
+.document-links .link-info
+{
+   padding: 0 1em 1em 0;
+}
+
+.document-links h3
+{
+   margin-bottom: 0.5em;
+}
+
+.document-links .link-info input
+{
+   width: 100%;
+   padding: 0.4em;
+   display: block;
+}
+
+.document-links .link-info a
+{
+ margin-left: 0.5em;
+}

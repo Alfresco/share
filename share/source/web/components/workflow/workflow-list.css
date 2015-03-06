@@ -1,0 +1,239 @@
+.workflow-list
+{
+   clear: both;
+}
+
+/* workflow-list bar */
+
+.workflow-list .workflow-list-bar
+{
+   background-color: #f8f8f8;
+   border-bottom: 1px dashed #c0c0c0;
+   margin: 0 -10px;
+   padding: 4px 0.5em 2px;
+}
+
+.workflow-list .workflow-list-bar-bottom
+{
+   border-top: 1px dashed #d9d9d9;
+   margin-top: 2em;
+   display: none;
+}
+
+.workflow-list span.separator
+{
+   border-right: 1px dotted #457A9C;
+   border-top: medium none;
+   margin: 0 4px;
+   padding: 2px 0;
+   position: relative;
+   top: -4px;
+   vertical-align: bottom;
+}
+
+/* workflow-list bar Buttons and Paginator */
+
+.workflow-list .workflow-list-bar .thin,
+.workflow-list .workflow-list-bar .paginator
+{
+   padding: 4px 1em;
+   margin: 0;
+}
+
+.workflow-list .workflow-list-bar .yui-u
+{
+   text-align: right;
+}
+
+.workflow-list .workflow-list-bar .yui-u.first
+{
+   text-align: left;
+}
+
+.workflow-list .workflow-list-bar .yui-pg-current
+{
+   margin-right: 0;
+}
+
+/* Data Table */
+
+.workflow-list .workflows table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.workflow-list .workflows thead
+{
+   display: none;
+}
+
+.workflow-list .workflows tbody
+{
+   outline: none;
+}
+
+.workflow-list .workflows .yui-dt table
+{
+   border: none;
+}
+
+.workflow-list tr.yui-dt-odd
+{
+   background-color: #ffffff;
+}
+
+.workflow-list .workflows td.yui-dt-last .yui-dt-liner
+{
+   visibility: hidden;
+}
+
+.workflow-list .workflows tr:hover td.yui-dt-last .yui-dt-liner
+{
+   border-left: 1px solid #c5e6e9;
+   visibility: visible;
+}
+
+/*
+.workflow-list .workflows tr.yui-dt-highlighted td.yui-dt-last .yui-dt-liner
+{
+   border-left: 1px solid #c5e6e9;
+   visibility: visible;
+}
+*/
+
+.workflow-list .workflows .yui-dt-data td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: top;
+}
+
+.workflow-list .workflows .yui-dt-data .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.workflow-list .workflows tr.yui-dt-first td
+{
+   border-top: medium none;
+}
+
+.workflow-list .workflows td.yui-dt-last
+{
+   border-left: 1px solid #fff;
+   vertical-align: middle;
+}
+
+.workflow-list .yui-dt-liner
+{
+   padding: 4px;
+}
+
+.workflow-list .workflows tr.yui-dt-first td.yui-dt-empty,
+.workflow-list .workflows tr.yui-dt-first td.yui-dt-loading
+{
+   border-right: medium none;
+   padding: 0.5em 1em;
+}
+
+.workflow-list .yui-dt-error
+{
+   background: red;
+   color: white;
+   font-weight: bold;
+   margin: 1em auto;
+   padding: 1em;
+}
+
+/* This rule is vital to workaround a Firefox mouseout bug */
+
+.workflow-list .yui-dt-col-2
+{
+   overflow: visible;
+}
+
+/* Cell Renderers */
+
+.workflow-list .workflows
+{
+   color: #333333;
+   margin: 0 -10px 0 -8px;
+}
+
+.workflow-list .workflows .yui-dt-col-id .yui-dt-liner
+{
+   padding: 0.5em 1em;
+   text-align: center;
+}
+
+.workflow-list .workflows .yui-dt-col-title .yui-dt-liner div
+{
+   float: left;
+   margin-top: 0.5em;
+   min-width: 20em;
+}
+
+.workflow-list .workflows .yui-dt-col-title .yui-dt-liner div.type
+{
+   clear: both;
+}
+
+.workflow-list .workflows .yui-dt-col-title .yui-dt-liner div.description
+{
+   clear: both;
+   margin-bottom: 0.5em;
+}
+
+.workflow-list .workflows .yui-dt-col-title .yui-dt-liner div.startedby
+{
+   clear: both;
+   margin-bottom: 0.5em;
+}
+
+.workflow-list .workflow-cancel-link,
+.workflow-list .workflow-delete-link,
+.workflow-list .workflow-view-link
+{
+   background: no-repeat scroll 4px 1px;
+   border: 1px solid transparent;
+   padding: 2px 0 2px 30px;
+   min-height: 16px;
+}
+
+.workflow-list .workflow-cancel-link
+{
+   background-image: url( ../images/remove-icon-16.png );
+}
+
+.workflow-list .workflow-delete-link
+{
+   background-image: url( ../images/delete-16.png );
+}
+
+.workflow-list .workflow-view-link
+{
+   background-image: url( ../images/workflow-16.png );
+}
+
+.workflow-list .workflow-cancel-link a,
+.workflow-list .workflow-delete-link a,
+.workflow-list .workflow-view-link a
+{
+   min-height: 2em;
+   cursor: pointer;
+   color: #2B6EB5;
+   outline-color: invert;
+   outline-width: medium;
+   text-decoration: none;
+}
+
+
+.workflow-list .workflow-cancel-link-over,
+.workflow-list .workflow-delete-link-over,
+.workflow-list .workflow-view-link-over
+{
+   background-color: #FFF;
+   border: 1px solid #2B6EB5;
+   cursor: pointer;   
+}

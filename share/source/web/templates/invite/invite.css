@@ -1,0 +1,21 @@
+.people-finder
+{
+   margin: 10px 0px;
+}
+
+.people-finder .title,
+.invitationlistwrapper .title
+{
+   font-size: 108%;
+   padding: 10px 0px 10px 34px;
+}
+
+.people-finder .title
+{
+   background: transparent url(images/step-one.png) no-repeat 3px center;
+}
+
+.invitationlistwrapper .title
+{
+   background: transparent url(images/step-two.png) no-repeat 3px center;
+}

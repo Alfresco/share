@@ -1,0 +1,20 @@
+.create-site
+{
+   width: 40em;
+}
+
+.create-site .moderated
+{
+   padding-left: 2em;
+}
+
+.create-site span.help
+{
+   font-size: 81%;
+}
+
+.create-site textarea
+{
+   resize: vertical;
+   overflow: auto;
+}

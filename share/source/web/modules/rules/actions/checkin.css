@@ -1,0 +1,9 @@
+.checkin
+{
+   width: 45em;
+}
+
+.checkin input[type=radio]
+{
+   margin-right: 0.25em;
+}

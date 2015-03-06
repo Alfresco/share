@@ -1,0 +1,41 @@
+/* Simple/Details View */
+
+.my-documents .simple-detailed span.first-child
+{
+   min-height: 16px;
+   padding: 0 2px;
+}
+
+.my-documents .simple-detailed .yui-button
+{
+   margin-left: 0;
+   margin-right: 0;
+}
+
+.my-documents .simple-detailed .simple-view.yui-button span.first-child
+{
+   background-position: 50% 50%;
+   background-repeat: no-repeat;
+   background-image: url(../documentlibrary/images/simple-view-off-16.png);
+}
+
+.my-documents .simple-detailed .simple-view.yui-button-checked span.first-child
+{
+   background-position: 50% 50%;
+   background-repeat: no-repeat;
+   background-image: url(../documentlibrary/images/simple-view-on-16.png);
+}
+
+.my-documents .simple-detailed .detailed-view.yui-button span.first-child
+{
+   background-position: 50% 50%;
+   background-repeat: no-repeat;
+   background-image: url(../documentlibrary/images/detailed-view-off-16.png);
+}
+
+.my-documents .simple-detailed .detailed-view.yui-button-checked span.first-child
+{
+   background-position: 50% 50%;
+   background-repeat: no-repeat;
+   background-image: url(../documentlibrary/images/detailed-view-on-16.png);
+}

@@ -1,0 +1,28 @@
+.site-links div.link
+{
+   float: left;
+}
+
+.site-links div.actions
+{
+   float: right;
+}
+
+.site-links div.detail-list-item
+{
+   height: 1em;
+}
+
+.site-links div.actions a.details
+{
+   background-image: url(../images/link-details-16.png);
+   background-repeat: no-repeat;
+   background-position: center;
+   cursor: pointer;
+   padding: 1em;
+}
+
+.site-links div.description
+{
+   clear: left;
+}

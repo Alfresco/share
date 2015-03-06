@@ -1,0 +1,247 @@
+/* Users Tool */
+.users
+{
+   margin: 16px 10px 10px;
+}
+
+.users a, .users a:visited, .users a:hover
+{
+    cursor: pointer;
+}
+
+.users .title
+{
+   font-size: 123.1%;
+   font-weight: bold;
+   padding-bottom: 0.5em;
+}
+
+.users .align-right
+{
+   text-align: right;
+}
+
+.users .separator
+{
+   margin-bottom: 0.8em;
+}
+
+.users .search-bar
+{
+   padding: 0.4em;
+}
+
+.users .search-button
+{
+   margin-top: -2.0em;
+   padding-left: 16em;
+}
+
+.users .search-text input
+{
+   padding: 3px;
+}
+
+.users .search-main
+{
+   border: 1px solid #D7D7D7;
+}
+
+.users .results table
+{
+   width: 100%;
+   border: none;
+}
+
+.users .yui-dt td
+{
+   border-bottom: 1px solid #D7D7D7;
+   border-right: medium none;
+}
+
+.users .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.users tr.yui-dt-odd,
+.users tr.yui-dt-even
+{
+   background-color: #ffffff;
+   cursor: auto;
+}
+
+.users td.yui-dt-asc,
+.users td.yui-dt-desc
+{
+   background-color: #ffffff !important;
+}
+
+.users .indicator
+{
+   margin-left: -4px;
+   padding-top: 1px;
+}
+
+.users .view-main
+{
+   border: 1px solid #D7D7D7;
+   padding-bottom: 1em;
+}
+
+.users .edituser-button
+{
+   float: right;
+}
+
+.users .deleteuser-button
+{
+   float: right;
+}
+
+.users .header-bar
+{
+   height: 1.1em;
+   padding: 0.3em;
+   margin: 1.0em;
+   background-color: #e3eaec;
+   border-bottom: 2px solid #f0f3f4;
+   font-weight: bold;
+   font-size: 116%;
+}
+
+.users .photo-row
+{
+   margin-left: 4em;
+   padding: 0.333em;
+   height: 7em;
+}
+
+.users .photo
+{
+   padding: 0.5em;
+   float: left;
+}
+
+.users .bio-row
+{
+   padding: 0em 1.5em 0.3em 11.75em;
+}
+
+.users .field-row
+{
+   padding: 0.333em;
+}
+
+.users .name-label
+{
+   margin-left: 96px;
+   font-size: 123.1%;
+   line-height: 1.7em;
+}
+
+.users .field-label
+{
+   margin-left: 96px;
+   line-height: 1.5em;
+}
+
+.users .field-label-right
+{
+   clear: left;
+   display: block;
+   padding-right: 0.8em;
+   width: 9em;
+   margin-left: 2em;
+   text-align: right;
+   font-weight: bold;
+}
+
+.users .field-value
+{
+   float: left;
+   margin-left: 12em;
+   margin-top: -1.2em;
+}
+
+.users .create-main
+{
+   border: 1px solid #D7D7D7;
+   padding-bottom: 1em;
+   margin-bottom: 1.5em;
+}
+
+.users .update-main
+{
+   border: 1px solid #D7D7D7;
+   padding-bottom: 1em;
+   margin-bottom: 1.5em;
+}
+
+.users .crud-label
+{
+   margin-left: 1.5em;
+   line-height: 1.5em;
+}
+
+.users .crud-input
+{
+   margin-left: 1.5em;
+}
+
+.users .crud-input-quota
+{
+   margin-left: 1.5em;
+   width: 6em;
+}
+
+.users select
+{
+   width: 4em;
+}
+
+.users .left
+{
+   float: left;
+}
+
+.users .small
+{
+   margin-left: 1.75em;
+   font-size: 85%;
+}
+
+.users .update-photo-row
+{
+   margin-left: 1.5em;
+   padding: 0.333em;
+   height: 5em;
+}
+
+.users .updateuser-clearphoto-button
+{
+   margin-top: 1em;
+   margin-left: 6em;
+}
+
+.users .grouppicker-row
+{
+   padding-left: 1.2em;
+   margin-top: -1.5em;
+   max-width: 50em;
+}
+
+.users .groupselection-row
+{
+   padding-left: 2em;
+   padding-bottom: 0.5em;
+}
+
+.users .group-item
+{
+   background: transparent url(../images/remove-icon-16.png) no-repeat 0px 0px;
+   line-height: 1.7;
+   margin-right: 12px;
+   padding-left: 20px;
+   cursor: pointer;
+}

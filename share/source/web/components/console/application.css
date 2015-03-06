@@ -1,0 +1,62 @@
+.application
+{
+   margin: 16px 10px 10px;
+}
+
+.application .title
+{
+   font-size: 123.1%;
+   font-weight: bold;
+   padding-bottom: 0.5em;
+}
+
+.application .row
+{
+   padding: 0.333em;
+   height: 2.5em;
+}
+
+.application .row div
+{
+   float: left;
+}
+
+.application .label
+{
+   padding: 0.2em 0.8em 0 1em;
+   width: 10em;
+   font-weight: bold;
+}
+
+.application .apply
+{
+   clear: both;
+   margin: 2em 12em;
+}
+
+.application .logo
+{
+   border: 1px solid #f0f3f4;
+   margin-right: 0.5em;
+}
+
+.application .yui-button button, .application .yui-button button a
+{
+   min-height: 1.75em;
+}
+
+.application .logonote
+{
+   float: none !important;
+   padding: 0.5em 0.2em;
+}
+
+.application .info
+{
+   padding-bottom: 0.75em;
+}
+
+.application .info a
+{
+   text-decoration: underline;
+}

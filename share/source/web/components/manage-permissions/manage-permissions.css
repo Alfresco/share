@@ -1,0 +1,153 @@
+.manage-permissions .node-header
+{
+   padding-left: 10px;
+}
+
+.permissions .header-bar
+{
+   clear: both;
+   border-bottom: 1px solid #ccc;
+   min-height: 3em;
+   padding: 0.5em 1em;
+}
+
+.permissions .header-bar .left
+{
+   float: left;
+   font-size: 131%;
+   padding: 0.5em 0;
+}
+
+.permissions .header-bar .right
+{
+   float: right;
+   padding: 0.5em 0;
+}
+.permissions .header-bar .right div
+{
+   float: left;
+}
+
+.permissions .title
+{
+   font-size: 108%;
+   padding: 1em 0 0.5em;
+}
+
+.permissions .container
+{
+   padding: 0 1em 1em;
+}
+
+.permissions .table-mask
+{
+   opacity: .2;
+   filter: alpha(opacity=20);
+}
+
+.permissions .inherited span.first-child
+{
+   padding-left: 22px; 
+}
+.permissions .inherited-on span.first-child
+{
+   background: transparent url(../images/inherited-on-16.png) no-repeat 12px 4px;
+}
+.permissions .inherited-off span.first-child
+{
+   background: transparent url(../images/inherited-off-16.png) no-repeat 12px 4px;
+}
+
+.permissions .center
+{
+   padding-top: 1em;
+   text-align: center;
+   width: 100%;
+}
+
+/* Authority Finder */
+
+.permissions .authority-finder-container
+{
+   display: none;
+   position: absolute;
+   right: 0.5em;
+   top: 13em;
+   z-index: 100;
+   min-width: 30em;
+   *width: 30em;   
+}
+
+.permissions .authority-finder-container.active
+{
+   display: inline;
+}
+
+.permissions .authority-finder,
+.permissions .authority-finder .finder-wrapper
+{
+   margin-top: 0px;
+}
+
+.permissions .authority-finder.compact .results
+{
+   height: 20em;
+}
+
+/* Data Tables */
+
+.permissions .permissions-list table
+{
+   width: 100%;
+}
+
+.permissions .permissions-list th
+{
+   background: none;;
+}
+
+.permissions .permissions-list tbody
+{
+   outline: none;
+}
+
+.permissions .permissions-list .yui-dt-empty .yui-dt-liner
+{
+   border-top: 1px solid #7f7f7f;
+   padding: 1em;
+   text-align: center;
+}
+
+.permissions .permissions-list img.icon32
+{
+   width: 32px;
+}
+
+.permissions .permissions-list a.action-link
+{
+   background-position: 4px 1px;
+   background-repeat: no-repeat;
+   border: 1px solid transparent;
+   display: block;
+   min-height: 16px;
+   padding: 2px 0 2px 24px;
+}
+
+.permissions .permissions-list .action-set a:active,
+.permissions .permissions-list .action-set a:hover,
+.permissions .permissions-list .action-set .highlighted
+{
+   background-color: #fff;
+   border: 1px solid #2b6eb5;
+   text-decoration: none;
+}
+
+.permissions .permissions-list .action-set div
+{
+   cursor: pointer;
+}
+
+.permissions .permissions-list .onActionDelete a
+{
+   background-image: url(../images/delete-16.png);
+}

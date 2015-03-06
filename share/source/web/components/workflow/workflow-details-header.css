@@ -1,0 +1,24 @@
+.workflow-details-header .links
+{
+   width: 30%;
+   float: right;
+   text-align: right;
+}
+
+.workflow-details-header h1
+{
+   width: 100%;
+   float: left;
+}
+
+.workflow-details-header .clear
+{
+   clear: both;
+}
+
+
+.workflow-details-header .separator
+{
+   padding-left: 1em;
+   padding-right: 1em;
+}

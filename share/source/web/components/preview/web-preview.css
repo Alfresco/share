@@ -1,0 +1,20 @@
+.web-preview .previewer
+{
+   width: 100%;
+   height: auto;
+   min-height: 325px;
+   max-height: 960px;
+   text-align: center;
+}
+
+.web-preview .previewer .message
+{
+   text-align: center;
+   padding-top: 125px;
+   line-height: 1em;
+}
+
+.web-preview .previewer video
+{
+   max-height: 325px;
+}

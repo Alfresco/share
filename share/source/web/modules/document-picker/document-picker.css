@@ -1,0 +1,192 @@
+.document-picker .bd
+{
+   width: 820px;
+}
+
+.document-picker .current-values div
+{
+   float: left;
+   padding: 0.5em;
+}
+
+.document-picker .current-values img
+{
+   position: relative;
+   top: 3px;
+}
+
+.document-picker .show-picker
+{
+   clear: left;
+}
+
+.document-picker .bd
+{
+   border: 2px solid #aaa;
+   padding: 0.5em;
+}
+
+.document-picker .bdft
+{
+   margin-top: 1em;
+   text-align: center;
+}
+
+.document-picker .picker-header
+{
+   height: 2em;
+   padding: 0.5em;
+}
+
+.document-picker .picker-header div
+{
+   float: left;
+}
+
+.document-picker button .item-name
+{
+   white-space: nowrap;    
+}
+
+.document-picker .picker-header .folder-up button
+{
+   background: transparent url(../../components/images/folder-up-16.png) no-repeat 50% 50%;
+}
+.document-picker .picker-header .folder-up button
+{
+   background-image: url(../../components/images/folder-up-disabled-16.png);
+}
+
+.document-picker .picker-header .navigator button span.wait
+{
+   background-image: url(../../components/images/ajax_anim.gif);
+   background-repeat: no-repeat;
+   padding: 1px 0 2px 16px;
+}
+
+.document-picker .picker-header .navigator button span.item-icon img
+{
+   padding-right: 0.5em;
+   vertical-align: middle;
+}
+
+.document-picker .picker-header .navigator button span.item-name
+{
+}
+
+.document-picker .picker-header .navigator-items-list .yuimenuitemlabel
+{
+   padding: 0.2em 12px;
+}
+
+.document-picker .picker-header .navigator-items-list span.item-icon img
+{
+   padding-right: 0.3em;
+   vertical-align: middle;
+}
+
+.document-picker .picker-items
+{
+   border: 1px solid #aaa;
+   height: 20em;
+   text-align: left;
+   overflow-x: auto;
+   overflow-y: auto;
+}
+
+.document-picker .picker-items .icon16
+{
+   display: block;
+   min-height: 16px;
+}
+
+.document-picker .picker-items .icon32
+{
+   display: block;
+   min-height: 32px;
+}
+
+.document-picker .picker-items a.add-item:hover,
+.document-picker .picker-items a.remove-item:hover
+{
+   text-decoration: none;
+}
+
+.document-picker .picker-items .addIcon
+{
+	background: transparent url(../../components/images/add-icon-16.png) no-repeat center center;
+	padding: 8px;
+}
+
+.document-picker .picker-items .removeIcon
+{
+	background: transparent url(../../components/images/remove-icon-16.png) no-repeat center center;
+	padding: 8px;
+}
+
+
+.document-picker .picker-items table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.document-picker .picker-items thead
+{
+   display: none;
+}
+
+.document-picker .picker-items tbody
+{
+   outline: none;
+}
+
+.document-picker .picker-items.yui-dt .yui-dt-message td
+{
+   border: medium none;
+}
+.document-picker .picker-items.yui-dt .yui-dt-data td.yui-dt-col-nodeRef
+{
+   vertical-align:top;
+}
+
+.document-picker .picker-items.yui-dt .yui-dt-data td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: middle;
+}
+
+.document-picker .panel-left,
+.document-picker .panel-right
+{
+   width: 400px;
+}
+
+
+.document-picker .panel-left .picker-items
+{
+   clear: left;
+   margin-left: 0.5em;
+   margin-right: 6px;
+}
+
+.document-picker .panel-right .picker-items
+{
+   clear: left;
+   margin-right: 0.5em;
+}
+
+/* Compact Mode */
+
+.document-picker .compact .picker-items
+{
+   border: 1px solid #aaa;
+   height: 15em;
+}
+
+.document-picker .compact h3
+{
+   font-size: 100%;
+   font-weight: normal;
+}

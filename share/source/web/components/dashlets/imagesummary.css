@@ -1,0 +1,58 @@
+
+.images .initial
+{
+   clear: both;
+}
+
+.images .item
+{
+   padding: 0 4px 8px;
+   float: left;
+}
+
+.images .thumbnail
+{
+   width: 100px;
+   height: 100px;
+   border: 1px solid #888;
+   overflow: hidden;
+   position: relative;
+   box-shadow: 3px 3px 3px #aaa;
+}
+
+.images .thumbnail > div
+{
+   visibility: hidden;
+}
+
+.images .thumbnail:hover > div
+{
+   visibility: visible;
+}
+
+.images .thumbnail > a > img
+{
+   min-height: 100px;
+   min-width: 100px;
+}
+
+.images .action-overlay
+{
+   position: absolute;
+   margin-top: 80px;
+   margin-left: 60px;
+}
+
+.images-wait
+{
+   padding: 2em;
+   background-image: url("../images/lightbox/loading.gif");
+   background-repeat: no-repeat;
+   background-position: 50% 50%;
+}
+
+.images-message
+{
+   padding: 0.5em;
+   text-align: center;
+}

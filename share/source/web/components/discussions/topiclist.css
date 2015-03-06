@@ -1,0 +1,310 @@
+.topiclist-infobar
+{
+   border-bottom: thin solid #C6C6C6;
+   height: 3em;
+   margin: 0 -10px;
+   padding-right: 10px;
+   padding-top: 0.5em;
+   width: auto;
+}
+
+.topiclist-infobar div.hideable
+{
+   float: left;
+}
+
+.topiclist-infobar .align-right
+{
+   text-align: right;
+}
+
+.topiclist-infobar .listTitle
+{
+   font-size: 123.1%;
+   color: #333333;
+   float: left;
+   padding: 4px 10px;
+}
+
+.topiclist-infobar .paginator
+{
+   float: left;
+   text-align: center;
+}
+
+.topiclist-infobar .simple-view
+{
+   text-align: right;
+}
+
+/*******************
+ * WYSIWYG CONTENT *
+********************/
+
+.yuieditor strong
+{
+   font-weight: bold;
+}
+
+.yuieditor em
+{
+   font-style: italic;
+}
+
+.yuieditor ul, .yuieditor ol
+{
+   padding-left: 40px;
+}
+
+.yuieditor ul li
+{
+   list-style-type: inherit;
+}
+
+.yuieditor ol li
+{
+   list-style-type: inherit;
+}
+
+.topiclist
+{
+   clear: left;
+   margin: 0 -8px;
+}
+
+.alfresco-share .sticky-wrapper .topiclist .content ul,
+.alfresco-share .sticky-wrapper .topiclist .content ol
+{
+    padding: 0.5em 0 0.5em 1.3em;
+}
+
+/* Data table */
+
+.topiclist table
+{
+   width: 100%;
+   border: none !important;
+}
+
+.topiclist table thead
+{
+   display: none;
+}
+
+.topiclist table td
+{
+   border: none !important;
+}
+
+.topiclist table .yui-dt-empty
+{
+   background-color: transparent;
+}
+
+.topiclist table .yui-dt-empty .yui-dt-liner,
+.topiclist table .yui-dt-error .yui-dt-liner
+{
+   padding: 4px 10px;
+}
+
+.topiclist .yui-dt-error
+{
+   background: red;
+   color: white;
+   font-weight: bold;
+   margin: 1em auto;
+   padding: 1em;
+}
+
+.topiclist .yui-dt-error .yui-dt-liner
+{
+   padding: 4px;
+}
+
+.topiclist .row-separator
+{
+   border-bottom: 1px dashed #d9d9d9;
+}
+
+.topiclist tr.yui-dt-odd
+{
+   background-color: #fff;
+}
+
+.topiclist tr.yui-dt-odd .node
+{
+   border-color: #EDF5FF;
+}
+
+/* Topic list elements */
+
+/********
+ * NODE *
+*********/
+
+.node, .reply, .comment
+{
+   padding: 20px 1em;
+   margin-left: 0px;
+   margin-right: 0px;
+   display: inline-block;
+}
+
+html>body .node, .reply, .comment
+{
+   display: block;
+}
+
+.node table td,
+   .reply table td,
+   .comment table td
+{
+   vertical-align: top;
+}
+
+.node.simple
+{
+   padding: 5px;
+}
+
+.node .published
+{
+   margin: 5px 0 10px 0;
+}
+
+.node .nodeTitle a
+{
+   font-size: 131%;
+   line-height: 130%;
+   color: #2b6eb5;
+}
+
+.node .nodeStatus
+{
+   font-size: 131%;
+   line-height: 130%;
+}
+
+.nodeAttrLabel
+{
+   line-height: 130%;
+   color: #606060;
+}
+
+.nodeAttrValue
+{
+   line-height: 130%;
+   color: #333333;
+}
+
+.nodeAttrValue a
+{
+   color: #2b6eb5;
+}
+
+.node .userLink
+{
+   line-height: 150%;
+   color: #999999;
+}
+
+.node .userLink a
+{
+   color: #2b6eb5;
+}
+
+.nodeContent
+{
+   line-height: 150%;
+   margin-right: 140px;
+   padding-right: 40px;
+}
+
+.nodeFooter
+{
+   background-color: #f8f8f8;
+   border-top: 1px dashed #c6c6c6;
+   border-bottom: 1px solid #c6c6c6;
+   padding: 0.5em;
+}
+
+.nodeFooter .tagLabel
+{
+   background: transparent url(../images/tag-16.png) no-repeat scroll 0 0;
+   padding-left: 18px;
+}
+
+.nodeFooter .separator
+{
+   border-right: 1px dotted #457A9C;
+   margin-right: 10px;
+   padding-left: 10px;
+}
+
+.nodeFooter .replyTo
+{
+   background: transparent url(../images/reply-to-discussion-16.png) no-repeat scroll 0 0;
+   padding-left: 20px;
+}
+
+/*************
+ * EDIT BLOCK *
+**************/
+
+.nodeEdit
+{
+   float: right;
+   margin: 10px 0 0 15px;
+   width: 6em;
+}
+
+.nodeEdit div, .replyEdit div
+{
+   padding: 2px 19px;
+   margin-bottom: 4px;
+}
+
+.simple .nodeEdit
+{
+   width: 200px;
+   text-align: right;
+   margin: 4px;
+}
+
+.nodeEdit .action-link
+{
+   font-size: 93%;
+   line-height: 150%;
+   color: #2B6EB5;
+}
+
+.nodeEdit .onViewTopic
+{
+   background: url(../images/view-discussion-16.png) no-repeat scroll 0px 0px;
+   padding-left: 20px;
+   margin-right: 10px;
+}
+
+.nodeEdit .onAddReply
+{
+   background: url(../images/reply-to-discussion-16.png) no-repeat scroll 0px 0px;
+   padding-left: 20px;
+   margin-right: 10px;
+}
+
+.nodeEdit .onEditTopic,
+   .nodeEdit .onEditReply,
+   .nodeEdit .onEditComment
+{
+   background: url(../images/edit-discussion-16.png) no-repeat scroll 0px 0px;
+   padding-left: 20px;
+   margin-right: 10px;
+}
+
+.nodeEdit .onDeleteTopic,
+   .nodeEdit .onDeleteReply,
+   .nodeEdit .onDeleteComment
+{
+   background: url('../images/delete-discussion-16.png') no-repeat scroll 0px 0px;
+   padding-left: 20px;
+}

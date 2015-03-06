@@ -1,0 +1,102 @@
+/* Data Table */
+
+.my-sites .yui-dt table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.my-sites .yui-dt thead
+{
+   display: none;
+}
+
+.my-sites .yui-dt tbody
+{
+   outline: none;
+}
+
+div.my-sites .yui-dt-data tr.yui-dt-even,
+div.my-sites .yui-dt-data tr.yui-dt-odd,
+div.my-sites .yui-dt-data tr.yui-dt-highlighted
+{
+   background-color: transparent;
+   cursor: default;
+}
+
+.my-sites .yui-dt-data td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: top;
+}
+
+.my-sites .yui-dt-data tr.yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.my-sites .yui-dt-data td .yui-dt-liner
+{
+   padding: 4px;
+}
+
+.my-sites .yui-dt-data td.yui-dt-col-icon .yui-dt-liner
+{
+   padding: 4px;
+   text-align: center;
+}
+
+.my-sites .yui-dt-message td
+{
+   border: medium none;
+}
+
+.my-sites .detail
+{
+   clear: left;
+   line-height: 1.5em;
+   min-height: 1.5em;
+   padding-bottom: 0.2em;
+}
+
+.my-sites .detail-social
+{
+   padding-bottom: 0;
+   padding-top: 0.4em;
+}
+
+.my-sites .detail-social span.item
+{
+   line-height: 1.2em;
+}
+
+.my-sites .detail span.item
+{
+   float: left;
+   margin-right: 0.8em;
+}
+
+.my-sites a.delete-site
+{
+   background-image: url(../images/delete-16.png);
+   background-repeat: no-repeat;
+   background-position: center;
+   cursor: pointer;
+   padding: 1em;
+}
+.my-sites a.delete-site:active,
+.my-sites a.delete-site:hover
+{
+   text-decoration: none;
+}
+
+.my-sites .yui-dt-col-actions div
+{
+   visibility: hidden;
+}
+
+.my-sites .yui-dt-highlighted .yui-dt-col-actions div
+{
+   visibility: visible;
+}
