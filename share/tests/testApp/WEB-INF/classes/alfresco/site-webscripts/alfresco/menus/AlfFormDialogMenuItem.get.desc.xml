@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>AlfFormDialogMenuItem Test</shortname>
-  <description>This WebScript defines the AlfFormDialogMenuItem page test</description>
-  <family>aikau-unit-tests</family>
-  <url>/AlfFormDialogMenuItem</url>
-</webscript>

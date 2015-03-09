@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>DocumentSelector Test</shortname>
-  <description>This WebScript defines the DocumentSelector page test</description>
-  <family>aikau-unit-tests</family>
-  <url>/DocumentSelector</url>
-</webscript>

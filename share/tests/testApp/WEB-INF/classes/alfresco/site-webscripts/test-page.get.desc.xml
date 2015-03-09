@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>Test Page</shortname>
-  <description>Used for unit testing</description>
-  <family>Share</family>
-  <url>/share/test-page/template</url>
-</webscript>

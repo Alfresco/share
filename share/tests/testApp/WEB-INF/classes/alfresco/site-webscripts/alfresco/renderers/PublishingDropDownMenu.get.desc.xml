@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>PublishingDropDownMenu Test</shortname>
-  <description>This WebScript defines the PublishingDropDownMenu page test</description>
-  <family>aikau-unit-tests</family>
-  <url>/PublishingDropDownMenu</url>
-</webscript>

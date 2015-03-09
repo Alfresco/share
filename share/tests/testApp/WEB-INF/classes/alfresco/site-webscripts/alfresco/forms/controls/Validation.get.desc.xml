@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>Validation Test</shortname>
-  <description>This WebScript defines the Validation page test</description>
-  <family>aikau-unit-tests</family>
-  <url>/Validation</url>
-</webscript>

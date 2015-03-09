@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>SiteService Test</shortname>
-  <description>This WebScript defines the SiteService page test</description>
-  <family>aikau-unit-tests</family>
-  <url>/SiteService</url>
-</webscript>

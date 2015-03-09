@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>DateLink Test</shortname>
-  <description>This WebScript defines the DateLink page test</description>
-  <family>aikau-unit-tests</family>
-  <url>/DateLink</url>
-</webscript>

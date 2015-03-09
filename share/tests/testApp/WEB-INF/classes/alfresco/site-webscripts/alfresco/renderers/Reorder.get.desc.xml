@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>Reorder Test</shortname>
-  <description>This WebScript defines the Reorder page test</description>
-  <family>aikau-unit-tests</family>
-  <url>/Reorder</url>
-</webscript>
