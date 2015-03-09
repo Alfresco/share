@@ -47,7 +47,7 @@ import org.springframework.web.context.request.WebRequest;
 
 /**
  * Framework interceptor responsible for checking repository license edition
- * and applying appropriate config overrides.
+ * and applying appropriate config overrides. 
  * 
  * @author Kevin Roast
  */
@@ -66,7 +66,6 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
     private static EditionInfo EDITIONINFO = null;
     private static volatile boolean outputInfo = false;
     private static final ReadWriteLock editionLock = new ReentrantReadWriteLock();
-    
     
     /* (non-Javadoc)
      * @see org.springframework.web.context.request.WebRequestInterceptor#preHandle(org.springframework.web.context.request.WebRequest)
