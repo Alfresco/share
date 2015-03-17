@@ -15,6 +15,12 @@
         <module>share-po</module>
     </modules>
 
+    <properties>
+        <version.major>5</version.major>
+        <version.minor>1</version.minor>
+        <version.revision>0</version.revision>
+    </properties>
+
     <build>
         <!-- Resets Maven default -->
         <sourceDirectory>src/main/java</sourceDirectory>
