@@ -1,0 +1,338 @@
+.yui-navset .yui-content
+{
+   background: #FFFFFF;
+}
+
+.wiki-page
+{
+   border-top: 1px solid #dfdfdf;
+   padding-top: 0.5em;
+   padding-bottom: 2em;
+}
+
+.wikipage-bar .title-bar
+{
+   padding-top: 0.5em;
+}
+
+.wikipage-bar .align-right
+{
+   text-align: right;
+}
+
+div.pageTitle
+{
+   color: #333333;
+   font-size: 154%;
+   padding-bottom: 0.5em;
+}
+
+.separator
+{
+   padding-left: 10px;
+   padding-right: 10px;
+}
+
+.tabLabel
+{
+   color: #333333;
+}
+
+.tabLabelDisabled
+{
+   color: #ccc;
+}
+
+.columnHeader
+{
+   font-size: 13pt;
+}
+
+table.versionHistory
+{
+   margin-top: 10px;
+   margin-bottom: 10px;
+}
+
+.wikipage-header
+{
+   background-color: #ebeff1;
+   height: 30px;
+   margin: 0 -10px;
+   padding-right: 10px;
+   width: auto;
+}
+
+/* VERSIONING */
+
+.wiki-page .info
+{
+   line-height: 1.5em;
+}
+
+.wiki-page .info.more
+{
+   cursor: pointer;
+   background-repeat: no-repeat;
+   background-position: left 0.4em;
+   padding-left: 1.2em;
+}
+
+.wiki-page .info.more.expanded
+{
+   background-image: url(../images/expanded.png);
+}
+
+.wiki-page .info.more.collapsed
+{
+   background-image: url(../images/collapsed.png);
+}
+
+.wiki-page .moreInfo
+{
+   padding-left: 1.2em;
+}
+
+.wiki-page .info-section
+{
+   border-bottom: 1px dashed #c2c2c2;
+   padding: 0px 0.5em 1.5em 0.5em;
+}
+
+.wiki-page .info-sub-section
+{
+   padding-bottom: 0.5em;
+   padding-top: 1em;
+}
+
+.wiki-page .meta-section-label,
+.wiki-page .meta-label
+{
+   font-size: 100%;
+   padding-right: 0.3em;
+}
+
+.wiki-page .meta-value
+{
+   font-size: 100%;
+   color: #333333;
+}
+
+.wiki-page .actions
+{
+   line-height: 16px;
+  
+
+/* padding:0.3em 0 1em 0; */
+   padding: 0.6em 0.3em 1.2em;
+}
+
+.wiki-page .actions span
+{
+   background-repeat: no-repeat;
+   background-position: left;
+   padding: 1em 1em 1em 24px;
+   cursor: pointer;
+}
+
+.wiki-page .actions span.revert
+{
+   background-image: url(../images/revert-16.png);
+}
+
+.wiki-page .actions span.revertDisabled
+{
+   background-image: url(../images/revert-unavailable-16.png);
+   color: #ccc;
+}
+
+/* TAGS & LINKS */
+
+.wiki-page .tags,
+.wiki-page .links
+{
+   padding-top: 1em;
+}
+
+.wiki-page .tags .tag
+{
+   padding-bottom: 0.6em;
+}
+
+.wiki-page .tag img
+{
+   padding-right: 0.5em;
+   vertical-align: -0.3em;
+}
+
+/* DETAILS CONTENT */
+
+.wiki-page .details-wrapper
+{
+   border: 1px solid #C5C6C6;
+   margin-bottom: 15px;
+   width: 100%;
+   height: 20em;
+   overflow-y: auto;
+}
+
+.wiki-page .details-wrapper div.yui-g
+{
+   background: #F0F0F0;
+   border-bottom: 1px solid #C5C6C6;
+   height: 2.5em;
+   line-height: 2em;
+   padding-top: 0.2em;
+}
+
+.wiki-page .details-wrapper div.yui-g div.yui-u
+{
+   text-align: right;
+}
+
+.wiki-page .details-wrapper div.yui-g div.yui-u h2
+{
+   padding-left: 0.5em;
+}
+
+.wiki-page .details-wrapper div.yui-g div.yui-u .yui-button
+{
+   margin-right: 0.5em;
+}
+
+.wiki-page .details-wrapper div.yui-g div.yui-u.first
+{
+   text-align: left;
+}
+
+.wiki-page .details-wrapper div.yui-g .version-quick-change
+{
+   float: right;
+}
+
+.wiki-page .details-wrapper div.yui-g h2 .light
+{
+   color: #ACADAD;
+}
+
+.wiki-page .details-page-content
+{
+   background-color: #FFFFFF;
+   padding: 1em;
+}
+
+/*
+ * VISUAL APPEARANCE CUSTOMISATIONS
+ *
+ * Improve display of wiki page content, since the default Share CSS is not optimised
+ * for large blocks of HTML.
+ */
+
+.alfresco-share .sticky-wrapper .wiki-page .rich-content,
+.alfresco-share .sticky-wrapper .wiki
+{
+    font-size: 1.2em;
+    /* Comment out the following line to make the page
+    take up the full screen width */
+   max-width: 60em;
+   /* Make the text darker */
+   color: #333333;
+   /* Increase line height to improve readability */
+   line-height: 1.5em;
+}
+
+.wiki-page .rich-content a, .wiki a
+{
+	/* Make links look like links */
+   color: #6CA5CE;
+}
+
+.wiki-page .rich-content h1, .wiki h1
+{
+    margin: 0.5em 0;
+    padding: 0 0 0.25em 0;
+    border-bottom: 1px solid #cccccc;
+}
+
+.wiki-page .rich-content h2, .wiki h2
+{
+    padding-top: 0.5em 0;
+}
+
+.wiki-page .rich-content h3, .wiki-page .rich-content h4, 
+.wiki-page .rich-content h5, .wiki-page .rich-content h6,
+.wiki h3, .wiki h4, 
+.wiki h5, .wiki h6
+{
+    padding: 0.5em 0;
+}
+
+.alfresco-share .sticky-wrapper .wiki-page .rich-content p,
+.alfresco-share .sticky-wrapper .wiki p
+{
+    margin: 0.8em 0;
+}
+
+.wiki-page .rich-content h1 a, .wiki-page .rich-content h2 a, 
+.wiki-page .rich-content h3 a, .wiki-page .rich-content h4 a, 
+.wiki-page .rich-content h5 a, .wiki-page .rich-content h6 a,
+.wiki h1 a, .wiki h2 a, 
+.wiki h3 a, .wiki h4 a, 
+.wiki h5 a, .wiki h6 a
+{
+    color: #333333;
+}
+
+.wiki-page .rich-content h1 a:hover, .wiki-page .rich-content h2 a:hover, 
+.wiki-page .rich-content h3 a:hover, .wiki-page .rich-content h4 a:hover, 
+.wiki-page .rich-content h5 a:hover, .wiki-page .rich-content h6 a:hover,
+.wiki h1 a:hover, .wiki h2 a:hover, 
+.wiki h3 a:hover, .wiki h4 a:hover, 
+.wiki h5 a:hover, .wiki h6 a:hover
+{
+    color: #333333;
+    text-decoration: none;
+}
+
+.alfresco-share .sticky-wrapper .wiki-page .rich-content ul,
+.alfresco-share .sticky-wrapper .wiki-page .rich-content ol,
+.alfresco-share .sticky-wrapper .wiki ul,
+.alfresco-share .sticky-wrapper .wiki ol
+{
+    padding: 0.5em 0 0.5em 1em;
+}
+
+.wiki-page .rich-content h1 + ul, .wiki h1 + ul,
+.wiki-page .rich-content h2 + ul, .wiki h2 + ul,
+.wiki-page .rich-content h3 + ul, .wiki h3 + ul,
+.wiki-page .rich-content h4 + ul, .wiki h4 + ul,
+.wiki-page .rich-content h5 + ul, .wiki h5 + ul,
+.wiki-page .rich-content h6 + ul, .wiki h6 + ul,
+.wiki-page .rich-content h1 + ol, .wiki h1 + ol,
+.wiki-page .rich-content h2 + ol, .wiki h2 + ol,
+.wiki-page .rich-content h3 + ol, .wiki h3 + ol,
+.wiki-page .rich-content h4 + ol, .wiki h4 + ol,
+.wiki-page .rich-content h5 + ol, .wiki h5 + ol,
+.wiki-page .rich-content h6 + ol, .wiki h6 + ol
+{
+    padding-top: 1em;
+}
+
+.wiki-page .rich-content ul li, .wiki ul li
+{
+}
+
+.wiki-page .rich-content pre,
+.wiki-page .rich-content code,
+.wiki pre,
+.wiki code
+{
+    font-size: 0.9em;
+    line-height: 1.5em;
+    border: 1px solid #cccccc;
+    padding: 1em;
+    margin: 0.5em 0;
+    background-color: #f0f0f0;
+    overflow: auto;
+    max-height: 30em;
+}

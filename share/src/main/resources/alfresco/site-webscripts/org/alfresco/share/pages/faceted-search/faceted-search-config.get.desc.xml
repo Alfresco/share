@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Aikau Faceted Search Config Page</shortname>
+  <description>Prototype Aikau based Faceted Search Page</description>
+  <family>Aikau</family>
+  <url>/faceted-search-config</url>
+</webscript>

@@ -1,0 +1,98 @@
+.path-nav
+{
+   padding: 8px;
+   padding-left: 10px;
+   border-bottom: 1px solid #b6b6b6;
+   margin-right: -10px;
+   margin-left: -10px;
+}
+
+.path-nav .heading
+{
+   font-weight: bold;
+   font-size: 100%;
+   color: #8e8e8e;
+}
+
+.path-nav .path-link
+{
+   color: #112d4a;
+   font-size: 100%;
+   line-height: 1.4em;
+}
+
+.path-nav span.folder
+{
+   background-image: url(../documentlibrary/images/folder-open-16.png);
+   background-position: left 50%;
+   background-repeat: no-repeat;
+   padding: 2px 0 2px 20px;
+}
+
+.path-nav span.self
+{
+   background-image: url(../documentlibrary/images/folder-closed-16.png);
+   background-position: left 50%;
+   background-repeat: no-repeat;
+   padding: 2px 0 2px 20px;
+}
+
+.path-nav .separator
+{
+   border: medium none;
+   padding: 0 0.5em;
+}
+
+.status-banner
+{
+   background-color: #ffffe0;
+   clear: left;
+   color: #888;
+   font-weight: bold;
+   margin: 0 -10px;
+   padding: 4px 0px;
+   text-align: center;
+}
+
+.status-banner span
+{
+   background-repeat: no-repeat;
+   line-height: 1.5em;
+   padding-left: 20px;
+}
+
+.status-banner .editing
+{
+   background-image: url(../documentlibrary/images/editing-indicator-16.png);
+}
+.status-banner .lock-owner
+{
+   background-image: url(../documentlibrary/images/lock-owner-indicator-16.png);
+}
+.status-banner .locked
+{
+   background-image: url(../documentlibrary/images/locked-indicator-16.png);
+}
+
+.icon-type
+{
+   border-bottom: 1px solid #ccc;
+   line-height: 48px;
+   margin-right: -10px;
+   margin-left: -10px;
+   min-height: 48px;
+   padding: 0.5em 1em;
+}
+
+.icon-type img
+{
+   vertical-align: middle;
+}
+
+.icon-type .type
+{
+   font-size: 131%;
+   padding-left: 1em;
+   position: relative;
+   top: 3px;
+}

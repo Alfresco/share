@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>ios-mobile</shortname>
+  <description>Support for generating markup to launch the iOS Mobile App in the context of the current document.</description>
+  <url>/components/mobile-app-support/ios-mobile</url>
+</webscript>

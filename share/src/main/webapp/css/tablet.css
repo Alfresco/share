@@ -1,0 +1,96 @@
+/* CSS Overrides for iOS */
+
+/* fix visible right-hand margin when long filenames are present */
+.doclist .yui-dt-liner
+{
+   padding: 4px;
+   max-width: 436px;
+   overflow-x: auto;
+}
+.document-details-panel .set
+{
+   max-width: 278px;
+   overflow-x: auto;
+}
+.document-versions .version-list h3
+{
+   max-width: 238px;
+   overflow-x: auto;
+}
+
+/* display entire height of dashlets */
+.dashlet .scrollableList
+{
+   height: auto !important;
+}
+
+/* customise dashlets - dashlet list */
+.customise-dashlets ul.availableList
+{
+   height: auto !important;
+}
+
+/* remove default webkit inner shadow from input fields */
+input[type="text"], input[type="password"], textarea, select
+{
+   -webkit-appearance: none;
+}
+
+/* custom scrollbars to force scroll thumb display on overflow div containers */
+::-webkit-scrollbar
+{
+   width: 5px;
+}
+::-webkit-scrollbar-thumb
+{
+   background: rgba(0,0,0,0.5);
+   -webkit-border-radius: 5px;
+   -webkit-box-shadow: 0 0 1px rgba(255,255,255,1);
+}
+::-webkit-scrollbar-thumb:window-inactive
+{
+   background: rgba(0,0,0,0.2); 
+}
+
+/* web-previewer comment area more visible */
+.web-preview .previewer
+{
+   height: auto !important;
+}
+.web-preview .previewer .message
+{
+   padding-top: 25px;
+}
+
+/* larger hit area for doclist actions */
+.doclist a.action-link, .doclist a.simple-link, .doclist a.show-more
+{
+    background-position: 4px 4px;
+    padding: 4px 0 4px 24px;
+}
+
+/* larger hit area for YUI menus, filters and tree rows */
+.yuimenu
+{
+   font-size: 100% !important;
+   line-height: 1.75 !important;
+}
+.filter li
+{
+   padding: 4px 0 6px 20px;
+}
+.ygtvrow
+{
+   height: 26px !important;
+}
+
+/* larger hit area for YUI resizer */
+.yui-resize .yui-resize-handle-r
+{
+   width: 9px !important;
+}
+.yui-resize .yui-resize-handle-inner-r, .yui-resize .yui-resize-handle-inner-l
+{
+   width: 9px !important;
+   left: 2px;
+}

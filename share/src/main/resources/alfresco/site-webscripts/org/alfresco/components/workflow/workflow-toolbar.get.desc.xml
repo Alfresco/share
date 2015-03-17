@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>workflow-toolbar</shortname>
+  <description>Displays workflow links</description>
+  <url>/components/workflow/workflow-toolbar</url>
+</webscript>

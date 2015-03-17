@@ -1,0 +1,56 @@
+/* Data Table */
+.aspects .yui-dt table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.aspects thead
+{
+   display: none;
+}
+
+.aspects .yui-dt td
+{
+   border-bottom: 1px dashed #D7D7D7;
+   border-right: medium none;
+}
+
+.aspects .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.aspects .title-left,
+.aspects .title-right
+{
+   padding: 0.5em;
+   text-align: left;
+}
+
+.aspects .list-left,
+.aspects .list-right
+{
+   border: 1px solid #c0c0c0;
+   height: 24em;
+   overflow: auto;
+   margin: 0 0.5em;
+}
+
+.aspects a.add-item:hover,
+.aspects a.remove-item:hover
+{
+   text-decoration: none;
+}
+
+.aspects .addIcon
+{
+	background: transparent url(../../components/images/add-icon-16.png) no-repeat center center;
+	padding: 8px;
+}
+
+.aspects .removeIcon
+{
+	background: transparent url(../../components/images/remove-icon-16.png) no-repeat center center;
+	padding: 8px;
+}

@@ -1,0 +1,40 @@
+.google-map h1
+{
+   padding: 16px;
+}
+
+.google-map .map
+{
+   width: 100%;
+}
+
+.google-map-popup div.thumbnail
+{
+   height: 116px;
+   line-height: 100px;
+   text-align: center;
+}
+
+.google-map-popup div.thumbnail img
+{
+   vertical-align: middle;
+}
+
+.google-map-popup div.exif
+{
+   background-color: #f0f0f0;
+   border: 8px solid #f0f0f0;
+   border-radius: 8px;
+   margin: 0 auto;
+   overflow-y: auto;
+   width: 24em;
+}
+
+.google-map-popup .exif th
+{
+   color: #444;
+} 
+.google-map-popup .exif td
+{
+   color: #000;
+}

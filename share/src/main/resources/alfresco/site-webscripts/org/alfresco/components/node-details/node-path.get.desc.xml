@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>node-path</shortname>
+  <description>Node Path component - returns a breadcrumb style path to the node</description>
+  <url>/components/node-details/node-path</url>
+  <url>/cloud/node-details/node-path</url>
+</webscript>

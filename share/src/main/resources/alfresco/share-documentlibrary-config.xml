@@ -1,0 +1,1338 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="DocumentDetails">
+      <document-details>
+         <!-- display web previewer on document details page -->
+         <display-web-preview>true</display-web-preview>
+      </document-details>
+   </config>
+   
+
+   <!-- Document Library config section -->
+   <config evaluator="string-compare" condition="DocumentLibraryViews">
+         <!-- The view renderers that will be available as options in DocumentLibrary, My Files, Shared Files and 
+              Repository pages. This list can be added to or removed to control the views displayed. Use the a module
+              that provides evaluated configuration to have the options change based on criteria (e.g. site name, 
+              site preset, user group, etc)
+              
+              Remember to include all dependencies, even those duplicated by another view - Surf will ensure only 
+              one version of each is loaded - but if a view is removed that depends on a dependency defined in another
+              view then it will cause an error. 
+           -->
+      <view-renderers>
+         <view-renderer id="simple" iconClass="simple" label="button.view.simple" index="10" widget="Alfresco.DocumentListSimpleViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-simple.js" />
+            </dependencies>
+         </view-renderer>
+         <view-renderer id="detailed" iconClass="detailed" label="button.view.detailed" index="20" widget="Alfresco.DocumentListViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+            </dependencies>
+         </view-renderer>
+         <view-renderer id="gallery" iconClass="gallery" label="button.view.gallery" index="30" widget="Alfresco.DocumentListGalleryViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-gallery.js" />
+               <js src="yui/slider/slider.js" />
+            </dependencies>
+         </view-renderer>
+         <view-renderer id="filmstrip" iconClass="filmstrip" label="button.view.filmstrip" index="40" widget="Alfresco.DocumentListFilmstripViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-gallery.js" />
+               <js src="components/documentlibrary/documentlist-view-filmstrip.js" />
+               <js src="yui/carousel/carousel.js" />
+               <js src="components/preview/web-preview.js" />
+               <js src="components/preview/WebPreviewer.js" />
+               <js src="js/flash/extMouseWheel.js" />
+               <js src="components/preview/StrobeMediaPlayback.js" />
+               <js src="components/preview/Video.js" />
+               <js src="components/preview/Audio.js" />
+               <js src="components/preview/Flash.js" />
+               <js src="components/preview/Image.js" />
+               <js src="components/preview/PdfJs.js" />
+               <js src="components/preview/pdfjs/compatibility.js" />
+               <js src="components/preview/pdfjs/pdf.js" />
+               <js src="components/preview/pdfjs/pdf.worker.js" />
+               <js src="components/preview/spin.js" />
+               <css src="components/preview/web-preview.css" />
+               <css src="components/preview/WebPreviewerHTML.css" />
+               <css src="components/preview/Audio.css" />
+               <css src="components/preview/Image.css" />
+               <css src="components/preview/viewer-common.css" />
+               <css src="components/preview/PdfJs.css" />
+            </dependencies>
+         </view-renderer>
+         
+         <!-- The following entries are examples of how to create multiple instances of the
+              same renderer. In this case they are different configurations of the table view
+              and the differences are controlled by the "json-config" element (although it should 
+              be noted that not although a view renderer may be supplied with the json-config the
+              table view is the only renderer that makes use of it.
+              
+              There are 4 columns that are always present in the table which need to be manually
+              hidden if required (they will be displayed if included in the json-config:
+              - actions (the drop-down menu of actions that can be peformed on the document)
+              - indicators (the set of icons that visually communicate information about the document)
+              - selector (the checkbox to use when selecting multiple documents)
+              - thumbnail (the thumbnail sized preview of the document)
+              
+              All other columns must be defined in the "propertyColumns" array. The property attribute
+              can be set to EITHER a document property (e.g. "cm:name") or a metadata template renderer
+              such as "size", "tags" or "date". 
+         -->
+         <!--
+         <view-renderer id="email" iconClass="table" label="button.view.email" index="50" widget="Alfresco.DocumentListTableViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-table.js" />
+               <css src="components/documentlibrary/documentlist-view-table.css" />
+            </dependencies>
+            <json-config>
+               {
+                  "actions": {
+                     "show": "true"
+                  },
+                  "indicators": {
+                     "show": "true"
+                  },
+                  "selector": {
+                     "show": "true"
+                  },
+                  "thumbnail": {
+                     "show": "false"
+                  },
+                  "propertyColumns": [
+                     {
+                        "property": "cm:originator",
+                        "label": "table.email.label.originator",
+                        "link": "true"
+                     },
+                     {
+                        "property": "cm:subjectline",
+                        "label": "table.email.label.subjectline",
+                        "link": "true"
+                     },
+                     {
+                        "property": "cm:sentdate",
+                        "label": "table.email.label.sentdate"
+                     },
+                     {
+                        "property": "cm:addressee",
+                        "label": "table.email.label.addressee"
+                     },
+                     {
+                        "property": "cm:addressees",
+                        "label": "table.email.label.addressees"
+                     },
+                     {
+                        "property": "cm:attachments",
+                        "label": "table.email.label.attachments"
+                     }
+                  ]
+               }
+            </json-config>
+         </view-renderer>
+         <view-renderer id="dublin_core" iconClass="table" label="button.view.dublinCore" index="80" widget="Alfresco.DocumentListTableViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-table.js" />
+               <css src="components/documentlibrary/documentlist-view-table.css" />
+            </dependencies>
+            <json-config>
+               {
+                  "actions": {
+                     "show": "true"
+                  },
+                  "indicators": {
+                     "show": "true"
+                  },
+                  "selector": {
+                     "show": "true"
+                  },
+                  "thumbnail": {
+                     "show": "true"
+                  },
+                  "propertyColumns": [
+                     {
+                        "property": "name",
+                        "label": "table.dublincore.label.name",
+                        "width": "300"
+                     },
+                     {
+                        "property": "version",
+                        "label": "table.dublincore.label.version"
+                     },
+                     {
+                        "property": "cm:title",
+                        "label": "table.dublincore.label.title"
+                     },
+                     {
+                        "property": "cm:creator",
+                        "label": "table.dublincore.label.creator"
+                     },
+                     {
+                        "property": "cm:subject",
+                        "label": "table.dublincore.label.subject"
+                     },
+                     {
+                        "property": "cm:description",
+                        "label": "table.dublincore.label.description"
+                     },
+                     {
+                        "property": "cm:publisher",
+                        "label": "table.dublincore.label.publisher"
+                     },
+                     {
+                        "property": "cm:contributor",
+                        "label": "table.dublincore.label.contributor"
+                     },
+                     {
+                        "property": "mimetype",
+                        "label": "table.dublincore.label.mimetype"
+                     },
+                     {
+                        "property": "cm:identifier",
+                        "label": "table.dublincore.label.identifier"
+                     },
+                     {
+                        "property": "cm:dcsource",
+                        "label": "table.dublincore.label.dcsource"
+                     },
+                     {
+                        "property": "cm:coverage",
+                        "label": "table.dublincore.label.coverage"
+                     },
+                     {
+                        "property": "cm:rights",
+                        "label": "table.dublincore.label.rights"
+                     }
+                  ]
+               }
+            </json-config>
+         </view-renderer>
+         <view-renderer id="effectivity" iconClass="table" label="button.view.effectivity" index="90" widget="Alfresco.DocumentListTableViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-table.js" />
+               <css src="components/documentlibrary/documentlist-view-table.css" />
+            </dependencies>
+            <json-config>
+               {
+                  "actions": {
+                     "show": "true"
+                  },
+                  "indicators": {
+                     "show": "true"
+                  },
+                  "selector": {
+                     "show": "true"
+                  },
+                  "thumbnail": {
+                     "show": "true"
+                  },
+                  "propertyColumns": [
+                     {
+                        "property": "name",
+                        "label": "table.effectivity.label.name",
+                        "width": "300"
+                     },
+                     {
+                        "property": "cm:description",
+                        "label": "table.effectivity.label.description"
+                     },
+                     {
+                        "property": "version",
+                        "label": "table.effectivity.label.version",
+                        "width": "50"
+                     },
+                     {
+                        "property": "cm:modified",
+                        "label": "table.effectivity.label.modified",
+                        "width": "100"
+                     },
+                     {
+                        "property": "cm:modifier",
+                        "label": "table.effectivity.label.modifier",
+                        "width": "100"
+                     },
+                     {
+                        "property": "cm:from",
+                        "label": "table.effectivity.label.from",
+                        "width": "100"
+                     },
+                     {
+                        "property": "cm:to",
+                        "label": "table.effectivity.label.to",
+                        "width": "100"
+                     }
+                  ]
+               }
+            </json-config>
+         </view-renderer>
+         -->
+         <view-renderer id="table" iconClass="table" label="button.view.table" index="50" widget="Alfresco.DocumentListTableViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-table.js" />
+               <css src="components/documentlibrary/documentlist-view-table.css" />
+            </dependencies>
+            <json-config>
+               {
+                  "actions": {
+                     "show": "true"
+                  },
+                  "indicators": {
+                     "show": "true"
+                  },
+                  "selector": {
+                     "show": "true"
+                  },
+                  "thumbnail": {
+                     "show": "true"
+                  },
+                  "propertyColumns": [
+                     {
+                        "property": "name",
+                        "label": "label.name",
+                        "width": "300"
+                     },
+                     {
+                        "property": "cm:title",
+                        "label": "label.title"
+                     },
+                     {
+                        "property": "cm:description",
+                        "label": "label.description"
+                     },
+                     {
+                        "property": "cm:creator",
+                        "label": "label.creator"
+                     },
+                     {
+                        "property": "cm:created",
+                        "label": "label.created"
+                     },
+                     {
+                        "property": "cm:modifier",
+                        "label": "label.modifier"
+                     },
+                     {
+                        "property": "modified",
+                        "label": "label.modified"
+                     }
+                  ]
+               }
+            </json-config>
+         </view-renderer>
+         <view-renderer id="audio" iconClass="table" label="button.view.audio" index="60" widget="Alfresco.DocumentListTableViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-table.js" />
+               <css src="components/documentlibrary/documentlist-view-table.css" />
+            </dependencies>
+            <json-config>
+               {
+                  "actions": {
+                     "show": "true"
+                  },
+                  "indicators": {
+                     "show": "true"
+                  },
+                  "selector": {
+                     "show": "true"
+                  },
+                  "thumbnail": {
+                     "show": "true"
+                  },
+                  "propertyColumns": [
+                     {
+                        "property": "name",
+                        "label": "table.audio.label.name",
+                        "width": "300"
+                     },
+                     {
+                        "property": "cm:title",
+                        "label": "table.audio.label.title",
+                        "width": "200"
+                     },
+                     {
+                        "property": "audio:album",
+                        "label": "table.audio.label.album",
+                        "width": "200",
+                        "link": "true"
+                     },
+                     {
+                        "property": "audio:artist",
+                        "label": "table.audio.label.artist",
+                        "width": "200"
+                     },
+                     {
+                        "property": "audio:genre",
+                        "label": "table.audio.label.genre",
+                        "width": "100"
+                     },
+                     {
+                        "property": "audio:trackNumber",
+                        "label": "table.audio.label.trackNumber",
+                        "width": "100"
+                     },
+                     {
+                        "property": "audio:sampleRate",
+                        "label": "table.audio.label.sampleRate",
+                        "width": "100"
+                     },
+                     {
+                        "property": "audio:compressor",
+                        "label": "table.audio.label.compressor",
+                        "width": "100"
+                     }
+                  ]
+               }
+            </json-config>
+         </view-renderer>
+         <view-renderer id="media_table" iconClass="table" label="button.view.media-table" index="100" widget="Alfresco.DocumentListTableViewRenderer">
+            <dependencies>
+               <js src="components/documentlibrary/documentlist-view-detailed.js" />
+               <js src="components/documentlibrary/documentlist-view-table.js" />
+               <css src="components/documentlibrary/documentlist-view-table.css" />
+            </dependencies>
+            <json-config>
+               {
+                  "actions": {
+                     "show": "true"
+                  },
+                  "indicators": {
+                     "show": "true"
+                  },
+                  "selector": {
+                     "show": "true"
+                  },
+                  "thumbnail": {
+                     "show": "true"
+                  },
+                  "propertyColumns": [
+                     {
+                        "property": "name",
+                        "label": "label.name",
+                        "width": "300"
+                     },
+                     {
+                        "property": "cm:description",
+                        "label": "label.description",
+                        "width": "200"
+                     },
+                     {
+                        "property": "tags",
+                        "label": "label.tags",
+                        "width": "100"
+                     },
+                     {
+                        "property": "exif:pixelXDimension",
+                        "label": "label.exif.width",
+                        "width": "75"
+                     },
+                     {
+                        "property": "exif:pixelYDimension",
+                        "label": "label.exif.height",
+                        "width": "75"
+                     },
+                     {
+                        "property": "size",
+                        "label": "label.size",
+                        "width": "75"
+                     },
+                     {
+                        "property": "version",
+                        "label": "label.version",
+                        "width": "50"
+                     }
+                  ]
+               }
+            </json-config>
+         </view-renderer>
+      </view-renderers>
+   </config>
+
+
+   <!-- Document Library config section -->
+   <config evaluator="string-compare" condition="DocumentLibrary">
+
+      <!-- Document List -->
+      <doclist>
+         <!--
+            Bean that implements DoclistDataUrlResolver interface to resolve which url that the surf-doclist webscript
+            shall use when asking the repository for nodes.
+          -->
+         <data-url-resolver>resolver.doclib.doclistDataUrl</data-url-resolver>
+         
+         
+      </doclist>
+
+      <!-- This defines a set of modes for pickers (e.g. the copy/move to picker, etc) that should be hidden. 
+           The mode names correlate to values in the Alfresco.module.DoclibGlobalFolder JavaScript widget.
+           By default no view modes will be hidden, each view mode should be added as the value of it's own
+           <mode> element.
+        -->
+      <hidden-picker-view-modes></hidden-picker-view-modes>
+       
+      <tree>
+         <!--
+            Whether the folder Tree component should enumerate child folders or not.
+            This is a relatively expensive operation, so should be set to "false" for Repositories with broad folder structures.
+         -->
+         <evaluate-child-folders>true</evaluate-child-folders>
+         
+         <!--
+            Optionally limit the number of folders shown in treeview throughout Share.
+         -->
+         <maximum-folder-count>-1</maximum-folder-count>
+         
+         <!--  
+            Default timeout in milliseconds for folder Tree component to recieve response from Repository
+         -->
+         <timeout>7000</timeout>
+      </tree>
+
+      <!--
+         Used by the "Manage Aspects" action and Rules pages
+
+         For custom aspects, remember to also add the relevant i18n string(s)
+            aspect.cm_myaspect=My Aspect
+      -->
+      <aspects>
+
+         <!--
+            Aspects that a user can see in UI.
+            Used by Rules, aspects are the listed aspects for rule's "has-aspect" action condition.
+         -->
+         <visible>
+            <aspect name="cm:generalclassifiable" />
+            <aspect name="cm:complianceable" />
+            <aspect name="cm:dublincore" />
+            <aspect name="cm:effectivity" />
+            <aspect name="cm:summarizable" />
+            <aspect name="cm:versionable" />
+            <aspect name="cm:templatable" />
+            <aspect name="cm:emailed" />
+            <aspect name="emailserver:aliasable" />
+            <aspect name="cm:taggable" />
+            <aspect name="app:inlineeditable" />
+            <aspect name="cm:geographic" />
+            <aspect name="exif:exif" />
+            <aspect name="audio:audio" />
+            <aspect name="cm:indexControl" />
+            <aspect name="dp:restrictable" />
+         </visible>
+
+         <!--
+            Aspects that a user can add in UI.
+            Used by Rules, aspects are the listed aspects for rule's "add-features" action.
+            Same as "visible" if left empty.
+         -->
+         <addable>
+         </addable>
+
+         <!--
+            Aspects that a user can remove in UI.
+            Used by Rules, aspects are the listed aspects for rule's "remove-features" action.
+            Same as "visible" if left empty
+         -->
+         <removeable>
+         </removeable>
+      </aspects>
+
+      <!--
+         Used by the "Change Type" action.
+         Used by Rules:
+          - parent types are the listed types for rule's "is-subtype" action condition
+          - sub types are the listed types for rule's "specialise-type" action
+
+         Define valid subtypes using the following example:
+            <type name="cm:content">
+               <subtype name="cm:mysubtype" />
+            </type>
+
+         Remember to also add the relevant i18n string(s):
+            type.cm_mysubtype=My SubType
+      -->
+      <types>
+         <type name="cm:content">
+         </type>
+
+         <type name="cm:folder">
+         </type>
+
+         <type name="trx:transferTarget">
+               <subtype name="trx:fileTransferTarget" />
+         </type>
+      </types>
+
+      <!--
+         If set, will present a WebDAV link for the current item on the Document and Folder details pages.
+      -->
+      <!--
+      <repository-url>http://localhost:8080/alfresco</repository-url>
+      -->
+
+      <!--
+         File upload configuration
+      -->
+      <file-upload>
+         <!--
+            Adobe Flash???
+            In certain environments, an HTTP request originating from Flash cannot be authenticated using an existing session.
+            See: http://bugs.adobe.com/jira/browse/FP-4830
+            For these cases, it is useful to disable the Flash-based uploader for Share Document Libraries.
+         -->
+         <adobe-flash-enabled>true</adobe-flash-enabled>
+         
+         <!--
+            In order to support drag-and-drop file upload a browser must be able to support the HTML5 drag-and-drop events, however
+            if the browser does not support the FormData type (that allows streamed multipart file uploads) then all files need to be
+            loaded into the browser's memory before being uploaded to the server. In order to prevent potential memory related errors,
+            a limit is set for the sum of all file sizes being uploaded in a single operation (specified in bytes).
+            As of April 2011, the only known browser that requires this restriction is Firefox 3.6.
+          -->
+         <in-memory-limit>262144000</in-memory-limit>
+         <!--
+            The maximum number of bytes per file that Share will allow to be uploaded.
+            A value of 0 means that any size is allowed.
+         -->
+         <maximum-file-size-limit>0</maximum-file-size-limit>
+      </file-upload>
+
+      <!--
+         Sorting Options
+
+         The 'sort' config element contains the name of the content model field to sort against and can be of the form:
+         - short QName string e.g. "cm:name"
+         - any other valid sortable fts-alfresco special field e.g. "TYPE"
+         
+         The field can be optionally followed by |true or |false to indicate sort direction,
+         where true = ascending, false = descending
+      -->
+      <sorting>
+         <sort label="label.name">cm:name|true</sort>
+         <sort label="label.popularity">cm:likesRatingSchemeCount|false</sort>
+         <sort label="label.title">cm:title</sort>
+         <sort label="label.description">cm:description</sort>
+         <sort label="label.created">cm:created</sort>
+         <sort label="label.creator">cm:creator</sort>
+         <sort label="label.modified">cm:modified</sort>
+         <sort label="label.modifier">cm:modifier</sort>
+         <sort label="label.size">cm:content.size</sort>
+         <sort label="label.mimetype">cm:content.mimetype</sort>
+         <sort label="label.type">TYPE</sort>
+      </sorting>
+      
+      <!--
+         Filter configurations
+      -->
+      <filters>
+         <!--
+            The maximum number of tags to display in the Tags filter, can be set to -1 for all tags
+         -->
+         <maximum-tag-count>100</maximum-tag-count>
+      </filters>
+      
+      <!--
+         Status Indicators
+      -->
+      <indicators>
+         <!-- Being edited by current user -->
+         <indicator id="editing" index="10">
+            <evaluator>evaluator.doclib.indicator.editing</evaluator>
+         </indicator>
+         <!-- Locked by current user -->
+         <indicator id="lock-owner" index="10">
+            <evaluator>evaluator.doclib.indicator.lockOwner</evaluator>
+         </indicator>
+         <!-- Locked with owner identified by cm:owner property -->
+         <indicator id="locked" index="10" icon="lock-owner-16.png">
+            <evaluator>evaluator.doclib.indicator.lockedOwner</evaluator>
+            <labelParam index="0">{jsNode.properties.owner.displayName}</labelParam>
+            <labelParam index="1">{jsNode.properties.owner.userName}</labelParam>
+         </indicator>
+         <!-- Locked with owner identified by cm:lockOwner property -->
+         <indicator id="nodeLock" index="10" icon="lock-owner-16.png" label="status.locked">
+            <evaluator>evaluator.doclib.indicator.nodeLocked</evaluator>
+            <labelParam index="0">{jsNode.properties.cm_lockOwner.displayName}</labelParam>
+            <labelParam index="1">{jsNode.properties.cm_lockOwner.userName}</labelParam>
+            <override>locked</override>
+         </indicator>
+         <!-- Workflows -->
+         <indicator id="active-workflows" index="20">
+            <evaluator>evaluator.doclib.indicator.activeWorkflows</evaluator>
+            <labelParam index="0">{activeWorkflows}</labelParam>
+         </indicator>
+         <indicator id="simple-workflow" index="30">
+            <evaluator>evaluator.doclib.indicator.simpleWorkflow</evaluator>
+         </indicator>
+         <!-- Everything Else -->
+         <indicator id="rules" index="40">
+            <evaluator>evaluator.doclib.indicator.rules</evaluator>
+         </indicator>
+         <indicator id="exif" index="40">
+            <evaluator>evaluator.doclib.indicator.exifMetadata</evaluator>
+         </indicator>
+         <indicator id="geographic" index="50">
+            <evaluator>evaluator.doclib.indicator.geographicMetadata</evaluator>
+         </indicator>
+         <indicator id="transferred-node" index="60">
+            <evaluator>evaluator.doclib.indicator.transferredNode</evaluator>
+         </indicator>
+         <indicator id="cloud-synced" index="70" action="onCloudSyncIndicatorAction">
+            <evaluator>evaluator.doclib.indicator.isSynced</evaluator>
+         </indicator>
+         <indicator id="cloud-sync-failed" index="80" action="onCloudSyncFailedIndicatorAction">
+            <evaluator>evaluator.doclib.indicator.isSyncFailed</evaluator>
+            <override>cloud-synced</override>
+         </indicator>
+         <indicator id="cloud-indirect-sync" index="90" action="onCloudIndirectSyncIndicatorAction">
+            <evaluator>evaluator.doclib.indicator.isIndirectSync</evaluator>
+            <override>cloud-synced</override>
+         </indicator>
+         <indicator id="cloud-indirect-sync-failed" index="90" action="onCloudIndirectSyncFailedIndicatorAction">
+            <evaluator>evaluator.doclib.indicator.isIndirectSyncFailed</evaluator>
+            <override>cloud-sync-failed</override>
+            <override>cloud-indirect-sync</override>
+         </indicator>
+      </indicators>
+
+      <!--
+         Custom Metadata Templates for the Document Library Browse View
+
+         Use view="simple" or view="detailed" to limit the display to one particular view.
+      -->
+      <metadata-templates>
+         <!-- Default (fallback) -->
+         <template id="default">
+            <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+            <line index="10" id="date">{date}{size}</line>
+            <line index="20" id="description" view="detailed">{description}</line>
+            <line index="30" id="tags" view="detailed">{tags}</line>
+            <line index="40" id="categories" view="detailed" evaluator="evaluator.doclib.metadata.hasCategories">{categories}</line>
+            <line index="50" id="social" view="detailed">{social}</line>
+         </template>
+
+         <!-- Working Copies -->
+         <template id="isWorkingCopy">
+            <evaluator>evaluator.doclib.metadata.isWorkingCopy</evaluator>
+            <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+            <line index="10" id="date">{date}{size}</line>
+            <line index="20" id="description" view="detailed">{description}</line>
+         </template>
+
+         <!-- Dictionary Models -->
+         <template id="dictionaryModel">
+            <evaluator>evaluator.doclib.metadata.isDictionaryModel</evaluator>
+            <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+            <line index="10" id="date">{date}</line>
+            <line index="20" id="description" view="detailed">{description}</line>
+            <line index="30" id="dictionaryModel" simpleView="true">{modelActive label.modelActive}{modelName label.modelName}{modelDescription label.modelDescription}</line>
+         </template>
+
+         <!-- Replication Transfer Targets -->
+         <template id="transferTarget">
+            <evaluator>evaluator.doclib.metadata.isTransferTarget</evaluator>
+            <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+            <line index="10" id="date">{date}</line>
+            <line index="20" id="description" view="detailed">{description}</line>
+            <line index="30" id="transferTarget" simpleView="true">{trx_enabled label.trx_enabled}{trx_endpointhost label.trx_endpointhost}{trx_endpointport label.trx_endpointport}</line>
+         </template>
+      </metadata-templates>
+
+      <!--
+         Create Content menu items, can be of 3 types matching the usual doclib action config:
+
+         * "link" - accepts a "href" param that will be passed a nodeRef token for substitution, used for external links
+         * "pagelink" - accepts a "page" param that will be passed a nodeRef token for substitution, used for Share links
+         * "javascript" - accepts & "function" param of an action that will get the current folder item as first argument.
+
+         I.e.
+         <content id="plain-text" label="create-content.text" icon="text" type="pagelink">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=cm:content&amp;mimeType=text/plain</param>
+            <permissions>
+               <permission allow="true">SomeUserPermissions</permission>
+            </permissions>
+         </content>
+
+         Note that the "CreateChildren" permission is always required and will disable the entire menu if no granted for a folder.
+
+         Also note that the old/untyped simple config still is allowed, the config snippet below will automatically be
+         converted to a "pagelink" as in the example above.
+         <content id="plain-text" label="create-content.text" icon="text" itemid="cm:content" mimetype="text/plain" permission="SomeUserPermissions"/>
+      -->
+      <create-content>
+         <content id="plain-text" label="create-content.text" type="pagelink" index="10" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=cm:content&amp;mimeType=text/plain</param>
+         </content>
+         <content id="html" label="create-content.html" type="pagelink" index="20">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=cm:content&amp;mimeType=text/html</param>
+         </content>
+         <content id="xml" label="create-content.xml" type="pagelink" index="30">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=cm:content&amp;mimeType=text/xml</param>
+         </content>
+         <content id="folder" label="create-content.folder" icon="folder" index="5" type="javascript">
+            <param name="function">onNewFolder</param>
+         </content>
+      </create-content>
+
+      <create-content-by-template>true</create-content-by-template>
+
+      <multi-select>
+         <action type="action-link" id="onActionDownload" icon="document-download" label="menu.selected-items.download" />
+         <action type="action-link" id="onActionCopyTo" icon="document-copy-to" label="menu.selected-items.copy" />
+         <action type="action-link" id="onActionMoveTo" icon="document-move-to" permission="Delete" label="menu.selected-items.move"/>
+         <action type="action-link" id="onActionAssignWorkflow" asset="document" icon="document-assign-workflow" label="menu.selected-items.assign-workflow"/>
+         <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="hwf:hybridWorkflow,sys:undeletable" />
+         <action type="action-link" id="onActionCloudSync" asset="document" icon="document-cloud-sync"  permission="CreateChildren" label="menu.selected-items.cloudSync" notAspect="sync:syncSetMemberNode" syncMode="ON_PREMISE" />
+         <action type="action-link" id="onActionCloudSyncRequest" icon="document-request-sync" label="menu.selected-items.cloudRequestSync" hasAspect="sync:syncSetMemberNode" syncMode="ON_PREMISE" />
+      </multi-select>
+
+   </config>
+
+   <!-- Repository Library config section -->
+   <config evaluator="string-compare" condition="RepositoryLibrary">
+      <!--
+         Root nodeRef for top-level folder.
+      -->
+      <root-node>alfresco://company/home</root-node>
+
+      <!-- Hide the Repository header link for non-Admin users -->
+      <visible>false</visible>
+      
+      <tree>
+         <!--
+            Whether the folder Tree component should enumerate child folders or not.
+            This is a relatively expensive operation, so should be set to "false" for Repositories with broad folder structures.
+         -->
+         <evaluate-child-folders>false</evaluate-child-folders>
+
+         <!--
+            Optionally limit the number of folders shown in treeview throughout Share.
+         -->
+         <maximum-folder-count>500</maximum-folder-count>
+      </tree>
+   </config>
+
+   <!-- Document Library Custom Code config section -->
+   <config evaluator="string-compare" condition="DocLibCustom">
+      <!--
+         Custom Code dependencies.
+
+         Note: files specified in the "src" attribute resolve relative to the /share/res/ servlet context.
+         <dependencies>
+            <css src="my-custom-action.css" />
+            <js src="my-custom-action.js" />
+         </dependencies>
+      -->
+      <dependencies />
+   </config>
+
+   <!-- Document Library Actions config section -->
+   <config evaluator="string-compare" condition="DocLibActions">
+
+      <!--
+         Action definitions
+      -->
+      <actions>
+         <!-- Download document -->
+         <action id="document-download" type="link" label="actions.document.download">
+            <param name="href">{downloadUrl}</param>
+            <evaluator>evaluator.doclib.action.downloadBrowser</evaluator>
+         </action>
+
+         <!-- View document in browser -->
+         <action id="document-view-content" type="link" label="actions.document.view">
+            <param name="href">{viewUrl}</param>
+         </action>
+
+         <!-- View document details -->
+         <action id="document-view-details" type="pagelink" label="actions.document.view-details">
+            <param name="page">document-details?nodeRef={node.nodeRef}</param>
+         </action>
+
+         <!-- View folder details -->
+         <action id="folder-view-details" type="pagelink" label="actions.folder.view-details">
+            <param name="page">folder-details?nodeRef={node.nodeRef}</param>
+         </action>
+
+         <!-- Edit properties pop-up -->
+         <action id="document-edit-properties" type="javascript" label="actions.document.edit-metadata">
+            <param name="function">onActionDetails</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator negate="true">evaluator.doclib.action.checkedOutAspect</evaluator>
+         </action>
+
+         <!-- Edit properties page -->
+         <action id="document-edit-metadata" type="pagelink" label="actions.document.edit-metadata">
+            <param name="page">edit-metadata?nodeRef={node.nodeRef}</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator negate="true">evaluator.doclib.action.checkedOutAspect</evaluator>
+         </action>
+
+         <!-- Approve simple workflow -->
+         <action id="document-approve" type="javascript" label="{jsNode.properties.app_approveStep}">
+            <param name="function">onActionSimpleRepoAction</param>
+            <!-- Additional parameters for onRepoAction function  -->
+            <param name="action">accept-simpleworkflow</param>
+            <param name="successMessage">message.simple-workflow.approved</param>
+            <param name="failureMessage">message.simple-workflow.failure</param>
+            <!-- aspect check, property != null check, action name = property value -->
+            <evaluator>evaluator.doclib.action.simpleApprove</evaluator>
+         </action>
+
+         <!-- Reject simple workflow -->
+         <action id="document-reject" type="javascript" label="{jsNode.properties.app_rejectStep}">
+            <param name="function">onActionSimpleRepoAction</param>
+            <!-- Additional parameters for onRepoAction function  -->
+            <param name="action">reject-simpleworkflow</param>
+            <param name="successMessage">message.simple-workflow.rejected</param>
+            <param name="failureMessage">message.simple-workflow.failure</param>
+            <!-- aspect check, property != null check, action name = property value -->
+            <evaluator>evaluator.doclib.action.simpleReject</evaluator>
+         </action>
+
+         <!-- Increment Counter -->
+         <action id="document-increment-counter" type="javascript" label="actions.document.increment-counter">
+            <param name="function">onActionSimpleRepoAction</param>
+            <!-- Additional parameters for onRepoAction function  -->
+            <param name="action">counter</param>
+            <param name="successMessage">message.increment-counter.success</param>
+            <param name="failureMessage">message.increment-counter.failure</param>
+         </action>
+
+         <!-- Extract Metadata -->
+         <action id="document-extract-metadata" type="javascript" label="actions.document.extract-metadata">
+            <param name="function">onActionSimpleRepoAction</param>
+            <!-- Additional parameters for onRepoAction function  -->
+            <param name="action">extract-metadata</param>
+            <param name="successMessage">message.extract-metadata.success</param>
+            <param name="failureMessage">message.extract-metadata.failure</param>
+         </action>
+
+         <!-- Transform -->
+         <action id="document-transform" type="javascript" label="actions.document.transform">
+            <param name="function">onActionFormDialog</param>
+            <!-- Additional parameters for onFormDialog function  -->
+            <param name="itemKind">action</param>
+            <param name="itemId">transform</param>
+            <param name="mode">create</param>
+            <param name="destination">{node.nodeRef}</param>
+            <param name="successMessage">message.transform.success</param>
+            <param name="failureMessage">message.transform.failure</param>
+         </action>
+
+         <!-- Transform Image -->
+         <action id="document-transform-image" type="javascript" label="actions.document.transform-image">
+            <param name="function">onActionFormDialog</param>
+            <!-- Additional parameters for onFormDialog function  -->
+            <param name="itemKind">action</param>
+            <param name="itemId">transform-image</param>
+            <param name="mode">create</param>
+            <param name="destination">{node.nodeRef}</param>
+            <param name="successMessage">message.transform-image.success</param>
+            <param name="failureMessage">message.transform-image.failure</param>
+         </action>
+
+         <!-- Execute Script -->
+         <action id="document-execute-script" type="javascript" label="actions.document.execute-script">
+            <param name="function">onActionFormDialog</param>
+            <!-- Additional parameters for onFormDialog function  -->
+            <param name="itemKind">action</param>
+            <param name="itemId">script</param>
+            <param name="mode">create</param>
+            <param name="destination">{node.nodeRef}</param>
+            <param name="successMessage">message.execute-script.success</param>
+            <param name="failureMessage">message.execute-script.failure</param>
+         </action>
+
+         <!-- Locate with path view -->
+         <action id="document-locate" type="javascript" label="actions.document.locate">
+            <param name="function">onActionLocate</param>
+            <evaluator>evaluator.doclib.action.locateAction</evaluator>
+         </action>
+
+         <!-- Upload new version -->
+         <action id="document-upload-new-version" type="javascript" label="actions.document.upload-new-version">
+            <param name="function">onActionUploadNewVersion</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.upload</evaluator>
+            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+            <evaluator negate="true">evaluator.doclib.metadata.isLocked</evaluator>
+         </action>
+
+         <!-- Inline edit -->
+         <action id="document-inline-edit" type="pagelink" label="actions.document.inline-edit">
+            <param name="page">inline-edit?nodeRef={node.nodeRef}</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <!-- aspect check (app:inlineeditable), mimetype check (text/plain, text/html, text/xml) -->
+            <evaluator>evaluator.doclib.action.inlineEdit</evaluator>
+            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+         </action>
+
+         <!-- Edit online -->
+         <action id="document-edit-online" type="javascript" label="actions.document.edit-online">
+            <param name="function">onActionEditOnline</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <!-- vti module check, mimetype check, userAgent check -->
+            <evaluator>evaluator.doclib.action.onlineEdit</evaluator>
+            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.isAosOnlineEditAvailable</evaluator>
+         </action>
+
+         <!-- Edit online AOS -->
+         <action id="document-edit-online-aos" type="javascript" label="actions.document.edit-online" icon="document-edit-online">
+            <param name="function">onActionEditOnlineAos</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.isAosOnlineEditAvailable</evaluator>
+            <evaluator>evaluator.doclib.action.notEditBrowser</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.isLockedForAos</evaluator>
+            <evaluator>evaluator.doclib.action.isMimetypeEditableAos</evaluator>
+         </action>
+
+         <!-- Edit offline -->
+         <action id="document-edit-offline" type="javascript" label="actions.document.edit-offline">
+            <param name="function">onActionEditOffline</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.offlineEdit</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.notEditable</evaluator>
+         </action>
+
+         <!-- Copy to -->
+         <action id="document-copy-to" type="javascript" label="actions.document.copy-to">
+            <param name="function">onActionCopyTo</param>
+            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+         </action>
+
+         <!-- Move to -->
+         <action id="document-move-to" type="javascript" label="actions.document.move-to">
+            <param name="function">onActionMoveTo</param>
+            <permissions>
+               <permission allow="true">Delete</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+         </action>
+
+         <!-- Delete -->
+         <action id="document-delete" type="javascript" label="actions.document.delete">
+            <param name="function">onActionDelete</param>
+            <permissions>
+               <permission allow="true">Delete</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+            <evaluator>evaluator.doclib.action.isNotPartOfHybridWorklfow</evaluator>
+            <evaluator>evaluator.doclib.action.isDeletable</evaluator>
+         </action>
+
+         <!-- Assign workflow -->
+         <action id="document-assign-workflow" type="javascript" label="actions.document.assign-workflow">
+            <param name="function">onActionAssignWorkflow</param>
+         </action>
+
+         <!-- Manage permissions (granular permissions) -->
+         <action id="document-manage-granular-permissions" type="link" icon="document-manage-permissions" label="actions.document.manage-permissions">
+             <param name="href">{managePermissionsUrl}</param>
+            <permissions>
+               <permission allow="true">ChangePermissions</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.siteBased</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.isWorkingCopy</evaluator>
+         </action>
+
+         <!-- Manage permissions (repository roles) -->
+         <action id="document-manage-repo-permissions" type="link" icon="document-manage-permissions" label="actions.document.manage-permissions">
+            <param name="href">{managePermissionsUrl}</param>
+            <permissions>
+               <permission allow="true">ChangePermissions</permission>
+            </permissions>
+            <evaluator negate="true">evaluator.doclib.action.siteBased</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.isWorkingCopy</evaluator>
+         </action>
+
+         <!-- Manage aspects -->
+         <action id="document-manage-aspects" type="javascript" label="actions.document.manage-aspects">
+            <param name="function">onActionManageAspects</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+         </action>
+
+         <!-- Change type -->
+         <action id="document-change-type" type="javascript" label="actions.document.change-type">
+            <param name="function">onActionChangeType</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+         </action>
+
+         <!-- View original (of a Working Copy pair) -->
+         <action id="document-view-original" type="pagelink" label="actions.document.view-original">
+            <param name="page">document-details?nodeRef={workingCopy.sourceNodeRef}</param>
+            <!-- cm:workingcopy aspect -->
+            <evaluator>evaluator.doclib.action.isWorkingCopy</evaluator>
+         </action>
+
+         <!-- View working copy (of a Working Copy pair) -->
+         <action id="document-view-working-copy" type="pagelink" label="actions.document.view-working-copy">
+            <param name="page">document-details?nodeRef={workingCopy.workingCopyNodeRef}</param>
+            <!-- cm:workingcopy aspect -->
+            <evaluator>evaluator.doclib.action.hasWorkingCopy</evaluator>
+         </action>
+
+         <!-- Cancel editing -->
+         <action id="document-cancel-editing" type="javascript" label="actions.document.cancel-editing">
+            <param name="function">onActionCancelEditing</param>
+            <permissions>
+               <permission allow="true">CancelCheckOut</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.cancelEditing</evaluator>
+         </action>
+
+         <!-- Cancel editing (unlock) -->
+         <action id="document-cancel-editing-unlock" type="javascript" label="actions.document.cancel-editing-unlock">
+            <param name="function">onActionUnlockDocument</param>
+            <permissions>
+               <permission allow="true">Unlock</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.metadata.isWorkingCopyLocked</evaluator>
+            <evaluator>evaluator.doclib.action.notHasWorkingCopy</evaluator>
+            <evaluator>evaluator.doclib.action.cancelLockedBlacklist</evaluator>
+         </action>
+
+         <!-- Manage folder rules -->
+         <action id="folder-manage-rules" type="pagelink" label="actions.folder.rules">
+            <param name="page">folder-rules?nodeRef={node.nodeRef}</param>
+            <permissions>
+               <permission allow="true">ChangePermissions</permission>
+            </permissions>
+         </action>
+
+         <!-- View on Google Maps -->
+         <action id="document-view-googlemaps" type="pagelink" label="actions.document.view-google-map">
+            <param name="page">geographic-map?nodeRef={node.nodeRef}</param>
+            <!-- aspect cm:geographic -->
+            <evaluator>evaluator.doclib.action.googleMaps</evaluator>
+         </action>
+
+         <!-- Transferred node: View in source repository -->
+         <action id="document-view-in-source-repository" type="link" label="actions.document.view-source-repository">
+            <!-- calculated from siteId, item.location.repositoryId, replicationUrlMapping from share-config-custom.xml and node.type -->
+            <param name="href">{sourceRepositoryUrl}</param>
+            <param name="target">_blank</param>
+            <!-- aspect trx:transferred -->
+            <evaluator>evaluator.doclib.action.transferred</evaluator>
+         </action>
+
+         <!-- Cloud Sync: Create -->
+         <action id="document-cloud-sync" type="javascript" label="actions.document.cloud-sync">
+            <param name="function">onActionCloudSync</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.isSyncable</evaluator>
+         </action>
+
+         <!-- Cloud Sync: Delete -->
+         <action id="document-cloud-unsync" type="javascript" label="actions.document.cloud-unsync">
+            <param name="function">onActionCloudUnsync</param>
+            <permissions>
+               <permission allow="true">Delete</permission>
+            </permissions>
+            <evaluator>evaluator.doclib.action.isUnsyncable</evaluator>
+            <override>document-cloud-sync</override>
+         </action>
+
+         <!-- Cloud Sync: View In Cloud -->
+         <action id="document-view-in-cloud" type="link" label="actions.document.view-in-cloud">
+            <param name="href">{cloudViewUrl}</param>
+            <param name="target">_blank</param>
+            <evaluator>evaluator.doclib.action.isSyncedFromLocal</evaluator>
+         </action>
+         
+         <!-- Cloud Sync: Request Sync -->
+         <action id="document-request-sync" type="javascript" label="actions.document.request-sync">
+            <param name="function">onActionCloudSyncRequest</param>
+            <evaluator>evaluator.doclib.action.isSyncedFromLocal</evaluator>
+         </action>
+
+         <!-- Download folder -->
+         <action id="folder-download" type="javascript" label="actions.folder.download" icon="document-download">
+            <param name="function">onActionFolderDownload</param>
+         </action>
+
+      </actions>
+
+
+      <!--
+         Action Group resolver - decides which action group id to use for a node
+      -->
+      <actionGroupResolver>resolver.doclib.actionGroup</actionGroupResolver>
+
+      <!--
+         Action Group definitions
+      -->
+      <actionGroups>
+         <actionGroup id="empty"/>
+
+         <actionGroup id="document-browse">
+            <action index="100" id="document-download" />
+            <action index="110" id="document-view-content" />
+            <action index="120" id="document-locate" />
+            <action index="130" id="document-edit-properties" />
+            <action index="140" id="document-upload-new-version" />
+            <action index="150" id="document-view-original" />
+            <action index="160" id="document-view-working-copy" />
+            <action index="170" id="document-approve" />
+            <action index="180" id="document-reject" />
+            <action index="190" id="document-inline-edit" />
+            <action index="200" id="document-edit-online" />
+            <action index="201" id="document-edit-online-aos" />
+            <action index="210" id="document-edit-offline" />
+            <action index="250" id="document-copy-to" />
+            <action index="260" id="document-move-to" />
+            <action index="270" id="document-delete" />
+            <action index="280" id="document-assign-workflow" />
+            <action index="290" id="document-cancel-editing" />
+            <action index="295" id="document-cancel-editing-unlock" icon="document-cancel-editing"/>
+            <action index="297" id="document-manage-granular-permissions" />
+            <action index="298" id="document-manage-repo-permissions" />
+            <action index="310" id="document-view-googlemaps" />
+            <action index="320" id="document-view-in-source-repository" />
+            <action index="330" id="document-cloud-sync" />
+            <action index="340" id="document-cloud-unsync" />
+            <action index="350" id="document-view-in-cloud" />
+            <action index="360" id="document-request-sync"/> 
+         </actionGroup>
+
+         <actionGroup id="document-details">
+            <action index="100" id="document-download" />
+            <action index="110" id="document-view-content" />
+            <action index="120" id="document-edit-metadata" />
+            <action index="130" id="document-upload-new-version" />
+            <action index="140" id="document-view-original" />
+            <action index="150" id="document-view-working-copy" />
+            <action index="160" id="document-approve" />
+            <action index="170" id="document-reject" />
+            <action index="180" id="document-inline-edit" />
+            <action index="190" id="document-edit-online" />
+            <action index="191" id="document-edit-online-aos" />
+            <action index="200" id="document-edit-offline" />
+            <action index="240" id="document-copy-to" />
+            <action index="250" id="document-move-to" />
+            <action index="260" id="document-delete" />
+            <action index="270" id="document-assign-workflow" />
+            <action index="280" id="document-cancel-editing" />
+            <action index="285" id="document-cancel-editing-unlock" icon="document-cancel-editing"/>
+            <action index="290" id="document-manage-granular-permissions" />
+            <action index="300" id="document-manage-repo-permissions" />
+            <action index="310" id="document-manage-aspects" />
+            <action index="320" id="document-change-type" />
+            <action index="330" id="document-view-in-source-repository" />
+            <action index="350" id="document-view-googlemaps" />
+            <action index="360" id="document-cloud-sync" />
+            <action index="370" id="document-cloud-unsync" />
+            <action index="380" id="document-view-in-cloud" />
+            <action index="390" id="document-request-sync"/>
+         </actionGroup>
+
+         <actionGroup id="folder-browse">
+            <action index="100" id="folder-download"/>
+            <action index="105" id="folder-view-details" />
+            <action index="110" id="document-edit-properties" icon="folder-edit-properties" label="actions.folder.edit-metadata" />
+            <action index="120" id="document-approve" icon="folder-approve" />
+            <action index="130" id="document-reject" icon="folder-reject" />
+            <action index="140" id="document-locate" icon="document-locate" label="actions.folder.locate" />
+            <action index="150" id="document-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
+            <action index="160" id="document-move-to" icon="folder-move-to" label="actions.folder.move-to" />
+            <action index="170" id="folder-manage-rules" />
+            <action index="180" id="document-delete" icon="folder-delete" label="actions.folder.delete" />
+            <action index="190" id="document-manage-granular-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="200" id="document-manage-repo-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="210" id="document-manage-aspects" label="actions.folder.manage-aspects" />
+            <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />
+            <action index="310" id="document-view-googlemaps" />
+            <action index="360" id="document-cloud-sync" />
+            <action index="370" id="document-cloud-unsync" />
+            <action index="380" id="document-view-in-cloud" />
+            <action index="390" id="document-request-sync"/>
+         </actionGroup>
+
+         <actionGroup id="folder-details">
+            <action index="100" id="folder-download"/>
+            <action index="105" id="document-edit-metadata" icon="folder-edit-metadata" label="actions.folder.edit-metadata" />
+            <action index="110" id="document-approve" icon="folder-approve" />
+            <action index="120" id="document-reject" icon="folder-reject" />
+            <action index="130" id="document-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
+            <action index="140" id="document-move-to" icon="folder-move-to" label="actions.folder.move-to" />
+            <action index="150" id="folder-manage-rules" />
+            <action index="160" id="document-delete" icon="folder-delete" label="actions.folder.delete" />
+            <action index="170" id="document-manage-granular-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="180" id="document-manage-repo-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="190" id="document-manage-aspects" label="actions.folder.manage-aspects" />
+            <action index="200" id="document-change-type" label="actions.folder.change-type" />
+            <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />
+            <action index="350" id="document-view-googlemaps" />
+            <action index="360" id="document-cloud-sync" />
+            <action index="370" id="document-cloud-unsync" />
+            <action index="380" id="document-view-in-cloud" />
+            <action index="390" id="document-request-sync"/>
+         </actionGroup>
+
+         <actionGroup id="document-link-browse">
+            <action index="100" id="document-locate" label="actions.link.locate">
+               <evaluator />
+            </action>
+            <action index="110" id="document-delete" label="actions.link.delete" />
+         </actionGroup>
+
+         <actionGroup id="document-link-details">
+            <action index="100" id="document-delete" label="actions.link.delete" />
+         </actionGroup>
+
+         <actionGroup id="folder-link-browse">
+            <action index="100" id="folder-view-details" />
+            <action index="110" id="document-locate" label="actions.link.locate">
+               <evaluator />
+            </action>
+            <action index="120" id="document-delete" icon="folder-delete" label="actions.link.delete" />
+         </actionGroup>
+
+         <actionGroup id="folder-link-details">
+            <action index="100" id="document-delete" icon="folder-delete" label="actions.link.delete" />
+         </actionGroup>
+
+      </actionGroups>
+   </config>
+
+</alfresco-config>

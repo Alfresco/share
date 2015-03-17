@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Blog RSS</shortname>
+  <description>Blog: RSS of list of blog posts</description>
+  <url>/components/blog/rss</url>
+  <format default="rss"/>
+</webscript>

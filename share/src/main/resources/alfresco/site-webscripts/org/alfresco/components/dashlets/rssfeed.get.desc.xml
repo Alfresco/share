@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>RSS Feed</shortname>
+   <description>Display the contents of an RSS feed given a URL config parameter.</description>
+   <family>dashlet</family>
+   <url>/components/dashlets/rssfeed</url>
+</webscript>

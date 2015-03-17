@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Fileservers Tool</shortname>
+  <description>Administration Console - Fileservers Tool</description>
+  <url>/components/console/fileservers</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

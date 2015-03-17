@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>File upload</shortname>
+  <description>File upload component that decides if flash or html upload should be used</description>
+  <url>/components/upload/file-upload</url>
+</webscript>

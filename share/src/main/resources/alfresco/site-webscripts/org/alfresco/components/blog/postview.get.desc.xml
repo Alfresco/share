@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Blog view post</shortname>
+  <description>Blog: Returns a detail view of a post</description>
+  <url>/components/blog/postview</url>
+</webscript>

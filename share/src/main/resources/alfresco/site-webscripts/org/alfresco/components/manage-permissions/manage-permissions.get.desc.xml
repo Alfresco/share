@@ -1,0 +1,8 @@
+<webscript>
+   <shortname>manage-permissions</shortname>
+   <description>Manage Permissions Component</description>
+   <url>/components/manage-permissions/manage-permissions</url>
+   <properties>
+      <nodeRef>{nodeRef}</nodeRef>
+   </properties>
+</webscript>

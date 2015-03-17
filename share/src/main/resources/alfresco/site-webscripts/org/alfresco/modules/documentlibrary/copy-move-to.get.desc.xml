@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>copy-move-to</shortname>
+  <description>Copy- and Move-To module primarily for Document Library</description>
+  <url>/modules/documentlibrary/copy-move-to</url>
+</webscript>

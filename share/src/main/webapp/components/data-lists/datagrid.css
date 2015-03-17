@@ -1,0 +1,315 @@
+.datagrid
+{
+   padding-top: 0.5em;
+   visibility: hidden;
+}
+
+.datagrid .datagrid-description
+{
+   
+}
+
+/* DataGrid Metadata */
+.datagrid .datagrid-meta
+{
+   margin-left: 1em;
+}
+
+/* DataGrid bar */
+
+.datagrid .datagrid-bar
+{
+   margin: 1em -10px;
+   padding: 4px 0.5em 2px;
+}
+
+.datagrid .datagrid-bar-bottom
+{
+   margin-top: 2em;
+   display: none;
+}
+
+/* DataGrid bar Buttons and Paginator */
+
+.datagrid .datagrid-bar .item-select
+{
+   float: left;
+   width: 15%;
+}
+
+.datagrid .datagrid-bar .paginator
+{
+   float: left;
+   margin: 0;
+   padding: 4px 0;
+   text-align: center;
+   width: 80%;
+}
+
+.datagrid .datagrid-bar .yui-pg-current
+{
+   margin-right: 0;
+}
+
+/* DataGrid bar Select menu */
+
+.datagrid .item-select .yuimenuitemlabel span
+{
+   background-position: 2px 50%;
+   background-repeat: no-repeat;
+   cursor: pointer;
+   display: block;
+   margin-left: -4px;
+   min-height: 16px;
+   padding: 2px 0px 1px 24px;
+}
+
+.datagrid .item-select .selectAll
+{
+   background-image: url(../images/select-rows-all-16.png);
+}
+
+.datagrid .item-select .selectNone
+{
+   background-image: url(../images/select-rows-none-16.png);
+}
+
+.datagrid .item-select .selectInvert
+{
+   background-image: url(../images/select-invert-16.png);
+}
+
+/* Data Table */
+
+.datagrid .grid table
+{
+   border-color: #e0e0e0;
+   width: 100%;
+}
+
+.datagrid .grid tbody
+{
+   outline: none;
+}
+
+.datagrid .grid .yui-dt table
+{
+   border: none;
+}
+
+.datagrid .grid.yui-dt .yui-dt-data td
+{
+   border-bottom: 1px solid #f0f0f0;
+   vertical-align: top;
+}
+
+.datagrid .grid.yui-dt .yui-dt-data .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.datagrid .grid.yui-dt tr.yui-dt-first td
+{
+   border-top: medium none;
+}
+
+.datagrid .grid.yui-dt td.yui-dt-last
+{
+   vertical-align: middle;
+}
+
+.datagrid .yui-dt-liner
+{
+   padding: 4px;
+}
+
+.datagrid .yui-dt-col-nodeRef
+{
+   width: 24px;
+}
+
+.datagrid .yui-dt-col-actions
+{
+   width: 86px;
+}
+
+.datagrid .yui-dt-col-actions .yui-dt-liner
+{
+   padding: 3px;
+}
+
+.datagrid .yui-dt-error
+{
+   background: red;
+   color: white;
+   font-weight: bold;
+   margin: 1em auto;
+   padding: 1em;
+}
+
+.datagrid .yui-dt-liner img
+{
+   vertical-align: text-bottom;
+}
+
+/* Data Types */
+
+.datagrid span.person
+{
+   background: url(../images/filetypes/generic-user-16.png) no-repeat;
+   padding-left: 20px;
+}
+
+.datagrid span.container
+{
+   background: url(../images/filetypes/generic-folder-16.png) no-repeat;
+   padding-left: 20px;
+}
+
+.datagrid span.document
+{
+   background: url(../images/filetypes/generic-file-16.png) no-repeat;
+   padding-left: 20px;
+}
+
+/* Actions */
+
+.datagrid .action-set div
+{
+   display: block;
+   margin: 0;
+}
+
+.datagrid a.action-link,
+.datagrid a.simple-link,
+.datagrid a.show-more
+{
+   background-position: 4px 1px;
+   background-repeat: no-repeat;
+   border: 1px solid transparent;
+   display: block;
+   min-height: 16px;
+   padding: 2px 0 2px 24px;
+}
+
+.datagrid .action-set a:active,
+.datagrid .action-set a:hover,
+.datagrid .action-set .highlighted
+{
+   background-color: #fff;
+   border: 1px solid #2b6eb5;
+   text-decoration: none;
+}
+
+.datagrid div.more-actions
+{
+   background-color: #fff;
+   border: 1px solid #2b6eb5;
+   clear: left;
+   margin-left: -22px;
+   margin-top: 1px;
+   position: absolute;
+   width: 200px;
+}
+
+.datagrid .more-actions a.action-link,
+.datagrid .more-actions a.simple-link
+{
+   border: 1px solid #fff;
+}
+
+.datagrid .more-actions a:active,
+.datagrid .more-actions a:hover
+{
+   background-color: #2b6eb5;
+   border: 1px solid #2b6eb5;
+   color: #fff;
+}
+
+/* Actions: Simple view */
+
+.datagrid div.simple div
+{
+   float: left;
+   line-height: 1em;
+}
+
+.datagrid div.simple a.action-link,
+.datagrid div.simple a.simple-link,
+.datagrid div.simple a.show-more
+{
+   background-position: 4px 0;
+   min-height: 16px;
+   padding: 0 0 0 24px;
+}
+
+.datagrid div.simple a.action-link span,
+.datagrid div.simple a.simple-link span
+{
+   display: none;
+}
+
+.datagrid div.simple div.more-actions
+{
+   margin-left: -122px;
+   margin-top: 3em;
+}
+
+.datagrid div.simple div.more-actions div
+{
+   float: none;
+}
+
+.datagrid div.simple div.more-actions a.action-link span,
+.datagrid div.simple div.more-actions a.simple-link span
+{
+   display: block;
+}
+
+/* Actions: Icons */
+
+.datagrid .action-set a
+{
+   background-image: url(../images/generic-file-16.png);
+}
+
+.datagrid .onActionShowMore a
+{
+   background-image: url(../images/plus-16.png);
+}
+
+.datagrid .onActionView a
+{
+   background-image: url(../images/list-16.png);
+}
+
+.datagrid .onActionEdit a
+{
+   background-image: url(../images/edit-16.png);
+}
+
+.datagrid .onActionDuplicate a
+{
+   background-image: url(../images/duplicate-row-16.png);
+}
+
+.datagrid .onActionDelete a
+{
+   background-image: url(../images/delete-row-16.png);
+}
+
+/* Forms */
+
+.form-container .form-fields
+{
+   border-bottom: medium none;
+   padding: 1em;
+}
+
+/* Details Form */
+
+.form-container .edit-dataitem a
+{
+   background: transparent url(../images/edit-metadata-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}

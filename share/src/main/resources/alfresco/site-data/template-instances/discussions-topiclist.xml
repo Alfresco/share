@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/discussions-topiclist</template-type>
+   <properties>
+      <pageFamily>discussions-topiclist</pageFamily>
+      <container>discussions</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Toolbar-->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/discussions/toolbar</url>
+         <properties>
+            <showNavigationBar>false</showNavigationBar>
+         </properties>
+      </component>
+
+      <!-- Topic List -->
+      <component>
+         <region-id>topiclist</region-id>
+         <url>/components/discussions/topiclist</url>
+      </component>
+
+      <!-- Topic Filter -->
+      <component>
+         <region-id>filters</region-id>
+         <url>/components/discussions/filters</url>
+      </component>
+
+      <!-- Tags Filter -->
+      <component>
+         <region-id>tags</region-id>
+         <url>/components/tag-filter</url>
+      </component>
+
+   </components>
+</template-instance>

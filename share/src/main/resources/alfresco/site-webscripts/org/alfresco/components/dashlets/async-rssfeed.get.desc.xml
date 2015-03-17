@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Asynchronous RSS Feed</shortname>
+   <description>Retrieves the contents of an RSS feed (this WebScript is intended to be called asynchronously from the client).</description>
+   <format default="json"></format>
+   <url>/components/dashlets/async-rssfeed/protocol/{protocol}/limit/{limit}/target/{target}?feed-url={feedUrl}</url>
+</webscript>

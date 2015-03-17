@@ -1,0 +1,8 @@
+<config>
+   <title>tool.repository-installed.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Name=RepositoryDescriptor,Type=Initially Installed</itemId>
+   </form>
+   <editable>false</editable>
+</config>

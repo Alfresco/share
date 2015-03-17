@@ -1,0 +1,181 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="Edition" replace="true">
+      <footer>
+         <logo>alfresco-share-logo-team.png</logo>
+         <alt-text>Alfresco Team</alt-text>
+         <css-class>footer-team</css-class>
+         <label>label.copyright.enterprise</label>
+      </footer>
+      <about>
+         <css-class>logo-team</css-class>
+      </about>
+   </config>
+   
+   <config evaluator="string-compare" condition="HelpPages">
+      <help-pages>
+         <share-help>http://docs.alfresco.com/3.5/topic/com.alfresco.team.doc/topics/uh-welcome.html</share-help>
+         <share-tutorial>http://docs.alfresco.com/3.5/topic/com.alfresco.team.doc/topics/uh-tutorial.html</share-tutorial>
+      </help-pages>
+   </config>
+   
+   <!-- Document Library config section -->
+   <config evaluator="string-compare" condition="DocumentLibrary" replace="true">
+      <!--
+         Title display.
+      -->
+      <use-title>false</use-title>
+
+      <!--
+         Sorting Options
+
+         The 'sort' config element contains the name of the content model field to sort against and can be of the form:
+         - short QName string e.g. "cm:name"
+         - any other valid sortable fts-alfresco special field e.g. "TYPE"
+         
+         The field can be optionally followed by |true or |false to indicate sort direction,
+         where true = ascending, false = descending
+      -->
+      <sorting>
+         <sort label="label.name">cm:name|true</sort>
+         <sort label="label.popularity">cm:likesRatingSchemeCount|false</sort>
+         <sort label="label.description">cm:description</sort>
+         <sort label="label.created">cm:created</sort>
+         <sort label="label.creator">cm:creator</sort>
+         <sort label="label.modified">cm:modified</sort>
+         <sort label="label.modifier">cm:modifier</sort>
+         <sort label="label.size">cm:content.size</sort>
+         <sort label="label.mimetype">cm:content.mimetype</sort>
+         <sort label="label.type">TYPE</sort>
+      </sorting>
+   </config>
+
+   <!-- Repository Library config section -->
+   <config evaluator="string-compare" condition="RepositoryLibrary" replace="true">
+      <root-node />
+   </config>
+   
+   <config evaluator="string-compare" condition="Search" replace="true">
+      <search>
+         <!-- default minimum length for search terms -->
+         <min-search-term-length>0</min-search-term-length>
+         
+         <!-- default maximum number of results for a search -->
+         <max-search-results>250</max-search-results>
+         
+         <!-- Repository search configuration option -->
+         <repository-search>none</repository-search>
+      </search>
+   </config>
+
+   <!--
+      Overridden share-form-config.xml entries to remove "cm:title" field
+   -->
+
+   <!-- cm:content type (existing nodes) -->
+   <config evaluator="node-type" condition="cm:content">
+      <forms>
+         <!-- Default form configuration for the cm:content type -->
+         <form>
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+         </form>
+
+         <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+         </form>
+         
+         <!-- Document Library Inline Edit form -->
+         <form id="doclib-inline-edit">
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- cm:folder type (existing nodes) -->
+   <config evaluator="node-type" condition="cm:folder">
+      <forms>
+         <!-- Default form configuration for the cm:folder type -->
+         <form>
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+          </form>
+
+          <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+          </form>
+      </forms>
+   </config>
+
+   <!-- cm:content type (creating nodes) -->
+   <config evaluator="model-type" condition="cm:content">
+      <forms>
+         <!-- Default Create Content form -->
+         <form>
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+         </form>
+         <!-- Search form -->
+         <form id="search">
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+
+   <!-- cm:folder type (creating nodes) -->
+   <config evaluator="model-type" condition="cm:folder">
+      <forms>
+         <!-- Document Library Common form -->
+         <form id="doclib-common">
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+         </form>
+         <!-- Search form -->
+         <form id="search">
+            <field-visibility>
+               <hide id="cm:title" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+
+   <!--
+      Overridden form-config.xml entries to:
+         - remove minimum search term length for people searches.
+         - ensure package items can only be chosen from Sites.
+   -->
+
+   <config>
+      <forms>
+         <default-controls>
+            <type name="association:cm:person" template="/org/alfresco/components/form/controls/authority.ftl">
+               <control-param name="minSearchTermLength">0</control-param>
+            </type>
+            <type name="association:cm:authority" template="/org/alfresco/components/form/controls/authority.ftl">
+               <control-param name="minSearchTermLength">0</control-param>
+            </type>
+            <type name="association:cm:authorityContainer" template="/org/alfresco/components/form/controls/authority.ftl">
+               <control-param name="minSearchTermLength">0</control-param>
+            </type>
+            <type name="association:packageItems" template="/org/alfresco/components/form/controls/workflow/packageitems.ftl">
+               <control-param name="rootNode">{siteshome}</control-param>
+            </type>
+         </default-controls>
+      </forms>
+   </config>
+
+</alfresco-config>

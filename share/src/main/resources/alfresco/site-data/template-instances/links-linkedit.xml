@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/links-linkedit</template-type>
+   <properties>
+      <pageFamily>links</pageFamily>
+      <container>links</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Link Edit-->
+      <component>
+         <region-id>linkedit</region-id>
+         <url>/components/links/linkedit</url>
+      </component>
+
+   </components>
+</template-instance>

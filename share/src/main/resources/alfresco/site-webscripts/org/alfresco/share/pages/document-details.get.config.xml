@@ -1,0 +1,114 @@
+<config>
+
+   <!--
+      List of rule to decide which plugin that shall be used to preview the node's content or thumbnails.
+      The list is evaluated from the top.
+      All attributes for a condition must match.
+      When a condition matches the nodes' mimeType and/or thumbails its list of plugins are tested from the top.
+      Every plugin will be created and get an opportunity to decide if it may be used in the users browser environment.
+      If the plugin can't be used it will give a report back to the user that will be displayed if neither of the
+      plugins in the list can be used.     
+   -->
+
+   <plugin-conditions>
+
+      <!-- Video with posters -->
+
+      <condition mimeType="video/mp4" thumbnail="imgpreview">
+         <plugin poster="imgpreview" posterFileSuffix=".png">StrobeMediaPlayback</plugin>
+         <plugin poster="imgpreview" posterFileSuffix=".png">Video</plugin>
+      </condition>
+
+      <condition mimeType="video/m4v" thumbnail="imgpreview">
+         <plugin poster="imgpreview" posterFileSuffix=".png">StrobeMediaPlayback</plugin>
+         <plugin poster="imgpreview" posterFileSuffix=".png">Video</plugin>
+      </condition>
+
+      <condition mimeType="video/x-flv" thumbnail="imgpreview">
+         <plugin poster="imgpreview" posterFileSuffix=".png">StrobeMediaPlayback</plugin>
+      </condition>
+
+      <condition mimeType="video/quicktime" thumbnail="imgpreview">
+         <plugin poster="imgpreview" posterFileSuffix=".png">StrobeMediaPlayback</plugin>
+      </condition>
+
+      <condition mimeType="video/ogg" thumbnail="imgpreview">
+         <plugin poster="imgpreview" posterFileSuffix=".png">Video</plugin>
+      </condition>
+
+      <condition mimeType="video/webm" thumbnail="imgpreview">
+         <plugin poster="imgpreview" posterFileSuffix=".png">Video</plugin>
+      </condition>
+
+      <!-- Video without posters -->
+
+      <condition mimeType="video/mp4">
+         <plugin>StrobeMediaPlayback</plugin>
+         <plugin>Video</plugin>
+      </condition>
+
+      <condition mimeType="video/x-m4v">
+         <plugin>StrobeMediaPlayback</plugin>
+         <plugin>Video</plugin>
+      </condition>
+
+      <condition mimeType="video/x-flv">
+         <plugin>StrobeMediaPlayback</plugin>
+      </condition>
+
+      <condition mimeType="video/quicktime">
+         <plugin>StrobeMediaPlayback</plugin>
+      </condition>
+
+      <condition mimeType="video/ogg">
+         <plugin>Video</plugin>
+      </condition>
+
+      <condition mimeType="video/webm">
+         <plugin>Video</plugin>
+      </condition>
+
+      <!-- Audio -->
+      <condition mimeType="audio/mpeg">
+         <plugin>StrobeMediaPlayback</plugin>
+         <plugin>Audio</plugin>
+      </condition>
+
+      <condition mimeType="audio/x-wav">
+         <plugin>Audio</plugin>
+      </condition>
+
+      <!-- Documents that has been converted to .swf -->
+
+      <condition thumbnail="webpreview">
+         <plugin src="webpreview" paging="true">WebPreviewer</plugin>
+      </condition>
+
+      <!-- Content that has an image preview thumbnail -->
+
+      <condition thumbnail="imgpreview">
+         <plugin src="imgpreview">Image</plugin>
+      </condition>
+
+      <!-- Images in real size (if they didn't have a imgpreview) -->
+
+      <condition mimeType="image/jpeg">
+         <plugin srcMaxSize="2000000">Image</plugin>
+      </condition>
+
+      <condition mimeType="image/png">
+         <plugin srcMaxSize="2000000">Image</plugin>
+      </condition>
+
+      <condition mimeType="image/gif">
+         <plugin srcMaxSize="2000000">Image</plugin>
+      </condition>
+
+      <!-- Note! The Flash plugin is not activated by default, for more information see Flash.js -->
+
+      <!-- To add zooming capabilities for images place the following inside a <condition> element -->
+      <!-- <plugin>WebPreviewer</plugin> -->
+
+   </plugin-conditions>
+
+</config>

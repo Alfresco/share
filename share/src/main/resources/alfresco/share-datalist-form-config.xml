@@ -1,0 +1,657 @@
+<alfresco-config>
+
+   <!-- dl:dataList type (Creating Data Lists) -->
+   <config evaluator="model-type" condition="dl:dataList">
+      <forms>
+         <!-- Data Lists: Create new Data List -->
+         <form>
+            <field-visibility>
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+            </field-visibility>
+            <create-form template="../data-lists/forms/datalist-new.ftl" />
+            <appearance>
+               <field id="cm:title" mandatory="true">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:dataList type (Editing Data Lists) -->
+   <config evaluator="node-type" condition="dl:dataList">
+      <forms>
+         <!-- Data Lists: Edit Data List details -->
+         <form>
+            <field-visibility>
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/datalist-edit.ftl" />
+            <appearance>
+               <field id="cm:title" mandatory="true">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:todoList type -->
+   <config evaluator="model-type" condition="dl:todoList">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <show id="dl:todoTitle" />
+               <show id="dl:todoDueDate" />
+               <show id="dl:todoPriority" />
+               <show id="dl:todoStatus" />
+               <show id="dl:todoNotes" />
+               <show id="dl:assignee" />
+               <show id="dl:attachments" />
+            </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="dl:todoNotes">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="dl:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+
+         <!-- Data Grid view -->
+         <!-- An example of an optional "datagrid" form-id to show a different set of fields to the new/edit forms -->
+         <form id="datagrid">
+            <field-visibility>
+               <show id="dl:todoTitle" />
+               <show id="dl:todoDueDate" />
+               <show id="dl:todoPriority" />
+               <show id="dl:todoStatus" />
+               <show id="dl:assignee" />
+               <show id="dl:attachments" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl_todoList type (existing nodes) -->
+   <config evaluator="node-type" condition="dl:todoList">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <show id="dl:todoTitle" />
+               <show id="dl:todoDueDate" />
+               <show id="dl:todoPriority" />
+               <show id="dl:todoStatus" />
+               <show id="dl:todoNotes" />
+               <show id="dl:assignee" />
+               <show id="dl:attachments" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="dl:todoNotes">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="dl:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:task (advanced) type create form config-->
+   <!-- An example of an optional custom new/edit item template (see dl_task.ftl) -->
+   <config evaluator="model-type" condition="dl:task">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <show id="cm:description" />
+               <!-- dl:gantt aspect -->
+               <show id="dl:ganttStartDate" />
+               <show id="dl:ganttEndDate" />
+               <!-- dl:task type-->
+               <show id="dl:taskAssignee" />
+               <show id="dl:taskPriority" />
+               <show id="dl:taskStatus" />
+               <!-- dl:gantt aspect -->
+               <show id="dl:ganttPercentComplete" />
+               <!-- dl:task type -->
+               <show id="dl:taskComments" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+            </field-visibility>
+            <create-form template="../data-lists/forms/dl_task.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="dl:taskComments">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:task (advanced) type edit form config-->
+   <config evaluator="node-type" condition="dl:task">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <show id="cm:description" />
+               <!-- dl:gantt aspect -->
+               <show id="dl:ganttStartDate" />
+               <show id="dl:ganttEndDate" />
+               <!-- dl:task type-->
+               <show id="dl:taskAssignee" />
+               <show id="dl:taskPriority" />
+               <show id="dl:taskStatus" />
+               <!-- dl:gantt aspect -->
+               <show id="dl:ganttPercentComplete" />
+               <!-- dl:task type -->
+               <show id="dl:taskComments" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dl_task.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="dl:taskComments">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:simpletask (simple) type create form config-->
+   <config evaluator="model-type" condition="dl:simpletask">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <show id="cm:description" />
+               <!-- dl:simpletask type -->
+               <show id="dl:simpletaskDueDate" />
+               <show id="dl:simpletaskPriority" />
+               <show id="dl:simpletaskStatus" />
+               <show id="dl:simpletaskComments" />
+             </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="dl:simpletaskComments">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:task type edit form config-->
+   <config evaluator="node-type" condition="dl:simpletask">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <show id="cm:description" />
+               <!-- dl:simpletask type -->
+               <show id="dl:simpletaskDueDate" />
+               <show id="dl:simpletaskPriority" />
+               <show id="dl:simpletaskStatus" />
+               <show id="dl:simpletaskComments" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="dl:simpletaskComments">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:contact type create form config-->
+   <config evaluator="model-type" condition="dl:contact">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <!-- dl:contact type -->
+               <show id="dl:contactFirstName" />
+               <show id="dl:contactLastName" />
+               <show id="dl:contactEmail" />
+               <show id="dl:contactCompany" />
+               <show id="dl:contactJobTitle" />
+               <show id="dl:contactPhoneOffice" />
+               <show id="dl:contactPhoneMobile" />
+               <show id="dl:contactNotes" />
+            </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="dl:contactNotes">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:task type edit form config-->
+   <config evaluator="node-type" condition="dl:contact">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <!-- dl:contact type -->
+               <show id="dl:contactFirstName" />
+               <show id="dl:contactLastName" />
+               <show id="dl:contactEmail" />
+               <show id="dl:contactCompany" />
+               <show id="dl:contactJobTitle" />
+               <show id="dl:contactPhoneOffice" />
+               <show id="dl:contactPhoneMobile" />
+               <show id="dl:contactNotes" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="dl:contactNotes">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:simpletask (simple) type create form config-->
+   <config evaluator="model-type" condition="dl:issue">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <!-- dl:issue type -->
+               <show id="dl:issueID" />
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <!-- dl:issue type -->
+               <show id="dl:issueAssignedTo" />
+               <show id="dl:issueStatus" />
+               <show id="dl:issuePriority" />
+               <!-- cm:titled aspect -->
+               <show id="cm:description" />
+               <!-- dl:issue type -->
+               <show id="dl:issueDueDate" />
+               <show id="dl:issueComments" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+             </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="dl:issueComments">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:task type edit form config-->
+   <config evaluator="node-type" condition="dl:issue">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <!-- dl:issue type -->
+               <show id="dl:issueID" />
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <!-- dl:issue type -->
+               <show id="dl:issueAssignedTo" />
+               <show id="dl:issueStatus" />
+               <show id="dl:issuePriority" />
+               <!-- cm:titled aspect -->
+               <show id="cm:description" />
+               <!-- dl:issue type -->
+               <show id="dl:issueDueDate" />
+               <show id="dl:issueComments" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="dl:issueComments">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:event type create form config-->
+   <config evaluator="model-type" condition="dl:event">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <show id="cm:description" />
+               <!-- dl:event type -->
+               <show id="dl:eventLocation" />
+               <show id="dl:eventStartDate" />
+               <show id="dl:eventEndDate" />
+               <show id="dl:eventRegistrations" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+               <!-- dl:event type -->
+               <show id="dl:eventNote" />
+             </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="dl:eventNote">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:task type edit form config-->
+   <config evaluator="node-type" condition="dl:event">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <show id="cm:description" />
+               <!-- dl:event type -->
+               <show id="dl:eventLocation" />
+               <show id="dl:eventStartDate" />
+               <show id="dl:eventEndDate" />
+               <show id="dl:eventRegistrations" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+               <!-- dl:event type -->
+               <show id="dl:eventNote" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="dl:eventNote">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:location type create form config-->
+   <config evaluator="model-type" condition="dl:location">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <!-- dl:location type -->
+               <show id="dl:locationAddress1" />
+               <show id="dl:locationAddress2" />
+               <show id="dl:locationAddress3" />
+               <show id="dl:locationZip" />
+               <show id="dl:locationState" />
+               <show id="dl:locationCountry" />
+               <!-- cm:titled aspect -->
+               <show id="cm:description" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+             </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:task type edit form config-->
+   <config evaluator="node-type" condition="dl:location">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <!-- dl:location type -->
+               <show id="dl:locationAddress1" />
+               <show id="dl:locationAddress2" />
+               <show id="dl:locationAddress3" />
+               <show id="dl:locationZip" />
+               <show id="dl:locationState" />
+               <show id="dl:locationCountry" />
+               <!-- cm:titled aspect -->
+               <show id="cm:description" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:meetingAgenda type create form config-->
+   <config evaluator="model-type" condition="dl:meetingAgenda">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <!-- dl:meetingAgenda type -->
+               <show id="dl:meetingAgendaRef" />
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <show id="cm:description" />
+               <!-- dl:meetingAgenda type -->
+               <show id="dl:meetingAgendaTime" />
+               <show id="dl:meetingAgendaOwner" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+            </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:meetingAgenda type edit form config-->
+   <config evaluator="node-type" condition="dl:meetingAgenda">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <!-- dl:meetingAgenda type -->
+               <show id="dl:meetingAgendaRef" />
+               <!-- cm:titled aspect -->
+               <show id="cm:title" />
+               <show id="cm:description" />
+               <!-- dl:meetingAgenda type -->
+               <show id="dl:meetingAgendaTime" />
+               <show id="dl:meetingAgendaOwner" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:eventAgenda type create form config-->
+   <config evaluator="model-type" condition="dl:eventAgenda">
+      <forms>
+         <!-- Create item form -->
+         <form>
+            <field-visibility>
+               <!-- dl:meetingAgenda type -->
+               <show id="dl:eventAgendaRef" />
+               <show id="dl:eventAgendaStartTime" />
+               <show id="dl:eventAgendaEndTime" />
+               <show id="dl:eventAgendaSessionName" />
+               <show id="dl:eventAgendaPresenter" />
+               <show id="dl:eventAgendaAudience" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+               <!-- d:meetingAgenda type -->
+               <show id="dl:eventAgendaNotes" />
+            </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="dl:eventAgendaNotes">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- dl:eventAgenda type edit form config-->
+   <config evaluator="node-type" condition="dl:eventAgenda">
+      <forms>
+         <!-- Data List pop-up edit form -->
+         <form>
+            <field-visibility>
+               <!-- dl:meetingAgenda type -->
+               <show id="dl:eventAgendaRef" />
+               <show id="dl:eventAgendaStartTime" />
+               <show id="dl:eventAgendaEndTime" />
+               <show id="dl:eventAgendaSessionName" />
+               <show id="dl:eventAgendaPresenter" />
+               <show id="dl:eventAgendaAudience" />
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+               <!-- d:meetingAgenda type -->
+               <show id="dl:eventAgendaNotes" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="dl:eventAgendaNotes">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="cm:attachments">
+                  <control>
+                    <control-param name="startLocation">{doclib}</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+</alfresco-config>

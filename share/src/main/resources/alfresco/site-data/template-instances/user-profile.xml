@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/user-profile</template-type>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/profile-title</url>
+      </component>
+
+      <!-- Toolbar -->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/profile/userprofile-toolbar</url>
+      </component>
+
+      <!-- User Profile -->
+      <component>
+         <region-id>user-profile</region-id>
+         <url>/components/profile/userprofile</url>
+      </component>
+
+      <!-- Uploaders -->
+      <component>
+         <region-id>html-upload</region-id>
+         <url>/components/upload/html-upload</url>
+      </component>
+      <component>
+         <region-id>flash-upload</region-id>
+         <url>/components/upload/flash-upload</url>
+      </component>
+      <component>
+         <region-id>file-upload</region-id>
+         <url>/components/upload/file-upload</url>
+      </component>
+      <component>
+         <region-id>dnd-upload</region-id>
+         <url>/components/upload/dnd-upload</url>
+      </component>
+
+   </components>
+</template-instance>

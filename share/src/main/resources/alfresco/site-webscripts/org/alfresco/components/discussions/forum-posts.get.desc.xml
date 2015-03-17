@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Forum posts</shortname>
+  <description>Gets a list of forum post according to the same filter and 
+     parameters as the repo webscript with url /api/forum/site/{site}/{container}/posts</description>
+  <url>/components/forum/site/{site}/{container}/posts</url>
+  <url>/components/forum/site/{site}/{container}/posts/{filter}</url>
+  <format default="json">argument</format>
+</webscript>

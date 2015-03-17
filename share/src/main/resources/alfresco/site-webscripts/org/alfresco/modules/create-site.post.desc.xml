@@ -1,0 +1,10 @@
+<webscript>
+   <shortname>Create Site Module Repository Call</shortname>
+   <description>
+      Will redirect post to the repo to create the site in the repo
+      and then create the preset in the web tier.
+   </description>
+   <format default="json"/>
+   <url>/modules/create-site</url>
+   <authentication>user</authentication>
+</webscript>

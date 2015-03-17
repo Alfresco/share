@@ -1,0 +1,74 @@
+.trashcan .align-right
+{
+   float: right;
+   padding-top: 0.333em;
+}
+
+.trashcan .datalist
+{
+}
+
+.trashcan .paginator
+{
+   padding: 0.5em 0 1em 1.5em;
+}
+
+.trashcan .name
+{
+   font-size: 116%;
+   padding-bottom: 0.2em;
+}
+
+.trashcan .desc
+{
+   padding-bottom: 0.2em;
+}
+
+.trashcan .buttons
+{
+   padding-bottom: 1em;
+   padding-top: 0.5em;
+   text-align: center;
+}
+
+.trashcan .search-bar
+{
+   border-left: 1px solid #ccc;
+   border-right: 1px solid #ccc;
+   border-bottom: 1px solid #ccc;
+   height: 2.75em;
+   margin: -15px 15px 0;
+   padding: 0.5em;
+}
+
+.trashcan .toolbar-widget
+{
+   float: left;
+   padding-top: 4px;
+}
+
+.trashcan .search-text
+{
+   padding-left: 4px;
+}
+
+.trashcan .search-text input
+{
+   width: 15em;
+}
+
+.trashcan .search-button
+{
+   padding-left: 3px;
+}
+
+.trashcan .selected-items-button
+{
+   padding-left: 32px;
+}
+
+.trashcan .search-button button
+{
+   background: transparent url(../images/search-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>global-folder</shortname>
+  <description>An extendable global folder browser primarily for Document Library</description>
+  <url>/modules/documentlibrary/global-folder</url>
+</webscript>

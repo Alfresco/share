@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Geographic Map</title>
+   <title-id>page.geographicMap.title</title-id>
+   <description>Geographic Map</description>
+   <description-id>page.geographicMap.description</description-id>
+   <template-instance>geographic-map</template-instance>
+   <authentication>user</authentication>
+</page>

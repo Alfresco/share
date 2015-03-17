@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>document-details-workflows</shortname>
+  <description>Document Details Workflows Component</description>
+  <url>/components/document-details/document-workflows</url>
+</webscript>

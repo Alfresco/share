@@ -1,0 +1,11 @@
+.property-picker.data-picker .data-picker-list table th.yui-dt-col-label,
+.property-picker.data-picker .data-picker-list table td.yui-dt-col-label
+{
+   width: 50%;
+}
+
+.property-picker.data-picker .data-picker-list table th.yui-dt-col-id,
+.property-picker.data-picker .data-picker-list table td.yui-dt-col-id
+{
+   width: 50%;
+}

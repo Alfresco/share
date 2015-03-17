@@ -1,0 +1,11 @@
+.web-preview .Audio
+{
+   line-height: 325px;
+}
+
+.web-preview .Audio audio
+{
+   max-height: 100%;
+   max-width: 100%;
+   overflow: auto;
+}

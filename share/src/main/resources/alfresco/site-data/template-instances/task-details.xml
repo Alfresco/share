@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/workflow-details</template-type>
+   <properties>
+      <pageFamily>documentlibrary</pageFamily>
+   </properties>
+   <components>
+      <!-- navigation: normal, tasks & workflow -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <component>
+         <region-id>tasks-navigation</region-id>
+         <url>/components/workflow/task-toolbar</url>
+      </component>
+
+      <component>
+         <region-id>workflows-navigation</region-id>
+         <url>/components/workflow/workflow-toolbar</url>
+      </component>
+   </components>
+</template-instance>

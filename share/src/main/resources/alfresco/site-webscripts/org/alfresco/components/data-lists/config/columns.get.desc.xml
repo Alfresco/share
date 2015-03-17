@@ -1,0 +1,6 @@
+<webscript>
+    <shortname>Data-Lists: Columns configuration</shortname>
+    <description>Data-Lists: Columns configuration webscript</description>
+    <url>/components/data-lists/config/columns</url>
+    <format default="json"></format>
+</webscript>

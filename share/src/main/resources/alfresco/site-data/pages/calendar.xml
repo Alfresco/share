@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Calendar</title>
+   <title-id>page.calendar.title</title-id>
+   <description>Site Calendar Component</description>
+   <description-id>page.calendar.description</description-id>
+   <template-instance>calendar</template-instance>
+   <authentication>user</authentication>
+</page>

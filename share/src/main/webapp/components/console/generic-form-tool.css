@@ -1,0 +1,20 @@
+.form-generic-tool
+{
+   margin: 2em 1em;
+}
+
+.form-generic-tool .share-form
+{
+   margin-top: 0.5em;
+}
+
+.form-generic-tool .share-form .caption
+{
+   line-height: 2em;
+   margin-top: -2.5em;
+}
+
+.form-generic-tool .form-links
+{
+   margin-left: 1em;
+}

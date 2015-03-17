@@ -1,0 +1,7 @@
+<webscript>
+   <shortname>Dynamic Welcome close</shortname>
+   <description>Closes the dynamic welcome dashlet so that it is no longer displayed in the dashboard</description>
+   <format default="json"/>
+   <url>/components/dashlets/dynamic-welcome</url>
+   <authentication>user</authentication>
+</webscript>

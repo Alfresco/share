@@ -1,0 +1,15 @@
+.document-tags .tag
+{
+   border-radius: 8px;
+   display: inline-block;
+   font-size: 93%;
+   margin: 1px 0.5em 1px 0;
+   padding: 2px 8px;
+   zoom: 1;
+   border-radius: 8px;
+}
+
+.document-tags h2 .edit
+{
+   background-image: url(../images/edit-16.png);
+}

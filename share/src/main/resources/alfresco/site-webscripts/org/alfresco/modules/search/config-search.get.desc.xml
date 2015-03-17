@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>config-search</shortname>
+  <description>Configuration dialog for saved search dashlet</description>
+  <url>/modules/search/config</url>
+</webscript>

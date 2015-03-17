@@ -1,0 +1,306 @@
+.profile
+{
+   clear: both;
+}
+
+.profile .separator
+{
+   padding: 0.4em;
+}
+
+.profile .header-bar
+{
+   min-height: 1.1em;
+   padding: 0.3em;
+   margin: 1.5em 1em 0em 1em;
+   background-color: #e3eaec;
+   border-bottom: 2px solid #f0f3f4;
+   font-weight: bold;
+   font-size: 116%;
+}
+
+.profile .private
+{
+   float: right;
+}
+
+.profile .editcolumn
+{
+   float: right;
+   padding-right: 1em;
+   padding-top: 3em;
+}
+
+.profile .viewcolumn
+{
+   padding-bottom: 1em;
+}
+
+.profile h1
+{
+   padding: 1em 0 0 1em;
+}
+
+.profile .leftcolumn
+{
+   float: left;
+}
+
+.profile .rightcolumn
+{
+   float: right;
+}
+
+.profile .reqcolumn
+{
+   float: right;
+   margin-right: -0.7em;
+   padding-top: 0.2em;
+   width: 2em;
+}
+
+.profile .row
+{
+   padding: 0.333em;
+	clear:left;
+}
+
+.profile .drow
+{
+   min-height: 2em;
+   padding: 0.5em;
+   width: 57em;
+}
+
+.profile .photorow
+{
+   margin-left: 4em;
+   padding: 0.333em;
+   min-height: 7em;
+}
+
+.profile .biorow
+{
+   padding: 0em 1.5em 0.3em 5em;
+}
+
+.profile .photo
+{
+   padding: 0.5em;
+   float: left;
+}
+
+.profile .photobtn
+{
+   padding-left: 6.5em;
+   padding-top: 1em;
+   min-height: 5.5em;
+}
+
+.profile .phototxt
+{
+   line-height: 1.75em;
+   padding-left: 0.5em;
+}
+
+.profile .label
+{
+   display: block;
+   float: left;
+   padding-right: 0.8em;
+   padding-top: 0.3em;
+   width: 10em;
+   text-align: right;
+   font-weight: bold;
+}
+
+.profile .namelabel
+{
+   margin-left: 96px;
+   font-size: 123.1%;
+   line-height: 1.7em;
+}
+
+.profile .fieldlabel
+{
+   margin-left: 96px;
+   line-height: 1.5em;
+}
+
+.profile .fieldlabel .user-status
+{
+   margin-top: 4px;
+}
+
+.profile .fieldlabelright
+{
+   clear: left;
+   display: block;
+   float: left;
+   padding-right: 0.8em;
+   width: 10em;
+   margin-left: 2em;
+   text-align: right;
+   font-weight: bold;
+}
+
+.profile .fieldvalue
+{
+   display: block;
+   margin-left: 12em;
+   min-height: 1.2em;
+   padding-left: 1.5em;
+}
+
+.profile p
+{
+   margin-left: 1.5em;
+}
+
+.profile li p
+{
+   line-height: 1.25em;
+   margin-left: 9.5em;
+   padding: 0px;
+}
+
+.profile textarea
+{
+   width: 45em;
+}
+
+.profile .check
+{
+   font-weight: bold;
+   line-height: 1.7em;
+}
+
+.profile .buttons
+{
+   padding-bottom: 1em;
+   padding-top: 0.5em;
+   text-align: center;
+}
+
+.profile .btn-edit button
+{
+   background: transparent url(images/edit.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+/* Sites and Content list pages */
+.profile .sites,
+.profile .content,
+.profile .people
+{
+   margin: 0 1.15em !important;
+   border: 1px solid #ccc;
+   border-width: 0 1px 1px 1px;
+}
+
+.profile .sites li,
+.profile .content li,
+.profile .people li
+{
+   clear: both;
+   width: 100%;
+   overflow: auto;
+   border-top: 1px dashed #CBCBCB;
+}
+
+.profile .sites li.first,
+.profile .content li.first,
+.profile .people li.first
+{
+   border-top: 0;
+}
+
+.profile .people li div.wrapper
+{
+   padding: 0.8em;
+}
+
+.profile .people li div.meta
+{
+   display: inline-block;
+   vertical-align: top;
+   margin-left: 0.8em;
+}
+
+.profile .people li div.button-wrapper
+{
+   float: right;
+}
+
+.profile .people li div.img-wrapper
+{
+   display: inline-block;
+   width: 64px;
+}
+
+.profile .people li a
+{
+   font-weight: bold;
+   font-size: 108%;
+}
+
+.profile .people .lighter
+{
+   padding-left: 0.3em;
+}
+
+.profile .user-status
+{
+   margin-top: 4px;
+}
+
+.profile .user-info
+{
+   margin-top: 4px;
+}
+
+.profile .sites li a.thmb
+{
+   padding: 8px;
+}
+
+.profile .content li a.thmb
+{
+   padding: 0.65em;
+}
+
+.profile .sites li a,
+.profile .content li a.thmb
+{
+   float: left;
+}
+
+.profile .sites li p a,
+.profile .content li p a
+{
+   float: none;
+   font-size: 108%;
+}
+
+.profile .sites p
+{
+   margin: 0.5em 0 0 7em;
+}
+
+.profile .content p
+{
+   margin: 0.5em 0 0 4em;
+}
+
+.profile .sites li p span,
+.profile .content li p span
+{
+   display: block;
+   padding-top: 2px;
+}
+
+.profile .content li p span.relativeTime,
+.profile .content li p span.relativeTime span
+{
+   display: inline;
+}

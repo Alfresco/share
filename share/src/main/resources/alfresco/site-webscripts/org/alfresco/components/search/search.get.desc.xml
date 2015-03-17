@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Search Results List</shortname>
+  <description>Search: Results List Component</description>
+  <url>/components/search/search</url>
+</webscript>

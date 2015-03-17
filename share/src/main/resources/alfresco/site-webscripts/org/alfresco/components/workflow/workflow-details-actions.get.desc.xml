@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>workflow-details-actions</shortname>
+  <description>Displays workflow details cancel action</description>
+  <url>/components/workflow/workflow-details-actions</url>
+</webscript>

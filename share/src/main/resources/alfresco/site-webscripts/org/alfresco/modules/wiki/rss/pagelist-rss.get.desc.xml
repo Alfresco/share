@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Wiki RSS</shortname>
+   <description>Wiki: RSS of list of wiki pages</description>
+   <url>/components/wiki/rss</url>
+   <format default="rss"/>
+</webscript>

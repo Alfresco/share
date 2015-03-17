@@ -1,0 +1,222 @@
+.alfresco-share .yui-panel
+{
+   border-style: none;
+}
+
+.alfresco-share .yui-panel .ft span.button-group
+{
+   text-align: center;
+   vertical-align: middle;
+}
+
+.alfresco-share .yui-panel .bd
+{
+   padding: 0;
+   text-align: left;
+}
+
+.alfresco-share .yui-panel .bd div.yui-gd,
+.alfresco-share .yui-panel .bd div.yui-u,
+.alfresco-share .yui-panel .bd div.form-buttons,
+.alfresco-share .yui-panel .bd div.bdft
+{
+   padding: 0.3em 0.3em 0.3em 0;
+}
+
+.alfresco-share .yui-panel .yui-g h2
+{
+   padding: 0.3em;
+}
+
+.alfresco-share .yui-panel .yui-gd .yui-u
+{
+   width: 60%;
+}
+
+.alfresco-share .yui-panel .yui-gd .yui-u.first
+{
+   width: 28%;
+}
+
+.alfresco-share .yui-panel .hd
+{
+   line-height: 1.5;
+   word-wrap: break-word;
+}
+
+.alfresco-share .yui-panel .hd,
+.alfresco-share .yui-panel .bdft,
+.alfresco-share .yui-panel .bd div.form-buttons,
+.alfresco-share .yui-panel .ft
+{
+   text-align: center;
+}
+
+.alfresco-share .yui-panel .bd .yui-u.first
+{
+   padding: 0.3em 0 0.3em 2px;
+   text-align: right;
+}
+
+.alfresco-share .yui-panel .bd.yui-calcontainer
+{
+   padding: 0.5em;
+}
+
+/* Style the default message  */
+
+.alfresco-share #message
+{
+   border: medium none;
+}
+
+.alfresco-share #message .bd
+{
+   padding: 2em;
+}
+
+.alfresco-share #message .bd span.wait
+{
+   padding: 1px 0 0 24px;
+   visibility: visible;
+}
+
+/* Style the default prompt and user input pop-ups */
+
+.alfresco-share #prompt .hd,
+.alfresco-share #userInput .hd
+{
+}
+
+.alfresco-share #prompt .bd,
+.alfresco-share #userInput .bd
+{
+   padding: 1em;
+}
+
+.alfresco-share #prompt .bd
+{
+   text-align: center;
+}
+
+.alfresco-share #prompt .bd form,
+.alfresco-share #userInput .bd form
+{
+   clear: both;
+}
+
+.alfresco-share #userInput .bd label
+{
+   padding-right: 0.5em;
+   top: 0.2em;
+   vertical-align: top;
+}
+
+.alfresco-share #userInput .bd textarea
+{
+   height: 4em;
+   width: 40em;
+}
+
+.alfresco-share #userInput .bd input[type="text"]
+{
+   width: 30em;
+}
+
+.alfresco-share #prompt .ft .button-group,
+.alfresco-share #userInput .ft .button-group
+{
+   display: block;
+   text-align: center;
+}
+
+.alfresco-share #prompt .ft,
+.alfresco-share #userInput .ft
+{
+}
+
+.alfresco-share .flat-button a:hover
+{
+   text-decoration: none;
+}
+
+.alfresco-share .title-button .yui-button span a
+{
+   white-space: nowrap;
+}
+
+/* A combination of a link and splitbutton wrapped inside a span */
+
+.alfresco-share .link-menu-button
+{
+   border: 1px solid transparent;
+   padding-bottom: 2px;
+   padding-top: 0;
+   vertical-align: middle;
+}
+
+.alfresco-share .link-menu-button .yui-button,
+.alfresco-share .link-menu-button .yui-button span,
+.alfresco-share .link-menu-button .yui-button span button
+{
+   margin: 0;
+   padding: 0;
+   vertical-align: middle;
+}
+
+.alfresco-share .link-menu-button .yui-button
+{
+   border: 1px solid transparent;
+   background-image: none;
+}
+
+.alfresco-share .link-menu-button .yui-button span button
+{
+   padding: 6px 7px;
+}
+
+.alfresco-share .link-menu-button .yui-button.yui-button-activeoption button,
+.alfresco-share .link-menu-button .yui-button.yui-button-hover button
+{
+   text-decoration: none;
+}
+
+/* DataTable overrides */
+
+.alfresco-share .yui-dt tr.yui-dt-first td
+{
+   border-top: medium none;
+}
+
+/* ALF-9960 fix, after removing reset-fonts-grids.css we should add classes below */
+.sticky-wrapper h6
+{
+   font-size: 100%;
+   font-weight: normal;
+}
+
+.yui-overlay li,
+.sticky-wrapper li
+{
+   list-style: none;
+}
+
+.sticky-wrapper fieldset,
+.sticky-wrapper img
+{
+   border: 0;
+}
+
+.sticky-wrapper fieldset,
+.sticky-wrapper ul
+{
+   margin: 0;
+   padding: 0;
+}
+
+/* ALF-13227 fix, counter act previous selectors for Wiki */
+
+.rich-content ul
+{
+   padding: 1em;
+}

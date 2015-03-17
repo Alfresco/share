@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>config-wiki</shortname>
+  <description>Configuration dialog for wiki site dashlet</description>
+  <url>/modules/wiki/config/{siteId}</url>
+</webscript>

@@ -1,0 +1,134 @@
+.category-manager
+{
+   margin-top:2em;
+   margin-left:2em;
+}
+
+.category-manager .title {
+    font-size: 123.1%;
+    font-weight: bold;
+    padding-bottom: 0.5em;
+}
+
+.category-manager .tree
+{
+  /* display: none;*/
+   padding: 0.5em 0 1em;
+}
+
+.category-manager .ygtvspacer
+{
+   display: block;
+   width: 18px;
+}
+
+.category-manager .ygtvchildren
+{
+   width: 100%;
+}
+
+.category-manager .ygtvitem
+{
+   background-color: #ffffff;
+   overflow-x: hidden;
+}
+
+.category-manager .ygtvlabel,
+.category-manager .ygtvlabel:link,
+.category-manager .ygtvlabel:visited,
+.category-manager .ygtvlabel:hover
+{
+   background: none;
+   color: #000;
+   white-space: nowrap;
+}
+
+.category-manager .ygtverror,
+.category-manager .ygtverror:link,
+.category-manager .ygtverror:visited,
+.category-manager .ygtverror:hover
+{
+   background: red;
+   color: white;
+}
+
+.category-manager .selected
+{
+   background-color: #dceaf4;
+}
+
+body.yui-skin-default .category-manager .ygtvtn,
+body.yui-skin-default .category-manager .ygtvtm,
+body.yui-skin-default .category-manager .ygtvtmh,
+body.yui-skin-default .category-manager .ygtvtmhh, 
+body.yui-skin-default .category-manager .ygtvtp,
+body.yui-skin-default .category-manager .ygtvtph,
+body.yui-skin-default .category-manager .ygtvtphh,
+body.yui-skin-default .category-manager .ygtvln,
+body.yui-skin-default .category-manager .ygtvlm,
+body.yui-skin-default .category-manager .ygtvlmh,
+body.yui-skin-default .category-manager .ygtvlmhh,
+body.yui-skin-default .category-manager .ygtvlp,
+body.yui-skin-default .category-manager .ygtvlph,
+body.yui-skin-default .category-manager .ygtvlphh,
+body.yui-skin-default .category-manager .ygtvdepthcell {
+  background-image: url(images/categoryview-sprite.gif);
+}
+
+/* Insitu Edit */
+
+span.insitu-edit-category
+{
+   background-image: url(../../components/images/edit-16.png);
+   background-repeat: no-repeat;
+   cursor: pointer;
+   height: 16px;
+   margin-left: 10px;
+   opacity: 0;
+   position: absolute;
+   visibility: hidden;
+   width: 16px;
+}
+span.insitu-add-category
+{
+   background-image: url(../../components/images/plus-16.png);
+   background-repeat: no-repeat;
+   cursor: pointer;
+   height: 16px;
+   margin-left: 30px;
+   opacity: 0;
+   position: absolute;
+   visibility: hidden;
+   width: 16px;
+}
+span.insitu-delete-category
+{
+   background-image: url(../../components/images/delete-16.png);
+   background-repeat: no-repeat;
+   cursor: pointer;
+   height: 16px;
+   margin-left: 50px;
+   opacity: 0;
+   position: absolute;
+   visibility: hidden;
+   width: 16px;
+}
+span.insitu-add-root-category
+{
+   background-image: url(../../components/images/plus-16.png);
+   background-repeat: no-repeat;
+   cursor: pointer;
+   height: 16px;
+   margin-left: 10px;
+   opacity: 0;
+   position: absolute;
+   visibility: hidden;
+   width: 16px;
+}
+
+.category-manager form.insitu-edit input
+{
+   margin-left: 3px;
+   padding: 1px;
+   width: 15em;
+}

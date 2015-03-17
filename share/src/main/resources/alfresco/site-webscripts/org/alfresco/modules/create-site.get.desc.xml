@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Create Site Module GUI</shortname>
+   <description>Create Site page snippet to be injected into DIV element</description>
+   <url>/modules/create-site</url>
+</webscript>

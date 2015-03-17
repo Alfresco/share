@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Admin Console Search Manager Tool</shortname>
+  <description>Administration Console - Search Manager Tool</description>
+  <url>/components/console/searchmanager</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:ENTERPRISE</family>
+</webscript>

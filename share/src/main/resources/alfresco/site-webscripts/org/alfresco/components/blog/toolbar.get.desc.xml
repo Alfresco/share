@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>blogtoolbar</shortname>
+  <description>Blog: Toolbar</description>
+  <url>/components/blog/toolbar</url>
+</webscript>

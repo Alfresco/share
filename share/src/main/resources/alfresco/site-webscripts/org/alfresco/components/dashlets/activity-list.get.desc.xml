@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Activity List</shortname>
+   <description>Used by Site Activities and My Activities dashlets</description>
+   <url>/components/dashlets/activities/list</url>
+</webscript>

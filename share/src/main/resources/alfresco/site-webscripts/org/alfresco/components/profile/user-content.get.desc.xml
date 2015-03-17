@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>User Content</shortname>
+  <description>Lists user last edited content</description>
+  <url>/components/profile/user-content</url>
+</webscript>

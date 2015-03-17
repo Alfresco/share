@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Web View</shortname>
+   <description>Display the contents of a URI given a URI config parameter.</description>
+   <family>dashlet</family>
+   <url>/components/dashlets/webview</url>
+</webscript>

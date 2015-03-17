@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Global Footer Component</shortname>
+  <description>Footer component used across the whole application</description>
+  <url>/components/footer</url>
+</webscript>

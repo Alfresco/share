@@ -1,0 +1,69 @@
+.rule-details
+{
+   margin-top:2.7em;
+}
+
+.rule-details .display
+{
+   padding: 1em;
+}
+
+.rule-details h2
+{
+   padding-bottom: 0.5em;
+}
+
+.rule-details hr
+{
+   margin-bottom: 1em;
+   margin-top: 1em;
+}
+
+.rule-details em 
+{
+   color: #606060;
+   font-style: normal;
+   font-weight: normal;
+}
+
+.rule-details .actions
+{
+   text-align: right;
+}
+
+.rule-details .label
+{
+   font-weight: bold;
+}
+
+.rule-details .behaviour
+{
+   background-position: 0.25em center;
+   background-repeat: no-repeat;
+   padding-bottom: 0.25em;
+   padding-left: 2em;
+   padding-top: 0.25em;
+}
+
+.rule-details .behaviour.enabled
+{
+   background-image: url(../images/enabled-on-16.png);
+}
+
+.rule-details .behaviour.disabled
+{
+   background-image: url(../images/enabled-off-16.png);
+}
+
+.rule-details .configuration-separator
+{
+   background-image: url(../images/green-arrow-small.png);
+   background-position: center center;
+   background-repeat: no-repeat;
+   padding: 0.4em;
+}
+
+.rule-details.both-conditions .unless .rule-config
+{
+   border-top: none;
+}

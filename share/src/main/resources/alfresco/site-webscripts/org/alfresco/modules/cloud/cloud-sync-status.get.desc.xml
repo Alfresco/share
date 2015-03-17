@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>cloud-sync-status</shortname>
+  <description>Displays the status of a node that is synchronised with the cloud</description>
+  <url>/cloud/cloud-sync-status</url>
+</webscript>

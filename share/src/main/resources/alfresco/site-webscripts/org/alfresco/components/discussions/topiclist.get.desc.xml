@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Discussions TopicList</shortname>
+  <description>Discussions: List of Topics component</description>
+  <url>/components/discussions/topiclist?filter={filter}</url>
+</webscript>

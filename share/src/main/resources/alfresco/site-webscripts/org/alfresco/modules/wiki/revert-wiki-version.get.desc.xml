@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Revert wiki version</shortname>
+   <description>Revert wiki page to a previous version</description>
+   <url>/modules/wiki/revert-wiki-version</url>
+</webscript>

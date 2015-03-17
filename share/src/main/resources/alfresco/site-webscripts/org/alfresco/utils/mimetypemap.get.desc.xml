@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Mimetype Map</shortname>
+   <description>List of known mimetypes to description labels</description>
+   <format default="json">argument</format>
+   <url>/utils/mimetypemap</url>
+</webscript>

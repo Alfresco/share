@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Wiki Create Form</title>
+   <title-id>page.wikiCreate.title</title-id>
+   <description>Displays a form to create a new wiki page</description>
+   <description-id>page.wikiCreate.description</description-id>
+   <template-instance>wiki-create</template-instance>
+   <authentication>user</authentication>
+</page>

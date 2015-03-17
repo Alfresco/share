@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Discussions View topic</shortname>
+  <description>Discussions: Returns a detail view of a topic</description>
+  <url>/components/discussions/topic?id={nodeID}</url>
+</webscript>

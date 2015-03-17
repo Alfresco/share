@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>cloud-folder</shortname>
+  <description>An extension to the global folder browser for browsing folders in the Cloud</description>
+  <url>/modules/documentlibrary/cloud-folder</url>
+</webscript>

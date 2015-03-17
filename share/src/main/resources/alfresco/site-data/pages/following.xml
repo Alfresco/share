@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Following</title>
+   <title-id>page.userFollowing.title</title-id>
+   <description>Lists people that the user follows</description>
+   <description-id>page.userFollowing.description</description-id>
+   <template-instance>following</template-instance>
+   <authentication>user</authentication>
+</page>

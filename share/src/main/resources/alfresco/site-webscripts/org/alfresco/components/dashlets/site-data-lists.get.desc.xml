@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Site Data Lists</shortname>
+   <description>Component used to show Data Lists in the site</description>
+   <family>site-dashlet</family>
+   <url>/components/dashlets/site-datalists</url>
+</webscript>

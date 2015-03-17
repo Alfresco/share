@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Page Resources</shortname>
+  <description>Component importing all the client side resources needed for the page</description>
+  <url>/components/head/resources</url>
+</webscript>

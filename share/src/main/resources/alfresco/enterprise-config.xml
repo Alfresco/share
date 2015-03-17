@@ -1,0 +1,361 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="Edition" replace="true">
+      <footer>
+         <logo>alfresco-share-logo-enterprise.png</logo>
+         <alt-text>Alfresco Enterprise</alt-text>
+         <css-class>footer-ent</css-class>
+         <label>label.copyright.enterprise</label>
+      </footer>
+      <about>
+         <css-class>logo-ent</css-class>
+      </about>
+   </config>
+
+   <!-- ************************************** -->
+   <!-- Hybrid Workflow Definition Form Configuration -->
+   <!-- ************************************** -->
+   
+   <config evaluator="task-type" condition="hwf:submitCloudWorkflow">
+      <forms>
+         <!-- Hybrid workflow details form -->
+         <form id="workflow-details">
+            <field-visibility>
+               <show id="hwf:cloudWorkflowType" />
+               <show id="hwf:cloudDestination" />
+               <show id="hwf:retainStrategy" />
+               <show id="hwf:lockOnPremiseCopy" />
+               <show id="hwf:assignment" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.workflow.more_info" template="/org/alfresco/components/form/2-column-set.ftl"/>
+               <set id="assignment" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               
+               <field id="hwf:cloudWorkflowType" set="" />
+               <field id="hwf:cloudDestination" set="">
+                  <control template="/org/alfresco/components/form/controls/cloud-network.ftl" />
+               </field>
+               <field id="hwf:retainStrategy" set="" />
+               <field id="hwf:lockOnPremiseCopy" set="">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="hwf:assignment" set="assignment">
+                  <control template="/org/alfresco/components/form/controls/cloud-authority.ftl" />
+               </field>
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>      
+         
+         <!-- Hybrid workflow start-task info form -->
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:workflowDueDate" />
+               <show id="hwf:cloudWorkflowType" />
+               <show id="packageItems" />
+               <show id="hwf:cloudDestination" />
+               <show id="hwf:assignment" />
+               <show id="hwf:requiredApprovalPercentage" />
+               <show id="hwf:retainStrategy" />
+               <show id="hwf:lockOnPremiseCopy" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="info" appearance="title" label-id="workflow.set.workflow.more_info" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignment" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               
+               <field id="packageItems" set="items" />
+               
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" />
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="hwf:cloudWorkflowType" set="info" />
+               <field id="hwf:cloudDestination" set="info">
+                  <control template="/org/alfresco/components/form/controls/cloud-network.ftl" />
+               </field>
+               <field id="hwf:assignment" set="assignment">
+                  <control template="/org/alfresco/components/form/controls/cloud-authority.ftl" />
+               </field>
+               <field id="hwf:requiredApprovalPercentage" set="assignment">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               
+               <field id="hwf:retainStrategy" set="items" />
+               <field id="hwf:lockOnPremiseCopy" set="items">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+            </appearance>
+         </form>      
+      </forms>
+   </config>
+   
+   
+   <!-- Hybrid workflow start form -->
+   <config evaluator="string-compare" condition="activiti$cloudWorkflow">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="hwf:cloudWorkflowType" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="hwf:cloudDestination" />
+               <show id="hwf:assignment" />
+               <show id="hwf:requiredApprovalPercentage" />
+               <show id="packageItems" />
+               <show id="hwf:retainStrategy" />
+               <show id="hwf:lockOnPremiseCopy" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="target" appearance="title" template="/org/alfresco/components/form/2-column-set.ftl" label-id="hybridworkflow.set.destination"/>
+               <set id="options" appearance="title" template="/org/alfresco/components/form/2-column-set.ftl" label-id="workflow.set.items" />
+               <set id="items" label-id="workflow.set.items" />
+               
+               <!-- Info -->    
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>           
+               <field id="hwf:cloudWorkflowType" set="info">
+                  <control template="/org/alfresco/components/form/controls/cloud-workflow-type.ftl" />
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               
+               <!-- Destination and Assignee -->
+               <field id="hwf:cloudDestination" set="target">
+                  <control template="/org/alfresco/components/form/controls/cloud-folder-select.ftl">
+                  </control>
+               </field>
+               <field id="hwf:assignment" set="target">
+                  <control template="/org/alfresco/components/form/controls/cloud-authority.ftl" />
+               </field>
+               <field id="hwf:requiredApprovalPercentage" set="target">
+                  <control template="/org/alfresco/components/form/controls/cloud-review-approval-percentage.ftl" />
+               </field>
+               
+               <!-- Content -->               
+               <field id="hwf:retainStrategy" set="options" />
+               <field id="packageItems" set="items">
+                  <control template="/org/alfresco/components/form/controls/workflow/mandatory-packageitems.ftl" />
+               </field>
+               <field id="hwf:lockOnPremiseCopy" set="options" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <config evaluator="task-type" condition="hwf:finishedCloudTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="hwf:comments" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+               
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="hwf:comments" set="response">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <config evaluator="task-type" condition="hwf:approvedCloudTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="hwf:comments" />
+               <show id="hwf:requiredApprovalPercentage" />
+               <show id="hwf:actualApprovalPercentage" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="approval" template="/org/alfresco/components/form/2-column-set.ftl" appearance="title" label-id="workflow.set.response" />
+               <set id="response" appearance="" label-id="workflow.set.response" />
+               
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="hwf:requiredApprovalPercentage" set="approval">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="hwf:actualApprovalPercentage" set="approval">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="hwf:comments" set="response">
+                  <control template="/org/alfresco/components/form/controls/cloud-comments.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <config evaluator="task-type" condition="hwf:rejectedCloudTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="hwf:comments" />
+                <show id="hwf:requiredApprovalPercentage" />
+               <show id="hwf:actualApprovalPercentage" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="approval" template="/org/alfresco/components/form/2-column-set.ftl" appearance="title" label-id="workflow.set.response" />
+               <set id="response" appearance="" label-id="workflow.set.response" />
+               
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               
+               <field id="packageItems" set="items" />
+               <field id="hwf:requiredApprovalPercentage" set="approval">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="hwf:actualApprovalPercentage" set="approval">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="hwf:comments" set="response">
+                  <control template="/org/alfresco/components/form/controls/cloud-comments.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   
+   <config evaluator="task-type" condition="hwf:cancelledCloudTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+               
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               
+               <field id="packageItems" set="items" />
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+</alfresco-config>

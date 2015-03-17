@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>config-feed-post</shortname>
+  <description>Configuration dialog for RSS feed dashlet</description>
+  <url>/modules/feed/config/{componentId}</url>
+  <format default="json">argument</format>
+  <authentication>user</authentication>
+</webscript>

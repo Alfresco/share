@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/user-notifications</template-type>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/profile-title</url>
+      </component>
+
+      <!-- Toolbar -->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/profile/userprofile-toolbar</url>
+      </component>
+
+      <!-- User Notifications -->
+      <component>
+         <region-id>user-notifications</region-id>
+         <url>/components/profile/user-notifications</url>
+      </component>
+
+   </components>
+</template-instance>

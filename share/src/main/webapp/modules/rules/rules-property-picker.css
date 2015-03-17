@@ -1,0 +1,56 @@
+.rules-property-picker.property-picker.data-picker
+{
+   width: 60em;
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-tree,
+.rules-property-picker.property-picker.data-picker .data-picker-list
+{
+   height: 30em;
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-tree
+{
+   width: 15.85em;
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-list
+{
+   width: 43em;   
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-list table
+{
+   table-layout: fixed;
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-list table th.yui-dt-col-label,
+.rules-property-picker.property-picker.data-picker .data-picker-list table td.yui-dt-col-label
+{
+   width: 15em;
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-list table th.yui-dt-col-id,
+.rules-property-picker.property-picker.data-picker .data-picker-list table td.yui-dt-col-id
+{
+   width: 15em;
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-list table th.yui-dt-col-item,
+.rules-property-picker.property-picker.data-picker .data-picker-list table td.yui-dt-col-item
+{
+   width: 14em;
+   text-align: center;
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-list table td.yui-dt-col-label div.yui-dt-liner,
+.rules-property-picker.property-picker.data-picker .data-picker-list table td.yui-dt-col-id div.yui-dt-liner,
+.rules-property-picker.property-picker.data-picker .data-picker-list table td.yui-dt-col-item div.yui-dt-liner
+{
+   overflow: hidden;
+}
+
+.rules-property-picker.property-picker.data-picker .data-picker-list table .yui-dt-col-item div.yui-dt-liner
+{
+   width:auto;
+}

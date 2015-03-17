@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>User Trashcan</shortname>
+  <description>List of deleted documents and folders for the current user</description>
+  <url>/components/profile/user-trashcan</url>
+</webscript>

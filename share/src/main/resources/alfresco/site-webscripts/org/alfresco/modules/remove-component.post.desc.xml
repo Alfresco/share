@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>remove-component</shortname>
+  <description>Given a component id, removes it from the dashboard</description>
+  <url>/modules/remove-component</url>
+  <authentication>user</authentication>
+</webscript>

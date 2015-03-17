@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Share Hybrid Page</shortname>
+  <description>This WebScript is used by the "share-hybrid-template-type" and is used to create the template for rendering Dojo-based widgets between the "legacy" Share header and footer.</description>
+  <family>Share</family>
+  <url>/share/hybrid-page/template</url>
+</webscript>

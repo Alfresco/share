@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Blog PostList</shortname>
+  <description>Blog: List of Posts component</description>
+  <url>/components/blog/postlist?filter={filter}</url>
+</webscript>

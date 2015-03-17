@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Share Header Sites Menu</shortname>
+  <description>Gets data for the Sites Menu. This WebScript can be run in 3 modes: 'recent', 'favourites' or 'all' (default is 'all').</description>
+  <family>Share</family>
+  <url>/header/sites-menu/{mode}</url>
+  <url>/header/sites-menu/{mode}/site/{site}</url>
+  <format default="json">argument</format>
+  <lifecycle>internal</lifecycle>
+</webscript>

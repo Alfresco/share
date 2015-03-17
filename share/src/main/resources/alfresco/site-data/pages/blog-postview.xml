@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>blog-postview</id>
+   <page-type>blog-postview</page-type>
+   <title>Blog: display post detail view</title>
+   <title-id>page.blogPostView.title</title-id>
+   <description>Displays the post detail view</description>
+   <description-id>page.blogPostView.description</description-id>
+   <template-instance>blog-postview</template-instance>
+   <authentication>user</authentication>
+</page>

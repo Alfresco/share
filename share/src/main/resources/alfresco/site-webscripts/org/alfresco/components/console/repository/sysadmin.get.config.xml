@@ -1,0 +1,8 @@
+<config>
+   <title>tool.sysadmin.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Type=Configuration,Category=sysAdmin,id1=default</itemId>
+   </form>
+   <editable>false</editable>
+</config>

@@ -1,0 +1,104 @@
+.email-form
+{
+   width: 60em;
+}
+
+.email-form input[type="text"],
+.email-form textarea
+{
+   margin-right: 0.5em;
+   width: 32em;
+}
+
+.email-form textarea
+{
+   height: 10em;
+}
+
+.email-form textarea
+{
+   float: left;
+}
+
+.email-form.authority-picker .authority-finder
+{
+   margin: 0;
+}
+
+.email-form.authority-picker .authority-finder .finder-wrapper
+{
+   border: none;
+   margin-top: 0;
+}
+
+
+.email-form .recipients
+{
+   max-height: 10em;
+   overflow-y: auto;
+   padding-left: 0;
+   width: 32.5em;
+   float: left;
+}
+
+.email-form .recipients li
+{
+   float: left;
+   margin-bottom: 5px;
+   margin-top: 5px;
+   padding: 0 3px 0 0;
+   position: relative;
+}
+
+.email-form .recipients li a
+{
+   background-position: 2px 4px;
+   background-repeat: no-repeat;
+   margin: 1px;
+   padding: 4px 0 4px 22px;
+   text-decoration: none;
+   white-space: nowrap;
+}
+
+.email-form .recipients li.user a
+{
+   background-image: url(../components/images/user-16.png);
+}
+
+.email-form .recipients li.group a
+{
+   background-image: url(../components/images/group-16.png);
+}
+
+
+.email-form .recipients li a .add,
+.email-form .recipients li a .remove
+{
+   margin: 0 0 0 4px;
+   padding: 0 0 0 16px;
+   visibility: hidden;
+}
+
+.email-form .recipients li a:link
+{
+   color: #448;
+}
+
+.email-form .recipients li a:visited
+{
+   color: #667;
+}
+
+.email-form .recipients li a:hover,
+.email-form .recipients li a.hover
+{
+   border: 1px solid #C5D6E2;
+   margin: 0;
+}
+
+.email-form .recipients li a:hover .remove,
+.email-form .recipients li a.hover .remove
+{
+   background: #fff url(images/remove-16.png) no-repeat 2px 0px;
+   visibility: visible;
+}

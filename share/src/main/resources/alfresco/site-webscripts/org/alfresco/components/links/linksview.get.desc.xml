@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Links view</shortname>
+  <description>Links: Returns a detail view of a link</description>
+  <url>/components/links/linksview</url>
+</webscript>

@@ -1,0 +1,380 @@
+/* Center text and buttons inside p elements */
+
+.dnd-upload p
+{
+   text-align: center;
+}
+
+.dnd-upload div.browse-wrapper
+{
+   text-align: center;
+}
+
+.dnd-upload div.browse-wrapper div.center
+{
+   padding-top: 0.5em;
+   line-height: 2em;
+   margin-left: auto;
+   margin-right: auto;
+   min-width: 18em;
+}
+
+.dnd-upload div.browse-wrapper div.browse,
+.dnd-upload div.browse-wrapper div.label
+{
+   float: left;
+}
+
+.dnd-upload div.tip-wrapper
+{
+   padding-top: 0.5em;
+   line-height: 2em;
+   text-align: center;
+   clear: both;
+}
+
+.dnd-upload div.status-wrapper
+{
+   padding-bottom: 0.5em;
+   text-align: left;
+   margin-left: 1em;
+}
+
+.dnd-upload .browse,
+.dnd-upload .tip
+{
+   float: left;
+}
+
+.dnd-upload .browse
+{
+   width: 38px;
+   height: 26px;
+   margin-left: 10px;
+   margin-right: 10px;
+}
+
+/* Bug fix for ubuntu that requires flash move  element to get resized to get displayed */
+
+.dnd-upload .browse.button-fix
+{
+   width: 39px;
+}
+
+/* Bug fix for mac gecko browsers where flash movie gets re-instantiated */
+
+.reinstantiated-fix .dnd-upload span.yui-button
+{
+	overflow:visible;
+}
+
+.dnd-upload .tip
+{
+   height: 40px;
+   line-height: 40px;
+}
+
+.dnd-upload div.section span.status
+{
+   margin-left: 210px;
+}
+
+/* Add some padding to the file list so it looks centered */
+
+.dnd-upload .bd .fileUpload-filelist-table
+{
+   padding: 0.8em;
+}
+
+/* Remove the padding inherited from the panel for divs in the file list */
+
+.dnd-upload .fileUpload-filelist-table div.yui-dt-hd
+{
+   height: 1px;
+   padding: 0;
+}
+
+.dnd-upload .fileUpload-filelist-table tbody.yui-dt-message td
+{
+   border: none;
+}
+
+.dnd-upload .fileUpload-filelist-table tbody.yui-dt-message tr td div.yui-dt-empty
+{
+   border: none;
+   padding: 0.5em !important;
+}
+
+/* Create a visible gray line beneath each row */
+
+.dnd-upload .fileUpload-filelist-table tbody .yui-dt-liner
+{
+   border-bottom-style: solid;
+   border-bottom-color: #CBCBCB;
+   border-bottom-width: 1px;
+   margin: 0;
+   padding: 0;
+   white-space: nowrap;
+}
+
+/* Width of the file list - needs to override YUI element style setting */
+
+.dnd-upload .fileUpload-filelist-table .yui-dt table
+{
+   width: 620px !important;
+}
+
+/* Hide the table header */
+
+.dnd-upload .fileUpload-filelist-table .yui-dt table thead
+{
+   display: none;
+}
+
+/**
+ * If an element with "position: relative;" is used inside
+ * another element with "overflow: scroll;" IE takes the inner element "out of
+ * the flow" which makes statically positioned on the screen ignoring to be
+ * hidden and following the scrollbar.
+ *
+ * In this component, position relative is used for the progress bars, but
+ * a YUI button is also used which causes the same problem.
+ *
+ * If the outer element also has "position: relative;" it works though.
+ */
+
+.dnd-upload .fileUpload-filelist-table .yui-dt-bd
+{
+   position: relative;
+   width: 620px;
+   overflow-x: hidden;
+}
+
+/* Style left column and its elements */
+
+.dnd-upload .fileUpload-filelist-table tbody .col-left
+{
+   height: 40px;
+   width: 100px;
+}
+
+.dnd-upload .fileupload-left-div
+{
+   text-align: center;
+   height: 40px;
+   background-color: #FAF9F9;
+}
+
+.dnd-upload .fileupload-percentage-span
+{
+   font-weight: bold;
+   font-size: 123.1%;
+   line-height: 2.5em;
+}
+
+.dnd-upload .fileupload-contentType-menu
+{
+   position: relative;
+   top: 10px;
+}
+
+/* Style center column and its elements */
+
+.dnd-upload .fileUpload-filelist-table tbody .col-center
+{
+   height: 40px;
+   width: 400px;
+}
+
+.dnd-upload .fileupload-center-div
+{
+   background-color: #FFFFFF;
+   position: relative;
+   height: 40px;
+   padding: 0;
+   margin: 0;
+   overflow: hidden;
+}
+
+.dnd-upload .fileupload-docImage-img
+{
+   position: absolute;
+   left: 5px;
+   top: 4px;
+}
+
+.dnd-upload .fileupload-status-img
+{
+   position: relative;
+   top: 12px;
+}
+
+.dnd-upload .fileupload-progressInfo-span
+{
+   position: absolute;
+   left: 40px;
+   top: 4px;
+   font-weight: bold;
+   font-size: 108%;
+}
+
+.dnd-upload .fileupload-filesize-span
+{
+   position: absolute;
+   left: 41px;
+   top: 22px;
+   font-size: 85%;
+}
+
+.dnd-upload .fileupload-center-div .fileupload-progressSuccess-span,
+.dnd-upload .fileupload-center-div .fileupload-progressFailure-span,
+.dnd-upload .fileupload-center-div .fileupload-progressFinished-span
+{
+   position: absolute;
+   top: 0px;
+   left: -400px;
+   height: 40px;
+   width: 400px;
+}
+
+.dnd-upload .fileupload-center-div .fileupload-progressSuccess-span
+{
+   background-color: #9AC68C;
+}
+
+.dnd-upload .fileupload-center-div .fileupload-progressFinished-span
+{
+   background-color: #DCECCC;
+}
+
+.dnd-upload .fileupload-center-div .fileupload-progressFailure-span
+{
+   background-color: #E98B3C;
+}
+
+.dnd-upload .aggregate-progress-div
+{
+   background-color: #FFFFFF;
+   border: 1px solid #7F7F7F;
+   height: 20px;
+   margin-bottom: 0.8em;
+   margin-left: 0.8em;
+   overflow: hidden;
+   padding: 0;
+   position: relative;
+   width: 620px;
+}
+
+.dnd-upload .aggregate-progressSuccess-span
+{
+   background-color: #9AC68C;
+   position: absolute;
+   top: 0px;
+   left: -620px;
+   height: 20px;
+   width: 620px;
+}
+
+/* Style right column and its elements */
+
+.dnd-upload .fileUpload-filelist-table tbody .col-right,
+.dnd-upload .fileUpload-filelist-table tbody .col-right div.fileupload-right-div
+{
+   height: 40px;
+   width: 130px;
+}
+
+.dnd-upload .fileupload-right-div
+{
+   text-align: center;
+   height: 40px;
+}
+
+.dnd-upload .fileUpload-filelist-table tbody .col-right
+{
+   background-color: #FAF9F9;
+   border-style: none;
+}
+
+.dnd-upload .fileupload-fileButton-span
+{
+   position: relative;
+   top: 7px;
+}
+
+.dnd-upload .fileupload-fileButton-span button
+{
+   padding-left: 2.5em;
+   background: url(../images/remove-16.png) 10% 50% no-repeat;
+}
+
+.dnd-upload .fileupload-status-span
+{
+   background: url(../images/delete-16.png) 10% 50% no-repeat;
+   position: absolute;
+   left: 5px;
+   top: 4px;	
+}
+
+.dnd-upload .fileUpload-filelist-table.yui-dt.yui-dt-scrollable tbody.yui-dt-data tr.yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+/* General styling */
+
+.dnd-upload
+{
+   width: 640px;
+}
+
+.dnd-upload .yui-gd div.first
+{
+   width: 10.5em;
+}
+
+.dnd-upload textarea
+{
+   width: 30em;
+}
+
+.dnd-upload .title-folder
+{
+   padding: 0 2px 0 4px;
+   vertical-align: text-bottom;
+}
+
+.dnd-file-selection-control
+{
+   height: 25px;
+}
+
+.dnd-file-selection-button
+{
+   opacity: 0;
+   top: 0;
+   left: 0;
+   position: absolute;
+}
+
+.dnd-file-selection-button-overlay
+{
+   padding: 0 50px !important;
+}
+
+.dnd-file-selection-button-overlay-wrapper
+{
+   position: relative;
+   overflow: hidden;
+}
+
+.ie10-dnd-file-selection-button {
+   width: 400px;
+}
+
+
+.dnd-file-selection-button-overlay-wrapper input.dnd-file-selection-button {
+  width: 200%;
+  left: -100%;
+  cursor: pointer;
+}

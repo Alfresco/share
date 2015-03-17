@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>myfiles-tag-filter</shortname>
+  <description>My Files Tag Filter Component</description>
+  <url>/components/myfiles/tag-filter</url>
+</webscript>

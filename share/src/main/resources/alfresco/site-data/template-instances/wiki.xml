@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/wiki</template-type>
+   <properties>
+      <pageFamily>wiki</pageFamily>
+      <container>wiki</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Toolbar -->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/wiki/toolbar</url>
+         <properties>
+            <showBackLink>false</showBackLink>
+         </properties>
+      </component>
+
+      <!-- Page List -->
+      <component>
+         <region-id>pagelist</region-id>
+         <url>/components/wiki/list</url>
+      </component>
+
+      <!-- Wiki Filters -->
+      <component>
+         <region-id>filter</region-id>
+         <url>/components/wiki/filter</url>
+      </component>
+
+      <!-- Tags -->
+      <component>
+         <region-id>tags</region-id>
+         <url>/components/tags</url>
+      </component>
+
+   </components>
+</template-instance>

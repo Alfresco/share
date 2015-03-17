@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Replication Job</title>
+   <title-id>page.createEditReplicationJob.title</title-id>
+   <description>Create new or Edit existing Replication Job</description>
+   <description-id>page.createEditReplicationJob.description</description-id>
+   <template-instance>replication-job</template-instance>
+   <authentication>admin</authentication>
+</page>

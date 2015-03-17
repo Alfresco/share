@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/links-view</template-type>
+   <properties>
+      <pageFamily>links</pageFamily>
+      <container>links</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <source-id>links-view</source-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Links View -->
+      <component>
+         <region-id>linksview</region-id>
+         <source-id>links-view</source-id>
+         <url>/components/links/linksview</url>
+      </component>
+
+      <!-- Comments -->
+      <component>
+         <region-id>comments</region-id>
+         <url>/components/comments/list</url>
+         <properties>
+            <nodeRef>{nodeRef}</nodeRef>
+            <activityType>link</activityType>
+         </properties>
+      </component>
+
+   </components>
+</template-instance>

@@ -1,0 +1,6 @@
+<config>
+   <filters>
+      <filter id="workflows" data="active"    label="link.workflows.active"/>
+      <filter id="workflows" data="completed" label="link.workflows.completed"/>
+   </filters>
+</config>

@@ -1,0 +1,32 @@
+<!-- -->
+<!-- CMIS Client Configuration -->
+<!-- -->
+
+<alfresco-config>
+
+   <plug-ins>
+      <element-readers>
+         <element-reader element-name="cmis-servers" class="org.springframework.extensions.cmis.CMISServersConfigElementReader" />
+      </element-readers>
+   </plug-ins>
+
+   <config evaluator="string-compare" condition="CMIS">
+      <cmis-servers>
+         <!-- 
+            This is a list of predefined CMIS server definitions.
+            
+            The parameter "name" is required. The parameter "description is optional.
+            All other parameters are used to create an OpenCMIS session.
+            If no user name is provided, the user id of the current user will be added to the session parameters.
+         -->
+         <server>
+            <parameter key="name" value="default"/>
+            <parameter key="description" value="Local Alfresco Server"/>            
+            <parameter key="org.apache.chemistry.opencmis.binding.spi.type" value="atompub"/>
+            <parameter key="org.apache.chemistry.opencmis.binding.atompub.url" value="http://localhost:8080/alfresco/cmisatom"/>
+            <parameter key="org.apache.chemistry.opencmis.binding.compression" value="true"/>
+         </server>
+    </cmis-servers>
+   </config>
+
+</alfresco-config>

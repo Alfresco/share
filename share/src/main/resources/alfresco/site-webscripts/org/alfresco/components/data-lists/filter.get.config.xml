@@ -1,0 +1,8 @@
+<filters>
+
+   <filter id="all" label="link.all" />
+   <filter id="recentlyAdded" label="link.recentlyAdded" />
+   <filter id="recentlyModified" label="link.recentlyModified" />
+   <filter id="createdByMe" label="link.createdByMe" />
+
+</filters>

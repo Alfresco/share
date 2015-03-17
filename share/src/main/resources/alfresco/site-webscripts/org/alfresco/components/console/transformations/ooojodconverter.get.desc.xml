@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Admin Console OOoJodConverter Tool</shortname>
+  <description>Administration Console - OOoJodConverter Tool</description>
+  <url>/components/console/ooojodconverter</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:ENTERPRISE</family>
+</webscript>

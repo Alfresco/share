@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Site Finder</title>
+   <title-id>page.siteFinder.title</title-id>
+   <description>Site finder page</description>
+   <description-id>page.siteFinder.description</description-id>
+   <template-instance>site-finder</template-instance>
+   <authentication>user</authentication>
+</page>
