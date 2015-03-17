@@ -2,9 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.alfresco</groupId>
-        <artifactId>alfresco-parent</artifactId>
+        <artifactId>alfresco-share-parent</artifactId>
         <version>5.1-BF-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>share</artifactId>
@@ -18,10 +17,10 @@
         <maven.tomcat.httpsPort>${tomcat.default.share.ssl.port}</maven.tomcat.httpsPort>
         <!-- Files to exclude from SonarQube analysis -->
         <sonar.exclusions>
-            source/web/jquery/**, 
-            source/web/js/flash/extMouseWheel.js,
-            source/web/js/lightbox.js,
-            source/web/yui/**
+            src/main/webapp/jquery/**, 
+            src/main/webapp/js/flash/extMouseWheel.js,
+            src/main/webapp/js/lightbox.js,
+            src/main/webapp/yui/**
         </sonar.exclusions>
     </properties>
 
@@ -272,12 +271,12 @@
                 <configuration>
                     <target>
                         <copy todir="${project.build.outputDirectory}">
-                            <fileset dir="${basedir}/config"
+                            <fileset dir="${basedir}/src/main/resources"
                                 includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
                             <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
                         </copy>
                         <copy todir="${project.build.directory}/${project.build.finalName}">
-                            <fileset dir="${basedir}/source/web" includes="js/alfresco/**/i18n/*.properties" />
+                            <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties" />
                             <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
                         </copy>
                     </target>
@@ -288,6 +287,7 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <overlays>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
