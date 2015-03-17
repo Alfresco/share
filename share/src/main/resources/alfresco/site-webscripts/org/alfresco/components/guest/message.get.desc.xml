@@ -1,5 +1,0 @@
-<webscript>
-   <shortname>Guest Message</shortname>
-   <description>Messages using the guest dialog</description>
-   <url>/components/guest/message</url>
-</webscript>

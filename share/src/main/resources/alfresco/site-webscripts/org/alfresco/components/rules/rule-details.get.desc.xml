@@ -1,5 +1,0 @@
-<webscript>
-  <shortname>Rule Details</shortname>
-  <description>Displays detailed information for a rule</description>
-  <url>/components/rules/rule-details</url>
-</webscript>

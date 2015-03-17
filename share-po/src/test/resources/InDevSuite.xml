@@ -1,4 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-
-<suite name="Intermittent Tests Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">
-</suite>
