@@ -271,13 +271,12 @@
                 <configuration>
                     <target>
                         <copy todir="${project.build.outputDirectory}">
-                            <fileset dir="${basedir}/src/main/resources"
-                                includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
+                            <fileset dir="${basedir}/src/main/resources" includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
                         </copy>
                         <copy todir="${project.build.directory}/${project.build.finalName}">
                             <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties" />
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
                         </copy>
                     </target>
                 </configuration>

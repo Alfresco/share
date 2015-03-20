@@ -150,12 +150,12 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+                                        <taskdef resource="net/sf/antcontrib/antlib.xml" />
 
                                         <echo>Recreating database...</echo>
                                         <sql driver="org.postgresql.Driver" url="jdbc:postgresql:template1" userid="alfresco" password="alfresco" autocommit="true">drop database if exists alfresco; create database alfresco</sql>
                                         <if>
-                                            <not> <isset property="installer.location"/> </not>
+                                            <not> <isset property="installer.location" /> </not>
                                             <then>
                                                 <property name="installer.location" location="${basedir}/target/alf-installer.bin" />
                                                 <echo>Downloading Alfresco installer to ${installer.location}...</echo>
@@ -222,18 +222,16 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <property name="alf.prop" location="target/alf-installation/tomcat/shared/classes/alfresco-global.properties"/>
-                                        <echo append="true" output="${alf.prop}"/>
+                                        <property name="alf.prop" location="target/alf-installation/tomcat/shared/classes/alfresco-global.properties" />
+                                        <echo append="true" output="${alf.prop}" />
                                         <echo append="true" output="${alf.prop}">
                                             # Enabling hybrid in the installation - automatically added by the build
                                             hybridworkflow.enabled=true
                                             sync.cloud.url=${hybrid.url}
                                             system.serverMode=PRODUCTION
                                         </echo>
-                                        <echo append="true" output="${alf.prop}"/>
-                                        <copy failonerror="false" verbose="true"
-                                              todir="target/alf-installation/tomcat/shared/classes/alfresco/extension/license"
-                                              file="${user.home}/binaries/build-classpath/5.0/Enterprise-5.0.lic"/>
+                                        <echo append="true" output="${alf.prop}" />
+                                        <copy failonerror="false" verbose="true" todir="target/alf-installation/tomcat/shared/classes/alfresco/extension/license" file="${user.home}/binaries/build-classpath/5.0/Enterprise-5.0.lic" />
                                     </target>
                                 </configuration>
                             </execution>
