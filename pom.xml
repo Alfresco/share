@@ -22,6 +22,11 @@
         <version.revision>0</version.revision>
     </properties>
 
+   <scm>
+     <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
+     <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/branches/HEAD-BUG-FIX/</developerConnection>
+   </scm>
+
     <build>
         <!-- Resets Maven default -->
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -37,4 +42,5 @@
             </testResource>
         </testResources> 
     </build>
+
 </project>
