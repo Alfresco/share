@@ -6,7 +6,7 @@
         <version>5.1-BF-SNAPSHOT</version>
     </parent>
     <artifactId>alfresco-share-parent</artifactId>
-  <version>5.1-BF-SNAPSHOT</version>
+  <version>5.1-RA2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -23,8 +23,8 @@
     </properties>
 
    <scm>
-     <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/branches/RA-SPRINT2</connection>
-     <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/branches/RA-SPRINT2</developerConnection>
+     <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
+     <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/branches/HEAD-BUG-FIX/</developerConnection>
    </scm>
 
     <build>
