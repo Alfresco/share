@@ -196,26 +196,7 @@
          </properties>
       </component>
 
-      <!-- Folder Permissions -->
-      <component>
-         <region-id>folder-permissions</region-id>
-         <sub-components>
-            <sub-component id="default">
-               <evaluations>
-                  <!-- if in site: Permissions -->
-                  <evaluation id="site">
-                     <evaluators>
-                        <evaluator type="site.component.evaluator"/>
-                     </evaluators>
-                     <url>/components/folder-details/folder-permissions</url>
-                     <properties>
-                        <nodeRef>{nodeRef}</nodeRef>
-                     </properties>
-                  </evaluation>
-               </evaluations>
-            </sub-component>
-         </sub-components>
-      </component>
+      <!-- Folder Permissions - removed. See https://issues.alfresco.com/jira/browse/SHA-3 -->
 
       <!-- Archive and Download -->
       <component>
