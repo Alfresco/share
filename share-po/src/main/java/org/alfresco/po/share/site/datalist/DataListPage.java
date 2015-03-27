@@ -15,16 +15,12 @@
 package org.alfresco.po.share.site.datalist;
 
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.enums.DataLists;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.WebDrone;
+import org.alfresco.webdrone.WebDroneImpl;
 import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,6 +28,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * Site data list page object, holds all element of the HTML page
@@ -49,6 +51,7 @@ public class DataListPage extends AbstractDataList
     private static final By DEFAULT_LISTS_CONTAINER = By.cssSelector("div[id*='default-lists']>div");
     private static final By LISTS_CONTAINER = By.cssSelector("div[id*='default-lists']>ul>li");
     private static final By NEW_LIST_FORM = By.cssSelector("div[id*='default-newList-form-fields']");
+    private static final By DELETE_LINK = By.cssSelector("div[id$='default-lists']>ul>li>a>.delete");
     private final static By DATA_LIST_DESCRIPTION = By.cssSelector("div[id$='_default-description']");
     private final static By NO_DATA_LIST_FOUND = By.cssSelector("div[class='no-lists']");
     private final static By SELECT_DROPDWN = By.cssSelector("button[id$='default-itemSelect-button-button']");
@@ -253,7 +256,18 @@ public class DataListPage extends AbstractDataList
         logger.info("Deleting " + title + "data list");
         try
         {
-            getDataListDirectoryInfo(title).clickDelete();
+            DataListDirectoryInfo dataListDirectoryInfo = getDataListDirectoryInfo(title);
+            if (!drone.isElementDisplayed(DELETE_LINK))
+            {
+                //should be updated once new WebDrone version is released
+                WebElement target = drone.findAndWait(By.xpath(String.format("//a[text()='%s']", title)), WAIT_TIME_3000);
+                new Actions(((WebDroneImpl) drone).getDriver()).moveToElement(target, 5, 5).
+                        moveToElement(drone.find(DELETE_LINK), 1, 1).click().perform();
+            }
+            else
+            {
+                dataListDirectoryInfo.clickDelete();
+            }
             drone.findAndWait(SharePage.CONFIRM_DELETE).click();
             waitUntilAlert();
             return new DataListPage(drone).render();
