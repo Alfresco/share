@@ -62,7 +62,7 @@ public class SiteLinksDashlet extends AbstractDashlet implements Dashlet
                 }
                 try
                 {
-                    scrollDownToDashlet();
+                    //scrollDownToDashlet();
                     getFocus(DASHLET_CONTAINER_PLACEHOLDER);
                     this.dashlet = drone.find(DASHLET_CONTAINER_PLACEHOLDER);
                     break;
