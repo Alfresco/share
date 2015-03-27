@@ -1,0 +1,21 @@
+.group-finder
+{
+   margin: 10px 0px;
+}
+
+.group-finder .title,
+.grouplistWrapper .title
+{
+   font-size: 108%;
+   padding: 10px 0px 10px 34px;
+}
+
+.group-finder .title
+{
+   background: transparent url(images/step-one.png) no-repeat 3px center;
+}
+
+.grouplistWrapper .title
+{
+   background: transparent url(images/step-two.png) no-repeat 3px center;
+}

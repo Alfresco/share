@@ -1,0 +1,132 @@
+.workflow-form h3
+{
+   font-size: 116%;
+   font-weight: normal;
+   margin-bottom: 0.5em;
+   margin-top: 0.5em;
+}
+
+.workflow-form .workflow-summary-buttons
+{
+   float: right;
+   margin-top: -2.5em;
+}
+
+.workflow-form .summary
+{
+   padding: 1em;
+   margin-bottom: 1.5em;
+   margin-top: 0.5em;
+   clear: both;
+}
+
+.workflow-form .summary .status,
+.workflow-form .summary .due,
+.workflow-form .summary .priority
+{
+   background-repeat: no-repeat;
+   padding: 0.1em 0.5em 1em 2em;
+}
+
+.workflow-form .summary .status
+{
+   background-image: url(../images/workflow-20.png);
+   margin-top: 1em;
+}
+
+.workflow-form .summary .due
+{
+   background-image: url(../images/calendar-20.png);
+}
+
+.workflow-form .summary .priority.high
+{
+   background-image: url(../images/priority-high-20.png);
+}
+
+.workflow-form .summary .priority.medium
+{
+   background-image: url(../images/priority-medium-20.png);
+}
+
+.workflow-form .summary .priority.low
+{
+   background-image: url(../images/priority-low-20.png);
+}
+
+.workflow-form .summary .summary-icons
+{
+   float: left;
+   width: 25%;
+}
+
+.workflow-form .summary .recent-task
+{
+   float: left;
+   float: left;
+   width: 73%;
+   border-right: none;
+   border-top: none;
+   border-bottom: none;
+   padding-left: 1em;
+}
+
+.workflow-form .summary .recent-task div
+{
+   margin-bottom: 0.5em;
+}
+
+.workflow-form .summary .recent-task .current-tasks
+{
+   text-align: right;
+}
+
+.workflow-form .summary .recent-task .avatar
+{
+   text-align: center;
+}
+
+.workflow-form .summary .recent-task .task-comment
+{
+   padding: 0.5em;
+}
+
+.workflow-form .workflow-history
+{
+   margin-bottom: 2em;
+}
+   
+.workflow-form .workflow-history h3
+{
+   margin-top: 1.5em;
+   margin-bottom: 0.5em;
+}
+
+.workflow-form .current-tasks h3
+{
+   margin-bottom: 0.5em;
+}
+
+.workflow-form .workflow-history table,
+.workflow-form .current-tasks table   
+{
+   width: 100%;
+}
+
+.workflow-form .current-tasks table a.task-edit,
+.workflow-form .current-tasks table a.task-details
+{
+   cursor: pointer;
+   padding: 1em;
+   text-decoration: none;
+}
+
+.workflow-form .current-tasks table a.task-edit
+{
+   background: url("../images/edit-16.png") no-repeat scroll left center transparent;
+}
+
+.workflow-form .current-tasks table a.task-details
+{
+   background: url("../images/task-16.png") no-repeat scroll left center transparent;
+}

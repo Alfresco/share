@@ -1,0 +1,1 @@
+<p style="font: 81% Arial, Helvetica, Geneva, sans-serif; color: #515D6B">${msg("label.defaultText")}</p>

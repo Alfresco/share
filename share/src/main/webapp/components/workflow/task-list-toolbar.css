@@ -1,0 +1,32 @@
+.task-list-toolbar
+{
+   margin: 0px -10px;   
+}
+
+.task-list-toolbar .header-bar
+{
+   clear: both;
+   min-height: 1.7em;
+   padding: 4px 0.5em 9px;
+}
+
+.task-list-toolbar .hidden
+{
+   visibility: hidden;
+}
+
+.task-list-toolbar .left
+{
+   float: left;
+}
+
+.task-list-toolbar .right
+{
+   float: right;
+}
+
+.task-list-toolbar .start-workflow span.first-child
+{
+   background: url("../images/workflow-16.png") no-repeat scroll 12px 4px transparent;
+   padding-left: 22px;
+}

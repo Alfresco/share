@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Topic</shortname>
+  <description>Get the details for a topic</description>
+  <url>/components/forum/post/site/{site}/{container}/{path}</url>
+  <format default="json">argument</format>
+</webscript>

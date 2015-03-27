@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/content-viewer</template-type>
+   <components>
+
+      <!-- Content Viewer -->
+      <component>
+         <region-id>content-viewer</region-id>
+         <url>/components/content-viewer</url>
+      </component>
+
+   </components>
+</template-instance>

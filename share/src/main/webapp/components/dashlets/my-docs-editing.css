@@ -1,0 +1,13 @@
+.my-docs-editing-wait
+{
+   padding: 2em;
+   background-image: url("../images/lightbox/loading.gif");
+   background-repeat: no-repeat;
+   background-position: 50% 50%;
+}
+
+.my-docs-editing-message
+{
+   padding: 0.5em;
+   text-align: center;
+}

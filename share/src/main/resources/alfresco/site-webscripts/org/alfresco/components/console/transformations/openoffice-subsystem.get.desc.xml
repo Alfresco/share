@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console OpenOffice Subsystem Tool</shortname>
+  <description>Administration Console - OpenOffice Subsystem Tool</description>
+  <url>/components/console/openoffice-subsystem</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

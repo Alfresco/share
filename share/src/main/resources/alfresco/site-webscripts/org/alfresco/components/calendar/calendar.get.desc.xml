@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>calendar</shortname>
+  <description>Calendar: Calendar Component</description>
+  <url>/components/calendar/mycalendar</url>
+</webscript>

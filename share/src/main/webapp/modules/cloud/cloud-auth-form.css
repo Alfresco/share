@@ -1,0 +1,58 @@
+/* Cloud Auth Form CSS */
+
+form.cloud-auth-form
+{
+    background:white url(../../themes/default/images/loginbg.png);
+    text-align:left;
+    padding:5px 15px;
+}
+
+form.cloud-auth-form div.header-bar
+{
+    background: url(../../themes/default/images/logo.png) no-repeat 5px 12px;
+    padding:62px 0 5px;
+}
+
+form.cloud-auth-form label
+{
+    font-weight:normal;
+}
+
+form.cloud-auth-form input
+{
+    display:block;
+}
+
+form.cloud-auth-form div.saved
+{
+   font-size: 85%;
+}
+
+form.cloud-auth-form span.error
+{
+   display:none;
+   background:transparent !important;
+   padding:0;
+}
+
+form.cloud-auth-form.show-error span.error
+{
+   display:block;
+}
+
+form.cloud-auth-form div.row
+{
+   padding:5px 0;
+}
+
+form.cloud-auth-form div.buttons
+{
+   padding-bottom:7px;
+   padding-top: 2px;
+   margin-left: -2px;
+}
+
+form.cloud-auth-form div.extra-links
+{
+   padding-bottom:5px;
+}

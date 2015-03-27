@@ -1,0 +1,87 @@
+.treeview
+{
+   margin-right: 5px;  
+}
+
+.treeview .tree
+{
+   display: none;
+   padding: 0.5em 0 0;
+}
+
+.treeview .ygtvspacer
+{
+   display: block;
+   width: 18px;
+}
+
+.treeview .ygtvchildren
+{
+   width: 100%;
+}
+
+.treeview .ygtvitem
+{
+   background-color: #ffffff;
+   overflow-x: hidden;
+}
+
+.treeview .ygtvitem .folders-trimmed
+{
+   color: #f00;
+}
+
+.treeview .ygtvlabel,
+.treeview .ygtvlabel:link,
+.treeview .ygtvlabel:visited,
+.treeview .ygtvlabel:hover
+{
+   background: none;
+   color: #000;
+   white-space: nowrap;
+}
+
+.treeview .ygtverror,
+.treeview .ygtverror:link,
+.treeview .ygtverror:visited,
+.treeview .ygtverror:hover
+{
+   background: red;
+   color: white;
+}
+
+.treeview .selected
+{
+   background-color: #e1f0fa;
+}
+
+
+.treeview .ygtvtable 
+{
+   border: 1px solid transparent;
+}
+
+.treeview .ygtvcontent
+{
+   padding-left: 2px;
+   padding-bottom: 0px;
+}
+
+.treeview .documentDragOverHighlight
+{
+   border: 1px solid #4f94c9;
+   background-color: #cde8fa;
+   width: 100%;
+}
+
+.treeview .documentDragOverArrow
+{
+   background: url(../images/drop-arrow-left-small.png) no-repeat;
+   z-index: 1;
+   height: 25px;
+   display: block;
+   position: absolute;
+   width: 25px;
+   margin-top: -30px;
+   margin-left: 10px;
+}

@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Email (IMAP) Tool</shortname>
+  <description>Administration Console - Email (IMAP) Tool</description>
+  <url>/components/console/email-imap</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

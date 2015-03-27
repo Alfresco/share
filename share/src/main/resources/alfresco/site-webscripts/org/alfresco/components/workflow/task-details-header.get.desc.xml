@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>task-details-header</shortname>
+  <description>Displays task details header and links</description>
+  <url>/components/workflow/task-details-header</url>
+</webscript>

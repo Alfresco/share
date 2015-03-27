@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Document Details Page</shortname>
+  <description>A detailed view of an individual document</description>
+  <family>Share</family>
+  <url>/details</url>
+</webscript>

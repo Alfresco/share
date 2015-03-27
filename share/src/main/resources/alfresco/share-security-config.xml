@@ -1,0 +1,304 @@
+<alfresco-config>
+
+   <!--
+      This setting controls which domains' pages that shall be allowed to be included inside Share using an <iframe>.
+      All components in Share that creates an <iframe> (targeted at a user provided url) MUST assert the url is
+      provided in the white list below or that it.
+
+      Will be used and exposed to the client side code in Alfresco.contants.IFRAME_POLICY.
+      Use the Alfresco.util.IFramePolicy.isUrlAllowed() to check if a url is allowed.
+
+      Note!
+      These settings are used to mitigate phishing attacks (i.e. displaying a login form).
+      These settings are NOT used to mitigate clickjacking attacks and do NOT control if or when Share is allowed
+      to be included into pages (using an <iframe>) from other domains, that is instead controlled by the
+      "X-Frame-Options" header inside the "SecurityHeadersPolicy" config.
+   -->
+   <config evaluator="string-compare" condition="IFramePolicy">
+
+      <!-- Local share pages/resources are governed by the same-domain element which can be set to "allow" or "deny" -->
+      <same-domain>allow</same-domain>
+
+      <!--
+         Add a list of <url> elements inside this element to form a whitelist of allowed domains.
+         The check will assert that the url used for the <iframe> starts with the value of one of the <url> elements.
+      -->
+      <cross-domain>
+         <!--
+            Allow all domains by default, it is highly recommended to override this setting and instead keep a
+            whitelist of the domains that you trust to be included on Share pages.
+         -->
+         <url>*</url>
+      </cross-domain>
+   </config>
+
+   <!--
+      CSRF filter config to mitigate CSRF/Seasurfing/XSRF attacks
+
+      To disable the CSRF filter override the <filter> to not contain any values, see share-config-custom.xml for
+      an example.
+
+      If you have a custom resource(s) that a client POST to that can't accept a token, for whatever reason, then make
+      sure to copy the entire CSRFPolicy config and place it in your share-config-custom.xml file
+      with the replace="true" attribute and make sure to add a new <rule> in the top of the <filter> element,
+      which has a <request> element matching your requests, and uses only the "assertReferer" & "assertOrigin" actions.
+
+      I.e.
+      <rule>
+         <request>
+            <method>POST</method>
+            <path>/proxy/alfresco/custom/repoWebscript/withoutParams|/service/custom/shareResource/thatMayHaveParams(\?.+)?</path>
+         </request>
+         <action name="assertReferer">
+            <param name="referer">{referer}</param>
+         </action>
+         <action name="assertOrigin">
+            <param name="origin">{origin}</param>
+         </action>
+      </rule>
+   -->
+   <config evaluator="string-compare" condition="CSRFPolicy">
+
+      <!--
+         Properties that may be used inside the rest of the CSRFPolicy config to avoid repetition but
+         also making it possible to provide different values in different environments.
+         I.e. Different "Referer" & "Origin" properties for test & production etc.
+         Reference a property using "{propertyName}".
+      -->
+      <properties>
+
+         <!-- There is normally no need to override this property -->
+         <token>Alfresco-CSRFToken</token>
+
+         <!--
+            Override and set this property with a regexp that if you have placed Share behind a proxy that
+            does not rewrite the Referer header.
+         -->
+         <referer></referer>
+
+         <!--
+            Override and set this property with a regexp that if you have placed Share behind a proxy that
+            does not rewrite the Origin header.
+         -->
+         <origin></origin>
+      </properties>
+
+      <!--
+        Will be used and exposed to the client side code in Alfresco.contants.CSRF_POLICY.
+        Use the Alfresco.util.CSRFPolicy.getHeader() or Alfresco.util.CSRFPolicy.getParameter() with Alfresco.util.CSRFPolicy.getToken()
+        to set the token in custom 3rd party code.
+      -->
+      <client>
+         <cookie>{token}</cookie>
+         <header>{token}</header>
+         <parameter>{token}</parameter>
+      </client>
+
+      <!-- The first rule with a matching request will get its action invoked, the remaining rules will be ignored. -->
+      <filter>
+
+         <!--
+            Certain webscripts shall not be allowed to be accessed directly form the browser.
+            Make sure to throw an error if they are used.
+         -->
+         <rule>
+            <request>
+               <path>/proxy/alfresco/remoteadm/.*</path>
+            </request>
+            <action name="throwError">
+               <param name="message">It is not allowed to access this url from your browser</param>
+            </action>
+         </rule>
+
+         <!--
+            Certain Repo webscripts should be allowed to pass without a token since they have no Share knowledge.
+            TODO: Refactor the publishing code so that form that is posted to this URL is a Share webscript with the right tokens.
+         -->
+         <rule>
+            <request>
+               <method>POST</method>
+               <path>/proxy/alfresco/api/publishing/channels/.+</path>
+            </request>
+            <action name="assertReferer">
+               <param name="referer">{referer}</param>
+            </action>
+            <action name="assertOrigin">
+               <param name="origin">{origin}</param>
+            </action>
+         </rule>
+
+         <!--
+            Certain Surf POST requests from the WebScript console must be allowed to pass without a token since
+            the Surf WebScript console code can't be dependent on a Share specific filter.
+         -->
+         <rule>
+            <request>
+               <method>POST</method>
+               <path>/page/caches/dependency/clear|/page/index|/page/surfBugStatus|/page/modules/deploy|/page/modules/module|/page/api/javascript/debugger|/page/console</path>
+            </request>
+            <action name="assertReferer">
+               <param name="referer">{referer}</param>
+            </action>
+            <action name="assertOrigin">
+               <param name="origin">{origin}</param>
+            </action>
+         </rule>
+
+         <!-- Certain Share POST requests does NOT require a token -->
+         <rule>
+            <request>
+               <method>POST</method>
+               <path>/page/dologin(\?.+)?|/page/site/[^/]+/start-workflow|/page/start-workflow|/page/context/[^/]+/start-workflow</path>
+            </request>
+            <action name="assertReferer">
+               <param name="referer">{referer}</param>
+            </action>
+            <action name="assertOrigin">
+               <param name="origin">{origin}</param>
+            </action>
+         </rule>
+
+         <!-- Assert logout is done from a valid domain, if so clear the token when logging out -->
+         <rule>
+            <request>
+               <method>POST</method>
+               <path>/page/dologout(\?.+)?</path>
+            </request>
+            <action name="assertReferer">
+               <param name="referer">{referer}</param>
+            </action>
+            <action name="assertOrigin">
+               <param name="origin">{origin}</param>
+            </action>
+            <action name="clearToken">
+               <param name="session">{token}</param>
+               <param name="cookie">{token}</param>
+            </action>
+         </rule>
+
+         <!-- Make sure the first token is generated -->
+         <rule>
+            <request>
+               <session>
+                  <attribute name="_alf_USER_ID">.+</attribute>
+                  <attribute name="{token}"/>
+                  <!-- empty attribute element indicates null, meaning the token has not yet been set -->
+               </session>
+            </request>
+            <action name="generateToken">
+               <param name="session">{token}</param>
+               <param name="cookie">{token}</param>
+            </action>
+         </rule>
+
+         <!-- Refresh token on new "page" visit when a user is logged in -->
+         <rule>
+            <request>
+               <method>GET</method>
+               <path>/page/.*</path>
+               <session>
+                  <attribute name="_alf_USER_ID">.+</attribute>
+                  <attribute name="{token}">.+</attribute>
+               </session>
+            </request>
+            <action name="generateToken">
+               <param name="session">{token}</param>
+               <param name="cookie">{token}</param>
+            </action>
+         </rule>
+
+         <!--
+            Verify multipart requests from logged in users contain the token as a parameter
+            and also correct referer & origin header if available
+         -->
+         <rule>
+            <request>
+               <method>POST</method>
+               <header name="Content-Type">multipart/.+</header>
+               <session>
+                  <attribute name="_alf_USER_ID">.+</attribute>
+               </session>
+            </request>
+            <action name="assertToken">
+               <param name="session">{token}</param>
+               <param name="parameter">{token}</param>
+            </action>
+            <action name="assertReferer">
+               <param name="referer">{referer}</param>
+            </action>
+            <action name="assertOrigin">
+               <param name="origin">{origin}</param>
+            </action>
+         </rule>
+
+         <!--
+            Verify that all remaining state changing requests from logged in users' requests contains a token in the
+            header and correct referer & origin headers if available. We "catch" all content types since just setting it to
+            "application/json.*" since a webscript that doesn't require a json request body otherwise would be
+            successfully executed using i.e."text/plain".
+         -->
+         <rule>
+            <request>
+               <method>POST|PUT|DELETE</method>
+               <session>
+                  <attribute name="_alf_USER_ID">.+</attribute>
+               </session>
+            </request>
+            <action name="assertToken">
+               <param name="session">{token}</param>
+               <param name="header">{token}</param>
+            </action>
+            <action name="assertReferer">
+               <param name="referer">{referer}</param>
+            </action>
+            <action name="assertOrigin">
+               <param name="origin">{origin}</param>
+            </action>
+         </rule>
+      </filter>
+
+   </config>
+
+   <!--
+      A set of HTTP response headers that instructs the browser to behave in certain ways to improve security
+
+      The header name is (of course) unique meaning that a <header> element can be override to provide a different
+      <value> or be disabled (by creating a <enabled>false</enabled> element as a child to the <header> element).
+      See the share-config-custom.xml.sample for examples.
+   -->
+   <config evaluator="string-compare" condition="SecurityHeadersPolicy">
+      <headers>
+         <!--
+            Setting to allow the embedding of Share within an IFRAME by other domains.
+            DENY        = Don't allow Share to be included in any iframe
+            SAMEORIGIN  = Only allow Share to be included in pages from the same domain
+         -->
+         <header>
+            <name>X-Frame-Options</name>
+            <value>SAMEORIGIN</value>
+         </header>
+
+         <!--
+            Stop IE from guessing (and then "correcting") the Content-Type
+         -->
+         <header>
+            <name>X-Content-Type-Options</name>
+            <value>nosniff</value>
+         </header>
+
+         <!--
+            Stop IE from trying to be "smart" and mitigating XSS attacks but instead introducing new ones:
+            http://www.h-online.com/security/news/item/Security-feature-of-Internet-Explorer-8-unsafe-868837.html
+            0              = Stop IE's XSS protection
+            1; mode=block  = Run IE's XSS protection, but if XSS is found then block the page instead of trying to
+                             "fix" the problem and then introducing new security flaws
+         -->
+         <header>
+            <name>X-XSS-Protection</name>
+            <value>1; mode=block</value>
+         </header>
+      </headers>
+   </config>
+
+
+</alfresco-config>

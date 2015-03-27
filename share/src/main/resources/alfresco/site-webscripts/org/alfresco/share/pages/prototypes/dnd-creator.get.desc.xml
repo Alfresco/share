@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Drag 'n' drop page creator</shortname>
+  <description>Prototype for creating and previewing pages via drag 'n' drop</description>
+  <family>Share</family>
+  <url>/page-creator</url>
+</webscript>

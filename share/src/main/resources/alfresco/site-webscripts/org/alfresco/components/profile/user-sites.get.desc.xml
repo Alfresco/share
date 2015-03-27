@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>User Sites</shortname>
+  <description>Lists user sites</description>
+  <url>/components/profile/user-sites</url>
+</webscript>

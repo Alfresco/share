@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>edit-tag</shortname>
+  <description>Edit Tags</description>
+  <url>/components/admin/edit-tag</url>
+</webscript>

@@ -1,0 +1,1609 @@
+.doclist
+{
+   clear: both;
+   /* visibility: hidden; */
+}
+
+.doclist a:hover
+{
+   text-decoration: none;
+}
+
+.doclist .align-center
+{
+   text-align: center;
+}
+
+.doclist .align-right
+{
+   text-align: right;
+}
+
+/* DocList bar */
+
+.doclist .doclist-bar
+{
+   border-bottom: 1px solid #d9d9d9;
+   margin: 0 -10px;
+   padding: 4px 0.5em 2px;
+   display: none;
+}
+
+.doclist .doclist-bar-bottom
+{
+   border-top: 1px solid #d9d9d9;
+   display: none;
+}
+
+.doclist span.separator
+{
+   border-right: 1px dotted #c7ccce;
+   border-top: medium none;
+   left: -2px;
+   margin: 0 4px;
+   padding: 2px 0;
+   position: relative;
+   top: -4px;
+   vertical-align: bottom;
+}
+
+/* DocList bar Buttons and Paginator */
+
+.doclist .doclist-bar .file-select
+{
+   float: left;
+   width: 15%;
+}
+
+.doclist .doclist-bar .paginator
+{
+   float: left;
+   margin: 0;
+   padding: 4px 0;
+   text-align: center;
+   width: 80%;
+}
+
+.doclist .doclist-bar .yui-pg-current
+{
+   margin-right: 0;
+}
+
+.toolbar .options-select {
+  float: right;
+}
+
+.toolbar .options-select .yuimenuitemlabel span
+{
+   background-position: 2px 50%;
+   background-repeat: no-repeat;
+   cursor: pointer;
+   display: block;
+   margin-left: -4px;
+   min-height: 16px;
+   padding: 2px 0px 1px 24px;
+}
+
+.toolbar .options-select .removeDefaultView
+{
+   background-image: url(images/enabled-off-16.png);
+}
+
+.toolbar .options-select .setDefaultView
+{
+   background-image: url(images/enabled-on-16.png);
+}
+
+.toolbar .options-select .showFolders
+{
+   background-image: url(images/folders-show-16.png);
+}
+
+.toolbar .options-select .hideFolders
+{
+   background-image: url(images/folders-hide-16.png);
+}
+
+.toolbar .options-select .showPath
+{
+   background-image: url(images/navbar-show-16.png);
+}
+
+.toolbar .options-select .hidePath
+{
+   background-image: url(images/navbar-hide-16.png);
+}
+
+.toolbar .options-select .rss
+{
+   background-image: url(images/feed-icon-16.png);
+}
+
+.toolbar .options-select .simple > a > span.view
+{
+   background-image: url(images/simple-view-off-16.png);
+}
+
+.toolbar .options-select .detailed > a > span.view
+{
+   background-image: url(images/detailed-view-off-16.png);
+}
+
+.toolbar .options-select .gallery > a > span.view
+{
+   background-image: url(images/gallery-view-off-16.png);
+}
+
+.toolbar .options-select .filmstrip > a > span.view
+{
+   background-image: url(images/filmstrip-view-off-16.png);
+}
+
+.toolbar .options-select .table > a > span.view
+{
+   background-image: url(images/table-view-off-16.png);
+}
+
+/* DocList bar Select menu */
+
+.toolbar .file-select .yuimenuitemlabel span
+{
+   background-position: 2px 50%;
+   background-repeat: no-repeat;
+   cursor: pointer;
+   display: block;
+   margin-left: -4px;
+   min-height: 16px;
+   padding: 2px 0px 1px 24px;
+}
+
+.toolbar .file-select .selectAll
+{
+   background-image: url(images/select-all-16.png);
+}
+
+.toolbar .file-select .selectNone
+{
+   background-image: url(images/select-none-16.png);
+}
+
+.toolbar .file-select .selectInvert
+{
+   background-image: url(images/select-invert-16.png);
+}
+
+.toolbar .file-select .selectFolders
+{
+   background-image: url(images/select-folders-16.png);
+}
+
+.toolbar .file-select .selectDocuments
+{
+   background-image: url(images/select-documents-16.png);
+}
+
+/* DocList bar right-hand section */
+
+.toolbar .sort-direction,
+.toolbar .sort-field,
+.toolbar .show-folders,
+.toolbar .simple-detailed
+{
+   float: right;
+}
+
+.toolbar .show-folders span.first-child,
+.toolbar .simple-detailed span.first-child
+{
+   background-position: 50% 50%;
+   background-repeat: no-repeat;
+   min-height: 16px;
+   padding: 0 2px;
+}
+
+.toolbar .show-folders span.first-child button
+{
+   padding: 0 14px;
+}
+
+.toolbar .sort-direction span.yui-button
+{
+   margin-right: 0;
+}
+
+.toolbar .sort-direction span.first-child
+{
+   background-image: url(images/sort-ascending-16.png);
+   background-position: 50% 50%;
+   background-repeat: no-repeat;
+   min-height: 16px;
+   padding: 0 2px;
+}
+
+.toolbar .sort-direction .sort-descending span.first-child
+{
+   background-image: url(images/sort-descending-16.png);
+}
+
+.toolbar .sort-field span.yui-button
+{
+   margin-left: 4px;
+}
+
+.toolbar .sort-field button
+{
+   padding-left: 4px;
+}
+
+.toolbar .show-folders
+{
+   margin-right: 4px;
+}
+
+.toolbar .show-folders span.first-child,
+.toolbar .show-folders-image
+{
+   background-image: url(images/folders-hide-16.png);
+}
+
+.toolbar .show-folders .yui-button-checked span.first-child
+{
+   background-image: url(images/folders-show-16.png);
+}
+
+.toolbar .show-folders .separator
+{
+   margin-left: 0;
+}
+
+.toolbar .simple-detailed .yui-button
+{
+   margin-left: 0;
+   margin-right: 0;
+}
+
+.toolbar .simple-detailed .simple-view span.first-child
+{
+   background-image: url(images/simple-view-off-16.png);
+}
+
+.toolbar .simple-detailed .simple-view.yui-button-checked span.first-child
+{
+   background-image: url(images/simple-view-on-16.png);
+}
+
+.toolbar .simple-detailed .detailed-view span.first-child
+{
+   background-image: url(images/detailed-view-off-16.png);
+}
+
+.toolbar .simple-detailed .detailed-view.yui-button-checked span.first-child
+{
+   background-image: url(images/detailed-view-on-16.png);
+}
+
+/* Inline "Show Folders" action */
+
+.doclist .show-folders-image
+{
+   background-position: 0px 3px;
+   cursor: pointer;
+   display: inline-block;
+   height: 16px;
+   width: 16px;
+}
+
+/* Forms */
+
+.form-container .form-fields
+{
+   border-bottom: medium none;
+   padding: 1em 1em 0em 1em;
+}
+
+/* Details Form */
+
+.form-container .edit-metadata a,
+.form-container .edit-metadata a:visited
+{
+   background: transparent url(actions/document-edit-metadata-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+/* Data Table */
+
+.doclist .documents table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.doclist .documents thead
+{
+   display: none;
+}
+
+.doclist .documents tbody
+{
+   outline: none;
+}
+
+.doclist .documents .yui-dt table
+{
+   border: none;
+}
+
+body .doclist tr.yui-dt-highlighted
+{
+   cursor: auto;
+}
+
+.doclist tr.yui-dt-odd
+{
+   background-color: #ffffff;
+}
+
+.doclist tr.yui-dt-odd.yui-dt-highlighted td.yui-dt-last,
+.doclist tr.yui-dt-even.yui-dt-highlighted td.yui-dt-last
+{
+   border-left: 1px solid #c5e6e9;
+}
+
+.doclist .documents.yui-dt .yui-dt-data td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: top;
+}
+
+.doclist .documents.yui-dt .yui-dt-data .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.doclist .documents.yui-dt tr.yui-dt-first td
+{
+   border-top: medium none;
+}
+
+.doclist .documents.yui-dt td.yui-dt-last
+{
+   border-left: 1px solid #fff;
+   vertical-align: middle;
+}
+
+.doclist .yui-dt-liner
+{
+   padding: 4px;
+}
+
+.doclist .yui-dt-col-thumbnail .yui-dt-liner
+{
+   text-align: center;
+}
+
+.doclist .documents.yui-dt tr.yui-dt-first td.yui-dt-empty
+{
+   border-right: medium none;
+   cursor: default;
+}
+
+.doclist .yui-dt-error
+{
+   background: red;
+   color: white;
+   font-weight: bold;
+   margin: 1em auto;
+   padding: 1em;
+}
+
+/* This rule is vital to workaround a Firefox mouseout bug */
+
+.doclist .yui-dt-col-4
+{
+   overflow: visible;
+}
+
+/* Cell Renderers */
+
+.doclist span.folder
+{
+   display: block;
+   position: relative;
+}
+
+.doclist .documents .icon32
+{
+   cursor: pointer;
+   display: block;
+   min-height: 32px;
+}
+
+.doclist .documents .icon32 span.link,
+.doclist .documents .folder-small span.link
+{
+   background: url(images/link-16.png) no-repeat;
+   height: 16px;
+   width: 16px;
+   position: absolute;
+}
+
+.doclist .documents .folder-small span.droppable
+{
+   background: url(../images/drop-arrow-left-small.png) no-repeat;
+   display: none;
+   height: 14px;
+   position: absolute;
+   width: 34px;
+   z-index: 1;
+   margin-left: 20px;
+}
+
+.doclist .documents .thumbnail
+{
+   cursor: pointer;
+   display: block;
+   height: 100px;
+   overflow: hidden;
+   padding-top: 2px;
+   position: relative;
+   width: 100px;
+}
+
+.doclist .documents .thumbnail span.link,
+.doclist .documents .folder span.link
+{
+   background: url(images/link-32.png) no-repeat;
+   height: 32px;
+   width: 32px;
+   position: absolute;
+}
+
+.doclist .documents .folder span.droppable
+{
+   background: url(../images/drop-arrow-left-large.png) no-repeat;
+   display: none;
+   height: 25px;
+   position: absolute;
+   width: 60px;
+   z-index: 1;
+   margin-left: 40px;
+}
+
+.doclist .documents .filename
+{
+   font-size: 131%;
+   font-weight: normal;
+   padding-bottom: 0.2em;
+   padding-left: 20px;
+   word-wrap: break-word;
+}
+
+.doclist .documents .filename span.title
+{
+   color: #606060;
+   font-size: 82%;
+   padding-left: 0.7em;
+}
+
+.doclist .documents .filename span.document-version
+{
+   margin-left: 0.8em;
+   padding: 1px;
+   position: relative;
+   top: -2px;
+   visibility: hidden;
+}
+
+.doclist .documents .yui-dt-highlighted .filename span.document-version
+{
+   visibility: visible;
+}
+
+.doclist .documents
+{
+   color: #333333;
+   margin: 0 -10px 0 -8px;
+}
+
+.doclist .documents a
+{
+   color: #2B6EB5;
+   cursor: pointer;
+}
+
+.doclist .documents a:active,
+.doclist .documents a:hover
+{
+   text-decoration: underline;
+}
+
+.doclist .documents .rename-file
+{
+   background-color: #e8e8e8;
+   border: 1px solid #808080;
+   cursor: pointer;
+   float: left;
+   margin-left: 2em;
+   position: relative;
+   top: -2px;
+}
+
+.doclist .documents .detail
+{
+   clear: left;
+   line-height: 1.5em;
+   min-height: 1.5em;
+   padding-bottom: 0.2em;
+   padding-left: 20px;
+}
+
+.doclist .documents .detail .faded
+{
+   color: #aaa;
+}
+
+.doclist .documents .detail em
+{
+   color: #606060;
+   font-style: normal;
+   font-weight: normal
+}
+
+.doclist .documents .detail span.item
+{
+   float: left;
+   margin-right: 1.6em;
+}
+
+.doclist .documents .detail span.item-social
+{
+   line-height: 1.2em;
+   margin-right: 0.8em;
+   margin-top: 0.4em;
+}
+
+.doclist .documents .detail span.item-simple
+{
+   padding-right: 0.5em;
+}
+
+.doclist .documents .detail span.tag
+{
+   float: left;
+   margin: 1px 0;
+}
+
+/* Categories */
+
+.doclist .documents .detail span.category-item
+{
+   background-image: url(images/category-16.png);
+   background-position: 0px 2px;
+   background-repeat: no-repeat;
+   margin-right: 0;
+   padding-bottom: 2px;
+   padding-left: 18px;
+}
+
+/* Social tagging customisations */
+
+.doclist .documents .detail a.comment
+{
+   background-image: url(../images/comment-off-16.png);
+}
+
+.doclist .documents .detail a.comment.hasComments
+{
+   background-image: url(../images/comment-16.png);
+}
+
+/* Document Info Banner */
+
+.doclist .info-banner
+{
+   background-color: #ffffe0;
+   background-image: url(images/warning-16.png);
+   background-position: 6px 4px;
+   background-repeat: no-repeat;
+   border: 1px solid #ffca7a;
+   clear: left;
+   font-weight: bold;
+   margin-bottom: 4px;
+   padding: 5px 0px 3px 28px;
+}
+
+.doclist .banner-more-info-link
+{
+   color: #4F94C9;
+   cursor: pointer;
+   float: right;
+   font-size: 85%;
+   font-weight: normal;
+   padding-right: 10px;
+}
+
+/* Tags */
+
+.doclist .documents a.tag-link
+{
+   border-radius: 8px;
+   font-size: 93%;
+   margin-right: 0.5em;
+   padding: 2px 8px;
+   border-radius: 8px;
+}
+
+/* Actions Rollover */
+
+.doclist .documents .hidden
+{
+   visibility: hidden;
+}
+
+/* Actions */
+
+.doclist div.more-actions
+{
+   background-color: #fff;
+   border: 1px solid #2b6eb5;
+   clear: left;
+   margin-left: -22px;
+   margin-top: 1px;
+   position: absolute;
+   width: 220px;
+   z-index: 1;
+}
+
+.doclist .more-actions a.action-link,
+.doclist .more-actions a.simple-link
+{
+   border: 1px solid transparent;
+}
+
+.doclist .more-actions a:active,
+.doclist .more-actions a:hover
+{
+   background-color: #2b6eb5;
+   border: 1px solid #2b6eb5;
+   color: #fff;
+}
+
+/* Actions: Simple view */
+
+.doclist div.simple div
+{
+   float: left;
+}
+
+.doclist div.simple div.onActionShowMore
+{
+   clear: both;
+   float: none;
+}
+
+.doclist div.simple a.action-link span,
+.doclist div.simple a.simple-link span
+{
+   display: none;
+}
+
+.doclist div.simple div.more-actions
+{
+   margin-left: -142px;
+}
+
+.doclist div.simple div.more-actions div
+{
+   float: none;
+}
+
+.doclist div.simple div.more-actions a.action-link span,
+.doclist div.simple div.more-actions a.simple-link span
+{
+   display: block;
+}
+
+/* Actions: Icons */
+
+.doclist .action-set a
+{
+   background-image: url(actions/default-16.png);
+}
+
+.doclist .internal-show-more a
+{
+   background-image: url(images/plus-sign-16.png);
+}
+
+/* Drag and Drop */
+
+.dndFolderHighlight span.droppable
+{
+   display: block !important;
+}
+
+.dndFolderHighlight img
+{
+   background-color: #dceaf4;
+   outline: 2px solid #4F94C9;
+   padding: 2px;
+   position: relative;
+   top: -2px;
+}
+
+.dndDocListHighlight
+{
+   outline: 2px solid #4F94C9;
+   outline-offset: -2px;
+}
+
+.docListInstructions
+{
+   background-color: white;
+   color: #515D6B;
+   padding: 10px;
+}
+
+.docListInstructionsWithDND
+{
+   background-color: white;
+   border: 1px dashed #73B4DA;
+   color: #515D6B;
+   padding: 10px;
+}
+
+.docListInstructionColumn
+{
+   float: left;
+   width: 45%;
+}
+
+.docListInstructionColumnRightBorder
+{
+   border-right: 1px solid #D9D9D9;
+   padding-right: 30px;
+   margin-right: 10px;
+}
+
+.docListInstructions > div
+{
+   clear: both;
+}
+
+.docListInstructionImage
+{
+   float: left;
+   padding: 0 10px;
+   vertical-align: middle;
+}
+
+.docListLinkedInstruction
+{
+   cursor: pointer;
+}
+
+.docListInstructionTitle
+{
+   display: block;
+   font-size: 167%;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   padding-left: 10px;
+}
+
+.docListInstructionText
+{
+   font-size: 123%;
+   margin-top: 10px;
+   display: block;
+}
+
+.docListInstructionTextSmall
+{
+   margin-top: 15px;
+   display: block;
+}
+
+.docListOtherOptions
+{
+   display: block;
+   font-size: 146.5%;
+   margin-top: 10px;
+   padding-left: 10px;
+   padding-top: 30px;
+}
+
+.docListOtherOptionsImage
+{
+   padding: 10px 6px 0 10px;
+   vertical-align: middle;
+}
+
+.docListOtherOptionsText
+{
+   font-size: 108%;
+   margin-top: 10px;
+}
+
+.inlineTagReadOnly
+{
+   background-color: #DCEAF4;
+   color: #4F94C9;
+   padding: 0.1em, 0.3em;
+   margin-right: 0.5em;
+}
+
+.inlineTagEdit
+{
+   border: 1px solid #C5D6E2;
+   font-weight: normal;
+   padding: 0.3em;
+   background-color: white;
+}
+
+.inlineTagEditTag
+{
+   background-color: #EEE;
+   color: #333;;
+   padding: 0.1em 0.3em;
+   margin-right: 0.3em;
+   margin-bottom: 0.3em;
+   display: inline-block;
+   cursor: pointer;
+}
+
+.inlineTagEditTagPrimed
+{
+   background-color: #DCEAF4;
+   color: #4F94C9;
+}
+
+.inlineTagEditTag img
+{
+   vertical-align: bottom;
+   padding-bottom: 0.2em;
+   margin-left: 0.3em;
+}
+
+.inlineTagEdit input[type="text"]:focus
+{
+   outline: none;
+}
+
+.inlineTagEdit input[type="text"]
+{
+   width: inherit;
+   position: static;
+   border: none;
+}
+
+.inlineTagEditTagSelection
+{
+   vertical-align: bottom;
+   padding-bottom: 0.2em;
+   margin-left: 0.3em;
+}
+
+.inlineTagEditAutoCompleteWrapper
+{
+   padding-bottom:2em;
+   width: 12em;
+}
+
+.inlineTagEditAutoComplete
+{
+   width: inherit !important;
+}
+
+.inlineTagEditAutoComplete .yui-ac-content
+{
+   border: 1px solid #C5D6E2 !important;
+}
+
+.inlineTagEditAutoComplete li.yui-ac-highlight
+{
+   background-color: #DCEAF4 !important;
+   color: #515D6B !important;
+}
+
+.yuimenuitem.drop-down-list-break-below {
+  border-bottom: 1px solid #EEEEEE;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.yuimenuitem.drop-down-list-break-above {
+  border-top: 1px solid #EEEEEE;
+  margin-top: 10px;
+  padding-top: 5px;
+}
+
+
+/* Gallery View */
+
+.toolbar .simple-detailed .gallery-view span.first-child
+{
+   background-image: url(images/gallery-view-off-16.png);
+}
+
+.toolbar .simple-detailed .gallery-view.yui-button-checked span.first-child
+{
+   background-image: url(images/gallery-view-on-16.png);
+}
+
+.alf-gallery
+{
+   overflow: auto;
+   padding: 6px;
+}
+
+.alf-gallery-item
+{
+   margin: 0.4%;
+   float: left;
+   width: 12.9%;
+   padding: 2px;
+}
+
+
+.alf-gallery.alf-selected .alf-gallery-item
+{
+   -moz-opacity: 0.40;
+   opacity: .40;
+   filter: alpha(opacity=40);
+}
+.alf-gallery.alf-selected .alf-gallery-item-thumbnail
+{
+    filter: alpha(opacity=40);
+}
+
+.alf-gallery .alf-gallery-item.alf-hover
+{
+   -moz-opacity: 1 !important;
+   opacity: 1 !important;
+   filter: alpha(opacity=100) !important;
+}
+.alf-gallery .alf-gallery-item.alf-hover .alf-gallery-item-thumbnail
+{
+    filter: alpha(opacity=100) !important;
+}
+
+.alf-gallery-item.alf-selected
+{
+   border: 2px solid #3D6FDB;
+   padding: 0;
+   -webkit-box-shadow: 0px 0px 6px rgba(0,81,255,1);
+   -moz-box-shadow: 0px 0px 6px rgba(0,81,255,1);
+   box-shadow: 0px 0px 6px rgba(0,81,255,1);
+   -moz-opacity: 1 !important;
+   opacity: 1 !important;
+   filter: alpha(opacity=100) !important;
+}
+.alf-gallery-item.alf-selected .alf-gallery-item-thumbnail
+{
+   filter: alpha(opacity=100) !important;
+}
+
+.doclist .alf-gallery span.folder
+{
+   height: 100%;
+}
+
+.alf-gallery-item .alf-gallery-item-thumbnail
+{
+   height: 100%;
+   border: none;
+   overflow: hidden;
+   position: relative;
+}
+
+.alf-gallery-item .alf-gallery-item-thumbnail .alf-gallery-item-thumbnail-img
+{
+   width: 100%;
+   min-height: 100%;
+}
+.alf-gallery-item .alf-gallery-item-thumbnail .alf-gallery-item-thumbnail-img.alf-landscape
+{
+   width: inherit;
+   min-height: inherit;
+   height: 100%;
+   min-width: 100%;
+}
+.alf-gallery-item .alf-gallery-item-thumbnail .folder .alf-gallery-item-thumbnail-img
+{
+    background: transparent;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);   /* IE6 & 7 */
+    zoom: 1;
+}
+.alf-gallery-item .alf-gallery-item-thumbnail .alf-gallery-item-thumbnail-folder-img
+{
+   height: 68%;
+   min-width: 68%;
+}
+
+.alf-gallery-item .alf-header
+{
+   color: white;
+   padding: 0 4%;
+   position: absolute;
+   font-size: 1.2em;
+   width: 100%;
+   white-space: nowrap;
+   background: url("../images/black-50-transparency.png") repeat !important;
+   z-index: 1;
+   visibility: hidden;
+   margin: 0 !important;
+}
+.alf-gallery-item.alf-hover .alf-header,
+.alf-selected .alf-gallery-item .alf-header
+{
+   visibility: visible !important;
+}
+
+.alf-gallery-item .alf-select
+{
+   float: left;
+   position: absolute;
+   top: 50%;
+   margin-top: -10px;
+   height: 16px;
+   left: 4%;
+}
+
+.alf-gallery-item .alf-show-detail
+{
+   float: right;
+   position: relative;
+   right: 2%;
+   top: 52%;
+   background-image: url(images/show-detail.png);
+   background-repeat: no-repeat;
+   padding: 0px 0px 0px 16px;
+   margin-top: -8px;
+   line-height: 16px;
+   text-decoration: none !important;
+}
+
+.alf-gallery-item .alf-separator
+{
+   margin: 12px 18px;
+   height: 1px;
+   background-color: #595959;
+}
+
+.alf-gallery-item .alf-status
+{
+    float: left;
+    margin-left: 20px;
+}
+
+.alf-gallery-item .alf-actions
+{
+   padding: 0 14px;
+   float: right;
+}
+.alf-gallery-item .alf-actions a:focus
+{
+   outline: none;
+}
+
+.alf-gallery-item .alf-description
+{
+}
+.alf-gallery-item .alf-description a:focus
+{
+   outline: none !important;
+}
+
+.alf-gallery-item .alf-detail
+{
+   visibility: hidden;
+}
+
+.alf-gallery .yui-panel .bd
+{
+   color: inherit !important;
+   padding: 20px 4px 16px 4px;
+   border-radius: 7px;
+   -webkit-border-radius: 7px;
+   -moz-border-radius: 7px;
+   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+   -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+   border: 1px solid #444;
+}
+.alf-gallery .yui-panel-container
+{
+   left: 0;
+}
+
+.alf-gallery-item .alf-detail .alf-detail-thumbnail
+{
+   padding: 0 20px;
+}
+.alf-gallery-item .alf-detail .alf-detail-thumbnail img
+{
+   max-width: 330px;
+   max-height: 240px;
+}
+.alf-gallery-item .alf-detail .detail span.item-social:last-child
+{
+   margin-right: 0;
+}
+
+.doclist div.gallery a.action-link span,
+.doclist div.gallery a.simple-link span
+{
+   display: none;
+}
+.doclist div.gallery div.more-actions div
+{
+   float: none;
+}
+.doclist div.gallery div.more-actions a.action-link span,
+.doclist div.gallery div.more-actions a.simple-link span
+{
+   display: block;
+}
+.doclist .action-set.gallery div
+{
+   float: left;
+}
+
+.alf-gallery-item .alf-label
+{
+   color: white;
+   padding: 12px;
+   position: absolute;
+   bottom: 0;
+   font-size: 1.2em;
+   background: url("../images/black-50-transparency.png") repeat;
+   width: 100%;
+   white-space: nowrap;
+   text-shadow: 1px 1px #333333;
+   z-index: 1;
+}
+
+.alf-gallery-item .alf-label a,
+.alf-gallery-item .alf-label a:visited
+{
+   color: white !important;
+   text-decoration: none !important;
+}
+
+.alf-gallery-item .alf-label a:hover
+{
+   text-decoration: underline !important;
+   background: none !important;
+}
+
+.alf-gallery-item .alf-label h3
+{
+   font-weight: normal;
+}
+.alf-gallery-item .alf-label .detail
+{
+   display: none;
+}
+.alf-gallery-item .alf-label .document-version
+{
+   display: none;
+}
+.doclist .documents.alf-gallery .filename span.document-version
+{
+   visibility: inherit;
+}
+
+.alf-gallery-columns-3 .alf-gallery-item
+{
+   width: 31.5%;
+   margin: 0.6%;
+}
+.alf-gallery-columns-3 .alf-gallery-item .alf-label
+{
+   font-size: 1.3em;
+   padding: 1.3em 0.8em;
+}
+.alf-gallery-columns-3 .alf-gallery-item .alf-header
+{
+   height: 3em;
+}
+#ygddfdiv.alf-gallery-columns-3 img
+{
+   max-width: 390px;
+   min-width: 270px
+}
+.alf-gallery-columns-4 .alf-gallery-item
+{
+   width: 23.5%;
+   margin: 0.5%;
+}
+.alf-gallery-columns-4 .alf-gallery-item .alf-label
+{
+   font-size: 1.2em;
+   padding: 1.2em 0.75em;
+}
+.alf-gallery-columns-4 .alf-gallery-item .alf-header
+{
+   height: 2.5em;
+}
+#ygddfdiv.alf-gallery-columns-4 img
+{
+   max-width: 290px;
+   min-width: 200px;
+}
+.alf-gallery-columns-7 .alf-gallery-item
+{
+   width: 12.9%;
+   margin: 0.4%;
+}
+.alf-gallery-columns-7 .alf-gallery-item .alf-label
+{
+   font-size: 0.85em;
+   padding: 0.95em 0.7em;
+}
+.alf-gallery-columns-7 .alf-gallery-item .alf-header
+{
+   height: 1.75em;
+}
+#ygddfdiv.alf-gallery-columns-7 img
+{
+   width: 160px;
+   min-width: 110px;
+}
+.alf-gallery-columns-10 .alf-gallery-item
+{
+   width: 8.9%;
+   margin: 0.3%;
+}
+.alf-gallery-columns-10 .alf-gallery-item .alf-label
+{
+   font-size: 0.75em;
+   padding: 0.8em 0.65em;
+}
+.alf-gallery-columns-10 .alf-gallery-item .alf-header
+{
+   height: 1.35em;
+}
+#ygddfdiv.alf-gallery-columns-10 img
+{
+   max-width: 100px;
+   min-width: 70px;
+}
+
+.alf-gallery-slider
+{
+   float: right;
+   margin: 4px 4px 2px 0;
+}
+.alf-gallery-slider-bg
+{
+   position: relative;
+   width: 68px !important;
+   height: 16px !important;
+   float: left;
+   margin-right: 5px;
+   background-position: 3px !important;
+}
+.alf-gallery-slider-bg:focus
+{
+   outline: none;
+}
+.alf-gallery-slider-thumb
+{
+   position: absolute;
+   left: 0;
+   top: 0 !important;
+}
+.alf-gallery-slider-small
+{
+   float: left;
+   position: relative;
+   left: 1px;
+   height: 16px;
+}
+.alf-gallery-slider-large
+{
+   float: left;
+   height: 16px;
+   position: relative;
+    top: -1px;
+}
+
+/* Filmstrip View */
+
+.doclist .simple-detailed .filmstrip-view span.first-child
+{
+    background-image: url(images/filmstrip-view-off-16.png);
+}
+
+.doclist .simple-detailed .filmstrip-view.yui-button-checked span.first-child
+{
+    background-image: url(images/filmstrip-view-on-16.png);
+}
+
+.alf-gallery.alf-filmstrip {
+    padding: 0px;
+    position: relative;
+}
+
+.alf-filmstrip .alf-gallery-item {
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+
+.alf-filmstrip .yui-carousel-element
+{
+   margin: 0;
+   width: 146880px;
+   z-index: auto;
+}
+
+.alf-filmstrip .yui-carousel-element li {
+    margin: 0 !important;
+    border: none !important;
+    outline: none !important;
+}
+.alf-filmstrip .yui-carousel, .alf-filmstrip .yui-carousel-vertical {
+    border: none !important;
+}
+.alf-filmstrip .yui-carousel-nav {
+    display: none;
+}
+.alf-filmstrip-main-nav-button {
+    position: absolute;
+    top: 42%;
+}
+.alf-filmstrip-nav-buttons {
+    position: absolute;
+    top: 6px;
+    width: 100%;
+}
+.alf-filmstrip-nav-button {
+    z-index: 2;
+}
+.alf-filmstrip-nav-button.yui-carousel-first-button-disabled, .alf-filmstrip-nav-button.yui-carousel-button-disabled {
+    visibility: hidden !important;
+}
+.alf-filmstrip-nav-prev {
+    float: left;
+    margin-left: 10px;
+}
+.alf-filmstrip-nav-next {
+    float: right;
+    margin-right: 10px;
+}
+.alf-filmstrip-main-nav-button.alf-filmstrip-nav-prev {
+    margin-left: 25px;
+    
+}
+.alf-filmstrip-main-nav-button.alf-filmstrip-nav-next {
+    margin-right: 25px;
+    right: 0;
+}
+
+.alf-filmstrip .alf-gallery-item-thumbnail {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+.alf-filmstrip .alf-gallery-item-thumbnail .alf-gallery-item-thumbnail-img {
+    height: 100%;
+    min-width: inherit;
+    width: inherit;
+}
+
+.alf-filmstrip .alf-gallery-item .alf-header
+{
+    color: white;
+    padding: 12px;
+    position: absolute;
+    top: 0;
+    font-size: 1.2em;
+    background: url("../images/black-50-transparency.png") repeat;
+    width: 100%;
+    text-shadow: 1px 1px #333333;
+    z-index: 1;
+    visibility: visible;
+}
+
+.alf-filmstrip .alf-gallery-item .alf-select
+{
+    float: left;
+    margin-right: 15px;
+    position: relative;
+    margin-top: 2px;
+    left: 0;
+    top: 0%;
+}
+
+.alf-filmstrip .alf-gallery-item .alf-label
+{
+    float: left;
+    z-index: auto;
+    position: relative;
+    width: auto;
+    bottom: inherit;
+    background: none;
+    padding: 0;
+}
+
+.alf-filmstrip .alf-gallery-item .alf-show-detail
+{
+    right: 3%;
+    top: 0%;
+    margin-top: 2px;
+    margin-right: 0;
+}
+
+.alf-filmstrip .alf-gallery-item .alf-detail.yui-panel
+{
+   z-index: 2;
+}
+
+.alf-filmstrip .web-preview .Image img
+{
+   max-width: none;
+   height: 100%;
+}
+
+.alf-filmstrip .alf-gallery-item-thumbnail .alf-header ~ div,
+.alf-filmstrip .web-preview,
+.alf-filmstrip .web-preview .previewer
+{
+	height: 100%;
+}
+
+.alf-fullscreen .alf-filmstrip .alf-gallery-item-thumbnail .alf-header ~ div,
+.alf-fullscreen .alf-filmstrip .web-preview,
+.alf-fullscreen .alf-filmstrip .web-preview .previewer
+{
+    max-height: none;
+}
+
+.alf-filmstrip .web-preview .previewer.WebPreviewer
+{
+    height: 90%;
+}
+
+.web-preview.real
+{
+   margin-top: 46px;
+   z-index: 1;
+}
+
+.doclist div.filmstrip a.action-link span,
+.doclist div.filmstrip a.simple-link span
+{
+   display: none;
+}
+.doclist div.filmstrip div.more-actions div
+{
+   float: none;
+}
+.doclist div.filmstrip div.more-actions a.action-link span,
+.doclist div.filmstrip div.more-actions a.simple-link span
+{
+   display: block;
+}
+.doclist .action-set.filmstrip div
+{
+   float: left;
+}
+
+.alf-filmstrip-nav {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: url("../images/black-50-transparency.png") repeat;
+    z-index: 2;
+    height: 112px;
+}
+.alf-filmstrip-nav .yui-carousel {
+    margin: 0 auto;
+    z-index: 2;
+}
+.alf-filmstrip-nav .alf-filmstrip-nav-handle {
+    z-index: 2;
+    position: absolute;
+    left: 47.5%;
+    top: -12px;
+    height: 12px;
+    width: 60px;
+    background: url("images/filmstrip-nav-handle-down.png");
+}
+
+.alf-filmstrip-nav-item {
+    padding: 4px;
+}
+.alf-filmstrip-nav-item:focus {
+    outline: none;  
+}
+.alf-gallery.alf-filmstrip .alf-gallery-item
+{
+    -moz-opacity: 1 !important;
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: none;
+}
+
+.alf-filmstrip-nav-item.alf-selected .alf-filmstrip-nav-item-thumbnail
+{
+    border: 2px solid #3D6FDB;
+    padding: 0;
+    -webkit-box-shadow: 0px 0px 6px rgba(0,81,255,1);
+    -moz-box-shadow: 0px 0px 6px rgba(0,81,255,1);
+    box-shadow: 0px 0px 6px rgba(0,81,255,1);
+    -moz-opacity: 1 !important;
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+    height: 100px;
+}
+
+.alf-filmstrip-nav-item .alf-filmstrip-nav-item-thumbnail {
+    position: relative;
+    height: 98px;
+    overflow: hidden;
+    width: 100px;
+    padding: 2px;
+}
+.alf-filmstrip-nav-item .alf-filmstrip-nav-item-thumbnail .alf-gallery-item-thumbnail-img
+{
+   width: 102px;
+   min-height: 102px;
+}
+.alf-filmstrip-nav-item .alf-filmstrip-nav-item-thumbnail .alf-gallery-item-thumbnail-img.alf-landscape
+{
+   width: auto;
+   min-height: inherit;
+   height: 102px;
+   min-width: 102px;
+}
+
+#ygddfdiv.alf-filmstrip-dragging img
+{
+    max-height: 100px;
+}
+.alf-filmstrip-nav-item .alf-label
+{
+    color: white;
+    padding: 0.7em;
+    font-size: 0.9em;
+    position: absolute;
+    bottom: 0;
+    background: url("../images/black-50-transparency.png") repeat;
+    width: 100%;
+    text-shadow: 1px 1px #333333;
+    text-align: left;
+    z-index: 2;
+    visibility: visible;
+}
+.alf-filmstrip-nav-item .alf-label a,
+.alf-filmstrip-nav-item .alf-label a:visited
+{
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.alf-filmstrip-nav-item .alf-label a:hover
+{
+    text-decoration: underline !important;
+    background: none !important;
+}
+
+.alf-filmstrip.alf-filmstrip-content-only .alf-filmstrip-nav {
+    bottom: -112px !important;  
+}
+.alf-filmstrip.alf-filmstrip-content-only .alf-gallery-item .alf-header {
+    top: -50px !important;
+}
+.alf-filmstrip.alf-filmstrip-content-only .alf-filmstrip-nav .alf-filmstrip-nav-handle {
+    background: url("images/filmstrip-nav-handle-up.png");
+}
+

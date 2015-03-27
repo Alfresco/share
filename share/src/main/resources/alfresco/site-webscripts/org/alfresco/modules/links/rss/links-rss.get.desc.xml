@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Links RSS</shortname>
+  <description>Links: RSS of list links</description>
+  <url>/components/links/rss</url>
+  <format default="rss"/>
+</webscript>

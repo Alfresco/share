@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>document-details-actions</shortname>
+  <description>Document Details Actions Component</description>
+  <url>/components/document-details/document-actions</url>
+</webscript>

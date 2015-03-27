@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>document-metadata</shortname>
+  <description>Document Properties Component</description>
+  <url>/components/document-details/document-metadata</url>
+</webscript>

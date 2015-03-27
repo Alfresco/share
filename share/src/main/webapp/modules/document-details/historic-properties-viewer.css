@@ -1,0 +1,82 @@
+/* CSS for the Historic Properties Dialogue Box */
+.historic-properties-header 
+{
+   background: none no-repeat scroll 0 8px transparent;
+   display: block;
+   font-weight: normal;
+   height: 36px;
+   margin: 0 130px;
+   padding: 10px 0 2px 35px;
+}
+
+.historic-properties-header strong 
+{
+   font-weight:bold;
+}
+
+div.historic-properties-viewer .bdhd 
+{
+   text-align:center; 
+   padding:5px 0;
+}
+
+div.historic-properties-viewer div.nav 
+{
+   margin:0 auto;
+   width:20em;   
+}
+
+div.historic-properties-viewer div.nav span.yui-menu-button
+{
+   font-size:1.2em;   
+}
+
+a.historic-properties-nav 
+{
+   background: none no-repeat scroll 0 0 transparent;
+   display: block;
+   float: left;
+   height: 30px;
+   margin: 6px 5px 0;
+   text-indent: -1000em;
+   width: 31px;
+   outline:none;
+}
+
+a.historic-properties-nav.next 
+{
+   background-image:url(images/right-arrow-enabled.png);
+   float:right;
+}
+
+a.historic-properties-nav.next.disabled
+{
+   background-image:url(images/right-arrow-disabled.png);
+}
+
+a.historic-properties-nav.prev 
+{
+   background-image:url(images/left-arrow-enabled.png);
+}
+
+a.historic-properties-nav.prev.disabled
+{
+   background-image:url(images/left-arrow-disabled.png);
+}
+
+div.historic-properties-viewer div.nav h6 
+{
+   border:none;   
+}
+
+div.historic-properties-viewer .form-container .form-fields
+{
+   border-bottom: none;
+   max-height: 310px;
+   overflow: auto;
+}
+
+div.historic-properties-viewer .form-container
+{
+   padding: 0 0.5em;
+}

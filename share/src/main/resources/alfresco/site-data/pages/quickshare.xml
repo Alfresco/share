@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Quick Share</title>
+   <description>Page for sharing content</description>
+   <template-instance>quickshare</template-instance>
+   <authentication>none</authentication>
+   <components>
+
+      <!-- Display document -->
+      <component>
+         <region-id>components</region-id>
+         <sub-components>
+
+            <sub-component id="header">
+               <url>/components/quickshare/header</url>
+               <properties>
+                  <shareId>{shareid}</shareId>
+                  <loginLink>document-details</loginLink>
+               </properties>
+            </sub-component>
+
+            <sub-component id="node-header">
+               <url>/components/quickshare/node-header</url>
+               <properties>
+                  <shareId>{shareid}</shareId>
+               </properties>
+            </sub-component>
+
+            <sub-component id="web-preview">
+               <url>/components/preview/web-preview</url>
+               <properties>
+                  <nodeRef>{shareid}</nodeRef>
+                  <api>api/internal/shared</api>
+                  <proxy>alfresco-noauth</proxy>
+               </properties>
+            </sub-component>
+         </sub-components>
+
+      </component>
+
+      <!-- Error page components -->
+      <component>
+         <region-id>error</region-id>
+         <sub-components>
+
+            <sub-component id="header">
+               <url>/components/quickshare/header</url>
+               <properties>
+                  <shareId>{shareid}</shareId>
+                  <loginLink>login</loginLink>
+               </properties>
+            </sub-component>
+
+            <sub-component id="error">
+               <url>/components/quickshare/error</url>
+            </sub-component>
+         </sub-components>
+
+      </component>
+
+   </components>
+</page>

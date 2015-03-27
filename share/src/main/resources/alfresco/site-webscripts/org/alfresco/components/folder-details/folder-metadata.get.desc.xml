@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>folder-metadata</shortname>
+  <description>Folder Properties Component</description>
+  <url>/components/folder-details/folder-metadata</url>
+</webscript>

@@ -1,0 +1,99 @@
+.document-versions .version-panel-left
+{
+   float: left;
+}
+
+.document-versions .version-panel-right
+{
+   border-left: 1px solid #ccc;
+   margin-left: 2.5em;
+   padding-left: 0.5em;
+}
+
+.document-versions .h4
+{
+   clear: both;
+}
+
+.document-versions .version-list
+{
+   margin-bottom: 1.5em;
+   margin-top: 0.5em;
+}
+
+.document-versions h2 .edit
+{
+   background-image: url(images/document-upload-new-version-16.png);
+}
+
+.document-versions .version-list h3
+{
+   margin-bottom: 0.5em;
+   word-wrap: break-word;
+}
+
+.document-versions .version-list h3 .document-version
+{
+   margin-right: 0.8em;
+}
+
+.document-versions .actions
+{
+   float: right;
+   width: 5em;
+   text-align: right;
+}
+
+.document-versions .current-version .actions
+{
+   display: none;
+}
+
+.document-versions .actions a
+{
+   background-repeat: no-repeat;
+   background-position: left;
+   padding: 0.5em;
+   text-decoration: none;
+}
+
+.document-versions .actions a.download
+{
+   background-image: url(images/document-download-16.png);
+}
+
+.document-versions .actions a.historicProperties
+{
+   background-image: url(images/document-view-metadata-16.png);
+}
+
+.document-versions .actions a.revert
+{
+   background-image: url(images/revert-16.png);
+}
+
+.document-versions .version-details-left
+{
+   float: left;
+}
+
+.document-versions .version-details-right
+{
+   margin-left: 40px;
+   word-wrap: break-word;
+}
+
+.document-versions  .alfresco-datatable td
+{
+   border-bottom: medium none !important;
+}
+
+.document-versions  .alfresco-datatable td .yui-dt-liner
+{
+   padding: 4px 0 10px;
+}
+
+div.revert-version.yui-panel div.hd
+{
+   padding-right: 32px;
+}

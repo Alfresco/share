@@ -1,0 +1,10 @@
+<filters>
+   <filter id="all" label="link.all" />
+   <filter id="editingMe" label="link.editingMe" />
+   <filter id="editingOthers" label="link.editingOthers" />
+   <filter id="recentlyModified" label="link.recentlyModified" />
+   <filter id="recentlyAdded" label="link.recentlyAdded" />
+   <filter id="favourites" label="link.favourites" />
+   <filter id="synced" label="link.synced" evaluator="syncMode.getValue() != 'OFF'" />
+   <filter id="syncedErrors" label="link.syncedErrors" evaluator="syncMode.getValue() == 'ON_PREMISE'"/>
+</filters>

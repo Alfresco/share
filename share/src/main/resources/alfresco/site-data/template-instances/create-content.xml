@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/create-content</template-type>
+   <properties>
+      <pageFamily>documentlibrary</pageFamily>
+      <container>documentLibrary</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <sub-components>
+            <sub-component id="default">
+               <evaluations>
+                  <!-- if in site: Site title -->
+                  <evaluation id="site">
+                     <evaluators>
+                        <evaluator type="site.component.evaluator"/>
+                     </evaluators>
+                     <url>/components/title/collaboration-title</url>
+                  </evaluation>
+                  <!-- otherwise: Repository title -->
+                  <evaluation id="repo">
+                     <url>/components/title/simple-title</url>
+                     <properties>
+                        <title>title.repository</title>
+                        <subtitle>title.browser</subtitle>
+                     </properties>
+                  </evaluation>
+               </evaluations>
+            </sub-component>
+         </sub-components>
+      </component>
+
+      <!-- Site Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <sub-components>
+            <sub-component id="default">
+               <evaluations>
+                  <!-- if in site: Site navigation -->
+                  <evaluation id="site">
+                     <evaluators>
+                        <evaluator type="site.component.evaluator"/>
+                     </evaluators>
+                     <url>/components/navigation/collaboration-navigation</url>
+                  </evaluation>
+               </evaluations>
+            </sub-component>
+         </sub-components>
+      </component>
+
+      <!-- Create Content Form Manager -->
+      <component>
+         <region-id>create-content-mgr</region-id>
+         <url>/components/create-content/create-content-mgr</url>
+      </component>
+
+      <!-- Create Content Form -->
+      <component>
+         <region-id>create-content</region-id>
+         <url>/components/form?mimeType={mimeType}&amp;destination={destination}&amp;formId={formId}</url>
+         <properties>
+            <itemKind>type</itemKind>
+            <itemId>{itemId}</itemId>
+            <mode>create</mode>
+            <submitType>json</submitType>
+            <showCaption>true</showCaption>
+            <showCancelButton>true</showCancelButton>
+            <editInline>true</editInline>
+         </properties>
+      </component>
+
+   </components>
+</template-instance>

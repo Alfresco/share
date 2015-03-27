@@ -1,0 +1,21 @@
+.folder-links .link-info
+{
+   padding: 0 1em 1em 0;
+}
+
+.folder-links h3
+{
+   margin-bottom: 0.5em;
+}
+
+.folder-links .link-info input
+{
+   width: 100%;
+   padding: 0.4em;
+   display: block;
+}
+
+.folder-links .link-info a
+{
+ margin-left: 0.5em;
+}

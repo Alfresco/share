@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Top Site Contributor Report</shortname>
+   <description>Displays a chart of the site's top contributors</description>
+   <family>site-dashlet</family>
+   <url>/components/dashlets/top-site-contributor-report</url>
+</webscript>

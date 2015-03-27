@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Test Report</shortname>
+   <description>Displays a chart</description>
+   <!-- <family>site-dashlet</family> -->
+   <url>/components/dashlets/ccc-test</url>
+</webscript>

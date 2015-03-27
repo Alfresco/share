@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>pagelist</shortname>
+  <description>List of wiki pages belonging to a site</description>
+  <url>/components/wiki/list</url>
+</webscript>

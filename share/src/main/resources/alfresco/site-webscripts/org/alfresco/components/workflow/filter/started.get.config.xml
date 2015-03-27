@@ -1,0 +1,8 @@
+<config>
+   <filters>
+      <!-- The id and data will be used to create url parameters in the task/workflow list components -->
+      <filter id="started" data="last7Days" label="link.last7days" />
+      <filter id="started" data="last14Days" label="link.last14days" />
+      <filter id="started" data="last28Days" label="link.last28days" />
+   </filters>
+</config>

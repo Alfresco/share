@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>permissions</shortname>
+  <description>Document/Folder permissions module primarily for Document Library</description>
+  <url>/modules/documentlibrary/permissions</url>
+</webscript>

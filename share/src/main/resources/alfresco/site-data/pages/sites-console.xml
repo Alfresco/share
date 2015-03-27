@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Site Management Console</title>
+   <title-id>page.siteConsole.title</title-id>
+   <description>Site Management Console</description>
+   <description-id>page.sitesConsole.description</description-id>
+   <template-instance>console</template-instance>
+   <authentication>user</authentication>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/simple-title</url>
+         <properties>
+            <title>page.sitesConsole.title</title>
+         </properties>
+      </component>
+
+      <!-- Tools -->
+      <component>
+         <region-id>tools</region-id>
+         <url>/components/console/tools</url>
+      </component>
+
+   </components>
+</page>

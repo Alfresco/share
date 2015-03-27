@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>config-feed</shortname>
+  <description>Configuration dialog for RSS feed dashlet</description>
+  <url>/modules/feed/config</url>
+</webscript>

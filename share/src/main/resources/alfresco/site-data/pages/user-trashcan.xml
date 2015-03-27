@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Trashcan page for current user</title>
+   <title-id>page.userTrashcan.title</title-id>
+   <description>List of deleted documents and folders for the current user</description>
+   <description-id>page.userTrashcan.description</description-id>
+   <template-instance>user-trashcan</template-instance>
+   <authentication>user</authentication>
+</page>

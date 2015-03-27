@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>members-bar</shortname>
+  <description>Members page toolbar</description>
+  <url>/components/invite/members-bar</url>
+</webscript>

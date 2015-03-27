@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+   <title>Login</title>
+   <title-id>page.login.title</title-id>
+   <template-instance>simple-guest</template-instance>
+   <authentication>none</authentication>
+   <components>
+
+      <!-- Login form -->
+      <component>
+         <region-id>components</region-id>
+         <url>/components/guest/login</url>
+         <properties>
+            <error>{error}</error>
+         </properties>
+      </component>
+
+   </components>
+</page>

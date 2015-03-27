@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Priority Filter</shortname>
+  <description>Priority filter</description>
+  <url>/components/workflow/filter/priority</url>
+</webscript>

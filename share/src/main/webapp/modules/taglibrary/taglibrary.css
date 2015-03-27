@@ -1,0 +1,97 @@
+.taglibrary .rel_left
+{
+   float: left;
+   position: relative;
+}
+
+.taglibrary .title
+{
+   font-weight: bold;
+   padding-top: 5px;
+}
+
+.taglibrary input
+{
+   margin-top: 2px;
+}
+
+.taglibrary yui-button
+{
+   margin-top: 0px;
+}
+
+.taglibrary .top_taglist
+{
+
+}
+
+.taglibrary .bottom_taglist
+{
+   margin-top: 0.5em;
+}
+
+.tags_box ul
+{
+   max-height: 10em;
+   overflow-y: hidden;
+   padding-left: 0px;
+}
+
+.tags_box li
+{
+   float: left;
+   margin-bottom: 5px;
+   margin-top: 5px;
+   padding: 0 3px 0 0;
+   position: relative;
+}
+
+.tags_box li a
+{
+   background-image: url(images/tag-16.png);
+   background-position: 2px 4px;
+   background-repeat: no-repeat;
+   margin: 1px;
+   padding: 4px 0px 4px 22px;
+   text-decoration: none;
+   white-space: nowrap;
+}
+
+.tags_box li a .add,
+.tags_box li a .remove
+{
+   margin: 0 0 0 4px;
+   padding: 0 0 0 16px;
+   visibility: hidden;
+}
+
+.tags_box li a:link
+{
+   color: #448;
+}
+
+.tags_box li a:visited
+{
+   color: #667;
+}
+
+.tags_box li a:hover,
+.tags_box li a.hover
+{
+   border: 1px solid #C5D6E2;
+   margin: 0;
+}
+
+.tags_box li a:hover .remove,
+.tags_box li a.hover .remove
+{
+   background: #fff url(images/remove-16.png) no-repeat 2px 0px;
+   visibility: visible;
+}
+
+.tags_box li a:hover .add,
+.tags_box li a.hover .add
+{
+   background: #fff url(images/add-16.png) no-repeat 0px 0px;
+   visibility: visible;
+}

@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Admin Console Solr Feed Tool</shortname>
+  <description>Administration Console - Solr Feed Tool</description>
+  <url>/components/console/solr</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:ENTERPRISE</family>
+</webscript>

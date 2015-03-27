@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Site Links</shortname>
+   <description>Component used to list links a user belongs to</description>
+   <family>site-dashlet</family>
+   <url>/components/dashlets/site-links</url>
+</webscript>

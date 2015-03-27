@@ -1,0 +1,37 @@
+.doclist .action-set div
+{
+   margin: 0;
+}
+
+.doclist a.action-link,
+.doclist a.simple-link,
+.doclist a.show-more
+{
+   background-position: 4px 1px;
+   background-repeat: no-repeat;
+   border: 1px solid transparent;
+   display: block;
+   min-height: 16px;
+   padding: 2px 0 2px 24px;
+}
+
+.doclist div.action-set a:active,
+.doclist div.action-set a:hover,
+.doclist div.action-set .highlighted
+{
+   background-color: #fff;
+   border: 1px solid #2b6eb5;
+   text-decoration: none;
+}
+
+.requestDeleteRemote-checkBox
+{
+   margin-top: 10px;
+}
+
+.requestDeleteRemote-text
+{
+   position: relative;
+   right: -5px;
+   top: -2px;
+}

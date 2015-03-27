@@ -1,0 +1,4 @@
+<feeds id="rssfeed">
+	<feed>http://www.alfresco.com/feeds/all</feed>
+	<feed>http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml</feed>
+</feeds>

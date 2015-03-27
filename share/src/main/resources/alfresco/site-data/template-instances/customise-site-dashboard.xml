@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+    <template-type>org/alfresco/customise-dashboard</template-type>
+    <components>
+
+       <!-- Title -->
+       <component>
+          <region-id>title</region-id>
+          <url>/components/title/collaboration-title</url>
+       </component>
+
+       <!-- Navigation -->
+       <component>
+          <region-id>navigation</region-id>
+          <url>/components/navigation/collaboration-navigation</url>
+       </component>
+
+       <!-- Customise Layout -->
+       <component>
+          <region-id>customise-layout</region-id>
+          <url>/components/dashboard/customise-layout</url>
+          <properties>
+             <dashboardType>site</dashboardType>
+          </properties>
+       </component>
+
+       <!-- Customise Dashlets -->
+       <component>
+          <region-id>customise-dashlets</region-id>
+          <url>/components/dashboard/customise-dashlets</url>
+          <properties>
+             <dashboardType>site</dashboardType>
+          </properties>
+       </component>
+    </components>
+</template-instance>

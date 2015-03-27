@@ -1,0 +1,269 @@
+.linksview-header
+{
+   border-bottom: 1px solid #ccc;
+   clear: both;
+   margin: 0 -10px;
+   height: 34px;
+   padding: 0;
+}
+
+.linksview-header .navigation-bar,
+.linksview-header .navigation-bar div,
+.linksview-header .action-bar,
+.linksview-header .action-bar div
+{
+   float: left;
+}
+
+.linksview-header .navigation-bar
+{
+   padding:2px 1em;
+   line-height: 30px;
+   height: 30px;
+   border-right: 1px solid #ccc;
+}
+
+.linksview-header .navigation-bar div
+{
+   vertical-align: middle;
+}
+
+
+/****************
+ * NODE DETAIL *
+*****************/
+.linksview
+{
+   border: 1px solid #ccc !important;
+   margin: 1.5em 0;
+   padding: 20px 10px;
+   display: inline-block;
+}
+
+.node .authorPicture,
+.reply .authorPicture,
+.comment .authorPicture
+{
+   text-align: center;
+   margin-right: 10px;
+   width: 100px;
+   position: relative;
+   float: left;
+}
+
+.topicview .nodeFooter,
+.linksview .nodeFooter
+{
+   background: transparent;
+   border: none;
+   margin-top: 5px;
+}
+
+.topicview .nodeContent,
+.comment .nodeContent,
+.reply .nodeContent
+{
+   margin-left: 110px;
+}
+
+.topicview .nodeFooter,
+.comment .commentFooter,
+.reply .nodeFooter
+{
+   margin-left: 110px;
+}
+
+
+/********
+ * NODE *
+*********/
+
+html>body .node, .reply, .comment
+{
+   display: block;
+}
+
+.node table td,
+.reply table td,
+.comment table td
+{
+   vertical-align: top;
+}
+
+.node.simple
+{
+   padding: 5px;
+}
+
+.node .modified
+{
+   margin: 5px 0 10px 0;
+}
+
+.node .nodeTitle,
+.node .nodeURL,
+.node .detail
+{
+   clear: left;
+}
+
+.node .detail .separator
+{
+   padding-right: 2em;
+}
+
+.node .nodeTitle a
+{
+   font-size: 131%;
+   line-height: 130%;
+   color: #2b6eb5;
+}
+
+.node .nodeURL a
+{
+   color: #2B6EB5;
+}
+
+.node .nodeURL a.external
+{
+   background: transparent url( ../images/new-window-16.png ) no-repeat scroll 100% 0;
+   padding-right: 24px;
+}
+
+.nodeAttrLabel
+{
+   font-size: 100%;
+   line-height: 130%;
+   color: #606060;
+}
+
+.nodeAttrValue
+{
+   font-size: 100%;
+   line-height: 130%;
+   color: #333333;
+}
+
+.nodeAttrValue a
+{
+   color: #2b6eb5;
+}
+
+.node .userLink
+{
+   font-size: 100%;
+   line-height: 150%;
+   color: #999999;
+}
+
+.node .userLink a
+{
+   color: #2b6eb5;
+}
+
+.nodeContent
+{
+   line-height: 150%;
+   margin-right: 5em;
+   padding-right: 2em;
+}
+
+.nodeFooter
+{
+   background-color: #f8f8f8;
+   border-top: 1px dashed #c6c6c6;
+   border-bottom: 1px solid #c6c6c6;
+   padding: 1px;
+}
+
+.nodeFooter .tagLabel
+{
+   background:transparent url(../images/tag-16.png) no-repeat scroll 0px 0px;
+   padding-left: 18px;
+}
+
+
+/*************
+ * EDIT BLOC *
+**************/
+.nodeEdit
+{
+   float: right;
+   margin: 10px 0 0 15px;
+   position: relative;
+   width: 7em;
+}
+
+.nodeEdit div,
+.replyEdit div
+{
+   padding: 2px 19px;
+   margin-bottom: 4px;
+}
+
+.node.simple .nodeEdit
+{
+   width: 200px;
+}
+
+.nodeEdit .action-link
+{
+   font-size: 93%;
+   line-height: 150%;
+   color: #2B6EB5;
+}
+
+.nodeEdit .onEditNode,
+.nodeEdit .onEditReply,
+.nodeEdit .onEditComment
+{
+   background:url(../images/edit-discussion-16.png) no-repeat scroll 0 2px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onEditLink
+{
+   background:url(../images/edit-link-16.png) no-repeat scroll 0 2px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onDeleteNode,
+.nodeEdit .onDeleteReply,
+.nodeEdit .onDeleteComment
+{
+   background: url('../images/delete-discussion-16.png') no-repeat scroll 0 2px;
+   padding-left: 20px;
+}
+
+.nodeEdit .onDeleteLink
+{
+   background: url('../images/delete-link-16.png') no-repeat scroll 0 2px;
+   padding-left: 20px;
+}
+
+.linksview-header .back-link
+{
+   background-image: url(../images/back-arrow.png);
+   background-position: left center;
+   background-repeat: no-repeat;
+   color: #333333;
+   padding: 0 5px 0 19px;
+   margin-right: 5px;
+}
+
+.linksview-header .forward-link
+{
+   background-image: url(../images/forward-arrow-16.png);
+   background-position: right center;
+   background-repeat: no-repeat;
+   color: #333333;
+   padding: 0 21px 0 5px;
+   margin-right: 5px;
+}
+
+.linksview-header .back-link a:hover,
+.linksview-header .forward-link a:hover
+{
+   text-decoration: underline;
+}
+

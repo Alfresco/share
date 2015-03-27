@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Alfresco Add-ons News Feed</shortname>
+   <description>Display the contents of the Alfresco Add-ons RSS feed.</description>
+   <family>dashlet</family>
+   <url>/components/dashlets/addonsfeed</url>
+</webscript>

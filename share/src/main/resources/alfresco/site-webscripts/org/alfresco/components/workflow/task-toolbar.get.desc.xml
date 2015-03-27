@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>task-toolbar</shortname>
+  <description>Displays task links</description>
+  <url>/components/workflow/task-toolbar</url>
+</webscript>

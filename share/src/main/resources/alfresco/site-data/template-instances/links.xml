@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/links</template-type>
+   <description>Links</description>
+   <properties>
+      <pageFamily>links</pageFamily>
+      <container>links</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Links -->
+      <component>
+         <region-id>links</region-id>
+         <url>/components/links</url>
+      </component>
+
+      <!-- Link Filters -->
+      <component>
+         <region-id>filters</region-id>
+         <url>/components/links/filters</url>
+      </component>
+
+      <!-- Tags Filter -->
+      <component>
+         <region-id>tags</region-id>
+         <url>/components/tag-filter</url>
+      </component>
+
+   </components>
+</template-instance>

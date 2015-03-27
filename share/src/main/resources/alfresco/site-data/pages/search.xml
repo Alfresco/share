@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Search</title>
+   <title-id>page.search.title</title-id>
+   <description>Search view</description>
+   <description-id>page.search.description</description-id>
+   <template-instance>search</template-instance>
+   <authentication>user</authentication>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/search-title</url>
+      </component>
+
+      <!-- Search -->
+      <component>
+         <region-id>search</region-id>
+         <url>/components/search/search</url>
+      </component>
+
+   </components>
+</page>

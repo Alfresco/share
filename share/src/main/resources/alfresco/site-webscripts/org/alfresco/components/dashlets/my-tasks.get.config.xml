@@ -1,0 +1,21 @@
+<config>
+   <max-items>50</max-items>
+   <filter-menu>
+      <!--
+         The value of the "parameters" attribute will be added to the end of the task-instances webscript url
+
+         Note that it is possible to create dynamic values by using the following keys inside "{}":
+          * {0dt} - resolves to a iso08601 datetime representation of the current date and time
+          * {0d} - resolves to a iso8601 date representation of the current day
+          * {-7d} - resolves to a iso8601 date representation of the current day rolled the given number of days back
+          * {+7d} - resolves to a iso8601 date representation of the current day rolled the given number of days forward
+      -->
+      <filter type="activeTasks"           parameters=""/>
+      <filter type="completedTasks"        parameters="pooledTasks=false&amp;state=COMPLETED"/>
+      <filter type="highPriorityTasks"     parameters="priority=1"/>
+      <filter type="tasksDueToday"         parameters="dueAfter={-1d}&amp;dueBefore={0d}"/>
+      <filter type="tasksAssignedToMe"     parameters="pooledTasks=false"/>
+      <filter type="unassignedPooledTasks" parameters="pooledTasks=true" />
+      <filter type="overdueTasks"          parameters="dueBefore={-1d}"/>
+   </filter-menu>
+</config>

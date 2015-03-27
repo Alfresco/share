@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../../css/fonts/opensans.woff) format('woff');
+}
+
+.login
+{
+   padding: 1.5em !important;
+}
+
+.login form
+{
+   padding-top: 1em;
+}
+
+/*
+ * Login Branding Updates
+ */
+.login .form-fields.login {
+  padding-left: 0 !important;
+}
+
+.form-fields.login .form-field > span.yui-button {
+  border-color: #ffa028;
+}
+
+.form-fields.login .form-field > span.yui-button > .first-child {
+  background-color: #ffa028;
+  border-color: #ffa028;
+}
+
+.form-fields.login .form-field > span.yui-button > .first-child > button {
+  color: #FFFFFF;
+  font-family: Open Sans Bold,Arial,sans-serif;
+}
+
+.login .copy
+{
+   color: #999;
+   font-size: 80%;
+   margin-top: -8px;
+}
+
+.login .error
+{
+   max-width: 428px;
+   padding-top: 16px;
+}
+
+/*
+ * Override button colour for enterprise
+ */
+ 
+.form-fields.login.ENTERPRISE .form-field > span.yui-button {
+  border-color: #7BC143;
+  margin-top: 4px;
+}
+
+.form-fields.login.ENTERPRISE .form-field > span.yui-button > .first-child {
+  background-color: #7BC143;
+  border-color: #7BC143;
+}

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>create-content-mgr</shortname>
+  <description>Create Content Manager Component</description>
+  <url>/components/create-content/create-content-mgr</url>
+</webscript>

@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Site Calendar</shortname>
+   <description>Lists the site events for the current month.</description>
+   <family>site-dashlet</family>
+   <url>/components/dashlets/calendar</url>
+</webscript>

@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>Available facets for configuration</shortname>
+   <description>This retrieves the available facet qname options when configuring or editing a facet</description>
+   <family>Aikau</family>
+   <format default="json"></format>
+   <authentication>user</authentication>
+   <url>/faceted-search/facet-qname-options</url>
+   <lifecycle>internal</lifecycle>
+</webscript>

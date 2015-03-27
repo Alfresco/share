@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Customize Site Pages</shortname>
+   <description>Gui for adding and removing pages from a site</description>
+   <url>/components/site/customise-pages</url>
+</webscript>

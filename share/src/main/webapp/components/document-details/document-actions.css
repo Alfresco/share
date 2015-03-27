@@ -1,0 +1,27 @@
+.document-actions .doclist
+{
+   visibility: visible;
+}
+
+.document-actions .doclist .action-set
+{
+   margin-top: 1em; 
+}
+
+.document-actions .doclist .action-set a,
+.document-actions .doclist .action-set a:visited
+{
+   border: 1px solid #fafafa;
+}
+
+.document-actions .doclist .action-set a:active,
+.document-actions .doclist .action-set a:hover
+{
+   background-color: #fff;
+   text-decoration: none;
+}
+
+.document-actions .doclist .action-set div
+{
+   padding: 0.3em;
+}

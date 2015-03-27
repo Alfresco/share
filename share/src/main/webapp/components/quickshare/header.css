@@ -1,0 +1,72 @@
+.quickshare-header
+{
+   border-bottom: 1px dotted #C4C5C5;
+   margin: 0 -10px 1em -10px;
+   padding: 0 0.75em;
+}
+
+.quickshare-header-brand-colors
+{
+   width: 100%;
+   height: 10px;
+   padding: 0;
+}
+
+.quickshare-header-brand-colors div
+{
+   padding: 0;
+   margin: 0;
+   float: left;
+   height: 10px;
+   float: left;
+   position: absolute;
+   left: 0;
+   top: 0;
+}
+
+.quickshare-header-brand-colors .brand-bgcolor-1
+{
+   width: 16.6%;
+}
+
+.quickshare-header-brand-colors .brand-bgcolor-2
+{
+   width: 33.3%;
+}
+
+.quickshare-header-brand-colors .brand-bgcolor-3
+{
+   width: 50%;
+}
+
+.quickshare-header-brand-colors .brand-bgcolor-4
+{
+   width: 66.6%;
+}
+
+.quickshare-header-brand-colors .brand-bgcolor-5
+{
+   width: 83.3%;
+}
+
+.quickshare-header-brand-colors .brand-bgcolor-6
+{
+   width: 100%;
+}
+
+.quickshare-header-left
+{
+   float: left;
+   margin-top: 1em;
+   margin-bottom: 0.75em;
+}
+
+.quickshare-header-right
+{
+   float: right;
+   width: 50%;
+   text-align: right;
+   margin-top: 0.5em;
+   line-height: 6em;
+}
+

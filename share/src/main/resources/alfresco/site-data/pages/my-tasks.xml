@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>My Tasks</title>
+   <title-id>page.myTasks.title</title-id>
+   <description>Tasks assigned to the current user</description>
+   <description-id>page.myTasks.description</description-id>
+   <template-instance>my-tasks</template-instance>
+   <authentication>user</authentication>
+</page>

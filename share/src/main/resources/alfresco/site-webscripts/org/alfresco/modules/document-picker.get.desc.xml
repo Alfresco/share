@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Document Picker</shortname>
+   <description>A picker for documents</description>
+   <url>/modules/document-picker</url>
+</webscript>

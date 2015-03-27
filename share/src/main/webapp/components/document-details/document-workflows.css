@@ -1,0 +1,37 @@
+.document-workflows h2 .edit
+{
+   background-image: url(../documentlibrary/actions/document-assign-workflow-16.png);
+}
+
+.document-workflows .workflow img
+{
+   float: left;
+   margin-top: 0.2em;
+   min-height: 3em;
+   padding-right: 1em;
+   line-height: 3em;
+   text-align: center;
+}
+
+.document-workflows .workflow
+{
+   padding: 0.5em 0.5em 1em;
+   margin-bottom: 0.5em;
+   border-bottom: 1px dashed #ddd;
+}
+
+.document-workflows .workflow-last
+{
+   border-bottom: medium none;
+   margin-bottom: 0;
+}
+
+.document-workflows .workflow .details
+{
+   margin-left: 2em;
+}
+
+.document-workflows .workflow .title
+{
+   margin-top: 0.3em;
+}

@@ -1,0 +1,135 @@
+.activities .yui-button
+{
+   margin: auto 0;
+}
+
+.activities .empty
+{
+   background-image: url(../images/help-activities-bw-32.png);
+   background-position: 16px 4px;
+   background-repeat: no-repeat;
+   padding: 4px 8px 4px 64px;
+}
+
+.activities .empty div
+{
+   line-height: 1.5em;
+   padding-top: 1em;
+}
+
+.activities div.new-day
+{
+   clear: both;
+   float: none;
+   padding: 0.5em 8px;
+}
+
+.activities .new-day span
+{
+   font-size: 123.1%;
+   padding-right: 0.5em;
+   position: relative;
+}
+
+.activities .activity
+{
+   clear: both;
+   margin: 0 0.75em 0 0.5em;
+   padding: 0.75em 0 0.5em 0.5em;
+}
+
+.activities .activity-inline
+{
+   clear: both;
+   margin: 0 0.75em 0 0;
+   padding: 0.75em 0 0.5em 0;
+}
+
+.activities .activity
+{
+   border-bottom: 1px solid #eee;
+   min-height: 48px;
+}
+
+.activities .activity .avatar
+{
+   float: left;
+   text-align: center;
+   width: 48px;
+}
+
+.activities .activity > .content,
+.activities .activity-inline > .content
+{
+   line-height: 1.5;
+   margin-top: -0.25em;
+}
+
+.activities .activity > .content
+{
+   margin-left: 54px;
+}
+
+.activities .time
+{
+   font-size: 93%;
+}
+
+.activities .detail .item-link
+{
+   background-repeat: no-repeat;
+   padding: 1px 0 1px 18px;
+}
+
+.activities .detail .blog
+{
+   background-image: url(../images/blog-16.png);
+}
+.activities .detail .calendar
+{
+   background-image: url(../calendar/images/calendar-16.png);
+}
+.activities .detail .comment
+{
+   background-image: url(../images/comment-16.png);
+}
+.activities .detail .datalist
+{
+   background-image: url(../images/list-16.png);
+}
+.activities .detail .discussion
+{
+   background-image: url(../images/discussion-16.png);
+}
+.activities .detail .document
+{
+   background-image: url(../images/filetypes/generic-file-16.png);
+}
+.activities .detail .folder
+{
+   background-image: url(../images/filetypes/generic-folder-16.png);
+}
+.activities .detail .group
+{
+   background-image: url(../images/filetypes/generic-group-16.png);
+}
+.activities .detail .like
+{
+   background-image: url(../images/liked-grey-16.png);
+}
+.activities .detail .link
+{
+   background-image: url(../images/link-16.png);
+}
+.activities .detail .reply
+{
+   background-image: url(../images/reply-to-discussion-16.png);
+}
+.activities .detail .user
+{
+   background-image: url(../images/filetypes/generic-user-16.png);
+}
+.activities .detail .wiki
+{
+   background-image: url(../images/wiki-16.png);
+}

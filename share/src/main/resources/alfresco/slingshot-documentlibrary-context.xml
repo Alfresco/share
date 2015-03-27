@@ -1,0 +1,749 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+   <!--                                            -->
+   <!-- Document Library Doclist Data URl Resolver -->
+   <!--                                            -->
+
+   <bean id="resolver.doclib.doclistDataUrl" class="org.alfresco.web.resolver.doclib.DefaultDoclistDataUrlResolver">
+      <property name="basePath" value="/slingshot/doclib2"/>
+   </bean>
+
+
+   <!--                                            -->
+   <!-- Document Library Doclist Action Group Resolver -->
+   <!--                                            -->
+
+   <bean id="resolver.doclib.actionGroup" class="org.alfresco.web.resolver.doclib.DefaultDoclistActionGroupResolver" />
+
+   <!--                                    -->
+   <!-- Document Library Status Evaluators -->
+   <!--                                    -->
+
+   <bean id="evaluator.doclib.indicator.workingCopylocked" class="org.alfresco.web.evaluator.doclib.indicator.WorkingCopyLockedEvaluator" />
+   <!-- Being edited by the current user -->
+   <bean id="evaluator.doclib.indicator.editing" class="org.alfresco.web.evaluator.doclib.indicator.EditingEvaluator" />
+   <!-- Locked by the current user -->
+   <bean id="evaluator.doclib.indicator.lockOwner" class="org.alfresco.web.evaluator.doclib.indicator.LockOwnerEvaluator" />
+   <!-- Locked by another user -->
+   <bean id="evaluator.doclib.indicator.locked" class="org.alfresco.web.evaluator.doclib.indicator.LockedEvaluator" />
+   <!-- Locked by another user, indicated by cm:owner property (no cm:lockOwner) -->
+   <bean id="evaluator.doclib.indicator.lockedOwner" class="org.alfresco.web.evaluator.ChainedMatchAllEvaluator">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.indicator.locked" />
+            <ref bean="evaluator.doclib.indicator.hasOwner" />
+            <ref bean="evaluator.doclib.indicator.noLockOwner" />
+         </list>
+      </property>
+   </bean>
+   <!-- Locked by another user, indicated by cm:lockOwner property -->
+   <bean id="evaluator.doclib.indicator.nodeLocked" class="org.alfresco.web.evaluator.ChainedMatchAllEvaluator">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.indicator.locked" />
+            <ref bean="evaluator.doclib.indicator.hasLockOwner" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.indicator.hasLockOwner" parent="evaluator.doclib.action.propertyNotNull">
+      <property name="property" value="cm:lockOwner"/>
+   </bean>
+   <bean id="evaluator.doclib.indicator.hasOwner" parent="evaluator.doclib.action.propertyNotNull">
+      <property name="property" value="cm:owner"/>
+   </bean>
+   <bean id="evaluator.doclib.indicator.noLockOwner" parent="evaluator.doclib.indicator.hasLockOwner">
+      <property name="negateOutput" value="true" />
+   </bean>
+
+   <bean id="evaluator.doclib.indicator.activeWorkflows" class="org.alfresco.web.evaluator.doclib.indicator.ActiveWorkflowsEvaluator" />
+   <bean id="evaluator.doclib.indicator.simpleWorkflow" class="org.alfresco.web.evaluator.doclib.indicator.SimpleWorkflowEvaluator" />
+   <bean id="evaluator.doclib.indicator.rules" class="org.alfresco.web.evaluator.doclib.indicator.RulesEvaluator" />
+   <bean id="evaluator.doclib.indicator.exifMetadata" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+      <property name="aspects">
+         <list>
+            <value>exif:exif</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.indicator.geographicMetadata" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+      <property name="aspects">
+         <list>
+            <value>cm:geographic</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.indicator.audioMetadata" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+      <property name="aspects">
+         <list>
+            <value>audio:audio</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.indicator.transferredNode" class="org.alfresco.web.evaluator.doclib.indicator.TransferredNodeEvaluator" />
+
+   <!--                                     -->
+   <!-- Document Custom Metadata Evaluators -->
+   <!--                                     -->
+
+   <bean id="evaluator.doclib.metadata.value" class="org.alfresco.web.evaluator.ValueEvaluator" />
+   <bean id="evaluator.doclib.metadata.hasAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator" />
+   <bean id="evaluator.doclib.metadata.hasAnyAspect" class="org.alfresco.web.evaluator.HasAnyAspectEvaluator" />
+   <bean id="evaluator.doclib.metadata.nodeType" class="org.alfresco.web.evaluator.NodeTypeEvaluator">
+      <property name="dictionary" ref="slingshot.scriptprocessor.dictionaryQuery" />
+   </bean>
+
+   <!-- Display Template: Working Copy -->
+   <bean id="evaluator.doclib.metadata.isWorkingCopy" parent="evaluator.doclib.metadata.value">
+      <property name="accessor" value="workingCopy.isWorkingCopy" />
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
+            <property name="value" value="true" />
+         </bean>
+      </property>
+   </bean>
+
+   <!-- Property: Categories -->
+   <bean id="evaluator.doclib.metadata.hasCategories" parent="evaluator.doclib.metadata.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>cm:generalclassifiable</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Display Template: Dictionary Model -->
+   <bean id="evaluator.doclib.metadata.isDictionaryModel" parent="evaluator.doclib.action.nodeType">
+      <property name="types">
+         <list>
+            <value>cm:dictionaryModel</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Display Template: Transfer Target -->
+   <bean id="evaluator.doclib.metadata.isTransferTarget" parent="evaluator.doclib.action.nodeType">
+      <property name="types">
+         <list>
+            <value>trx:transferTarget</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Locked / Working Copy Banner -->
+   <bean id="evaluator.doclib.metadata.isWorkingCopyLocked" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.indicator.workingCopylocked" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.metadata.isLocked" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.indicator.locked" />
+            <ref bean="evaluator.doclib.indicator.lockOwner" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.metadata.isBeingEdited" parent="evaluator.doclib.action.propertyNotNull">
+      <property name="property" value="cm:workingCopyOwner"/>
+   </bean>
+   <bean id="evaluator.doclib.metadata.hasLockBanner" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.metadata.isLocked" />
+            <ref bean="evaluator.doclib.metadata.isBeingEdited" />
+         </list>
+      </property>
+   </bean>
+
+   <!-- Sync Failed Banner -->
+   <bean id="evaluator.doclib.metadata.hasSyncFailedBanner" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.hasSyncFailedAspect" />
+            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
+         </list>
+      </property>
+   </bean>
+
+   <!-- Transient Sync Error Banner -->
+   <bean id="evaluator.doclib.metadata.hasSyncTransientErrorBanner" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.hasSyncTransientErrorAspect" />
+            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
+         </list>
+      </property>
+   </bean>
+
+   <!--                                    -->
+   <!-- Document Library Action Evaluators -->
+   <!--                                    -->
+
+   <bean id="evaluator.doclib.action.hasAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator" />
+   <bean id="evaluator.doclib.action.hasAnyAspect" class="org.alfresco.web.evaluator.HasAnyAspectEvaluator" />
+   <bean id="evaluator.doclib.action.isMimetype" class="org.alfresco.web.evaluator.IsMimetypeEvaluator" />
+   <bean id="evaluator.doclib.action.propertyNotNull" class="org.alfresco.web.evaluator.PropertyNotNullEvaluator" />
+   <bean id="evaluator.doclib.action.chainedMatchAll" class="org.alfresco.web.evaluator.ChainedMatchAllEvaluator" />
+   <bean id="evaluator.doclib.action.chainedMatchOne" class="org.alfresco.web.evaluator.ChainedMatchOneEvaluator" />
+   <bean id="evaluator.doclib.action.disableAction" class="org.alfresco.web.evaluator.AlwaysFalseEvaluator" />
+   <bean id="evaluator.doclib.action.sitePreset" class="org.alfresco.web.evaluator.SitePresetEvaluator" />
+   <bean id="evaluator.doclib.action.siteBased" class="org.alfresco.web.evaluator.SiteBasedEvaluator" />
+   <bean id="evaluator.doclib.action.containerType" class="org.alfresco.web.evaluator.ContainerTypeEvaluator" />
+   <bean id="evaluator.doclib.action.nodeType" class="org.alfresco.web.evaluator.NodeTypeEvaluator">
+      <property name="dictionary" ref="slingshot.scriptprocessor.dictionaryQuery" />
+   </bean>
+   <bean id="evaluator.doclib.action.value" class="org.alfresco.web.evaluator.ValueEvaluator" />
+   <bean id="evaluator.doclib.action.metadataValue" class="org.alfresco.web.evaluator.MetadataValueEvaluator" />
+   <bean id="evaluator.doclib.action.isBrowser" class="org.alfresco.web.evaluator.IsBrowserEvaluator" />
+   <bean id="evaluator.doclib.action.notBrowser" parent="evaluator.doclib.action.isBrowser">
+      <property name="negateOutput" value="true" />
+   </bean>
+
+   <bean id="evaluator.doclib.action.groupMembership" class="org.alfresco.web.evaluator.HasGroupMembershipsEvaluator">
+      <property name="slingshotEvaluatorUtil" ref="slingshot.evaluator.utility" />
+   </bean>
+
+   <bean id="evaluator.doclib.action.isSiteManager" parent="evaluator.doclib.action.groupMembership">
+      <property name="groups">
+         <list>
+            <value>SiteManager</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.isSiteCollaborator" parent="evaluator.doclib.action.groupMembership">
+      <property name="groups">
+         <list>
+            <value>SiteCollaborator</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.isSiteContributor" parent="evaluator.doclib.action.groupMembership">
+      <property name="groups">
+         <list>
+            <value>SiteContributor</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.isSiteConsumer" parent="evaluator.doclib.action.groupMembership">
+      <property name="groups">
+         <list>
+            <value>SiteConsumer</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Inline Edit -->
+   <bean id="evaluator.doclib.action.inlineEditAspect" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>app:inlineeditable</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.inlineEditMimetype" parent="evaluator.doclib.action.isMimetype">
+      <property name="mimetypes">
+         <list>
+            <value>text/plain</value>
+            <value>text/html</value>
+            <value>text/xml</value>
+            <value>application/x-javascript</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.inlineEdit" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.inlineEditAspect" />
+            <ref bean="evaluator.doclib.action.inlineEditMimetype" />
+         </list>
+      </property>
+   </bean>
+
+   <!-- Edit Online -->
+   <bean id="evaluator.doclib.action.onlineEditVtiServer" parent="evaluator.doclib.action.metadataValue">
+      <property name="accessor" value="custom.vtiServer.host" />
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.NullValueComparator">
+            <property name="value" value="false" />
+         </bean>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.isNotIE8" parent="evaluator.doclib.action.notBrowser">
+      <property name="regex" value="MSIE\s 8.0;" />
+   </bean>
+   <bean id="evaluator.doclib.action.onlineEditBrowser" parent="evaluator.doclib.action.isBrowser">
+      <property name="regex" value="MSIE\s([^;]*)(?!.*Opera.*)" />
+   </bean>
+   <bean id="evaluator.doclib.action.notEditBrowser" parent="evaluator.doclib.action.notBrowser">
+      <property name="regex" value=".*iPad;.*Safari/.*" />
+   </bean>
+   <bean id="evaluator.doclib.action.downloadBrowser" parent="evaluator.doclib.action.notBrowser">
+      <property name="regex" value=".*iPad;.*Safari/.*" />
+   </bean>
+   <bean id="evaluator.doclib.action.notUploadBrowser" parent="evaluator.doclib.action.notBrowser">
+      <property name="regex" value=".*iPad; CPU OS 5_.*Safari/.*" />
+   </bean>
+   <bean id="evaluator.doclib.action.onlineEditMimetype" parent="evaluator.doclib.action.isMimetype">
+      <property name="mimetypes">
+         <list>
+            <value>application/vnd.ms-excel</value>
+            <value>application/vnd.ms-powerpoint</value>
+            <value>application/msword</value>
+            <value>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.presentation</value>
+            <value>application/vnd.openxmlformats-officedocument.wordprocessingml.document</value>
+            <value>application/vnd.ms-word.document.macroenabled.12</value>
+            <value>application/vnd.ms-word.template.macroenabled.12</value>
+            <value>application/vnd.ms-excel.sheet.macroenabled.12</value>
+            <value>application/vnd.ms-excel.template.macroenabled.12</value>
+            <value>application/vnd.ms-powerpoint.presentation.macroenabled.12</value>
+            <value>application/vnd.ms-powerpoint.template.macroenabled.12</value>
+            <value>application/vnd.visio</value>
+            <value>application/vnd.openxmlformats-officedocument.wordprocessingml.template</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.slideshow</value>
+            <value>application/vnd.ms-powerpoint.slideshow.macroenabled.12</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.template</value>
+            <value>application/vnd.ms-powerpoint.addin.macroenabled.12</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.slide</value>
+            <value>application/vnd.ms-powerpoint.slide.macroenabled.12</value>
+            <value>application/vnd.openxmlformats-officedocument.spreadsheetml.template</value>
+            <value>application/vnd.ms-excel.addin.macroenabled.12</value>
+            <value>application/vnd.ms-excel.sheet.binary.macroenabled.12</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.onlineEdit" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.siteBased" />
+            <ref bean="evaluator.doclib.action.onlineEditVtiServer" />
+            <ref bean="evaluator.doclib.action.onlineEditMimetype" />
+            <ref bean="evaluator.doclib.action.notEditBrowser" />
+         </list>
+      </property>
+   </bean>
+
+   <!-- Edit Online AOS -->
+   <bean id="evaluator.doclib.action.isMimetypeEditableAos" parent="evaluator.doclib.action.isMimetype">
+      <property name="mimetypes">
+         <list>
+            <value>application/msword</value>
+            <value>application/vnd.ms-word</value>
+            <value>application/vnd.openxmlformats-officedocument.wordprocessingml.document</value>
+            <value>application/vnd.ms-word.document.macroenabled.12</value>
+            <value>application/vnd.openxmlformats-officedocument.wordprocessingml.template</value>
+            <value>application/vnd.ms-word.template.macroenabled.12</value>
+            <value>application/msexcel</value>
+            <value>application/vnd.ms-excel</value>
+            <value>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</value>
+            <value>application/vnd.openxmlformats-officedocument.spreadsheetml.template</value>
+            <value>application/vnd.ms-excel.sheet.macroenabled.12</value>
+            <value>application/vnd.ms-excel.template.macroenabled.12</value>
+            <value>application/vnd.ms-excel.addin.macroenabled.12</value>
+            <value>application/vnd.ms-excel.sheet.binary.macroenabled.12</value>
+            <value>application/mspowerpoint</value>
+            <value>application/vnd.ms-powerpoint</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.presentation</value>
+            <value>application/vnd.ms-powerpoint.presentation.macroenabled.12</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.slideshow</value>
+            <value>application/vnd.ms-powerpoint.slideshow.macroenabled.12</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.template</value>
+            <value>application/vnd.ms-powerpoint.template.macroenabled.12</value>
+            <value>application/vnd.ms-powerpoint.addin.macroenabled.12</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.slide</value>
+            <value>application/vnd.ms-powerpoint.slide.macroEnabled.12</value>
+            <value>application/vnd.visio</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.isLockedForAos" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.indicator.locked" />
+            <ref bean="evaluator.doclib.action.isNotWorkingCopyAndLocked" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.isNotWorkingCopyAndLocked" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isLocked" />
+            <ref bean="evaluator.doclib.action.isNotWorkingCopy" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.isAosOnlineEditAvailable" parent="evaluator.doclib.action.metadataValue">
+      <property name="accessor" value="custom.aos" />
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.NullValueComparator">
+            <property name="value" value="false" />
+         </bean>
+      </property>
+   </bean>
+   
+   <!-- Edit Offline -->
+   <bean id="evaluator.doclib.action.offlineEdit" parent="evaluator.doclib.action.notEditBrowser" />
+   
+   <!-- Cancel editing - should work for working copies -->
+   <bean id="evaluator.doclib.action.cancelEditing" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.cancelOfflineEdit" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.cancelOfflineEdit" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isWorkingCopy" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.cancelLockedBlacklist" parent="evaluator.doclib.action.hasAnyAspect">
+      <property name="aspects">
+         <list>
+            <value>xam:archive</value>
+         </list>
+      </property>
+      <property name="negateOutput" value="true" />
+   </bean>
+   
+   <!-- Upload -->
+   <bean id="evaluator.doclib.action.upload" parent="evaluator.doclib.action.notUploadBrowser" />
+
+   <!--
+      Simple Workflow
+   -->
+   <bean id="evaluator.doclib.action.simpleWorkflowAspect" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>app:simpleworkflow</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.simpleApproveProperty" parent="evaluator.doclib.action.propertyNotNull">
+      <property name="property" value="app:approveStep"/>
+   </bean>
+   <bean id="evaluator.doclib.action.simpleRejectProperty" parent="evaluator.doclib.action.propertyNotNull">
+      <property name="property" value="app:rejectStep"/>
+   </bean>
+   <bean id="evaluator.doclib.action.simpleApprove" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.simpleWorkflowAspect" />
+            <ref bean="evaluator.doclib.action.simpleApproveProperty" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.simpleReject" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.simpleWorkflowAspect" />
+            <ref bean="evaluator.doclib.action.simpleRejectProperty" />
+         </list>
+      </property>
+   </bean>
+
+   <!--
+      Working Copies
+   -->
+   <bean id="evaluator.doclib.action.isWorkingCopy" parent="evaluator.doclib.action.value">
+      <property name="accessor" value="workingCopy.isWorkingCopy" />
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
+            <property name="value" value="true" />
+         </bean>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.action.isNotWorkingCopy" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isWorkingCopy" />
+         </list>
+      </property>
+      <property name="negateOutput" value="true" />
+   </bean>
+
+   <bean id="evaluator.doclib.action.hasWorkingCopy" parent="evaluator.doclib.action.value">
+      <property name="accessor" value="workingCopy.hasWorkingCopy" />
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
+            <property name="value" value="true" />
+         </bean>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.notHasWorkingCopy" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.hasWorkingCopy" />
+         </list>
+      </property>
+      <property name="negateOutput" value="true" />
+   </bean>
+
+   <bean id="evaluator.doclib.action.isLocked" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.metadata.isLocked" />
+            <ref bean="evaluator.doclib.action.isWorkingCopy" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="evaluator.doclib.action.notEditable" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isLocked" />
+            <ref bean="evaluator.doclib.action.isWorkingCopy" />
+         </list>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.action.editableByCurrentUser" class="org.alfresco.web.evaluator.doclib.action.EditableByCurrentUser"/>
+
+   <!--
+      Checked out
+   -->
+   <bean id="evaluator.doclib.action.checkedOutAspect" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>cm:checkedOut</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.notCheckedOutAspect" parent="evaluator.doclib.action.checkedOutAspect">
+      <property name="negateOutput" value="true" />
+   </bean>
+
+   <!--
+      Google Maps
+   -->
+   <bean id="evaluator.doclib.action.googleMaps" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>cm:geographic</value>
+         </list>
+      </property>
+   </bean>
+
+   <!--
+      Transferred Nodes
+   -->
+   <bean id="evaluator.doclib.action.transferredAspect" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>trx:transferred</value>
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.action.transferred" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.transferredAspect" />
+         </list>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.action.locateAction" class="org.alfresco.web.evaluator.doclib.action.LocateActionEvaluator" />
+
+   <!--
+      Cloud Sync Actions and Indicators
+   -->
+
+   <!-- Sync: System Mode -->
+
+   <bean id="evaluator.doclib.action.syncMode" class="org.alfresco.web.evaluator.SyncModeEvaluator" />
+   <bean id="evaluator.doclib.action.isSyncModeOnPremise" parent="evaluator.doclib.action.syncMode">
+      <property name="syncMode" ref="slingshot.scriptprocessor.syncModeConfig" />
+      <property name="validMode" value="ON_PREMISE" />
+   </bean>
+
+   <bean id="evaluator.doclib.action.isSyncOn" parent="evaluator.doclib.action.chainedMatchOne">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isSyncModeOnPremise"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Sync: Node State -->
+
+   <bean id="evaluator.doclib.action.isSyncedAspect" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>sync:syncSetMemberNode</value>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.action.isNotSyncedAspect" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>sync:syncSetMemberNode</value>
+         </list>
+      </property>
+      <property name="negateOutput" value="true" />
+   </bean>
+
+   <bean id="evaluator.doclib.action.hasSyncFailedAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+      <property name="aspects">
+         <list>
+            <value>sync:failed</value>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.action.hasSyncTransientErrorAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+      <property name="aspects">
+         <list>
+            <value>sync:transientError</value>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.action.hasSyncErrorAspect" class="org.alfresco.web.evaluator.ChainedMatchOneEvaluator">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.hasSyncFailedAspect" />
+            <ref bean="evaluator.doclib.action.hasSyncTransientErrorAspect" />
+         </list>
+      </property>
+
+   </bean>
+
+   <bean id="evaluator.doclib.action.isSyncedDirectly" parent="evaluator.doclib.metadata.value">
+      <property name="accessor" value="node.properties.sync:directSync"/>
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
+            <property name="value" value="true" />
+         </bean>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.action.isSyncedIndirectly" parent="evaluator.doclib.metadata.value">
+      <property name="accessor" value="node.properties.sync:directSync"/>
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
+            <property name="value" value="false" />
+         </bean>
+      </property>
+   </bean>
+   
+   <bean id="evaluator.doclib.action.isPartOfHybridWorklfow" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>hwf:hybridWorkflow</value>
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="evaluator.doclib.action.isDeletable" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>sys:undeletable</value>
+         </list>
+      </property>
+      <property name="negateOutput" value="true" />
+   </bean>
+   
+   <bean id="evaluator.doclib.action.isNotPartOfHybridWorklfow" parent="evaluator.doclib.action.hasAspect">
+      <property name="aspects">
+         <list>
+            <value>hwf:hybridWorkflow</value>
+         </list>
+      </property>
+      <property name="negateOutput" value="true" />
+   </bean>
+
+   <!-- Sync: Action evaluators -->
+
+   <bean id="evaluator.doclib.action.isNotDocumentLibrary" parent="evaluator.doclib.metadata.value">
+      <property name="accessor" value="node.properties.cm:name"/>
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
+            <property name="value" value="documentLibrary" />
+         </bean>
+      </property>
+      <property name="negateOutput" value="true" />
+   </bean>
+   <bean id="evaluator.doclib.action.isSyncable" parent="evaluator.doclib.action.chainedMatchAll">
+      <!--Used by: "Sync to cloud" action-->
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isNotSyncedAspect" />
+            <ref bean="evaluator.doclib.action.isSyncModeOnPremise" />
+            <ref bean="evaluator.doclib.action.isNotDocumentLibrary" />
+            <ref bean="evaluator.doclib.action.siteBased" />
+            <ref bean="evaluator.doclib.action.isNotWorkingCopy" />
+         </list>
+      </property>
+   </bean>
+
+   <!-- Sync: Was this server the source of the sync? -->
+   <bean id="evaluator.doclib.action.isSyncedFromLocal" parent="evaluator.doclib.action.chainedMatchAll">
+      <!-- Used by: "Request Sync" and "View In Cloud" actions-->
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isSyncedAspect" />
+            <ref bean="evaluator.doclib.action.isSyncModeOnPremise" />
+            <ref bean="evaluator.doclib.action.isNotWorkingCopy" />
+         </list>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.action.isUnsyncable" parent="evaluator.doclib.action.chainedMatchAll">
+      <!-- Used by: "Unsync from Cloud" action -->
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
+            <ref bean="evaluator.doclib.action.isSyncedDirectly" />
+            <ref bean="evaluator.doclib.action.isNotWorkingCopy" />
+            <ref bean="evaluator.doclib.action.isNotPartOfHybridWorklfow" />
+         </list>
+      </property>
+   </bean>
+
+   <!-- Sync Indicators -->
+   <bean id="evaluator.doclib.indicator.isSynced" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isSyncOn" />
+            <ref bean="evaluator.doclib.action.isSyncedAspect" />
+         </list>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.indicator.isSyncFailed" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
+            <ref bean="evaluator.doclib.action.hasSyncErrorAspect" />
+         </list>
+      </property>
+   </bean>
+
+   <bean id="evaluator.doclib.indicator.isIndirectSync" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isSyncOn" />
+            <ref bean="evaluator.doclib.action.isSyncedIndirectly" />
+         </list>
+      </property>
+   </bean>
+   <bean id="evaluator.doclib.indicator.isIndirectSyncFailed" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
+            <ref bean="evaluator.doclib.action.isSyncedIndirectly" />
+            <ref bean="evaluator.doclib.action.hasSyncErrorAspect" />
+         </list>
+      </property>
+   </bean>
+
+</beans>

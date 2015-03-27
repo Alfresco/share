@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Subscriptions Tool</shortname>
+  <description>Administration Console - Subscriptions Tool</description>
+  <url>/components/console/subscriptions</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

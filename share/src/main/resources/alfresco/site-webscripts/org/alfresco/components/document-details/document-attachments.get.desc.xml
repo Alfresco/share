@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>document-details-attachments</shortname>
+  <description>Document Details Attachments Component</description>
+  <url>/components/document-details/document-attachments</url>
+</webscript>

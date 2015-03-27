@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Dashlet Config</shortname>
+  <description>Persist dashlet configuration values</description>
+  <url>/modules/dashlet/config/{componentId}</url>
+  <format default="json">argument</format>
+  <authentication>user</authentication>
+</webscript>

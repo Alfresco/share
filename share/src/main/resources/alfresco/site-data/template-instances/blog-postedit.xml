@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/blog-postedit</template-type>
+   <properties>
+      <pageFamily>blog-postlist</pageFamily>
+      <container>blog</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Edit Post -->
+      <component>
+         <region-id>postedit</region-id>
+         <url>/components/blog/postedit</url>
+      </component>
+
+   </components>
+</template-instance>

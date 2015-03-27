@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Create topic</shortname>
+  <description>Create or edit topic form</description>
+  <url>/components/discussions/createtopic</url>
+</webscript>

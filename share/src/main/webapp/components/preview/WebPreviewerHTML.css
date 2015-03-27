@@ -1,0 +1,7 @@
+/* This is the "normal" css for the WebPreviewer, not used by the flash movie */
+
+.web-preview .WebPreviewer
+{
+   height: 670px;
+   line-height: 670px;
+}

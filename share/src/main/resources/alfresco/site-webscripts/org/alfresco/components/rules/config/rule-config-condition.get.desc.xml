@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Rule Config Condition</shortname>
+  <description>Rule Config for Rules conditions</description>
+  <url>/components/rules/config/condition</url>
+</webscript>

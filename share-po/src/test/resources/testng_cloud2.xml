@@ -1,0 +1,72 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Share Cloud Tests" verbose="6" parallel="classes" thread-count="1">
+    <groups>
+        <run>
+            <include name="unit" />
+            <include name="alfresco-one" />
+            <include name="Cloud-only" />
+            <include name="Cloud2" />
+            <!-- <include name="Repository" /> -->
+            <exclude name=".*Bug" />
+            <exclude name="chromeOnly" />
+            <exclude name="Hybrid" />
+            <exclude name="download" />
+        </run>
+    </groups>
+    <test name="Dashlets" preserve-order="true">
+        <packages>
+            <package name="org.alfresco.po.share.dashlet" />
+        </packages>
+    </test>
+    <test name="Document" preserve-order="true">
+       <packages>
+           <package name="org.alfresco.po.share.site.document" />
+       </packages>
+    </test>
+    <test name="Share" preserve-order="true">
+        <packages>
+            <package name="org.alfresco.po.share" />
+        </packages>
+    </test>
+    <test name="Webdrone" preserve-order="true">
+        <packages>
+            <package name="org.alfresco.webdrone" />
+        </packages>
+    </test>
+    <test name="SiteContent" preserve-order="true">
+        <packages>
+            <package name="org.alfresco.po.share.dashlet.sitecontent" />
+        </packages>
+    </test>
+    <test name="Search" preserve-order="true">
+       <packages>
+           <package name="org.alfresco.po.share.search" />
+       </packages>
+    </test>
+    <test name="Site" preserve-order="true">
+       <packages>
+           <package name="org.alfresco.po.share.site" />
+       </packages>
+    </test>
+    <test name="Workflow" preserve-order="true">
+       <packages>
+           <package name="org.alfresco.po.share.workflow" />
+       </packages>
+    </test>
+    <test name="Task" preserve-order="true">
+       <packages>
+           <package name="org.alfresco.po.share.task" />
+       </packages>
+    </test>
+    <test name="Download" preserve-order="true">
+       <packages>
+           <package name="org.alfresco.po.share.site.document.download" />
+       </packages>
+    </test>   
+    <test name="Links Page Test">
+        <classes>
+            <class name="org.alfresco.po.share.user.CloudForgotPasswordPageTest"/>
+        </classes>
+    </test>
+</suite>

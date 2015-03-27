@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>config-wiki-post</shortname>
+  <description>Updates wiki dashlet</description>
+  <url>/modules/wiki/config/{componentId}</url>
+  <format default="json">argument</format>
+  <authentication>user</authentication>
+</webscript>

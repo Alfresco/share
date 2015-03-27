@@ -1,0 +1,22 @@
+<webscript>
+  <shortname>folder-permissions-actions</shortname>
+  <description>
+     <![CDATA[
+     Folder Permissions Component<br/>
+     Refreshes on "filesPermissionsUpdated".
+     ]]>
+  </description>
+  <url>/components/folder-details/folder-permissions</url>
+  <arg>
+     <shortname>htmlid</shortname>
+     <description><![CDATA[A GUID that can be used by client side JavaScript to get hold of the markup in the Dom.]]></description>
+  </arg>
+  <arg>
+     <shortname>nodeRef</shortname>
+     <description><![CDATA[Reference to the node to display permissions for.]]></description>
+  </arg>
+  <arg>
+     <shortname>site</shortname>
+     <description><![CDATA[(Optional) The shortname of the site the folder lives in.]]></description>
+  </arg>
+</webscript>

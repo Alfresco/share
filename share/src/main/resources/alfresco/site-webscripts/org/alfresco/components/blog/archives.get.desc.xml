@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Blog Archives</shortname>
+  <description>Blog: Post List Archives Component</description>
+  <url>/components/blog/archives</url>
+</webscript>

@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Enum Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="5">
+    <test name="LinksTest">
+        <classes>
+            <class name="org.alfresco.po.share.enums.DocumentActionTest" />
+        </classes>
+    </test>
+    <test name="UserRoleTest">
+        <classes>
+            <class name="org.alfresco.po.share.enums.UserRoleTest" />
+        </classes>
+    </test>
+    <test name="ZoomStyleTest">
+        <classes>
+            <class name="org.alfresco.po.share.enums.ZoomStyleTest" />
+        </classes>
+    </test>
+</suite>

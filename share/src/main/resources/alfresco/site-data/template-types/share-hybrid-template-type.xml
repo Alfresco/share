@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-type>
+   <title>Share Hybrid Page</title>
+   <description>This template-type references the "hybrid-page" WebScript to render Dojo based widgets between the "legacy" Share header and footer</description>
+   <processor mode="view">
+      <id>webscript</id>
+      <uri>/share/hybrid-page/template</uri>
+   </processor>
+</template-type>

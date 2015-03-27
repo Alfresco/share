@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Folder Details</title>
+   <title-id>page.folderDetails.title</title-id>
+   <description>Folder details</description>
+   <description-id>page.folderDetails.description</description-id>
+   <template-instance>folder-details</template-instance>
+   <authentication>user</authentication>
+</page>

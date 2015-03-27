@@ -1,0 +1,7 @@
+<dataGrid>
+   <actionSet>
+      <action type="action-link" id="onActionEdit" permission="edit" label="actions.edit" />
+      <action type="action-link" id="onActionDuplicate" permission="create" label="actions.duplicate-row" />
+      <action type="action-link" id="onActionDelete" permission="delete" label="actions.delete-row" />
+   </actionSet>
+</dataGrid>

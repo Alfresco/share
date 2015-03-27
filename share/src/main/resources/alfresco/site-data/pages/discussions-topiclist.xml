@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>discussions-topiclist</id>
+   <page-type>discussions-topiclist</page-type>
+   <title>Discussions</title>
+   <title-id>page.discussionsTopicList.title</title-id>
+   <description>Displays the forum topics</description>
+   <description-id>page.discussionsTopicList.description</description-id>
+   <template-instance>discussions-topiclist</template-instance>
+   <authentication>user</authentication>
+</page>

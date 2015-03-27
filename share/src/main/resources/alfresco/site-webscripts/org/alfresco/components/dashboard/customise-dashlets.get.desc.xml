@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Customise Dashlets</shortname>
+   <description>Customise dashlets component</description>
+   <url>/components/dashboard/customise-dashlets</url>
+</webscript>

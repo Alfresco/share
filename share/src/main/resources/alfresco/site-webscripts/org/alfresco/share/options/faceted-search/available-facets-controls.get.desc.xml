@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>Available Aikau widgets rendering facets in search</shortname>
+   <description>This retrieves the available Aikau widgets that are available for rendered facet filters</description>
+   <family>Aikau</family>
+   <format default="json"></format>
+   <authentication>user</authentication>
+   <url>/faceted-search/facet-rendering-options</url>
+   <lifecycle>internal</lifecycle>
+</webscript>

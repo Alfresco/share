@@ -1,0 +1,8 @@
+<config>
+   <title>tool.transformer-imagemagick.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Name=ContentTransformer,Type=ImageMagick</itemId>
+   </form>
+   <editable>false</editable>
+</config>

@@ -1,0 +1,8 @@
+<config>
+   <title>tool.repository-server.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Name=RepositoryDescriptor,Type=Current</itemId>
+   </form>
+   <editable>false</editable>
+</config>

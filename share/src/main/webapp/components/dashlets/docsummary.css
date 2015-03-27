@@ -1,0 +1,35 @@
+/* Simple/Details View */
+
+.docsummary .simple-detailed span.first-child
+{
+   background-position: 50% 50%;
+   background-repeat: no-repeat;
+   min-height: 16px;
+   padding: 0 2px;
+}
+
+.docsummary .simple-detailed .yui-button
+{
+   margin-left: 0;
+   margin-right: 0;
+}
+
+.docsummary .simple-detailed .simple-view span.first-child
+{
+   background-image: url(../documentlibrary/images/simple-view-off-16.png);
+}
+
+.docsummary .simple-detailed .simple-view.yui-button-checked span.first-child
+{
+   background-image: url(../documentlibrary/images/simple-view-on-16.png);
+}
+
+.docsummary .simple-detailed .detailed-view span.first-child
+{
+   background-image: url(../documentlibrary/images/detailed-view-off-16.png);
+}
+
+.docsummary .simple-detailed .detailed-view.yui-button-checked span.first-child
+{
+   background-image: url(../documentlibrary/images/detailed-view-on-16.png);
+}

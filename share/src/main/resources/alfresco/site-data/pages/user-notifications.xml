@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Change Notification Settings for a User</title>
+   <title-id>page.userNotifications.title</title-id>
+   <description>Change Notification Settings section on Profile page for a User</description>
+   <description-id>page.userNotifications.description</description-id>
+   <template-instance>user-notifications</template-instance>
+   <authentication>user</authentication>
+</page>

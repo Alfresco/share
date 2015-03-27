@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Web Preview</shortname>
+  <description>Displays a zoom, move and pageable preview of a content as long as its a .swf, .jpg, .png or .gif</description>
+  <url>/components/preview/web-preview</url>
+</webscript>
