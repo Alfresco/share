@@ -168,7 +168,7 @@ public class DocumentDetailsPage extends DetailsPage
                     // upload dialog should not be displayed.
                     if (!drone.find(By.cssSelector("div.yui-dt-bd")).isDisplayed())
                     {
-                        docVersionOnScreen = drone.find(By.cssSelector(DOCUMENT_VERSION_PLACEHOLDER)).getText().trim();
+                        docVersionOnScreen = drone.findAndWait(By.cssSelector(DOCUMENT_VERSION_PLACEHOLDER)).getText().trim();
                         // If the text is not what we expect it to be, then repeat
                         if (this.previousVersion != null && docVersionOnScreen.equals(this.previousVersion))
                         {

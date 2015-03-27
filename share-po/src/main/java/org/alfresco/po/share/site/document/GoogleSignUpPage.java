@@ -30,6 +30,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -47,6 +48,8 @@ public class GoogleSignUpPage extends SharePage
     private static final By GOOGLE_PASSWORD = By.xpath("//input[@name='Passwd']");
     private static final By SIGNUP_BUTTON = By.xpath("//input[@type='submit']");
     private static final String googleAccountTitle = "Google Accounts";
+    private static final By MSG_SELECTOR = By.cssSelector("div.bd>span.message");
+    private static final String PASS_PROTECTED_MSG = "There was an error opening the document in Google Docs™. If the errors occurs again please contact your System Administrator.";
 
     private boolean isGoogleCreate;
     private String documentVersion;
@@ -90,7 +93,7 @@ public class GoogleSignUpPage extends SharePage
     {
         switchToGoogleSignIn();
         elementRender(timer, getVisibleRenderElement(GOOGLE_USERNAME), getVisibleRenderElement(GOOGLE_PASSWORD),
-                getVisibleRenderElement(SIGNUP_BUTTON));
+            getVisibleRenderElement(SIGNUP_BUTTON));
         return this;
     }
 
@@ -141,9 +144,10 @@ public class GoogleSignUpPage extends SharePage
             waitUntilAlert(10);
             try
             {
-                WebElement message = drone.findAndWait(By.cssSelector("div.bd>span.message"));
-                if(message.isDisplayed() && message.getText().equals("There was an error opening the document in Google Docs™." +
-                    " If the errors occurs again please contact your System Administrator."))
+                drone.waitUntilNotVisibleWithParitalText(MSG_SELECTOR, "Editing in Google Docs™...", TimeUnit.MILLISECONDS
+                    .toSeconds(maxPageLoadingTime));
+                drone.waitUntilVisible(MSG_SELECTOR, PASS_PROTECTED_MSG, 5);
+                if (drone.findAndWait(MSG_SELECTOR).getText().equals(PASS_PROTECTED_MSG))
                 {
                     throw new PageOperationException("Unable to open Google Doc for Editing");
                 }
@@ -153,7 +157,7 @@ public class GoogleSignUpPage extends SharePage
                 return new EditInGoogleDocsPage(drone, documentVersion, isGoogleCreate);
             }
         }
-        catch (TimeoutException te)
+        catch (TimeoutException | NoSuchElementException te)
         {
             throw new TimeoutException("Google Sign up page timeout", te);
         }

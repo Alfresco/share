@@ -15,10 +15,6 @@
 
 package org.alfresco.po.share.site.document;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
-
 import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.webdrone.HtmlPage;
@@ -31,6 +27,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Edit in google docs page, holds all element of the HTML page relating to
@@ -202,6 +201,7 @@ public class EditInGoogleDocsPage extends SitePage
      */
     public GoogleDocsDiscardChanges selectDiscard()
     {
+        drone.switchToDefaultContent();
         drone.findAndWait(BUTTON_DISCARD_CHANGES).click();
         return new GoogleDocsDiscardChanges(drone, isGoogleCreate);
     }
@@ -213,6 +213,7 @@ public class EditInGoogleDocsPage extends SitePage
      */
     public HtmlPage selectSaveToAlfresco()
     {
+        drone.switchToDefaultContent();
         WebElement saveButton = drone.findAndWait(BUTTON_SAVE_TO_ALFRESCO);
         String saveButtonId = saveButton.getAttribute("id");
         saveButton.click();
