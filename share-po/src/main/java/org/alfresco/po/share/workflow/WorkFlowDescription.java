@@ -35,7 +35,11 @@ public enum WorkFlowDescription
     REQUEST_DOCUMENT_APPROVAL("Request document approval from someone on the Cloud"),
     REVIEW_AND_APPROVAL_OF_CONTENT_USING_ACTIVITI_WORKFLOW_ENGINE("Review and approval of content using Activiti workflow engine"),
     REQUEST_DOCUMENT_APPROVAL_FROM_ONE_OR_MORE_COLLEAGUES("Request document approval from one or more colleagues"),
-    GROUP_REVIEW_AND_APPROVAL_OF_CONTENT_USING_ACTIVITI_WORKFLOW_ENGINE("Group review and approval of content using Activiti workflow engine");
+    GROUP_REVIEW_AND_APPROVAL_OF_CONTENT_USING_ACTIVITI_WORKFLOW_ENGINE("Group review and approval of content using Activiti workflow engine"),
+    ASSIGN_REVIEW_TASK_SINGLE_REVIEWER("Assign a review task to a single reviewer"),
+    ASSIGN_REVIEW_TASK_MULTIPLE_REVIEWERS("Assign a review task to multiple reviewers"),
+    ASSIGN_REVIEW_TASK_GROUP("Assign a review task to a group"),
+    ASSIGN_REVIEW_TASK_MULTIPLE_REVIEWERS_OWNERSHIP("Assign a review task to multiple reviewers, who can take ownership of the task");
 
     private String description;
 
