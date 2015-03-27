@@ -128,7 +128,7 @@ public class ActionsSet
     private List<WebElement> getMenuRows()
     {
         // Click the control to open the menu
-        drone.mouseOverOnElement(control);
+        drone.mouseOver(control);
         control.click();
 
         // Compose the selector for the drop down menu

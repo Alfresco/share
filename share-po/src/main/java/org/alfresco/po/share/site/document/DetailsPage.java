@@ -1063,7 +1063,7 @@ public abstract class DetailsPage extends SitePage
         try
         {
             WebElement editCommentLink = drone.findAndWait(By.xpath(String.format("//div[@class='comment-content']/p[text()='%s']/../..", comment)));
-            drone.mouseOverOnElement(editCommentLink);
+            drone.mouseOver(editCommentLink);
             editCommentLink.findElement(By.cssSelector("span.comment-actions a")).click();
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", newComment);
             drone.executeJavaScript(setCommentJs);

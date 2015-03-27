@@ -121,7 +121,7 @@ public abstract class AbstractSiteNavigation extends HtmlElement
         {
             By dashboardSelector = By.cssSelector(dashboardLink);
             WebElement dashBoarLink = drone.findAndWait(dashboardSelector);
-            drone.mouseOverOnElement(dashBoarLink);
+            drone.mouseOver(dashBoarLink);
             dashBoarLink.click();
         }
         catch (StaleElementReferenceException e)

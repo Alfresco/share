@@ -330,7 +330,7 @@ public class GroupsPage extends SharePage
         try
         {
             WebElement element = drone.findAndWait(By.xpath(String.format(".//span[contains(text(),'%s')]/..", userName)));
-            drone.mouseOverOnElement(element);
+            drone.mouseOver(element);
             element = element.findElement(By.cssSelector("span.yui-columnbrowser-item-buttons>span.users-remove-button"));
             drone.mouseOver(element);
             element.click();
@@ -504,7 +504,7 @@ public class GroupsPage extends SharePage
         try
         {
             WebElement element = drone.findAndWait(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName)));
-            drone.mouseOverOnElement(element);
+            drone.mouseOver(element);
             element = element.findElement(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName) + "//span[@class='groups-update-button']"));
             drone.mouseOver(element);
             element.click();
@@ -543,7 +543,7 @@ public class GroupsPage extends SharePage
         try
         {
             WebElement element = drone.findAndWait(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName)));
-            drone.mouseOverOnElement(element);
+            drone.mouseOver(element);
             element = element.findElement(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName) + "//span[@class='groups-delete-button']"));
             drone.mouseOver(element);
             element.click();

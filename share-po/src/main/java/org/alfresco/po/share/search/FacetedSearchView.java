@@ -206,7 +206,7 @@ public class FacetedSearchView
 			    {
 			        if (results.getText().equalsIgnoreCase(name))
 			        {			        	
-			        	drone.mouseOverOnElement(results);
+			        	drone.mouseOver(results);
 			            WebElement element = drone.findFirstDisplayedElement(GALLERY_VIEW_ICON);
 			            drone.mouseOver(element);
 			            element.click();

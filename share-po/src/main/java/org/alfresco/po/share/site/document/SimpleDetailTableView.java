@@ -54,7 +54,7 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
     private WebElement selectMoreAction()
     {
         WebElement actions = selectAction();
-        getDrone().mouseOverOnElement(actions);
+        getDrone().mouseOver(actions);
         WebElement contentActions = selectAction();
         return contentActions.findElement(By.cssSelector(MORE_ACTIONS));
     }
@@ -153,7 +153,7 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
         }
 
         WebElement contentActions = selectAction();
-        getDrone().mouseOverOnElement(contentActions);
+        getDrone().mouseOver(contentActions);
         super.selectDownload();
     }
 
@@ -421,7 +421,7 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
     public boolean isEditPropertiesLinkPresent()
     {
         WebElement actions = selectAction();
-        getDrone().mouseOverOnElement(actions);
+        getDrone().mouseOver(actions);
         resolveStaleness();
         return super.isEditPropertiesLinkPresent();
     }
@@ -478,7 +478,7 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
     public EditDocumentPropertiesPage selectEditProperties()
     {
         WebElement actions = selectAction();
-        getDrone().mouseOverOnElement(actions);
+        getDrone().mouseOver(actions);
         return super.selectEditProperties();
     }
 
@@ -490,7 +490,7 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
     public void selectViewInBrowser()
     {
         WebElement actions = selectAction();
-        getDrone().mouseOverOnElement(actions);
+        getDrone().mouseOver(actions);
         super.selectViewInBrowser();
     }
 
@@ -520,14 +520,14 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
 
     private void focusOnFileOrFolder()
     {
-        drone.mouseOverOnElement(drone.findAndWait(By.xpath("//h3[@class='filename']/span/a[text()='" + getName() + "']")));
+        drone.mouseOver(drone.findAndWait(By.xpath("//h3[@class='filename']/span/a[text()='" + getName() + "']")));
     }
 
     @Override
     public String getVersionInfo()
     {
         WebElement actions = selectAction();
-        getDrone().mouseOverOnElement(actions);
+        getDrone().mouseOver(actions);
         return super.getVersionInfo();
     }
 
@@ -622,7 +622,7 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
         }
 
         WebElement contentActions = selectAction();
-        getDrone().mouseOverOnElement(contentActions);
+        getDrone().mouseOver(contentActions);
         super.selectLocateFile();
     }
 
@@ -641,7 +641,7 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
         }
 
         WebElement contentActions = selectAction();
-        getDrone().mouseOverOnElement(contentActions);
+        getDrone().mouseOver(contentActions);
         super.selectPreviewWebAsset();
     }
 

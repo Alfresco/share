@@ -232,7 +232,7 @@ public class LinksPage extends SharePage
         try
         {
             row = drone.findAndWait(By.xpath(String.format("//a[text()='%s']/../../../..", title)), WAIT_TIME_3000);
-            drone.mouseOverOnElement(row);
+            drone.mouseOver(row);
         }
         catch (NoSuchElementException e)
         {

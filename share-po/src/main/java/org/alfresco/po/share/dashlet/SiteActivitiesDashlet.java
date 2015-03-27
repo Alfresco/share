@@ -261,7 +261,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
         try
         {
             WebElement theTitleOfDashlet = drone.findAndWait(By.xpath(".//div[contains(@class,'activities')]/div[@class='title']"));
-            drone.mouseOverOnElement(theTitleOfDashlet);
+            drone.mouseOver(theTitleOfDashlet);
             waitUntilAlert();
             return dashlet.findElement(RSS_FEED_BUTTON).isDisplayed();
         }

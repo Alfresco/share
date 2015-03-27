@@ -265,7 +265,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
                 String fileSize = tr.findElement(FILE_SIZE).getText();
                 String desc = tr.findElement(By.cssSelector(DETAIL_DESC)).getText();
 
-                drone.mouseOverOnElement(thumbnailLink);
+                drone.mouseOver(thumbnailLink);
                 WebElement docVersionElement = tr.findElement(DOCUMENT_VERSION);
 
                 double docVersion = 0;

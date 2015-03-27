@@ -251,7 +251,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
             {
                 if (webElement.findElement(By.cssSelector(SITE_NAME_IN_ROW)).getText().equals(siteName))
                 {
-                    drone.mouseOverOnElement(webElement);
+                    drone.mouseOver(webElement);
                     webElement.findElement(By.cssSelector(DELETE_SYMB_IN_ROW)).click();
                     return confirmDelete();
                 }
@@ -361,7 +361,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
             {
                 if (webElement.findElement(By.cssSelector(SITE_NAME_IN_ROW)).getText().equals(siteName))
                 {
-                    drone.mouseOverOnElement(webElement);
+                    drone.mouseOver(webElement);
                     webElement.findElement(By.cssSelector(FAVORITE_SYMB_IN_ROW)).click();
                     break;
                 }

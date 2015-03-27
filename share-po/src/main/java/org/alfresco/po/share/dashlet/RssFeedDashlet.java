@@ -92,7 +92,7 @@ public class RssFeedDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.mouseOverOnElement(drone.find(titleBarActions));
+            drone.mouseOver(drone.find(titleBarActions));
             dashlet.findElement(CONFIGURE_DASHLET_ICON).click();
             return new RssFeedUrlBoxPage(drone).render();
         }

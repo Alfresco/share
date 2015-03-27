@@ -179,7 +179,16 @@ public class ReplicationJob
 
         try
         {
-            driver.waitFor(timeToWait);
+        	synchronized (this)
+            {
+                try
+                {
+                    this.wait(1000L);
+                }
+                catch (InterruptedException e)
+                {
+                }
+            };
             driver.refresh();
             driver.waitForElement(By.cssSelector(".replication"), 3);
             //driver.waitUntilElementPresent(By.cssSelector(ReplicationJobStatus.RUNNING.getCssSelector()), 3);

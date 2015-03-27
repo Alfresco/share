@@ -184,7 +184,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
             {
                 if (webElement.findElement(By.cssSelector(SITE_NAME_IN_ROW)).getText().equals(siteName))
                 {
-                    drone.mouseOverOnElement(webElement);
+                    drone.mouseOver(webElement);
                     webElement.findElement(By.cssSelector(DELETE_SYMB_IN_ROW)).click();
                     confirmDelete();
                     drone.refresh();
