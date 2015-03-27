@@ -164,35 +164,38 @@ public class RssFeedUrlBoxPage extends SharePage
             throw new ShareException("Unable to find checkbox", te);
         }
     }
-    
+
+    /**
+     * Method to verify if 'Open links in new window' is checked
+     * 
+     * @return true if checked
+     */
     public boolean isLinkNewWindowSelected()
     {
         boolean selected;
-        
         try
         {
-            WebElement element = drone.findAndWait(CHK_OPEN_IN_NEW_WINDOW);
+            WebElement element = drone.find(CHK_OPEN_IN_NEW_WINDOW);
             selected = element.isSelected();
             return selected;
         }
-        catch (TimeoutException te)
+        catch (NoSuchElementException te)
         {
-            throw new ShareException("Unable to find checkbox", te);
+            return false;
         }
     }
-    
+
     public void clearUrlField()
     {
         try
         {
             WebElement element = drone.find(URL_FIELD);
             element.clear();
-
         }
         catch (TimeoutException te)
         {
             throw new ShareException("Unable to find Url field", te);
-        } 
+        }
     }
 
     public String getValidationMessageFromUrlField(String text)
@@ -211,7 +214,7 @@ public class RssFeedUrlBoxPage extends SharePage
             throw new ShareException("Unable to find Url field", te);
         }
     }
-    
+
     /**
      * Wait until check box open in new window disappears
      */
@@ -219,7 +222,10 @@ public class RssFeedUrlBoxPage extends SharePage
     {
         drone.waitUntilElementDisappears(CHK_OPEN_IN_NEW_WINDOW, 30);
     }
-    
+
+    /**
+     * Method to check if OK button is enabled
+     */
     public boolean isOkButtonEnabled()
     {
         try
@@ -228,7 +234,7 @@ public class RssFeedUrlBoxPage extends SharePage
         }
         catch (NoSuchElementException te)
         {
-            throw new ShareException("Unable to find Ok button", te);
+            return false;
         }
     }
 }
