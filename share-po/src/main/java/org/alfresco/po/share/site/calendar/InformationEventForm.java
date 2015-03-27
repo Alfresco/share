@@ -62,7 +62,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method for click on 'Edit' on information event form
-     * 
+     *
      * @return
      */
     public EditEventForm clickOnEditEvent()
@@ -78,7 +78,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method for click on 'Delete' on information event form
-     * 
+     *
      * @return
      */
     public DeleteEventForm clickOnDeleteEvent()
@@ -94,19 +94,18 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to verify whether Edit button is present
-     * 
+     *
      * @return boolean
      */
     public boolean isEditButtonPresent()
     {
-        boolean isPresent;
-        isPresent = drone.isElementDisplayed(EDIT_BUTTON);
-        return isPresent;
+        return drone.isElementDisplayed(EDIT_BUTTON);
+
     }
 
     /**
      * Method to verify whether Delete button is present
-     * 
+     *
      * @return boolean
      */
     public boolean isDeleteButtonPresent()
@@ -118,7 +117,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to retrieve tag added to Calendar Event
-     * 
+     *
      * @return String
      */
     public String getTagName()
@@ -139,7 +138,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to retrieve what Detail added to Calendar Event
-     * 
+     *
      * @return String
      */
     public String getWhatDetail()
@@ -160,7 +159,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to retrieve where Detail added to Calendar Event
-     * 
+     *
      * @return String
      */
     public String getWhereDetail()
@@ -181,7 +180,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to retrieve description Detail added to Calendar Event
-     * 
+     *
      * @return String
      */
     public String getDescriptionDetail()
@@ -199,7 +198,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method for close information event form
-     * 
+     *
      * @return
      */
     public CalendarPage closeInformationForm()
@@ -215,7 +214,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to retrieve Start Date Time of event
-     * 
+     *
      * @return String
      * @author Bogdan.Bocancea
      */
@@ -237,7 +236,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to retrieve End Date Time of event
-     * 
+     *
      * @return String
      * @author Bogdan.Bocancea
      */
@@ -259,7 +258,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to verify whether Delete button is enabled
-     * 
+     *
      * @return boolean
      */
     public boolean isDeleteButtonEnabled()
@@ -276,7 +275,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to verify whether Delete button is enabled
-     * 
+     *
      * @return boolean
      */
     public boolean isOkButtonEnabled()
@@ -293,7 +292,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to verify whether Recurrence is present
-     * 
+     *
      * @return boolean
      */
     public boolean isRecurrencePresent()
@@ -310,7 +309,7 @@ public class InformationEventForm extends AbstractEventForm
 
     /**
      * Method to retrieve description Detail added to Calendar Event
-     * 
+     *
      * @return String
      */
     public String getRecurrenceDetail()
