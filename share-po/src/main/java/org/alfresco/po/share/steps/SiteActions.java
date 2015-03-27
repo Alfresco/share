@@ -169,7 +169,7 @@ public class SiteActions extends CommonActions
          */
 
         // Open DocumentLibrary Page from Site Page
-        SitePage site = (SitePage) getSharePage(drone);
+        SitePage site = drone.getCurrentPage().render();
 
         DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
         logger.info("Opened Document Library");
@@ -594,7 +594,7 @@ public class SiteActions extends CommonActions
      */
     private DocumentLibraryPage selectContentCheckBox(WebDrone drone, String contentName)
     {
-        DocumentLibraryPage docLibPage = ((DocumentLibraryPage) getSharePage(drone)).render();
+        DocumentLibraryPage docLibPage = drone.getCurrentPage().render();
         if (!docLibPage.getFileDirectoryInfo(contentName).isCheckboxSelected())
         {
             docLibPage.getFileDirectoryInfo(contentName).selectCheckbox();
@@ -675,9 +675,9 @@ public class SiteActions extends CommonActions
      * @param fileName
      * @return
      */
-    public HtmlPage copyOrMoveArtifact(WebDrone drone, String destination, String siteName, String moveFolderName, String fileName, String type)
+    public HtmlPage copyOrMoveArtifact(WebDrone drone, String destination, String siteName,  String fileName, String type, String... moveFolderName)
     {
-        DocumentLibraryPage docPage = (DocumentLibraryPage) getSharePage(drone);
+        DocumentLibraryPage docPage =drone.getCurrentPage().render();
         CopyOrMoveContentPage copyOrMoveToPage;
 
         if (type.equals("Copy"))
@@ -740,7 +740,7 @@ public class SiteActions extends CommonActions
      */
     public DocumentLibraryPage editProperties(WebDrone drone, String contentName, String newContentName, String title, String description)
     {
-        DocumentLibraryPage documentLibraryPage = ((DocumentLibraryPage) getSharePage(drone)).render();
+        DocumentLibraryPage documentLibraryPage = drone.getCurrentPage().render();
         EditDocumentPropertiesPage editProp = documentLibraryPage.getFileDirectoryInfo(contentName).selectEditProperties().render();
         // Check the newContent is present
         if (newContentName != null)
