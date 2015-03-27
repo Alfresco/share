@@ -15,8 +15,6 @@
 
 package org.alfresco.po.share.user;
 
-import java.util.List;
-
 import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.SharePopup;
 import org.alfresco.po.share.exception.ShareException;
@@ -33,6 +31,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 /**
  * As part of 42 new features the user can recover or completely delete from the
@@ -272,7 +272,17 @@ public class TrashCanItem extends HtmlElement
                 buttonName = button.getText();
                 if (buttonName.equalsIgnoreCase(trashCanActionType.getTrashCanValues()))
                 {
-                    returnPage = submit(By.id(button.getAttribute("id")), ElementState.INVISIBLE);
+                    switch (trashCanActionType){
+                        case DELETE:{
+                            returnPage = submit(By.id(button.getAttribute("id")), ElementState.VISIBLE);
+                            break;
+                        }
+                        default:
+                        {
+                            returnPage = submit(By.id(button.getAttribute("id")), ElementState.INVISIBLE);
+                            break;
+                        }
+                    }
                     if (drone.isElementDisplayed(By.cssSelector("div.bd>span.message")))
                     {
                         String text = drone.find(By.cssSelector("div.bd>span.message")).getText();
@@ -328,6 +338,9 @@ public class TrashCanItem extends HtmlElement
                             break;
                         case DELETE_FROM_DOM:
                             drone.waitUntilElementDeletedFromDom(locatorById, elementWaitInSeconds);
+                            break;
+                        case VISIBLE:
+                            drone.waitUntilElementPresent(By.cssSelector("div.ft>span button"), elementWaitInSeconds);
                             break;
                         default:
                             throw new UnsupportedOperationException(elementState + "is not currently supported by submit.");
