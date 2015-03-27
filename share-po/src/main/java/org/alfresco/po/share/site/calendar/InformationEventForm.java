@@ -7,6 +7,7 @@ import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 
 /**
@@ -28,8 +29,6 @@ public class InformationEventForm extends AbstractEventForm
     private final static By START_DATE_TIME = By.cssSelector("div[id$='_defaultContainer-startdate']");
     @RenderWebElement
     private final static By END_DATE_TIME = By.cssSelector("div[id$='_defaultContainer-enddate']");
-
-    private final static By RECURRENCE_LABEL = By.xpath("//div[contains(text(),'Recurrence:')]");
     private final static By RECURRENCE_DETAIL = By.xpath("//div[contains(text(),'Recurrence:')]/following-sibling::div");
 
     public InformationEventForm(WebDrone drone)
@@ -190,10 +189,7 @@ public class InformationEventForm extends AbstractEventForm
         try
         {
             String whatDetail = drone.findAndWait(DESCRIPTION_DETAIL).getText();
-            // if (!whatDetail.isEmpty())
             return whatDetail;
-            // else
-            // throw new IllegalArgumentException("Cannot find description Detail");
         }
         catch (TimeoutException te)
         {
@@ -268,9 +264,14 @@ public class InformationEventForm extends AbstractEventForm
      */
     public boolean isDeleteButtonEnabled()
     {
-        boolean isPresent;
-        isPresent = drone.findAndWait(DELETE_BUTTON).isEnabled();
-        return isPresent;
+        try
+        {
+            return drone.find(DELETE_BUTTON).isEnabled();
+        }
+        catch (NoSuchElementException te)
+        {
+            return false;
+        }
     }
 
     /**
@@ -280,9 +281,14 @@ public class InformationEventForm extends AbstractEventForm
      */
     public boolean isOkButtonEnabled()
     {
-        boolean isPresent;
-        isPresent = drone.findAndWait(OK_BUTTON).isEnabled();
-        return isPresent;
+        try
+        {
+            return drone.find(OK_BUTTON).isEnabled();
+        }
+        catch (NoSuchElementException te)
+        {
+            return false;
+        }
     }
 
     /**
@@ -292,9 +298,14 @@ public class InformationEventForm extends AbstractEventForm
      */
     public boolean isRecurrencePresent()
     {
-        boolean isPresent;
-        isPresent = drone.isElementDisplayed(RECURRENCE_LABEL);
-        return isPresent;
+        try
+        {
+            return drone.find(RECURRENCE_DETAIL).isEnabled();
+        }
+        catch (NoSuchElementException te)
+        {
+            return false;
+        }
     }
 
     /**
