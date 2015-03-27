@@ -649,7 +649,7 @@ public class DocumentLibraryPage extends SitePage
             {
                 logger.trace(String.format("matching %s against %s", name, fileName));
             }
-            if (name.equalsIgnoreCase(fileName))
+            if (name.trim().equalsIgnoreCase(fileName.replace(".docx","")))
             {
                 return file;
             }
@@ -677,7 +677,7 @@ public class DocumentLibraryPage extends SitePage
         {
             for (FileDirectoryInfo file : getFiles())
             {
-                if (fileName.equalsIgnoreCase(file.getName()))
+                if (fileName.equalsIgnoreCase(file.getName().trim().replace(".docx", "")))
                 {
                     return true;
                 }
@@ -1593,10 +1593,10 @@ public class DocumentLibraryPage extends SitePage
      * @param drone
      * @return
      */
-    public static DocumentLibraryPage selectDocumentLibrary(WebDrone drone)
+    public DocumentLibraryPage selectDocumentLibrary(WebDrone drone)
     {
-        drone.findAndWait(DOCUMENT_LIBRARY).click();
-        return new DocumentLibraryPage(drone);
+        drone.find(DOCUMENT_LIBRARY).click();
+        return drone.getCurrentPage().render();
     }
 
 
