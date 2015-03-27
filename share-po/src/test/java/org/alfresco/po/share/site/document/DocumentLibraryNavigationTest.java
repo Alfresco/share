@@ -17,6 +17,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
+import org.alfresco.po.share.site.document.TreeMenuNavigation.DocumentsMenu;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
@@ -31,7 +32,7 @@ import org.testng.annotations.Test;
  * @version 2.1
  */
 @Listeners(FailedTestListener.class)
-@Test(groups="Enterprise-only")
+@Test(groups = "Enterprise-only")
 public class DocumentLibraryNavigationTest extends AbstractTest
 {
     private static String siteName;
@@ -47,11 +48,8 @@ public class DocumentLibraryNavigationTest extends AbstractTest
     public void prepare() throws Exception
     {
         siteName = "site" + System.currentTimeMillis();
-
         file1 = SiteUtil.prepareFile(siteName + "1");
-
         loginAs(username, password);
-
         SiteUtil.createSite(drone, siteName, "Public");
         SitePage site = drone.getCurrentPage().render();
         documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
@@ -67,15 +65,13 @@ public class DocumentLibraryNavigationTest extends AbstractTest
         SiteDashboardPage siteDash = siteFinder.selectSite(siteName).render();
         DocumentLibraryPage docPage = siteDash.getSiteNav().selectSiteDocumentLibrary().render();
         docPage.getNavigation().selectDetailedView();
-
         SiteUtil.deleteSite(drone, siteName);
     }
 
-    @Test(enabled = true, priority=1)
+    @Test(enabled = true, priority = 1)
     public void testNavigateToAudioView() throws Exception
     {
         documentLibPage = documentLibPage.getNavigation().selectAudioView().render();
-
         assertTrue(documentLibPage.getViewType().equals(ViewType.AUDIO_VIEW), documentLibPage.getViewType() + " was selected");
     }
 
@@ -83,8 +79,31 @@ public class DocumentLibraryNavigationTest extends AbstractTest
     public void testNavigateToMediaView() throws Exception
     {
         documentLibPage = documentLibPage.getNavigation().selectMediaView().render();
-
         assertTrue(documentLibPage.getViewType().equals(ViewType.MEDIA_VIEW), documentLibPage.getViewType() + " was selected");
+    }
+
+    @Test(enabled = true, priority = 3)
+    public void testLocateFile() throws Exception
+    {
+        documentLibPage = documentLibPage.getNavigation().selectDetailedView().render();
+        TreeMenuNavigation treeMenuNav = documentLibPage.getLeftMenus();
+        treeMenuNav.selectDocumentNode(DocumentsMenu.ALL_DOCUMENTS);
+        int count = 0;
+        while (count < 6)
+        {
+            drone.refresh();
+            treeMenuNav.selectDocumentNode(DocumentsMenu.ALL_DOCUMENTS);
+            if (documentLibPage.isFileVisible(file1.getName()))
+            {
+                break;
+            }
+            count++;
+        }
+
+        FileDirectoryInfo file = documentLibPage.getFileDirectoryInfo(file1.getName());
+        file.selectLocateFile();
+        documentLibPage.render();
+        assertTrue(documentLibPage.isFileVisible(file1.getName()));
     }
 
 }
