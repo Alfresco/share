@@ -14,9 +14,6 @@
  */
 package org.alfresco.po.share.site.document;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.SharePopup;
 import org.alfresco.po.share.site.UpdateFilePage;
@@ -28,7 +25,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+
 import java.util.List;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * When the user clicks on Save to Alfresco they will be provided with update version page.
@@ -128,7 +129,7 @@ public class GoogleDocsUpdateFilePage extends UpdateFilePage
         {
             try
             {
-                drone.waitUntilNotVisibleWithParitalText(By.cssSelector("div.bd>span.message"), text, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                drone.waitUntilNotVisibleWithParitalText(By.cssSelector("div.bd>span.message"), text, 10);
             }
             catch (TimeoutException e)
             {
