@@ -21,10 +21,8 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.DeleteGroupFromGroupPage;
 import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
-import org.alfresco.po.share.systemsummary.SystemSummaryPage;
 import org.alfresco.po.share.user.CloudSignInPage;
 import org.alfresco.webdrone.ElementState;
 import org.alfresco.webdrone.HtmlPage;
@@ -42,7 +40,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 /**
@@ -104,9 +101,8 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     private static final RenderElement PRIORITY_DROPDOWN_ELEMENT = getVisibleRenderElement(PRIORITY_DROPDOWN);
     private static final RenderElement DUE_DATE_ELEMENT = getVisibleRenderElement(DUE_DATE);
     private static final long TIME_LEFT = 1000;
-    
+
     private static final By ALL_FIELD_LABELS = By.cssSelector(".form-field>label");
-    
 
     private final Log logger = LogFactory.getLog(this.getClass());
 
@@ -634,7 +630,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     {
         try
         {
-            return (drone.find(REQUIRED_APPROVAL_PERCENTAGE).isDisplayed() && drone.find(APPROVAL_PERCENTAGE_HELP_ICON).isDisplayed());
+            return drone.find(REQUIRED_APPROVAL_PERCENTAGE).isDisplayed() && drone.find(APPROVAL_PERCENTAGE_HELP_ICON).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -935,7 +931,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     {
         try
         {
-            return (drone.findAndWait(AFTER_COMPLETION_DROPDOWN).isDisplayed());
+            return drone.find(AFTER_COMPLETION_DROPDOWN).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -952,7 +948,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     {
         try
         {
-            return (drone.findAndWait(ADD_ITEMS_BUTTON).isDisplayed());
+            return drone.find(ADD_ITEMS_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -964,7 +960,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     {
         try
         {
-            return (drone.findAndWait(MESSAGE_TEXT).isDisplayed());
+            return drone.find(MESSAGE_TEXT).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -976,7 +972,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     {
         try
         {
-            return (drone.findAndWait(TYPE_DROP_DOWN_BUTTON).isDisplayed());
+            return drone.find(TYPE_DROP_DOWN_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -988,7 +984,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     {
         try
         {
-            return (drone.findAndWait(WORKFLOW_DESCRIPTION_HELP_ICON).isDisplayed());
+            return drone.find(WORKFLOW_DESCRIPTION_HELP_ICON).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1000,7 +996,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     {
         try
         {
-            return (drone.findAndWait(DUE_DATE).isDisplayed());
+            return drone.find(DUE_DATE).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1012,7 +1008,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     {
         try
         {
-            return (drone.findAndWait(PRIORITY_DROPDOWN).isDisplayed());
+            return drone.find(PRIORITY_DROPDOWN).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1020,7 +1016,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
         }
     }
 
-     /**
+    /**
      * Verify if if selected After Completion is correct
      * 
      * @return true if exists
@@ -1031,7 +1027,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
         {
             throw new IllegalArgumentException("Task Type can't be null.");
         }
-        Select afterCompletionDropDown = new Select(drone.findAndWait(AFTER_COMPLETION_DROPDOWN));
+        Select afterCompletionDropDown = new Select(drone.find(AFTER_COMPLETION_DROPDOWN));
         return afterCompletionDropDown.getFirstSelectedOption().getText().equals(strategy.getStrategy());
     }
 
@@ -1045,7 +1041,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
         String description = getDetailsForFile(fileName, ITEM_DATE);
         return description;
     }
-    
+
     /**
      * Method to get All labels from Workflow Form
      * 
