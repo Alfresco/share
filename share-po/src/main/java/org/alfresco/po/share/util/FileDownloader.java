@@ -72,8 +72,6 @@ public class FileDownloader
 
     /**
      * Loads the cookies from WebDrone to mimic the browser cookie state
-     * 
-     * @param seleniumCookieSet
      * @return {@link BasicCookieStore} current state
      */
     private BasicCookieStore getCookies()

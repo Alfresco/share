@@ -42,10 +42,10 @@ public enum SendEMailNotifications
     }
 
     /**
-     * Returns {@link org.alfresco.webdrone.share.workflow.SendEMailNotifications} based on given value.
+     * Returns {@link SendEMailNotifications} based on given value.
      * 
      * @param value
-     * @return {@link org.alfresco.webdrone.share.workflow.SendEMailNotifications}
+     * @return {@link SendEMailNotifications}
      */
     public static SendEMailNotifications getValue(String value)
     {

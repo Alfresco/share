@@ -312,7 +312,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
     /**
      * Enters a value in to the record properties.
      *
-     * @param name String name input
+     * @param location String location
      */
     public void setLocation(final String location)
     {

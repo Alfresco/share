@@ -110,7 +110,6 @@ public class AbstractCalendarContainer extends AbstractEventForm
 
     /**
      * @param month
-     * @param day
      */
     public void setMonth(String month)
     {
@@ -155,8 +154,7 @@ public class AbstractCalendarContainer extends AbstractEventForm
     }
 
     /**
-     * @param month
-     * @param day
+     * @param year
      */
     public void setYear(String year)
     {

@@ -308,7 +308,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      * This method can be used to select any folder in the site, given destination only from repository/Sites
      * This method is used when Repository/Sites are selected in CopyAndMoveContentFromSearchPage
      * 
-     * @param String paths
+     * @param paths String
      * @return CopyOrMoveContentPage
      */
     public CopyAndMoveContentFromSearchPage selectFolder(String... paths)

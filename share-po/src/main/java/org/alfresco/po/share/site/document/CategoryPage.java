@@ -120,9 +120,9 @@ public class CategoryPage extends AbstractEditProperties
     /**
      * Remove the {@link Categories} if it is available to remove.
      *
-     * @param aspects {@link List} of {@link Categories} to remove.
+     * @param categories {@link List} of {@link Categories} to remove.
      * @return {@link DocumentDetailsPage}
-     * @depricated Use {@link #addCategories(List<String>, String...)} instead.
+     * @deprecated Use {@link #addCategories(List, String...)} instead.
      */
     @Deprecated
     public HtmlPage remove(List<Categories> categories)
@@ -138,8 +138,8 @@ public class CategoryPage extends AbstractEditProperties
     /**
      * Remove top-level categories or sub-categories.
      *
-     * @param Categories {@link List} to be removed.
-     * @param Optional - VarArg of parent category tree.
+     * @param categories Categories {@link List} to be removed.
+     * @param parentCategories Optional - VarArg of parent category tree.
      * @return {@link DocumentDetailsPage}
      */
     public HtmlPage removeCategories(List<String> categories, String... parentCategories)
@@ -159,9 +159,9 @@ public class CategoryPage extends AbstractEditProperties
     /**
      * Add the {@link Categories} if it is available to add.
      *
-     * @param aspects {@link List} of {@link Categories} to added.
+     * @param categories {@link List} of {@link Categories} to added.
      * @return {@link DocumentDetailsPage}
-     * @depricated Use {@link #addCategories(List<String>, String...)} instead.
+     * @deprecated Use {@link #addCategories(List, String...)} instead.
      */
     @Deprecated
     public HtmlPage add(List<Categories> categories)
@@ -177,8 +177,8 @@ public class CategoryPage extends AbstractEditProperties
     /**
      * Add top-level categories or sub-categories.
      *
-     * @param Categories {@link List} to be added.
-     * @param Optional - VarArg of parent category tree.
+     * @param categories Categories {@link List} to be added.
+     * @param parentCategories Optional - VarArg of parent category tree.
      * @return {@link DocumentDetailsPage}
      */
     public HtmlPage addCategories(List<String> categories, String... parentCategories)
@@ -276,7 +276,7 @@ public class CategoryPage extends AbstractEditProperties
      * Get {@link List} of {@link Categories} which can be add able.
      *
      * @return {@link List} of {@link Categories}
-     * @depricated Use {@link #getAddAbleCatgoryList()} instead.
+     * @deprecated Use {@link #getAddAbleCatgoryList()} instead.
      */
     @Deprecated
     public List<Categories> getAddAbleCatgories()
@@ -316,7 +316,7 @@ public class CategoryPage extends AbstractEditProperties
      * Get the {@link List} of {@link Categories} which is added.
      *
      * @return {@link List} of {@link Categories}
-     * @depricated Use {@link #getAddedCatgoryList()} instead.
+     * @deprecated Use {@link #getAddedCatgoryList()} instead.
      */
     @Deprecated
     public List<Categories> getAddedCatgories()
@@ -393,8 +393,8 @@ public class CategoryPage extends AbstractEditProperties
     /**
      * This method click on category to see subCategories.
      *
-     * @param category
-     * @depricated Use {@link #openSubCategories(String)} instead.
+     * @param category String
+     * @deprecated Use {@link #openSubCategories(String)} instead.
      */
     @Deprecated
     public void openSubCategories(Categories category)
@@ -405,7 +405,7 @@ public class CategoryPage extends AbstractEditProperties
     /**
      * This method clicks on the category to see subCategories.
      *
-     * @param category
+     * @param category String
      */
     public void openSubCategories(String category)
     {

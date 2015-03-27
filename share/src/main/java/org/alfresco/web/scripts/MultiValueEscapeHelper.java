@@ -31,7 +31,7 @@ public class MultiValueEscapeHelper extends BaseProcessorExtension
 {
     /**
      * Returns the individual values of a multi-valued property, which has been properly
-     * escaped by the {@link ExtendedFieldBuilder}. 
+     * escaped by the {@link org.alfresco.repo.forms.processor.workflow.ExtendedFieldBuilder}.
      * 
      * @param escapedString the string containing the escaped, comma-seperated values.
      * @return the values split up and unescaped.

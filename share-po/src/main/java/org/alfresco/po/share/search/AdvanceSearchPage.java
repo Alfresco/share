@@ -108,7 +108,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Content keyword is Displayed and enter search text in the keyword.
      *
-     * @param String keyWordSearchText
+     * @param keyWordSearchText String
      */
     public void inputKeyword(final String keyWordSearchText)
     {
@@ -134,7 +134,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Enter the text value in the Name field.
      *
-     * @param String NameSearchText
+     * @param nameSearchText String
      */
     public void inputName(final String nameSearchText)
     {
@@ -160,7 +160,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Enter the text value in the title field.
      *
-     * @param String titleSearchText
+     * @param titleSearchText String
      */
     public void inputTitle(final String titleSearchText)
     {
@@ -186,7 +186,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Enter the text value in the description field.
      *
-     * @param String descriptionSearchText
+     * @param descriptionSearchText String
      */
     public void inputDescription(final String descriptionSearchText)
     {
@@ -212,7 +212,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Enter the text value in the modifier field.
      *
-     * @param String modifierSearchText
+     * @param modifierSearchText String
      */
     public void inputModifier(final String modifierSearchText)
     {
@@ -238,7 +238,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Enter the date in the from date field.
      *
-     * @param String fromDateText
+     * @param fromDateText String
      */
     public void inputFromDate(final String fromDateText)
     {
@@ -264,7 +264,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Enter the date in the To date field.
      *
-     * @param String ToDateText
+     * @param toDateText String
      */
     public void inputToDate(final String toDateText)
     {
@@ -290,7 +290,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Select the Mime type.
      *
-     * @param String mimeType
+     * @param mimeType String
      */
     public void selectMimeType(final String mimeType)
     {

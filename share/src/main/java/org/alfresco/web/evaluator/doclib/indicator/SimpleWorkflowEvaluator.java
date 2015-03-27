@@ -31,7 +31,7 @@ import org.json.simple.JSONObject;
  *     hasAspect("app:simpleworkflow")
  * </pre>
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class SimpleWorkflowEvaluator extends BaseEvaluator
 {

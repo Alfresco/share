@@ -24,7 +24,7 @@ import org.json.simple.JSONObject;
 /**
  * Evaluates whether the sync mode is the specified value
  *
- * @author: David Webster
+ * @author David Webster
  */
 public class SyncModeEvaluator extends BaseEvaluator
 {

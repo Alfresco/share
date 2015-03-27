@@ -88,8 +88,6 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Populates all the possible links that appear on the dashlet
      * data view, the links are of user, document or site.
-     *
-     * @param selector css placeholder for the dashlet data
      */
     private synchronized void populateData()
     {
@@ -220,7 +218,7 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
      * Find the match and selects on the link.
      *
      * @param name identifier to match against link title
-     * @param enum that determines document, site or user type link
+     * @param type LinkType that determines document, site or user type link
      */
     private synchronized ActivityShareLink selectLink(final String name, LinkType type)
     {
@@ -295,7 +293,6 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Get Activities based on the link type.
      *
-     * @param linktype Document, User or Site
      * @return {@link ShareLink} collection
      */
     public synchronized List<ActivityShareLink> getActivities()
@@ -350,7 +347,7 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Select option from history filter drop down
      *
-     * @param SiteActivitiesHistoryFilter
+     * @param lastDays SiteActivitiesHistoryFilter
      * @return {@link ShareLink} collection
      * @author Cristina.Axinte
      */
@@ -431,7 +428,7 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method returns if the specified option is selected in history button
      *
-     * @param historyOption
+     * @param lastDays SiteActivitiesHistoryFilter
      * @return
      * @author Cristina.Axinte
      */

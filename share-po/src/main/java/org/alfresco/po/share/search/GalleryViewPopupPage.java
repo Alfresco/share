@@ -86,7 +86,7 @@ public class GalleryViewPopupPage extends SharePage
     /**
      * Select close button.
      * 
-     * @return {@link FacetdSearchPage} page response
+     * @return {@link FacetedSearchPage} page response
      */
     public FacetedSearchPage selectClose()
     {

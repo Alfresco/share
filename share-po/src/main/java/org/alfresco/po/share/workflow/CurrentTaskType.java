@@ -47,10 +47,10 @@ public enum CurrentTaskType
     }
 
     /**
-     * Returns {@link org.alfresco.webdrone.share.workflow.CurrentTaskType} based on given value.
+     * Returns {@link CurrentTaskType} based on given value.
      * 
      * @param value
-     * @return {@link org.alfresco.webdrone.share.workflow.CurrentTaskType}
+     * @return {@link CurrentTaskType}
      */
     public static CurrentTaskType getCurrentTaskType(String value)
     {

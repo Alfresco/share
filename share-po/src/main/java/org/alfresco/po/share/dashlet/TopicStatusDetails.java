@@ -26,8 +26,8 @@ public class TopicStatusDetails
     private String replyDetails;
 
     /**
-     * @param createdBy
      * @param creationTime
+     * @param updateTime
      */
     public TopicStatusDetails(String creationTime, String updateTime)
     {

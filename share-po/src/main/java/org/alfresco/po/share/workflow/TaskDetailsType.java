@@ -46,10 +46,10 @@ public enum TaskDetailsType
     }
 
     /**
-     * Returns {@link org.alfresco.webdrone.share.workflow.TaskDetailsType} based on given value.
+     * Returns {@link TaskDetailsType} based on given value.
      * 
      * @param value
-     * @return {@link org.alfresco.webdrone.share.workflow.TaskDetailsType}
+     * @return {@link TaskDetailsType}
      */
     public static TaskDetailsType getTaskDetailsType(String value)
     {

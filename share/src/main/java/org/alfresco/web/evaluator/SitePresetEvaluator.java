@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Check whether the node lives in a Site of one of the listed presets
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class SitePresetEvaluator extends BaseEvaluator
 {

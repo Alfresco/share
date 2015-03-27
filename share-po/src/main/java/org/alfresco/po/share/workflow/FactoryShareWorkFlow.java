@@ -40,7 +40,7 @@ public final class FactoryShareWorkFlow
      * Gets the sub WorkFlow HTML element from the StartWorkFlow page.
      *
      * @param drone     {@link org.alfresco.webdrone.WebDrone}
-     * @param fromClass
+     * @param workFlowType WorkFlowType
      * @return workFlowType
      */
     @SuppressWarnings("unchecked")

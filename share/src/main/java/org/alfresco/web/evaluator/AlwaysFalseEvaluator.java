@@ -24,7 +24,7 @@ import org.json.simple.JSONObject;
 /**
  * Convenience evaluator which always returns false
  * 
- * @author: mikeh
+ * @author mikeh
  */
 public class AlwaysFalseEvaluator extends BaseEvaluator
 {

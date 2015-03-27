@@ -36,7 +36,7 @@ public class ActionsSet
     /**
      * Instantiates a new actions set.
      * 
-     * @param webDrone the web drone
+     * @param drone the web drone
      * @param element the element
      */
     public ActionsSet(WebDrone drone, WebElement element)

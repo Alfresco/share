@@ -24,7 +24,7 @@ package org.alfresco.web.evaluator;
  * <p>
  * The comparator is free to inject (via Spring config) whatever criteria are needed to decide on the outcome.
  *
- * @author: mikeh
+ * @author mikeh
  */
 public interface Comparator
 {

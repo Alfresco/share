@@ -45,7 +45,7 @@ public class SlingshotUser extends AlfrescoUser
     }
     
     /**
-     * @see org.alfresco.connector.User#save()
+     * @see org.springframework.extensions.webscripts.connector.User#save()
      */
     @Override
     public void save()

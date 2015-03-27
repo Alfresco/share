@@ -30,7 +30,7 @@ import org.json.simple.JSONObject;
  *     activeWorkflows is a number > 0
  * </pre>
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class ActiveWorkflowsEvaluator extends BaseEvaluator
 {

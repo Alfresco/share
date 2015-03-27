@@ -836,7 +836,6 @@ public class DocumentLibraryNavigation extends SharePage
      * New folder page pop up object.
      * 
      * @param drone WebDrone browser client
-     * @param repositoryBrowsing <tt>true</tt> if we are creating a folder in the Repository browser
      * @return NewFolderPage page object response
      */
     public NewFolderPage getNewFolderPage(WebDrone drone)
@@ -1106,7 +1105,7 @@ public class DocumentLibraryNavigation extends SharePage
      * Alfresco enterprise 4.2 and clicks on the button in
      * the dropdown.
      * 
-     * @param By selector location of button in dropdown to select
+     * @param button By selector location of button in dropdown to select
      */
     private void selectItemInOptionsDropDown(By button)
     {
@@ -1551,8 +1550,6 @@ public class DocumentLibraryNavigation extends SharePage
 
     /**
      * This method is used to find the view type.
-     * 
-     * @param By selector location of button in dropdown to select
      */
     public ViewType getViewType()
     {
@@ -1773,8 +1770,6 @@ public class DocumentLibraryNavigation extends SharePage
 
     /**
      * Finds the ZoomStyle of the doclib.
-     * 
-     * @param zoomThumbnail
      * @return {@link ZoomStyle}
      */
     public ZoomStyle getZoomStyle()

@@ -214,8 +214,6 @@ public class RssFeedUrlBoxPage extends SharePage
     
     /**
      * Wait until check box open in new window disappears
-     * 
-     * @param url
      */
     public void waitUntilCheckDisapperers()
     {

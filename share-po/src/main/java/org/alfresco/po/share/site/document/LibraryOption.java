@@ -51,8 +51,6 @@ public enum LibraryOption
 
     /**
      * Get value of CSS from the page type.
-     * 
-     * @param type
      * @return
      */
     public String getOption()

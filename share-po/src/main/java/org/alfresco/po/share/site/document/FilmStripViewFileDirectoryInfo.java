@@ -51,7 +51,6 @@ public class FilmStripViewFileDirectoryInfo extends FilmStripOrGalleryView
     }
 
     /**
-     * @param fileName
      * @return WebElement
      */
     @Override

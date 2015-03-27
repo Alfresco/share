@@ -31,7 +31,7 @@ import org.json.simple.JSONObject;
  *     hasAspect("rule:rules")
  * </pre>
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class RulesEvaluator extends BaseEvaluator
 {

@@ -32,7 +32,7 @@ import org.json.simple.JSONObject;
  *     property "cm:workingCopyOwner" == (currentUser)
  * </pre>
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class EditingEvaluator extends BaseEvaluator
 {

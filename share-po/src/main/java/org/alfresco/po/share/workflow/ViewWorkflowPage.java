@@ -93,7 +93,7 @@ public class ViewWorkflowPage extends SharePage
     /**
      * Selects the Cancel workflow button.
      * 
-     * @return {@link MyTasksPage} - instance of my task page.
+     * @return {@link HtmlPage} - instance of my task page.
      */
     public HtmlPage selectCancelWorkflowButton()
     {

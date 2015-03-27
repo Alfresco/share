@@ -39,7 +39,7 @@ public class SlingshotProxyControllerInterceptor implements ProxyControllerInter
     }
 
     /**
-     * @see org.springframework.extensions.webscripts.servlet.mvc.ProxyControllerInterceptor#exceptionOnError()
+     * @see org.springframework.extensions.webscripts.servlet.mvc.ProxyControllerInterceptor#exceptionOnError(org.springframework.extensions.config.RemoteConfigElement.EndpointDescriptor, String)
      */
     @Override
     public boolean exceptionOnError(EndpointDescriptor endpoint, String uri)

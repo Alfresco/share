@@ -31,7 +31,7 @@ import org.json.simple.JSONObject;
  *     If node is a working copy the current user must be the owner
  * </pre>
  *
- * @author: ewinlof
+ * @author ewinlof
  */
 public class EditableByCurrentUser extends BaseEvaluator
 {

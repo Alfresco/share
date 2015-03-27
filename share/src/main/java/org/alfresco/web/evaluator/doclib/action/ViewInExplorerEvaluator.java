@@ -27,7 +27,7 @@ import org.springframework.extensions.config.ConfigService;
 /**
  * Evaluates whether a repositoryUrl config value has been set and that we're not in portlet mode
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class ViewInExplorerEvaluator extends BaseEvaluator
 {

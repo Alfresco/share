@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Check whether the node lives in a Site container of one of the listed types
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class ContainerTypeEvaluator extends BaseEvaluator
 {

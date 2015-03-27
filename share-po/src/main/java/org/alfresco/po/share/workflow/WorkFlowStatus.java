@@ -44,10 +44,10 @@ public enum WorkFlowStatus
     }
 
     /**
-     * Returns {@link org.alfresco.webdrone.share.workflow.WorkFlowStatus} based on given value.
+     * Returns {@link WorkFlowStatus} based on given value.
      * 
      * @param value
-     * @return {@link org.alfresco.webdrone.share.workflow.WorkFlowStatus}
+     * @return {@link WorkFlowStatus}
      */
     public static WorkFlowStatus getWorkFlowStatus(String value)
     {

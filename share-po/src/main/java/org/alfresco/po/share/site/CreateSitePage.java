@@ -98,13 +98,13 @@ public class CreateSitePage extends ShareDialogue
      * 
      * @param siteName String mandatory field
      * @param description String site description
-     * @param boolean is a private site
-     * @param boolean is a moderated site
+     * @param isPrivate boolean is a private site
+     * @param isModerated boolean is a moderated site
      * @return {@link HtmlPage} page response
      */
-    public HtmlPage createNewSite(final String siteName, final String description, final boolean isPriavte, final boolean isModerated)
+    public HtmlPage createNewSite(final String siteName, final String description, final boolean isPrivate, final boolean isModerated)
     {
-        return createNewSite(siteName, description, isPriavte, isModerated, SiteType.COLLABORATION);
+        return createNewSite(siteName, description, isPrivate, isModerated, SiteType.COLLABORATION);
     }
 
     /**
@@ -112,19 +112,19 @@ public class CreateSitePage extends ShareDialogue
      * 
      * @param siteName String mandatory field
      * @param description String site description
-     * @param boolean is a private site
-     * @param boolean is a moderated site
-     * @param type Collaboration
+     * @param isPrivate boolean is a private site
+     * @param isModerated boolean is a moderated site
+     * @param siteType Collaboration
      * @return {@link HtmlPage} page response
      */
-    protected HtmlPage createNewSite(final String siteName, final String description, final boolean isPriavte, final boolean isModerated, final String siteType)
+    protected HtmlPage createNewSite(final String siteName, final String description, final boolean isPrivate, final boolean isModerated, final String siteType)
     {
         if (siteType == null)
         {
             throw new IllegalArgumentException("Site type is required");
         }
 
-        selectSiteVisibility(isPriavte, isModerated);
+        selectSiteVisibility(isPrivate, isModerated);
 
         return createSite(siteName, description, siteType);
     }
@@ -153,7 +153,7 @@ public class CreateSitePage extends ShareDialogue
     /**
      * Clicks on OK buttong and checks whether site page has been loaded.
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectOk()
     {
@@ -162,9 +162,9 @@ public class CreateSitePage extends ShareDialogue
 
     /**
      * Selects the visibility required for site to be created/edited.
-     * 
-     * @param isPrivate
-     * @param isModerated
+     *
+     * @param isPrivate boolean
+     * @param isModerated boolean
      */
     public void selectSiteVisibility(final boolean isPrivate, final boolean isModerated)
     {
@@ -198,7 +198,7 @@ public class CreateSitePage extends ShareDialogue
      * Create a new public site action.
      * 
      * @param siteName String mandatory field
-     * @param Site Description
+     * @param desc Site Description
      * @return {@link HtmlPage} page response
      */
     public HtmlPage createNewSite(final String siteName, String desc)
@@ -221,7 +221,7 @@ public class CreateSitePage extends ShareDialogue
      * Create a new private site action.
      * 
      * @param siteName String mandatory field
-     * @param Site Description
+     * @param desc Site Description
      * @return {@link HtmlPage} page response
      */
     public HtmlPage createPrivateSite(final String siteName, String desc)
@@ -244,7 +244,7 @@ public class CreateSitePage extends ShareDialogue
      * Create a new public moderated site action.
      * 
      * @param siteName String mandatory field
-     * @param Site Description
+     * @param desc Site Description
      * @return {@link HtmlPage} page response
      */
     public HtmlPage createModerateSite(final String siteName, String desc)
@@ -314,7 +314,7 @@ public class CreateSitePage extends ShareDialogue
     /**
      * Action of selecting site type drop down.
      * 
-     * @param type of site
+     * @param siteType type of site
      */
     public void selectSiteType(String siteType)
     {
@@ -367,7 +367,7 @@ public class CreateSitePage extends ShareDialogue
     /**
      * Set the Name of the site
      * 
-     * @param String site name
+     * @param siteName String site name
      */
 
     public void setSiteName(String siteName)
@@ -379,7 +379,7 @@ public class CreateSitePage extends ShareDialogue
     /**
      * Set the URL of the site
      * 
-     * @param String site name
+     * @param siteURL String site name
      */
 
     public void setSiteURL(String siteURL)

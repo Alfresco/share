@@ -80,8 +80,7 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Default constructor is not provided as the client should pass the while creating ManagePermissionsPage.
      *
-     * @param drone
-     * @param fromClass
+     * @param drone WebDrone
      */
     public ManagePermissionsPage(WebDrone drone)
     {
@@ -521,9 +520,6 @@ public class ManagePermissionsPage extends SharePage
         throw new PageOperationException("Role doesnt exist!!");
     }
 
-    /**
-     * @param userRole
-     */
     private List<String> getUserRoles()
     {
         List<String> userRoleStrings = new ArrayList<String>();
@@ -548,7 +544,6 @@ public class ManagePermissionsPage extends SharePage
      * Get available roles for existing users.
      *
      * @param userName
-     * @param userRole
      * @return
      */
     public List<String> getListOfUserRoles(String userName)
@@ -584,8 +579,6 @@ public class ManagePermissionsPage extends SharePage
 
     /**
      * From the drop down, get the access level selected.
-     *
-     * @param accessType
      */
     public UserRole getAccessType()
     {

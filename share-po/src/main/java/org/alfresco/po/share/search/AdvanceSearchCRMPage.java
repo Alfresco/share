@@ -81,7 +81,7 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
     /**
      * Enter the text value in the CrmAccountIdentifier field.
      * 
-     * @param String accountIdentifier
+     * @param accountIdentifier String
      */
     public void inputCrmAccountId(final String accountIdentifier)
     {
@@ -97,7 +97,7 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
     /**
      * Enter the text value in the CrmAccountName field.
      * 
-     * @param String accountName
+     * @param accountName String
      */
     public void inputCrmAccountName(final String accountName)
     {
@@ -113,7 +113,7 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
     /**
      * Enter the text value in the CrmOpportunityName field.
      * 
-     * @param String opportunityName
+     * @param opporName String
      */
     public void inputCrmOpporName(final String opporName)
     {
@@ -129,7 +129,7 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
     /**
      * Enter the text value in the CrmContractNumber field.
      * 
-     * @param String contractNumber
+     * @param contractNumber String
      */
     public void inputCrmContractNumber(final String contractNumber)
     {
@@ -145,7 +145,7 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
     /**
      * Enter the text value in the CrMContractName field.
      * 
-     * @param String ContractName
+     * @param contractName String
      */
     public void inputCrmContractName(final String contractName)
     {
@@ -161,7 +161,7 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
     /**
      * Enter the text value in the CrmCaseNumber field.
      * 
-     * @param String CaseNumber
+     * @param caseNumber String
      */
     public void inputCrmCaseNumber(final String caseNumber)
     {
@@ -177,7 +177,7 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
     /**
      * Enter the text value in the CrmCaseName field.
      * 
-     * @param String caseName
+     * @param caseName String
      */
     public void inputCrmCaseName(final String caseName)
     {

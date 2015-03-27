@@ -192,7 +192,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
     /**
      * Push message out to the cluster - multicast or direct TCP depending on Hazelcast config.
      * 
-     * @param msg   The message to be sent
+     * @param message   The message to be sent
      */
     public void pushMessage(ClusterMessage message)
     {

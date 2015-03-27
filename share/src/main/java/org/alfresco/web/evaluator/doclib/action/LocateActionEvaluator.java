@@ -26,7 +26,7 @@ import org.json.simple.JSONObject;
  * Evaluator for the Locate document library action.
  * The action is only valid when the current filter is not "path"
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class LocateActionEvaluator extends BaseEvaluator
 {
