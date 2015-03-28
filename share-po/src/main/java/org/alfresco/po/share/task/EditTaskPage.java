@@ -171,7 +171,7 @@ public class EditTaskPage extends SharePage
         {
             WebElement rejectButton = drone.findAndWait(REJECT.by);
             String id = rejectButton.getAttribute("id");
-            drone.mouseOverOnElement(rejectButton);
+            drone.mouseOver(rejectButton);
             rejectButton.click();
             drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             return FactorySharePage.resolvePage(drone);
@@ -193,7 +193,7 @@ public class EditTaskPage extends SharePage
         {
             WebElement approveButton = drone.findAndWait(APPROVE.by);
             String id = approveButton.getAttribute("id");
-            drone.mouseOverOnElement(approveButton);
+            drone.mouseOver(approveButton);
             approveButton.click();
             drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             return FactorySharePage.resolvePage(drone);
@@ -215,7 +215,7 @@ public class EditTaskPage extends SharePage
         {
             WebElement saveButton = drone.find(SAVE_AND_CLOSE.by);
             String id = saveButton.getAttribute("id");
-            drone.mouseOverOnElement(saveButton);
+            drone.mouseOver(saveButton);
             saveButton.click();
             drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             return FactorySharePage.resolvePage(drone);
@@ -388,7 +388,7 @@ public class EditTaskPage extends SharePage
         try
         {
             WebElement cancelButton = drone.find(CANCEL.by);
-            drone.mouseOverOnElement(cancelButton);
+            drone.mouseOver(cancelButton);
             String id = cancelButton.getAttribute("id");
             cancelButton.click();
             drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
@@ -428,7 +428,7 @@ public class EditTaskPage extends SharePage
         {
             WebElement approveButton = drone.find(By.cssSelector(ACCEPT_BUTTON));
             String id = approveButton.getAttribute("id");
-            drone.mouseOverOnElement(approveButton);
+            drone.mouseOver(approveButton);
             approveButton.click();
             drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             return FactorySharePage.resolvePage(drone);

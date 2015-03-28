@@ -153,7 +153,7 @@ public class EmailMessageForm extends HtmlElement
         WebElement userElement = foundUserElementInRecipients(userName);
         if (userElement != null)
         {
-            drone.mouseOverOnElement(userElement);
+            drone.mouseOver(userElement);
             userElement.findElement(REMOVE_USER_ICON_RELATIVE).click();
         }
         else

@@ -545,7 +545,7 @@ public class AssignmentPage extends SharePage
         {
             if (user.findElement(By.cssSelector("h3.name")).getText().contains("(" + userName + ")"))
             {
-                drone.mouseOverOnElement(user.findElement(By.cssSelector("a.remove-item")));
+                drone.mouseOver(user.findElement(By.cssSelector("a.remove-item")));
                 user.findElement(By.cssSelector("a.remove-item")).click();
 
                 if (isUserSelected(userName))

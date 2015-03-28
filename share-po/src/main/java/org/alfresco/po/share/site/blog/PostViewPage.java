@@ -227,7 +227,7 @@ public class PostViewPage extends BlogPage
         try
         {
             row = drone.findAndWait(By.xpath(String.format("//div[@class='comment-content']/p[text()='%s']/../..", title)), WAIT_TIME_3000);
-            drone.mouseOverOnElement(row);
+            drone.mouseOver(row);
         }
         catch (NoSuchElementException nse)
         {

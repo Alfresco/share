@@ -480,7 +480,7 @@ public class ManagePermissionsPage extends SharePage
                 {
                     if (role.getRoleName().equalsIgnoreCase(webElement.findElement(userRoleLocator).findElement(accessTypeButton).getText()))
                     {
-                        drone.mouseOverOnElement(webElement.findElement(By.xpath("//td[contains(@class, 'yui-dt-col-actions')]/div")));
+                        drone.mouseOver(webElement.findElement(By.xpath("//td[contains(@class, 'yui-dt-col-actions')]/div")));
                         WebElement deleteDivElement = webElement.findElement(deleteAction);
                         drone.find(By.id(deleteDivElement.getAttribute("id"))).findElement(By.cssSelector("a")).click();
                         selectSave();
@@ -1037,7 +1037,7 @@ public class ManagePermissionsPage extends SharePage
                     String currentRole = StringUtils.replace(webElement.findElement(userRoleLocator).getText().toUpperCase(), " ", "");
                     if (role.equals(UserRole.valueOf(currentRole)))
                     {
-                        drone.mouseOverOnElement(webElement);
+                        drone.mouseOver(webElement);
                         return webElement.findElement(userPermissionDeleteAction);
                     }
                 }

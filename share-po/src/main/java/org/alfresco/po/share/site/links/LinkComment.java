@@ -47,7 +47,7 @@ public class LinkComment extends HtmlElement
 
     private void focusOn()
     {
-        drone.mouseOverOnElement(getWebElement());
+        drone.mouseOver(getWebElement());
     }
 
     public LinksDetailsPage editComment(String newText)

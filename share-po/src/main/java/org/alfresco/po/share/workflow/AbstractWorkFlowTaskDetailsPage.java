@@ -147,7 +147,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
         try
         {
             WebElement cancelButton = drone.find(CANCEL_BUTTON);
-            drone.mouseOverOnElement(cancelButton);
+            drone.mouseOver(cancelButton);
             cancelButton.click();
             drone.waitForElement(By.cssSelector("#prompt"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             List<WebElement> buttons = drone.findAll(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));

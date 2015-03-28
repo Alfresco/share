@@ -104,7 +104,7 @@ public class FolderRulesPageWithRules extends FolderRulesPage
     private void click(By locator)
     {
         WebElement element = drone.findAndWait(locator);
-        drone.mouseOverOnElement(element);
+        drone.mouseOver(element);
         element.click();
     }
 

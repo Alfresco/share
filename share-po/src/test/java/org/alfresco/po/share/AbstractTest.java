@@ -490,7 +490,7 @@ public abstract class AbstractTest implements AlfrescoTests
      * @param fileName
      * @return boolean
      */
-    public static boolean checkIfContentIsSynced(WebDrone driver, String fileName)
+    public boolean checkIfContentIsSynced(WebDrone driver, String fileName)
     {
         DocumentLibraryPage docLibPage = driver.getCurrentPage().render();
         docLibPage = docLibPage.renderItem(maxWaitTime_CloudSync, fileName);
@@ -512,7 +512,16 @@ public abstract class AbstractTest implements AlfrescoTests
 
                     if (status.contains("Pending"))
                     {
-                        driver.waitFor(1000);
+                    	synchronized (this)
+                        {
+                            try
+                            {
+                                this.wait(1000L);
+                            }
+                            catch (InterruptedException e)
+                            {
+                            }
+                        }
                         driver.refresh();
                         docLibPage = driver.getCurrentPage().render();
                         docLibPage = docLibPage.renderItem(maxWaitTime_CloudSync, fileName).render();
@@ -547,7 +556,7 @@ public abstract class AbstractTest implements AlfrescoTests
      * @param driver
      * @return boolean
      */
-    public static boolean checkIfContentIsSynced(WebDrone driver)
+    public boolean checkIfContentIsSynced(WebDrone driver)
     {
         DocumentDetailsPage detailsPage = driver.getCurrentPage().render();
 
@@ -563,7 +572,16 @@ public abstract class AbstractTest implements AlfrescoTests
                     status = detailsPage.getSyncStatus();
                     if (status.contains("Pending") || status.isEmpty())
                     {
-                        driver.waitFor(1000);
+                    	synchronized (this)
+                        {
+                            try
+                            {
+                                this.wait(1000L);
+                            }
+                            catch (InterruptedException e)
+                            {
+                            }
+                        }
                         driver.refresh();
                         detailsPage = driver.getCurrentPage().render();
                     }

@@ -111,7 +111,7 @@ public class SearchResultItem implements SearchResult
         try
         {
             WebElement thumbnail = webElement.findElement(By.cssSelector(THUMBNAIL_LINK));
-            drone.mouseOverOnElement(thumbnail);
+            drone.mouseOver(thumbnail);
 
             while (true)
             {
@@ -160,7 +160,7 @@ public class SearchResultItem implements SearchResult
         try
         {
             WebElement thumbnail = webElement.findElement(By.cssSelector(THUMBNAIL_LINK));
-            drone.mouseOverOnElement(thumbnail);
+            drone.mouseOver(thumbnail);
 
             while (true)
             {

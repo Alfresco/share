@@ -466,7 +466,7 @@ public class SelectContentPage extends SharePage
         {
             if (file.findElement(By.cssSelector("h3.name")).getText().contains(fileName))
             {
-                drone.mouseOverOnElement(file.findElement(By.cssSelector("a.remove-item")));
+                drone.mouseOver(file.findElement(By.cssSelector("a.remove-item")));
                 file.findElement(By.cssSelector("a.remove-item")).click();
                 break;
             }
@@ -494,7 +494,7 @@ public class SelectContentPage extends SharePage
         {
             if (file.findElement(By.cssSelector("h3.name")).getText().contains(fileName))
             {
-                drone.mouseOverOnElement(file.findElement(By.cssSelector("a.remove-item")));
+                drone.mouseOver(file.findElement(By.cssSelector("a.remove-item")));
                 found = file.findElement(By.cssSelector("a.remove-item")).isDisplayed();
                 return found;
 

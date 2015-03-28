@@ -125,7 +125,7 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
         try
         {
             scrollDownToDashlet();
-            drone.mouseOverOnElement(drone.find(titleBarActions));
+            drone.mouseOver(drone.find(titleBarActions));
             return drone.findAndWait(HELP_ICON).isDisplayed();
         }
         catch (TimeoutException te)
@@ -149,7 +149,7 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
         try
         {
             scrollDownToDashlet();
-            drone.mouseOverOnElement(drone.find(titleBarActions));
+            drone.mouseOver(drone.find(titleBarActions));
             return drone.findAndWait(CONFIGURE_DASHLET_ICON).isDisplayed();
         }
         catch (TimeoutException te)
@@ -170,7 +170,7 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.mouseOverOnElement(drone.find(titleBarActions));
+            drone.mouseOver(drone.find(titleBarActions));
             drone.findAndWait(HELP_ICON).click();
         }
         catch (TimeoutException te)
@@ -257,7 +257,7 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.mouseOverOnElement(drone.find(titleBarActions));
+            drone.mouseOver(drone.find(titleBarActions));
             drone.findAndWait(CONFIGURE_DASHLET_ICON).click();
             return new SelectImageFolderBoxPage(drone).render();
         }

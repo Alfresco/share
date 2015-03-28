@@ -176,7 +176,7 @@ public class MyWorkFlowsPage extends SharePage
                 List<WorkFlowDetails> workFlowDetailsList = new ArrayList<WorkFlowDetails>();
                 for (WebElement workflow : workFlowRow)
                 {
-                    drone.mouseOverOnElement(workflow);
+                    drone.mouseOver(workflow);
                     waitUntilAlert();
                     WorkFlowDetails workFlowDetails = new WorkFlowDetails();
                     workFlowDetails.setWorkFlowName(workflow.findElement(By.cssSelector("div.yui-dt-liner>h3>a")).getText());
@@ -351,7 +351,7 @@ public class MyWorkFlowsPage extends SharePage
             for (int i = (workFlowRow.size() - 1); i >= 0; i--)
             {
                 workFlowRow = findWorkFlowRow(workFlowName);
-                drone.mouseOverOnElement(workFlowRow.get(i));
+                drone.mouseOver(workFlowRow.get(i));
                 workFlowRow.get(i).findElement(By.cssSelector("td.yui-dt-last>div.yui-dt-liner>div.workflow-cancel-link>a>span")).click();
                 drone.waitForElement(By.cssSelector("div#prompt"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
                 List<WebElement> buttons = drone.findAll(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));
@@ -395,7 +395,7 @@ public class MyWorkFlowsPage extends SharePage
         {
             for (WebElement workFlow : workFlowRow)
             {
-                drone.mouseOverOnElement(workFlow);
+                drone.mouseOver(workFlow);
                 workFlow.findElement(By.cssSelector("td.yui-dt-last>div.yui-dt-liner>div.workflow-delete-link>a")).click();
                 drone.waitForElement(By.cssSelector("div#prompt"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
                 List<WebElement> buttons = drone.findAll(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));
