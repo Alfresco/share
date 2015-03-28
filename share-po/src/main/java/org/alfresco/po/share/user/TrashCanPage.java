@@ -15,6 +15,7 @@
 
 package org.alfresco.po.share.user;
 
+import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.NewPagination;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.webdrone.HtmlPage;
@@ -61,6 +62,8 @@ public class TrashCanPage extends SharePage
     protected static final By TRASHCAN_SELECTED_RECOVER = By.cssSelector("div.bd a.recover-item");
     protected static final By TRASHCAN_SELECTED_DELETE = By.cssSelector("div.bd a.delete-item");
     protected static final String TRASHCAN_PAGINATION_MORE_BUTTON = "button[id$='paginator-more-button-button']";
+    protected static final String TRASHCAN_PAGINATION_ACTIVE_MORE_BUTTON = "//button[contains(@id,'paginator-more-button') and not(contains(@disabled,'disabled'))]";
+    protected static final String TRASHCAN_PAGINATION_ACTIVE_LESS_BUTTON = "//button[contains(@id,'paginator-less-button') and not(contains(@disabled,'disabled'))]";
     protected static final String TRASHCAN_PAGINATION_LESS_BUTTON = "button[id$='paginator-less-button-button']";
     protected static final By TRASHCAN_EMPTY = By.cssSelector("td.yui-dt-empty");
     protected static final By PAGE_LOADING = By.cssSelector("td.yui-dt-loading");
@@ -362,7 +365,9 @@ public class TrashCanPage extends SharePage
      */
     public HtmlPage selectNextPage()
     {
-        return NewPagination.selectPaginationButton(drone, TRASHCAN_PAGINATION_MORE_BUTTON);
+        NewPagination.selectPaginationButton(drone, TRASHCAN_PAGINATION_MORE_BUTTON);
+        drone.findAndWait(By.xpath(TRASHCAN_PAGINATION_ACTIVE_LESS_BUTTON));
+        return FactorySharePage.resolvePage(drone);
     }
 
     /**
@@ -370,7 +375,9 @@ public class TrashCanPage extends SharePage
      */
     public HtmlPage selectPreviousPage()
     {
-        return NewPagination.selectPaginationButton(drone, TRASHCAN_PAGINATION_LESS_BUTTON);
+        NewPagination.selectPaginationButton(drone, TRASHCAN_PAGINATION_LESS_BUTTON);
+        drone.findAndWait(By.xpath(TRASHCAN_PAGINATION_ACTIVE_MORE_BUTTON));
+        return FactorySharePage.resolvePage(drone);
     }
 
     /**
