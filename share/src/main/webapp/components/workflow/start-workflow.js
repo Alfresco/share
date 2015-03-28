@@ -54,6 +54,7 @@
 
       YAHOO.Bubbling.on("objectFinderReady", this.onObjectFinderReady, this);
       YAHOO.Bubbling.on("formContentReady", this.onStartWorkflowFormContentReady, this);
+      YAHOO.Bubbling.on("afterFormRuntimeInit", this.onStartWorkflowAfterFormRuntimeInit, this);
 
       return this;
    };
@@ -198,7 +199,16 @@
          var formEl = Dom.get(this.id + "-workflowFormContainer");
          Dom.removeClass(formEl, "hidden");                  
       },
-      
+
+      /**
+       * Event handler called when the "afterFormRuntimeInit" event is received
+       */
+      onStartWorkflowAfterFormRuntimeInit: function StartWorkflow_onStartWorkflowAfterFormRuntimeInit(layer, args)
+      {
+         this.formruntime = args[1].runtime;
+         this.formruntime.setAsReusable(false);
+      },
+
       onFormSubmitFailure: function StartWorkflow_onFormSubmitFailure(response)
       {
          var message = (response.json && response.json.message ? response.json.message : this.msg(this.options.failureMessageKey));
