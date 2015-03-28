@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Page object to hold My Calendar dashlet
- * 
+ *
  * @author Bogdan.Bocancea
  */
 
@@ -148,7 +148,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Gets count of Events displayed in Dashlet
-     * 
+     *
      * @return
      */
     public int getEventsCount()
@@ -158,7 +158,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Return true if link with eventName Displayed.
-     * 
+     *
      * @param eventName
      * @return
      */
@@ -179,7 +179,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Return true if event with the details is displayed
-     * 
+     *
      * @param eventDetail
      * @return
      */
@@ -200,7 +200,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Click on event
-     * 
+     *
      * @return CalendarPage
      */
     public CalendarPage clickEvent(String eventName)
@@ -219,19 +219,15 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
         throw new PageOperationException("Event '" + eventName + "' was not found!");
         
-        
-        
+
     }
+
 
     private List<WebElement> getSitesDetailsElem()
     {
         try
         {
             return dashlet.findElements(SITE_DETAILS);
-        }
-        catch (StaleElementReferenceException e)
-        {
-            return getSitesDetailsElem();
         }
         catch (Exception e)
         {
@@ -241,7 +237,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Click on site
-     * 
+     *
      * @return SitePage
      */
     public SiteDashboardPage clickSite(String siteName)
@@ -263,7 +259,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Return the name of the event.
-     * 
+     *
      * @param event
      * @return
      */
@@ -286,7 +282,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Return true if event with the details is displayed
-     * 
+     *
      * @param eventDetail
      * @return
      */
@@ -323,7 +319,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * true if event displayed in dashlet
-     * 
+     *
      * @param eventName
      * @param date
      * @param siteName
@@ -340,7 +336,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Click on event's date
-     * 
+     *
      * @return CalendarPage
      */
     public SiteDashboardPage clickEventSiteName(String eventName, String siteName)
