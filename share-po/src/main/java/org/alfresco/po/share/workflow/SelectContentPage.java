@@ -17,7 +17,6 @@ package org.alfresco.po.share.workflow;
 
 import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -72,8 +71,8 @@ public class SelectContentPage extends SharePage
 
     private final By noItemsSelected = By.cssSelector("div[id$='id1_assoc_packageItems-cntrl-picker-selectedItems']>table>tbody.yui-dt-message>tr>td>div");
 
-    private static final String REPO = "Repository";
-    private static final String SLASH = File.separator;
+    //private static final String REPO = "Repository";
+    //private static final String SLASH = File.separator;
 
     /**
      * Constructor.
@@ -574,7 +573,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            return (drone.findAndWait(cancelButton).isDisplayed());
+            return drone.find(cancelButton).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -591,7 +590,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            return (drone.findAndWait(okButton).isDisplayed());
+            return drone.find(okButton).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -608,7 +607,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            return (drone.findAndWait(navigatorButton).isDisplayed());
+            return drone.find(navigatorButton).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
