@@ -33,6 +33,7 @@ import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.po.share.workflow.StartWorkFlowPage;
 import org.alfresco.test.FailedTestListener;
 import org.alfresco.webdrone.exception.PageException;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -852,6 +853,14 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         documentLibPage.getFileDirectoryInfo("copyFolder").selectCheckbox();
         assertTrue(documentLibPage.getNavigation().isSelectedItemsOptionPresent(SelectedItemsOptions.DELETE));
 
+    }
+    
+    @Test(groups = "alfresco-one")
+    public void testSelectDocumentLibrary() throws Exception
+    {
+        SitePage site = drone.getCurrentPage().render();
+        DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        assertNotNull(docPage.selectDocumentLibrary(drone).render());        
     }
 
 }
