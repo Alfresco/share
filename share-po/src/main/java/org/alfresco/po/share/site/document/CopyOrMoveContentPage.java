@@ -269,7 +269,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         catch (TimeoutException e)
         {
             logger.error("Unable to find the Copy/Move Button Css : ", e);
-            throw new PageException("Unable to find the Copy/Move button on Copy/Move Dialog.");
+            throw new PageException("Unable to find the Copy/Move button on Copy/Move Dialog.",e);
         }
     }
 
