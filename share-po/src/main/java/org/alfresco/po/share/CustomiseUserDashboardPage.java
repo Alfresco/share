@@ -233,10 +233,7 @@ public class CustomiseUserDashboardPage extends SharePage
         }
         catch (TimeoutException te)
         {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Exceeded time to find the Available dashlet names ", te);
-            }
+            logger.error("Exceeded time to find the Available dashlet names ", te);
         }
 
         if (newDashlet != null)
@@ -252,7 +249,7 @@ public class CustomiseUserDashboardPage extends SharePage
             }
             catch (NoSuchElementException te)
             {
-                logger.info("Unable to find the Columns css " + te);
+                logger.error("Unable to find the Columns css " + te);
             }
 
             if (columnNumber <= noOfColumns)
@@ -267,18 +264,13 @@ public class CustomiseUserDashboardPage extends SharePage
                     }
                     catch (TimeoutException e)
                     {
-                        if (logger.isTraceEnabled())
-                        {
-                            logger.info("Selected column is empty", e);
-                        }
+                        logger.error("Selected column is empty", e);
                     }
                     if (existingDashletsInColumn.size() < MAX_DASHLETS_IN_COLUMN)
                     {
                         WebElement target = drone.findAndWait(By.xpath(String.format("//ul[@class='usedList' and contains(@id,'-column-ul-%d')]", columnNumber)));
-//                        drone.executeJavaScript("window.scrollBy(0,250)", "");
                         drone.executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
                         drone.dragAndDrop(newDashlet, target);
-                        logger.error("The dashlet " + dashletName + " was added in column " + columnNumber);
                         return selectOk();
                     }
                     else
@@ -288,10 +280,7 @@ public class CustomiseUserDashboardPage extends SharePage
                 }
                 catch (TimeoutException te)
                 {
-                    if (logger.isTraceEnabled())
-                    {
-                        logger.info("Exceeded time to find the Available dashlet names ", te);
-                    }
+                    logger.error("Exceeded time to find the Available dashlet names ", te);
                 }
             }
             else
@@ -345,10 +334,7 @@ public class CustomiseUserDashboardPage extends SharePage
         }
         catch (TimeoutException te)
         {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Exceeded time to find the Available dashlet names ", te);
-            }
+            logger.error("Exceeded time to find the Available dashlet names ", te);
         }
 
         if (newDashlet != null)
@@ -364,7 +350,7 @@ public class CustomiseUserDashboardPage extends SharePage
             }
             catch (NoSuchElementException te)
             {
-                logger.info("Unable to find the Columns css " + te);
+                logger.error("Unable to find the Columns css " + te);
             }
 
             if (columnNumber <= noOfColumns)
@@ -379,18 +365,13 @@ public class CustomiseUserDashboardPage extends SharePage
                     }
                     catch (TimeoutException e)
                     {
-                        if (logger.isTraceEnabled())
-                        {
-                            logger.info("Selected column is empty", e);
-                        }
+                        logger.error("Selected column is empty", e);
                     }
                     if (existingDashletsInColumn.size() < MAX_DASHLETS_IN_COLUMN)
                     {
                         WebElement target = drone.findAndWait(By.xpath(String.format("//ul[@class='usedList' and contains(@id,'-column-ul-%d')]", columnNumber)));
-//                        drone.executeJavaScript("window.scrollBy(0,250)", "");
                         drone.executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
                         drone.dragAndDrop(newDashlet, target);
-                        logger.error("The dashlet " + dashletName + " was added in column " + columnNumber);
                         return selectOk();
                     }
                     else
@@ -400,10 +381,7 @@ public class CustomiseUserDashboardPage extends SharePage
                 }
                 catch (TimeoutException te)
                 {
-                    if (logger.isTraceEnabled())
-                    {
-                        logger.info("Exceeded time to find the Available dashlet names ", te);
-                    }
+                    logger.error("Exceeded time to find the Available dashlet names ", te);
                 }
             }
             else
@@ -429,10 +407,7 @@ public class CustomiseUserDashboardPage extends SharePage
         }
         catch (NoSuchElementException te)
         {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Unable to find the Save button css ", te);
-            }
+            logger.error("Unable to find the Save button css ", te);
         }
 
         return new DashBoardPage(drone);
