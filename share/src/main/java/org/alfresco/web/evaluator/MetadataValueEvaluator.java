@@ -23,7 +23,7 @@ import org.json.simple.JSONObject;
 /**
  * Tests metadata values against configured values using comparators
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class MetadataValueEvaluator extends BaseEvaluator
 {

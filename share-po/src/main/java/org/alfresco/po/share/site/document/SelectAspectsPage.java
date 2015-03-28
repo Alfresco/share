@@ -214,7 +214,7 @@ public class SelectAspectsPage extends SharePage
     }
 
     /**
-     * Click on {@link cancel} in {@link selectAspectsPage}
+     * Click on {@link #CANCEL} in {@link selectAspectsPage}
      * 
      * @return {@link SelectAspectsPage}
      */

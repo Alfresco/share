@@ -29,7 +29,7 @@ import java.util.ListIterator;
  * or one of the evaluators returns true. Effectively becomes a logical
  * OR of the participating evaluators.
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class ChainedMatchOneEvaluator extends BaseEvaluator
 {

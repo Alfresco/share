@@ -181,9 +181,9 @@ public class SiteActions extends CommonActions
      * 
      * @param drone WebDrone Instance
      * @param folderPath: String folder path relative to DocumentLibrary e.g. DOCLIB + file.seperator + folderName1
-     * @throws SkipException if error in this API
+     * @throws ShareException if error in this API
      */
-    public DocumentLibraryPage navigateToFolder(WebDrone drone, String folderPath) throws Exception
+    public DocumentLibraryPage navigateToFolder(WebDrone drone, String folderPath) throws ShareException
     {
         DocumentLibraryPage docPage;
 
@@ -339,7 +339,6 @@ public class SiteActions extends CommonActions
      * 
      * @param file File Object for the file in reference
      * @return DocumentLibraryPage
-     * @throws SkipException if error in this API
      */
     public HtmlPage uploadFile(WebDrone drone, File file)
     {
@@ -488,7 +487,7 @@ public class SiteActions extends CommonActions
      * 
      * @param drone
      * @param siteShortURL
-     * @return {@link SiteDashBoardPage}
+     * @return {@link org.alfresco.po.share.site.SiteDashboardPage}
      */
     public SiteDashboardPage openSiteURL(WebDrone drone, String siteShortURL)
     {

@@ -27,7 +27,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.webscripts.processor.BaseProcessorExtension;
 
 /**
- * @author: mikeh
+ * @author mikeh
  */
 public class ActionEvaluatorHelper extends BaseProcessorExtension implements ApplicationContextAware
 {

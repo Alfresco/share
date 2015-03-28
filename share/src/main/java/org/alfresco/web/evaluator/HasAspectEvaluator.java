@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * 
  * Where more than one aspect is supplied, all aspects must be present.
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class HasAspectEvaluator extends BaseEvaluator
 {

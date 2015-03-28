@@ -312,7 +312,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * This method finds and selects the given destination name from the
      * displayed list of destinations.
      *
-     * @param destination
+     * @param destinationName String
      * @return CopyOrMoveContentPage
      */
     public CopyOrMoveContentPage selectDestination(String destinationName)
@@ -364,7 +364,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * This method finds and selects the given site name from the
      * displayed list of sites.
      *
-     * @param site
+     * @param siteName String
      * @return CopyOrMoveContentPage
      */
     public CopyOrMoveContentPage selectSite(String siteName)

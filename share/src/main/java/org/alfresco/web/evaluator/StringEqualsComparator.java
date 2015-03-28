@@ -21,7 +21,7 @@ package org.alfresco.web.evaluator;
 /**
  * Compares a node value against an optionally case-insensitive value
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class StringEqualsComparator implements Comparator
 {

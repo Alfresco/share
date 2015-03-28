@@ -153,9 +153,10 @@ public class SiteUtil
     /**
      * Create site using share
      *
-     * @param webDrone
+     * @param drone WebDrone
      * @param siteName      String site name
-     * @param SiteVisiblity
+     * @param desc String
+     * @param siteVisibility SiteVisiblity
      * @return true if site created
      * @throws Exception if error
      */

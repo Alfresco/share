@@ -15,7 +15,7 @@
 package org.alfresco.po.share.exception;
 
 /**
- * Thrown when handling the Share Error Message (Popup) by {@link ShareErrorPopUp}.
+ * Thrown when handling the Share Error Message (Popup) by {@link ShareException}.
  */
 public class ShareException extends RuntimeException
 {

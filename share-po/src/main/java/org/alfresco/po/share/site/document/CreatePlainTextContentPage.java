@@ -81,9 +81,6 @@ public class CreatePlainTextContentPage extends InlineEditPage
     /**
      * Create the content with name, title and description.
      *
-     * @param name        - The Name of the Document
-     * @param title       - The Title of the Document
-     * @param description - Description
      * @param details     - Document Content
      * @return {@link DocumentDetailsPage}
      */
@@ -244,7 +241,6 @@ public class CreatePlainTextContentPage extends InlineEditPage
     /**
      * Returns a map of validation messages for all the fields in the form.
      *
-     * @param field The reqired field
      * @return The validation message or an empty string if there is no message.
      */
     public Map<Fields, String> getMessages()

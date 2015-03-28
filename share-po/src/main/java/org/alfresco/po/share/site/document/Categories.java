@@ -23,7 +23,7 @@ public enum Categories
      * Find the {@link Categories} based on name.
      *
      * @param name - category name
-     * @return {@link Category}
+     * @return {@link Categories}
      * @throws Exception - Throws {@link Exception} if not able to find
      */
     public static Categories getCategory(String name)

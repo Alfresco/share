@@ -33,7 +33,7 @@ import java.util.HashMap;
 /**
  * Base class for all UI evaluators.
  *
- * @author: mikeh
+ * @author mikeh
  */
 @AlfrescoPublicApi
 public abstract class BaseEvaluator implements Evaluator

@@ -143,7 +143,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     /**
      * Send displayName in CreateNewFilterPopUpPage
      * 
-     * @param displayName
+     * @param filterName
      * @return CreateNewFilterPopUpPage
      **/
 
@@ -335,7 +335,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     /**
      * IncrimentMinimumFilterLength field in Create New Filter Page
      *
-     * @param int clickCount - number of clicks/ incremental count/ how many times the up arrow
+     * @param clickCount int number of clicks/ incremental count/ how many times the up arrow
      *        on min filter length field should be clicked
      * @return CreateNewFilterPopUpPage
      */
@@ -408,7 +408,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     /**
      * IncrimentMinimumFilterLength field in Create New Filter Page
      *
-     * @param int clickCount - number of clicks/ incremental count/ how many times the up arrow
+     * @param clickCount - number of clicks/ incremental count/ how many times the up arrow
      *        on min filter length field should be clicked
      * @return CreateNewFilterPopUpPage
      */
@@ -481,7 +481,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     /**
      * incrementMinimumRequiredResults field in Create New Filter Page
      *
-     * @param int clickCount - number of clicks/ incremental count/ how many times the up arrow
+     * @param clickCount - number of clicks/ incremental count/ how many times the up arrow
      *        on Number of Filters field should be clicked
      * @return CreateNewFilterPopUpPage
      */
@@ -707,7 +707,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     /**
      * Select Site name from drop down.
      *
-     * @param site
+     * @param siteName
      * @return CreateNewFilterPopUpPage
      */
     public CreateNewFilterPopUpPage selectSiteNameAndSave(String siteName)

@@ -24,7 +24,7 @@ import org.json.simple.JSONObject;
 /**
  * Checks that a property value on a node is not null (and exists)
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class PropertyNotNullEvaluator extends BaseEvaluator
 {

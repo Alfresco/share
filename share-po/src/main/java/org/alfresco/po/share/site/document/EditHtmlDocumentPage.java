@@ -152,8 +152,6 @@ public class EditHtmlDocumentPage extends InlineEditPage
     }
     /**
      * Edit the editor, enter new text line, count the lines and save it.
-     * 
-     * @param txtLine
      * @return
      */
     public HtmlPage saveText()

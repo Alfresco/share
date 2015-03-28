@@ -275,8 +275,9 @@ public class EditUserPage extends SharePage
     /**
      * Method to create user on Enterprise using UI.
      * 
-     * @param fName String firstname
-     * @param lName String lastname
+     * @param fname String firstname
+     * @param lname String lastname
+     * @param userEmail String userEmail
      * @param password String password
      * @param addToGroup String name of the group to be added
      * @return {@link UserSearchPage}
@@ -310,8 +311,8 @@ public class EditUserPage extends SharePage
     /**
      * Add group with User Name.
      * 
-     * @param groupName
-     * @return
+     * @param groupName String
+     * @return EditUserPage
      */
     public EditUserPage addGroup(String groupName)
     {

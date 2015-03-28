@@ -36,7 +36,7 @@ import org.json.simple.JSONObject;
  *     property "cm:lockOwner" != (currentUser)
  * </pre>
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class LockedEvaluator extends BaseEvaluator
 {

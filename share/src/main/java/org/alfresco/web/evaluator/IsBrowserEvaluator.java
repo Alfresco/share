@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 /**
  * Check a browser userAgent string against a supplied regular expression
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class IsBrowserEvaluator extends BaseEvaluator
 {

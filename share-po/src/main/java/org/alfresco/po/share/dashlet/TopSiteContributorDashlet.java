@@ -203,7 +203,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     /**
      * Enters to date into calendar
      * 
-     * @param fromDate
+     * @param toDate String
      * @return
      */
     public HtmlPage enterToDate(final String toDate)

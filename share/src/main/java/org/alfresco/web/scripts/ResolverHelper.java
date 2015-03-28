@@ -29,7 +29,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.webscripts.processor.BaseProcessorExtension;
 
 /**
- * @author: ewinlof
+ * @author ewinlof
  */
 public class ResolverHelper extends BaseProcessorExtension implements ApplicationContextAware
 {

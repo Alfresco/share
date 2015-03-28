@@ -31,7 +31,7 @@ import org.json.simple.JSONObject;
  *     hasAspect("trx:transferred")
  * </pre>
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class TransferredNodeEvaluator extends BaseEvaluator
 {

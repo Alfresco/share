@@ -48,7 +48,7 @@ public abstract class AbstractDocumentTest extends AbstractTest
     /**
      * Prepare test by getting the drone to the correct page.
      * 
-     * @param fileName String file name
+     * @param file file
      * @return {@link DocumentDetailsPage} page object
      * @throws PageException if error
      */

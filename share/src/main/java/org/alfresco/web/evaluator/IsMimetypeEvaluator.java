@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Check whether the node's mimetype is within a configured list
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class IsMimetypeEvaluator extends BaseEvaluator
 {

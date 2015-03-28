@@ -58,7 +58,7 @@ public class CloudForgotPasswordPage extends ShareDialogue
     /**
      * Click Send Instructions button
      * 
-     * @param username String user name value
+     * @param userEmail String user email value
      */
     public void clickSendInstructions(final String userEmail)
     {
@@ -79,8 +79,6 @@ public class CloudForgotPasswordPage extends ShareDialogue
 
     /**
      * Click Cancel button
-     * 
-     * @param username String user name value
      */
     public HtmlPage clickCancel()
     {

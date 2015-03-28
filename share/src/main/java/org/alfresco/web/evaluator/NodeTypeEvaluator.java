@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Evaluates whether a node is of a certain type, optionally checking for subtype
  *
- * @author: mikeh
+ * @author mikeh
  */
 public class NodeTypeEvaluator extends BaseEvaluator
 {

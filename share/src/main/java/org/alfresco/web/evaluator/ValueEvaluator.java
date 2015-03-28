@@ -21,7 +21,7 @@ package org.alfresco.web.evaluator;
 import org.json.simple.JSONObject;
 
 /**
- * @author: mikeh
+ * @author mikeh
  */
 public class ValueEvaluator extends BaseEvaluator
 {

@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * 
  * Invert the output of this evaluator to act as a blacklist of aspects which should not be present
  *
- * @author: wabson
+ * @author wabson
  */
 public class HasAnyAspectEvaluator extends BaseEvaluator
 {

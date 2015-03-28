@@ -19,7 +19,7 @@
 package org.alfresco.web.evaluator;
 
 /**
- * @author: mikeh
+ * @author mikeh
  */
 public class NullValueComparator implements Comparator
 {

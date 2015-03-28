@@ -77,8 +77,8 @@ public class AdminActions extends DashBoardActions
      * Verify user is a member of group
      * 
      * @param driver WebDriver Instance
-     * @param fname- User's first name
-     * @param userName- check whether this user is in group
+     * @param fName- User's first name
+     * @param uName- check whether this user is in group
      * @param groupName - Check whether user in this specific group Name
      * @return Boolean
      */
@@ -115,7 +115,7 @@ public class AdminActions extends DashBoardActions
     /**
      * Open DashBoard > Repository > Data Dictionary
      * 
-     * @param WebDrone
+     * @param driver WebDrone
      * @return RepoPage
      */
     public HtmlPage openRepositoryDataDictionaryPage(WebDrone driver)
@@ -136,7 +136,7 @@ public class AdminActions extends DashBoardActions
     /**
      * Open Open DashBoard > Repository > Data Dictionary > Models Page
      * 
-     * @param WebDrone
+     * @param driver WebDrone
      * @return ModelsPage
      */
     public HtmlPage openRepositoryModelsPage(WebDrone driver)

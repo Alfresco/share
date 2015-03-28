@@ -30,7 +30,7 @@ import org.alfresco.api.AlfrescoPublicApi;
  * The evaluator should decide if the precondition is valid based on the appropriate
  * logic and the properties etc. and return the result.
  *
- * @author: mikeh
+ * @author mikeh
  */
 @AlfrescoPublicApi
 public interface Evaluator

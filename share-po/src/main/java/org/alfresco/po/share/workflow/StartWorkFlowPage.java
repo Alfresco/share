@@ -157,8 +157,6 @@ public class StartWorkFlowPage extends SharePage
      * StartWorkFlow page is returned in common,for any of its subclass.
      * 
      * @param workFlowType
-     * @param fromClass
-     * @param fromClass
      * @return
      */
     public WorkFlow getWorkflowPage(WorkFlowType workFlowType)

@@ -32,7 +32,7 @@ public class VisibilityDropDown
     /**
      * Instantiates a new visibility drop down.
      * 
-     * @param webDrone the web drone
+     * @param drone the web drone
      * @param element the element
      */
     public VisibilityDropDown(WebDrone drone, WebElement element)

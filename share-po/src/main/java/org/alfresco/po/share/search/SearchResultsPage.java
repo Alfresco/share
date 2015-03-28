@@ -247,8 +247,6 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
 
     /**
      * Select repository option search and performs search against repository.
-     * 
-     * @param text String search text
      * @return HtmlPage results page object
      */
     public HtmlPage selectRepository()
@@ -382,7 +380,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      * Selects and opens the paginated page based on the
      * required position.
      * 
-     * @param int pagination page position
+     * @param position int pagination page position
      * @return the select paginated page
      */
     public HtmlPage paginationSelect(int position)
@@ -548,7 +546,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     /**
      * Sort the content and returning searchResults based on sort type passed.
      * 
-     * @param SortType {@link SortType}
+     * @param sortType SortType {@link SortType}
      * @return SharePage page response
      */
     public HtmlPage sortPage(SortType sortType)

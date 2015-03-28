@@ -267,7 +267,8 @@ public class SlingshotEvaluatorUtil {
      * Determines whether or not the current user is a member of the supplied group.
      *
      * @param context
-     * @param groupName
+     * @param groups
+     * @param memberOfAllGroups
      * @return
      */
     @SuppressWarnings({ "rawtypes" })
@@ -463,8 +464,7 @@ public class SlingshotEvaluatorUtil {
      * provided as a comma delimited string and will convert that string into a List removing trailing
      * whitespace along the way.
      *
-     * @param context
-     * @param evaluationProperties
+     * @param groupsParm
      * @return
      */
     public List<String> getGroups(String groupsParm)

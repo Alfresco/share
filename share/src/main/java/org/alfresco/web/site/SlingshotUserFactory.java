@@ -71,7 +71,7 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
     public static final String ACTIVITI_ADMIN_ENDPOINT_ID = "activiti-admin";
     
     /**
-     * @see org.alfresco.web.site.UserFactory#authenticate(org.alfresco.web.site.RequestContext, javax.servlet.http.HttpServletRequest, java.lang.String, java.lang.String)
+     * @see org.springframework.extensions.surf.UserFactory#authenticate(javax.servlet.http.HttpServletRequest, String, String)
      */
     @Override
     public boolean authenticate(HttpServletRequest request, String username, String password)
