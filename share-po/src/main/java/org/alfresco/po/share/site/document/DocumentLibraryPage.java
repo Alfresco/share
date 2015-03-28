@@ -649,7 +649,7 @@ public class DocumentLibraryPage extends SitePage
             {
                 logger.trace(String.format("matching %s against %s", name, fileName));
             }
-            if (name.trim().equalsIgnoreCase(fileName.replace(".docx","")))
+            if (name.equalsIgnoreCase(fileName))
             {
                 return file;
             }
@@ -677,7 +677,7 @@ public class DocumentLibraryPage extends SitePage
         {
             for (FileDirectoryInfo file : getFiles())
             {
-                if (fileName.equalsIgnoreCase(file.getName().trim().replace(".docx", "")))
+                if (fileName.equalsIgnoreCase(file.getName()))
                 {
                     return true;
                 }
