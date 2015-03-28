@@ -1521,9 +1521,8 @@ function getHeaderModel(pageTitle) {
                align: "right",
                config: {
                   id: "HEADER_SEARCH_BOX",
-                  site: null,
-                  linkToFacetedSearch: true,
-                  repository: (page.id == "repository" || page.id == "myfiles" || page.id == "sharedfiles")
+                  site: page.url.templateArgs.site,
+                  linkToFacetedSearch: true
                }
             }
          ]
