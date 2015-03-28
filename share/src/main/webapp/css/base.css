@@ -1882,8 +1882,3 @@ table.mceLayout
    display: none !important;
 }
 
-.alfresco-share .alfresco-header-SearchBox-menu .dijitReset.dijitInline.dijitMenuItemLabel.dijitMenuItem
-{
-   height: 16px !important;
-   margin-left: 4px !important;
-}

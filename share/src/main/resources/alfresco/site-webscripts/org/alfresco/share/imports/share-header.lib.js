@@ -1564,7 +1564,8 @@ function getHeaderModel(pageTitle) {
                config: {
                   targetUrl: page.url.templateArgs.site != null ? "site/" + page.url.templateArgs.site + "/dashboard" : null,
                   label: (pageTitle != null) ? pageTitle : getPageTitle(),
-                  setBrowserTitle: (pageTitle != null)
+                  setBrowserTitle: (pageTitle != null),
+                  maxWidth: "500px"
                }
             },
             {
