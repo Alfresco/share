@@ -1,18 +1,14 @@
 /*
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
  * This file is part of Alfresco
- *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -36,7 +32,7 @@ import org.testng.annotations.Test;
 
 /**
  * Tests for RSS Feed dashlet web elements
- *
+ * 
  * @author Marina.Nenadovets
  */
 
@@ -84,7 +80,6 @@ public class RssFeedDashletTest extends AbstractSiteDashletTest
         assertEquals(defaultTitle, EXP_TITLE_BY_DEFAULT);
     }
 
-
     @Test(groups = "Enterprise-only", dependsOnMethods = "verifyTitle")
     public void verifyHelpIcon()
     {
@@ -125,6 +120,10 @@ public class RssFeedDashletTest extends AbstractSiteDashletTest
         rssFeedUrlBoxPage.fillURL(rssUrl);
         rssFeedUrlBoxPage.selectNrOfItemsToDisplay(RssFeedUrlBoxPage.NrItems.Five);
         assertTrue(rssFeedUrlBoxPage.isOkButtonEnabled());
+        assertFalse(rssFeedUrlBoxPage.isLinkNewWindowSelected());
+        rssFeedUrlBoxPage.selectOpenLinkNewWindow();
+        assertTrue(rssFeedUrlBoxPage.isLinkNewWindowSelected());
+        rssFeedUrlBoxPage.selectOpenLinkNewWindow();
         rssFeedUrlBoxPage.clickOk();
 
         for (int i = 0; i < 1000; i++)
