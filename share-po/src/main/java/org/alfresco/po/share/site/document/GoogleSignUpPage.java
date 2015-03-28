@@ -30,7 +30,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -48,8 +47,10 @@ public class GoogleSignUpPage extends SharePage
     private static final By GOOGLE_PASSWORD = By.xpath("//input[@name='Passwd']");
     private static final By SIGNUP_BUTTON = By.xpath("//input[@type='submit']");
     private static final String googleAccountTitle = "Google Accounts";
-    private static final By MSG_SELECTOR = By.cssSelector("div.bd>span.message");
-    private static final String PASS_PROTECTED_MSG = "There was an error opening the document in Google Docs™. If the errors occurs again please contact your System Administrator.";
+    private static final By MSG_SELECTOR = By.xpath("//div[contains(@class, 'bd')]/span[text()='We hit a problem opening the file in Google Docs™. Please try " +
+        "again. If this happens again then please contact your Alfresco Administrator.' or text()='There was an error opening the document in Google Docs™. " +
+        "If the errors occurs again please contact your System Administrator.']");
+
 
     private boolean isGoogleCreate;
     private String documentVersion;
@@ -144,10 +145,8 @@ public class GoogleSignUpPage extends SharePage
             waitUntilAlert(10);
             try
             {
-                drone.waitUntilNotVisibleWithParitalText(MSG_SELECTOR, "Editing in Google Docs™...", TimeUnit.MILLISECONDS
-                    .toSeconds(maxPageLoadingTime));
-                drone.waitUntilVisible(MSG_SELECTOR, PASS_PROTECTED_MSG, 5);
-                if (drone.findAndWait(MSG_SELECTOR).getText().equals(PASS_PROTECTED_MSG))
+                WebElement theError = drone.findAndWait(MSG_SELECTOR, 10000);
+                if (theError.isDisplayed())
                 {
                     throw new PageOperationException("Unable to open Google Doc for Editing");
                 }

@@ -1882,9 +1882,9 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Method to click Cancel Editing in Google Docs
      *
-     * @return DocumentDetailsPage
+     * @return HtmlPage
      */
-    public DocumentDetailsPage clickCancelEditingInGoogleDocs()
+    public HtmlPage clickCancelEditingInGoogleDocs()
     {
         try
         {
