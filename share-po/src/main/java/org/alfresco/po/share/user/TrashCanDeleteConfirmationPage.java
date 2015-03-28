@@ -25,6 +25,9 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 /**
  * When the users Deletes an item in the trashcan they will be presented with confirmation Dialog.
  * This page is validate the confirmation dialog.
@@ -39,7 +42,7 @@ public class TrashCanDeleteConfirmationPage extends TrashCanPage
     protected static final By CONFIRMATION_BUTTON = By.cssSelector("div.ft>span button");
     private boolean deleteInitiator;
     protected static final By DELETE_CONFIRMATION_OK_BUTTON = By.cssSelector("div.ft button");
-
+    protected static final By DELETE_SUCCESSFULLY_COMPLETED_MESSAGE = By.cssSelector("div[class='bd']>span");
     public TrashCanDeleteConfirmationPage(WebDrone drone, boolean deleteInitiator)
     {
         super(drone);
@@ -137,6 +140,10 @@ public class TrashCanDeleteConfirmationPage extends TrashCanPage
                     if (deleteInitiator)
                     {
                         return new TrashCanDeleteConfirmDialog(drone);
+                    }
+                    else
+                    {
+                        drone.waitUntilElementDisappears(DELETE_SUCCESSFULLY_COMPLETED_MESSAGE, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                     }
                     return new TrashCanPage(drone);
                 }
