@@ -17,7 +17,7 @@ import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.InformationEventForm;
-import org.alfresco.po.share.util.siteActions;
+import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -48,7 +48,7 @@ public class SiteCalendarDashletTest extends AbstractSiteDashletTest
         calendar = Calendar.getInstance();
         siteName = "siteCalendarDashletTest" + System.currentTimeMillis();
         loginAs("admin", "admin");
-        siteActions.createSite(drone, siteName, "description", "Public");
+        SiteUtil.createSite(drone, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
 
