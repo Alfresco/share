@@ -15,25 +15,23 @@ package org.alfresco.po.share.user;
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.workflow.DestinationAndAssigneePage;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.RenderWebElement;
 import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * User Cloud SignIn page object holds all elements of HTML page objects relating to Cloud Sync connect page.
@@ -105,33 +103,32 @@ public class CloudSignInPage extends ShareDialogue
         usernameInput.sendKeys(username);
 
         // To introduce a little lag before typing in the password: Same as LoginPage
-        WebElement button = drone.findAndWait(CONNECT_BUTTON);
-        String id = button.getAttribute("id");
-        
+        WebElement button = drone.findAndWait(CONNECT_BUTTON);    
         WebElement passwordInput = drone.findAndWait(PASSWORD_INPUT);
         passwordInput.clear();
         passwordInput.sendKeys(password);
         
         button.submit();
-        drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        drone.waitUntilElementDisappears(By.cssSelector(".message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         try
         {
             if (isCloudSyncPage())
             {
                 drone.findAndWait(By.xpath("//div[contains(@class,'notifications connected')]" +
-                        "//button[contains(@id,'user-cloud-auth') and contains(@id,'default-button-delete-button')]"), 30000);
+                        "//button[contains(@id,'user-cloud-auth') and contains(@id,'default-button-delete-button')]"));
                 return new CloudSyncPage(drone);
             }
             else
             {
-                drone.findAndWait(By.cssSelector("div[id$='cloud-folder-title']"), 30000);
+                drone.findAndWait(By.cssSelector("div[id$='cloud-folder-title']"));
                 return new DestinationAndAssigneePage(drone);
             }
         }
-        catch (PageRenderTimeException pte)
+        catch(TimeoutException nse)
         {
-            throw new PageException("Neither DestinationAndAssigneePage or CloudSyncPage is returned", pte);
+            logger.error("Sign in to Cloud failed");
+            return new CloudSignInPage(drone);
         }
     }
 
@@ -268,27 +265,6 @@ public class CloudSignInPage extends ShareDialogue
             }
         }
         return false;
-    }
-    
-    /**
-     * Logs user into the site by first finding the login panel, populating the
-     * fields and submitting the form without verifying the returned page.
-     */
-    public void loginToCloud(String userName, String password)
-    {
-        WebElement usernameInput = drone.findAndWait(USERNAME_INPUT);
-        usernameInput.clear();
-        usernameInput.sendKeys(userName);
-
-        // To introduce a little lag before typing in the password: Same as LoginPage
-        WebElement button = drone.findAndWait(CONNECT_BUTTON);
-
-        WebElement passwordInput = drone.findAndWait(PASSWORD_INPUT);
-        passwordInput.clear();
-        passwordInput.sendKeys(password);
-
-        button.submit();
-        drone.waitUntilElementDisappears(By.cssSelector(".message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
     }
         
     /**
