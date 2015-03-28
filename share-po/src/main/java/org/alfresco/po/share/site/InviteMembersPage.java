@@ -47,6 +47,7 @@ public class InviteMembersPage extends SharePage
     private static Log logger = LogFactory.getLog(InviteMembersPage.class);
     private static final String SEARCH_USER_ROLE_TEXT = "div.search-text>input";
     private static final String SEARCH_USER_ROLE_BUTTON = "button[id*='default-search-button-button']";
+    private static final String SEARCH_IS_IN_PROGRESS_BUTTON = "//button[contains(@id,'people-finder') and contains(@disabled,'disabled')]";
     private static final String LIST_OF_USERS = "div.results.yui-dt>table>tbody.yui-dt-data>tr";
     private static final String LIST_OF_INVITEES = "div.body.inviteelist.yui-dt>table>tbody.yui-dt-data>tr";
     private static final String INVITATION_LIST_PART = "div.invitationlistwrapper";
@@ -190,8 +191,9 @@ public class InviteMembersPage extends SharePage
             searchTextBox.sendKeys(userName);
 
             drone.findAndWait(By.cssSelector(SEARCH_USER_ROLE_BUTTON)).click();
-            logger.info("Waiting for max: " + 7000/1000 + " seconds");
-            canResume(7000);
+            drone.waitUntilElementDisappears(By.xpath(SEARCH_IS_IN_PROGRESS_BUTTON), 25);
+            //logger.info("Waiting for max: " + 7000/1000 + " seconds");
+            //canResume(7000);
 
             List<WebElement> users = getListOfInvitees();
             if (users != null && !users.isEmpty())
