@@ -192,8 +192,6 @@ public class InviteMembersPage extends SharePage
 
             drone.findAndWait(By.cssSelector(SEARCH_USER_ROLE_BUTTON)).click();
             drone.waitUntilElementDisappears(By.xpath(SEARCH_IS_IN_PROGRESS_BUTTON), 25);
-            //logger.info("Waiting for max: " + 7000/1000 + " seconds");
-            //canResume(7000);
 
             List<WebElement> users = getListOfInvitees();
             if (users != null && !users.isEmpty())
