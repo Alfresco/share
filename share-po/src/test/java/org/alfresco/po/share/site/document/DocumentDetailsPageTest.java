@@ -7,6 +7,7 @@
  */
 package org.alfresco.po.share.site.document;
 
+import static org.alfresco.po.share.site.document.TinyMceEditor.FormatType.BOLD;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -467,5 +468,25 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         docDetailsPage = docDetailsPage.selectViewOriginalDocument();
         assertFalse(docDetailsPage.isViewOriginalLinkPresent());
         assertTrue(docDetailsPage.isViewWorkingCopyDisplayed());
+        docDetailsPage.getSiteNav().selectSiteDocumentLibrary().render();
+    }
+    
+    /**
+     * Test the function of view original document
+     * 
+     * @throws Exception
+     */
+    @Test(dependsOnMethods = "testViewOriginalDocument")
+    public void testGetCommentHtml() throws Exception
+    {
+        DocumentLibraryPage libraryPage = drone.getCurrentPage().render();
+        libraryPage = libraryPage.getFileDirectoryInfo("Test Doc").selectCancelEditing().render();
+        DocumentDetailsPage docDetailsPage = libraryPage.selectFile("Test Doc").render();
+        AddCommentForm addCommentForm = docDetailsPage.clickAddCommentButton();
+        TinyMceEditor tinyMceEditor = addCommentForm.getTinyMceEditor();
+        tinyMceEditor.setText("comment");
+        addCommentForm.clickAddCommentButton().render();
+        String htmlComment = docDetailsPage.getCommentHTML("comment");
+        assertFalse(htmlComment.isEmpty());
     }
 }
