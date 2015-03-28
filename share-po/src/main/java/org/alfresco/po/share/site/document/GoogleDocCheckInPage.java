@@ -91,14 +91,6 @@ public class GoogleDocCheckInPage extends UpdateFilePage
     {
         WebElement submitButtonElement = drone.findAndWait(By.cssSelector(getSubmitButton()));
         submitButtonElement.click();
-        waitUntilAlert(15);
-        HtmlPage page = drone.getCurrentPage().render();
-
-        if (page instanceof DocumentLibraryPage)
-        {
-            return new DocumentLibraryPage(drone).render();
-        }
-
-        return new DocumentDetailsPage(drone, getDocumentVersion()).render();
+        return drone.getCurrentPage().render();
     }
 }
