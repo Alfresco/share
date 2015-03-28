@@ -1504,7 +1504,7 @@ public class DocumentDetailsPage extends DetailsPage
         {
             return drone.findAndWait(VIEW_WORKING_COPY).isDisplayed();
         }
-        catch (NoSuchElementException nse)
+        catch (NoSuchElementException | TimeoutException e)
         {
             return false;
         }
@@ -1767,7 +1767,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            drone.waitForElement(DOCUMENT_BODY, 30);
+            drone.waitForElement(DOCUMENT_BODY, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             return drone.find(DOCUMENT_BODY).getText();
         }
         catch (TimeoutException e)
