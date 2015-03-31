@@ -247,9 +247,16 @@
          {
             this.widgets.dialog.hide();
 
+            var msgFailure = "message.failure";
+
+            if (p_data && p_data.serverResponse && p_data.serverResponse.status == 408)
+            {
+               msgFailure  = "message.timeout";
+            }
+
             Alfresco.util.PopupManager.displayMessage(
             {
-               text: this.msg("message.failure")
+               text: this.msg(msgFailure)
             });
          };
 
