@@ -18,7 +18,6 @@
  */
 package org.alfresco.web.extensibility;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,6 +41,7 @@ import org.springframework.extensions.surf.WebFrameworkServiceRegistry;
 import org.springframework.extensions.surf.exception.ConnectorServiceException;
 import org.springframework.extensions.surf.support.AlfrescoUserFactory;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
+import org.springframework.extensions.surf.util.URLEncoder;
 import org.springframework.extensions.webscripts.ScriptRemote;
 import org.springframework.extensions.webscripts.Status;
 import org.springframework.extensions.webscripts.connector.Connector;
@@ -199,7 +199,7 @@ public class SlingshotEvaluatorUtil {
      * @param siteId The id of the site to retrieve the sitePreset for.
      * @return The site's sitePreset OR null if something goes wrong.
      */
-    @SuppressWarnings({ "unchecked", "deprecation", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public String getSitePreset(RequestContext context, String siteId)
     {
         // Get the preset request cache
@@ -327,7 +327,7 @@ public class SlingshotEvaluatorUtil {
                     }
                     String userName = (String)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
                     Connector connector = context.getServiceRegistry().getConnectorService().getConnector(SlingshotUserFactory.ALFRESCO_ENDPOINT_ID, userName, ServletUtil.getSession());
-                    Response res = connector.call("/api/people/" + context.getUserId() + "?groups=true");
+                    Response res = connector.call("/api/people/" + URLEncoder.encode(context.getUserId()) + "?groups=true");
                     if (res.getStatus().getCode() == Status.STATUS_OK)
                     {
                         String response = res.getResponse();
@@ -386,7 +386,7 @@ public class SlingshotEvaluatorUtil {
                                 }
                                 String userName = creds.getProperty("cleartextUsername").toString();
                                 Connector connector = context.getServiceRegistry().getConnectorService().getConnector("alfresco", userName, ServletUtil.getSession());
-                                Response res = connector.call("/api/sites/" + currentSite + "/memberships/" + context.getUserId());
+                                Response res = connector.call("/api/sites/" + currentSite + "/memberships/" + URLEncoder.encode(context.getUserId()));
                                 if (res.getStatus().getCode() == Status.STATUS_OK)
                                 {
                                     String response = res.getResponse();
