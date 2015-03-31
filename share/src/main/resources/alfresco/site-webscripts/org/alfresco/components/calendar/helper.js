@@ -338,7 +338,7 @@ var CalendarScriptHelper = (function()
             selector: 'date'
          });
          viewArgs.titleDate = viewArgs.startDate;
-         viewArgs.endDate = toISOString(new Date(d.getTime() + (DAY * 30)), {
+         viewArgs.endDate = toISOString(new Date(d.getTime() + (DAY * 31)), {
             selector: 'date'
          });
          return viewArgs;
