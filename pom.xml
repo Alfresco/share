@@ -23,9 +23,31 @@
     </properties>
 
    <scm>
-     <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
-     <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/branches/HEAD-BUG-FIX/</developerConnection>
+       <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
+       <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/branches/HEAD-BUG-FIX/</developerConnection>
    </scm>
+    <repositories>
+        <repository>
+            <id>alfresco-public</id>
+                <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>alfresco-public-snapshots</id>
+            <url>https://artifacts.alfresco.com/nexus/content/groups/public-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <!-- Resets Maven default -->
