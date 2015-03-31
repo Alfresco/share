@@ -4,7 +4,7 @@
    
    <rule>
       <from>^/page/(.*dashboard)/$</from>
-      <to type="redirect">/share/page/$1</to>
+      <to type="redirect">%{context-path}/page/$1</to>
    </rule>
 
    <!-- Quick Share doc -->
