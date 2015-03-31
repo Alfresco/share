@@ -3,7 +3,7 @@
 <urlrewrite use-query-string="true" decode-using="null">
    
    <rule>
-      <from>^/page/(.*dashboard)/$</from>
+      <from>^/page/(.+)/$</from>
       <to type="redirect">%{context-path}/page/$1</to>
    </rule>
 
