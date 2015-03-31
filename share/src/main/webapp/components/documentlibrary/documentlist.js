@@ -3749,6 +3749,21 @@
       },
 
       /**
+       * MNT-13640: remove selection from file after move/copy action
+       */
+      _unselectFile: function DL__unselectFile(obj)
+      {
+          var objAction = obj.action;
+          if (objAction && (objAction == "fileCopied" || objAction == "fileMoved" || objAction == "folderCopied" || objAction == "folderMoved"))
+          {
+             if (this.selectedFiles[obj.nodeRef])
+             {
+                this.selectedFiles[obj.nodeRef] = false;
+             }
+          }
+      },
+
+      /**
        * Generic file action event handler
        *
        * @method onFileAction
@@ -3760,6 +3775,7 @@
          var obj = args[1];
          if (obj)
          {
+            this._unselectFile(obj);
             if (!obj.multiple)
             {
                this._checkIfUpdatedPageIsEmpty();
