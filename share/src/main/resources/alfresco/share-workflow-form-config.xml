@@ -1237,7 +1237,9 @@
                <field id="bpm:status" set="progress" />
                <field id="packageItems" set="items" />
                <field id="bpm:comment" label-id="workflow.field.comment" set="response">
-                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                    <control-param name="saveLineBreaks">true</control-param>
+                 </control>
                </field>
                <field id="wf:reviewOutcome" label-id="workflow.field.outcome" set="response">
                   <control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
