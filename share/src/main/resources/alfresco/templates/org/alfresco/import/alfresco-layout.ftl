@@ -1,5 +1,5 @@
 <#macro grid columns class bindPrefix>
-   <#if (columns?size &lt; 4)>
+   <#if (columns?size &lt; 3)>
       <@_normalGrid columns class bindPrefix/>
    <#else>
       <@_nestedGrid columns class bindPrefix/>

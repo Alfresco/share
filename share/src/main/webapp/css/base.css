@@ -808,25 +808,44 @@ div.dashlet div.hdr
    margin: 0 10px;
 }
 
-/* 3 column layout */
+/* 2 column layout  (narrow left, wide right) */
 
-.yui-gb.grid .column1
+.yui-gd .yui-u.column2
 {
-   width: 24%;
-   float: left;
-}
-
-.yui-gb.grid .column3
-{
-   width: 24%;
    float: right;
 }
 
-.yui-gb.grid .column2
+/* 3 column layout */
+
+.yui-gb .yui-g.column1
 {
-   width: 48%;
-   left: 24%;
-   position: absolute;
+   width: 74%;
+   float: left;
+}
+
+.yui-gb .yui-g.column1 .yui-u.column1
+{
+   width: 32.43%;
+   float: left;
+}
+
+.yui-gb .yui-g.column1 .yui-u.column2
+{
+   width: 64.86%;
+   float: right;
+   margin-left: 2.69%;
+}
+
+.yui-gb .yui-g.column3
+{
+   width: 24%;
+   float: right;
+   margin-left: 1.99%;
+}
+
+.yui-gb .yui-g.column3 .yui-u
+{
+   width: 100%;
 }
 
 /* 4 column layout */
