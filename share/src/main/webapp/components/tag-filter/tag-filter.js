@@ -51,7 +51,14 @@
       
       // Decoupled event listeners
       YAHOO.Bubbling.on("tagRefresh", this.onTagRefresh, this);
-      YAHOO.Bubbling.on("changeFilter", this.onTagRefresh, this);	  
+      YAHOO.Bubbling.on("changeFilter", this.onTagRefresh, this);
+      
+      //Load collapsed preferences if necessary
+      if (Alfresco.util.createTwister.collapsed === undefined)
+      {
+          var preferences = new Alfresco.service.Preferences();
+          Alfresco.util.createTwister.collapsed = Alfresco.util.findValueByDotNotation(preferences.get(), Alfresco.service.Preferences.COLLAPSED_TWISTERS) || "";
+      }
       
       return this;
    };
@@ -110,6 +117,8 @@
       onReady: function TagFilter_onReady()
       {
          Alfresco.TagFilter.superclass.onReady.call(this);
+         var tagHeader = YUISelector.query("h2", this.id)[0];
+         YUIEvent.addListener(tagHeader, "click", this.onTagRefresh, this, true);
       },
       
       /**
@@ -151,6 +160,11 @@
        */
       onTagRefresh: function TagFilter_onRefresh(layer, args)
       {
+          // Do not load tags is TagFilter is collapsed
+         if (Alfresco.util.createTwister.collapsed.indexOf(this.filterName) > 0)
+         {
+             return;
+         }
          var url;
          
          if (this.options.siteId)
