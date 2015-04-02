@@ -184,6 +184,7 @@
    <!-- Document Library Action Evaluators -->
    <!--                                    -->
 
+   <bean id="evaluator.doclib.action.hasContent" class="org.alfresco.web.evaluator.HasContentEvaluator" />
    <bean id="evaluator.doclib.action.hasAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator" />
    <bean id="evaluator.doclib.action.hasAnyAspect" class="org.alfresco.web.evaluator.HasAnyAspectEvaluator" />
    <bean id="evaluator.doclib.action.isMimetype" class="org.alfresco.web.evaluator.IsMimetypeEvaluator" />
