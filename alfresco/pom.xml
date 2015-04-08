@@ -25,15 +25,23 @@
         <finalName>alfresco</finalName>
 
         <plugins> 
-            <!-- Configure war overlay -->
+            <!-- Configure war overlay without exclusions, so that we get the MANIFEST.MF, which MMT needs -->
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>org.alfresco</groupId>
+                            <artifactId>alfresco-platform</artifactId>
+                            <excludes/>
+                        </overlay>
+                    </overlays>
+                </configuration>
                 <!-- This allows overlays to be prepared on the FS for minification and faster run -->
                 <executions>
                     <execution>
                         <id>prepare-exploded-war</id>
                         <goals>
-                            <goal>manifest</goal>
                             <goal>exploded</goal>
                         </goals>
                         <phase>prepare-package</phase>
