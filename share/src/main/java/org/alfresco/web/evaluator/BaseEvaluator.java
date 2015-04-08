@@ -491,4 +491,20 @@ public abstract class BaseEvaluator implements Evaluator
         }
         return record;
     }
+
+    /**
+     * Get a boolean value indicating whether the node has binary content
+     *
+     * @param jsonObject JSONObject containing a "node" object as returned from the ApplicationScriptUtils class.
+     * @return True if the node has content
+     */
+    public final boolean getHasContent(JSONObject jsonObject)
+    {
+        JSONObject node = (JSONObject) jsonObject.get("node");
+        if (node != null)
+        {
+            return node.get("contentURL") != null;
+        }
+        return false;
+    }
 }

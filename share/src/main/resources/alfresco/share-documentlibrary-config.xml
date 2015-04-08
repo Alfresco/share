@@ -852,11 +852,13 @@
          <action id="document-download" type="link" label="actions.document.download">
             <param name="href">{downloadUrl}</param>
             <evaluator>evaluator.doclib.action.downloadBrowser</evaluator>
+            <evaluator>evaluator.doclib.action.hasContent</evaluator>
          </action>
 
          <!-- View document in browser -->
          <action id="document-view-content" type="link" label="actions.document.view">
             <param name="href">{viewUrl}</param>
+            <evaluator>evaluator.doclib.action.hasContent</evaluator>
          </action>
 
          <!-- View document details -->
@@ -1024,6 +1026,7 @@
                <permission allow="true">Write</permission>
             </permissions>
             <evaluator>evaluator.doclib.action.offlineEdit</evaluator>
+            <evaluator>evaluator.doclib.action.hasContent</evaluator>
             <evaluator negate="true">evaluator.doclib.action.notEditable</evaluator>
          </action>
 
