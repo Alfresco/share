@@ -1,0 +1,160 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>alfresco</artifactId>
+    <name>Alfresco Repository with Share Services AMP</name>
+    <packaging>war</packaging>
+
+    <parent>
+        <artifactId>alfresco-share-parent</artifactId>
+        <groupId>org.alfresco</groupId>
+        <version>5.1-BF-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <!-- Defines WAR to overlay -->
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-platform</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>alfresco</finalName>
+
+        <plugins> 
+            <!-- Configure war overlay -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <!-- This allows overlays to be prepared on the FS for minification and faster run -->
+                <executions>
+                    <execution>
+                        <id>prepare-exploded-war</id>
+                        <goals>
+                            <goal>manifest</goal>
+                            <goal>exploded</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>                
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- Fetch amp files -->
+                    <execution>
+                        <id>fetch-amps</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>alfresco-share-services</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>amp</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>target/amps</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Apply amp files -->
+            <plugin>
+                <groupId>org.alfresco.maven.plugin</groupId>
+                <artifactId>alfresco-maven-plugin</artifactId>
+                <configuration>
+                    <warLocation>${project.build.directory}/${project.build.finalName}</warLocation>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-amps</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                        <configuration>
+                            <ampLocation>target/amps</ampLocation>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Wipe the database before starting tests -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>wipe-database</id>
+                                <phase>pre-clean</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <sqlCommand>${db.drop.command}</sqlCommand>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>create-database</id>
+                                <phase>pre-clean</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <sqlCommand>${db.create.command}</sqlCommand>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>run</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>run-exploded-webapp</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>run-war-only</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <systemProperties>
+                                <solr.port>${maven.tomcat.solr.port}</solr.port>
+                                <solr.backup.alfresco.numberToKeep>0</solr.backup.alfresco.numberToKeep>
+                                <solr.backup.archive.numberToKeep>0</solr.backup.archive.numberToKeep>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
