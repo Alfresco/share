@@ -1664,7 +1664,7 @@
        */
       onDownloadClick : function PdfJs_onDownloadClick(p_obj)
       {
-         window.location.href = this.wp.getContentUrl(true).replace("api/node","slingshot/node");
+         window.open(this.wp.getContentUrl(true).replace("api/node","slingshot/node"), "_blank");
       },
 
       /**
@@ -1674,7 +1674,7 @@
        */
       onDownloadPDFClick : function PdfJs_onDownloadPDFClick(p_obj)
       {
-         window.location.href = this.wp.getThumbnailUrl(this.attributes.src) + "&a=true";
+         window.open(this.wp.getThumbnailUrl(this.attributes.src) + "&a=true", "_blank");
       },
 
       /**

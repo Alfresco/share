@@ -851,6 +851,7 @@
          <!-- Download document -->
          <action id="document-download" type="link" label="actions.document.download">
             <param name="href">{downloadUrl}</param>
+            <param name="target">_blank</param>
             <evaluator>evaluator.doclib.action.downloadBrowser</evaluator>
             <evaluator>evaluator.doclib.action.hasContent</evaluator>
          </action>
