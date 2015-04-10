@@ -166,7 +166,7 @@ public class FolderDetailsPageTest extends AbstractTest
             logger.trace("====testLikeMethodsForFolder====");
         Assert.assertFalse(folderDetailsPage.isLiked());
         Assert.assertEquals(folderDetailsPage.getLikeCount(), "0");
-        folderDetailsPage.selectLike().render();
+        folderDetailsPage.selectLikeFolder().render();
         Assert.assertTrue(folderDetailsPage.isLiked());
     }
 

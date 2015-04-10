@@ -192,6 +192,16 @@ public abstract class DetailsPage extends SitePage
     }
 
     /**
+     * Mimics the action of selecting the thumbs up icon on the details folder.
+     */
+    public HtmlPage selectLikeFolder()
+    {
+        drone.findAndWait(By.cssSelector("a[class^=\"like-action\"][title=\"Like this folder\"]")).click();
+        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return FactorySharePage.resolvePage(drone);
+    }
+
+    /**
      * Mimics the action of selecting the thumbs up icon on the details page.
      */
     public HtmlPage selectUnlike()
