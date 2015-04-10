@@ -206,7 +206,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         Assert.assertEquals("1", docsPage.getLikeCount());
         Assert.assertTrue(docsPage.isLiked());
         Assert.assertNotNull(docsPage.getToolTipForLike());
-        docsPage = docsPage.selectLike().render();
+        docsPage = docsPage.selectUnlike().render();
         Assert.assertEquals("0", docsPage.getLikeCount());
         Assert.assertFalse(docsPage.isLiked());
         docsPage.getToolTipForFavourite();
