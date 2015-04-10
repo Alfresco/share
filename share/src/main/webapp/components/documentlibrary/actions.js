@@ -729,8 +729,8 @@
          }
 
 
-         // Check if either the URL's length or the encoded URL's length is greater than 260 (see MNT-13279):
-         if (record.onlineEditUrl.length > 260 || (encodeURI(record.onlineEditUrl)).length > 260)
+         // Check if either the URL's length or the encoded URL's length is greater than 256 (see MNT-13279):
+         if (record.onlineEditUrl.length > 256 || (encodeURI(record.onlineEditUrl)).length > 256)
          {
             //Try to use alternate edit online URL: http://{host}:{port}/{context}/_IDX_SITE_{site_uuid}/_IDX_NODE_{document_uuid}/{document_name}
             Alfresco.util.Ajax.request(
@@ -744,12 +744,23 @@
                      var siteUUID = response.json.node.split("/").pop();
                      var docUUID = record.nodeRef.split("/").pop();
                      record.onlineEditUrl = record.onlineEditUrl.split(record.location.site.name)[0] + "_IDX_SITE_" + siteUUID + "/_IDX_NODE_" + docUUID + "/" + record.displayName;
-                     if (record.onlineEditUrl.length > 260)
+                     if (record.onlineEditUrl.length > 256)
                      {
                         var ext = record.displayName.split(".").pop();
                         var recordName = record.displayName.split(".")[0];
-                        var exceed = record.onlineEditUrl.length - 260;
+                        var exceed = record.onlineEditUrl.length - 256;
                         record.onlineEditUrl = record.onlineEditUrl.replace(record.displayName, recordName.substring(0, recordName.length - exceed - 1) + "." + ext);
+                     }
+                     if (encodeURI(record.onlineEditUrl).length > 256)
+                     {
+                        // If we get here it might be that the filename contains a lot of space characters that (when converted to %20) 
+                        // would lead to a total encoded URL length that's greater than 256 characters.
+                        // Since it's a very rare case we'll just reduce the record's display name (from the URL) 
+                        // to a (presumably) safe size of 5 characters plus extension.
+                        var ext = record.displayName.split(".").pop();
+                        var recordName = record.onlineEditUrl.split("/").pop();
+                        var recordNameReduced = recordName.split(".")[0].substring(0, 5) + "." + ext;
+                        record.onlineEditUrl = record.onlineEditUrl.replace(recordName, recordNameReduced);
                      }
                      this.actionEditOnlineInternal(record);
                   },
@@ -773,7 +784,7 @@
 
       actionEditOnlineInternal: function dlA_onActionEditOnline(record)
       {
-         if (record.onlineEditUrl.length > 260)
+         if (record.onlineEditUrl.length > 256 || encodeURI(record.onlineEditUrl).length > 256)
          {
             Alfresco.util.PopupManager.displayMessage(
             {
