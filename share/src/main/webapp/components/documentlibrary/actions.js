@@ -212,7 +212,7 @@
             }, this),
             actionUrls =
             {
-               downloadUrl: $combine(Alfresco.constants.PROXY_URI, contentUrl) + "?a=true" + "\" target=\"_blank",
+               downloadUrl: $combine(Alfresco.constants.PROXY_URI, contentUrl) + "?a=true",
                viewUrl:  $combine(Alfresco.constants.PROXY_URI, contentUrl) + "\" target=\"_blank",
                documentDetailsUrl: fnPageURL("document-details?nodeRef=" + strNodeRef),
                folderDetailsUrl: fnPageURL("folder-details?nodeRef=" + strNodeRef),

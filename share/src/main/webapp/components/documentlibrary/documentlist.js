@@ -3669,7 +3669,7 @@
                                     text: this.msg("button.download"),
                                     handler: function DL_oAEO_success_download()
                                     {
-                                       window.location = downloadUrl;
+                                       window.open(downloadUrl, "_blank");
                                        this.destroy();
                                     },
                                     isDefault: true
