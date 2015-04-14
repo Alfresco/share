@@ -1,0 +1,9 @@
+.theme-trademark
+{
+   height: 50px;
+   width: 320px;
+   background: transparent url(../images/simple+smart-medium.png) no-repeat;
+   position: absolute;
+   bottom: 15px;
+   right: 15px;
+}
