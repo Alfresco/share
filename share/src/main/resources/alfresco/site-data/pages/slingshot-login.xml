@@ -15,5 +15,10 @@
          </properties>
       </component>
 
+       <component>        
+         <region-id>tradeMarkLogo</region-id>
+         <url>/components/tradeMarkLogo/tradeMarkLogo</url>        
+      </component>
+
    </components>
 </page>

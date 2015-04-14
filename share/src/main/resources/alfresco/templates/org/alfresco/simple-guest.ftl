@@ -6,6 +6,7 @@
       <@region id=outcome scope="page"/>
    <#else>
       <@region id="components" scope="page"/>
+      <@region id="tradeMarkLogo" scope="page"/>
    </#if>
 </@>
 
