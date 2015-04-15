@@ -849,6 +849,13 @@ main.config.widgets.splice(2, 0, scopeSelection);
 // Append services with those required for search
 services.push("alfresco/services/SearchService",
               "alfresco/services/ActionService",
+              {
+                 name: "alfresco/services/actions/CopyMoveService",
+                 config: {
+                     repoNodeRef: repoRootNode
+                 }
+              },
+              "alfresco/services/actions/SimpleWorkflowService",
               "alfresco/services/DocumentService",
               "alfresco/dialogs/AlfDialogService",
               "alfresco/services/PreferenceService",
