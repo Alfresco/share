@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -290,6 +290,17 @@ public class SlingshotEvaluatorUtil {
         // Get the current site
         String currentSite = getSite(context);
 
+        boolean externalAuth = false;
+        RemoteConfigElement config = (RemoteConfigElement) context.getServiceRegistry().getConfigService().getConfig("Remote").getConfigElement("remote");
+        if (config != null)
+        {
+            EndpointDescriptor descriptor = config.getEndpointDescriptor(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
+            if (descriptor != null)
+            {
+                externalAuth = descriptor.getExternalAuth();
+            }
+        }
+
         // Get all the group membership first so that we don't perform this operation multiple times... check
         // the HttpSession and if it's not already available then make a request for it and cache it for future
         // reference. Note that we're ONLY caching the current users membership information.
@@ -303,17 +314,6 @@ public class SlingshotEvaluatorUtil {
             try
             {
                 // Get the Site membership information...
-                boolean externalAuth = false;
-                RemoteConfigElement config = (RemoteConfigElement) context.getServiceRegistry().getConfigService().getConfig("Remote").getConfigElement("remote");
-                if (config != null)
-                {
-                    EndpointDescriptor descriptor = config.getEndpointDescriptor(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
-                    if (descriptor != null)
-                    {
-                        externalAuth = descriptor.getExternalAuth();
-                    }
-                }
-
                 CredentialVault cv = context.getCredentialVault();
                 if (cv != null)
                 {
@@ -378,14 +378,14 @@ public class SlingshotEvaluatorUtil {
                             CredentialVault cv = context.getCredentialVault();
                             if (cv != null)
                             {
-                                Credentials creds = cv.retrieve("alfresco");
-                                if (creds == null)
+                                Credentials creds = cv.retrieve(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
+                                if (creds == null && !externalAuth)
                                 {
                                     // User is not logged in anymore
                                     return false;
                                 }
-                                String userName = creds.getProperty("cleartextUsername").toString();
-                                Connector connector = context.getServiceRegistry().getConnectorService().getConnector("alfresco", userName, ServletUtil.getSession());
+                                String userName = (String)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
+                                Connector connector = context.getServiceRegistry().getConnectorService().getConnector(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID, userName, ServletUtil.getSession());
                                 Response res = connector.call("/api/sites/" + currentSite + "/memberships/" + URLEncoder.encode(context.getUserId()));
                                 if (res.getStatus().getCode() == Status.STATUS_OK)
                                 {
