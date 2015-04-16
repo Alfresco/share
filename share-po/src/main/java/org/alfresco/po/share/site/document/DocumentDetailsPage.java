@@ -1004,8 +1004,8 @@ public class DocumentDetailsPage extends DetailsPage
         try
         {
             String text = "Editing in Google Docs";
-            drone.waitUntilVisible(jsMessage, text, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            drone.waitUntilNotVisibleWithParitalText(jsMessage, text, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            drone.waitUntilVisible(jsMessage, text, 10);
+            drone.waitUntilNotVisibleWithParitalText(jsMessage, text, 10);
         }
         catch (TimeoutException timeoutException)
         {
