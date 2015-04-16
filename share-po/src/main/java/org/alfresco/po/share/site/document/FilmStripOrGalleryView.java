@@ -643,6 +643,13 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         clickInfoIcon(true);
         return super.selectCopyTo();
     }
+    
+    @Override
+    public CopyOrMoveContentPage selectCopyToOnFolderCloud()
+    {
+        clickInfoIcon(false);
+        return super.selectCopyToOnFolderCloud();
+    }
 
     /*
      * (non-Javadoc)

@@ -20,11 +20,11 @@ public class ManageSitesPage extends SharePage
 {
 
     /** Constants */
-    private static final By SITE_ROWS = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
-    private static final By SITE_ROW_NAME = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteName");
-    private static final By SITE_ROW_DESCRIPTION = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
-    private static final By SITE_ROW_VISIBILITY = By.cssSelector("td.alfresco-lists-views-layouts-Cell.visibility");
-    private static final By SITE_ROW_ACTIONS = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actions");
+    private static String SITE_ROWS = "tr.alfresco-lists-views-layouts-Row";
+    private static String SITE_ROW_NAME = "td.alfresco-lists-views-layouts-Cell.siteName";
+    private static String SITE_ROW_DESCRIPTION = "td.alfresco-lists-views-layouts-Cell.siteDescription";
+    private static String SITE_ROW_VISIBILITY = "td.alfresco-lists-views-layouts-Cell.visibility";
+    private static String SITE_ROW_ACTIONS = "td.alfresco-lists-views-layouts-Cell.actions";
 
     private List<ManagedSiteRow> managedSiteRows;
     private DocListPaginator docListPaginator;
@@ -141,16 +141,26 @@ public class ManageSitesPage extends SharePage
      */
     public void loadElements()
     {
+
+        if (alfrescoVersion.isCloud())
+        { 
+            SITE_ROWS = SITE_ROWS.replace("lists", "documentlibrary");
+            SITE_ROW_NAME = SITE_ROW_NAME.replace("lists", "documentlibrary");
+            SITE_ROW_DESCRIPTION = SITE_ROW_DESCRIPTION.replace("lists", "documentlibrary");
+            SITE_ROW_VISIBILITY = SITE_ROW_VISIBILITY.replace("lists", "documentlibrary");
+            SITE_ROW_ACTIONS = SITE_ROW_ACTIONS.replace("lists", "documentlibrary");
+        }
+
         // Initialise the available site rows
-        List<WebElement> siteRows = drone.findAndWaitForElements(SITE_ROWS);
+        List<WebElement> siteRows = drone.findAndWaitForElements(By.cssSelector(SITE_ROWS));
         this.managedSiteRows = new ArrayList<ManagedSiteRow>();
         for (WebElement siteRow : siteRows)
         {
             ManagedSiteRow manageSiteRow = new ManagedSiteRow();
-            manageSiteRow.setSiteName(siteRow.findElement(SITE_ROW_NAME).getText());
-            manageSiteRow.setSiteDescription(siteRow.findElement(SITE_ROW_DESCRIPTION).getText());
-            manageSiteRow.setVisibility(new VisibilityDropDown(drone, siteRow.findElement(SITE_ROW_VISIBILITY)));
-            manageSiteRow.setActions(new ActionsSet(drone, siteRow.findElement(SITE_ROW_ACTIONS)));
+            manageSiteRow.setSiteName(siteRow.findElement(By.cssSelector(SITE_ROW_NAME)).getText());
+            manageSiteRow.setSiteDescription(siteRow.findElement(By.cssSelector(SITE_ROW_DESCRIPTION)).getText());
+            manageSiteRow.setVisibility(new VisibilityDropDown(drone, siteRow.findElement(By.cssSelector(SITE_ROW_VISIBILITY))));
+            manageSiteRow.setActions(new ActionsSet(drone, siteRow.findElement(By.cssSelector(SITE_ROW_ACTIONS))));
             this.managedSiteRows.add(manageSiteRow);
         }
 

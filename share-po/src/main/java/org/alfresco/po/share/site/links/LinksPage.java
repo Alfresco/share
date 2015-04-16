@@ -257,7 +257,7 @@ public class LinksPage extends SharePage
      */
     public LinksDetailsPage editLink(String linkTitle, String linkNewTitle, String url, String desc, boolean internalChkBox)
     {
-        AddLinkForm addLinkForm = getLinkDirectoryInfo(linkTitle).clickEdit();
+        AddLinkForm addLinkForm = getLinkDirectoryInfo(linkTitle).clickEdit().render();
         addLinkForm.setTitleField(linkNewTitle);
         addLinkForm.setDescriptionField(desc);
         addLinkForm.setUrlField(url);

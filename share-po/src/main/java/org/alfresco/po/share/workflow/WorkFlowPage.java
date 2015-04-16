@@ -87,7 +87,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         if (StringUtils.isEmpty(messageString))
         {
-            throw new IllegalArgumentException("Message cannot be Empty or null");
+            //throw new IllegalArgumentException("Message cannot be Empty or null");
         }
         WebElement workFlowDescription = getMessageTextareaElement();// drone.findAndWait(MESSAGE_TEXT);
         workFlowDescription.sendKeys(messageString);
