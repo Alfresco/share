@@ -901,7 +901,20 @@ public class DocumentDetailsPage extends DetailsPage
     {
         WebElement link = drone.findAndWait(By.cssSelector(LINK_EDIT_IN_GOOGLE_DOCS));
         link.click();
-        waitUntilAlert(5);
+        By jsMessage = By.cssSelector("div.bd>span.message");
+        String text = "Editing in Google Docs";
+        try
+        {
+            drone.waitUntilElementPresent(jsMessage, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            drone.waitUntilElementDeletedFromDom(jsMessage, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        }
+        catch (TimeoutException ex)
+        {
+            if (logger.isDebugEnabled())
+            {
+                logger.error("Alert message hide quickly", ex);
+            }
+        }
         String currUrl = drone.getCurrentUrl();
         HtmlPage currPage = drone.getCurrentPage();
         if (!currUrl.contains(GOOGLE_DOCS_URL) && !currUrl.contains("docs.google.com") && !(currPage instanceof DocumentDetailsPage) && !(currPage instanceof
