@@ -297,7 +297,27 @@ public class SiteTest extends AbstractTest
         nav.isLinkActive(null);
     }
 
-//    /** 
+    @Test(dependsOnMethods = "deleteSite")
+    public void checkSetSiteName()
+    {
+        CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
+        createSite.setSiteName(siteName);
+        Assert.assertEquals(createSite.getSiteName(), siteName);
+        createSite.clickCancel().render();
+    }
+
+    @Test(dependsOnMethods = "checkSetSiteName")
+    public void checkSetSiteURL()
+    {
+        String siteURL = siteName + "URL";
+        CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
+        createSite.setSiteName(siteURL);
+        Assert.assertEquals(createSite.getSiteUrl(), siteURL.toLowerCase());
+        createSite.clickCancel().render();
+
+    }
+
+//    /**
 //     * A 4.2 bug  ALF-18320
 //     * https://issues.alfresco.com/jira/browse/ALF-18320
 //     * Tests SiteResultsPage by searching from a site page.
