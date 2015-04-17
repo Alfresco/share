@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  * This file is part of Alfresco
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -43,6 +43,7 @@ import org.openqa.selenium.WebElement;
  * sub navigation bar that appears on the site pages.
  * 
  * @author Michael Suzuki
+ * @author mbhave
  * @since 1.0
  */
 public class SiteNavigation extends AbstractSiteNavigation
@@ -77,6 +78,21 @@ public class SiteNavigation extends AbstractSiteNavigation
             return new DocumentLibraryPage(getDrone());
         }
         return select(PROJECT_LIBRARY);
+    }
+    
+    /**
+     * Mimics the action of selecting the site document library irrespective of the link name
+     * 
+     * @return HtmlPage site document library page object
+     */
+    public HtmlPage selectSiteContentLibrary()
+    {
+        if (getAlfrescoVersion().isDojoSupported())
+        {
+            findElement(By.cssSelector("#HEADER_SITE_DOCUMENTLIBRARY_text>a")).click();
+            return drone.getCurrentPage().render();
+        }
+        return selectSiteDocumentLibrary();
     }
 
     /**

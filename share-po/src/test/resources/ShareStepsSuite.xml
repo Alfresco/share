@@ -1,6 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Share Steps Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">
+   	<test name="CommonActionsTest">
+		<classes>
+			<class name="org.alfresco.po.share.steps.CommonActionsTest" />
+		</classes>
+	</test>
    	<test name="AdminActionsTest">
 		<classes>
 			<class name="org.alfresco.po.share.steps.AdminActionsTest" />
@@ -14,6 +19,11 @@
 	<test name="UserProfileActionsTest">
 		<classes>
 			<class name="org.alfresco.po.share.steps.UserProfileActionsTest" />
+		</classes>
+	</test>
+	<test name="SiteActionsTest">
+		<classes>
+			<class name="org.alfresco.po.share.steps.SiteActionsTest" />
 		</classes>
 	</test>
 </suite>

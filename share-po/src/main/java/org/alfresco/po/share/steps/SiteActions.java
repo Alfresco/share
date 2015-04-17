@@ -53,6 +53,7 @@ import org.openqa.selenium.NoSuchElementException;
  * Share actions - All the common steps of site action
  * 
  * @author sprasanna
+ * @author mbhave
  */
 
 public class SiteActions extends CommonActions
@@ -171,7 +172,7 @@ public class SiteActions extends CommonActions
         // Open DocumentLibrary Page from Site Page
         SitePage site = drone.getCurrentPage().render();
 
-        DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        DocumentLibraryPage docPage = site.getSiteNav().selectSiteContentLibrary().render();
         logger.info("Opened Document Library");
         return docPage;
     }

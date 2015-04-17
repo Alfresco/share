@@ -15,6 +15,12 @@
 
 package org.alfresco.po.share.steps;
 
+/**
+ * Class contains Common user steps / actions / utils for regression tests
+ * 
+ *  @author mbhave
+ */
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.WebDrone;
@@ -71,6 +77,31 @@ public class CommonActions
     {
         checkIfDriverIsNull(driver);
         driver.refresh();
+        return getSharePage(driver);
+    }
+    
+
+    /**
+     * Common method to wait for the next solr indexing cycle.
+     * 
+     * @param driver WebDrone Instance
+     * @param waitMiliSec Wait duration in milliseconds
+     */
+    public HtmlPage webDriverWait(WebDrone driver, long waitMiliSec)
+    {
+        checkIfDriverIsNull(driver);
+
+        synchronized (this)
+        {
+            try
+            {
+                this.wait(waitMiliSec);
+            }
+            catch (InterruptedException e)
+            {
+                // Discussed not to throw any exception
+            }
+        }
         return getSharePage(driver);
     }
 }

@@ -1039,7 +1039,7 @@ public class Navigation extends SharePage
             String url = currentUrl.replaceFirst("^*/page.*", usersPageURL);
             drone.navigateTo(url);
         }
-        return new AdminConsolePage(drone).render();
+        return drone.getCurrentPage().render();
     }
 
     /**
