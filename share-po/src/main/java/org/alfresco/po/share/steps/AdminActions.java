@@ -50,7 +50,7 @@ public class AdminActions extends DashBoardActions
     {
         try
         {
-            GroupsPage page = (GroupsPage) getSharePage(driver);
+            GroupsPage page = getSharePage(driver).render();
             return page;
         }
         catch(ClassCastException c)

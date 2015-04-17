@@ -11,4 +11,9 @@
 			<class name="org.alfresco.po.share.steps.DashBoardActionsTest" />
 		</classes>
 	</test>
+	<test name="UserProfileActionsTest">
+		<classes>
+			<class name="org.alfresco.po.share.steps.UserProfileActionsTest" />
+		</classes>
+	</test>
 </suite>
