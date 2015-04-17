@@ -901,10 +901,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         WebElement link = drone.findAndWait(By.cssSelector(LINK_EDIT_IN_GOOGLE_DOCS));
         link.click();
-        By jsMessage = By.cssSelector("div.bd>span.message");
-        String text = "Editing in Google Docs";
-        drone.waitUntilElementPresent(jsMessage, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        drone.waitUntilElementDeletedFromDom(jsMessage, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitUntilAlert(5);
         String currUrl = drone.getCurrentUrl();
         HtmlPage currPage = drone.getCurrentPage();
         if (!currUrl.contains(GOOGLE_DOCS_URL) && !currUrl.contains("docs.google.com") && !(currPage instanceof DocumentDetailsPage) && !(currPage instanceof
