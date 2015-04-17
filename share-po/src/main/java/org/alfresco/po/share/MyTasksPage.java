@@ -642,4 +642,25 @@ public class MyTasksPage extends SharePage
 
         return false;
     }
+
+    public boolean isTaskNameUnique(String taskName)
+    {
+        List<WebElement> taskRows = drone.findAll(TASKS_ROWS);
+        int count=0;
+        if (null != taskRows && taskRows.size() > 0)
+        {
+            for (WebElement taskRow : taskRows)
+            {
+                if (StringUtils.deleteWhitespace(taskName).equals(StringUtils.deleteWhitespace(taskRow.findElement(By.cssSelector("h3 a")).getText())))
+                {
+                    count++;
+                }
+            }
+        }
+        if(count == 1)
+        {
+            return true;
+        }
+        return false;
+    }
 }

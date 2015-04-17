@@ -21,6 +21,7 @@ import org.alfresco.webdrone.RenderWebElement;
 import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -105,6 +106,20 @@ public class NewWorkflowPage extends WorkFlowPage
         saveButton.click();
         drone.waitUntilElementDisappears(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
        // drone.waitUntilElementDeletedFromDom(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return FactorySharePage.resolvePage(drone);
+    }
+
+    public HtmlPage doubleClickStartWorkflow()
+    {
+
+        try
+        {
+            WebElement saveButton = drone.findAndWait(SUBMIT_BUTTON);
+            drone.doubleClickOnElement(saveButton);
+        }
+        catch (TimeoutException e)
+        {
+        }
         return FactorySharePage.resolvePage(drone);
     }
 
