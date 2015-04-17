@@ -2902,6 +2902,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
         }
         catch (NoSuchElementException nse)
         {
+            throw new PageOperationException("Not able to find Locate file", nse);
         }
         catch (TimeoutException exception)
         {
@@ -3286,5 +3287,26 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
         {
             throw new PageOperationException("Model Description Can not be found", e);
         }
+    }
+
+    /**
+     * Method to select Copy To... button for folder on cloud
+     */
+    public CopyOrMoveContentPage selectCopyToOnFolderCloud()
+    {
+        try
+        {
+            WebElement copyToLink = findAndWait(By.cssSelector("div.document-copy-to>a"));
+            copyToLink.click();
+            return new CopyOrMoveContentPage(drone);
+        }
+        catch (NoSuchElementException nse)
+        {
+        }
+        catch (TimeoutException exception)
+        {
+            logger.error("Copy to link is not displayed for selected data row", exception);
+        }      
+        throw new PageOperationException("Copy to link is not displayed for selected data row");
     }
 }

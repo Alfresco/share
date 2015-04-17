@@ -43,7 +43,7 @@ public class ViewPublicLinkPage extends SharePage
     private static final By documentDetailsLinkLocator = By.cssSelector("div.quickshare-header-right>a.brand-button");
     // @RenderWebElement
     // private static final By documentNameLocator = By.cssSelector("div.quickshare-node-header h1");
-    @RenderWebElement
+    //@RenderWebElement
     private static final By documentPreviewLocator = By.cssSelector("div[id$='web-preview-previewer-div']");
     private static final By pageNotFound = By.cssSelector("div.quickshare-error>h1");
     private static final By bodyNotFound = By.cssSelector("div.quickshare-error>p");
@@ -55,7 +55,7 @@ public class ViewPublicLinkPage extends SharePage
     private static final String DOCUMENT_ZOOMOUT = "#page_x002e_components_x002e_quickshare_x0023_web-preview-zoomOut-button" ;
     private static final String DOCUMENT_ZOOMSCALE = "#page_x002e_components_x002e_quickshare_x0023_web-preview-scaleSelectBtn-button" ;
 
-    @RenderWebElement
+    //@RenderWebElement
     private static final By TEXT_LAYER = By.cssSelector("div[id$='web-preview-viewer-pageContainer-1']>.textLayer");
         
     /**
