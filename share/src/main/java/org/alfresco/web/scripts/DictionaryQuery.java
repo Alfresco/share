@@ -61,6 +61,26 @@ public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary
     
     
     /**
+     * getAspects - return Array of all aspects in the dictionary.
+     * 
+     * @return Array of all aspects in the dictionary.
+     */
+    public String[] getAllAspects()
+    {
+        return getDictionary().getAllAspects();
+    }
+    
+    /**
+     * getTypes - return Array of all types in the dictionary.
+     * 
+     * @return Array of all types in the dictionary.
+     */
+    public String[] getAllTypes()
+    {
+        return getDictionary().getAllTypes();
+    }
+    
+    /**
      * isSubType - return if the supplied type is a sub-type of a given type.
      * 
      * @param type      Type to test
@@ -74,6 +94,20 @@ public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary
         ParameterCheck.mandatoryString("isType", isType);
         
         return type.equals(isType) || getDictionary().isSubType(type, isType);
+    }
+    
+    /**
+     * getSubTypes - return Array of sub-types for the given class.
+     * 
+     * @param ddclass   DD class to get sub-types for
+     * 
+     * @return Array of  sub-types for the type or aspect, can be empty but never null.
+     */
+    public String[] getSubTypes(final String ddclass)
+    {
+        ParameterCheck.mandatoryString("ddclass", ddclass);
+        
+        return getDictionary().getSubTypes(ddclass);
     }
     
     /**
@@ -479,20 +513,20 @@ class Dictionary
     
     public DictionaryItem getType(String type)
     {
-        return (DictionaryItem)this.types.get(type);
+        return this.types.get(type);
     }
     
     public DictionaryItem getAspect(String aspect)
     {
-        return (DictionaryItem)this.aspects.get(aspect);
+        return this.aspects.get(aspect);
     }
     
     public DictionaryItem getTypeOrAspect(String ddclass)
     {
-        DictionaryItem item = (DictionaryItem)this.types.get(ddclass);
+        DictionaryItem item = this.types.get(ddclass);
         if (item == null)
         {
-            item = (DictionaryItem)this.aspects.get(ddclass);
+            item = this.aspects.get(ddclass);
         }
         return item;
     }
@@ -526,9 +560,94 @@ class Dictionary
         }
         catch (JSONException jsonErr)
         {
-            throw new AlfrescoRuntimeException("Error retrieving subtype/parent information for: " + type, jsonErr);
+            throw new AlfrescoRuntimeException("Error retrieving 'isSubType' information for: " + type, jsonErr);
         }
         return isSubType;
+    }
+    
+    public String[] getSubTypes(String ddclass)
+    {
+        try
+        {
+            List<String> subTypes = new ArrayList<String>();
+            DictionaryItem dditem = getType(ddclass);
+            if (dditem != null)
+            {
+                // TODO: get parent of given ddclass - if that is non-null then can be used as a quick exit for the parent hiearchy search on types
+                for (String typeName : this.types.keySet())
+                {
+                    DictionaryItem ddType = getType(typeName);
+                    String parentType = null;
+                    while (ddType != null)
+                    {
+                        // the parent JSON object will always exist, but name value may be empty
+                        JSONObject parent = ddType.data.getJSONObject(JSON_PARENT);
+                        parentType = parent.optString(JSON_NAME);
+                        if (parentType != null)
+                        {
+                            if (parentType.equals(ddclass))
+                            {
+                                // found a sub-type - store and exit the loop
+                                subTypes.add(parentType);
+                                ddType = null;
+                            }
+                            else
+                            {
+                                // get the parent type for another loop round
+                                ddType = getType(parentType);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                dditem = getAspect(ddclass);
+                if (dditem != null)
+                {
+                    for (String aspectName : this.aspects.keySet())
+                    {
+                        DictionaryItem ddAspect = getAspect(aspectName);
+                        String parentAspect = null;
+                        while (ddAspect != null)
+                        {
+                            // the parent JSON object will always exist, but name value may be empty
+                            JSONObject parent = ddAspect.data.getJSONObject(JSON_PARENT);
+                            parentAspect = parent.optString(JSON_NAME);
+                            if (parentAspect != null)
+                            {
+                                if (parentAspect.equals(ddclass))
+                                {
+                                    // found a sub-type - store and exit the loop
+                                    subTypes.add(parentAspect);
+                                    ddAspect = null;
+                                }
+                                else
+                                {
+                                    // get the parent aspect for another loop round
+                                    ddAspect = getAspect(parentAspect);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return subTypes.toArray(new String[subTypes.size()]);
+        }
+        catch (JSONException jsonErr)
+        {
+            throw new AlfrescoRuntimeException("Error retrieving 'subtype' information for: " + ddclass, jsonErr);
+        }
+    }
+    
+    public String[] getAllTypes()
+    {
+        return this.types.keySet().toArray(new String[this.types.keySet().size()]);
+    }
+    
+    public String[] getAllAspects()
+    {
+        return this.aspects.keySet().toArray(new String[this.aspects.keySet().size()]);
     }
     
     public boolean hasDefaultAspect(String type, String aspect)
