@@ -51,7 +51,7 @@ import org.testng.annotations.Test;
 @SuppressWarnings("unused")
 public class NavigationBarTest extends AbstractTest
 {
-    private SharePage page;    
+    private SharePage page;
     private String siteName;
 
     private static final String pentahoBusinessAnalystGroup = "ANALYTICS_BUSINESS_ANALYSTS";
