@@ -29,6 +29,7 @@ import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
@@ -39,7 +40,7 @@ import org.testng.annotations.Test;
  * 
  * @author jcule
  */
-@Test(groups = { "bug" })
+@Test(groups = { "alfresco-one" })
 @Listeners(FailedTestListener.class)
 public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
 {
@@ -54,11 +55,11 @@ public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
     private static final String PDF_TYPE = "Adobe PDF Document";
     private static final String XML_TYPE ="XML";
 
-    private static int numberOfTxtFiles = 5;
-    private static int numberOfDocxFiles = 4;
+    private static int numberOfTxtFiles = 1;
+    private static int numberOfDocxFiles = 2;
     private static int numberOfHtmlFiles = 2;
     private static int numberOfJpgFiles = 3;
-    private static int numberOfPdfFiles = 9;
+    private static int numberOfPdfFiles = 4;
     private static int numberOfXMLFiles = 2;
 
     DashBoardPage dashBoard;
@@ -88,13 +89,12 @@ public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
 
     }
 
-    /**
     @AfterClass
     public void deleteSite()
     {
       SiteUtil.deleteSite(drone, siteName);
     }
-    **/
+
 
     /**
      * 
@@ -157,32 +157,22 @@ public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
             
            if (mimeType.trim().startsWith(TXT_TYPE))
            {
-                //System.out.println("TYPE-COUNT ++++ " + mimeType);
-                //System.out.println("TXT COUNT **** " + fileCount); 
                 Assert.assertEquals(Integer.parseInt(fileCount), numberOfTxtFiles);
            }
            if (mimeType.trim().startsWith(JPEG_TYPE))
            {
-                //System.out.println("TYPE-COUNT ++++ " + mimeType);
-                //System.out.println("JPEG COUNT **** " + fileCount);
                 Assert.assertEquals(Integer.parseInt(fileCount), numberOfJpgFiles);
            }
            if (mimeType.trim().startsWith(DOCX_TYPE))
            {
-                //System.out.println("TYPE-COUNT ++++ " + mimeType);
-                //System.out.println("DOCX COUNT **** " + fileCount);
                 Assert.assertEquals(Integer.parseInt(fileCount), numberOfDocxFiles);
            }
            if (mimeType.trim().startsWith(PDF_TYPE))
            {
-                System.out.println("TYPE-COUNT ++++ " + mimeType);
-                System.out.println("PDF COUNT **** " + fileCount);
                 Assert.assertEquals(Integer.parseInt(fileCount), numberOfPdfFiles);
            }
            if (mimeType.trim().startsWith(HTML_TYPE))
            {
-                //System.out.println("TYPE-COUNT ++++ " + mimeType);
-                //System.out.println("HTML COUNT **** " + fileCount);
                 Assert.assertEquals(Integer.parseInt(fileCount), numberOfHtmlFiles);
            }
             
