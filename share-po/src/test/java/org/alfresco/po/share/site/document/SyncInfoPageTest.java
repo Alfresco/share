@@ -112,6 +112,7 @@ public class SyncInfoPageTest extends AbstractDocumentTest
         Assert.assertTrue(syncInfoPage.isRequestSyncButtonPresent());
         Assert.assertTrue(syncInfoPage.isSyncStatusPresent());
         Assert.assertTrue(syncInfoPage.isUnsyncButtonPresent());
+        Assert.assertTrue(syncInfoPage.isUnsyncButtonEnabled());
         Assert.assertNotNull(syncInfoPage.getSyncPeriodDetails());
         Assert.assertFalse(syncInfoPage.isUnableToRetrieveLocation());
         syncInfoPage.clickOnCloseButton();

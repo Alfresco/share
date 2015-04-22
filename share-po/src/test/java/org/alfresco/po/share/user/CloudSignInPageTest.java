@@ -94,6 +94,7 @@ public class CloudSignInPageTest extends AbstractTest
     @Test(groups = { "Hybrid" }, dependsOnMethods = "testSelectFogotPassordLink")
     public void testSelectSignUpLink() throws Exception
     {
+        assertTrue(cloudSignInPage.isSignUpLinkDisplayed(), "The Sign up for free link not displayed");
         cloudSignInPage.selectSignUpLink();
         switchWindow();
         assertTrue(drone.getTitle().contains("Cloud Document Management"), "Title not matched. Was found to be - " + drone.getTitle());
