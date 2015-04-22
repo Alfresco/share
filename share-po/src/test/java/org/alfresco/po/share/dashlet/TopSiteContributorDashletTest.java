@@ -45,7 +45,7 @@ import org.testng.annotations.Test;
  * @author jcule
  */
 @Listeners(FailedTestListener.class)
-@Test(groups = "Enterprise-only")
+@Test(groups = "bug")
 public class TopSiteContributorDashletTest extends AbstractSiteDashletTest
 {
 

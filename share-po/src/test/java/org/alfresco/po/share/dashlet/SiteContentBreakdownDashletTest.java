@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
  * 
  * @author jcule
  */
-@Test(groups = { "alfresco-one" })
+@Test(groups = { "bug" })
 @Listeners(FailedTestListener.class)
 public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
 {
