@@ -57,6 +57,8 @@ public class ViewPublicLinkPage extends SharePage
 
     //@RenderWebElement
     private static final By TEXT_LAYER = By.cssSelector("div[id$='web-preview-viewer-pageContainer-1']>.textLayer");
+    @RenderWebElement
+    private static final By ZOOM = By.cssSelector(DOCUMENT_ZOOMSCALE);
         
     /**
      * Constructor.
@@ -284,8 +286,8 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            WebElement element = drone.findAndWait(By.cssSelector(DOCUMENT_ZOOMSCALE));
-            return element.getText();
+            WebElement zoomScale = drone.findAndWait(By.cssSelector(DOCUMENT_ZOOMSCALE));
+            return zoomScale.getText();
         }
         catch (TimeoutException e)
         {
