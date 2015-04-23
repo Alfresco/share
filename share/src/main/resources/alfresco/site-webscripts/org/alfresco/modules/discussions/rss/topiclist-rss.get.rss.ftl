@@ -12,7 +12,7 @@
          <title>${topic.title?html}</title>
          <link>${absurl(url.context)}/page/site/${site}/discussions-topicview?topicId=${topic.name}</link>
          <description>${topic.content?html}</description>
-         <pubDate>${topic.createdOn?string(msg("date-format.rfc822"))}</pubDate>
+         <pubDate>${xmldate(topic.createdOn)?string(msg("date-format.rfc822"))}</pubDate>
       </item>
    </#list>
 <#else>
