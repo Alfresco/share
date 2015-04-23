@@ -121,8 +121,8 @@
             <appearance>
                <set id="" appearance="title" label-id="workflow.set.general" />
                <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
-               <set id="target" appearance="title" template="/org/alfresco/components/form/2-column-set.ftl" label-id="hybridworkflow.set.destination"/>
-               <set id="options" appearance="title" template="/org/alfresco/components/form/2-column-set.ftl" label-id="workflow.set.items" />
+               <set id="target" appearance="title" template="/org/alfresco/components/form/2-column-wide-left-set.ftl" label-id="hybridworkflow.set.destination"/>
+               <set id="options" appearance="title" template="/org/alfresco/components/form/2-column-wide-left-set.ftl" label-id="workflow.set.items" />
                <set id="items" label-id="workflow.set.items" />
                
                <!-- Info -->    
