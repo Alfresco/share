@@ -285,7 +285,7 @@ public interface FileDirectoryInfo
 
     /**
      * Selects the edit in google docs link
-     * 
+     * @deprecated google docs has been discontinued.
      * @return {@link DestinationAndAssigneePage} response
      */
     HtmlPage selectEditInGoogleDocs();
@@ -394,7 +394,7 @@ public interface FileDirectoryInfo
 
     /**
      * This method verifies the editInGoogleDocs link is present or not.
-     * 
+     * @deprecated google docs has been discontinued.
      * @return boolean
      */
     boolean isEditInGoogleDocsPresent();
@@ -871,8 +871,16 @@ public interface FileDirectoryInfo
 
     public String getSyncInfoToolTip();
 
+    /**
+     * @deprecated google docs has been discontinued.
+     * @return
+     */
     public GoogleDocCheckInPage selectCheckInGoogleDoc();
 
+    /**
+     * @deprecated google docs has been discontinued.
+     * @return
+     */
     public DocumentLibraryPage selectCancelEditingInGoogleDocs();
 
     boolean isModelInfoPresent();

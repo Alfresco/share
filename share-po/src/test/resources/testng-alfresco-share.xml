@@ -7,7 +7,8 @@
             <include name="alfresco-one"/>
             <include name="Enterprise4.2"/>
             <include name="Enterprise-only"/>
-            <exclude name=".*Bug*"/>
+            <exclude name=".*Bug42"/>
+            <exclude name=".*Bug"/>
             <exclude name="chromeOnly"/>
             <exclude name="Hybrid"/>
             <exclude name="download"/>
@@ -58,9 +59,14 @@
             <class name="org.alfresco.po.share.site.document.ManagePermissionsTest"/>
         </classes>
     </test>
-    <test name="ShareLinkTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.ShareLinkTest"/>
-        </classes>
+    <test name="InviteMembersPageTest">
+  	    <classes>
+            <class name="org.alfresco.po.share.site.InviteMembersPageTest" />
+  		</classes>
     </test>
+    <test name="SiteFinderPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.site.SiteFinderPageTest" />
+        </classes>
+ 	</test>
 </suite>
