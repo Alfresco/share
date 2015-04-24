@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="inwf:invite-workflow-model">
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/bpm/1.0" prefix="bpm"/>
+        <import uri="http://www.alfresco.org/model/workflow/1.0" prefix="wf"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/workflow/invite/nominated/1.0" prefix="inwf"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types>
+        <type name="inwf:inviteToSiteTask">
+            <parent>bpm:startTask</parent>
+            <properties>
+                <property name="inwf:serverPath">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:acceptUrl">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:rejectUrl">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:inviteTicket">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:inviteeGenPassword">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+                <aspect>inwf:nominatedInvitationStats</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="inwf:invitePendingTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides>
+                <property name="bpm:hiddenTransitions">
+                    <mandatory/>
+                    <default>cancel</default>
+                    <constraints/>
+                </property>
+                <property name="bpm:reassignable">
+                    <mandatory/>
+                    <default>false</default>
+                    <constraints/>
+                </property>
+            </overrides>
+            <mandatory-aspects>
+                <aspect>inwf:nominatedInvitationStats</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="inwf:activitiInvitePendingTask">
+            <parent>bpm:activitiOutcomeTask</parent>
+            <properties>
+                <property name="inwf:inviteOutcome">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <default>reject</default>
+                    <index enabled="true"/>
+                    <constraints>
+                        <constraint name="inwf:inviteOutcomeOptions" type="LIST">
+                            <parameter name="allowedValues">
+                                <list>
+                                    <value>accept</value>
+                                    <value>reject</value>
+                                </list>
+                            </parameter>
+                        </constraint>
+                    </constraints>
+                </property>
+            </properties>
+            <associations/>
+            <overrides>
+                <property name="bpm:outcomePropertyName">
+                    <mandatory/>
+                    <default>{http://www.alfresco.org/model/workflow/invite/nominated/1.0}inviteOutcome</default>
+                    <constraints/>
+                </property>
+                <property name="bpm:reassignable">
+                    <mandatory/>
+                    <default>false</default>
+                    <constraints/>
+                </property>
+            </overrides>
+            <mandatory-aspects>
+                <aspect>inwf:nominatedInvitationStats</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="inwf:acceptInviteTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides>
+                <property name="bpm:reassignable">
+                    <mandatory/>
+                    <default>false</default>
+                    <constraints/>
+                </property>
+            </overrides>
+            <mandatory-aspects>
+                <aspect>inwf:nominatedInvitationStats</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="inwf:rejectInviteTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides>
+                <property name="bpm:reassignable">
+                    <mandatory/>
+                    <default>false</default>
+                    <constraints/>
+                </property>
+            </overrides>
+            <mandatory-aspects>
+                <aspect>inwf:nominatedInvitationStats</aspect>
+            </mandatory-aspects>
+        </type>
+    </types>
+    <aspects>
+        <aspect name="inwf:nominatedInvitationStats">
+            <properties>
+                <property name="inwf:resourceType">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:resourceName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:resourceTitle">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:resourceDescription">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:inviteeRole">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:inviterUserName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:inviteeUserName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:inviteeEmail">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:inviteeFirstName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="inwf:inviteeLastName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

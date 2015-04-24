@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="slideshare:publishingmodel">
+    <description>Alfresco YouTube Publishing Content Model</description>
+    <author>Alfresco</author>
+    <published>2011-06-15</published>
+    <version>1.0</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+        <import uri="http://www.alfresco.org/model/publishing/1.0" prefix="pub"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/publishing/slideshare/1.0" prefix="slideshare"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types>
+        <type name="slideshare:DeliveryChannel">
+            <title>SlideShare Delivery Channel</title>
+            <description>Node type used to represent SlideShare delivery channels</description>
+            <parent>pub:DeliveryChannel</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>slideshare:DeliveryChannelAspect</aspect>
+            </mandatory-aspects>
+        </type>
+    </types>
+    <aspects>
+        <aspect name="slideshare:DeliveryChannelAspect">
+            <title>SlideShare Delivery Channel Aspect</title>
+            <description>Applied to a node that represents a SlideShare delivery channel</description>
+            <parent>pub:UserPasswordDeliveryChannelAspect</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="slideshare:AssetAspect">
+            <title>SlideShare Asset</title>
+            <description>Applied to a node that has been published to SlideShare</description>
+            <parent>pub:AssetAspect</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

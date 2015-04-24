@@ -1,0 +1,742 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+   TODO 
+   - Geospatial ?
+   - Currency ?
+   - (default facetting configuration)
+-->
+<schema name="Alfresco V2.0" version="1.5">
+   <types>
+      <!-- ID and version to support SOLR cloud -->
+
+      <fieldType name="identifier" class="solr.StrField" sortMissingLast="true" positionIncrementGap="100" />
+      <fieldType name="version" class="solr.TrieLongField" precisionStep="64" positionIncrementGap="0" />
+
+
+      <fieldType name="lowercase_id" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100" >
+         <analyzer>
+ 	    <tokenizer class="solr.KeywordTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory" />
+         </analyzer>
+      </fieldType>
+
+      <!-- Fixed analysis for numeric types - query, range, facet, and sorting-->
+
+      <fieldType name="int" class="solr.TrieIntField" precisionStep="4" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+      <fieldType name="float" class="solr.TrieFloatField" precisionStep="4" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+      <fieldType name="long" class="solr.TrieLongField" precisionStep="6" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+      <fieldType name="double" class="solr.TrieDoubleField" precisionStep="6" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+      <fieldType name="date" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+
+      <!-- Fixed stats analysis for numeric types - stats -->
+
+      <fieldType name="stats_int" class="solr.TrieIntField" precisionStep="32" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+      <fieldType name="stats_float" class="solr.TrieFloatField" precisionStep="64" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+      <fieldType name="stats_long" class="solr.TrieLongField" precisionStep="32" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+      <fieldType name="stats_double" class="solr.TrieDoubleField" precisionStep="64" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+      <fieldType name="stats_date" class="solr.TrieDateField" precisionStep="64" positionIncrementGap="100" sortMissingLast="false" sortMissingFirst="false" />
+
+      <!-- All text fields are handled via the Alfresco data model -->
+      <!-- All anlysis is defined in dummy field types which this field type uses -->
+
+      <!-- TODO: truncated text field for sorting?? -->
+
+      <fieldType name="oldStandardAnalysis" class="solr.TextField" positionIncrementGap="100">
+         <analyzer>
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.ASCIIFoldingFilterFactory"/>
+         </analyzer>
+      </fieldType>
+
+      
+      <fieldType name="alfrescoFieldType" class="org.alfresco.solr.AlfrescoFieldType" />
+
+      <fieldType name="alfrescoCollatableMLTextFieldType" class="org.alfresco.solr.AlfrescoCollatableMLTextFieldType" sortMissingLast="true" />
+
+      <fieldType name="path" class="solr.TextField" >
+         <analyzer class="org.alfresco.repo.search.impl.lucene.analysis.PathAnalyzer" />
+      </fieldType>
+
+      <fieldType name="location_rpt"   class="solr.SpatialRecursivePrefixTreeFieldType"
+               spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory"
+               autoIndex="true"
+               distErrPct="0.025"
+               maxDistErr="0.000009"
+               units="degrees" />
+
+
+      <!-- Suggestion -->
+
+      <fieldType name="text_shingle" class="solr.TextField" positionIncrementGap="100">
+         <analyzer>
+            <tokenizer class="solr.ICUTokenizerFactory"/>
+            <filter class="solr.ICUNormalizer2FilterFactory" name="nfkc_cf" mode="compose" />
+	    <filter class="solr.ShingleFilterFactory" minShingleSize="2" maxShingleSize="3" outputUnigrams="true" outputUnigramsIfNoShingles="true" tokenSeparator=" " />
+         </analyzer>
+      </fieldType>
+      
+
+      <!-- Cross-locale -->
+      <!-- Include word splitting -->
+
+      <fieldType name="text___" class="solr.TextField" positionIncrementGap="100">
+         <analyzer>
+            <tokenizer class="solr.ICUTokenizerFactory"/>
+            <!-- <tokenizer class="org.apache.solr.analysis.WhitespaceTokenizerFactory" /> -->
+            <filter class="org.apache.solr.analysis.WordDelimiterFilterFactory" 
+                    generateWordParts="1"
+                    generateNumberParts="1"
+                    catenateWords="1"
+                    catenateNumbers="1"
+                    catenateAll="1"
+                    splitOnCaseChange="1"
+                    splitOnNumerics="1"
+                    preserveOriginal="1"
+                    stemEnglishPossessive="1"/>
+            <filter class="solr.ICUFoldingFilterFactory"/>
+         </analyzer>
+      </fieldType>
+
+
+      <fieldType name="alfrescoCollatableTextFieldType" class="org.alfresco.solr.AlfrescoCollatableTextFieldType" sortMissingLast="true" />
+
+      <!--                                                                                                     -->
+      <!-- Field types that are only used to define language specific analysis (generally ordered by ISO code) -->
+      <!--                                                                                                     -->
+
+      <!-- English -->
+      <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
+        <analyzer type="index">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- in this example, we will only use synonyms at query time
+          <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
+          -->
+          <!-- Case insensitive stop word removal.
+          -->
+          <filter class="solr.StopFilterFactory"
+                  ignoreCase="true"
+                  words="lang/stopwords_en.txt"
+                  />
+          <filter class="solr.LowerCaseFilterFactory"/>
+	  <filter class="solr.EnglishPossessiveFilterFactory"/>
+          <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+	  <!-- Optionally you may want to use this less aggressive stemmer instead of PorterStemFilterFactory:
+          <filter class="solr.EnglishMinimalStemFilterFactory"/>
+	  -->
+          <filter class="solr.PorterStemFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+          <filter class="solr.StopFilterFactory"
+                  ignoreCase="true"
+                  words="lang/stopwords_en.txt"
+                  />
+          <filter class="solr.LowerCaseFilterFactory"/>
+	  <filter class="solr.EnglishPossessiveFilterFactory"/>
+          <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+	  <!-- Optionally you may want to use this less aggressive stemmer instead of PorterStemFilterFactory:
+          <filter class="solr.EnglishMinimalStemFilterFactory"/>
+	  -->
+          <filter class="solr.PorterStemFilterFactory"/>
+        </analyzer>
+      </fieldType>
+
+      <!-- Arabic -->
+      <fieldType name="text_ar" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- for any non-arabic -->
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ar.txt" />
+          <!-- normalizes ~ to ~, etc -->
+          <filter class="solr.ArabicNormalizationFilterFactory"/>
+          <filter class="solr.ArabicStemFilterFactory"/>
+        </analyzer>
+      </fieldType>
+
+      <!-- Bulgarian -->
+      <fieldType name="text_bg" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/> 
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_bg.txt" /> 
+          <filter class="solr.BulgarianStemFilterFactory"/>       
+        </analyzer>
+      </fieldType>
+    
+      <!-- Catalan -->
+      <fieldType name="text_ca" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- removes l', etc -->
+          <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ca.txt"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ca.txt" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Catalan"/>       
+        </analyzer>
+      </fieldType>
+    
+      <!-- CJK bigram (see text_ja for a Japanese configuration using morphological analysis) -->
+      <fieldType name="text_cjk" class="solr.TextField" positionIncrementGap="100">
+        <analyzer>
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- normalize width before bigram, as e.g. half-width dakuten combine  -->
+          <filter class="solr.CJKWidthFilterFactory"/>
+          <!-- for any non-CJK -->
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.CJKBigramFilterFactory"/>
+        </analyzer>
+      </fieldType>
+
+      <!-- Kurdish -->
+      <fieldType name="text_ckb" class="solr.TextField" positionIncrementGap="100">
+        <analyzer>
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.SoraniNormalizationFilterFactory"/>
+          <!-- for any latin text -->
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ckb.txt"/>
+          <filter class="solr.SoraniStemFilterFactory"/>
+        </analyzer>
+      </fieldType>
+
+      <!-- Czech -->
+      <fieldType name="text_cz" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_cz.txt" />
+          <filter class="solr.CzechStemFilterFactory"/>       
+        </analyzer>
+      </fieldType>
+    
+      <!-- Danish -->
+      <fieldType name="text_da" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_da.txt" format="snowball" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>       
+        </analyzer>
+      </fieldType>
+    
+      <!-- German -->
+      <fieldType name="text_de" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_de.txt" format="snowball" />
+          <filter class="solr.GermanNormalizationFilterFactory"/>
+          <filter class="solr.GermanLightStemFilterFactory"/>
+          <!-- less aggressive: <filter class="solr.GermanMinimalStemFilterFactory"/> -->
+          <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="German2"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Greek -->
+      <fieldType name="text_el" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- greek specific lowercase for sigma -->
+          <filter class="solr.GreekLowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="false" words="lang/stopwords_el.txt" />
+          <filter class="solr.GreekStemFilterFactory"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Spanish -->
+      <fieldType name="text_es" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_es.txt" format="snowball" />
+          <filter class="solr.SpanishLightStemFilterFactory"/>
+          <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="Spanish"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Basque -->
+      <fieldType name="text_eu" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_eu.txt" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Basque"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Persian -->
+      <fieldType name="text_fa" class="solr.TextField" positionIncrementGap="100">
+        <analyzer>
+          <!-- for ZWNJ -->
+          <charFilter class="solr.PersianCharFilterFactory"/>
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.ArabicNormalizationFilterFactory"/>
+          <filter class="solr.PersianNormalizationFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_fa.txt" />
+        </analyzer>
+      </fieldType>
+    
+      <!-- Finnish -->
+      <fieldType name="text_fi" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_fi.txt" format="snowball" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Finnish"/>
+          <!-- less aggressive: <filter class="solr.FinnishLightStemFilterFactory"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- French -->
+      <fieldType name="text_fr" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- removes l', etc -->
+          <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_fr.txt"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_fr.txt" format="snowball" />
+          <filter class="solr.FrenchLightStemFilterFactory"/>
+          <!-- less aggressive: <filter class="solr.FrenchMinimalStemFilterFactory"/> -->
+          <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="French"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Irish -->
+      <fieldType name="text_ga" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- removes d', etc -->
+          <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ga.txt"/>
+          <!-- removes n-, etc. position increments is intentionally false! -->
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/hyphenations_ga.txt"/>
+          <filter class="solr.IrishLowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ga.txt"/>
+          <filter class="solr.SnowballPorterFilterFactory" language="Irish"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Galician -->
+      <fieldType name="text_gl" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_gl.txt" />
+          <filter class="solr.GalicianStemFilterFactory"/>
+          <!-- less aggressive: <filter class="solr.GalicianMinimalStemFilterFactory"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Hindi -->
+      <fieldType name="text_hi" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <!-- normalizes unicode representation -->
+          <filter class="solr.IndicNormalizationFilterFactory"/>
+          <!-- normalizes variation in spelling -->
+          <filter class="solr.HindiNormalizationFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_hi.txt" />
+          <filter class="solr.HindiStemFilterFactory"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Hungarian -->
+      <fieldType name="text_hu" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_hu.txt" format="snowball" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Hungarian"/>
+          <!-- less aggressive: <filter class="solr.HungarianLightStemFilterFactory"/> -->   
+        </analyzer>
+      </fieldType>
+    
+      <!-- Armenian -->
+      <fieldType name="text_hy" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_hy.txt" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Armenian"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Indonesian -->
+      <fieldType name="text_id" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_id.txt" />
+          <!-- for a less aggressive approach (only inflectional suffixes), set stemDerivational to false -->
+          <filter class="solr.IndonesianStemFilterFactory" stemDerivational="true"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Italian -->
+      <fieldType name="text_it" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- removes l', etc -->
+          <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_it.txt"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_it.txt" format="snowball" />
+          <filter class="solr.ItalianLightStemFilterFactory"/>
+          <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="Italian"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Japanese using morphological analysis (see text_cjk for a configuration using bigramming)
+
+         NOTE: If you want to optimize search for precision, use default operator AND in your query
+         parser config with <solrQueryParser defaultOperator="AND"/> further down in this file.  Use 
+         OR if you would like to optimize for recall (default).
+      -->
+      <fieldType name="text_ja" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="false">
+        <analyzer>
+        <!-- Kuromoji Japanese morphological analyzer/tokenizer (JapaneseTokenizer)
+
+             Kuromoji has a search mode (default) that does segmentation useful for search.  A heuristic
+             is used to segment compounds into its parts and the compound itself is kept as synonym.
+
+             Valid values for attribute mode are:
+                normal: regular segmentation
+                search: segmentation useful for search with synonyms compounds (default)
+              extended: same as search mode, but unigrams unknown words (experimental)
+
+             For some applications it might be good to use search mode for indexing and normal mode for
+             queries to reduce recall and prevent parts of compounds from being matched and highlighted.
+             Use <analyzer type="index"> and <analyzer type="query"> for this and mode normal in query.
+
+             Kuromoji also has a convenient user dictionary feature that allows overriding the statistical
+             model with your own entries for segmentation, part-of-speech tags and readings without a need
+             to specify weights.  Notice that user dictionaries have not been subject to extensive testing.
+
+             User dictionary attributes are:
+                       userDictionary: user dictionary filename
+               userDictionaryEncoding: user dictionary encoding (default is UTF-8)
+
+             See lang/userdict_ja.txt for a sample user dictionary file.
+
+             Punctuation characters are discarded by default.  Use discardPunctuation="false" to keep them.
+
+             See http://wiki.apache.org/solr/JapaneseLanguageSupport for more on Japanese language support.
+          -->
+          <tokenizer class="solr.JapaneseTokenizerFactory" mode="search"/>
+          <!--<tokenizer class="solr.JapaneseTokenizerFactory" mode="search" userDictionary="lang/userdict_ja.txt"/>-->
+          <!-- Reduces inflected verbs and adjectives to their base/dictionary forms (~~~) -->
+          <filter class="solr.JapaneseBaseFormFilterFactory"/>
+          <!-- Removes tokens with certain part-of-speech tags -->
+          <filter class="solr.JapanesePartOfSpeechStopFilterFactory" tags="lang/stoptags_ja.txt" />
+          <!-- Normalizes full-width romaji to half-width and half-width kana to full-width (Unicode NFKC subset) -->
+          <filter class="solr.CJKWidthFilterFactory"/>
+          <!-- Removes common tokens typically not useful for search, but have a negative effect on ranking -->
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ja.txt" />
+          <!-- Normalizes common katakana spelling variations by removing any last long sound character (U+30FC) -->
+          <filter class="solr.JapaneseKatakanaStemFilterFactory" minimumLength="4"/>
+          <!-- Lower-cases romaji characters -->
+          <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Latvian -->
+      <fieldType name="text_lv" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_lv.txt" />
+          <filter class="solr.LatvianStemFilterFactory"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Dutch -->
+      <fieldType name="text_nl" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_nl.txt" format="snowball" />
+          <filter class="solr.StemmerOverrideFilterFactory" dictionary="lang/stemdict_nl.txt" ignoreCase="false"/>
+          <filter class="solr.SnowballPorterFilterFactory" language="Dutch"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Norwegian -->
+      <fieldType name="text_no" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_no.txt" format="snowball" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Norwegian"/>
+          <!-- less aggressive: <filter class="solr.NorwegianLightStemFilterFactory" variant="nb"/> -->
+          <!-- singular/plural: <filter class="solr.NorwegianMinimalStemFilterFactory" variant="nb"/> -->
+          <!-- The "light" and "minimal" stemmers support variants: nb=Bokml, nn=Nynorsk, no=Both -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Portuguese -->
+      <fieldType name="text_pt" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_pt.txt" format="snowball" />
+          <filter class="solr.PortugueseLightStemFilterFactory"/>
+          <!-- less aggressive: <filter class="solr.PortugueseMinimalStemFilterFactory"/> -->
+          <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="Portuguese"/> -->
+          <!-- most aggressive: <filter class="solr.PortugueseStemFilterFactory"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Romanian -->
+      <fieldType name="text_ro" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ro.txt" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Romanian"/>
+        </analyzer>
+      </fieldType>
+    
+      <!-- Russian -->
+      <fieldType name="text_ru" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ru.txt" format="snowball" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Russian"/>
+          <!-- less aggressive: <filter class="solr.RussianLightStemFilterFactory"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Swedish -->
+      <fieldType name="text_sv" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_sv.txt" format="snowball" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Swedish"/>
+          <!-- less aggressive: <filter class="solr.SwedishLightStemFilterFactory"/> -->
+        </analyzer>
+      </fieldType>
+    
+      <!-- Thai -->
+      <fieldType name="text_th" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.ThaiWordFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_th.txt" />
+        </analyzer>
+      </fieldType>
+    
+      <!-- Turkish -->
+      <fieldType name="text_tr" class="solr.TextField" positionIncrementGap="100">
+        <analyzer> 
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <!-- <filter class="solr.ApostropheFilterFactory"/> -->
+          <filter class="solr.TurkishLowerCaseFilterFactory"/>
+          <filter class="solr.StopFilterFactory" ignoreCase="false" words="lang/stopwords_tr.txt" />
+          <filter class="solr.SnowballPorterFilterFactory" language="Turkish"/>
+        </analyzer>
+      </fieldType>
+
+
+   </types>
+   <fields>
+      <!-- For SOLR cloud - should be the node version -->
+      <field name="_version_"             type="version"     indexed="false"                   stored="true"                        docValues="true"  required="true" />
+
+
+
+      
+      <!-- For block join - currently not used -->
+      <field name="_root_"                type="identifier"  indexed="true"                    stored="false"/>
+
+      <!-- Unique identifier - based on DBID -->
+      <field name="id"                    type="identifier"  indexed="true"  omitNorms="true"  stored="true"   multiValued="false"  required="true"  docValues="true"/>
+
+      <!-- Special fields -->
+      <field name="LID"                   type="identifier"  indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <field name="PARENT"                type="identifier"  indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+      <field name="PATH"                  type="path"        indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+      <field name="ANCESTOR"              type="identifier"  indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+      <field name="QNAME"                 type="path"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+      <field name="PRIMARYASSOCQNAME"     type="path"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <field name="PRIMARYASSOCTYPEQNAME" type="path"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <field name="ISNODE"                type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <field name="ASSOCTYPEQNAME"        type="path"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+      <field name="PRIMARYPARENT"         type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <field name="TYPE"                  type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="true" />
+      <field name="ASPECT"                type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <field name="PROPERTIES"            type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <field name="NULLPROPERTIES"        type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <field name="FIELDS"                type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <field name="FTSSTATUS"             type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <field name="DBID"                  type="long"            indexed="true"  omitNorms="true"  stored="true"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="TXID"                  type="long"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="INTXID"                type="long"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="ACLTXID"               type="long"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="INACLTXID"             type="long"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="TXCOMMITTIME"          type="long"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="ACLTXCOMMITTIME"       type="long"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="EXCEPTIONMESSAGE"      type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <field name="EXCEPTIONSTACK"        type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <field name="ACLID"                 type="long"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="READER"                type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <field name="DENIED"                type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <field name="OWNER"                 type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <field name="PARENTASSOCCRC"        type="long"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="TENANT"                type="identifier"            indexed="true"  omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="true" />
+
+      <!-- Used to store the last transaction and acl transaction for real time get -->
+      <field name="S_TXID"                  type="long"            indexed="true"  omitNorms="true"  stored="true"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="S_INTXID"                type="long"            indexed="true"  omitNorms="true"  stored="true"  multiValued="false" sortMissingLast="false" sortMissingFirst="false"/>
+      <field name="S_ACLTXID"               type="long"            indexed="true"  omitNorms="true"  stored="true"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="S_INACLTXID"             type="long"            indexed="true"  omitNorms="true"  stored="true"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="S_TXCOMMITTIME"          type="long"            indexed="true"  omitNorms="true"  stored="true"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <field name="S_ACLTXCOMMITTIME"       type="long"            indexed="true"  omitNorms="true"  stored="true"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+
+      <!-- SOLR doc type -->
+      <field name="DOC_TYPE"   type="identifier"  indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+
+      <!-- GEO -->
+      <field name="GEO"  type="location_rpt"  indexed="true" stored="false"  multiValued="false" sortMissingLast="true" /> 
+
+
+
+      <!-- Suggestion -->
+      <field name="suggest"               type="text_shingle"    indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+
+      <!-- Dummy field used to create no matches for unknonw properties -->
+      <field name="_dummy_"   type="identifier"  indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+
+
+      <!-- example pluggable field -->
+      <field name="SITE"   type="identifier" indexed="true" omitNorms="true" stored="false" multiValued="true" docValues="true" />
+      <field name="TAG"    type="identifier" indexed="true" omitNorms="true" stored="false" multiValued="true" docValues="true" />
+      <field name="PNAME"  type="identifier" indexed="true" omitNorms="true" stored="false" multiValued="true" docValues="true" />
+      <field name="NPATH"  type="identifier" indexed="true" omitNorms="true" stored="false" multiValued="true" docValues="true" />
+
+
+      <!-- Single value indexed  -->
+      <dynamicField name="any@s_@*"           type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="encrypted@s_@*"     type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="int@s_@*"           type="int"               indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="long@s_@*"          type="long"              indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="float@s_@*"         type="float"             indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="double@s_@*"        type="double"            indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="date@s_@*"          type="date"              indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="datetime@s_@*"      type="date"              indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="boolean@s_@*"       type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="qname@s_@*"         type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="category@s_@*"      type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="noderef@s_@*"       type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="childassocref@s_@*" type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="assocref@s_@*"      type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="path@s_@*"          type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="locale@s_@*"        type="lowercase_id" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="period@s_@*"        type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+
+      <!-- Single + doc values value wildcard matches -->
+      <dynamicField name="int@sd@*"           type="int"               indexed="true" omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="long@sd@*"          type="long"              indexed="true" omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="float@sd@*"         type="float"             indexed="true" omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="double@sd@*"        type="double"            indexed="true" omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="date@sd@*"          type="date"              indexed="true" omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="datetime@sd@*"      type="date"              indexed="true" omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+
+
+      <!-- Multi - value indexed  -->
+      <dynamicField name="any@m_@*"           type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="encrypted@m_@*"     type="alfrescoFieldType" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="int@m_@*"           type="int"               indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="long@m_@*"          type="long"              indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="float@m_@*"         type="float"             indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="double@m_@*"        type="double"            indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="date@m_@*"          type="date"              indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="datetime@m_@*"      type="date"              indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="boolean@m_@*"       type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="qname@m_@*"         type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="category@m_@*"      type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="noderef@m_@*"       type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="childassocref@m_@*" type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="assocref@m_@*"      type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="path@m_@*"          type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="locale@m_@*"        type="lowercase_id" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="period@m_@*"        type="oldStandardAnalysis" indexed="true" omitNorms="true"  stored="false"  multiValued="true" />
+
+      <!-- Multi + doc values value wildcard matches -->
+      <dynamicField name="int@md@*"           type="int"               indexed="true" omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <dynamicField name="long@md@*"          type="long"              indexed="true" omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <dynamicField name="float@md@*"         type="float"             indexed="true" omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <dynamicField name="double@md@*"        type="double"            indexed="true" omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <dynamicField name="date@md@*"          type="date"              indexed="true" omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <dynamicField name="datetime@md@*"      type="date"              indexed="true" omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+
+
+      <dynamicField name="text@s____@*"          type="identifier"        indexed="true" omitNorms="true"   stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="text@s__l_@*"          type="alfrescoFieldType" indexed="true" omitNorms="true"   stored="false"  multiValued="false" />
+      <dynamicField name="text@s__lt@*"          type="alfrescoFieldType" indexed="true" omitNorms="false"  stored="false"  multiValued="false" />
+      <dynamicField name="text@s___t@*"          type="text___"           indexed="true" omitNorms="false"  stored="false"  multiValued="false" />
+      <dynamicField name="text@s__sort@*"        type="alfrescoCollatableTextFieldType"      indexed="true" omitNorms="true"   stored="false"  multiValued="false" sortMissingLast="true" />
+
+      <dynamicField name="text@sd___@*"          type="identifier"        indexed="true" omitNorms="true"   stored="false"  multiValued="false" docValues="true" sortMissingLast="true" />
+
+      <dynamicField name="text@m____@*"          type="identifier"        indexed="true" omitNorms="true"   stored="false"  multiValued="true" />
+      <dynamicField name="text@m__l_@*"          type="alfrescoFieldType" indexed="true" omitNorms="true"   stored="false"  multiValued="true" />
+      <dynamicField name="text@m__lt@*"          type="alfrescoFieldType" indexed="true" omitNorms="false"  stored="false"  multiValued="true" />
+      <dynamicField name="text@m___t@*"          type="text___"           indexed="true" omitNorms="false"  stored="false"  multiValued="true" />
+
+      <dynamicField name="text@md___@*"          type="identifier"        indexed="true" omitNorms="true"   stored="false"  multiValued="true" docValues="true" />
+
+      <dynamicField name="mltext@m____@*"          type="identifier"        indexed="true" omitNorms="true"   stored="false"  multiValued="true" />
+      <dynamicField name="mltext@m__l_@*"          type="alfrescoFieldType" indexed="true" omitNorms="true"   stored="false"  multiValued="true" />
+      <dynamicField name="mltext@m__lt@*"          type="alfrescoFieldType" indexed="true" omitNorms="false"  stored="false"  multiValued="true" />
+      <dynamicField name="mltext@m___t@*"          type="text___"           indexed="true" omitNorms="false"  stored="false"  multiValued="true" />
+      <dynamicField name="mltext@m__sort@*"        type="alfrescoCollatableMLTextFieldType" indexed="true" omitNorms="true"   stored="false"  multiValued="false" sortMissingLast="true" />
+
+      <dynamicField name="content@s__size@*"             type="long"         indexed="true"  omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="content@s__locale@*"           type="identifier"   indexed="true"  omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="true" />
+      <dynamicField name="content@s__mimetype@*"         type="identifier"   indexed="true"  omitNorms="true"  stored="false"  multiValued="false" docValues="true" sortMissingLast="true" />
+      <dynamicField name="content@s__encoding@*"         type="identifier"   indexed="true"  omitNorms="true"  stored="false"  multiValued="false" docValues="true" sortMissingLast="true" />
+      <dynamicField name="content@s__docid@*"            type="long"         indexed="true"  omitNorms="true"  stored="false"  multiValued="false"  docValues="true" sortMissingLast="false" sortMissingFirst="false" />
+      <dynamicField name="content@s__tr_ex@*"            type="text___"      indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="content@s__tr_time@*"          type="long"         indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+      <dynamicField name="content@s__tr_status@*"        type="lowercase_id" indexed="true"  omitNorms="true"  stored="false"  multiValued="false" sortMissingLast="true" />
+
+
+      <dynamicField name="content@s____@*"          type="identifier"        indexed="true" omitNorms="true"   stored="false"  multiValued="false" termPositions="false" />
+      <dynamicField name="content@s__l_@*"          type="alfrescoFieldType"        indexed="true" omitNorms="true"   stored="false"  multiValued="false" termPositions="false" />
+      <dynamicField name="content@s__lt@*"          type="alfrescoFieldType" indexed="true" omitNorms="false"  stored="false"  multiValued="false" />
+      <dynamicField name="content@s___t@*"          type="text___"           indexed="true" omitNorms="false"  stored="false"  multiValued="false" />
+
+
+      <dynamicField name="content@m__size@*"             type="long"         indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <dynamicField name="content@m__locale@*"           type="identifier"   indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <dynamicField name="content@m__mimetype@*"         type="identifier"   indexed="true"  omitNorms="true"  stored="false"  multiValued="true" docValues="true" />
+      <dynamicField name="content@m__encoding@*"         type="identifier"   indexed="true"  omitNorms="true"  stored="false"  multiValued="true" docValues="true" />
+      <dynamicField name="content@m__docid@*"            type="long"         indexed="true"  omitNorms="true"  stored="false"  multiValued="true"  docValues="true" />
+      <dynamicField name="content@m__tr_ex@*"            type="text___"      indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="content@m__tr_time@*"          type="long"         indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+      <dynamicField name="content@m__tr_status@*"        type="lowercase_id" indexed="true"  omitNorms="true"  stored="false"  multiValued="true" />
+
+
+      <dynamicField name="content@m____@*"          type="identifier"        indexed="true" omitNorms="true"   stored="false"  multiValued="true" termPositions="false" />
+      <dynamicField name="content@m__l_@*"          type="alfrescoFieldType"        indexed="true" omitNorms="true"   stored="false"  multiValued="true" termPositions="false" />
+      <dynamicField name="content@m__lt@*"          type="alfrescoFieldType" indexed="true" omitNorms="false"  stored="false"  multiValued="true" />
+      <dynamicField name="content@m___t@*"          type="text___"           indexed="true" omitNorms="false"  stored="false"  multiValued="true" />
+
+
+      <!-- Suggestion -->
+      <dynamicField name="suggest_*"               type="text_shingle"    indexed="false"  omitNorms="true"  stored="false"  multiValued="true" />
+
+      <copyField source="suggest_*" dest="suggest" />
+
+   </fields>
+
+   <uniqueKey>id</uniqueKey>
+
+</schema>

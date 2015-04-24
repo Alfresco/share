@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="qshare:qsharemodel">
+    <description>QuickShare Model Definitions</description>
+    <version>0.1</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/qshare/1.0" prefix="qshare"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types/>
+    <aspects>
+        <aspect name="qshare:shared">
+            <properties>
+                <property name="qshare:sharedId">
+                    <title>Shared Id</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <mandatory enforced="true">true</mandatory>
+                    <index enabled="true">
+                        <tokenised>FALSE</tokenised>
+                    </index>
+                </property>
+                <property name="qshare:sharedBy">
+                    <title>Shared By</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <mandatory enforced="true">true</mandatory>
+                    <index enabled="true">
+                        <tokenised>FALSE</tokenised>
+                    </index>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

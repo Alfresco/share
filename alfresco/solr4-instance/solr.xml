@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<solr>
+   <str name="adminHandler">${adminHandler:org.alfresco.solr.AlfrescoCoreAdminHandler}</str>
+</solr>

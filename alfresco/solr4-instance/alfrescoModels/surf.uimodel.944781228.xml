@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="surf:uimodel">
+    <description>Surf Specific Types</description>
+    <author>Alfresco</author>
+    <published>2012-11-07</published>
+    <version>1.0</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/surf/1.0" prefix="surf"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types>
+        <type name="surf:amdpage">
+            <title>Surf AMD Page</title>
+            <parent>cm:content</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+        <type name="surf:applicationType">
+            <title>Surf Application Type</title>
+            <parent>cm:folder</parent>
+            <properties>
+                <property name="surf:rootRage">
+                    <type>d:text</type>
+                    <mandatory enforced="true">true</mandatory>
+                    <index enabled="true">
+                        <tokenised>FALSE</tokenised>
+                    </index>
+                </property>
+                <property name="surf:groupVisibility">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <tokenised>FALSE</tokenised>
+                    </index>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+        <type name="surf:applicationInstance">
+            <title>Surf Application Instance</title>
+            <parent>cm:folder</parent>
+            <properties/>
+            <associations>
+                <association name="surf:applicationType">
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>surf:applicationType</class>
+                        <mandatory enforced="true">true</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+            </associations>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+    </types>
+    <aspects>
+        <aspect name="surf:jsresource">
+            <title>JavaScript Resource</title>
+            <properties>
+                <property name="surf:mid">
+                    <title>mid</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <index enabled="true">
+                        <tokenised>FALSE</tokenised>
+                    </index>
+                </property>
+                <property name="surf:label">
+                    <title>Label</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <index enabled="true">
+                        <tokenised>FALSE</tokenised>
+                    </index>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="surf:service">
+            <title>Service</title>
+            <parent>surf:jsresource</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="surf:widget">
+            <title>Widget</title>
+            <parent>surf:jsresource</parent>
+            <properties>
+                <property name="surf:widgetType">
+                    <title>Widget Type</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <index enabled="true">
+                        <tokenised>FALSE</tokenised>
+                    </index>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

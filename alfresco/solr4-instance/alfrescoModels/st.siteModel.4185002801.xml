@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="st:siteModel">
+    <description>Site Model</description>
+    <author>Roy Wetherall</author>
+    <version>1.0</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/site/1.0" prefix="st"/>
+        <namespace uri="http://www.alfresco.org/model/sitecustomproperty/1.0" prefix="stcp"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types>
+        <type name="st:site">
+            <title>Site</title>
+            <parent>cm:folder</parent>
+            <properties>
+                <property name="st:sitePreset">
+                    <title>Site Preset</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="st:siteVisibility">
+                    <title>Site Visibility</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>cm:titled</aspect>
+                <aspect>sys:undeletable</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="st:sites">
+            <title>Sites</title>
+            <parent>cm:folder</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+    </types>
+    <aspects>
+        <aspect name="st:siteContainer">
+            <title>Site Container</title>
+            <properties>
+                <property name="st:componentId">
+                    <title>Component Id</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="st:customSiteProperties">
+            <title>Custom Site Properties</title>
+            <properties>
+                <property name="stcp:additionalInformation">
+                    <title>Additional Site Information</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

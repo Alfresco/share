@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="blg:blogintegration">
+    <description>Blog Integration Model</description>
+    <author>Roy Wetherall</author>
+    <version>1.0</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/blogintegration/1.0" prefix="blg"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types/>
+    <aspects>
+        <aspect name="blg:blogDetails">
+            <title>Blog Details</title>
+            <properties>
+                <property name="blg:blogImplementation">
+                    <title>Blog Type</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:id">
+                    <title>Blog Identifier</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <default>0</default>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:name">
+                    <title>Blog Name</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:description">
+                    <title>Blog Description</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:url">
+                    <title>Blog URL</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:userName">
+                    <title>Blog User Name</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:password">
+                    <title>Blog User Password</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="blg:blogPost">
+            <title>Blog Post</title>
+            <properties>
+                <property name="blg:postId">
+                    <title>Blog post identifier</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <mandatory>true</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:published">
+                    <title>Blog published</title>
+                    <type>d:boolean</type>
+                    <protected>true</protected>
+                    <mandatory>true</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:link">
+                    <title>Blog post link</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <mandatory>true</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:posted">
+                    <title>Date posted</title>
+                    <type>d:date</type>
+                    <protected>true</protected>
+                    <mandatory>true</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="blg:lastUpdate">
+                    <title>Date last updated</title>
+                    <type>d:date</type>
+                    <protected>true</protected>
+                    <mandatory>true</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations>
+                <association name="blg:blogDetails">
+                    <title>Blog details</title>
+                    <source>
+                        <role>blg:posts</role>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>blg:blogDetails</class>
+                        <role>blg:blogDetails</role>
+                        <mandatory enforced="true">true</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+            </associations>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>
