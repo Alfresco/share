@@ -10,6 +10,7 @@ package org.alfresco.po.share.site.document;
 import java.io.File;
 
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.user.CloudSignInPage;
@@ -35,6 +36,8 @@ public class SelectSyncToCloudTest extends AbstractDocumentTest
 {
     private String siteName1;
     private File file1;
+    private File file2;
+    private String folder;
     private DocumentLibraryPage documentLibPage;
     private DestinationAndAssigneePage destinationAndAssigneePage ;
 
@@ -48,6 +51,8 @@ public class SelectSyncToCloudTest extends AbstractDocumentTest
     {
         siteName1 = "Site-1" + System.currentTimeMillis();
         file1 = SiteUtil.prepareFile("File-1"+System.currentTimeMillis());
+        file2 = SiteUtil.prepareFile("File-1"+System.currentTimeMillis());
+        folder = "Folder-1" + System.currentTimeMillis();
         loginAs(username, password);
         disconnectCloudSync(drone);
         SiteUtil.createSite(drone, siteName1, "Public");
@@ -55,10 +60,14 @@ public class SelectSyncToCloudTest extends AbstractDocumentTest
         documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file1.getCanonicalPath()).render();
+        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
+        documentLibPage = newFolderPage.createNewFolder(folder, folder, folder).render();
+        documentLibPage = documentLibPage.getFileDirectoryInfo(folder).clickOnTitle().render();
 
         // User File2 if required
-        // uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
-        // documentLibPage = uploadForm.uploadFile(file2.getCanonicalPath()).render();
+        uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
+        documentLibPage = uploadForm.uploadFile(file2.getCanonicalPath()).render();
+        documentLibPage = documentLibPage.getNavigation().clickFolderUp().render();
     }
 
     @Test
@@ -118,6 +127,16 @@ public class SelectSyncToCloudTest extends AbstractDocumentTest
         }
         documentLibPage = documentLibPage.getNavigation().selectRequestSync().render();
         Assert.assertTrue(documentLibPage.getFileDirectoryInfo(file1.getName()).isCloudSynced());
+    }
+
+    @Test (dependsOnMethods = "selectRequestSync")
+    public void folderSelectSyncToCloud()
+    {
+        documentLibPage = documentLibPage.getFileDirectoryInfo(folder).clickOnTitle().render();
+        DocumentLibraryNavigation docLibNav = documentLibPage.getNavigation();
+        destinationAndAssigneePage = docLibNav.selectSyncToCloudFromNav().render();
+        destinationAndAssigneePage.clickSyncButton();
+        Assert.assertTrue(documentLibPage.isSyncMessagePresent(), "The Sync message was not displayed");
     }
 
     @AfterClass
