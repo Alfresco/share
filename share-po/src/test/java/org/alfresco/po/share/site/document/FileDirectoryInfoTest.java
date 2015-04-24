@@ -79,11 +79,6 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         {
             loginAs(username, password);
         }
-        
-        if(false && isHybridEnabled())
-        {
-            signInToCloud(drone, cloudUserName, cloudUserPassword);
-        }
         SiteUtil.createSite(drone, siteName, "description", "Public");
         file = SiteUtil.prepareFile("alfresco123");
         testLockedFile = SiteUtil.prepareFile("Alfresco456");     
@@ -417,12 +412,6 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         documentLibPage = ((DocumentLibraryPage)mangPermPage.selectSave()).render();
     }
 
-    @Test(groups = { "Enterprise4.2" }, priority = 20)
-    public void test120IsEditInGoogleDocsPresent()
-    {
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
-        assertTrue(thisRow.isEditInGoogleDocsPresent());
-    }
     
     @Test(expectedExceptions = PageOperationException.class, groups = { "Enterprise4.2" }, priority = 21)
     public void test121SelectDownloadFolderAsZipForFile() throws Exception
