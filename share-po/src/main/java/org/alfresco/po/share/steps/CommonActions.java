@@ -79,7 +79,6 @@ public class CommonActions
         driver.refresh();
         return getSharePage(driver);
     }
-    
 
     /**
      * Common method to wait for the next solr indexing cycle.
