@@ -497,7 +497,15 @@
                    <classesDirectory>tests/testApp/WEB-INF/classes</classesDirectory>
                    <baseAppFirst>false</baseAppFirst>
                 </configuration>
-         </plugin>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
+                    <contextFile>${basedir}/tomcat/share-context.xml</contextFile>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -514,7 +522,7 @@
                                 <id>run-exploded-webapp</id>
                                 <phase>prepare-package</phase>
                                 <goals>
-                                    <goal>run-war-only</goal>
+                                    <goal>run</goal>
                                 </goals>
                             </execution>
                         </executions>
