@@ -56,51 +56,18 @@
    </dependencies>
 
    <properties>
-      <!-- Surf Properties - To be updated per release -->
-      <!--
-      <surf.version.major>5</surf.version.major>
-      <surf.version.minor>0</surf.version.minor>
-      <surf.version.revision>0</surf.version.revision>
-      <surf.version.label>Release</surf.version.label>
-      <surf.edition>-</surf.edition>
-      <surf.schema>1000</surf.schema>
-      -->
-
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
       <!-- Surf projects historically use 'spring.version' property -->
       <spring.version>${dependency.spring.version}</spring.version>
       <plugin.jetty.version>7.0.1.v20091125</plugin.jetty.version>
    </properties>
    
-   <!-- Surf projects follow standard maven structure - so override changes from Alfresco parent -->
    <build>
-      <sourceDirectory>src/main/java</sourceDirectory>
-      <testSourceDirectory>src/test/java</testSourceDirectory>
-      <resources>
-         <resource>
-            <directory>src/main/resources</directory>
-         </resource>
-      </resources>
-      <testResources>
-         <testResource>
-            <directory>src/test/resources</directory>
-         </testResource>
-      </testResources>
-   
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
                <workingDirectory>${basedir}</workingDirectory>
-            </configuration>
-         </plugin>
-         <plugin>
-            <artifactId>maven-war-plugin</artifactId>
-            <configuration>
-               <warSourceDirectory>src/main/webapp</warSourceDirectory>
             </configuration>
          </plugin>
       </plugins>

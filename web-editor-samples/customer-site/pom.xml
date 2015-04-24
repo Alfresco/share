@@ -3,10 +3,10 @@
     <artifactId>alfresco-web-editor-samples</artifactId>
     <name>Alfresco Web Editor Samples</name>
     <parent>
-        <artifactId>alfresco-parent</artifactId>
+        <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
         <version>5.1-BF-SNAPSHOT</version>
-        <relativePath>../../../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <packaging>war</packaging>
 

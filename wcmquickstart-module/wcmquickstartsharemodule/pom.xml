@@ -12,7 +12,7 @@
     <build>
         <resources>
             <resource>
-                <directory>source/amp</directory>
+                <directory>src/main/amp</directory>
                 <targetPath>../${project.build.finalName}</targetPath>
             </resource>
         </resources>
@@ -39,7 +39,7 @@
                 <configuration>
                     <target>
                         <copy todir="${project.build.directory}/${project.build.finalName}/config">
-                            <fileset dir="${basedir}/source/amp/config"
+                            <fileset dir="${basedir}/src/main/amp/config"
                                 includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
                             <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
                         </copy>
