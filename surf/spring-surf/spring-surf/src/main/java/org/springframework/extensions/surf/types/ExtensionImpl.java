@@ -204,6 +204,60 @@ public class ExtensionImpl extends AbstractModelObject implements Extension
         }
         return createdModule;
     }
+    
+    /**
+     * <p>Updates an existing {@link ExtensionModule} based on the supplied XML fragment string. The {@link ExtensionModule} will
+     * only be updated if it is defined with an "id" attribute that is already present in the {@link Extension}.<p>
+     */
+    public ExtensionModule updateExtensionModule(String xmlFragment) throws DocumentException
+    {
+        ExtensionModule updatedModule = null;
+        Document moduleDoc = XMLUtil.parse(xmlFragment);
+        Element moduleRoot = moduleDoc.getRootElement();
+        if (moduleRoot != null && moduleRoot.getName().equals(MODULE))
+        {
+            Element idEl = moduleRoot.element(BasicExtensionModule.ID);
+            if (idEl == null)
+            {
+                // Invalid module - has no id...
+                throw new DocumentException("An \"<id>\" element was not present in the XML supplied to update an ExtensionModule");
+            }
+            else
+            {
+                String id = idEl.getTextTrim();
+                Document extensionDocument = getDocument();
+                ModuleObjectAndNode moan = findModule(id, extensionDocument);
+                if (moan != null)
+                {
+                    // Update the module and replace it in the list...
+                    updatedModule = new ExtensionModule(moduleRoot, getKey());
+                    this.getExtensionModules().remove(moan.getObject());
+                    this.getExtensionModules().add(updatedModule);
+                    
+                    // Update the underlying document...
+                    Element modulesElement = extensionDocument.getRootElement().element(PROP_MODULES);
+                    modulesElement.remove(moan.getNode());
+                    modulesElement.add(moduleRoot);
+                    this.updateXML(extensionDocument);
+                }
+                else
+                {
+                    // The object does not exists.
+                    // The return object will stay as null.
+                    if (logger.isErrorEnabled())
+                    {
+                        logger.error("An attempt was made to add a update ExtensionModule with the id \"" + id + "\" but no ExtensionModule with that id exists.");
+                    }
+                }
+            }
+        }
+        else
+        {
+            // Output an error message because the XML isn't correctly formed
+            throw new DocumentException("The root element of the XML supplied to create a new ExtensionModule was not \"<module>\"");
+        }
+        return updatedModule;
+    }
    
     /**
      * <p>Deleting an {@link ExtensionModule} is a two stage process. First it is necessary to locate the 
