@@ -437,7 +437,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "editOffline")
+    @Test(dependsOnMethods = "editOffline", groups="communityIssue")
     public void getDocumentBody() throws Exception
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();
@@ -458,7 +458,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "getDocumentBody")
+    @Test(dependsOnMethods = "getDocumentBody",groups="communityIssue")
     public void testViewOriginalDocument() throws Exception
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();
@@ -476,7 +476,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testViewOriginalDocument")
+    @Test(dependsOnMethods = "testViewOriginalDocument",groups="communityIssue")
     public void testGetCommentHtml() throws Exception
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();

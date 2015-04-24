@@ -1776,7 +1776,7 @@ public class DocumentDetailsPage extends DetailsPage
         }
         catch (TimeoutException e)
         {
-            throw new PageOperationException("Not able to find the document body. " + e);
+            throw new PageOperationException("Not able to find the document body. ", e);
         }
     }
 

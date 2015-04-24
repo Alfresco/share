@@ -12,8 +12,14 @@
             <exclude name="chromeOnly"/>
             <exclude name="Hybrid"/>
             <exclude name="download"/>
+            <exclude name="communityIssue"/>
         </run>
     </groups>
+    <test name="DocumentDetailsPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.site.document.DocumentDetailsPageTest"/>
+        </classes>
+    </test>
     <test name="LoginPageTest">
         <classes>
             <class name="org.alfresco.po.share.LoginPageTest" />
@@ -32,11 +38,6 @@
     <test name="FacetedSearchResultsPageTest">
         <classes>
             <class name="org.alfresco.po.share.search.FacetedSearchResultsPageTest" />
-        </classes>
-    </test>
-    <test name="DocumentDetailsPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.DocumentDetailsPageTest"/>
         </classes>
     </test>
     <test name="DocumentLibraryPageTest">
