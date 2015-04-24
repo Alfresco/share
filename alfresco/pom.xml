@@ -99,6 +99,20 @@
 
     <profiles>
         <profile>
+            <id>enterprise</id>
+            <dependencies>
+                <!-- Defines WAR to overlay -->
+                <dependency>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-enterprise</artifactId>
+                    <version>${project.version}</version>
+                    <type>war</type>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
             <id>integration-tests</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
