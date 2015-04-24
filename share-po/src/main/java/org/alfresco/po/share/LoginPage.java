@@ -17,6 +17,7 @@ package org.alfresco.po.share;
 import org.alfresco.po.share.user.CloudForgotPasswordPage;
 import org.alfresco.po.share.user.Language;
 import org.alfresco.webdrone.RenderTime;
+import org.alfresco.webdrone.RenderWebElement;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
@@ -36,12 +37,18 @@ import org.openqa.selenium.support.ui.Select;
 public class LoginPage extends SharePage
 {
     private Log logger = LogFactory.getLog(this.getClass());
+    @RenderWebElement
     private static final By PASSWORD_INPUT = By.cssSelector("input[id$='password']");
+    @RenderWebElement
     private static final By USERNAME_INPUT = By.cssSelector("input[id$='username']");
+    @RenderWebElement
+    private static final By SUBMIT_BTN = By.cssSelector("button[id$='submit-button']");
+    
     private static final By LOGO = By.cssSelector(".theme-company-logo");
     private static final By LANGUAGE_SELECT = By.cssSelector("select[id$='default-language']");
     private static final By SIGN_UP_LINK = By.cssSelector("a.theme-color-1:first-of-type");
     private static final By FORGOT_PASSWORD_LINK = By.cssSelector("a[href$='forgot-password']");
+    
 
     /**
      * Constructor.
@@ -56,27 +63,7 @@ public class LoginPage extends SharePage
     public LoginPage render(RenderTime timer)
     {
         basicRender(timer);
-        while (true)
-        {
-            timer.start();
-            try
-            {
-                if (drone.find(By.cssSelector("form[id$='form']")).isDisplayed())
-                {
-                    if (drone.find(USERNAME_INPUT).isDisplayed() && drone.find(PASSWORD_INPUT).isDisplayed())
-                    {
-                        break;
-                    }
-                }
-            }
-            catch (NoSuchElementException nse)
-            {
-            }
-            finally
-            {
-                timer.end();
-            }
-        }
+        webElementRender(timer);
         return this;
     }
 
@@ -117,32 +104,19 @@ public class LoginPage extends SharePage
         {
             throw new IllegalArgumentException("Input param can not be null");
         }
-        drone.clearAndType(USERNAME_INPUT, username);
-
-        // if (!username.equals(usernameEntered))
-        // {
-        // drone.waitFor(WAIT_TIME_3000);
-        // drone.clearAndType(USERNAME_INPUT, username);
-        // }
-        /*
-         * Do not move below line as this line acts as a buffer.
-         * The sendKeys would concatanate the username and password
-         * as there are too many request sent to the browser.
-         * Instead of usign Thread.sleep we are find the submit button
-         * and the password input field which has given a buffer that
-         * allows to input username and password into it rescpective fields
-         * correctly.
-         */
-
-        boolean isCloud = alfrescoVersion.isCloud();
-        String selector = isDojoSupport() || isCloud ? "button[id$='button']" : "input#btn-login";
-        WebElement button = drone.findAndWait(By.cssSelector(selector));
-        WebElement passwordInput = drone.findAndWait(PASSWORD_INPUT);
+        WebElement usernameInput = drone.find(USERNAME_INPUT);
+        usernameInput.click();
+        usernameInput.clear();
+        usernameInput.sendKeys(username);
+        
+        WebElement button = drone.find(By.cssSelector("button[id$='submit-button']"));
+        
+        WebElement passwordInput = drone.find(PASSWORD_INPUT);
         passwordInput.click();
         passwordInput.clear();
         passwordInput.sendKeys(password);
 
-        String usernameEntered = drone.findAndWait(USERNAME_INPUT).getAttribute("value");
+        String usernameEntered = usernameInput.getAttribute("value");
         String passwordEntered = passwordInput.getAttribute("value");
         logger.info("Values entered: User[" + usernameEntered + "], Password[" + passwordEntered + "]");
         if (!username.equals(usernameEntered))
@@ -204,55 +178,12 @@ public class LoginPage extends SharePage
             throw new IllegalArgumentException("Input param can not be null");
         }
 
-        boolean isCloud = alfrescoVersion.isCloud();
         boolean languageSelect = drone.findAndWait(LANGUAGE_SELECT).isDisplayed();
         if (languageSelect)
         {
             changeLanguage(language);
         }
-
-        // drone.clearAndType(USERNAME_INPUT, username);
-        WebElement usernameInput = drone.findAndWait(USERNAME_INPUT);
-        usernameInput.click();
-        usernameInput.clear();
-        usernameInput.sendKeys(username);
-
-        // if (!username.equals(usernameEntered))
-        // {
-        // drone.waitFor(WAIT_TIME_3000);
-        // drone.clearAndType(USERNAME_INPUT, username);
-        // }
-        /*
-         * Do not move below line as this line acts as a buffer.
-         * The sendKeys would concatanate the username and password
-         * as there are too many request sent to the browser.
-         * Instead of usign Thread.sleep we are find the submit button
-         * and the password input field which has given a buffer that
-         * allows to input username and password into it rescpective fields
-         * correctly.
-         */
-
-        String selector = isDojoSupport() || isCloud ? "button[id$='button']" : "input#btn-login";
-        WebElement button = drone.findAndWait(By.cssSelector(selector));
-        WebElement passwordInput = drone.findAndWait(PASSWORD_INPUT);
-        passwordInput.click();
-        passwordInput.clear();
-        passwordInput.sendKeys(password);
-
-        String usernameEntered = drone.findAndWait(USERNAME_INPUT).getAttribute("value");
-        String passwordEntered = passwordInput.getAttribute("value");
-        logger.info("Values entered: User[" + usernameEntered + "], Password[" + passwordEntered + "]");
-        if (!username.equals(usernameEntered))
-        {
-            throw new PageOperationException(String.format("The username %s did not match input %s", username, usernameEntered));
-        }
-        if (!password.equals(passwordEntered))
-        {
-            throw new PageOperationException(String.format("The password %s did not match input %s", password, passwordEntered));
-        }
-
-        button.submit();
-        logger.info("User[" + usernameEntered + "] loggedIn.");
+        loginAs(username, password);
     }
 
     public LoginPage changeLanguage(Language language)
