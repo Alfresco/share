@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.alfresco.test.wqs.web.awe;
 
 import org.alfresco.po.share.ShareUtil;
@@ -8,13 +23,12 @@ import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
-import org.alfresco.po.wqs.WcmqsBlogPage;
-import org.alfresco.po.wqs.WcmqsBlogPostPage;
-import org.alfresco.po.wqs.WcmqsEditPage;
-import org.alfresco.po.wqs.WcmqsHomePage;
+import org.alfresco.po.wqs.*;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.test.FailedTestListener;
 import org.alfresco.test.wqs.AbstractWQS;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -30,7 +44,7 @@ import org.testng.annotations.Test;
 @Listeners(FailedTestListener.class)
 public class GeneralAWE extends AbstractWQS
 {
-    private static final Logger logger = Logger.getLogger(GeneralAWE.class);
+    private static final Log logger = LogFactory.getLog(GeneralAWE.class);
 
     private String testName;
     private String siteName;
@@ -122,8 +136,8 @@ public class GeneralAWE extends AbstractWQS
         // Blog post is opened;
 
         WcmqsHomePage homePage = new WcmqsHomePage(drone);
-        WcmqsBlogPage blogPage = homePage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
-        WcmqsBlogPostPage blogPostPage = blogPage.openBlogPost(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsSearchPage wcmqsSearchPage = homePage.searchText(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsBlogPostPage blogPostPage = wcmqsSearchPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
         Assert.assertNotNull(blogPostPage);
 
         // ---- Step 3 ----
@@ -149,7 +163,7 @@ public class GeneralAWE extends AbstractWQS
      * AONE-5651 Orientation
      */
     @AlfrescoTest(testlink = "AONE-5651")
-    @Test(groups = {"WQS"})
+    @Test(groups = {"WQS", "ProductBug"})
     public void orientation() throws Exception
     {
 
@@ -168,8 +182,8 @@ public class GeneralAWE extends AbstractWQS
         // Blog post is opened;
 
         WcmqsHomePage homePage = new WcmqsHomePage(drone);
-        WcmqsBlogPage blogPage = homePage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
-        WcmqsBlogPostPage blogPostPage = blogPage.openBlogPost(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsSearchPage wcmqsSearchPage = homePage.searchText(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsBlogPostPage blogPostPage = wcmqsSearchPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
         Assert.assertNotNull(blogPostPage);
 
         // ---- Step 3 ----
@@ -223,8 +237,8 @@ public class GeneralAWE extends AbstractWQS
         // Article is opened;
 
         WcmqsHomePage homePage = new WcmqsHomePage(drone);
-        WcmqsBlogPage blogPage = homePage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
-        WcmqsBlogPostPage blogPostPage = blogPage.openBlogPost(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsSearchPage wcmqsSearchPage = homePage.searchText(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsBlogPostPage blogPostPage = wcmqsSearchPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
 
         // ---- Step 3 ----
         // ---- Step action ----
@@ -258,7 +272,7 @@ public class GeneralAWE extends AbstractWQS
         editPage.editTitle(articleTitle);
         editPage.editDescription(articleDescription);
         editPage.insertTextInContent(articleContent);
-        blogPage = editPage.clickSubmitButton().render();
+        WcmqsBlogPage blogPage = editPage.clickSubmitButton().render();
 
         WcmqsBlogPostPage newBlogPostPage = waitAndOpenBlogPost(blogPage, articleTitle);
 

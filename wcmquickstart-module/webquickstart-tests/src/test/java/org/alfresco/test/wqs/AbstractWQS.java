@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  * This file is part of Alfresco
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,6 +14,7 @@
  */
 package org.alfresco.test.wqs;
 
+import bsh.This;
 import org.alfresco.po.share.AlfrescoVersion;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.site.document.ContentDetails;
@@ -41,17 +42,17 @@ import org.alfresco.webdrone.WebDroneImpl;
 import org.alfresco.webdrone.exception.PageException;
 import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
@@ -62,9 +63,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -83,7 +82,7 @@ public abstract class AbstractWQS implements AlfrescoTests
     protected static final String ACCOUNTING_DATA = "Accounting";
     protected static final String DEFAULT_PASSWORD = "password";
     private static final String SRC_ROOT = System.getProperty("user.dir") + SLASH;
-    protected static final String DATA_FOLDER = SRC_ROOT + "testdata" + SLASH;
+    protected static final String DATA_FOLDER = SRC_ROOT + "webquickstart-tests" + SLASH + "testdata" + SLASH;
     public static long maxWaitTime;
     protected static ApplicationContext ctx;
     protected static String shareUrl;
@@ -91,7 +90,6 @@ public abstract class AbstractWQS implements AlfrescoTests
     protected static AlfrescoVersion alfrescoVersion;
     protected static String ADMIN_USERNAME;
     protected static String ADMIN_PASSWORD;
-    protected static Map<WebDrone, ShareTestProperty> dronePropertiesMap = new HashMap<WebDrone, ShareTestProperty>();
     protected static ShareTestProperty testProperties;
     protected static BasicAuthPublicApiFactory dataPrepProperties;
     protected static String UNIQUE_TESTDATA_STRING = "newdata";
@@ -110,8 +108,9 @@ public abstract class AbstractWQS implements AlfrescoTests
     protected WebDrone drone;
     protected LoginActions loginActions = new LoginActions();
     protected SiteActions siteActions = new SiteActions();
-    protected long MAX_WAIT_TIME_MINUTES = 120000;
-    Map<String, WebDrone> droneMap = new HashMap<String, WebDrone>();
+    protected long MAX_WAIT_TIME_MINUTES = 160000;
+    protected long MAX_WAIT_TIME_WQS_LOAD = 280000;
+    //Map<String, WebDrone> droneMap = new HashMap<String, WebDrone>();
 
     @BeforeSuite(alwaysRun = true)
     @Parameters({"contextFileName"})
@@ -219,7 +218,7 @@ public abstract class AbstractWQS implements AlfrescoTests
         return fileName;
     }
 
-    @AfterClass(alwaysRun = true)
+
     public void tearDown()
     {
         if (logger.isTraceEnabled())
@@ -229,6 +228,7 @@ public abstract class AbstractWQS implements AlfrescoTests
         // Close the browser
         if (drone != null)
         {
+            drone.deleteCookies();
             drone.quit();
             drone = null;
         }
@@ -236,14 +236,11 @@ public abstract class AbstractWQS implements AlfrescoTests
 
     public void savePageSource(String methodName) throws IOException
     {
-        for (Map.Entry<String, WebDrone> entry : droneMap.entrySet())
+        if (drone != null)
         {
-            if (entry.getValue() != null)
-            {
-                String htmlSource = ((WebDroneImpl) entry.getValue()).getDriver().getPageSource();
-                File file = new File(RESULTS_FOLDER + methodName + "_" + entry.getKey() + "_Source.html");
-                FileUtils.writeStringToFile(file, htmlSource);
-            }
+            String htmlSource = ((WebDroneImpl) drone).getDriver().getPageSource();
+            File file = new File("target/surefire-reports/WQS-" + methodName + ".html");
+            FileUtils.writeStringToFile(file, htmlSource);
         }
     }
 
@@ -256,16 +253,13 @@ public abstract class AbstractWQS implements AlfrescoTests
      */
     public void saveScreenShot(String methodName) throws IOException
     {
-        for (Map.Entry<String, WebDrone> entry : droneMap.entrySet())
+        if (StringUtils.isEmpty(methodName))
         {
-            if (entry.getValue() != null)
-            {
-                File file = entry.getValue().getScreenShot();
-                File tmp = new File(RESULTS_FOLDER + methodName + "_" + entry.getKey() + ".png");
-                FileUtils.copyFile(file, tmp);
-            }
+            throw new IllegalArgumentException("Method Name can't be empty or null.");
         }
-
+        File file = drone.getScreenShot();
+        File tmp = new File("target/surefire-reports/WQS-" + methodName + ".png");
+        FileUtils.copyFile(file, tmp);
     }
 
     @BeforeMethod
@@ -298,38 +292,58 @@ public abstract class AbstractWQS implements AlfrescoTests
         return testProperties.getShareUrl();
     }
 
-    protected void waitForCommentPresent(MyTasksPage myTasksPage, String taskName) throws InterruptedException
+    /**
+     * Wait for task to replicate in share
+     *
+     * @param myTasksPage
+     * @param taskName
+     */
+    protected void waitForCommentPresent(MyTasksPage myTasksPage, String taskName)
     {
         int count = 1;
         while (!myTasksPage.isTaskPresent(taskName) && count <= 10)
         {
             siteActions.getSharePage(drone).getNav().selectMyDashBoard().render();
             siteActions.getSharePage(drone).getNav().selectWorkFlowsIHaveStarted().render();
-            wait(5000);
+            synchronized (this)
+            {
+                try
+                {
+                    this.wait(maxWaitTime);
+                }
+                catch (InterruptedException ex)
+                {
+                }
+            }
             count++;
         }
     }
 
-    protected DocumentLibraryPage navigateToFolderAndCreateContent(DocumentLibraryPage documentLibPage, String folderName, String fileName, String fileContent, String fileTitle)
+    /**
+     * Assume that context is document library page. Navigates to folders from WQS and create file with given details
+     *
+     * @param folderName
+     * @param fileName
+     * @param fileContent
+     * @param fileTitle
+     * @return
+     * @throws Exception
+     */
+    protected DocumentLibraryPage navigateToFolderAndCreateContent(String folderName, String fileName, String fileContent, String fileTitle)
             throws Exception
     {
-        documentLibPage = navigateToWqsFolder(documentLibPage, folderName);
+        String root_folder_path = ALFRESCO_QUICK_START + File.separator + QUICK_START_EDITORIAL + File.separator + ROOT + File.separator + folderName;
+
         ContentDetails contentDetails1 = new ContentDetails();
         contentDetails1.setName(fileName);
         contentDetails1.setTitle(fileTitle);
         contentDetails1.setContent(fileContent);
-        documentLibPage = siteActions.createContent(drone, contentDetails1, ContentType.HTML);
-        return documentLibPage;
+        DocumentLibraryPage documentLibPage = siteActions.navigateToFolder(drone, root_folder_path).render();
+        documentLibPage = siteActions.createContent(drone, contentDetails1, ContentType.HTML).render();
+
+        return documentLibPage.getSiteNav().selectSiteDocumentLibrary().render();
     }
 
-    protected DocumentLibraryPage navigateToWqsFolder(DocumentLibraryPage documentLibPage, String folderName)
-    {
-        documentLibPage = documentLibPage.selectFolder(ALFRESCO_QUICK_START).render();
-        documentLibPage = documentLibPage.selectFolder(QUICK_START_EDITORIAL).render();
-        documentLibPage = documentLibPage.selectFolder(ROOT).render();
-        documentLibPage = documentLibPage.selectFolder(folderName).render();
-        return documentLibPage;
-    }
 
     protected String generateRandomStringOfLength(int length)
     {
@@ -434,8 +448,8 @@ public abstract class AbstractWQS implements AlfrescoTests
         {
             try
             {
-                blogPage.openBlogPost(blogPostTitle);
                 blogPost = FactoryWqsPage.resolveWqsPage(drone).render();
+                blogPage.openBlogPost(blogPostTitle);
                 blogPost.render();
                 newsArticleFound = true;
             }
@@ -487,12 +501,19 @@ public abstract class AbstractWQS implements AlfrescoTests
         return editPage.clickSubmitButton();
     }
 
+    /**
+     * Assume that current page is DocumentLibraryPage. The method navigates to a folder from WQS
+     *
+     * @param documentLibraryPage
+     * @param folderName
+     * @return
+     */
     public DocumentLibraryPage navigateToWqsFolderFromRoot(DocumentLibraryPage documentLibraryPage, String folderName)
     {
-        documentLibraryPage = (DocumentLibraryPage) documentLibraryPage.selectFolder(ALFRESCO_QUICK_START).render();
-        documentLibraryPage = (DocumentLibraryPage) documentLibraryPage.selectFolder(QUICK_START_EDITORIAL).render();
-        documentLibraryPage = (DocumentLibraryPage) documentLibraryPage.selectFolder(ROOT).render();
-        documentLibraryPage = (DocumentLibraryPage) documentLibraryPage.selectFolder(folderName).render();
+        documentLibraryPage = documentLibraryPage.selectFolder(ALFRESCO_QUICK_START).render();
+        documentLibraryPage = documentLibraryPage.selectFolder(QUICK_START_EDITORIAL).render();
+        documentLibraryPage = documentLibraryPage.selectFolder(ROOT).render();
+        documentLibraryPage = documentLibraryPage.selectFolder(folderName).render();
         return documentLibraryPage;
     }
 
@@ -529,11 +550,10 @@ public abstract class AbstractWQS implements AlfrescoTests
     }
 
 
-    /*
+    /**
      * Make sure the admin is logged in WQS for edit mode.
      * When open an article for the first time, the Login dialog is displayed.
      */
-
     public void loginToWqs()
     {
 
@@ -583,11 +603,10 @@ public abstract class AbstractWQS implements AlfrescoTests
     /**
      * Before navigating to WQS, the imported files need time to index
      */
-
     public void waitForWcmqsToLoad()
     {
         WcmqsHomePage homePage = new WcmqsHomePage(drone);
-        RenderTime timer = new RenderTime(240000);
+        RenderTime timer = new RenderTime(MAX_WAIT_TIME_WQS_LOAD);
         try
         {
             while (true)

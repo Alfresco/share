@@ -18,7 +18,7 @@ function(item)
         case 'calendar': path = item.container + (item.fromDate?"?date=" + Alfresco.util.formatDate(item.fromDate, "yyyy-mm-dd"):""); item.displayName = item.title; break;
         case 'wiki': path = "wiki-page?title=" + encodeURIComponent(item.title); item.displayName = item.title.replace(/_/g, " "); break;
         case 'links': path = "links-view?linkId=" + item.name; item.displayName = item.title; break;
-        case 'dataLists': path = "data-lists?list=" + item.parentName; break;
+        case 'dataLists': path = "data-lists?list=" + item.displayPath.split('/').pop(); break;
         default: path = "document-details?nodeRef=" + item.nodeRef;
       }
    }

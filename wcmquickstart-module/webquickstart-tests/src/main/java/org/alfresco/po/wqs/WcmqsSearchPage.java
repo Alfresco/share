@@ -25,7 +25,7 @@ public class WcmqsSearchPage extends WcmqsAbstractPage
     private final By TAG_SEARCH_RESULT_TITLES = By.cssSelector(".newslist-wrapper>li>h4>a");
     private final By NO_OF_SEARCH_RESULTS = By.cssSelector("p.intheader-paragraph");
     private final By LATEST_BLOG_ARTICLES = By.cssSelector("div[id='right']>div[class='latest-news']");
-    private final By PAGINATION = By.xpath("//div[@class='pagination']");
+    private final By PAGINATION = By.cssSelector("div[class='pagination']>span[class='page-number']");
 
     /**
      * Constructor.
@@ -64,31 +64,35 @@ public class WcmqsSearchPage extends WcmqsAbstractPage
      * Method to get tag search result titles
      */
     public ArrayList<String> getTagSearchResults()
-
     {
         ArrayList<String> results = new ArrayList<String>();
         try
-        {
-            List<WebElement> links = drone.findAndWaitForElements(TAG_SEARCH_RESULT_TITLES);
-            for (WebElement div : links)
             {
-                results.add(div.getText());
+                List<WebElement> links = drone.findAll(TAG_SEARCH_RESULT_TITLES);
+                for (WebElement div : links)
+                {
+                    results.add(div.getText());
+                }
+                if (isNextButtonDisplayed())
+                {
+                    WcmqsSearchPage wcmqsSearchPage = clickNextPage().render();
+                    results.addAll(wcmqsSearchPage.getTagSearchResults());
+                    clickPrevPage().render();
+                }
+              }
+            catch (TimeoutException te)
+            {
+                // no exception is thrown because the list of results can be empty
             }
-        }
-        catch (TimeoutException te)
-        {
-            // no exception is thrown because the list of results can be empty
-        }
-
         return results;
     }
 
     /**
      * Method verifies the number of search results
      */
-    public boolean verifyNumberOfSearchResultsHeader(int noOfResults, String searchedText)
+    public boolean verifyNumberOfSearchResultsHeader(int showOfResults, int noOfResults, String searchedText)
     {
-        String resultsText = String.format("Showing %d of %d results for \"%s\" within the website...", noOfResults, noOfResults, searchedText);
+        String resultsText = String.format("Showing %d of %d results for \"%s\" within the website...", showOfResults, noOfResults, searchedText);
         return resultsText.equals(drone.findAndWait(NO_OF_SEARCH_RESULTS).getText());
     }
 
@@ -216,4 +220,29 @@ public class WcmqsSearchPage extends WcmqsAbstractPage
     {
         return selectPaginationButton(drone, PAGINATION_BUTTON_PREVIOUS);
     }
+
+    public boolean isNextButtonDisplayed()
+    {
+        try
+        {
+            return drone.find(By.xpath(PAGINATION_BUTTON_NEXT)).isDisplayed();
+        }
+        catch (NoSuchElementException e)
+        {
+            return false;
+        }
+    }
+
+    public boolean isPreviousButtonDisplayed()
+    {
+        try
+        {
+            return drone.find(By.xpath(PAGINATION_BUTTON_PREVIOUS)).isDisplayed();
+        }
+        catch (NoSuchElementException e)
+        {
+            return false;
+        }
+    }
 }
+

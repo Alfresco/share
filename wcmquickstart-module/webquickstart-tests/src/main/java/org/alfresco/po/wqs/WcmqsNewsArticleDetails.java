@@ -232,6 +232,7 @@ public class WcmqsNewsArticleDetails extends WcmqsAbstractArticlePage
         {
             drone.findAndWait(DELETE_CONFIRM_OK).click();
             Thread.sleep(1000);
+            drone.waitUntilElementDisappears(DELETE_CONFIRM_WINDOW, maxPageLoadingTime);
         }
         catch (TimeoutException e)
         {

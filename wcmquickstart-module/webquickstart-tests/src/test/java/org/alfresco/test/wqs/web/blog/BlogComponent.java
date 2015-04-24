@@ -19,13 +19,11 @@ import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.dashlet.SiteWebQuickStartDashlet;
 import org.alfresco.po.share.dashlet.WebQuickStartOptions;
 import org.alfresco.po.share.enums.Dashlets;
-import org.alfresco.po.share.enums.DataLists;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.datalist.DataListPage;
-import org.alfresco.po.share.site.datalist.NewListForm;
 import org.alfresco.po.share.site.datalist.items.VisitorFeedbackRow;
 import org.alfresco.po.share.site.datalist.items.VisitorFeedbackRowProperties;
 import org.alfresco.po.share.site.datalist.lists.VisitorFeedbackList;
@@ -40,11 +38,9 @@ import org.alfresco.po.wqs.WcmqsSearchPage;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.test.FailedTestListener;
 import org.alfresco.test.wqs.AbstractWQS;
-import org.alfresco.po.wqs.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Logger;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -58,7 +54,10 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 
 
 /**
@@ -69,8 +68,8 @@ import static org.hamcrest.Matchers.*;
 @Listeners(FailedTestListener.class)
 public class BlogComponent extends AbstractWQS
 {
-//    private static final Logger logger = Logger.getLogger(BlogComponent.class);
-private static final Log logger = LogFactory.getLog(BlogComponent.class);
+
+    private static final Log logger = LogFactory.getLog(BlogComponent.class);
     private String siteName;
     private String ipAddress;
     private String[] loginInfo;
@@ -82,7 +81,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
         super.setup();
         siteName = this.getClass().getSimpleName() + System.currentTimeMillis();
         ipAddress = getIpAddress();
-        loginInfo = new String[] {ADMIN_USERNAME, ADMIN_PASSWORD};
+        loginInfo = new String[]{ADMIN_USERNAME, ADMIN_PASSWORD};
         logger.info(" wcmqs url : " + wqsURL);
         logger.info("Start Tests from: " + testName);
 
@@ -140,7 +139,8 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     @AfterClass(alwaysRun = true)
     public void tearDownAfterClass()
     {
-        logger.info("Delete the site after all tests where run.");
+        logger.info("Delete the site after tests run.");
+
         siteService.delete(ADMIN_USERNAME, ADMIN_PASSWORD, DOMAIN_FREE, siteName);
         super.tearDown();
 
@@ -149,7 +149,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5673 Blogs page
      */
-    @AlfrescoTest(testlink="AONE-5673")
+    @AlfrescoTest(testlink = "AONE-5673")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void blogsPage() throws Exception
     {
@@ -188,7 +188,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5674 Opening blog post
      */
-    @AlfrescoTest(testlink="AONE-5674")
+    @AlfrescoTest(testlink = "AONE-5674")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void openBlogPost() throws Exception
     {
@@ -218,8 +218,6 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
         // Blog post is opened successfully and displayed correctly;
 
         blogPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS);
-//        WcmqsLoginPage wcmqsLoginPage = new WcmqsLoginPage(drone);
-//        wcmqsLoginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);
         assertThat("Verify if the correct page opened ", blogPage.getTitle(), containsString(WcmqsBlogPage.ETHICAL_FUNDS));
 
         // ---- Step 4 ----
@@ -287,7 +285,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5675 Pagination
      */
-    @AlfrescoTest(testlink="AONE-5675")
+    @AlfrescoTest(testlink = "AONE-5675")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void pagination() throws Exception
     {
@@ -324,7 +322,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5676 Commenting a blog post
      */
-    @AlfrescoTest(testlink="AONE-5676")
+    @AlfrescoTest(testlink = "AONE-5676")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void commentBlogPost() throws Exception
     {
@@ -349,9 +347,9 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
         // Blog post is opened;
 
         WcmqsHomePage homePage = new WcmqsHomePage(drone);
-        WcmqsBlogPage blogPage = homePage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
-        WcmqsBlogPostPage wcmqsBlogPostPage = blogPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
-        assertThat("Verify if the correct page opened ", blogPage.getTitle(), containsString(WcmqsBlogPage.ETHICAL_FUNDS));
+        WcmqsSearchPage wcmqsSearchPage = homePage.searchText(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsBlogPostPage wcmqsBlogPostPage = wcmqsSearchPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        assertThat("Verify if the correct page opened ", wcmqsBlogPostPage.getTitle(), containsString(WcmqsBlogPage.ETHICAL_FUNDS));
 
         // ---- Step 3 ----
         // ---- Step action ----
@@ -363,16 +361,18 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
         wcmqsBlogPostPage.setVisitorEmail(visitorEmail);
         wcmqsBlogPostPage.setVisitorWebsite(visitorWebsite);
         wcmqsBlogPostPage.setVisitorComment(visitorComment);
-        wcmqsBlogPostPage.clickPostButton().render();
+        wcmqsBlogPostPage.clickPostButton();
+        wcmqsBlogPostPage.render();
 
         assertThat("Posting was succesfull", wcmqsBlogPostPage.isAddCommentMessageDisplay());
 
-        wcmqsBlogPostPage.clickWebQuickStartLogo().render();
-        wcmqsBlogPostPage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
-        wcmqsBlogPostPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        homePage = wcmqsBlogPostPage.clickWebQuickStartLogo().render();
+        homePage.searchText(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        wcmqsBlogPostPage = wcmqsSearchPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
         WcmqsComment wcmqsComment = new WcmqsComment(drone);
         assertThat(wcmqsComment.getNameFromContent(), is(equalTo(visitorName)));
         assertThat(wcmqsComment.getCommentFromContent(), is(equalTo(visitorComment)));
+        waitForDocumentsToIndex();
 
         // ---- Step 4 ----
         // ---- Step action ----
@@ -414,7 +414,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5677 Verify correct work of comments number value
      */
-    @AlfrescoTest(testlink="AONE-5677")
+    @AlfrescoTest(testlink = "AONE-5677")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void verifyCommentsNumberValue() throws Exception
     {
@@ -427,13 +427,14 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
 
         WcmqsHomePage homePage = new WcmqsHomePage(drone);
         WcmqsBlogPage blogPage = homePage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
-        WcmqsBlogPostPage wcmqsBlogPostPage =blogPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsBlogPostPage wcmqsBlogPostPage = blogPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
 
         wcmqsBlogPostPage.setVisitorName(visitorName);
         wcmqsBlogPostPage.setVisitorEmail(visitorEmail);
         wcmqsBlogPostPage.setVisitorWebsite(visitorWebsite);
         wcmqsBlogPostPage.setVisitorComment(visitorComment);
         wcmqsBlogPostPage.clickPostButton();
+        waitForDocumentsToIndex();
         // ---- Step 1 ----
         // ---- Step action ----
         // Open My Web Site via Alfresco Share;
@@ -470,8 +471,8 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
 
         VisitorFeedbackRow testrow = feedbackList.getRowForVisitorEmail(visitorEmail);
         testrow.clickDuplicateOnRow();
-        feedbackList.render();
         assertThat("Check if the duplicate message appears!", testrow.isDuplicateMessageDisplayed());
+        waitForDocumentsToIndex();
         ShareUtil.logout(drone);
 
         // ---- Step 5 ----
@@ -481,6 +482,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
         // Blog1 is opened;
 
         navigateTo(wqsURL);
+        waitForWcmqsToLoad();
         homePage = new WcmqsHomePage(drone);
         blogPage = homePage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
         blogPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
@@ -500,7 +502,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5678 Creating comment with wildcards in blog
      */
-    @AlfrescoTest(testlink="AONE-5678")
+    @AlfrescoTest(testlink = "AONE-5678")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void createCommentWithWildcards() throws Exception
     {
@@ -636,7 +638,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
      * AONE-5680 Verifying correct work of name field on comment form
      * Jira issue #ACE-3714
      */
-    @AlfrescoTest(testlink="AONE-5680")
+    @AlfrescoTest(testlink = "AONE-5680")
     @Test(groups = {"WQS", "EnterpriseOnly", "ProductBug"})
     public void verifyNameFieldFromComment() throws Exception
     {
@@ -691,7 +693,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5681 Commenting blog post with empty mandatory fields
      */
-    @AlfrescoTest(testlink="AONE-5681")
+    @AlfrescoTest(testlink = "AONE-5681")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void emptyFieldsInComment() throws Exception
     {
@@ -808,7 +810,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5682 Checking correct work of Email field
      */
-    @AlfrescoTest(testlink="AONE-5682")
+    @AlfrescoTest(testlink = "AONE-5682")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void verifyEmailField() throws Exception
     {
@@ -909,7 +911,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5683 Reporting post
      */
-    @AlfrescoTest(testlink="AONE-5683")
+    @AlfrescoTest(testlink = "AONE-5683")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void reportPost() throws Exception
     {
@@ -945,6 +947,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
         blogPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS);
         wcmqsBlogPostPage = new WcmqsBlogPostPage(drone);
         wcmqsBlogPostPage.reportLastCreatedPost();
+        waitForDocumentsToIndex();
 
         // ---- Step 2 ----
         // ---- Step action ----
@@ -1017,9 +1020,10 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
         // Blog post page is opened;
 
         navigateTo(wqsURL);
+        waitForWcmqsToLoad();
         homePage = new WcmqsHomePage(drone);
-        blogPage = homePage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
-        wcmqsBlogPostPage = blogPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsSearchPage wcmqsSearchPage = homePage.searchText(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        wcmqsBlogPostPage = wcmqsSearchPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
         assertThat("Verify if the correct page opened ", blogPage.getTitle(), containsString(WcmqsBlogPage.ETHICAL_FUNDS));
 
         // ---- Step 9 ----
@@ -1035,7 +1039,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5684 Verify correct work of Leave Comment form
      */
-    @AlfrescoTest(testlink="AONE-5684")
+    @AlfrescoTest(testlink = "AONE-5684")
     @Test(groups = {"WQS", "EnterpriseOnly"})
     public void verifyLeaveCommentForm() throws Exception
     {
@@ -1089,7 +1093,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5685 Section tags
      */
-    @AlfrescoTest(testlink="AONE-5685")
+    @AlfrescoTest(testlink = "AONE-5685")
     @Test(groups = {"WQS", "ProductBug"})
     public void verifySectionTags() throws Exception
     {
@@ -1163,7 +1167,7 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
     /*
      * AONE-5679 Adding blog post comment with too long data
      */
-    @AlfrescoTest(testlink="AONE-5679")
+    @AlfrescoTest(testlink = "AONE-5679")
     @Test(groups = {"WQS"})
     public void addLongDataInComment() throws Exception
     {
@@ -1211,7 +1215,8 @@ private static final Log logger = LogFactory.getLog(BlogComponent.class);
         wcmqsBlogPostPage.setVisitorEmail(visitorEmail);
         wcmqsBlogPostPage.setVisitorWebsite(visitorWebsite);
         wcmqsBlogPostPage.setVisitorComment(visitorComment);
-        wcmqsBlogPostPage.clickPostButton().render();
+        wcmqsBlogPostPage.clickPostButton();
+        wcmqsBlogPostPage.render();
         assertThat("Posting was succesfull", wcmqsBlogPostPage.isAddCommentMessageDisplay());
 
         // ---- Step 5 ----
