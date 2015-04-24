@@ -273,7 +273,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             drone.waitForElement(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             drone.waitUntilElementDeletedFromDom(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         }
-        catch (NoSuchElementException ne)
+        catch (NoSuchElementException | TimeoutException e)
         {
             //ignore exception as this is only used to verify the message dialog disappears. 
         }
