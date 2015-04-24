@@ -262,15 +262,15 @@ public class CopyOrMoveContentPage extends ShareDialogue
         try
         {
             drone.findAndWait(copyMoveOkButtonCss).click();
-            drone.waitForElement(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            drone.waitUntilElementDeletedFromDom(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
         }
         catch (TimeoutException e)
         {
             logger.error("Unable to find the Copy/Move Button Css : ", e);
             throw new PageException("Unable to find the Copy/Move button on Copy/Move Dialog.",e);
         }
+        drone.waitForElement(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        drone.waitUntilElementDeletedFromDom(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return FactorySharePage.resolvePage(drone);
     }
 
     /**
