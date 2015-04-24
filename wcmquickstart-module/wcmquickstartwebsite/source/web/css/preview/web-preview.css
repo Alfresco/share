@@ -1,0 +1,21 @@
+.web-preview-empty 
+{
+	height: 80px;
+    padding-top: 60px;
+    text-align: center;	
+    border: 1px solid #CCCCCC;
+}
+
+.web-preview-content
+{
+	height: 670px;
+    border-left: 1px solid #000000;  
+    border-right: 1px solid #000000;  
+    border-bottom: 1px solid #000000;  
+}
+
+.web-preview-image
+{
+	width: 625px;
+    border: 1px solid #000000;  
+}

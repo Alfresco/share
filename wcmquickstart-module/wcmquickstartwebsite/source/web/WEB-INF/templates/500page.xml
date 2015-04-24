@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-instance>
+	<title>500page</title>  
+  	<description>500 error page</description>
+   	<template-type>500page</template-type>
+    <components>
+    </components>     	
+</template-instance>

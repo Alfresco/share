@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<component>
+   <scope>page</scope>
+   <region-id>login</region-id>
+   <source-id>login</source-id>
+   <url>/modules/login/login</url>
+</component>

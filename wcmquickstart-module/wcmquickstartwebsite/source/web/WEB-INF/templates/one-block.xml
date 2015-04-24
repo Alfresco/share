@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-instance>
+	<title>one-block</title>  
+  	<description>Template with one main area</description>
+   	<template-type>one-block</template-type>
+    <components>
+        <component>
+            <region-id>top-right</region-id>
+            <url>/search/box</url>     
+        </component>
+        <component>
+            <region-id>footer</region-id>
+            <url>/footer/footer</url>     
+        </component>        
+    </components>     	
+</template-instance>

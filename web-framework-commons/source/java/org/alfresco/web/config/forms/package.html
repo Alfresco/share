@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>org.alfresco.web.config.forms package</title>
+<!--
+ Copyright (C) 2005-2010 Alfresco Software Limited.
+ *
+ * This file is part of Alfresco
+ *
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+-->
+</head>
+<body>
+Contains the classes that implement the configuration of the forms service including
+<code>ConfigElement</code> and <code>ElementReader</code> classes as well as various
+other data classes.
+Although there are a number of implementations of
+{@link org.alfresco.config.xml.elementreader.ConfigElementReader}, only
+{@link FormsElementReader} is registered with the ConfigService and the other
+<code>ConfigElementReader</code> classes are delegated to.
+
+<P>
+Note that it is anticipated that these classes will predominantly be used by
+JavaScript&#8482; client code and for that reason, the public API of this package favours
+e.g. <code>String[]</code> return types instead of <code>List&lt;String&gt;</code> types.
+In many cases, an overloaded method which returns a Collection is provided as a
+convenience for Java client code.
+</body>
+</html>

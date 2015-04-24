@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>404page</id>
+   <title>title.404</title>
+   <template-instance>404</template-instance>
+   <authentication>none</authentication>
+   <components/>
+</page>

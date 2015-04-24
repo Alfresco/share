@@ -1,0 +1,90 @@
+body
+{
+   background-color: #B4B4B4;
+   text-align: left;
+}
+
+input
+{
+   border: 1px solid #C5D6E2;
+   padding: 2px;
+   font-weight: normal;
+}
+
+.yui-panel-container.shadow .underlay
+{
+   display: none;
+}
+
+.yui-skin-sam .yui-panel
+{
+   border-style: none;
+}
+
+.login-panel
+{
+   width: 502px;
+   height: 289px;
+   padding-left: 28px;
+   font-family: Arial,Helvetica,sans-serif;
+   font-size: 12px;
+   font-weight: bold;
+   color: #515354;
+   margin: 0 auto;
+}
+
+.login-button
+{
+   background-color: #f0f0f0;
+}
+
+.login-copyright
+{
+   font-family: Arial,Helvetica,sans-serif;
+   font-size: 11px;
+   font-weight: normal;
+   color: #959a9b;
+}
+
+.login-logo
+{
+   top: 16px;
+   height: 58px;
+   width: 225px;
+   background: transparent url("../../images/login-logo.png") no-repeat;
+   margin-bottom: 6px;
+}
+
+.form-field
+{
+   margin: 5px;
+}
+
+#awe-login-wrapper
+{
+  position: absolute;
+  top: 35%;
+  width: 99%;
+  height: 1px;
+  overflow: visible
+}
+
+#awe-login-wrapper #awe-login
+{
+  position: absolute;
+  left: 50%;
+  width: 208px;
+  margin-left: -150px;
+  height: 166px;
+  min-height:166px;
+}
+
+#awe-login-wrapper #awe-login div.ft
+{
+   padding-top:0.5em;
+}
+
+#awe-login-wrapper #awe-login .yui-button
+{
+   margin-left:0;
+}

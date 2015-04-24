@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Feedback comments</shortname>
+  <description>Display feedback comments</description>
+  <url>/comments/display</url>
+</webscript>

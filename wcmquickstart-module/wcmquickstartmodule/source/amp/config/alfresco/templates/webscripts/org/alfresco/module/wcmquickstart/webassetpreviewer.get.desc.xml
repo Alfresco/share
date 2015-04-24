@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Preview Webasset</shortname>
+  <url>/api/webassetpreviewer/{id}</url>
+  <format default="json">argument</format>
+  <authentication>user</authentication>
+  <transaction allow="readonly">required</transaction>
+  <lifecycle>internal</lifecycle>
+</webscript>

@@ -1,0 +1,1 @@
+<import resource="/comments/write.post.js">

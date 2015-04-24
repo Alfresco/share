@@ -1,0 +1,62 @@
+<alfresco-config>
+
+   <plug-ins>
+      <element-readers>
+         <element-reader element-name="forms" class="org.alfresco.web.config.forms.FormsElementReader"/>
+      </element-readers>
+      <evaluators>
+         <evaluator id="node-type" class="org.alfresco.web.config.forms.NodeTypeEvaluator" />
+         <evaluator id="model-type" class="org.alfresco.web.config.forms.ModelTypeEvaluator" />
+         <evaluator id="task-type" class="org.alfresco.web.config.forms.TaskTypeEvaluator" />
+         <evaluator id="aspect" class="org.alfresco.web.config.forms.AspectEvaluator" />
+      </evaluators>
+   </plug-ins>
+   
+   <config>
+      <forms>
+         <default-controls>
+            <type name="text" template="/org/alfresco/components/form/controls/textfield.ftl" />
+            <type name="mltext" template="/org/alfresco/components/form/controls/textarea.ftl" />
+            <type name="int" template="/org/alfresco/components/form/controls/number.ftl" />
+            <type name="float" template="/org/alfresco/components/form/controls/number.ftl" />
+            <type name="double" template="/org/alfresco/components/form/controls/number.ftl" />
+            <type name="long" template="/org/alfresco/components/form/controls/number.ftl" />
+            <type name="boolean" template="/org/alfresco/components/form/controls/checkbox.ftl" />
+            <type name="date" template="/org/alfresco/components/form/controls/date.ftl">
+               <control-param name="submitTime">false</control-param>
+            </type>
+            <type name="datetime" template="/org/alfresco/components/form/controls/date.ftl">
+               <control-param name="showTime">true</control-param>
+            </type>
+            <type name="period" template="/org/alfresco/components/form/controls/period.ftl" />
+            <type name="any" template="/org/alfresco/components/form/controls/textfield.ftl" />
+            <type name="category" template="/org/alfresco/components/form/controls/category.ftl" />
+            <type name="content" template="/org/alfresco/components/form/controls/content.ftl" />
+            <type name="association" template="/org/alfresco/components/form/controls/association.ftl" />
+            <type name="association:cm:person" template="/org/alfresco/components/form/controls/authority.ftl" />
+            <type name="association:cm:authority" template="/org/alfresco/components/form/controls/authority.ftl" />
+            <type name="association:cm:authorityContainer" template="/org/alfresco/components/form/controls/authority.ftl" />
+            <type name="association:packageItems" template="/org/alfresco/components/form/controls/workflow/packageitems.ftl" />
+            <type name="transitions" template="/org/alfresco/components/form/controls/workflow/transitions.ftl" />
+            <type name="taskOwner" template="/org/alfresco/components/form/controls/workflow/taskowner.ftl" />
+            <type name="mbean_operations" template="/org/alfresco/components/form/controls/jmx/operations.ftl" />
+            <!-- Data types that should always be rendered read-only -->
+            <type name="qname" template="/org/alfresco/components/form/controls/readonly.ftl" />
+            <type name="noderef" template="/org/alfresco/components/form/controls/readonly.ftl" />
+            <type name="childassocref" template="/org/alfresco/components/form/controls/readonly.ftl" />
+            <type name="assocref" template="/org/alfresco/components/form/controls/readonly.ftl" />
+            <type name="path" template="/org/alfresco/components/form/controls/readonly.ftl" />
+            <type name="locale" template="/org/alfresco/components/form/controls/readonly.ftl" />
+         </default-controls>
+         <constraint-handlers>
+            <constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory" event="keyup,change" />
+            <constraint type="NUMBER" validation-handler="Alfresco.forms.validation.number" event="keyup" />
+            <constraint type="MINMAX" validation-handler="Alfresco.forms.validation.numberRange" event="keyup" />
+            <constraint type="LIST" validation-handler="Alfresco.forms.validation.inList" event="blur" />
+            <constraint type="REGEX" validation-handler="Alfresco.forms.validation.repoRegexMatch" event="keyup" />
+            <constraint type="LENGTH" validation-handler="Alfresco.forms.validation.length" event="keyup" />
+         </constraint-handlers>
+      </forms>
+   </config>
+
+</alfresco-config>

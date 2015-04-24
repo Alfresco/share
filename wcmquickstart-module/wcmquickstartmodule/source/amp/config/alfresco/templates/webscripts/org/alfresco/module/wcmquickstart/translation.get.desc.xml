@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Translations for Web Asset</shortname>
+  <url>/api/webassettranslations?nodeRef={nodeRef}</url>
+  <format default="json">argument</format>
+  <authentication>user</authentication>
+  <transaction allow="readonly">required</transaction>
+  <lifecycle>internal</lifecycle>
+</webscript>

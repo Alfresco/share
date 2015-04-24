@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn"
+   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+   xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema"
+   expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://alfresco.org">
+
+    <process id="readContactProcess" name="Handle Contact Request">
+
+        <startEvent id="start"
+            activiti:formKey="wswf:submitReadContactTask" />
+        <sequenceFlow id='flow1' 
+            sourceRef='start'
+            targetRef='handleContactRequest' />
+
+        <userTask id="handleContactRequest" name="Handle Contact Task"
+            activiti:formKey="wswf:handleContactRequest">
+           <extensionElements>
+               <activiti:taskListener event="create" class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
+                  <activiti:field name="script">
+                     <activiti:string>
+                      if (typeof bpm_workflowDueDate != 'undefined') task.dueDate = bpm_workflowDueDate
+                      if (typeof bpm_workflowPriority != 'undefined') task.priority = bpm_workflowPriority;
+                     </activiti:string>
+                  </activiti:field>
+               </activiti:taskListener>
+           </extensionElements>
+            <humanPerformer>
+                <resourceAssignmentExpression>
+                    <formalExpression>${bpm_assignee.properties.userName}</formalExpression>
+                </resourceAssignmentExpression>
+            </humanPerformer>
+        </userTask>
+
+        <sequenceFlow id='flow2' 
+        sourceRef='handleContactRequest'
+            targetRef='end' />
+
+        <endEvent id="end" />
+   </process>
+</definitions>

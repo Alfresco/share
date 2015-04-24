@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<!-- Example customer tag library -->
+<taglib>
+   <tlib-version>1.0</tlib-version>
+   <jsp-version>2.0</jsp-version>
+   <short-name>customer</short-name>
+   <display-name>Example customer tag library</display-name>
+   <uri>http://www.alfresco.org/tags/customer</uri>
+   <description>
+      A tag library to represent a customers web application, allows
+      content and properties to be rendered onto a page.
+   </description>
+
+   <tag>
+      <name>content</name>
+      <tag-class>org.customer.ContentTag</tag-class>
+      <body-content>JSP</body-content>
+
+      <attribute>
+         <name>nodeRef</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+   
+   <tag>
+      <name>property</name>
+      <tag-class>org.customer.PropertyTag</tag-class>
+      <body-content>JSP</body-content>
+
+      <attribute>
+         <name>nodeRef</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      
+      <attribute>
+         <name>property</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>      
+   </tag>
+   
+</taglib>

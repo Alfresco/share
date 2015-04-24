@@ -1,0 +1,110 @@
+<alfresco-config>
+
+   <config evaluator="model-type" condition="cm:content">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:name" force="true" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="mimetype" />
+               <show id="cm:content" force="true"/>
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:content">
+                  <control>
+                     <control-param name="editorAppearance">webeditor</control-param>
+                  </control>
+               </field>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">mimeType</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+         
+         <form id="title">
+            <field-visibility>
+               <show id="cm:title" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+            </appearance>
+         </form>
+         
+         <form id="description">
+            <field-visibility>
+               <show id="cm:description" force="true" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Default form configuration for the cm:content type -->
+   <config evaluator="node-type" condition="cm:content">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="cm:content" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:content">
+                  <control>
+                     <control-param name="editorAppearance">webeditor</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+         
+         <form id="title">
+            <field-visibility>
+               <show id="cm:title" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+            </appearance>
+         </form>
+         
+         <form id="description">
+            <field-visibility>
+               <show id="cm:description" force="true" />
+            </field-visibility>
+         </form>
+      </forms>
+   </config>
+   
+   <!-- Default form configuration for the cm:folder type -->
+   <config evaluator="node-type" condition="cm:folder">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+            </appearance>
+          </form>
+      </forms>
+   </config>
+   
+</alfresco-config>

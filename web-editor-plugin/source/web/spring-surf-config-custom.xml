@@ -1,0 +1,22 @@
+<alfresco-config>
+
+   <config>
+      <flags>
+         <client-debug>false</client-debug>
+         <client-debug-autologging>false</client-debug-autologging>
+      </flags>
+   </config>
+
+   <config evaluator="string-compare" condition="WebFramework">
+      <web-framework>
+         <defaults>
+            <user-factory>webframework.factory.user.alfresco</user-factory>
+            <page-type>
+               <id>login</id>
+               <page-instance-id>login</page-instance-id>
+            </page-type>
+         </defaults>
+      </web-framework>
+   </config>
+
+</alfresco-config>

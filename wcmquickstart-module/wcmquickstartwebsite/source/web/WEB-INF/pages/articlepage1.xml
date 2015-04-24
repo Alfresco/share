@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>articlepage1</id>
+   <description>news article style page with medium image</description>
+   <template-instance>two-block</template-instance>
+   <authentication>none</authentication>
+   <components>
+      <component>
+         <region-id>left1</region-id>
+         <url>/article/style1</url>
+      </component>       
+      <component>
+         <region-id>right1</region-id>
+         <url>/related/articles</url>
+      </component>    
+      <component>
+         <region-id>right2</region-id>
+         <url>/facebook/like</url>
+      </component> 
+   </components>
+</page>

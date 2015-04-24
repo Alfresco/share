@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Get secondary information about a given website</shortname>
+  <url>/api/websiteinfo?websiteid={websiteid}</url>
+  <format default="json">argument</format>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+  <lifecycle>draft_public_api</lifecycle>
+</webscript>

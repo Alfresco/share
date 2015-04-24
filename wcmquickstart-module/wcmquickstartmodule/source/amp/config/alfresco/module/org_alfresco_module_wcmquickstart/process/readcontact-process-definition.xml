@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.1" name="wswf:readContactProcess">
+
+    <swimlane name="initiator" />
+
+    <start-state name="start">
+        <task name="wswf:submitReadContactTask" swimlane="initiator" />
+        <transition name="" to="handleContactRequest" />
+    </start-state>
+
+    <swimlane name="reader">
+        <assignment class="org.alfresco.repo.workflow.jbpm.AlfrescoAssignment">
+            <actor>#{bpm_assignee}</actor>
+        </assignment>    
+    </swimlane>
+
+    <task-node name="handleContactRequest">
+        <task name="wswf:handleContactRequest" swimlane="reader"/>
+        <transition name="dealtWith" to="end" />
+    </task-node>
+
+    <end-state name="end" />
+
+</process-definition>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>sectionpage1</id>
+   <description>section landing page with two column article list</description>      
+   <template-instance>two-block</template-instance>
+   <authentication>none</authentication>
+   <components>
+      <component>
+         <region-id>left1</region-id>
+         <url>/list/twocolumn</url>
+	      <properties>
+	         <collection>featured.articles</collection>
+	      </properties>              
+      </component>   
+      <component>
+         <region-id>right1</region-id>
+         <url>/list/links</url>
+          <properties>
+             <collection>section.articles</collection>
+          </properties>              
+      </component>       
+   </components>
+</page>

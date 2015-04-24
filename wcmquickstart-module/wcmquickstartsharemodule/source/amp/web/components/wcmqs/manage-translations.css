@@ -1,0 +1,22 @@
+.manage-translations h2
+{
+   margin: 1em 0;
+}
+
+.manage-translations .status-banner
+{
+   margin-top: 0.75em;
+   padding: 0.5em 1em;
+}
+
+.manage-translations .status-banner span
+{
+   background-repeat: no-repeat;
+   line-height: 1.5em;
+   padding: 1px 0 1px 20px;
+}
+
+.manage-translations .status-banner .info
+{
+   background-image: url(../documentlibrary/images/info-16.png);
+}

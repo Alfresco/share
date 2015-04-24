@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>contactpage1</id>
+   <description>contact us page with form</description>    
+   <title>title.contact</title>
+   <template-instance>two-block</template-instance>
+   <authentication>none</authentication>
+   <components>     
+      <component>
+         <region-id>left1</region-id>
+         <url>/contact/form</url>
+         <properties>
+            <successAsset>thankyou.html</successAsset>
+         </properties>         
+      </component>       
+      <component>
+         <region-id>right1</region-id>
+         <url>/content/named</url>
+         <properties>
+  	     	<asset>location.html</asset>
+    	 </properties>         
+      </component>       
+   </components>
+</page>

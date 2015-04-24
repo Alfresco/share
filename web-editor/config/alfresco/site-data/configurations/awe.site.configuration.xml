@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+   <name>Alfresco Web Editor</name>
+   <description>Alfresco Web Editor</description>
+   <source-id>awe</source-id>
+   <properties>
+      <root-page>metadata</root-page>
+   </properties>
+</configuration>
