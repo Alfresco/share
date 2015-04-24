@@ -111,11 +111,11 @@ public class NewWorkflowPage extends WorkFlowPage
 
     public HtmlPage doubleClickStartWorkflow()
     {
-
         try
         {
             WebElement saveButton = drone.findAndWait(SUBMIT_BUTTON);
             drone.doubleClickOnElement(saveButton);
+            drone.waitUntilElementDisappears(SUBMIT_BUTTON, 1);
         }
         catch (TimeoutException e)
         {

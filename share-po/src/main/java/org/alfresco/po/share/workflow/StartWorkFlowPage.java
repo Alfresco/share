@@ -80,11 +80,6 @@ public class StartWorkFlowPage extends SharePage
                 try
                 {
                     drone.find(WORKFLOW_DROP_DOWN_BUTTON);
-                    if (logger.isTraceEnabled())
-                    {
-                        logger.trace("!!!!!!======== found it ============= ");
-
-                    }
                     break;
                 }
                 catch (NoSuchElementException e)
