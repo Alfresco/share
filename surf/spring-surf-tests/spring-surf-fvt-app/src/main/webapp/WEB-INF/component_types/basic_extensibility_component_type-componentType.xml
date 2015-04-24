@@ -1,0 +1,9 @@
+<component-type>
+    <id>basic_extensibility_component_type-componentType</id>
+    <title>Extensibility Component Type</title>
+    <description></description>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/extensibility/example1</uri>        
+    </processor>	
+</component-type>

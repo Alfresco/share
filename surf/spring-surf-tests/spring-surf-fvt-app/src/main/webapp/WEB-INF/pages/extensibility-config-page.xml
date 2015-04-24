@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>extensibility-config-page</id>
+   <title>Page for testing configuration extensibility features</title>
+   <template-instance>extensibility-config-template</template-instance>
+</page>

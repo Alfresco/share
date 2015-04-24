@@ -1,0 +1,11 @@
+<package>
+    <shortname>Spring Surf Format</shortname>
+    <description>Spring Surf Format Webscripts.</description>
+    <resources>
+        <resource>
+            <shortname>Format</shortname>
+            <description>Spring Surf Format Webscripts.</description>
+            <webscripts>formats.get</webscripts>
+        </resource>
+    </resources>
+</package>

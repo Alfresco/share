@@ -1,0 +1,8 @@
+<component-type>
+    <id>taglib_pagetitle_test-componentType</id>
+    <title>A component type that references a JSP that renders the page title</title>
+    <processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/pageTitle.jsp</uri>
+    </processor>
+</component-type>

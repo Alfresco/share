@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+   <!--                       -->
+   <!-- Configuration Service -->
+   <!--                       -->
+
+   <!-- The following ConfigSource is used as an argument for instantiating the "web.config" bean defined in this
+        configuration file. A ConfigSource can be provided with a number of locations from which to retrieve configuration
+        files. These locations can be referenced as ConfigDeployment objects which are essentially beans maintaining
+        a resource name, an input stream to that resource and a state.
+
+        This particular bean defines locations for the default WebScript, SpringSurf and SpringSurf application configuration
+        files. The "web.config" bean will be able to parse these configuration resources and provide Java class representations
+        of the Evaluators, ConfigElementReaders and ConfigSections they define.
+        -->
+   <bean id="webframework.configsource" class="org.springframework.extensions.config.source.UrlConfigSource">
+      <constructor-arg>
+         <list>
+         
+            <!-- Spring Web Scripts -->
+            <value>classpath:org/springframework/extensions/webscripts/spring-webscripts-config.xml</value>
+            <value>classpath:META-INF/spring-webscripts-config-custom.xml</value>
+            <value>jar:*!/META-INF/spring-webscripts-config-custom.xml</value>
+            
+            <!-- Spring Surf -->
+            <value>classpath:org/springframework/extensions/surf/spring-surf-config.xml</value>
+            <value>classpath:org/springframework/extensions/surf/spring-surf-config-remote.xml</value>
+            <value>classpath:META-INF/spring-surf-config-custom.xml</value>
+            <value>jar:*!/META-INF/spring-surf-config-custom.xml</value>
+            
+            <!-- Surf Autowire Support -->
+            <value>webapp:WEB-INF/surf.xml</value>
+            
+         </list>
+      </constructor-arg>
+   </bean>
+
+   <!-- Override the WebScript configuration "web.config" Spring Bean...
+
+        SpringSurf is included in a web application by importing its configuration files in a Spring DispatcherServlet
+        application context configuration defined the web.xml file. The WebScript configuration files should be imported first
+        followed immediately by importing the SpringSurf configuration files (of which this is one). The order is important
+        because SpringSurf overrides some WebScript Spring Beans so if the SpringSurf configuration files are imported before
+        the WebScript files it will not work. (TODO: This is brittle and should be fixed).
+
+        This is just one such example of overriding... a Spring Bean called "web.config" should already have been defined
+        using the "web.configsource" bean as a constructor argument. Here we override the previously defined "web.config"
+        bean by instantiating an XMLConfigService class using the "webframework.configsource" bean defined in this configuration
+        file. Essentially this bean is identical to the WebScript version except it is constructed using a UrlConfigSource
+        instance that contains references to both WebScript and SpringSurf configuration files.
+
+        The XMLConfigService ("web.config" bean) parses all the configuration files supplied to its ConfigSource ("webframework.configsource"
+        bean) and instantiates Java class representations of the Evaluators, ConfigElementReaders and ConfigSections that they
+        define. These configuration objects can then be retrieved from this bean.
+   -->
+   <bean id="web.config" class="org.springframework.extensions.config.xml.XMLConfigService" init-method="init">
+      <constructor-arg>
+         <ref bean="webframework.configsource" />
+      </constructor-arg>
+   </bean>
+
+   <!-- This is the mapping for the class that backs the SurfBug toggle WebScript (which is used to switch SurfBug on
+        and off. It requires the WebFrameworkConfigElement bean as this is where the status of SurfBug is maintained. -->
+   <bean id="webscript.surfbug.toggleSurfbug.get" class="org.springframework.extensions.surf.webscripts.ToggleSurfBugGET" parent="webscript" scope="prototype">
+      <property name="webFrameworkConfigElement" ref="webframework.config.element"/>
+   </bean>
+   <bean id="webscript.surfbug.toggleSurfbug.post" class="org.springframework.extensions.surf.webscripts.ToggleSurfBugPOST" parent="webscript" scope="prototype">
+      <property name="webFrameworkConfigElement" ref="webframework.config.element"/>
+   </bean>
+
+   <!--  Override the default WebScripts API Index WebScript to that the SurfBug status is available -->
+   <bean id="webscript.org.springframework.extensions.webscripts.index.get" class="org.springframework.extensions.surf.webscripts.IndexWithSurfBug" parent="webscript" scope="prototype">
+      <property name="webFrameworkConfigElement" ref="webframework.config.element"/>
+   </bean>
+
+   <bean id="webscript.extensibility.moduleDeployment.get" class="org.springframework.extensions.surf.webscripts.GetDeployedModules" parent="webscript" scope="prototype">
+      <property name="moduleDeploymentService" ref="module.deployment.service"/>
+   </bean>
+   
+
+   <!--  This is the Java-controller for the client-side error report handling WebScript -->
+   <bean id="webscript.error.reporting.clientside-error.post" class="org.springframework.extensions.surf.webscripts.PostClientSideError" parent="webscript" scope="prototype"/>
+   
+   <bean id="webscript.extensibility.moduleDeployment.post" class="org.springframework.extensions.surf.webscripts.PostDeployedModules" parent="webscript" scope="prototype">
+      <property name="moduleDeploymentService" ref="module.deployment.service"/>
+   </bean>
+   <bean id="webscript.extensibility.extensionModule.post" class="org.springframework.extensions.surf.webscripts.AddExtensionModule" parent="webscript" scope="prototype">
+      <property name="moduleDeploymentService" ref="module.deployment.service"/>
+   </bean>
+   <bean id="webscript.extensibility.deleteExtensionModule.get" class="org.springframework.extensions.surf.webscripts.DeleteExtensionModule" parent="webscript" scope="prototype">
+      <property name="moduleDeploymentService" ref="module.deployment.service"/>
+   </bean>
+   
+   <!--                                                 -->
+   <!-- Provider Implementations                        -->
+   <!--                                                 -->
+
+   <bean id="webframework.previewcontext.provider" class="org.springframework.extensions.surf.PreviewContextProviderImpl" />
+
+   <bean id="webframework.connector.provider" class="org.springframework.extensions.surf.WebFrameworkConnectorProvider">
+      <property name="connectorService" ref="connector.service" />
+   </bean>   
+
+
+   
+   <!--                                                 -->
+   <!-- Configuration of Abstract Store Implementations -->
+   <!--                                                 -->
+   
+   <bean id="webframework.store.classpath.abstract" class="org.springframework.extensions.webscripts.ClassPathStore" abstract="true" init-method="init" />
+   
+   <!-- The following sections defines an abstract bean "webframework.store.remote.abstract" that extends the abstract bean
+        "webscripts.remotestore" that is defined in the "spring-webscripts-application-context.xml" file found in the "spring-webscripts"
+        project. The "webscripts.remotestore" bean only requires that extending beans are instances of "org.springframework.extensions.webscripts.RemoteStore".
+
+        This bean is extended by the "webframework.webapp.store.root", "webframework.webbapp.store.local" and "webframework.webapp.store.remote"
+        beans that are defined further on in this configuration file. The purpose of this bean is to define the properties that are common to all
+        the extending beans.
+    -->      
+   <bean id="webframework.store.remote.abstract" parent="webscripts.remotestore" abstract="true" init-method="init">
+      <property name="endpoint">
+         <value>alfresco</value>
+      </property>
+      <property name="api">
+         <value>/remotestore</value>
+      </property>
+      <property name="webappPathPrefix">
+         <value>/WEB-INF/classes</value>
+      </property>
+      <property name="connectorService" ref="connector.service" />
+      <property name="connectorProvider" ref="webframework.connector.provider" />
+      <property name="previewContextProvider" ref="webframework.previewcontext.provider" />
+   </bean>
+   <bean id="webframework.store.local.abstract" class="org.springframework.extensions.webscripts.LocalFileSystemStore" abstract="true" init-method="init">
+      <property name="root">
+         <value>/deploy/files</value>
+      </property>
+   </bean>
+   <bean id="webframework.store.webapp.abstract" class="org.springframework.extensions.webscripts.WebApplicationStore" abstract="true" init-method="init">
+      <property name="path"><value>/</value></property>
+   </bean>
+   
+
+   
+   <!--                                              -->
+   <!-- Configuration of Root Web Application Stores -->
+   <!--                                              -->
+  
+   <bean id="webframework.webapp.store.root" parent="webframework.store.webapp.abstract">
+      <property name="path"><value>/</value></property>
+   </bean>
+   <bean id="webframework.webapp.store.local" parent="webframework.store.local.abstract">
+      <property name="path"><value>/</value></property>
+   </bean>
+   <bean id="webframework.webapp.store.remote" parent="webframework.store.remote.abstract">
+      <property name="path"><value>/</value></property>
+   </bean>
+
+
+
+   <!--                                                     -->
+   <!-- Configuration of the Web Script Runtime / Container -->
+   <!--                                                     -->   
+
+   <!-- Web Scripts - Stores -->
+   <bean id="webframework.webscripts.store.classpath" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>
+      <property name="classPath"><value>surf/webscripts</value></property>
+   </bean>
+   <bean id="webframework.webscripts.store.remote" parent="webframework.store.remote.abstract">
+      <property name="path"><value>surf/webscripts</value></property>
+   </bean>
+   <bean id="webframework.webscripts.store.local" parent="webframework.store.local.abstract">
+      <property name="path"><value>surf/webscripts</value></property>
+   </bean>
+   <bean id="webframework.webscripts.store.alfresco.classpath" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>
+      <property name="classPath"><value>alfresco/site-webscripts</value></property>
+   </bean>
+   <bean id="webframework.webscripts.store.alfresco.custom" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>
+      <property name="classPath"><value>alfresco/web-extension/site-webscripts</value></property>
+   </bean>
+   <bean id="webframework.webscripts.store.webinf" parent="webframework.store.webapp.abstract">
+      <property name="path"><value>/WEB-INF</value></property>
+   </bean>
+   
+   <!-- Web Scripts - Search Path -->   
+   <bean id="webframework.webscripts.searchpath" class="org.springframework.extensions.webscripts.SearchPath">
+      <property name="searchPath">
+         <list>
+            <ref bean="webframework.webscripts.store.alfresco.custom" />
+            <ref bean="webframework.webscripts.store.alfresco.classpath" />
+            <ref bean="webframework.webscripts.store.classpath" />
+            <ref bean="webscripts.store.alfresco" />
+            <ref bean="webscripts.store" />
+         </list>
+      </property>
+   </bean>
+   
+   <!-- Web Scripts - Registries and default processors -->
+   
+   <bean id="webframework.webscripts.registry.templateprocessor" class="org.springframework.extensions.webscripts.TemplateProcessorRegistry" />      
+
+   <bean id="webframework.webscripts.registry.scriptprocessor" class="org.springframework.extensions.webscripts.ScriptProcessorRegistry" />
+   
+   <bean id="webframework.webscripts.templateprocessor.freemarker" class="org.springframework.extensions.webscripts.processor.FTLTemplateProcessor">
+      <property name="searchPath" ref="webframework.webscripts.searchpath" />
+      <property name="defaultEncoding"><value>UTF-8</value></property>
+      <property name="templateProcessorRegistry" ref="webframework.webscripts.registry.templateprocessor" />
+   </bean>
+   
+   <bean id="webframework.webscripts.scriptprocessor.javascript" class="org.springframework.extensions.webscripts.processor.JSScriptProcessor">
+      <property name="searchPath" ref="webframework.webscripts.searchpath" />
+      <property name="scriptProcessorRegistry" ref="webframework.webscripts.registry.scriptprocessor" />
+   </bean>
+
+   <!-- Web Scripts - Container Configuration -->
+    
+   <!--  The Module Deployment Service controls how Extension Modules are deployed. It operates in two different configurable modes specified
+         through the "module-deployment" configuration element. In "auto" mode all extension modules configured are automatically deployed
+         for dynamic evaluation (with random ordering). In "manual" mode extension modules will only be available for dynamic evaluation if
+         they have been manually deployed through the WebScript API. Manually deployed modules will be configured in a specific order and 
+         the default module evaluation properties can be modified. --> 
+   <bean id="module.deployment.service" class="org.springframework.extensions.surf.ModuleDeploymentService">
+      <property name="modelObjectService"          ref="webframework.service.modelobject"/>
+      <property name="webFrameworkConfiguration"   ref="webframework.config.element"/>
+      <property name="webScriptRegistry" ref="webscripts.registry"/>
+   </bean> 
+    
+   <!-- This is the default ExtensibilityHandler. It returns information on all the Extension objects defined for 
+        the application. It is set as a property of the WebScripts container so that WebScripts can process extensions 
+        to their templates-->
+   <bean id="webscripts.extensibility.handler" class="org.springframework.extensions.surf.extensibility.impl.BasicExtensibilityModuleHandler">
+      <property name="moduleDeploymentService" ref="module.deployment.service"/>
+      <property name="defaultModuleEvaluator"  ref="default.extensibility.evaluator"/>
+   </bean>
+      
+   <!-- This defines a basic extensibility module evaluator that will automatically approve all modules. Module extension templates will
+        still only get applied if the modules target package matches that of the template being processed. -->
+   <bean id="default.extensibility.evaluator" class="org.springframework.extensions.surf.extensibility.impl.ApproveAllModulesEvaluator" />
+   
+   <!--  This is a sample Evaluator that allows modules to be applied only when configured to do so -->
+   <bean id="config.approval.evaluator" class="org.springframework.extensions.surf.extensibility.impl.ConfigApprovalEvaluator" />   
+   <bean id="default.component.evaluator" class="org.springframework.extensions.surf.extensibility.impl.DefaultSubComponentEvaluator" />
+   <bean id="rejection.component.evaluator" class="org.springframework.extensions.surf.extensibility.impl.RejectionSubComponentEvaluator" />
+      
+   <bean id="webframework.webscripts.index" class="org.springframework.extensions.webscripts.JaxRSUriIndex" />
+   
+   <bean id="url.model.factory" class="org.springframework.extensions.webscripts.DefaultURLModelFactory"/>
+   
+   <bean id="webscripts.container" parent="webscripts.abstractcontainer" class="org.springframework.extensions.webscripts.LocalWebScriptRuntimeContainer">
+      <property name="name"><value>Spring Surf Container</value></property>
+      <property name="registry" ref="webscripts.registry" />
+      <property name="searchPath" ref="webframework.webscripts.searchpath" />
+      <property name="templateProcessorRegistry" ref="webframework.webscripts.registry.templateprocessor" />
+      <property name="scriptProcessorRegistry" ref="webframework.webscripts.registry.scriptprocessor" />
+      <property name="scriptParameterFactoryRegistry" ref="webscripts.web.scriptparameterfactoryregistry" />
+      <property name="configService" ref="web.config" />
+      <property name="scriptObjects">
+         <map merge="true">
+            <entry key="remote" value-ref="webframework.webscripts.scriptremote" />
+         </map>
+      </property>
+      <property name="processorModelHelper" ref="processor.model.helper"/>
+      <property name="extensibilityModuleHandler" ref="webscripts.extensibility.handler"/>
+      <property name="urlModelFactory" ref="url.model.factory"/>
+   </bean>
+   
+   <bean id="webframework.webscripts.scriptremote" class="org.springframework.extensions.webscripts.ScriptRemote">
+      <property name="connectorService" ref="connector.service" />
+      <property name="connectorProvider" ref="webframework.connector.provider"/>
+   </bean>
+   
+   <bean id="webscripts.registry" class="org.springframework.extensions.webscripts.DeclarativeRegistry">
+      <property name="container" ref="webscripts.container" />
+      <property name="uriIndex" ref="webframework.webscripts.index" />
+      <property name="searchPath" ref="webframework.webscripts.searchpath" />
+      <property name="defaultWebScript"><value>webscript.default</value></property>
+   </bean>
+   
+
+   
+   <!--                                                    -->
+   <!-- Configuration of the FreeMarker Template Processor -->
+   <!--                                                    -->
+   
+   <!-- Templates - Stores -->
+   
+   <bean id="webframework.templates.store.classpath" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>
+      <property name="classPath"><value>surf/templates</value></property>
+   </bean>
+   <bean id="webframework.templates.store.remote" parent="webframework.store.remote.abstract">
+      <property name="path"><value>surf/templates</value></property>
+   </bean>
+   <bean id="webframework.templates.store.local" parent="webframework.store.local.abstract">
+      <property name="path"><value>surf/templates</value></property>
+   </bean>
+   <bean id="webframework.templates.store.alfresco.classpath" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>
+      <property name="classPath"><value>alfresco/templates</value></property>
+   </bean>
+   <bean id="webframework.templates.store.alfresco.custom" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>
+      <property name="classPath"><value>alfresco/web-extension/templates</value></property>
+   </bean>
+   <bean id="webframework.templates.store.webinf" parent="webframework.store.webapp.abstract">
+      <property name="path"><value>/WEB-INF/templates</value></property>
+   </bean>
+   
+   <!-- Templates - Search Path -->
+   
+   <bean id="webframework.templates.searchpath" class="org.springframework.extensions.webscripts.SearchPath">
+      <property name="searchPath">
+         <list>
+            <ref bean="webframework.templates.store.alfresco.custom" />
+            <ref bean="webframework.webscripts.store.alfresco.custom" />
+            <ref bean="webframework.templates.store.alfresco.classpath" />
+            <ref bean="webframework.webscripts.store.alfresco.classpath" />
+            <ref bean="webframework.templates.store.classpath" />
+            <ref bean="webframework.webscripts.store.classpath" />
+         </list>
+      </property>
+   </bean>
+   
+   <!-- Templates - Registries and default processors -->
+   
+   <bean id="webframework.templates.registry.templateprocessor" class="org.springframework.extensions.webscripts.TemplateProcessorRegistry" />      
+
+   <bean id="webframework.templates.registry.scriptprocessor" class="org.springframework.extensions.webscripts.ScriptProcessorRegistry" />
+   
+   <bean id="webframework.templates.templateprocessor.freemarker" class="org.springframework.extensions.webscripts.processor.FTLTemplateProcessor">
+      <property name="searchPath" ref="webframework.templates.searchpath" />
+      <property name="defaultEncoding"><value>UTF-8</value></property>
+      <property name="updateDelay"><value>600</value></property>
+      <property name="templateProcessorRegistry" ref="webframework.templates.registry.templateprocessor" />
+   </bean>
+   
+   <bean id="webframework.templates.scriptprocessor.javascript" class="org.springframework.extensions.webscripts.processor.JSScriptProcessor">
+      <property name="searchPath" ref="webframework.templates.searchpath" />
+      <property name="scriptProcessorRegistry" ref="webframework.templates.registry.scriptprocessor" />
+   </bean>
+
+   <!-- Templates - Container Configuration -->
+   
+   <bean id="webframework.templates.container" class="org.springframework.extensions.surf.TemplatesContainer">
+      <property name="templateProcessorRegistry" ref="webframework.templates.registry.templateprocessor" />
+      <property name="scriptProcessorRegistry" ref="webframework.templates.registry.scriptprocessor" />
+   </bean>
+   
+   
+   
+   <!--                             -->
+   <!--  Web Script Implementations -->
+   <!--                             -->
+ 
+   <!--  I18N resources and messages Web Script -->
+   <bean id="webscript.org.springframework.extensions.messages.get" parent="webscript" class="org.springframework.extensions.webscripts.MessagesWebScript" scope="prototype">
+      <property name="webFrameworkConfigElement" ref="webframework.config.element"/>
+      <property name="dependencyHandler"         ref="dependency.handler"/>
+   </bean>
+   
+   <bean id="webscript.org.springframework.extensions.messages.post" parent="webscript" class="org.springframework.extensions.webscripts.MessagesWebScript" scope="prototype" />
+   
+   
+   
+   <!--                           -->
+   <!-- Web Script Authenticators -->
+   <!--                           -->
+
+   <!-- HTTP Basic Authenticator (Servlet based) -->
+   <bean id="webscripts.authenticator.basic" class="org.springframework.extensions.webscripts.BasicHttpAuthenticatorFactory">
+      <property name="connectorService" ref="connector.service" />
+      <property name="endpointId" value="alfresco-feed" />
+   </bean>
+
+   <!-- HTTP Basic Delegating Authenticator (Servlet based) -->
+   <bean id="webscripts.authenticator.delegatingbasic" class="org.springframework.extensions.webscripts.BasicHttpAuthenticatorFactory">
+      <property name="connectorService" ref="connector.service" />
+      <property name="endpointId" value="alfresco-feed" />
+      <property name="delegate" value="true" />
+   </bean>
+   
+   
+   
+   <!--                                      -->
+   <!-- Web Framework Render View Processors -->
+   <!--                                      -->   
+
+   <bean id="webframework.rendition.processor.webscript" class="org.springframework.extensions.webscripts.WebScriptProcessor">
+      <property name="container"                  ref="webscripts.container" />
+      <property name="processorModelHelper"       ref="processor.model.helper"/>
+      <property name="configService"              ref="web.config"/>
+   </bean>
+
+   <bean id="webframework.rendition.processor.webtemplate" class="org.springframework.extensions.webscripts.WebTemplateProcessor">
+      <property name="templateProcessorRegistry" ref="webframework.templates.registry.templateprocessor" />
+      <property name="scriptProcessorRegistry"   ref="webframework.templates.registry.scriptprocessor" />
+      <property name="processorModelHelper"      ref="processor.model.helper"></property>
+      <property name="webFrameworkConfigElement" ref="webframework.config.element"></property>
+      <property name="scriptObjects">
+         <map>
+            <entry key="remote" value-ref="webframework.webscripts.scriptremote" />
+            <entry key="stringUtils">
+               <bean class="org.springframework.extensions.webscripts.ScriptableUtils"/>
+            </entry>
+         </map>
+      </property>
+   </bean>
+
+   <!-- Provide an "alias" to the webframework.rendition.processor.webtemplate" Bean to support function documented in
+        Professional Alfresco (in Online Appendix E regarding use of Chrome) -->
+   <bean id="webframework.rendition.processor.freemarker" parent="webframework.rendition.processor.webtemplate" />
+
+   <bean id="webframework.rendition.processor.jsp" class="org.springframework.extensions.surf.render.bean.JSPProcessor" />
+
+
+
+   <!--                                        -->
+   <!-- Web Framework - Model Object Renderers -->
+   <!--                                        -->
+   
+   <!-- This abstract bean is extended by all the concrete object renderers (PageRenderer, TemplateInstanceRenderer, etc) and exists 
+        so define the RenderService property that all child beans require.-->
+   <bean id="webframework.renderer.abstract" abstract="true" class="org.springframework.extensions.surf.render.AbstractRenderer">
+       <property name="renderService" ref="webframework.service.render"></property>   
+   </bean>
+   
+   <bean id="webframework.renderer.chrome" class="org.springframework.extensions.surf.render.bean.ChromeRenderer" parent="webframework.renderer.abstract"/>
+   <bean id="webframework.renderer.component" class="org.springframework.extensions.surf.render.bean.ComponentRenderer" parent="webframework.renderer.abstract">
+       <property name="chromeRenderer" ref="webframework.renderer.chrome"/>
+   </bean>
+   <bean id="webframework.renderer.page" class="org.springframework.extensions.surf.render.bean.PageRenderer" parent="webframework.renderer.abstract">
+       <property name="templateRenderer"   ref="webframework.renderer.template"/>
+       <property name="modelObjectService" ref="webframework.service.modelobject"/>
+   </bean>
+   <bean id="webframework.renderer.region" class="org.springframework.extensions.surf.render.bean.RegionRenderer" parent="webframework.renderer.abstract">
+       <property name="chromeRenderer" ref="webframework.renderer.chrome"/>
+   </bean>
+   <bean id="webframework.renderer.template" class="org.springframework.extensions.surf.render.bean.TemplateInstanceRenderer" parent="webframework.renderer.abstract">
+       <property name="webFrameworkConfigElement" ref="webframework.config.element"/>
+   </bean>
+   
+   <!--                                                 -->
+   <!-- Import Script and Template Processor Extensions -->
+   <!--                                                 -->
+   
+   <import resource="classpath*:org/springframework/extensions/surf/web-framework-script-services-context.xml" />
+   <import resource="classpath*:org/springframework/extensions/surf/web-framework-template-services-context.xml" />
+   
+   <!--                                   -->
+   <!-- Import additional extensions code -->
+   <!--                                   -->
+   
+   <import resource="classpath*:surf-bootstrap-context.xml" />
+   <import resource="classpath*:org/springframework/extensions/surf/bootstrap/*-context.xml" />
+      
+</beans>

@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>WebScript Intended To Not Be Replaced In Extension Test</shortname>
+  <description></description>
+  <url>/extensibility/test/contentToKeep</url>
+  <family>RegionExtensibilityTests</family>
+</webscript>

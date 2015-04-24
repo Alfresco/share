@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+   <!-- Add our config location into the mix -->
+   <bean id="webframework.configsource" class="org.springframework.extensions.config.source.UrlConfigSource">
+      <constructor-arg>
+         <list>
+         
+            <!-- Spring Web Scripts -->
+            <value>classpath:org/springframework/extensions/webscripts/spring-webscripts-config.xml</value>
+            <value>classpath:META-INF/spring-webscripts-config-custom.xml</value>
+            <value>jar:*!/META-INF/spring-webscripts-config-custom.xml</value>
+            
+            <!-- Spring Surf -->
+            <value>classpath:org/springframework/extensions/surf/spring-surf-config.xml</value>
+            <value>classpath:org/springframework/extensions/surf/spring-surf-config-remote.xml</value>
+            <value>classpath:META-INF/spring-surf-config-custom.xml</value>
+            <value>jar:*!/META-INF/spring-surf-config-custom.xml</value>
+            
+            <!-- Surf Autowire Support -->
+            <value>webapp:WEB-INF/surf.xml</value>
+            
+            <!-- Custom location -->
+            <value>classpath:org/springframework/extensions/surf/config/configuration-override-test-config.xml</value>
+            
+         </list>
+      </constructor-arg>
+   </bean>
+
+
+   <!-- Test Beans -->
+   <bean id="webframework.factory.requestcontext.test1" class="org.springframework.extensions.surf.config.TestRequestContextFactory" parent="webframework.factory.base" />
+   <bean id="webframework.factory.linkbuilder.test1" class="org.springframework.extensions.surf.config.TestLinkBuilderFactory" parent="webframework.factory.base" />
+   <bean id="webframework.factory.user.test1" class="org.springframework.extensions.surf.config.TestUserFactory" parent="webframework.factory.base" />
+
+   
+</beans>

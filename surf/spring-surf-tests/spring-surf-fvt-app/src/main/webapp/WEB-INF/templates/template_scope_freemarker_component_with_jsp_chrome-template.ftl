@@ -1,0 +1,1 @@
+BeforeTemplateScopeFreemarkerComponent<@region id="template_scope_freemarker_component_with_jsp_chrome-region" scope="template"/>AfterTemplateScopeFreemarkerComponent

@@ -1,0 +1,14 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<component>
+    <!-- It is not necessary to explicitly define an id - this is only required when the name
+         of the configuration file does not match the id generated. For example, an id element
+         would NOT be required if this file was called "template.region3.template-with-regions.xml". 
+         This is because the Component is looked up using a generated path when an id is NOT present -->
+    <id>template.region3.template-with-regions</id>
+    <region-id>region3</region-id>
+    <source-id>template-with-regions</source-id>
+    <scope>template</scope>
+    <uri>/basic/webscript2</uri>
+</component>

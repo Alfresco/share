@@ -13,6 +13,7 @@
         <module>share-services</module>
         <module>share</module>
         <module>share-po</module>
+        <module>surf</module>
         <module>alfresco</module>
     </modules>
 

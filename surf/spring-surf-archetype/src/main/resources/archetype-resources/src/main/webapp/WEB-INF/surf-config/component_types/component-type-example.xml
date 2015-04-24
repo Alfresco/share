@@ -1,0 +1,45 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<component-type>
+    <!-- A ComponentType is a way of defining a set of common processors that can be re-used by 
+	     multiple Components. If a ComponentType is not specified in a Component then it the default
+         behaviour is to use the "webscript" ComponentType that is defined in the 
+         "resources/surf/site/component-types/webscript.xml" in the "spring-surf-${version}.jar"
+         file.
+         
+         It is possible to override the ComponentType URL in a Component so the only reason to use
+         a ComponentType is when you want to render a Component with a processor other than the 
+         WebScript processor (e.g. a FreeMarker template, a JSP or some other custom processor).
+    -->
+    <id>component-type-example</id>
+    <title>An example of a ComponentType</title>
+
+	<!-- Example definitions of processors. There are theoretically multiple
+         processing modes, but in practice only "view" is ever used. There are three
+         processors configured by default:
+             * webtemplate = FreeMarker
+             * jsp = JSP
+             * webscript = WebScript
+    -->	
+	
+	<!-- FreeMarker example - the URI is relative to any templates store (the .ftl extension is assumed) -->
+    <processor mode="view">
+        <id>webtemplate</id>
+        <uri>org/example/components/component-template</uri>
+    </processor>
+	
+	<!-- 	
+	JSP example - the uri is relative to the web application root
+	<processor mode="view">
+        <id>jsp</id>
+        <uri>jsps/component.jsp</uri>
+    </processor>
+	
+	WebScript example - the uri should map to a value defined in a WebScript descriptor file
+	<processor mode="view">
+        <id>webscript</id>
+        <uri>/component1</uri>
+    </processor>
+    -->	
+</component-type>

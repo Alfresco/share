@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+    <id>pageargs_and_properties-page</id>
+    <title>Page including page args and scoped properties.</title>
+    <template-instance>pageargs_and_properties-template</template-instance>	
+	<properties>
+	    <prop>pageProp</prop>
+	</properties> 
+    <components>
+        <component>
+            <region-id>webscript_page_args-region</region-id>
+            <component-type-id>webscript_page_args-componentType</component-type-id>
+        </component> 
+        <component>
+            <region-id>webscript_page_properties-region</region-id>
+            <component-type-id>webscript_page_properties-componentType</component-type-id>
+			<properties>
+	             <prop>componentProp</prop>
+            </properties>  
+        </component>		
+    </components>   
+</page>

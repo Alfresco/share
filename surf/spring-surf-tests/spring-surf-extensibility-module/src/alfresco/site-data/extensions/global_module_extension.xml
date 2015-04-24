@@ -1,0 +1,13 @@
+<extension>
+   <modules>
+        <module>
+            <id>Global-Module</id>
+			<customizations>
+			    <customization>
+                    <targetPackageRoot>webscripts.extensibility</targetPackageRoot>
+                    <sourcePackageRoot>webscripts.extensibility.extension1.module1</sourcePackageRoot>
+			    </customization>
+            </customizations>
+        </module>
+   </modules>
+</extension>

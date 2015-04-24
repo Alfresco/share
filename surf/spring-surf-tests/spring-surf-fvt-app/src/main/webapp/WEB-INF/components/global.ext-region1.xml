@@ -1,0 +1,12 @@
+<component>
+  <id>global.ext-region1</id>
+  <region-id>ext-region1</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <uri>/extensibility/webscript/1</uri>
+  <properties>
+     <msg-key-one>ext_ws1.one</msg-key-one>
+     <msg-key-two>ext_ws1.two</msg-key-two>
+     <msg-key-three>ext_ws1.three</msg-key-three>
+  </properties>
+</component>

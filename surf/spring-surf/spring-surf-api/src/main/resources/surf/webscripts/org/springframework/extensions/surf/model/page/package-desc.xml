@@ -1,0 +1,11 @@
+<package>
+    <shortname>Spring Surf Model Page</shortname>
+    <description>Spring Surf Model Page related Webscripts.</description>
+    <resources>
+        <resource>
+            <shortname>Page Template</shortname>
+            <description>Webscripts for managing Spring Surf page templates.</description>
+            <webscripts>template.delete,template.post,templates.get</webscripts>
+        </resource>
+    </resources>
+</package>

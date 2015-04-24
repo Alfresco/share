@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-type>
+	<title>Web Template Type</title>
+	<description>Web Template Type</description>
+
+	<!-- Define the rendering processors for this template type -->	
+    <processor mode="view">
+       <id>webtemplate</id>
+    </processor>
+    
+</template-type>

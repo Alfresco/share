@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+   <!--                             -->
+   <!-- Abstract Sitedata Persister -->
+   <!--                             -->
+
+   <bean id="webframework.sitedata.persister.abstract" abstract="true">
+      <property name="webFrameworkConfig" ref="webframework.config.element"/>
+      <property name="persisterService"   ref="webframework.service.persister" />
+      <property name="cache"><value>false</value></property>
+      <property name="cacheCheckDelay"><value>-1</value></property>
+      <property name="pathPrefix"><value>/${objectTypeIds}</value></property>
+   </bean> 
+
+
+   <!--                            -->
+   <!-- Abstract WEB-INF Persister -->
+   <!--                            -->
+
+   <bean id="webframework.webinf.persister.abstract" abstract="true">
+      <property name="webFrameworkConfig" ref="webframework.config.element"/>
+      <property name="persisterService"   ref="webframework.service.persister" />
+      <property name="cache"><value>false</value></property>
+      <property name="cacheCheckDelay"><value>-1</value></property>      
+   </bean> 
+
+
+   <!--                                        -->
+   <!-- Alfresco Classpath Sitedata Persisters -->
+   <!--                                        -->
+
+   <bean id="webframework.sitedata.store.alfresco-classpath" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>   
+      <property name="classPath"><value>alfresco/site-data</value></property>
+   </bean>
+   <bean id="webframework.sitedata.persister.alfresco-classpath" class="org.springframework.extensions.surf.persister.StoreObjectPersister" parent="webframework.sitedata.persister.abstract">
+      <property name="store" ref="webframework.sitedata.store.alfresco-classpath" />
+   </bean>
+
+   <bean id="webframework.sitedata.store.classpath.alfresco-custom" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>   
+      <property name="classPath"><value>alfresco/web-extension/site-data</value></property>
+   </bean>   
+   <bean id="webframework.sitedata.persister.classpath.alfresco-custom" class="org.springframework.extensions.surf.persister.StoreObjectPersister" parent="webframework.sitedata.persister.abstract">
+      <property name="store" ref="webframework.sitedata.store.classpath.alfresco-custom" />
+   </bean>
+
+
+
+   <!--                               -->
+   <!-- Classpath Sitedata Persisters -->
+   <!--                               -->
+
+   <bean id="webframework.sitedata.store.classpath" parent="webframework.store.classpath.abstract">
+      <property name="mustExist"><value>false</value></property>   
+      <property name="classPath"><value>surf/site</value></property>
+   </bean>
+   <bean id="webframework.sitedata.persister.classpath" class="org.springframework.extensions.surf.persister.StoreObjectPersister" parent="webframework.sitedata.persister.abstract">
+      <property name="store" ref="webframework.sitedata.store.classpath" />
+   </bean>
+
+
+
+   <!-- Web Framework - WEB-INF Object Persisters -->
+   <bean id="webframework.webinf.persister.remote" class="org.springframework.extensions.surf.persister.StoreObjectPersister" parent="webframework.webinf.persister.abstract">
+      <property name="store" ref="webframework.webapp.store.remote" />
+      <property name="pathPrefix"><value>/WEB-INF/site/${objectTypeIds}</value></property>
+   </bean>
+   <bean id="webframework.webinf.persister.local" class="org.springframework.extensions.surf.persister.StoreObjectPersister" parent="webframework.webinf.persister.abstract">
+      <property name="store" ref="webframework.webapp.store.local" />
+      <property name="pathPrefix"><value>/WEB-INF/site/${objectTypeIds}</value></property>
+   </bean>
+   <bean id="webframework.webinf.persister.root" class="org.springframework.extensions.surf.persister.ReadOnlyStoreObjectPersister" parent="webframework.webinf.persister.abstract">
+      <property name="store" ref="webframework.webapp.store.root" />
+      <property name="pathPrefix"><value>/WEB-INF/site/${objectTypeIds}</value></property>
+   </bean>
+   
+   
+   <!--                             -->
+   <!-- Surf Model Object Persister -->
+   <!--                             -->
+   
+   <bean id="webframework.objects.persister" class="org.springframework.extensions.surf.persister.MultiObjectPersister">
+      <property name="webFrameworkConfig" ref="webframework.config.element"/>
+      <property name="persisterService"   ref="webframework.service.persister" />      
+      <property name="persisters">
+         <list>
+            <ref bean="webframework.sitedata.persister.classpath.alfresco-custom" />
+            <ref bean="webframework.sitedata.persister.alfresco-classpath" />
+            <ref bean="webframework.sitedata.persister.classpath" />            
+         </list>
+      </property>
+      <property name="defaultPersister">
+          <ref bean="webframework.sitedata.persister.classpath" />
+      </property>
+   </bean>
+
+</beans>

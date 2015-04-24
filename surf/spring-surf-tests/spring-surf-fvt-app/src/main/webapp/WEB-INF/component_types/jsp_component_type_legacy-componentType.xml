@@ -1,0 +1,13 @@
+<component-type>
+    <id>jsp_component_type_legacy-componentType</id>
+    <title>A JSP Rendered Component Type</title>
+    <description>This component type references simple_jsp_1.jsp</description>
+    <processor mode="view">
+        <id>jsp</id>
+        <jsp-path>/WEB-INF/JSPs/simple_jsp_1.jsp</jsp-path>
+    </processor>
+	<processor mode="edit">
+        <id>jsp</id>
+        <jsp-path>/WEB-INF/JSPs/simple_jsp_4.jsp</jsp-path>
+    </processor>
+</component-type>

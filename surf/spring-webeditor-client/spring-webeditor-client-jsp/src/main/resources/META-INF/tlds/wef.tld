@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<!-- Spring Web Editor client tag library -->
+<taglib>
+   <tlib-version>1.0</tlib-version>
+   <jsp-version>2.0</jsp-version>
+   <short-name>wef</short-name>
+   <uri>http://www.springframework.org/tags/wef</uri>
+   <display-name>Spring Web Editor Taglib</display-name>
+   <description>
+      Tag library consisting of Spring Web Editor tags
+   </description>
+
+   <tag>
+      <name>startTemplate</name>
+      <tag-class>org.springframework.extensions.webeditor.taglib.StartTemplateTag</tag-class>
+      <body-content>JSP</body-content>
+      <display-name>Start Template</display-name>
+      <description>
+         Indicates the start of a page that potentially contains in-context editable content.
+         This tag should be placed in the &lt;head&gt; section of the page.
+      </description>
+      <attribute>
+         <name>toolbarLocation</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+            Specifies the default location of the toolbar, can be set to "top", "left" or "right",
+            defaults to "top"
+         </description>
+      </attribute>
+   </tag>
+   
+   <tag>
+      <name>endTemplate</name>
+      <tag-class>org.springframework.extensions.webeditor.taglib.EndTemplateTag</tag-class>
+      <body-content>JSP</body-content>
+      <display-name>End Template</display-name>
+      <description>
+         Indicates the end of a page that potentially contains in-context editable content.
+         This tag should be placed at the end of the &lt;body&gt; section of the page.
+      </description>
+   </tag>
+
+</taglib>

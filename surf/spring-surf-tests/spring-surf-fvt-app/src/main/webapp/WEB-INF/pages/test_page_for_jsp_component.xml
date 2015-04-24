@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>test_page_for_component_jsp</id>
+   <title>Test Page For JSP Component</title>
+   <template-instance>test_template_for_component_jsp</template-instance>
+   <components>
+      <component>
+         <region-id>test_component_jsp</region-id>
+         <component-type-id>test_component_type_jsp</component-type-id>
+      </component>   
+   </components>   
+</page>

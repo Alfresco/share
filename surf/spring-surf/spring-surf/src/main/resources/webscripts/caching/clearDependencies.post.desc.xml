@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Clear dependency caches</shortname>
+  <description>Clears all the caches from the various configured dependency handlers.</description>
+  <url>/caches/dependency/clear</url>
+  <authentication>admin</authentication>
+  <lifecycle>internal</lifecycle>
+  <family>Caching</family>
+</webscript>

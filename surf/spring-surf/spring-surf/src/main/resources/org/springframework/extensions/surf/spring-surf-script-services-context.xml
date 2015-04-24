@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+   <!-- Base config implementation that script extension beans extend from - for auto registration
+        as an extension script object with a ScriptProcessor -->
+   <bean id="baseScriptExtension" abstract="true" init-method="register">
+      <property name="processors">
+         <list>
+            <ref bean="webframework.webscripts.scriptprocessor.javascript" />
+            <ref bean="webframework.templates.scriptprocessor.javascript" />
+         </list>
+      </property>
+   </bean>
+   
+   <!-- Extension to allow View Resolver cache manipulation from scripts -->
+   <bean id="surf.scriptprocessor.viewResolverScriptUtil" parent="baseScriptExtension" class="org.springframework.extensions.surf.mvc.ViewResolverScriptUtil">
+      <property name="viewResolver" ref="pageViewResolver" />
+      <property name="extensionName" value="viewResolverUtils" />
+   </bean>
+   
+   <!--
+        Example of adding a new root scope variable to a set of
+        script processors (defined in baseScriptExtension)
+   -->
+   <!--
+   <bean id="example" parent="baseScriptExtension" class="org.mycompany.ExampleExtension">
+      <property name="extensionName">
+         <value>example</value>
+      </property>
+   </bean>
+   -->
+   
+
+   <!-- Example of adding a new script processor to webscripts engine -->
+   <!--    
+   <bean id="webframework.webscripts.scriptprocessor.example" parent="webframework.webscripts.scriptprocessor.ext" class="org.mycompany.ExampleScriptProcessor">
+      <property name="searchPath" ref="webframework.webscripts.searchpath" />
+      <property name="scriptProcessorRegistry" ref="webframework.webscripts.registry.scriptprocessor" />
+   </bean>
+   -->
+   
+   <!-- Example of adding a new script processor to templates engine -->
+   <!--    
+   <bean id="webframework.templates.scriptprocessor.example" parent="webframework.webscripts.scriptprocessor.ext" class="org.mycompany.ExampleScriptProcessor">
+      <property name="searchPath" ref="webframework.templates.searchpath" />
+      <property name="scriptProcessorRegistry" ref="webframework.templates.registry.scriptprocessor" />
+   </bean>
+   -->
+
+</beans>

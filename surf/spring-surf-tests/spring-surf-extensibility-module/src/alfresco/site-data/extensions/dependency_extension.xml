@@ -1,0 +1,17 @@
+<extension>
+    <modules>
+       <module>
+            <id>Dependency-Module</id>
+            <evaluator>default.extensibility.evaluator</evaluator>
+	        <customizations>
+			    <customization>
+			        <targetPackageRoot>example.dependencies</targetPackageRoot>
+                    <sourcePackageRoot>extension1.module1</sourcePackageRoot>
+                    <dependencies>
+                        <css>/res/dependencies/test.css</css>
+                    </dependencies>
+			    </customization>
+		    </customizations>
+       </module>
+   </modules>
+</extension>

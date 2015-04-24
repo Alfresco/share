@@ -1,0 +1,27 @@
+#wef .wef-toolbar legend,
+#wef .wef-toolbar h3
+{
+   display: none;
+}
+
+#wef .wef-toolbar .wef-toolbar-groupitem
+{
+   float: left;
+}
+
+#wef .wef-toolbar .icon-button button
+{
+   padding-left: 2.5em;
+}
+
+#wef .wef-toolbar .icon-button
+{
+   background: transparent url(./images/separator.gif) no-repeat scroll 0 6px;
+   padding-left: 1.5em;   
+}
+
+#wef .wef-toolbar li.first .icon-button
+{
+   background: none;
+   padding-left: 0;
+}

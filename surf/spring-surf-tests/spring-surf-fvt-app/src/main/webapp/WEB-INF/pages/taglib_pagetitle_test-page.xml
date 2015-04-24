@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>taglib_pagetitle_test-page</id>
+   <title>Example Page Title</title>
+   <template-instance>taglib_pagetitle_test-template</template-instance>
+   <components>
+      <component>
+         <region-id>taglib_pagetitle_test-region</region-id>
+         <component-type-id>taglib_pagetitle_test-componentType</component-type-id>
+      </component>   
+   </components>   
+</page>

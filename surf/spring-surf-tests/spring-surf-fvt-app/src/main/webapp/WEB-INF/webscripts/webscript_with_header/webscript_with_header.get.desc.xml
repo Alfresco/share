@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>WebScript With Header</shortname>
+  <description>A WebScript that also has a .head.ftl file</description>
+  <url>/webscripts/webscript_with_header</url>
+</webscript>

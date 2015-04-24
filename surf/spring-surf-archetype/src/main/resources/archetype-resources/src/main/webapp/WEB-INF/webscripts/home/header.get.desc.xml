@@ -1,0 +1,8 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<webscript>
+  <shortname>Header WebScript</shortname>
+  <description>A basic example of a WebScript that could used as a reuable header</description>
+  <url>/my/header</url>
+</webscript>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+    <id>model_test-page</id>
+    <title>Model Test Page</title>
+	<title-id>TitleId</title-id>
+	<description>A page for testing model properties</description>
+	<description-id>DescriptionId</description-id>
+    <template-instance>model_test-template</template-instance>
+    <components>
+        <component>
+            <region-id>model_test-region</region-id>
+            <component-type-id>model_test-componentType</component-type-id>
+        </component>   
+    </components>
+</page>

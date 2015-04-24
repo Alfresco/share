@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Surf - Client JS API</shortname>
+  <description>Surf - Client JS API</description>
+  <url>/surf/js</url>
+  <format default="html">argument</format>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

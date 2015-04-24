@@ -1,0 +1,66 @@
+#wef-ribbon .wef-tab-toolbar
+{
+   position: relative;
+   top: -1px;
+}
+
+#wef-ribbon .wef-tab-toolbar .yui-navset .yui-nav
+{
+   border-color: #93acbd;
+   border-width: 0 0 1px;
+}
+
+#wef-ribbon .wef-tab-toolbar .yui-nav a,
+#wef-ribbon .wef-tab-toolbar .yui-nav a em
+{
+   border-color: #93acbd;
+}
+
+#wef-ribbon .wef-tab-toolbar .yui-nav a
+{
+   background: #cee3f2 none;
+   border: 1px solid #93acbd;
+   border-bottom: 0;   
+}
+
+#wef-ribbon .wef-tab-toolbar .yui-nav li.selected a
+{
+   background-color: #ebf4fa;
+}
+
+#wef-ribbon .wef-tab-toolbar div.yui-content
+{
+   background: #fff url(./images/tab-bg.gif) repeat scroll 0 0;
+   border-width: 0 0 0 1px;
+   border-color: #93ACBD;
+   height: 47px;
+   padding-bottom: 1px;
+}
+
+#wef-ribbon .wef-tab-toolbar div.wef-toolbar
+{
+   margin: 8px 0 5px 0;
+}
+#wef .yui-navset-left .wef-toolbar .icon-button,
+#wef .yui-navset-right .wef-toolbar .icon-button
+{
+   background: transparent url(./images/vert-icon-separator.gif) no-repeat scroll 16px 6px;
+   padding:1.25em 1.5em 0.5em;
+}
+
+#wef .yui-navset-left .wef-toolbar li.first .icon-button,
+#wef .yui-navset-right .wef-toolbar li.first .icon-button
+{
+   background-image:none;
+   padding:1.25em 1.5em 0.5em;
+}
+
+#wef #wef-ribbon .yui-navset-left  .yui-nav li.selected a,
+{
+   border-right: 0;
+}
+
+#wef #wef-ribbon .yui-navset-right  .yui-nav li.selected a
+{
+   border-left: 0;
+}

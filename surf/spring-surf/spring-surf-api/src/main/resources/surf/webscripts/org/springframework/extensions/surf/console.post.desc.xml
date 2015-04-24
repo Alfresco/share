@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Web Framework Maintenance</shortname>
+  <description>Web Framework Maintenance</description>
+  <url>/console?reset={reset?}</url>
+  <lifecycle>internal</lifecycle>
+  <authentication>admin</authentication>
+</webscript>

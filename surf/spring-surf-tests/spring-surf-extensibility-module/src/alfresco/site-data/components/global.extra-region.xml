@@ -1,0 +1,7 @@
+<component>
+    <id>global.extra-region</id>
+    <region-id>extra-region</region-id>
+    <source-id>global</source-id>
+    <scope>global</scope>
+    <component-type-id>extra-region-componentType</component-type-id>
+</component>

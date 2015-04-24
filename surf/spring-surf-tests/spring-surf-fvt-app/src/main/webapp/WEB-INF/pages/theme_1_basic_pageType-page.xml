@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>theme_1_basic_pageType-page</id>
+   <title>Test Page for Theme 1</title>
+   <template-instance>theme_1_basic_pageType-template</template-instance>
+</page>

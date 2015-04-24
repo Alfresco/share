@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!-- This suite runs all the FV tests with the application configured to have
+     caching enabled. -->
+<suite name="Spring-Surf Read and Write" verbose="1">
+  <parameter name="configLocations" value="classpath*:org/springframework/extensions/webscripts/*-context.xml,classpath*:org/springframework/extensions/surf/*-context.xml,classpath*:org/springframework/extensions/surf/surf-test-context.xml,classpath*:org/springframework/extensions/surf/local-context.xml"></parameter>     
+  <test name="ReadWrite">
+      <packages>
+          <package name="org.springframework.extensions.surf.test"></package>
+          <package name="org.springframework.extensions.surf.test.api"></package>
+      </packages>
+  </test>
+</suite>

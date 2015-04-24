@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+    <id>taglib_head_test-page</id>
+    <title>Example Head</title>
+    <template-instance>taglib_head_test-template</template-instance>
+</page>

@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Add a new Extension Module</shortname>
+  <description>Adds a new Module to the specified remotely persisted Extension</description>
+  <url>/modules/module</url>
+  <family>ModuleDeployment</family>
+  <lifecycle>internal</lifecycle>
+  <authentication>admin</authentication>
+  <format default="json"></format>
+</webscript>

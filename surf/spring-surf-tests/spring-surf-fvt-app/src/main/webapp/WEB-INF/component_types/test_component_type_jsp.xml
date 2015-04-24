@@ -1,0 +1,9 @@
+<component-type>
+    <id>test_component_type_jsp</id>
+    <title>A test JSP component type</title>
+    <description>This component type references a JSP that just outputs "Hello world"</description>
+    <processor mode="view">
+        <id>jsp</id>
+        <jsp-path>/JSPs/test_jsp_1.jsp</jsp-path>
+    </processor>
+</component-type>

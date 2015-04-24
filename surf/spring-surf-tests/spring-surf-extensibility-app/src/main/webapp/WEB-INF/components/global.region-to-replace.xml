@@ -1,0 +1,7 @@
+<component>
+  <id>global.region-to-replace</id>
+  <region-id>region-to-replace</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>region-to-replace-componentType</component-type-id>   
+</component>

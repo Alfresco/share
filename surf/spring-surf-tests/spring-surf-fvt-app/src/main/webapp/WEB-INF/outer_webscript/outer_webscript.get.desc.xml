@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Outer WebScript</shortname>
+  <description>A WebScript that lives outside the webscripts folder</description>
+  <url>/outer/webscript</url>
+</webscript>

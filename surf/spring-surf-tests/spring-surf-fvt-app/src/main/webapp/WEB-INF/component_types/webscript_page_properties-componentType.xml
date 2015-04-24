@@ -1,0 +1,12 @@
+<component-type>
+    <id>webscript_page_properties-componentType</id>
+    <title>A WebScript Rendered Component Type For Displaying Page Properties</title>
+    <description></description>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/webscripts/page_properties</uri>        
+    </processor>
+    <properties>
+        <prop>componentPropMoo</prop>
+    </properties>	
+</component-type>

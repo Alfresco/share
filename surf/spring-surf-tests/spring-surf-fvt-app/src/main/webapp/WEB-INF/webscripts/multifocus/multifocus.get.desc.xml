@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Multifocus</shortname>
+  <description>A WebScript that includes both head and body rendering</description>
+  <url>/webscripts/multifocus</url>
+</webscript>

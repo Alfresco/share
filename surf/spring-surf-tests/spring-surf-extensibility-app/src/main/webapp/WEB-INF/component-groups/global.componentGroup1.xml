@@ -1,0 +1,6 @@
+<component-group>
+  <id>global.componentGroup1</id>
+  <region-id>componentGroup1</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+</component-group>

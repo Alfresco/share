@@ -1,0 +1,8 @@
+<component>
+  <id>template.template_scope_freemarker_component_with_jsp_chrome-region.template_scope_freemarker_component_with_jsp_chrome-template</id>
+  <region-id>template_scope_freemarker_component_with_jsp_chrome-region</region-id>
+  <source-id>template_scope_freemarker_component_with_jsp_chrome-template</source-id>
+  <scope>template</scope>
+  <component-type-id>freemarker_component_type_3-componentType</component-type-id>
+  <chrome>component_jsp-chrome</chrome>  
+</component>

@@ -1,0 +1,1 @@
+BeforeComponentJSP<@region id="test_component_jsp" scope="page"/>AfterComponentJSP

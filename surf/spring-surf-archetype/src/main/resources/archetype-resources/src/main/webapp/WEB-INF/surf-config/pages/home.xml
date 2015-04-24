@@ -1,0 +1,69 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+    <!-- This is the id of the Surf object. If no <id> element is provided then the id is taken from the
+         configuration file (which in this case is also "page1" -->
+    <id>home</id>
+   
+    <title>Example Home Page</title>
+    <description>This is a more fully featured page that uses multiple Components and passes properties</description>
+   
+    <!-- This defines the template-instance to use. A template-instance is another type of Surf object
+         that creates a mapping to a template (typically a FreeMarker file). The template-instance in 
+ 	 	 question is configured in "WEB-INF/surf-config/templates" but it could exist in other configured 
+	 	 stores. Surf will search through all its configured stores until it finds a match -->
+    <template-instance>home</template-instance>
+   
+    <!-- Here we are defining "page-scoped" Components. Page-scoped components do NOT need to be defined
+	     within a page - it simply allows the <scope> element to be assumed to be the value of the page.
+		 Page or Template scoped Components can be defined in their own configuration files.
+	-->
+    <components>
+        <component>
+            <region-id>header</region-id>
+            <uri>/my/header</uri>
+        </component>
+        <component>
+            <region-id>body</region-id>
+            <uri>/my/body</uri>
+        </component>           
+        <component>
+            <region-id>footer</region-id>
+            <uri>/my/footer</uri>
+            
+            <!-- This is an example of a Component scoped property. Component scoped properties can be referenced
+                 in a WebScript using the following syntax:
+                     args["footerImage"]
+                 (or you could use dot notation, i.e. args.footerImage)
+                 
+                 The element name is the property key and the element value is the property value.
+             -->
+            <properties>
+                <footerImage>PoweredBySurf.jpg</footerImage>
+            </properties>
+        </component>
+    </components>
+	
+    <!-- This is an example of setting Page scoped properties. Any values set here can be accessed from a WebScript
+         using the following syntax:
+             page.properties["companyName"]
+         (or you could use dot notation, i.e. page.properties.companyName).
+         
+         The element name is the property key and the element value is the property value - so here we are setting
+         a page scoped property [companyName = "Alfresco"]
+         
+         It's also possible to set template scoped properties in the same way (in a Template configuration file)
+         and they are accessed using the syntax:
+             template.properties["propName"]
+    -->
+    <properties>
+        <companyName>Alfresco</companyName>
+    </properties>
+    
+    <!-- This defines the authentication required to access the page. Acceptable values are "none", "guest",
+        "user" and "admin". We have configured "none" because no authentication mechanism has been configured
+		for this application ("none" is also the default - we have explicitly defined it here for clarity) -->
+    <authentication>none</authentication>
+</page>

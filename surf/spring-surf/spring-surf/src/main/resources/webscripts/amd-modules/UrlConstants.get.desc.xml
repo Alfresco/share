@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>URL Constants Module</shortname>
+  <description>This WebScript returns a dynamically generated AMD module containing the current URL constants</description>
+  <url>/constants/Default</url>
+  <family>WebScript AMD Modules</family>
+  <format default="js">extension</format>
+</webscript>

@@ -1,0 +1,13 @@
+<component-type>
+    <id>freemarker_component_type_1-componentType</id>
+    <title>A Freemarker Rendered Component Type</title>
+    <description></description>
+    <processor mode="view">
+        <id>webtemplate</id>
+        <uri>/basic_freemarker_1.ftl</uri>
+    </processor>
+	<processor mode="edit">
+        <id>webtemplate</id>
+        <uri>/basic_freemarker_4.ftl</uri>
+    </processor>
+</component-type>

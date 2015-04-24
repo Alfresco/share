@@ -1,0 +1,9 @@
+<component-type>
+    <id>model_test-componentType</id>
+    <title>Model Test Component</title>
+    <description>A FreeMarker component for rendering model proeprties</description>
+    <processor mode="view">
+        <id>webtemplate</id>
+        <uri>/model_test-component.ftl</uri>
+    </processor>	
+</component-type>

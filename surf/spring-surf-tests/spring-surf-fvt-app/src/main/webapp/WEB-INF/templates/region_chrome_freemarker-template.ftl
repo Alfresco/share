@@ -1,0 +1,1 @@
+BeforeFTLChromeRegion<@region id="test_region_1" chrome="region_freemarker-chome" scope="template"/>AfterFTLChromeRegion

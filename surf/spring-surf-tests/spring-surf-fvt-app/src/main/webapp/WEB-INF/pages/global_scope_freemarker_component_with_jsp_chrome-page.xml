@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>global_scope_freemarker_component_with_jsp_chrome-page</id>
+   <title>Global scoped Freemarker component page using JSP chrome</title>
+   <description>This page uses a template that will load a Freemarker rendered global scope component wrapped in JSP chrome</description>
+   <template-instance>global_scope_freemarker_component_with_jsp_chrome-template</template-instance>
+</page>

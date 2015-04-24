@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>First WebScript Intended To Be Used In A Component Group (1)</shortname>
+  <description></description>
+  <url>/extensibility/test/groupedContent1</url>
+  <family>RegionExtensibilityTests</family>
+</webscript>

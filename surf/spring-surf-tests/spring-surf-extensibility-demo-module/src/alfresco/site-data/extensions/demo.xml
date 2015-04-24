@@ -1,0 +1,140 @@
+<extension>
+    <modules>
+        <module>
+            <id>Remove footer region</id>
+            <description>This module will hide the footer region</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>org.acme</targetPackageRoot>
+                    <sourcePackageRoot>demo.extension.hide.region</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Replace body region</id>
+            <description>This module will replace the body region with entirely new contents</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>org.acme</targetPackageRoot>
+                    <sourcePackageRoot>demo.extension.replace.region</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Add a new region</id>
+            <description>This module will add a new region below the Header region</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>org.acme</targetPackageRoot>
+                    <sourcePackageRoot>demo.extension.add.region</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Add template controller</id>
+            <description>This module will add a new JS controller to a template that doesn't have one</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>org.acme</targetPackageRoot>
+                    <sourcePackageRoot>demo.extension.add.controller</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Remove tree markup section</id>
+            <description>This module will remove the tree div</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>demo.body</targetPackageRoot>
+                    <sourcePackageRoot>markup.body.remove</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Replace tree markup section</id>
+            <description>This module will replace the tree div</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>demo.body</targetPackageRoot>
+                    <sourcePackageRoot>markup.body.replace</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Add a new markup section</id>
+            <description>This module will add a new markup section</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>demo.body</targetPackageRoot>
+                    <sourcePackageRoot>markup.body.add</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>JavaScript controller (change image)</id>
+            <description>This module will change the JavaScript controller to display a different image</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>demo.header</targetPackageRoot>
+                    <sourcePackageRoot>javascript.controller1</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>JavaScript controller (hide image)</id>
+            <description>This module will change the JavaScript controller to hide the image</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>demo.header</targetPackageRoot>
+                    <sourcePackageRoot>javascript.controller2</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Change font to Courier</id>
+            <description>This module provides an additional CSS dependency to change the font</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>org.acme</targetPackageRoot>
+                        <dependencies>
+                            <css>/res/demo/dependencies/font-change1.css</css>
+                        </dependencies>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Change font family to Times New Roman</id>
+            <description>This module provides an additional CSS dependency to change the font</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>org.acme</targetPackageRoot>
+                    <dependencies>
+                        <css>/res/demo/dependencies/font-change2.css</css>
+                    </dependencies>
+                </customization>
+            </customizations>
+        </module>
+        
+        <module>
+            <id>Override header properties</id>
+            <description>This overrides the default header properties</description>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>demo.header</targetPackageRoot>
+                    <sourcePackageRoot>properties.header</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+        
+    </modules>
+</extension>

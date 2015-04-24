@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Surf API - list of configured formats</shortname>
+  <description>Surf API - list of configured formats</description>
+  <url>/api/surf/formats</url>
+  <format default="html">argument</format>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

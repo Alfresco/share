@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>basic_template-page</id>
+   <title>Test Page 1</title>
+   <template-instance>basic-template</template-instance>
+</page>

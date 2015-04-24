@@ -1,0 +1,7 @@
+<component>
+    <id>global.replacement-body</id>
+    <region-id>replacement-body</region-id>
+    <source-id>global</source-id>
+    <scope>global</scope>
+    <uri>/extension/demo/body</uri>
+</component>

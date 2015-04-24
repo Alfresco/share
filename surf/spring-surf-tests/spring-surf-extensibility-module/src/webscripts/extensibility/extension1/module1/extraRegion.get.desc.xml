@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>WebScript That Provides Extra Content</shortname>
+  <description></description>
+  <url>/extension1/module1/extraContent</url>
+  <family>ExtensionWebScripts</family>
+</webscript>

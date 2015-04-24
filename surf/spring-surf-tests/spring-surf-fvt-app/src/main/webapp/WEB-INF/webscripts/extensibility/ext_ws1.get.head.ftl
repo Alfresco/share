@@ -1,0 +1,1 @@
+<content>base-WS1-head</content>

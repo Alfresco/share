@@ -1,0 +1,24 @@
+<component>
+   <id>global.ext-region2</id>
+   <region-id>ext-region2</region-id>
+   <source-id>global</source-id>
+   <scope>global</scope>
+   <sub-components>
+      <sub-component id="sub_comp_1" index="40">
+         <url>/extensibility/webscript/2</url>
+         <properties>
+            <msg-key-one>ext_ws2.one</msg-key-one>
+            <msg-key-two>ext_ws2.two</msg-key-two>
+            <msg-key-three>ext_ws2.three</msg-key-three>
+         </properties>
+      </sub-component>
+      <sub-component id="sub_comp_2" index="60">
+         <url>/extensibility/webscript/3</url>
+         <properties>
+            <msg-key-one>ext_ws3.one</msg-key-one>
+            <msg-key-two>ext_ws3.two</msg-key-two>
+            <msg-key-three>ext_ws3.three</msg-key-three>
+         </properties>
+      </sub-component>
+   </sub-components>
+</component>

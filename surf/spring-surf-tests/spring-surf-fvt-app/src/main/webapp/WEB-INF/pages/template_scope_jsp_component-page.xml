@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>template_scope_jsp_component-page</id>
+   <title>Template scoped JSP component page</title>
+   <template-instance>template_scope_jsp_component-template</template-instance>   
+</page>

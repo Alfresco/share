@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Client-Side Error Handler</shortname>
+  <description>Captures errors reported from clients and logs them.</description>
+  <url>/aikau/error-report</url>
+  <family>Error Reporting</family>
+  <format default="json"></format>
+  <lifecycle>internal</lifecycle>
+  <authentication>user</authentication>
+</webscript>

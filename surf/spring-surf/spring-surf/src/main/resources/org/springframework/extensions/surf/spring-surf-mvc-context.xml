@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+       
+    <!-- Overrides the WebScript defined ResourceController to use the Surf implementation which
+         additionally handles requests checksum identified resources -->
+    <bean id="resourceController" class="org.springframework.extensions.surf.mvc.ResourceController">
+       <property name="cacheSeconds"              value="-1" />
+       <property name="serviceRegistry"           ref="webframework.service.registry" />
+       <property name="remoteConfig"              ref="remote.config.element"></property>
+       <property name="dependencyHandler"         ref="dependency.handler" />
+       <property name="dojoDependencyHandler"     ref="dojo.dependency.handler" />
+       <property name="dependencyAggregator"      ref="dependency.aggregator" />
+       <property name="webframeworkConfigElement" ref="webframework.config.element"/>
+       <property name="defaultUrl"><value>/resources</value></property>
+       <property name="useExpiresHeader"><value>true</value></property>
+       <property name="useCacheControlHeader"><value>true</value></property>
+       
+    </bean>
+        
+    <!-- Abstract Beans -->
+    <bean id="abstractWebFrameworkController" class="org.springframework.extensions.surf.mvc.AbstractWebFrameworkController" abstract="true">
+        <property name="serviceRegistry" ref="webframework.service.registry" />
+    </bean>
+    <bean id="abstractWebFrameworkViewResolver" class="org.springframework.extensions.surf.mvc.AbstractWebFrameworkViewResolver" abstract="true">
+        <property name="serviceRegistry"             ref="webframework.service.registry" />
+        <property name="templatesContainer"          ref="webframework.templates.container"/>
+        <property name="modelObjectService"          ref="webframework.service.modelobject"/>
+        <property name="webframeworkConfigElement"   ref="webframework.config.element"/>
+        <property name="webFrameworkRenderService"   ref="webframework.service.render"/>
+        <property name="webFrameworkResourceService" ref="webframework.service.resource"/>
+        <property name="urlHelperFactory"            ref="url.helper.factory"/>
+    </bean>
+    <bean id="abstractWebFrameworkInterceptor" class="org.springframework.extensions.surf.mvc.AbstractWebFrameworkInterceptor" abstract="true">
+        <property name="serviceRegistry" ref="webframework.service.registry" />
+    </bean>
+    
+    <bean id="generatorController" class="org.springframework.extensions.surf.mvc.GeneratorController"/>
+    
+    <!-- Web Framework Abstract Handler Mappings -->
+    <bean id="webframeworkHandlerMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" abstract="true">
+        <property name="urlPathHelper" ref="urlPathHelper" />
+        <property name="pathMatcher" ref="pathMatcher" />
+        <property name="interceptors">
+            <list>
+                <ref bean="requestContextInterceptor"/>
+                <ref bean="themeInterceptor"/>
+                <ref bean="previewContextInterceptor"/>
+            </list>
+        </property>
+        <property name="mappings">
+            <value>
+                /preview/**=previewController
+                /remote/**=remoteController
+                /proxy/**=endpointController
+                /resource/**=resourceController
+                /dologin/**=loginController
+                /dologout/**=logoutController
+                /generator/**=generatorController
+            </value>
+        </property>
+    </bean>
+    
+    <!-- Web Scripts Handler Mappings -->
+    <bean id="handlerMappings" parent="webframeworkHandlerMappings">
+        <property name="order" value="0" />
+        <!--
+        <property name="defaultHandler">
+            <bean class="org.springframework.extensions.surf.mvc.UrlViewController" />
+        </property>
+        -->
+    </bean>
+    
+    <!-- Web Framework Controllers -->
+    <bean id="previewController" class="org.springframework.extensions.surf.mvc.PreviewController" parent="abstractWebFrameworkController">
+        <property name="cacheSeconds" value="-1" />
+        <property name="useExpiresHeader"><value>true</value></property>
+        <property name="useCacheControlHeader"><value>true</value></property>
+        <property name="frameworkUtil" ref="framework.utils"></property>
+    </bean>
+    <bean id="remoteController" class="org.springframework.extensions.surf.mvc.RemoteController">
+        <property name="cacheSeconds" value="-1" />
+        <property name="useExpiresHeader"><value>true</value></property>
+        <property name="useCacheControlHeader"><value>true</value></property>
+        <property name="frameworkUtil" ref="framework.utils"></property>
+    </bean>
+    <bean id="loginController" class="org.springframework.extensions.surf.mvc.LoginController">
+        <property name="cacheSeconds" value="-1" />
+        <property name="useExpiresHeader"><value>true</value></property>
+        <property name="useCacheControlHeader"><value>true</value></property>
+        <property name="userFactory" ref="user.factory"></property>
+        <property name="supportedMethods">
+            <list>
+                <value>HEAD</value>
+                <value>POST</value>
+                <value>OPTIONS</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="logoutController" class="org.springframework.extensions.surf.mvc.LogoutController">
+        <property name="cacheSeconds" value="-1" />
+        <property name="useExpiresHeader"><value>true</value></property>
+        <property name="useCacheControlHeader"><value>true</value></property>
+        <property name="supportedMethods">
+            <list>
+                <value>HEAD</value>
+                <value>POST</value>
+                <value>OPTIONS</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="feedController" class="org.springframework.extensions.surf.mvc.FeedController">
+        <property name="cacheSeconds" value="-1" />
+        <property name="useExpiresHeader"><value>true</value></property>
+        <property name="useCacheControlHeader"><value>true</value></property>
+        <property name="connectorService" ref="connector.service" />
+    </bean>
+    
+    <!-- Web Framework View Resolvers -->
+    <bean id="objectViewResolver" class="org.springframework.extensions.surf.mvc.ObjectViewResolver" parent="abstractWebFrameworkViewResolver" />
+    <bean id="componentViewResolver" class="org.springframework.extensions.surf.mvc.ComponentViewResolver" parent="abstractWebFrameworkViewResolver" />
+    <bean id="regionViewResolver" class="org.springframework.extensions.surf.mvc.RegionViewResolver" parent="abstractWebFrameworkViewResolver" />
+    <bean id="pageViewResolver" class="org.springframework.extensions.surf.mvc.PageViewResolver" parent="abstractWebFrameworkViewResolver" />
+    <bean id="pageTypeViewResolver" class="org.springframework.extensions.surf.mvc.PageTypeViewResolver" parent="abstractWebFrameworkViewResolver"/>
+    
+    <!-- Interceptors -->
+    <bean id="requestContextInterceptor" class="org.springframework.extensions.surf.mvc.RequestContextInterceptor" parent="abstractWebFrameworkInterceptor" />
+    <bean id="previewContextInterceptor" class="org.springframework.extensions.surf.mvc.PreviewContextInterceptor" parent="abstractWebFrameworkInterceptor" />
+    <bean id="themeInterceptor" class="org.springframework.extensions.surf.mvc.ThemeInterceptor" parent="abstractWebFrameworkInterceptor">
+        <property name="webFrameworkConfig" ref="webframework.config.element"></property>
+    </bean>
+    
+    <!-- Locale Resolver -->
+    <bean id="localeResolver" class="org.springframework.extensions.surf.mvc.LocaleResolver" />
+    
+</beans>

@@ -1,0 +1,1 @@
+<@region id="new-region" target="header" action="after" scope="global" />

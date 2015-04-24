@@ -1,0 +1,7 @@
+<component>
+  <id>global.basic_extensibility-region</id>
+  <region-id>basic_extensibility-region</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>basic_extensibility_component_type-componentType</component-type-id>   
+</component>

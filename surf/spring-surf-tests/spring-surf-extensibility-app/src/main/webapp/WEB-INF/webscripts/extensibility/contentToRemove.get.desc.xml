@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>WebScript Intended To Be Removed In Extension Test</shortname>
+  <description></description>
+  <url>/extensibility/test/contentToRemove</url>
+  <family>RegionExtensibilityTests</family>
+</webscript>

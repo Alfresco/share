@@ -1,0 +1,29 @@
+<alfresco-config>
+
+    <plug-ins>
+        <element-readers>
+            <element-reader element-name="remote" class="org.springframework.extensions.config.RemoteConfigElementReader" />
+        </element-readers>
+    </plug-ins>
+
+    <config evaluator="string-compare" condition="Remote">
+
+        <remote>        
+
+            <!-- Include a generic HTTP access endpoint for RSS feeds - it is marked
+                as 'unsecure' so it cannot be access via user generated proxy URLs -->
+            <endpoint>
+                <id>http</id>
+                <name>HTTP access</name>
+                <description>Generic HTTP connector</description>
+                <connector-id>http</connector-id>
+                <endpoint-url></endpoint-url>
+                <identity>none</identity>
+                <unsecure>true</unsecure>
+            </endpoint>
+
+        </remote>
+
+    </config>
+
+</alfresco-config>

@@ -1,0 +1,11 @@
+<webscript>
+   <shortname>WEF Bootstrap</shortname>
+   <description><![CDATA[
+   Bootstraps the Web Editor Framework UI 
+   ]]>
+   </description>
+   <url>/wef/bootstrap</url>
+   <format default="js" />
+   <authentication>none</authentication>
+   <lifecycle>internal</lifecycle>
+</webscript>

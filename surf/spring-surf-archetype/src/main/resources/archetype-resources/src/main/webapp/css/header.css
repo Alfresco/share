@@ -1,0 +1,21 @@
+html, body {
+    height: 100%;
+    font-family: arial,helvetica,clean,sans-serif;
+    font-size: small;
+}
+#main {
+    min-height: 100%;
+}
+
+.header {
+    height: 200px;
+}
+
+.logo {
+    float: left;
+}
+
+.welcome {
+    clear: both;
+    text-align: center;
+}

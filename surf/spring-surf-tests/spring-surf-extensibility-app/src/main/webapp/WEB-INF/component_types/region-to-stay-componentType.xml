@@ -1,0 +1,9 @@
+<component-type>
+    <id>region-to-stay-componentType</id>
+    <title>Extensibility Component Type</title>
+    <description></description>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/extensibility/test/contentToKeep</uri>        
+    </processor>	
+</component-type>

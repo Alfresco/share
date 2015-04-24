@@ -1,0 +1,9 @@
+<component-type>
+    <id>region-to-remove-componentType</id>
+    <title>Extensibility Component Type</title>
+    <description></description>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/extensibility/test/contentToRemove</uri>        
+    </processor>	
+</component-type>

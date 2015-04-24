@@ -1,0 +1,136 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<alfresco-config>
+    <config evaluator="string-compare" condition="WebFramework">
+        <web-framework>
+           <!-- This overrides the default implementation for the Component type. By default Surf uses
+                org.springframework.extensions.surf.types.ComponentImpl which does not support the
+                concept of Sub-Components which were introduced into Surf to support Alfresco 4.0 -->
+            <object-type>
+                <id>component</id>
+                <version>1.0</version>
+                <name>Component</name>
+                <description>Component</description>
+                <namespace></namespace>
+                <class>org.springframework.extensions.surf.types.AdvancedComponentImpl</class>
+            </object-type>
+
+            <!-- Autowire Runtime Settings -->
+            <autowire>
+                <!-- Pick the runtime: classpath, webapp, local, alfresco -->
+                <runtime>webapp</runtime>
+
+                <!-- Pick the mode: development, preview, production -->
+                <mode>development</mode>
+            </autowire>
+
+            <persisters>
+                <!-- setting to specify whether to turn on caching for persisters -->
+                <cache-enabled>true</cache-enabled>
+                <!-- delay in seconds between checking store caches are dirty -->
+                <cache-check-delay>600</cache-check-delay>
+            </persisters>
+            
+            <defaults>
+                <!-- This sets the default persister store to use when creating and saving Surf objects -->
+                <persister>presets.persister</persister>
+                
+                <page-type>
+                    <id>login</id>
+                    <page-instance-id>sample/login</page-instance-id>
+                </page-type>
+                <page-type>
+                    <id>logout</id>
+                    <page-instance-id>sample/logout</page-instance-id>
+                </page-type>
+
+            <!-- Surf Chrome is rendered output that wraps Regions, Components and Sub-Components
+                 It was intended to make it easy to define Portlet style windows on the page but
+                 has only really been used to create a wrapping <DIV> element with a unique id
+                 in the page. Its use is being deprecated for the next major release of Alfresco.
+
+                 By specifying no value for the chrome we ensure that no chrome processing occurs
+                 (i.e. no chrome is rendered around the Surf objects).-->
+                <region-chrome></region-chrome>
+                <component-chrome></component-chrome>
+                <sub-component-chrome></sub-component-chrome>
+            </defaults>
+            
+            <!-- This option enables advanced dependency management and ensures that all dependency request
+                 URLs include a checksum suffix that uniquely identifies their contents. This option is disabled
+                 in Alfresco versions up to 4.x but will be enabled in future versions. The <@ouputJavaScript>
+                 and <@ouputCSS> directives will ONLY be available to templates when this is set to true. -->
+            <use-checksum-dependencies>true</use-checksum-dependencies>
+            
+            <!-- This option enables images referenced by CSS files to be encoded directly within the CSS file to
+                 reduce the number of HTTP requests made by a page (and therefore improve page loading performance).
+                 This feature is disabled in Alfresco versions up to 4.x but will be enabled in future versions. -->
+            <generate-css-data-images>true</generate-css-data-images>
+            
+            <!-- This option enables multiple dependency files of the same type (i.e. JavaScript or CSS) to be aggregated
+                 into a single request. Enabling this feature will reduce the number of HTTP requests made by the 
+                 page to improve page loading performance. This feature is currently disabled in all versions of Alfresco
+                 and there are no plans to enable it by default yet -->
+           <aggregate-dependencies>true</aggregate-dependencies>
+            
+            <!-- This option can be used to disable the processing of WebScript *.head.ftl files that were used in Alfresco 
+                 versions up to 4.x to register JavaScript and CSS dependency files to be imported. This is enabled by 
+                 default in Surf and there are no plans to disable it in Alfresco by default, although doing so will improve
+                 page loading performance -->
+            <calculate-webscript-dependencies>false</calculate-webscript-dependencies>
+
+            <!-- This is the Dojo configuration settings for Surf - SUPPORT IS DISABLED BY DEFAULT -->
+            <dojo-pages>
+            <!-- This indicates that Dojo page support is on - this means that the Dojo
+               dependency handler bean will be checked by the ResourceController and that
+               the relevant FreeMarker directives will be made available to WebScripts -->
+               <enabled>true</enabled>
+               
+               <!-- This determines whether or not the loader trace is on or off -->
+               <loader-trace-enabled>false</loader-trace-enabled>
+               
+               <!-- This is the file that will be loaded when Dojo is bootstrapped -->
+               <bootstrap-file>/res/js/lib/dojo/dojo/dojo.js</bootstrap-file>
+               
+               <!-- This is the widget that will be used to load the page -->
+               <page-widget>surf/dojo/Page</page-widget>
+               
+               <!-- The following data is used to bootstrap Dojo when it is loaded -->
+               <base-url>/res/</base-url>
+               
+               <!--  This is the name of the global JavaScript object that should be used to add a
+                     "messages" map to. This map will contain all of the NLS messages required by
+                     widgets included on a page -->
+               <messages-object>Surf</messages-object>
+               
+               <!-- This is the default value to scope Widget messages to. A widget should declare a name
+                    that the Dojo dependency handler can find via an i18n dependency rule and those 
+                    i18n properties files should be scoped to that widget name. However, when a widget
+                    does not provide a name in a recognised way this value will be used to scope the messages -->
+               <default-messages-scope>default</default-messages-scope>
+               
+               <!-- Dojo is NOT included in Surf by default - the Dojo packages will need to be made available
+                    in the suggested locations or an override configured. -->
+               <packages>
+                   <package name="dojo"  location="js/lib/dojo/dojo"/>
+                   <package name="dijit" location="js/lib/dojo/dijit"/>
+                   <package name="dojox" location="js/lib/dojo/dojox"/>
+                   <package name="surf"  location="js/surf"/>
+               </packages>
+            </dojo-pages>
+        </web-framework>
+    </config>
+
+    <!-- This is an example of defining a UriTemplate. This allows requests to be mapped to pages
+         where tokens can be substituted and passed as arguments to the Surf components. The {pageid}
+         token is a special case that identifies the id of the page to render. If this token then
+         the entire URI must resolve to a page.
+    -->
+    <config evaluator="string-compare" condition="UriTemplate">
+        <uri-templates>
+           <uri-template id="uriTemplate1">/{pageid}/webscript/{webscript}</uri-template>
+           <uri-template id="uriTemplate1">/{pageid}/welcome/{name}</uri-template>
+        </uri-templates>
+   </config>
+</alfresco-config>

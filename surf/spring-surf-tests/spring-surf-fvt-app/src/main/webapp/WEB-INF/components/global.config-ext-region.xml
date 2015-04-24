@@ -1,0 +1,7 @@
+<component>
+  <id>global.config-ext-region</id>
+  <region-id>config-ext-region</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <uri>/extensibility/config/webscript</uri>
+</component>
