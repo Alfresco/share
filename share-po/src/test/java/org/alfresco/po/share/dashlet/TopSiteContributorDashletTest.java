@@ -45,7 +45,7 @@ import org.testng.annotations.Test;
  * @author jcule
  */
 @Listeners(FailedTestListener.class)
-@Test(groups = "bug")
+@Test(groups = "QA-1661-bug")
 public class TopSiteContributorDashletTest extends AbstractSiteDashletTest
 {
 
