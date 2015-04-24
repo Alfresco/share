@@ -12,6 +12,8 @@
 
     <properties>
         <solr.config.folder>${basedir}/solr4-instance</solr.config.folder>
+        <!-- Filter solrcore.properties -->
+        <ALFRESCO_SOLR4_DATA_DIR>${solr.config.folder}/data</ALFRESCO_SOLR4_DATA_DIR>
     </properties>
 
     <dependencies>
@@ -208,6 +210,73 @@
             <id>run</id>
             <build>
                 <plugins>
+                    <!-- Download and unpack the solr4 config zip file -->
+                    <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-dependency-plugin</artifactId>
+                      <executions>
+                        <execution>
+                          <id>unpack-solr4-config</id>
+                          <phase>generate-resources</phase>
+                          <goals>
+                            <goal>unpack</goal>
+                          </goals>
+                          <configuration>
+                            <outputDirectory>${project.build.directory}/solr4</outputDirectory>
+                            <artifactItems>
+                              <artifactItem>
+                                <groupId>org.alfresco</groupId>
+                                <artifactId>alfresco-solr4</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>config</classifier>
+                                <overWrite>true</overWrite>
+                                <type>zip</type>
+                              </artifactItem>
+                            </artifactItems>
+                          </configuration>
+                        </execution>
+                      </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>filter-copy-solr4-config</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <outputDirectory>${solr.config.folder}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}/solr4</directory>
+                                            <excludes>
+                                                <exclude>workspace-SpacesStore/conf/solrcore.properties</exclude>
+                                                <exclude>archive-SpacesStore/conf/solrcore.properties</exclude>
+                                            </excludes>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                        <resource>
+                                            <directory>${project.build.directory}/solr4</directory>
+                                            <includes>
+                                                <include>workspace-SpacesStore/conf/solrcore.properties</include>
+                                                <include>archive-SpacesStore/conf/solrcore.properties</include>
+                                            </includes>
+                                            <filtering>true</filtering>
+                                        </resource>
+                                    </resources>
+                                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                                    <delimiters>
+                                        <delimiter>@@</delimiter>
+                                    </delimiters>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
