@@ -44,6 +44,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.WebFrameworkConfigElement;
 import org.springframework.extensions.config.WebFrameworkConfigElement.ErrorHandlerDescriptor;
 import org.springframework.extensions.config.WebFrameworkConfigElement.SystemPageDescriptor;
+import org.springframework.extensions.surf.DojoDependencyHandler;
 import org.springframework.extensions.surf.LinkBuilder;
 import org.springframework.extensions.surf.LinkBuilderFactory;
 import org.springframework.extensions.surf.ModelObject;
@@ -740,6 +741,14 @@ public class RenderService implements ApplicationContextAware
     {
         try
         {
+         // Check to see whether or not resource caching has been disabled or not. If it has then clear all the
+            // dependency caches before processing the current request...
+            if (this.webFrameworkConfiguration != null && this.webFrameworkConfiguration.isResourceCachingDisabled() == true)
+            {
+                this.dojoDependencyHandler.clearCaches();
+            }
+            
+            
             if (this.webFrameworkConfiguration.isSurfBugEnabled())
             {
                 // Always clear the current Component from SurfBug when rendering a page because
@@ -1666,5 +1675,16 @@ public class RenderService implements ApplicationContextAware
     public String getBeanName()
     {
         return this.beanName;
+    }
+    
+    /**
+     * <p>A {@link DojoDependencyHandler} is required for accessing the Dojo configuration for Surf and for processing the 
+     * dependencies.</p>
+     */
+    private DojoDependencyHandler dojoDependencyHandler = null;
+
+    public void setDojoDependencyHandler(DojoDependencyHandler dojoDependencyHandler)
+    {
+        this.dojoDependencyHandler = dojoDependencyHandler;
     }
 }
