@@ -355,6 +355,30 @@ public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary
         return getDictionary().getChildAssociations(ddclass);
     }
     
+    /**
+     * Add/update a JSON Array of classes to the current Dictionary instance
+     * 
+     * @param json  JSON array of DD classes to add/update
+     */
+    public void updateAddClasses(final String json)
+    {
+        ParameterCheck.mandatoryString("json", json);
+        
+        getDictionary().updateAddClasses(json);
+    }
+    
+    /**
+     * Remove a JSON Array of classes from the current Dictionary instance
+     * 
+     * @param json  JSON array of DD classes to remove
+     */
+    public void updateRemoveClasses(final String json)
+    {
+        ParameterCheck.mandatoryString("json", json);
+        
+        getDictionary().updateRemoveClasses(json);
+    }
+    
     @Override
     public String toString()
     {
@@ -428,8 +452,8 @@ public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary
                     JSONObject ddclass = json.getJSONObject(i);
                     
                     // is this an aspect or a type definition?
-                    String typeName = ddclass.getString("name");
-                    if (ddclass.getBoolean("isAspect"))
+                    String typeName = ddclass.getString(Dictionary.JSON_NAME);
+                    if (ddclass.getBoolean(Dictionary.JSON_IS_ASPECT))
                     {
                         aspects.put(typeName, new DictionaryItem(typeName, ddclass));
                     }
@@ -474,6 +498,7 @@ public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary
  */
 class Dictionary
 {
+    static final String JSON_IS_ASPECT = "isAspect";
     static final String JSON_IS_CONTAINER = "isContainer";
     static final String JSON_DESCRIPTION = "description";
     static final String JSON_TITLE = "title";
@@ -496,8 +521,8 @@ class Dictionary
     static final String JSON_ROLE = "role";
     static final String JSON_MANY = "many";
     
-    final private Map<String, DictionaryItem> types;
-    final private Map<String, DictionaryItem> aspects;
+    private Map<String, DictionaryItem> types;
+    private Map<String, DictionaryItem> aspects;
     
     /**
      * Constructor
@@ -938,6 +963,84 @@ class Dictionary
         catch (JSONException jsonErr)
         {
             throw new AlfrescoRuntimeException("Error retrieving 'childassociations' information for: " + ddclass, jsonErr);
+        }
+    }
+    
+    public void updateAddClasses(String classes)
+    {
+        try
+        {
+            JSONArray json = new JSONArray(classes);
+            
+            // shallow copy types and aspects maps - do not modify the originals as iterators could be running in threads 
+            final Map<String, DictionaryItem> types = (Map<String, DictionaryItem>)((HashMap)this.types).clone();
+            final Map<String, DictionaryItem> aspects = (Map<String, DictionaryItem>)((HashMap)this.aspects).clone();
+            for (int i=0; i<json.length(); i++)
+            {
+                // get the object representing the dd class
+                JSONObject ddclass = json.getJSONObject(i);
+                
+                // is this an aspect or a type definition?
+                String typeName = ddclass.getString(JSON_NAME);
+                if (ddclass.getBoolean(JSON_IS_ASPECT))
+                {
+                    // add or update the aspect definition
+                    aspects.put(typeName, new DictionaryItem(typeName, ddclass));
+                }
+                else
+                {
+                    // add or update the type definition
+                    types.put(typeName, new DictionaryItem(typeName, ddclass));
+                }
+            }
+            // Update the instance collection references - threads already iterating the original collections will not be
+            // affected - when a new iterator is created it will have visibility of the new references and see the updates.
+            // It is acceptable for this data to be "eventually consistent" and does not need to be a transactional update.
+            this.types = types;
+            this.aspects = aspects;
+        }
+        catch (JSONException e)
+        {
+            throw new AlfrescoRuntimeException(e.getMessage(), e);
+        }
+    }
+    
+    public void updateRemoveClasses(String classes)
+    {
+        try
+        {
+            JSONArray json = new JSONArray(classes);
+            
+            // shallow copy types and aspects maps - do not modify the originals as iterators could be running in threads 
+            final Map<String, DictionaryItem> types = (Map<String, DictionaryItem>)((HashMap)this.types).clone();
+            final Map<String, DictionaryItem> aspects = (Map<String, DictionaryItem>)((HashMap)this.aspects).clone();
+            for (int i=0; i<json.length(); i++)
+            {
+                // get the object representing the dd class
+                JSONObject ddclass = json.getJSONObject(i);
+                
+                // is this an aspect or a type definition?
+                String typeName = ddclass.getString(JSON_NAME);
+                if (ddclass.getBoolean(JSON_IS_ASPECT))
+                {
+                    // remove the aspect definition
+                    aspects.remove(typeName);
+                }
+                else
+                {
+                    // remove the type definition
+                    types.remove(typeName);
+                }
+            }
+            // Update the instance collection references - threads already iterating the original collections will not be
+            // affected - when a new iterator is created it will have visibility of the new references and see the updates.
+            // It is acceptable for this data to be "eventually consistent" and does not need to be a transactional update.
+            this.types = types;
+            this.aspects = aspects;
+        }
+        catch (JSONException e)
+        {
+            throw new AlfrescoRuntimeException(e.getMessage(), e);
         }
     }
     
