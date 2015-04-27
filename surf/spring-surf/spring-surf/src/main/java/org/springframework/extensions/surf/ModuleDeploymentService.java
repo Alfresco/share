@@ -210,6 +210,40 @@ public class ModuleDeploymentService
             if (module != null)
             {
                 this.modelObjectService.saveObject(persistedExtension);
+                
+                // update configured modules reference
+                this.configuredModules.put(module.getId(), module);
+                
+                // update deployed modules list
+                ModuleDeployment deployedModule = null;
+                for (ModuleDeployment depMod: this.deployedModules)
+                {
+                    if (depMod.getExtensionModuleId().equals(module.getId()))
+                    {
+                        deployedModule = depMod;
+                        break;
+                    }
+                }
+                if (deployedModule != null)
+                {
+                    this.deployedModules.remove(deployedModule);
+                }
+                String moduleDeploymentMode = this.webFrameworkConfiguration.getModuleDeploymentMode();
+                if (moduleDeploymentMode == null || moduleDeploymentMode.equals(WebFrameworkConfigProperties.AUTO_MODULE_DEPLOYMENT))
+                {
+                    // If we're in auto-deploy mode then we should deploy any previously unknown modules...
+                    this.deployedModules.add(deployModule(module, this.deployedModules.size() + 1, null, null));
+                }
+                else if (this.webFrameworkConfiguration.isModuleAutoDeployEnabled() && module.isAutoDeploy())
+                {
+                    // If we're in enable module auto-deploy then we should deploy any modules that ask to be deployed...
+                    this.deployedModules.add(deployModule(module, this.deployedModules.size() + 1, null, null));
+                }
+                else
+                {
+                    // If we're in manual deployment mode then just add to the undeployed list...
+                    this.undeployedModules.add(module);
+                }
             }
             this.saveDeployedModuleConfigurations();
             result = (module != null);
