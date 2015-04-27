@@ -11,7 +11,7 @@ function main()
 function getConfigTypes(scopedRoot, currentType)
 {
    var types = [],
-       configs, typeConfig, typeName, subTypeConfigs;
+       configs, typeConfig, typeName, typeLabel, subTypeConfigs;
 
    try
    {
@@ -30,10 +30,15 @@ function getConfigTypes(scopedRoot, currentType)
                {
                   for (var j = 0; j < subTypeConfigs.size(); j++)
                   {
+                     typeLabel = subTypeConfigs.get(j).attributes["label"];
                      typeName = subTypeConfigs.get(j).attributes["name"];
                      if (typeName)
                      {
-                        types.push(typeName.toString());
+                        typeName = typeName.toString();
+                        types.push({
+                           name: typeName,
+                           label: typeLabel ? typeLabel.toString() : msg.get("type." + typeName.replace(":","_"))
+                        });
                      }
                   }
                }

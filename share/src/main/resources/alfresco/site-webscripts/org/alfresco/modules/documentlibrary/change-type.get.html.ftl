@@ -9,7 +9,7 @@
                <select id="${el}-type" type="text" name="type" tabindex="0" class="suppress-validation">
                   <option value="-">${msg("label.select")}</option>
                <#list types.selectable as t>
-                  <option value="${t}">${msg("type." + t?replace(":", "_"))}</option>
+                  <option value="${t.name?html}">${t.label?html}</option>
                </#list>
                </select>&nbsp;*
             </div>
