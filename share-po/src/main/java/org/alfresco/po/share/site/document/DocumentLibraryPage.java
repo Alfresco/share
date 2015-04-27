@@ -565,11 +565,24 @@ public class DocumentLibraryPage extends SitePage
      * @param title String file title
      * @return DocumentDetailsPage page response object
      */
-    public DocumentDetailsPage selectFile(final String title)
+    public HtmlPage selectFile(final String title)
     {
+        HtmlPage page;
+
         selectEntry(title).click();
         waitUntilAlert();
-        return new DocumentDetailsPage(drone);
+        page = drone.getCurrentPage();
+
+        try
+        {
+            page.render();
+            return new DocumentDetailsPage(drone);
+        }
+        catch (PageException e)
+        {
+            return new DocumentEditOfflinePage(drone);
+        }
+
     }
 
     /**

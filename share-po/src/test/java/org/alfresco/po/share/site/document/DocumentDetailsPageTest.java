@@ -463,9 +463,9 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();
         libraryPage = libraryPage.getFileDirectoryInfo("Test Doc").selectEditOffline().render();
-        DocumentDetailsPage docDetailsPage = libraryPage.selectFile("Test Doc");
-        assertTrue(docDetailsPage.isViewOriginalLinkPresent());
-        docDetailsPage = docDetailsPage.selectViewOriginalDocument();
+        DocumentEditOfflinePage docEditPage = libraryPage.selectFile("Test Doc").render();
+        assertTrue(docEditPage.isViewOriginalLinkPresent());
+        DocumentDetailsPage docDetailsPage = docEditPage.selectViewOriginalDocument().render();
         assertFalse(docDetailsPage.isViewOriginalLinkPresent());
         assertTrue(docDetailsPage.isViewWorkingCopyDisplayed());
         docDetailsPage.getSiteNav().selectSiteDocumentLibrary().render();

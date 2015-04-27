@@ -106,7 +106,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
         upLoadPage = docPage.getNavigation().selectFileUpload().render();
         docPage = upLoadPage.uploadFile(file2.getCanonicalPath()).render();
 
-        docPage.selectFile(fileName);
+        docPage.selectFile(fileName).render();
     }
 
     @Test
