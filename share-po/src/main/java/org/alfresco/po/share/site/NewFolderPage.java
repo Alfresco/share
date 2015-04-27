@@ -23,6 +23,8 @@ import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -41,6 +43,7 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
  */
 public class NewFolderPage extends ShareDialogue
 {
+    private Log logger = LogFactory.getLog(this.getClass());
     private final By folderTitleCss = By.cssSelector("input[id$='default-createFolder_prop_cm_title']");
     private final By name = By.cssSelector("input[id$='default-createFolder_prop_cm_name']");
     private final By descriptionLocator = By.cssSelector("textarea[id$='default-createFolder_prop_cm_description']");
@@ -351,11 +354,17 @@ public class NewFolderPage extends ShareDialogue
      * Mimics the action of clicking the save button.
      *
      */
-    public void selectSubmitButton()
+    public HtmlPage selectSubmitButton()
     {
-        WebElement okButton = drone.findAndWait(submitButton);
-        okButton.click();
-
+        try
+        {
+            drone.find(submitButton).click();
+        }
+        catch (TimeoutException e)
+        {
+            logger.error("The Save button not displayed", e);
+        }
+        return FactorySharePage.resolvePage(drone);
     }
 
     /**
