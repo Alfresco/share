@@ -741,13 +741,12 @@ public class RenderService implements ApplicationContextAware
     {
         try
         {
-         // Check to see whether or not resource caching has been disabled or not. If it has then clear all the
+            // Check to see whether or not resource caching has been disabled or not. If it has then clear all the
             // dependency caches before processing the current request...
             if (this.webFrameworkConfiguration != null && this.webFrameworkConfiguration.isResourceCachingDisabled() == true)
             {
                 this.dojoDependencyHandler.clearCaches();
             }
-            
             
             if (this.webFrameworkConfiguration.isSurfBugEnabled())
             {
