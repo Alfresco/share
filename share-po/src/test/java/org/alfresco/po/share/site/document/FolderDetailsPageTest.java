@@ -202,20 +202,6 @@ public class FolderDetailsPageTest extends AbstractTest
 
     }
 
-    @Test(dependsOnMethods = "testSelectEditProperties", groups = { "Enterprise4.2", "Enterprise4.1" })
-    public void testFolderPermissions()
-    {
-        if (logger.isTraceEnabled())
-            logger.trace("====testFolderProperties====");
-        Map<String, String> permissionProperties = folderDetailsPage.getPermissionsOfDetailsPage();
-        Assert.assertNotNull(permissionProperties);
-        Assert.assertEquals(permissionProperties.get("Managers"), "Manager");
-        Assert.assertEquals(permissionProperties.get("Collaborators"), "Collaborator");
-        Assert.assertEquals(permissionProperties.get("Contributors"), "Contributor");
-        Assert.assertEquals(permissionProperties.get("Consumers"), "Consumer");
-        Assert.assertEquals(permissionProperties.get("AllOtherUsers"), "Consumer");
-    }
-
     @Test(dependsOnMethods = "testFolderComments", groups = { "alfresco-one" })
     public void testSelectEditProperties()
     {
@@ -229,7 +215,7 @@ public class FolderDetailsPageTest extends AbstractTest
         folderDetailsPage = propertiesPage.selectSave().render();
     }
 
-    @Test(dependsOnMethods = "testFolderPermissions", groups = { "Enterprise4.2" })
+    @Test(dependsOnMethods = "testSelectEditProperties", groups = { "Enterprise4.2" })
     public void testDownloadAsZipFolder()
     {
         if (logger.isTraceEnabled())
