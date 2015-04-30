@@ -23,6 +23,7 @@
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-platform</artifactId>
             <version>${project.version}</version>
+            <classifier>nossl</classifier>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
@@ -40,6 +41,7 @@
                         <overlay>
                             <groupId>org.alfresco</groupId>
                             <artifactId>alfresco-platform</artifactId>
+                            <classifier>nossl</classifier>
                             <excludes/>
                         </overlay>
                     </overlays>
@@ -179,6 +181,7 @@
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-enterprise</artifactId>
                     <version>${project.version}</version>
+                    <classifier>nossl</classifier>
                     <type>war</type>
                     <scope>runtime</scope>
                 </dependency>
