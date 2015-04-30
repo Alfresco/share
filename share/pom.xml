@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>alfresco-jlan-embed</artifactId>
+            <artifactId>alfresco-core</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
@@ -55,6 +55,17 @@
                 <exclusion>
                     <groupId>org.quartz-scheduler</groupId>
                     <artifactId>quartz</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-jlan-embed</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>aopalliance</groupId>
+                    <artifactId>aopalliance</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
