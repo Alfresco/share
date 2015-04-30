@@ -305,8 +305,8 @@
                         <artifactId>maven-clean-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>clean-runtime-folder</id>
-                                <phase>initialize</phase>
+                                <id>default-clean</id>
+                                <phase>clean</phase>
                                 <goals>
                                     <goal>clean</goal>
                                 </goals>
@@ -327,7 +327,7 @@
                         <executions>
                             <execution>
                                 <id>drop-db</id>
-                                <phase>initialize</phase>
+                                <phase>clean</phase>
                                 <goals>
                                     <goal>execute</goal>
                                 </goals>
@@ -338,7 +338,7 @@
                             </execution>
                             <execution>
                                 <id>create-db</id>
-                                <phase>initialize</phase>
+                                <phase>clean</phase>
                                 <goals>
                                     <goal>execute</goal>
                                 </goals>
