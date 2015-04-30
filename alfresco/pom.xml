@@ -94,6 +94,35 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!--
+                Configure the Tomcat plugin. Keeping the configuration separate from the 'run' profile,
+                allows explicit running of tomcat, e.g: mvn tomcat7:run-war-only
+            -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${dependency.postgresql.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${dependency.mysql.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <systemProperties>
+                        <solr.port>${maven.tomcat.solr.port}</solr.port>
+                        <solr.backup.alfresco.numberToKeep>0</solr.backup.alfresco.numberToKeep>
+                        <solr.backup.archive.numberToKeep>0</solr.backup.archive.numberToKeep>
+                    </systemProperties>
+                    <tomcatUsers>${basedir}/tomcat-users.xml</tomcatUsers>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -157,18 +186,6 @@
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.postgresql</groupId>
-                                <artifactId>postgresql</artifactId>
-                                <version>${dependency.postgresql.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>mysql</groupId>
-                                <artifactId>mysql-connector-java</artifactId>
-                                <version>${dependency.mysql.version}</version>
-                            </dependency>
-                        </dependencies>
                         <executions>
                             <execution>
                                 <id>run-exploded-webapp</id>
@@ -178,14 +195,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <systemProperties>
-                                <solr.port>${maven.tomcat.solr.port}</solr.port>
-                                <solr.backup.alfresco.numberToKeep>0</solr.backup.alfresco.numberToKeep>
-                                <solr.backup.archive.numberToKeep>0</solr.backup.archive.numberToKeep>
-                            </systemProperties>
-                            <tomcatUsers>${basedir}/tomcat-users.xml</tomcatUsers>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
