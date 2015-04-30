@@ -524,7 +524,7 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
         if (this.userHeader != null)
         {
             String userId = AuthenticationUtil.getUserId(req);
-            if (userId != null)
+            if (userId != null && req.getRemoteUser() != null)
             {
                 if (logger.isDebugEnabled())
                     logger.debug("userHeader external auth - skipping auth filter...");
