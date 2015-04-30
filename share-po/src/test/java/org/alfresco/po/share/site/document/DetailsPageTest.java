@@ -258,14 +258,8 @@ public class DetailsPageTest extends AbstractTest
         Assert.assertTrue(folderDetails.isDocumentActionPresent(DocumentAction.DOWNLOAD_FOLDER), "Download Folder is not present");
 
     }    
-    
-    @Test(dependsOnMethods="isDocumentActionPresent", groups = { "Enterprise4.2" })
-    public void isPermissionsPanelPresent() throws Exception
-    {
-        Assert.assertTrue(folderDetails.isPermissionsPanelPresent());
-    }  
-    
-    @Test(dependsOnMethods="isPermissionsPanelPresent", groups = { "Hybrid" })
+
+    @Test(dependsOnMethods="isDocumentActionPresent", groups = { "Hybrid" })
     public void isSynPanelPresent() throws Exception
     {
         SitePage page = drone.getCurrentPage().render();
