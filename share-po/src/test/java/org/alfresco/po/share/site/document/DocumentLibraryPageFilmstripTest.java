@@ -108,7 +108,7 @@ public class DocumentLibraryPageFilmstripTest extends AbstractTest
         assertFalse(documentLibPage.getFilmstripActions().isPreviousFilmstripArrowPresent());
     }
 
-    @Test(priority = 10)
+    @Test(priority = 10, groups = "Bug")
     public void testArrowsOnTape() throws Exception
     {
         documentLibPage = documentLibPage.getNavigation().selectFilmstripView().render();
@@ -125,7 +125,7 @@ public class DocumentLibraryPageFilmstripTest extends AbstractTest
             documentLibPage = documentLibPage.getNavigation().selectAll().render();
 
             // Select Copy To
-            CopyOrMoveContentPage copyContent = documentLibPage.getNavigation().render().selectCopyTo().render();
+            CopyOrMoveContentPage copyContent = documentLibPage.getNavigation().selectCopyTo().render();
 
             // Keep the selected Destination: Current Site > DocumentLibrary Folder
             documentLibPage = copyContent.selectOkButton().render();
@@ -140,7 +140,6 @@ public class DocumentLibraryPageFilmstripTest extends AbstractTest
         assertTrue(documentLibPage.getFilmstripActions().isNextFilmstripTapeArrowPresent());
         assertFalse(documentLibPage.getFilmstripActions().isPreviousFilmstripTapeArrowPresent());
     }
-
     @Test(priority = 3)
     public void testGetSelectedFIlesForFilmstrip() throws Exception
     {
