@@ -43,7 +43,7 @@ public class UserProfileActionsTest extends AbstractTest
     public void setup() throws Exception
     {
         siteName = "site" + System.currentTimeMillis();
-        file = SiteUtil.prepareFile();;
+        file = SiteUtil.prepareFile();
         
         loginAs("admin", "admin");
         

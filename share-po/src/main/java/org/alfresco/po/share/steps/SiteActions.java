@@ -20,11 +20,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.exception.ShareException;
+import org.alfresco.po.share.exception.UnexpectedSharePageException;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -36,11 +38,13 @@ import org.alfresco.po.share.site.document.ContentDetails;
 import org.alfresco.po.share.site.document.ContentType;
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
 import org.alfresco.po.share.site.document.CreatePlainTextContentPage;
+import org.alfresco.po.share.site.document.DetailsPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.site.document.FileDirectoryInfo;
 import org.alfresco.po.share.site.document.ConfirmDeletePage.Action;
+import org.alfresco.po.share.site.document.SelectAspectsPage;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageException;
@@ -762,4 +766,95 @@ public class SiteActions extends CommonActions
         return editProp.selectSave().render();
     }
     
+    /**
+     * Util to change the type of the selected folder / content to the specified type 
+     * Expects Document / Folder Details Page is already open
+     */
+    public DetailsPage changeType(WebDrone driver, String typeToBeSelected)
+    {
+        try
+        {
+            DetailsPage detailsPage = getSharePage(driver).render();
+            return detailsPage.changeType(typeToBeSelected).render();       
+        }
+        catch(Exception e)
+        {
+            throw new PageException("Error During Change Type", e);
+        }
+    }
+    
+    /**
+     * Util to change the type of the selected folder / content to the specified type 
+     * Expects Document / Folder Details Page is already open
+     */
+    public boolean isType(WebDrone driver, String typeToBeSelected)
+    {
+            DetailsPage detailsPage = getSharePage(driver).render();
+            return detailsPage.isTypeAvailable(typeToBeSelected);
+    }
+    
+    /**
+     * Util to add the list of aspects to the selected document / folder
+     * @param driver
+     * @param aspectsToBeAdded
+     * @return DetailsPage
+     */
+    public DetailsPage addAspects(WebDrone driver, List<String> aspectsToBeAdded)
+    {
+        try
+        {           
+            SelectAspectsPage aspectsPage = getAspectsPage(driver);
+            
+            aspectsPage = aspectsPage.addDynamicAspects(aspectsToBeAdded).render(); 
+            return aspectsPage.clickApplyChanges().render();
+        }
+        catch(PageException e)
+        {
+            throw new PageException("Error During Adding Aspect", e);
+        }
+    }
+    
+    /**
+     * Util to remove the list of aspects from the selected document / folder
+     * @param driver
+     * @param aspectsToBeRemoved
+     * @return DetailsPage
+     */
+    public DetailsPage removeAspects(WebDrone driver, List<String> aspectsToBeRemoved)
+    {
+        try
+        {           
+            SelectAspectsPage aspectsPage = getAspectsPage(driver);
+            
+            aspectsPage = aspectsPage.removeDynamicAspects(aspectsToBeRemoved).render(); 
+            return aspectsPage.clickApplyChanges().render();
+        }
+        catch(PageException e)
+        {
+            throw new PageException("Error During Removing Aspect", e);
+        }
+    }
+    
+    /**
+     * Util to return ManageAspectsPopup from DetailsPage
+     * @param driver
+     * @return SelectAspectsPage
+     */
+    public SelectAspectsPage getAspectsPage(WebDrone driver)
+    {
+        try
+        {
+            DetailsPage detailsPage = getSharePage(driver).render();
+            
+            return detailsPage.selectManageAspects().render();     
+        }
+        catch(ClassCastException ce)
+        {
+            throw new UnexpectedSharePageException(DetailsPage.class, ce);
+        }
+        catch(PageException pe)
+        {
+            throw new PageException("Unable to select Manage Aspects", pe);
+        }
+    }
 }

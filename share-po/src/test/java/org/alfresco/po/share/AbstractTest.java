@@ -53,8 +53,11 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -615,6 +618,46 @@ public abstract class AbstractTest implements AlfrescoTests
         DocumentLibraryPage documentLibraryPage = drone.getCurrentPage().render();
         UploadFilePage uploadForm = documentLibraryPage.getNavigation().selectFileUpload().render();
         return uploadForm.uploadFile(filePath).render();
+    }
+    
+    /**
+     * Helper to create a new file, empty or with specified contents if one does not exist. 
+     * Logs if File already exists
+     * 
+     * @param filename String Complete path of the file to be created
+     * @param contents String Contents for text file
+     * @return File
+     */
+    public static File newFile(String filename, String contents)
+    {
+        File file = new File(filename);
+
+        try
+        {
+            if (!file.exists())
+            {
+
+                if (!contents.isEmpty())
+                {
+                    OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8").newEncoder());
+                    writer.write(contents);
+                    writer.close();
+                }
+                else
+                {
+                    file.createNewFile();
+                }
+            }
+            else
+            {
+                logger.debug("Filename already exists: " + filename);
+            }
+        }
+        catch (IOException ex)
+        {
+            logger.error("Unable to create sample file", ex);
+        }
+        return file;
     }
 
 }

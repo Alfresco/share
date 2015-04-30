@@ -39,6 +39,7 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
  * Select Aspects page object, this page comes from Document Detail Page's Manage Aspects.
  * 
  * @author Shan Nagarajan
+ * @@author mbhave
  * @since 1.6.1
  */
 public class SelectAspectsPage extends SharePage
@@ -110,21 +111,43 @@ public class SelectAspectsPage extends SharePage
     {
         return addRemoveAspects(aspects, AVAILABLE_ASPECT_TABLE);
     }
-
-    public Set<DocumentAspect> getAvailableAspects()
+    
+    /**
+     * remove the {@link Aspect} if it is available to add.
+     * 
+     * @param aspects {@link List} of {@link Aspect} to remove.
+     * @return {@link SelectAspectsPage}
+     */
+    public HtmlPage removeDynamicAspects(List<String> aspects)
     {
-        return getavailableAspectMap(AVAILABLE_ASPECT_TABLE).keySet();
+        return addRemoveAspectsDynamicAspects(aspects, CURRENTLY_ADDED_ASPECT_TABLE);
     }
 
-    public Set<DocumentAspect> getSelectedAspects()
+    /**
+     * Add the {@link Aspect} if it is available to add.
+     * 
+     * @param aspects {@link List} of {@link Aspect} to added.
+     * @return {@link SelectAspectsPage}
+     */
+    public HtmlPage addDynamicAspects(List<String> aspects)
     {
-        return getavailableAspectMap(CURRENTLY_ADDED_ASPECT_TABLE).keySet();
+        return addRemoveAspectsDynamicAspects(aspects, AVAILABLE_ASPECT_TABLE);
     }
 
-    private Map<DocumentAspect, ShareLink> getavailableAspectMap(By by)
+    public Set<DocumentAspect> getAvailableSystemAspects()
+    {
+        return getSystemAspectsMap(AVAILABLE_ASPECT_TABLE).keySet();
+    }
+
+    public Set<DocumentAspect> getSelectedSystemAspects()
+    {              
+        return getSystemAspectsMap(CURRENTLY_ADDED_ASPECT_TABLE).keySet();
+    }
+
+    private Map<String, ShareLink> getAllAspectsMap(By by)
     {
         List<WebElement> availableElements = null;
-        Map<DocumentAspect, ShareLink> availableAspectMap = null;
+        Map<String, ShareLink> availableAspectMap = null;
         try
         {
             availableElements = drone.findAndWaitForElements(by);
@@ -137,7 +160,7 @@ public class SelectAspectsPage extends SharePage
         if (availableElements != null && !availableElements.isEmpty())
         {
             // Convert List into Map
-            availableAspectMap = new HashMap<DocumentAspect, ShareLink>();
+            availableAspectMap = new HashMap<String, ShareLink>();
             for (WebElement webElement : availableElements)
             {
                 try
@@ -145,7 +168,7 @@ public class SelectAspectsPage extends SharePage
                     WebElement header = webElement.findElement(HEADER_ASPECT_TABLE);
                     WebElement addLink = webElement.findElement(ADD_REMOVE_LINK);
                     ShareLink addShareLink = new ShareLink(addLink, drone);
-                    availableAspectMap.put(DocumentAspect.getAspect(header.getText()), addShareLink);
+                    availableAspectMap.put(header.getText(), addShareLink);
                 }
                 catch (NoSuchElementException e)
                 {
@@ -158,6 +181,44 @@ public class SelectAspectsPage extends SharePage
             }
         }
         return availableAspectMap;
+    }
+    
+    /**
+     * Util to check if the aspect appears in the added aspects list
+     * @param aspectName
+     * @return true if aspect name is found in the list
+     */
+    public boolean isAspectAdded(String aspectName)
+    {      
+         try
+         {
+             Set<String> allAspects = getAllAspectsMap(CURRENTLY_ADDED_ASPECT_TABLE).keySet();
+             return allAspects.contains(aspectName);
+         }
+         catch (Exception e)
+         {
+
+         }
+         return false;
+    }
+    
+    /**
+     * Util to check if the aspect appears in the available aspects list
+     * @param aspectName
+     * @return true if aspect name is found in the list
+     */
+    public boolean isAspectAvailable(String aspectName)
+    {
+        try
+        {
+            Set<String> allAspects = getAllAspectsMap(AVAILABLE_ASPECT_TABLE).keySet();
+            return allAspects.contains(aspectName);
+        }
+        catch (Exception e)
+        {
+
+        }
+        return false;
     }
 
     /**
@@ -172,7 +233,7 @@ public class SelectAspectsPage extends SharePage
         {
             throw new UnsupportedOperationException("Aspets can't be empty or null.");
         }
-        Map<DocumentAspect, ShareLink> availableAspectMap = getavailableAspectMap(by);
+        Map<DocumentAspect, ShareLink> availableAspectMap = getSystemAspectsMap(by);
 
         if (availableAspectMap != null && !availableAspectMap.isEmpty())
         {
@@ -266,6 +327,97 @@ public class SelectAspectsPage extends SharePage
     public String getTitle()
     {
         return drone.find(TITLE).getText();
-    }    
+    } 
+    
+    /**
+     * Add the {@link Aspect} if it is available to add.
+     * 
+     * @param aspects {@link List} of {@link Aspect} to added.
+     * @return {@link SelectAspectsPage}
+     */
+    private HtmlPage addRemoveAspectsDynamicAspects(List<String> aspects, By by)
+    {
+        if (aspects == null || aspects.isEmpty())
+        {
+            throw new UnsupportedOperationException("Aspets can't be empty or null.");
+        }
+        
+        Map<String, ShareLink> availableAspectMap = getAllAspectsMap(by);
+
+        if (availableAspectMap != null && !availableAspectMap.isEmpty())
+        {
+            for (String aspect : aspects)
+            {
+                ShareLink link = availableAspectMap.get(aspect);
+                if (link != null)
+                {
+                    try
+                    {
+                        if (AVAILABLE_ASPECT_TABLE.equals(by))
+                        {
+                            WebElement aspectElement = drone.find(By.xpath(String.format(ASPECT_AVAILBLE_XPATH, aspect)));
+                            if (!aspectElement.isSelected())
+                            {
+                                aspectElement.click();
+                            }
+                        }
+                        link.click();
+                        if (logger.isTraceEnabled())
+                        {
+                            logger.trace(aspect + "Aspect Added.");
+                        }
+                    }
+                    catch (StaleElementReferenceException exception)
+                    {
+                        drone.find(CANCEL).click();
+                        throw new PageException("Unexpected Refresh on Page lost reference to the Aspects.", exception);
+                    }
+                }
+                else
+                {
+                    logger.error("Not able to find in the available aspects bucket " + aspect.toString());
+                }
+            }
+        }
+
+        return this;
+    }
+    
+    /**
+     * Util to convert a Map<String, shareLink> to Map<DocumentAspect, sharelink> for system aspects.
+     * This util will exclude dynamic aspects
+     * @param by
+     * @return Map<DocumentAspect, ShareLink>
+     */
+    public Map<DocumentAspect, ShareLink> getSystemAspectsMap(By by)
+    {
+        Map<DocumentAspect, ShareLink> availableAspectMapSystem = Collections.emptyMap();
+    
+        Map<String, ShareLink> availableAspectMap = getAllAspectsMap(by);
+        if (availableAspectMap.isEmpty())
+        {
+            logger.info("No System Aspect is available to add");
+        }
+        else
+        {
+            // Make a list of System Document Aspects
+            availableAspectMapSystem = new HashMap<DocumentAspect, ShareLink>();
+            for (Map.Entry<String, ShareLink> entry : availableAspectMap.entrySet())
+            {
+                String aspect = entry.getKey();
+                
+                try
+                {
+                    DocumentAspect sysAspect = DocumentAspect.getAspect(aspect);
+                    availableAspectMapSystem.put(sysAspect, entry.getValue());
+                }
+                catch (Exception e)
+                {
+                    // Skip adding entry: as its not a system aspect
+                }
+            }            
+        }
+        return availableAspectMapSystem;
+    }
 
 }

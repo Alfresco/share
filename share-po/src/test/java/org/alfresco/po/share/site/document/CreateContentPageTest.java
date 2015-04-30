@@ -152,9 +152,9 @@ public class CreateContentPageTest extends AbstractDocumentTest
         aspects.add(DocumentAspect.CLASSIFIABLE);
         aspects.add(DocumentAspect.GEOGRAPHIC);
         aspectsPage = aspectsPage.add(aspects).render();
-        assertFalse(aspectsPage.getAvailableAspects().contains(DocumentAspect.VERSIONABLE));
-        assertTrue(aspectsPage.getSelectedAspects().contains(DocumentAspect.VERSIONABLE));
-        assertTrue(aspectsPage.getSelectedAspects().contains(DocumentAspect.GEOGRAPHIC));
+        assertFalse(aspectsPage.getAvailableSystemAspects().contains(DocumentAspect.VERSIONABLE));
+        assertTrue(aspectsPage.getSelectedSystemAspects().contains(DocumentAspect.VERSIONABLE));
+        assertTrue(aspectsPage.getSelectedSystemAspects().contains(DocumentAspect.GEOGRAPHIC));
         detailsPage = aspectsPage.clickApplyChanges().render();
         assertTrue(detailsPage.isViewOnGoogleMapsLinkVisible());
         EditTextDocumentPage editPage = detailsPage.selectInlineEdit();
@@ -190,8 +190,8 @@ public class CreateContentPageTest extends AbstractDocumentTest
         aspects.add(DocumentAspect.VERSIONABLE);
         aspects.add(DocumentAspect.CLASSIFIABLE);
         aspectsPage = aspectsPage.add(aspects).render();
-        assertFalse(aspectsPage.getAvailableAspects().contains(DocumentAspect.VERSIONABLE));
-        assertTrue(aspectsPage.getSelectedAspects().contains(DocumentAspect.VERSIONABLE));
+        assertFalse(aspectsPage.getAvailableSystemAspects().contains(DocumentAspect.VERSIONABLE));
+        assertTrue(aspectsPage.getSelectedSystemAspects().contains(DocumentAspect.VERSIONABLE));
         detailsPage = aspectsPage.clickCancel().render();
         documentLibPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
     }
