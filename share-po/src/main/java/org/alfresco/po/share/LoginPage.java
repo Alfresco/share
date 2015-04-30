@@ -121,11 +121,11 @@ public class LoginPage extends SharePage
         logger.info("Values entered: User[" + usernameEntered + "], Password[" + passwordEntered + "]");
         if (!username.equals(usernameEntered))
         {
-            throw new PageOperationException(String.format("The username %s did not match input %s", username, usernameEntered));
+            drone.clearAndType(USERNAME_INPUT, username);
         }
         if (!password.equals(passwordEntered))
         {
-            throw new PageOperationException(String.format("The password %s did not match input %s", password, passwordEntered));
+            drone.clearAndType(PASSWORD_INPUT, password);
         }
         button.submit();
         logger.info("User[" + usernameEntered + "] loggedIn.");
