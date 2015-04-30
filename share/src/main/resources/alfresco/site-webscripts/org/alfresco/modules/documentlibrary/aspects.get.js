@@ -1,3 +1,5 @@
+var labels = {};
+
 function main()
 {
    var scopedRoot = config.scoped["DocumentLibrary"]["aspects"];
@@ -6,7 +8,8 @@ function main()
    {
       visible: getConfigAspects(scopedRoot, "visible"),
       addable: getConfigAspects(scopedRoot, "addable"),
-      removeable: getConfigAspects(scopedRoot, "removeable")
+      removeable: getConfigAspects(scopedRoot, "removeable"),
+      labels: labels
    });
 }
 
@@ -14,6 +17,7 @@ function getConfigAspects(scopedRoot, childName)
 {
    var aspects = [],
        aspectName,
+       label,
        configs,
        aspectConfig;
 
@@ -34,6 +38,11 @@ function getConfigAspects(scopedRoot, childName)
                   if (aspectName)
                   {
                      aspects.push(aspectName.toString());
+                     label = aspectConfig.get(j).attributes["label"];
+                     if (label)
+                     {
+                        labels[aspectName.toString()] = label.toString();
+                     }
                   }
                }
             }

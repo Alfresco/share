@@ -148,7 +148,9 @@
        */
       i18n: function DA_i18n(aspect, scope)
       {
-         return this.msg("aspect." + aspect.replace(":", "_"));
+         var key = "aspect." + aspect.replace(":", "_"),
+             msg = this.msg(key);
+         return (msg !== key ? msg : this.options.labels[aspect]);
       },
       
       /**
