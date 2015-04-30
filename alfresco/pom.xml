@@ -314,9 +314,13 @@
             </build>
         </profile>
 
-        <!-- Use "mvn initialize -Pdata" to drop repo, solr and DB data, then re-create an empty DB -->
+        <!--
+            Use "mvn initialize -Ppurge" to drop repo, solr and DB data, then re-create an empty DB.
+            Or use with a later phase to build and start a fresh repo all in one go, e.g.
+            "mvn [clean] install -Ppurge,run"
+          -->
         <profile>
-            <id>data</id>
+            <id>purge</id>
             <build>
                 <plugins>
                     <plugin>
@@ -324,8 +328,8 @@
                         <artifactId>maven-clean-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>default-clean</id>
-                                <phase>clean</phase>
+                                <id>delete-runtime-folders</id>
+                                <phase>initialize</phase>
                                 <goals>
                                     <goal>clean</goal>
                                 </goals>
