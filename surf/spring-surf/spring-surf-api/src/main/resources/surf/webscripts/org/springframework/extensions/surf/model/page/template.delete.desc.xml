@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Surf API - Removes a page's template association</shortname>
+  <description>Surf API - Removes a page's template association</description>
+  <url>/api/surf/page/{id}/template?format={formatId?}</url>
+  <format default="json">argument</format>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

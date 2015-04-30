@@ -1,0 +1,1 @@
+BeforePageScopeWebScriptComponent<@region id="page_scope_webscript_component_with_webscript_chrome-region" scope="page"/>AfterPageScopeWebScriptComponent

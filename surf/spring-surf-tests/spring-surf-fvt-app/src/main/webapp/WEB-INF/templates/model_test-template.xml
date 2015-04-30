@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>model_test-template</template-type>
+    <components>
+        <component>
+            <region-id>model_test-region</region-id>
+            <component-type-id>model_test-componentType</component-type-id>
+        </component>   
+    </components>   
+</template-instance>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>taglib_resource_test-page</id>
+   <title>Example Resource tag test</title>
+   <template-instance>taglib_resource_test-template</template-instance>
+   <components>
+      <component>
+         <region-id>taglib_resource_test-region</region-id>
+         <component-type-id>taglib_resource_test-componentType</component-type-id>
+      </component>   
+   </components>   
+</page>

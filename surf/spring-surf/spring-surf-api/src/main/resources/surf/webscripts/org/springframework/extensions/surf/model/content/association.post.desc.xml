@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Surf API - Adds a content association</shortname>
+  <description>Surf API - Adds a content association</description>
+  <url>/api/surf/content/type/{type}/association?dest={dest}&amp;assocType={assocType?}&amp;f={format?}</url>
+  <url>/api/surf/content/instance/{id}/association?dest={dest}&amp;assocType={assocType?}&amp;f={format?}</url>
+  <format default="json">argument</format>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

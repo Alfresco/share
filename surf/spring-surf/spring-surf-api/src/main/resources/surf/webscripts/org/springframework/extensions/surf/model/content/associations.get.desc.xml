@@ -1,0 +1,12 @@
+<webscript>
+  <shortname>Surf API - Retrieves Content Associations</shortname>
+  <description>Surf API - Retrieves Content Associations</description>
+  <url>/api/surf/content/associations?dest={dest?}&amp;assocType={assocType?}&amp;f={format?}</url>
+  <url>/api/surf/content/type/associations?dest={dest?}&amp;assocType={assocType?}&amp;f={format?}</url>
+  <url>/api/surf/content/type/{type}/associations?dest={dest?}&amp;assocType={assocType?}&amp;f={format?}</url>
+  <url>/api/surf/content/instance/associations?dest={dest?}&amp;assocType={assocType?}&amp;f={format?}</url>
+  <url>/api/surf/content/instance/{id}/associations?dest={dest?}&amp;assocType={assocType?}&amp;f={format?}</url>
+  <format default="json">argument</format>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

@@ -1,0 +1,10 @@
+<component>
+    <id>blah</id>
+    <region-id>webscript_page_properties-region</region-id>
+    <source-id>pageargs_and_properties-page</source-id>
+    <scope>page</scope>
+    <component-type-id>webscript_page_properties-componentType</component-type-id>
+    <properties>
+	    <prop>componentProp</prop>
+    </properties>  
+</component>

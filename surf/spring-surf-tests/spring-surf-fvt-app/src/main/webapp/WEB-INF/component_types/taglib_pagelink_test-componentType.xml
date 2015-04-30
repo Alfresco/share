@@ -1,0 +1,8 @@
+<component-type>
+    <id>taglib_pagelink_test-componentType</id>
+    <title>A component type that references a JSP that renders page links</title>
+    <processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/pageLink.jsp</uri>
+    </processor>
+</component-type>

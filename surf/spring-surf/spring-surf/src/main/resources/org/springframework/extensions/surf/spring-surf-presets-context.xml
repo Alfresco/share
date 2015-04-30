@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+   
+   <!-- Stores containing presets for pre-generated pages and component bindings -->
+   <bean id="webframework.classpathstore.presets" class="org.springframework.extensions.webscripts.ClassPathStore">
+      <property name="mustExist"><value>false</value></property>   
+      <property name="classPath"><value>alfresco/site-data/presets</value></property>
+   </bean>
+   
+   <bean id="webframework.classpathstore.presets.custom" class="org.springframework.extensions.webscripts.ClassPathStore">
+      <property name="mustExist"><value>false</value></property>
+      <property name="classPath"><value>alfresco/web-extension/site-data/presets</value></property>
+   </bean>
+   
+   <bean id="webframework.remotestore.presets" parent="webframework.store.remote.abstract">
+      <property name="path"><value>alfresco/site-data/presets</value></property>
+   </bean>
+   
+   <bean id="webframework.presets.searchpath" class="org.springframework.extensions.webscripts.SearchPath">
+      <property name="searchPath">
+         <list>
+            <ref bean="webframework.classpathstore.presets.custom" />
+            <ref bean="webframework.classpathstore.presets" />
+         </list>
+      </property>
+   </bean>
+   
+   <!-- Presets manager - configured to walk a search path for preset definition files -->
+   <bean id="webframework.presets.manager" class="org.springframework.extensions.surf.PresetsManager">
+      <property name="modelObjectService" ref="webframework.service.modelobject" />
+      <property name="searchPath" ref="webframework.presets.searchpath" />
+      <property name="files">
+         <list>
+            <value>presets.xml</value>
+         </list>
+      </property>
+   </bean>
+
+</beans>

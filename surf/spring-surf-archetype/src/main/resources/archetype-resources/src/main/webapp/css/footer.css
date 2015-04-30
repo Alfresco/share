@@ -1,0 +1,7 @@
+.footer {
+    clear: both;
+    height: 75px;
+    margin-top: -75px;
+    position: relative;
+    float: right;
+}

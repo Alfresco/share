@@ -1,0 +1,9 @@
+<component-type>
+    <id>construct_preset_jsp-componentType</id>
+    <title>A JSP Component that constructs a preset</title>
+    <description>This component type references a JSP that uses the constructPreset custom tag</description>
+    <processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/constructPreset.jsp</uri>
+    </processor>
+</component-type>

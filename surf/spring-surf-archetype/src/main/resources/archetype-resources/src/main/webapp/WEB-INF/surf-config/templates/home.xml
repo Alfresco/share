@@ -1,0 +1,13 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <!-- This identifies the FreeMarker file to use to render this template-instance object.
+        "org/example/package" defines the package in which to find the file and "template-with-regions"
+		is the name of the FreeMarker file to find (the .ftl suffix is assumed). 
+		
+		There are several configured locations for FreeMarker templates. In this case the file
+		in question is placed in WEB-INF/templates. -->
+   <template-type>org/example/package/home</template-type>   
+</template-instance>

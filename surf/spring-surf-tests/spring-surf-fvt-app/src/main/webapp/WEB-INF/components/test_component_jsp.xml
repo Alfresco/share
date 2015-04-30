@@ -1,0 +1,7 @@
+<component>
+  <id>page.test_component_jsp.test_page_for_component_jsp</id>
+  <region-id>test_component_jsp</region-id>
+  <source-id>test_page_for_component_jsp</source-id>
+  <scope>page</scope>
+  <component-type-id>test_component_type_jsp</component-type-id>  
+</component>

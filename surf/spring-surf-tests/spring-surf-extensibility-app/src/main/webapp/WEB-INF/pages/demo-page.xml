@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>demo-page</id>
+   <description>This is a page to be used for demonstrating extensibility capabilities</description>
+   <template-instance>demo-template</template-instance>
+</page>

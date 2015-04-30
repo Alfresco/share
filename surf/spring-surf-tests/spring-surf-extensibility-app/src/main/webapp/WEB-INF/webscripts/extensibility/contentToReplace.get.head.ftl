@@ -1,0 +1,2 @@
+<!-- Some original head content -->
+

@@ -1,0 +1,11 @@
+<package>
+    <shortname>Spring Surf Client</shortname>
+    <description>Spring Surf Client Webscripts.</description>
+    <resources>
+        <resource>
+            <shortname>Client</shortname>
+            <description>Spring Surf Client Webscripts.</description>
+            <webscripts>client.get</webscripts>
+        </resource>
+    </resources>
+</package>

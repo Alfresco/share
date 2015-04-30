@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chrome>
+   <title>Default Region Chrome for FV App</title>
+
+   <!-- Define the rendering processors for this chrome -->	
+   <processor mode="view">
+      <id>webtemplate</id>
+      <uri>chrome/fv_default_region-chrome</uri>
+   </processor>
+   <processor mode="edit">
+      <id>webtemplate</id>
+      <uri>${mode.view.uri}</uri>
+   </processor>   
+   
+</chrome>

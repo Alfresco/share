@@ -1,0 +1,1 @@
+BeforeGlobalScopeWebScriptComponent<@region id="global_scope_webscript_component_with_webscript_chrome-region" scope="global"/>AfterGlobalScopeWebScriptComponent

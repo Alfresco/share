@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>taglib_pagelink_test-page</id>
+   <title>Example pagelink</title>
+   <template-instance>taglib_pagelink_test-template</template-instance>
+   <components>
+      <component>
+         <region-id>taglib_pagelink_test-region</region-id>
+         <component-type-id>taglib_pagelink_test-componentType</component-type-id>
+      </component>   
+   </components>   
+</page>

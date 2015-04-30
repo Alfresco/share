@@ -1,0 +1,4 @@
+{
+   "javaScript": "${jsResource}",
+   "css": "${cssResource}"
+}

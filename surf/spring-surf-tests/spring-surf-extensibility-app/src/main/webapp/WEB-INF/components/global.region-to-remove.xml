@@ -1,0 +1,7 @@
+<component>
+  <id>global.region-to-remove</id>
+  <region-id>region-to-remove</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>region-to-remove-componentType</component-type-id>   
+</component>

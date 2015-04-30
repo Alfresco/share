@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Test formdata processing enabled</shortname>
+  <description>Test forms with enctype of multipart/form-data</description>
+  <url>/testformdatamultipartprocessing2</url>
+  <authentication>none</authentication>
+</webscript>

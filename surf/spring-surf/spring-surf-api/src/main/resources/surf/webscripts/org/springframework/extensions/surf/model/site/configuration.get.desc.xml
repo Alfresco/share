@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Surf API - Retrieves Site Configuration</shortname>
+  <description>Surf API - Retrieves Site Configuration</description>
+  <url>/api/surf/site/config</url>
+  <format default="json">argument</format>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

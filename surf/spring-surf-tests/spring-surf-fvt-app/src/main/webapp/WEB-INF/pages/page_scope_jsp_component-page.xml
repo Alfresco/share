@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>page_scope_jsp_component-page</id>
+   <title>Page scoped JSP component page</title>
+   <template-instance>page_scope_jsp_component-template</template-instance>
+   <components>
+      <component>
+         <region-id>page_scope_jsp_component-region</region-id>
+         <component-type-id>jsp_component_type_2-componentType</component-type-id>
+      </component>   
+   </components>   
+</page>

@@ -1,0 +1,12 @@
+.body {
+    overflow: auto;
+    padding-bottom: 75px;
+    background-image: url('../images/alfresco3d.jpg');
+    background-repeat: no-repeat;
+    height: 168px
+}
+
+.centredImage {
+    display: block;
+    margin: auto;
+}

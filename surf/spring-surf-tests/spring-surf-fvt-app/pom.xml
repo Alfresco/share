@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.springframework.extensions.surf</groupId>
+		<artifactId>spring-surf-parent</artifactId>
+		<version>5.1-RA3-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+	
+	<artifactId>spring-surf-fvt-app</artifactId>
+	<name>Application for Spring Surf FVT</name>
+	<description>Spring Surf Application For FVT - not intended as a sample application.</description>
+	<url>spring-surf-tests/${project.artifactId}</url>
+	<packaging>war</packaging>
+
+	<!-- Define Eclipse Integration Plugin -->
+	<build>
+		<plugins>
+		   <!--  JETTY PLUG-IN CONFIGURATION:
+		      The following has been adapted from the jetty:run goal configuration example found
+		      at the following URL: http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin
+		      Most of the example code is removed because the project uses the defaults.
+               As of version 7.x the plugin was renamed to adapt to standard maven plugin naming.       
+         -->
+		   <plugin>
+             <groupId>org.mortbay.jetty</groupId>
+             <artifactId>jetty-maven-plugin</artifactId>
+             <version>${plugin.jetty.version}</version>
+   			 <configuration>
+   				<scanIntervalSeconds>0</scanIntervalSeconds>
+   				<scanTargets>
+   					<scanTarget>src/main/webapp</scanTarget>
+   				</scanTargets>
+   			 </configuration>
+         </plugin>
+         <!--  SureFire plug-in configuration TestNG. This overrides the default SureFire settings
+               to set the FVT application to test using TestNG rather than JUnit. The reason for this
+               is so that we can execute the same tests for different configurations of the FVT application
+               (e.g. with caching switched on/off). -->
+         <plugin>
+             <artifactId>maven-surefire-plugin</artifactId>
+             <configuration>
+                 <suiteXmlFiles>
+                     <suiteXmlFile>src/test/resources/cachingEnabledSuite.xml</suiteXmlFile>
+                     <suiteXmlFile>src/test/resources/cachingDisabledSuite.xml</suiteXmlFile>
+                     <suiteXmlFile>src/test/resources/extensibilitySuite.xml</suiteXmlFile>
+                 </suiteXmlFiles>
+             </configuration>
+         </plugin>
+		</plugins>
+	</build>
+	<dependencies>
+	<!--  JETTY -->
+		<dependency>
+    	    <groupId>org.mortbay.jetty</groupId>
+    	    <artifactId>jetty</artifactId>
+    	    <version>6.1.26</version>
+    	    <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jsp-2.1</artifactId>
+            <version>6.1.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- TestNG (used for testing multiple configurations of FVT application -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>5.12.1</version>
+            <scope>test</scope>
+        </dependency>
+
+		<!-- Surf -->
+		<dependency>
+			<groupId>org.springframework.extensions.surf</groupId>
+			<artifactId>spring-surf</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.extensions.surf</groupId>
+            <artifactId>spring-webscripts-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+		<!-- Java Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<!-- Log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<!-- Commons -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-el</groupId>
+			<artifactId>commons-el</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+
+		<!-- Clean URLs with JSPs -->
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+		</dependency>
+
+		<!-- Spring Framework Project libraries -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.caucho</groupId>
+					<artifactId>burlap</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.caucho</groupId>
+					<artifactId>hessian</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- Spring JavaScript Project -->
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-js</artifactId>
+			<version>2.0.7.RELEASE</version>
+		</dependency>
+		<!-- Slf4j to Commons Logging Bridge, needed because hibernate uses slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+      		<artifactId>slf4j-jcl</artifactId>
+      		<version>1.4.2</version>
+		</dependency>
+
+		<!-- Container-provided dependencies-->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- Apache HTTP client is used for multipart POST tests. -->
+      <dependency>
+         <groupId>org.apache.httpcomponents</groupId>
+         <artifactId>httpclient</artifactId>
+         <version>4.3.3</version>
+         <scope>compile</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.httpcomponents</groupId>
+         <artifactId>httpmime</artifactId>
+         <version>4.3.3</version>
+         <scope>compile</scope>
+      </dependency>
+		
+	</dependencies>
+</project>

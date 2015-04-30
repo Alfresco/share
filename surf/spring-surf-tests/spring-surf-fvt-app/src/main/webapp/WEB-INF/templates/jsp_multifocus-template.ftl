@@ -1,0 +1,1 @@
+<@region id="jsp_multifocus-region" scope="page"/>

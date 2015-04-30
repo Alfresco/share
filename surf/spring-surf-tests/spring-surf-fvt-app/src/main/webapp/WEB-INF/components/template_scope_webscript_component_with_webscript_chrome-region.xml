@@ -1,0 +1,8 @@
+<component>
+  <id>template.template_scope_webscript_component_with_webscript_chromes-region.template_scope_webscript_component_with_webscript_chrome-template</id>
+  <region-id>template_scope_webscript_component_with_webscript_chromes-region</region-id>
+  <source-id>template_scope_webscript_component_with_webscript_chrome-template</source-id>
+  <scope>template</scope>
+  <component-type-id>webscript_component_type_3-componentType</component-type-id>
+  <chrome>component_webscript-chrome</chrome>  
+</component>

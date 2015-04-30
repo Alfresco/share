@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+   <!-- Base config implementation that template extension beans extend from - for auto registration
+        as an extension template object with a TemplateProcessor -->
+   <bean id="baseTemplateExtension" abstract="true" init-method="register">
+      <property name="processors">
+         <list>
+            <ref bean="webframework.webscripts.templateprocessor.freemarker" />
+            <ref bean="webframework.templates.templateprocessor.freemarker" />
+         </list>
+      </property>
+   </bean>
+   
+   <!--
+        Example of adding a new root scope variable to a set of
+        template processors (defined in baseTemplateExtension)
+   -->
+   <!--
+   <bean id="example" parent="baseTemplateExtension" class="org.yourclasspath.ExampleExtension">
+      <property name="extensionName">
+         <value>example</value>
+      </property>
+   </bean>
+   -->
+   
+
+   <!-- Example of adding a new template processor to webscripts engine -->
+   <!--    
+   <bean id="webframework.webscripts.templateprocessor.example" parent="webframework.webscripts.scriptprocessor.ext" class="org.mycompany.ExampleTemplateProcessor">
+      <property name="searchPath" ref="webframework.webscripts.searchpath" />
+      <property name="defaultEncoding"><value>UTF-8</value></property>
+      <property name="templateProcessorRegistry" ref="webframework.webscripts.registry.templateprocessor" />
+   </bean>
+   -->
+   
+   <!-- Example of adding a new template processor to templates engine -->
+   <!--    
+   <bean id="webframework.templates.templateprocessor.example" parent="webframework.webscripts.scriptprocessor.ext" class="org.mycompany.ExampleTemplateProcessor">
+      <property name="searchPath" ref="webframework.templates.searchpath" />
+      <property name="defaultEncoding"><value>UTF-8</value></property>
+      <property name="templateProcessorRegistry" ref="webframework.templates.registry.templateprocessor" />
+   </bean>
+   -->
+
+</beans>

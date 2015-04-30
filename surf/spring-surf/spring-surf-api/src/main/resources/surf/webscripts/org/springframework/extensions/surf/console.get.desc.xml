@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Web Framework Console</shortname>
+  <description>Web Framework Console</description>
+  <url>/console</url>
+  <lifecycle>internal</lifecycle>
+  <authentication>admin</authentication>
+</webscript>

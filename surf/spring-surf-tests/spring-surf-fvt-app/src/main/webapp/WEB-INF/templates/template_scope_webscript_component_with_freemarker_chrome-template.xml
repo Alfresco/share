@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>template_scope_webscript_component_with_freemarker_chrome-template</template-type>
+   <components>
+      <component>
+         <region-id>template_scope_webscript_component_with_freemarker_chromes-region</region-id>
+         <component-type-id>webscript_component_type_3-componentType</component-type-id>
+      </component>   
+   </components>   
+</template-instance>

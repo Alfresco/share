@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Deletes an Extension Module</shortname>
+  <description>Deletes a Module from the specified Extension</description>
+  <url>/modules/module/delete</url>
+  <family>ModuleDeployment</family>
+  <lifecycle>internal</lifecycle>
+  <authentication>admin</authentication>
+  <format default="json"></format>
+</webscript>

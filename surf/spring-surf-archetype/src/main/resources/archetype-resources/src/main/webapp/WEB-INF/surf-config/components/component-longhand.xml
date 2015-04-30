@@ -1,0 +1,39 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<component>
+    <!-- It is not necessary to explicitly define an id - this is only required when the name
+         of the configuration file does not match the id generated. For example, an id element
+         would NOT be required if this file was called "global.region1.xml". This is because the
+         Component is looked up using a generated path when an id is NOT present -->
+	<id>global.region1</id>
+    
+	<!-- This is the name of the region to bind to - it needs to match exactly to the value set
+         by a <@region> directive in a template. -->	
+    <region-id>region1</region-id>
+    
+	<!-- The source-id of a Component must be either "global" or the id of the Page or Template
+	     that you wish to scope the component to. It is a necessity but since Surf does not 
+		 broaden its search when it cannot find a target at the specified scope it is largely
+		 pointless - a Region can only ever be bound to one Component -->
+	<source-id>global</source-id>
+    
+	<!-- Valid values for scope are "global", "page" and "template" -->
+	<scope>global</scope>
+	
+    <!-- It is possible to reference a ComponentType to use to specify the rendering information
+	     but for this example we will define the ComponentType configuration directly within the
+		 Component -->
+    <!-- <component-type-id>component-type-example</component-type-id> -->
+    
+	<!-- When defining a WebScript component it is possible to just use the <uri> (or <url> - both
+	     are accepted) element to scecify a WebScript URL. This is because Surf defines a default
+		 ComponentType called "webscript" that is used whenever a ComponentType is not specified.
+		 This default ComponentType sets up a WebScript processor which allows you to just set a
+		 URI value in the Component (Component settings override ComponentType settings). -->
+	<uri>/basic/webscript1</uri>
+    
+	<!-- It is possible to override the default Chrome used for the Component. However use of
+	     Chrome is deprecated so we will leave this commented out -->
+	<!-- <chrome>chrome-example</chrome>  -->
+</component>

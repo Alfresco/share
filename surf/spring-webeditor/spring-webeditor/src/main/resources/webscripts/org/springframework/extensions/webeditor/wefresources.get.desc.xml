@@ -1,0 +1,11 @@
+<webscript>
+   <shortname>WEF Resources</shortname>
+   <description><![CDATA[
+   Sets up all the resources required for the Web Editor Framework and the installed plugins 
+   ]]>
+   </description>
+   <url>/wef/resources</url>
+   <format default="js" />
+   <authentication>none</authentication>
+   <lifecycle>internal</lifecycle>
+</webscript>

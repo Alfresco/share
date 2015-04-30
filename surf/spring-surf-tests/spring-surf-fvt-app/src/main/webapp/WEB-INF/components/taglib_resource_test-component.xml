@@ -1,0 +1,10 @@
+<component>
+    <id>page.taglib_resource_test-region.taglib_resource_test-page</id>
+    <region-id>taglib_resource_test-region</region-id>
+    <source-id>taglib_resource_test-page</source-id>
+    <scope>page</scope>
+    <component-type-id>taglib_resource_test-componentType</component-type-id>
+    <resources>
+	    <resource name="test" protocol="http" endpoint="localhost">moomin</resource>
+	</resources>
+</component>

@@ -1,0 +1,7 @@
+<component>
+  <id>global.construct_preset_jsp-region</id>
+  <region-id>construct_preset_jsp-region</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>construct_preset_jsp-componentType</component-type-id>  
+</component>

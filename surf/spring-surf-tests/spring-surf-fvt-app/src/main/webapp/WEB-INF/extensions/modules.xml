@@ -1,0 +1,546 @@
+<extension>
+   <modules>
+      
+      <!-- Template markup extensions -->
+      
+      <module>
+          <id>Add_Markup_To_Template</id>
+          <description>This module adds markup directives before and after all the default markup directives</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.add</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>Remove_Outer_Markup</id>
+          <description>This module removes the outer markup directive and therefore clears all the output</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.removeOuter</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>Remove_Inner_Markup</id>
+          <description>This module removes the inner markup directives which removes one WebScript and therefore updates the head output</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.removeInner</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>Replace_Outer_Markup</id>
+          <description>This module replaces the outer markup directive</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.replaceOuter</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>Replace_Inner_Markup</id>
+          <description>This module replaces the inner markup directives</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.replaceInner</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+   
+      <!-- SubComponent extensions -->
+   
+      <module>
+         <id>Add_SubComponents_To_Legacy_Component</id>
+         <description>Adds new SubComponents before and after legacy Component config</description>
+         <components>
+            <component>
+               <region-id>ext-region1</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="sub-comp-1" index="25">
+                      <uri>/extensibility/webscript/4</uri>
+                      <properties>
+                          <msg-key-one>ext_ws4.one</msg-key-one>
+                          <msg-key-two>ext_ws4.two</msg-key-two>
+                          <msg-key-three>ext_ws4.three</msg-key-three>
+                       </properties>
+                  </sub-component>
+                  <sub-component id="sub-comp-2" index="75">
+                     <uri>/extensibility/webscript/5</uri>
+                     <properties>
+                         <msg-key-one>ext_ws5.one</msg-key-one>
+                         <msg-key-two>ext_ws5.two</msg-key-two>
+                         <msg-key-three>ext_ws5.three</msg-key-three>
+                     </properties>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      <module>
+         <id>Remove_Legacy_Component</id>
+         <description>Hides the SubComponent generated from a legacy Component configuration</description>
+         <components>
+            <component>
+               <region-id>ext-region1</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="default">
+                     <evaluations>
+                        <evaluation id="Hide">
+                           <render>false</render>
+                        </evaluation>
+                      </evaluations>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      <module>
+         <id>Replace_Legacy_Component</id>
+         <description>Replaces the SubComponent generated from a legacy Component configuration</description>
+         <components>
+            <component>
+               <region-id>ext-region1</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="default">
+                     <uri>/extensibility/webscript/4</uri>
+                     <properties>
+                        <msg-key-one>ext_ws4.one</msg-key-one>
+                        <msg-key-two>ext_ws4.two</msg-key-two>
+                        <msg-key-three>ext_ws4.three</msg-key-three>
+                    </properties>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      <module>
+         <id>Add_SubComponents</id>
+         <description>Adds new SubComponents before and after a SubComponent</description>
+         <components>
+            <component>
+               <region-id>ext-region2</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="ext-sub-comp-1" index="20">
+                      <uri>/extensibility/webscript/4</uri>
+                      <properties>
+                          <msg-key-one>ext_ws4.one</msg-key-one>
+                          <msg-key-two>ext_ws4.two</msg-key-two>
+                          <msg-key-three>ext_ws4.three</msg-key-three>
+                       </properties>
+                  </sub-component>
+                  <sub-component id="ext-sub-comp-2" index="50">
+                     <uri>/extensibility/webscript/5</uri>
+                     <properties>
+                         <msg-key-one>ext_ws5.one</msg-key-one>
+                         <msg-key-two>ext_ws5.two</msg-key-two>
+                         <msg-key-three>ext_ws5.three</msg-key-three>
+                     </properties>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      <module>
+         <id>Hide_SubComponent</id>
+         <description>Hides a SubComponent</description>
+         <components>
+            <component>
+               <region-id>ext-region2</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="sub_comp_1">
+                     <evaluations>
+                        <evaluation id="Hide">
+                           <render>false</render>
+                        </evaluation>
+                      </evaluations>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      <module>
+         <id>Replace_SubComponent</id>
+         <description>Replaces a SubComponent</description>
+         <components>
+            <component>
+               <region-id>ext-region2</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="sub_comp_1">
+                     <uri>/extensibility/webscript/4</uri>
+                     <properties>
+                        <msg-key-one>ext_ws4.one</msg-key-one>
+                        <msg-key-two>ext_ws4.two</msg-key-two>
+                        <msg-key-three>ext_ws4.three</msg-key-three>
+                    </properties>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      
+      <!--  WebScript customizations -->
+      
+      <module>
+          <id>WebScript_I18n_Override</id>
+          <description>Overrides the base i18n properties file</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>webscripts.extensibility</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.i18n</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>WebScript_Controller_Override</id>
+          <description>Overrides the base JavaScript controller file</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>webscripts.extensibility</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.controller</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>WebScript_Template_Add</id>
+          <description>Overrides the base FreeMarker template file to add additional markup content</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>webscripts.extensibility</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.template.add</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>WebScript_Template_Remove</id>
+          <description>Overrides the base FreeMarker template file to remove the original markup content</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>webscripts.extensibility</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.template.remove</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>WebScript_Template_Replace</id>
+          <description>Overrides the base FreeMarker template file to replace the original markup content</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>webscripts.extensibility</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.template.replace</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>WebScript_Head_Add</id>
+          <description>Extends the base FreeMarker template HEAD file to add additional content</description>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>webscripts.extensibility</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.head</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      
+      <!--  Evaluation tests -->
+      <module>
+         <id>OutOfBox_Evaluators</id>
+         <description>Tests the approve and reject evaluators</description>
+         <components>
+            <component>
+               <region-id>ext-region2</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="sub_comp_1">
+                     <evaluations>
+                        <evaluation>
+                           <evaluators>
+                              <evaluator type="rejection.component.evaluator"/>
+                           </evaluators>
+                           <uri>/extensibility/webscript/5</uri>
+                           <properties>
+                              <msg-key-one>ext_ws5.one</msg-key-one>
+                              <msg-key-two>ext_ws5.two</msg-key-two>
+                              <msg-key-three>ext_ws5.three</msg-key-three>
+                          </properties>
+                        </evaluation>
+                        <evaluation>
+                           <evaluators>
+                              <evaluator type="default.component.evaluator"/>
+                           </evaluators>
+                           <uri>/extensibility/webscript/4</uri>
+                           <properties>
+                              <msg-key-one>ext_ws4.one</msg-key-one>
+                              <msg-key-two>ext_ws4.two</msg-key-two>
+                              <msg-key-three>ext_ws4.three</msg-key-three>
+                          </properties>
+                        </evaluation>
+                     </evaluations>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      <module>
+         <id>Combined_Evaluators</id>
+         <description>Tests multiple evaluator logic</description>
+         <components>
+            <component>
+               <region-id>ext-region2</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="sub_comp_1">
+                     <evaluations>
+                        <evaluation>
+                           <evaluators>
+                              <evaluator type="rejection.component.evaluator"/>
+                              <evaluator type="default.component.evaluator"/>
+                           </evaluators>
+                           <uri>/extensibility/webscript/5</uri>
+                           <properties>
+                              <msg-key-one>ext_ws5.one</msg-key-one>
+                              <msg-key-two>ext_ws5.two</msg-key-two>
+                              <msg-key-three>ext_ws5.three</msg-key-three>
+                          </properties>
+                        </evaluation>
+                        <evaluation>
+                           <evaluators>
+                              <evaluator type="default.component.evaluator"/>
+                              <evaluator type="always.pass.evaluator"/>
+                           </evaluators>
+                           <uri>/extensibility/webscript/4</uri>
+                           <properties>
+                              <msg-key-one>ext_ws4.one</msg-key-one>
+                              <msg-key-two>ext_ws4.two</msg-key-two>
+                              <msg-key-three>ext_ws4.three</msg-key-three>
+                          </properties>
+                        </evaluation>
+                     </evaluations>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      <module>
+         <id>Evaluators_With_Params</id>
+         <description>Tests that evaluators can process parameters</description>
+         <components>
+            <component>
+               <region-id>ext-region2</region-id>
+               <source-id>global</source-id>
+               <scope>global</scope>
+               <sub-components>
+                  <sub-component id="sub_comp_1">
+                     <evaluations>
+                        <evaluation>
+                           <evaluators>
+                              <evaluator type="component.id.evaluator">
+                                 <params>
+                                    <id>THIS_WILL_FAIL</id>
+                                 </params>
+                              </evaluator>
+                           </evaluators>
+                           <uri>/extensibility/webscript/5</uri>
+                           <properties>
+                              <msg-key-one>ext_ws5.one</msg-key-one>
+                              <msg-key-two>ext_ws5.two</msg-key-two>
+                              <msg-key-three>ext_ws5.three</msg-key-three>
+                          </properties>
+                        </evaluation>
+                        <evaluation>
+                           <evaluators>
+                              <evaluator type="component.id.evaluator">
+                                 <params>
+                                    <id>global.ext-region2</id>
+                                 </params>
+                              </evaluator>
+                           </evaluators>
+                           <uri>/extensibility/webscript/4</uri>
+                           <properties>
+                              <msg-key-one>ext_ws4.one</msg-key-one>
+                              <msg-key-two>ext_ws4.two</msg-key-two>
+                              <msg-key-three>ext_ws4.three</msg-key-three>
+                          </properties>
+                        </evaluation>
+                     </evaluations>
+                  </sub-component>
+               </sub-components>
+            </component>
+         </components>
+      </module>
+      
+      <!-- Module Evaluator test modules -->
+      <module>
+          <id>Always_Fail_By_Default_Evaluator</id>
+          <description>This module use a default module that will always fail.</description>
+          <evaluator type="always.fail.module.evaluator">
+          </evaluator>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.removeOuter</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>Always_Pass_By_Default_Evaluator</id>
+          <description>This module uses a default module that will always pass.</description>
+          <evaluator type="always.pass.module.evaluator">
+          </evaluator>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.removeOuter</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>Always_Fail_By_Parameter_Evaluator</id>
+          <description>This module removes the outer markup directive and therefore clears all the output</description>
+          <evaluator type="module.evaluator">
+             <params>
+                <uri>THIS WILL CAUSE FAILURE</uri>
+             </params>
+          </evaluator>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.removeOuter</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      <module>
+          <id>Always_Pass_By_Parameter_Evaluator</id>
+          <description>This module removes the outer markup directive and therefore clears all the output</description>
+          <evaluator type="module.evaluator">
+             <params>
+                <uri>/service/extensibility-page</uri>
+             </params>
+          </evaluator>
+          <customizations>
+              <customization>
+                  <targetPackageRoot>org.extensibility.test</targetPackageRoot>
+                  <sourcePackageRoot>org.extensibility.customizations.matched.removeOuter</sourcePackageRoot>
+              </customization>
+          </customizations>
+      </module>
+      
+      <!-- Configuration tests -->
+      <module>
+          <id>Replace_configuration</id>
+          <description>This module replaces the default with dynamic configuration</description>
+          <configurations>
+               <config evaluator="string-compare" condition="TestConfiguration1" replace="true">
+                  <template-config>
+                     <tc-one>template-dynamic1</tc-one>
+                     <tc-two>template-dynamic2</tc-two>
+                  </template-config>
+               </config>   
+               <config evaluator="string-compare" condition="TestConfiguration2" replace="true">
+                  <controller-config>
+                     <cc-one>controller-dynamic-1</cc-one>
+                     <cc-two>controller-dynamic-2</cc-two>
+                  </controller-config>
+               </config>   
+               <config evaluator="string-compare" condition="TestConfiguration3" replace="true">
+                  <ws-template-config>
+                     <ws-tc-one>ws-template-dynamic1</ws-tc-one>
+                     <ws-tc-two>ws-template-dynamic2</ws-tc-two>
+                  </ws-template-config>
+               </config>
+               <config evaluator="string-compare" condition="TestConfiguration4" replace="true">
+                  <ws-controller-config>
+                     <ws-cc-one>ws-controller-dynamic-1</ws-cc-one>
+                     <ws-cc-two>ws-controller-dynamic-2</ws-cc-two>
+                  </ws-controller-config>
+               </config>
+          </configurations>
+      </module>
+      <module>
+          <id>Add_configuration</id>
+          <description>This module replaces the default with dynamic configuration</description>
+          <configurations>
+               <config evaluator="string-compare" condition="TestConfiguration1">
+                  <template-config>
+                     <tc-one>template-dynamic1</tc-one>
+                     <tc-two>template-dynamic2</tc-two>
+                  </template-config>
+               </config>   
+               <config evaluator="string-compare" condition="TestConfiguration2">
+                  <controller-config>
+                     <cc-one>controller-dynamic-1</cc-one>
+                     <cc-two>controller-dynamic-2</cc-two>
+                  </controller-config>
+               </config>   
+               <config evaluator="string-compare" condition="TestConfiguration3">
+                  <ws-template-config>
+                     <ws-tc-one>ws-template-dynamic1</ws-tc-one>
+                     <ws-tc-two>ws-template-dynamic2</ws-tc-two>
+                  </ws-template-config>
+               </config>
+               <config evaluator="string-compare" condition="TestConfiguration4">
+                  <ws-controller-config>
+                     <ws-cc-one>ws-controller-dynamic-1</ws-cc-one>
+                     <ws-cc-two>ws-controller-dynamic-2</ws-cc-two>
+                  </ws-controller-config>
+               </config>
+          </configurations>
+      </module>
+      <module>
+          <id>Conditionally_Replace_configuration</id>
+          <description>This module replaces the default with dynamic configuration if certain parameters are on the request</description>
+          <evaluator type="request.parameters.module.evaluator">
+            <params>
+               <param1>test1</param1>
+               <param2>test2</param2>
+            </params>
+         </evaluator>
+          <configurations>
+               <config evaluator="string-compare" condition="TestConfiguration1" replace="true">
+                  <template-config>
+                     <tc-one>template-dynamic1</tc-one>
+                     <tc-two>template-dynamic2</tc-two>
+                  </template-config>
+               </config>   
+               <config evaluator="string-compare" condition="TestConfiguration2" replace="true">
+                  <controller-config>
+                     <cc-one>controller-dynamic-1</cc-one>
+                     <cc-two>controller-dynamic-2</cc-two>
+                  </controller-config>
+               </config>   
+               <config evaluator="string-compare" condition="TestConfiguration3" replace="true">
+                  <ws-template-config>
+                     <ws-tc-one>ws-template-dynamic1</ws-tc-one>
+                     <ws-tc-two>ws-template-dynamic2</ws-tc-two>
+                  </ws-template-config>
+               </config>
+               <config evaluator="string-compare" condition="TestConfiguration4" replace="true">
+                  <ws-controller-config>
+                     <ws-cc-one>ws-controller-dynamic-1</ws-cc-one>
+                     <ws-cc-two>ws-controller-dynamic-2</ws-cc-two>
+                  </ws-controller-config>
+               </config>
+          </configurations>
+      </module>
+   </modules>
+</extension>

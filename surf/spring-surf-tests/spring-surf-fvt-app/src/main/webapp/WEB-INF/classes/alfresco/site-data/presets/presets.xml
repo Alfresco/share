@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<presets>
+    <preset id="testPreset">
+	    <components>
+		    <component id="${componentIdSub}">
+			    <title>${componentTitleSub}</title>
+				<title-id>${componentTitleIdSub}</title-id>
+				<description>${componentDescSub}</description>
+				<description-id>${componentDescIdSub}</description-id>
+				<component-type-id>${componentTypeIdSub}</component-type-id>
+				<scope>${componentScopeSub}</scope>
+				<region-id>${componentRegionIdSub}</region-id>
+				<source-id>${componentSourceIdSub}</source-id>
+				<url>${componentURLSub}</url>
+				<chrome>${componentChromeSub}</chrome>
+			</component>
+		</components>
+        <template-instances>
+		    <template-instance id="${templateIdSub}">
+	            <title>${templateTitleSub}</title>
+				<title-id>${templateTitleIdSub}</title-id>
+				<description>${templateDescSub}</description>
+				<description-id>${templateDescIdSub}</description-id>
+				<template-type>${templateTypeSub}</template-type>
+	        </template-instance>
+	    </template-instances>
+        <pages>
+            <page id="${pageIdSub}">
+                <title>${pageTitleSub}</title>
+			    <title-id>${pageTitleIdSub}</title-id>
+                <description>${pageDescSub}</description>
+			    <description-id>${pageDescIdSub}</description-id>	
+                <page-type-id>${pageTypeIdSub}</page-type-id>			
+                <authentication>${pageAuthSub}</authentication>			
+                <template-instance>${pageTemplateSub}</template-instance>
+         </page>
+      </pages>
+   </preset>   
+</presets>

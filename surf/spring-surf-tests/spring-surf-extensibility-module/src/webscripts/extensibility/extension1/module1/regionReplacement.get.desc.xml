@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>WebScript That Provides Replacement Content</shortname>
+  <description></description>
+  <url>/extension1/module1/replacementContent</url>
+  <family>ExtensionWebScripts</family>
+</webscript>

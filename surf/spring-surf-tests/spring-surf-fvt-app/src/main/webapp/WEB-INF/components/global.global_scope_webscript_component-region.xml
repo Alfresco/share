@@ -1,0 +1,7 @@
+<component>
+  <id>global.global_scope_webscript_component-region</id>
+  <region-id>global_scope_webscript_component-region</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>webscript_component_type_1-componentType</component-type-id>   
+</component>

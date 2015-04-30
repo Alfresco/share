@@ -1,0 +1,7 @@
+<component>
+  <id>global.global_scope_legacy_jsp_component-region</id>
+  <region-id>global_scope_legacy_jsp_component-region</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>jsp_component_type_legacy-componentType</component-type-id>  
+</component>

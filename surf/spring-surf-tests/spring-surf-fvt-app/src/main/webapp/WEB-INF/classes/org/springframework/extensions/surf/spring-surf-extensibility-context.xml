@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <bean id="always.pass.evaluator" class="org.springframework.extensions.surf.test.AlwaysPassEvaluator" />
+    <bean id="component.id.evaluator" class="org.springframework.extensions.surf.test.ComponentIdEvaluator" />
+    <bean id="module.evaluator" class="org.springframework.extensions.surf.test.ModuleEvaluator" />
+    <bean id="always.pass.module.evaluator" class="org.springframework.extensions.surf.test.AlwaysPassModuleEvaluator" />
+    <bean id="always.fail.module.evaluator" class="org.springframework.extensions.surf.test.AlwaysFailModuleEvaluator" />
+    <bean id="request.parameters.module.evaluator" class="org.springframework.extensions.surf.test.ParameterTestModuleEvaluator" />
+</beans>

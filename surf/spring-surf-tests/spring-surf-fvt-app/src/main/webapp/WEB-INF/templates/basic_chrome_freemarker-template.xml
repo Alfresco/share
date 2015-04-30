@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>basic_chrome_freemarker-template</template-type>
+	<components>
+        <component>
+            <region-id>test_region_1</region-id>
+            <url>/tests/test1</url>
+        </component>              
+    </components>   
+</template-instance>

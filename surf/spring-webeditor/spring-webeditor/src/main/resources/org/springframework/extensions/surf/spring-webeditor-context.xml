@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+   
+   <!-- Provide WEF specific resource bundle -->
+   <bean id="wefResourceBundle" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
+      <property name="resourceBundles">
+         <list>
+            <value>org.springframework.extensions.webeditor.spring-webeditor</value>
+         </list>
+      </property>
+   </bean>
+   
+   <!-- WEF Web Scripts -->
+   <bean id="webscript.org.springframework.extensions.webeditor.wefresources.get" class="org.springframework.extensions.webeditor.webscripts.WEFResourcesGet" parent="webscript">
+      <property name="pluginRegistry" ref="wefPluginRegistry" />
+   </bean>
+   
+   <bean id="webscript.org.springframework.extensions.webeditor.wefapplication.get" class="org.springframework.extensions.webeditor.webscripts.WEFApplicationGet" parent="webscript">
+      <property name="pluginRegistry" ref="wefPluginRegistry" />
+   </bean>
+   
+   <!-- WEF plugins and resources -->
+   <bean id="wefPluginRegistry" class="org.springframework.extensions.webeditor.WEFPluginRegistry" />
+   
+   <bean id="wefPluginBase" abstract="true" init-method="register">
+      <property name="pluginRegistry" ref="wefPluginRegistry" />
+   </bean>
+   
+   <bean id="wefApplication" parent="wefPluginBase" class="org.springframework.extensions.webeditor.WEFApplicationImpl">
+      <property name="name" value="application.wef" />
+      <property name="description" value="The application" />
+      <property name="path" value="/service/wef/application" />
+      <property name="variableName" value="WEFApplication" />
+      <property name="dependencies">
+         <list>
+            <ref bean="wefBase" />
+            <ref bean="wefResetCSS" />
+            <ref bean="wefCSS" />
+            <ref bean="wefRibbon" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="wefBase" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor" />
+      <property name="description" value="Base JavaScript for WEF" />
+      <property name="path" value="/res/wef/wef.js" />
+      <property name="type" value="js" />
+      <property name="variableName" value="WEF" />
+      <property name="dependencies">
+         <list>
+            <ref bean="wefMessages" />
+            <ref bean="yuiUtilities" />
+            <ref bean="yuiBubbling" />
+            <ref bean="yuiCookie" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="wefMessages" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.messages" />
+      <property name="description" value="Localised messages" />
+      <property name="path" value="/service/messages.js?locale=${locale}" />
+      <property name="type" value="js" />
+      <property name="variableName" value="Alfresco" />      
+   </bean>
+   
+   <bean id="wefResetCSS" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.reset-css" />
+      <property name="description" value="Reset CSS file used by WEF" />
+      <property name="path" value="/res/wef/wef-reset.css" />
+      <property name="type" value="css" />
+   </bean>
+   
+   <bean id="wefCSS" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.css" />
+      <property name="description" value="CSS file for WEF" />
+      <property name="path" value="/res/wef/wef.css" />
+      <property name="type" value="css" />
+   </bean>
+   
+   <bean id="wefRibbon" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.ribbon" />
+      <property name="description" value="Ribbon component used to host toolbars" />
+      <property name="path" value="/res/wef/ui/ribbon/ribbon.js" />
+      <property name="type" value="js" />
+      <property name="dependencies">
+         <list>
+            <ref bean="wefRibbonCSS" />
+            <ref bean="wefRibbonIECSS" />
+            <ref bean="wefTabbedToolbar" />
+            <ref bean="yuiAriaContainer" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="wefRibbonCSS" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.ribbon-css" />
+      <property name="description" value="CSS file for the ribbon component" />
+      <property name="path" value="/res/wef/ui/ribbon/ribbon.css" />
+      <property name="type" value="css" />
+   </bean>
+   
+   <bean id="wefRibbonIECSS" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.ribbon-ie-css" />
+      <property name="description" value="IE specific CSS file for the ribbon component" />
+      <property name="path" value="/res/wef/ui/ribbon/ribbon-ie.css" />
+      <property name="type" value="css" />
+      <property name="userAgent" value="IE" />
+   </bean>
+   
+   <bean id="wefTabbedToolbar" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.tabbed-toolbar" />
+      <property name="description" value="Tabbed toolbar component used in ribbon component" />
+      <property name="path" value="/res/wef/ui/tabbed-toolbar/tabbed-toolbar.js" />
+      <property name="type" value="js" />
+      <property name="dependencies">
+         <list>
+            <ref bean="wefTabbedToolbarCSS" />
+            <ref bean="wefToolbar" />
+            <ref bean="yuiAriaTabView" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="wefTabbedToolbarCSS" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.tabbed-toolbar-css" />
+      <property name="description" value="CSS file for the tabbed toolbar component" />
+      <property name="path" value="/res/wef/ui/tabbed-toolbar/tabbed-toolbar.css" />
+      <property name="type" value="css" />
+   </bean>
+   
+   <bean id="wefToolbar" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.toolbar" />
+      <property name="description" value="Toolbar component used in ribbon component" />
+      <property name="path" value="/res/wef/ui/toolbar/toolbar.js" />
+      <property name="type" value="js" />
+      <property name="dependencies">
+         <list>
+            <ref bean="wefToolbarCSS" />
+            <ref bean="yuiAriaButton" />
+            <ref bean="yuiAriaMenu" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="wefToolbarCSS" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.springframework.extensions.webeditor.toolbar-css" />
+      <property name="description" value="CSS file for the toolbar component" />
+      <property name="path" value="/res/wef/ui/toolbar/toolbar.css" />
+      <property name="type" value="css" />
+   </bean>
+   
+   <!-- YUI resources -->
+   
+   <bean id="yuiBubbling" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="com.yahoo.bubbling" />
+      <property name="description" value="Bubbling event library" />
+      <property name="path" value="/res/wef/bubbling.v2.1.js" />
+      <property name="type" value="js" />
+      <property name="variableName" value="YAHOO.Bubbling" />
+      <property name="dependencies">
+         <list>
+            <ref bean="yuiUtilities" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="yuiSkin" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="com.yahoo.skin" />
+      <property name="description" value="The default YUI skin" />
+      <property name="path" value="/res/yui/assets/skins/sam/skin.css" />
+      <property name="type" value="css" />
+   </bean>
+   
+   <bean id="yuiUtilities" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="utilities" />
+      <property name="description" value="YUI utility library" />
+   </bean>
+   
+   <bean id="yuiAnimation" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="animation" />
+      <property name="description" value="YUI animation library" />
+   </bean>
+   
+   <bean id="yuiSelector" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="selector" />
+      <property name="description" value="YUI selector library" />
+   </bean>
+   
+   <bean id="yuiCookie" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="cookie" />
+      <property name="description" value="YUI cookie library" />
+   </bean>
+   
+   <bean id="yuiCalendar" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="calendar" />
+      <property name="description" value="YUI calendar library" />
+   </bean>
+   
+   <bean id="yuiMenu" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="menu" />
+      <property name="description" value="YUI menu library" />
+   </bean>
+   
+   <bean id="yuiContainer" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="container" />
+      <property name="description" value="YUI container library" />
+   </bean>
+   
+   <bean id="yuiButton" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="button" />
+      <property name="description" value="YUI button library" />
+   </bean>
+   
+   <bean id="yuiTabView" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="tabview" />
+      <property name="description" value="YUI tab view library" />
+   </bean>
+   
+   <!-- Aria resources -->
+
+   <bean id="yuiAriaMenu" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="accessibility.aria.plugins.yui.menu" />
+      <property name="description" value="Accessibility plugins for YUI menu" />
+      <property name="path" value="/res/yui/menu/menuariaplugin.js" />
+      <property name="type" value="js" />
+      <property name="dependencies">
+         <list>
+            <ref bean="yuiMenu" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="yuiAriaContainer" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="accessibility.aria.plugins.yui.container" />
+      <property name="description" value="Accessibility plugins for YUI container" />
+      <property name="path" value="/res/yui/container/containerariaplugin.js" />
+      <property name="type" value="js" />
+      <property name="dependencies">
+         <list>
+            <ref bean="yuiContainer" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="yuiAriaButton" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="accessibility.aria.plugins.yui.button" />
+      <property name="description" value="Accessibility plugins for YUI button" />
+      <property name="path" value="/res/yui/button/buttonariaplugin.js" />
+      <property name="type" value="js" />
+      <property name="dependencies">
+         <list>
+            <ref bean="yuiButton" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="yuiAriaTabView" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="accessibility.aria.plugins.yui.tabview" />
+      <property name="description" value="Accessibility plugins for YUI tab view" />
+      <property name="path" value="/res/yui/tabview/tabviewariaplugin.js" />
+      <property name="type" value="js" />
+      <property name="dependencies">
+         <list>
+            <ref bean="yuiTabView" />
+         </list>
+      </property>
+   </bean>
+
+   <!--                           -->
+   <!-- Import Web Editor Plugins -->
+   <!--                           -->
+   
+   <import resource="classpath*:org/springframework/extensions/webeditor/plugins/*-context.xml" />
+   
+</beans>

@@ -1,0 +1,1 @@
+BeforePageScopeFreemarkerComponent<@region id="page_scope_freemarker_component-region" scope="page"/>AfterPageScopeFreemarkerComponent

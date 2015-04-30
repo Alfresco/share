@@ -1,0 +1,7 @@
+<component>
+  <id>template.template_scope_jsp_component-region.template_scope_jsp_component-template</id>
+  <region-id>template_scope_jsp_component-region</region-id>
+  <source-id>template_scope_jsp_component-template</source-id>
+  <scope>template</scope>
+  <component-type-id>jsp_component_type_3-componentType</component-type-id>  
+</component>

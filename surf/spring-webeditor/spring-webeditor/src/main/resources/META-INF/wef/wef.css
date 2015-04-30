@@ -1,0 +1,16 @@
+.wef-hide
+{
+   display: none;
+}
+
+.wef-show
+{
+   display: block;
+}
+
+#wef .wef-toolbar .yui-button, 
+#wef .wef-toolbar .yui-button .first-child
+{
+   background: none;
+   border: 0;
+}

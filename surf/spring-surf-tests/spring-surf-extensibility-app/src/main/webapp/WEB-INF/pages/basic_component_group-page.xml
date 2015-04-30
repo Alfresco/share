@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>basic_component_group-page</id>
+   <template-instance>basic_component_group-template</template-instance>
+</page>

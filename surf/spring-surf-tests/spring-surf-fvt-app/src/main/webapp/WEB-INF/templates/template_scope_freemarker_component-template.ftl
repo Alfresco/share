@@ -1,0 +1,1 @@
+BeforeTemplateScopeFreemarkerComponent<@region id="template_scope_freemarker_component-region" scope="template"/>AfterTemplateScopeFreemarkerComponent

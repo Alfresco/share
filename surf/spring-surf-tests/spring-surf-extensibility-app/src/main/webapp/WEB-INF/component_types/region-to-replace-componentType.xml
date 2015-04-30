@@ -1,0 +1,9 @@
+<component-type>
+    <id>region-to-replace-componentType</id>
+    <title>Extensibility Component Type</title>
+    <description></description>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/extensibility/test/contentToReplace</uri>        
+    </processor>	
+</component-type>

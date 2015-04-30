@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Page Args WebScript</shortname>
+  <description>A WebScript for displaying page arguments</description>
+  <url>/webscripts/page_args</url>
+</webscript>

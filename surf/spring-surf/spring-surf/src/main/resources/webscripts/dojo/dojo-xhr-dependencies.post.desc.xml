@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Used to calculate dependencies on XHR requests</shortname>
+  <url>/surf/dojo/xhr/dependencies</url>
+  <family>Dojo</family>
+  <format default="json">extension</format>
+</webscript>

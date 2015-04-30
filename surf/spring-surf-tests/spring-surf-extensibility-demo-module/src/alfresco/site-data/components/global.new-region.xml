@@ -1,0 +1,7 @@
+<component>
+    <id>global.new-region</id>
+    <region-id>new-region</region-id>
+    <source-id>global</source-id>
+    <scope>global</scope>
+    <uri>/extension/demo/newregion</uri>
+</component>

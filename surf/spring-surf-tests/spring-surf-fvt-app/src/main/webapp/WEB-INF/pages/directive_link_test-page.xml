@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+    <id>directive_link_test-page</id>
+    <title>Example link directive</title>
+    <template-instance>directive_link_test-template</template-instance>
+	<components>
+        <component>
+            <region-id>directive_link_test-region</region-id>
+            <component-type-id>directive_link_test-componentType</component-type-id>
+        </component>   
+    </components>
+</page>

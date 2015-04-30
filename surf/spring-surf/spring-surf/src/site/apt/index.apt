@@ -1,0 +1,13 @@
+ ------
+ Spring Surf
+ ------
+
+Introduction
+  
+  {{{http://www.springsource.org/extensions/se-surf}Spring Surf}} is a view composition framework for Spring MVC that plugs into your existing Spring applications. It provides a scriptable and content-centric approach to build web applications.
+
+
+Documentation
+
+  Visit the Spring Surf {{{../spring-surf-documentation/index.html} Documentation}} or {{{http://forum.springsource.org/forumdisplay.php?f=72}resources index}} to learn more.
+

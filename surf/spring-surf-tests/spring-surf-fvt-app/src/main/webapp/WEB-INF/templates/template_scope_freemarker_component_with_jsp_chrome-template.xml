@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>template_scope_freemarker_component_with_jsp_chrome-template</template-type>
+   <components>
+      <component>
+         <region-id>template_scope_freemarker_component_with_jsp_chrome-region</region-id>
+         <component-type-id>freemarker_component_type_3-componentType</component-type-id>
+      </component>   
+   </components>   
+</template-instance>

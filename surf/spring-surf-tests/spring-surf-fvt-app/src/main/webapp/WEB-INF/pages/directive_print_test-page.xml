@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>directive_print_test-page</id>
+   <title>Example Print directive test</title>
+   <template-instance>directive_print_test-template</template-instance>
+</page>

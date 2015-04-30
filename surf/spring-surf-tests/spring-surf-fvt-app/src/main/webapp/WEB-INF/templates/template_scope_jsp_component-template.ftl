@@ -1,0 +1,1 @@
+BeforeTemplateScopeJSPComponent<@region id="template_scope_jsp_component-region" scope="template"/>AfterTemplateScopeJSPComponent

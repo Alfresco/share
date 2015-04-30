@@ -1,0 +1,26 @@
+<extension>
+   <!-- This is a WebScript module -->
+   <modules>
+        <module>
+            <id>Advanced Component Group Module</id>
+            <components>
+                <component id="global.advanced-component-1">
+                    <sub-components>
+                        <sub-component id="subComp1" index="70">
+                            <evaluations>
+                                <evaluation id="extensionToSubComp1">
+	                                <evaluators>
+	                                    <evaluator type="default.component.evaluator"></evaluator>
+	                                </evaluators>
+                                </evaluation>
+                            </evaluations>
+                        </sub-component>
+                        <sub-component id="subComp2" index="30">
+                            <uri>/advanced/component/extension</uri>
+                        </sub-component>
+                    </sub-components>
+                </component>
+            </components>     
+        </module>
+   </modules>
+</extension>

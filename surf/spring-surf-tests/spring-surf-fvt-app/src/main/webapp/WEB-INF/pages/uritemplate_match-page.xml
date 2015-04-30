@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+    <id>arg1/foo/arg2/bar</id>
+    <title>Page based on URI template match</title>
+    <template-instance>uritemplate_match-template</template-instance>	
+    <components>
+        <component>
+            <region-id>webscript_page_args-region</region-id>
+            <component-type-id>webscript_page_args-componentType</component-type-id>
+        </component> 
+    </components>   
+</page>

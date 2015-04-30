@@ -1,0 +1,8 @@
+<component>
+  <id>page.page_scope_freemarker_component_with_webscript_chrome-region.page_scope_freemarker_component_with_webscript_chrome-page</id>
+  <region-id>page_scope_freemarker_component_with_webscript_chrome-region</region-id>
+  <source-id>page_scope_freemarker_component_with_webscript_chrome-page</source-id>
+  <scope>page</scope>
+  <component-type-id>freemarker_component_type_2-componentType</component-type-id>
+  <chrome>component_webscript-chrome</chrome>  
+</component>

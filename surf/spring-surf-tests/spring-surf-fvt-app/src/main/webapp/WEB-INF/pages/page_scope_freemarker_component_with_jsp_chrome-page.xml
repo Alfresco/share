@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>page_scope_freemarker_component_with_jsp_chrome-page</id>
+   <title>Page scoped Freemarker component page with JSP rendered chrome</title>
+   <template-instance>page_scope_freemarker_component_with_jsp_chrome-template</template-instance>
+   <components>
+      <component>
+         <region-id>page_scope_freemarker_component_with_jsp_chrome-region</region-id>
+         <component-type-id>freemarker_component_type_2-componentType</component-type-id>
+      </component>   
+   </components>   
+</page>

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chrome>
+   <title>Default Sub-Component Chrome</title>
+   <description>This defines Chrome that wraps SubComponents in a div element using the sub-component htmlid as an id attribute.</description>
+   <processor mode="view">
+      <id>webtemplate</id>
+      <uri>chrome/default-sub-component-chrome</uri>
+   </processor>
+</chrome>

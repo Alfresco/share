@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+    <id>jsp_multifocus-page</id>
+    <title>Page containing components with multiple focus elements</title>
+    <template-instance>jsp_multifocus-template</template-instance>
+    <components>
+        <component>
+            <region-id>jsp_multifocus-region</region-id>
+            <component-type-id>jsp_multifocus-componentType</component-type-id>
+        </component>   
+    </components>   
+</page>

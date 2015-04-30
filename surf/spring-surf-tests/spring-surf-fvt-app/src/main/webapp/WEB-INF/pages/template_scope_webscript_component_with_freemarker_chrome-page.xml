@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>template_scope_webscript_component_with_freemarker_chrome-page</id>
+   <title>Template scoped WebScript component page with Freemarker chrome</title>
+   <template-instance>template_scope_webscript_component_with_freemarker_chrome-template</template-instance>   
+</page>

@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>theme_3_basic_pageType-page</id>
+   <title>Theme Test Page 3</title>
+   <template-instance>theme_3_basic_pageType-template</template-instance>
+</page>
