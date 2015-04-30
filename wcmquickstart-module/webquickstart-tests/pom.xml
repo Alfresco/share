@@ -15,7 +15,7 @@
         </developer>
     </developers>
     <properties>
-        <webdrone.version>2.8</webdrone.version>
+        <webdrone.version>2.9</webdrone.version>
         <share-po.version>5.0.2-SNAPSHOT</share-po.version>
         <enable.hybrid>false</enable.hybrid>
         <uniqueTestRunName>TestReports</uniqueTestRunName>

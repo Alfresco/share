@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.alfresco.test.wqs.web.awe;
 
 import java.util.List;
@@ -14,15 +29,12 @@ import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.site.document.FileDirectoryInfo;
+import org.alfresco.po.wqs.*;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.test.FailedTestListener;
 import org.alfresco.test.wqs.AbstractWQS;
-import org.alfresco.po.wqs.WcmqsBlogPage;
-import org.alfresco.po.wqs.WcmqsBlogPostPage;
-import org.alfresco.po.wqs.WcmqsEditPage;
-import org.alfresco.po.wqs.WcmqsHomePage;
-import org.alfresco.po.wqs.WcmqsNewsArticleDetails;
-import org.alfresco.po.wqs.WcmqsNewsPage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -43,7 +55,7 @@ public class EditingItemsTests extends AbstractWQS
     public static final String SLIDE_FILE1 = "slide1.html";
     public static final String SLIDE_FILE2 = "slide2.html";
     public static final String SLIDE_FILE3 = "slide3.html";
-    private static final Logger logger = Logger.getLogger(EditingItemsViaAWE.class);
+    private static final Log logger = LogFactory.getLog(EditingItemsTests.class);
     private String testName;
     private String ipAddress;
     private String siteName;
@@ -128,8 +140,8 @@ public class EditingItemsTests extends AbstractWQS
         // Blog post is opened;
 
         WcmqsHomePage homePage = new WcmqsHomePage(drone);
-        WcmqsBlogPage blogPage = homePage.selectMenu(WcmqsBlogPage.BLOG_MENU_STR).render();
-        WcmqsBlogPostPage blogPostPage = blogPage.openBlogPost(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsSearchPage wcmqsSearchPage = homePage.searchText(WcmqsBlogPage.ETHICAL_FUNDS).render();
+        WcmqsBlogPostPage blogPostPage = wcmqsSearchPage.clickLinkByTitle(WcmqsBlogPage.ETHICAL_FUNDS).render();
         Assert.assertTrue(blogPostPage.getTitle().contains(blogName), "Blog :" + blogName + " was not found.");
 
         // ---- Step 3 ----
@@ -252,6 +264,7 @@ public class EditingItemsTests extends AbstractWQS
         // wcmqsEditPage.editTemplateName(newTemplateName);
         WcmqsBlogPage blogsPage2 = wcmqsEditPage.clickSubmitButton().render();
         Assert.assertTrue(blogsPage2.isBlogDisplayed(newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -338,6 +351,7 @@ public class EditingItemsTests extends AbstractWQS
         // wcmqsEditPage.editTemplateName(newTemplateName);
         WcmqsBlogPage blogsPage2 = wcmqsEditPage.clickSubmitButton().render();
         Assert.assertTrue(blogsPage2.isBlogDisplayed(newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -421,6 +435,7 @@ public class EditingItemsTests extends AbstractWQS
         // wcmqsEditPage.editTemplateName(newTemplateName);
         WcmqsNewsPage newsPage2 = wcmqsEditPage.clickSubmitButton().render();
         Assert.assertTrue(newsPage2.checkIfNewsExists(newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -506,6 +521,7 @@ public class EditingItemsTests extends AbstractWQS
         // wcmqsEditPage.editTemplateName(newTemplateName);
         WcmqsNewsPage newsPage2 = wcmqsEditPage.clickSubmitButton().render();
         Assert.assertTrue(newsPage2.checkIfNewsExists(newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -591,6 +607,7 @@ public class EditingItemsTests extends AbstractWQS
         // wcmqsEditPage.editTemplateName(newTemplateName);
         WcmqsNewsPage newsPage2 = wcmqsEditPage.clickSubmitButton().render();
         Assert.assertTrue(newsPage2.checkIfNewsExists(newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -681,6 +698,7 @@ public class EditingItemsTests extends AbstractWQS
         WcmqsNewsPage newsPage2 = new WcmqsNewsPage(drone);
         newsPage2.render();
         Assert.assertTrue(newsPage2.checkIfNewsExists(newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -766,6 +784,7 @@ public class EditingItemsTests extends AbstractWQS
         // wcmqsEditPage.editTemplateName(newTemplateName);
         WcmqsNewsPage newsPage2 = wcmqsEditPage.clickSubmitButton().render();
         Assert.assertTrue(newsPage2.checkIfNewsExists(newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -851,6 +870,7 @@ public class EditingItemsTests extends AbstractWQS
         // wcmqsEditPage.editTemplateName(newTemplateName);
         WcmqsNewsPage newsPage2 = wcmqsEditPage.clickSubmitButton().render();
         Assert.assertTrue(newsPage2.checkIfNewsExists(newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -942,6 +962,7 @@ public class EditingItemsTests extends AbstractWQS
         List<ShareLink> rightTitles = newsPage2.getRightHeadlineTitleNews();
         String titles = rightTitles.toString();
         Assert.assertTrue(titles.contains(newsName + newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -1032,6 +1053,7 @@ public class EditingItemsTests extends AbstractWQS
         List<ShareLink> rightTitles = newsPage2.getRightHeadlineTitleNews();
         String titles = rightTitles.toString();
         Assert.assertTrue(titles.contains(newsName + newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---
@@ -1123,6 +1145,7 @@ public class EditingItemsTests extends AbstractWQS
         List<ShareLink> rightTitles = newsPage2.getRightHeadlineTitleNews();
         String titles = rightTitles.toString();
         Assert.assertTrue(titles.contains(newsName + newTitle), "Title of blog is not edited.");
+        waitForDocumentsToIndex();
 
         // ---- Step 6 ----
         // ---- Step action ---

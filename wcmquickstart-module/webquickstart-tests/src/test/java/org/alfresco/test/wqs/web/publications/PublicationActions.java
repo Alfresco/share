@@ -32,6 +32,9 @@ import org.alfresco.test.AlfrescoTest;
 import org.alfresco.test.FailedTestListener;
 import org.alfresco.test.wqs.AbstractWQS;
 import org.alfresco.po.wqs.*;
+import org.alfresco.test.wqs.web.news.NewsComponent;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -49,7 +52,7 @@ import java.io.File;
 @Listeners(FailedTestListener.class)
 public class PublicationActions extends AbstractWQS
 {
-    private static final Logger logger = Logger.getLogger(PublicationActions.class);
+    private static final Log logger = LogFactory.getLog(PublicationActions.class);
     private String testName;
     private String siteName;
     private String ipAddress;

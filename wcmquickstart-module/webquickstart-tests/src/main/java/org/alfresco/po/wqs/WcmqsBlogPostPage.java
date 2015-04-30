@@ -16,6 +16,7 @@ import java.util.List;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * Created by Lucian Tuca on 11/18/2014.
@@ -24,7 +25,6 @@ public class WcmqsBlogPostPage extends WcmqsAbstractArticlePage
 {
     private static final Logger logger = Logger.getLogger(WcmqsBlogPostPage.class);
     private final By CREATE_ARTICLE = By.cssSelector("a[class='alfresco-content-new']");
-    @RenderWebElement
     private final By TITLE = By.xpath(".//div/h2");
     private final By CONTENT = By.xpath(".//div/div[2]/p");
     private final By DELETE_LINK = By.cssSelector("a[class=alfresco-content-delete]");
@@ -43,9 +43,7 @@ public class WcmqsBlogPostPage extends WcmqsAbstractArticlePage
     private final By AWE_CREATE_ARTICLE = By.cssSelector("div[class='bd']>ul[class='first-of-type']>li>a");
     private final By AWE_EDIT = By.id("awe--quickedit-button");
     private final By AWE_EDIT_ARTICLE = By.cssSelector("div[class='bd']>ul[class='first-of-type']>li>a");
-
     private final By PAGE_LOGO = By.cssSelector("#logo>a");
-    @RenderWebElement
     private final By COMMENT_FORM = By.cssSelector(".blog-comment-fieldset");
     private final By VISITOR_NAME = By.cssSelector("input[name='visitorName']");
     private final By VISITOR_EMAIL = By.cssSelector("input[name='visitorEmail']");
@@ -72,7 +70,8 @@ public class WcmqsBlogPostPage extends WcmqsAbstractArticlePage
     @Override
     public WcmqsBlogPostPage render(RenderTime timer)
     {
-        webElementRender(timer);
+        elementRender(timer,
+                getVisibleRenderElement(CONTENT));
         return this;
 
     }

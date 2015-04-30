@@ -46,6 +46,7 @@ public class WcmqsBlogPage extends WcmqsAbstractPage
     public static final String BLOG_2 = "blog2.html";
     public static final String BLOG_3 = "blog3.html";
     @RenderWebElement
+    private final By BLOG_HEADER = By.cssSelector(".interior-header>h2");
     private final By BLOG_ENTRIES = By.cssSelector("div[class='blog-entry']");
     private final By BLOG_POST_DATE = By.cssSelector("div[class='blog-entry']>div[class='blog-list-misc']>span:nth-of-type(1)");
     private final By BLOG_POST_CREATOR = By.cssSelector("div[class='blog-entry']>div[class='blog-list-misc']>span:nth-of-type(2)");
@@ -65,7 +66,7 @@ public class WcmqsBlogPage extends WcmqsAbstractPage
     @Override
     public WcmqsBlogPage render(RenderTime timer)
     {
-        elementRender(timer, getVisibleRenderElement(BLOG_ENTRIES));
+        elementRender(timer, getVisibleRenderElement(BLOG_HEADER));
         return this;
 
     }

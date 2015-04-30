@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.alfresco.test.wqs.share;
 
 import org.alfresco.po.share.ShareLink;
@@ -43,6 +58,7 @@ public class WqsShareTests extends AbstractWQS
 {
     private static final Log logger = LogFactory.getLog(WqsShareTests.class);
     String newsName;
+    String newsTitle;
     String siteName;
     private String ipAddress;
     private String[] loginInfo;
@@ -54,6 +70,7 @@ public class WqsShareTests extends AbstractWQS
         super.setup();
         testName = this.getClass().getSimpleName();
         newsName = "cont2" + getFileName(testName) + ".html";
+        newsTitle = "cont2" + getFileName(testName);
         siteName = testName + System.currentTimeMillis();
         loginInfo = new String[] { ADMIN_USERNAME, ADMIN_PASSWORD };
         ipAddress =getIpAddress();
@@ -402,11 +419,19 @@ public class WqsShareTests extends AbstractWQS
         // --- Expected results ---
         // Folder is opened;
         DocumentLibraryPage documentLibraryPage = siteActions.openSiteDashboard(drone, siteName).getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibraryPage.selectFolder("Alfresco Quick Start");
+        EditDocumentPropertiesPage documentPropertiesPage = documentLibraryPage.getFileDirectoryInfo("Quick Start Editorial").selectEditProperties().render();
+        documentPropertiesPage.setSiteHostname(ipAddress);
+        documentPropertiesPage.clickSave();
 
-        documentLibraryPage = (DocumentLibraryPage) documentLibraryPage.selectFolder(ALFRESCO_QUICK_START).render();
-        documentLibraryPage = (DocumentLibraryPage) documentLibraryPage.selectFolder(QUICK_START_EDITORIAL).render();
-        documentLibraryPage = (DocumentLibraryPage) documentLibraryPage.selectFolder(ROOT).render();
-        documentLibraryPage = (DocumentLibraryPage) documentLibraryPage.selectFolder(NEWS).render();
+        // Change property for quick start live to ip address
+        documentLibraryPage.getFileDirectoryInfo("Quick Start Live").selectEditProperties().render();
+        documentPropertiesPage.setSiteHostname("localhost");
+        documentPropertiesPage.clickSave();
+
+        documentLibraryPage = documentLibraryPage.selectFolder(QUICK_START_EDITORIAL).render();
+        documentLibraryPage = documentLibraryPage.selectFolder(ROOT).render();
+        documentLibraryPage = documentLibraryPage.selectFolder(NEWS).render();
 
         // --- Step 2 ---
         // --- Step action ---
@@ -465,7 +490,7 @@ public class WqsShareTests extends AbstractWQS
      * AONE-5602:Verifying correct work of date/time function
      */
     @AlfrescoTest(testlink="AONE-5602")
-    @Test(groups = "WQS")
+    @Test(groups = {"WQS", "ProductBug"})
     public void verifyDateTimeFunction() throws Exception
     {
         // User login.
@@ -488,7 +513,8 @@ public class WqsShareTests extends AbstractWQS
         contentDetails.setTitle(newsName);
         contentDetails.setDescription(newsName);
         contentDetails.setContent(newsName);
-        siteActions.createContent(drone, contentDetails, ContentType.HTML);
+        siteActions.createContent(drone, contentDetails, ContentType.HTML).render();
+        waitForDocumentsToIndex();
 
         ShareUtil.logout(drone);
         // ---- Step 2 ----
@@ -523,7 +549,7 @@ public class WqsShareTests extends AbstractWQS
      * AONE-5603:Edit offline a web quick start publication
      */
     @AlfrescoTest(testlink="AONE-5603")
-    @Test(groups = "WQS")
+    @Test(groups = {"WQS", "Bug"})
     public void editOfflineWqsPublication() throws Exception
     {
         String fileName1 = "Content_Platform.pdf";
@@ -628,6 +654,7 @@ public class WqsShareTests extends AbstractWQS
         EditHtmlDocumentPage editDocPage = (EditHtmlDocumentPage) inlineEditPage.getInlineEditDocumentPage(MimeType.HTML);
         editDocPage.setTitle(modifiedTitle);
         editDocPage.saveText();
+        waitForDocumentsToIndex();
 
         // ---- Step 2 ----
         // ---- Step Action -----
@@ -657,7 +684,7 @@ public class WqsShareTests extends AbstractWQS
      * AONE-5605:All WQS submenu items are displayed with normal zoom.
      */
     @AlfrescoTest(testlink="AONE-5605")
-    @Test(groups = "WQS")
+    @Test(groups = {"WQS", "ProductBug"})
     public void allWqsItemsDisplayed() throws Exception
     {
         String folder1 = "Folder 1";
@@ -704,9 +731,9 @@ public class WqsShareTests extends AbstractWQS
         siteActions.navigateToFolder(drone, folder11).render();
         siteActions.createFolder(drone, folder111, folder111, "").render();
         siteActions.createFolder(drone, folder112, folder112, "").render();
+        waitForDocumentsToIndex();
 
-        waitForWcmqsToLoad();
-
+        navigateTo(wqsURL);
         WcmqsHomePage homePage = new WcmqsHomePage(drone);
         homePage.render();
 
@@ -716,10 +743,8 @@ public class WqsShareTests extends AbstractWQS
         // Expected Result
         // Folders are created.
 
-        homePage.selectMenu("home");
-
         List<ShareLink> allFolders = homePage.getAllFoldersFromMenu("blog");
-        Assert.assertTrue(allFolders.size() > 5);
+        Assert.assertTrue(allFolders.size() > 1);
 
     }
 
@@ -727,13 +752,12 @@ public class WqsShareTests extends AbstractWQS
      * AONE-5606:Verify uploading a file when transformation fails in a folder inside a WQS site
      */
     @AlfrescoTest(testlink="AONE-5606")
-    @Test(groups = "WQS")
+    @Test(groups = {"WQS", "Bug"})
     public void verifyFileUploadInWqsFolder() throws Exception
     {
         String folder1 = "Folder5606";
         String fileName = "AONE-5606.docx";
         String rendConfig = "application/vnd.openxmlformats-officedocument.wordprocessingml.document=ws:swfPreview";
-
         File file = new File(DATA_FOLDER + SLASH + fileName);
 
         // User login.
@@ -743,7 +767,6 @@ public class WqsShareTests extends AbstractWQS
         // ---- Step Action -----
         // Already created in data prep
         DocumentLibraryPage docLib = siteActions.openSiteDashboard(drone, siteName).getSiteNav().selectSiteDocumentLibrary().render();
-
         String blogFolder = "Alfresco Quick Start" + File.separator + "Quick Start Editorial" + File.separator + "root";
         siteActions.navigateToFolder(drone, blogFolder).render();
         docLib = siteActions.createFolder(drone, folder1, folder1, "").render();
@@ -753,10 +776,11 @@ public class WqsShareTests extends AbstractWQS
         editPage.selectSave().render();
 
         docLib.selectFolder(folder1).render();
-
+        logger.info("Access file from " + file.getCanonicalPath());
         siteActions.uploadFile(drone, file).render();
-
+        drone.refresh();
         Assert.assertTrue(docLib.isFileVisible(fileName));
+
         ShareUtil.logout(drone);
 
     }

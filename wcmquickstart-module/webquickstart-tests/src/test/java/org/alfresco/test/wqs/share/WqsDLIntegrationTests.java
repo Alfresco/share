@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.alfresco.test.wqs.share;
 
 import org.alfresco.po.share.ShareUtil;
@@ -16,6 +31,8 @@ import org.alfresco.po.wqs.*;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.test.FailedTestListener;
 import org.alfresco.test.wqs.AbstractWQS;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -32,7 +49,7 @@ import java.util.List;
 @Listeners(FailedTestListener.class)
 public class WqsDLIntegrationTests extends AbstractWQS
 {
-    private static final Logger logger = Logger.getLogger(WqsDLIntegrationTests.class);
+    private static final Log logger = LogFactory.getLog(WqsDLIntegrationTests.class);
     private String siteName;
     private String testName;
     private String ipAddress;
@@ -86,6 +103,7 @@ public class WqsDLIntegrationTests extends AbstractWQS
         documentPropertiesPage.setSiteHostname("localhost");
         documentPropertiesPage.clickSave();
         ShareUtil.logout(drone);
+
         waitForWcmqsToLoad();
         loginToWqsFromHomePage();
 
@@ -94,7 +112,7 @@ public class WqsDLIntegrationTests extends AbstractWQS
     @AfterClass(alwaysRun = true)
     public void tearDownAfterClass()
     {
-        logger.info("Delete the site after all tests where run.");
+        logger.info("Delete the site after tests run.");
         siteService.delete(ADMIN_USERNAME, ADMIN_PASSWORD, DOMAIN_FREE, siteName);
         super.tearDown();
     }
@@ -133,6 +151,7 @@ public class WqsDLIntegrationTests extends AbstractWQS
         blogPostPage.setVisitorComment(visitorComment);
         blogPostPage.clickPostButton();
         Assert.assertTrue(blogPostPage.isAddCommentMessageDisplay(), "Comment was not posted.");
+        waitForDocumentsToIndex();
 
         // --- Step 2 ---
         // --- Step action ---
@@ -201,9 +220,6 @@ public class WqsDLIntegrationTests extends AbstractWQS
         String blogName = "blog2.html";
         blogsPage.clickBlogNameFromShare(blogName);
 
-        /*WcmqsLoginPage wcmqsLoginPage = new WcmqsLoginPage(drone);
-        wcmqsLoginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);*/
-
         // --- Step 1 ---
         // --- Step action ---
         // Create any comment for blog post;
@@ -217,6 +233,7 @@ public class WqsDLIntegrationTests extends AbstractWQS
         blogPostPage.setVisitorComment(visitorComment);
         blogPostPage.clickPostButton();
         Assert.assertTrue(blogPostPage.isAddCommentMessageDisplay(), "Comment was not posted.");
+        waitForDocumentsToIndex();
 
         // --- Step 2 ---
         // --- Step action ---
@@ -261,14 +278,9 @@ public class WqsDLIntegrationTests extends AbstractWQS
         drone.navigateTo(wqsURL);
         wcmqsHomePage = new WcmqsHomePage(drone);
         wcmqsHomePage.render();
-        wcmqsHomePage.selectMenu("blog");
+        WcmqsBlogPage blogsPage2 = wcmqsHomePage.selectMenu("blog").render();
+        WcmqsBlogPostPage blogPostPage2 = blogsPage2.clickBlogNameFromShare(blogName).render();
 
-        WcmqsBlogPage blogsPage2 = new WcmqsBlogPage(drone);
-        blogsPage2.render();
-        blogsPage2.clickBlogNameFromShare(blogName);
-
-        WcmqsBlogPostPage blogPostPage2 = new WcmqsBlogPostPage(drone);
-        blogPostPage2.render();
 
         // --- Step 7 ---
         // --- Step action ---
@@ -278,6 +290,7 @@ public class WqsDLIntegrationTests extends AbstractWQS
         WcmqsComment comment = blogPostPage2.getCommentSection(visitorName, visitorComment);
         WcmqsBlogPostPage blogPostPage3 = comment.clickReportComment().render();
         String removedComment = "*** This comment has been removed. ***";
+        waitForDocumentsToIndex();
         Assert.assertEquals(blogPostPage3.getCommentSection(visitorName, removedComment).getCommentFromContent(), removedComment,
                 "Comment has not been removed");
 
@@ -287,8 +300,6 @@ public class WqsDLIntegrationTests extends AbstractWQS
         // --- Expected results ---
         // Visitors feedback data list is opened;
         ShareUtil.loginAs(drone, shareUrl, ADMIN_USERNAME, ADMIN_PASSWORD);
-
-//        DocumentLibraryPage docLibPage2 = ShareUser.openSiteDocumentLibraryFromSearch(drone, siteName).render();
 
         DocumentLibraryPage docLibPage2 = siteActions.openSiteDashboard(drone, siteName).getSiteNav().selectSiteDocumentLibrary().render();
         DataListPage dataListPage2 = docLibPage2.getSiteNav().selectDataListPage().render();

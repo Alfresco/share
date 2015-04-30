@@ -123,7 +123,7 @@ public class WcmqsSearchPageTest extends AbstractTest {
         wqsPage.searchText(searchTerm);
         wqsPage.clickSearchButton();
         wqsPage.render();
-        Boolean searchResults = wqsPage.verifyNumberOfSearchResultsHeader(2, searchTerm);
+        Boolean searchResults = wqsPage.verifyNumberOfSearchResultsHeader(2, 2, searchTerm);
         String testResults = drone.find(By.cssSelector(cssResults)).getText();
         Boolean actualResults = testResults.contains(resultsMsg);
         Assert.assertEquals(searchResults, actualResults);
@@ -140,7 +140,7 @@ public class WcmqsSearchPageTest extends AbstractTest {
                 wqsPage.searchText(testTerm);
                 wqsPage.clickSearchButton();
                 wqsPage.render();
-                Boolean noResults = wqsPage.verifyNumberOfSearchResultsHeader(2, testTerm);
+                Boolean noResults = wqsPage.verifyNumberOfSearchResultsHeader(2, 2, testTerm);
                 String testNoResults = drone.find(By.cssSelector(cssResults)).getText();
                 Assert.assertNotEquals(noResults, testNoResults);
         }
