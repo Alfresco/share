@@ -297,7 +297,6 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <overlays>
                         <overlay>
                             <groupId>${project.groupId}</groupId>

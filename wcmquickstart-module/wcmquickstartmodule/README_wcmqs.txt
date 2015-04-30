@@ -1,3 +1,0 @@
-Alfresco WCM Quick Start
-------------------------
-

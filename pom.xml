@@ -54,6 +54,13 @@
             </snapshots>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <!-- Only used for the customised version of yuicompressor in yuicompressor-maven-plugin -->
+            <id>alfresco-public</id>
+            <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <!-- Resets Maven default -->
@@ -69,6 +76,15 @@
                  <directory>src/test/resources</directory>
             </testResource>
         </testResources> 
-    </build>
 
+        <plugins>
+            <plugin>
+                <!-- Resets Maven default -->
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

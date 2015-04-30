@@ -4,10 +4,9 @@
     <name>Alfresco Web Editor</name>
     <packaging>war</packaging>
     <parent>
-        <artifactId>alfresco-parent</artifactId>
+        <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
         <version>5.1-BF-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <build>

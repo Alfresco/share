@@ -3,20 +3,19 @@
     <artifactId>alfresco-web-editor-plugin</artifactId>
     <name>Alfresco Web Editor Plugin</name>
     <parent>
-        <artifactId>alfresco-parent</artifactId>
         <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-share-parent</artifactId>
         <version>5.1-BF-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <build>
     <!-- Non standard folder layout for resources -->
         <resources>
             <resource>
-                <directory>config</directory>
+                <directory>src/main/resources</directory>
             </resource>
             <resource>
-                <directory>source/web</directory>
+                <directory>src/main/webapp</directory>
                 <targetPath>${project.build.outputDirectory}/META-INF</targetPath>
             </resource>
         </resources>

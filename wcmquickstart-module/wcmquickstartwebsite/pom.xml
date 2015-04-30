@@ -9,10 +9,6 @@
         <version>5.1-BF-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <highest.basedir>../../..</highest.basedir>
-    </properties>
-
     <build>
         <finalName>wcmqs</finalName>
         <plugins>
@@ -31,7 +27,7 @@
                 <configuration>
                     <target>
                         <copy todir="${project.build.outputDirectory}">
-                            <fileset dir="${basedir}/config" includes="alfresco/messages/**/*.properties" />
+                            <fileset dir="${basedir}/src/main/resources" includes="alfresco/messages/**/*.properties" />
                             <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
                         </copy>
                     </target>

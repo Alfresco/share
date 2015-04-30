@@ -88,7 +88,7 @@
     <build>
         <resources>
             <resource>
-                <directory>source/amp</directory>
+                <directory>src/main/amp</directory>
                 <targetPath>../${project.build.finalName}</targetPath>
             </resource>
         </resources>
