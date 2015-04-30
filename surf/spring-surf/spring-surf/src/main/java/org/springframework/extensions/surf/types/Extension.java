@@ -37,7 +37,9 @@ public interface Extension extends ModelObject
     
     public List<ExtensionModule> getExtensionModules(); 
     
-    public ExtensionModule addExtensionModule(String xmlFragment) throws DocumentException; 
+    public ExtensionModule addExtensionModule(String xmlFragment) throws DocumentException;
+    
+    public ExtensionModule updateExtensionModule(String xmlFragment) throws DocumentException;
     
     public ExtensionModule deleteExtensionModule(String moduleId) throws DocumentException;
 }

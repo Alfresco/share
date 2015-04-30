@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.dom4j.DocumentException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,8 +40,6 @@ import org.springframework.extensions.surf.types.Extension;
 import org.springframework.extensions.surf.types.ExtensionModule;
 import org.springframework.extensions.surf.types.ModuleDeployment;
 import org.springframework.extensions.webscripts.Registry;
-
-import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 
 public class ModuleDeploymentService
 {
@@ -139,13 +138,13 @@ public class ModuleDeploymentService
         if (extension == null)
         {
             extension = (Extension) this.modelObjectService.newObject(Extension.TYPE_ID, DEFAULT_PERSISTED_EXTENSION);
-            modelObjectService.saveObject(extension);
+            this.modelObjectService.saveObject(extension);
         }
         return extension;
     }
     
     /**
-     * <p>Adds a new module to the requested extension. This extension is remotely persisted and can have modules added to and
+     * <p>Adds a module to the requested extension. This extension is remotely persisted and can have modules added to and
      * removed from it without restarting the server.</p>
      * @param xmlFragment
      * 
@@ -177,7 +176,7 @@ public class ModuleDeploymentService
                 else
                 {
                     // If we're in manual deployment mode then just add to the undeployed list...
-                    undeployedModules.add(module);
+                    this.undeployedModules.add(module);
                 }
             }
             this.saveDeployedModuleConfigurations();
@@ -188,6 +187,38 @@ public class ModuleDeploymentService
             if (logger.isErrorEnabled())
             {
                 logger.error("A request was made to add an Extension Module but dynamic modules are disabled");
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * <p>Updates a module to the requested extension. This extension is remotely persisted and can have modules added to and
+     * removed from it without restarting the server.</p>
+     * @param xmlFragment
+     * 
+     * @throws ModelObjectPersisterException 
+     * @throws DocumentException 
+     */
+    public synchronized boolean updateModuleToExtension(String xmlFragment) throws DocumentException, ModelObjectPersisterException
+    {
+        boolean result = false;
+        if (this.webFrameworkConfiguration.isDynamicExtensionModulesEnabled())
+        {
+            Extension persistedExtension = getPersistedExtension();
+            ExtensionModule module = persistedExtension.updateExtensionModule(xmlFragment);
+            if (module != null)
+            {
+                this.modelObjectService.saveObject(persistedExtension);
+            }
+            this.saveDeployedModuleConfigurations();
+            result = (module != null);
+        }
+        else
+        {
+            if (logger.isErrorEnabled())
+            {
+                logger.error("A request was made to update an Extension Module but dynamic modules are disabled");
             }
         }
         return result;
@@ -388,7 +419,6 @@ public class ModuleDeploymentService
      */
     public synchronized List<ModuleDeployment> getDeployedModules()
     {
-        
         if (deployedModules == null)
         {
             getAllConfiguredExtensionModules(); // Make sure we've got all the configured extension modules...

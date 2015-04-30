@@ -8,7 +8,7 @@
     <parent>
        <groupId>org.springframework.extensions.surf</groupId>
        <artifactId>spring-surf-cmis</artifactId>
-       <version>5.1-RA3-SNAPSHOT</version>
+       <version>5.1-BF-SNAPSHOT</version>
        <relativePath>../pom.xml</relativePath>
     </parent>
     
