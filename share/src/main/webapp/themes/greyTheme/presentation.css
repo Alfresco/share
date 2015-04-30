@@ -1561,12 +1561,6 @@ background-color: #F2F2F2;
    border: 1px solid #5aa4e0;
 }
 
-.yui-skin-greyTheme .yui-calendar td.calcell.selected {
-   color: #003DB8;
-   background-color: white;
-   border: 1px solid #5aa4e0;
-}
-
 .yui-skin-greyTheme .yui-calendar td.calcell.calcellhover a {
    background-color: #5aa4e0;
    color: white;
