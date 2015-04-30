@@ -24,7 +24,12 @@ import org.alfresco.webdrone.exception.PageException;
 import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import org.apache.http.client.utils.URIBuilder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -634,8 +639,10 @@ public class DocumentLibraryPage extends SitePage
                 break;
         }
 
+        long defaultWaitTime =  drone.getDefaultWaitTime();
+        if(title == null || title.isEmpty()) {throw new IllegalArgumentException("Title is required");}
         String search = String.format(xpath, title);
-        return drone.findAndWait(By.xpath(search), WAIT_TIME_3000);
+        return drone.findAndWait(By.xpath(search), defaultWaitTime);
     }
 
     /**
@@ -1636,4 +1643,34 @@ public class DocumentLibraryPage extends SitePage
 
     }
 
+    /**
+     * The method helps to navigate to a folder or a file from document library.
+     * @param title
+     * @return
+     */
+    public HtmlPage browseToEntry(String title) throws Exception
+    {
+
+        DocumentLibraryPage documentLibraryPage = drone.getCurrentPage().render();
+        FileDirectoryInfo fileInfo = documentLibraryPage.getFileDirectoryInfo(title);
+
+        if (fileInfo.isFolder())
+        {
+            String url = selectEntry(title).getAttribute("href");
+            String param = selectEntry(title).getAttribute("rel");
+            param = param.substring(1, param.length());
+
+            URIBuilder b = new URIBuilder(url);
+            b.addParameter("filter", param);
+            url = b.build().toString();
+            drone.navigateTo(url);
+        }
+        else
+        {
+            String url = selectEntry(title).getAttribute("href");
+            drone.navigateTo(url);
+        }
+
+        return FactorySharePage.resolvePage(drone);
+    }
 }

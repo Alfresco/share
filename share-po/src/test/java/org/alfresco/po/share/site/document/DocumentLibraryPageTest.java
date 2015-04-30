@@ -192,6 +192,24 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
     }
 
     @Test(dependsOnMethods = "uploadFile", groups = "alfresco-one")
+    public void testBrowseToEntry() throws Exception
+    {
+        documentLibPage = documentLibPage.browseToEntry(folderName).render();
+        Assert.assertEquals(documentLibPage.getNavigation().getFoldersInNavBar().get(1).getLink().getText(), folderName);
+
+        File tempFile = SiteUtil.prepareFile();
+        UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
+        documentLibPage = uploadForm.uploadFile(tempFile.getCanonicalPath()).render();
+        DocumentDetailsPage detailsPage = documentLibPage.browseToEntry(tempFile.getName()).render();
+        Assert.assertTrue(detailsPage.isDocumentDetailsPage());
+
+        documentLibPage = detailsPage.delete().render();
+        documentLibPage = documentLibPage.getSiteNav().selectSiteDocumentLibrary().render();
+
+
+    }
+
+    @Test(dependsOnMethods = "uploadFile", groups="alfresco-one")
     public void editProperites()
     {
         FileDirectoryInfo fileInfo = documentLibPage.getFiles().get(1);
