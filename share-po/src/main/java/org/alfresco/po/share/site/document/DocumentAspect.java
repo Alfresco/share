@@ -34,7 +34,7 @@ public enum DocumentAspect
     SUMMARIZABLE("Summarizable", "P:cm:summarizable"),
     TEMPLATABLE("Templatable", "P:cm:templatable"),
     EMAILED("Emailed", "P:cm:emailed"),
-    ALIASABLE_EMAIL("Aliasable (Email)", "P:emailserver:aliasable"),
+    ALIASABLE_EMAIL("Email Alias", "P:emailserver:aliasable"),
     TAGGABLE("Taggable", "P:cm:taggable"),
     INLINE_EDITABLE("Inline Editable", "P:app:inlineeditable"),
     GOOGLE_DOCS_EDITABLE("Google Docs Editable", "P:gd:googleEditable"),
