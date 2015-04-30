@@ -11,7 +11,8 @@
     </parent>
 
     <properties>
-        <solr.config.folder>${basedir}/solr4-instance</solr.config.folder>
+        <runtime.data.folder>${basedir}/runtime</runtime.data.folder>
+        <solr.config.folder>${runtime.data.folder}/solr4-instance</solr.config.folder>
         <!-- Filter solrcore.properties -->
         <ALFRESCO_SOLR4_DATA_DIR>${solr.config.folder}/data</ALFRESCO_SOLR4_DATA_DIR>
     </properties>
