@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <!-- Definition of web site model -->
+
+<model name="ws:webSiteModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+    <!-- Meta-data about the model -->
+    <description>Web Site Model</description>
+    <author>Roy Wetherall, Brian Remmington</author>
+    <version>1.0</version>
+
+    <!--
+        Imports are required to allow references to definitions in other
+        models
+    -->
+    <imports>
+        <!-- Import Alfresco Dictionary Definitions -->
+        <import uri="http://www.alfresco.org/model/dictionary/1.0"
+            prefix="d" />
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/content/1.0"
+            prefix="cm" />
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/system/1.0"
+            prefix="sys" />
+        <import uri="http://www.alfresco.org/model/datalist/1.0"
+            prefix="dl" />
+    </imports>
+
+    <!-- Sites Namespace -->
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/website/1.0"
+            prefix="ws" />
+    </namespaces>
+
+    <types>
+
+        <type name="ws:section">
+            <title>Web Site Section Folder</title>
+            <parent>cm:folder</parent>
+            <properties>
+                <property name="ws:sectionConfig">
+                    <title>Template Mapping</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="ws:inheritRenditionConfig">
+                    <title>Inherit Rendition Config</title>
+                    <type>d:boolean</type>
+                    <default>true</default>
+                </property>
+                <property name="ws:renditionConfig">
+                    <title>Rendition Config</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="ws:excludeFromNavigation">
+                    <title>Exclude from navigation</title>
+                    <type>d:boolean</type>
+                    <default>false</default>
+                </property>
+            </properties>
+            <mandatory-aspects>
+                <aspect>ws:ordered</aspect>
+                <aspect>cm:tagscope</aspect>
+                <aspect>cm:titled</aspect>
+            </mandatory-aspects>
+        </type>
+        
+        <type name="ws:websiteContainer">
+            <title>Web Site Container</title>
+            <description>A folder that represents a container for web sites</description>
+            <parent>cm:folder</parent>
+        </type>
+
+        <type name="ws:website">
+            <title>Web Site</title>
+            <description>A folder that represents a website</description>
+            <parent>cm:folder</parent>
+            <properties>
+                <property name="ws:hostName">
+                    <title>Host Name</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <default>localhost</default>                    
+                </property>
+                <property name="ws:hostPort">
+                    <title>Host Port</title>
+                    <type>d:int</type>
+                    <mandatory>true</mandatory>
+                    <default>8080</default>
+                </property>
+                <property name="ws:webAppContext">
+                    <title>Web App Context</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <default>wcmqs</default>
+                </property>
+                <property name="ws:feedbackConfig">
+                    <title>Feedback Config</title>
+                    <type>d:text</type>                    
+                    <multiple>true</multiple>
+                </property>
+                <property name="ws:siteConfig">
+                    <title>Site Configuration</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="ws:siteLocales">
+                    <title>Site Locales</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+            </properties>
+            <associations>
+                <association name="ws:publishTarget">
+                    <title>Publish Target</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>false</many>
+                    </source>
+                    <target>
+                        <class>ws:website</class>
+                        <mandatory>false</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+            </associations>
+            <mandatory-aspects>
+                <aspect>cm:titled</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="ws:webroot">
+            <title>Web Root</title>
+            <description>Web Root Folder</description>
+            <parent>ws:section</parent>
+            <properties>
+                <property name="ws:redirectConfig">
+                    <title>Redirect Configuration</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <multiple>true</multiple>
+                </property>
+            </properties>
+        </type>
+
+        <type name="ws:webassetCollectionFolder">
+            <title>Web Asset Collection Folder</title>
+            <parent>cm:folder</parent>
+        </type>
+
+        <type name="ws:publishqueueentry">
+            <title>Publishing Queue Entry</title>
+            <parent>cm:cmobject</parent>
+            <archive>false</archive>
+            <properties>
+                <property name="ws:queuedNode">
+                    <title>Node identifier</title>
+                    <type>d:text</type>
+                </property>
+                <property name="ws:queuedNodeForRemoval">
+                    <title>To be removed</title>
+                    <type>d:boolean</type>
+                </property>
+            </properties>
+        </type>
+
+        <type name="ws:webassetCollection">
+            <title>Web Asset Collection</title>
+            <parent>cm:folder</parent>
+            <properties>
+                <property name="ws:queryLanguage">
+                    <title>Query Language</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <default>cmis-alfresco</default>
+                    <constraints>
+                      <constraint type="LIST">
+                         <parameter name="allowedValues">
+                            <list>
+                               <value>cmis-alfresco</value>
+                               <value>lucene</value>
+                            </list>
+                         </parameter>
+                      </constraint>
+                    </constraints>
+                </property>
+                <property name="ws:query">
+                    <title>Query</title>
+                    <type>d:text</type>
+                </property>
+                <property name="ws:queryResultsMaxSize">
+                    <title>Maximum Size</title>
+                    <type>d:int</type>
+                    <!-- default>5</default-->
+                </property>
+                <property name="ws:minsToQueryRefresh">
+                	<title>Minutes To Query Refresh</title>
+                	<type>d:int</type>
+                	<!-- default>30</default-->                	
+                </property>
+                <property name="ws:refreshAt">
+                	<title>Refresh At</title>
+                	<type>d:date</type>                	
+                </property>
+                <property name="ws:isDynamic">
+                    <title>Is Dynamic</title>
+                    <type>d:boolean</type>
+                    <mandatory>true</mandatory>
+                    <default>false</default>
+                </property>
+                <property name="ws:containedAssets">
+                    <title>Assets in this collection</title>
+                    <type>d:noderef</type>
+                    <multiple>true</multiple>
+                </property>
+            </properties>
+            <associations>
+                <association name="ws:webassets">
+                    <title>Web Assets</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>ws:webasset</class>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </target>
+                </association>
+            </associations>
+            <mandatory-aspects>
+                <aspect>cm:titled</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="ws:indexPage">
+            <title>Index Page</title>
+            <parent>cm:content</parent>
+        </type>
+
+        <type name="ws:article">
+            <title>Article</title>
+            <parent>cm:content</parent>
+            <associations>
+                <association name="ws:primaryImage">
+                    <title>Primary Image</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>ws:image</class>
+                        <mandatory>false</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+                <association name="ws:secondaryImage">
+                    <title>Secondary Image</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>ws:image</class>
+                        <mandatory>false</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+                <association name="ws:relatedArticles">
+                    <title>Related Articles</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>ws:article</class>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </target>
+                </association>
+            </associations>
+        </type>
+
+        <type name="ws:image">
+            <title>General Image</title>
+            <parent>cm:content</parent>
+        </type>
+
+        <type name="ws:visitorFeedback">
+            <title>Visitor Feedback List</title>
+            <parent>dl:dataListItem</parent>
+            <properties>
+                <property name="ws:feedbackType">
+                    <title>Type of Feedback</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                </property>
+                <property name="ws:feedbackComment">
+                    <title>Visitor's Comment</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                </property>
+                <property name="ws:feedbackSubject">
+                    <title>Feedback Subject</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                </property>
+                <property name="ws:visitorEmail">
+                    <title>Visitor's Email Address</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                </property>
+                <property name="ws:visitorName">
+                    <title>Visitor's Name</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                </property>
+                <property name="ws:visitorWebsite">
+                    <title>Visitor's Website</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                </property>
+                <property name="ws:commentFlagged">
+                    <title>Comment has been flagged</title>
+                    <type>d:boolean</type>
+                    <mandatory>true</mandatory>
+                    <default>false</default>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="ws:rating">
+                    <title>Rating</title>
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <constraints>
+                        <constraint type="MINMAX">
+                            <parameter name="minValue">
+                                <value>0</value>
+                            </parameter>
+                            <parameter name="maxValue">
+                                <value>5</value>
+                            </parameter>
+                        </constraint>
+                    </constraints>
+                </property>
+                <property name="ws:ratingProcessed">
+                    <title>Rating has been processed</title>
+                    <type>d:boolean</type>
+                    <mandatory>true</mandatory>
+                    <default>false</default>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="ws:relevantAssetRef">
+                    <title>Relevant Asset Id</title>
+                    <type>d:noderef</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+            <associations>
+                <association name="ws:relevantAssetAssoc">
+                    <title>Relevant Asset</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>cm:cmobject</class>
+                        <mandatory>false</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+            </associations>
+        </type>
+
+        <type name="ws:visitorFeedbackSummary">
+            <title>Summary Information for Visitor Feedback</title>
+            <parent>cm:cmobject</parent>
+            <properties>
+                <property name="ws:commentCount">
+                    <title>Number of comments</title>
+                    <type>d:int</type>
+                </property>
+                <property name="ws:averageRating">
+                    <title>Average rating</title>
+                    <type>d:float</type>
+                </property>
+                <property name="ws:processedRatings">
+                    <title>Ratings that have been processed</title>
+                    <type>d:int</type>
+                </property>
+                <property name="ws:summarisedAssetRef">
+                    <title>Summarised Asset Identifier</title>
+                    <type>d:noderef</type>
+                </property>
+            </properties>
+            <associations>
+                <association name="ws:summarisedAssetAssoc">
+                    <title>Summarised Asset</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>ws:webasset</class>
+                        <mandatory>false</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+            </associations>
+        </type>
+
+    </types>
+
+    <aspects>
+
+        <aspect name="ws:webasset">
+            <title>Web Asset</title>
+            <parent>cm:titled</parent>
+            <properties>
+                <property name="ws:parentSections">
+                    <title>Parent sections</title>
+                    <type>d:noderef</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="ws:tags">
+                    <title>Applied tags</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="ws:publishedTime">
+                    <title>Published Time</title>
+                    <type>d:datetime</type>
+                    <index enabled="true">
+				        <atomic>true</atomic>
+				        <stored>false</stored> 
+                        <tokenised>both</tokenised>
+                    </index>
+                </property>
+                <property name="ws:availableFromDate">
+                    <title>Available from</title>
+                    <type>d:date</type>
+                </property>
+                <property name="ws:availableToDate">
+                    <title>Available until</title>
+                    <type>d:date</type>
+                </property>
+                <property name="ws:available">
+                    <title>Is available now</title>
+                    <type>d:boolean</type>
+                    <mandatory>true</mandatory>
+                    <default>true</default>
+                </property>
+                <property name="ws:derivedCommentCount">
+                    <title>Number of comments</title>
+                    <type>d:int</type>
+                </property>
+                <property name="ws:derivedAverageRating">
+                    <title>Average rating (multiplied by 10)</title>
+                    <type>d:int</type>
+                </property>
+            </properties>
+            <mandatory-aspects>
+                <aspect>cm:taggable</aspect>
+                <aspect>cm:author</aspect>
+            </mandatory-aspects>
+        </aspect>
+
+        <aspect name="ws:ordered">
+            <title>Ordered</title>
+            <properties>
+                <property name="ws:orderIndex">
+                    <title>Order Index</title>
+                    <type>d:int</type>
+                    <default>50</default>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="ws:hasancestors">
+            <title>Has Ancestors</title>
+            <properties>
+                <property name="ws:ancestorSections">
+                    <title>Ancestor sections</title>
+                    <type>d:noderef</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="ws:temporaryMultilingual">
+            <title>Temporary Multilingual</title>
+            <description>Temporary aspect used for properties during transition to system multi-lingual manager</description>
+            <properties>
+                <property name="ws:translationOf">
+                    <title>Translation Of</title>
+                    <type>d:noderef</type>
+                </property>
+                <property name="ws:language">
+                    <title>Language</title>
+                    <type>d:text</type>
+                </property>
+               <property name="ws:initiallyOrphaned">
+                  <title>Orphaned</title>
+                     <type>d:boolean</type>
+               </property>
+            </properties>
+        </aspect>
+
+        <aspect name="ws:templated">
+            <title>Templated Aspect</title>
+            <properties>
+                <property name="ws:templateName">
+                    <title>Template Name</title>
+                    <type>d:text</type>
+                </property>
+            </properties>
+        </aspect>
+
+    </aspects>
+
+</model>

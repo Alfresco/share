@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.1" name="wswf:publishTree">
+
+   <swimlane name="initiator" />
+
+   <start-state name="start">
+      <task name="wswf:submitReviewTask" swimlane="initiator" />
+      <transition name="" to="review" />
+   </start-state>
+
+   <swimlane name="reviewer">
+      <assignment class="org.alfresco.repo.workflow.jbpm.AlfrescoAssignment">
+         <actor>#{bpm_assignee}</actor>
+      </assignment>
+   </swimlane>
+
+   <task-node name="review">
+      <task name="wswf:reviewTask" swimlane="reviewer">
+         <event type="task-create">
+            <script>
+               if (bpm_workflowDueDate != void) taskInstance.dueDate = bpm_workflowDueDate;
+               if (bpm_workflowPriority
+               != void) taskInstance.priority = bpm_workflowPriority;
+                </script>
+         </event>
+      </task>
+      <transition name="approve" to="approved">
+         <action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+            <script>
+               var publishAction = actions.create("webqs_publishTree");
+               publishAction.execute(bpm_package);
+            </script>
+         </action>
+      </transition>
+      <transition name="reject" to="rejected" />
+   </task-node>
+
+   <task-node name="rejected">
+      <task name="wswf:rejectedTask" swimlane="initiator" />
+      <transition name="" to="end" />
+   </task-node>
+
+   <task-node name="approved">
+      <task name="wswf:approvedTask" swimlane="initiator" />
+      <transition name="" to="end" />
+   </task-node>
+
+   <end-state name="end" />
+
+</process-definition>

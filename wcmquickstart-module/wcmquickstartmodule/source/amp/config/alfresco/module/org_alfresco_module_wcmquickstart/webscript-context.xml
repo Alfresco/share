@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+    <bean id="webscript.org.alfresco.module.wcmquickstart.assetcollection.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.AssetCollectionGet" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>       
+       <property name="fileFolderService" ref="FileFolderService"/>
+       <property name="assetSerializerFactory" ref="wqsmodule_assetSerializerFactory" />
+    </bean>
+              
+    <bean id="webscript.org.alfresco.module.wcmquickstart.asset.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.AssetGet" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>
+       <property name="searchService" ref="SearchService"/>
+       <property name="assetSerializerFactory" ref="wqsmodule_assetSerializerFactory" />
+       <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+    </bean>
+    
+    <bean id="webscript.org.alfresco.module.wcmquickstart.asset.post" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.AssetGet" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>
+       <property name="searchService" ref="SearchService"/>
+       <property name="assetSerializerFactory" ref="wqsmodule_assetSerializerFactory" />
+       <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+    </bean>
+    
+    <bean id="webscript.org.alfresco.module.wcmquickstart.section.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.SectionGet" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>
+       <property name="searchService" ref="SearchService"/>
+       <property name="assetSerializerFactory" ref="wqsmodule_assetSerializerFactory" />
+       <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+       <property name="namespaceService" ref="NamespaceService"/>
+    </bean>
+    
+    <bean id="webscript.org.alfresco.module.wcmquickstart.section.post" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.SectionGet" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>
+       <property name="searchService" ref="SearchService"/>
+       <property name="assetSerializerFactory" ref="wqsmodule_assetSerializerFactory" />
+       <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+       <property name="namespaceService" ref="NamespaceService"/>
+    </bean>
+    
+    <bean id="webscript.org.alfresco.module.wcmquickstart.assetsearch.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.AssetSearch" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>
+       <property name="searchService" ref="SearchService"/>
+       <property name="assetSerializerFactory" ref="wqsmodule_assetSerializerFactory" />
+       <property name="sectionHierarchyProcessor" ref="wqsmodule_sectionHierarchyProcessor" />
+       <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+    </bean>
+
+    <bean id="webscript.org.alfresco.module.wcmquickstart.translation.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.TranslationDetailsGet" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>
+       <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+       <property name="multilingualContentService" ref="multilingualContentService" />
+    </bean>
+    
+    <bean id="wqsmodule_assetSerializerFactory" 
+            class="org.alfresco.module.org_alfresco_module_wcmquickstart.util.XmlAssetSerializerFactory">
+        <property name="namespaceService" ref="NamespaceService" />
+    </bean>
+    
+    <bean id="webscript.org.alfresco.module.wcmquickstart.websiteinfo.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.WebsiteInfoGet" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>       
+       <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+    </bean>
+              
+    <bean id="webscript.org.alfresco.module.wcmquickstart.fixwebassets1.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.FixWebAssets1" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>       
+       <property name="searchService" ref="SearchService"/>
+    </bean>
+              
+    <bean id="webscript.org.alfresco.module.wcmquickstart.fixwebassets2.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.FixWebAssets2" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>       
+       <property name="searchService" ref="SearchService"/>
+    </bean>
+    
+    <bean id="webscript.org.alfresco.module.wcmquickstart.loadwebsitedata.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.LoadWebSiteDataGet" 
+          parent="webscript">       
+        <property name="importerService" ref="ImporterService"/>        
+        <property name="siteService" ref="SiteService"/>     
+        <property name="nodeService" ref="NodeService"/>
+        <property name="fileFolderService" ref="FileFolderService"/>
+        <property name="importFileLocations" ref="wqsmodule_siteImportFileLocations" />
+    </bean>
+    
+    <bean id="wqsmodule_siteImportFileLocations" class="java.util.TreeMap">
+        <constructor-arg>
+            <map>
+                <entry key="financial" value="${wcmqs.importFileLocation.finance}"/>
+                <entry key="government" value="${wcmqs.importFileLocation.government}"/>
+            </map>
+        </constructor-arg>
+    </bean>
+    
+     <bean id="webscript.org.alfresco.module.wcmquickstart.updatewebsiterenditions.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.UpdateWebSiteRenditionsGet" 
+          parent="webscript">
+       <property name="nodeService" ref="NodeService"/>    
+       <property name="siteService" ref="SiteService"/>    
+       <property name="dictionaryService" ref="DictionaryService"/>    
+       <property name="fileFolderService" ref="FileFolderService"/>
+       <property name="renditionHelper" ref="wcmquickstartmodule_renditionHelper"/>
+    </bean>
+    
+     <bean id="webscript.org.alfresco.module.wcmquickstart.webassetpreviewer.get" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.webscript.WebAssetPreviewerGet" 
+          parent="webscript">
+       <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper"/>
+    </bean>
+              
+</beans>

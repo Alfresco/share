@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-instance>
+	<title>rss</title>  
+  	<description>Instance of rss page</description>
+   	<template-type>rss</template-type>
+    <components>
+        <component>
+            <region-id>main</region-id>
+            <url>/rss/rss</url>   
+            <properties>
+                <collection>section.articles</collection>
+            </properties>   
+        </component>
+    </components>   	
+</template-instance>

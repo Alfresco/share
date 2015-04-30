@@ -1,0 +1,27 @@
+<alfresco-config>
+
+   <config>
+      <flags>
+         <client-debug>false</client-debug>
+         <client-debug-autologging>false</client-debug-autologging>
+      </flags>
+
+      <I18N>
+         <tiny-mce-supported-locales>en,de,es,fr,it,ja,nl,zh_CN,ru,nb,pt_BR</tiny-mce-supported-locales>
+      </I18N>
+
+   </config>
+    
+   <config evaluator="string-compare" condition="WebFramework">
+      <web-framework>
+         <defaults>
+            <user-factory>webframework.factory.user.alfresco</user-factory>
+            <page-type>
+               <id>login</id>
+               <page-instance-id>login</page-instance-id>
+            </page-type>
+         </defaults>
+      </web-framework>
+   </config>
+   
+</alfresco-config>

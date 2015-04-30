@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+   <display-name>Customer Application</display-name>    
+   <description>An example JSP based customer application</description>
+   
+   <!-- 
+   <context-param>
+      <param-name>org.customer.alfresco.host</param-name>
+      <param-value>localhost</param-value>
+   </context-param>
+   
+   <context-param>
+      <param-name>org.customer.alfresco.port</param-name>
+      <param-value>8080</param-value>
+   </context-param>
+   
+   <context-param>
+      <param-name>org.customer.alfresco.context</param-name>
+      <param-value>alfresco</param-value>
+   </context-param>
+   
+   <context-param>
+      <param-name>org.customer.alfresco.username</param-name>
+      <param-value>admin</param-value>
+   </context-param>
+   
+   <context-param>
+      <param-name>org.customer.alfresco.password</param-name>
+      <param-value>admin</param-value>
+   </context-param>
+   -->
+   
+   <filter>
+      <filter-name>Alfresco Web Editor Filter</filter-name>
+      <description>Enables support for the Alfresco Web Editor</description>
+      <filter-class>org.alfresco.web.awe.filter.WebEditorFilter</filter-class>
+      <!--  
+      <init-param>
+         <param-name>contextPath</param-name>
+         <param-value>/awe</param-value>
+      </init-param> 
+      <init-param>
+         <param-name>debug</param-name>
+         <param-value>true</param-value>
+      </init-param>
+      -->
+   </filter>
+   
+   <filter-mapping>
+      <filter-name>Alfresco Web Editor Filter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+   
+   <session-config>
+      <session-timeout>60</session-timeout>
+   </session-config>
+
+   <welcome-file-list>
+      <welcome-file>index.jsp</welcome-file>
+   </welcome-file-list>
+
+</web-app>

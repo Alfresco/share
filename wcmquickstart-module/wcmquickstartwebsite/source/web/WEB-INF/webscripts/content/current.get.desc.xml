@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Current Asset</shortname>
+  <description>Show content from current asset</description>
+  <url>/content/current</url>
+</webscript>

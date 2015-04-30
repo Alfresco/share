@@ -1,0 +1,294 @@
+/* this file contains styles for DARK RED BLUE THEME */
+body {
+	background:#252525 url(header_bg.gif) repeat-x top;
+	color:#737373;	
+}
+h1, h2, h3 {
+	color:#cc0a41; /* these headers have a dark pink/red colour */
+}
+h4 {
+	color:#a5a5a5;
+}
+a {
+	color:#518796; /* links have a blue colour */
+}
+a:hover {
+	color:#72afc0;
+}
+input, textarea {
+	background:#202020;
+	border:1px solid #414141;
+	color:#868686; /* this is the text in the input forms */
+}
+input:focus, textarea:focus {
+	background:#2a2a2a;
+}
+blockquote {
+	background:#202020;
+	color:#a5a5a5;	/* text colour in the blockqoutes */
+}
+
+.article-body ol { 
+    margin-left: 40px;
+    list-style-type: decimal; 
+}
+.article-body ul { 
+    margin-left: 40px;
+    list-style-type: disc;
+} 
+.logo-desc, .header-desc { /* this is the italic text used an additional description for headers and detail pages */
+	color:#a5a5a5; 
+}
+#logo a {/* this is the actual logo */
+	background:url(logo.png) no-repeat;
+}
+.main-menu-wrapper {
+	background:url(menu_decoration.gif) no-repeat bottom; /* this represents the line decoration for main menu */
+}
+.jqueryslidemenu ul li ul {
+	border-top:1px solid #363636; /* border top of first sub level menu */
+}
+.jqueryslidemenu ul li ul li ul {
+	border-top:1px solid #363636;
+}
+.jqueryslidemenu ul li ul li a { 
+	border-bottom:1px solid #363636;
+	border-left:1px solid #363636;
+	border-right:1px solid #363636;
+	background:#252525;
+}
+.jqueryslidemenu ul li ul li a:hover { /* sub menus hover style */
+	background:#2a2a2a;
+	color:#72afc0;
+}
+.jqueryslidemenu ul li a {
+	color:#518796;
+}
+.jqueryslidemenu ul li a:hover {
+	background:0 none; /* background of tabs */
+	color:#72afc0;
+}
+.jqueryslidemenu ul .selected a {
+	color:#72afc0;
+}
+.slide-1-desc {
+	background:#202020;
+}
+.slide-1-desc h1 {
+	color:#cc0a41;
+}
+.slide-1-desc p { /* text colour in the right side of home slider */
+	color:#737373;
+}
+.slideshow-rm { /* learn more styles in the home slideshow */
+	background:#292929 url(slide_arrow.gif) no-repeat 7px 5px;	
+}
+.slideshow-rm a {
+	color:#868686;
+}
+.slideshow-rm:hover {
+	background:#383838 url(slide_arrow.gif) no-repeat 7px 5px;
+}
+.slideshow-rm a:hover {
+	color:#868686;
+}
+.slide-txt h3 a, .slide-txt h3 { /* color of text header(with link) with the semi-transparent black background */
+	color:#fff;
+	text-decoration:none;
+}
+#right .latest-news, #right .newsletter, #right .brochure, #right .tabular-block, #right .flickr, 
+      #right .blog-categ, #right .services-box, #right .aboutus-box, #right .address-box, #right .facebook-like {
+    border-left:8px solid #363636; /* border colour that separates left from right container */
+    padding-left: 10px;
+}
+.ln-list li h6 a, .ln-list li h6 a { /* colour for latest news headers box */
+	color:#518796;
+}
+.ln-list li h6 a:hover {
+	text-decoration:none;
+}
+/* hover backgrounds for home news list and brochure, these 2 should be the same but I wrote them separately just in case */
+.ln-list li:hover {
+	background:#2a2a2a;
+}
+.brochure:hover {
+	background:#2a2a2a;
+}
+/* end hover backgrounds */
+
+.ln-date,  /* latest news date colour */
+ /* next 2 classes are for article's date and comments in the blog section */
+.blog-misc, 
+.blog-misc a,
+.blog-list-misc, 
+.blog-list-misc a,
+.ih-rss a, /* rss text on news page */
+.newslist-date /* news date text on news page */ { 
+	color:#565656;
+}
+.copyright a { 
+    color:#666666;
+}
+.newslist-cat{
+    color:#0875BA;
+}
+/* START: read more / reverse arrow button that is found in the normal body gets those properties */
+.body-rm { 
+	background:#303030 url(input_arrow.gif) no-repeat 3px 1px;
+}
+.body-rm a {
+	color:#868686;
+	text-decoration:none;
+}
+.body-rm a:hover {
+	color:#868686;
+}
+.body-rm:hover { /* read more button hover styles */
+	background:#383838 url(input_arrow.gif) no-repeat 3px 1px;
+}
+.reverse-arrow { /* button with reversed arrow style, used for pagination */
+	background:#303030 url(reverse_arrow.gif) no-repeat 3px 1px;
+}
+.reverse-arrow a {
+	color:#868686;
+	text-decoration:none;
+}
+.reverse-arrow:hover {
+	background:#383838 url(reverse_arrow.gif) no-repeat 3px 1px;
+}
+/* END: read more body buttons styles */
+
+/* START footer styles */
+#footer {
+	background:url(footer_decoration.gif) no-repeat top center; /* this represents the line decoration for footer */
+}
+#footer ul li a { /* footer menu normal state colours */
+	color:#518796;
+}
+#footer ul li a:hover { /* footer menu hover state colours */
+	color:#72afc0;
+}
+/* END footer styles */
+
+.interior-header {
+	background:#202020;
+}
+.intheader-paragraph {
+	color:#a5a5a5;
+}
+#left .interior-content .interior-list li {
+	background:url(body_arrow.gif) no-repeat 3px 6px;
+}
+/* START table styles */
+.tbl thead tr td { /* table header background */
+	background:#3f3f3f;	
+	color:#737373;
+}
+.tbl tbody tr td { /* table row line */
+	border-bottom:1px solid #3f3f3f;
+}
+.tbl .odd td { /* table background for odd rows 1, 3, 5... */
+	background:#252525;
+}
+.tbl .even td { /* table background for even rows 2, 4, 6... */
+	background:#252525;
+}
+/* END table styles */
+
+/* START tabular data */
+.ui-tabs .ui-tabs-nav li a {
+	/* default tab */
+	background:#363636;
+	color:#737373;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+	background:#3f3f3f;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { 
+	/* active or selected tab */
+	background-color:#3f3f3f;
+	color:#518796;
+}
+/* END tabular data */
+.img-border {
+	border:6px solid #363636;
+}
+.img-border:hover {
+	border:6px solid #494949;
+}
+.blog-misc a:hover {
+	text-decoration:underline;
+}
+/* general input buttons for search and newsletter forms, they might/might not have same styles with blog/comments submit buttons */
+.input-arrow {
+	background:#414141 url(input_arrow.gif) no-repeat;
+}
+.input-arrow:hover { /* mouseover colour on submit arrow for forms */
+	background:#4d4d4d url(input_arrow.gif) no-repeat;
+}
+/* START blog comment form styles */
+.bc-submit, .contact-submit { /* these applies for both comments and contact submit buttons */
+	background:#303030 url(input_arrow.gif) no-repeat;
+}
+.bc-submit:hover, .contact-submit:hover { /* these applies for both comments and contact submit buttons */
+	background:#383838 url(input_arrow.gif) no-repeat;
+}
+/* END blog comment form styles */
+
+/* START blog right menu */
+.blog-categ ul li a {
+	border-bottom:1px solid #303030;	
+	color:#828282;
+}
+.blog-categ ul li a:hover {
+	background:#2a2a2a;
+	border-bottom:1px solid #494949;
+	color:#72afc0;	
+	text-decoration:none;
+}
+/* END blog right menu */
+.blog-entry h2 a {
+	color:#cc0a41;
+	text-decoration:none;
+}
+.pagination .page-number {
+	color:#737373;
+}
+.services-box-list li, .tag-list li {
+	background:url(body_arrow.gif) no-repeat 3px 6px;
+}
+.address-box span { /* text color attached to map on contact page */
+	color:#565656;
+}
+.address-box address span { /* text color in address section on contact page */
+	color:#666666;
+}
+#left .interior-content .newslist-wrapper li h4 a, .portfolio-wrapper li h4 a {
+	color:#a5a5a5;	
+	text-decoration:none;
+	/* these styles apply to header titles from list news and portfolio list */
+}
+.h-services-list li {
+	background:url(body_arrow.gif) no-repeat 2px 5px;
+}	
+/* error messages styles */
+.contact-error {
+	background:#202020;
+	border:1px solid #414141;	
+	color:#bb2507;
+}
+.contact-error-value {
+    color: #CC3333;
+}
+.contact-success {
+	background:#202020;
+	border:1px solid #414141;		
+	color:#0c8122;	
+}
+.contact-jerror {
+	color:#bb2507;
+	float:left;
+	line-height:16px;
+	margin:0 0 0 10px;
+	width:180px;
+}

@@ -1,0 +1,5 @@
+<webscript>
+	<shortname>Get the Translations for a given WCM node</shortname>
+	<description>Fetches the translations of a given WCM node from the Repository, and renders it for browsing and creating the translations</description>
+	<url>/components/wcmqs/manage-translations</url>
+</webscript>

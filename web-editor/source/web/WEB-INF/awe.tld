@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<!-- Alfresco Web Editor tag library -->
+<taglib>
+   <tlib-version>1.0</tlib-version>
+   <jsp-version>2.0</jsp-version>
+   <short-name>awe</short-name>
+   <display-name>Alfresco Web Editor</display-name>
+   <uri>http://www.alfresco.org/tags/awe</uri>
+   <description>
+      Tag library consisting of Alfresco Web Editor tags allowing users
+      to mark a template with editable Alfresco content.
+   </description>
+
+   <tag>
+      <name>startTemplate</name>
+      <tag-class>org.alfresco.web.awe.tag.StartTemplateTag</tag-class>
+      <body-content>JSP</body-content>
+      <display-name>Start Template</display-name>
+      <description>
+         Indicates the start of a page that potentially contains editable Alfresco content.
+         This tag should be placed in the &lt;head&gt; section of the page.
+      </description>
+
+      <attribute>
+         <name>toolbarLocation</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+            Specifies the default location of the toolbar, can be set to "top", "left" or "right",
+            defaults to "top"
+         </description>
+      </attribute>
+
+   </tag>
+   
+   <tag>
+      <name>markContent</name>
+      <tag-class>org.alfresco.web.awe.tag.MarkContentTag</tag-class>
+      <body-content>JSP</body-content>
+      <display-name>Mark Content</display-name>
+      <description>
+         Indicates that a section of the page is content stored in Alfresco that can be edited.
+      </description>
+
+      <attribute>
+         <name>id</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+            The identifier (NodeRef) of the content.
+         </description>
+      </attribute>
+      
+      <attribute>
+         <name>title</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+            The title of the content, used as the alt tag for the edit link, in the drop down
+            list in the toolbar and the ttile of the popup panel.
+         </description>
+      </attribute>
+      
+      <attribute>
+         <name>formId</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+            The identifier of the form that should be used to edit the conent.
+         </description>
+      </attribute>
+      
+      <attribute>
+         <name>nestedMarker</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+            Indicates that the HTML tag that contains the content marker also contains 
+            the referenced content itself. Defaults to false.
+         </description>
+      </attribute>
+
+   </tag>
+   
+   <tag>
+      <name>endTemplate</name>
+      <tag-class>org.alfresco.web.awe.tag.EndTemplateTag</tag-class>
+      <body-content>JSP</body-content>
+      <display-name>End Template</display-name>
+      <description>
+         Indicates the end of a page that potentially contains editable Alfresco content.
+         This tag should be placed at the end of the &lt;body&gt; section of the page.
+      </description>
+   </tag>
+
+</taglib>

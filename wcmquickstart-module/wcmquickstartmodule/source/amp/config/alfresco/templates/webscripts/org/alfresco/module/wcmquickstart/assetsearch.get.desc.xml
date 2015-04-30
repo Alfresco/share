@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Search Assets</shortname>
+  <url>/api/webassetsearch</url>
+  <format default="xml">argument</format>
+  <authentication>user</authentication>
+  <transaction allow="readonly">required</transaction>
+</webscript>

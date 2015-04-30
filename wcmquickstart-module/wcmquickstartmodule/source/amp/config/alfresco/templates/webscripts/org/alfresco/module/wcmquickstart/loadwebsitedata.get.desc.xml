@@ -1,0 +1,8 @@
+<webscript>
+   <shortname>Load web site date.</shortname>
+   <url>/api/loadwebsitedata?site={site?}&amp;preview={preview?}&amp;importid={importid?}</url>
+   <format default="json">argument</format>
+   <authentication>user</authentication>
+   <transaction>required</transaction>
+   <lifecycle>internal</lifecycle>
+</webscript>

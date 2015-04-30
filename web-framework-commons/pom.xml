@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-parent</artifactId>
+        <version>5.1-RA3-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <artifactId>alfresco-web-framework-commons</artifactId>
+    <name>Alfresco Web Framework common libraries</name>
+    <description>Alfresco Web Framework common libraries</description>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.extensions.surf</groupId>
+            <artifactId>spring-surf</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+             <groupId>javax.servlet</groupId>
+             <artifactId>servlet-api</artifactId>
+             <scope>provided</scope>
+        </dependency>
+        <dependency>
+             <groupId>commons-logging</groupId>
+             <artifactId>commons-logging</artifactId>
+             <scope>provided</scope>
+        </dependency>
+        <!-- Test only dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-core</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <!--  Needs to produce a war to overlay to share to neatly share source/web/ resources
+            | Producing an attached WAR so that Share can depend and overlay it
+            | Basically mimicking projects.xml at line 1410
+            | next copy all required files from web framework commons projects
+            | <copy todir="${dir.project.slingshot.assemble}">
+            | <fileset dir="${dir.project.webframeworkcommons.src.web}" excludes="WEB-INF/web.xml" />
+            | </copy>
+            -->
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <!-- This allows an empty overlay -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>            
+            </plugin>
+
+            <!-- ACE-3329 Create _en.properties message files  -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                 <executions>
+                    <execution>
+                        <id>duplicate-english-messages</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <target>
+                        <copy todir="${project.build.outputDirectory}">
+                            <fileset dir="${basedir}/config" includes="alfresco/**/*.properties" />
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
+                        </copy>
+                    </target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

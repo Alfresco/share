@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Translation Management</title>
+   <title-id>page.manageTranslations.title</title-id>
+   <description>Manage translations of content</description>
+   <description-id>page.manageTranslations.description</description-id>
+   <template-instance>manage-translations</template-instance>
+   <authentication>user</authentication>
+</page>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>sectionpage5</id>
+   <description>section landing page with detailed publication list</description>      
+   <template-instance>one-block</template-instance>
+   <authentication>none</authentication>
+   <components>
+      <component>
+         <region-id>main1</region-id>
+         <url>/list/full</url>
+	      <properties>
+	         <collection>section.articles</collection>
+	         <linkPage>publicationpage1</linkPage>
+	      </properties>              
+      </component>         
+   </components>
+</page>

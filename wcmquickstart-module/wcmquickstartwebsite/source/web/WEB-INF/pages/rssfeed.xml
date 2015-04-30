@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>rssfeed</id>
+   <template-instance>rss</template-instance>
+   <authentication>none</authentication>
+   <properties>
+       <collection>section.articles</collection>
+   </properties>    
+</page>

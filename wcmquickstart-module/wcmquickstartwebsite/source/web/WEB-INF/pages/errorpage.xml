@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>errorpage</id>
+   <title>title.error</title>
+   <template-instance>errorpage</template-instance>
+   <authentication>none</authentication>
+   <components/>
+</page>

@@ -1,0 +1,91 @@
+<alfresco-config>
+
+   <!-- Document Library client-side dependencies -->
+   <config evaluator="string-compare" condition="DocLibCustom">
+      <dependencies>
+         <js src="/components/documentlibrary/wcmqs-actions.js" />
+      </dependencies>
+   </config>
+
+   <!-- Document Library actions configuration -->
+   <config evaluator="string-compare" condition="DocLibActions">
+      <actions>
+         <action id="document-preview-webasset" type="javascript" label="actions.wcmqs.preview-webasset">
+            <param name="function">onActionPreviewWebAsset</param>
+            <evaluator>wcmqs.evaluator.doclib.action.isPreviewable</evaluator>
+         </action>
+         
+         <action id="document-manage-translations" type="pagelink" label="actions.wcmqs.manage-translations">
+            <param name="page">manage-translations?nodeRef={node.nodeRef}</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator>wcmqs.evaluator.doclib.action.isTranslatable</evaluator>
+         </action>
+
+         <!-- Publish document: Disable for non-WCMQS sites -->
+         <action id="document-publish">
+            <evaluator negate="true">wcmqs.evaluator.doclib.action.isWebsiteContainerType</evaluator>
+         </action>
+      </actions>
+
+      <actionGroups>
+         <actionGroup id="document-browse">
+            <action id="document-preview-webasset" />
+            <action index="400" id="document-manage-translations" />
+         </actionGroup>
+
+         <actionGroup id="document-details">
+            <action id="document-preview-webasset" />
+            <action index="400" id="document-manage-translations" />
+         </actionGroup>
+
+         <actionGroup id="folder-browse">
+            <action index="400" id="document-manage-translations" />
+         </actionGroup>
+
+         <actionGroup id="folder-details">
+            <action index="400" id="document-manage-translations" />
+         </actionGroup>
+      </actionGroups>
+   </config>
+
+   <config evaluator="string-compare" condition="DocumentLibrary">
+
+      <!--
+         Used by the "Change Type" action.
+         Used by Rules:
+          - parent types are the listed types for rule's "is-subtype" action condition
+          - sub types are the listed types for rule's "specialise-type" action
+
+         Define valid subtypes using the following example:
+            <type name="cm:content">
+               <subtype name="cm:mysubtype" />
+            </type>
+
+         Remember to also add the relevant i18n string(s):
+            type.cm_mysubtype=My SubType
+      -->
+      <types>
+         <type name="cm:content">
+            <subtype name="ws:article"/>
+         </type>
+
+         <type name="cm:folder">
+            <subtype name="ws:website"/>
+            <subtype name="ws:webroot"/>
+         </type>
+      </types>
+
+   </config>
+
+   <config evaluator="string-compare" condition="Workflow">
+      <hidden-workflows>
+         <workflow name="jbpm$wswf:readContactProcess"/>
+         <workflow name="jbpm$wswf:reviewPublish"/>
+         <workflow name="jbpm$wswf:publishTree"/>
+         <workflow name="activiti$readContactProcess"/>
+      </hidden-workflows>
+   </config>
+
+</alfresco-config>

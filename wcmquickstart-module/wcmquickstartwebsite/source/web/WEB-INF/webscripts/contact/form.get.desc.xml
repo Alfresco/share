@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Contact form</shortname>
+  <description>Take input of a contact message</description>
+  <url>/contact/form</url>
+</webscript>

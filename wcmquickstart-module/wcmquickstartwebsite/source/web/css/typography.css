@@ -1,0 +1,99 @@
+/* START standard styles */
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:18px;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight:normal;
+}
+h1 {
+	font-size:28px;
+	line-height:34px;
+}
+h2 {
+	font-size:26px;
+	line-height:28px;		
+}
+h3 {
+	font-size:18px;
+	line-height:26px;
+}
+h4 {
+	font-size:16px; /* please note: in 2 cases font size for h4 tag is 15px and not 16px: 1) on portfolio page and 2) on services list page */
+	line-height:20px;	
+}
+h5 {
+	font-size:14px;
+	font-weight:bold;
+	line-height:18px;	
+}
+h6 {
+	font-size:13px;
+	font-weight:bold;
+}
+a {
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+input {
+	font-size:11px;
+}
+blockquote {
+	font-style:italic;
+	font-weight:bold;
+	font-size:13px;
+}
+address {
+	font-style:italic;
+}
+textarea {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+}
+/* END standard styles */
+.jqueryslidemenu {
+	font:normal 14px Arial, Helvetica, sans-serif;
+}
+.jqueryslidemenu ul li ul {
+	font-size:13px;
+	line-height:19px;
+}
+.main-menu-wrapper .jqueryslidemenu ul li a, .ln-list li h6 a {
+	text-decoration:none;
+}
+.logo-desc, .header-desc, .intheader-paragraph {
+	font-size:13px;
+	font-style:italic;
+	font-weight:bold;
+}
+.slideshow-rm a:hover, .body-rm a:hover, .reverse-arrow a:hover {
+	text-decoration:none;
+}
+.brochure-title h3 {
+	line-height:24px;
+}
+#footer {
+	font-size:11px;
+}
+#footer ul li a:hover { /* removes the underline on footer links on mouse over */
+	text-decoration:none;
+}
+.blog-misc a:hover {
+	text-decoration:underline;
+}
+.ui-tabs .ui-tabs-nav li a:hover, .blog-misc a:hover { /* removes the underline on tab names on mouse over */
+	text-decoration:none;
+}
+.blog-categ ul li a {
+	font-size:13px;
+}
+/* change the size of h4 header on portfolio and services pages */
+.portfolio-wrapper li h4 {
+	font-size:15px;
+}
+#left .interior-content .services-wrapper li .service-txt h4 {
+	font-size:15px;
+}

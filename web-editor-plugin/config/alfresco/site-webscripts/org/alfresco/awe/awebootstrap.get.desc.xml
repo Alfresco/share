@@ -1,0 +1,11 @@
+<webscript>
+   <shortname>AWE Bootstrap</shortname>
+   <description><![CDATA[
+   Sets up the constants required by the Alfresco Web Editor plugin 
+   ]]>
+   </description>
+   <url>/awe/bootstrap</url>
+   <format default="js" />
+   <authentication>none</authentication>
+   <lifecycle>internal</lifecycle>
+</webscript>

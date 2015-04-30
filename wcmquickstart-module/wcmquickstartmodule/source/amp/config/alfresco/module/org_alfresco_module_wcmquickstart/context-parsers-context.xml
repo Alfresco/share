@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+    <!--  Context parsers -->
+    
+    <bean id="wcmquickstartmodule_contextParserService" 
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.util.contextparser.ContextParserService">
+    </bean>
+    
+    <bean id="wcmquickstartmodule_contextParser" 
+          abstract="true" 
+          init-method="init">
+        <property name="registry" ref="wcmquickstartmodule_contextParserService"/>
+        <property name="nodeService" ref="nodeService"/>
+        <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper"/>
+        
+    </bean>
+    
+    <bean id="wcmquickstartmodule_sectionIdContextParser"
+          parent="wcmquickstartmodule_contextParser"
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.util.contextparser.SectionIdContextParser">
+        <property name="name" value="sectionid" />
+    </bean>
+    
+    <bean id="wcmquickstartmodule_pdfRenditionPathContextParser"
+          parent="wcmquickstartmodule_contextParser"
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.util.contextparser.PdfRenditionPathContextParser">
+        <property name="name" value="pdfrenditionpath" />
+        <property name="fileFolderService" ref="fileFolderService"/>
+        <property name="repository" ref="repositoryHelper"/>
+    </bean>
+    
+    <bean id="wcmquickstartmodule_siteIdContextParser"
+          parent="wcmquickstartmodule_contextParser"
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.util.contextparser.SiteIdContextParser">
+        <property name="name" value="siteid" />
+    </bean>
+    
+    <bean id="wcmquickstartmodule_websiteOwnerContextParser"
+          parent="wcmquickstartmodule_contextParser"
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.util.contextparser.WebsiteOwnerContextParser">
+        <property name="ownableService" ref="ownableService"/>  
+        <property name="name" value="websiteowner" />
+    </bean>
+
+    <bean id="wcmquickstartmodule_sectionPathContextParser"
+          parent="wcmquickstartmodule_contextParser"
+          class="org.alfresco.module.org_alfresco_module_wcmquickstart.util.contextparser.SectionPathContextParser">
+        <property name="name" value="section" />
+    </bean>
+
+</beans>

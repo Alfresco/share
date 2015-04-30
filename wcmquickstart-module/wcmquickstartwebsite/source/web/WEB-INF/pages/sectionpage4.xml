@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>sectionpage4</id>
+   <description>section landing page with publication thumbnails</description>      
+   <template-instance>one-block</template-instance>
+   <authentication>none</authentication>
+   <components>
+      <component>
+         <region-id>main1</region-id>
+         <url>/list/thumbnails</url>
+	      <properties>
+	         <subTitle>list.thumbnails.subTitle</subTitle>
+	         <collection>section.articles</collection>
+	         <linkPage>publicationpage1</linkPage>
+	      </properties>              
+      </component>         
+   </components>
+</page>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>sectionpage2</id>
+   <description>section landing page with single column article list showing comment count</description>   
+   <template-instance>two-block</template-instance>
+   <authentication>none</authentication>
+   <components>
+      <component>
+         <region-id>left1</region-id>
+         <url>/list/detailed</url>
+	      <properties>
+	         <collection>latest.articles</collection>
+	      </properties>              
+      </component>   
+      <component>
+         <region-id>right1</region-id>
+         <url>/tags/list</url>
+      </component>             
+   </components>
+</page>

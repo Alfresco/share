@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>Spring Surf Application</display-name>
+  <filter>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>Alfresco Web Editor Filter</filter-name>
+    <filter-class>org.alfresco.web.awe.filter.WebEditorFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Alfresco Web Editor Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/classes/web-application-config.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
+    <url-pattern>/service/*</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/500page.html</location>
+  </error-page>
+</web-app>

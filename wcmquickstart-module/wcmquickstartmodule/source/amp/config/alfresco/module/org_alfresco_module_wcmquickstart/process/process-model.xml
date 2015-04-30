@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<model name="wswf:processModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d" />
+        <import uri="http://www.alfresco.org/model/bpm/1.0" prefix="bpm" />
+    </imports>
+
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/website/process/1.0"
+            prefix="wswf" />
+    </namespaces>
+
+    <types>
+        <type name="wswf:submitReviewTask">
+            <parent>bpm:startTask</parent>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="wswf:reviewTask">
+            <parent>bpm:workflowTask</parent>
+            <overrides>
+                <property name="bpm:packageItemActionGroup">
+                    <default>edit_package_item_actions</default>
+                </property>
+            </overrides>
+        </type>
+
+        <type name="wswf:approvedTask">
+            <parent>bpm:workflowTask</parent>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="wswf:rejectedTask">
+            <parent>bpm:workflowTask</parent>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+        
+        <type name="wswf:submitReadContactTask">
+            <parent>bpm:startTask</parent>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="wswf:handleContactRequest">
+            <parent>bpm:workflowTask</parent>
+            <overrides>
+                <property name="bpm:packageItemActionGroup">
+                    <default>edit_package_item_actions</default>
+                </property>
+            </overrides>
+        </type>
+
+        <type name="wswf:deltWithTask">
+            <parent>bpm:workflowTask</parent>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+        
+    </types>
+</model>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+    <!--  Import Alfresco App Context -->
+    <import resource="classpath:alfresco/application-context.xml"/>
+
+    <!--  Import Web Site Generator Properties -->
+    <bean id="webSiteGeneratorProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="location" value = "classpath:/alfresco/module/org_alfresco_module_wcmquickstart/benchmark/website-generator.properties" />
+    </bean>
+
+    <!--  Base Web Site Generator Bean -->
+   <bean id="webSiteGenerator" class="org.alfresco.module.org_alfresco_module_wcmquickstart.benchmark.WebSiteRandomGenerator">
+      <!--  Set the various services -->
+      <property name="webSiteBuilder" ref="webSiteBuilder" />
+      <property name="nodeService" ref="nodeService" />
+      <property name="nodeLocatorService" ref="nodeLocatorService" />
+      <property name="siteService" ref="siteService" />
+      <property name="textGenerator" ref="textGenerator" />
+      
+      <!--  Site generation parameters -->
+      <property name="shareSiteName" value="${wcmqs.benchmark.generator.share.site.name}" />
+      <property name="minSectionCount" value="${wcmqs.benchmark.generator.minSectionCount}" />
+      <property name="maxSectionCount" value="${wcmqs.benchmark.generator.maxSectionCount}" />
+      <property name="minSectionDepth" value="${wcmqs.benchmark.generator.minSectionDepth}" />
+      <property name="maxSectionDepth" value="${wcmqs.benchmark.generator.maxSectionDepth}" />
+      
+   </bean>
+   
+   
+       <!-- Web Site Generator Transaction Interceptor bean -->
+    <bean id="webSiteGenerator_transaction" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">${server.transaction.mode.default}</prop>
+            </props>
+        </property>
+    </bean>
+    
+   <!--  Public Web Site Generator Bean -->
+    <bean id="WebSiteGenerator" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces">
+            <list>
+                <value>org.alfresco.module.org_alfresco_module_wcmquickstart.benchmark.WebSiteGenerator</value>
+            </list>
+        </property>
+        <property name="target" ref="webSiteGenerator" />
+        <property name="interceptorNames">
+            <list>
+                <idref local="webSiteGenerator_transaction"/>
+            </list>
+        </property>
+    </bean>
+
+   <bean id="webSiteBuilder" class="org.alfresco.module.org_alfresco_module_wcmquickstart.benchmark.WebSiteBuilder" >
+      <property name="nodeService" ref="nodeService" />
+   </bean>
+   
+   <bean id="textGenerator" class = "org.alfresco.module.org_alfresco_module_wcmquickstart.benchmark.RandomTextGenerator">
+      <property name="prefixLength" value="${wcmqs.benchmark.generator.text.prefix.length}"/>
+      <property name="sourceTextLocation" value="${wcmqs.benchmark.generator.text.source.location}"/>
+   </bean>
+    
+   <bean id="acpGenerator" class = "org.alfresco.module.org_alfresco_module_wcmquickstart.benchmark.AcpGenerator">
+      <property name="exporterService" ref="exporterComponent" />
+      <property name="nodeService" ref="nodeService" />
+      <property name="mimetypeService" ref="mimetypeService"  />
+   </bean>
+   
+   
+</beans>

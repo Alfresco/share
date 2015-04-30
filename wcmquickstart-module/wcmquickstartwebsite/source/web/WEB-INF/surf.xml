@@ -1,0 +1,62 @@
+<alfresco-config>
+
+    <config evaluator="string-compare" condition="WebFramework">
+
+		<web-framework>
+
+			<!-- Autowire Runtime Settings -->
+			<autowire>
+			
+			    <!-- Pick the runtime: classpath, webapp, local, alfresco -->			    
+			    <runtime>webapp</runtime>
+			
+			    <!-- Pick the mode: development, preview, production -->			    
+			    <mode>development</mode>
+			    
+			</autowire>
+			
+			<defaults>
+			
+			    <region-chrome>vanilla</region-chrome>
+
+				<!-- Set up our sample login and logout pages -->
+				<page-type>
+					<id>login</id>
+					<page-instance-id>sample/login</page-instance-id>
+				</page-type>
+				<page-type>
+					<id>logout</id>
+					<page-instance-id>sample/logout</page-instance-id>
+				</page-type>
+				
+				<!-- User factory for Alfresco 3.2 -->
+				<!--
+				<user-factory>webframework.factory.user.alfresco32</user-factory>
+				-->
+				
+				<!-- User factory for Alfresco 3.3 -->
+				<!--
+				<user-factory>webframework.factory.user.alfresco</user-factory>				
+				-->
+			
+			</defaults>
+
+		</web-framework>
+
+	</config>
+
+    <config evaluator="string-compare" condition="Remote">
+        <remote>
+            <endpoint>
+                <id>alfresco-webscripts</id>
+                <name>Alfresco Webscripts</name>
+                <connector-id>http</connector-id>
+                <endpoint-url>http://localhost:8080/alfresco/service</endpoint-url>
+                <identity>declared</identity>
+                <username>admin</username>
+                <password>admin</password>
+            </endpoint>
+        </remote>
+    </config>
+
+</alfresco-config>

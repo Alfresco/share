@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Create a property placeholder configurer so that properties can be substituted from a .properties file.
+         Note that the prefix must be altered from the default to avoid wrongly substituting a property value
+         in Spring Surf which contains ${. -->
+    <bean id="quickstartwebappPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:wcmqs.properties"/>
+        <property name="placeholderPrefix" value="%{"/>
+        <property name="searchSystemEnvironment">
+            <value>false</value>
+        </property>
+    </bean>	
+    
+	<bean id="collectionService" parent="baseScriptExtension" class="org.alfresco.wcm.client.service.CollectionService">
+       <property name="extensionName" value="collectionService"/>    
+       <property name="collectionFactory" ref="collectionFactory"/>
+    </bean>  
+    
+    <bean id="quickstartMessages" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
+      <property name="resourceBundles">
+         <list>
+            <value>alfresco.messages.common</value>
+         </list>
+      </property>
+    </bean>
+    
+    <!-- Make Surf I18NUtil class available as a Spring MessageSource so the the Spring Freemarker macros
+         can get message text. -->    
+    <bean id="messageSource" class="org.alfresco.wcm.client.util.SurfMessageSource"/> 
+
+    <!-- Make Surf I18NUtil managed messages available to javascript. This bean can be accessed
+         from html using <script type="text/javascript" src="${url.context}/messages.js?locale=${locale}"></script>
+    -->
+    <!-- <bean id="webscript.org.springframework.extensions.messages.get" parent="webscript" class="org.alfresco.wcm.client.webscript.MessagesWebScript" />
+	-->
+
+    <!-- Webscript for RSS -->
+    <bean id="webscript.rss.rss.get" parent="webscript" class="org.alfresco.wcm.client.webscript.RssWebScript">
+        <property name="collectionFactory" ref="collectionFactory" />
+        <property name="urlUtils" ref="urlUtils"/>
+    </bean>
+    
+    <!-- Class for converting between CMIS ids and url safe representations of the id -->
+    <bean id="cmisIdEncoder" class="org.alfresco.wcm.client.util.impl.AlfrescoCmisIdEncoderImpl"/>
+    
+    <!-- Url Utils -->
+    <bean id="urlUtils" class="org.alfresco.wcm.client.util.impl.UrlUtilsImpl">
+        <property name="cmisIdEncoder" ref="cmisIdEncoder"/>     
+    </bean>
+
+    <!-- Locale Resolver -->
+    <bean id="localeResolver" class="org.alfresco.wcm.client.viewresolver.NewLocaleResolver" />
+    
+    <!-- Beans that provide Freemarker directives-->
+    <bean id="urlDirective" class="org.alfresco.wcm.client.directive.UrlDirective">
+        <property name="urlUtils" ref="urlUtils"/>
+    </bean>
+    <bean id="assetDirective" class="org.alfresco.wcm.client.directive.AssetDirective"/>
+    <bean id="truncateDirective" class="org.alfresco.wcm.client.directive.TruncateDirective"/>
+    <bean id="startTemplateDirective" class="org.alfresco.wcm.client.directive.WebEditorStartTemplateDirective"/>
+    <bean id="markContentDirective" class="org.alfresco.wcm.client.directive.WebEditorMarkContentDirective"/>
+    <bean id="endTemplateDirective" class="org.alfresco.wcm.client.directive.WebEditorEndTemplateDirective"/>
+
+    <!-- Intercept any controller and get a CMIS session while it is being executed. -->
+	<bean id="cmisSessionInterceptor" class="org.alfresco.wcm.client.interceptor.CmisSessionInterceptor">
+		<property name="sessionPool" ref="sessionPool"/>
+	</bean>  
+ 
+    <!-- Intercept any controller and add application-wide data to the request. -->
+	<bean id="modelDecorator" class="org.alfresco.wcm.client.interceptor.ModelDecorator">
+        <property name="freemarkerDirectives">
+            <map>   
+                <entry key="streamasset" value-ref="assetDirective"/>
+                <entry key="makeurl" value-ref="urlDirective"/>
+                <entry key="truncate" value-ref="truncateDirective"/>
+                <entry key="startTemplate" value-ref="startTemplateDirective"/>
+                <entry key="markContent" value-ref="markContentDirective"/>
+                <entry key="endTemplate" value-ref="endTemplateDirective"/>
+            </map>         
+        </property>
+	</bean>  
+
+    <!-- Intercept any controller and add application-wide data to the request. -->
+    <bean id="applicationDataInterceptor" class="org.alfresco.wcm.client.interceptor.ApplicationDataInterceptor" init-method="init">
+        <property name="webSiteService" ref="webSiteService"/>
+        <property name="modelDecorator" ref="modelDecorator"/>
+    </bean>  
+
+    <!-- Streamed asset controller, eg streams images from the repository -->    
+    <bean id="assetController" class="org.alfresco.wcm.client.controller.StreamedAssetController">
+        <property name="urlUtils" ref="urlUtils"/>
+        <property name="assetFactory" ref="assetFactory"/>
+    </bean>
+
+    <!-- Search form controller -->    
+    <bean id="searchFormController" class="org.alfresco.wcm.client.controller.SearchFormController">
+        <property name="assetFactory" ref="assetFactory" />
+        <property name="sectionFactory" ref="sectionFactory"/>
+    </bean>
+    
+    <!-- Comment form controller -->   
+    <!-- <bean id="commentFormController" class="org.alfresco.wcm.client.controller.CommentFormController"/> -->
+
+    <!--  RSS feed controller -->
+    <bean id="rssController" class="org.alfresco.wcm.client.controller.RssController"/>
+           
+    <!-- Resolve views by using the template selected within the repository for a page -->
+    <bean id="dynamicPageViewResolver" class="org.alfresco.wcm.client.viewresolver.DynamicPageViewResolver" parent="abstractWebFrameworkViewResolver">
+        <property name="order" value="1"/>
+    </bean>
+    
+    <!-- View resolver for the 500page -->
+    <bean id="staticPageViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".html"/>
+    </bean>
+    
+    <!-- Use an editorially configured error page if available, otherwise use a static one -->    
+	<bean id="exceptionResolver" class="org.alfresco.wcm.client.exceptionresolver.RepositoryExceptionResolver">
+        <property name="serviceRegistry" ref="webframework.service.registry"/>
+        <property name="modelDecorator" ref="modelDecorator"/>
+        <property name="errorPageSuffix" value="page"/>
+        <property name="defaultErrorView" value="500page"/>
+	</bean>
+	
+    <!-- Handle assets retrieved by short URLs -->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="0" />
+
+       <property name="mappings">
+            <value>
+                /asset/**=assetController
+            </value>
+        </property>
+ 
+        <property name="interceptors">
+            <list>
+                <!-- SURF: required interceptors -->
+                <!-- These ones are not needed by WCM quickstart
+                <ref bean="requestContextInterceptor"/>
+                <ref bean="themeInterceptor"/>
+                <ref bean="previewContextInterceptor"/> 
+                -->
+                <!-- Interceptor added to get CMIS session for request. Note that interceptor to get asset data
+                     not used for this mapping as the asset controller itself will fetch this using the id in the url. -->
+                <ref bean="cmisSessionInterceptor"/>
+            </list>
+        </property>           
+    </bean>
+	
+    <!-- Config below created by Spring Roo within web-application-context and moved here to be tidy. Note also
+         the addition of two interceptors to the annotation handler mapping. -->
+    
+    <!-- Maps requests to @Controllers based on @RequestMapping("path") annotation values -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="order" value="1" />
+        
+        <property name="interceptors">
+            <list>
+                <ref bean="requestContextInterceptor"/>
+                <ref bean="cmisSessionInterceptor"/>
+                <ref bean="applicationDataInterceptor"/>
+            </list>
+        </property>    
+    </bean>
+
+    <!-- SURF: interoperability with annotated controllers -->
+    <!-- Enables annotated @Controllers; responsible for invoking an annotated POJO @Controller when one is mapped. -->
+    <bean id="annotationMethodHandlerAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+    
+    <!-- SURF: interoperability with simple controllers -->
+    <!-- Support for Default Surf Controllers --> 
+    <bean id="simpleControllerHandlerAdapter" class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>  
+    
+    <!-- Configures Apache Commons Fileupload -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10000000"/>
+    </bean>
+
+    <bean id="cacheControlHeaderHelper" class="org.alfresco.wcm.client.util.impl.SimpleCacheControlHeaderHelper" >
+    	<property name="defaultExpiry" value="300000"></property>
+        <!-- <property name="defaultExpiry" value="%{quickstart.http.cache.defaultExpiry}"></property> -->
+    </bean>
+
+</beans>

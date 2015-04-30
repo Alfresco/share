@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Write comment</shortname>
+  <description>Display write comment form</description>
+  <url>/comments/write</url>
+</webscript>

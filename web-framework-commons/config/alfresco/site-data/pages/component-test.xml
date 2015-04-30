@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Component Test Page</title>
+   <description>Component Test Page</description>
+   <template-instance>component-test</template-instance>
+   <authentication>user</authentication>
+</page>

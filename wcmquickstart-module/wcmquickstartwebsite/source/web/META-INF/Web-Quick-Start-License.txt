@@ -1,0 +1,68 @@
+Overview
+--------
+This file describes the licensing agreements for the Alfresco Web Quick Start module, and included components.
+
+Quick Start Module
+------------------
+The Alfresco Web Quick Start is licensed under the Apache License, Version 2.0 with the following exceptions that are licensed separately by their respective parties
+
+  * Website Templates - See "Site Template" section below.
+  * Website Images - embedded within the source .ACP file - see "Website Images" section below.
+  
+Source code for the Web Quick Start is available via the SVN repository detailed here - http://wiki.alfresco.com/wiki/Download_Community_Edition.
+
+Site Template
+-------------
+The Web Quick Start uses an HTML Site Template licensed by Envato (http://envato.com/) via Theme Forest (http://themeforest.net).  The Site Template is licensed to Alfresco under the "Extended License" issued by Envato and is provided to you as part of the Alfresco Web Quick Start.  If you desire to reproduce or distribute the HTML Site Template separately from the Web Quick Start, you must consult the license terms set forth at http://themeforest.net/wiki/support/legal-terms/licensing-terms/.  
+
+Site Template Components
+------------------------
+The Web Quick Start uses an HTML Site Template that includes the following third-party files and components:
+
+	1) 	Reset CSS - Reset.css by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/.  See website or file header for licensing terms and conditions.
+
+	2) 	jQuery Slideshow Plugin - Released by Jon Raasch (jonraasch.com) under FreeBSD license.  jQuery slideshow plugin: http://jonraasch.com/blog/a-simple-jquery-slideshow.  
+	
+	3) 	jQuery secondary menu: http://www.dynamicdrive.com/style/csslibrary/item/jquery_multi_level_css_menu_2/.  Terms of licensing can be seen at www.dynamicdrive.com/notice.htm.  
+		Please see file header of jqueryslidemenu.js for further information.
+	
+	4)	jQuery Tabular data: http://jqueryui.com/download is provided under the MIT license.  See file header - jQuery-ui-1.7.2.custom.min.js and license/MIT-LICENSE.txt.
+	
+	5)  jQuery lightbox plugin: http://www.digitalia.be/software/slimbox2 - Slimbox is free software released under MIT License.
+		Slimbox v2.02 - The ultimate lightweight Lightbox clone for jQuery (c) 2007-2009 Christophe Beyls <http://www.digitalia.be>.
+	
+	6)  The PNG used in this template has been taken from here: http://www.dillerdesign.com/experiment/DD_belatedPNG/.  License: DD_belatedPNG is free software under the MIT License.  
+		The License shall remain addressable at this URL: http://dillerdesign.com/experiment/DD_belatedPNG/#license  Copyright (c) 2008 Drew Diller.
+
+	7)  The font used for logo and headers is called Liberation Sans and can be downloaded from here: http://www.dafont.com/Liberation-Sans.Font.  
+		License: Public domain / GNU GPL - GNU General Public License v.2 with exceptions (http://fedorahosted.org/liberation-fonts/broser/source/license.txt). 
+
+	8) 	jQuery: http://jquery.org/license  License: Dual license - MIT License or the GNU General Public License (GPL) Version 2.
+	
+	9)  SWFObject - Used for the flash preview component is provided under the MIT license.  See http://code.google.com/p/swfobject/.
+	
+	
+Website Images
+--------------
+The images used within the Quick Start website(s) have been provided by two different sources (BigStock and Stock.XCHNG) and as such are subject to two different license agreements.
+
+BigStock Images
+---------------
+Website images provided by BigStock (http://www.bigstockphoto.com) are done so subject to the licensing terms and conditions stated by their BSP-112U license.
+
+If you desire to reproduce or distribute the photos separately from the Web Quick Start, you must consult the image usage agreement and license terms set forth at http://www.bigstockphoto.com/usage.html and http://www.bigstockphoto.com/licensing/detail/?code=BSP-112U.
+
+* Engine - http://www.bigstockphoto.com/image-1077401/stock-photo-engine
+* Stock Market - http://www.bigstockphoto.com/image-5451969/stock-photo-stock-market
+* Credit Card - http://www.bigstockphoto.com/image-280412/stock-photo-golden-credit-card
+
+Stock.XCHNG Images
+------------------
+All royalty free photos provided via http://www.sxc.hu are done so subject to the license specified at http://www.sxc.hu/txt/license.html.  Express permission has been granted from each of the respective photographers for their image(s) to be included as part of the Web Quick Start.
+
+*  Stock photo: The Other One! - http://www.sxc.hu/photo/395364 - Neil Gould (http://www.sxc.hu/profile/ngould)
+*  Stock photo: Wall Street - http://www.sxc.hu/photo/976300 - Robert Linder (http://www.sxc.hu/profile/linder6580)
+*  Stock illustration: mortgage and money 2 - http://www.sxc.hu/photo/963935 - Svilen Milev (http://www.sxc.hu/profile/svilen001)
+*  Stock illustration: finance symbols 3 - http://www.sxc.hu/photo/1272919 - Svilen Milev (http://www.sxc.hu/profile/svilen001)
+*  Stock photo: Timetable at the airport... 2 - http://www.sxc.hu/photo/722363 - David Ritter (http://rgbstock.com/ - http://www.rgbstock.com/gallery/dlritter)
+*  Stock photo: money - http://www.sxc.hu/photo/1211947 - Viktor Hujer (http://www.sxc.hu/profile/v_hujer)

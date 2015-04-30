@@ -1,0 +1,431 @@
+#wef 
+{
+   text-align: left;
+}
+
+#wef div.login-logo
+{
+   background: url(./images/login-logo.png) no-repeat 0 0;
+   margin: 0.5em;
+   width: 210px;
+   height: 61px;
+}
+
+/*#wef #wef-login-panel .yui-panel_container,*/
+#wef #wef-login-panel .yui-panel,
+/*#wef #wef-panel .yui-panel-container,*/
+#wef #wef-panel .yui-panel
+{
+   background-color: white;
+}
+
+/*
+   reset the 3px padding introduced by base.css
+*/
+#wef .yui-button,
+#wef .yui-panel 
+{
+   padding: 0;
+}
+
+#wef .form-fields,
+#wef .form-buttons
+{
+   padding: 1em;
+}
+
+#wef div.ft,
+#wef div.form-buttons
+{
+   text-align: right;
+}
+
+#wef div.ft
+{
+   border-width: 1px 0 0 0;
+}
+
+#wef div#prompt div.ft
+{
+   border-width: 0 1px;
+}
+
+/*
+span.alfresco-content-marker
+{
+    margin: 0 0 5px 0;
+}
+*/
+a.alfresco-content-new,
+a.alfresco-content-edit,
+a.alfresco-content-delete
+{
+    margin: 0 5px 0 0
+}
+
+/*
+span.alfresco-content-marker hide
+{
+    display: hidden;
+}
+*/
+
+#awe--show-hide-edit-markers,
+#awe--show-hide-edit-markers span.first-child,
+#awe--quickedit,
+#awe--quickedit span.first-child,
+#awe--quickcreate,
+#awe--quickcreate span.first-child,
+#awe--quickdelete,
+#awe--quickdelete span.first-child
+{
+   background: none;
+   border: 0;
+}
+
+/*
+#awe--quickedit .disabled,
+#awe--quickcreate .disabled,
+#awe--quickdelete .disabled
+{
+   opacity: 0.4;
+}
+*/
+.js-disabled-form h2
+{
+   font-size: 146.5%;
+   margin-top: 1em;
+   color: #262d35;
+}
+
+.js-disabled-form .form-container label
+{
+   margin-bottom: 0.2em;
+   color: #262d35;
+}
+
+.js-disabled-form .form-container .caption
+{
+   margin: 5px 0px 5px 595px;
+}
+
+.js-disabled-form .form-container .form-fields
+{
+   background-color: #f5f9fd;
+   padding: 2em !important;
+   border: 1px solid #c2c2c2 !important;
+   width: 655px;
+}
+
+.js-disabled-form .form-container .form-buttons
+{
+   margin-top: 0.5em;
+}
+
+.js-disabled-form .form-field input
+{
+   width: 50em;
+}
+
+.js-disabled-form .form-field textarea
+{
+   width: 50em;
+}
+
+.js-disabled-form .form-buttons input
+{
+   width: auto;
+   border: 1px solid #146997;
+   color: #146997;
+   padding: 4px;
+   cursor: pointer;
+   font-weight: bold;
+}
+
+.js-disabled-form .cancel-link
+{
+   margin: -20px 0px 0px 665px;
+   color: #146997;
+}
+
+.js-disabled-form .cancel-link a
+{
+   color: #146997;
+   text-decoration: none;
+}
+
+.js-disabled-form .cancel-link a:visited
+{
+   color: #146997;
+   text-decoration: none;
+}
+#awe--loginToggle,
+#awe--loginToggle span.first-child 
+{
+   background:none;
+   border:0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon, 
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c 
+{
+   height:87px;
+}
+
+#wef-ribbon #awe--loginToggle button
+{
+   font-weight:bold;
+   font-size:85%;
+   color:#333;
+}
+
+#wef-ribbon #awe--loginToggle.yui-button-disabled button
+{
+   color:#999;
+}
+
+#wef-ribbon #awe--loginToggle button
+{
+   background: transparent url(./images/logout.png) no-repeat 11px 50%;
+}
+
+#wef-login-panel-form div.form-field label
+{
+   margin-top:1em;
+   display:block;
+}
+
+#wef-panel-wefPanel-form-container_c 
+{
+   top:100px !important;
+}
+
+/* Grid related styles from reset-fonts-grids.css */
+
+.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,
+.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u
+{
+   float:left;
+}
+
+.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,
+.yui-g .yui-gf,.yui-gc .yui-u,.yui-gd .yui-g,.yui-g .yui-gc .yui-u,.yui-ge .yui-u,
+.yui-ge .yui-g,.yui-gf .yui-g,.yui-gf .yui-u
+{
+   float:right;
+}
+
+.yui-g div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first,.yui-ge div.first,
+.yui-gf div.first,.yui-g .yui-gc div.first,.yui-g .yui-ge div.first,.yui-gc div.first div.first
+{
+   float:left;
+}
+
+.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf
+{
+   width:49.1%;
+}
+
+.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,
+.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u
+{
+   width:32%;
+   margin-left:1.99%;
+}
+
+.yui-gb .yui-u
+{
+   *margin-left:1.9%;
+   *width:31.9%;
+}
+
+.yui-gc div.first,.yui-gd .yui-u
+{
+   width:66%;
+}
+
+.yui-gd div.first
+{
+   width:32%;
+}
+
+.yui-ge div.first,.yui-gf .yui-u
+{
+   width:74.2%;
+}
+
+.yui-ge .yui-u,.yui-gf div.first
+{
+   width:24%;
+}
+
+.yui-g .yui-gb div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first
+{
+   margin-left:0;
+}
+
+.yui-g .yui-g .yui-u,.yui-gb .yui-g .yui-u,.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u,
+.yui-ge .yui-g .yui-u,.yui-gf .yui-g .yui-u
+{
+   width:49%;
+   *width:48.1%;
+   *margin-left:0;
+}
+
+.yui-g .yui-g .yui-u
+{
+   width:48.1%;
+}
+
+.yui-g .yui-gb div.first,.yui-gb .yui-gb div.first
+{
+   *margin-right:0;
+   *width:32%;
+   _width:31.7%;
+}
+
+.yui-g .yui-gc div.first,.yui-gd .yui-g
+{
+   width:66%;
+}
+
+.yui-gb .yui-g div.first
+{
+   *margin-right:4%;
+   _margin-right:1.3%;
+}
+
+.yui-gb .yui-gc div.first,.yui-gb .yui-gd div.first
+{
+   *margin-right:0;
+}
+
+.yui-gb .yui-gb .yui-u,.yui-gb .yui-gc .yui-u
+{
+   *margin-left:1.8%;
+   _margin-left:4%;
+}
+
+.yui-g .yui-gb .yui-u
+{
+   _margin-left:1.0%;
+}
+
+.yui-gb .yui-gd .yui-u
+{
+   *width:66%;
+   _width:61.2%;
+}
+
+.yui-gb .yui-gd div.first
+{
+   *width:31%;
+   _width:29.5%;
+}
+
+.yui-g .yui-gc .yui-u,.yui-gb .yui-gc .yui-u
+{
+   width:32%;
+   _float:right;
+   margin-right:0;
+   _margin-left:0;
+}
+
+.yui-gb .yui-gc div.first
+{
+   width:66%;
+   *float:left;
+   *margin-left:0;
+}
+
+.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf .yui-u
+{
+   margin:0;
+}
+
+.yui-gb .yui-gb .yui-u
+{
+   _margin-left:.7%;
+}
+
+.yui-gb .yui-g div.first,.yui-gb .yui-gb div.first
+{
+   *margin-left:0;
+}
+
+.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u
+{
+   *width:48.1%;
+   *margin-left:0;
+}
+
+.yui-gb .yui-gd div.first
+{
+   width:32%;
+}
+
+.yui-g .yui-gd div.first
+{
+   _width:29.9%;
+}
+
+.yui-ge .yui-g
+{
+   width:24%;
+}
+
+.yui-gf .yui-g
+{
+   width:74.2%;
+}
+
+.yui-gb .yui-ge div.yui-u,.yui-gb .yui-gf div.yui-u
+{
+   float:right;
+}
+
+.yui-gb .yui-ge div.first,.yui-gb .yui-gf div.first
+{
+   float:left;
+}
+
+.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf div.first
+{
+   *width:24%;
+   _width:20%;
+}
+
+.yui-gb .yui-ge div.first,.yui-gb .yui-gf .yui-u
+{
+   *width:73.5%;
+   _width:65.5%;
+}
+
+.yui-ge div.first .yui-gd .yui-u
+{
+   width:65%;
+}
+
+.yui-ge div.first .yui-gd div.first
+{
+   width:32%;
+}
+
+#hd:after,#bd:after,#ft:after,.yui-g:after,.yui-gb:after,.yui-gc:after,.yui-gd:after,.yui-ge:after,.yui-gf:after
+{
+   content:".";
+   display:block;
+   height:0;
+   clear:both;
+   visibility:hidden;
+}
+
+#hd,#bd,#ft,.yui-g,.yui-gb,.yui-gc,.yui-gd,.yui-ge,.yui-gf
+{
+   zoom:1;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon li.wef-toolbar-groupitem .bd
+{
+   margin: 0;
+}

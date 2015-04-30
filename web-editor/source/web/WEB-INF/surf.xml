@@ -1,0 +1,35 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="WebFramework">
+      <web-framework>
+         <!-- Configure Surf Defaults -->
+         <defaults>
+            <page-mapper-factory>webframework.factory.pagemapper.awe</page-mapper-factory>
+            <user-factory>webframework.factory.user.alfresco</user-factory>
+            <theme>sam</theme>
+            <site-configuration>awe.site.configuration</site-configuration>
+            <region-chrome>awe-region-chrome</region-chrome>
+
+            <!-- no chrome required for components -->
+            <component-chrome></component-chrome>
+         </defaults>
+
+         <error-handler>
+            <id>region-nocomponent</id>
+            <processor-id>nocomponent</processor-id>
+         </error-handler>
+
+         <!-- Autowire Runtime Settings -->
+         <autowire>
+            <!-- Pick the runtime: classpath, webapp, local, alfresco -->
+            <runtime>alfresco</runtime>
+
+            <!-- Pick the mode: development, production -->
+            <mode>production</mode>
+         </autowire>
+         
+         <use-checksum-dependencies>true</use-checksum-dependencies>
+      </web-framework>
+   </config>
+
+</alfresco-config>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>homepage</id>
+   <description>page with 5 main configurable blocks, ideal for site home page</description>   
+   <template-instance>five-block</template-instance>
+   <authentication>none</authentication>
+   <components>
+      <component>
+         <region-id>bellyband</region-id>
+         <url>/carousel/slideshow</url>
+         <properties>
+  	     	<collection>news.featured</collection>
+    	 </properties>         
+      </component>  
+      <component>
+         <region-id>left1</region-id>
+         <url>/list/wide</url>
+         <properties>
+  	     	<collection>news.top</collection>
+    	 </properties>         
+      </component>       
+      <component>
+         <region-id>right1</region-id>
+         <url>/list/narrow</url>
+         <properties>
+  	     	<collection>blogs.latest</collection>
+    	 </properties>         
+      </component>       
+      <component>
+         <region-id>bottom-left</region-id>
+         <url>/list/links</url>
+         <properties>
+            <collection>featured.links</collection>
+         </properties>         
+      </component>       
+      <component>
+         <region-id>bottom-right</region-id>
+         <url>/content/named</url>
+         <properties>
+            <asset>feature.html</asset>
+         </properties>         
+      </component>       
+   </components>
+</page>

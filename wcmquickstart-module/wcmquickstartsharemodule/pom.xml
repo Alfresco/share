@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>alfresco-wcmqs-share</artifactId>
+    <name>Alfresco WCMQS Share AMP</name>
+    <parent>
+        <artifactId>alfresco-wcmqs-parent</artifactId>
+        <groupId>org.alfresco</groupId>
+        <version>5.1-RA3-SNAPSHOT</version>
+    </parent>
+    <packaging>amp</packaging>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>source/amp</directory>
+                <targetPath>../${project.build.finalName}</targetPath>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.alfresco.maven.plugin</groupId>
+                <artifactId>alfresco-maven-plugin</artifactId>
+                <extensions>true</extensions>
+            </plugin>
+
+            <!-- ACE-3329 Create _en.properties message files  -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                 <executions>
+                    <execution>
+                        <id>duplicate-english-messages</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <target>
+                        <copy todir="${project.build.directory}/${project.build.finalName}/config">
+                            <fileset dir="${basedir}/source/amp/config"
+                                includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
+                        </copy>
+                    </target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

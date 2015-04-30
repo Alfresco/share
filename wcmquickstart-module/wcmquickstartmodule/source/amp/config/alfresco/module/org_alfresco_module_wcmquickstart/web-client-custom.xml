@@ -1,0 +1,61 @@
+<alfresco-config>
+
+	<config evaluator="string-compare" condition="Action Wizards">
+		<specialise-types>
+			<type name="ws:website" description="Web Site" />
+            <type name="ws:webroot" description="Web Root" />
+			<type name="ws:article" description="Article" />
+			<type name="ws:image" description="Image" />
+		</specialise-types>
+	</config>
+
+	<config evaluator="string-compare" condition="Content Wizards">
+		<content-types>
+			<type name="ws:article" />
+			<type name="ws:image" />
+			<type name="ws:visitorFeedback" />
+		</content-types>
+	</config>
+
+	<config evaluator="node-type" condition="ws:article">
+		<property-sheet>
+			<show-association name="ws:primaryImage" />
+			<show-association name="ws:secondaryImage" />
+			<show-association name="ws:relatedArticles" />
+		</property-sheet>
+	</config>
+
+	<config evaluator="node-type" condition="ws:visitorFeedback">
+		<property-sheet>
+			<show-property name="ws:visitorName" />
+			<show-property name="ws:visitorEmail" />
+			<show-property name="ws:visitorWebsite" />
+			<show-property name="ws:rating" />
+			<show-property name="ws:comment" />
+			<show-property name="ws:commentFlagged" />
+			<show-property name="ws:relevantArticleRef" />
+			<show-property name="ws:ratingProcessed" read-only="true" />
+			<show-association name="ws:relevantAssetAssoc" read-only="true" />
+		</property-sheet>
+	</config>
+
+	<config evaluator="node-type" condition="ws:visitorFeedbackSummary">
+		<property-sheet>
+			<show-property name="ws:commentCount" read-only="true" />
+			<show-property name="ws:averageRating" read-only="true" />
+			<show-property name="ws:processedRatings" read-only="true" />
+			<show-property name="ws:summarisedAssetRef" read-only="true" />
+			<show-association name="ws:summarisedAssetAssoc" read-only="true" />
+		</property-sheet>
+	</config>
+
+	<config evaluator="aspect-name" condition="ws:webasset">
+		<property-sheet>
+            <show-property name="ws:publishedTime" read-only="true" />
+			<show-property name="ws:derivedCommentCount" read-only="true" />
+			<show-property name="ws:derivedAverageRating" read-only="true" />
+			<show-property name="ws:parentSections" read-only="true" />
+		</property-sheet>
+	</config>
+
+</alfresco-config>

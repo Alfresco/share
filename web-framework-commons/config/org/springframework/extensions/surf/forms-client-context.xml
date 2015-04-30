@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+   
+   <!-- Provide common strings -->
+   <bean id="formsClientResourceBundle" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
+      <property name="resourceBundles">
+         <list>
+            <value>alfresco.messages.common</value>
+         </list>
+      </property>
+   </bean>
+   
+   <!-- Provide common form config -->
+   <!-- NOTE: config files loaded via the ConfigBootstrap bean are now loaded in alphabetical order -->
+   <!--       determined by the id of the bean name loading the config, this bean has therefore been -->
+   <!--       named to load very early. -->
+   <bean id="alfFormsClientConfig" class="org.springframework.extensions.config.ConfigBootstrap" init-method="register">
+      <property name="configService" ref="web.config" />
+      <property name="configs">
+         <list>
+            <value>classpath:alfresco/form-config.xml</value>
+         </list>
+      </property>
+   </bean>
+   
+</beans>
