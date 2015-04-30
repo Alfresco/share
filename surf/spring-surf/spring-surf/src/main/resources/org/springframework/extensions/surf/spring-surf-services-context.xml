@@ -150,6 +150,7 @@
        <property name="componentRenderer"         ref="webframework.renderer.component" />
        <property name="chromeRenderer"            ref="webframework.renderer.chrome" />
        <property name="linkBuilderFactory"        ref="webframework.factory.linkbuilder.servlet"/>
+       <property name="dojoDependencyHandler"     ref="dojo.dependency.handler"/>
    </bean>
 
    <bean id="webframework.service.persister" class="org.springframework.extensions.surf.persister.PersisterService" init-method="init">
@@ -462,7 +463,6 @@
    <bean id="dojo.dependency.handler.abstract" abstract="true">
       <property name="dependencyHandler"         ref="dependency.handler" />
       <property name="dependencyAggregator"      ref="dependency.aggregator" />
-      <property name="webFrameworkConfigElement" ref="webframework.config.element"/>
       <property name="dependencyRules">
          <list>
             <ref bean="define.dojo.js.dependency.rule"/>
