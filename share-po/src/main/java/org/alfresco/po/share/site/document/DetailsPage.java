@@ -1831,12 +1831,38 @@ public abstract class DetailsPage extends SitePage
         ChangeTypePage changeTypePage = new ChangeTypePage(drone).render();
         if (!changeTypePage.getTypes().contains(typeValue))
         {
-            throw new ShareException(typeValue + "isn't present in the list");
+            throw new ShareException(typeValue + " isn't present in the list");
         }
         changeTypePage.selectChangeType(typeValue);
         changeTypePage.selectSave();
         waitUntilAlert();
         return drone.getCurrentPage().render();
+    }
+    
+    /**
+     * Util to true if the specified type is available in the drop down list
+     * @param typeValue
+     * @return true if the type is available, otherwise false
+     */
+    public boolean isTypeAvailable(String typeValue)
+    {
+        try
+        {
+            selectChangeType();
+            ChangeTypePage changeTypePage = new ChangeTypePage(drone).render();
+            if (changeTypePage.getTypes().contains(typeValue))
+            {
+                return true;
+            }
+        }
+        catch (ShareException e)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Change Type dropdown is not displayed ", e);
+            }
+        }
+        return false;
     }
 
     /**

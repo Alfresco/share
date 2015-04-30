@@ -20,13 +20,23 @@ package org.alfresco.po.share.steps;
  * @author mbhave
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.AbstractTest;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.document.DocumentAspect;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
+import org.alfresco.po.share.site.document.SelectAspectsPage;
+import org.alfresco.po.share.util.SiteUtil;
+import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+@Listeners(FailedTestListener.class)
 public class SiteActionsTest extends AbstractTest
 {
     private SiteActions siteActions = new SiteActions();
@@ -59,5 +69,31 @@ public class SiteActionsTest extends AbstractTest
             siteActions.createSite(drone, newSite, newSite, "Public");
             DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(drone, newSite);
             Assert.assertNotNull(docLibPage);
+    }
+    
+    @Test(groups = "Enterprise-only", priority=4)
+    public void testAddRemoveAspect() throws Exception
+    {
+        File file = SiteUtil.prepareFile();
+        DocumentLibraryPage docLibPage = siteActions.uploadFile(drone, file).render();
+        docLibPage.selectFile(file.getName()).render();
+        
+        List<String> aspects = new ArrayList<String>();
+        aspects.add(DocumentAspect.VERSIONABLE.getValue());
+        siteActions.addAspects(drone, aspects);
+        
+        SelectAspectsPage aspectsPage = siteActions.getAspectsPage(drone);  
+        
+        Assert.assertTrue(aspectsPage.isAspectAdded(aspects.get(0)));
+        
+        aspectsPage.clickCancel().render();        
+        
+        siteActions.removeAspects(drone, aspects);
+        
+        aspectsPage = siteActions.getAspectsPage(drone);
+        
+        Assert.assertTrue(aspectsPage.isAspectAvailable(aspects.get(0)));
+        
+        aspectsPage.clickCancel().render();
     }
 }
