@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="wf:workflowmodel">
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/bpm/1.0" prefix="bpm"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/workflow/1.0" prefix="wf"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types>
+        <type name="wf:submitReviewTask">
+            <parent>bpm:startTask</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="wf:submitConcurrentReviewTask">
+            <parent>bpm:startTask</parent>
+            <properties>
+                <property name="wf:requiredApprovePercent">
+                    <type>d:int</type>
+                    <mandatory>true</mandatory>
+                    <default>50</default>
+                    <index enabled="true"/>
+                    <constraints>
+                        <constraint name="wf:workflowmodel_submitConcurrentReviewTask_requiredApprovePercent_anon_0" type="MINMAX">
+                            <parameter name="minValue">
+                                <value>1</value>
+                            </parameter>
+                            <parameter name="maxValue">
+                                <value>100</value>
+                            </parameter>
+                        </constraint>
+                    </constraints>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+        <type name="wf:submitParallelReviewTask">
+            <parent>wf:submitConcurrentReviewTask</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>bpm:assignees</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="wf:submitGroupReviewTask">
+            <parent>wf:submitConcurrentReviewTask</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>bpm:groupAssignee</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="wf:reviewTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides>
+                <property name="bpm:packageItemActionGroup">
+                    <mandatory/>
+                    <default>edit_package_item_actions</default>
+                    <constraints/>
+                </property>
+            </overrides>
+            <mandatory-aspects/>
+        </type>
+        <type name="wf:activitiReviewTask">
+            <parent>bpm:activitiOutcomeTask</parent>
+            <properties>
+                <property name="wf:reviewOutcome">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <default>Reject</default>
+                    <index enabled="true"/>
+                    <constraints>
+                        <constraint name="wf:reviewOutcomeOptions" type="LIST">
+                            <parameter name="allowedValues">
+                                <list>
+                                    <value>Approve</value>
+                                    <value>Reject</value>
+                                </list>
+                            </parameter>
+                        </constraint>
+                    </constraints>
+                </property>
+            </properties>
+            <associations/>
+            <overrides>
+                <property name="bpm:packageItemActionGroup">
+                    <mandatory/>
+                    <default>edit_package_item_actions</default>
+                    <constraints/>
+                </property>
+                <property name="bpm:outcomePropertyName">
+                    <mandatory/>
+                    <default>{http://www.alfresco.org/model/workflow/1.0}reviewOutcome</default>
+                    <constraints/>
+                </property>
+            </overrides>
+            <mandatory-aspects/>
+        </type>
+        <type name="wf:approvedTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+        <type name="wf:rejectedTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+        <type name="wf:rejectedParallelTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>wf:parallelReviewStats</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="wf:approvedParallelTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>wf:parallelReviewStats</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="wf:submitAdhocTask">
+            <parent>bpm:startTask</parent>
+            <properties>
+                <property name="wf:notifyMe">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <default>false</default>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="wf:adhocTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides>
+                <property name="bpm:packageActionGroup">
+                    <mandatory/>
+                    <default>add_package_item_actions</default>
+                    <constraints/>
+                </property>
+                <property name="bpm:packageItemActionGroup">
+                    <mandatory/>
+                    <default>edit_package_item_actions</default>
+                    <constraints/>
+                </property>
+            </overrides>
+            <mandatory-aspects/>
+        </type>
+        <type name="wf:completedAdhocTask">
+            <parent>bpm:workflowTask</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+        <type name="wf:inviteToSiteTask">
+            <parent>bpm:startTask</parent>
+            <properties>
+                <property name="wf:serverPath">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:acceptUrl">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:rejectUrl">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:inviteTicket">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:inviterUserName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:inviteeUserName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:inviteeFirstName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:inviteeLastName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:inviteeGenPassword">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:siteShortName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:inviteeSiteRole">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects>
+                <aspect>bpm:assignee</aspect>
+            </mandatory-aspects>
+        </type>
+    </types>
+    <aspects>
+        <aspect name="wf:parallelReviewStats">
+            <properties>
+                <property name="wf:reviewerCount">
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:requiredPercent">
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:approveCount">
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="wf:actualPercent">
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="dp:distributionPoliciesModel">
+    <description>Distribution Policies Model</description>
+    <author>mike.hatfield@alfresco.com</author>
+    <version>1.0</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/distributionpolicies/1.0/model" prefix="dp"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types/>
+    <aspects>
+        <aspect name="dp:restrictable">
+            <title>Restrictable</title>
+            <description>Applied to documents that should have restricted distribution</description>
+            <properties>
+                <property name="dp:offlineExpiresAfter">
+                    <title>Offline Expires After (milliseconds)</title>
+                    <type>d:long</type>
+                    <mandatory>false</mandatory>
+                    <default>0</default>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

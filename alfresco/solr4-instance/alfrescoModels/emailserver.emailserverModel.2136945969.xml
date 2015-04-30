@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="emailserver:emailserverModel">
+    <description>Emailserver Model</description>
+    <author>UTL</author>
+    <version>1.0</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/emailserver/1.0" prefix="emailserver"/>
+    </namespaces>
+    <data-types/>
+    <constraints>
+        <constraint name="emailserver:alias" type="REGEX">
+            <parameter name="expression">
+                <value>[a-zA-Z0-9.\-]*</value>
+            </parameter>
+            <parameter name="requiresMatch">
+                <value>true</value>
+            </parameter>
+        </constraint>
+    </constraints>
+    <types/>
+    <aspects>
+        <aspect name="emailserver:emailed">
+            <title>Emailed</title>
+            <parent>cm:emailed</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="emailserver:aliasable">
+            <title>Email Alias</title>
+            <properties>
+                <property name="emailserver:alias">
+                    <title>Alias</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                    <constraints>
+                        <constraint name="emailserver:emailserverModel_aliasable_alias_anon_0" ref="emailserver:alias"/>
+                    </constraints>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="emailserver:attached">
+            <title>Attached</title>
+            <properties/>
+            <associations>
+                <association name="emailserver:attachment">
+                    <title>Attachment</title>
+                    <source>
+                        <mandatory>true</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>cm:content</class>
+                        <mandatory enforced="false">false</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+            </associations>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

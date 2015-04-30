@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="imap:imapmodel">
+    <description>IMAP Content Model</description>
+    <author>Alfresco</author>
+    <published>2009-01-20</published>
+    <version>1.0</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/imap/1.0" prefix="imap"/>
+    </namespaces>
+    <data-types/>
+    <constraints/>
+    <types>
+        <type name="imap:imapAttach">
+            <title>Attachment to the IMAP message</title>
+            <parent>cm:content</parent>
+            <properties>
+                <property name="imap:attachID">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+        <type name="imap:imapBody">
+            <title>Body of the IMAP message</title>
+            <parent>cm:content</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+    </types>
+    <aspects>
+        <aspect name="imap:imapContent">
+            <title>IMAP File</title>
+            <parent>imap:flaggable</parent>
+            <properties>
+                <property name="imap:messageFrom">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="imap:messageTo">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="imap:messageCc">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="imap:messageSubject">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="imap:messageId">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="imap:threadIndex">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="imap:dateReceived">
+                    <title>Date Received</title>
+                    <type>d:datetime</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="imap:dateSent">
+                    <title>Date Sent</title>
+                    <type>d:datetime</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+            </properties>
+            <associations>
+                <association name="imap:attachment">
+                    <title>Attachment</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>false</many>
+                    </source>
+                    <target>
+                        <class>cm:cmobject</class>
+                        <mandatory enforced="false">false</mandatory>
+                        <many>true</many>
+                    </target>
+                </association>
+                <association name="imap:attachmentsFolder">
+                    <title>Attachments Folder</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>cm:cmobject</class>
+                        <mandatory enforced="false">false</mandatory>
+                        <many>false</many>
+                    </target>
+                </association>
+            </associations>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="imap:flaggable">
+            <properties>
+                <property name="imap:flagAnswered">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="imap:flagDeleted">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="imap:flagDraft">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="imap:flagSeen">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="imap:flagRecent">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="imap:flagFlagged">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="imap:imapFolder">
+            <properties>
+                <property name="imap:uidValidity">
+                    <title>UIDVALIDITY</title>
+                    <type>d:long</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="imap:maxUid">
+                    <title>MAXUID</title>
+                    <type>d:long</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="imap:changeToken">
+                    <title>CHANGETOKEN</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="imap:nonSubscribed">
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="imap:nonSelectable">
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="imap:imapPreferences">
+            <title>IMAP Preferences</title>
+            <properties/>
+            <associations>
+                <association name="imap:imapUnsubscribed">
+                    <title>Unsubscribed</title>
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>cm:folder</class>
+                        <mandatory enforced="false">false</mandatory>
+                        <many>true</many>
+                    </target>
+                </association>
+            </associations>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+        <aspect name="imap:messageHeaders">
+            <title>IMAP Message Headers</title>
+            <properties>
+                <property name="imap:messageHeaders">
+                    <title>Message Headers</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <multiple>true</multiple>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </aspect>
+    </aspects>
+</model>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.alfresco.org/model/dictionary/1.0" name="usr:usermodel">
+    <description>Alfresco User Model</description>
+    <author>Alfresco</author>
+    <published>2010-01-27</published>
+    <version>0.3</version>
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+    </imports>
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/user/1.0" prefix="usr"/>
+    </namespaces>
+    <data-types/>
+    <constraints>
+        <constraint name="usr:userNameConstraint" type="org.alfresco.repo.dictionary.constraint.UserNameConstraint"/>
+    </constraints>
+    <types>
+        <type name="usr:authority">
+            <title>Alfresco Authority Abstract Type</title>
+            <parent>sys:base</parent>
+            <properties/>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+        <type name="usr:user">
+            <title>Alfresco User Type</title>
+            <parent>usr:authority</parent>
+            <properties>
+                <property name="usr:username">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                    <constraints>
+                        <constraint name="usr:usermodel_user_username_anon_0" ref="usr:userNameConstraint"/>
+                    </constraints>
+                </property>
+                <property name="usr:password">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="usr:password2">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="usr:enabled">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="usr:accountExpires">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="usr:accountExpiryDate">
+                    <type>d:datetime</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="usr:credentialsExpire">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="usr:credentialsExpiryDate">
+                    <type>d:datetime</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>BOTH</tokenised>
+                    </index>
+                </property>
+                <property name="usr:accountLocked">
+                    <type>d:boolean</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="usr:salt">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations/>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+        <type name="usr:authorityContainer">
+            <title>Deprecated Alfresco Authority Type - NOT USED</title>
+            <parent>usr:authority</parent>
+            <properties>
+                <property name="usr:authorityName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="usr:members">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <multiple>true</multiple>
+                    <index enabled="true"/>
+                </property>
+                <property name="usr:authorityDisplayName">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+            </properties>
+            <associations>
+                <child-association name="usr:member">
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>usr:authority</class>
+                        <mandatory enforced="false">false</mandatory>
+                        <many>true</many>
+                    </target>
+                    <duplicate>false</duplicate>
+                </child-association>
+            </associations>
+            <overrides/>
+            <mandatory-aspects/>
+        </type>
+    </types>
+    <aspects/>
+</model>

@@ -10,6 +10,10 @@
         <version>5.1-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <solr.config.folder>${basedir}/solr4-instance</solr.config.folder>
+    </properties>
+
     <dependencies>
         <!-- Defines WAR to overlay -->
         <dependency>
@@ -116,11 +120,32 @@
                 </dependencies>
                 <configuration>
                     <systemProperties>
-                        <solr.port>${maven.tomcat.solr.port}</solr.port>
+                        <index.subsystem.name>solr4</index.subsystem.name>
+                        <solr.host>localhost</solr.host>
+                        <solr.secureComms>none</solr.secureComms>
+                        <solr.port>8080</solr.port>
+                        <solr.port.ssl></solr.port.ssl>
+
                         <solr.backup.alfresco.numberToKeep>0</solr.backup.alfresco.numberToKeep>
                         <solr.backup.archive.numberToKeep>0</solr.backup.archive.numberToKeep>
+
+                        <solr.solr.home>${solr.config.folder}</solr.solr.home>
+                        <solr.solr.model.dir>${solr.config.folder}/alfrescoModels</solr.solr.model.dir>
+                        <solr.solr.content.dir>${solr.config.folder}/content</solr.solr.content.dir>
                     </systemProperties>
+                    <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
                     <tomcatUsers>${basedir}/tomcat-users.xml</tomcatUsers>
+                    <webapps>
+                        <!-- Run solr4 alongside the repo -->
+                        <webapp>
+                            <groupId>org.alfresco</groupId>
+                            <artifactId>alfresco-solr4</artifactId>
+                            <version>${project.version}</version>
+                            <contextPath>/solr4</contextPath>
+                            <type>war</type>
+                            <asWebapp>true</asWebapp>
+                        </webapp>
+                    </webapps> 
                 </configuration>
             </plugin>
         </plugins>

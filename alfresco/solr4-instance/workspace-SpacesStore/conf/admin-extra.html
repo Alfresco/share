@@ -1,0 +1,156 @@
+
+<script>
+
+var summaryList={ 
+                  "Nodes in Index":"Alfresco Nodes in Index",
+                  "Transactions in Index":"Alfresco Transactions in Index",
+                  "Approx transactions remaining":"Approx transactions remaining",
+                  "Approx transaction indexing time remaining":"Approx transaction indexing time remaining",
+                  "Acls in Index":"Alfresco Acls in Index",                  
+                  "Acl Transactions in Index":"Alfresco Acl Transactions in Index",
+                  "Approx Acl transactions remaining":"Approx change sets remaining",
+                  "Approx Acl indexing time remaining":"Approx change set indexing time remaining",
+                  "States in Index":"Alfresco States in Index",
+                  "Unindexed Nodes":"Alfresco Unindexed Nodes",
+                  "Error Nodes in Index":"Alfresco Error Nodes in Index",
+                };
+
+function getSummary() {
+
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function()
+    {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {
+        var responseObj = JSON.parse(xmlhttp.responseText);  
+        var resultStr = "";
+        for (index in summaryList)
+        {
+          resultStr = resultStr + "<dt style=\"width: 45%;\">" + index + ": </dt><dd style=\"width: 45%;\">" + responseObj.Summary.alfresco[summaryList[index]] + "</dd>"
+        }
+        document.getElementById("summaryReportLink").innerHTML = "<a href=\"" + window.location.pathname + "admin/cores?action=SUMMARY&wt=xml\" target=\"new\">View full report (opens in a new window)</a>"; 
+        document.getElementById("reportSummaryResults").innerHTML = resultStr;
+      }
+    }
+  
+  xmlhttp.open("GET", window.location.pathname + "admin/cores?action=SUMMARY&wt=json",true);
+  xmlhttp.send();
+
+}
+
+function getftsValues(ftsValues) 
+{
+
+  var ftsValuesArray = ftsValues.toString().split(",");
+  var map = new Object();
+
+  i = 0;
+  while (i < ftsValuesArray.length) 
+  { 
+      map[ftsValuesArray[i]] = ftsValuesArray[i+1];
+      i = i + 2;
+  }
+
+  return map;
+
+}
+
+function getftsStatus() {
+
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function()
+    {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {
+        var responseObj = JSON.parse(xmlhttp.responseText);
+        var ftsValues = getftsValues(responseObj.facet_counts.facet_fields.FTSSTATUS);
+        var cleanVal = (ftsValues["Clean"]) ? (ftsValues["Clean"]) : 0;
+        var resultStr = "<dt>FTS Status Clean: </dt><dd>" + cleanVal + "</dd>";
+        var dirtyVal = (ftsValues["Dirty"]) ? (ftsValues["Dirty"]) : 0;
+        resultStr = resultStr + "<dt>FTS Status Dirty: </dt><dd>"  + dirtyVal + "</dd>";
+        var newVal = (ftsValues["New"]) ? (ftsValues["New"]) : 0;        
+        resultStr = resultStr + "<dt>FTS Status New: </dt><dd>"  + newVal + "</dd>";
+
+        document.getElementById("ftsStatusReportLink").innerHTML = "<a href=\"" + window.location.pathname + "admin/cores?action=REPORT&wt=xml\" target=\"_blank\">View full report (opens in a new window)</a><br/>Note: The FTS status report can take some time to generate";
+
+        document.getElementById("reportFTSStatusResults").innerHTML = resultStr;
+      }
+    }
+
+  xmlhttp.open("GET", window.location.pathname + "alfresco/afts?q=TYPE%3A%22content%22%0A&rows=0&wt=json&indent=true&facet=true&facet.field=FTSSTATUS",true);  
+  xmlhttp.send();
+}
+
+function updateAll()
+{
+  getSummary();
+  getftsStatus();
+}
+
+document.getElementById("updateAllBtn").addEventListener("click", updateAll);
+document.getElementById("summaryBtn").addEventListener("click", getSummary);
+document.getElementById("ftsStatusBtn").addEventListener("click", getftsStatus);
+
+getSummary();
+getftsStatus();
+
+</script>
+
+<style>
+
+  #admin-extra
+  {
+    width: 100% !important;
+  }
+
+  #summaryBtn, #ftsStatusBtn, #updateAllBtn
+  {
+    padding: 1px 4px 0px 4px;
+    margin: 5px;
+  }
+
+</style>
+
+<div><button id="updateAllBtn" title="Update Summary and FTS Status Reports">Update All</button>Update the Summary and FTS Status reports</div>
+
+<div class="clearfix">
+  <div class="block fieldlist" id="alfrescoSummary">  
+    <h2 class="" id="summaryHeader"><span>Alfresco Core - Summary Report</span><button id="summaryBtn" title="Update Summary Report">Update</button></h2>
+    <div class="content">
+      <dl id="reportSummaryResults">
+      </dl>
+      <dl>
+        <dt style="margin-top:15px;"><dt>
+        <dd id="summaryReportLink"></dd>
+      </dl>
+    </div> 
+  </div>
+  <div class="block fieldlist" id="alfrescoFTSStatus"> 
+    <h2 class="" id="ftsStatusHeader"><span>Alfresco Core - FTS Status Report</span><button id="ftsStatusBtn" title="Update FTS Status Report">Update</button></h2>    
+    <div class="content">
+      <dl id="reportFTSStatusResults">
+      </dl>
+      <dl>
+        <dt style="margin-top:15px;"><dt>
+        <dd id="ftsStatusReportLink"></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<div>
+  
+  <script type="text/javascript"> 
+    document.getElementById("errorLink").innerHTML = "<a href=\"" + window.location.pathname + "alfresco/query?q=ERROR*&wt=xml\" target=\"_blank\">Solr Errors</a>"; 
+    document.getElementById("exceptionMessageLink").innerHTML = "<a href=\"" + window.location.pathname + "alfresco/query?q=EXCEPTIONMESSAGE:*&wt=xml\" target=\"_blank\">Solr Exception Messages</a>";     
+    document.getElementById("exceptionStackLink").innerHTML = "<a href=\"" + window.location.pathname + "alfresco/query?q=EXCEPTIONSTACK:*\" target=\"_blank\">Solr Exceptions Stack</a>";   
+  </script> 
+  
+  
+  <h2>Other Links:</h2>
+  <div style="margin-left:20px;">
+    <div style="margin-bottom:5px;">Note: the following links in a new window</div>
+    <div id="errorLink"></div>
+    <div id="exceptionMessageLink"></div>
+    <div id="exceptionStackLink"></div>  
+  </div>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context debug="0" crossContext="true">
+  <Environment name="solr/home"        type="java.lang.String" value="@@ALFRESCO_SOLR4_DIR@@" override="true"/>
+  <Environment name="solr/model/dir"   type="java.lang.String" value="@@ALFRESCO_SOLR4_MODEL_DIR@@" override="true"/>
+  <Environment name="solr/content/dir" type="java.lang.String" value="@@ALFRESCO_SOLR4_CONTENT_DIR@@" override="true"/>
+</Context>
