@@ -120,24 +120,40 @@
                         <artifactId>mysql-connector-java</artifactId>
                         <version>${dependency.mysql.version}</version>
                     </dependency>
+                     <dependency>
+            				<groupId>org.apache.commons</groupId>
+            		      <artifactId>commons-compress</artifactId>
+            		      <version>1.9</version>
+        				  </dependency>
+        				  <dependency>
+                        <groupId>org.apache.myfaces.core</groupId>
+                        <artifactId>myfaces-api</artifactId>
+                        <version>1.1.8</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.myfaces.core</groupId>
+                        <artifactId>myfaces-impl</artifactId>
+                        <version>1.1.8</version>
+                    </dependency>
                 </dependencies>
                 <configuration>
                     <systemProperties>
+                        <dir.root>${runtime.data.folder}/alf_data</dir.root>
+
                         <index.subsystem.name>solr4</index.subsystem.name>
                         <solr.host>localhost</solr.host>
                         <solr.secureComms>none</solr.secureComms>
                         <solr.port>8080</solr.port>
                         <solr.port.ssl></solr.port.ssl>
-
                         <solr.backup.alfresco.numberToKeep>0</solr.backup.alfresco.numberToKeep>
                         <solr.backup.archive.numberToKeep>0</solr.backup.archive.numberToKeep>
-
                         <solr.solr.home>${solr.config.folder}</solr.solr.home>
                         <solr.solr.model.dir>${solr.config.folder}/alfrescoModels</solr.solr.model.dir>
                         <solr.solr.content.dir>${solr.config.folder}/content</solr.solr.content.dir>
                     </systemProperties>
                     <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
-                    <tomcatUsers>${basedir}/tomcat-users.xml</tomcatUsers>
+                    <contextFile>${basedir}/tomcat/tomcat-context.xml</contextFile>
+                    <tomcatUsers>${basedir}/tomcat/tomcat-users.xml</tomcatUsers>
                     <webapps>
                         <!-- Run solr4 alongside the repo -->
                         <webapp>
@@ -286,7 +302,7 @@
                                 <id>run-exploded-webapp</id>
                                 <phase>prepare-package</phase>
                                 <goals>
-                                    <goal>run-war-only</goal>
+                                    <goal>run</goal>
                                 </goals>
                             </execution>
                         </executions>
