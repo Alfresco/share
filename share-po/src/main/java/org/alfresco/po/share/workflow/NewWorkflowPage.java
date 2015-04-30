@@ -114,8 +114,10 @@ public class NewWorkflowPage extends WorkFlowPage
         try
         {
             WebElement saveButton = drone.findAndWait(SUBMIT_BUTTON);
+            String id = saveButton.getAttribute("id");
+            drone.mouseOver(saveButton);
             drone.doubleClickOnElement(saveButton);
-            drone.waitUntilElementDisappears(SUBMIT_BUTTON, 1);
+            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         }
         catch (TimeoutException e)
         {
