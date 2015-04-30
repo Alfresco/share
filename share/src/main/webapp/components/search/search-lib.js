@@ -61,9 +61,9 @@
             path = record.getData("path"),
             nodeRef = record.getData("nodeRef"),
             container = record.getData("container"),
-            modifiedOn = record.getData("modifiedOn");
+            fromDate = record.getData("fromDate");
 
-         return this.getBrowseUrl(name, type, site, path, nodeRef, container, modifiedOn);
+         return this.getBrowseUrl(name, type, site, path, nodeRef, container, fromDate);
       },
 
       /**
@@ -74,9 +74,9 @@
        * @param path {string} the path
        * @param nodeRef {string} the nodeRef
        * @param container {string} the container
-       * @param modifiedOn {string} the modification date
+       * @param date{string} the  event date
        */
-      getBrowseUrl: function(name, type, site, path, nodeRef, container, modifiedOn)
+      getBrowseUrl: function(name, type, site, path, nodeRef, container, date)
       {
          var url = null;
 
@@ -118,7 +118,7 @@
 
             case "calendarevent":
             {
-               url = container + "?date=" + Alfresco.util.formatDate(modifiedOn, "yyyy-mm-dd");
+               url = container + "?date=" + Alfresco.util.formatDate(date, "yyyy-mm-dd");
                break;
             }
 
