@@ -154,7 +154,7 @@ public class NewReplicationJobPage extends AbstractEditProperties
      */
     public NewReplicationJobPage deleteTransferTarget(WebDrone driver)
     {
-        SelectContentPage selectContentPage = clickSelectTransferTarget();
+        SelectContentPage selectContentPage = clickSelectTransferTarget().render();
         selectContentPage.removeItem(selectContentPage.getAddedItems().get(0));
         drone.find(By.cssSelector("span[id*='targetName-cntrl-ok']")).click();
         logger.info("Transfer target was deleted");

@@ -76,16 +76,16 @@ public class NewFolderPageTest extends AbstractTest
     {
         String folderName = "New Folder";
 
-        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
+        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
         newFolderPage = newFolderPage.createNewFolderWithValidation("", folderName, folderName).render();
         Assert.assertTrue(newFolderPage.getMessage(NewFolderPage.Fields.NAME).length() > 0);
-        newFolderPage.selectCancel();
+        documentLibPage = newFolderPage.selectCancel().render();
 
-        newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
+        newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
         documentLibPage = newFolderPage.createNewFolderWithValidation(folderName, folderName, folderName).render();
         Assert.assertNotNull(documentLibPage);
 
-        newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
+        newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
         documentLibPage = newFolderPage.createNewFolderWithValidation(folderName + "-1").render();
         Assert.assertNotNull(documentLibPage);
     }
@@ -95,14 +95,14 @@ public class NewFolderPageTest extends AbstractTest
     {
         String folderName = "New Folder" + 1;
 
-        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
+        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
         newFolderPage.type(folderName);
-        newFolderPage.selectSubmitButton();
+        documentLibPage = newFolderPage.selectSubmitButton().render();
         Assert.assertNotNull(documentLibPage);
 
-        newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
+        newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
         newFolderPage.type(folderName);
-        newFolderPage.selectSubmitButton();
+        newFolderPage.selectSubmitButton().render();
         Assert.assertNotEquals(newFolderPage.getNotificationMessage(), "");
 
     }
