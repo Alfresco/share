@@ -654,6 +654,7 @@ public class WqsShareTests extends AbstractWQS
         EditHtmlDocumentPage editDocPage = (EditHtmlDocumentPage) inlineEditPage.getInlineEditDocumentPage(MimeType.HTML);
         editDocPage.setTitle(modifiedTitle);
         editDocPage.saveText();
+        ShareUtil.logout(drone);
         waitForDocumentsToIndex();
 
         // ---- Step 2 ----
@@ -731,6 +732,7 @@ public class WqsShareTests extends AbstractWQS
         siteActions.navigateToFolder(drone, folder11).render();
         siteActions.createFolder(drone, folder111, folder111, "").render();
         siteActions.createFolder(drone, folder112, folder112, "").render();
+        ShareUtil.logout(drone);
         waitForDocumentsToIndex();
 
         navigateTo(wqsURL);
