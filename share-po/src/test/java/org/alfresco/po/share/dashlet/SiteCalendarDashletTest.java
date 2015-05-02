@@ -157,7 +157,7 @@ public class SiteCalendarDashletTest extends AbstractSiteDashletTest
         assertFalse(siteCalendarDashlet.isEventsWithHeaderDisplayed("test-negative"));
     }
 
-    @Test(dependsOnMethods = "verifyEventCreated")
+    @Test(dependsOnMethods = "verifyEventCreated", groups = "Bug")
     public void verifyIsEventsWithHeaderDisplayed()
     {
         Date today = calendar.getTime();
