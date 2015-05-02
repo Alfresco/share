@@ -319,7 +319,7 @@ Alfresco.util.onlineEditUrlAos = function(aos, record)
    if(encodeURI(result).length > 256)
    {
       var fileextSepIdx = record.webdavUrl.lastIndexOf(".");
-      result = Alfresco.util.combinePaths(aos.baseUrl, "_aos_nodeid", record.nodeRef.split("/").pop(), "Document", fileextSepIdx > 0 ? record.webdavUrl.substring(fileextSepIdx + 1) : '');
+      result = Alfresco.util.combinePaths(aos.baseUrl, "_aos_nodeid", record.nodeRef.split("/").pop(), "Document" + (fileextSepIdx > 0 ? record.webdavUrl.substring(fileextSepIdx) : ''));
    }
    return result;
 };
