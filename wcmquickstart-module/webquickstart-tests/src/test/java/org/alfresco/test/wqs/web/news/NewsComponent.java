@@ -1296,11 +1296,11 @@ public class NewsComponent extends AbstractWQS
         DocumentLibraryPage documentLibPage = siteActions.navigateToFolder(drone, blog_folder_path).render();
         documentLibPage.getFileDirectoryInfo("article5.html").addTag(tag1);
         drone.refresh();
+        documentLibPage.getFileDirectoryInfo("article6.html").addTag(tag1);
+        drone.refresh();
         documentLibPage.getFileDirectoryInfo("article5.html").addTag(tag2);
         drone.refresh();
         // * test1 to article4.html (Alfresco Quick Start/Quick Start Editorial/root/news/global)
-        documentLibPage.getFileDirectoryInfo("article6.html").addTag(tag1);
-        drone.refresh();
 
         // *  test3 to article1.html (Alfresco Quick Start/Quick Start Editorial/root/news/companies)
         documentLibPage = documentLibPage.getNavigation().clickFolderUp().render();

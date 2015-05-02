@@ -108,7 +108,7 @@ public abstract class AbstractWQS implements AlfrescoTests
     protected WebDrone drone;
     protected LoginActions loginActions = new LoginActions();
     protected SiteActions siteActions = new SiteActions();
-    protected long MAX_WAIT_TIME_MINUTES = 160000;
+    protected long MAX_WAIT_TIME_MINUTES = 180000;
     protected long MAX_WAIT_TIME_WQS_LOAD = 280000;
     //Map<String, WebDrone> droneMap = new HashMap<String, WebDrone>();
 
