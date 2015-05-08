@@ -75,7 +75,8 @@ public class SiteActionsTest extends AbstractTest
     public void testAddRemoveAspect() throws Exception
     {
         File file = SiteUtil.prepareFile();
-        DocumentLibraryPage docLibPage = siteActions.uploadFile(drone, file).render();
+        DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(drone, siteName);
+        docLibPage = siteActions.uploadFile(drone, file).render();
         docLibPage.selectFile(file.getName()).render();
         
         List<String> aspects = new ArrayList<String>();
