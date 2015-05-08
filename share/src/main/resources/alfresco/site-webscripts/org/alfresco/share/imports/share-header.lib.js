@@ -1,3 +1,4 @@
+<import resource="classpath:/alfresco/site-webscripts/org/alfresco/share/imports/share-header-tools.lib.js">
 
 /* *********************************************************************************
  *                                                                                 *
@@ -848,27 +849,11 @@ function generateAppItems() {
             targetUrl: "console/admin-console/application"
          }
       });
-   } 
-   else
-   {
-      appItems.push({
-         id: "HEADER_ADMIN_CONSOLE",
-         name: "alfresco/menus/AlfMenuBarItem",
-         config: {
-            id: "HEADER_SITES_CONSOLE",
-            label: "header.menu.admin.sites.label",
-            targetUrl: "console/sites-console/manage-sites",
-            renderFilter: [
-               {
-                  property: "user.groups.GROUP_SITE_ADMINISTRATORS",
-                  values: [true]
-               }
-            ]
-         }
-      });
    }
    return appItems;
 }
+
+
 
 /* *********************************************************************************
  *                                                                                 *
@@ -1588,5 +1573,22 @@ function getHeaderModel(pageTitle) {
          ]
       }
    }];
+
+   // If the user is not the admin, then add in a role-based menu item for sites management...
+   if (!user.isAdmin)
+   {
+      addNonAdminAdministrativeMenuItem(headerModel, {
+         id: "HEADER_SITES_CONSOLE",
+         label: "header.menu.admin.sites.label",
+         targetUrl: "console/sites-console/manage-sites",
+         renderFilter: [
+            {
+               property: "user.groups.GROUP_SITE_ADMINISTRATORS",
+               values: [true]
+            }
+         ]
+      });
+   }
+
    return headerModel;
 }
