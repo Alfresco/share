@@ -46,6 +46,8 @@
    Alfresco.ActivitiTransitions = function(htmlId)
    {
       Alfresco.ActivitiTransitions.superclass.constructor.call(this, "Alfresco.ActivitiTransitions", htmlId, ["button", "container"]);
+     
+      YAHOO.Bubbling.on("formValidationError", this.onFormValidationError, this);
       
       return this;
    };
@@ -101,6 +103,19 @@
          
          // generate buttons for each transition
          this._generateTransitionButtons();
+      },
+      
+      /**
+       * Form validation error event handler
+       *
+       * @method onFormValidationError
+       * @param layer {object} Event fired
+       * @param args {array} Event parameters (depends on event type)
+       */
+      onFormValidationError: function ActivitiTransitions_onFormValidationError(layer, args)
+      {
+    	  //delete the hidden elements
+    	  this._removeHiddenFields();
       },
       
       /**
@@ -247,6 +262,26 @@
             
             Dom.get(this.id).appendChild(hiddenField);
          }
-      }
+      },
+      
+      /**
+      * Removes hidden fields created before
+      *
+      * @method _removeHiddenFields
+	  */
+      _removeHiddenFields : function ActivitiTransitions__removeHiddenFields() 
+      {
+    	  var hiddenField = Dom.get(this.id + "-hidden");
+    	  if (hiddenField != null)
+    	  {
+    		  Dom.get(this.id).removeChild(hiddenField);
+    	  }
+    	  var transitionHiddenField = Dom.get(this.id + "-transitions-hidden");
+    	  if (transitionHiddenField != null)
+	      {
+	    	  Dom.get(this.id).removeChild(transitionHiddenField);
+	      }
+	  }
+	
    });
 })();
