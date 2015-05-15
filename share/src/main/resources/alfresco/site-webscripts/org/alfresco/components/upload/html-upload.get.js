@@ -18,7 +18,7 @@ function main2()
       var fileUpload = docLibConfig["file-upload"];
       if (fileUpload != null)
       {
-         _maximumFileSizeLimit = fileUpload["maximum-file-size-limit"];
+         _maximumFileSizeLimit = fileUpload.getChildValue("maximum-file-size-limit");
       }
    }
    model.fileUploadSizeLimit = (_maximumFileSizeLimit != null) ? _maximumFileSizeLimit : "0";
