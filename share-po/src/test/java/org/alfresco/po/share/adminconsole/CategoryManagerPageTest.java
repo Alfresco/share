@@ -37,7 +37,7 @@ public class CategoryManagerPageTest extends AbstractTest
     private String subCategoryName = "SubCategory" + System.currentTimeMillis();
     private String renameCategoryName = "RenameCategory" + System.currentTimeMillis();
     private String rootCategoryName = "Category Root";
-    private long solrWaitTime = 10000;
+    private long solrWaitTime = 20000;
 
     @Test(groups = "Enterprise-only", timeOut = 400000)
     public void checkThatFactoryReturnCategoryManagerPage() throws Exception
@@ -54,7 +54,7 @@ public class CategoryManagerPageTest extends AbstractTest
         int categoryCount = categoryManagerPage.getCategoriesCount();
         assertTrue(categoryCount > 0);
         categoryManagerPage.addNewCategory(rootCategoryName, categoryName);
-        Thread.sleep(solrWaitTime); //wait solr
+        Thread.sleep(solrWaitTime); //wait solr  
         categoryManagerPage.getNav().getCategoryManagerPage().render();
         //drone.refresh();
         assertTrue(categoryCount < categoryManagerPage.getCategoriesCount(), "Before " + categoryCount + ", after " + categoryManagerPage.getCategoriesCount() +" ACE-3037");
@@ -72,7 +72,7 @@ public class CategoryManagerPageTest extends AbstractTest
         categoryManagerPage.getNav().getCategoryManagerPage().render();
         assertTrue(categoryCount == categoryManagerPage.getCategoriesCount());
         categoryManagerPage.openSubCategoryList(categoryName);
-        Thread.sleep(1000);
+        Thread.sleep(solrWaitTime);
         assertTrue(categoryCount + 1 == categoryManagerPage.getCategoriesCount());
         assertTrue(categoryManagerPage.isCategoryPresent(subCategoryName));
     }
