@@ -23,8 +23,8 @@ function main()
       var fileUpload = docLibConfig["file-upload"];
       if (fileUpload != null)
       {
-         _inMemoryLimit = fileUpload["in-memory-limit"];
-         _maximumFileSizeLimit = fileUpload["maximum-file-size-limit"];
+         _inMemoryLimit = fileUpload.getChildValue("in-memory-limit");
+         _maximumFileSizeLimit = fileUpload.getChildValue("maximum-file-size-limit");
       }
    }
    model.inMemoryLimit = (_inMemoryLimit != null) ? _inMemoryLimit : "262144000";
