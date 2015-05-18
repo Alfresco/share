@@ -406,7 +406,7 @@
       {
          var textNode = new YAHOO.widget.TextNode(
          {
-            label: $html(p_oData.name),
+            label: p_oData.name,
             path: p_oData.path,
             nodeRef: p_oData.nodeRef,
             description: p_oData.description,
