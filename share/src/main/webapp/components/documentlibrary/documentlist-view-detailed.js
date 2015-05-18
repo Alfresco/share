@@ -258,13 +258,6 @@
          {
             record.location.path = record.location.path.substring(7);
          }
-         else
-         {
-            if (window.location.href.search(/\/myfiles/) != -1 && record.location.path.search("/User Homes") == 0)
-            {
-               record.location.path = "/" + record.location.path.split("/").slice(3).join("/");
-            }
-         }
          
          oColumn.width = this.thumbnailColumnWidth;
          Dom.setStyle(elCell, "width", oColumn.width + "px");
