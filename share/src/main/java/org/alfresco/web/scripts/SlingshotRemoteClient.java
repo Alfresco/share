@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2010 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -51,7 +51,7 @@ import org.springframework.extensions.webscripts.ui.common.StringUtils;
  */
 public class SlingshotRemoteClient extends RemoteClient
 {
-    private static final Pattern CONTENT_PATTERN = Pattern.compile(".*/(api|slingshot)/(node|path)/content/workspace/SpacesStore/.*");
+    private static final Pattern CONTENT_PATTERN = Pattern.compile(".*/(api|slingshot)/(node|path)/(content.*/)?workspace/SpacesStore/.+");
     private static final Pattern SLINGSHOT_WIKI_PAGE_PATTERN = Pattern.compile(".*/slingshot/wiki/page/.*");
     private static final Pattern SLINGSHOT_WIKI_VERSION_PATTERN = Pattern.compile(".*/slingshot/wiki/version/.*");
 
