@@ -72,9 +72,9 @@
            the Theme XML files and in widget CSS files. We deliberately exclude it's preferred
            Rhino version so as to avoid conflicts with our own dependencies. -->
       <dependency>
-         <groupId>com.asual.lesscss</groupId>
+         <groupId>org.alfresco.3rdparty.com.asual.lesscss</groupId>
          <artifactId>lesscss-engine</artifactId>
-         <version>1.5.0</version>
+         <version>1.5.0-patched</version>
          <exclusions>
             <exclusion>
                <groupId>org.mozilla</groupId>
