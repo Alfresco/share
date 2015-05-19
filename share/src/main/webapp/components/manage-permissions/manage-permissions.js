@@ -150,7 +150,7 @@
           * @type object
           * @default [ "SiteManager" ]
           */
-         nonEditableRoles: [ "SiteManager" ],
+         nonEditableRoles: [ "^GROUP_site_.*_SiteManager$" ],
          unDeletableRoles: [ "^GROUP_site_.*_SiteManager$", "^GROUP_site_.*_SiteCollaborator$", "^GROUP_site_.*_SiteContributor$", "^GROUP_site_.*_SiteConsumer$" ],
          showGroups: true
       },
@@ -650,7 +650,7 @@
                menuData = [];
 
             // Special case handling for non-settable roles
-            if (!scope._isRoleEditable(role) || !scope.settableRoles.hasOwnProperty(role))
+            if (!scope._isGroupEditable(oRecord) || !scope.settableRoles.hasOwnProperty(role))
             {
                elCell.innerHTML = '<span>' + $html(scope._i18nRole(oRecord.getData("role"))) + '</span>';
             }
@@ -716,7 +716,7 @@
             Dom.setStyle(elCell.parentNode, "width", oColumn.width + "px");
 
             var html = '<div id="' + scope.id + '-actions-' + oRecord.getId() + '" class="hidden action-set">';
-            if (scope._isRoleEditable(role) && scope._isGroupDeletable(oRecord))
+            if (scope._isGroupEditable(oRecord) && scope._isGroupDeletable(oRecord))
             {
                html += '<div class="onActionDelete"><a class="action-link" title="' + scope.msg("button.delete") + '"><span>' + scope.msg("button.delete") + '</span></a></div>';
             }            
@@ -863,14 +863,29 @@
        * Checks if the node hasn't got inherited permissions and if so if the role is required for the system to work.
        * If so it shall not be allowed to be edited.
        *
-       * @method _isRoleEditable
+       * @method _isGroupEditable
        * @param role {String} Event object.
        * @return True if the node 
        * @private
        */
-      _isRoleEditable: function Permissions__isRoleEditable(role)
+      _isGroupEditable: function Permissions__isGroupEditable(oRecord)
       {
-         return this.permissions.isInherited || !Alfresco.util.arrayContains(this.options.nonEditableRoles, role);
+         if(this.permissions.isInherited)
+         {
+             return true;
+         }      
+         var groupName = oRecord.getData("authority").name;
+         if (oRecord.getData("isGroup") == true)
+         {
+             for (var i = 0; i < this.options.nonEditableRoles.length; i++)
+             {
+                if (groupName.search(this.options.nonEditableRoles[i]) !== -1)
+                {
+                    return false;
+                }
+             }
+         }
+         return true;
       },
       
       /**
