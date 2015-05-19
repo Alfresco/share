@@ -128,7 +128,8 @@ public class DocumentLibraryPageFilmstripTest extends AbstractTest
             CopyOrMoveContentPage copyContent = documentLibPage.getNavigation().selectCopyTo().render();
 
             // Keep the selected Destination: Current Site > DocumentLibrary Folder
-            documentLibPage = copyContent.selectOkButton().render();
+            copyContent.selectOkButton();
+            documentLibPage = drone.getCurrentPage().render();
         }
 
         assertTrue(documentLibPage.getFilmstripActions().isNextFilmstripTapeArrowPresent());
