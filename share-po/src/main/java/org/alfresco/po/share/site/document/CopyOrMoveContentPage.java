@@ -83,7 +83,6 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public CopyOrMoveContentPage render(RenderTime timer)
     {
@@ -91,14 +90,12 @@ public class CopyOrMoveContentPage extends ShareDialogue
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public CopyOrMoveContentPage render(long time)
     {
         return render(new RenderTime(time));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public CopyOrMoveContentPage render()
     {
@@ -271,6 +268,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         try
         {
             drone.waitForElement(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            drone.waitUntilElementDisappears(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             drone.waitUntilElementDeletedFromDom(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         }
         catch (NoSuchElementException | TimeoutException e)
