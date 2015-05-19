@@ -1006,9 +1006,14 @@
                               var deleteElem = Selector.query('a.alfresco-content-delete', markerSpan, true);
                               Event.removeListener(deleteElem, 'click');
                               
-                              // Disabling primary toolbar buttons.
-                              ribbonObj.toggleToolbar(false);
-
+                              // Removing primary toolbar buttons.
+                              var primaryToolBar = WebEditor.module.Ribbon.getToolbar('WEF-'+WebEditor.ui.Ribbon.PRIMARY_TOOLBAR+'-root');
+                              primaryToolBar.widgets.buttons = [];
+                              var node = primaryToolBar.widgets.buttonContainer;
+                              while (node.hasChildNodes())
+                              {
+                                 node.removeChild(node.firstChild);
+                              }
                               this.hide();
                               this.destroy();
                            },
