@@ -151,7 +151,7 @@
           * @default [ "SiteManager" ]
           */
          nonEditableRoles: [ "SiteManager" ],
-         unDeletableRoles: [ "_SiteManager$", "_SiteCollaborator$", "_SiteContributor$", "_SiteConsumer$" ],
+         unDeletableRoles: [ "^GROUP_site_.*_SiteManager$", "^GROUP_site_.*_SiteCollaborator$", "^GROUP_site_.*_SiteContributor$", "^GROUP_site_.*_SiteConsumer$" ],
          showGroups: true
       },
 
@@ -885,7 +885,12 @@
          if(this.permissions.isInherited)
          {
              return true;
-         }      
+         }
+         // MNT-13639: allow to remove rules (default behavior befor fix for MNT-10984) under site
+         if (Alfresco.constants.SITE != null && Alfresco.constants.SITE.length > 0)
+         {
+             return true;
+         }
          var groupName = oRecord.getData("authority").name;
          if (oRecord.getData("isGroup") == true)
          {
