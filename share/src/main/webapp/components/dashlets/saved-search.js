@@ -221,13 +221,13 @@
             nodeRef = oRecord.getData("nodeRef"),
             container = oRecord.getData("container"),
             modifiedOn = oRecord.getData("modifiedOn"),
-            siteShortName = site.shortName,
-            siteTitle = site.title,
+            siteShortName = site ? site.shortName : null,
+            siteTitle = site ? site.title : null,
             modified = Alfresco.util.formatDate(Alfresco.util.fromISO8601(modifiedOn)),
             resultType = this.buildTextForType(type),
             href = this.getBrowseUrl(name, type, site, path, nodeRef, container, modified);
 
-         elCell.innerHTML = this.buildNameWithHref(href, displayName) + this.buildDescription(resultType, siteShortName, siteTitle) + this.buildPath(type, path, site);
+         elCell.innerHTML = this.buildNameWithHref(href, displayName) + (site ? this.buildDescription(resultType, siteShortName, siteTitle) : "") + this.buildPath(type, path, site);
       },
 
       /**
