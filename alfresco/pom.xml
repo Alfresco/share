@@ -51,7 +51,7 @@
                         <goals>
                             <goal>exploded</goal>
                         </goals>
-                        <phase>prepare-package</phase>
+                        <phase>generate-resources</phase>
                     </execution>
                     <!-- Additional execution to generate a non-ssl war -->
                     <execution>
