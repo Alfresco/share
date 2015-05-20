@@ -6,6 +6,14 @@
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
 
+    <fileSets>
+        <!-- Local resources: README, etc. -->
+        <fileSet>
+            <directory>target/classes</directory>
+            <outputDirectory></outputDirectory>
+        </fileSet>
+    </fileSets>
+
     <dependencySets>
         <!-- Share war -->
         <dependencySet>
