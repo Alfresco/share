@@ -77,7 +77,7 @@
       <dependency>
          <groupId>org.springframework.extensions.surf</groupId>
          <artifactId>spring-webscripts-api</artifactId>
-         <version>${project.version}</version>
+         <version>${dependency.webscripts.version}</version>
       </dependency>
         
       <!-- Java Servlet -->
