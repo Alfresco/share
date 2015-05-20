@@ -38,10 +38,75 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-remote-api</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-repository</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
             <version>${project.version}</version>
             <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-repository</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-remote-api</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.extensions.surf</groupId>
+            <artifactId>spring-webscripts</artifactId>
+            <version>${dependency.webscripts.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${dependency.spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shale</groupId>
+            <artifactId>shale-test</artifactId>
+            <version>1.0.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -87,4 +152,61 @@
             </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+         <id>integration-tests</id>
+         <activation>
+             <activeByDefault>false</activeByDefault>
+         </activation>
+         <build>
+             <plugins>
+                 <!-- Wipe the database before starting tests -->
+                 <plugin>
+                     <groupId>org.codehaus.mojo</groupId>
+                     <artifactId>sql-maven-plugin</artifactId>
+                     <executions>
+                         <execution>
+                             <id>wipe-database</id>
+                             <phase>pre-clean</phase>
+                             <goals>
+                                 <goal>execute</goal>
+                             </goals>
+                             <configuration>
+                                 <sqlCommand>${db.drop.command}</sqlCommand>
+                             </configuration>
+                         </execution>
+                         <execution>
+                             <id>create-database</id>
+                             <phase>pre-clean</phase>
+                             <goals>
+                                 <goal>execute</goal>
+                             </goals>
+                             <configuration>
+                                 <sqlCommand>${db.create.command}</sqlCommand>
+                             </configuration>
+                         </execution>
+                     </executions>
+                 </plugin>
+                 <plugin>
+                     <artifactId>maven-surefire-plugin</artifactId>
+                     <executions>
+                        <execution>
+                           <id>integration-tests</id>
+                           <goals>
+                              <goal>test</goal>
+                           </goals>
+                           <configuration>
+                             <includes>
+                               <include>**/FormUIGetRestApiIT.java</include>
+                             </includes>
+                           </configuration>
+                        </execution>
+                     </executions>
+                 </plugin>
+             </plugins>
+         </build>
+      </profile>
+    </profiles>
+    
 </project>
