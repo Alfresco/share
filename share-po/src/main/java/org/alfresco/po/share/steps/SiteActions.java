@@ -258,6 +258,26 @@ public class SiteActions extends CommonActions
     {
         return getFileDirectoryInfo(drone, contentName).clickOnTitle().render();
     }
+    
+    /**
+     * Util returns the DetailsPage for the selected content
+     * 
+     * @param drone
+     * @param contentName
+     * @return DetailsPage
+     */
+    public HtmlPage viewDetails(WebDrone drone, String contentName)
+    {
+        FileDirectoryInfo node = getFileDirectoryInfo(drone, contentName);
+        if(node.isFolder())
+        {
+            return node.selectViewFolderDetails().render();
+        }
+        else
+        {
+            return node.clickOnTitle().render();
+        }
+    }
 
     /**
      * Util traverses through all the pages of the doclib to find the content within the folder
