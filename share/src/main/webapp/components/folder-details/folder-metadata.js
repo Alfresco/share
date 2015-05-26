@@ -125,8 +125,19 @@
        */
       onFormLoaded: function FolderMetadata_onFormLoaded(response)
       {
-         var formEl = Dom.get(this.id + "-formContainer");
+         var formEl = Dom.get(this.id + "-formContainer"), me = this;
          formEl.innerHTML = response.serverResponse.responseText;
+         Dom.getElementsByClassName("viewmode-value-date", "span", formEl, function()
+         {
+            var showTime = Dom.getAttribute(this, "data-show-time"),
+                fieldValue = Dom.getAttribute(this, "data-date-iso8601"),
+                dateFormat = (showTime=='false') ? me.msg("date-format.defaultDateOnly") : me.msg("date-format.default"),
+                // MNT-9693 - Pass the ignoreTime flag
+                ignoreTime = showTime == 'false',
+                theDate = Alfresco.util.fromISO8601(fieldValue, ignoreTime);
+            
+            this.innerHTML = Alfresco.util.formatDate(theDate, dateFormat);
+         });
       },
 
       /**
