@@ -273,7 +273,7 @@
 
          this.nodeType = this.options.isContainer ? "folder" : "document";
 
-         if (this.options.showLikes && !this.options.showOnlyLocation)
+         if (this.options.showLikes && !this.options.showOnlyLocation && this.options.lock != "READ_ONLY_LOCK")
          {
             // Create like widget
             new Alfresco.Like(this.id + '-like').setOptions(
