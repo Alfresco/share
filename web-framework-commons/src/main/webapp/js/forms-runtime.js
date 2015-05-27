@@ -2120,29 +2120,17 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
     */
    Alfresco.forms.validation.nodeName = function nodeName(field, args, event, form)
    {
-      if (Alfresco.logger.isDebugEnabled())
-         Alfresco.logger.debug("Validating field '" + field.id + "' is a valid node name");
-
-      if (!args)
-      {
-         args = {};
-      }
-
-      /**
-       * Pattern for disallowing leading and trailing spaces. See CHK-6614
-       * args.pattern = /([\"\*\\\>\<\?\/\:\|]+)|([\.]?[\.]+$)|(^[ \t]+|[ \t]+$)/;
-       */
-      args.pattern = /([\"\*\\\>\<\?\/\:\|]+)|([\.]?[\.]+$)/;
-      args.match = false;
-
-      return Alfresco.forms.validation.regexMatch(field, args, event, form);
+	   if (Alfresco.logger.isDebugEnabled())
+		   Alfresco.logger.debug("Validating field '" + field.id + "' is a valid node name");
+	   
+	   return Alfresco.forms.validation.name(field, args, event, form);
    };
   
-      /**
+   /**
     * File name validation handler, tests that the given field's value is a valid
     * name for a node in the repository.
     *
-    * @method nodeName
+    * @method fileName
     * @param field {object} The element representing the field the validation is for
     * @param args {object} Not used
     * @param event {object} The event that caused this handler to be called, maybe null
@@ -2151,19 +2139,42 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
     * @param message {string} Message to display when validation fails, maybe null
     * @static
     */
-   Alfresco.forms.validation.fileName = function nodeName(field, args, event, form, silent, message)
+   Alfresco.forms.validation.fileName = function fileName(field, args, event, form)
    {
-      if (Alfresco.logger.isDebugEnabled())
-         Alfresco.logger.debug("Validating field '" + field.id + "' is a valid node name");
-      if (!args)
-      {
-         args = {};
-      }
-
-      args.pattern = /([\"\*\\\>\<\?\/\:\|]+)|([\.]?[\.]+$)/;
-      args.match = false;
-
-      return Alfresco.forms.validation.regexMatch(field, args, event, form, silent, message);
+	   if (Alfresco.logger.isDebugEnabled())
+		   Alfresco.logger.debug("Validating field '" + field.id + "' is a valid file name");
+	   
+	   return Alfresco.forms.validation.name(field, args, event, form);
+   };
+   
+   
+   /**
+    * Name validation handler, tests that the given field's value is a valid
+    * name for a node name or file name in the repository.
+    *
+    * @method nodeName
+    * @param field {object} The element representing the field the validation is for
+    * @param args {object} Not used
+    * @param event {object} The event that caused this handler to be called, maybe null
+    * @param form {object} The forms runtime class instance the field is being managed by
+    * @static
+    */
+   Alfresco.forms.validation.name = function name(field, args, event, form)
+   {
+	   if (!args)
+	   {
+		   args = {};
+	   }
+	   
+	   /**
+	    * Pattern for disallowing leading and trailing spaces. See CHK-6614
+	    * args.pattern = /([\"\*\\\>\<\?\/\:\|]+)|([\.]?[\.]+$)|(^[ \t]+|[ \t]+$)/;
+	    */
+	   
+	   args.pattern = /([\"\*\\\>\<\?\/\:\|]+)|([\.]?[\.]+$)|(^[ \t]+|[ \t]+$)/;
+	   args.match = false;
+	   
+	   return Alfresco.forms.validation.regexMatch(field, args, event, form);
    };
 
    /**

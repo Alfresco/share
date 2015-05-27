@@ -26,8 +26,11 @@ import java.util.List;
 
 import org.alfresco.po.share.AbstractTest;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.document.DetailsPage;
 import org.alfresco.po.share.site.document.DocumentAspect;
+import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
+import org.alfresco.po.share.site.document.FolderDetailsPage;
 import org.alfresco.po.share.site.document.SelectAspectsPage;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
@@ -96,5 +99,35 @@ public class SiteActionsTest extends AbstractTest
         Assert.assertTrue(aspectsPage.isAspectAvailable(aspects.get(0)));
         
         aspectsPage.clickCancel().render();
+    }
+    
+    @Test(groups = "Enterprise-only", priority=5)
+    public void testViewDetailsForFolder() throws Exception
+    {
+        String folderName = "folder" + System.currentTimeMillis();
+        
+        siteActions.openSitesDocumentLibrary(drone, siteName);
+        
+        siteActions.createFolder(drone, folderName, folderName, folderName);
+        
+        DetailsPage detailsPage = siteActions.viewDetails(drone, folderName).render();
+        
+        Assert.assertNotNull(detailsPage, "Error during View Folder Details");
+        Assert.assertTrue(detailsPage instanceof FolderDetailsPage, "Error during View Folder Details");
+        
+    }
+       
+    @Test(groups = "Enterprise-only", priority=6)
+    public void testViewDetailsForFile() throws Exception
+    {
+        File file = SiteUtil.prepareFile();
+        siteActions.openSitesDocumentLibrary(drone, siteName);
+        siteActions.uploadFile(drone, file).render();
+
+        DetailsPage detailsPage = siteActions.viewDetails(drone, file.getName()).render();
+
+        Assert.assertNotNull(detailsPage, "Error during View Document Details");
+        Assert.assertTrue(detailsPage instanceof DocumentDetailsPage, "Error during View Document Details");
+
     }
 }

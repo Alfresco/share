@@ -126,10 +126,17 @@ public class AssetSearch extends AbstractWebScript
                 siteId = new NodeRef(siteIdText);
             }
 
+            
+            List<NodeRef> ancestors = (List<NodeRef>) nodeService.getProperty(new NodeRef(sectionId), WebSiteModel.PROP_ANCESTOR_SECTIONS);
+            if(ancestors != null && ancestors.size() != 0){
+            	queryBuilder.append("+@ws\\:ancestorSections:\"");
+            	queryBuilder.append(ancestors.get(ancestors.size()-1));
+            	queryBuilder.append("\" ");
+            }else{
             queryBuilder.append("+@ws\\:ancestorSections:\"");
             queryBuilder.append(sectionId);
             queryBuilder.append("\" ");
-            
+            }
             queryBuilder.append("+ASPECT:\"");
             queryBuilder.append(WebSiteModel.ASPECT_WEBASSET.toString());
             queryBuilder.append("\" ");

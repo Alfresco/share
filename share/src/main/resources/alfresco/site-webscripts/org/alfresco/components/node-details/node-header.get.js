@@ -31,6 +31,7 @@ function main()
       model.showOnlyLocation = model.showOnlyLocation.toString();
       var count = nodeDetails.item.node.properties["fm:commentCount"];
       model.commentCount = (count != undefined ? count : null);
+      model.lock = (nodeDetails.item.node.properties["cm:lockType"] != undefined ? nodeDetails.item.node.properties["cm:lockType"] : null);
 
       // Widget instantiation metadata...
       var likes = {};
@@ -63,7 +64,8 @@ function main()
             sharedId: model.item.node.properties["qshare:sharedId"] || null,
             sharedBy: model.item.node.properties["qshare:sharedBy"] || null,
             pagecontext: model.pagecontext,
-            libraryRoot: model.libraryRoot
+            libraryRoot: model.libraryRoot,
+            lock: model.lock
          }
       };
       
