@@ -18,6 +18,7 @@
  */
 package org.alfresco.po.share;
 
+import org.alfresco.po.share.steps.LoginActions;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,7 +43,15 @@ public class LoginPageTest extends AbstractTest
      * Log a user into Alfresco with valid credentials
      * and then logout
      * @throws Exception if error
-     */ 
+     */
+
+    @Test
+    public void testLoginWithPost()
+    {
+        LoginPage lp = new LoginPage(drone);
+        lp.loginWithPost(shareUrl, "admin", "admin");
+    }
+
     @Test
     public void loginAndLogout() throws Exception 
     {

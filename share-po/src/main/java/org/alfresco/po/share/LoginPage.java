@@ -16,16 +16,26 @@ package org.alfresco.po.share;
 
 import org.alfresco.po.share.user.CloudForgotPasswordPage;
 import org.alfresco.po.share.user.Language;
+import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.RenderWebElement;
 import org.alfresco.webdrone.WebDrone;
+import org.alfresco.webdrone.WebDroneImpl;
 import org.alfresco.webdrone.exception.PageOperationException;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpState;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
+import java.io.IOException;
 
 /**
  * Login Page object that holds all information and methods that can be found on
@@ -222,6 +232,46 @@ public class LoginPage extends SharePage
     {
 
         return drone.findAndWait(FORGOT_PASSWORD_LINK).getAttribute("href");
+
+    }
+
+    public HtmlPage loginWithPost(String shareUrl, String userName, String password)
+    {
+        HttpClient client = new HttpClient();
+
+        //login
+        PostMethod post = new PostMethod((new StringBuilder()).append(shareUrl).append("/page/dologin").toString());
+        NameValuePair[] formParams = (new NameValuePair[]{
+                new org.apache.commons.httpclient.NameValuePair("username", userName),
+                new org.apache.commons.httpclient.NameValuePair("password", password),
+                new org.apache.commons.httpclient.NameValuePair("success", "/share/page/site-index"),
+                new org.apache.commons.httpclient.NameValuePair("failure", "/share/page/type/login?error=true")
+        });
+        post.setRequestBody(formParams);
+        post.addRequestHeader("Accept-Language", "en-us,en;q=0.5");
+        try
+        {
+            client.executeMethod(post);
+
+            HttpState state = client.getState();
+
+            //add cookies to browser and navigate to user dashboard
+            WebDriver driver = ((WebDroneImpl) drone).getDriver();
+            drone.navigateTo(shareUrl + "/page/user/" + userName + "/dashboard/");
+            driver.manage().addCookie(new Cookie(state.getCookies()[0].getName(),state.getCookies()[0].getValue()));
+            drone.refresh();
+
+        }
+        catch (IOException e)
+        {
+            logger.error("Login error ", e);
+        }
+        finally
+        {
+            post.releaseConnection();
+        }
+
+        return FactorySharePage.resolvePage(drone);
 
     }
 
