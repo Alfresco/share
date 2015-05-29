@@ -18,7 +18,6 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.po.share.steps.LoginActions;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,7 +48,10 @@ public class LoginPageTest extends AbstractTest
     public void testLoginWithPost()
     {
         LoginPage lp = new LoginPage(drone);
-        lp.loginWithPost(shareUrl, "admin", "admin");
+        DashBoardPage dashboardPage = lp.loginWithPost(shareUrl, "admin", "admin").render();  
+        Assert.assertTrue(dashboardPage.isBrowserTitle("dashboard"));    
+        SharePage pageResponse = dashboardPage.getNav().logout().render();
+        Assert.assertTrue(pageResponse.isBrowserTitle("login"));
     }
 
     @Test
