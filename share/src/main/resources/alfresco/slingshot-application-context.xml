@@ -301,6 +301,11 @@
    <bean id="slingshot.scriptprocessor.quickShareStatus" parent="baseScriptExtension" class="org.alfresco.web.scripts.QuickShareStatus">
       <property name="extensionName" value="quickShareStatus" />
    </bean>
+   
+   <bean id="slingshot.scriptprocessor.shareManifest" parent="baseScriptExtension" class="org.alfresco.web.scripts.ShareManifest">
+       <constructor-arg index="0" value="/META-INF/MANIFEST.MF"/>
+       <property name="extensionName" value="shareManifest" />
+   </bean>
 
    <!-- Extension utils -->
    <bean id="slingshot.evaluator.utility" class="org.alfresco.web.extensibility.SlingshotEvaluatorUtil">
@@ -367,9 +372,5 @@
             <value>js/alfresco/remote/</value>
          </list>
       </property>
-   </bean>
-   
-   <bean id="webscript.org.alfresco.share-manifest.get" class="org.alfresco.web.scripts.ShareManifest" parent="webscript">
-       <constructor-arg index="0" value="/META-INF/MANIFEST.MF"/>
    </bean>
 </beans>
