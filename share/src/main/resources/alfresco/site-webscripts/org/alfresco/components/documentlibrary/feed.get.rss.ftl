@@ -1,3 +1,5 @@
+<#assign conditionvalueEdition = (context.properties["editionInfo"].edition)!"UNKNOWN">
+<#assign conditionEditionEnterprise = conditionvalueEdition == "ENTERPRISE">
 <#function formatDate date><#return xmldate(date)?string(msg("date-format.rfc822"))></#function>
 <#function siteLoc loc><#if (loc.site?length > 0)><#return "/page/site/" + loc.site + "/documentlibrary"><#else><#return "/page/repository"></#if></#function>
 <#function location loc><#return absurl(url.context) + siteLoc(loc) + "?file=" + loc.file?url + "&amp;path=" + loc.path?url></#function>
@@ -12,7 +14,7 @@
 <#assign proxyLink=absurl(url.context) + "/proxy/alfresco-feed/">
    <image>
       <title>Alfresco Share - ${msg("feed.filter." + filter!"path")}</title>
-      <url>${absurl(url.context)}/themes/default/images/logo.png</url>
+      <url>${absurl(url.context)}/themes/default/images/logo<#if conditionEditionEnterprise>-enterprise</#if>.png</url>
       <link>${absurl(url.context)}/</link>
    </image>
 <#list items as item>
