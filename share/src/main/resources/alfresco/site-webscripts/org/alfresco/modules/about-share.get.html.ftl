@@ -6,6 +6,7 @@
          <div class="about">
             <#assign split=serverVersion?index_of(" ")>
             <div class="header">Alfresco Share v${shareVersion?html}</div>
+            <div>Aikau ${shareLibs.aikau?html}</div>
             <div class="header">Alfresco ${serverEdition?html} v${serverVersion?substring(0, split)?html}</div>
             <div>${serverVersion?substring(split+1)?html} schema ${serverSchema?html}</div>
             <#assign split=server.version?index_of(" ")>
