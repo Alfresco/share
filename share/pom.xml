@@ -306,6 +306,7 @@
                             <excludes>
                                 <exclude>WEB-INF/classes/*</exclude>
                                 <exclude>WEB-INF/lib/*</exclude>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
                             </excludes>
                         </overlay>
                         <overlay>
@@ -340,6 +341,13 @@
                         <id>prepare-exploded-war</id>
                         <goals>
                             <goal>exploded</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>generate-manifest</id>
+                        <goals>
+                            <goal>manifest</goal>
                         </goals>
                         <phase>generate-resources</phase>
                     </execution>
