@@ -20,7 +20,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-platform</artifactId>
-            <version>${project.version}</version>
+            <version>${alfresco.platform.version}</version>
             <!-- <classifier>nossl</classifier> -->
             <type>war</type>
             <scope>runtime</scope>
@@ -169,7 +169,7 @@
                         <webapp>
                             <groupId>org.alfresco</groupId>
                             <artifactId>alfresco-solr4</artifactId>
-                            <version>${project.version}</version>
+                            <version>${alfresco.platform.version}</version>
                             <contextPath>/solr4</contextPath>
                             <type>war</type>
                             <asWebapp>true</asWebapp>
