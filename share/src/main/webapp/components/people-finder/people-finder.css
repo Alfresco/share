@@ -77,6 +77,11 @@
 
 .people-finder .search-text input
 {
+   width: 100%;
+}
+
+.alf-invite-require-acceptance .people-finder .search-text input
+{
    width: 30em;
 }
 

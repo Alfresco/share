@@ -599,6 +599,26 @@
        */
       _finalizeInvites: function InvitationList__finalizeInvites(inviteData)
       {  
+         var data = {
+               items: [
+                       {
+                          userName: "aowian",
+                          roleName: "role.SiteCollaborator",
+                          displayName: "Ahmed Owian"
+                       },
+                       {
+                          userName: "aowian",
+                          roleName: "Collaborator",
+                          displayName: "Ahmed Owian"
+                       }
+                  ]
+               };
+         require(["share/services/AddedUsersService"], function(ServiceType) {
+            var s = new ServiceType();
+            s.publishResults(data);
+          });
+         
+         
          // remove the entries that were successful
          for (var i = inviteData.successes.length - 1; i >= 0; i--)
          {
