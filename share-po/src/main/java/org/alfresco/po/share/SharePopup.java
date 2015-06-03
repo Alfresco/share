@@ -41,6 +41,7 @@ public class SharePopup extends SharePage
     private static final String DEFAULT_BUTTON = "span.yui-button";
     private static final String ERROR_BODY = "div.bd";
     private static final By BUTTON_TAG_NAME = By.tagName("button");
+    private By CLOSE_BUTTON = By.cssSelector("span.dijitDialogCloseIcon");
 
     /**
      * Constructor.
@@ -222,6 +223,22 @@ public class SharePopup extends SharePage
         catch (NoSuchElementException te)
         {
             throw new PageOperationException("authorisation prompt was not found", te);
+        }
+    }
+    
+    /**
+     * Method to close the SharePopup
+     */
+    public void clickClose()
+    {
+        try
+        {
+            WebElement closeButton = drone.findFirstDisplayedElement(CLOSE_BUTTON);
+            closeButton.click();
+        }
+        catch(TimeoutException te)
+        {
+            throw new PageOperationException("Unable to Close the Popup", te);
         }
     }
 
