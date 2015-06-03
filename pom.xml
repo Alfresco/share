@@ -31,6 +31,8 @@
         <alfresco.platform.version>5.1-RA6-SNAPSHOT</alfresco.platform.version>
 
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
+        <argLine>-Xmx2G -XX:MaxPermSize=256m -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
+
         <dependency.spring.version>3.2.10.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
         <dependency.aikau.version>1.0.17.1</dependency.aikau.version>
@@ -291,6 +293,7 @@
                                 </manifestSection>
                             </manifestSections>
                         </archive>
+                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     </configuration>
                     <!-- Add dependency to alfresco-maven-plugin, to allow AMP overlays -->
                     <dependencies>
@@ -319,6 +322,7 @@
                             <dir.root>${dir.root}</dir.root>
                             <img.exe>${img.exe}</img.exe>
                             <swf.exe>${swf.exe}</swf.exe>
+                            <index.subsystem.name>${index.subsystem.name}</index.subsystem.name>
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
