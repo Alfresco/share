@@ -906,6 +906,11 @@
          {
              return true;
          }
+         // MNT-13639: allow to remove rules (default behavior befor fix for MNT-10984) under site
+         if (Alfresco.constants.SITE != null && Alfresco.constants.SITE.length > 0)
+         {
+             return true;
+         }
          var groupName = oRecord.getData("authority").name;
          if (oRecord.getData("isGroup") == true)
          {
