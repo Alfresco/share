@@ -298,13 +298,12 @@ public class SiteNavigation extends AbstractSiteNavigation
             throw new PageException("Unable to find the InviteMembersPage.", e);
         }
     }
-
+    
     /**
-     * This method returns the MembersPage object.
+     * Clicks on invite users button
      * 
-     * @return {@link InviteMembersPage}
      */
-    public InviteMembersPage selectInvite()
+    private void clickOnInviteButton()
     {
         try
         {
@@ -319,9 +318,30 @@ public class SiteNavigation extends AbstractSiteNavigation
         }
         catch (TimeoutException e)
         {
-            throw new PageException("Unable to find the InviteMembersPage.", e);
-        }
+            throw new PageException("Unable to find the Add User Button.", e);
+        }        
+    }
+
+    /**
+     * This method returns the InviteMembersPage object.
+     * 
+     * @return {@link InviteMembersPage}
+     */
+    public InviteMembersPage selectInvite()
+    {
+        clickOnInviteButton();
         return new InviteMembersPage(getDrone());
+    }
+    
+    /**
+     * Clicks on add user to site button
+     * 
+     * @return {@link AddUsersToSitePage}
+     */
+    public AddUsersToSitePage selectAddUser()
+    {
+        clickOnInviteButton();
+        return new AddUsersToSitePage(getDrone());
     }
 
     /**
