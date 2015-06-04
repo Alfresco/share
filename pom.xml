@@ -343,4 +343,216 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <properties>
+                <!-- Filter solrcore.properties -->
+                <ALFRESCO_SOLR4_DATA_DIR>${runtime.solr.folder}/data</ALFRESCO_SOLR4_DATA_DIR>
+            </properties>
+            <id>run</id>
+            <build>
+                <plugins>
+                    
+                    <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-dependency-plugin</artifactId>
+                      <executions>
+                        <!-- Download and unpack the tomcat config zip file -->
+                        <execution>
+                          <id>unpack-tomcat-config</id>
+                          <phase>generate-resources</phase>
+                          <goals>
+                            <goal>unpack</goal>
+                          </goals>
+                          <configuration>
+                            <outputDirectory>${project.build.directory}/tomcat-conf</outputDirectory>
+                            <artifactItems>
+                              <artifactItem>
+                                <groupId>org.alfresco</groupId>
+                                <artifactId>alfresco-dev-tomcat</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>config</classifier>
+                                <overWrite>true</overWrite>
+                                <type>zip</type>
+                              </artifactItem>
+                            </artifactItems>
+                          </configuration>
+                        </execution>
+
+                        <!-- Download and unpack the solr4 config zip file -->
+                        <execution>
+                          <id>unpack-solr4-config</id>
+                          <phase>generate-resources</phase>
+                          <goals>
+                            <goal>unpack</goal>
+                          </goals>
+                          <configuration>
+                            <outputDirectory>${project.build.directory}/solr4</outputDirectory>
+                            <artifactItems>
+                              <artifactItem>
+                                <groupId>org.alfresco</groupId>
+                                <artifactId>alfresco-solr4</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>config</classifier>
+                                <overWrite>true</overWrite>
+                                <type>zip</type>
+                              </artifactItem>
+                            </artifactItems>
+                          </configuration>
+                        </execution>
+                      </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>filter-copy-solr4-config</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <outputDirectory>${runtime.solr.folder}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}/solr4</directory>
+                                            <excludes>
+                                                <exclude>workspace-SpacesStore/conf/solrcore.properties</exclude>
+                                                <exclude>archive-SpacesStore/conf/solrcore.properties</exclude>
+                                            </excludes>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                        <resource>
+                                            <directory>${project.build.directory}/solr4</directory>
+                                            <includes>
+                                                <include>workspace-SpacesStore/conf/solrcore.properties</include>
+                                                <include>archive-SpacesStore/conf/solrcore.properties</include>
+                                            </includes>
+                                            <filtering>true</filtering>
+                                        </resource>
+                                    </resources>
+                                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                                    <delimiters>
+                                        <delimiter>@@</delimiter>
+                                    </delimiters>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <!-- Copy tomcat config from build directory to correct location -->
+                            <!--
+                                Q. Why not unpack directly to ${runtime.tomcat.conf.folder} ?
+                                A. There is no way of telling maven NOT to overwrite the directory if it is already there.
+                                   overWrite doesn't work, overWriteIfNewer doesn't work either. The plugin uses marker files
+                                   to determine whether the zip has already been unpacked, rather than using the actual folder
+                                   where the contents are being unpacked - so if a clean is performed the marker files disappear
+                                   and the zip is unpacked regardless (overwriting your customised tomcat config). Whilst you
+                                   can change the location of the marker files, doing things this way really is going to be more
+                                   reliable, since the existing directory will be respected properly.
+                             -->
+                            <execution>
+                                <id>copy-tomcat-config</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <target>
+                                        <copy todir="${runtime.tomcat.conf.folder}" overwrite="false">
+                                            <fileset dir="${project.build.directory}/tomcat-conf"/>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>run-exploded-webapp</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--
+            Use "mvn initialize -Ppurge" to drop repo, solr and DB data, then re-create an empty DB.
+            Or use with a later phase to build and start a fresh repo all in one go, e.g.
+            "mvn [clean] install -Ppurge,run"
+          -->
+        <profile>
+            <id>purge</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>delete-runtime-folders</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                                <configuration>
+                                    <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                                    <filesets>
+                                        <fileset>
+                                            <directory>${runtime.data.folder}</directory>
+                                        </fileset>
+                                    </filesets>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>drop-db</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>false</skip><!-- always run -->
+                                    <sqlCommand>${db.drop.command}</sqlCommand>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>create-db</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>false</skip><!-- always run -->
+                                    <sqlCommand>${db.create.command}</sqlCommand>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
