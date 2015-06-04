@@ -21,7 +21,7 @@
             </span>
           </span>
         </div>
-        <div id="${args.htmlid}-added-users-list-body" class="body added-users-list-body theme-bg-color-6">
+        <div id="${args.htmlid}-added-users-list-body" class="body added-users-list-body">
           <div data-dojo-attach-point="containerNode" id="content"></div>
         </div>
       </div>

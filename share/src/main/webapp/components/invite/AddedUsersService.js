@@ -18,7 +18,7 @@
   /
 
 /*
- * @module share/services/AddedUsersService
+ * @module components/invite/AddedUsersService
  * @extends module:alfresco/core/Core
  * @author Dave Draper
  */

@@ -2,6 +2,11 @@
 {
    border: 1px solid #bababa;
    color: #000;
+   margin: 10px 0px 10px 0;
+}
+
+.alf-invite-require-acceptance .invitationlist
+{
    margin: 10px 10px 10px 0;
 }
 
@@ -99,12 +104,25 @@
 .invitationlistwrapper
 {
    background: transparent url(images/green-arrow.png) no-repeat left 15%;
+   padding-left: 9%;
+}
+
+.alf-invite-require-acceptance .invitationlistwrapper 
+{
    padding-left: 50px;
 }
 
 .invitationlistwrapper .sinvite
 {
+   padding: 0;
+   height: 0;
+   visibility: hidden;
+}
+
+.alf-invite-require-acceptance .invitationlistwrapper .sinvite
+{
    padding-top: 5px;
+   visibility: visible;
 }
 
 .invitationlistwrapper .sinvite .back-to
@@ -118,5 +136,9 @@
    background-color: #f5f5f5;
    border-bottom: 1px dotted #c0c0c0;
    padding: 6px;
+}
+
+.alf-invite-require-acceptance .invitationlist .invitelist-bar
+{
    visibility: hidden;
 }

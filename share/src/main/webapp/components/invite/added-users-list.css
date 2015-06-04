@@ -2,7 +2,7 @@
 {
    border: 1px solid #bababa;
    color: #000;
-   margin: 10px 10px 10px 0;
+   margin: 10px 0px 10px 0;
 }
 
 .added-users-list .added-users-list-body
@@ -99,14 +99,13 @@
 .added-users-list-wrapper
 {
    background: transparent url(images/green-arrow.png) no-repeat left 15%;
-   padding-left: 50px;
+   padding-left: 9%;
 }
 
 
 .added-users-list .added-users-list-bar
 {
    background-color: #f5f5f5;
-   border-bottom: 1px dotted #c0c0c0;
+   border-bottom: 1px solid #c0c0c0;
    padding: 6px;
-   visibility: hidden;
 }

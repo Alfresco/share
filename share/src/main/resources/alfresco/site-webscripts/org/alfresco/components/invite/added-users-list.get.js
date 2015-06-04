@@ -42,15 +42,36 @@ var views = [
                name: "alfresco/lists/views/layouts/Row",
                config: {
                   widgets: [
+//                     {
+//                        name: "alfresco/lists/views/layouts/Cell",
+//                        config: {
+//                           widgets: [
+//                              {
+//                                 name: "alfresco/renderers/AvatarThumbnail",
+//                                 config: {
+//                                    userNameProperty: "userName",
+//                                    imageTitleProperty: "displayName"
+//                                 }
+//                              }
+//                           ]
+//                        }
+//                     },
                      {
                         name: "alfresco/lists/views/layouts/Cell",
                         config: {
                            widgets: [
                               {
-                                 name: "alfresco/renderers/AvatarThumbnail",
+                                 name: "alfresco/renderers/Property",
                                  config: {
-                                    userNameProperty: "userName",
-                                    imageTitleProperty: "displayName"
+                                    propertyToRender: "displayName",
+                                    renderOnNewLine: true
+                                 }
+                              },
+                              {
+                                 name: "alfresco/renderers/Property",
+                                 config: {
+                                    propertyToRender: "roleName",
+                                    renderOnNewLine: true
                                  }
                               }
                            ]
@@ -60,25 +81,7 @@ var views = [
                         name: "alfresco/lists/views/layouts/Cell",
                         config: {
                            widgets: [
-                              {
-                                 name: "alfresco/renderers/Property",
-                                 config: {
-                                    propertyToRender: "displayName"
-                                 }
-                              }
-                           ]
-                        }
-                     },
-                     {
-                        name: "alfresco/lists/views/layouts/Cell",
-                        config: {
-                           widgets: [
-                              {
-                                 name: "alfresco/renderers/Property",
-                                 config: {
-                                    propertyToRender: "roleName"
-                                 }
-                              }
+                              
                            ]
                         }
                      }

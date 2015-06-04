@@ -4,7 +4,8 @@
 }
 
 .people-finder .title,
-.invitationlistwrapper .title
+.invitationlistwrapper .title,
+.added-users-list-wrapper .title
 {
    font-size: 108%;
    padding: 10px 0px 10px 34px;
@@ -16,6 +17,23 @@
 }
 
 .invitationlistwrapper .title
+{
+   background: transparent url(images/step-two.png) no-repeat 3px center;
+}
+
+.alf-invite-direct-add .yui-u
+{
+   margin-left: 0.5%;
+}
+
+/* not working */
+.alf-invite-direct-add .yui-gb .grid
+{
+   margin-left: 0px;
+   margin-right: 0px;
+}
+
+.added-users-list-wrapper .title
 {
    background: transparent url(images/step-two.png) no-repeat 3px center;
 }
