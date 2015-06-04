@@ -42,10 +42,12 @@
       <dependency>
          <groupId>org.springframework.extensions.surf</groupId>
          <artifactId>spring-webscripts</artifactId>
+         <version>${dependency.webscripts.version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework.extensions.surf</groupId>
          <artifactId>spring-webscripts-api</artifactId>
+         <version>${dependency.webscripts.version}</version>
       </dependency>
       <dependency>
          <groupId>com.yahoo.platform.yui</groupId>
