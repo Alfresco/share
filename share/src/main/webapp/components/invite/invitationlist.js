@@ -613,10 +613,10 @@
                        }
                   ]
                };
-         require(["share/services/AddedUsersService"], function(ServiceType) {
+         require(["share-components/invite/AddedUsersService"], function(ServiceType) {
             var s = new ServiceType();
             s.publishResults(data);
-          });
+         });
          
          
          // remove the entries that were successful
