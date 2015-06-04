@@ -28,6 +28,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     private AddUsersToSitePage addUsersToSitePage;
     private DashBoardPage dashBoard;
     private SiteDashboardPage siteDashBoard;
+    private UserSitesPage userSitesPage;
     private String siteName = "AddUserToSiteTest" + System.currentTimeMillis();
     private static long refreshDuration = 15000;
 
@@ -71,7 +72,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             // shareUrl));
         }
         SharePage page = drone.getCurrentPage().render();
-        UserSitesPage userSitesPage = page.getNav().selectMySites().render();
+        userSitesPage = page.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
         if (!alfrescoVersion.isCloud())
         {
@@ -307,6 +308,38 @@ public class AddUsersToSitePageTest extends AbstractTest
         List<String> selectedUserNames = addUsersToSitePage.getSelectedUserNames();
         Assert.assertFalse(selectedUserNames.contains(siteRemoveUserName));
 
+    }
+    
+    @Test(dependsOnMethods = "testRemoveSelectedUser", groups = "Enterprise-only")
+    public void testNavigateToPendingInvitesPage() throws Exception
+    {
+        addUsersToSitePage.navigateToPendingInvitesPage();
+        Assert.assertTrue(drone.getCurrentPage().render() instanceof PendingInvitesPage);
+        PendingInvitesPage pendingInvitesPage = drone.getCurrentPage().render();
+        userSitesPage = pendingInvitesPage.getNav().selectMySites().render();
+        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+        addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
+        
+    }
+    
+    @Test(dependsOnMethods = "testNavigateToPendingInvitesPage", groups = "Enterprise-only")
+    public void tesNavigateToGroupsInvatePage() throws Exception
+    {
+        addUsersToSitePage.navigateToSiteGroupsPage();
+        Assert.assertTrue(drone.getCurrentPage().render() instanceof SiteGroupsPage);
+        SiteGroupsPage siteGroupsPage = drone.getCurrentPage().render();
+        userSitesPage = siteGroupsPage.getNav().selectMySites().render();
+        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+        addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
+        
+    }
+    
+    @Test(dependsOnMethods = "tesNavigateToGroupsInvatePage", groups = "Enterprise-only")
+    public void testNavigateToSiteMembersPage() throws Exception
+    {
+        addUsersToSitePage.navigateToMembersSitePage();
+        Assert.assertTrue(drone.getCurrentPage().render() instanceof SiteMembersPage);
+        
     }
 
 }

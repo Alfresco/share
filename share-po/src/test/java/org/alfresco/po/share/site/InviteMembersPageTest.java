@@ -23,8 +23,11 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 /**
+ * Replaced by AddUsersToSitePageTest
+ * 
  * @author Shan Nagarajan
  */
+@Deprecated
 @Listeners(FailedTestListener.class)
 public class InviteMembersPageTest extends AbstractTest
 {
@@ -74,6 +77,7 @@ public class InviteMembersPageTest extends AbstractTest
         SitePage site = createSitePage.createNewSite(siteName).render();
         siteNavigation = site.getSiteNav();
         membersPage = siteNavigation.selectInvite().render();
+
     }
 
     @Test(groups = "Enterprise-only")
@@ -128,7 +132,6 @@ public class InviteMembersPageTest extends AbstractTest
     {
         Assert.assertNotNull(membersPage.clickAddUser(null));
     }
-
 
     @Test(dependsOnMethods = "testAddUser", groups = "Enterprise-only", expectedExceptions = UnsupportedOperationException.class)
     public void testSelectInviteeAndAssignRoleToNull()

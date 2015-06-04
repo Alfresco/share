@@ -68,7 +68,7 @@ public class AddUsersToSitePage extends SharePage
     private static final By SEARCH_RESULTS_USER_NAMES = By.cssSelector("td+td>div.yui-dt-liner>h3>span.lighter");
 
     // Add user - 1 Search for People button -list of all buttons on the page ???
-    private static final String SELECT_USER_BUTTONS = "//div[contains(text(),'Select >>')]";
+    private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select >>')]";
 
     /**
      * 2 - Set User Roles panel:
@@ -157,12 +157,14 @@ public class AddUsersToSitePage extends SharePage
 
     private final By linkGroups;
     private final By linkUsers;
+    private final By linkPendingInvites;
 
     protected AddUsersToSitePage(WebDrone drone)
     {
         super(drone);
         linkGroups = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Groups") : By.cssSelector("a[id$='-site-groups-link']");
         linkUsers = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("People") : By.cssSelector("a[id$='-site-members-link']");
+        linkPendingInvites = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Pending Invites") : By.cssSelector("a[id$='-pending-invites-link']");
     }
 
     @SuppressWarnings("unchecked")
@@ -269,6 +271,25 @@ public class AddUsersToSitePage extends SharePage
             throw new PageException("Not found Element:" + linkGroups, te);
         }
     }
+    
+    /**
+     * Mimic click on Pending Invites link
+     *
+     * @return
+     */
+    public PendingInvitesPage navigateToPendingInvitesPage()
+    {
+        try
+        {
+            drone.findAndWait(linkPendingInvites).click();
+            return drone.getCurrentPage().render();
+        }
+        catch (NoSuchElementException nse)
+        {
+            throw new PageException("Not found Element:" + linkPendingInvites, nse);
+        }
+    }
+
 
     /**
      * 1 - Search for Users panel:

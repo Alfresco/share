@@ -36,34 +36,73 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * The class represents the Members page and handles the members page
- * funcationality.
- *
+ * funcationality. Replaced by AddUsersToSitePage.
+ * 
  * @author cbairaajoni
  * @version 1.6.1
  */
+@Deprecated
 public class InviteMembersPage extends SharePage
 {
 
     private static Log logger = LogFactory.getLog(InviteMembersPage.class);
+
+    // 1 - Search for People input field
     private static final String SEARCH_USER_ROLE_TEXT = "div.search-text>input";
+
+    // Search for People Search button
     private static final String SEARCH_USER_ROLE_BUTTON = "button[id*='default-search-button-button']";
     private static final String SEARCH_IS_IN_PROGRESS_BUTTON = "//button[contains(@id,'people-finder') and contains(@disabled,'disabled')]";
+
+    // List of users in search results (in 1 -Search for People Panel)
     private static final String LIST_OF_USERS = "div.results.yui-dt>table>tbody.yui-dt-data>tr";
+
+    // List of invitees in 2 - Invite Users panel
     private static final String LIST_OF_INVITEES = "div.body.inviteelist.yui-dt>table>tbody.yui-dt-data>tr";
+
+    // 2 -Invite Users panel + including ->
     private static final String INVITATION_LIST_PART = "div.invitationlistwrapper";
+
+    // 1 - Search for People panel + Add External Users
     private static final String USER_SEARCH_PART = ".yui-u.first";
+
+    // 2 -Invite Users panel - Select Role drop down values
     private static final String ROLES_DROP_DOWN_VALUES = "div[style*='visible']>div>div[style*='visible']>div.bd>ul>li";
+
+    // Invite button under 2 - Invite Users panel
     private static final String INVITE_BUTTON = "div.invitationlist+div.sinvite>span>span>button";
+
+    // Add user - 1 Search for People button -list of all buttons on the page ???
     private static final String BUTTON = "button[type=button]";
+
+    // 1 - Search for People panel - list of (user name) in search results - 1st
     private static final String INVITEE = "td>div.yui-dt-liner>h3>span";
+
+    // 2 -Invite Users panel - Select Role drop down button
     private static final String ROLES_DROP_DOWN_BUTTON = "div[style*='visible']>div>span>span>button";
+
+    // 1 - Search for People panel - list of (user name) in search results - 2nd
     private static final By SEARCH_USER_FROM_LIST = By.cssSelector("td+td>div.yui-dt-liner>h3>span.lighter");
+
+    // 1 - Search for People panel - list of (user name) in search results - 3rd (duplicates)
     private static final By SEACH_INVITEE_FROM_LIST = By.cssSelector("td+td>div.yui-dt-liner>h3>span.lighter");
+
+    // 1 - Search for People panel - list of (first last) in search results
     private static final By SEARCH_USER_RESULTS = By.cssSelector(".itemname>a");
+
+    // 2 -Invite Users panel - Set All Roles to button
     private static final By SELECT_ROLE_FOR_ALL = By.cssSelector("button[id$='selectallroles-button-button']");
+
+    // ...Add External Users: First Name input field
     private static final By EXTERNAL_FIRST_NAME_INPUT = By.xpath("//input[contains(@id,'default-firstname')]");
+
+    // ...Add External Users: Last Name input field
     private static final By EXTERNAL_LAST_NAME_INPUT = By.xpath("//input[contains(@id,'default-lastname')]");
+
+    // ...Add External Users: Email input field
     private static final By EXTERNAL_EMAIL_INPUT = By.xpath("//input[contains(@id,'default-email')]");
+
+    // ...Add External Users: Add button
     private static final By EXTERNAL_ADD_BUTTON = By.xpath("//button[contains(@id,'email-button-button')]");
 
     private static final String ADD_BUTTON_FOR_USER_XPATH = "//a[contains(text(),'%s')]/../../../..//button";
@@ -82,7 +121,8 @@ public class InviteMembersPage extends SharePage
         super(drone);
         linkGroup = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Groups") : By.cssSelector("a[id$='-site-groups-link']");
         linkPeople = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("People") : By.cssSelector("a[id$='-site-members-link']");
-        linkPendingInvites = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Pending Invites") : By.cssSelector("a[id$='-pending-invites-link']");
+        linkPendingInvites = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Pending Invites") : By
+                .cssSelector("a[id$='-pending-invites-link']");
     }
 
     @SuppressWarnings("unchecked")
@@ -151,7 +191,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * Verify if home page banner web element is present
-     *
+     * 
      * @return true if exists
      */
     public boolean titlePresent()
@@ -168,10 +208,11 @@ public class InviteMembersPage extends SharePage
     /**
      * This method search for the given userName and returns the list of
      * results.
-     *
+     * 
      * @param userName String identifier
      * @return List<String> list of users
      */
+
     public List<String> searchUser(String userName)
     {
         if (logger.isTraceEnabled())
@@ -217,7 +258,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * This method clicks on add button.
-     *
+     * 
      * @param user String user identifier
      * @return {@link InviteMembersPage} page response
      */
@@ -261,9 +302,10 @@ public class InviteMembersPage extends SharePage
 
     /**
      * This method gets the list of invitees present.
-     *
+     * 
      * @return List<WebElement>
      */
+
     private List<WebElement> getInvitees()
     {
         try
@@ -283,7 +325,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * This method returns the selected invitee based on the given user element.
-     *
+     * 
      * @param user String identifier
      * @param role UserRole
      * @return InviteMembersPage page response
@@ -332,7 +374,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * The filters of the Site content those are diplayed in filters dropdown.
-     *
+     * 
      * @return <List<WebElement>>
      */
     private List<WebElement> getRoles()
@@ -342,7 +384,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * This method assigns role from dropdown values.
-     *
+     * 
      * @param roleName {@link UserRole}
      * @return {@link InviteMembersPage}
      */
@@ -364,7 +406,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * This method clicks on Invite button on Invite user page.
-     *
+     * 
      * @return {@link InviteMembersPage} page response
      */
     public InviteMembersPage clickInviteButton()
@@ -377,7 +419,7 @@ public class InviteMembersPage extends SharePage
     /**
      * This method does the inviting user and assigning the new role as given
      * role value.
-     *
+     * 
      * @param user String identifier
      * @param role {@link UserRole}
      * @return {@link InviteMembersPage}
@@ -391,7 +433,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * Get List of users who are invited.
-     *
+     * 
      * @return List<WebElement> Collection of invited users
      */
     private List<WebElement> getListOfInvitees()
@@ -409,7 +451,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * Navigate to Site Groups.
-     *
+     * 
      * @return
      */
     public SiteGroupsPage navigateToSiteGroupsPage()
@@ -442,7 +484,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * true if 'Add' button displayed and enabled for user.
-     *
+     * 
      * @param userName
      * @return
      */
@@ -469,7 +511,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * true if 'SelectRole' button displayed and enabled for user.
-     *
+     * 
      * @param userName
      * @return
      */
@@ -480,7 +522,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * true if 'Remove Icon' image displayed and enabled for user.
-     *
+     * 
      * @param userName
      * @return
      */
@@ -491,7 +533,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * Mimic click on People link
-     *
+     * 
      * @return
      */
     public SiteMembersPage navigateToMembersSitePage()
@@ -509,7 +551,7 @@ public class InviteMembersPage extends SharePage
 
     /**
      * Mimic click on Pending Invites link
-     *
+     * 
      * @return
      */
     public PendingInvitesPage navigateToPendingInvitesPage()
@@ -527,12 +569,13 @@ public class InviteMembersPage extends SharePage
 
     /**
      * Send external invitation to email for some user
-     *
+     * 
      * @param firstName
      * @param lastName
      * @param email
      * @param userRole
      */
+
     public void invExternalUser(String firstName, String lastName, String email, UserRole userRole)
     {
         fillField(EXTERNAL_FIRST_NAME_INPUT, firstName);
