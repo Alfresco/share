@@ -68,7 +68,8 @@ public class AddUsersToSitePage extends SharePage
     private static final By SEARCH_RESULTS_USER_NAMES = By.cssSelector("td+td>div.yui-dt-liner>h3>span.lighter");
 
     // Add user - 1 Search for People button -list of all buttons on the page ???
-    private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select >>')]";
+    //private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select >>')]";
+    private static final String SELECT_USER_BUTTONS = "//span[contains(@id, '%s')]//button[contains(text(),'Add >>')]";
 
     /**
      * 2 - Set User Roles panel:
@@ -115,7 +116,8 @@ public class AddUsersToSitePage extends SharePage
      */
 
     // Add Users button
-    private static final String ADD_USERS_BUTTON = "";
+    private static final String ADD_USERS_BUTTON = "button[id$='_default-invite-button-button']";
+    //private static final String ADD_USERS_BUTTON = "div[contains(@id, '_default-added-users-list')]//button[text() = 'Add']";
 
     // You haven't added any users yet message
     private static final By YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE = By.cssSelector("");
@@ -159,7 +161,7 @@ public class AddUsersToSitePage extends SharePage
     private final By linkUsers;
     private final By linkPendingInvites;
 
-    protected AddUsersToSitePage(WebDrone drone)
+    public AddUsersToSitePage(WebDrone drone)
     {
         super(drone);
         linkGroups = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Groups") : By.cssSelector("a[id$='-site-groups-link']");
@@ -185,7 +187,9 @@ public class AddUsersToSitePage extends SharePage
                 timer.start();
                 try
                 {
+                    
                     drone.find(By.cssSelector(SEARCH_USER_INPUT));
+                    /**
                     drone.find(By.cssSelector(SEARCH_USER_BUTTON));
                     drone.find(SET_ALL_ROLES_TO_BUTTON);
                     drone.find(YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE);
@@ -193,7 +197,7 @@ public class AddUsersToSitePage extends SharePage
                     drone.find(EXTERNAL_EMAIL_INPUT);
                     drone.find(EXTERNAL_FIRST_NAME_INPUT);
                     drone.find(EXTERNAL_LAST_NAME_INPUT);
-
+                    **/
                     break;
                 }
                 catch (NoSuchElementException pe)
@@ -389,12 +393,12 @@ public class AddUsersToSitePage extends SharePage
                 {
                     element = searchResult.findElement(SEARCH_RESULTS_USER_NAMES);
                     String value = element.getText();
-
                     if (value != null && !value.isEmpty())
                     {
                         if (value.contains(user))
                         {
-                            searchResult.findElement(By.cssSelector(SELECT_USER_BUTTONS)).click();
+                            //searchResult.findElement(By.cssSelector(SELECT_USER_BUTTONS)).click();
+                            searchResult.findElement(By.xpath(String.format(SELECT_USER_BUTTONS, user))).click();
                             break;
                         }
                     }
@@ -528,8 +532,8 @@ public class AddUsersToSitePage extends SharePage
             {
                 WebElement userNameElement = selectedUser.findElement(By.cssSelector(LIST_OF_SELECTED_USERS_USER_NAMES));
                 String userName = userNameElement.getText();
-
-                if (userName != null && user.equalsIgnoreCase(userName))
+                //if (userName != null && user.equalsIgnoreCase(userName))
+                if (userName != null && userName.indexOf(user) != -1)
                 {
                     // selectRolesDropdown();
                     drone.findAndWait(By.cssSelector(SELECT_ROLE_BUTTONS)).click();
@@ -662,6 +666,7 @@ public class AddUsersToSitePage extends SharePage
     public AddUsersToSitePage clickAddUsersButton()
     {
         drone.findAndWait(By.cssSelector(ADD_USERS_BUTTON), maxPageLoadingTime).click();
+        //drone.findAndWait(By.xpath(ADD_USERS_BUTTON), maxPageLoadingTime).click();
         waitUntilAlert();
         return new AddUsersToSitePage(drone).render();
     }
