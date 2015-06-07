@@ -68,7 +68,7 @@ public class AddUsersToSitePage extends SharePage
     private static final By SEARCH_RESULTS_USER_NAMES = By.cssSelector("td+td>div.yui-dt-liner>h3>span.lighter");
 
     // Add user - 1 Search for People button -list of all buttons on the page ???
-    //private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select >>')]";
+    // private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select >>')]";
     private static final String SELECT_USER_BUTTONS = "//span[contains(@id, '%s')]//button[contains(text(),'Add >>')]";
 
     /**
@@ -117,7 +117,7 @@ public class AddUsersToSitePage extends SharePage
 
     // Add Users button
     private static final String ADD_USERS_BUTTON = "button[id$='_default-invite-button-button']";
-    //private static final String ADD_USERS_BUTTON = "div[contains(@id, '_default-added-users-list')]//button[text() = 'Add']";
+    // private static final String ADD_USERS_BUTTON = "div[contains(@id, '_default-added-users-list')]//button[text() = 'Add']";
 
     // You haven't added any users yet message
     private static final By YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE = By.cssSelector("");
@@ -166,7 +166,8 @@ public class AddUsersToSitePage extends SharePage
         super(drone);
         linkGroups = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Groups") : By.cssSelector("a[id$='-site-groups-link']");
         linkUsers = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("People") : By.cssSelector("a[id$='-site-members-link']");
-        linkPendingInvites = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Pending Invites") : By.cssSelector("a[id$='-pending-invites-link']");
+        linkPendingInvites = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Pending Invites") : By
+                .cssSelector("a[id$='-pending-invites-link']");
     }
 
     @SuppressWarnings("unchecked")
@@ -187,17 +188,17 @@ public class AddUsersToSitePage extends SharePage
                 timer.start();
                 try
                 {
-                    
+
                     drone.find(By.cssSelector(SEARCH_USER_INPUT));
                     /**
-                    drone.find(By.cssSelector(SEARCH_USER_BUTTON));
-                    drone.find(SET_ALL_ROLES_TO_BUTTON);
-                    drone.find(YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE);
-                    drone.find(EXTERNAL_ADD_BUTTON);
-                    drone.find(EXTERNAL_EMAIL_INPUT);
-                    drone.find(EXTERNAL_FIRST_NAME_INPUT);
-                    drone.find(EXTERNAL_LAST_NAME_INPUT);
-                    **/
+                     * drone.find(By.cssSelector(SEARCH_USER_BUTTON));
+                     * drone.find(SET_ALL_ROLES_TO_BUTTON);
+                     * drone.find(YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE);
+                     * drone.find(EXTERNAL_ADD_BUTTON);
+                     * drone.find(EXTERNAL_EMAIL_INPUT);
+                     * drone.find(EXTERNAL_FIRST_NAME_INPUT);
+                     * drone.find(EXTERNAL_LAST_NAME_INPUT);
+                     **/
                     break;
                 }
                 catch (NoSuchElementException pe)
@@ -275,10 +276,10 @@ public class AddUsersToSitePage extends SharePage
             throw new PageException("Not found Element:" + linkGroups, te);
         }
     }
-    
+
     /**
      * Mimic click on Pending Invites link
-     *
+     * 
      * @return
      */
     public PendingInvitesPage navigateToPendingInvitesPage()
@@ -293,7 +294,6 @@ public class AddUsersToSitePage extends SharePage
             throw new PageException("Not found Element:" + linkPendingInvites, nse);
         }
     }
-
 
     /**
      * 1 - Search for Users panel:
@@ -395,9 +395,10 @@ public class AddUsersToSitePage extends SharePage
                     String value = element.getText();
                     if (value != null && !value.isEmpty())
                     {
-                        if (value.contains(user))
+                        // if (value.contains(user))
+                        if (value.indexOf(user) != -1)
                         {
-                            //searchResult.findElement(By.cssSelector(SELECT_USER_BUTTONS)).click();
+                            // searchResult.findElement(By.cssSelector(SELECT_USER_BUTTONS)).click();
                             searchResult.findElement(By.xpath(String.format(SELECT_USER_BUTTONS, user))).click();
                             break;
                         }
@@ -411,7 +412,7 @@ public class AddUsersToSitePage extends SharePage
             }
         }
 
-        return new AddUsersToSitePage(drone);
+        return new AddUsersToSitePage(drone).render();
     }
 
     /**
@@ -532,7 +533,7 @@ public class AddUsersToSitePage extends SharePage
             {
                 WebElement userNameElement = selectedUser.findElement(By.cssSelector(LIST_OF_SELECTED_USERS_USER_NAMES));
                 String userName = userNameElement.getText();
-                //if (userName != null && user.equalsIgnoreCase(userName))
+                // if (userName != null && user.equalsIgnoreCase(userName))
                 if (userName != null && userName.indexOf(user) != -1)
                 {
                     // selectRolesDropdown();
@@ -563,7 +564,7 @@ public class AddUsersToSitePage extends SharePage
     public void setAllRolesTo(UserRole role)
     {
         drone.findAndWait(SET_ALL_ROLES_TO_BUTTON).click();
-        drone.findAndWait(By.xpath(String.format("//a[contains(text(),'%s')]", role.getRoleName()))).click();
+        drone.findAndWait(By.xpath(String.format("//a[.='%s']", role.getRoleName()))).click();
     }
 
     /**
@@ -666,7 +667,7 @@ public class AddUsersToSitePage extends SharePage
     public AddUsersToSitePage clickAddUsersButton()
     {
         drone.findAndWait(By.cssSelector(ADD_USERS_BUTTON), maxPageLoadingTime).click();
-        //drone.findAndWait(By.xpath(ADD_USERS_BUTTON), maxPageLoadingTime).click();
+        // drone.findAndWait(By.xpath(ADD_USERS_BUTTON), maxPageLoadingTime).click();
         waitUntilAlert();
         return new AddUsersToSitePage(drone).render();
     }

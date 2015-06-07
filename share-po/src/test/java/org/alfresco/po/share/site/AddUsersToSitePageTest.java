@@ -80,7 +80,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
             for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
             {
-                //searchUsers = addUsersToSitePage.searchUser(userName);
+                // searchUsers = addUsersToSitePage.searchUser(userName);
                 searchUsers = addUsersToSitePage.searchUser("user");
                 try
                 {
@@ -120,6 +120,7 @@ public class AddUsersToSitePageTest extends AbstractTest
      * @param userName
      * @throws Exception
      */
+
     public List<String> searchForSiteMembers(String userName) throws Exception
     {
         List<String> siteMembers = null;
@@ -146,33 +147,33 @@ public class AddUsersToSitePageTest extends AbstractTest
     {
         // add user to site with manager role
         String siteManagerUserName = "userManager" + System.currentTimeMillis() + "@test.com";
-        
+
         System.out.println("SITE MANAGER *** " + siteName);
         System.out.println("USER MANAGER *** " + siteManagerUserName);
-        
+
         addUserToSite(siteManagerUserName, UserRole.MANAGER);
 
         // check added users count
         /**
-        String count = addUsersToSitePage.getTotalAddedUsersCount();
-        Assert.assertEquals("1", count);
-        **/
+         * String count = addUsersToSitePage.getTotalAddedUsersCount();
+         * Assert.assertEquals("1", count);
+         **/
 
         // check the Add Users panel displays added user user name
         /**
-        String addedUserName = addUsersToSitePage.getAddedUserName(siteManagerUserName);
-        Assert.assertEquals(addedUserName, siteManagerUserName);
-        **/
+         * String addedUserName = addUsersToSitePage.getAddedUserName(siteManagerUserName);
+         * Assert.assertEquals(addedUserName, siteManagerUserName);
+         **/
 
         // check the Add Users panel displays added user role
         /**
-        String addedUserRole = addUsersToSitePage.getAddedUserRole(siteManagerUserName);
-        Assert.assertEquals(addedUserRole, "Manager");
-        **/
+         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteManagerUserName);
+         * Assert.assertEquals(addedUserRole, "Manager");
+         **/
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        List<String> siteMembers = searchForSiteMembers(siteManagerUserName);
+        List<String> siteMembers = siteMembersPage.searchUser(siteManagerUserName);
         for (String siteMember : siteMembers)
         {
             Assert.assertTrue(siteMember.indexOf(siteManagerUserName) != -1);
@@ -187,38 +188,38 @@ public class AddUsersToSitePageTest extends AbstractTest
     {
         // add user to site with manager role
         String siteCollaboratorUserName = "userCollaborator" + System.currentTimeMillis() + "@test.com";
-        
+
         System.out.println("SITE COLLABORATOR *** " + siteName);
         System.out.println("USER COLLABORATOR *** " + siteCollaboratorUserName);
-        
+
         addUserToSite(siteCollaboratorUserName, UserRole.COLLABORATOR);
 
         // check added users count
         /**
-        String count = addUsersToSitePage.getTotalAddedUsersCount();
-        Assert.assertEquals("1", count);
-        **/
+         * String count = addUsersToSitePage.getTotalAddedUsersCount();
+         * Assert.assertEquals("1", count);
+         **/
 
         // check the Add Users panel displays added user user name
         /**
-        String addedUserName = addUsersToSitePage.getAddedUserName(siteCollaboratorUserName);
-        Assert.assertEquals(addedUserName, siteCollaboratorUserName);
-        **/
+         * String addedUserName = addUsersToSitePage.getAddedUserName(siteCollaboratorUserName);
+         * Assert.assertEquals(addedUserName, siteCollaboratorUserName);
+         **/
 
         // check the Add Users panel displays added user role
         /**
-        String addedUserRole = addUsersToSitePage.getAddedUserRole(siteCollaboratorUserName);
-        Assert.assertEquals(addedUserRole, "Collaborator");
-        **/
+         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteCollaboratorUserName);
+         * Assert.assertEquals(addedUserRole, "Collaborator");
+         **/
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        List<String> siteMembers = searchForSiteMembers(siteCollaboratorUserName);
+        List<String> siteMembers = siteMembersPage.searchUser(siteCollaboratorUserName);
         for (String siteMember : siteMembers)
         {
             Assert.assertTrue(siteMember.indexOf(siteCollaboratorUserName) != -1);
         }
- 
+
         ShareUtil.logout(drone);
 
     }
@@ -228,38 +229,38 @@ public class AddUsersToSitePageTest extends AbstractTest
     {
         // add user to site with manager role
         String siteContributorUserName = "userContributor" + System.currentTimeMillis() + "@test.com";
-        
+
         System.out.println("SITE CONTRIBUTOR *** " + siteName);
         System.out.println("USER CONTRIBUTOR *** " + siteContributorUserName);
-        
+
         addUserToSite(siteContributorUserName, UserRole.CONTRIBUTOR);
 
         // check added users count
         /**
-        String count = addUsersToSitePage.getTotalAddedUsersCount();
-        Assert.assertEquals("1", count);
-        **/
+         * String count = addUsersToSitePage.getTotalAddedUsersCount();
+         * Assert.assertEquals("1", count);
+         **/
 
         // check the Add Users panel displays added user user name
         /**
-        String addedUserName = addUsersToSitePage.getAddedUserName(siteContributorUserName);
-        Assert.assertEquals(addedUserName, siteContributorUserName);
-        **/
+         * String addedUserName = addUsersToSitePage.getAddedUserName(siteContributorUserName);
+         * Assert.assertEquals(addedUserName, siteContributorUserName);
+         **/
 
         // check the Add Users panel displays added user role
         /**
-        String addedUserRole = addUsersToSitePage.getAddedUserRole(siteContributorUserName);
-        Assert.assertEquals(addedUserRole, "Contributor");
-        **/
+         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteContributorUserName);
+         * Assert.assertEquals(addedUserRole, "Contributor");
+         **/
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        List<String> siteMembers = searchForSiteMembers(siteContributorUserName);
+        List<String> siteMembers = siteMembersPage.searchUser(siteContributorUserName);
         for (String siteMember : siteMembers)
         {
             Assert.assertTrue(siteMember.indexOf(siteContributorUserName) != -1);
         }
- 
+
         ShareUtil.logout(drone);
 
     }
@@ -269,32 +270,34 @@ public class AddUsersToSitePageTest extends AbstractTest
     {
         // add user to site with manager role
         String siteConsumerUserName = "userConsumer" + System.currentTimeMillis() + "@test.com";
-        
+
         System.out.println("SITE CONSUMER *** " + siteName);
         System.out.println("USER CONTRIBUTOR *** " + siteConsumerUserName);
-        
+
         addUserToSite(siteConsumerUserName, UserRole.CONSUMER);
 
         // check added users count
         /**
-        String count = addUsersToSitePage.getTotalAddedUsersCount();
-        Assert.assertEquals("1", count);
-        **/
+         * String count = addUsersToSitePage.getTotalAddedUsersCount();
+         * Assert.assertEquals("1", count);
+         **/
 
         // check the Add Users panel displays added user user name
         /**
-        String addedUserName = addUsersToSitePage.getAddedUserName(siteConsumerUserName);
-        Assert.assertEquals(addedUserName, siteConsumerUserName);
-        **/
+         * String addedUserName = addUsersToSitePage.getAddedUserName(siteConsumerUserName);
+         * Assert.assertEquals(addedUserName, siteConsumerUserName);
+         **/
         // check the Add Users panel displays added user role
         /**
-        String addedUserRole = addUsersToSitePage.getAddedUserRole(siteConsumerUserName);
-        Assert.assertEquals(addedUserRole, "Consumer");
-        **/
+         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteConsumerUserName);
+         * Assert.assertEquals(addedUserRole, "Consumer");
+         **/
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        List<String> siteMembers = searchForSiteMembers(siteConsumerUserName);
+        // List<String> siteMembers = searchForSiteMembers(siteConsumerUserName);
+        List<String> siteMembers = siteMembersPage.searchUser(siteConsumerUserName);
+
         for (String siteMember : siteMembers)
         {
             Assert.assertTrue(siteMember.indexOf(siteConsumerUserName) != -1);
@@ -305,56 +308,147 @@ public class AddUsersToSitePageTest extends AbstractTest
     }
 
     @Test(dependsOnMethods = "testAddConsumerToSite", groups = "Enterprise-only")
-    public void testAddExternalUserToSite() throws Exception
+    public void testAddedUserNavigateToSiteDashboard() throws Exception
     {
         // add user to site with manager role
-        String siteExternalUserName = "userExternal" + System.currentTimeMillis() + "@test.com";
-               
-        System.out.println("SITE EXTERNAL *** " + siteName);
-        System.out.println("USER EXTERNAL *** " + siteExternalUserName);
-        
+        String userNavigateToSiteDashboard = "userNavigateToSiteDashboard" + System.currentTimeMillis() + "@test.com";
+
+        System.out.println("SITE NAVIGATE TO DASHBOARD *** " + siteName);
+        System.out.println("USER NAVIGATE TO DASHBOARD *** " + userNavigateToSiteDashboard);
+
+        addUserToSite(userNavigateToSiteDashboard, UserRole.CONSUMER);
+
+        ShareUtil.logout(drone);
+
+        dashBoard = loginAs(userNavigateToSiteDashboard, userNavigateToSiteDashboard);
+        userSitesPage = dashBoard.getNav().selectMySites().render();
+        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+
+        Assert.assertEquals(siteDashBoard.getPageTitle(), siteName);
+
+        ShareUtil.logout(drone);
+
+    }
+
+    @Test(dependsOnMethods = "testAddedUserNavigateToSiteDashboard", groups = "Enterprise-only")
+    public void testAddMultipleUsersToSite() throws Exception
+    {
+        String userMultiple1 = "userMultipleUsersAdedToSite1" + System.currentTimeMillis();
+        String userMultiple2 = "userMultipleUsersAdedToSite2" + System.currentTimeMillis();
+
+        System.out.println("SITE MULTIPLE USERS *** " + siteName);
+        System.out.println("USER MULTIPLE USERS1 *** " + userMultiple1);
+        System.out.println("USER MULTIPLE USERS2 *** " + userMultiple2);
+
+        createEnterpriseUser(userMultiple1);
+        createEnterpriseUser(userMultiple2);
+
         dashBoard = loginAs(username, password);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-        
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        
-        addUsersToSitePage.enterExternalUserFirstName(siteExternalUserName);
-        addUsersToSitePage.enterExternalUserLastName(siteExternalUserName);
-        addUsersToSitePage.enterExternalUserEmail(siteExternalUserName);
+
+        // search for user and select user from search results list
+        List<String> searchUsers = searchForSiteMembers("user");
+
+        Assert.assertTrue(searchUsers.size() > 0);
+
+        addUsersToSitePage.clickSelectUser(userMultiple1).render();
+
+        addUsersToSitePage.clickSelectUser(userMultiple2).render();
+
+        addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
+
+        addUsersToSitePage.clickAddUsersButton();
+
+        // check added users count
+        /**
+         * String count = addUsersToSitePage.getTotalAddedUsersCount();
+         * Assert.assertEquals("2", count);
+         **/
+
+        // check the Add Users panel displays added user user name
+        /**
+         * String addedUserName = addUsersToSitePage.getAddedUserName(siteExternalUserName);
+         * Assert.assertEquals(addedUserName, siteExternalUserName);
+         **/
+
+        // check the Add Users panel displays added user role
+        /**
+         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteExternalUserName);
+         * Assert.assertEquals(addedUserRole, "Collaborator");
+         **/
+
+        // check added user is displayed on SiteMembersPage
+
+        siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
+        List<String> siteMembers1 = siteMembersPage.searchUser(userMultiple1);
+        for (String siteMember : siteMembers1)
+        {
+            Assert.assertTrue(siteMember.indexOf(userMultiple1) != -1);
+        }
+        List<String> siteMembers2 = siteMembersPage.searchUser(userMultiple2);
+        for (String siteMember : siteMembers2)
+        {
+            Assert.assertTrue(siteMember.indexOf(userMultiple2) != -1);
+        }
+
+        ShareUtil.logout(drone);
+
+    }
+
+    @Test(dependsOnMethods = "testAddMultipleUsersToSite", groups = "Enterprise-only")
+    public void testAddExternalUserToSite() throws Exception
+    {
+        // add user to site with manager role
+        String userExternalUserName = "userExternal" + System.currentTimeMillis() + "@test.com";
+
+        System.out.println("SITE EXTERNAL *** " + siteName);
+        System.out.println("USER EXTERNAL *** " + userExternalUserName);
+
+        dashBoard = loginAs(username, password);
+        userSitesPage = dashBoard.getNav().selectMySites().render();
+        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+
+        addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
+
+        addUsersToSitePage.enterExternalUserFirstName(userExternalUserName);
+        addUsersToSitePage.enterExternalUserLastName(userExternalUserName);
+        addUsersToSitePage.enterExternalUserEmail(userExternalUserName);
         addUsersToSitePage.selectExternalUser();
         addUsersToSitePage.setAllRolesTo(UserRole.CONSUMER);
         addUsersToSitePage.clickAddUsersButton();
 
         // check added users count
         /**
-        String count = addUsersToSitePage.getTotalAddedUsersCount();
-        Assert.assertEquals("1", count);
-        **/
+         * String count = addUsersToSitePage.getTotalAddedUsersCount();
+         * Assert.assertEquals("1", count);
+         **/
 
         // check the Add Users panel displays added user user name
         /**
-        String addedUserName = addUsersToSitePage.getAddedUserName(siteExternalUserName);
-        Assert.assertEquals(addedUserName, siteExternalUserName);
-        **/
+         * String addedUserName = addUsersToSitePage.getAddedUserName(siteExternalUserName);
+         * Assert.assertEquals(addedUserName, siteExternalUserName);
+         **/
 
         // check the Add Users panel displays added user role
         /**
-        String addedUserRole = addUsersToSitePage.getAddedUserRole(siteExternalUserName);
-        Assert.assertEquals(addedUserRole, "Consumer");
-        **/
+         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteExternalUserName);
+         * Assert.assertEquals(addedUserRole, "Consumer");
+         **/
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        List<String> siteMembers = searchForSiteMembers(siteExternalUserName);
-        
-        //external user has to accept invite !
-        
+        // List<String> siteMembers = searchForSiteMembers(userExternalUserName);
+        List<String> siteMembers = siteMembersPage.searchUser(userExternalUserName);
+
+        // external user has to accept invite !
+
         for (String siteMember : siteMembers)
         {
-            Assert.assertTrue(siteMember.indexOf(siteExternalUserName) != -1);
+            Assert.assertTrue(siteMember.indexOf(userExternalUserName) != -1);
         }
-        
+
         ShareUtil.logout(drone);
     }
 
@@ -362,75 +456,75 @@ public class AddUsersToSitePageTest extends AbstractTest
     public void testRemoveSelectedUser() throws Exception
     {
         // create user
-        String siteRemoveUserName = "userRemove" + System.currentTimeMillis();
-        createEnterpriseUser(siteRemoveUserName);
+        String userRemoveUserName = "userRemove" + System.currentTimeMillis();
+        createEnterpriseUser(userRemoveUserName);
         dashBoard = loginAs(username, password);
-        SharePage page = drone.getCurrentPage().render();
-        UserSitesPage userSitesPage = page.getNav().selectMySites().render();
+        userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         // search for user and select user from search results list
         List<String> searchUsers = searchForSiteMembers("user");
-      
+
         Assert.assertTrue(searchUsers.size() > 0);
-        addUsersToSitePage.clickSelectUser(siteRemoveUserName);
- 
+        addUsersToSitePage.clickSelectUser(userRemoveUserName);
+
         // remove user from the list of selected users
-        addUsersToSitePage.removeSelectedUser(siteRemoveUserName);
+        addUsersToSitePage.removeSelectedUser(userRemoveUserName);
+
         List<String> selectedUserNames = addUsersToSitePage.getSelectedUserNames();
-        Assert.assertFalse(selectedUserNames.contains(siteRemoveUserName));
-        
+        Assert.assertFalse(selectedUserNames.contains(userRemoveUserName));
+
         ShareUtil.logout(drone);
 
     }
-    
+
     @Test(dependsOnMethods = "testRemoveSelectedUser", groups = "Enterprise-only")
     public void testNavigateToPendingInvitesPage() throws Exception
     {
         dashBoard = loginAs(username, password);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-        
+
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        
+
         addUsersToSitePage.navigateToPendingInvitesPage();
         Assert.assertTrue(drone.getCurrentPage().render() instanceof PendingInvitesPage);
-        
+
         ShareUtil.logout(drone);
-        
+
     }
-    
+
     @Test(dependsOnMethods = "testNavigateToPendingInvitesPage", groups = "Enterprise-only")
     public void testNavigateToGroupsInvatePage() throws Exception
     {
         dashBoard = loginAs(username, password);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-        
+
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        
+
         addUsersToSitePage.navigateToSiteGroupsPage();
         Assert.assertTrue(drone.getCurrentPage().render() instanceof SiteGroupsPage);
-        
+
         ShareUtil.logout(drone);
-        
+
     }
-    
+
     @Test(dependsOnMethods = "testNavigateToGroupsInvatePage", groups = "Enterprise-only")
     public void testNavigateToSiteMembersPage() throws Exception
     {
         dashBoard = loginAs(username, password);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-        
+
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        
+
         addUsersToSitePage.navigateToMembersSitePage();
         Assert.assertTrue(drone.getCurrentPage().render() instanceof SiteMembersPage);
-        
+
         ShareUtil.logout(drone);
-        
+
     }
 
 }
