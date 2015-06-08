@@ -496,7 +496,7 @@ function getSiteNavigationWidgets() {
             targetUrl: "site/" + page.url.templateArgs.site + "/site-members",
             selected: ((page.titleId == "page.siteMembers.title") ||
                        (page.url.url.startsWith(page.url.servletContext + "/site/" + page.url.templateArgs.site + "/site-groups")) ||
-                       (page.url.url.startsWith(page.url.servletContext + "/site/" + page.url.templateArgs.site + "/invite")) ||
+                       (page.url.url.startsWith(page.url.servletContext + "/site/" + page.url.templateArgs.site + "/" + config.scoped["SitePages"]["additional-pages"].getChildValue("add-users"))) ||
                        (page.url.url.startsWith(page.url.servletContext + "/site/" + page.url.templateArgs.site + "/add-groups")) ||
                        (page.url.url.startsWith(page.url.servletContext + "/site/" + page.url.templateArgs.site + "/pending-invites")))
          }
@@ -1163,7 +1163,7 @@ function getTitleBarModel() {
                   iconClass: "alf-user-icon",
                   iconAltText: msg.get("header.menu.invite.altText"),
                   title: msg.get("header.menu.invite.altText"),
-                  targetUrl: "site/" + page.url.templateArgs.site + "/invite"
+                  targetUrl: "site/" + page.url.templateArgs.site + "/" + config.scoped["SitePages"]["additional-pages"].getChildValue("add-users")
                }
             });
 

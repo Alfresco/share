@@ -108,6 +108,10 @@
          <page id="links">links</page>
          <page id="data-lists">data-lists</page>
       </pages>
+      <!-- Pages not listed in navigation -->
+      <additional-pages>
+        <add-users>add-users</add-users>
+      </additional-pages>
    </config>
 
    <config evaluator="string-compare" condition="Users">
