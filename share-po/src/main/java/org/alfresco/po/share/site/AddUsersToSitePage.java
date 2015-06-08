@@ -120,13 +120,13 @@ public class AddUsersToSitePage extends SharePage
     // private static final String ADD_USERS_BUTTON = "div[contains(@id, '_default-added-users-list')]//button[text() = 'Add']";
 
     // You haven't added any users yet message
-    private static final By YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE = By.cssSelector("");
+    private static final By YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE = By.cssSelector("div[class^='added-users-list-message']");
 
     // Total users added text
     private static final By TOTAL_USERS_ADDED_TEXT = By.cssSelector("");
 
     // Total users added count
-    private static final By TOTAL_USERS_ADDED_COUNT = By.cssSelector("");
+    private static final By TOTAL_USERS_ADDED_COUNT = By.cssSelector("div[class^='added-users-list-tally']");
 
     // Added users list
     private static final By ADDED_USERS_LIST = By.cssSelector("");

@@ -101,7 +101,8 @@ public class PendingInvitesPage extends SharePage
             String text = invitee.getText();
             if (text != null && !text.isEmpty())
             {
-                if (text.equalsIgnoreCase("(" + username + ")"))
+                //if (text.equalsIgnoreCase("(" + username + ")"))
+                if (text.indexOf(username) != -1)
                 {
                     inviteeList.findElement(CANCEL_BTN).click();
                     break;

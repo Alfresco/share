@@ -37,7 +37,8 @@ import org.testng.annotations.Test;
  */
 public class AddGroupsPageTest extends AbstractTest
 {
-    InviteMembersPage membersPage;
+    //InviteMembersPage membersPage;
+    AddUsersToSitePage membersPage;
     AddGroupsPage addGroupsPage;
     String user;
     WebElement invitee;
@@ -61,7 +62,8 @@ public class AddGroupsPageTest extends AbstractTest
 
         CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
-        membersPage = site.getSiteNav().selectInvite().render();
+        //membersPage = site.getSiteNav().selectInvite().render();
+        membersPage = site.getSiteNav().selectAddUser().render();
         SiteGroupsPage siteGroups = membersPage.navigateToSiteGroupsPage().render();
         addGroupsPage = siteGroups.navigateToAddGroupsPage().render();       
     }

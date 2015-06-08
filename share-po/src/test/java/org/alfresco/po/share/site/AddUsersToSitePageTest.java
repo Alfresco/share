@@ -156,7 +156,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         // check added users count
         /**
          * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("1", count);
+         * Assert.assertEquals("Total users added 1", count);
          **/
 
         // check the Add Users panel displays added user user name
@@ -197,7 +197,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         // check added users count
         /**
          * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("1", count);
+         * Assert.assertEquals("Total users added 1", count);
          **/
 
         // check the Add Users panel displays added user user name
@@ -238,7 +238,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         // check added users count
         /**
          * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("1", count);
+         * Assert.assertEquals("Total users added 1", count);
          **/
 
         // check the Add Users panel displays added user user name
@@ -279,7 +279,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         // check added users count
         /**
          * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("1", count);
+         * Assert.assertEquals("Total users added 1", count);
          **/
 
         // check the Add Users panel displays added user user name
@@ -364,7 +364,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         // check added users count
         /**
          * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("2", count);
+         * Assert.assertEquals("Total users added 2", count);
          **/
 
         // check the Add Users panel displays added user user name
@@ -422,7 +422,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         // check added users count
         /**
          * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("1", count);
+         * Assert.assertEquals("Total users added 1", count);
          **/
 
         // check the Add Users panel displays added user user name
