@@ -101,14 +101,9 @@
    display: block;
 }
 
-.invitationlistwrapper
+.alf-invite-require-acceptance .invitationlistwrapper
 {
    background: transparent url(images/green-arrow.png) no-repeat left 15%;
-   padding-left: 9%;
-}
-
-.alf-invite-require-acceptance .invitationlistwrapper 
-{
    padding-left: 50px;
 }
 

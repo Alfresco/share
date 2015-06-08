@@ -24,6 +24,12 @@
          <region-id>membersbar</region-id>
          <url>/components/invite/members-bar</url>
       </component>
+      
+      <!--  Instructions Bar -->
+      <component>
+         <region-id>instructions-bar</region-id>
+         <url>/components/invite/instructions-bar</url>
+      </component>
 
       <!-- People Finder -->
       <component>

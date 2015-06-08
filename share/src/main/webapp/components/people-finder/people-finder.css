@@ -53,6 +53,11 @@
    font-size: 108%;
 }
 
+.alf-invite-direct-add .people-finder .title
+{
+   padding-top: 0;
+}
+
 .people-finder .search-bar
 {
    border-bottom: 1px dashed #c0c0c0;

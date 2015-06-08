@@ -3,22 +3,47 @@
    margin: 10px 0px;
 }
 
-.people-finder .title,
 .invitationlistwrapper .title,
-.added-users-list-wrapper .title
+.people-finder .title
 {
+   visibility: hidden;
+   height: 0;
+}
+
+.alf-invite-require-acceptance .people-finder .title,
+.alf-invite-require-acceptance .invitationlistwrapper .title
+{
+   visibility: visible;
+   height: auto;
    font-size: 108%;
    padding: 10px 0px 10px 34px;
 }
 
-.people-finder .title
+.alf-invite-require-acceptance .people-finder .title
 {
    background: transparent url(images/step-one.png) no-repeat 3px center;
 }
 
-.invitationlistwrapper .title
+.alf-invite-require-acceptance .invitationlistwrapper .title
 {
    background: transparent url(images/step-two.png) no-repeat 3px center;
+}
+
+.alf-invite-direct-add .people-finder .search-bar
+{
+   padding-left: 26px;
+   background: #f5f5f5 url(images/step-one.png) no-repeat 3px center;
+}
+
+.alf-invite-direct-add .invitationlist .invitelist-bar
+{
+   text-align: right;
+   background: #f5f5f5 url(images/step-two.png) no-repeat 3px center;
+}
+
+.added-users-list .added-users-list-bar
+{
+   background: url(images/step-two.png) no-repeat 3px center;
 }
 
 .alf-invite-direct-add .yui-u
@@ -26,14 +51,23 @@
    margin-left: 0.5%;
 }
 
-/* not working */
-.alf-invite-direct-add .yui-gb .grid
+.alf-invite-direct-add .column1
 {
-   margin-left: 0px;
-   margin-right: 0px;
+   width: 35%;
 }
 
-.added-users-list-wrapper .title
+.alf-invite-direct-add .column2
 {
-   background: transparent url(images/step-two.png) no-repeat 3px center;
+   width: 45%;
+}
+
+.alf-invite-direct-add .column3
+{
+   width: 19%;
+}
+
+.alf-invite-direct-add .instructions-bar
+{
+   padding-left: 10px;
+   padding-top: 10px;
 }

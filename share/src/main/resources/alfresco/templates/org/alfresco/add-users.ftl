@@ -12,6 +12,7 @@
    <@markup id="bd">
    <div id="bd" class="alf-invite-direct-add">
       <@region id="membersbar" scope="template" />
+      <@region id="instructions-bar" scope="template" />
       <div class="yui-gb grid">
          <div class="yui-u first column1">
             <div class="yui-b">
