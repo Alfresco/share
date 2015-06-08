@@ -186,9 +186,9 @@ border-color: #ccc;
 color: #A6A6A6;
 cursor: default;
 }
-.yui-skin-greenTheme .yui-menu-button-disabled button {
+/*.yui-skin-greenTheme .yui-menu-button-disabled button {
 background-image: url(menu-button-arrow-disabled.png);
-}
+}*/
 /*.yui-skin-greenTheme .yui-split-button-disabled button {
 background-image: url(split-button-arrow-disabled.png);
 }*/
