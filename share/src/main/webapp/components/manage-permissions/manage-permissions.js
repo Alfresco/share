@@ -150,7 +150,8 @@
           * @type object
           * @default [ "SiteManager" ]
           */
-         nonEditableRoles: [ "^GROUP_site_.*_SiteManager$" ],
+         nonEditableNames: [ "^GROUP_site_.*_SiteManager$" ],
+	 nonEditableRoles: [ "SiteManager" ],
          unDeletableRoles: [ "^GROUP_site_.*_SiteManager$", "^GROUP_site_.*_SiteCollaborator$", "^GROUP_site_.*_SiteContributor$", "^GROUP_site_.*_SiteConsumer$" ],
          showGroups: true
       },
@@ -875,13 +876,20 @@
              return true;
          }      
          var groupName = oRecord.getData("authority").name;
+         var groupRole = oRecord.getData("role");
          if (oRecord.getData("isGroup") == true)
          {
-             for (var i = 0; i < this.options.nonEditableRoles.length; i++)
+             for (var i = 0; i < this.options.nonEditableNames.length; i++)
              {
-                if (groupName.search(this.options.nonEditableRoles[i]) !== -1)
+                if (groupName.search(this.options.nonEditableNames[i]) !== -1)
                 {
-                    return false;
+                   for (var j = 0; j < this.options.nonEditableRoles.length; j++)
+                   {
+                      if (groupRole.search(this.options.nonEditableRoles[j]) !== -1)
+                      {
+                         return false;
+                      }
+                   }
                 }
              }
          }
