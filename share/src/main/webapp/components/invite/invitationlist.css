@@ -137,3 +137,9 @@
 {
    visibility: hidden;
 }
+
+.role-info
+{
+   width: 5%;
+   float: right;
+}

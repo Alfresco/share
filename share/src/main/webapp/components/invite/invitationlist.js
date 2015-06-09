@@ -286,10 +286,21 @@
             { key: "remove", label: "Remove", sortable: false, formatter: renderCellRemoveButton, width: 30 }
          ];
 
+         var msgEmpty = "";
+         // Sets up the appropriate message for the right page.
+         if (me.id.indexOf("_invite_") > 0)
+         {
+            msgEmpty = this.msg("invitationlist.empty-list");
+         }
+         else if (me.id.indexOf("_add-users_") > 0)
+         {
+            msgEmpty = this.msg("invitationlist.direct-add-instructions");
+         }
+         
          // DataTable definition
          this.widgets.dataTable = new YAHOO.widget.DataTable(this.id + "-inviteelist", columnDefinitions, this.widgets.dataSource,
          {
-            MSG_EMPTY: this.msg("invitationlist.empty-list")
+            MSG_EMPTY: msgEmpty
          });
       },
 
@@ -599,20 +610,19 @@
        */
       _finalizeInvites: function InvitationList__finalizeInvites(inviteData)
       {  
-         var data = {
-               items: [
-                       {
-                          userName: "aowian",
-                          roleName: "role.SiteCollaborator",
-                          displayName: "Ahmed Owian"
-                       },
-                       {
-                          userName: "aowian",
-                          roleName: "Collaborator",
-                          displayName: "Ahmed Owian"
-                       }
-                  ]
-               };
+         var data = {};
+         data.items = [];
+         var length = inviteData.recs.length;
+         for (var i = 0; i < length; i++)
+         {
+            var oData = inviteData.recs[i]._oData;
+            data.items.push({
+                  userName: oData.userName,
+                  roleName: this.msg("role." + oData.role),
+                  displayName: oData.firstName + " " + oData.lastName
+            });
+         }
+         
          require(["share-components/invite/AddedUsersService"], function(ServiceType) {
             var s = new ServiceType();
             s.publishResults(data);

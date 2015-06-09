@@ -7,6 +7,11 @@
    <@link href="${url.context}/res/components/invite/added-users-list.css" group="invite"/>
 </@>
 
+<@markup id="js">
+   <#-- JavaScript Dependencies -->
+   <@script src="${url.context}/res/components/invite/added-users-list.js" group="invite"/>
+</@>
+
 <@markup id="html">
   <@uniqueIdDiv>
     <div id="${args.htmlid}-added-users-list-wrapper" class="added-users-list-wrapper">

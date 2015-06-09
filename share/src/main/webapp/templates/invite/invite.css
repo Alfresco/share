@@ -48,7 +48,7 @@
 
 .alf-invite-direct-add .yui-u
 {
-   margin-left: 0.5%;
+   margin-left: 1%;
 }
 
 .alf-invite-direct-add .column1
@@ -58,16 +58,22 @@
 
 .alf-invite-direct-add .column2
 {
-   width: 45%;
+   width: 42%;
 }
 
 .alf-invite-direct-add .column3
 {
-   width: 19%;
+   width: 21%;
 }
 
 .alf-invite-direct-add .instructions-bar
 {
    padding-left: 10px;
    padding-top: 10px;
+}
+
+.alf-invite-direct-add td.greenCheck
+{
+   background: url(images/step-two.png) no-repeat 3px center;
+   padding-right: 30px;
 }
