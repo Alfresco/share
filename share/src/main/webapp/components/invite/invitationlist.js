@@ -631,12 +631,17 @@
                });
             }
             
+            var messageDiv = Dom.getElementsByClassName("added-users-list-message", "div", "bd")[0];
+            Dom.addClass(messageDiv, "hidden");
             
             var me = this;
             require(["share-components/invite/AddedUsersService"], function(ServiceType) {
                var s = new ServiceType();
                s.publishResults(me.addedUsers);
             });
+            
+            var tallyDiv = Dom.getElementsByClassName("added-users-list-tally", "div", "bd")[0];
+            tallyDiv.innerHTML = tallyDiv.innerHTML.replace(/\d$/, this.addedUsers.items.length);
          }
       },
       
