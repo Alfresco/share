@@ -327,12 +327,14 @@ public class SiteNavigation extends AbstractSiteNavigation
      * 
      * @return {@link InviteMembersPage}
      */
+    
     public InviteMembersPage selectInvite()
     {
         clickOnInviteButton();
         return new InviteMembersPage(getDrone());
     }
     
+
     /**
      * Clicks on add user to site button
      * 

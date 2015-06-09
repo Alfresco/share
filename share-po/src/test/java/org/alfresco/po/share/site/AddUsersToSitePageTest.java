@@ -159,17 +159,15 @@ public class AddUsersToSitePageTest extends AbstractTest
          * Assert.assertEquals("Total users added 1", count);
          **/
 
-        // check the Add Users panel displays added user user name
-        /**
-         * String addedUserName = addUsersToSitePage.getAddedUserName(siteManagerUserName);
-         * Assert.assertEquals(addedUserName, siteManagerUserName);
-         **/
+        // check the Add Users panel displays added user name
+        List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
+        String addedUserName = addedUserNames.get(0);
+        Assert.assertEquals(addedUserName, siteManagerUserName + " " + siteManagerUserName);
 
         // check the Add Users panel displays added user role
-        /**
-         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteManagerUserName);
-         * Assert.assertEquals(addedUserRole, "Manager");
-         **/
+        List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
+        String addedUserRole = addedUserRoles.get(0);
+        Assert.assertEquals(addedUserRole, "Manager");
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
@@ -200,17 +198,15 @@ public class AddUsersToSitePageTest extends AbstractTest
          * Assert.assertEquals("Total users added 1", count);
          **/
 
-        // check the Add Users panel displays added user user name
-        /**
-         * String addedUserName = addUsersToSitePage.getAddedUserName(siteCollaboratorUserName);
-         * Assert.assertEquals(addedUserName, siteCollaboratorUserName);
-         **/
+        // check the Add Users panel displays added user name
+        List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
+        String addedUserName = addedUserNames.get(0);
+        Assert.assertEquals(addedUserName, siteCollaboratorUserName + " " + siteCollaboratorUserName);
 
         // check the Add Users panel displays added user role
-        /**
-         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteCollaboratorUserName);
-         * Assert.assertEquals(addedUserRole, "Collaborator");
-         **/
+        List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
+        String addedUserRole = addedUserRoles.get(0);
+        Assert.assertEquals(addedUserRole, "Collaborator");
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
@@ -242,16 +238,14 @@ public class AddUsersToSitePageTest extends AbstractTest
          **/
 
         // check the Add Users panel displays added user user name
-        /**
-         * String addedUserName = addUsersToSitePage.getAddedUserName(siteContributorUserName);
-         * Assert.assertEquals(addedUserName, siteContributorUserName);
-         **/
+        List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
+        String addedUserName = addedUserNames.get(0);
+        Assert.assertEquals(addedUserName, siteContributorUserName + " " + siteContributorUserName);
 
         // check the Add Users panel displays added user role
-        /**
-         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteContributorUserName);
-         * Assert.assertEquals(addedUserRole, "Contributor");
-         **/
+        List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
+        String addedUserRole = addedUserRoles.get(0);
+        Assert.assertEquals(addedUserRole, "Contributor");
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
@@ -283,19 +277,17 @@ public class AddUsersToSitePageTest extends AbstractTest
          **/
 
         // check the Add Users panel displays added user user name
-        /**
-         * String addedUserName = addUsersToSitePage.getAddedUserName(siteConsumerUserName);
-         * Assert.assertEquals(addedUserName, siteConsumerUserName);
-         **/
+        List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
+        String addedUserName = addedUserNames.get(0);
+        Assert.assertEquals(addedUserName, siteConsumerUserName + " " + siteConsumerUserName);
+
         // check the Add Users panel displays added user role
-        /**
-         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteConsumerUserName);
-         * Assert.assertEquals(addedUserRole, "Consumer");
-         **/
+        List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
+        String addedUserRole = addedUserRoles.get(0);
+        Assert.assertEquals(addedUserRole, "Consumer");
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        // List<String> siteMembers = searchForSiteMembers(siteConsumerUserName);
         List<String> siteMembers = siteMembersPage.searchUser(siteConsumerUserName);
 
         for (String siteMember : siteMembers)
@@ -367,20 +359,23 @@ public class AddUsersToSitePageTest extends AbstractTest
          * Assert.assertEquals("Total users added 2", count);
          **/
 
-        // check the Add Users panel displays added user user name
-        /**
-         * String addedUserName = addUsersToSitePage.getAddedUserName(siteExternalUserName);
-         * Assert.assertEquals(addedUserName, siteExternalUserName);
-         **/
+        // check the Add Users panel displays added user name
+        List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
+
+        String addedUserName1 = addedUserNames.get(0);
+        String addedUserName2 = addedUserNames.get(1);
+
+        Assert.assertTrue(addedUserName2.indexOf(userMultiple1) != -1);
+        Assert.assertTrue(addedUserName1.indexOf(userMultiple2) != -1);
 
         // check the Add Users panel displays added user role
-        /**
-         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteExternalUserName);
-         * Assert.assertEquals(addedUserRole, "Collaborator");
-         **/
+        List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
+        String addedUserRole1 = addedUserRoles.get(0);
+        String addedUserRole2 = addedUserRoles.get(1);
+        Assert.assertEquals(addedUserRole1, "Collaborator");
+        Assert.assertEquals(addedUserRole2, "Collaborator");
 
         // check added user is displayed on SiteMembersPage
-
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
         List<String> siteMembers1 = siteMembersPage.searchUser(userMultiple1);
         for (String siteMember : siteMembers1)
@@ -426,20 +421,17 @@ public class AddUsersToSitePageTest extends AbstractTest
          **/
 
         // check the Add Users panel displays added user user name
-        /**
-         * String addedUserName = addUsersToSitePage.getAddedUserName(siteExternalUserName);
-         * Assert.assertEquals(addedUserName, siteExternalUserName);
-         **/
+        List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
+        String addedUserName = addedUserNames.get(0);
+        Assert.assertEquals(addedUserName, userExternalUserName + " " + userExternalUserName);
 
         // check the Add Users panel displays added user role
-        /**
-         * String addedUserRole = addUsersToSitePage.getAddedUserRole(siteExternalUserName);
-         * Assert.assertEquals(addedUserRole, "Consumer");
-         **/
+        List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
+        String addedUserRole = addedUserRoles.get(0);
+        Assert.assertEquals(addedUserRole, "Consumer");
 
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        // List<String> siteMembers = searchForSiteMembers(userExternalUserName);
         List<String> siteMembers = siteMembersPage.searchUser(userExternalUserName);
 
         // external user has to accept invite !
