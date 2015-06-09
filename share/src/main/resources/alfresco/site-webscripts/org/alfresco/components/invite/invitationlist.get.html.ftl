@@ -24,9 +24,9 @@
                   <option value="${siteRole}">${msg('role.' + siteRole)}</option>
                </#list>
                </select>
-               <div id="${args.htmlid}-role-info" class="role-info">
-                  <span>(i)</span>
-               </div>
+              <span id="${args.htmlid}-role-info">
+                 <a href="#" class="role-info-button"><span class="info-icon">&nbsp;</span></a>
+              </span>
             </div>
             <div id="${args.htmlid}-inviteelist" class="body inviteelist theme-bg-color-6"></div>
             <div id="${args.htmlid}-role-column-template" style="display:none">

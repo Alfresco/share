@@ -85,9 +85,22 @@
    width: 220px;            
 }
 
-.invitationlist .inviteelist a.remove-item-button:hover
+.invitationlist .inviteelist a.remove-item-button:hover,
+.invitationlist a.role-info-button:hover
 {
    text-decoration: none;
+}
+
+
+.invitationlist span.info-icon:hover
+{
+   background: transparent url(images/info-hover_icn.png) no-repeat;
+}
+ 
+.invitationlist .info-icon
+{
+   background: transparent url(images/info-default_icn.png) no-repeat;
+   padding: 6px 9px;
 }
 
 .invitationlist .inviteelist .removeIcon
@@ -136,10 +149,4 @@
 .alf-invite-require-acceptance .invitationlist .invitelist-bar
 {
    visibility: hidden;
-}
-
-.role-info
-{
-   width: 5%;
-   float: right;
 }
