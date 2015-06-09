@@ -32,18 +32,18 @@
 .alf-invite-direct-add .people-finder .search-bar
 {
    padding-left: 26px;
-   background: #f5f5f5 url(images/step-one.png) no-repeat 3px center;
+   background: #f5f5f5 url(images/1b_icn.png) no-repeat 3px center;
 }
 
 .alf-invite-direct-add .invitationlist .invitelist-bar
 {
    text-align: right;
-   background: #f5f5f5 url(images/step-two.png) no-repeat 3px center;
+   background: #f5f5f5 url(images/2b_icn.png) no-repeat 3px center;
 }
 
 .added-users-list .added-users-list-bar
 {
-   background: url(images/step-two.png) no-repeat 3px center;
+   background: url(images/3b_icn.png) no-repeat 3px center;
 }
 
 .alf-invite-direct-add .yui-u
@@ -74,6 +74,5 @@
 
 .alf-invite-direct-add td.greenCheck
 {
-   background: url(images/step-two.png) no-repeat 3px center;
-   padding-right: 30px;
+   background: url(images/check_icn.png) no-repeat 3px center;
 }

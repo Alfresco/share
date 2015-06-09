@@ -43,25 +43,20 @@
     };
 
     YAHOO.extend(Alfresco.AddedUsersList, Alfresco.component.Base,
-    {      
-   /**
-    * Fired by YUI when parent element is available for scripting.
-    * Component initialisation, including instantiation of YUI widgets and event listener binding.
-    *
-    * @method onReady
-    */
-    onReady: function AddedUsersList_onReady()
     {
-        console.log("in onReady");
-        alert("in onReady");
-        alert(this.msg("added-users-list.add-button-text"));
-        
-        require(["share-components/invite/invitationlist"], function() {
-            // Steal the invite button and put it into the added-users-list
-            var buttonText = this.msg("added-users-list.add-button-text");
-            alert(buttonText);
-            console.log("in require");
-        });
-    }
+       /**
+        * Fired by YUI when parent element is available for scripting.
+        * Component initialisation, including instantiation of YUI widgets and event listener binding.
+        *
+        * @method onReady
+        */
+       onReady: function AddedUsersList_onReady()
+       {
+          var parentDiv = Dom.getElementsByClassName("added-users-list-bar", "div", "bd")[0];
+          var sinviteDiv = Dom.getElementsByClassName("sinvite", "div", "bd")[0];
+          var inviteButton = sinviteDiv.getElementsByTagName("button")[0];
+          inviteButton.innerHTML = this.msg("added-users-list.add-button-text");
+          parentDiv.appendChild(sinviteDiv.firstElementChild);
+       }
    });
 })();

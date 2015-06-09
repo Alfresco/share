@@ -61,6 +61,17 @@
    YAHOO.extend(Alfresco.InvitationList, Alfresco.component.Base,
    {
       /**
+       * Container for added users
+       */
+      addedUsers: 
+      {
+         /**
+          * Items to be displayed in added users list
+          */
+         items: []
+      },
+      
+      /**
        * Object container for initialization options
        *
        * @property options
@@ -294,7 +305,7 @@
          }
          else if (me.id.indexOf("_add-users_") > 0)
          {
-            msgEmpty = this.msg("invitationlist.direct-add-instructions");
+            msgEmpty = this.msg("added-users-list.direct-add-instructions");
          }
          
          // DataTable definition
@@ -602,6 +613,34 @@
       },
 
       /**
+       * If we are in the add-users page, then users are added directly.
+       * This function handles direct add finalization.
+       */
+      _finalizeDirectAdds: function InvitationList__finalizeDirectAdds(inviteData)
+      {
+         if (this.id.indexOf("_add-users_") > 0)
+         {
+            var length = inviteData.recs.length;
+            for (var i = 0; i < length; i++)
+            {
+               var oData = inviteData.recs[i]._oData;
+               this.addedUsers.items.unshift({
+                     userName: oData.userName,
+                     roleName: this.msg("role." + oData.role),
+                     displayName: oData.firstName + " " + oData.lastName
+               });
+            }
+            
+            
+            var me = this;
+            require(["share-components/invite/AddedUsersService"], function(ServiceType) {
+               var s = new ServiceType();
+               s.publishResults(me.addedUsers);
+            });
+         }
+      },
+      
+      /**
        * Called when all invites have been processed
        *
        * @method _finalizeInvites
@@ -609,25 +648,8 @@
        * @private
        */
       _finalizeInvites: function InvitationList__finalizeInvites(inviteData)
-      {  
-         var data = {};
-         data.items = [];
-         var length = inviteData.recs.length;
-         for (var i = 0; i < length; i++)
-         {
-            var oData = inviteData.recs[i]._oData;
-            data.items.push({
-                  userName: oData.userName,
-                  roleName: this.msg("role." + oData.role),
-                  displayName: oData.firstName + " " + oData.lastName
-            });
-         }
-         
-         require(["share-components/invite/AddedUsersService"], function(ServiceType) {
-            var s = new ServiceType();
-            s.publishResults(data);
-         });
-         
+      {
+         this._finalizeDirectAdds(inviteData);
          
          // remove the entries that were successful
          for (var i = inviteData.successes.length - 1; i >= 0; i--)
