@@ -838,7 +838,15 @@
          {
             if (this.selectedItems.hasOwnProperty(item))
             {
-               selectedItems.push(this.selectedItems[item].nodeRef);
+               if (this.options.params && this.options.params.indexOf("network=") > -1)
+               {
+                  var nodeRef = this.selectedItems[item].nodeRef.split("://")
+                  selectedItems.push(nodeRef[0] + "://@" + this.options.params.split("network=").pop() + '@' + nodeRef[1]);
+               }
+               else
+               {
+                  selectedItems.push(this.selectedItems[item].nodeRef);
+               }
             }
          }
          return selectedItems;

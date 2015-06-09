@@ -13,7 +13,7 @@
       itemFamily: "authority",
       maintainAddedRemovedItems: false,
       finderAPI: Alfresco.constants.PROXY_URI + "cloud/forms/picker/{itemFamily}",
-      itemsAPI: Alfresco.constants.PROXY_URI + "cloud/forms/picker/items",
+      itemsAPI: Alfresco.constants.PROXY_URI + "cloud/forms/picker/items"<#if field.value?contains("@")> + "?network=" + "${field.value?split('@')[1]}"</#if>,
       singleItemLabel: 'hybridworkflow.authority.single',
       multipleItemsLabel: 'hybridworkflow.authority.multiple'
    });
