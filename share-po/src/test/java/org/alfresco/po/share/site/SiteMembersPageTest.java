@@ -42,7 +42,8 @@ import org.testng.annotations.Test;
 public class SiteMembersPageTest extends AbstractTest
 {
     SiteMembersPage siteMembersPage;
-    InviteMembersPage inviteMembersPage;
+    //InviteMembersPage inviteMembersPage;
+    AddUsersToSitePage addUsersToSitePage;
     WebElement user;
     DashBoardPage dashBoard;
     String siteName;
@@ -55,6 +56,7 @@ public class SiteMembersPageTest extends AbstractTest
     public void instantiateMembers() throws Exception
     {
         siteName = "InviteMembersTest" + System.currentTimeMillis();
+        
         dashBoard = loginAs(username, password);
         if (!alfrescoVersion.isCloud())
         {
@@ -82,16 +84,21 @@ public class SiteMembersPageTest extends AbstractTest
         if (!alfrescoVersion.isCloud())
         {
             List<String> searchUsers = null;
-            inviteMembersPage = site.getSiteNav().selectInvite().render();
+            //inviteMembersPage = site.getSiteNav().selectInvite().render();
+            addUsersToSitePage = site.getSiteNav().selectAddUser().render();
             for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
             {
-                searchUsers = inviteMembersPage.searchUser(userName);
+                //searchUsers = inviteMembersPage.searchUser(userName);
+                searchUsers = addUsersToSitePage.searchUser("user");
                 try
                 {
                     if (searchUsers != null && searchUsers.size() > 0)
                     {
-                        inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
-                        inviteMembersPage.clickInviteButton().render();
+                        //inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
+                        //inviteMembersPage.clickInviteButton().render();
+                        addUsersToSitePage.clickSelectUser(userName);
+                        addUsersToSitePage.setUserRoles(userName, UserRole.COLLABORATOR);
+                        addUsersToSitePage.clickAddUsersButton();
                         break;
                     }
                 }
@@ -102,13 +109,14 @@ public class SiteMembersPageTest extends AbstractTest
                 }
                 try
                 {
-                    inviteMembersPage.renderWithUserSearchResults(refreshDuration);
+                    //inviteMembersPage.renderWithUserSearchResults(refreshDuration);
+                    addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
                 }
                 catch (PageRenderTimeException exception)
                 {
                 }
             }
-
+            /**
             ShareUtil.logout(drone);
             DashBoardPage userDashBoardPage = loginAs(userName, userName);
             MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
@@ -118,13 +126,15 @@ public class SiteMembersPageTest extends AbstractTest
             dashBoard = loginAs(username, password);
             drone.navigateTo(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
             site = drone.getCurrentPage().render();
+            **/
         }
         else
         {
             // TODO: In Cloud environemnt, need to implement the inviting and
             // accepting the invitation to join on another user site page.
         }
-        siteMembersPage = site.getSiteNav().selectMembers().render();
+        //siteMembersPage = site.getSiteNav().selectMembers().render();
+        siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
     }
 
     @Test(groups="Enterprise-only")

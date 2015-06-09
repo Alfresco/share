@@ -52,6 +52,7 @@ import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.InviteMembersPage;
+import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.PendingInvitesPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -177,6 +178,7 @@ public class FactorySharePage implements PageFactory
         pages.put("edit-metadata", EditDocumentPropertiesPage.class);
         pages.put("site-members", SiteMembersPage.class);
         pages.put("invite", InviteMembersPage.class);
+        pages.put("add-users", AddUsersToSitePage.class);
         pages.put("users-create", NewUserPage.class);
         pages.put("users-view", UserProfilePage.class);
         pages.put("users-update", EditUserPage.class);
