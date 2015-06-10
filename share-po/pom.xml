@@ -83,12 +83,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>3.2.10.RELEASE</version>
+            <version>${dependency.spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.2.10.RELEASE</version>
+            <version>${dependency.spring.version}</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -96,20 +96,25 @@
         </dependency>
     </dependencies>
     
-    <!-- Package Application into a standalone  -->
     <build>
         <plugins>
+            <!-- Package source  -->
             <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>single</goal>
                         </goals>
+                        <phase>package</phase>
                     </execution>
                 </executions>
                 <configuration>
-                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <tarLongFileMode>posix</tarLongFileMode>
+                    <finalName>share-po-src</finalName>
+                    <descriptorRefs>
+                        <descriptorRef>src</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
             </plugin>
 
