@@ -10,6 +10,7 @@ model.widgets = [addedUsersListComponent];
 
 // Aikau Widget Configuration
 model.jsonModel = {
+   rootNodeId: args.htmlid + "-added-users-list-content",
    services: [
       "share-components/invite/AddedUsersService",
       "alfresco/services/LoggingService"
