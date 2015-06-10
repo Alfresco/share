@@ -154,10 +154,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUserToSite(siteManagerUserName, UserRole.MANAGER);
 
         // check added users count
-        /**
-         * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("Total users added 1", count);
-         **/
+        String count = addUsersToSitePage.getTotalAddedUsersCount();
+        Assert.assertEquals("Total users added 1", count);
 
         // check the Add Users panel displays added user name
         List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
@@ -193,10 +191,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUserToSite(siteCollaboratorUserName, UserRole.COLLABORATOR);
 
         // check added users count
-        /**
-         * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("Total users added 1", count);
-         **/
+        String count = addUsersToSitePage.getTotalAddedUsersCount();
+        Assert.assertEquals("Total users added 1", count);
 
         // check the Add Users panel displays added user name
         List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
@@ -232,10 +228,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUserToSite(siteContributorUserName, UserRole.CONTRIBUTOR);
 
         // check added users count
-        /**
-         * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("Total users added 1", count);
-         **/
+        String count = addUsersToSitePage.getTotalAddedUsersCount();
+        Assert.assertEquals("Total users added 1", count);
 
         // check the Add Users panel displays added user user name
         List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
@@ -271,10 +265,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUserToSite(siteConsumerUserName, UserRole.CONSUMER);
 
         // check added users count
-        /**
-         * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("Total users added 1", count);
-         **/
+        String count = addUsersToSitePage.getTotalAddedUsersCount();
+        Assert.assertEquals("Total users added 1", count);
 
         // check the Add Users panel displays added user user name
         List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
@@ -354,10 +346,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage.clickAddUsersButton();
 
         // check added users count
-        /**
-         * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("Total users added 2", count);
-         **/
+        String count = addUsersToSitePage.getTotalAddedUsersCount();
+        Assert.assertEquals("Total users added 2", count);
 
         // check the Add Users panel displays added user name
         List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
@@ -415,10 +405,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage.clickAddUsersButton();
 
         // check added users count
-        /**
-         * String count = addUsersToSitePage.getTotalAddedUsersCount();
-         * Assert.assertEquals("Total users added 1", count);
-         **/
+        String count = addUsersToSitePage.getTotalAddedUsersCount();
+        Assert.assertEquals("Total users added 1", count);
 
         // check the Add Users panel displays added user user name
         List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
