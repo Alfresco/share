@@ -333,12 +333,14 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         // search for user and select user from search results list
-        List<String> searchUsers = searchForSiteMembers("user");
+        //List<String> searchUsers = searchForSiteMembers("user");
 
+        List<String> searchUsers = searchForSiteMembers(userMultiple1);
         Assert.assertTrue(searchUsers.size() > 0);
 
         addUsersToSitePage.clickSelectUser(userMultiple1).render();
 
+        searchUsers = searchForSiteMembers(userMultiple2);
         addUsersToSitePage.clickSelectUser(userMultiple2).render();
 
         addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
@@ -444,8 +446,9 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         // search for user and select user from search results list
-        List<String> searchUsers = searchForSiteMembers("user");
+        //List<String> searchUsers = searchForSiteMembers("user");
 
+        List<String> searchUsers = searchForSiteMembers(userRemoveUserName + "@test.com");
         Assert.assertTrue(searchUsers.size() > 0);
         addUsersToSitePage.clickSelectUser(userRemoveUserName);
 

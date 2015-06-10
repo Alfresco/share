@@ -89,7 +89,7 @@ public class SiteMembersPageTest extends AbstractTest
             for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
             {
                 //searchUsers = inviteMembersPage.searchUser(userName);
-                searchUsers = addUsersToSitePage.searchUser("user");
+                searchUsers = addUsersToSitePage.searchUser(userName);
                 try
                 {
                     if (searchUsers != null && searchUsers.size() > 0)
