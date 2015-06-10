@@ -7,6 +7,7 @@
    <class name="org.alfresco.po.share.site.AddGroupsPageTest" />
   </classes>
  </test>
+ <!-- 
  <test name="CustomizeSiteDashboardPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.CustomizeSiteDashboardPageTest" />
@@ -22,11 +23,17 @@
    <class name="org.alfresco.po.share.site.EditSitePageTest" />
   </classes>
  </test>
+ -->
   <test name="AddUsersToSitePageTest">
   <classes>
-   <class name="org.alfresco.po.share.site.AddUsersToSitePageTest" />
+   <class name="org.alfresco.po.share.site.AddUsersToSitePageTest">
+        <methods>
+           <include name="testAddManagerToSite" />
+        </methods>
+   </class>
   </classes>
  </test>
+
  <!-- 
  <test name="InviteMembersPageTest">
   <classes>
@@ -39,37 +46,43 @@
    <class name="org.alfresco.po.share.site.InviteUserOnSiteAndAcceptUserTest" />
   </classes>
  </test>
- -->
+
  <test name="NewFolderPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.NewFolderPageTest" />
   </classes>
  </test>
+  -->
  <test name="PendingInvitesPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.PendingInvitesPageTest" />
   </classes>
  </test>
+ <!-- 
  <test name="SiteFinderPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.SiteFinderPageTest" />
   </classes>
  </test>
+ -->
  <test name="SiteGroupsPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.SiteGroupsPageTest" />
   </classes>
  </test>
+ <!-- 
  <test name="SiteLayoutTest">
   <classes>
    <class name="org.alfresco.po.share.site.SiteLayoutTest" />
   </classes>
  </test>
+ -->
  <test name="SiteMembersPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.SiteMembersPageTest" />
   </classes>
  </test>
+ <!-- 
  <test name="SiteTest">
   <classes>
    <class name="org.alfresco.po.share.site.SiteTest" />
@@ -100,4 +113,5 @@
  		<class name="org.alfresco.po.share.site.DeleteSitePageTest" />
  	</classes>
  </test>
+ -->
 </suite>

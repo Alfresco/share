@@ -80,8 +80,8 @@ public class AddUsersToSitePageTest extends AbstractTest
             addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
             for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
             {
-                // searchUsers = addUsersToSitePage.searchUser(userName);
-                searchUsers = addUsersToSitePage.searchUser("user");
+                searchUsers = addUsersToSitePage.searchUser(userName);
+                //searchUsers = addUsersToSitePage.searchUser("user");
                 try
                 {
                     if (searchUsers != null && searchUsers.size() > 0)
