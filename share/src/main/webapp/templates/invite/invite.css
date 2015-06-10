@@ -41,6 +41,21 @@
    background: #f5f5f5 url(images/2b_icn.png) no-repeat 3px center;
 }
 
+.alf-invite-panel-header
+{
+   height: 2.5em;
+}
+
+.alf-invite-panel-header > div
+{
+   padding-top: 0.2em;
+}
+
+.alf-invite-panel-header > .yui-button
+{
+   margin-top: 0.2em !important;
+}
+
 .added-users-list .added-users-list-bar
 {
    background: url(images/3b_icn.png) no-repeat 3px center;
