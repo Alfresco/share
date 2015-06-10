@@ -91,16 +91,36 @@
    text-decoration: none;
 }
 
+.invitationlist-selectallroles
+{
+    float: right;
+}
 
-.invitationlist span.info-icon:hover
+/* TODO this should match more specific to the individual widget */
+.invitationlist .alfresco-core-Page
+{
+   float: right;
+   padding-top: 0.4em;
+   margin-left: 0.3em;
+   margin-right: 1em;
+}
+
+.invitationlist span.alf-info-icon:hover
 {
    background: transparent url(images/info-hover_icn.png) no-repeat;
 }
  
-.invitationlist .info-icon
+.invitationlist .alf-info-icon
 {
    background: transparent url(images/info-default_icn.png) no-repeat;
-   padding: 6px 9px;
+   width: 20px;
+   height: 20px;
+   display: block;
+}
+
+.invitationlist .alf-role-tooltip-role-name
+{
+    font-weight: bold;
 }
 
 .invitationlist .inviteelist .removeIcon

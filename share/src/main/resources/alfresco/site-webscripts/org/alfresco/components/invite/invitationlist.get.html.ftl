@@ -10,6 +10,7 @@
 
 <@markup id="widgets">
    <@createWidgets group="invite"/>
+   <@processJsonModel group="invite"/>
 </@>
 
 <@markup id="html">
@@ -17,16 +18,17 @@
       <div id="${args.htmlid}-invitationlistwrapper" class="invitationlistwrapper">
          <div class="title theme-color-2">${msg("invitationlist.title")}</div>
          <div id="${args.htmlid}-invitationlist" class="invitationlist">
-            <div id="${args.htmlid}-invitationBar" class="invitelist-bar">
-               <button id="${args.htmlid}-selectallroles-button">${msg("invitationlist.selectallroles")}&nbsp;&#9662;</button>
-               <select id="${args.htmlid}-selectallroles-menu">
-               <#list siteRoles as siteRole>
-                  <option value="${siteRole}">${msg('role.' + siteRole)}</option>
-               </#list>
-               </select>
-              <span id="${args.htmlid}-role-info">
-                 <a href="#" class="role-info-button"><span class="info-icon">&nbsp;</span></a>
-              </span>
+            <div id="${args.htmlid}-invitationBar" class="invitelist-bar alf-invite-panel-header">
+               <div id="${args.htmlid}-role-info" data-dojo-attach-point="containerNode" class="alf-role-info-tooltip">
+               </div>
+               <div class="invitationlist-selectallroles">
+                   <button id="${args.htmlid}-selectallroles-button">${msg("invitationlist.selectallroles")}&nbsp;&#9662;</button>
+                   <select id="${args.htmlid}-selectallroles-menu">
+                   <#list siteRoles as siteRole>
+                      <option value="${siteRole}">${msg('role.' + siteRole)}</option>
+                   </#list>
+                   </select>
+               </div>
             </div>
             <div id="${args.htmlid}-inviteelist" class="body inviteelist theme-bg-color-6"></div>
             <div id="${args.htmlid}-role-column-template" style="display:none">
