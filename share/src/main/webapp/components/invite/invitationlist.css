@@ -96,6 +96,11 @@
     float: right;
 }
 
+.alf-invite-require-acceptance .invitationlist-selectallroles
+{
+    float: none;
+}
+
 /* TODO this should match more specific to the individual widget */
 .invitationlist .alfresco-core-Page
 {
@@ -103,6 +108,18 @@
    padding-top: 0.4em;
    margin-left: 0.3em;
    margin-right: 1em;
+}
+
+.invitationlist .alf-invite-panel-header .alf-label
+{
+   font-size: 1.3em;
+   float: left;
+   margin-left: 2em;
+   line-height: 1.7em;
+}
+.alf-invite-require-acceptance .invitationlist .alf-invite-panel-header .alf-label
+{
+   display: none;
 }
 
 .invitationlist span.alf-info-icon:hover

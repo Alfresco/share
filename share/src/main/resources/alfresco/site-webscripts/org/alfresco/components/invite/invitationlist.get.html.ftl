@@ -19,6 +19,7 @@
          <div class="title theme-color-2">${msg("invitationlist.title")}</div>
          <div id="${args.htmlid}-invitationlist" class="invitationlist">
             <div id="${args.htmlid}-invitationBar" class="invitelist-bar alf-invite-panel-header">
+               <div class="alf-label">${msg("invitationlist.addDirect.title")}</div>
                <div id="${args.htmlid}-role-info" data-dojo-attach-point="containerNode" class="alf-role-info-tooltip">
                </div>
                <div class="invitationlist-selectallroles">
