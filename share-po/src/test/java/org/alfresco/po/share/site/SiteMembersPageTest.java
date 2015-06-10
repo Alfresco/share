@@ -188,11 +188,13 @@ public class SiteMembersPageTest extends AbstractTest
         Assert.assertNotNull(siteMembersPage.assignRole(userName, null));
     }
 
-    @AfterClass (groups="Enterprise-only")
+    //@AfterClass (groups="Enterprise-only")
+    /**
     public void deleteSite() throws Exception
     {
         SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(siteName).render();
         siteFinder = siteFinder.deleteSite(siteName).render();
     }
+    **/
 }
