@@ -641,7 +641,7 @@
             });
             
             var tallyDiv = Dom.getElementsByClassName("added-users-list-tally", "div", "bd")[0];
-            tallyDiv.innerHTML = tallyDiv.innerHTML.replace(/\d$/, this.addedUsers.items.length);
+            tallyDiv.innerHTML = this.msg("added-users-list.tally", this.addedUsers.items.length);
          }
       },
       
