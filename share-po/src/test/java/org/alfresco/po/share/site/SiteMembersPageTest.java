@@ -1,18 +1,14 @@
 /*
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
  * This file is part of Alfresco
- *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,21 +38,21 @@ import org.testng.annotations.Test;
 public class SiteMembersPageTest extends AbstractTest
 {
     SiteMembersPage siteMembersPage;
-    //InviteMembersPage inviteMembersPage;
+    // InviteMembersPage inviteMembersPage;
     AddUsersToSitePage addUsersToSitePage;
     WebElement user;
     DashBoardPage dashBoard;
     String siteName;
 
-     //user should be created.
+    // user should be created.
     String userName = "user" + System.currentTimeMillis() + "@test.com";
     public static long refreshDuration = 15000;
 
-    @BeforeClass (groups="Enterprise-only")
+    @BeforeClass(groups = "Enterprise-only")
     public void instantiateMembers() throws Exception
     {
         siteName = "InviteMembersTest" + System.currentTimeMillis();
-        
+
         dashBoard = loginAs(username, password);
         if (!alfrescoVersion.isCloud())
         {
@@ -84,18 +80,18 @@ public class SiteMembersPageTest extends AbstractTest
         if (!alfrescoVersion.isCloud())
         {
             List<String> searchUsers = null;
-            //inviteMembersPage = site.getSiteNav().selectInvite().render();
+            // inviteMembersPage = site.getSiteNav().selectInvite().render();
             addUsersToSitePage = site.getSiteNav().selectAddUser().render();
             for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
             {
-                //searchUsers = inviteMembersPage.searchUser(userName);
+                // searchUsers = inviteMembersPage.searchUser(userName);
                 searchUsers = addUsersToSitePage.searchUser(userName);
                 try
                 {
                     if (searchUsers != null && searchUsers.size() > 0)
                     {
-                        //inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
-                        //inviteMembersPage.clickInviteButton().render();
+                        // inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
+                        // inviteMembersPage.clickInviteButton().render();
                         addUsersToSitePage.clickSelectUser(userName);
                         addUsersToSitePage.setUserRoles(userName, UserRole.COLLABORATOR);
                         addUsersToSitePage.clickAddUsersButton();
@@ -109,7 +105,7 @@ public class SiteMembersPageTest extends AbstractTest
                 }
                 try
                 {
-                    //inviteMembersPage.renderWithUserSearchResults(refreshDuration);
+                    // inviteMembersPage.renderWithUserSearchResults(refreshDuration);
                     addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
                 }
                 catch (PageRenderTimeException exception)
@@ -117,27 +113,27 @@ public class SiteMembersPageTest extends AbstractTest
                 }
             }
             /**
-            ShareUtil.logout(drone);
-            DashBoardPage userDashBoardPage = loginAs(userName, userName);
-            MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
-            EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
-            userDashBoardPage = editTaskPage.selectAcceptButton().render();
-            ShareUtil.logout(drone);
-            dashBoard = loginAs(username, password);
-            drone.navigateTo(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
-            site = drone.getCurrentPage().render();
-            **/
+             * ShareUtil.logout(drone);
+             * DashBoardPage userDashBoardPage = loginAs(userName, userName);
+             * MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
+             * EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
+             * userDashBoardPage = editTaskPage.selectAcceptButton().render();
+             * ShareUtil.logout(drone);
+             * dashBoard = loginAs(username, password);
+             * drone.navigateTo(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
+             * site = drone.getCurrentPage().render();
+             **/
         }
         else
         {
             // TODO: In Cloud environemnt, need to implement the inviting and
             // accepting the invitation to join on another user site page.
         }
-        //siteMembersPage = site.getSiteNav().selectMembers().render();
+        // siteMembersPage = site.getSiteNav().selectMembers().render();
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
     }
 
-    @Test(groups="Enterprise-only")
+    @Test(groups = "Enterprise-only")
     public void testSearchUser() throws Exception
     {
         List<String> searchUsers = null;
@@ -159,13 +155,13 @@ public class SiteMembersPageTest extends AbstractTest
         Assert.assertTrue(searchUsers.size() > 0);
     }
 
-    @Test(groups="Enterprise-only", dependsOnMethods = "testSearchUser")
+    @Test(groups = "Enterprise-only", dependsOnMethods = "testSearchUser")
     public void testAssignRole() throws Exception
     {
         Assert.assertNotNull(siteMembersPage.assignRole(userName, UserRole.COLLABORATOR));
     }
 
-    @Test(groups="Enterprise-only", dependsOnMethods = "testAssignRole")
+    @Test(groups = "Enterprise-only", dependsOnMethods = "testAssignRole")
     public void testRemoveUser() throws Exception
     {
         siteMembersPage = siteMembersPage.removeUser(userName);
@@ -176,25 +172,24 @@ public class SiteMembersPageTest extends AbstractTest
         Assert.assertTrue(searchUsers.size() == 0);
     }
 
-    @Test(groups="Enterprise-only", dependsOnMethods = "testAssignRole", expectedExceptions = { UnsupportedOperationException.class })
+    @Test(groups = "Enterprise-only", dependsOnMethods = "testAssignRole", expectedExceptions = { UnsupportedOperationException.class })
     public void testAssignRoleToNullUser()
     {
         Assert.assertNotNull(siteMembersPage.assignRole(null, UserRole.COLLABORATOR));
     }
 
-    @Test(groups="Enterprise-only", dependsOnMethods = "testAssignRoleToNullUser", expectedExceptions = { UnsupportedOperationException.class })
+    @Test(groups = "Enterprise-only", dependsOnMethods = "testAssignRoleToNullUser", expectedExceptions = { UnsupportedOperationException.class })
     public void testAssignNullRole()
     {
         Assert.assertNotNull(siteMembersPage.assignRole(userName, null));
     }
 
-    //@AfterClass (groups="Enterprise-only")
-    /**
+    @AfterClass(groups = "Enterprise-only")
     public void deleteSite() throws Exception
     {
         SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(siteName).render();
         siteFinder = siteFinder.deleteSite(siteName).render();
     }
-    **/
+
 }
