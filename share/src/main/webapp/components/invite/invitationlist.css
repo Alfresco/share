@@ -124,12 +124,12 @@
 
 .invitationlist span.alf-info-icon:hover
 {
-   background: transparent url(images/info-hover_icn.png) no-repeat;
+   background: transparent url(../images/info-hover-20.png) no-repeat;
 }
  
 .invitationlist .alf-info-icon
 {
-   background: transparent url(images/info-default_icn.png) no-repeat;
+   background: transparent url(../images/info-default-20.png) no-repeat;
    width: 20px;
    height: 20px;
    display: block;
@@ -140,10 +140,20 @@
     font-weight: bold;
 }
 
+.invitationlist .inviteelist .remove-item-button:active > .removeIcon
+{
+   background: transparent url(../images/delete-pressed-20.png) no-repeat center center;
+}
+
+.invitationlist .inviteelist .removeIcon:hover
+{
+   background: transparent url(../images/delete-hover-20.png) no-repeat center center;
+}
+
 .invitationlist .inviteelist .removeIcon
 {
-   background: transparent url(images/remove-icon-16.png) no-repeat center center;
-   padding: 6px;
+   background: transparent url(../images/delete-default-20.png) no-repeat center center;
+   padding: 6px 10px;
 }
 
 .invitationlist .inviteelist .user .details span
