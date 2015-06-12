@@ -23,7 +23,8 @@
             <#list sites as site>
                <li <#if (site_index == 0)>class="first"</#if>>
                   <a href="${url.context}/page/site/${site.shortName}/dashboard" class="thmb"><img src="${url.context}/res/components/site-finder/images/site-64.png"/></a>
-                  <p><a href="${url.context}/page/site/${site.shortName}/dashboard" class="theme-color-1">${site.title?html!""}</a></p>
+                  <p><a href="${url.context}/page/site/${site.shortName}/dashboard" class="theme-color-1">${site.title?html!""}</a>
+                  <span>${site.description?html!""}</span></p>
                   <div style="float: right;margin-right:10px;">
                   <#if user.name == userid>
                   <#if feedControls?seq_contains(site.shortName)><#-- Emails disabled -->
