@@ -1343,6 +1343,25 @@ function getHeaderServices() {
       "alfresco/services/LogoutService",
       "alfresco/services/NotificationService"
    ];
+   if (page.url.templateArgs.site)
+   {
+      var siteData = getSiteData();
+      if (siteData != null)
+      {
+         services.push({
+            name: "share/services/LeaveSiteService",
+            config: {
+               publishPayload: {
+                  site: page.url.templateArgs.site,
+                  siteTitle: siteData.profile.title,
+                  user: user.name,
+                  userFullName: user.fullName
+               }
+            }
+         });
+      }
+   }
+   
    // Only add the logging service when in client-debug mode...
    if (config.global.flags.getChildValue("client-debug") == "true")
    {
