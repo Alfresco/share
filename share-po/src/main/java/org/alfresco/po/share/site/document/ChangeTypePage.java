@@ -17,6 +17,7 @@ package org.alfresco.po.share.site.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderElement;
@@ -34,14 +35,14 @@ import org.openqa.selenium.support.ui.Select;
  * @version 1.7.0
  */
 
-public class ChangeTypePage extends SharePage
+public class ChangeTypePage extends ShareDialogue
 {
 
     private static final By TYPE_DROPDOWN = By.cssSelector("div[style^='visibility: visible;'] form select");
     private static final By CANCEL_BUTTON = By.cssSelector("div[style^='visibility: visible;'] form button[id$='-cancel-button']");
     protected static final By OK_BUTTON = By.cssSelector("div[style^='visibility: visible;'] form button[id$='-ok-button']");
 
-    protected ChangeTypePage(WebDrone drone)
+    public ChangeTypePage(WebDrone drone)
     {
         super(drone);
     }
@@ -130,12 +131,12 @@ public class ChangeTypePage extends SharePage
     /**
      * Clicks on save button to close the dlg.
      * 
-     * @return {@link FolderDetailsPage}
+     * @return {@link DocumentDetailsPage or FolderDetailsPage}
      */
     public HtmlPage selectSave()
     {
         drone.find(OK_BUTTON).click();
-        return new FolderDetailsPage(drone);
+        return drone.getCurrentPage().render();
     }
 
 }
