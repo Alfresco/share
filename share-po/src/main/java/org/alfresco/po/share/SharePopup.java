@@ -226,6 +226,7 @@ public class SharePopup extends SharePage
         }
     }
     
+    
     /**
      * Method to close the SharePopup
      */
