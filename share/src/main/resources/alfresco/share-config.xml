@@ -120,6 +120,8 @@
          <username-min-length>2</username-min-length>
          <password-min-length>3</password-min-length>
       </users>
+      <!-- This enables/disables the Add External Users Panel on the Add Users page. -->
+      <enable-external-users-panel>false</enable-external-users-panel>
    </config>
 
    <config evaluator="string-compare" condition="Dashboard">
