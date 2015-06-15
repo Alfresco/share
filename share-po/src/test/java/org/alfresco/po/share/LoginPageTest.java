@@ -42,7 +42,18 @@ public class LoginPageTest extends AbstractTest
      * Log a user into Alfresco with valid credentials
      * and then logout
      * @throws Exception if error
-     */ 
+     */
+
+    @Test
+    public void testLoginWithPost()
+    {
+        LoginPage lp = new LoginPage(drone);
+        DashBoardPage dashboardPage = lp.loginWithPost(shareUrl, "admin", "admin").render();  
+        Assert.assertTrue(dashboardPage.isBrowserTitle("dashboard"));    
+        SharePage pageResponse = dashboardPage.getNav().logout().render();
+        Assert.assertTrue(pageResponse.isBrowserTitle("login"));
+    }
+
     @Test
     public void loginAndLogout() throws Exception 
     {

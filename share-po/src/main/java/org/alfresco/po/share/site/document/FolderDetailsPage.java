@@ -208,7 +208,7 @@ public class FolderDetailsPage extends DetailsPage
             throw new UnsupportedOperationException("Operation available only for Enterprise version");
         }
         drone.findAndWait(changeTypeLink).click();
-        return new ChangeTypePage(drone);
+        return drone.getCurrentPage().render();
     }
 
     /**

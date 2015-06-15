@@ -1317,7 +1317,7 @@ public class DocumentDetailsPage extends DetailsPage
                 break;
         }
         drone.findAndWait(changeTypeLink).click();
-        return new ChangeTypePage(drone);
+        return drone.getCurrentPage().render();
     }
 
     /**

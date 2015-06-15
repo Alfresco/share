@@ -502,6 +502,8 @@ public class ModuleDeploymentService
                     }
                 }
                 
+                Collections.sort(deployedModules, new ModuleDeploymentService.DeployedModuleComparator());
+                
                 // Set the index for adding auto-deployment modules...
                 int i = 0;
                 if (deployedModules.isEmpty())

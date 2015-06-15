@@ -81,8 +81,6 @@ public class ModuleDeploymentImpl extends AbstractModelObject implements ModuleD
         this.extensionModule = extensionModule;
     }
     
-    private int index = 0;
-    
     public int getIndex()
     {
         int index = 0;
@@ -108,7 +106,7 @@ public class ModuleDeploymentImpl extends AbstractModelObject implements ModuleD
 
     public int compareTo(ModuleDeployment o)
     {
-        return this.index - o.getIndex();
+        return this.getIndex() - o.getIndex();
     }
 
     /**
