@@ -1341,7 +1341,8 @@ function getHeaderServices() {
       "alfresco/services/UserService",
       "alfresco/services/SiteService",
       "alfresco/services/LogoutService",
-      "alfresco/services/NotificationService"
+      "alfresco/services/NotificationService",
+      "alfresco/services/DialogService"
    ];
    // Only add the logging service when in client-debug mode...
    if (config.global.flags.getChildValue("client-debug") == "true")
