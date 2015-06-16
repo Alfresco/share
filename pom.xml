@@ -40,7 +40,7 @@
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
         <dependency.surf.version>${project.version}</dependency.surf.version>
         <dependency.webscripts.version>5.1</dependency.webscripts.version>
-        <dependency.alfresco-sdk.version>2.1.0</dependency.alfresco-sdk.version>
+        <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
