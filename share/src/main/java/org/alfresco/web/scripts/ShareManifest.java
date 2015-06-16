@@ -58,9 +58,21 @@ public class ShareManifest extends AbstractWebScript
     @Override
     public void init(Container container, Description description)
     {
-        super.init(container, description);
+        initWebScript(container, description);
         readManifest();
         manifestToJSON();
+    }
+
+    /**
+     * This method exists simply to call the super {@link #init(Container, Description)} method
+     * and serves to separate webscript-specific initialisation from the rest.
+     *  
+     * @param container
+     * @param description
+     */
+    protected void initWebScript(Container container, Description description)
+    {
+        super.init(container, description);
     }
 
     /**
