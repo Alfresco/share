@@ -47,6 +47,8 @@
         <runtime.tomcat.conf.folder>${runtime.parent.folder}/tomcat</runtime.tomcat.conf.folder>
         <runtime.solr.folder>${runtime.data.folder}/solr4-instance</runtime.solr.folder>
         <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties</alfresco.properties.file>
+        <!-- Define the location where alfresco will store its content files, i.e. *.bin) -->
+        <dir.root>${runtime.data.folder}/alf_data</dir.root>
 
         <tomcat.default.alfresco.port>8080</tomcat.default.alfresco.port>
         <tomcat.default.alfresco.ssl.port>8443</tomcat.default.alfresco.ssl.port>
@@ -59,7 +61,6 @@
 
         <db.skip>true</db.skip>
         <test.working.dir>${project.build.directory}</test.working.dir>
-        <dir.root>${test.working.dir}/alf_test_data</dir.root>
         <img.exe>convert</img.exe>
         <swf.exe>pdf2swf</swf.exe>
         <index.subsystem.name>buildonly</index.subsystem.name>
