@@ -26,6 +26,11 @@
         <version.major>5</version.major>
         <version.minor>1</version.minor>
         <version.revision>0</version.revision>
+        <dependency.aikau.version>1.0.17.1</dependency.aikau.version>
+        <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
+        <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
+        <dependency.alfresco-web-framework-commons.version>${project.version}</dependency.alfresco-web-framework-commons.version>
+        <dependency.surf.version>${project.version}</dependency.surf.version>
     </properties>
 
    <scm>
@@ -79,10 +84,59 @@
 
         <plugins>
             <plugin>
-                <!-- Resets Maven default -->
-                <artifactId>maven-war-plugin</artifactId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
+                    <skipIfEmpty>true</skipIfEmpty>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Build-Date>${maven.build.timestamp}</Build-Date>
+                            <Build-Key>${build.key}</Build-Key>
+                            <Build-Number>${build.number}</Build-Number>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Build-Date>${maven.build.timestamp}</Build-Date>
+                            <Build-Key>${build.key}</Build-Key>
+                            <Build-Number>${build.number}</Build-Number>
+                            <Build-Revision>${repository.revision.number}</Build-Revision>
+                        </manifestEntries>
+                        <manifestSections>
+                            <manifestSection>
+                                <name>Source-control</name>
+                                <manifestEntries>
+                                    <Source-Revision>${custom.svn.revision.number}</Source-Revision>
+                                    <Source-Branch-Revision>${planRepository.revision}</Source-Branch-Revision>
+                                    <Source-Branch>${planRepository.branchName}</Source-Branch>
+                                    <Source-Url>${planRepository.repositoryUrl}</Source-Url>
+                                    <Custom-ref>${custom.svn.revision.number}</Custom-ref>
+                                </manifestEntries>
+                            </manifestSection>
+                        </manifestSections>
+                    </archive>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <attachClasses>true</attachClasses>
+                    <useCache>true</useCache>
+                    <recompressZippedFiles>false</recompressZippedFiles>
                 </configuration>
             </plugin>
         </plugins>

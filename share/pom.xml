@@ -93,7 +93,7 @@
         <dependency>
             <groupId>org.springframework.extensions.surf</groupId>
             <artifactId>spring-surf-api</artifactId>
-            <version>${project.version}</version>
+            <version>${dependency.surf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.extensions.surf</groupId>
@@ -138,7 +138,7 @@
         <dependency>
             <groupId>org.mozilla</groupId>
             <artifactId>rhino</artifactId>
-            <version>1.7R4-alfresco-patched</version>
+            <version>${dependency.rhino.version}</version>
         </dependency>
         <dependency>
             <artifactId>json-simple</artifactId>
@@ -169,6 +169,7 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
+            <version>${dependency.freemarker.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -220,7 +221,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>aikau</artifactId>
-            <version>1.0.19</version>
+            <version>${dependency.aikau.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.extensions.surf</groupId>
@@ -296,6 +297,7 @@
             <!-- Configuration of the WAR build -->
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
                     <overlays>
                         <overlay>
@@ -312,6 +314,25 @@
                             <type>zip</type>
                         </overlay>
                     </overlays>
+                    <archive>
+                        <manifestSections combine.children="append">
+                            <manifestSection>
+                                <name>Share Libraries</name>
+                                <manifestEntries>
+                                    <alfresco-core>${dependency.alfresco-core.version}</alfresco-core>
+                                    <alfresco-jlan>${dependency.alfresco-jlan.version}</alfresco-jlan>
+                                    <alfresco-web-framework-commons>${dependency.alfresco-web-framework-commons.version}</alfresco-web-framework-commons>
+                                    <spring>${dependency.spring.version}</spring>
+                                    <surf>${dependency.surf.version}</surf>
+                                    <aikau>${dependency.aikau.version}</aikau>
+                                    <webscripts>${dependency.webscripts.version}</webscripts>
+                                    <yui>${dependency.yui.version}</yui>
+                                    <freemarker>${dependency.freemarker.version}</freemarker>
+                                    <rhino>${dependency.rhino.version}</rhino>
+                                </manifestEntries>
+                            </manifestSection>
+                        </manifestSections>
+                    </archive>
                 </configuration>
                 <!-- This allows overlays to be prepared on the FS for minification and faster run -->
                 <executions>
