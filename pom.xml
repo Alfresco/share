@@ -116,21 +116,18 @@
                             <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                             <Implementation-Version>${project.version}</Implementation-Version>
                             <Build-Date>${maven.build.timestamp}</Build-Date>
-                            <Build-Key>${bamboo.build.key}</Build-Key>
-                            <Build-Server>${bamboo.agentId}</Build-Server>
-                            <Build-Number>${bamboo.build.number}</Build-Number>
-                            <Build-Revision>${bamboo.repository.revision.number}</Build-Revision>
+                            <Build-Name>${bamboo_planName}</Build-Name>
+                            <Build-Key>${bamboo_fullBuildKey}</Build-Key>
+                            <Build-Number>${bamboo_buildNumber}</Build-Number>
+                            <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
                         </manifestEntries>
                         <manifestSections>
                             <manifestSection>
                                 <name>Source-control</name>
                                 <manifestEntries>
-                                    <Source-Revision>${custom.svn.revision.number}</Source-Revision>
-                                    <Bamboo-Revision>${bamboo.planRepository.revision.number}</Bamboo-Revision>
-                                    <Source-Branch-Revision>${bamboo.planRepository.revision}</Source-Branch-Revision>
-                                    <Source-Branch>${bamboo.planRepository.branchName}</Source-Branch>
-                                    <Source-Url>${bamboo.planRepository.repositoryUrl}</Source-Url>
-                                    <Custom-ref>${custom.svn.revision.number}</Custom-ref>
+                                    <Last-change-Revision>${bamboo_custom_svn_lastchange_revision_number}</Last-change-Revision>
+                                    <Source-Branch>${ bamboo_planRepository_branchName}</Source-Branch>
+                                    <Source-Url>${bamboo_planRepository_repositoryUrl}</Source-Url>
                                 </manifestEntries>
                             </manifestSection>
                         </manifestSections>
