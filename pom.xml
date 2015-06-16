@@ -27,7 +27,10 @@
         <version.major>5</version.major>
         <version.minor>1</version.minor>
         <version.revision>0</version.revision>
+        <!-- Version of Alfresco Platform to depen on -->
         <alfresco.platform.version>5.1-RA6-SNAPSHOT</alfresco.platform.version>
+
+        <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
         <dependency.spring.version>3.2.10.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
         <dependency.aikau.version>1.0.17.1</dependency.aikau.version>
@@ -55,6 +58,17 @@
             <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
         </pluginRepository>
     </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>alfresco-internal</id>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/internal-staging</url>
+        </repository>
+        <snapshotRepository>
+            <id>alfresco-internal-snapshots</id>
+            <url>${maven.distributionManagement.snapshot.url}</url>
+        </snapshotRepository>      
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
