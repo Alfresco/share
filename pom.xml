@@ -2,10 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.alfresco</groupId>
-        <artifactId>alfresco-parent</artifactId>
-        <version>5.1-SNAPSHOT</version>
+        <artifactId>alfresco-super-pom</artifactId>
+        <version>6</version>
     </parent>
     <artifactId>alfresco-share-parent</artifactId>
+    <version>5.1-RA6-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -26,39 +27,28 @@
         <version.major>5</version.major>
         <version.minor>1</version.minor>
         <version.revision>0</version.revision>
+        <alfresco.platform.version>5.1-RA6-SNAPSHOT</alfresco.platform.version>
+        <dependency.spring.version>3.2.10.RELEASE</dependency.spring.version>
+        <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
         <dependency.aikau.version>1.0.17.1</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
         <dependency.alfresco-web-framework-commons.version>${project.version}</dependency.alfresco-web-framework-commons.version>
         <dependency.surf.version>${project.version}</dependency.surf.version>
+        <dependency.alfresco-sdk.version>2.1.0</dependency.alfresco-sdk.version>
+
+        <!-- Developer's runtime environment configuration -->
+        <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
+        <runtime.data.folder>${runtime.parent.folder}/runtime</runtime.data.folder>
+        <runtime.tomcat.conf.folder>${runtime.parent.folder}/tomcat</runtime.tomcat.conf.folder>
+        <runtime.solr.folder>${runtime.data.folder}/solr4-instance</runtime.solr.folder>
+        <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties</alfresco.properties.file>
     </properties>
 
    <scm>
        <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
-       <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/trunk/</developerConnection>
+       <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/branches/HEAD-BUG-FIX/</developerConnection>
    </scm>
-    <repositories>
-        <repository>
-            <id>alfresco-public</id>
-                <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>alfresco-public-snapshots</id>
-            <url>https://artifacts.alfresco.com/nexus/content/groups/public-snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
     <pluginRepositories>
         <pluginRepository>
             <!-- Only used for the customised version of yuicompressor in yuicompressor-maven-plugin -->
@@ -67,79 +57,255 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <build>
-        <!-- Resets Maven default -->
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-        <testResources>
-            <testResource>
-                 <directory>src/test/resources</directory>
-            </testResource>
-        </testResources> 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Import all dependencyManagement from Alfresco Platform -->
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-parent</artifactId>
+                <version>${alfresco.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
+    <build>
         <plugins>
             <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <skipIfEmpty>true</skipIfEmpty>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                            <Build-Date>${maven.build.timestamp}</Build-Date>
-                            <Build-Name>${bamboo_planName}</Build-Name>
-                            <Build-Key>${bamboo_fullBuildKey}</Build-Key>
-                            <Build-Number>${bamboo_buildNumber}</Build-Number>
-                            <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforcer</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>1.7.0</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+
             <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                            <Build-Date>${maven.build.timestamp}</Build-Date>
-                            <Build-Name>${bamboo_planName}</Build-Name>
-                            <Build-Key>${bamboo_fullBuildKey}</Build-Key>
-                            <Build-Number>${bamboo_buildNumber}</Build-Number>
-                            <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
-                        </manifestEntries>
-                        <manifestSections>
-                            <manifestSection>
-                                <name>Source-control</name>
-                                <manifestEntries>
-                                    <Last-change-Revision>${bamboo_custom_svn_lastchange_revision_number}</Last-change-Revision>
-                                    <Source-Revision>${bamboo_repository_revision_number}</Source-Revision>
-                                    <Source-Url>${bamboo_planRepository_repositoryUrl}</Source-Url>
-                                </manifestEntries>
-                            </manifestSection>
-                        </manifestSections>
-                    </archive>
-                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                    <attachClasses>true</attachClasses>
-                    <useCache>true</useCache>
-                    <recompressZippedFiles>false</recompressZippedFiles>
-                </configuration>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <executions>
+                <!-- Read alfresco-global.properties if it exists, to use it for cleaning runtime data (e.g. which database?) -->
+                    <execution>
+                        <id>read-alfresco-global-properties</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>${alfresco.properties.file}</file>
+                            </files>
+                            <quiet>true</quiet>
+                        </configuration>
+                    </execution>
+                    <!-- Required by, for example share-services's wipe-db -->
+                    <execution>
+                        <id>read-alfresco-global-properties-during-clean</id>
+                        <phase>pre-clean</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>${alfresco.properties.file}</file>
+                            </files>
+                            <quiet>true</quiet>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>set-default-db-props-on-initialize</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <exportAntProperties>true</exportAntProperties>
+                            <target>
+                                <property name="db.driver" value="org.postgresql.Driver"/>
+                                <property name="db.name" value="alfresco"/>
+                                <property name="db.url" value="jdbc:postgresql:${db.name}"/>
+                                <property name="db.master.url" value="jdbc:postgresql:template1"/>
+                                <property name="db.username" value="alfresco"/>
+                                <property name="db.password" value="alfresco"/>
+                                <property name="db.master.username" value="alfresco"/>
+                                <property name="db.master.password" value="alfresco"/>
+                                <property name="db.drop.command" value="drop database if exists ${db.name}"/>
+                                <property name="db.create.command" value="create database ${db.name}"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <!-- Required by, for example share-services's wipe-db -->
+                    <execution>
+                        <id>set-default-db-props-during-clean</id>
+                        <phase>pre-clean</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <exportAntProperties>true</exportAntProperties>
+                            <target>
+                                <property name="db.driver" value="org.postgresql.Driver"/>
+                                <property name="db.name" value="alfresco"/>
+                                <property name="db.url" value="jdbc:postgresql:${db.name}"/>
+                                <property name="db.master.url" value="jdbc:postgresql:template1"/>
+                                <property name="db.username" value="alfresco"/>
+                                <property name="db.password" value="alfresco"/>
+                                <property name="db.master.username" value="alfresco"/>
+                                <property name="db.master.password" value="alfresco"/>
+                                <property name="db.drop.command" value="drop database if exists ${db.name}"/>
+                                <property name="db.create.command" value="create database ${db.name}"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Create a jar of test classes -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-test-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+               Add tomcat's shared/classes as a test source. This is not a nice solution
+               to getting alfresco-global.properties onto the classpath, but since additionalClasspathElements
+               for the surefire plugin does NOT work, we have to do something else.
+               The problem with doing it this way is that the resources are copied to the target folder,
+               rather than being referenced directly.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-shared-classes</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${runtime.tomcat.conf.folder}/shared/classes</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
+                                <Implementation-Version>${project.version}</Implementation-Version>
+                                <Build-Date>${maven.build.timestamp}</Build-Date>
+                                <Build-Name>${bamboo_planName}</Build-Name>
+                                <Build-Key>${bamboo_fullBuildKey}</Build-Key>
+                                <Build-Number>${bamboo_buildNumber}</Build-Number>
+                                <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
+                                <Implementation-Version>${project.version}</Implementation-Version>
+                                <Build-Date>${maven.build.timestamp}</Build-Date>
+                                <Build-Name>${bamboo_planName}</Build-Name>
+                                <Build-Key>${bamboo_fullBuildKey}</Build-Key>
+                                <Build-Number>${bamboo_buildNumber}</Build-Number>
+                                <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
+                            </manifestEntries>
+                            <manifestSections>
+                                <manifestSection>
+                                    <name>Source-control</name>
+                                    <manifestEntries>
+                                        <Last-change-Revision>${bamboo_custom_svn_lastchange_revision_number}</Last-change-Revision>
+                                        <Source-Revision>${bamboo_repository_revision_number}</Source-Revision>
+                                        <Source-Url>${bamboo_planRepository_repositoryUrl}</Source-Url>
+                                    </manifestEntries>
+                                </manifestSection>
+                            </manifestSections>
+                        </archive>
+                    </configuration>
+                    <!-- Add dependency to alfresco-maven-plugin, to allow AMP overlays -->
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.alfresco.maven.plugin</groupId>
+                            <artifactId>alfresco-maven-plugin</artifactId>
+                            <version>${dependency.alfresco-sdk.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <!-- To prevent tests alfresco.log to be created in project roots -->
+                        <workingDirectory>${project.build.directory}</workingDirectory>
+                        <systemPropertyVariables>
+                            <!-- Allow FTP server unit test to run unprivileged -->
+                            <ftp.port>50521</ftp.port>
+                            <transferservice.receiver.enabled>true</transferservice.receiver.enabled>
+                            <!-- Database related properties -->
+                            <db.url>${db.url}</db.url>
+                            <db.driver>${db.driver}</db.driver>
+                            <db.name>${db.name}</db.name>
+                            <db.username>${db.username}</db.username>
+                            <db.password>${db.password}</db.password>
+                            <dir.root>${dir.root}</dir.root>
+                            <img.exe>${img.exe}</img.exe>
+                            <swf.exe>${swf.exe}</swf.exe>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>sql-maven-plugin</artifactId>
+                    <configuration>
+                        <skip>${db.skip}</skip>
+                        <autocommit>true</autocommit>
+                        <driver>${db.driver}</driver>
+                        <url>${db.master.url}</url>
+                        <username>${db.master.username}</username>
+                        <password>${db.master.password}</password>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

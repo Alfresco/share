@@ -146,18 +146,6 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>${dependency.postgresql.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>${dependency.mysql.version}</version>
-                    </dependency>
-                </dependencies>
                 <configuration>
                     <systemProperties>
                         <dir.root>${runtime.data.folder}/alf_data</dir.root>
