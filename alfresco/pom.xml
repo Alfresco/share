@@ -25,6 +25,14 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- share-services AMP -->
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-share-services</artifactId>
+            <version>${project.version}</version>
+            <type>amp</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -41,6 +49,11 @@
                             <artifactId>alfresco-platform</artifactId>
                             <!-- <classifier>nossl</classifier> -->
                             <excludes/>
+                        </overlay>
+                        <overlay>
+                            <groupId>org.alfresco</groupId>
+                            <artifactId>alfresco-share-services</artifactId>
+                            <type>amp</type>
                         </overlay>
                     </overlays>
                 </configuration>
@@ -70,52 +83,6 @@
                         </goals>
                         <configuration>
                             <webappDirectory>${project.build.directory}/${project.build.finalName}-ssl</webappDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <!-- Fetch amp files -->
-                    <execution>
-                        <id>fetch-amps</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-share-services</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>amp</type>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>target/amps</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Apply amp files -->
-            <plugin>
-                <groupId>org.alfresco.maven.plugin</groupId>
-                <artifactId>alfresco-maven-plugin</artifactId>
-                <configuration>
-                    <warLocation>${project.build.directory}/${project.build.finalName}</warLocation>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install-amps</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>install</goal>
-                        </goals>
-                        <configuration>
-                            <ampLocation>target/amps</ampLocation>
                         </configuration>
                     </execution>
                 </executions>
