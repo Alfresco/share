@@ -190,14 +190,13 @@ public class AddUsersToSitePage extends SharePage
                 {
 
                     drone.find(By.cssSelector(SEARCH_USER_INPUT));
-
                     drone.find(By.cssSelector(SEARCH_USER_BUTTON));
                     drone.find(SET_ALL_ROLES_TO_BUTTON);
                     // drone.find(YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE);
-                    drone.find(EXTERNAL_ADD_BUTTON);
-                    drone.find(EXTERNAL_EMAIL_INPUT);
-                    drone.find(EXTERNAL_FIRST_NAME_INPUT);
-                    drone.find(EXTERNAL_LAST_NAME_INPUT);
+                    //drone.find(EXTERNAL_ADD_BUTTON);
+                    //drone.find(EXTERNAL_EMAIL_INPUT);
+                    //drone.find(EXTERNAL_FIRST_NAME_INPUT);
+                    //drone.find(EXTERNAL_LAST_NAME_INPUT);
 
                     break;
                 }

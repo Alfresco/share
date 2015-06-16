@@ -81,7 +81,6 @@ public class AddUsersToSitePageTest extends AbstractTest
             for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
             {
                 searchUsers = addUsersToSitePage.searchUser(userName);
-                //searchUsers = addUsersToSitePage.searchUser("user");
                 try
                 {
                     if (searchUsers != null && searchUsers.size() > 0)
@@ -333,8 +332,6 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         // search for user and select user from search results list
-        //List<String> searchUsers = searchForSiteMembers("user");
-
         List<String> searchUsers = searchForSiteMembers(userMultiple1);
         Assert.assertTrue(searchUsers.size() > 0);
 
@@ -384,7 +381,8 @@ public class AddUsersToSitePageTest extends AbstractTest
 
     }
 
-    @Test(dependsOnMethods = "testAddMultipleUsersToSite", groups = "Enterprise-only")
+    //@Test(dependsOnMethods = "testAddMultipleUsersToSite", groups = "Enterprise-only")
+    /**
     public void testAddExternalUserToSite() throws Exception
     {
         // add user to site with manager role
@@ -433,8 +431,10 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         ShareUtil.logout(drone);
     }
+    **/
 
-    @Test(dependsOnMethods = "testAddExternalUserToSite", groups = "Enterprise-only")
+    //@Test(dependsOnMethods = "testAddExternalUserToSite", groups = "Enterprise-only")
+    @Test(dependsOnMethods = "testAddMultipleUsersToSite", groups = "Enterprise-only")
     public void testRemoveSelectedUser() throws Exception
     {
         // create user
@@ -446,8 +446,6 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         // search for user and select user from search results list
-        //List<String> searchUsers = searchForSiteMembers("user");
-
         List<String> searchUsers = searchForSiteMembers(userRemoveUserName + "@test.com");
         Assert.assertTrue(searchUsers.size() > 0);
         addUsersToSitePage.clickSelectUser(userRemoveUserName);

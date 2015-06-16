@@ -46,11 +46,13 @@
    <class name="org.alfresco.po.share.site.NewFolderPageTest" />
   </classes>
  </test>
+ <!-- 
  <test name="PendingInvitesPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.PendingInvitesPageTest" />
   </classes>
  </test>
+  -->
  <test name="SiteFinderPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.SiteFinderPageTest" />
