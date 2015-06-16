@@ -52,7 +52,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
-            <version>${dependency.alfresco-core.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
@@ -73,7 +72,6 @@
         <dependency>
             <groupId>org.springframework.extensions.surf</groupId>
             <artifactId>spring-webscripts</artifactId>
-            <version>${dependency.webscripts.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>

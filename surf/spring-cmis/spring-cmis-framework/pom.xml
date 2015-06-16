@@ -16,7 +16,6 @@
           <dependency>
             <groupId>org.apache.chemistry.opencmis</groupId>
             <artifactId>chemistry-opencmis-client-impl</artifactId>
-            <version>${dependency.opencmis.version}</version>	
           </dependency>
           
           <!-- Spring Surf -->
@@ -30,7 +29,6 @@
           <dependency>
             <groupId>org.springframework.extensions.surf</groupId>
             <artifactId>spring-webscripts</artifactId>
-            <version>${dependency.webscripts.version}</version>
           </dependency>
     </dependencies>
 </project>
