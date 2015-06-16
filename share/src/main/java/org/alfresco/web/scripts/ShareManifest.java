@@ -21,7 +21,9 @@ package org.alfresco.web.scripts;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -85,6 +87,23 @@ public class ShareManifest extends BaseProcessorExtension
     }
     
     /**
+     * Retrieve all key/value pairs for the main section of the manifest.
+     * 
+     * @return          Map of attribute name to value.
+     */
+    public Map<String, String> mainAttributesMap()
+    {
+        List<String> names = mainAttributeNames();
+        Map<String, String> map = new HashMap<String, String>(names.size());
+        for (String name : names)
+        {
+            String value = mainAttributeValue(name);
+            map.put(name, value);
+        }
+        return map;
+    }
+    
+    /**
      * Retrieve a list of attribute names (Strings) for the main
      * section of a manifest.
      * 
@@ -105,6 +124,24 @@ public class ShareManifest extends BaseProcessorExtension
     public String attributeValue(String section, String key)
     {
         return manifest.getAttributes(section).getValue(key);
+    }
+    
+    /**
+     * Retrieve all key/value pairs for a particular section in the manifest.
+     * 
+     * @param section   Section name.
+     * @return          Map of attribute name to value.
+     */
+    public Map<String, String> attributesMap(String section)
+    {
+        List<String> names = attributeNames(section);
+        Map<String, String> map = new HashMap<String, String>(names.size());
+        for (String name : names)
+        {
+            String value = attributeValue(section, name);
+            map.put(name, value);
+        }
+        return map;
     }
     
     /**

@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -86,6 +87,15 @@ public class ShareManifestTest
     }
     
     @Test
+    public void canGetMainAttributesMap()
+    {
+        Map<String, String> map = shareManifest.mainAttributesMap();
+        assertEquals(2, map.size());
+        assertEquals("Red", map.get("First-Attr"));
+        assertEquals("Green", map.get("Second-Attr"));
+    }
+    
+    @Test
     public void canGetAllSectionNames()
     {
         Set<String> sections = shareManifest.sectionNames();
@@ -109,5 +119,15 @@ public class ShareManifestTest
         assertEquals("Fish and chips", shareManifest.attributeValue("Meals", "dinner"));
         assertEquals("Pizza", shareManifest.attributeValue("Meals", "lunch"));
         assertEquals("Toast", shareManifest.attributeValue("Meals", "breakfast"));
+    }
+    
+    @Test
+    public void canGetNamedSectionAttributesMap()
+    {
+        Map<String, String> map = shareManifest.attributesMap("Meals");
+        assertEquals(3, map.size());
+        assertEquals("Fish and chips", map.get("Dinner"));
+        assertEquals("Pizza", map.get("Lunch"));
+        assertEquals("Toast", map.get("Breakfast"));
     }
 }
