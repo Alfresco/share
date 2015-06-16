@@ -34,7 +34,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
-            <version>5.1.2</version>
+            <version>${dependency.alfresco-core.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>aopalliance</groupId>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-jlan-embed</artifactId>
-            <version>5.1.1</version>
+            <version>${dependency.alfresco-jlan.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>aopalliance</groupId>
