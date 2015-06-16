@@ -181,16 +181,33 @@
          </tr>         
          <tr>
             <td colspan="2">
-
-	      <!-- General Commands -->
-	      <table>
-		 <tr><td><input type="button" name="startJsDebugger" value="Start/Stop JavaScript Debugger" onclick="window.location.href='${url.serviceContext}/api/javascript/debugger'"/></td></tr>          
-	      </table>
-	    </td>            
+      	      <!-- General Commands -->
+      	      <input type="button" name="startJsDebugger" value="Start/Stop JavaScript Debugger" onclick="window.location.href='${url.serviceContext}/api/javascript/debugger'"/><br/>
+               <input type="button" name="goModuleDeployment" value="Module Deployment" onclick="window.location.href='${url.serviceContext}/modules/deploy'"/><br/>
+               <form action="${url.serviceContext}/caches/dependency/clear" method="post">
+                   <input type="submit" name="submit" value="Clear Dependency Caches"/>
+               </form>
+               <#if surfbugEnabled??>
+                   <br/>
+                   <span class="mainSubTitle">SurfBug</span>
+                   <table>
+                     <tr align="left"><td>Current Status: <#if surfbugEnabled>Enabled<#else>Disabled</#if></td></tr>
+                   </table>
+                   <form action="${url.serviceContext}/surfBugStatus" method="post">
+                       <table><tr><td>
+                       <#if surfbugEnabled>
+                           <input type="hidden" name="statusUpdate" value="disabled"/>
+                           <input type="submit" name="submit" value="Disable SurfBug"/>
+                       <#else>
+                           <input type="hidden" name="statusUpdate" value="enabled"/>
+                           <input type="submit" name="submit" value="Enable SurfBug"/>
+                       </#if>
+                       </td></tr></table>
+                   </form>
+               </#if>
+	         </td>            
          </tr>
       </table>
-      
-      
       
       
       <!-- outer table -->
@@ -227,7 +244,6 @@
       	 </td>
       </tr>
       </table>
-                  
       </div>
       
    </body>
