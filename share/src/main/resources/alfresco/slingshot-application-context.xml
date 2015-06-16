@@ -368,4 +368,8 @@
          </list>
       </property>
    </bean>
+   
+   <bean id="webscript.org.alfresco.share-manifest.get" class="org.alfresco.web.scripts.ShareManifest" parent="webscript">
+       <constructor-arg index="0" value="/META-INF/MANIFEST.MF"/>
+   </bean>
 </beans>
