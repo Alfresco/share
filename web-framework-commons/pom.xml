@@ -52,7 +52,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
-            <version>${project.version}</version>
+            <version>5.1.2</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
