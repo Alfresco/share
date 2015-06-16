@@ -61,7 +61,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-distribution</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${alfresco.platform.version}</version>
                                     <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                                     <includes>bin/**,licenses/**</includes>
                                 </artifactItem>
@@ -80,7 +80,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-mmt</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${alfresco.platform.version}</version>
                                     <outputDirectory>${project.build.outputDirectory}/bin</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
