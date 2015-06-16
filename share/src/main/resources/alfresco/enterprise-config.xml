@@ -10,6 +10,16 @@
       <about>
          <css-class>logo-ent</css-class>
       </about>
+      <login>
+         <css-class>logo-ent</css-class>
+      </login>
+   </config>
+   
+   <config evaluator="string-compare" condition="HelpPages" replace="true">
+      <help-pages>
+         <share-help>http://docs.alfresco.com/5.0/topics/sh-uh-welcome.html</share-help>
+         <share-tutorial>http://docs.alfresco.com/5.0/topics/alfresco-video-tutorials.html</share-tutorial>
+      </help-pages>
    </config>
 
    <!-- ************************************** -->

@@ -18,7 +18,8 @@
       <div id="${el}-body" class="theme-overlay login hidden">
       
       <@markup id="header">
-         <div class="theme-company-logo"></div>
+         <#assign aboutConfig=config.scoped["Edition"]["login"]>
+         <div class="theme-company-logo ${aboutConfig.getChildValue("css-class")!logo-com}"></div>
       </@markup>
       
       <#if errorDisplay == "container">
