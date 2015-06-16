@@ -67,6 +67,9 @@
       <about>
          <css-class>logo-com</css-class>
       </about>
+      <login>
+         <css-class>logo-com</css-class>
+      </login>
    </config>
 
    <config evaluator="string-compare" condition="UriTemplate">

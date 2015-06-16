@@ -22,8 +22,10 @@
                <div class="clear"></div>
             </div>
 
+            <#assign conditionvalueEdition = (context.properties["editionInfo"].edition)!"UNKNOWN">
+            <#assign conditionEditionEnterprise = conditionvalueEdition == "ENTERPRISE">
             <div class="quickshare-header-left">
-               <img src="${url.context}/res/themes/${theme}/images/logo.png">
+               <img src="${url.context}/res/themes/${theme}/images/logo<#if conditionEditionEnterprise>-enterprise</#if>.png">
             </div>
 
             <div class="quickshare-header-right">
