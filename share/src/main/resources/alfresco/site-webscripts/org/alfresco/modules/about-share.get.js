@@ -7,6 +7,7 @@ function main()
 
 
    // Create model and defaults
+   model.shareVersion = "Unknown";
    model.serverEdition = "Unknown";
    model.serverVersion = "Unknown (Unknown)";
    model.serverSchema = "Unknown";
@@ -20,6 +21,7 @@ function main()
       model.serverSchema = json.data.schema;
       model.licenseHolder = context.properties["editionInfo"].holder;
    }
+   model.shareVersion = shareManifest.mainAttributeValue("Implementation-Version");
 }
 
 main();
