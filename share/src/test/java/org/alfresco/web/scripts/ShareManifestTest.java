@@ -19,40 +19,27 @@
 package org.alfresco.web.scripts;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.extensions.webscripts.Container;
-import org.springframework.extensions.webscripts.Description;
-import org.springframework.extensions.webscripts.WebScriptRequest;
-import org.springframework.extensions.webscripts.WebScriptResponse;
 
 /**
- * TODO: comment me!
+ * Tests for the {@link ShareManifest} class.
+ * 
  * @author Matt Ward
  */
-@RunWith(MockitoJUnitRunner.class)
 public class ShareManifestTest
 {
     private ShareManifest shareManifest;
     private File manifestFile;
-    private @Mock WebScriptRequest req;
-    private @Mock WebScriptResponse res;
-    private @Mock Container container;
-    private @Mock Description description;
-    private StringWriter stringWriter;
-    private boolean webScriptInitialised = false;
     
     @Before
     public void setUp() throws Exception
@@ -64,36 +51,63 @@ public class ShareManifestTest
         {
             pw.println("First-Attr: Red");
             pw.println("Second-Attr: Green");
+            pw.println("");
+            pw.println("Name: Meals");
+            pw.println("Dinner: Fish and chips");
+            pw.println("Lunch: Pizza");
+            pw.println("Breakfast: Toast");
         }
-        
-        // Collect output from the webscript response in a StringBuffer so that
-        // we can later verify what was sent to the client by the webscript.
-        stringWriter = new StringWriter();
-        when(res.getWriter()).thenReturn(stringWriter);
-        
+                
         // Create an instance of the class under test.
-        shareManifest = new ShareManifest(new FileSystemResource(manifestFile))
-        {
-            // Override so that we simply flag whether the method was called. We really don't
-            // want to have to mock out all sorts of webscript-specific init implementation details
-            // as this stuff should be tested elsewhere (and if we did, this test would become very brittle).
-            @Override
-            protected void initWebScript(Container container, Description description)
-            {
-                webScriptInitialised = true;
-            }
-        };
+        shareManifest = new ShareManifest(new FileSystemResource(manifestFile));
         
-        shareManifest.init(container, description);
-        assertTrue("initWebScript should have been called during initialisation.", webScriptInitialised);
+        // Normally handled by register(), but we don't want to have to deal
+        // with mocking out all the details of a processor - just test the manifest related stuff.
+        shareManifest.readManifest();
     }
 
     @Test
-    public void manifestFileIsConvertedToJSON() throws IOException
+    public void canGetMainAttributeNames()
     {
-        shareManifest.execute(req, res);
-        
-        String expectedJSON = "{\"First-Attr\":\"Red\",\"Second-Attr\":\"Green\"}";
-        assertEquals(expectedJSON, stringWriter.getBuffer().toString());
+        List<String> attrNames = shareManifest.mainAttributeNames();
+        assertEquals(2, attrNames.size());
+        // Do not expect these to be ordered, they came from a Set<Object>
+        assertTrue(attrNames.contains("First-Attr"));
+        assertTrue(attrNames.contains("Second-Attr"));
+    }
+    
+    @Test
+    public void canGetMainAttributes()
+    {
+        assertEquals("Red", shareManifest.mainAttributeValue("First-Attr"));
+        assertEquals("Green", shareManifest.mainAttributeValue("Second-Attr"));
+        // Dinner belongs to the Meals section, not the 'main' section.
+        assertNull(shareManifest.mainAttributeValue("Dinner"));
+    }
+    
+    @Test
+    public void canGetAllSectionNames()
+    {
+        Set<String> sections = shareManifest.sectionNames();
+        assertEquals(1, sections.size());
+        assertTrue(sections.contains("Meals"));
+    }
+    
+    @Test
+    public void canGetNamedSectionAttributeNames()
+    {
+        List<String> attrNames = shareManifest.attributeNames("Meals");
+        assertEquals(3, attrNames.size());
+        assertTrue(attrNames.contains("Breakfast"));
+        assertTrue(attrNames.contains("Lunch"));
+        assertTrue(attrNames.contains("Dinner"));
+    }
+    
+    @Test
+    public void canGetNamedSectionAttributeValue()
+    {
+        assertEquals("Fish and chips", shareManifest.attributeValue("Meals", "dinner"));
+        assertEquals("Pizza", shareManifest.attributeValue("Meals", "lunch"));
+        assertEquals("Toast", shareManifest.attributeValue("Meals", "breakfast"));
     }
 }

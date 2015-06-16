@@ -20,31 +20,24 @@ package org.alfresco.web.scripts;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import org.json.simple.JSONObject;
 import org.springframework.core.io.Resource;
-import org.springframework.extensions.webscripts.AbstractWebScript;
-import org.springframework.extensions.webscripts.Container;
-import org.springframework.extensions.webscripts.Description;
-import org.springframework.extensions.webscripts.WebScriptRequest;
-import org.springframework.extensions.webscripts.WebScriptResponse;
+import org.springframework.extensions.webscripts.processor.BaseProcessorExtension;
 
 /**
- * WebScript that provides a JSON view of a manifest file. The file is read once upon
- * initialisation and the resulting JSON is stored for the life of the web app
- * (the assumption is that this file will not change).
+ * Processor extension that provides access to the specified manifest file.
  * 
  * @author Matt Ward
  */
-public class ShareManifest extends AbstractWebScript
+public class ShareManifest extends BaseProcessorExtension
 {
     private final Resource resource; 
     private Manifest manifest;
-    private String json;
     
     public ShareManifest(Resource resource)
     {
@@ -54,31 +47,21 @@ public class ShareManifest extends AbstractWebScript
         }
         this.resource = resource;
     }
-    
-    @Override
-    public void init(Container container, Description description)
-    {
-        initWebScript(container, description);
-        readManifest();
-        manifestToJSON();
-    }
 
     /**
-     * This method exists simply to call the super {@link #init(Container, Description)} method
-     * and serves to separate webscript-specific initialisation from the rest.
-     *  
-     * @param container
-     * @param description
+     * Initialise the processor extension.
      */
-    protected void initWebScript(Container container, Description description)
+    @Override
+    public void register()
     {
-        super.init(container, description);
+        super.register();
+        readManifest();
     }
 
     /**
      * Read the manifest file that was specified in the constructor.
      */
-    private void readManifest()
+    protected void readManifest()
     {
         try (InputStream is = resource.getInputStream())
         {
@@ -89,46 +72,77 @@ public class ShareManifest extends AbstractWebScript
             throw new RuntimeException("Error reading manifest.", e);
         }
     }
-
+    
     /**
-     * Convert the manifest to a JSON String.
+     * Retrieve attribute value from the main section of a manifest.
+     * 
+     * @param key    The name of the attribute to fetch.
+     * @return       The attribute value.
      */
-    private void manifestToJSON()
+    public String mainAttributeValue(String key)
     {
-        if (manifest == null)
-        {
-            throw new IllegalStateException("Manifest is null and must not be.");
-        }
-        Attributes attrs = manifest.getMainAttributes();
-        JSONObject jsonObject = new JSONObject(attrs);
-        json = jsonObject.toJSONString();
+        return manifest.getMainAttributes().getValue(key);
     }
     
-    @Override
-    public void execute(WebScriptRequest req, WebScriptResponse res) throws IOException
+    /**
+     * Retrieve a list of attribute names (Strings) for the main
+     * section of a manifest.
+     * 
+     * @return       The list of attribute names.
+     */
+    public List<String> mainAttributeNames()
     {
-        if (json == null)
+        return namesToStrings(manifest.getMainAttributes().keySet());
+    }
+    
+    /**
+     * Retrieve an attribute value by name from the specific named section of a manifest.
+     * 
+     * @param section   Section name.
+     * @param key       Attribute name.
+     * @return          The attribute value.
+     */
+    public String attributeValue(String section, String key)
+    {
+        return manifest.getAttributes(section).getValue(key);
+    }
+    
+    /**
+     * Retrieve a list of attribute names (Strings) for the named section of a manifest.
+     * 
+     * @param section    Section name.
+     * @return           The list of attribute names.
+     */
+    public List<String> attributeNames(String section)
+    {
+        return namesToStrings(manifest.getAttributes(section).keySet());
+    }
+    
+    /**
+     * Retrieve the set of named sections in the manifest.
+     * 
+     * @return The set of section names.
+     */
+    public Set<String> sectionNames()
+    {
+        return manifest.getEntries().keySet();
+    }
+    
+    
+    
+    protected List<String> namesToStrings(Set<Object> names)
+    {
+        List<String> strings = new ArrayList<String>(names.size());
+        for (Object name : names)
         {
-            throw new IllegalStateException("JSON respresentation of manifest is null.");
-        }
-        Writer w = null;
-        PrintWriter pw = null;
-        try
-        {
-            w = res.getWriter();
-            pw = new PrintWriter(w);
-            pw.print(json);
-        }
-        finally
-        {
-            if (pw != null)
+            if (!String.class.isAssignableFrom(name.getClass()) &&
+                !Attributes.Name.class.isAssignableFrom(name.getClass()))
             {
-                pw.close();
+                throw new IllegalArgumentException("name parameter must be an Attributes.Name or String, but is "
+                            + name.getClass().getCanonicalName());
             }
-            if (w != null)
-            {
-                w.close();
-            }
+            strings.add(name.toString());
         }
+        return strings;
     }
 }

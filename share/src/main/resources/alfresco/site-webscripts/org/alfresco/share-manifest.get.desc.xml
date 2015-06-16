@@ -1,6 +1,0 @@
-<webscript>
-   <shortname>Share Manifest</shortname>
-   <description>Provides read-access to META-INF/MANIFEST.MF</description>
-   <url>/share-manifest</url>
-   <format default="json">argument</format>
-</webscript>
