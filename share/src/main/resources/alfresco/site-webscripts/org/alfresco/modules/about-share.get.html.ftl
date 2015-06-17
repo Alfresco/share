@@ -5,11 +5,11 @@
       <div id="${el}-logo" class="${aboutConfig.getChildValue("css-class")!logo-com} logo">
          <div class="about">
             <#assign split=serverVersion?index_of(" ")>
+            <div class="header">Alfresco Share v${shareVersion?html}</div>
+            <div>(Aikau ${shareLibs.aikau?html},  Spring Surf ${shareLibs.surf?html}, Spring WebScripts ${shareLibs.webscripts?html}, Freemarker ${shareLibs.freemarker?html}, Rhino ${shareLibs.rhino?html}, Yui ${shareLibs.yui?html})</div>
             <div class="header">Alfresco ${serverEdition?html} v${serverVersion?substring(0, split)?html}</div>
             <div>${serverVersion?substring(split+1)?html} schema ${serverSchema?html}</div>
             <#assign split=server.version?index_of(" ")>
-            <div class="header">Spring Surf and ${server.edition?html} v${server.version?substring(0, split)?html}</div>
-            <div>${server.version?substring(split+1)?html}</div>
             <div class="licenseHolder"><#if licenseHolder != "" && licenseHolder != "UNKNOWN"><span>${msg("label.licensedTo")}</span> ${licenseHolder}<#else>&nbsp;</#if></div>
             <div class="contributions-bg"></div>
             <div class="contributions-wrapper">

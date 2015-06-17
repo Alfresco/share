@@ -1019,7 +1019,7 @@
                Alfresco.util.useAsButton(groupEl, function(e, obj)
                {
                   // Remove group from ui
-                  YAHOO.Bubbling.fire('removeGroupUpdate', { id: obj.idx });
+                  YAHOO.Bubbling.fire('removeGroupUpdate', { id: obj.idx, itemName: obj.group.itemName });
 
                   // Tell group finder to deselect the group
                   YAHOO.Bubbling.fire('itemDeselected', { eventGroup: parent.modules.updateGroupFinder, itemName: obj.group.itemName });
@@ -1054,22 +1054,26 @@
           */
          onRemoveGroupUpdate: function onRemoveGroupUpdate(e, args)
          {
-            var id = args[1].id;
-            var el = Dom.get(parent.id + "_group" + id);
-            el.parentNode.removeChild(el);
-            var group = this._groups[id];
-            Alfresco.util.arrayRemove(this._groups, group);
-
-            // if this group was one of the original list, then add it to the removed list
-            if (Alfresco.util.findInArray(this._originalGroups, group.itemName, "itemName"))
+            var id = args[1].id,
+                itemName = args[1].itemName;
+            var group = Alfresco.util.findInArray(this._groups, itemName, "itemName");
+            if (group != null)
             {
-               this._removedGroups.push(group.itemName);
-            }
+               var el = Dom.get(parent.id + "_group" + id);
+               el.parentNode.removeChild(el);
+               Alfresco.util.arrayRemove(this._groups, group);
 
-            // also remove from the added groups list
-            if (Alfresco.util.arrayContains(this._addedGroups, group.itemName))
-            {
-               Alfresco.util.arrayRemove(this._addedGroups, group.itemName);
+               // if this group was one of the original list, then add it to the removed list
+               if (Alfresco.util.findInArray(this._originalGroups, group.itemName, "itemName"))
+               {
+                  this._removedGroups.push(group.itemName);
+               }
+
+               // also remove from the added groups list
+               if (Alfresco.util.arrayContains(this._addedGroups, group.itemName))
+               {
+                  Alfresco.util.arrayRemove(this._addedGroups, group.itemName);
+               }
             }
          },
 

@@ -640,7 +640,7 @@
                {
                   fn: function DocumentActions_oADC_success(data)
                   {
-                     window.location = $siteURL(callbackUrl + encodedPath);
+                     window.location = asset.parent.nodeRef ? $siteURL(callbackUrl + encodedPath) : Alfresco.constants.URL_CONTEXT;
                   }
                }
             },

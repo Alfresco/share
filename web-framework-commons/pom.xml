@@ -40,33 +40,32 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>${project.version}</version>
+            <version>${alfresco.platform.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>${project.version}</version>
+            <version>${alfresco.platform.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
-            <version>${dependency.alfresco-core.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>${project.version}</version>
+            <version>${alfresco.platform.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>${project.version}</version>
+            <version>${alfresco.platform.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>

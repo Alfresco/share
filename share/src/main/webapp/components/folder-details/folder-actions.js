@@ -172,6 +172,11 @@
        */
       onReady: function FolderActions_onReady()
       {
+         // Nothing to do if folder is absent
+         if (!this.options || !this.options.folderDetails)
+         {
+            return;
+         }
          var componentId = this.id;
          
          // Asset data
@@ -260,22 +265,33 @@
          var fileName = asset.fileName,
             displayName = asset.displayName,
             nodeRef = new Alfresco.util.NodeRef(asset.nodeRef),
-            parentNodeRef = new Alfresco.util.NodeRef(asset.parent.nodeRef),
+            parentNodeRef = asset.parent.nodeRef ? new Alfresco.util.NodeRef(asset.parent.nodeRef) : null,
             callbackUrl = "",
-            encodedPath = path.length > 1 ? "?path=" + encodeURIComponent(path) : "";
+            encodedPath = path.length > 1 ? "?path=" + encodeURIComponent(path) : "",
+            activityData =
+            {
+               fileName: fileName,
+               path: path,
+               nodeRef: nodeRef.toString(),
+            };
          
-         // Work out the correct Document Library to return to...
-         if (Alfresco.constants.PAGECONTEXT == "mine")
+         if (parentNodeRef)
          {
-            callbackUrl = "myfiles";
-         }
-         else if (Alfresco.constants.PAGECONTEXT == "shared")
-         {
-            callbackUrl = "sharedfiles";
-         }
-         else
-         {
-            callbackUrl = Alfresco.util.isValueSet(this.options.siteId) ? "documentlibrary" : "repository";
+            // Work out the correct Document Library to return to...
+            if (Alfresco.constants.PAGECONTEXT == "mine")
+            {
+               callbackUrl = "myfiles";
+            }
+            else if (Alfresco.constants.PAGECONTEXT == "shared")
+            {
+               callbackUrl = "sharedfiles";
+            }
+            else
+            {
+               callbackUrl = Alfresco.util.isValueSet(this.options.siteId) ? "documentlibrary" : "repository";
+            }
+            
+            activityData.parentNodeRef = parentNodeRef.toString();
          }
          
          this.modules.actions.genericAction(
@@ -287,19 +303,13 @@
                   siteId: this.options.siteId,
                   activityType: "folder-deleted",
                   page: "documentlibrary",
-                  activityData:
-                  {
-                     fileName: fileName,
-                     path: path,
-                     nodeRef: nodeRef.toString(),
-                     parentNodeRef: parentNodeRef.toString()
-                  }
+                  activityData: activityData
                },
                callback:
                {
                   fn: function FolderActions_oADC_success(data)
                   {
-                     window.location = $siteURL(callbackUrl + encodedPath);
+                     window.location = parentNodeRef ? $siteURL(callbackUrl + encodedPath) : Alfresco.constants.URL_CONTEXT;
                   }
                }
             },

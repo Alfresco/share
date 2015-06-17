@@ -1514,7 +1514,16 @@ body.alfresco-guest
 {
    height: 48px;
    width: 428px;
+}
+
+.theme-company-logo.logo-com
+{
    background: transparent url(images/logo.png) no-repeat;
+}
+
+.theme-company-logo.logo-ent
+{
+   background: transparent url(images/logo-enterprise.png) no-repeat;
 }
 
 .theme-flow-arrow

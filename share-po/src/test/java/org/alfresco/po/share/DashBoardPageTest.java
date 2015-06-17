@@ -88,6 +88,17 @@ public class DashBoardPageTest extends AbstractTest
         AboutPopUp aboutPopUp = dashBoardPage.openAboutPopUp();
         Assert.assertNotNull(aboutPopUp.getLogoUrl());
     }
+    
+    @Test(dependsOnMethods = "checkOpenAboutPopUpLogo", groups = "alfresco-one")
+    public void checkVersionsFromPopUpLogo()
+    {
+        drone.refresh();
+        DashBoardPage dashBoardPage = drone.getCurrentPage().render();
+        AboutPopUp aboutPopUp = dashBoardPage.openAboutPopUp();
+        String versionsDetail = aboutPopUp.getVersionsDetail();
+        Assert.assertTrue(aboutPopUp.isVersionsDetailDisplayed());
+        Assert.assertTrue(versionsDetail.contains("Aikau") && versionsDetail.contains("Spring Surf") && versionsDetail.contains("Spring WebScripts"));
+    }
 
     @Test(dependsOnMethods = "refreshPage", enabled = false, groups = "nonGrid")
     public void testKeysForHeaderBar() throws Exception
