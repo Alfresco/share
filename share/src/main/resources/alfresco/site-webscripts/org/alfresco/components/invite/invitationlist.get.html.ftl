@@ -10,7 +10,6 @@
 
 <@markup id="widgets">
    <@createWidgets group="invite"/>
-   <@processJsonModel group="invite"/>
 </@>
 
 <@markup id="html">
@@ -20,7 +19,16 @@
          <div id="${args.htmlid}-invitationlist" class="invitationlist">
             <div id="${args.htmlid}-invitationBar" class="invitelist-bar alf-invite-panel-header">
                <div class="alf-label">${msg("invitationlist.addDirect.title")}</div>
-               <div id="${args.htmlid}-role-info" data-dojo-attach-point="containerNode" class="alf-role-info-tooltip">
+               <div id="${args.htmlid}-role-info" class="alf-role-info-tooltip">
+                    <button id="${args.htmlid}-role-info-button">
+                    <div id="${args.htmlid}-role-info-panel" class="hidden">
+                        <p><span class="alf-role-tooltip-header">${msg("invitationlist.role-tooltip.header")}</span></p>
+                        <#list rolesTooltipData as roleInfo>
+                            <p><span class="alf-role-tooltip-role-name">${roleInfo.roleName}</span>
+                            <span>${roleInfo.roleDescription}</span></p>
+                        </#list>
+                        <p><a href="http://docs.alfresco.com/${server.versionMajor}.${server.versionMinor}/references/permissions_share.html">${msg("invitationlist.role-tooltip.docs-url-label")}</a></p>
+                    </div>
                </div>
                <div class="invitationlist-selectallroles">
                    <button id="${args.htmlid}-selectallroles-button">${msg("invitationlist.selectallroles")}&nbsp;&#9662;</button>

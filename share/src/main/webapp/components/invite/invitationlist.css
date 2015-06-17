@@ -102,7 +102,7 @@
 }
 
 /* TODO this should match more specific to the individual widget */
-.invitationlist .alfresco-core-Page
+.invitationlist .alf-role-info-tooltip
 {
    float: right;
    padding-top: 0.4em;
@@ -122,12 +122,24 @@
    display: none;
 }
 
-.invitationlist span.alf-info-icon:hover
+.invitationlist .alf-role-info-tooltip .yui-button:hover
 {
    background: transparent url(../images/info-hover-20.png) no-repeat;
 }
- 
-.invitationlist .alf-info-icon
+
+.invitationlist .alf-role-info-tooltip .yui-button button:focus
+{
+    outline: none;
+}
+
+.invitationlist .alf-role-info-tooltip .yui-button,
+.invitationlist .alf-role-info-tooltip .yui-button .first-child
+{
+    border: none;
+    background: none;
+}
+
+.invitationlist .alf-role-info-tooltip .yui-button .first-child
 {
    background: transparent url(../images/info-default-20.png) no-repeat;
    width: 20px;
@@ -135,7 +147,21 @@
    display: block;
 }
 
-.invitationlist .alf-role-tooltip-role-name
+.alf-info-balloon
+{
+  background-color: #FFFFFF;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  color: #333333;
+  padding: 15px;
+}
+
+.alf-info-balloon .closeButton {
+  display: none;
+}
+
+.alf-role-tooltip-role-name,
+.alf-role-tooltip-header
 {
     font-weight: bold;
 }
