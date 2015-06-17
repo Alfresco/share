@@ -508,4 +508,24 @@ public class AddUsersToSitePageTest extends AbstractTest
 
     }
 
+
+    @Test(dependsOnMethods = "testNavigateToSiteMembersPage", groups = "Enterprise-only")
+    public void testInfoTooltip() throws Exception
+    {
+        dashBoard = loginAs(username, password);
+        userSitesPage = dashBoard.getNav().selectMySites().render();
+        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+
+        addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
+
+        addUsersToSitePage.clickOnInfoTooltip();
+        Assert.assertNotNull(addUsersToSitePage.getTooltipHeader());
+
+        ShareUtil.logout(drone);
+
+    }
+
+
+
+
 }

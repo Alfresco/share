@@ -73,6 +73,8 @@ public class AddUsersToSitePage extends SharePage
 
     /**
      * 2 - Set User Roles panel:
+     * Info tooltip button
+     * Tooltip header
      * Set All Roles to button
      * Set All Roles to drop down values
      * Select Role button
@@ -80,6 +82,12 @@ public class AddUsersToSitePage extends SharePage
      * List of invitees
      * List of invitees user names
      */
+    
+    //Info tooltip 
+    private static final By INFO_TOOLTIP_BUTTON = By.cssSelector("button[id$='default-role-info-button-button']");
+    
+    //Tooltip header .alf-role-tooltip-header
+    private static final By TOOLTIP_HEADER = By.cssSelector(".alf-role-tooltip-header");
 
     // Set All Roles to button
     private static final By SET_ALL_ROLES_TO_BUTTON = By.cssSelector("button[id$='selectallroles-button-button']");
@@ -90,8 +98,9 @@ public class AddUsersToSitePage extends SharePage
     // Select Role button
     // private static final By SELECT_ROLE_BUTTONS = By.cssSelector("div[style*='visible']>div>span>span>button");
     // private static final String ROLES_DROP_DOWN_BUTTON = "div[style*='visible']>div>span>span>button";
-    private static final String SELECT_ROLE_BUTTONS = "div[style*='visible']>div>span>span>button";
-
+    //private static final String SELECT_ROLE_BUTTONS = "div[style*='visible']>div>span>span>button";
+    private static final String SELECT_ROLE_BUTTONS =  "//button[contains(text(),'Select Role')]";
+    
     // Select Role button drop down values
     // private static final By SELECT_ROLE_DROP_DOWN_VALUES = By.cssSelector("div[style*='visible']>div>span>span>button");
     private static final String SELECT_ROLE_DROP_DOWN_VALUES = "div[style*='visible']>div>div[style*='visible']>div.bd>ul>li";
@@ -416,6 +425,7 @@ public class AddUsersToSitePage extends SharePage
 
     /**
      * 2 - Set User Roles panel:
+     * clickOnInfoTooltip()
      * getSelectedUsers()
      * getSelectedUserNames()
      * selectRole()
@@ -423,13 +433,51 @@ public class AddUsersToSitePage extends SharePage
      * addUsers()
      * removeSelectedUser()
      */
+    
+    /**
+     * Clickcks on info tooltil button in select role panel
+     * 
+     * @return
+     */
+    public AddUsersToSitePage clickOnInfoTooltip()
+    {
+        try
+        {
+            drone.findAndWait(INFO_TOOLTIP_BUTTON, maxPageLoadingTime).click();
+        }
+        catch (TimeoutException te)
+        {
+            logger.info("Cannot find info tooltip button.", te);
+        }        
+        return new AddUsersToSitePage(drone).render();
+    }
+    
+    /**
+     * Returns true if tooltip
+     * 
+     * @return
+     */
+    public WebElement getTooltipHeader()
+    {
+        WebElement tooltipHeader = null;
+        try
+        {
+            tooltipHeader = drone.find(TOOLTIP_HEADER);
+            return tooltipHeader;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.info("Cannot find info tooltip header.", nse);
+        } 
+        return tooltipHeader;
+    }
+    
 
     /**
      * This method gets the list of selected users.
      * 
      * @return List<WebElement>
      */
-
     private List<WebElement> getSelectedUsers()
     {
         try
@@ -536,7 +584,7 @@ public class AddUsersToSitePage extends SharePage
                 if (userName != null && userName.indexOf(user) != -1)
                 {
                     // selectRolesDropdown();
-                    drone.findAndWait(By.cssSelector(SELECT_ROLE_BUTTONS)).click();
+                    drone.findAndWait(By.xpath(SELECT_ROLE_BUTTONS)).click();
                     // getRoles();
                     // drone.findAndWaitForElements(By.cssSelector(SELECT_ROLE_DROP_DOWN_VALUES), maxPageLoadingTime);
                     // assignRole();
