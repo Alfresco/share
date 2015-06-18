@@ -150,6 +150,8 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     
     protected Boolean disableResourceCaching;
     
+    protected Boolean loginCookiesEnabled;
+    
     /**
      * Default Constructor
      */
@@ -264,10 +266,10 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
             combinedElement.surfBug = configElement.surfBug;
         }
         
-        combinedElement.surfBug = this.surfBug;
-        if (configElement.surfBug != null)
+        combinedElement.loginCookiesEnabled = this.loginCookiesEnabled;
+        if (configElement.loginCookiesEnabled != null)
         {
-            combinedElement.surfBug = configElement.surfBug;
+            combinedElement.loginCookiesEnabled = configElement.loginCookiesEnabled;
         }
         
         combinedElement.defaultSiteConfiguration = this.defaultSiteConfiguration;
@@ -635,6 +637,11 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     public boolean isResourceCachingDisabled()
     {
         return (this.disableResourceCaching != null) ? this.disableResourceCaching.booleanValue() : Boolean.FALSE; 
+    }
+    
+    public boolean isLoginCookiesEnabled()
+    {
+        return (this.loginCookiesEnabled != null) ? this.loginCookiesEnabled.booleanValue() : Boolean.TRUE; 
     }
     
     /**
@@ -1096,6 +1103,12 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
             if (_surfBug != null)
             {
                 configElement.surfBug = _surfBug;
+            }
+            
+            String _loginCookiesEnabled = defaults.elementTextTrim("login-cookies-enabled");
+            if (_loginCookiesEnabled != null)
+            {
+                configElement.loginCookiesEnabled = Boolean.valueOf(_loginCookiesEnabled);
             }
             
             String _theme = defaults.elementTextTrim("theme");

@@ -247,6 +247,7 @@
                 <component-chrome>default-component-chrome</component-chrome>
                 <sub-component-chrome>default-sub-component-chrome</sub-component-chrome>
                 <surfbug>default-surfbug</surfbug>
+                <login-cookies-enabled>true</login-cookies-enabled>
 
                 <!-- Default Page Types -->
                 <!--

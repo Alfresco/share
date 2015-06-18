@@ -79,7 +79,6 @@
             <ref bean="requestContextInterceptor"/>
             <ref bean="userDashboardInterceptor"/>
             <ref bean="editionInterceptor"/>
-            <ref bean="cookieInterceptor"/>
          </list>
       </property>
       <property name="mappings">
@@ -101,6 +100,7 @@
        <property name="useExpiresHeader"><value>true</value></property>
        <property name="useCacheControlHeader"><value>true</value></property>
        <property name="userFactory" ref="user.factory"></property>
+       <property name="webFrameworkConfiguration" ref="webframework.config.element"></property>
        <property name="supportedMethods">
            <list>
                <value>HEAD</value>
@@ -223,9 +223,6 @@
    <!-- Interceptors -->
    <bean id="editionInterceptor" class="org.alfresco.web.site.EditionInterceptor" parent="abstractWebFrameworkInterceptor" />
    <bean id="userDashboardInterceptor" class="org.alfresco.web.site.UserDashboardInterceptor" parent="abstractWebFrameworkInterceptor" />
-   <bean id="cookieInterceptor" class="org.alfresco.web.site.CookieInterceptor" parent="abstractWebFrameworkInterceptor" init-method="init">
-       <property name="configService" ref="web.config" />
-   </bean>
    
    <bean id="dependency.aggregator" parent="dependency.aggregator.abstract" class="org.springframework.extensions.surf.DependencyAggregator">
       <property name="compressionExclusions">
