@@ -1,12 +1,12 @@
 <#list set.children as item>
    <#if item.kind != "set">
       <#if (item_index % 2) == 0>
-      <div class="yui-gc"><div class="yui-u first">
+      <div class="alf-gc"><div class="alf-u first">
       <#else>
-      <div class="yui-u">
+      <div class="alf-u">
       </#if>
       <@formLib.renderField field=form.fields[item.id] />
       </div>
-      <#if ((item_index % 2) != 0) || !item_has_next></div></#if>
+      <#if ((item_index % 2) == 1) || !item_has_next></div></#if>
    </#if>
 </#list>
