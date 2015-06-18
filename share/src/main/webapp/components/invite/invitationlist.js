@@ -306,8 +306,8 @@
          var columnDefinitions =
          [
             { key: "user", label: "User", sortable: false, formatter: renderCellDescription },
-            { key: "role", label: "Role", sortable: false, formatter: renderCellRole, width: 140 },
-            { key: "remove", label: "Remove", sortable: false, formatter: renderCellRemoveButton, width: 30 }
+            { key: "role", label: "Role", sortable: false, formatter: renderCellRole },
+            { key: "remove", label: "Remove", sortable: false, formatter: renderCellRemoveButton }
          ];
 
          var msgEmpty = "";

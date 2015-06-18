@@ -89,7 +89,7 @@
 
 .alf-invite-direct-add td.greenCheck
 {
-   background: url(../../components/images/green-check-28.png) no-repeat 3px center;
+   background: url(../../components/images/green-check-28.png) no-repeat center;
 }
 
 .alf-invite-direct-add .alf-label 
@@ -98,4 +98,24 @@
    font-size: 1.1em;
    line-height: 2em;
    margin-left: 2.3em;
+}
+
+button
+{
+   white-space: nowrap;
+}
+
+.itemname,
+.detail
+{
+   max-width: 10em;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.itemname:hover,
+.detail:hover
+{
+   overflow: visible;
+   text-overflow: inherit;
 }
