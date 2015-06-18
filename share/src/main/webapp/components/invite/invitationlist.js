@@ -678,6 +678,7 @@
             
             var tallyDiv = Dom.getElementsByClassName("added-users-list-tally", "div", "bd")[0];
             tallyDiv.innerHTML = this.msg("added-users-list.tally", this.addedUsers.items.length);
+            Dom.removeClass(tallyDiv, "hidden");
          }
       },
       

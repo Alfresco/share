@@ -160,6 +160,11 @@
    height: 160px;
 }
 
+.alf-invite-direct-add .people-finder.compact .results
+{
+   height: 300px;
+}
+
 .people-finder.compact img.avatar
 {
    width: 32px;
@@ -168,4 +173,16 @@
 .people-finder.compact div.detail
 {
    display: inline;
+}
+
+/* Full Page Mode */
+.people-finder .alf-full-page
+{
+   height: auto;
+}
+
+/* Default Mode */
+.people-finder .alf-default
+{
+   height: 300px;
 }

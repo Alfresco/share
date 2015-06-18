@@ -73,12 +73,12 @@
 
 .alf-invite-direct-add .column2
 {
-   width: 42%;
+   width: 37%;
 }
 
 .alf-invite-direct-add .column3
 {
-   width: 21%;
+   width: 26%;
 }
 
 .alf-invite-direct-add .instructions-bar
@@ -90,4 +90,12 @@
 .alf-invite-direct-add td.greenCheck
 {
    background: url(../../components/images/green-check-28.png) no-repeat 3px center;
+}
+
+.alf-invite-direct-add .alf-label 
+{
+   float: left;
+   font-size: 1.1em;
+   line-height: 2em;
+   margin-left: 2.3em;
 }

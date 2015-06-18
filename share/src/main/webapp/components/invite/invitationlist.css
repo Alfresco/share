@@ -15,6 +15,7 @@
    height: 300px;
    overflow: auto;
    position: relative !important;
+   background-color: white;
 }
 
 .invitationlist .inviteelist table
@@ -110,13 +111,6 @@
    margin-right: 1em;
 }
 
-.invitationlist .alf-invite-panel-header .alf-label
-{
-   font-size: 1.3em;
-   float: left;
-   margin-left: 2em;
-   line-height: 1.7em;
-}
 .alf-invite-require-acceptance .invitationlist .alf-invite-panel-header .alf-label
 {
    display: none;
@@ -215,7 +209,7 @@
 .invitationlist .invitelist-bar
 {
    background-color: #f5f5f5;
-   border-bottom: 1px dotted #c0c0c0;
+   border-bottom: 1px solid #c0c0c0;
    padding: 6px;
 }
 
