@@ -676,7 +676,7 @@ public class DocumentLibraryNavigation extends SharePage
     }
 
     /**
-     * Mimics the  select "Sync to Cloud" button from Navigation bar.
+     * Mimics the select "Sync to Cloud" button from Navigation bar.
      * It displays when have boths files and folders selected
      * Assumes Cloud sync is already set-up
      *
@@ -689,7 +689,6 @@ public class DocumentLibraryNavigation extends SharePage
         {
             {
                 WebElement element = drone.findAndWait(SYNC_TO_CLOUD_BUTTON);
-                String id = element.getAttribute("id");
                 element.click();
                 if (isSignUpDialogVisible())
                 {
@@ -923,7 +922,8 @@ public class DocumentLibraryNavigation extends SharePage
         }
     }
 
-    public void clickSelectedItemsButton(){
+    public void clickSelectedItemsButton()
+    {
         clickSelectedItems();
     }
 
@@ -934,7 +934,7 @@ public class DocumentLibraryNavigation extends SharePage
             boolean isDeleteAction = drone.find(DELETE).isDisplayed();
             return isDeleteAction;
         }
-        catch(NoSuchElementException ex)
+        catch (NoSuchElementException ex)
         {
             return false;
         }
@@ -1770,6 +1770,7 @@ public class DocumentLibraryNavigation extends SharePage
 
     /**
      * Finds the ZoomStyle of the doclib.
+     * 
      * @return {@link ZoomStyle}
      */
     public ZoomStyle getZoomStyle()
@@ -2265,7 +2266,6 @@ public class DocumentLibraryNavigation extends SharePage
         {
             drone.findAndWait(BREAD_CRUMBS_PARENT_SPAN).click();
             return FactorySharePage.resolvePage(drone);
-
         }
         catch (TimeoutException e)
         {
@@ -2273,6 +2273,5 @@ public class DocumentLibraryNavigation extends SharePage
             throw new PageException("Not able to find " + BREAD_CRUMBS_PARENT_SPAN, e);
         }
     }
-
 
 }

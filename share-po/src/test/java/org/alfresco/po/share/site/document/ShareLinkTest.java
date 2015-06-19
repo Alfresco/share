@@ -1,5 +1,4 @@
 /*
-
  * Copyright (C) 2005-2012 Alfresco Software Limited. This file is part of Alfresco Alfresco is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any
  * later version. Alfresco is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -9,8 +8,8 @@
 package org.alfresco.po.share.site.document;
 
 import java.io.File;
-import java.util.Set;
 
+import org.alfresco.po.share.AlfrescoVersion;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.UserSearchPage;
@@ -19,8 +18,6 @@ import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -35,7 +32,6 @@ import org.testng.annotations.Test;
 @Listeners(FailedTestListener.class)
 public class ShareLinkTest extends AbstractDocumentTest
 {
-    private static Log logger = LogFactory.getLog(ShareLinkTest.class);
     private static String siteName;
     private String userName = "user" + System.currentTimeMillis() + "@test.com";
     private String firstName = userName;
@@ -45,6 +41,7 @@ public class ShareLinkTest extends AbstractDocumentTest
     private File tempFile;
     private static String folderName1;
     private static String folderDescription;
+    ViewPublicLinkPage viewPage;
 
     @BeforeClass(groups = "alfresco-one")
     public void prepare() throws Exception
@@ -106,7 +103,6 @@ public class ShareLinkTest extends AbstractDocumentTest
     {
         folderName1 = "The first folder";
         folderDescription = String.format("Description of %s", folderName1);
-
         SitePage page = drone.getCurrentPage().render();
         documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
@@ -128,41 +124,40 @@ public class ShareLinkTest extends AbstractDocumentTest
         Assert.assertTrue(shareLinkPage.isViewLinkPresent());
         String shareLink = shareLinkPage.getShareURL();
 
-        ViewPublicLinkPage viewPage = shareLinkPage.clickViewButton().render();
+        viewPage = shareLinkPage.clickViewButton().render();
         Assert.assertEquals(viewPage.getDrone().getCurrentUrl(), shareLink);
         Assert.assertTrue(viewPage.isDocumentViewDisplayed());
-
-        // add Bogdan 22.07.2014 -> test new method from ViewPublicLinkPage.getButtonName
         Assert.assertEquals(viewPage.getButtonName(), "Document Details");
-        // end add Bogdan
-
         Assert.assertEquals(viewPage.getContentTitle(), file.getName());
+    }
+    
+    @Test(groups = { "alfresco-one" }, priority = 2)
+    public void testViewLogo()
+    {
+        String logoSrc = viewPage.getLogoImgSrc();
+        AlfrescoVersion version = drone.getProperties().getVersion();
+        if (!version.isCloud())
+        {
+            Assert.assertTrue(logoSrc.contains("logo-enterprise.png"));
+        }
+        else
+        {
+            Assert.assertTrue(logoSrc.contains("logo.png"));
+        }
         DocumentDetailsPage detailsPage = viewPage.clickOnDocumentDetailsButton().render();
         documentLibPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 2)
+    @Test(groups = { "alfresco-one" }, priority = 3)
     public void testVerifyUnShareLink()
     {
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
-
-        //String shareLink = shareLinkPage.getShareURL();
-
         Assert.assertTrue(shareLinkPage.isUnShareLinkPresent());
         documentLibPage = shareLinkPage.clickOnUnShareButton().render();
-
-        // add bogdan 22.07.2014 -> test new methods from ViewPublicLinkPage(getPageNotAvailable, getBodyPageNotAvailable)
-/*        drone.createNewTab();
-        drone.navigateTo(shareLink);
-        ViewPublicLinkPage viewPage = new ViewPublicLinkPage(drone);
-        Assert.assertEquals(viewPage.getPageNotAvailable(), "Page not available");
-        Assert.assertEquals(viewPage.getBodyPageNotAvailable(), "It appears that this shared file link has been removed.");
-        drone.closeTab();
-*/        // end add bogdan
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 3)
+    @Test(groups = { "alfresco-one" }, priority = 4)
     public void testVerifyEmailLink()
     {
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
@@ -172,7 +167,7 @@ public class ShareLinkTest extends AbstractDocumentTest
         documentLibPage = documentLibPage.getSiteNav().selectSiteDocumentLibrary().render();
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 4)
+    @Test(groups = { "alfresco-one" }, priority = 5)
     public void testOtherShareLinks() throws InterruptedException
     {
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(tempFile.getName());
@@ -180,9 +175,8 @@ public class ShareLinkTest extends AbstractDocumentTest
 
         Assert.assertTrue(shareLinkPage.isFaceBookLinkPresent());
         shareLinkPage.clickFaceBookLink();
-        //Adding Wait Until new Window Open
-        Thread.sleep(2000);
-
+        waitInSeconds(2);
+        
         String mainWindow = drone.getWindowHandle();
         Assert.assertTrue(isWindowOpened("Facebook"));
         drone.closeWindow();
@@ -190,8 +184,7 @@ public class ShareLinkTest extends AbstractDocumentTest
 
         Assert.assertTrue(shareLinkPage.isTwitterLinkPresent());
         shareLinkPage.clickTwitterLink();
-        //Adding Wait Until new Window Open
-        Thread.sleep(2000);
+        waitInSeconds(2);
 
         mainWindow = drone.getWindowHandle();
         Assert.assertTrue(isWindowOpened("Share a link on Twitter"));
@@ -200,8 +193,7 @@ public class ShareLinkTest extends AbstractDocumentTest
 
         Assert.assertTrue(shareLinkPage.isGooglePlusLinkPresent());
         shareLinkPage.clickGooglePlusLink();
-        //Adding Wait Until new Window Open
-        Thread.sleep(2000);
+        waitInSeconds(2);
 
         mainWindow = drone.getWindowHandle();
         Assert.assertTrue(isWindowOpened("Google+"));
@@ -209,19 +201,18 @@ public class ShareLinkTest extends AbstractDocumentTest
         drone.switchToWindow(mainWindow);
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 5, expectedExceptions = UnsupportedOperationException.class)
+    @Test(groups = { "alfresco-one" }, priority = 6, expectedExceptions = UnsupportedOperationException.class)
     public void clickShareLinkFolder()
     {
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName1);
         thisRow.clickShareLink().render();
     }
 
-    @Test(groups = { "alfresco-one", "ChromeIssue"}, priority = 6)
+    @Test(groups = { "alfresco-one", "ChromeIssue" }, priority = 7)
     public void testDocPreviewController() throws Exception
     {
         SitePage site = drone.getCurrentPage().render();
         documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
-
         File file1 = SiteUtil.prepareFile("File-1" + System.currentTimeMillis(), "This is a sample file");
         DocumentLibraryPage documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
 
@@ -234,7 +225,6 @@ public class ShareLinkTest extends AbstractDocumentTest
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
 
         String shareLink = shareLinkPage.getShareURL();
-
         drone.createNewTab();
         drone.navigateTo(shareLink);
         ViewPublicLinkPage viewPage = new ViewPublicLinkPage(drone);
@@ -243,7 +233,7 @@ public class ShareLinkTest extends AbstractDocumentTest
         // get the zoom scale
         int normalZoom = viewPage.getIntegerZoomScale();
         Assert.assertTrue(viewPage.getZoomScale().matches("[0-9][0-9]?[0-9]%"));
-        
+
         viewPage.clickZoomIn();
         int firstZoom = viewPage.getIntegerZoomScale();
         Assert.assertTrue(firstZoom > normalZoom);
@@ -257,24 +247,8 @@ public class ShareLinkTest extends AbstractDocumentTest
         viewPage.clickZoomOut();
         int zoomOut = viewPage.getIntegerZoomScale();
         Assert.assertTrue(zoomOut < secondZoom);
-        
+
         drone.closeTab();
         documentLibPage.render();
-    }
-
-    private boolean isWindowOpened(String windowName)
-    {
-        Set<String> windowHandles = drone.getWindowHandles();
-
-        for (String windowHandle : windowHandles)
-        {
-            drone.switchToWindow(windowHandle);
-            logger.info(drone.getTitle());
-            if (drone.getTitle().equals(windowName))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
