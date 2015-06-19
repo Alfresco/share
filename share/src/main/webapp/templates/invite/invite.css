@@ -108,14 +108,5 @@ button
 .itemname,
 .detail
 {
-   max-width: 10em;
-   overflow: hidden;
-   text-overflow: ellipsis;
-}
-
-.itemname:hover,
-.detail:hover
-{
-   overflow: visible;
-   text-overflow: inherit;
+   word-break: break-all;
 }

@@ -97,11 +97,6 @@
     float: right;
 }
 
-.alf-invite-require-acceptance .invitationlist-selectallroles
-{
-    float: none;
-}
-
 /* TODO this should match more specific to the individual widget */
 .invitationlist .alf-role-info-tooltip
 {
@@ -216,4 +211,15 @@
 .alf-invite-require-acceptance .invitationlist .invitelist-bar
 {
    visibility: hidden;
+}
+
+.invitationlist td.yui-dt1-col-role 
+{
+   padding-right: 5px;
+   text-align: right;
+}
+
+.invitationlist td.yui-dt1-col-remove
+{
+   width: 30px;
 }

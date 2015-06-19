@@ -160,9 +160,15 @@
    height: 160px;
 }
 
-.alf-invite-direct-add .people-finder.compact .results
+.alf-invite-direct-add .people-finder.compact .alf-results-wrapper
 {
    height: 300px;
+   overflow:auto;
+}
+
+.alf-invite-direct-add .people-finder.compact .results
+{
+   height: auto;
 }
 
 .people-finder.compact img.avatar
