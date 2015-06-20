@@ -1,18 +1,14 @@
 /*
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- *
  * This file is part of Alfresco
- *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -60,9 +56,11 @@ import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
 /**
  * Abstract test holds all common methods and functionality to test against
  * Benchmark Grid tests.
@@ -108,12 +106,12 @@ public abstract class AbstractTest implements AlfrescoTests
     }
 
     @BeforeSuite(alwaysRun = true)
-    @Parameters({"contextFileName"})
-    public void setupContext(@Optional("share-po-test-context.xml")String contextFileName) throws Exception
+    @Parameters({ "contextFileName" })
+    public void setupContext(@Optional("share-po-test-context.xml") String contextFileName) throws Exception
     {
-        if(logger.isTraceEnabled())
+        if (logger.isTraceEnabled())
         {
-            logger.trace("Starting test context" + contextFileName );
+            logger.trace("Starting test context" + contextFileName);
         }
 
         List<String> contextXMLList = new ArrayList<String>();
@@ -139,7 +137,7 @@ public abstract class AbstractTest implements AlfrescoTests
         blogUsername = t.getBlogUsername();
         blogPassword = t.getBlogPassword();
 
-        if(hybridEnabled)
+        if (hybridEnabled)
         {
             ShareTestProperty testProperty = (ShareTestProperty) ctx.getBean("shareHybridTestProperties");
             hybridShareUrl = testProperty.getShareUrl();
@@ -147,14 +145,14 @@ public abstract class AbstractTest implements AlfrescoTests
             hybridUserPassword = testProperty.getPassword();
         }
 
-        if(logger.isTraceEnabled())
+        if (logger.isTraceEnabled())
         {
             logger.trace("Alfresco version is" + alfrescoVersion);
             logger.trace("Alfresco shareUrl is" + shareUrl);
             logger.trace("Pentaho user console is" + pentahoUserConsoleUrl);
         }
         anotherUser = (UserProfile) ctx.getBean("anotherUser");
-        if(logger.isTraceEnabled())
+        if (logger.isTraceEnabled())
         {
             logger.trace("Loaded another user for test purposes - " + anotherUser);
         }
@@ -163,7 +161,7 @@ public abstract class AbstractTest implements AlfrescoTests
     @BeforeClass(alwaysRun = true)
     public void getWebDrone() throws Exception
     {
-        if(hybridEnabled)
+        if (hybridEnabled)
         {
             hybridDrone = (WebDrone) ctx.getBean("hybridDrone");
             hybridDrone.maximize();
@@ -207,9 +205,9 @@ public abstract class AbstractTest implements AlfrescoTests
      */
     public DashBoardPage loginAs(final String... userInfo) throws Exception
     {
-        if(shareUrl == null)
+        if (shareUrl == null)
         {
-            if(logger.isTraceEnabled())
+            if (logger.isTraceEnabled())
             {
                 logger.trace("null shareUrl");
             }
@@ -225,9 +223,9 @@ public abstract class AbstractTest implements AlfrescoTests
      */
     public DashBoardPage loginAs(WebDrone drone, String shareUrl, final String... userInfo) throws Exception
     {
-        if(shareUrl == null)
+        if (shareUrl == null)
         {
-            if(logger.isTraceEnabled())
+            if (logger.isTraceEnabled())
             {
                 logger.trace("null shareUrl");
             }
@@ -239,12 +237,12 @@ public abstract class AbstractTest implements AlfrescoTests
     {
         Robot robot = new Robot();
         BufferedImage screenShot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-        ImageIO.write(screenShot, "png", new File("target/webdrone-" + methodName+ "_OS" +".png"));
+        ImageIO.write(screenShot, "png", new File("target/webdrone-" + methodName + "_OS" + ".png"));
     }
 
     public void saveScreenShot(String methodName) throws IOException
     {
-        if(StringUtils.isEmpty(methodName))
+        if (StringUtils.isEmpty(methodName))
         {
             throw new IllegalArgumentException("Method Name can't be empty or null.");
         }
@@ -264,15 +262,15 @@ public abstract class AbstractTest implements AlfrescoTests
     protected void startSession(Method method) throws Exception
     {
         testName = method.getName();
-        if(logger.isTraceEnabled())
+        if (logger.isTraceEnabled())
         {
-            logger.trace(String.format("Test run:%s.%s",
-                                        method.getDeclaringClass().getCanonicalName(),
-                                        testName));
+            logger.trace(String.format("Test run:%s.%s", method.getDeclaringClass().getCanonicalName(), testName));
         }
     }
+
     /**
      * Helper method to get site dashboard page.
+     * 
      * @param siteName String name of the site to enter
      * @return {@link SiteDashboardPage} page
      */
@@ -290,14 +288,14 @@ public abstract class AbstractTest implements AlfrescoTests
      */
     public static void logout(WebDrone drone)
     {
-        if(drone != null)
+        if (drone != null)
         {
             try
             {
                 if (drone.getCurrentUrl().contains(shareUrl.trim()))
                 {
                     ShareUtil.logout(drone);
-                    if(logger.isTraceEnabled())
+                    if (logger.isTraceEnabled())
                     {
                         logger.trace("Logout");
                     }
@@ -314,7 +312,7 @@ public abstract class AbstractTest implements AlfrescoTests
      * Function to create user on Enterprise using UI
      *
      * @param uname - This should always be unique. So the user of this method needs to verify it is unique.
-     *                eg. - "testUser" + System.currentTimeMillis();
+     *            eg. - "testUser" + System.currentTimeMillis();
      * @return
      * @throws Exception
      */
@@ -358,6 +356,7 @@ public abstract class AbstractTest implements AlfrescoTests
 
     /**
      * Method to setup cloud sync from My Profile page.
+     * 
      * @param drone
      * @param cloudUserName
      * @param password
@@ -382,6 +381,7 @@ public abstract class AbstractTest implements AlfrescoTests
 
     /**
      * Utility method to open site document library from search
+     * 
      * @param drone
      * @param siteName
      * @return
@@ -399,15 +399,16 @@ public abstract class AbstractTest implements AlfrescoTests
 
     /**
      * Utility method to disconnect Cloud Sync.
+     * 
      * @param drone
      */
     protected void disconnectCloudSync(WebDrone drone)
     {
-        if(hybridEnabled)
+        if (hybridEnabled)
         {
             MyProfilePage myProfilePage = ((SharePage) drone.getCurrentPage()).getNav().selectMyProfile().render();
             CloudSyncPage cloudSyncPage = myProfilePage.getProfileNav().selectCloudSyncPage().render();
-            if(cloudSyncPage.isDisconnectButtonDisplayed())
+            if (cloudSyncPage.isDisconnectButtonDisplayed())
             {
                 cloudSyncPage.disconnectCloudAccount().render();
             }
@@ -416,6 +417,7 @@ public abstract class AbstractTest implements AlfrescoTests
 
     /**
      * Method to Cancel a WorkFlow or Delete a WorkFlow (To use in TearDown method)
+     * 
      * @param workFlow
      */
     protected void cancelWorkFlow(String workFlow)
@@ -423,12 +425,12 @@ public abstract class AbstractTest implements AlfrescoTests
         SharePage sharePage = drone.getCurrentPage().render();
         MyWorkFlowsPage myWorkFlowsPage = sharePage.getNav().selectWorkFlowsIHaveStarted().render();
         myWorkFlowsPage.render();
-        if(myWorkFlowsPage.isWorkFlowPresent(workFlow))
+        if (myWorkFlowsPage.isWorkFlowPresent(workFlow))
         {
             myWorkFlowsPage.cancelWorkFlow(workFlow);
         }
         myWorkFlowsPage = myWorkFlowsPage.selectCompletedWorkFlows().render();
-        if(myWorkFlowsPage.isWorkFlowPresent(workFlow))
+        if (myWorkFlowsPage.isWorkFlowPresent(workFlow))
         {
             myWorkFlowsPage.deleteWorkFlow(workFlow);
         }
@@ -437,6 +439,7 @@ public abstract class AbstractTest implements AlfrescoTests
     /**
      * This method is used to get if the task is present or not.
      * If the task is not displayed, retry for defined time(maxWaitTime_CloudSync)
+     * 
      * @param driver
      * @param taskName
      * @return boolean
@@ -454,7 +457,7 @@ public abstract class AbstractTest implements AlfrescoTests
                 t.start();
                 try
                 {
-                    if(myTasksPage.isTaskPresent(taskName))
+                    if (myTasksPage.isTaskPresent(taskName))
                     {
                         return true;
                     }
@@ -464,7 +467,9 @@ public abstract class AbstractTest implements AlfrescoTests
                         {
                             driver.waitForElement(By.id("AlfrescoWebdronez1"), SECONDS.convert(1000, MILLISECONDS));
                         }
-                        catch (TimeoutException e) {}
+                        catch (TimeoutException e)
+                        {
+                        }
                         driver.refresh();
                     }
                 }
@@ -513,7 +518,7 @@ public abstract class AbstractTest implements AlfrescoTests
 
                     if (status.contains("Pending"))
                     {
-                    	synchronized (this)
+                        synchronized (this)
                         {
                             try
                             {
@@ -547,6 +552,7 @@ public abstract class AbstractTest implements AlfrescoTests
 
         return false;
     }
+
     /**
      * This method is used to get sync status (with retry) for a content from
      * document details page and returns true if the content synced otherwise
@@ -573,7 +579,7 @@ public abstract class AbstractTest implements AlfrescoTests
                     status = detailsPage.getSyncStatus();
                     if (status.contains("Pending") || status.isEmpty())
                     {
-                    	synchronized (this)
+                        synchronized (this)
                         {
                             try
                             {
@@ -609,6 +615,7 @@ public abstract class AbstractTest implements AlfrescoTests
 
     /**
      * Method to upload a file from given path. Method assumes that user is already in Document Library Page
+     * 
      * @param drone
      * @param filePath
      * @return
@@ -619,9 +626,9 @@ public abstract class AbstractTest implements AlfrescoTests
         UploadFilePage uploadForm = documentLibraryPage.getNavigation().selectFileUpload().render();
         return uploadForm.uploadFile(filePath).render();
     }
-    
+
     /**
-     * Helper to create a new file, empty or with specified contents if one does not exist. 
+     * Helper to create a new file, empty or with specified contents if one does not exist.
      * Logs if File already exists
      * 
      * @param filename String Complete path of the file to be created
@@ -658,6 +665,45 @@ public abstract class AbstractTest implements AlfrescoTests
             logger.error("Unable to create sample file", ex);
         }
         return file;
+    }
+
+    /**
+     * Verify the window name of new opened page
+     * 
+     * @param windowName
+     * @return boolean
+     */
+    public boolean isWindowOpened(String windowName)
+    {
+        Set<String> windowHandles = drone.getWindowHandles();
+
+        for (String windowHandle : windowHandles)
+        {
+            drone.switchToWindow(windowHandle);
+            logger.info(drone.getTitle());
+            if (drone.getTitle().contains(windowName))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method to wait for given seconds
+     * 
+     * @param seconds
+     */
+    public static void waitInSeconds(int seconds)
+    {
+        long time0;
+        long time1;
+        time0 = System.currentTimeMillis();
+        do
+        {
+            time1 = System.currentTimeMillis();
+        }
+        while (time1 - time0 < seconds * 1000);
     }
 
 }

@@ -19,8 +19,12 @@ import org.alfresco.po.share.dashlet.FactoryShareDashlet;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 
 /**
  * Dashboard page object, holds all element of the HTML page relating to share's
@@ -104,5 +108,24 @@ public class DashBoardPage extends SharePage implements Dashboard
         return FactoryShareDashlet.getPage(drone, name);
     }
     
- 
+    /**
+     * Click the 'View the tutorials' link
+     */
+    public void clickTutorialsLink()
+    {
+        try
+        {
+            drone.findAndWait(By.xpath("//span[text()='View the tutorials']")).click();
+        }
+        catch (NoSuchElementException ex)
+        {
+            logger.error("Unable to find tutorials link.", ex);
+            throw new PageException("Unable to find tutorials link");
+        }
+        catch (TimeoutException e)
+        {
+            logger.error("Exceeded the time to find tutorials link.", e);
+            throw new PageOperationException("Not able to find the tutorials link");
+        }  
+    }
 }

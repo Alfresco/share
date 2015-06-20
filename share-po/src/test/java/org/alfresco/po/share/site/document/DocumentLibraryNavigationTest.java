@@ -19,7 +19,9 @@ import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.TreeMenuNavigation.DocumentsMenu;
 import org.alfresco.po.share.util.SiteUtil;
+import org.alfresco.po.thirdparty.firefox.RssFeedPage;
 import org.alfresco.test.FailedTestListener;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -99,11 +101,19 @@ public class DocumentLibraryNavigationTest extends AbstractTest
             }
             count++;
         }
-
         FileDirectoryInfo file = documentLibPage.getFileDirectoryInfo(file1.getName());
         file.selectLocateFile();
         documentLibPage.render();
         assertTrue(documentLibPage.isFileVisible(file1.getName()));
+    }
+    
+    @Test(enabled = true, priority = 4)
+    public void testRssPageAlfOneLogo() throws Exception
+    {
+        RssFeedPage rssPage = documentLibPage.getNavigation().selectRssFeed(username, password, siteName).render();
+        String logoSrc = rssPage.getLogoImgSrc();
+        Assert.assertTrue(logoSrc.contains("logo-enterprise.png"));    
+        rssPage.clickOnContentLocation(file1.getName()).render();
     }
 
 }

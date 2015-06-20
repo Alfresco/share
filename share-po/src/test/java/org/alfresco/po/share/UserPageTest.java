@@ -16,7 +16,6 @@ public class UserPageTest extends AbstractTest
     public void userPageLinks() throws Exception
     {
         drone.navigateTo(shareUrl);
-        // LoginPage page = drone.getCurrentPage().render();
         DashBoardPage dashBoard = loginAs(username, password);
         userpage = dashBoard.getNav().selectUserDropdown().render();
         Assert.assertTrue(userpage.isSetStausLinkPresent());
@@ -70,5 +69,18 @@ public class UserPageTest extends AbstractTest
         Assert.assertTrue(changepasswordpage.formPresent());
         userpage = changepasswordpage.getNav().selectUserDropdown().render();
     }
-
+    
+    /**
+     * To verify the right page is opened when selecting Help
+     */
+    @Test(groups = "Enterprise-only", dependsOnMethods = "changePassWordPageCheck")
+    public void selectHelp()
+    {
+        String mainWindow = drone.getWindowHandle();
+        userpage.clickHelp();
+        waitInSeconds(3);
+        Assert.assertTrue(isWindowOpened("Using Alfresco One"));
+        drone.closeWindow();
+        drone.switchToWindow(mainWindow);
+    }
 }
