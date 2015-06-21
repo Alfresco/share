@@ -11,8 +11,10 @@
    <@markup id="html">
       <@uniqueIdDiv>
          <#assign el=args.htmlid?html/>
-         <div class="quickshare-node-header">
-
+         <div class="yui-gc quickshare-node-header">
+            <#if showDownload == "true">
+               <div class="yui-u first">
+            </#if>
             <#-- Icon -->
             <img src="${url.context}/res/components/images/filetypes/${fileExtension}-file-48.png"
                  onerror="this.src='${url.context}/res/components/images/filetypes/generic-file-48.png'"
@@ -29,6 +31,18 @@
                   dateEl.innerHTML = Alfresco.util.formatDate(Alfresco.util.fromISO8601(dateEl.innerHTML), Alfresco.util.message("date-format.default"));
                </script>
             </div>
+
+            <#if showDownload == "true">
+               </div>
+               <div class="yui-u quickshare-node-action"> 
+                  <!-- Download Button -->
+                  <span class="yui-button yui-link-button onDownloadDocumentClick">
+                     <span class="first-child">
+                        <a href="${url.context}/proxy/alfresco${(contentURL!"")?html}?a=true" tabindex="0">${msg("button.download")}</a>
+                     </span>
+                  </span>
+               </div>
+            </#if>
 
          </div>
       </@>
