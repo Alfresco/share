@@ -662,7 +662,7 @@ function getSubNavigationWidgets() {
    {
       // Get the standard navigation widgets (expected to be site pages)...
       var siteData = getSiteData();
-      if (siteData.profile.visibility != "PUBLIC" && siteData.userIsMember === false)
+      if (!user.isAdmin && siteData.profile.visibility != "PUBLIC" && siteData.userIsMember === false)
       {
          navigationWidgets = [];
       }
