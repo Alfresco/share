@@ -14,3 +14,14 @@
    padding: 0.5em 0 0.2em;
 }
 
+.quickshare-node-action
+{
+   float: right;
+   text-align: right;
+}
+
+.quickshare-node-action .onDownloadDocumentClick a
+{
+   background: transparent url(../documentlibrary/actions/document-download-16.png) no-repeat scroll 12px 4px;
+   padding-left: 32px;
+}
