@@ -70,6 +70,17 @@
    float: left;
 }
 
+.people-finder .search-bar div:first-child
+{
+   width: 62%
+}
+
+.people-finder .search-bar div:last-child
+{
+   width: 31%;
+   text-align: right;
+}
+
 .people-finder .result-info
 {
    border-bottom: 1px dashed #c0c0c0;
@@ -83,11 +94,6 @@
 .people-finder .search-text input
 {
    width: 100%;
-}
-
-.alf-invite-require-acceptance .people-finder .search-text input
-{
-   width: 30em;
 }
 
 .people-finder .search-button button
@@ -148,11 +154,6 @@
 .people-finder.compact div.title
 {
    display: none;
-}
-
-.people-finder.compact .search-text input
-{
-   width: 14em;
 }
 
 .people-finder.compact .results
