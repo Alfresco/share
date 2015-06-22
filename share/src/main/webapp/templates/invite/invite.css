@@ -87,9 +87,12 @@
    padding-top: 10px;
 }
 
-.alf-invite-direct-add td.greenCheck
+.alf-invite-direct-add .alf-green-check
 {
    background: url(../../components/images/green-check-28.png) no-repeat center;
+   width: 28px;
+   height: 28px;
+   float: right;
 }
 
 .alf-invite-direct-add .alf-label 

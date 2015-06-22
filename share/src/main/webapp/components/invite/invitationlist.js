@@ -63,13 +63,7 @@
       /**
        * Container for added users
        */
-      addedUsers: 
-      {
-         /**
-          * Items to be displayed in added users list
-          */
-         items: []
-      },
+      addedUsers: [],
       
       /**
        * Object container for initialization options
@@ -657,26 +651,23 @@
             var length = inviteData.recs.length;
             for (var i = 0; i < length; i++)
             {
-               var oData = inviteData.recs[i]._oData;
-               this.addedUsers.items.unshift({
-                     userName: oData.userName,
-                     roleName: this.msg("role." + oData.role),
-                     displayName: oData.firstName + " " + oData.lastName
-               });
+               for (var j = inviteData.successes.length - 1; j >= 0; j--)
+               {
+                  if (inviteData.successes[j] == i)
+                  {
+                     this.addedUsers.unshift(inviteData.recs[i]._oData);
+                  }
+               }
             }
+            
+            // Fire the usersAdded event
+            YAHOO.Bubbling.fire("usersAdded",
+            {
+               users: this.addedUsers
+            });
             
             var messageDiv = Dom.getElementsByClassName("added-users-list-message", "div", "bd")[0];
             Dom.addClass(messageDiv, "hidden");
-            
-            var me = this;
-            require(["share-components/invite/AddedUsersService"], function(ServiceType) {
-               var s = new ServiceType();
-               s.publishResults(me.addedUsers);
-            });
-            
-            var tallyDiv = Dom.getElementsByClassName("added-users-list-tally", "div", "bd")[0];
-            tallyDiv.innerHTML = this.msg("added-users-list.tally", this.addedUsers.items.length);
-            Dom.removeClass(tallyDiv, "hidden");
          }
       },
       
