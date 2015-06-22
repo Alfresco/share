@@ -342,13 +342,6 @@
                         </goals>
                         <phase>generate-resources</phase>
                     </execution>
-                    <execution>
-                        <id>generate-manifest</id>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>
