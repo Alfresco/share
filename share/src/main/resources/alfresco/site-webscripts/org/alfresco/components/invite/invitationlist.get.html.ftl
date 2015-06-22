@@ -30,7 +30,7 @@
                         <p><a href="http://docs.alfresco.com/${server.versionMajor}.${server.versionMinor}/references/permissions_share.html">${msg("invitationlist.role-tooltip.docs-url-label")}</a></p>
                     </div>
                </div>
-               <div class="invitationlist-selectallroles">
+               <div class="invitationlist-selectallroles alf-colored-button">
                    <button id="${args.htmlid}-selectallroles-button">${msg("invitationlist.selectallroles")}&nbsp;&#9662;</button>
                    <select id="${args.htmlid}-selectallroles-menu">
                    <#list siteRoles as siteRole>
@@ -40,7 +40,7 @@
                </div>
             </div>
             <div id="${args.htmlid}-inviteelist" class="body inviteelist theme-bg-color-6"></div>
-            <div id="${args.htmlid}-role-column-template" style="display:none">
+            <div id="${args.htmlid}-role-column-template" class="hidden alf-colored-button">
                <button class="role-selector-button" value="">${msg("role")}</button>
             </div>
          </div>

@@ -213,10 +213,17 @@
    visibility: hidden;
 }
 
+/* Lines up the role buttons with the right border of "Set all roles to" button */
 .invitationlist td.yui-dt1-col-role 
 {
-   padding-right: 5px;
    text-align: right;
+}
+.invitationlist td.yui-dt-col-role > div .yui-button {
+    margin-right: 0;
+}
+.invitationlist td.yui-dt-col-role > div 
+{
+    padding-right: 0;
 }
 
 .invitationlist td.yui-dt1-col-remove

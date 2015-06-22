@@ -500,8 +500,9 @@
             Dom.setStyle(elCell.parentNode, "width", oColumn.width + "px");
             Dom.setStyle(elCell.parentNode, "text-align", "right");
             
+            var cssClass = me.isAddUsersPage ? ' class="alf-colored-button" ' : "";
             var userName = oRecord.getData("userName"),
-               desc = '<span id="' + me.id + '-action-' + userName + '"></span>';
+               desc = '<span id="' + me.id + '-action-' + userName + '"' + cssClass + '></span>';
             elCell.innerHTML = desc;
             
             // This component is used as part of the People Search page and various People Picker components

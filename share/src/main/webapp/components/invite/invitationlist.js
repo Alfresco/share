@@ -240,7 +240,7 @@
             var actionsColumnTemplate = Dom.get(me.id + '-role-column-template'),
                templateInstance = actionsColumnTemplate.cloneNode(true);
             templateInstance.setAttribute("id", "actionsDiv" + id);
-            Dom.setStyle(templateInstance, "display", "");
+            Dom.removeClass(templateInstance, "hidden");
 
             // define the role dropdown menu and the event listeners
             var rolesMenu = [], role;
@@ -292,9 +292,7 @@
           * @param oData {object|string}
           */
          var renderCellRemoveButton = function InvitationList_renderCellRemoveButton(elCell, oRecord, oColumn, oData)
-         {  
-            Dom.setStyle(elCell.parentNode, "width", oColumn.width + "px");
-
+         {
             var desc =
                '<span id="' + me.id + '-removeInvitee">' +
                '  <a href="#" class="remove-item-button"><span class="removeIcon">&nbsp;</span></a>' +

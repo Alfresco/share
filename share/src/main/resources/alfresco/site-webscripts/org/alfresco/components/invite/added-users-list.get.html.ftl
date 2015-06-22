@@ -15,6 +15,9 @@
         <div class="alf-label">
           ${msg("added-users-list.title")}
         </div>
+        <div id="${args.htmlid}-add-users-button" class="alf-colored-button">
+          <#-- The Add button is inserted here from the invitationlist component. -->
+        </div>
       </div>
       <div id="${args.htmlid}-added-users-list-body" class="body added-users-list-body">
         <div class="added-users-list-tally yui-dt-liner hidden"></div>
