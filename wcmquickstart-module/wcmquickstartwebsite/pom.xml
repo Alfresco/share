@@ -9,6 +9,12 @@
         <version>5.1-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <sonar.exclusions>
+            src/main/webapp/js/jquery-ui-1.7.2.custom.min.js        
+        </sonar.exclusions>
+    </properties>
+
     <build>
         <finalName>wcmqs</finalName>
         <plugins>
