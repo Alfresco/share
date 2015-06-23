@@ -84,7 +84,7 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
         }
         writer.write(";\r\n");
 
-        if (!isLicensed())
+        if (isCommunity())
         {
             // community logo
             final String serverPath = req.getServerPath();
@@ -108,7 +108,7 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
         StringBuilder sb = new StringBuilder(512);
         sb.append(";\r\n");
 
-        if (!isLicensed())
+        if (isCommunity())
         {
             // community logo
             final String serverPath = req.getServerPath();
@@ -130,5 +130,24 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
             licensed = (EditionInterceptor.ENTERPRISE_EDITION.equals(edition));
         }
         return licensed;
+    }
+    
+    /**
+     * Verifies if the licence edition is community
+     * @return true if the edition was successfuly retrieved and is UNKNOWN_EDITION , false otherwise
+     */
+    private boolean isCommunity()
+    {
+        final RequestContext rc = ThreadLocalRequestContext.getRequestContext();
+        if (rc != null)
+        {
+            EditionInfo editionInfo = ((EditionInfo)rc.getValue(EditionInterceptor.EDITION_INFO));
+            if (editionInfo.getValidResponse()) 
+            { 
+                return EditionInterceptor.UNKNOWN_EDITION.equals(editionInfo.getEdition()); 
+            }
+            //else, could not retrieve licence info from server
+        }
+        return false;
     }
 }
