@@ -1,5 +1,5 @@
 <@markup id="css" >
-   <#-- No CSS Dependencies -->
+   <@link rel="stylesheet" type="text/css" href="${url.context}/res/components/wiki/wiki.css" group="dashlets" />
 </@>
 
 <@markup id="js">

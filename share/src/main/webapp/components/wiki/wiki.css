@@ -234,7 +234,7 @@ table.versionHistory
     font-size: 1.2em;
     /* Comment out the following line to make the page
     take up the full screen width */
-   max-width: 60em;
+   max-width: 100%;
    /* Make the text darker */
    color: #333333;
    /* Increase line height to improve readability */
