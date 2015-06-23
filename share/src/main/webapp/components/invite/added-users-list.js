@@ -60,7 +60,7 @@
        onReady: function AddedUsersList_onReady()
        {
           // Move the button to the added users panel
-          var parentDiv = Dom.getElementsByClassName("added-users-list-bar", "div", "bd")[0];
+          var parentDiv = document.getElementById(this.id + "-add-users-button");
           var sinviteDiv = Dom.getElementsByClassName("sinvite", "div", "bd")[0];
           var inviteButton = sinviteDiv.getElementsByTagName("button")[0];
           inviteButton.innerHTML = this.msg("added-users-list.add-button-text");

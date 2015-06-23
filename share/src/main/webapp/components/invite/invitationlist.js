@@ -665,9 +665,6 @@
             {
                users: this.addedUsers
             });
-            
-            var messageDiv = Dom.getElementsByClassName("added-users-list-message", "div", "bd")[0];
-            Dom.addClass(messageDiv, "hidden");
          }
       },
       
