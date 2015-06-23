@@ -44,7 +44,7 @@
                <button class="role-selector-button" value="">${msg("role")}</button>
             </div>
          </div>
-         <div class="sinvite">
+         <div class="sinvite alf-colored-button">
             <span id="${args.htmlid}-invite-button" class="yui-button yui-push-button"><span class="first-child"><button>${msg("invitationlist.invite")}</button></span></span>
             <span id="${args.htmlid}-backTo" class="back-to">${msg("invitationlist.or")} <a href="site-members">${msg("invitationlist.back-to")}</a></span>
          </div>
