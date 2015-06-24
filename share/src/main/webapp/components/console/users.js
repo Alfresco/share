@@ -690,7 +690,7 @@
             form.addValidation(parent.id + "-create-quota", Alfresco.forms.validation.number, null, "keyup");
 
             // Add an enter listener to the form
-            new YAHOO.util.KeyListener(form.formId, {
+            parent.widgets.enterKeyListener = new YAHOO.util.KeyListener(form.formId, {
                keys: [13]
             }, {
                fn: function(e) {
@@ -698,7 +698,8 @@
                },
                scope: this,
                correctScope: true
-            }).enable();
+            });
+            parent.widgets.enterKeyListener.enable();
 
             // Initialise the form
             form.init();
@@ -737,6 +738,23 @@
                viewMode: Alfresco.GroupFinder.VIEW_MODE_COMPACT,
                singleSelectMode: false,
                wildcardPrefix: false
+            });
+			
+            var groupSearchText = Dom.get(parent.id + "-create-groupfinder-search-text");
+			
+            new YAHOO.util.Event.addListener(groupSearchText, "focus", function(e)
+            {
+               if (parent.widgets && parent.widgets.enterKeyListener)
+               {
+                  parent.widgets.enterKeyListener.disable();
+               }
+            });
+            new YAHOO.util.Event.addListener(groupSearchText, "blur", function(e)
+            {
+               if (parent.widgets && parent.widgets.enterKeyListener)
+               {
+                  parent.widgets.enterKeyListener.enable();
+               }
             });
          },
 
