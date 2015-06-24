@@ -546,19 +546,11 @@
        */
       onRoleInfoButtonClick: function InvitationList_onRoleInfoButtonClick(e)
       {
-         if (this.widgets.roleTooltip.isShown)
-         {
-            this.widgets.roleTooltip.hide();
-         }
-         else
-         {
-            // Show Balloon with initial message
-            this.widgets.roleTooltip.show();
-            // Override default alignment
-            this.widgets.roleTooltip.balloon.align(
-                  YAHOO.widget.Overlay.TOP_RIGHT, YAHOO.widget.Overlay.BOTTOM_LEFT, [30, 8]);
-         }
-         this.widgets.roleTooltip.isShown = !this.widgets.roleTooltip.isShown;
+         // Show Balloon with initial message
+         this.widgets.roleTooltip.show();
+         // Override default alignment
+         this.widgets.roleTooltip.balloon.align(
+               YAHOO.widget.Overlay.TOP_RIGHT, YAHOO.widget.Overlay.BOTTOM_LEFT, [30, 8]);
       },
       
       /**
