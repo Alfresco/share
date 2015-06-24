@@ -111,7 +111,7 @@
    display: none;
 }
 
-.invitationlist .alf-role-info-tooltip .yui-button:hover
+.invitationlist .alf-role-info-tooltip .yui-button .first-child:hover
 {
    background: transparent url(../images/info-hover-20.png) no-repeat;
 }
