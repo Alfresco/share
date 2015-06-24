@@ -153,7 +153,16 @@
          nonEditableNames: [ "^GROUP_site_.*_SiteManager$" ],
 	 nonEditableRoles: [ "SiteManager" ],
          unDeletableRoles: [ "^GROUP_site_.*_SiteManager$", "^GROUP_site_.*_SiteCollaborator$", "^GROUP_site_.*_SiteContributor$", "^GROUP_site_.*_SiteConsumer$" ],
-         showGroups: true
+         showGroups: true,
+         
+         /**
+          * Number of characters required for an authority search.
+          *
+          * @property minAuthSearchTermLength
+          * @type int
+          * @default 1
+          */
+         minAuthSearchTermLength: 1
       },
 
       /**
@@ -312,7 +321,7 @@
                viewMode: Alfresco.AuthorityFinder.VIEW_MODE_COMPACT,
                siteId: this.options.site,
                singleSelectMode: true,
-               minSearchTermLength: 3,
+               minSearchTermLength: this.options.minAuthSearchTermLength,
                authorityType: (this.options.showGroups) ? Alfresco.AuthorityFinder.AUTHORITY_TYPE_ALL : Alfresco.AuthorityFinder.AUTHORITY_TYPE_USERS
             });
 
