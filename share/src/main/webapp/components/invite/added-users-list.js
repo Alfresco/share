@@ -82,12 +82,9 @@
        onUsersAdded: function AddedUsersList_onUsersAdded(layer, args)
        {   
           var addedUsers = args[1].users;
-          for (var i = 0; i < addedUsers.length; i++)
-          {
-             this.widgets.dataTable.addRow(addedUsers[i]);
-          }
+          this.widgets.dataTable.addRows(addedUsers, 0);
           var tallyDiv = Dom.getElementsByClassName("added-users-list-tally", "div", "bd")[0];
-          tallyDiv.innerHTML = this.msg("added-users-list.tally", addedUsers.length);
+          tallyDiv.innerHTML = this.msg("added-users-list.tally", this.widgets.dataTable.getRecordSet().getLength());
           Dom.removeClass(tallyDiv, "hidden");
        },
        

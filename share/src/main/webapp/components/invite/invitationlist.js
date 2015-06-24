@@ -61,11 +61,6 @@
    YAHOO.extend(Alfresco.InvitationList, Alfresco.component.Base,
    {
       /**
-       * Container for added users
-       */
-      addedUsers: [],
-      
-      /**
        * Object container for initialization options
        *
        * @property options
@@ -638,6 +633,7 @@
        */
       _finalizeDirectAdds: function InvitationList__finalizeDirectAdds(inviteData)
       {
+         var addedUsers = [];
          if (this.id.indexOf("_add-users_") > 0)
          {
             var length = inviteData.recs.length;
@@ -647,7 +643,7 @@
                {
                   if (inviteData.successes[j] == i)
                   {
-                     this.addedUsers.unshift(inviteData.recs[i]._oData);
+                     addedUsers.push(inviteData.recs[i]._oData);
                   }
                }
             }
@@ -655,7 +651,7 @@
             // Fire the usersAdded event
             YAHOO.Bubbling.fire("usersAdded",
             {
-               users: this.addedUsers
+               users: addedUsers
             });
          }
       },
