@@ -1834,9 +1834,7 @@ public abstract class DetailsPage extends SitePage
             throw new ShareException(typeValue + " isn't present in the list");
         }
         changeTypePage.selectChangeType(typeValue);
-        changeTypePage.selectSave();
-        waitUntilAlert();
-        return drone.getCurrentPage().render();
+        return changeTypePage.selectSave().render();
     }
     
     /**

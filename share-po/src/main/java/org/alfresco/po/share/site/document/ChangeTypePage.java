@@ -136,6 +136,7 @@ public class ChangeTypePage extends ShareDialogue
     public HtmlPage selectSave()
     {
         drone.find(OK_BUTTON).click();
+        waitUntilAlert();
         return drone.getCurrentPage().render();
     }
 

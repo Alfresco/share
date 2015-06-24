@@ -799,7 +799,7 @@ public class SiteActions extends CommonActions
         }
         catch(Exception e)
         {
-            throw new PageException("Error During Change Type", e);
+            throw new PageException("Error During Change Type: " + typeToBeSelected, e);
         }
     }
     
