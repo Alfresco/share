@@ -146,7 +146,11 @@
 }
 
 .alf-info-balloon .closeButton {
-  display: none;
+   background: url("../../themes/default/images/sprite.png") no-repeat scroll 0 -300px transparent;
+   cursor: pointer;
+   float: right;
+   text-indent: -999em;
+   width: 25px;
 }
 
 .alf-role-tooltip-role-name,
