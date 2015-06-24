@@ -68,8 +68,8 @@ public class AddUsersToSitePage extends SharePage
     private static final By SEARCH_RESULTS_USER_NAMES = By.cssSelector("td+td>div.yui-dt-liner>h3>span.lighter");
 
     // Add user - 1 Search for People button -list of all buttons on the page ???
-    // private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select >>')]";
-    private static final String SELECT_USER_BUTTONS = "//span[contains(@id, '%s')]//button[contains(text(),'Add >>')]";
+    private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select')]";
+    //private static final String SELECT_USER_BUTTONS = "//span[contains(@id, '%s')]//button[contains(text(),'Add >>')]";
 
     /**
      * 2 - Set User Roles panel:
@@ -141,10 +141,13 @@ public class AddUsersToSitePage extends SharePage
     // private static final By ADDED_USERS_LIST = By.cssSelector(".alfresco-lists-views-layouts-Row");
 
     // Added users names list
-    private static final By ADDED_USERS_NAMES_LIST = By.xpath("//tr[starts-with(@id, 'alfresco_lists_views_layouts_Row')]/td[1]/span[1]/span/span[2]");
-
+    //private static final By ADDED_USERS_NAMES_LIST = By.xpath("//tr[starts-with(@id, 'alfresco_lists_views_layouts_Row')]/td[1]/span[1]/span/span[2]");
+    private static final By ADDED_USERS_NAMES_LIST = By.cssSelector("td[class$='yui-dt-first'] div h3.itemname");
+    
     // Added users roles list
-    private static final By ADDED_USERS_ROLES_LIST = By.xpath("//tr[starts-with(@id, 'alfresco_lists_views_layouts_Row')]/td[1]/span[2]/span/span[2]");
+    //private static final By ADDED_USERS_ROLES_LIST = By.xpath("//tr[starts-with(@id, 'alfresco_lists_views_layouts_Row')]/td[1]/span[2]/span/span[2]");
+    private static final By ADDED_USERS_ROLES_LIST = By.cssSelector("h3.itemname~div.detail");
+
 
     /**
      * 4 - External Users panel:
