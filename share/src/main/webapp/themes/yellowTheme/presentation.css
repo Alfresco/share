@@ -763,13 +763,6 @@ body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected div .yuimenuit
    color: #333333; 
 }
 
-body.yui-skin-yellowTheme .alf-colored-button .yuimenu .bd ul li.yuimenuitem  a.yuimenuitemlabel:focus, 
-body.yui-skin-yellowTheme .alf-colored-button .yuimenu .bd ul li.yuimenuitem  a.yuimenuitemlabel:hover,
-body.yui-skin-yellowTheme .alf-colored-button .yuimenu .bd ul li.yuimenuitem-selected a.yuimenuitemlabel:focus, 
-body.yui-skin-yellowTheme .alf-colored-button .yuimenu .bd ul li.yuimenuitem-selected a.yuimenuitemlabel:hover {
-  color: #0082c8;
-}
-
 body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected .yuimenuitemlabel,
 body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected .yuimenuitemlabel a,
 body.yui-skin-yellowTheme .yuimenu .bd ul li.yuimenuitem-selected div ul li.yuimenuitem-selected .yuimenuitemlabel,
