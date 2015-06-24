@@ -27,6 +27,7 @@ function getFooterModel(services, widgets)
                ],
                widgetsForFooter: [
                   {
+                     id: "ALF_SHARE_FOOTER",
                      name: "alfresco/footer/AlfShareFooter",
                      config: {
                         semanticWrapper: "footer",

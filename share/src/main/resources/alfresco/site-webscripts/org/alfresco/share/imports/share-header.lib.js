@@ -528,6 +528,7 @@ function getSiteNavigationWidgets() {
                label: "page.navigation.more.label",
                widgets: [
                   {
+                     id: "HEADER_SITE_MORE_PAGES_GROUP",
                      name: "alfresco/menus/AlfMenuGroup",
                      config: {
                         widgets: forMoreMenu
@@ -784,7 +785,8 @@ function generateAppItems() {
             id: "HEADER_TASKS",
             label: "header.menu.tasks.label",
             widgets: [
-               {   
+               {  
+                  id: "HEADER_TASKS_GROUP", 
                   name: "alfresco/menus/AlfMenuGroup",
                   config: {
                      widgets: [
