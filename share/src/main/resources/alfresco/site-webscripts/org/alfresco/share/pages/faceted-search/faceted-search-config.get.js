@@ -13,9 +13,7 @@ var services = getHeaderServices(),
     widgets = getHeaderModel(msg.get("faceted-search-config.page.title"));
 
 services.push("alfresco/services/CrudService",
-              "alfresco/services/NotificationService",
-              "alfresco/services/OptionsService",
-              "alfresco/dialogs/AlfDialogService");
+              "alfresco/services/OptionsService");
 
 /* *********************************************************************************
  *                                                                                 *
