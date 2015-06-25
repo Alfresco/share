@@ -241,12 +241,14 @@ background-position: 0 -1500px;
 border-color: #ccc;
 }
 .yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled button {
-background-color: #A6A6A6;
+background-color: transparent;
 }
 .yui-skin-yellowTheme .yui-button-disabled button,
 .yui-skin-yellowTheme .alf-colored-button .yui-button-disabled button,
+.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled button,
 .yui-skin-yellowTheme .yui-button-disabled a,
-.yui-skin-yellowTheme .alf-colored-button .yui-button-disabled a {
+.yui-skin-yellowTheme .alf-colored-button .yui-button-disabled a,
+.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled a {
 color: #A6A6A6;
 cursor: default;
 }

@@ -242,12 +242,14 @@ background-position: 0 -1500px;
 border-color: #ccc;
 }
 .yui-skin-gdocs .alf-colored-button.alf-inverted-colors .yui-button-disabled button {
-background-color: #A6A6A6;
+background-color: transparent;
 }
 .yui-skin-gdocs .yui-button-disabled button,
 .yui-skin-gdocs .alf-colored-button .yui-button-disabled button,
+.yui-skin-gdocs .alf-colored-button.alf-inverted-colors .yui-button-disabled button,
 .yui-skin-gdocs .yui-button-disabled a,
-.yui-skin-gdocs .alf-colored-button .yui-button-disabled a {
+.yui-skin-gdocs .alf-colored-button .yui-button-disabled a,
+.yui-skin-gdocs .alf-colored-button.alf-inverted-colors .yui-button-disabled a {
 color: #A6A6A6;
 cursor: default;
 }

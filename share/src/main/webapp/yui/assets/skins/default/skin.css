@@ -219,14 +219,17 @@ border-color: #005684;
     border-color: #ccc;
 }
 .yui-skin-default .alf-colored-button.alf-inverted-colors .yui-button-disabled button {
-background-color: #A6A6A6;
+background-color: transparent;
 }
 .yui-skin-default .yui-button-disabled button, 
 .yui-skin-default .alf-colored-button .yui-button-disabled button, 
+.yui-skin-default .alf-colored-button.alf-inverted-colors .yui-button-disabled button, 
 .yui-skin-default .yui-button-disabled a, 
 .yui-skin-default .alf-colored-button .yui-button-disabled a, 
+.yui-skin-default .alf-colored-button.alf-inverted-colors .yui-button-disabled a, 
 .yui-skin-default .yui-button-disabled a:visited 
-.yui-skin-default .alf-colored-button .yui-button-disabled a:visited {
+.yui-skin-default .alf-colored-button .yui-button-disabled a:visited 
+.yui-skin-default .alf-colored-button.alf-inverted-colors .yui-button-disabled a:visited {
     color: #a6a6a6;
     cursor: default;
 }
