@@ -31,14 +31,14 @@
 
 .alf-invite-direct-add .people-finder .search-bar
 {
-   padding-left: 26px;
-   background: #f5f5f5 url(../../components/images/1-grey-28.png) no-repeat 3px center;
+   padding-left: 32px;
+   background: #f5f5f5 url(../../components/images/1-grey-28.png) no-repeat 6px center;
 }
 
 .alf-invite-direct-add .invitationlist .invitelist-bar
 {
    text-align: right;
-   background: #f5f5f5 url(../../components/images/2-grey-28.png) no-repeat 3px center;
+   background: #f5f5f5 url(../../components/images/2-grey-28.png) no-repeat 6px center;
 }
 
 .alf-invite-panel-header
@@ -58,7 +58,7 @@
 
 .added-users-list .added-users-list-bar
 {
-   background: url(../../components/images/3-grey-28.png) no-repeat 3px center;
+   background: url(../../components/images/3-grey-28.png) no-repeat 6px center;
 }
 
 .alf-invite-direct-add .yui-u
