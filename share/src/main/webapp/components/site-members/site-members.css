@@ -135,11 +135,10 @@
 }
 
 .site-members .uninvite button
-{  max-width: 6.5em;
-   text-align: center;    
-}
-
-.site-members .yui-dt-last .uninvite
-{   
-   padding-right: 13px;
+{
+   width: 6em;
+   max-width: 6.5em;
+   text-align: center;
+   margin-left: auto;
+   margin-right: auto;
 }
