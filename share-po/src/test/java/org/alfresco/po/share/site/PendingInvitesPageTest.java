@@ -108,6 +108,7 @@ public class PendingInvitesPageTest extends AbstractTest
     {
         pendingInvitesPage.search(userNameTest);
         pendingInvitesPage.render();
+        waitInSeconds(3);
         assertEquals(pendingInvitesPage.getInvitees().size(), 1);
     }
 
