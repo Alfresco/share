@@ -354,8 +354,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         String addedUserName1 = addedUserNames.get(0);
         String addedUserName2 = addedUserNames.get(1);
 
-        Assert.assertTrue(addedUserName2.indexOf(userMultiple1) != -1);
-        Assert.assertTrue(addedUserName1.indexOf(userMultiple2) != -1);
+        Assert.assertTrue(addedUserName1.indexOf(userMultiple1) != -1);
+        Assert.assertTrue(addedUserName2.indexOf(userMultiple2) != -1);
 
         // check the Add Users panel displays added user role
         List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
