@@ -112,6 +112,7 @@ public class SiteMembersPageTest extends AbstractTest
             ShareUtil.logout(drone);
             DashBoardPage userDashBoardPage = loginAs(userName, userName).render();
             MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
+            waitInSeconds(4);
             EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
             userDashBoardPage = editTaskPage.selectAcceptButton().render();
             ShareUtil.logout(drone);
