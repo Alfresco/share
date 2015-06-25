@@ -20,7 +20,7 @@
             <div id="${args.htmlid}-invitationBar" class="invitelist-bar alf-invite-panel-header">
                <div class="alf-label">${msg("invitationlist.addDirect.title")}</div>
                <div id="${args.htmlid}-role-info" class="alf-role-info-tooltip">
-                    <button id="${args.htmlid}-role-info-button">
+                    <button id="${args.htmlid}-role-info-button">&nbsp;</button>
                     <div id="${args.htmlid}-role-info-panel" class="hidden">
                         <p><span class="alf-role-tooltip-header">${msg("invitationlist.role-tooltip.header")}</span></p>
                         <#list rolesTooltipData as roleInfo>
