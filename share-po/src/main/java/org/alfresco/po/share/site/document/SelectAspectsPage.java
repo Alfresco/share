@@ -61,7 +61,7 @@ public class SelectAspectsPage extends SharePage
     /**
      * Constructor.
      */
-    protected SelectAspectsPage(WebDrone drone)
+    public SelectAspectsPage(WebDrone drone)
     {
         super(drone);
     }
@@ -299,20 +299,28 @@ public class SelectAspectsPage extends SharePage
      */
     public HtmlPage clickApplyChanges()
     {
+        String msgText = "Successfully updated aspects";
+        
         try
         {
             drone.find(APPLY_CHANGE).click();
+            
+            // Wait for Notification
             drone.waitForElement(NOTIFICATION, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+
             if (!isNotificationTextCorrect())
             {
-                throw new PageException("Incorrect notification is displayed");
+                // Aspect Changes NOT Successful
+                msgText = "Could not update Aspects";
+                logger.debug("Aspect Changes were unsuccessful");
             }
-            drone.waitUntilNotVisible(NOTIFICATION,"Successfully updated aspects", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+
+            drone.waitUntilNotVisible(NOTIFICATION, msgText, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             return drone.getCurrentPage();
         }
-        catch (NoSuchElementException nse)
+        catch (NoSuchElementException | TimeoutException nse)
         {
-            throw new PageException("Not able find the apply change button: ", nse);
+            throw new PageException("Error Applying Changes: Not able find the apply change button or Notification: ", nse);
         }
 
     }

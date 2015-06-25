@@ -33,6 +33,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.site.UploadFilePage;
+import org.alfresco.po.share.site.document.ChangeTypePage;
 import org.alfresco.po.share.site.document.ConfirmDeletePage;
 import org.alfresco.po.share.site.document.ContentDetails;
 import org.alfresco.po.share.site.document.ContentType;
@@ -804,14 +805,49 @@ public class SiteActions extends CommonActions
     }
     
     /**
-     * Util to change the type of the selected folder / content to the specified type 
+     * Util to check if the type is available for selection in the <Change Type> drop down 
      * Expects Document / Folder Details Page is already open
      */
-    public boolean isType(WebDrone driver, String typeToBeSelected)
+    public boolean isTypeAvailable(WebDrone driver, String typeToBeSelected)
     {
+        boolean isType = false;
+        try
+        {
             DetailsPage detailsPage = getSharePage(driver).render();
-            return detailsPage.isTypeAvailable(typeToBeSelected);
+        
+            isType = detailsPage.isTypeAvailable(typeToBeSelected);
+            ChangeTypePage typePopup = getSharePage(driver).render();
+            typePopup.clickClose().render();            
+        }
+        catch (ClassCastException ce)
+        {
+            
+        }
+        return isType;
     }
+    
+    /**
+     * Util to check if the specified Aspect is added to the selected node 
+     * Expects Document / Folder Details Page is already open
+     */
+    public boolean isAspectAdded(WebDrone driver, String aspectName)
+    {
+    
+        boolean aspectAdded = false;
+        
+        try
+        {
+            SelectAspectsPage aspectsPage = getAspectsPage(driver).render();
+            aspectAdded = aspectsPage.isAspectAdded(aspectName);
+            aspectsPage.clickCancel().render();
+        }
+        catch (ClassCastException | PageException e)
+        {
+
+        }
+
+        return aspectAdded;
+}
     
     /**
      * Util to add the list of aspects to the selected document / folder
