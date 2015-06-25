@@ -319,13 +319,24 @@ public class AddUsersToSitePageTest extends AbstractTest
         String userMultiple1 = "userMultipleUsersAdedToSite1" + System.currentTimeMillis();
         String userMultiple2 = "userMultipleUsersAdedToSite2" + System.currentTimeMillis();
 
+        String userMultiple3 = "userMultipleUsersAdedToSite3" + System.currentTimeMillis();
+        String userMultiple4 = "userMultipleUsersAdedToSite4" + System.currentTimeMillis();
+        
+        
         System.out.println("SITE MULTIPLE USERS *** " + siteName);
         System.out.println("USER MULTIPLE USERS1 *** " + userMultiple1);
         System.out.println("USER MULTIPLE USERS2 *** " + userMultiple2);
+        System.out.println("USER MULTIPLE USERS3 *** " + userMultiple3);
+        System.out.println("USER MULTIPLE USERS4 *** " + userMultiple4);
 
+        
         createEnterpriseUser(userMultiple1);
         createEnterpriseUser(userMultiple2);
 
+        createEnterpriseUser(userMultiple3);
+        createEnterpriseUser(userMultiple4);
+        
+        
         dashBoard = loginAs(username, password);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
@@ -334,7 +345,6 @@ public class AddUsersToSitePageTest extends AbstractTest
         // search for user and select user from search results list
         List<String> searchUsers = searchForSiteMembers(userMultiple1);
         Assert.assertTrue(searchUsers.size() > 0);
-
         addUsersToSitePage.clickSelectUser(userMultiple1).render();
 
         searchUsers = searchForSiteMembers(userMultiple2);
@@ -363,20 +373,51 @@ public class AddUsersToSitePageTest extends AbstractTest
         String addedUserRole2 = addedUserRoles.get(1);
         Assert.assertEquals(addedUserRole1, "Collaborator");
         Assert.assertEquals(addedUserRole2, "Collaborator");
-
+        
+        searchUsers = searchForSiteMembers(userMultiple3);
+        addUsersToSitePage.clickSelectUser(userMultiple3).render();
+        searchUsers = searchForSiteMembers(userMultiple4);
+        addUsersToSitePage.clickSelectUser(userMultiple4).render();
+        addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
+        addUsersToSitePage.clickAddUsersButton();
+        
+        addedUserNames = addUsersToSitePage.getAddedUsersNames();
+        
+        String addedUserNameNew1 = addedUserNames.get(0);
+        String addedUserNameNew2 = addedUserNames.get(1);
+        String addedUserNameNew3 = addedUserNames.get(2);
+        String addedUserNameNew4 = addedUserNames.get(3);
+        Assert.assertTrue(addedUserNameNew1.indexOf(userMultiple3) != -1);
+        Assert.assertTrue(addedUserNameNew2.indexOf(userMultiple4) != -1);
+        Assert.assertTrue(addedUserNameNew3.indexOf(userMultiple1) != -1);
+        Assert.assertTrue(addedUserNameNew4.indexOf(userMultiple2) != -1);
+        
+        addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
+        
+        String addedUserRoleNew1 = addedUserRoles.get(0);
+        String addedUserRoleNew2 = addedUserRoles.get(1);
+        String addedUserRoleNew3 = addedUserRoles.get(2);
+        String addedUserRoleNew4 = addedUserRoles.get(3);
+        Assert.assertEquals(addedUserRoleNew1, "Collaborator");
+        Assert.assertEquals(addedUserRoleNew2, "Collaborator"); 
+        Assert.assertEquals(addedUserRoleNew3, "Collaborator");
+        Assert.assertEquals(addedUserRoleNew4, "Collaborator"); 
+        
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
+        
         List<String> siteMembers1 = siteMembersPage.searchUser(userMultiple1);
-        for (String siteMember : siteMembers1)
-        {
-            Assert.assertTrue(siteMember.indexOf(userMultiple1) != -1);
-        }
+        Assert.assertTrue(siteMembers1.get(0).indexOf(userMultiple1) != -1);
+ 
         List<String> siteMembers2 = siteMembersPage.searchUser(userMultiple2);
-        for (String siteMember : siteMembers2)
-        {
-            Assert.assertTrue(siteMember.indexOf(userMultiple2) != -1);
-        }
-
+        Assert.assertTrue(siteMembers2.get(0).indexOf(userMultiple2) != -1);
+ 
+        List<String> siteMembers3 = siteMembersPage.searchUser(userMultiple3);
+        Assert.assertTrue(siteMembers3.get(0).indexOf(userMultiple3) != -1);
+        
+        List<String> siteMembers4 = siteMembersPage.searchUser(userMultiple4);
+        Assert.assertTrue(siteMembers4.get(0).indexOf(userMultiple4) != -1);
+        
         ShareUtil.logout(drone);
 
     }
