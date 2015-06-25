@@ -102,7 +102,7 @@ public class CollectionFactoryWebserviceImpl implements AssetCollectionFactory
             LinkedList<TreeMap<String, Serializable>> assetCollectionList = deserializer.getAssets();
 
             AssetCollectionImpl collection = null;
-            if (!assetCollectionList.isEmpty())
+            if (assetCollectionList != null && !assetCollectionList.isEmpty())
             {
                 TreeMap<String,Serializable> assetCollectionData = assetCollectionList.get(0);
                 collection = buildCollection(sectionId, assetCollectionData);
