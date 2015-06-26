@@ -18,7 +18,7 @@
          <#assign el=args.htmlid?html>
          <div class="dashlet dynamic-welcome">
             <div class="alf-welcome-hide-button">
-                <span class="yui-button yui-push-button">
+                <span id="${el}-hide-button" class="yui-button yui-push-button">
                     <span class="first-child">
                         <button>${msg("welcome.hide")}</button>
                     </span>

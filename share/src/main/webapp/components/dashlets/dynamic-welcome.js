@@ -41,7 +41,7 @@
     */
    Alfresco.dashlet.DynamicWelcome = function DynamicWelcome_constructor(htmlId, dashboardUrl, dashboardType, site, siteTitle)
    {
-      Alfresco.dashlet.DynamicWelcome.superclass.constructor.call(this, "Alfresco.dashlet.DynamicWelcome", htmlId);
+      Alfresco.dashlet.DynamicWelcome.superclass.constructor.call(this, "Alfresco.dashlet.DynamicWelcome", htmlId, ["button"]);
 
       this.name = "Alfresco.dashlet.DynamicWelcome";
       this.dashboardUrl = dashboardUrl;
@@ -78,7 +78,7 @@
       onReady: function DynamicWelcome_onReady()
       {
          // Listen on clicks for the create site link
-         Event.addListener(this.id + "-close-button", "click", this.onCloseClick, this, true);
+         this.widgets.hideButton = Alfresco.util.createYUIButton(this, "hide-button", this.hideButtonClick);
          Event.addListener(this.id + "-createSite-button", "click", this.onCreateSiteLinkClick, this, true);
          Event.addListener(this.id + "-requestJoin-button", "click", this.onRequestJoinLinkClick, this, true);
       },
@@ -259,15 +259,15 @@
       },
 
       /**
-       * Close welcome dashlet click event handler
+       * Hide welcome dashlet click event handler
        *
-       * @method onCloseClick
-       * @param e {object} DomEvent
-       * @param args {array} Event parameters (depends on event type)
+       * @method hideButtonClick
+       * @param e {Object} Event arguments
        */
-      onCloseClick: function DynamicWelcome_onCloseClick(e, args)
+      hideButtonClick: function DynamicWelcome_hideButtonClick(e, args)
       {
          var _this = this;
+         
          Alfresco.util.PopupManager.displayPrompt(
          {
             title: this.msg("panel.delete.header"),
