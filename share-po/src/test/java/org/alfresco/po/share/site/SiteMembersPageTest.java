@@ -1,18 +1,14 @@
 /*
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
  * This file is part of Alfresco
- *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -47,11 +43,11 @@ public class SiteMembersPageTest extends AbstractTest
     DashBoardPage dashBoard;
     String siteName;
 
-     //user should be created.
+    // user should be created.
     String userName = "user" + System.currentTimeMillis() + "@test.com";
     public static long refreshDuration = 15000;
 
-    @BeforeClass (groups="Enterprise-only")
+    @BeforeClass(groups = "Enterprise-only")
     public void instantiateMembers() throws Exception
     {
         siteName = "InviteMembersTest" + System.currentTimeMillis();
@@ -86,9 +82,10 @@ public class SiteMembersPageTest extends AbstractTest
             for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
             {
                 searchUsers = inviteMembersPage.searchUser(userName);
+                waitInSeconds(1);
                 try
                 {
-                    if (searchUsers != null && searchUsers.size() > 0)
+                    if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userName))
                     {
                         inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
                         inviteMembersPage.clickInviteButton().render();
@@ -108,11 +105,10 @@ public class SiteMembersPageTest extends AbstractTest
                 {
                 }
             }
-
+           
             ShareUtil.logout(drone);
             DashBoardPage userDashBoardPage = loginAs(userName, userName).render();
             MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
-            waitInSeconds(4);
             EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
             userDashBoardPage = editTaskPage.selectAcceptButton().render();
             ShareUtil.logout(drone);
@@ -128,7 +124,7 @@ public class SiteMembersPageTest extends AbstractTest
         siteMembersPage = site.getSiteNav().selectMembers().render();
     }
 
-    @Test(groups="Enterprise-only")
+    @Test(groups = "Enterprise-only")
     public void testSearchUser() throws Exception
     {
         List<String> searchUsers = null;
@@ -150,13 +146,13 @@ public class SiteMembersPageTest extends AbstractTest
         Assert.assertTrue(searchUsers.size() > 0);
     }
 
-    @Test(groups="Enterprise-only", dependsOnMethods = "testSearchUser")
+    @Test(groups = "Enterprise-only", dependsOnMethods = "testSearchUser")
     public void testAssignRole() throws Exception
     {
         Assert.assertNotNull(siteMembersPage.assignRole(userName, UserRole.COLLABORATOR));
     }
 
-    @Test(groups="Enterprise-only", dependsOnMethods = "testAssignRole")
+    @Test(groups = "Enterprise-only", dependsOnMethods = "testAssignRole")
     public void testRemoveUser() throws Exception
     {
         siteMembersPage = siteMembersPage.removeUser(userName);
@@ -167,19 +163,19 @@ public class SiteMembersPageTest extends AbstractTest
         Assert.assertTrue(searchUsers.size() == 0);
     }
 
-    @Test(groups="Enterprise-only", dependsOnMethods = "testAssignRole", expectedExceptions = { UnsupportedOperationException.class })
+    @Test(groups = "Enterprise-only", dependsOnMethods = "testAssignRole", expectedExceptions = { UnsupportedOperationException.class })
     public void testAssignRoleToNullUser()
     {
         Assert.assertNotNull(siteMembersPage.assignRole(null, UserRole.COLLABORATOR));
     }
 
-    @Test(groups="Enterprise-only", dependsOnMethods = "testAssignRoleToNullUser", expectedExceptions = { UnsupportedOperationException.class })
+    @Test(groups = "Enterprise-only", dependsOnMethods = "testAssignRoleToNullUser", expectedExceptions = { UnsupportedOperationException.class })
     public void testAssignNullRole()
     {
         Assert.assertNotNull(siteMembersPage.assignRole(userName, null));
     }
 
-    @AfterClass (groups="Enterprise-only")
+    @AfterClass(groups = "Enterprise-only")
     public void deleteSite() throws Exception
     {
         SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
