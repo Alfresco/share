@@ -17,10 +17,13 @@
       <#if showDashlet>
          <#assign el=args.htmlid?html>
          <div class="dashlet dynamic-welcome">
-            <a id="${el}-close-button" class="welcome-close-button" href="#">
-               <img src="${url.context}/res/components/images/delete-16.png" />
-               <span>${msg("welcome.close")}</span>
-            </a>
+            <div class="alf-welcome-hide-button">
+                <span class="yui-button yui-push-button">
+                    <span class="first-child">
+                        <button>${msg("welcome.hide")}</button>
+                    </span>
+                </span>
+            </div>
             <div class="welcome-body">
 
                <#-- OVERVIEW CONTAINER -->

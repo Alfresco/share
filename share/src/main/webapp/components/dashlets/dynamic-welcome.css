@@ -8,7 +8,7 @@ div.dashlet.dynamic-welcome
    position: relative;
 }
 
-.welcome-close-button
+.alf-welcome-hide-button
 {
    position: absolute;
    right: 0;
@@ -17,11 +17,6 @@ div.dashlet.dynamic-welcome
    zoom: 1;
    z-index: 1;
    color: #515D6B;
-}
-
-.welcome-close-button img
-{
-   vertical-align: text-bottom;
 }
 
 .welcome-body
