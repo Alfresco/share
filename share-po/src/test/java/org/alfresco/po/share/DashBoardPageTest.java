@@ -39,6 +39,8 @@ public class DashBoardPageTest extends AbstractTest
      *
      * @throws Exception
      */
+    
+    private String userGetStartedPanel = "userGetStartedPanel" + System.currentTimeMillis();
     DashBoardPage dashBoard;
 
     @Test(groups = "alfresco-one")
@@ -109,6 +111,23 @@ public class DashBoardPageTest extends AbstractTest
         dashBoard.inputFromKeyborad(Keys.ARROW_RIGHT);
         dashBoard.inputFromKeyborad(Keys.RETURN);
         Assert.assertTrue(drone.getCurrentPage().render() instanceof SharedFilesPage);
+    }
+    
+    @Test(dependsOnMethods = "checkVersionsFromPopUpLogo", groups = "Enterprise-only")
+    public void testHideGetStartedPanelFromUserDashboard() throws Exception
+    {
+        drone.refresh();
+        
+        ShareUtil.logout(drone);
+        createEnterpriseUser(userGetStartedPanel);
+                
+        dashBoard = loginAs(userGetStartedPanel, UNAME_PASSWORD);
+        
+        HideGetStartedPanel  hideGetStartedPanel = dashBoard.clickOnHideGetStartedPanelButton().render();
+        dashBoard = hideGetStartedPanel.clickOnHideGetStartedPanelOkButton().render();
+ 
+        Assert.assertFalse(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
+                
     }
 }
 

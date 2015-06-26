@@ -21,6 +21,9 @@ import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+
 
 /**
  * Dashboard page object, holds all element of the HTML page relating to share's
@@ -32,6 +35,21 @@ public class DashBoardPage extends SharePage implements Dashboard
 {
 
     private final Log logger = LogFactory.getLog(DashBoardPage.class);
+    
+    //Get Started Panel
+    
+    //Get Started Panel Title
+    private static final String GET_STARTED_PANEL_TITLE = ".welcome-info";
+    
+    //Get Started Panel Icon
+    public static final By GET_STARTED_PANEL_ICON = By.cssSelector("");
+    
+    //Get Started Panel Text
+    public static final By GET_STARTED_PANEL_TEXT = By.cssSelector(".welcome-info-text");
+    
+    //Get Started Panel Hide Button
+    public static final By HIDE_GET_STARTED_PANEL_BUTTON = By.cssSelector(".alf-welcome-hide-button");
+ 
 
     /**
      * Constructor.
@@ -91,7 +109,27 @@ public class DashBoardPage extends SharePage implements Dashboard
         }
         return false;
     }
-
+        
+    /**
+     * Clicks on Hide button on Get Started Panel
+     * 
+     * @return
+     */
+    public HideGetStartedPanel clickOnHideGetStartedPanelButton()
+    {
+        try
+        {
+            drone.findAndWait(HIDE_GET_STARTED_PANEL_BUTTON, maxPageLoadingTime).click();
+            
+        }
+        catch (TimeoutException toe)
+        {
+            logger.error(toe);
+        }
+        return new HideGetStartedPanel(drone).render();
+    }
+    
+   
     /**
      * Gets dashlets in the dashboard page.
      *
@@ -103,6 +141,15 @@ public class DashBoardPage extends SharePage implements Dashboard
     {
         return FactoryShareDashlet.getPage(drone, name);
     }
+    /**
+     * Retrns css selector for Get Started Panel title
+     * 
+     * @return
+     */
+    public String getGetStartedPanelTitle()
+    {
+        return GET_STARTED_PANEL_TITLE;
+    }
     
- 
+  
 }
