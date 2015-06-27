@@ -51,12 +51,12 @@ public class HideGetStartedPanel extends SharePage
     public static final String HIDE_GET_STERTED_PANEL_CLOSE_BUTTON = "";
     
     //Hide Get Started Panel popup OK button 
-    public static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='Yes']";
-    //public static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='OK']";
+    //public static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='Yes']";
+    public static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='OK']";
     
     //Hide Get Started Panel popup Cancel button
-    public static final String HIDE_GET_STARTED_CANCEL_BUTTON = "//button[text()='No']";
-    //public static final String HIDE_GET_STARTED_CANCEL_BUTTON = "//button[text()='Cancel']";
+    //public static final String HIDE_GET_STARTED_CANCEL_BUTTON = "//button[text()='No']";
+    public static final String HIDE_GET_STARTED_CANCEL_BUTTON = "//button[text()='Cancel']";
     
 
     /**

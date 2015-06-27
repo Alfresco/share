@@ -121,6 +121,7 @@ public class DashBoardPage extends SharePage implements Dashboard
         try
         {
             drone.findAndWait(HIDE_GET_STARTED_PANEL_BUTTON, maxPageLoadingTime).click();
+            waitUntilAlert();
             
         }
         catch (TimeoutException toe)
