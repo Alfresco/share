@@ -118,7 +118,8 @@ public class DashBoardPageTest extends AbstractTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "checkVersionsFromPopUpLogo", groups = "Enterprise-only")
+    //@Test(dependsOnMethods = "checkVersionsFromPopUpLogo", groups = "Enterprise-only")
+    /**
     public void testHideGetStartedPanelFromUserDashboard() throws Exception
     {
         drone.refresh();
@@ -134,7 +135,7 @@ public class DashBoardPageTest extends AbstractTest
         Assert.assertFalse(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
                 
     }
-    
+    **/
     /**
      * Verifies that Get Started Panel on user dashboard page can be restored from Customise User dashboard page
      * 
