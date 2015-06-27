@@ -20,7 +20,6 @@ package org.alfresco.po.share;
 
 
 import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageException;
@@ -75,7 +74,7 @@ public class HideGetStartedPanel extends SharePage
     @Override
     public HideGetStartedPanel render(RenderTime timer)
     {
-        elementRender(timer, RenderElement.getVisibleRenderElement(HIDE_GET_STARTED_PANEL_TITLE));
+        //elementRender(timer, RenderElement.getVisibleRenderElement(HIDE_GET_STARTED_PANEL_TITLE));
         return this;
     }
 
