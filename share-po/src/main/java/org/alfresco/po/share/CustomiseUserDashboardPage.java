@@ -18,6 +18,7 @@ package org.alfresco.po.share;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteLayout;
+import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageOperationException;
@@ -51,6 +52,11 @@ public class CustomiseUserDashboardPage extends SharePage
     private static final By SELECT_THREE_COLUMN_LAYOUT_BTN = By.cssSelector("button[id*='dashboard-3-columns-button']");
     private static final By SELECT_FOUR_COLUMN_LAYOUT_BTN = By.cssSelector("button[id*='dashboard-4-columns-button']");
 
+    //Restore Get Started Panel
+    private static final By SHOW_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("");
+    private static final By HIDE_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("");
+    
+    
     /**
      * Constructor.
      */
@@ -464,5 +470,51 @@ public class CustomiseUserDashboardPage extends SharePage
                 logger.info("Unable to find the Select button css " + nse);
             }
         }
+    }
+    
+    
+    /**
+     * Clicks on Show on dashboard radio button (to show Get Started Panel on user dashboard)
+     * 
+     * @return
+     */
+    public HtmlPage clickOnShowOnDashboardRadioButton()
+    {
+        try
+        {
+            drone.findAndWait(SHOW_ON_DASHBOARD_RADIO_BUTTON).click();
+
+        }
+        catch (TimeoutException toe)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Unable to find Show Get Started Panel radio button on Customise User dashboard page.", toe);
+            }
+        }
+        return FactorySharePage.resolvePage(drone);
+    }
+    
+    
+    /**
+     * Clicks on Hide on dashboard radio button (to hide Get Started Panel on user dashboard)
+     * 
+     * @return
+     */
+    public HtmlPage clickOnHideOnDashboardRadioButton()
+    {
+        try
+        {
+            drone.findAndWait(HIDE_ON_DASHBOARD_RADIO_BUTTON).click();
+
+        }
+        catch (TimeoutException toe)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Unable to find Hide Get Started Panel radio button on Customise User dashboard page.", toe);
+            }
+        }
+        return FactorySharePage.resolvePage(drone);
     }
 }

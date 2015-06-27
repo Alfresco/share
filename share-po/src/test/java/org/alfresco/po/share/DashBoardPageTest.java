@@ -113,6 +113,11 @@ public class DashBoardPageTest extends AbstractTest
         Assert.assertTrue(drone.getCurrentPage().render() instanceof SharedFilesPage);
     }
     
+    /**
+     * Verifies that Get Started Panel can be removed from user dashboard page
+     * 
+     * @throws Exception
+     */
     @Test(dependsOnMethods = "checkVersionsFromPopUpLogo", groups = "Enterprise-only")
     public void testHideGetStartedPanelFromUserDashboard() throws Exception
     {
@@ -121,7 +126,7 @@ public class DashBoardPageTest extends AbstractTest
         ShareUtil.logout(drone);
         createEnterpriseUser(userGetStartedPanel);
                 
-        dashBoard = loginAs(userGetStartedPanel, UNAME_PASSWORD);
+        dashBoard = loginAs(userGetStartedPanel, UNAME_PASSWORD).render();
         
         HideGetStartedPanel  hideGetStartedPanel = dashBoard.clickOnHideGetStartedPanelButton().render();
         dashBoard = hideGetStartedPanel.clickOnHideGetStartedPanelOkButton().render();
@@ -129,5 +134,50 @@ public class DashBoardPageTest extends AbstractTest
         Assert.assertFalse(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
                 
     }
+    
+    /**
+     * Verifies that Get Started Panel on user dashboard page can be restored from Customise User dashboard page
+     * 
+     * @throws Exception
+     */
+    //@Test(dependsOnMethods = "testHideGetStartedPanelFromUserDashboard", groups = "Enterprise-only")
+    /**
+    public void testShowGetStartedPanelFromCustomiseUserDashboard() throws Exception
+    {
+        //go to Customise User Dashboard page and click on Show radio button
+        CustomiseUserDashboardPage customiseUserDashboardPage = dashBoard.getNav().selectCustomizeUserDashboard().render();
+        
+        //click on show get started panel radio button
+        customiseUserDashboardPage = customiseUserDashboardPage.clickOnShowOnDashboardRadioButton().render();
+        
+        //click on OK button
+        dashBoard = customiseUserDashboardPage.selectOk().render();
+        
+        //check that get Started Panel is restored on the user dashboard
+        Assert.assertTrue(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
+                
+    }
+    **/
+    
+    //@Test(dependsOnMethods = "testShowGetStartedPanelFromCustomiseUserDashboard", groups = "Enterprise-only")
+    /**
+    public void testHideGetStartedPanelFromCustomiseUserDashboard() throws Exception
+    {
+        //go to Customise User Dashboard page and click on Hide radio button 
+        CustomiseUserDashboardPage customiseUserDashboardPage = dashBoard.getNav().selectCustomizeUserDashboard().render();
+        
+        //click on hide get started panel radio button
+        customiseUserDashboardPage = customiseUserDashboardPage.clickOnHideOnDashboardRadioButton().render();
+        
+        //click on OK button
+        dashBoard = customiseUserDashboardPage.selectOk().render();
+        
+        //check that get Started Panel is not present on the user dashboard
+        Assert.assertFalse(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
+                
+    }
+    **/
+    
+    
 }
 
