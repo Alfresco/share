@@ -31,6 +31,11 @@
     */
    var Dom = YAHOO.util.Dom,
       Event = YAHOO.util.Event;
+   
+   /**
+    * Alfresco library aliases
+    */
+   var $html = Alfresco.util.encodeHTML;
 
    /**
     * DynamicWelcome constructor.
@@ -52,7 +57,7 @@
 
       this.services.preferences = new Alfresco.service.Preferences();
       return this;
-   }
+   };
 
    YAHOO.extend(Alfresco.dashlet.DynamicWelcome, Alfresco.component.Base,
    {
@@ -77,7 +82,7 @@
        */
       onReady: function DynamicWelcome_onReady()
       {
-         // Listen on clicks for the create site link
+         // Listen on clicks
          this.widgets.hideButton = Alfresco.util.createYUIButton(this, "hide-button", this.hideButtonClick);
          Event.addListener(this.id + "-createSite-button", "click", this.onCreateSiteLinkClick, this, true);
          Event.addListener(this.id + "-requestJoin-button", "click", this.onRequestJoinLinkClick, this, true);
@@ -267,14 +272,13 @@
       hideButtonClick: function DynamicWelcome_hideButtonClick(e, args)
       {
          var _this = this;
-         
          Alfresco.util.PopupManager.displayPrompt(
          {
             title: this.msg("panel.delete.header"),
             text: this.msg("panel.delete.msg"),
             buttons: [
             {
-               text: this.msg("button.yes"),
+               text: this.msg("button.ok"),
                handler: function()
                {
                   this.destroy();
@@ -282,13 +286,15 @@
                }
             },
             {
-               text: this.msg("button.no"),
+               text: this.msg("button.cancel"),
                handler: function()
                {
                   this.destroy();
                },
                isDefault: true
-            }]
+            }],
+            close: true,
+            noEscape: true
          });
 
          Event.stopEvent(e);
