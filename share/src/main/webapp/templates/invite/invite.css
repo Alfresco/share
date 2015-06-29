@@ -43,7 +43,7 @@
 
 .alf-invite-panel-header
 {
-   height: 2.5em;
+   min-height: 2.5em;
 }
 
 .alf-invite-panel-header > div
