@@ -83,7 +83,7 @@
       onReady: function DynamicWelcome_onReady()
       {
          // Listen on clicks
-         this.widgets.hideButton = Alfresco.util.createYUIButton(this, "hide-button", this.hideButtonClick);
+         this.widgets.hideButton = Alfresco.util.createYUIButton(this, "hide-button", this.onHideButtonClick);
          Event.addListener(this.id + "-createSite-button", "click", this.onCreateSiteLinkClick, this, true);
          Event.addListener(this.id + "-requestJoin-button", "click", this.onRequestJoinLinkClick, this, true);
       },
@@ -266,10 +266,10 @@
       /**
        * Hide welcome dashlet click event handler
        *
-       * @method hideButtonClick
+       * @method onHideButtonClick
        * @param e {Object} Event arguments
        */
-      hideButtonClick: function DynamicWelcome_hideButtonClick(e, args)
+      onHideButtonClick: function DynamicWelcome_onHideButtonClick(e, args)
       {
          var _this = this;
          Alfresco.util.PopupManager.displayPrompt(
