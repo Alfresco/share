@@ -329,7 +329,7 @@
             { key: "userName", label: "User Name", sortable: false, formatter: this.bind(this.renderCellAvatar), width: 64 },
             { key: "bio", label: "Bio", sortable: false, formatter: this.bind(this.renderCellDescription) },
             { key: "role", label: "Select Role", formatter: this.bind(this.renderCellRoleSelect), width: 140 },
-            { key: "uninvite", label: "Uninvite", formatter: this.bind(this.renderCellUninvite), width: 80 }
+            { key: "uninvite", label: "Uninvite", formatter: this.bind(this.renderCellUninvite)}
          ];
 
          // DataTable definition
@@ -542,7 +542,7 @@
        */
       renderCellUninvite: function SiteMembers_renderCellUninvite(elCell, oRecord, oColumn, oData)
       {
-         Dom.setStyle(elCell.parentNode, "width", oColumn.width + "px");
+         Dom.setStyle(elCell.parentNode, "width", 7 + "em");
          Dom.addClass(elCell.parentNode, "uninvite");
        
          if (this.isCurrentUserSiteAdmin)
