@@ -1,10 +1,8 @@
 var clientRequest = json.toString();
 var clientJSON = JSON.parse(clientRequest);
 
-// The dashboard we are modifiying
+// The dashboard we are modifiying of the form "user/" + user.name + "/dashboard"
 var dashboardPage = decodeURIComponent(clientJSON.dashboardUrl);
-
-//var dashboardPage = "user/" + user.name + "/dashboard";
 var oldComponents = sitedata.findComponents("page", null, dashboardPage, null);
 
 // Unbind the full-width-dashlet (which will be the welcome for the dashboard

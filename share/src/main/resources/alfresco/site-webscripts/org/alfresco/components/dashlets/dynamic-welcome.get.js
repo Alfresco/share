@@ -168,7 +168,7 @@ function main()
       model.siteURL = ""; // Not needed for user
 
       model.title="welcome.user";
-      model.description="welcome.user.description"
+      model.description="welcome.user.description";
 
       columns[0] = getTutorialColumn();
       columns[1] = getSiteColumn();
@@ -176,8 +176,8 @@ function main()
    }
    else if (args.dashboardType == "site")
    {
-      // Each user has their own dashboard configuration in the AVM store but there
-      // is only one configuration for each site dashboard, whether or not it is
+      // Each user has their dashboard configuration in the sitedata, and there
+      // is only one configuration for each site dashboard. Whether or not it is
       // displayed is determined by user preferences. Before going any further we
       // need to establish whether the welcome dashlet should even be displayed.
       var hideDashlet = false,
@@ -275,7 +275,7 @@ function main()
          }
          else if (userIsMember)
          {
-            columns[0] = getBrowseSiteColumn()
+            columns[0] = getBrowseSiteColumn();
             columns[1] = getSiteMembersColumn();
                
             if (userIsSiteConsumer)
