@@ -37,6 +37,23 @@ div.dashlet.dynamic-welcome
    margin-bottom: 10px;
 }
 
+.welcome-info.alf-user-welcome {
+   background: transparent url(../images/lightbulb-orange-60.png) no-repeat left center;
+   padding-bottom: 4px;
+   padding-left: 80px;
+   padding-top: 7px;
+}
+
+.welcome-info.alf-user-welcome h1 {
+   color: #F38B00;
+   font-family: Open Sans bold,Arial,sans-serif;
+   font-size: 16px;
+}
+
+.welcome-info.alf-user-welcome .welcome-info-text {
+   font-size: 12px;
+}
+
 .welcome-info h1
 {
    font-size: 187%;

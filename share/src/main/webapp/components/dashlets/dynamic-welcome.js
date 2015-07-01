@@ -272,8 +272,7 @@
       onHideButtonClick: function DynamicWelcome_onHideButtonClick(e, args)
       {
          var _this = this;
-         var messageText = this.msg("panel.delete.msg", "<br />", "<br /><br />", 
-               '<span class="alf-configure-icon alf-hide-confirmation">&nbsp;</span>');
+         var messageText = this.msg("panel.delete.msg");
          Alfresco.util.PopupManager.displayPrompt(
          {
             title: this.msg("panel.delete.header"),
