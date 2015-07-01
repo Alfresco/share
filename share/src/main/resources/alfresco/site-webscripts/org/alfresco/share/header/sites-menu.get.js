@@ -9,9 +9,14 @@ function getSitesMenuData() {
        getRecentSites = (mode == "all" || mode == "recent");
    
    // Get the preferences for the current user...
-   var prefs = jsonUtils.toObject(preferences.value);
-   var recentSites = eval('try{(prefs.org.alfresco.share.sites.recent)}catch(e){}'),
-       favourites = eval('try{(prefs.org.alfresco.share.sites.favourites)}catch(e){}');
+   var prefs = JSON.parse(preferences.value);
+   var recentSites, favourites;
+   if (prefs && prefs.org && prefs.org.alfresco && prefs.org.alfresco.share && prefs.org.alfresco.share.sites)
+   {
+      recentSites = prefs.org.alfresco.share.sites.recent;
+      favourites = prefs.org.alfresco.share.sites.favourites;
+   }
+
    // Check that recentSites and favourites have been initialised by the successful
    // response of requesting preferences. If not then just make them a new object and
    // this will be reflected in the UI as there being no recent sites or favourites.
