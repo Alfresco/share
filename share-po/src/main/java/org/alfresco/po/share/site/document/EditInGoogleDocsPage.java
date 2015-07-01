@@ -43,7 +43,9 @@ public class EditInGoogleDocsPage extends SitePage
     protected static final By BUTTON_SAVE_TO_ALFRESCO = By.cssSelector("button[id$='default-googledocs-save-button']");
     private static final By BUTTON_DISCARD_CHANGES = By.cssSelector("button[id$='default-googledocs-discard-button']");
     private static final By BUTTON_BACK_TO_SHARE = By.cssSelector("button[id$='default-googledocs-back-button']");
-    private static final By GOOGLEDOCS_FRAME = By.tagName("iframe");
+//    private static final By GOOGLEDOCS_FRAME = By.tagName("iframe");
+    private static final By GOOGLEDOCS_FRAME = By.cssSelector("iframe");
+    private static final By GOOGLEDOCS_EDITFRAME = By.cssSelector("div[id='docs-editor-container']");
     @SuppressWarnings("unused")
     private static final By EDIT_GOOGLE_DOCS = By.cssSelector("span[class$='goog-inline-block kix-lineview-text-block']");
     private static final By GOOGLE_DOC_TITLE = By.cssSelector("div[id$='docs-title-inner']");
@@ -178,6 +180,8 @@ public class EditInGoogleDocsPage extends SitePage
         try
         {
             String frameId = drone.findAndWait(GOOGLEDOCS_FRAME).getAttribute("id");
+//            drone.waitUntilElementPresent(GOOGLEDOCS_EDITFRAME, WAIT_TIME_3000);
+//            WebElement frameId = drone.findAndWait(GOOGLEDOCS_EDITFRAME);
             if (frameId != null)
             {
                 return true;
