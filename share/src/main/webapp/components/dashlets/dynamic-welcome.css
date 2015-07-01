@@ -19,6 +19,12 @@ div.dashlet.dynamic-welcome
    color: #515D6B;
 }
 
+.alf-confirmation-panel-text {
+    display: inline-block;
+    max-width: 23em;
+    padding-bottom: 0.5em;
+}
+
 .alfresco-share .alf-configure-icon.alf-hide-confirmation
 {
     padding: 1px 9px 3px 9px;
