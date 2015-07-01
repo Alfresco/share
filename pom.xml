@@ -431,13 +431,31 @@
                                 <phase>generate-resources</phase>
                                 <configuration>
                                     <target>
-                                        <copy todir="${runtime.tomcat.conf.folder}" overwrite="false">
-                                            <fileset dir="${project.build.directory}/tomcat-conf"/>
-                                        </copy>
+                                        <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+                                            classpathref="maven.plugin.classpath"/>
+                                        <if>
+                                            <available file="${runtime.tomcat.conf.folder}" type="dir"/>
+                                            <then>
+                                                <echo message="Skipping creation of tomcat configuration, already exists: ${runtime.tomcat.conf.folder}"/>
+                                            </then>
+                                            <else>
+                                                <echo message="Creating tomcat runtime configuration: ${runtime.tomcat.conf.folder}"/>
+                                                <copy todir="${runtime.tomcat.conf.folder}">
+                                                    <fileset dir="${project.build.directory}/tomcat-conf"/>
+                                                </copy>
+                                            </else>
+                                        </if>
                                     </target>
                                 </configuration>
                             </execution>
                         </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>ant-contrib</groupId>
+                                <artifactId>ant-contrib</artifactId>
+                                <version>20020829</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
 
 
