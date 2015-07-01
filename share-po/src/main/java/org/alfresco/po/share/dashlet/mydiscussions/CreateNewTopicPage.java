@@ -100,7 +100,7 @@ public class CreateNewTopicPage extends SharePage
      * Get TinyMCEEditor object to navigate TinyMCE functions.
      * TODO: move setText() from ConfigureSiteNoticeTinyMceEditor to TinyMceEditor
      * 
-     * @return
+     * @return TinyMceEditor
      */
     public TinyMceEditor getTinyMCEEditor()
     {
@@ -144,7 +144,7 @@ public class CreateNewTopicPage extends SharePage
     /**
      * Enters tag value
      * 
-     * @param tag
+     * @param tag String
      */
     public HtmlPage fillTagField(String tag)
     {

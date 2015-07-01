@@ -64,7 +64,7 @@ public class AdvanceSearchPage extends SharePage
     /**
      * Constructor
      *
-     * @param drone
+     * @param drone WebDrone
      */
     public AdvanceSearchPage(WebDrone drone)
     {

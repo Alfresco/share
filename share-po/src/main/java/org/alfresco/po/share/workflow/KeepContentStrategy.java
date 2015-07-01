@@ -49,7 +49,7 @@ public enum KeepContentStrategy
     /**
      * Returns {@link KeepContentStrategy} based on given value.
      * 
-     * @param stringValue
+     * @param stringValue String
      * @return {@link KeepContentStrategy}
      */
     public static KeepContentStrategy getKeepContentStrategy(String stringValue)

@@ -65,7 +65,7 @@ public class ConfigureWebViewDashletBoxPage extends SharePage
     /**
      * Mimic fill title field on Box.
      *
-     * @param text
+     * @param text String
      */
     public void fillLinkTitle(String text)
     {
@@ -76,7 +76,7 @@ public class ConfigureWebViewDashletBoxPage extends SharePage
     /**
      * Mimic fill url field on Box.
      *
-     * @param text
+     * @param text String
      */
     public void fillUrlField(String text)
     {

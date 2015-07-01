@@ -102,7 +102,7 @@ public class AdvanceSearchFolderTest extends AbstractTest
     }
     /**
      * New test case to Test Keyword Search field input and get.
-     * @throw Exception
+     * @throws Exception
      * 
      */
     
@@ -120,7 +120,7 @@ public class AdvanceSearchFolderTest extends AbstractTest
     
     /**
      * This test is to test whether the first result item is folder or not.
-     * @throw Exception
+     * @throws Exception
      */
     @Test(dependsOnMethods="folderSearchTest")
     public void testIsFolder() throws Exception

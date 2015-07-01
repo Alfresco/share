@@ -50,7 +50,8 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
 
     /**
      * Constructor.
-     * @param element
+     * @param drone WebDrone
+     * @param element WebElement
      */
     public InsertOrEditLinkPage(WebDrone drone, WebElement element)
     {
@@ -102,7 +103,7 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
     /**
      * This method sets the given text into Link Url.
      * 
-     * @param text
+     * @param text String
      */
     public void setLinkUrl(String text)
     {
@@ -125,7 +126,7 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
     /**
      * This method sets the given text into title.
      * 
-     * @param text
+     * @param text String
      */
     public void setTitle(String text)
     {
@@ -150,7 +151,7 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
     /**
      * This method sets the given Target item from the Target dropdown values.
      * 
-     * @param target
+     * @param target InsertLinkPageTargetItems
      */
     public void setTarget(InsertLinkPageTargetItems target)
     {
@@ -172,8 +173,8 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
 
     /**
      * Util method to select given Target.
-     * @param by
-     * @param text
+     * @param by By
+     * @param text String
      */
     private void selectTarget(By by, String text)
     {

@@ -82,7 +82,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     /**
      * Constructor
      *
-     * @param drone
+     * @param drone WebDrone
      */
     protected MyDiscussionsDashlet(WebDrone drone)
     {
@@ -246,7 +246,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     /**
      * This method gets the list of messages based on given cssselector and appends it to a string.
      *
-     * @param cssLocator
+     * @param cssLocator String
      */
     private String getHelpButtonMessage(String cssLocator)
     {
@@ -558,8 +558,6 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     /**
      * Populates all the possible links that appear in the dashlet topic list
      * like user and topic title
-     *
-     * @param
      */
 
     private synchronized void populateData()
@@ -588,8 +586,6 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     /**
      * Populates topic status details that appear in the dashlet topic list
      * like creation time and update time
-     *
-     * @param
      */
     private synchronized void populateUpdatedTopicStatusDetails()
     {
@@ -655,7 +651,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     /**
      * Checks if topic title is dispalyed in the dashlet
      *
-     * @return
+     * @return boolean
      */
 
     public boolean isTopicTitleDisplayed(String topicTitle)

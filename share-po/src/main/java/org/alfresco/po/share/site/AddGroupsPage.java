@@ -103,8 +103,8 @@ public class AddGroupsPage extends SharePage
     }
 
     /**
-     * @param groupDisplayName
-     * @return
+     * @param groupDisplayName String
+     * @return AddGroupsPage
      */
     public AddGroupsPage addGroupToSite(String groupDisplayName)
     {
@@ -141,8 +141,8 @@ public class AddGroupsPage extends SharePage
     }
 
     /**
-     * @param groupDisplayName
-     * @return
+     * @param groupDisplayName String
+     * @return AddGroupsPage
      */
     public AddGroupsPage searchGroup(String groupDisplayName)
     {
@@ -173,9 +173,9 @@ public class AddGroupsPage extends SharePage
     /**
      * Assign role to group.
      *
-     * @param groupDisplayName
-     * @param roleToAssign
-     * @return
+     * @param groupDisplayName String
+     * @param roleToAssign UserRole
+     * @return AddGroupsPage
      */
     public AddGroupsPage assignRoleToGroup(String groupDisplayName, UserRole roleToAssign)
     {
@@ -205,9 +205,9 @@ public class AddGroupsPage extends SharePage
     }
 
     /**
-     * @param groupDisplayName
-     * @param roleToAssign
-     * @return
+     * @param groupDisplayName String
+     * @param roleToAssign UserRole
+     * @return AddGroupsPage
      */
     public AddGroupsPage addGroup(String groupDisplayName, UserRole roleToAssign)
     {
@@ -241,8 +241,8 @@ public class AddGroupsPage extends SharePage
     }
 
     /**
-     * @param groupDisplayName
-     * @return
+     * @param groupDisplayName String
+     * @return boolean
      */
     public boolean isGroupAdded(String groupDisplayName)
     {
@@ -278,7 +278,7 @@ public class AddGroupsPage extends SharePage
     }
 
     /**
-     * @param role
+     * @param role UserRole
      */
     public void selectRoleForAll(UserRole role)
     {
@@ -289,8 +289,8 @@ public class AddGroupsPage extends SharePage
     /**
      * true if 'Add' button displayed and enabled for user.
      *
-     * @param groupName
-     * @return
+     * @param groupName String
+     * @return boolean
      */
     public boolean isAddButtonEnabledFor(String groupName)
     {
@@ -298,7 +298,7 @@ public class AddGroupsPage extends SharePage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isAddGroupsButtonEnabled()
     {
@@ -316,8 +316,8 @@ public class AddGroupsPage extends SharePage
     /**
      * true if 'SelectRole' button displayed and enabled for user.
      *
-     * @param groupName
-     * @return
+     * @param groupName String
+     * @return boolean
      */
     public boolean isSelectRoleEnabledFor(String groupName)
     {
@@ -327,8 +327,8 @@ public class AddGroupsPage extends SharePage
     /**
      * true if 'Remove Icon' image displayed and enabled for user.
      *
-     * @param groupName
-     * @return
+     * @param groupName String
+     * @return boolean
      */
     public boolean isRemoveIconEnabledFor(String groupName)
     {

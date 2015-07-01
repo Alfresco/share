@@ -40,7 +40,7 @@ public class ExtensibilityTest extends AbstractJettyTest
     
     /**
      * <p>Common method for checking the extensibility page.</p>
-     * @param expectedResults
+     * @param expectedResults String[]
      * @throws JAXBException
      */
     private void checkExtensibilityPage(String[] expectedResults) throws JAXBException
@@ -54,7 +54,7 @@ public class ExtensibilityTest extends AbstractJettyTest
     /**
      * <p>Common method for checking the extensibility configuration page - this page uses generic configuration
      * to set the content and is provided for testing configuration module extensions.</p>
-     * @param expectedResults
+     * @param expectedResults String[]
      * @throws JAXBException
      */
     private void checkExtensibilityConfigPage(String[] expectedResults, String paramString) throws JAXBException
@@ -67,7 +67,6 @@ public class ExtensibilityTest extends AbstractJettyTest
     
     /**
      * <p>Deploys a single module with no evaluator or override data.</p>
-     * @param moduleName The name of the module to deploy.
      * @throws IOException
      */
     private void clearDeployedModules() throws IOException
@@ -91,9 +90,9 @@ public class ExtensibilityTest extends AbstractJettyTest
     
     /**
      * <p>Deploys a single module but overrides the default evaluator and evaluator parameters</p>
-     * @param moduleName
-     * @param evaluator
-     * @param evaluatorProperties
+     * @param moduleName String
+     * @param evaluator String
+     * @param evaluatorProperties Map<String, String>
      * @throws IOException
      */
     private void deployModuleWithOverrides(String moduleName, String evaluator, Map<String, String> evaluatorProperties) throws IOException

@@ -46,7 +46,7 @@ public enum WorkFlowStatus
     /**
      * Returns {@link WorkFlowStatus} based on given value.
      * 
-     * @param value
+     * @param value String
      * @return {@link WorkFlowStatus}
      */
     public static WorkFlowStatus getWorkFlowStatus(String value)

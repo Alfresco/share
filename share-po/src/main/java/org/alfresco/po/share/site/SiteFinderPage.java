@@ -500,7 +500,7 @@ public class SiteFinderPage extends SharePage
     /**
      * Click on site by index
      * 
-     * @param index 
+     * @param index int
      * @return {@link SiteDashboardPage} page response object
      */
     public SiteDashboardPage selectSiteByIndex(final int index)
@@ -522,9 +522,9 @@ public class SiteFinderPage extends SharePage
     /**
      * Checks weather button is present for a given site name.
      * 
-     * @param siteName
-     * @param button
-     * @return
+     * @param siteName String
+     * @param button ButtonType
+     * @return boolean
      */
     public boolean isButtonForSitePresent(String siteName, ButtonType button)
     {
@@ -542,9 +542,9 @@ public class SiteFinderPage extends SharePage
     /**
      * Click the delete button for a site in Site finder page
      * 
-     * @param siteName
+     * @param siteName String
      * @return the first confirmation popup
-     * @author Bogdan
+     * <br/><br/>author Bogdan
      */
     public HtmlPage clickDelete(String siteName)
     {

@@ -217,7 +217,7 @@ public class Navigation extends SharePage
     /**
      * Checks if Reporting is displayed
      * 
-     * @return
+     * @return boolean
      */
     public boolean isReportingVisible()
     {
@@ -236,7 +236,7 @@ public class Navigation extends SharePage
     
     /**
      * Select Analyze from Reporting dropdown.
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectAnalyze()
     {
@@ -256,7 +256,7 @@ public class Navigation extends SharePage
     
     /**
      * Select Analyze Site from Reporting dropdown.
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectAnalyzeSite()
     {
@@ -745,7 +745,7 @@ public class Navigation extends SharePage
     /**
      * Check if "CreateSite" element is present in the sites menu.
      *
-     * @return
+     * @return boolean
      */
     public boolean isCreateSitePresent()
     {
@@ -765,7 +765,7 @@ public class Navigation extends SharePage
     /**
      * Check for details of site is favourite or not.
      *
-     * @return
+     * @return boolean
      */
     public boolean isSiteFavourtie()
     {
@@ -800,7 +800,7 @@ public class Navigation extends SharePage
     /**
      * Set Site as favourite.
      *
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage setSiteAsFavourite()
     {
@@ -825,7 +825,7 @@ public class Navigation extends SharePage
     /**
      * Remove site as favourite.
      *
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage removeFavourite()
     {
@@ -852,7 +852,7 @@ public class Navigation extends SharePage
     /**
      * Get the names of all recently visited sites.
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getRecentSitesPresent()
     {
@@ -878,7 +878,7 @@ public class Navigation extends SharePage
     /**
      * Does any sites been selectd as favourite.
      *
-     * @return
+     * @return boolean
      */
     public boolean doesAnyFavouriteSiteExist()
     {
@@ -902,7 +902,7 @@ public class Navigation extends SharePage
     /**
      * Get list of favourite sites available.
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getFavouriteSites()
     {
@@ -927,7 +927,7 @@ public class Navigation extends SharePage
     /**
      * Select favourites.
      *
-     * @return
+     * @return HtmlPage
      */
     private HtmlPage selectFavourties()
     {
@@ -950,7 +950,7 @@ public class Navigation extends SharePage
     /**
      * Select My Sites from sites dropdown.
      *
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectMySites()
     {
@@ -1075,8 +1075,8 @@ public class Navigation extends SharePage
     /**
      * Method to perfrom search using header search bar
      *
-     * @param searchString
-     * @return
+     * @param searchString String
+     * @return FacetedSearchPage
      */
     public FacetedSearchPage performSearch(String searchString)
     {

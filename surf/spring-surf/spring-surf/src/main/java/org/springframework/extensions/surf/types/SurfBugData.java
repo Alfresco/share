@@ -25,7 +25,7 @@ public interface SurfBugData
      * Store the WebScript resolved for this component (this will only be set if the
      * Component is backed by a WebScript).
      * 
-     * @param webScript
+     * @param webScript WebScript
      */
     public void setResolvedWebScript(WebScript webScript);
     
@@ -34,7 +34,7 @@ public interface SurfBugData
      * be available during rendering) it will return null if the component is not backed
      * by a WebScript.
      * 
-     * @return
+     * @return WebScript
      */
     public WebScript getResolvedWebScript();
 }

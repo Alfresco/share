@@ -80,7 +80,7 @@ public class CustomizeSitePage extends SitePage
     /**
      * Returns All Current {@link SitePageType}.
      *
-     * @return
+     * @return List<SitePageType>
      */
     public List<SitePageType> getCurrentPages()
     {
@@ -90,7 +90,7 @@ public class CustomizeSitePage extends SitePage
     /**
      * Returns All Available {@link SitePageType}.
      *
-     * @return
+     * @return List<SitePageType>
      */
     public List<SitePageType> getAvailablePages()
     {
@@ -154,7 +154,7 @@ public class CustomizeSitePage extends SitePage
     /**
      * Method used to add pages using coordinates for dropping
      *
-     * @param pageTypes
+     * @param pageTypes List<SitePageType>
      * @return SiteDashboardPage
      */
     public SiteDashboardPage addPages (List<SitePageType> pageTypes)
@@ -195,7 +195,7 @@ public class CustomizeSitePage extends SitePage
     /**
      * Method to add all available pages
      *
-     * @return
+     * @return SiteDashboardPage
      */
     public SiteDashboardPage addAllPages ()
     {
@@ -207,7 +207,7 @@ public class CustomizeSitePage extends SitePage
     /**
      * Method to get added pages
      *
-     * @return
+     * @return List<SitePageType>
      */
     private List<SitePageType> getAddedPages ()
     {

@@ -191,7 +191,9 @@ public final class ScriptHelper implements Serializable
      * wrapped as a ScriptModelObject.  If the model object cannot be found,
      * null will be returned.
      * 
-     * @param id the id
+     * @param context RequestContext
+     * @param objectTypeId String
+     * @param objectId String
      * 
      * @return the script model object
      */

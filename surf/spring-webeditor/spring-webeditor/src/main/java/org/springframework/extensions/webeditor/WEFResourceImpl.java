@@ -85,7 +85,7 @@ public class WEFResourceImpl implements WEFResource
     /**
      * Sets the resource type.
      * 
-     * @param type
+     * @param type String
      */
     public void setType(String type)
     {

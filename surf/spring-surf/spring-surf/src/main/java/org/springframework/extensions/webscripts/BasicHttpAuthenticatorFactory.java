@@ -108,9 +108,8 @@ public class BasicHttpAuthenticatorFactory implements ServletAuthenticatorFactor
         /**
          * Construct
          * 
-         * @param authenticationService
-         * @param req
-         * @param res
+         * @param req WebScriptServletRequest
+         * @param res WebScriptServletResponse
          */
         public BasicHttpAuthenticator(WebScriptServletRequest req, WebScriptServletResponse res)
         {

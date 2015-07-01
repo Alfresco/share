@@ -82,7 +82,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
     
     /**
      * <p>Returns the message WebScript.
-     * @return
+     * @return MessagesWebScript
      */
     public MessagesWebScript getMessagesWebScript()
     {
@@ -91,7 +91,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
     
     /**
      * <p>Sets the {@link MessagesWebScript}.</p>
-     * @param messagesWebScript
+     * @param messagesWebScript MessagesWebScript
      */
     public void setMessagesWebScript(MessagesWebScript messagesWebScript)
     {
@@ -103,7 +103,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return MessagesDependencyDirective
      */
     public MessagesDependencyDirective createMessagesDependencyDirective(String directiveName,
                                                                          ModelObject object,
@@ -120,7 +120,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return JavaScriptDependencyDirective
      */
     public JavaScriptDependencyDirective createJavaScriptDependencyDirective(String directiveName,
                                                                              ModelObject object,
@@ -137,7 +137,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return CssDependencyDirective
      */
     public CssDependencyDirective createCssDependencyDirective(String directiveName,
                                                                ModelObject object,
@@ -154,7 +154,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return ChecksumResourceDirective
      */
     public ChecksumResourceDirective createChecksumResourceDirective(String directiveName,
                                                                      ModelObject object,
@@ -171,7 +171,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return AddInlineJavaScriptDirective
      */
     public AddInlineJavaScriptDirective createAddInlineJavaScriptDirective(String directiveName,
                                                                            ModelObject object,
@@ -188,7 +188,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return CreateWebScriptWidgetsDirective
      */
     public CreateWebScriptWidgetsDirective createCreateWebScriptsDirective(String directiveName,
                                                                            ModelObject object,
@@ -205,7 +205,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return OutputCSSDirective
      */
     public OutputCSSDirective createOutputCssDirective(String directiveName,
                                                        ModelObject object,
@@ -222,7 +222,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return OutputJavaScriptDirective
      */
     public OutputJavaScriptDirective createOutputJavaScriptDirective(String directiveName,
                                                                      ModelObject object,
@@ -239,7 +239,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return RelocateJavaScriptOutputDirective
      */
     public RelocateJavaScriptOutputDirective createRelocateJavaScriptDirective(String directiveName,
                                                                                ModelObject object,
@@ -257,7 +257,7 @@ public class DefaultDirectiveFactory implements DirectiveFactory
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param webFrameworkConfigElement The {@link WebFrameworkConfigElement} for the application.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return ChromeDetectionDirective
      */
     public ChromeDetectionDirective createChromeDetectionDirective(String directiveName,
                                                                    ExtensibilityModel extensibilityModel, 
@@ -271,10 +271,10 @@ public class DefaultDirectiveFactory implements DirectiveFactory
     /**
      * <p>Creates a new {@link ChromeDetectionDirective}.</p>
      * @param directiveName The name of the directive
+     * @param object ModelObject
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
-     * @param webFrameworkConfigElement The {@link WebFrameworkConfigElement} for the application.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return StandaloneWebScriptWrapper
      */
     public StandaloneWebScriptWrapper createStandaloneWebScriptWrapperDirective(String directiveName,
             ModelObject object,
@@ -289,9 +289,9 @@ public class DefaultDirectiveFactory implements DirectiveFactory
     /**
      * <p>Sets up a directive with the core objects needed.</p>
      * 
-     * @param directive
-     * @param object
-     * @param context
+     * @param directive AbstractDependencyExtensibilityDirective
+     * @param object ModelObject
+     * @param context RequestContext
      */
     protected void setupDirective(AbstractDependencyExtensibilityDirective directive,
                                 ModelObject object,

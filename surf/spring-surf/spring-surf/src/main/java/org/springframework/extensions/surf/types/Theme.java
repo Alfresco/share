@@ -53,7 +53,7 @@ public interface Theme extends ModelObject
     public void setDefaultPageId(String pageTypeId, String pageId);
     
     /**
-     * @returns A {@link Map} of CSS tokens to substitution values. These are used when processing
+     * @return A {@link Map} of CSS tokens to substitution values. These are used when processing
      * CSS source files so that a common CSS file can be modified per theme.
      */
     public abstract Map<String, String> getCssTokens();

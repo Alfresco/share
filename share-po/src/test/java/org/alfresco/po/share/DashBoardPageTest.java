@@ -34,13 +34,13 @@ import org.testng.annotations.Test;
 @Listeners(FailedTestListener.class)
 public class DashBoardPageTest extends AbstractTest
 {
+    DashBoardPage dashBoard;
+
     /**
      * Test process of accessing dashboard page.
      *
      * @throws Exception
      */
-    DashBoardPage dashBoard;
-
     @Test(groups = "alfresco-one")
     public void loadDashBoard() throws Exception
     {

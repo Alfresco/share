@@ -27,8 +27,9 @@ public interface Processor
      * Executes the given focus of the processor output using the
      * given processor context
      *
-     * @param processorContext
-     * @param focus
+     * @param processorContext ProcessorContext
+     * @param object ModelObject
+     * @param focus RenderFocus
      *
      * @throws RendererExecutionException
      */
@@ -61,8 +62,9 @@ public interface Processor
      * Indicates whether the engine responsible for processing
      * the body of the processor exists.
      *
-     * @param processorContext
-     * @return
+     * @param processorContext ProcessorContext
+     * @param object ModelObject
+     * @return boolean
      */
     public boolean exists(ProcessorContext processorContext, ModelObject object);
 }

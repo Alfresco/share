@@ -30,21 +30,21 @@ public interface CachedPersister
     /**
      * Enables or disables the caching mechanics
      * 
-     * @param cache
+     * @param cache boolean
      */
     public void setCache(boolean cache);
     
     /**
      * Sets the number of seconds to wait between cache checks, -1 for never.
      * 
-     * @param cacheCheckDelay
+     * @param cacheCheckDelay int
      */
     public void setCacheCheckDelay(int cacheCheckDelay);
     
     /**
      * Sets the maximum size of the underlying cache, -1 for no max size.
      * 
-     * @param cacheMaxSize
+     * @param cacheMaxSize int
      */
     public void setCacheMaxSize(int cacheMaxSize);
     

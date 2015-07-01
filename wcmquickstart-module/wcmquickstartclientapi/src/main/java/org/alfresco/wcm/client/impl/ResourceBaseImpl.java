@@ -126,7 +126,7 @@ public abstract class ResourceBaseImpl implements Resource
 	}
 
 	/**
-	 *  @see org.alfresco.wcm.client.Resource#getProperty()
+	 *  @see org.alfresco.wcm.client.Resource#getProperty(String)
 	 */
 	@Override
 	public Serializable getProperty(String propertyName) 

@@ -45,7 +45,8 @@ public class HtmlSourceEditorPage extends BaseAdvancedTinyMceOptionsPage
     /**
      * Constructor.
      * 
-     * @param element
+     * @param drone WebDrone
+     * @param element WebElement
      */
     public HtmlSourceEditorPage(WebDrone drone, WebElement element)
     {
@@ -74,7 +75,7 @@ public class HtmlSourceEditorPage extends BaseAdvancedTinyMceOptionsPage
     /**
      * This method sets the given html code into html source element.
      * 
-     * @param htmlSource
+     * @param htmlSource String
      */
     public void setHTMLSource(String htmlSource)
     {

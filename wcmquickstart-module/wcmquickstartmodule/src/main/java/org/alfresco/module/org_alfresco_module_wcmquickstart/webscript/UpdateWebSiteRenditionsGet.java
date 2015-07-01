@@ -164,7 +164,7 @@ public class UpdateWebSiteRenditionsGet extends DeclarativeWebScript
     
     /**
      * 
-     * @param nodeRef
+     * @param nodeRef NodeRef
      */
     private void renditionChildren(NodeRef nodeRef)
     {
@@ -189,8 +189,8 @@ public class UpdateWebSiteRenditionsGet extends DeclarativeWebScript
     
     /**
      * 
-     * @param docLib
-     * @return
+     * @param docLib NodeRef
+     * @return NodeRef
      */
     private NodeRef getWebSite(NodeRef docLib)
     {

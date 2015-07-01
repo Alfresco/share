@@ -61,7 +61,7 @@ public class ServletRequestContextFactory extends AbstractRequestContextFactory
         
     /**
      * <p>This method has been provided to allow Spring to inject the required <code>LinkBuilderFactory</code>.
-     * @param linkBuilderFactory
+     * @param linkBuilderFactory LinkBuilderFactory
      */
     public void setLinkBuilderFactory(LinkBuilderFactory linkBuilderFactory)
     {

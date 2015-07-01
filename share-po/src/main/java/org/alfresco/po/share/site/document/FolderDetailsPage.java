@@ -127,7 +127,7 @@ public class FolderDetailsPage extends DetailsPage
     /**
      * Verifies Tag Panel is present in the page.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isTagPanelPresent()
     {
@@ -212,8 +212,8 @@ public class FolderDetailsPage extends DetailsPage
     }
 
     /**
-     * @param comment
-     * @return
+     * @param comment String
+     * @return boolean
      */
     public boolean isCommentAddedAndRemoved(String comment)
     {
@@ -307,7 +307,7 @@ public class FolderDetailsPage extends DetailsPage
      *  Method checks if the author of the folder modifying is displayed at a Folder details page
      * @param drone  Webcrone instance
      * @param userName string name of the modifier
-     * @return
+     * @return boolean
      */
     public static boolean IsModifierDisplayed(WebDrone drone, String userName)
     {

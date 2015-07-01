@@ -109,8 +109,8 @@ public class NewReplicationJobPage extends AbstractEditProperties
     /**
      * Method to select payload (files that will be transfered)
      *
-     * @param driver
-     * @param companyHome
+     * @param driver WebDrone
+     * @param companyHome CompanyHome
      * @return NewReplicationJobPage
      */
     public NewReplicationJobPage selectPayLoad(WebDrone driver, CompanyHome companyHome)
@@ -132,8 +132,8 @@ public class NewReplicationJobPage extends AbstractEditProperties
     /**
      * Method to select Transfer target folder
      *
-     * @param driver
-     * @param transferName
+     * @param driver WebDrone
+     * @param transferName String
      * @return NewReplicationJobPage
      */
     public NewReplicationJobPage selectTransferTarget(WebDrone driver, String transferName)
@@ -148,7 +148,7 @@ public class NewReplicationJobPage extends AbstractEditProperties
 
     /**
      * Method to delete existent transfer target
-     * @param driver
+     * @param driver WebDrone
      *
      * @return NewReplicationJobPage
      */
@@ -184,7 +184,7 @@ public class NewReplicationJobPage extends AbstractEditProperties
     /**
      * Method to set due date field
      *
-     * @param dueDate
+     * @param dueDate String
      */
     public void setDueDate(String dueDate)
     {
@@ -207,7 +207,7 @@ public class NewReplicationJobPage extends AbstractEditProperties
     /**
      * Method to set time field
      *
-     * @param time
+     * @param time String
      */
     public void setTime(String time)
     {
@@ -228,7 +228,7 @@ public class NewReplicationJobPage extends AbstractEditProperties
     /**
      * Method to set repeat every field
      *
-     * @param value
+     * @param value String
      */
     public void setRepeatEveryField(String value)
     {
@@ -258,7 +258,7 @@ public class NewReplicationJobPage extends AbstractEditProperties
     /**
      * MEthod to select Interval period (Seconds, Minutes, Hours etc.)
      *
-     * @param intervalValue
+     * @param intervalValue RepeatEveryValue
      */
     public void selectIntervalPeriod(RepeatEveryValue intervalValue)
     {

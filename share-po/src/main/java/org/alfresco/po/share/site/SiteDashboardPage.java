@@ -142,7 +142,6 @@ public class SiteDashboardPage extends SitePage implements Dashboard
      * 
      * @param name String title of dashlet
      * @return HtmlPage page object
-     * @throws Exception
      */
     @Override
     public Dashlet getDashlet(final String name)
@@ -155,11 +154,11 @@ public class SiteDashboardPage extends SitePage implements Dashboard
      * Return page based on name of the Dash clickable element passed.
      * This method is as of now only direct to Wiki page for other pages enums
      * with returning css selector to be added.
-     * 
-     * @param name
-     * @return
-     * @example: For Sample Site if you want to navigate to wiki page pass @Project
+     *
+     * example: For Sample Site if you want to navigate to wiki page pass @Project
      *           Wiki@
+     * @param name String
+     * @return HtmlPage
      */
     public HtmlPage getDashBoardElement(final String name)
     {
@@ -190,7 +189,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     /**
      * Checks the title of the site
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSiteTitle(String title)
     {
@@ -348,7 +347,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     /**
      * Check is more button for site pages displayed.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isPagesMoreButtonDisplayed()
     {
@@ -365,7 +364,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     /**
      * Method for get counts links for site pages.
      * 
-     * @return
+     * @return int
      */
     public int getPagesLinkCount()
     {

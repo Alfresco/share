@@ -72,7 +72,7 @@ public class DirectoryInfoRow extends HtmlElement
     /**
      * Return auth chain name.
      *
-     * @return
+     * @return String
      */
     public String getName()
     {
@@ -82,7 +82,7 @@ public class DirectoryInfoRow extends HtmlElement
     /**
      * Return auth chain type for this row.
      *
-     * @return
+     * @return String
      */
     public String getType()
     {
@@ -92,7 +92,7 @@ public class DirectoryInfoRow extends HtmlElement
     /**
      * Return is Auth chain enabled or disabled.
      *
-     * @return
+     * @return String
      */
     public String getEnabled()
     {
@@ -102,7 +102,7 @@ public class DirectoryInfoRow extends HtmlElement
     /**
      * Return is Synchronized auth chain or not.
      *
-     * @return
+     * @return String
      */
     public String getSyncStatus()
     {
@@ -112,7 +112,7 @@ public class DirectoryInfoRow extends HtmlElement
     /**
      * Click on Edit button for selected auth chain.
      *
-     * @return
+     * @return SharePage
      */
     public SharePage clickEdit()
     {
@@ -130,7 +130,7 @@ public class DirectoryInfoRow extends HtmlElement
     /**
      * Click on Status button and open 'Status' table.
      *
-     * @return
+     * @return List<StatusRow>
      */
     public List<StatusRow> clickStatus()
     {
@@ -142,7 +142,7 @@ public class DirectoryInfoRow extends HtmlElement
     /**
      * Return objects associated with status rows in table.
      *
-     * @return
+     * @return List<StatusRow>
      */
     public List<StatusRow> getStatusRows()
     {

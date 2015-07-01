@@ -121,7 +121,7 @@ public class RenderService implements ApplicationContextAware
     /**
      * Returns a rendition processor for the given id (i.e. jsp, webscript, etc)
      *
-     * @param id
+     * @param id String
      * @return processor
      */
     public Processor getRenditionProcessorById(String id)
@@ -134,8 +134,8 @@ public class RenderService implements ApplicationContextAware
     /**
      * Returns a rendition processor for a renderable in the default VIEW render mode
      *
-     * @param renderable
-     * @return
+     * @param renderable Renderable
+     * @return Processor
      */
     public Processor getRenditionProcessor(Renderable renderable)
     {
@@ -145,9 +145,9 @@ public class RenderService implements ApplicationContextAware
     /**
      * Returns a rendition processor for a renderable in the given render mode
      *
-     * @param renderable
-     * @param renderMode
-     * @return
+     * @param renderable Renderable
+     * @param renderMode RenderMode
+     * @return Processor
      */
     public Processor getRenditionProcessor(Renderable renderable, RenderMode renderMode)
     {
@@ -182,9 +182,10 @@ public class RenderService implements ApplicationContextAware
     /**
      * Executes the processor for the given focus on the provided renderable object.
      *
-     * @param context
-     * @param renderFocus
-     * @param renderable
+     * @param context RequestContext
+     * @param renderFocus RenderFocus
+     * @param object ModelObject
+     * @param renderable Renderable
      * @throws RendererExecutionException
      */
     public void processRenderable(RequestContext context, RenderFocus renderFocus, ModelObject object, Renderable renderable)
@@ -392,9 +393,10 @@ public class RenderService implements ApplicationContextAware
     /**
      * Executes the processor for the given render focus on the given component instance.
      *
-     * @param context
-     * @param renderFocus
-     * @param component
+     * @param context RequestContext
+     * @param renderFocus RenderFocus
+     * @param component Component
+     * @param chromeless boolean
      * @throws RendererExecutionException
      */
     public void processComponent(RequestContext context,
@@ -647,9 +649,9 @@ public class RenderService implements ApplicationContextAware
     /**
      * Executes the processor for the given render focus on the given template instance.
      *
-     * @param context
-     * @param renderFocus
-     * @param template
+     * @param context RequestContext
+     * @param renderFocus RenderFocus
+     * @param template TemplateInstance
      * @throws RendererExecutionException
      */
     public void processTemplate(RequestContext context, RenderFocus renderFocus, TemplateInstance template)
@@ -734,8 +736,6 @@ public class RenderService implements ApplicationContextAware
      *
      * @param context the render context
      *
-     * @throws RendererExecutionException
-     * @throws RequestDispatchException
      */
     public void renderPage(RequestContext context, RenderFocus renderFocus)
     {
@@ -782,9 +782,9 @@ public class RenderService implements ApplicationContextAware
      * Entry point for the rendering of the current content item as
      * provided by the request context.
      *
-     * @param parentContext the render context
+     * @param context the render context
+     * @param renderFocus the render focus
      *
-     * @throws RendererExecutionException
      */
     public void renderTemplate(RequestContext context, RenderFocus renderFocus)
     {
@@ -806,14 +806,13 @@ public class RenderService implements ApplicationContextAware
     /**
      * Entry point for the rendering a region of a given template
      *
-     * @param parentContext
-     * @param renderFocus
-     * @param templateId
-     * @param regionId
-     * @param regionScopeId
-     * @param overrideChromeId
-     *
-     * @throws RendererExecutionException
+     * @param context RequestContext
+     * @param renderFocus RenderFocus
+     * @param templateId String
+     * @param regionId String
+     * @param regionScopeId String
+     * @param overrideChromeId String
+     * @param chromeless boolean
      */
     public void renderRegion(RequestContext context,
                              RenderFocus renderFocus,
@@ -876,7 +875,9 @@ public class RenderService implements ApplicationContextAware
      * Renders the components of the region described by the render context
      * This method is generally called from the region include tag.
      *
-     * @param parentContext
+     * @param context RequestContext
+     * @param object ModelObject
+     * @param chromeless boolean
      * @throws RendererExecutionException
      */
     public void renderRegionComponents(RequestContext context, ModelObject object, boolean chromeless)
@@ -927,11 +928,11 @@ public class RenderService implements ApplicationContextAware
      * Entry point for the rendering a single identified component
      * with the default chrome.
      *
-     * @param context
-     * @param renderFocus
-     * @param componentId
-     *
-     * @throws RendererExecutionException
+     * @param context RequestContext
+     * @param renderFocus RenderFocus
+     * @param component Component
+     * @param chromeIdOverride String
+     * @param chromeless boolean
      */
     public void renderComponent(RequestContext context,
                                 RenderFocus renderFocus,
@@ -980,13 +981,11 @@ public class RenderService implements ApplicationContextAware
     /**
      * Entry point for the rendering a component with the given chrome.
      *
-     * @param parentContext
-     * @param renderFocus
-     * @param componentId
-     * @param overrideChromeId
-     * @throws RendererExecutionException
-     *
-     * @throws RendererExecutionException
+     * @param context RequestContext
+     * @param renderFocus RenderFocus
+     * @param componentId String
+     * @param overrideChromeId String
+     * @param chromeless boolean
      */
     public void renderComponent(RequestContext context,
                                 RenderFocus renderFocus,
@@ -1023,10 +1022,10 @@ public class RenderService implements ApplicationContextAware
      * Determines the component which is bound to the given region
      * If there is no component bound, then null is returned.
      *
-     * @param context
-     * @param regionId
-     * @param regionScopeId
-     * @param regionSourceId
+     * @param context RequestContext
+     * @param regionId String
+     * @param regionScopeId String
+     * @param regionSourceId String
      *
      * @return the component
      */
@@ -1045,9 +1044,8 @@ public class RenderService implements ApplicationContextAware
      * Several fault states exist and a system page provides a way for default
      * presentation to be rendered back.
      *
-     * @param context
-     * @param errorHandlerPageId
-     * @param defaultErrorHandlerPageRenderer
+     * @param context RequestContext
+     * @param errorHandlerPageId String
      * @return whether an error handler page could handle the fault
      */
     public boolean renderErrorHandlerPage(RequestContext context, String errorHandlerPageId) throws RendererExecutionException
@@ -1083,9 +1081,9 @@ public class RenderService implements ApplicationContextAware
      * A system container is a page fragment that is rendered
      * as a container of other elements like components.
      *
-     * @param context
-     * @param systemPageId
-     * @returns whether the system page was
+     * @param context RequestContext
+     * @param systemPageId String
+     * @return whether the system page was
      */
     public boolean renderSystemPage(RequestContext context, String systemPageId) throws RendererExecutionException
     {
@@ -1120,9 +1118,12 @@ public class RenderService implements ApplicationContextAware
      * Generates text to be inserted into template markup head for a given
      * renderer context.  The renderer context must describe a template.
      *
-     * @param rendererContext
+     * @param context RequestContext
+     * @param object ModelObject
      *
      * @return head tags render output
+     * @throws RendererExecutionException
+     * @throws UnsupportedEncodingException
      */
     public String renderTemplateHeaderAsString(RequestContext context, ModelObject object)
         throws RendererExecutionException, UnsupportedEncodingException
@@ -1183,7 +1184,7 @@ public class RenderService implements ApplicationContextAware
 
     /**
      * <p>This setter method is provided so that Spring can inject a <code>ResourceService</code> into this bean.</p>
-     * @param resourceService
+     * @param resourceService ResourceService
      */
     public void setResourceService(ResourceService resourceService)
     {
@@ -1210,7 +1211,7 @@ public class RenderService implements ApplicationContextAware
      * <p>This method is provided to allow the Spring framework to inject a <code>LinkBuilderFactory</code>
      * into this class when it is instantiated as a Spring bean. As well as setting the <code>LinkBuilderFactory</code>
      * it will also use the factory to create a new <code>LinkBuilder</code>.
-     * @param linkBuilderFactory
+     * @param linkBuilderFactory LinkBuilderFactory
      */
     public void setLinkBuilderFactory(LinkBuilderFactory linkBuilderFactory)
     {
@@ -1223,7 +1224,7 @@ public class RenderService implements ApplicationContextAware
      * JSP tag to use. Currently this only defers control to the <code>processComponent</code>
      * method but in the future may be required to carry out additional processing</p>
      *  
-     * @param context
+     * @param context RequestContext
      * @throws RendererExecutionException
      */
     public void renderSurfBugInclude(RequestContext context) throws RendererExecutionException
@@ -1236,7 +1237,8 @@ public class RenderService implements ApplicationContextAware
      * current <code>RequestContext</code>. This means that either the <{@code}componentInclude> or <{@code}regionInclude>
      * tag can be incorrectly used within the chrome implementation without errors occurring.</p>
      *
-     * @param context
+     * @param context RequestContext
+     * @param object ModelObject
      */
     public void renderChromeInclude(RequestContext context, ModelObject object) throws RequestDispatchException
     {
@@ -1355,13 +1357,12 @@ public class RenderService implements ApplicationContextAware
      * <p>This method wraps the <code>generateLink</code> method to place the link inside an HTML anchor tag which is then
      * returned. The anchor tag can optionally include a "target" property if one is provided.</p>
      *
-     * @param context
-     * @param pageTypeId
-     * @param pageId
-     * @param objectId
-     * @param formatId
-     * @param target
-     * @return
+     * @param pageTypeId String
+     * @param pageId String
+     * @param objectId String
+     * @param formatId String
+     * @param target String
+     * @return String
      */
     public String generateAnchorLink(String pageTypeId,
                                      String pageId,
@@ -1387,11 +1388,11 @@ public class RenderService implements ApplicationContextAware
      * <p>Uses the <code>LinkBuilder</code> created from the <code>LinkBuilderFactory</code> that should have been set as
      * a property of this class when instantiated as a Spring bean.</p>
      *
-     * @param pageTypeId
-     * @param pageId
-     * @param objectId
-     * @param formatId
-     * @return
+     * @param pageTypeId String
+     * @param pageId String
+     * @param objectId String
+     * @param formatId String
+     * @return String
      */
     public String generateLink(String pageTypeId,
                                String pageId,
@@ -1431,14 +1432,14 @@ public class RenderService implements ApplicationContextAware
 
     /**
      *
-     * @param renderContext
-     * @param name
-     * @param id
-     * @param protocol
-     * @param endpoint
-     * @param objectId
-     * @param payload
-     * @return
+     * @param renderContext RequestContext
+     * @param name ModelObject
+     * @param id String
+     * @param protocol String
+     * @param endpoint String
+     * @param objectId String
+     * @param payload String
+     * @return String
      */
     public String generateResourceURL(RequestContext renderContext,
                                       ModelObject object,
@@ -1500,8 +1501,8 @@ public class RenderService implements ApplicationContextAware
      * <code>WebFrameworkConstants.STYLESHEET_RENDER_CONTEXT_NAME</code> attribute in the supplied
      * <code>RequestContext</code>.</p>
      *
-     * @param context
-     * @param href
+     * @param context RequestContext
+     * @param href String
      */
     @SuppressWarnings("unchecked")
     public void updateStyleSheetImports(RequestContext context, String href)
@@ -1578,7 +1579,6 @@ public class RenderService implements ApplicationContextAware
      * @param targetId The id of the page/template/region/component that could not be rendered
      * @param errorPageId The target error page to render
      * @param context The current <code>RequestContext</code>
-     * @throws RequestDispatchException When the error page cannot be rendered.
      */
     protected void handleRenderProblem(String targetId,
                                        String errorPageId,

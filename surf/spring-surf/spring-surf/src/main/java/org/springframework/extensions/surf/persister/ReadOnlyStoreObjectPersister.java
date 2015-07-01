@@ -528,8 +528,8 @@ public class ReadOnlyStoreObjectPersister extends AbstractCachedObjectPersister
      * Returns an object from the cache
      * 
      * @param context the context
-     * @param objectTypeId
-     * @param objectId
+     * @param objectTypeId String
+     * @param objectId String
      * 
      * @return the model object
      */
@@ -544,8 +544,8 @@ public class ReadOnlyStoreObjectPersister extends AbstractCachedObjectPersister
      * Removes an object from the cache
      * 
      * @param context the context
-     * @param objectTypeId
-     * @param objectId
+     * @param objectTypeId String
+     * @param objectId String
      */
     protected void cacheRemove(ModelPersistenceContext context, String objectTypeId, String objectId)
     {
@@ -564,9 +564,9 @@ public class ReadOnlyStoreObjectPersister extends AbstractCachedObjectPersister
      * This performs an interrogation of the underlying document
      * to determine its object type and object id.
      * 
-     * @param context
-     * @param path
-     * @return
+     * @param context ModelPersistenceContext
+     * @param path String
+     * @return ModelObject
      * @throws ModelObjectPersisterException
      */
     protected ModelObject getObjectByPath(ModelPersistenceContext context, String path)

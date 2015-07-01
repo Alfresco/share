@@ -105,7 +105,7 @@ public class SiteWebQuickStartDashlet extends AbstractDashlet implements Dashlet
     /**
      * Get the selected option applied for site wqs dashlet.
      * 
-     * @return
+     * @return String
      */
     public String getSelectedWebsiteData()
     {
@@ -135,7 +135,7 @@ public class SiteWebQuickStartDashlet extends AbstractDashlet implements Dashlet
     /**
      * Verify the import message
      * 
-     * @return
+     * @return boolean
      */
     public boolean isImportMessageDisplayed()
     {
@@ -159,8 +159,6 @@ public class SiteWebQuickStartDashlet extends AbstractDashlet implements Dashlet
     /**
      * Wait for message to be displayed and then wait to disappeared; wait for the import to be completed successfully
      * 
-     * @return
-     * @throws InterruptedException 
      */
     public void waitForImportMessage()
     {

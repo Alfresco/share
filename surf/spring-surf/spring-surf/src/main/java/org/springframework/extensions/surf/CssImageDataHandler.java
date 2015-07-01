@@ -105,7 +105,7 @@ public class CssImageDataHandler
     
     /**
      * <p>Gets the maximum image size to allow to be encoded</p>
-     * @return
+     * @return Integer
      */
     public Integer getMaximumImageSize()
     {
@@ -135,7 +135,7 @@ public class CssImageDataHandler
     
     /**
      * <p>Setter provided to allow the Spring application context to set the {@link DependencyHandler}.</p>
-     * @param dependencyHandler
+     * @param dependencyHandler DependencyHandler
      */
     public void setDependencyHandler(DependencyHandler dependencyHandler)
     {

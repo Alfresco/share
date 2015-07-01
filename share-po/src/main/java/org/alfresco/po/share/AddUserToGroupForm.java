@@ -74,7 +74,7 @@ public class AddUserToGroupForm extends SharePage
     /**
      * Search user
      *
-     * @param user
+     * @param user String
      * @return AddUserToGroupForm
      */
     public AddUserToGroupForm searchUser(String user)
@@ -97,7 +97,7 @@ public class AddUserToGroupForm extends SharePage
     /**
      * Click to the Add button
      *
-     * @param user
+     * @param user String
      * @return GroupsPage
      */
     private GroupsPage clickAddButton(String user)
@@ -120,7 +120,7 @@ public class AddUserToGroupForm extends SharePage
     /**
      * Search and add user to the another group
      *
-     * @param user
+     * @param user String
      * @return GroupsPage
      */
     public GroupsPage addUser(String user)

@@ -10,57 +10,57 @@ public interface TopicDirectoryInfo
     /**
      * Click on View Topic
      *
-     * @return
+     * @return TopicViewPage
      */
     TopicViewPage viewTopic();
 
     /**
      * Click on Edit Topic
      *
-     * @return
+     * @return NewTopicForm
      */
     NewTopicForm editTopic();
 
     /**
      * Click on Delete Topic
      *
-     * @return
+     * @return DiscussionsPage
      */
     DiscussionsPage deleteTopic();
 
     /**
      * Verify whether edit topic is displayed
      *
-     * @return
+     * @return boolean
      */
     boolean isEditTopicDisplayed();
 
     /**
      * Verify whether delete topic is displayed
      *
-     * @return
+     * @return boolean
      */
     boolean isDeleteTopicDisplayed();
 
     /**
      * Return count of replies if it's possible for this view.
      *
-     * @return
+     * @return int
      */
     int getRepliesCount();
 
     /**
      * Mimic click on read link in footerBar if it's possible.
      *
-     * @return
+     * @return TopicDetailsPage
      */
     TopicDetailsPage clickRead();
 
     /**
      * Mimic click on Tag, if it's possible.
      *
-     * @param tagName
-     * @return
+     * @param tagName String
+     * @return DiscussionsPage
      */
     DiscussionsPage clickOnTag(String tagName);
 }

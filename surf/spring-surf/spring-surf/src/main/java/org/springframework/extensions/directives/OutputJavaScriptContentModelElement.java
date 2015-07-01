@@ -95,9 +95,9 @@ public class OutputJavaScriptContentModelElement extends DependencyDeferredConte
     
     /**
      * Handles adding JavaScript dependencies and inline script content. 
-     * @param fileName
-     * @param groupName
-     * @param forAggregation
+     * @param fileName String
+     * @param groupName String
+     * @param forAggregation boolean
      */
     public void addJavaScriptFile(String fileName, String groupName, boolean forAggregation)
     {
@@ -170,8 +170,8 @@ public class OutputJavaScriptContentModelElement extends DependencyDeferredConte
      * instances can be manipulated to add/remove/change dependency requests). However, we want to only output Dojo dependencies
      * if they have <b>not</b> requested via a <{@code}@script> directive.
      * 
-     * @param fileName
-     * @param group
+     * @param fileName String
+     * @param group String
      */
     public void addNonAmdJavaScriptFile(String fileName, 
                                         String group)
@@ -273,7 +273,7 @@ public class OutputJavaScriptContentModelElement extends DependencyDeferredConte
      * otherwise it is handled within the method.</p>
      * 
      * @param dependencies The dependencies to create the correct output for.
-     * @return
+     * @return StringBuilder
      */
     protected StringBuilder generateJavaScriptDependencies(HashMap<String, LinkedHashSet<String>> dependencies, boolean aggregate)
     {
@@ -320,8 +320,9 @@ public class OutputJavaScriptContentModelElement extends DependencyDeferredConte
      * <p>Method for adding a single JavaScript dependency to the supplied String builder, e.g.
      * <{@code}script type="text/javascript" src="src"><{@code}/script>
      * 
-     * @param jsDeps
-     * @param src
+     * @param jsDeps StringBuilder
+     * @param src String
+     * @param group String
      */
     protected void appendJavaScriptDependency(StringBuilder jsDeps, String src, String group)
     {

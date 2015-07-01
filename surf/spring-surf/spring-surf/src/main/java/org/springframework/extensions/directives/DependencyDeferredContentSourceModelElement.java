@@ -114,7 +114,7 @@ public class DependencyDeferredContentSourceModelElement extends DefaultContentM
     /**
      * <p>Returns the the {@link DeferredContentTargetModelElement} associated with this {@link DeferredContentSourceModelElement}</p>
      * 
-     * @return
+     * @return DeferredContentTargetModelElement
      */
     public DeferredContentTargetModelElement getTargetElement()
     {

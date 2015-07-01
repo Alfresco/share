@@ -90,7 +90,7 @@ public class UrlUtilsImpl implements UrlUtils
 	}
 	
 	/**
-	 * @see org.alfresco.wcm.client.util.UrlUtils#decodeResourceNamel(Section)
+	 * @see org.alfresco.wcm.client.util.UrlUtils#decodeResourceName(String)
 	 */
 	@Override	
 	public String decodeResourceName(String resourceName)

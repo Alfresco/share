@@ -132,7 +132,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Checks if Server Name field present
      *
-     * @return
+     * @return boolean
      */
     public boolean isServerNamePresent() {
         try {
@@ -146,7 +146,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Checks if Address ID field present
      *
-     * @return
+     * @return boolean
      */
     public boolean isIpAddressPresent() {
         try {
@@ -160,7 +160,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Checks if Cluster ID field present
      *
-     * @return
+     * @return boolean
      */
     public boolean isClusterIdPresent() {
         try {
@@ -174,7 +174,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Server names from Server Details table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getServerNames() {
 
@@ -197,7 +197,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Server ports from Server Details table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getPorts() {
 
@@ -219,7 +219,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Last Registered info from Server Details table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getLastRegs() {
 
@@ -241,7 +241,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Server names from Offline Cluster members table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getOffServerNames() {
 
@@ -264,7 +264,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Server IPs from Offline Cluster members table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getOffClusterIps() {
 
@@ -286,7 +286,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Server ports from Offline Cluster members table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getOffPorts() {
 
@@ -308,7 +308,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Last Registered info from Offline Cluster members table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getOffLastRegs() {
 
@@ -330,7 +330,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Server names from Connected Non-Clustered Server(s) table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getNonServerNames() {
 
@@ -353,7 +353,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets all Server IPs from Connected Non-Clustered Server(s) table
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getNonClusterIps() {
 
@@ -375,7 +375,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Checks if Validate Cluster button is present
      *
-     * @return
+     * @return boolean
      */
     public boolean isValidateButtonPresent() {
         try {
@@ -389,7 +389,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Checks if additional description is present
      *
-     * @return
+     * @return boolean
      */
     public boolean isAdditionalDescriptionLinkPresent() {
         try {
@@ -403,7 +403,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Checks if description is present
      *
-     * @return
+     * @return String
      */
     public String getDescriptionText() {
         WebElement descrInfo;
@@ -419,7 +419,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Checks if Server description is present
      *
-     * @return
+     * @return String
      */
     public String getServerDescriptionText() {
         WebElement descrInfo;
@@ -435,7 +435,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Checks if IP description is present
      *
-     * @return
+     * @return String
      */
     public String getIpDescriptionText() {
         WebElement descrInfo;
@@ -451,7 +451,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets value of the Server name
      *
-     * @return
+     * @return String
      */
     public String getServerNameText() {
         WebElement serverName;
@@ -467,7 +467,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets value of the Address IP name
      *
-     * @return
+     * @return String
      */
     public String getIpAddressText() {
         WebElement ipAddress;
@@ -483,7 +483,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Gets value of the Cluster ID
      *
-     * @return
+     * @return String
      */
     public String getClusterIdText() {
         WebElement clusterId;
@@ -499,8 +499,8 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Opens Validate Cluster page
      *
-     * @param drone
-     * @return
+     * @param drone WebDrone
+     * @return ClusterValidationPage
      */
     public ClusterValidationPage getValidationPage(WebDrone drone) {
 

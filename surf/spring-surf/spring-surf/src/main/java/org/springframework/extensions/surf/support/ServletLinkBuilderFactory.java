@@ -51,7 +51,7 @@ public class ServletLinkBuilderFactory extends AbstractLinkBuilderFactory
     /**
      * Specifies the uri base for dispatching to pages
      * 
-     * @param pageUri
+     * @param pageUri String
      */
     public void setPageUri(String pageUri)
     {
@@ -61,7 +61,7 @@ public class ServletLinkBuilderFactory extends AbstractLinkBuilderFactory
     /**
      * Specifies the uri base for dispatching to page types
      * 
-     * @param pageTypeUri
+     * @param pageTypeUri String
      */
     public void setPageTypeUri(String pageTypeUri)
     {
@@ -71,7 +71,7 @@ public class ServletLinkBuilderFactory extends AbstractLinkBuilderFactory
     /**
      * Specifies the uri base for dispatching to objects
      * 
-     * @param objectUri
+     * @param objectUri String
      */
     public void setObjectUri(String objectUri)
     {

@@ -96,11 +96,12 @@ public class MultiObjectPersister extends AbstractObjectPersister implements Cac
      * <p>Iterates over the <code>persisters</code> list attempting to find a <code>ModelObject</code> of
      * the supplied type with the supplied id. The first match will be returned.</p>
      * 
-     * @param The current persistence context
-     * @param The type of object to retrieve
-     * @param The id of the object to retrieve
+     * @param context The current persistence context
+     * @param objectTypeId The type of object to retrieve
+     * @param objectId The id of the object to retrieve
      * @return A <code>ModelObject</code> matching the supplied type and id (or <code>null</code> if a match
      * could not be found.
+     * @throws ModelObjectPersisterException
      */
     public ModelObject getObject(ModelPersistenceContext context, String objectTypeId, String objectId)
         throws ModelObjectPersisterException
@@ -478,7 +479,7 @@ public class MultiObjectPersister extends AbstractObjectPersister implements Cac
     }
     
     /**
-     * @see org.springframework.extensions.surf.persister.CachingPersister#invalidateCache()
+     * @see org.springframework.extensions.surf.persister.CachedPersister#invalidateCache()
      */
     public void invalidateCache()
     {

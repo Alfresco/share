@@ -77,7 +77,7 @@ public class DataListTreeMenuNavigation extends SharePage
     /**
      * Retuns true if the given menu tree is visible.
      *
-     * @return
+     * @return boolean
      */
     public boolean isMenuTreeVisible()
     {
@@ -96,7 +96,7 @@ public class DataListTreeMenuNavigation extends SharePage
     /**
      * Checks if the menu is open
      *
-     * @return
+     * @return boolean
      */
     private boolean isMenuExpanded()
     {
@@ -139,7 +139,7 @@ public class DataListTreeMenuNavigation extends SharePage
     /**
      * Expands the Pages menu and selects the given link.
      *
-     * @param listsMenu
+     * @param listsMenu ListsMenu
      * @return The page loaded when the node is selected.
      */
     public HtmlPage selectListNode(ListsMenu listsMenu)

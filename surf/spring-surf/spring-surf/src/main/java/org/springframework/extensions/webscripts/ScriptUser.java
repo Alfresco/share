@@ -343,7 +343,7 @@ public final class ScriptUser extends ScriptBase
     /**
      * Retrieve a user object with populated details for the given user Id
      * 
-     * @param userId
+     * @param userId String
      * 
      * @return ScriptUser
      */

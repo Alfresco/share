@@ -75,7 +75,7 @@ public class WebTemplateProcessor extends AbstractProcessor
     /**
      * <p>This accessor method is required for Spring to set the <code>WebFrameworkConfigElement</code> required by this
      * <code>WebTemplateProcessor</code>.</p>
-     * @param frameworkBean
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
      */
     public void setWebFrameworkConfigElement(WebFrameworkConfigElement webFrameworkConfigElement)
     {
@@ -126,7 +126,7 @@ public class WebTemplateProcessor extends AbstractProcessor
      * Set any additional objects to be applied to the script model when executing any JavaScript
      * attached to the template.
      *
-     * @param scriptObjects
+     * @param scriptObjects Map<String, Object>
      */
     public void setScriptObjects(Map<String, Object> scriptObjects)
     {

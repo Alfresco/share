@@ -60,7 +60,7 @@ public class MessagesDependencyDirective extends JavaScriptDependencyDirective
     
     /**
      * <p>Sets the {@link MessagesWebScript}.</p>
-     * @param messagesWebScript
+     * @param messagesWebScript MessagesWebScript
      */
     public void setMessagesWebScript(MessagesWebScript messagesWebScript)
     {

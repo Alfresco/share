@@ -95,7 +95,7 @@ public abstract class AbstractProcessor implements Processor
      * then the ProcessDescriptor for the "view" render mode will be returned
      * (if available)</p>
      *
-     * @param processorContext
+     * @param processorContext ProcessorContext
      * @return processor descriptor
      */
     protected ProcessorDescriptor getRenderingDescriptor(ProcessorContext processorContext)
@@ -127,8 +127,8 @@ public abstract class AbstractProcessor implements Processor
      * Returns a configuration property from the rendering
      * processor descriptor.
      *
-     * @param processorContext
-     * @param propertyName
+     * @param processorContext ProcessorContext
+     * @param propertyName String
      *
      * @return property value as string
      */

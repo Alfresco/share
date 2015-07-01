@@ -52,7 +52,7 @@ public interface Section extends Resource
     /**
      * Get the template mappings for this section
      * 
-     * @return Map<String, String> the template mappings. Key/value pairs where
+     * @return the template mappings. Key/value pairs where
      *         the key is the name of the content type and the value is the name
      *         of the template to use when rendering content of that type.
      */
@@ -61,7 +61,7 @@ public interface Section extends Resource
     /**
      * Gets the asset with the given name in this section.
      * 
-     * @param String
+     * @param name String
      *            the name of the required asset. If null or empty then the
      *            section's index page is returned
      * @return Asset the named asset if it exists or null otherwise
@@ -94,7 +94,7 @@ public interface Section extends Resource
     /**
      * Should this section be excluded from navigation components?
      * 
-     * @return
+     * @return boolean
      */
     boolean getExcludeFromNav();
 
@@ -141,7 +141,7 @@ public interface Section extends Resource
      * Carry out a search for resources below this section that are tagged with
      * the specified tag
      * 
-     * @param phrase
+     * @param tag
      *            The words to search for. This is considered to be a
      *            space-separated set of words that must all appear in an asset
      *            for it to match.
@@ -162,15 +162,15 @@ public interface Section extends Resource
     /**
      * A factory method for returning an empty search query object.
      * 
-     * @return
+     * @return Query
      */
     Query createQuery();
     
     /**
      * Retrieve the named asset collection from this section. Returns null if this section
      * does not have an asset collection with that name.
-     * @param name
-     * @return
+     * @param name String
+     * @return AssetCollection
      */
     AssetCollection getAssetCollection(String name);
 

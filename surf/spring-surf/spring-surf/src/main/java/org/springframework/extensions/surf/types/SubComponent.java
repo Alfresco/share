@@ -450,7 +450,7 @@ public class SubComponent extends AbstractRenderableModelObject implements Compa
     }
 
     /**
-     * @returns the {@link WebScript} that gets resolved to render this SubComponent.
+     * @return the {@link WebScript} that gets resolved to render this SubComponent.
      */
     public WebScript getResolvedWebScript()
     {
@@ -460,8 +460,8 @@ public class SubComponent extends AbstractRenderableModelObject implements Compa
     /**
      * <p>Sets all the properties for this SubComponent. This is provided so that an {@link AdvancedComponent} can parse and
      * old style {@link SubComponent} configuration file and pass the properties to the SubComponent.</p>
-     * @param standardProps
-     * @param customProps
+     * @param standardProps Map<String, Serializable>
+     * @param customProps Map<String, Serializable>
      */
     public void setAllProperties(Map<String, Serializable> standardProps, Map<String, Serializable> customProps)
     {

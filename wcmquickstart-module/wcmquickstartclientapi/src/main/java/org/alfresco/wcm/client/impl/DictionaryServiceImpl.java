@@ -87,9 +87,9 @@ public class DictionaryServiceImpl implements DictionaryService
     /**
      * Add to map
      * 
-     * @param map
-     * @param types
-     * @param parentType
+     * @param map Map
+     * @param types List
+     * @param parentType String
      */
     private void addToMap(Map<String, String> map, List<Tree<ObjectType>> types, String parentType)
     {
@@ -184,7 +184,7 @@ public class DictionaryServiceImpl implements DictionaryService
     }
 
     /**
-     * @see org.alfresco.wcm.client.DictionaryService#isContentType(java.lang.String)
+     * @see org.alfresco.wcm.client.DictionaryService#isDocumentSubType(String)
      */
     @Override
     public boolean isDocumentSubType(String type)

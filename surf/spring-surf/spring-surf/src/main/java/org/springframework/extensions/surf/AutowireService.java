@@ -95,7 +95,7 @@ public class AutowireService
      * <p>This method configures the autowire mode. In the default Spring Surf application context there are only
      * 2 available mode: "development" and "production". Each mode is optimised as its name implies.
      *
-     * @param autowireModeId
+     * @param webFrameworkConfig WebFrameworkConfigElement
      * @throws Exception
      */
     public void configureMode(WebFrameworkConfigElement webFrameworkConfig) throws Exception
@@ -173,8 +173,8 @@ public class AutowireService
      * "alfresco" runtime which currently means to use the application context configured <code>SearchPaths</code> and
      * <code>ModelObjectPersisters</code>.</p> 
      *
-     * @param autowireRuntimeId The name of the selected runtime. In order for a runtime to be successfully be configured it should
-     * exist in the above list. If it does not the runtime will only contain the common <code>Stores</code> and <code>ModelObjectPersisters</code>.
+     * @param webFrameworkConfig WebFrameworkConfigElement
+     * @param multiObjectPersister MultiObjectPersister
      * @throws Exception Thrown if the bean has not been configured with "webScriptsSearchPath", "templatesSearchPath" and
      * "multiObjectPersister" properties.
      */
@@ -273,7 +273,7 @@ public class AutowireService
     /**
      * Logs info-level searchpath configuration info during autowire startup
      *
-     * @param searchPath
+     * @param searchPath SearchPath
      */
     protected void reportSearchPath(SearchPath searchPath)
     {
@@ -309,7 +309,7 @@ public class AutowireService
     /**
      * Logs info-level persister configuration info during autowire startup
      *
-     * @param searchPathId
+     * @param persister ModelObjectPersister
      */
     protected void reportPersister(ModelObjectPersister persister)
     {

@@ -56,7 +56,7 @@ public class ModuleDeploymentService
      * <p>This method is required in order for the Spring application context to set the {@link WebFrameworkConfigElement} required to 
      * detect the module deployment mode.</p>
      * 
-     * @param webFrameworkConfiguration
+     * @param webFrameworkConfiguration WebFrameworkConfigElement
      */
     public void setWebFrameworkConfiguration(WebFrameworkConfigElement webFrameworkConfiguration)
     {
@@ -102,7 +102,7 @@ public class ModuleDeploymentService
     /**
      * <p>Returns the current errors for the current thread. This typically is used to report any
      * save errors.</p>
-     * @return
+     * @return List<String>
      */
     public List<String> getCurrentThreadErrors()
     {
@@ -129,7 +129,7 @@ public class ModuleDeploymentService
     /**
      * <p>Retrieves the remotely persisted {@link Extension} instance with the id specified by the <code>DEFAULT_PERSISTED_EXTENSION</code>
      * constant. If the {@link Extension} cannot be found then it is created and saved. </p>
-     * @return
+     * @return Extension
      * @throws ModelObjectPersisterException
      */
     public synchronized Extension getPersistedExtension() throws ModelObjectPersisterException
@@ -146,7 +146,7 @@ public class ModuleDeploymentService
     /**
      * <p>Adds a module to the requested extension. This extension is remotely persisted and can have modules added to and
      * removed from it without restarting the server.</p>
-     * @param xmlFragment
+     * @param xmlFragment String
      * 
      * @throws ModelObjectPersisterException 
      * @throws DocumentException 
@@ -195,7 +195,7 @@ public class ModuleDeploymentService
     /**
      * <p>Updates a module to the requested extension. This extension is remotely persisted and can have modules added to and
      * removed from it without restarting the server.</p>
-     * @param xmlFragment
+     * @param xmlFragment String
      * 
      * @throws ModelObjectPersisterException 
      * @throws DocumentException 
@@ -260,8 +260,7 @@ public class ModuleDeploymentService
     
     /**
      * <p>Deletes the requested module from the extension with the supplied id.</p>
-     * @param extensionId
-     * @param moduleId
+     * @param moduleId String
      * @throws ModelObjectPersisterException
      * @throws DocumentException
      */
@@ -315,7 +314,7 @@ public class ModuleDeploymentService
     /**
      * <p>Retrieves the list of configured by undeployed extension modules.</p>
      * 
-     * @return
+     * @return List<ExtensionModule>
      */
     public synchronized List<ExtensionModule> getUndeployedModules()
     {
@@ -331,7 +330,7 @@ public class ModuleDeploymentService
      * it by calling the <code>getExtensionModules</code> method. This method is synchronized so that the
      * instance variable should only get set once the first time it is requested. The only way in which it
      * can be updated is through subsequent calls to the <code>resetConfiguredModuleList</code> method.</p>
-     * @return
+     * @return Map
      */
     private synchronized Map<String, ExtensionModule> getAllConfiguredExtensionModules()
     {
@@ -394,8 +393,8 @@ public class ModuleDeploymentService
     {
         /**
          * Parses the auto-deploy index of the supplied extension.
-         * @param extMod
-         * @return
+         * @param extMod ExtensionModule
+         * @return DefaultArtifactVersion
          */
         private DefaultArtifactVersion parseAutoDeployIndex(ExtensionModule extMod)
         {
@@ -449,7 +448,7 @@ public class ModuleDeploymentService
      * <p>Returns the list of configured ModuleDeployments. This is the configured ordered list referencing
      * modules that contain configured overrides (rather than their defaults).</p>
      * 
-     * @return
+     * @return List<ModuleDeployment>
      */
     public synchronized List<ModuleDeployment> getDeployedModules()
     {
@@ -632,7 +631,7 @@ public class ModuleDeploymentService
      * It takes as an argument a String array of the modules that the admin has configured to deploy in the order
      * that they should be processed.</p>
      * 
-     * @param modulesToDeploy
+     * @param modulesToDeploy List<JSONObject>
      * @throws JSONException 
      */
     @SuppressWarnings("rawtypes")
@@ -745,7 +744,7 @@ public class ModuleDeploymentService
      * <p>Deletes the supplied {@link ModuleDeployment} and returns the associated {@link ExtensionModule} to the list of 
      * undeployed modules.</p>
      * 
-     * @param moduleDeploymentToDelete
+     * @param moduleDeploymentToDelete ModuleDeployment
      * @return <code>true</code> if the {@link ModuleDeployment} was successfully deleted and <code>false</code> otherwise.
      */
     public synchronized boolean deleteModuleDeployment(ModuleDeployment moduleDeploymentToDelete)

@@ -187,7 +187,7 @@ public final class ProcessorModelHelper implements ApplicationContextAware
     /**
      * <p>This method is provided so that the Spring Framework can set the <code>ApplicationContext</code> required
      * 
-     * @param applicationContext
+     * @param applicationContext ApplicationContext
      */
     public void setApplicationContext(ApplicationContext applicationContext)
     {
@@ -513,8 +513,8 @@ public final class ProcessorModelHelper implements ApplicationContextAware
      * <{@code}/properties>
      * </code>
      * </p>
-     * @param context
-     * @param model
+     * @param context RequestContext
+     * @param model Map<String, Object>
      */
     @SuppressWarnings("unchecked")
     private void setPageProps(RequestContext context, Map<String, Object> model)
@@ -580,8 +580,8 @@ public final class ProcessorModelHelper implements ApplicationContextAware
      * <{@code}/properties>
      * </code>
      * </p>
-     * @param context
-     * @param model
+     * @param context RequestContext
+     * @param model Map<String, Object>
      */
     private void setTemplateProps(RequestContext context, Map<String, Object> model)
     {

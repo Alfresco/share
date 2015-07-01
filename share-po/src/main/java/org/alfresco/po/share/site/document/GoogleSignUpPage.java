@@ -125,7 +125,7 @@ public class GoogleSignUpPage extends SharePage
     /**
      * Enter the Username , password and Click on Sign up button.
      *
-     * @return-EditInGoogleDocsPage
+     * @return EditInGoogleDocsPage
      */
     public EditInGoogleDocsPage signUp(String username, String password)
     {

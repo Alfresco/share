@@ -71,7 +71,7 @@ public class LoginAlfrescoPage extends SharePage
     /**
      * Method to return Alfresco Explorer URL
      *
-     * @param shareUrl
+     * @param shareUrl String
      * @return String
      */
     public static String getAlfrescoURL(String shareUrl)
@@ -83,8 +83,7 @@ public class LoginAlfrescoPage extends SharePage
     /**
      * Method for input username
      *
-     * @param userName
-     * @return
+     * @param userName String
      */
     public void inputUserName(String userName)
     {
@@ -95,8 +94,7 @@ public class LoginAlfrescoPage extends SharePage
     /**
      * Method for input password
      *
-     * @param password
-     * @return
+     * @param password String
      */
     public void inputPassword(String password)
     {
@@ -106,9 +104,6 @@ public class LoginAlfrescoPage extends SharePage
 
     /**
      * Method for click Login Button
-     *
-     * @param
-     * @return
      */
 
     public void clickLoginButton()
@@ -119,8 +114,8 @@ public class LoginAlfrescoPage extends SharePage
     /**
      * Method for login to Alfresco Explorer
      *
-     * @param userName
-     * @param password
+     * @param userName String
+     * @param password String
      * @return My Alfresco Page
      */
     public MyAlfrescoPage login(String userName, String password)
@@ -142,7 +137,6 @@ public class LoginAlfrescoPage extends SharePage
     /**
      * Method to verify Login Dashboard is opened
      *
-     * @param
      * @return boolean
      */
     public boolean isOpened()

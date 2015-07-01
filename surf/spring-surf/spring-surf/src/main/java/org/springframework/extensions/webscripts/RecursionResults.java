@@ -34,7 +34,7 @@ public class RecursionResults
     
     /**
      * Setter to indicate whether or not the result was a success or not.
-     * @param success
+     * @param success boolean
      */
     public void setSuccess(boolean success)
     {
@@ -43,7 +43,7 @@ public class RecursionResults
 
     /**
      * Returns a boolean value indicating whether or not the operation was successful.
-     * @return
+     * @return boolean
      */
     public boolean isSuccess()
     {

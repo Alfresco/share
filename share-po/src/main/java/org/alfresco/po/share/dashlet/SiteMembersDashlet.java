@@ -212,7 +212,7 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
     /**
      * Mimic click on 'All members' button.
      *
-     * @return
+     * @return SiteMembersPage
      */
     public SiteMembersPage clickAllMembers()
     {
@@ -223,8 +223,8 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
     /**
      * Mimic click on user link.
      *
-     * @param userName
-     * @return
+     * @param userName String
+     * @return SharePage
      */
     public SharePage clickOnUser(String userName)
     {

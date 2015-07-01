@@ -79,7 +79,7 @@ public abstract class AbstractWebFrameworkViewResolver extends AbstractWebScript
     private ResourceService webFrameworkResourceService;
     
     /**
-     * <p>The {@link URLHelperFactory} is used to construct {@link UrlHelper}s. If this is not set by the application 
+     * <p>The {@link URLHelperFactory} is used to construct {@link URLHelper}s. If this is not set by the application
      * context then the result will be that a {@link DefaultURLHelper} will only ever be created. It is only necessary
      * to set a specific {@link URLHelperFactory} if a custom {@link URLHelper} implementation is required.</p>
      */
@@ -160,8 +160,6 @@ public abstract class AbstractWebFrameworkViewResolver extends AbstractWebScript
      * <p>If no matching prefixes or request parameters are found then <code>null</code> is returned</p>
      *
      * @param viewName The name of the requested view.
-     * @param prefixes The prefixes to check the view name for.
-     * @param reqParms The request parameters to check the view name for.
      * @return A matching id or null if the view requested cannot be resolved to an id.
      */
     public String processView(String viewName)
@@ -215,7 +213,7 @@ public abstract class AbstractWebFrameworkViewResolver extends AbstractWebScript
      *
      * This provides a quick way to get started building templated sites.
      *
-     * @param pageId
+     * @param pageId String
      *
      * @return Page object or null if not found
      */
@@ -258,7 +256,6 @@ public abstract class AbstractWebFrameworkViewResolver extends AbstractWebScript
      * Performs a match of the given URI to a template. If a match is found, the variables representing
      * representing the tokens and the values extracted from the supplied URI are returned.
      *
-     * @param uriTemplateIndex The <code>UriTemplateListIndex</code> to match the URI against.
      * @param uri The URI to compare against the template.
      *
      * @return map of tokens to values or null if no match found
@@ -358,7 +355,7 @@ public abstract class AbstractWebFrameworkViewResolver extends AbstractWebScript
     }
 
     /**
-     * @return
+     * @return WebFrameworkServiceRegistry
      * @deprecated
      */
     public WebFrameworkServiceRegistry getWebFrameworkServiceRegistry()
@@ -368,7 +365,7 @@ public abstract class AbstractWebFrameworkViewResolver extends AbstractWebScript
     
     /**
      * @deprecated This method only persists as it is used by DynamicPageViewResolver in the Web Quick Start application.
-     * @return
+     * @return WebFrameworkServiceRegistry
      */
     public WebFrameworkServiceRegistry getServiceRegistry()
     {

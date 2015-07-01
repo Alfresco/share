@@ -60,7 +60,7 @@ public class TrashCanItem extends HtmlElement
      * Constructor
      * 
      * @param element {@link WebElement}
-     * @param drone
+     * @param drone WebDrone
      */
     public TrashCanItem(WebElement element, WebDrone drone)
     {
@@ -72,7 +72,7 @@ public class TrashCanItem extends HtmlElement
      * Method to get Filename of the trashcan Item
      * 
      * @return - String - Filename
-     * @throws - PageOperationException
+     * @throws PageOperationException
      */
     public String getFileName() throws PageOperationException
     {
@@ -143,7 +143,7 @@ public class TrashCanItem extends HtmlElement
      * Method to get Description and Folder name
      * 
      * @return - String - UserFullName
-     * @throws - PageOperationException
+     * @throws PageOperationException
      */
     public String getUserFullName() throws PageOperationException
     {
@@ -163,7 +163,7 @@ public class TrashCanItem extends HtmlElement
      * Method to get Date
      * 
      * @return - String
-     * @throws - PageOperationException
+     * @throws PageOperationException
      */
     public String getDate() throws PageOperationException
     {
@@ -190,7 +190,7 @@ public class TrashCanItem extends HtmlElement
      * Method to get FolderPath
      * 
      * @return - String
-     * @throws - PageOperationException
+     * @throws PageOperationException
      */
     public String getFolderPath() throws PageOperationException
     {
@@ -216,7 +216,6 @@ public class TrashCanItem extends HtmlElement
     /**
      * select check box to delete an item
      * 
-     * @param - itemToBeChecked,folderPath
      * @return - TrashCanPage
      * @throws PageOperationException
      */
@@ -256,9 +255,9 @@ public class TrashCanItem extends HtmlElement
      * This method will click on the recover button and that item will be
      * recovered from TrashCan
      * 
-     * @param - itemToBeRecovered, actionType
+     * @param trashCanActionType TrashCanValues
      * @return - TrashCanPage
-     * @throws - PageOperationException
+     * @throws PageOperationException
      */
     public HtmlPage selectTrashCanAction(TrashCanValues trashCanActionType) throws PageOperationException
     {
@@ -311,8 +310,8 @@ public class TrashCanItem extends HtmlElement
      * <li>Click the element which passed and wait for given ElementState on the same element.</li> <li>If the Element State not changed, then render the
      * {@link SharePopup} Page, if it is rendered the return {@link SharePopup} page.</li>
      * 
-     * @param locator
-     * @param elementState
+     * @param locator By
+     * @param elementState ElementState
      * @return {@link HtmlPage}
      */
     protected HtmlPage submit(By locator, ElementState elementState)

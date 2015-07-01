@@ -46,18 +46,18 @@ public interface UserFactory
     /**
      * Authenticates the given user credentials against the user provider
      * 
-     * @param request
-     * @param username
-     * @param password
-     * @return
+     * @param request HttpServletRequest
+     * @param username String
+     * @param password String
+     * @return boolean
      */
     public boolean authenticate(HttpServletRequest request, String username, String password);
 
     /**
      * Loads a user from the remote user store and store it into the session.
      * 
-     * @param context
-     * @param request
+     * @param context RequestContext
+     * @param request HttpServletRequest
      * 
      * @return User
      * 
@@ -69,9 +69,9 @@ public interface UserFactory
     /**
      * Loads a user from the remote user store and store it into the session.
      * 
-     * @param context
-     * @param request
-     * @param endpoint
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param endpoint String
      * 
      * @return User
      * 
@@ -86,9 +86,9 @@ public interface UserFactory
      * If the force flag is set, the current in-session user
      * object will be purged, forcing the user object to reload.
      * 
-     * @param context
-     * @param request
-     * @param force
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param force boolean
      * 
      * @return User
      * 
@@ -103,10 +103,10 @@ public interface UserFactory
      * If the force flag is set, the current in-session user
      * object will be purged, forcing the user object to reload.
      * 
-     * @param context
-     * @param request
-     * @param endpoint
-     * @param force
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param endpoint String
+     * @param force boolean
      * 
      * @return User
      * 
@@ -118,9 +118,9 @@ public interface UserFactory
     /**
      * Loads a user object from the default endpoint.
      * 
-     * @param context
-     * @param userId
-     * @return
+     * @param context RequestContext
+     * @param userId String
+     * @return User
      * @throws UserFactoryException
      */
     public User loadUser(RequestContext context, String userId)
@@ -129,10 +129,10 @@ public interface UserFactory
     /**
      * Loads a user object from the given endpoint.
      * 
-     * @param context
-     * @param userId
-     * @param endpointId
-     * @return
+     * @param context RequestContext
+     * @param userId String
+     * @param endpointId String
+     * @return User
      * @throws UserFactoryException
      */
     public User loadUser(RequestContext context, String userId, String endpointId)

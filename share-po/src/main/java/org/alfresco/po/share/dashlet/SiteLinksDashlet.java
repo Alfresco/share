@@ -129,7 +129,7 @@ public class SiteLinksDashlet extends AbstractDashlet implements Dashlet
     /**
      * Return links count displayed in dashlet.
      *
-     * @return
+     * @return int
      */
     public int getLinksCount()
     {
@@ -139,8 +139,8 @@ public class SiteLinksDashlet extends AbstractDashlet implements Dashlet
     /**
      * Return true if link 'linkName' displayed in dashlet
      *
-     * @param linkName
-     * @return
+     * @param linkName String
+     * @return boolean
      */
     public boolean isLinkDisplayed(String linkName)
     {
@@ -160,9 +160,9 @@ public class SiteLinksDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method to create a link
      *
-     * @param name
-     * @param url
-     * @return
+     * @param name String
+     * @param url String
+     * @return LinksDetailsPage
      */
     public LinksDetailsPage createLink(String name, String url)
     {

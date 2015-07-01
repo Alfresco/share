@@ -58,7 +58,7 @@ public class DeleteSitePage extends SharePage
     /**
      * Helper method to click on the Delete button
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage clickDelete()
     {

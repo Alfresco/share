@@ -28,26 +28,26 @@ public interface SearchResults
 {
     /**
      * Obtain the list of results held by this object
-     * @return
+     * @return List<SearchResult>
      */
     List<SearchResult> getResults();
     
     /**
      * Obtain the total results count.
      * This is the total number of results that the query returned before any pagination filters were applied.
-     * @return
+     * @return long
      */
     long getTotalSize();
     
     /**
      * Obtain the number of results held by this object.
-     * @return
+     * @return long
      */
     long getSize();
 
     /**
      * Obtain the query that was executed to return these results.
-     * @return
+     * @return Query
      */
     Query getQuery();
 }

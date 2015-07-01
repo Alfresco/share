@@ -110,7 +110,7 @@ public class NodeBrowserPage extends AdminConsolePage
     /**
      * Basic constructor.
      *
-     * @param drone
+     * @param drone WebDrone
      */
     public NodeBrowserPage(WebDrone drone)
     {
@@ -148,7 +148,7 @@ public class NodeBrowserPage extends AdminConsolePage
     /**
      * Fill query field.
      *
-     * @param query
+     * @param query String
      */
     public void fillQueryField(String query)
     {
@@ -167,7 +167,7 @@ public class NodeBrowserPage extends AdminConsolePage
     /**
      * Select store from drop-down menu on page by Name.
      *
-     * @param store
+     * @param store Store
      */
     public void selectStore(Store store)
     {
@@ -177,7 +177,7 @@ public class NodeBrowserPage extends AdminConsolePage
     /**
      * Select QueryType from drop-down menu on page by Name
      *
-     * @param queryType
+     * @param queryType QueryType
      */
     public void selectQueryType(QueryType queryType)
     {
@@ -312,7 +312,7 @@ public class NodeBrowserPage extends AdminConsolePage
     /**
      * Method to get Node Browser Search Results
      *
-     * @return {@link List<NodeBrowserSearchResult>}
+     * @return List
      */
     public List<NodeBrowserSearchResult> getSearchResults()
     {
@@ -356,8 +356,8 @@ public class NodeBrowserPage extends AdminConsolePage
 
     /**
      * Method to get NodeBrowserSearchResults object for a given Name
-     * @param name
-     * @return
+     * @param name String
+     * @return NodeBrowserSearchResult
      */
     public NodeBrowserSearchResult getSearchResults(String name)
     {
@@ -395,7 +395,7 @@ public class NodeBrowserPage extends AdminConsolePage
 
     /**
      * Method to open details form for the founded item
-     * @param itemName
+     * @param itemName String
      */
     public void getItemDetails (String itemName)
     {

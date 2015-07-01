@@ -31,7 +31,7 @@ public interface AssetFactory
 {
     /**
      * Obtain the asset with the specified identifier.
-     * @param id
+     * @param id String
      * @return the asset with the given identifier or null if not found
      */
     Asset getAssetById(String id);
@@ -39,7 +39,7 @@ public interface AssetFactory
     /**
      * Obtain a list of assets with the identifiers contained by the supplied collection
      * of identifiers.
-     * @param ids
+     * @param ids Collection<String>
      * @return A list of assets. Each returned asset will have an identifier contained by
      * the supplied collection of identifiers, but it is possible that not all of the requested
      * assets will be returned (if they don't exist, for example). Therefore the size of the
@@ -54,9 +54,9 @@ public interface AssetFactory
      * this operation does not attempt to load the asset until a subsequent operation on
      * it makes it necessary. Note that this operation may not even check that the requested
      * asset exists.
-     * @param id
-     * @param deferredLoad
-     * @return
+     * @param id String
+     * @param deferredLoad boolean
+     * @return Asset
      */
     Asset getAssetById(String id, boolean deferredLoad);
     
@@ -64,16 +64,16 @@ public interface AssetFactory
      * Similar to {@link #getAssetsById(Collection)}, but if deferredLoad is set to true then
      * this operation will not actually load the assets. They will be loaded if a subsequent
      * operation needs them to be. 
-     * @param ids
-     * @param deferredLoad
-     * @return
+     * @param ids Collection<String>
+     * @param deferredLoad boolean
+     * @return List<Asset>
      */
     List<Asset> getAssetsById(Collection<String> ids, boolean deferredLoad);
     
     /**
      * Loads the asset with the specified name that is located in the specified section.
-     * @param sectionId
-     * @param assetName
+     * @param sectionId String
+     * @param assetName String
      * @return The corresponding asset or null if not found.
      */
     Asset getSectionAsset(String sectionId, String assetName);
@@ -83,24 +83,24 @@ public interface AssetFactory
      * to true then this operation will allow wildcards in the specified assetName. Permitted wildcards
      * are '_' to match any single character and '%' to match any sequence of characters. These 
      * special characters may be escaped with a preceding '\' if their literal value is needed.
-     * @param sectionId
-     * @param assetName
-     * @param wildcardsAllowedInName
-     * @return
+     * @param sectionId String
+     * @param assetName String
+     * @param wildcardsAllowedInName boolean
+     * @return Asset
      */
     Asset getSectionAsset(String sectionId, String assetName, boolean wildcardsAllowedInName);
 
     /**
      * Execute the specified query and return the results
-     * @param query
-     * @return
+     * @param query Query
+     * @return SearchResults
      */
     SearchResults findByQuery(Query query);
     
     /**
      * Retrieve the identifiers of all assets that are related to the specified one, where
      * the specified asset is the source of the relationship.
-     * @param assetId
+     * @param assetId String
      * @return A map in which the keys are the names of the relationships and the values
      * are lists of asset identifiers that are related to the specified asset via that kind of
      * relationship.
@@ -109,7 +109,7 @@ public interface AssetFactory
     
     /**
      * Retrieve all the renditions of the specified asset
-     * @param assetId
+     * @param assetId String
      * @return A map in which a key is the kind of the rendition and the value is the rendition
      * itself
      */
@@ -117,7 +117,7 @@ public interface AssetFactory
     
     /**
      * Fetch the modified time of a specified asset from the repository
-     * @param assetId
+     * @param assetId String
      * @return The modified time of the specified asset or null if the asset
      * could not be found
      */
@@ -125,7 +125,7 @@ public interface AssetFactory
     
     /**
      * Fetch the modified times of the assets identified in the supplied collection.
-     * @param assetIds
+     * @param assetIds Collection<String>
      * @return A map in which a key is the identifier of an asset and the value is the modified
      * time of that asset. Note that the returned map may contain fewer entries than the
      * supplied collection of identifiers, as any assets that could not be found in the repository

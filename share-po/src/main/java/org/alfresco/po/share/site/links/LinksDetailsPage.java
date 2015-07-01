@@ -43,7 +43,7 @@ public class LinksDetailsPage extends SharePage
     /**
      * Constructor
      *
-     * @param drone
+     * @param drone WebDrone
      */
     public LinksDetailsPage(WebDrone drone)
     {
@@ -120,7 +120,7 @@ public class LinksDetailsPage extends SharePage
     /**
      * Return link url
      *
-     * @return
+     * @return String
      */
     public String getUrl()
     {
@@ -130,7 +130,7 @@ public class LinksDetailsPage extends SharePage
     /**
      * Return link title
      *
-     * @return
+     * @return String
      */
     public String getTitle()
     {
@@ -140,7 +140,7 @@ public class LinksDetailsPage extends SharePage
     /**
      * Return link description
      *
-     * @return
+     * @return String
      */
     public String getDescription()
     {
@@ -150,10 +150,10 @@ public class LinksDetailsPage extends SharePage
     /**
      * Mimic edit link.
      *
-     * @param url
-     * @param title
-     * @param description
-     * @param tag
+     * @param url String
+     * @param title String
+     * @param description String
+     * @param tag String
      */
     public void editLink(String url, String title, String description, String tag)
     {
@@ -166,11 +166,11 @@ public class LinksDetailsPage extends SharePage
      * set false if you want add tag
      * method validate by LinksPageTest.removeTags
      *
-     * @param url
-     * @param title
-     * @param description
-     * @param tag
-     * @param removeTag
+     * @param url String
+     * @param title String
+     * @param description String
+     * @param tag String
+     * @param removeTag boolean
      */
     public void editLink(String url, String title, String description, String tag, boolean removeTag)
     {
@@ -227,7 +227,7 @@ public class LinksDetailsPage extends SharePage
     /**
      * Mimic add comment to link.
      *
-     * @param comment
+     * @param comment String
      */
     public void addComment(String comment)
     {
@@ -241,8 +241,8 @@ public class LinksDetailsPage extends SharePage
     /**
      * Return object related to comment block.
      *
-     * @param text
-     * @return
+     * @param text String
+     * @return LinkComment
      */
     public LinkComment getLinkComment(String text)
     {

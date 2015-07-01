@@ -138,7 +138,7 @@ public class ViewPropertiesPage extends ShareDialogue
     /**
      * Checks if button is present
      * 
-     * @return
+     * @return boolean
      */
     public boolean isVersionButtonDisplayed()
     {

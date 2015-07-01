@@ -89,7 +89,6 @@ public class TenantAdminConsolePage extends AbstractAdminConsole
      * Method for sending string to command input field.
      *
      * @param command String to pass.
-     * @return
      */
     public void sendCommands(final String command)
     {

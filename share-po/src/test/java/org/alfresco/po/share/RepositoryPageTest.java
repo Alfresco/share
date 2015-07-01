@@ -243,7 +243,7 @@ public class RepositoryPageTest extends AbstractDocumentTest
     }
     /**
      * create content in repository 
-     * @author sprasanna 
+     * <br/><br/>author sprasanna
      */
     
     @Test(dependsOnMethods="delete")
@@ -263,7 +263,7 @@ public class RepositoryPageTest extends AbstractDocumentTest
  
     /**
      * Select the action of manage Aspects
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     
     @Test(

@@ -64,7 +64,7 @@ public class DojoDependencyHandler
     
     /**
      * Setter provided to allow the Spring application context to set a {@link DependencyHandler}.
-     * @param dependencyHandler
+     * @param dependencyHandler DependencyHandler
      */
     public void setDependencyHandler(DependencyHandler dependencyHandler)
     {
@@ -80,7 +80,7 @@ public class DojoDependencyHandler
     
     /**
      * Setter provided to allow the Spring application context to set a {@link DependencyAggregator}.
-     * @param dependencyAggregator
+     * @param dependencyAggregator DependencyAggregator
      */
     public void setDependencyAggregator(DependencyAggregator dependencyAggregator)
     {
@@ -94,7 +94,7 @@ public class DojoDependencyHandler
     
     /**
      * Setter provided to allow the Spring application context to set a {@link WebFrameworkConfigElement}.
-     * @param webFrameworkConfigElement
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
      */
     public void setWebFrameworkConfigElement(WebFrameworkConfigElement webFrameworkConfigElement)
     {
@@ -109,7 +109,7 @@ public class DojoDependencyHandler
     
     /**
      * Setter provided to allow the Spring application context to set the {@link DojoDependencyRule} list.
-     * @param dependencyRules
+     * @param dependencyRules List<DojoDependencyRule>
      */
     public void setDependencyRules(List<DojoDependencyRule> dependencyRules)
     {
@@ -205,8 +205,9 @@ public class DojoDependencyHandler
     /**
      * <p>Performs analysis on the supplied String and updates the supplied {@link DojoDependencies} object.</p>
      * 
-     * @param contents
-     * @param dependencies
+     * @param contents String
+     * @param dependencies DojoDependencies
+     * @param dependenciesForCurrentRequest Map<String, DojoDependencies>
      */
     public void processString(String contents,
                               DojoDependencies dependencies,
@@ -550,7 +551,7 @@ public class DojoDependencyHandler
      * @param path The full path of the file
      * @param deps A list of the dependencies known to the current dependency. This is primarily used for processing
      * text dependencies.
-     * @return
+     * @return StringBuilder
      * @throws IOException
      */
     public StringBuilder outputDependency(final String name, final String path, final DojoDependencies deps) throws IOException
@@ -614,7 +615,7 @@ public class DojoDependencyHandler
      * This returns the Dojo packages for the current request (that will include all dynamic configuration extensions)
      * if available, otherwise returns the spring injected value (the static configuration).
      * 
-     * @return
+     * @return Map
      */
     @SuppressWarnings("unchecked")
     public Map<String, String> getRequestDojoPackages()
@@ -645,7 +646,7 @@ public class DojoDependencyHandler
      * 
      * @param sourcePath The path of the file from which the dependency is referenced.
      * @param dependencyPath The path of the dependency as referenced in the source file. 
-     * @return
+     * @return String
      */
     public String getPath(final String sourcePath, String dependencyPath)
     {
@@ -747,11 +748,10 @@ public class DojoDependencyHandler
      * output <b>before</b> the widget that places the dependency. This is done so that overrides will occur as expected. This
      * is only relevant for CSS files. The remaining dependencies are all handled in their own ways. 
      * 
-     * @param dependenciesForCurrentRequest
-     * @param outputCss
-     * @param prefix
-     * @param group
-     * @param forceAggregation
+     * @param dependenciesForCurrentRequest Map<String, DojoDependencies>
+     * @param outputCss OutputCSSContentModelElement
+     * @param prefix String
+     * @param group String
      */
     public void processCssDependencies(Map<String, DojoDependencies> dependenciesForCurrentRequest, 
                                        OutputCSSContentModelElement outputCss,
@@ -781,10 +781,10 @@ public class DojoDependencyHandler
      * This method iterates through the dependencies provided <b>in reverse</b>. This is so that the non AMD resources are 
      * output <b>before</b> the widget that places the dependency.
      * 
-     * @param dependenciesForCurrentRequest
-     * @param outputJs
-     * @param prefix
-     * @param group
+     * @param dependenciesForCurrentRequest Map<String, DojoDependencies>
+     * @param outputJs OutputJavaScriptContentModelElement
+     * @param prefix String
+     * @param group String
      */
     public void processNonAmdDependencies(Map<String, DojoDependencies> dependenciesForCurrentRequest, 
                                           OutputJavaScriptContentModelElement outputJs,

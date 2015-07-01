@@ -134,7 +134,7 @@ public class NewWorkflowPage extends WorkFlowPage
     /**
      * Returns the WebElement for Select reviewer button.
      *
-     * @return
+     * @return WebElement
      */
     @Override
     protected WebElement getSelectReviewButton()
@@ -145,7 +145,7 @@ public class NewWorkflowPage extends WorkFlowPage
     /**
      * Returns the WebElement for Start workflow button.
      *
-     * @return
+     * @return WebElement
      */
     @Override
     protected WebElement getStartWorkflowButton()
@@ -176,7 +176,7 @@ public class NewWorkflowPage extends WorkFlowPage
     /**
      * Method to fill up all static details on the current Workflow form page object
      *
-     * @param formDetails
+     * @param formDetails WorkFlowFormDetails
      */
     public void fillUpWorkflowForm(WorkFlowFormDetails formDetails)
     {

@@ -333,9 +333,8 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
     /**
      * Test to check the uploaded file is created succesful
      *
-     * @param - String
      * @throws Exception
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     @Test(dependsOnMethods = "createFolderSelectCancel", groups = "alfresco-one")
     public void isContentUploadedSucessfulTest() throws Exception
@@ -673,7 +672,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
      * test to upload new version
      *
      * @throws Exception
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     @Test(dependsOnMethods = "selectMoveTo", groups = "Enterprise4.2")
     public void selectUploadNewVersion() throws Exception

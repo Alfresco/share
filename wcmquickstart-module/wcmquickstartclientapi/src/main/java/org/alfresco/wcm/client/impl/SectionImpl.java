@@ -113,7 +113,7 @@ public class SectionImpl extends ResourceBaseImpl implements Section
     /**
      * Set the dictionary service
      * 
-     * @param dictionaryService
+     * @param dictionaryService DictionaryService
      */
     public void setDictionaryService(DictionaryService dictionaryService)
     {
@@ -171,8 +171,8 @@ public class SectionImpl extends ResourceBaseImpl implements Section
      * Parses section configuration properties from the name value pair string list
      * into a map.
      * 
-     * @param configPropertyList
-     * @return Map<String, String> map of types and templates
+     * @param configPropertyList List<String>
+     * @return map of types and templates
      */
     private Map<String, String> parseConfigProperties(List<String> configPropertyList)
     {
@@ -379,9 +379,9 @@ public class SectionImpl extends ResourceBaseImpl implements Section
     /**
      * Find the template for a given page type within a template map
      * 
-     * @param templateMap
-     * @param type
-     * @return
+     * @param templateMap Map<String, String>
+     * @param type String
+     * @return String
      */
     private String findTemplate(Map<String, String> templateMap, String type)
     {

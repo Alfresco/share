@@ -61,7 +61,7 @@ public class WebApplicationStore extends ResourceStore implements ServletContext
     /**
      * Retrieves the servlet context
      * 
-     * @return
+     * @return ServletContext
      */
     protected ServletContext getServletContext()
     {

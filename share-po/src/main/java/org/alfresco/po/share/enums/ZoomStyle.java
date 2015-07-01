@@ -45,7 +45,7 @@ public enum ZoomStyle
     /**
      * Find {@link ZoomStyle} based on it is size.
      * 
-     * @param size
+     * @param size int
      * @return {@link ZoomStyle}
      */
     public static ZoomStyle getZoomStyle(int size)

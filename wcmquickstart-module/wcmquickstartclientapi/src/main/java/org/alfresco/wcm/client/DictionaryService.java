@@ -80,7 +80,7 @@ public interface DictionaryService
 	String getParentType(String type);
 	
 	/**
-	 * @see DictionaryService.getParentType(String type)
+	 * @see DictionaryService#getParentType(String type)
 	 * 
 	 * If queryName is true then the parent type is returned in the format cmis:document, 
 	 * otherwise it is returned in the full id form, D:cmis:document.

@@ -62,7 +62,7 @@ public class LinksListFilter extends HtmlElement
     /**
      * Mimic select filter type in upper left angle
      *
-     * @param option
+     * @param option FilterOption
      */
     public LinksPage select(FilterOption option)
     {
@@ -74,7 +74,7 @@ public class LinksListFilter extends HtmlElement
     /**
      * Return List with visible tags name
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getTags()
     {
@@ -90,7 +90,7 @@ public class LinksListFilter extends HtmlElement
     /**
      * Mimic select tag in left filter panel.
      *
-     * @param tagName
+     * @param tagName String
      */
     public LinksPage clickOnTag(String tagName)
     {

@@ -62,7 +62,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     /**
      * Constructor
      * 
-     * @param drone
+     * @param drone WebDrone
      */
     protected TopSiteContributorDashlet(WebDrone drone)
     {
@@ -105,7 +105,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     
     /**
      * Gets the list of user data appearing in tooltips (file type-count) 
-     * @return
+     * @return List<String>
      */
     public List<String> getTooltipUserData() throws Exception
     {
@@ -129,7 +129,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     
     /**
      * Gets the list of usernames appearing in tooltips 
-     * @return
+     * @return List<String>
      */
     public List<String> getTooltipUsers() throws Exception
     {
@@ -151,7 +151,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     /**
      * Gets the list of pie chart slices elements
      * 
-     * @return
+     * @return List<WebElement>
      */
     private List<WebElement> getPieChartSlices()
     {
@@ -172,8 +172,8 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     /**
      * Enters from date into calendar
      * 
-     * @param fromDate
-     * @return
+     * @param fromDate String
+     * @return HtmlPage
      */
     public HtmlPage enterFromDate(final String fromDate)
     {
@@ -204,7 +204,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
      * Enters to date into calendar
      * 
      * @param toDate String
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage enterToDate(final String toDate)
     {
@@ -345,9 +345,9 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     /**
      * Enters to an from date into calendar
      * 
-     * @param fromDate
-     * @param toDate
-     * @return
+     * @param fromDate String
+     * @param toDate String
+     * @return HtmlPage
      */
     public HtmlPage enterFromToDate(final String fromDate, final String toDate)
     {
@@ -396,7 +396,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
      * 
      * Returns the list of date input fields elements
      * 
-     * @return
+     * @return List<WebElement>
      */
     public List<WebElement> getDateInputFields()
     {

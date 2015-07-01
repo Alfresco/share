@@ -142,7 +142,6 @@ public class DependencyHandler implements ApplicationContextAware
     /**
      * <p>Returns the current {@link ServletContext} for the Spring application.</p>
      * 
-     * @param scriptConfigModel
      */
     public ServletContext getServletContext()
     {
@@ -159,7 +158,7 @@ public class DependencyHandler implements ApplicationContextAware
     /**
      * <p>Returns the current {@link ScriptConfigModel}.
      * 
-     * @param scriptConfigModel
+     * @param scriptConfigModel ScriptConfigModel
      */
     public void setScriptConfigModel(ScriptConfigModel scriptConfigModel)
     {
@@ -196,7 +195,7 @@ public class DependencyHandler implements ApplicationContextAware
 
     /**
      * <p>Sets the resource controller mapping.
-     * @param resourceControllerMapping
+     * @param resourceControllerMapping String
      */
     public void setResourceControllerMapping(String resourceControllerMapping)
     {
@@ -242,7 +241,7 @@ public class DependencyHandler implements ApplicationContextAware
      * <p>Indicates whether the client should operate in debug mode. This means that all dependency resources
      * should not be compressed or collated.</p>
      * 
-     * @return
+     * @return boolean
      */
     public boolean isDebugMode()
     {
@@ -780,7 +779,7 @@ public class DependencyHandler implements ApplicationContextAware
      * <p>Adds a new generated checksum to the cache.</p>
      * 
      * @param path The original path requested.
-     * @param checksumPath The generated checksum.
+     * @param checksum The generated checksum.
      */
     protected void addChecksumToCache(String path, String checksum)
     {
@@ -902,9 +901,9 @@ public class DependencyHandler implements ApplicationContextAware
     /**
      * <p>Gets the path of the supplied path assuming it is relative to the supplied sourcePath.</p>
      * 
-     * @param sourcePath
-     * @param targetPath
-     * @return
+     * @param sourcePath String
+     * @param targetPath String
+     * @return String
      */
     public String getRelativePath(final String sourcePath, String targetPath)
     {
@@ -999,7 +998,7 @@ public class DependencyHandler implements ApplicationContextAware
         private String contents;
         /**
          * <p>Returns the contents of the resource.</p>
-         * @return
+         * @return String
          */
         public String getContents()
         {
@@ -1007,7 +1006,7 @@ public class DependencyHandler implements ApplicationContextAware
         }
         /**
          * <p>Sets the contents of the resource.</p>
-         * @param contents
+         * @param contents String
          */
         private void setContents(String contents)
         {
@@ -1016,7 +1015,7 @@ public class DependencyHandler implements ApplicationContextAware
         /**
          * <p>Returns the cached contents of the resource if they have been set otherwise
          * defers to the <code>loadInputStream</code> method.
-         * @return
+         * @return InputStream
          * @throws IOException
          */
         public InputStream getInputStream() throws IOException
@@ -1034,7 +1033,7 @@ public class DependencyHandler implements ApplicationContextAware
         }
         /**
          * <p>Should be implemented to load the {@link InputStream}</p>
-         * @return
+         * @return InputStream
          * @throws IOException
          */
         public abstract InputStream loadInputStream() throws IOException;

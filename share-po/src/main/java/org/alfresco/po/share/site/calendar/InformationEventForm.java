@@ -63,7 +63,7 @@ public class InformationEventForm extends AbstractEventForm
     /**
      * Method for click on 'Edit' on information event form
      *
-     * @return
+     * @return EditEventForm
      */
     public EditEventForm clickOnEditEvent()
     {
@@ -79,7 +79,7 @@ public class InformationEventForm extends AbstractEventForm
     /**
      * Method for click on 'Delete' on information event form
      *
-     * @return
+     * @return DeleteEventForm
      */
     public DeleteEventForm clickOnDeleteEvent()
     {
@@ -199,7 +199,7 @@ public class InformationEventForm extends AbstractEventForm
     /**
      * Method for close information event form
      *
-     * @return
+     * @return CalendarPage
      */
     public CalendarPage closeInformationForm()
     {
@@ -216,7 +216,7 @@ public class InformationEventForm extends AbstractEventForm
      * Method to retrieve Start Date Time of event
      *
      * @return String
-     * @author Bogdan.Bocancea
+     * <br/><br/>author Bogdan.Bocancea
      */
     public String getStartDateTime()
     {
@@ -238,7 +238,7 @@ public class InformationEventForm extends AbstractEventForm
      * Method to retrieve End Date Time of event
      *
      * @return String
-     * @author Bogdan.Bocancea
+     * <br/><br/>author Bogdan.Bocancea
      */
     public String getEndDateTime()
     {

@@ -51,7 +51,8 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
     /**
      * Constructor.
      *
-     * @param element
+     * @param drone WebDrone
+     * @param element WebElement
      */
     public InsertOrEditImagePage(WebDrone drone, WebElement element)
     {
@@ -111,7 +112,7 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
     /**
      * This method sets the given text into Link Url.
      *
-     * @param url
+     * @param url String
      */
     public void setImageUrl(String url)
     {
@@ -136,7 +137,7 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
     /**
      * This method sets the given description into image description field.
      *
-     * @param desc
+     * @param desc String
      */
     public void setDescription(String desc)
     {
@@ -184,8 +185,8 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
     /**
      * This method sets the given description into image description field.
      *
-     * @param width
-     * @param height
+     * @param width long
+     * @param height long
      */
     public void setDimensions(long width, long height)
     {

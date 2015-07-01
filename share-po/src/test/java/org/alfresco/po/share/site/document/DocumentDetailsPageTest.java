@@ -319,8 +319,6 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
 
     /**
      * Test updating an existing file with a new uploaded file.
-     * 
-     * @throws Exception
      */
     @Test(dependsOnMethods = "downloadFile")
     public void deleteAnExistingFile()

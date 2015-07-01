@@ -37,7 +37,7 @@ public class NodeBrowserSearchResult
 
     /**
      * Method to set Name
-     * @param name
+     * @param name ShareLink
      */
     public void setName(ShareLink name) {
         this.name = name;
@@ -53,7 +53,7 @@ public class NodeBrowserSearchResult
 
     /**
      * Method to set parent
-     * @param parent
+     * @param parent String
      */
     public void setParent(String parent) {
         this.parent = parent;
@@ -69,7 +69,7 @@ public class NodeBrowserSearchResult
 
     /**
      * Method to set reference
-     * @param reference
+     * @param reference ShareLink
      */
     public void setReference(ShareLink reference) {
         this.reference = reference;

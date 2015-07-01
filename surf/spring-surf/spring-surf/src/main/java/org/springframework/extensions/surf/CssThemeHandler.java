@@ -43,7 +43,7 @@ public class CssThemeHandler
     
     /**
      * Gets the Regular Expression used to find tokens within a CSS source file.
-     * @return
+     * @return String
      */
     public String getTokenRegex()
     {
@@ -54,7 +54,7 @@ public class CssThemeHandler
      * Allows the Regular Expression used to find tokens within a CSS source file to be set. This setter
      * also compiles the Regular Expression for use within the bean.
      * 
-     * @param tokenRegex
+     * @param tokenRegex String
      */
     public void setTokenRegex(String tokenRegex)
     {
@@ -69,7 +69,7 @@ public class CssThemeHandler
     
     /**
      * The target group matched by the <code>tokenRegex</code>
-     * @return
+     * @return int
      */
     public int getTargetGroup()
     {
@@ -79,7 +79,7 @@ public class CssThemeHandler
     /**
      * Allows the target group matched by the <code>tokenRegex</code> to be set.
      * 
-     * @param targetGroup
+     * @param targetGroup int
      */
     public void setTargetGroup(int targetGroup)
     {
@@ -94,7 +94,7 @@ public class CssThemeHandler
     /**
      * Returns the configuration for the web framework.
      * 
-     * @return
+     * @return WebFrameworkConfigElement
      */
     public WebFrameworkConfigElement getWebFrameworkConfigElement()
     {
@@ -104,7 +104,7 @@ public class CssThemeHandler
     /**
      * Required by Spring to inject the web framework configuration.
      * 
-     * @param webFrameworkConfigElement
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
      */
     public void setWebFrameworkConfigElement(WebFrameworkConfigElement webFrameworkConfigElement)
     {
@@ -145,7 +145,7 @@ public class CssThemeHandler
     
     /**
      * 
-     * @return
+     * @return Map
      */
     public Map<String, String> getTokenMap()
     {
@@ -156,8 +156,8 @@ public class CssThemeHandler
     
     /**
      * 
-     * @param path TODO
-     * @param cssContents
+     * @param path String
+     * @param cssContents StringBuilder
      * @throws IOException
      */
     public String processCssThemes(String path, StringBuilder cssContents) throws IOException

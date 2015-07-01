@@ -58,8 +58,8 @@ public abstract class ResourceStore extends AbstractStore
     /**
      * Returns a list of document paths for a given document pattern
      *  
-     * @param documentPathPattern
-     * @return
+     * @param documentPathPattern String
+     * @return List<String>
      * @throws IOException
      */
     protected abstract List<String> matchDocumentPaths(String documentPathPattern)
@@ -72,8 +72,8 @@ public abstract class ResourceStore extends AbstractStore
      * By default, this doesn't do any filtering but it can be overridden by implementation
      * classes that may wish to do so.
      * 
-     * @param documentPath
-     * @return
+     * @param documentPath String
+     * @return boolean
      */
     protected boolean isForbidden(String documentPath)
     {
@@ -99,7 +99,7 @@ public abstract class ResourceStore extends AbstractStore
      * If you wanted to mount the store against the WEB-INF directory, you would set
      * root to "/WEB-INF".
      * 
-     * @param root
+     * @param root String
      */
     public void setPath(String root)
     {
@@ -109,7 +109,7 @@ public abstract class ResourceStore extends AbstractStore
     /**
      * Returns the resource path where the store begins.
      * 
-     * @return
+     * @return String
      */
     public String getPath()
     {
@@ -124,7 +124,7 @@ public abstract class ResourceStore extends AbstractStore
     /**
      * Returns the servlet context resource that is the root of the store
      * 
-     * @return
+     * @return Resource
      */
     public Resource getRootResource()
     {
@@ -140,8 +140,8 @@ public abstract class ResourceStore extends AbstractStore
      * Converts from a document path to a full resource path that incorporates
      * the root of the store.
      * 
-     * @param documentPath
-     * @return
+     * @param documentPath String
+     * @return String
      */
     protected String toResourcePath(String documentPath)
     {
@@ -167,8 +167,8 @@ public abstract class ResourceStore extends AbstractStore
     /**
      * Converts from a resource path back to a document path.
      * 
-     * @param resourcePath
-     * @return
+     * @param resourcePath String
+     * @return String
      */
     protected String toDocumentPath(String resourcePath)
     {
@@ -601,8 +601,8 @@ public abstract class ResourceStore extends AbstractStore
      * 
      * This function is provided here as it is generally useful for implementation classes.
      * 
-     * @param documentPathPattern
-     * @return
+     * @param documentPathPattern String
+     * @return Resource[]
      * @throws IOException
      */
     protected Resource[] getDocumentResources(String documentPathPattern)

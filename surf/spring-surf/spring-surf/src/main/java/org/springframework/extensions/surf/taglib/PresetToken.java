@@ -48,7 +48,7 @@ public class PresetToken extends TagSupport
 
     /**
      * <p>This is required to set the <code>key</code> attribute when the custom tag is used.</p>
-     * @param key
+     * @param key String
      */
     public void setKey(String key)
     {
@@ -63,7 +63,7 @@ public class PresetToken extends TagSupport
 
     /**
      * <p>This is required to set the <code>value</code> attribute when the custom tag is used.</p>
-     * @param key
+     * @param value String
      */
     public void setValue(String value)
     {

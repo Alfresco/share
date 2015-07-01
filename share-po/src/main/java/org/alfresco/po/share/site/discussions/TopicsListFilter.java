@@ -63,7 +63,7 @@ public class TopicsListFilter extends HtmlElement
     /**
      * Mimic select filter type in upper left angle
      *
-     * @param option
+     * @param option FilterOption
      */
     public DiscussionsPage select(FilterOption option)
     {
@@ -75,7 +75,7 @@ public class TopicsListFilter extends HtmlElement
     /**
      * Return List with visible tags name
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getTags()
     {
@@ -91,7 +91,7 @@ public class TopicsListFilter extends HtmlElement
     /**
      * Mimic select tag in left filter panel.
      *
-     * @param tagName
+     * @param tagName DiscussionsPage
      */
     public DiscussionsPage clickOnTag(String tagName)
     {

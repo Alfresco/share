@@ -31,9 +31,6 @@ import net.sf.ehcache.Element;
  * Thread-safety is taken care of by the underlying <b>Ehcache</b>
  * instance.
  *
- * @see org.springframework.cache.ehcache.EhCacheFactoryBean
- * @see org.springframework.cache.ehcache.EhCacheManagerFactoryBean
- * 
  * @author Derek Hulley
  */
 public class EhCacheAdapter<K extends Serializable, V extends Object>

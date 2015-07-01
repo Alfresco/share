@@ -118,7 +118,7 @@ public class LoadWebSiteDataGet extends DeclarativeWebScript
     
     /**
      * Set the map of available import ACPs
-     * @param importACPs    map of import ACPs
+     * @param importFileLocations    map of import ACPs
      */
     public void setImportFileLocations(Map<String, String> importFileLocations)
     {

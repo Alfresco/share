@@ -108,10 +108,7 @@ public abstract class AbstractCachingSectionFactoryImpl implements SectionFactor
     /**
      * Create list of tag details from separate lists of names and counts
      * 
-     * @param tagNames
-     *            list of tag names
-     * @param tagCounts
-     *            list of tag counts
+     * @param tagSummary List<String>
      * @return combined list of tags
      */
     protected List<Tag> createTags(List<String> tagSummary)

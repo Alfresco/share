@@ -60,7 +60,7 @@ public abstract class AbstractLoginController extends AbstractController
      * <p>This method is provided to allow the Spring framework to set a <code>UserFactory</code> required for authenticating
      * requests</p>
      * 
-     * @param userFactory
+     * @param userFactory UserFactory
      */
     public void setUserFactory(UserFactory userFactory) 
     {

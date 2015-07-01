@@ -243,7 +243,7 @@ public class VirtualizedResourceController extends ResourceController
      * @param endpointId the endpoint where the resource lives
      * @param storeId the store within which the resource lives
      * @param webappId the web application that the resource lives in
-     * @return
+     * @return boolean
      * @throws ServletException
      * @throws IOException
      */

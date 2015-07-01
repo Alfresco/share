@@ -30,7 +30,7 @@ import org.springframework.extensions.surf.types.ModuleDeployment;
  * to determine whether a {@link SubComponent} should be rendered. If the <code>evaluate</code> method of
  * every SubComponentEvaluator returns <code>true</code> the the {@link SubComponent} will be rendered.</p>
  * <p>Each SubComponentEvaluator implementation should be configured as a Spring bean in the application context
- * and it's bean id should be referenced in the {@link Component} or {@link ModuleDeployment} configuration (depending 
+ * and it's bean id should be referenced in the {@link org.springframework.extensions.surf.types.Component} or {@link ModuleDeployment} configuration (depending
  * upon whether or not it is being defined as part of base or extension configuration.</p>
  * 
  * @author David Draper

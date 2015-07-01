@@ -85,7 +85,7 @@ public final class ScriptResources extends ScriptBase
     /**
      * Returns the model object
      * 
-     * @return
+     * @return ModelObject
      */
     public ModelObject getModelObject()
     {

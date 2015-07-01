@@ -41,7 +41,7 @@ public interface RequestContextFactory
      * 
      * @param webRequest web request
      * 
-     * @return
+     * @return boolean
      */
     public boolean canHandle(WebRequest webRequest);
     

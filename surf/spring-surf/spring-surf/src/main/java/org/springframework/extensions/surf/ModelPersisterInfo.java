@@ -103,7 +103,7 @@ public final class ModelPersisterInfo implements Serializable
     /**
      * Sets the storage path
      * 
-     * @param storagePath
+     * @param storagePath String
      */
     public void setStoragePath(String storagePath)
     {
@@ -133,7 +133,7 @@ public final class ModelPersisterInfo implements Serializable
     /**
      * Marks the saved flag on the key
      * 
-     * @param saved
+     * @param saved boolean
      */
     public void setSaved(boolean saved)
     {

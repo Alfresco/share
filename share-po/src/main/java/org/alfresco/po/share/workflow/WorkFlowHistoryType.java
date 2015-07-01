@@ -49,7 +49,7 @@ public enum WorkFlowHistoryType
     /**
      * Returns {@link WorkFlowHistoryType} based on given value.
      * 
-     * @param value
+     * @param value String
      * @return {@link WorkFlowHistoryType}
      */
     public static WorkFlowHistoryType getWorkFlowHistoryType(String value)

@@ -110,7 +110,7 @@ public class SiteGroupsPage extends SharePage
     /**
      * Navigate to Add Groups Page.
      *
-     * @return
+     * @return AddGroupsPage
      */
     public AddGroupsPage navigateToAddGroupsPage()
     {
@@ -126,7 +126,7 @@ public class SiteGroupsPage extends SharePage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isSiteGroupsPage()
     {
@@ -164,7 +164,7 @@ public class SiteGroupsPage extends SharePage
     /**
      * This method search for the given groupName and returns the list of groups.
      *
-     * @param groupName
+     * @param groupName String
      * @return List<String>
      */
     public List<String> searchGroup(String groupName)
@@ -219,7 +219,7 @@ public class SiteGroupsPage extends SharePage
     /**
      * The filters of the Site content those are diplayed in filters dropdown.
      *
-     * @param groupName
+     * @param groupName String
      * @return <List<WebElement>>
      */
     private List<WebElement> getRoles(String groupName)
@@ -253,8 +253,8 @@ public class SiteGroupsPage extends SharePage
     /**
      * This method assigns role from drop down values.
      *
-     * @param groupName
-     * @param userRole
+     * @param groupName String
+     * @param userRole UserRole
      * @return {@link SiteGroupsPage}
      */
     public SiteGroupsPage assignRole(String groupName, UserRole userRole)
@@ -286,7 +286,7 @@ public class SiteGroupsPage extends SharePage
     /**
      * Method to verify whether assign role drop down is available
      *
-     * @param groupName
+     * @param groupName String
      * @return true if displayed
      */
     public boolean isAssignRolePresent(String groupName)
@@ -309,7 +309,7 @@ public class SiteGroupsPage extends SharePage
     /**
      * Method to verify whether remove button is present
      *
-     * @param groupName
+     * @param groupName String
      * @return true if displayed
      */
     public boolean isRemoveButtonPresent(String groupName)
@@ -328,7 +328,7 @@ public class SiteGroupsPage extends SharePage
     /**
      * Method to remove given group from Site.
      *
-     * @param groupName
+     * @param groupName String
      */
     public SiteGroupsPage removeGroup(String groupName)
     {

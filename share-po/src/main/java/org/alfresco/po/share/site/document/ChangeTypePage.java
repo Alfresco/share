@@ -78,7 +78,7 @@ public class ChangeTypePage extends ShareDialogue
     /**
      * Checks whether the page/dialog is displayed.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isChangeTypeDisplayed()
     {

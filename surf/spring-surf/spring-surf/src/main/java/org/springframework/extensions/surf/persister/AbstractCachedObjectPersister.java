@@ -75,7 +75,6 @@ public abstract class AbstractCachedObjectPersister extends AbstractObjectPersis
      * Places an object into this persister's cache.
      *
      * @param context the context
-     * @param id ID of the object in the cache
      * @param obj the obj
      */
     protected void cachePut(ModelPersistenceContext context, ModelObject obj)
@@ -96,8 +95,7 @@ public abstract class AbstractCachedObjectPersister extends AbstractObjectPersis
      * Removes an object from the cache
      *
      * @param context the context
-     * @param objectTypeId
-     * @param objectId
+     * @param obj ModelObject
      */
     protected void cacheRemove(ModelPersistenceContext context, ModelObject obj)
     {
@@ -135,7 +133,7 @@ public abstract class AbstractCachedObjectPersister extends AbstractObjectPersis
     }
 
     /**
-     * @see org.springframework.extensions.surf.persister.CachingPersister#invalidateCache()
+     * @see org.springframework.extensions.surf.persister.CachedPersister#invalidateCache()
      */
     public synchronized void invalidateCache()
     {

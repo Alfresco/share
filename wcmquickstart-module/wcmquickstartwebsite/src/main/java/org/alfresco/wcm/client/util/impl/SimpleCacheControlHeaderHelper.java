@@ -41,13 +41,12 @@ public class SimpleCacheControlHeaderHelper extends HeaderHelper
      * Set appropriate cache-control headers on the response for an asset and return true if it
      * should be rendered
      * 
-     * @param asset
-     * @param request
-     * @param response
+     * @param asset Asset
+     * @param attach boolean
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
      * @return boolean true if browser has old copy and so content should be
      *         rendered
-     * @throws IOException
-     * @throws ParseException
      */
     @Override
     public boolean setHeaders(Asset asset, boolean attach, HttpServletRequest request, HttpServletResponse response)

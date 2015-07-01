@@ -44,7 +44,7 @@ public class UserProfilePage extends SharePage
     /**
      * Constructor.
      * 
-     * @param drone
+     * @param drone WebDrone
      */
     public UserProfilePage(WebDrone drone)
     {

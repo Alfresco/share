@@ -46,7 +46,7 @@ public class WebScriptsStoreRegistrar extends StoreRegistrar
     /**
      * Sets the templates search path
      * 
-     * @param templatesSearchPath
+     * @param templatesSearchPath SearchPath
      */
     public void setTemplatesSearchPath(SearchPath templatesSearchPath)
     {

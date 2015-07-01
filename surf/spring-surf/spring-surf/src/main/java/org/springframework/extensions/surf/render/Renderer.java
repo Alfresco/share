@@ -27,8 +27,9 @@ public interface Renderer
     /**
      * Executes the renderer in the given focus
      *
-     * @param renderContext
-     * @param focus
+     * @param renderContext RequestContext
+     * @param object ModelObject
+     * @param focus RenderFocus
      *
      * @throws RendererExecutionException
      */
@@ -38,7 +39,8 @@ public interface Renderer
     /**
      * Executes the renderer in the "all" mode
      *
-     * @param rendererContext
+     * @param renderContext RequestContext
+     * @param object ModelObject
      * @throws RendererExecutionException
      */
     public void all(RequestContext renderContext, ModelObject object)
@@ -47,7 +49,8 @@ public interface Renderer
     /**
      * Executes the renderer in the "head" mode
      *
-     * @param renderContext
+     * @param renderContext RequestContext
+     * @param object ModelObject
      * @throws RendererExecutionException
      */
     public void header(RequestContext renderContext, ModelObject object)
@@ -56,7 +59,8 @@ public interface Renderer
     /**
      * Executes the renderer in the "body" mode
      *
-     * @param renderContext
+     * @param renderContext RequestContext
+     * @param object ModelObject
      * @throws RendererExecutionException
      */
     public void body(RequestContext renderContext, ModelObject object)

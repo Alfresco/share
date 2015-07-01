@@ -51,8 +51,8 @@ public class I18nDependencyHandler
      * will be able to add all the message properties referenced from the dependencies into global message objects that can then
      * be accessed by widgets.
      * 
-     * @param dependencyMap
-     * @return
+     * @param dependencyMap Map<String, DojoDependencies>
+     * @return String
      */
     public String generateI18nJavaScript(Map<String, DojoDependencies> dependencyMap)
     {
@@ -141,8 +141,8 @@ public class I18nDependencyHandler
      * scope to a map of properties generated from all {@link ResourceBundle} instances that have been assigned to
      * that scope.
      * 
-     * @param dependencyMap
-     * @return
+     * @param dependencyMap Map<String, DojoDependencies>
+     * @return Map
      */
     public Map<String, Map<String, Object>> generateScopeToBundleMap(Map<String, DojoDependencies> dependencyMap)
     {
@@ -188,8 +188,8 @@ public class I18nDependencyHandler
      * and the current {@link Locale} is then used to derive paths specific to language, country and variant. A {@link ResourceBundle}
      * is generated from each path and the contents of each {@link ResourceBundle} is merged into the {@link Map} that is returned.
      *  
-     * @param path
-     * @return
+     * @param path String
+     * @return Map
      */
     public Map<String, Object> getLocaleMergedBundle(String path)
     {
@@ -244,8 +244,8 @@ public class I18nDependencyHandler
     
     /**
      * 
-     * @param path
-     * @return
+     * @param path String
+     * @return ResourceBundle
      */
     protected ResourceBundle getBundle(String path)
     {
@@ -270,8 +270,8 @@ public class I18nDependencyHandler
     
     /**
      * 
-     * @param mergedBundles
-     * @param bundleToMerge
+     * @param mergedBundles Map<String, Object>
+     * @param bundleToMerge ResourceBundle
      */
     protected void mergeBundle(Map<String, Object> mergedBundles, ResourceBundle bundleToMerge)
     {
@@ -300,7 +300,7 @@ public class I18nDependencyHandler
      * Checks the cache for previously generated JSON strings.
      * @param path The path to check the cache for
      * @param locale The locale required.
-     * @return 
+     * @return Map
      */
     public Map<String, Object> getCachedBundle(String path, Locale locale)
     {
@@ -323,9 +323,9 @@ public class I18nDependencyHandler
     
     /**
      * Add a new generated JSON string for a specific locale for a specific path
-     * @param path
-     * @param locale
-     * @param s
+     * @param path String
+     * @param locale Locale
+     * @param s Map<String, Object>
      */
     public void cacheBundle(String path, Locale locale, Map<String, Object> s)
     {

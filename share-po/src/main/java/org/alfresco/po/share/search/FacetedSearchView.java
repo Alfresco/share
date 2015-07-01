@@ -192,7 +192,7 @@ public class FacetedSearchView
     /**
      * Click on the GalleryIcon by name
      *
-     * @param name
+     * @param name String
      * @return GalleryViewPopupPage
      */
     public GalleryViewPopupPage clickGalleryIconByName(String name)

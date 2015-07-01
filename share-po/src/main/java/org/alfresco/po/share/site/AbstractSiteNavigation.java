@@ -168,7 +168,6 @@ public abstract class AbstractSiteNavigation extends HtmlElement
      * Select the drop down on the page and clicks on the link.
      *
      * @param by css locator
-     * @return HtmlPage page object result of selecting the link.
      */
     protected void select(final By by)
     {

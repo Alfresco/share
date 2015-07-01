@@ -121,7 +121,7 @@ public class AssetCollectionImpl extends ResourceBaseImpl implements AssetCollec
 
     /**
      * The time at which this asset collection was last refreshed
-     * @return
+     * @return Date
      */
     public Date getNextRefreshTime()
     {

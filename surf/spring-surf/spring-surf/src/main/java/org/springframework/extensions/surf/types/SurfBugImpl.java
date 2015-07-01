@@ -59,7 +59,7 @@ public class SurfBugImpl extends AbstractRenderableModelObject implements SurfBu
     
     /**
      * <p>Set the <code>Component</code> currently being debugged.</p>
-     * @param component
+     * @param component Component
      */
     public void setCurrentComponent(Component component)
     {
@@ -70,8 +70,8 @@ public class SurfBugImpl extends AbstractRenderableModelObject implements SurfBu
      * <p>Indicates whether or not the supplied <code>Component</code> has already been debugged.
      * This will return <code>true</code> if the supplied <code>Component</code> matches the 
      * <code>currentComponent</code> instance variable.</p>
-     * @param object
-     * @return
+     * @param object boolean
+     * @return Component
      */
     public boolean hasBeenDebugged(Component object)
     {
@@ -80,7 +80,7 @@ public class SurfBugImpl extends AbstractRenderableModelObject implements SurfBu
 
     /**
      * <p>Return the <code>Component</code> currently being debugged.</p>
-     * @return
+     * @return Component
      */
     public Component getCurrentComponent()
     {

@@ -93,10 +93,9 @@ public final class ScriptWebApplication extends ScriptBase
      *    /a/b/c.gif
      *    /images/test.jpg
      * 
-     * @param path
-     * @param endpointId
-     * 
-     * @return
+     * @param relativePath String
+     *
+     * @return String
      */
     public String include(String relativePath)
     {

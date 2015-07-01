@@ -313,7 +313,7 @@ public abstract class AbstractTest implements AlfrescoTests
      *
      * @param uname - This should always be unique. So the user of this method needs to verify it is unique.
      *            eg. - "testUser" + System.currentTimeMillis();
-     * @return
+     * @return boolean
      * @throws Exception
      */
     public boolean createEnterpriseUser(String uname) throws Exception
@@ -357,9 +357,9 @@ public abstract class AbstractTest implements AlfrescoTests
     /**
      * Method to setup cloud sync from My Profile page.
      * 
-     * @param drone
-     * @param cloudUserName
-     * @param password
+     * @param drone WebDrone
+     * @param cloudUserName String
+     * @param password String
      */
     protected void signInToCloud(WebDrone drone, String cloudUserName, String password)
     {
@@ -382,9 +382,9 @@ public abstract class AbstractTest implements AlfrescoTests
     /**
      * Utility method to open site document library from search
      * 
-     * @param drone
-     * @param siteName
-     * @return
+     * @param drone WebDrone
+     * @param siteName String
+     * @return DocumentLibraryPage
      */
     protected DocumentLibraryPage openSiteDocumentLibraryFromSearch(WebDrone drone, String siteName)
     {
@@ -400,7 +400,7 @@ public abstract class AbstractTest implements AlfrescoTests
     /**
      * Utility method to disconnect Cloud Sync.
      * 
-     * @param drone
+     * @param drone WebDrone
      */
     protected void disconnectCloudSync(WebDrone drone)
     {
@@ -418,7 +418,7 @@ public abstract class AbstractTest implements AlfrescoTests
     /**
      * Method to Cancel a WorkFlow or Delete a WorkFlow (To use in TearDown method)
      * 
-     * @param workFlow
+     * @param workFlow String
      */
     protected void cancelWorkFlow(String workFlow)
     {
@@ -440,8 +440,8 @@ public abstract class AbstractTest implements AlfrescoTests
      * This method is used to get if the task is present or not.
      * If the task is not displayed, retry for defined time(maxWaitTime_CloudSync)
      * 
-     * @param driver
-     * @param taskName
+     * @param driver WebDrone
+     * @param taskName String
      * @return boolean
      */
     public static boolean checkIfTaskIsPresent(WebDrone driver, String taskName)
@@ -492,8 +492,8 @@ public abstract class AbstractTest implements AlfrescoTests
      * until maxWaitTime_CloudSync is reached This method could be invoked after
      * syncToCloud is initiated from document library page.
      *
-     * @param driver
-     * @param fileName
+     * @param driver WebDrone
+     * @param fileName String
      * @return boolean
      */
     public boolean checkIfContentIsSynced(WebDrone driver, String fileName)
@@ -560,7 +560,7 @@ public abstract class AbstractTest implements AlfrescoTests
      * until maxWaitTime_CloudSync is reached This method could be invoked after
      * syncToCloud is initiated from document library page.
      *
-     * @param driver
+     * @param driver WebDrone
      * @return boolean
      */
     public boolean checkIfContentIsSynced(WebDrone driver)
@@ -616,9 +616,9 @@ public abstract class AbstractTest implements AlfrescoTests
     /**
      * Method to upload a file from given path. Method assumes that user is already in Document Library Page
      * 
-     * @param drone
-     * @param filePath
-     * @return
+     * @param drone WebDrone
+     * @param filePath String
+     * @return DocumentLibraryPage
      */
     public DocumentLibraryPage uploadContent(WebDrone drone, String filePath)
     {

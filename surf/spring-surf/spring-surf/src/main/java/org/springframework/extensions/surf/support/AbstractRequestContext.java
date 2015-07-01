@@ -179,7 +179,7 @@ public abstract class AbstractRequestContext extends ThreadLocalRequestContext i
      * <p>This method has been deprecated as it depends upon the deprecated static helper methods of <code>FrameworkUtil</code>
      * which have been replaced by non-static helper methods accessed by using <code>FrameworkUtil</code> as a Spring bean</p>
      *
-     * @param serviceRegistry
+     * @param serviceRegistry WebFrameworkServiceRegistry
      * @deprecated
      */
     protected AbstractRequestContext(WebFrameworkServiceRegistry serviceRegistry)
@@ -957,7 +957,7 @@ public abstract class AbstractRequestContext extends ThreadLocalRequestContext i
      * <p>This method is provided for {@link AbstractRequestContextFactory} instances to set the 
      * {@link WebFrameworkConfigElement} for the application.</p>
      * 
-     * @param extensibilityModuleHandler A {@link ExtensibilityModuleHandler} to be used by this request context.
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
      */
     public void setWebFrameworkConfigElement(WebFrameworkConfigElement webFrameworkConfigElement)
     {
@@ -1303,7 +1303,7 @@ public abstract class AbstractRequestContext extends ThreadLocalRequestContext i
      * for the lifetime of the request as different modules may be applied to the same WebScript for different requests.</p>
      * 
      * @param webScriptId The id of the WebScript to cache the extended bundle against.
-     * @param extensionBUndle The extended bundle to cache.
+     * @param extensionBundle The extended bundle to cache.
      */
     public void addExtensionBundleToCache(String webScriptId, WebScriptPropertyResourceBundle extensionBundle)
     {

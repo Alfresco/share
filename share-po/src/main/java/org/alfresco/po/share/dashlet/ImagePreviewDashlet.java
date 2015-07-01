@@ -288,7 +288,7 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     /**
      * Get Count displayed in dashlet images.
      *
-     * @return
+     * @return int
      */
     public int getImagesCount()
     {
@@ -298,8 +298,8 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     /**
      * true if images with name 'imageName' displayed in dashlet
      *
-     * @param imageName
-     * @return
+     * @param imageName String
+     * @return boolean
      */
     public boolean isImageDisplayed(String imageName)
     {

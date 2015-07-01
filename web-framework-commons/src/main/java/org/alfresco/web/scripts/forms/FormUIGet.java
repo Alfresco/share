@@ -203,7 +203,7 @@ public class FormUIGet extends DeclarativeWebScript
     /**
      * Sets the ConfigService instance
      * 
-     * @param configService
+     * @param configService ConfigService
      */
     public void setConfigService(ConfigService configService)
     {
@@ -248,7 +248,7 @@ public class FormUIGet extends DeclarativeWebScript
      * @param request The WebScriptRequest
      * @param status The response status
      * @param cache Cache control
-     * @return
+     * @return Map
      */
     protected Map<String, Object> generateModel(String itemKind, String itemId, 
                 WebScriptRequest request, Status status, Cache cache)
@@ -1845,7 +1845,7 @@ public class FormUIGet extends DeclarativeWebScript
      * @param fieldDefinition The definition of the field to be processed
      * @param fieldConfig The configuration of the field to be processed
      * @param constraintId The constraint identifier
-     * @return
+     * @return Constraint
      * @throws JSONException
      */
     protected Constraint generateConstraintModel(ModelContext context, Field field,
@@ -1869,7 +1869,7 @@ public class FormUIGet extends DeclarativeWebScript
      * @param fieldDefinition The definition of the field to be processed
      * @param fieldConfig The configuration of the field to be processed
      * @param constraintDefinition The constraint definition
-     * @return
+     * @return Constraint
      * @throws JSONException
      */
     protected Constraint generateConstraintModel(ModelContext context, Field field,
@@ -1939,7 +1939,7 @@ public class FormUIGet extends DeclarativeWebScript
      * @param fieldConfig The configuration of the field to be processed
      * @param constraintId The constraint identifier
      * @param constraintParams The constraint parameters
-     * @param defaultConstraintConfig
+     * @param defaultConstraintConfig ConstraintHandlerDefinition
      * @return The constraint moel
      * @throws JSONException
      */
@@ -2324,7 +2324,7 @@ public class FormUIGet extends DeclarativeWebScript
     * Generates the "error" model used when an error occurs.
     *
     * @param errorResponse Response object representing the error
-    * @param errorKey
+    * @param errorKey String
     * @return The "error" model
     */
     protected Map<String, Object> generateErrorModel(Response errorResponse, String errorKey)
@@ -2459,7 +2459,7 @@ public class FormUIGet extends DeclarativeWebScript
      * Inner class used to hold all the context required to generate the model
      * and the model itself.
      *
-     * @author Gavin Cornwell
+     * <br/><br/>author Gavin Cornwell
      */
     protected class ModelContext
     {
@@ -2596,7 +2596,7 @@ public class FormUIGet extends DeclarativeWebScript
      * NOTE: This class has to be public for the template engine to
      *       access the object correctly.
      *
-     * @author Gavin Cornwell
+     * <br/><br/>author Gavin Cornwell
      */
     public abstract class Element
     {
@@ -3056,7 +3056,7 @@ public class FormUIGet extends DeclarativeWebScript
         /**
          * Returns the parameters formatted as a JSON string.
          * 
-         * @return
+         * @return String
          */
         public String getParams()
         {

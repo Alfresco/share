@@ -137,7 +137,7 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
      * 
      * @param user  to persist
      * 
-     * @throws IOException
+     * @throws UserFactoryException
      */
     public void saveUser(AlfrescoUser user) throws UserFactoryException
     {

@@ -210,7 +210,7 @@ public class PersisterService
      * <p>This method will be invoked by the Spring framework if this class has been correctly
      * configured as a bean.</p>
      * 
-     * @param webFrameworkConfig
+     * @param webFrameworkConfig WebFrameworkConfigElement
      */
     public void setWebFrameworkConfig(WebFrameworkConfigElement webFrameworkConfig)
     {

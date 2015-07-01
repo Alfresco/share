@@ -74,7 +74,7 @@ public class ManageSitesPage extends SharePage
     /**
      * Method to get the List of ManageSiteRow.
      * 
-     * @return List<{@link ManagedSiteRow}>
+     * @return List
      */
     public List<ManagedSiteRow> getManagedSiteRows()
     {

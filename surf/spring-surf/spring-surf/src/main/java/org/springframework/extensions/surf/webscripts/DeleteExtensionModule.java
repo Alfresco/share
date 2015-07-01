@@ -48,7 +48,7 @@ public class DeleteExtensionModule  extends DeclarativeWebScript
      * <p>Provided so that the Spring application context can set the {@link ModuleDeploymentService} to use. It is essential that
      * the Spring bean configuration has been set correctly otherwise this controller will not achieve anything.</p>
      * 
-     * @param moduleDeploymentService
+     * @param moduleDeploymentService ModuleDeploymentService
      */
     public void setModuleDeploymentService(ModuleDeploymentService moduleDeploymentService)
     {

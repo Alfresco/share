@@ -65,7 +65,7 @@ public final class UriUtils
      * </ol></p>
      * 
      * @param context The current {@link RequestContext}.
-     * @return
+     * @return List
      */
     public static List<Map<String, String>> getTokenMaps(RequestContext context)
     {
@@ -127,8 +127,8 @@ public final class UriUtils
     /**
      * <p>Converts a {@link Map} of String to Serializable object to a {@link Map} of String to String.</p>
      * 
-     * @param modelProps
-     * @return
+     * @param modelProps Map<String, Serializable>
+     * @return Map
      */
     private static Map<String, String> convertModelObjectProps(Map<String, Serializable> modelProps)
     {
@@ -280,13 +280,6 @@ public final class UriUtils
         return result;
     }
     
-    /**
-     * Return the relative section of a URI from a complete URI
-     * 
-     * @param uri       URI to process
-     * 
-     * @return relative part of the URI
-     */
     private static Pattern URI_PATTERN = Pattern.compile("^(?:(?![^:@]+:[^:@/]*@)([^:/?#.]+):)?(?://)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:/?#]*)(?::(\\d*))?)((((?!//)/(?:[^?#](?![^?#/]*\\.[^?#/.]+(?:[?#]|$)))*/?)?([^?#/]*))(?:\\?([^#]*))?(?:#(.*))?)");
     private static String[] URI_PARTS =
     {

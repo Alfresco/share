@@ -91,7 +91,7 @@ public class AddGroupForm extends SharePage
     /**
      * Search group
      * 
-     * @param group
+     * @param group String
      * @return AddGroupForm
      */
     private AddGroupForm searchGroup(String group)
@@ -106,7 +106,7 @@ public class AddGroupForm extends SharePage
     /**
      * Click to the Add button
      * 
-     * @param groupName
+     * @param groupName String
      * @return GroupsPage
      */
     private GroupsPage clickAddButton(String groupName)
@@ -129,7 +129,7 @@ public class AddGroupForm extends SharePage
     /**
      * Search and add group to the another group
      * 
-     * @param groupName
+     * @param groupName String
      * @return GroupsPage
      */
     public GroupsPage addGroup(String groupName)

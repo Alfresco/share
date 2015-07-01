@@ -112,7 +112,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Sync pop up close button is present or not.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isCloseButtonPresent()
     {
@@ -129,7 +129,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Status details of synced artifact is present or not.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSyncStatusPresent()
     {
@@ -146,7 +146,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Location of synced artifact is present or not.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSyncLocationPresent()
     {
@@ -163,7 +163,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Request sync button is present or not.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isRequestSyncButtonPresent()
     {
@@ -181,7 +181,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Unsync button present or not.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isUnsyncButtonPresent()
     {
@@ -199,7 +199,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Click on sync pop up button to close pop up.
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage clickOnCloseButton()
     {
@@ -223,7 +223,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Get Sync status of the artifact.
      * 
-     * @return
+     * @return String
      */
     public String getCloudSyncStatus()
     {
@@ -240,7 +240,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Get location of synced document.(i.e. premiumnet>sitename>Documents)
      * 
-     * @return
+     * @return String
      */
     public String getCloudSyncLocation()
     {
@@ -279,7 +279,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Get name of the synced document.
      * 
-     * @return
+     * @return String
      */
     public String getCloudSyncDocumentName()
     {
@@ -298,7 +298,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Get Date of sync happened.
      * 
-     * @return
+     * @return Date
      */
     public Date getSyncPeriodDetails()
     {
@@ -321,10 +321,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Unsync button present or not.
      * 
-     * @param removeContentFromCloud
-     * @return
-     * @see true: Remove content from cloud.
-     *      false: Remove sync with Cloud.
+     * @param removeContentFromCloud boolean
      */
     public void selectUnsyncRemoveContentFromCloud(boolean removeContentFromCloud)
     {
@@ -373,7 +370,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Click Button to Remove or Cancel unsync operation.
      * 
-     * @param buttonType
+     * @param buttonType ButtonType
      */
     private void clickButtonFromPopup(ButtonType buttonType)
     {
@@ -403,7 +400,7 @@ public class SyncInfoPage extends SharePage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isUnSyncIconPresentInDetailsPage()
     {
@@ -446,7 +443,7 @@ public class SyncInfoPage extends SharePage
     /**
      * Unsync button enabled.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isUnsyncButtonEnabled()
     {

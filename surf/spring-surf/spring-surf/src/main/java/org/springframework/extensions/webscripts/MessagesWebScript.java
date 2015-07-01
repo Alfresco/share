@@ -83,7 +83,7 @@ public class MessagesWebScript extends AbstractWebScript
     
     /**
      * <p>Setter provided to allow the Spring framework to set the {@link WebFrameworkConfigElement}.</p>
-     * @param webFrameworkConfigElement
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
      */
     public void setWebFrameworkConfigElement(WebFrameworkConfigElement webFrameworkConfigElement)
     {
@@ -99,7 +99,7 @@ public class MessagesWebScript extends AbstractWebScript
     
     /**
      * <p>Setter provided to allow the Spring framework to set the link {@link DependencyHandler}.</p>
-     * @param dependencyHandler
+     * @param dependencyHandler DependencyHandler
      */
     public void setDependencyHandler(DependencyHandler dependencyHandler)
     {
@@ -193,9 +193,8 @@ public class MessagesWebScript extends AbstractWebScript
      * It is necessary to include the protocol as well as the locale as the cache key.
      * This is because the response could be different for HTTP versus HTTPS (in particular when
      * Surf is run with Alfresco it will return an image with the appropriate protocol) - see ALF-16900
-     * @param protocol
-     * @param locale
-     * @return
+     * @param locale String
+     * @return String
      */
     public String generateCacheKey(String locale)
     {
@@ -209,8 +208,8 @@ public class MessagesWebScript extends AbstractWebScript
      * will only exist if the messages have already been generated (i.e. the <code>generateMessages()</code>
      * method has been called.</p>
      * 
-     * @param cacheKey
-     * @return
+     * @param locale String
+     * @return String
      */
     public String generateCachedLocaleChecksum(String locale)
     {
@@ -242,7 +241,7 @@ public class MessagesWebScript extends AbstractWebScript
     
     /**
      * <p>Maps a locale to a checksum in the cache</p>
-     * @param cacheKey The locale to map against
+     * @param locale The locale to map against
      * @param checksum The checksum to map
      */
     protected void setCachedLocaleChecksum(String locale, String checksum)

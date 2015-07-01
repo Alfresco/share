@@ -61,9 +61,9 @@ public class ExtensionImpl extends AbstractModelObject implements Extension
      * <{@code}/modules>
      * </pre>
      * 
-     * @param id
-     * @param key
-     * @param document
+     * @param id String
+     * @param key ModelPersisterInfo
+     * @param document Document
      */
     @SuppressWarnings("unchecked")
     public ExtensionImpl(String id, ModelPersisterInfo key, Document document)
@@ -264,8 +264,8 @@ public class ExtensionImpl extends AbstractModelObject implements Extension
      * {@link ExtensionModule} in the {@link List} and then remove it if it is present. Secondly it is necessary
      * to update the {@link Document} maintained by the {@link ExtensionImpl}.</p>
      * 
-     * @param moduleId
-     * @return
+     * @param moduleId String
+     * @return ExtensionModule
      */
     public ExtensionModule deleteExtensionModule(String moduleId)
     {

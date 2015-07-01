@@ -116,8 +116,8 @@ public class MyWorkFlowsPage extends SharePage
     }
 
     /**
-     * @param workFlowName
-     * @return
+     * @param workFlowName String
+     * @return List<WebElement>
      */
     private List<WebElement> findWorkFlowRow(String workFlowName)
     {
@@ -159,7 +159,7 @@ public class MyWorkFlowsPage extends SharePage
     /**
      * Method to get workflow details for a given workflow
      *
-     * @param workFlowName
+     * @param workFlowName String
      * @return {@link WorkFlowDetails}
      */
     public List<WorkFlowDetails> getWorkFlowDetails(String workFlowName)
@@ -238,8 +238,8 @@ public class MyWorkFlowsPage extends SharePage
     /**
      * Method to select a given WorkFlow
      *
-     * @param workFlowName
-     * @return
+     * @param workFlowName String
+     * @return HtmlPage
      */
     public HtmlPage selectWorkFlow(String workFlowName)
     {
@@ -269,7 +269,7 @@ public class MyWorkFlowsPage extends SharePage
     /**
      * Method to check if a given workflow is displayed in MyWorkFlows page
      *
-     * @param workFlowName
+     * @param workFlowName String
      * @return True if workflow exists
      */
     public boolean isWorkFlowPresent(String workFlowName)
@@ -295,7 +295,7 @@ public class MyWorkFlowsPage extends SharePage
     /**
      * Method to get the page subtitle (Active workflows, Completed workflows etc)
      *
-     * @return
+     * @return String
      */
     public String getSubTitle()
     {
@@ -337,7 +337,7 @@ public class MyWorkFlowsPage extends SharePage
     /**
      * Method to cancel given workflow. If more than one workflow found, cancel all workflows.
      *
-     * @param workFlowName
+     * @param workFlowName String
      */
     public HtmlPage cancelWorkFlow(String workFlowName)
     {
@@ -378,7 +378,7 @@ public class MyWorkFlowsPage extends SharePage
     /**
      * Method to delete given workflow. If more than one workflow found, delete all workflows.
      *
-     * @param workFlowName
+     * @param workFlowName String
      */
     public void deleteWorkFlow(String workFlowName)
     {
@@ -436,7 +436,7 @@ public class MyWorkFlowsPage extends SharePage
     /**
      * Return Object for interacting with left filter panel.
      *
-     * @return
+     * @return WorkFlowFilters
      */
     public WorkFlowFilters getWorkFlowsFilter()
     {
