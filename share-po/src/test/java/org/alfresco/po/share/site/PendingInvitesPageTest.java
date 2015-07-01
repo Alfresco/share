@@ -75,6 +75,7 @@ public class PendingInvitesPageTest extends AbstractTest
             try
             {
                 if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userNameTest))
+                    
                 {
                     membersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
                     membersPage.clickInviteButton().render();
