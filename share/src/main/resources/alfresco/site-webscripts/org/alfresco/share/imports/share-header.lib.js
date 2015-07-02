@@ -1073,14 +1073,9 @@ function getPageTitle() {
  * @param dataType the type of information to get
  * @returns {String}
  */
-function getSiteVisibilityData(dataType) {
-   var siteData = getSiteData();
-      
-   if (siteData) {
-      var propertyKey = "site.visibility." + dataType + "." + siteData.profile.visibility;
-      return msg.get(propertyKey);
-   }
-   return "";
+function getSiteVisibilityData(dataType, visibility) {
+   var propertyKey = "site.visibility." + dataType + "." + visibility;
+   return msg.get(propertyKey);
 }
 
 
@@ -1588,30 +1583,6 @@ function getHeaderModel(pageTitle) {
                }
             },
             {
-               id: "HEADER_TITLE_VISIBILITY",
-               align: "left", 
-               name: "alfresco/misc/AlfTooltip",
-               config: {
-                  widgets: [
-                     {
-                        name: "alfresco/html/Label",
-                        config: {
-                           label: "[" + getSiteVisibilityData("label") + "]"
-                        }
-                     }
-                  ],
-                  widgetsForTooltip: [
-                     {
-                        name: "alfresco/html/Label",
-                        config: {
-                           label: getSiteVisibilityData("description")
-                        }
-                     }
-                  ],
-                  additionalCssClasses: "alf-site-visibility"
-               }
-            },
-            {
                id: "HEADER_NAVIGATION_MENU_BAR",
                name: "alfresco/header/AlfMenuBar",
                align: "right",
@@ -1633,6 +1604,36 @@ function getHeaderModel(pageTitle) {
       }
    }];
 
+   var siteData = getSiteData();
+   if (siteData && siteData.profile.visibility) {
+      var headerTitleBar = widgetUtils.findObject(headerModel, "id", "HEADER_TITLE_BAR");
+      headerTitleBar.config.widgets.push(
+            {
+               id: "HEADER_TITLE_VISIBILITY",
+               align: "left", 
+               name: "alfresco/misc/AlfTooltip",
+               config: {
+                  widgets: [
+                     {
+                        name: "alfresco/html/Label",
+                        config: {
+                           label: "[" + getSiteVisibilityData("label", siteData.profile.visibility) + "]"
+                        }
+                     }
+                  ],
+                  widgetsForTooltip: [
+                     {
+                        name: "alfresco/html/Label",
+                        config: {
+                           label: getSiteVisibilityData("description", siteData.profile.visibility)
+                        }
+                     }
+                  ],
+                  additionalCssClasses: "alf-site-visibility"
+               }
+            });
+   }
+      
    // If the user is not the admin, then add in a role-based menu item for sites management...
    if (!user.isAdmin)
    {
