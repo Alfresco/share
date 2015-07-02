@@ -37,19 +37,19 @@ public interface AssetCollection extends Resource
     /**
      * Obtain the total results count.
      * This is the total number of results that the query returned before any pagination filters were applied.
-     * @return
+     * @return long
      */
     long getTotalSize();
     
     /**
      * Obtain the number of results held by this object.
-     * @return
+     * @return long
      */
     long getSize();
 
     /**
      * Obtain the query that was executed to return these results.
-     * @return
+     * @return Query
      */
     Query getQuery();
 
@@ -57,7 +57,7 @@ public interface AssetCollection extends Resource
 
     /**
      * The time at which this asset collection was last updated
-     * @return
+     * @return Date
      */
     public Date getNextRefreshTime();
 }

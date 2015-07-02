@@ -96,7 +96,7 @@ public class TaskDetailsPage extends SharePage
     }
 
     /**
-     * @return
+     * @return String
      */
     public String getComment()
     {
@@ -106,7 +106,7 @@ public class TaskDetailsPage extends SharePage
     /**
      * Method to get Required Approval percentage value
      * 
-     * @return
+     * @return int
      */
     public int getRequiredApprovalPercentage()
     {
@@ -117,7 +117,7 @@ public class TaskDetailsPage extends SharePage
     /**
      * Method to get Actual Approval percentage value
      * 
-     * @return
+     * @return int
      */
     public int getActualApprovalPercentage()
     {
@@ -146,7 +146,7 @@ public class TaskDetailsPage extends SharePage
     /**
      * Method to get Info section of Task Details page
      * 
-     * @return
+     * @return TaskInfo
      */
     public TaskInfo getTaskDetailsInfo()
     {
@@ -170,7 +170,7 @@ public class TaskDetailsPage extends SharePage
     /**
      * Method to get Task Status
      * 
-     * @return
+     * @return TaskStatus
      */
     public TaskStatus getTaskStatus()
     {
@@ -193,7 +193,7 @@ public class TaskDetailsPage extends SharePage
     /**
      * Method to get the list of Items in a Task
      * 
-     * @return {@link List< TaskItem >}
+     * @return List
      */
     public List<TaskItem> getTaskItems()
     {
@@ -220,8 +220,8 @@ public class TaskDetailsPage extends SharePage
     /**
      * Method to get the List of TaskItem object for a given File Name
      * 
-     * @param fileName
-     * @return {@link List< TaskItem >}
+     * @param fileName String
+     * @return List
      */
     public List<TaskItem> getTaskItem(String fileName)
     {
@@ -304,7 +304,7 @@ public class TaskDetailsPage extends SharePage
     /**
      * Method to get All labels from Workflow Form
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getAllLabels()
     {

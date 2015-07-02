@@ -496,7 +496,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param publisher
+     * @param publisher String
      */
     public void setPublisher(String publisher)
     {
@@ -514,7 +514,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param contributor
+     * @param contributor String
      */
     public void setContributor(String contributor)
     {
@@ -532,7 +532,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param type
+     * @param type String
      */
     public void setType(String type)
     {
@@ -550,7 +550,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param identifier
+     * @param identifier String
      */
     public void setIdentifier(String identifier)
     {
@@ -568,7 +568,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param source
+     * @param source String
      */
     public void setSource(String source)
     {
@@ -586,7 +586,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param coverage
+     * @param coverage String
      */
     public void setCoverage(String coverage)
     {
@@ -604,7 +604,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param rights
+     * @param rights String
      */
     public void setRights(String rights)
     {
@@ -622,7 +622,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param subject
+     * @param subject String
      */
     public void setSubject(String subject)
     {
@@ -641,7 +641,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
      * Option for folder.
      * Enters a value in the rendition configuration. Option enabled if WQS is installed.
      *
-     * @param rendConfig
+     * @param rendConfig String
      */
     public void setRenditionConfig(String rendConfig)
     {
@@ -660,7 +660,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      *
-     * @param siteConfiguration
+     * @param siteConfiguration String
      */
     public void setSiteConfiguration(String siteConfiguration)
     {
@@ -678,7 +678,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      *
-     * @param Hostname
+     * @param Hostname String
      */
     public void setSiteHostname(String Hostname)
     {
@@ -696,7 +696,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Gets the web assets visible on the dialog.
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getWebAssets()
     {

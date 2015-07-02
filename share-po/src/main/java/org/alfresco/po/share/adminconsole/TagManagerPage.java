@@ -197,8 +197,8 @@ public class TagManagerPage extends AdminConsolePage
     /**
      * Open Edit Form for tag
      *
-     * @param tagName
-     * @return (@link EditTagForm)
+     * @param tagName String
+     * @return {@link EditTagForm}
      */
     private EditTagForm openEditTagForm(String tagName)
     {

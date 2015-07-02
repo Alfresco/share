@@ -49,9 +49,8 @@ public enum ContentType
     /**
      * Returns the corresponding page object based on the enum.
      * 
-     * @param
+     * @param drone WebDrone
      * @return SitePage
-     * @throws Exception
      */
 
     public HtmlPage getContentCreationPage(WebDrone drone)

@@ -79,7 +79,7 @@ public class LinkDirectoryInfo extends HtmlElement
     /**
      * Mimic select tag in left filter panel.
      *
-     * @param tagName
+     * @param tagName String
      */
     public LinksPage clickOnTag(String tagName)
     {
@@ -99,7 +99,7 @@ public class LinkDirectoryInfo extends HtmlElement
     /**
      * Check is selected.
      *
-     * @return
+     * @return boolean
      */
     public boolean isSelected()
     {

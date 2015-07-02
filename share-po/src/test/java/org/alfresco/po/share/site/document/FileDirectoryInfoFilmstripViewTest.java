@@ -668,7 +668,7 @@ public class FileDirectoryInfoFilmstripViewTest extends AbstractDocumentTest
     }
     /**
      * test to upload new version 
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      * @throws Exception
      */ 
     @Test(groups="Enterprise4.2", priority=40)

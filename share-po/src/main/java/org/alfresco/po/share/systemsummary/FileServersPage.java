@@ -91,7 +91,7 @@ public class FileServersPage extends AdvancedAdminConsolePage
     /**
      * Change FTP port
      *
-     * @param port
+     * @param port String
      *
      */
 
@@ -106,7 +106,7 @@ public class FileServersPage extends AdvancedAdminConsolePage
     /**
      * Method to get value of the FTP port.
      *
-     * @return
+     * @return String
      */
     public String getPort()
     {

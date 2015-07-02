@@ -115,7 +115,7 @@ public class SiteMembersPage extends SharePage
     /**
      * This method search for the given userName and returns the list of users.
      *
-     * @param userName
+     * @param userName String
      * @return List<String>
      */
     public List<String> searchUser(String userName)
@@ -168,7 +168,7 @@ public class SiteMembersPage extends SharePage
     /**
      * The filters of the Site content those are diplayed in filters dropdown.
      *
-     * @param userName
+     * @param userName String
      * @return <List<WebElement>>
      */
     private List<WebElement> getRoles(String userName)
@@ -203,8 +203,8 @@ public class SiteMembersPage extends SharePage
     /**
      * This method assigns role from drop down values.
      *
-     * @param userName
-     * @param userRole
+     * @param userName String
+     * @param userRole UserRole
      * @return {@link SiteMembersPage}
      */
     public SiteMembersPage assignRole(String userName, UserRole userRole)
@@ -241,7 +241,7 @@ public class SiteMembersPage extends SharePage
     /**
      * Method to remove given user from Site.
      *
-     * @param userName
+     * @param userName String
      */
     public SiteMembersPage removeUser(String userName)
     {
@@ -276,9 +276,9 @@ public class SiteMembersPage extends SharePage
     /**
      * Method to verify whether site user can be removed from site
      *
-     * @param userName
-     * @param siteName
-     * @return
+     * @param userName String
+     * @param siteName String
+     * @return boolean
      */
     public boolean isUserCanBeRemoved (String userName, String siteName)
     {
@@ -421,7 +421,7 @@ public class SiteMembersPage extends SharePage
     /**
      * Method to verify remove link is displayed
      *
-     * @param userName
+     * @param userName String
      * @return true if displayed
      */
     public boolean isRemoveButtonPresent(String userName)
@@ -462,7 +462,7 @@ public class SiteMembersPage extends SharePage
     /**
      * Method to verify whether assign role is displayeed
      *
-     * @param userName
+     * @param userName String
      * @return true if displayed
      */
     public boolean isAssignRolePresent(String userName)
@@ -486,9 +486,9 @@ public class SiteMembersPage extends SharePage
     /**
      * True if found user has role userRole.
      *
-     * @param userName
-     * @param userRole
-     * @return
+     * @param userName String
+     * @param userRole UserRole
+     * @return boolean
      */
     public boolean isUserHasRole(String userName, UserRole userRole)
     {

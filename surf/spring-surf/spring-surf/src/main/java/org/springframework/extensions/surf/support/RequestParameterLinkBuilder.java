@@ -57,7 +57,7 @@ public class RequestParameterLinkBuilder extends AbstractLinkBuilder
 {
     /**
      * 
-     * @param serviceRegistry
+     * @param serviceRegistry WebFrameworkServiceRegistry
      * @deprecated Because it relies on the supplied <code>WebFrameworkServiceRegistry</code> to obtain the required services.
      */
     protected RequestParameterLinkBuilder(WebFrameworkServiceRegistry serviceRegistry)
@@ -69,9 +69,9 @@ public class RequestParameterLinkBuilder extends AbstractLinkBuilder
      * <p>This is the preferred constructor to use when instantiating a <code>RequestParameterLinkBuilder</code> because
      * it allows the services to be set directly.</p>
      * 
-     * @param webFrameworkConfigElement
-     * @param modelObjectService
-     * @param resourceService
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
+     * @param modelObjectService ModelObjectService
+     * @param resourceService ResourceService
      */
     public RequestParameterLinkBuilder(WebFrameworkConfigElement webFrameworkConfigElement, 
                                        ModelObjectService modelObjectService,

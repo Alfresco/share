@@ -93,8 +93,8 @@ public class BlogPage extends SitePage
     /**
      * Method to create new topic without text field
      *
-     * @param titleField
-     * @return
+     * @param titleField String
+     * @return PostViewPage
      */
     public PostViewPage createPostInternally(String titleField)
     {
@@ -108,8 +108,9 @@ public class BlogPage extends SitePage
     /**
      * Method to create new topic with text field
      *
-     * @param titleField
-     * @return
+     * @param titleField String
+     * @param txtLines String
+     * @return PostViewPage
      */
     public PostViewPage createPostInternally(String titleField, String txtLines)
     {
@@ -126,7 +127,9 @@ public class BlogPage extends SitePage
     /**
      * Method to create new topic with text field and tag
      *
-     * @param titleField
+     * @param titleField String
+     * @param txtLines String
+     * @param tagName String
      * @return PostViewPage
      */
     public PostViewPage createPostInternally(String titleField, String txtLines, String tagName)
@@ -145,7 +148,9 @@ public class BlogPage extends SitePage
     /**
      * Method to create new topic with text field and tag
      *
-     * @param titleField
+     * @param titleField String
+     * @param txtLines String
+     * @param tags List<String>
      * @return PostViewPage
      */
     public PostViewPage createPostInternally(String titleField, String txtLines, List<String> tags)
@@ -164,8 +169,9 @@ public class BlogPage extends SitePage
     /**
      * Method to create new topic with text field and save as draft
      *
-     * @param titleField
-     * @return
+     * @param titleField String
+     * @param txtLines String
+     * @return PostViewPage
      */
     public PostViewPage saveAsDraft(String titleField, String txtLines)
     {
@@ -206,7 +212,7 @@ public class BlogPage extends SitePage
     /**
      * Method to open a post
      *
-     * @param title
+     * @param title String
      * @return Post View Page
      */
     public PostViewPage openBlogPost(String title)
@@ -251,8 +257,8 @@ public class BlogPage extends SitePage
      * Return true if Post, and return false if Post is absent
      * test BlogPageTest.isPostPresented
      *
-     * @param postName
-     * @return
+     * @param postName String
+     * @return boolean
      */
     public boolean isPostPresented(String postName)
     {
@@ -277,8 +283,10 @@ public class BlogPage extends SitePage
     /**
      * Method to create new topic with text field and save as draft
      *
-     * @param titleField
-     * @return
+     * @param titleField String
+     * @param txtLines String
+     * @param tagName List<String>
+     * @return PostViewPage
      */
     public PostViewPage saveAsDraft(String titleField, String txtLines, List<String> tagName)
     {
@@ -297,8 +305,8 @@ public class BlogPage extends SitePage
     /**
      * Method to view Rss Feed for post pages
      *
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      * @return RssFeedPage
      */
     public RssFeedPage clickRssFeedBtn(String username, String password)
@@ -365,11 +373,12 @@ public class BlogPage extends SitePage
      * Method to edit post
      * method validate by BlogPageTest.editPost
      *
-     * @param oldTitle
-     * @param newTitle
-     * @param txtLines
-     * @param tagName
-     * @return
+     * @param oldTitle String
+     * @param newTitle String
+     * @param txtLines String
+     * @param tagName String
+     * @param removeTag boolean
+     * @return PostViewPage
      */
     public PostViewPage editPost(String oldTitle, String newTitle, String txtLines, String tagName, boolean removeTag)
     {

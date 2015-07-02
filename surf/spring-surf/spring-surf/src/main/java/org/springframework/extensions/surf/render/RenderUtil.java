@@ -42,11 +42,11 @@ public final class RenderUtil
     /**
      * Renders the fully formed URL string for a link to a given page
      *
-     * @param context
-     * @param request
-     * @param response
-     * @param objectId
-     * @param formatId
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param objectId String
+     * @param formatId String
      */
     public static void page(RequestContext context, HttpServletRequest request,
             HttpServletResponse response, String pageId, String formatId, String objectId)
@@ -69,11 +69,11 @@ public final class RenderUtil
     /**
      * Renders the fully formed URL string for a link to a given content object
      *
-     * @param context
-     * @param request
-     * @param response
-     * @param objectId
-     * @param formatId
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param objectId String
+     * @param formatId String
      */
     public static void object(RequestContext context,
             HttpServletRequest request, HttpServletResponse response,
@@ -96,11 +96,12 @@ public final class RenderUtil
     /**
      * Renders the fully formed URL string for a link to a given page type
      *
-     * @param context
-     * @param request
-     * @param response
-     * @param objectId
-     * @param formatId
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param pageTypeId String
+     * @param formatId String
+     * @param objectId String
      */
     public static void pageType(RequestContext context, HttpServletRequest request,
             HttpServletResponse response, String pageTypeId, String formatId, String objectId)
@@ -122,8 +123,8 @@ public final class RenderUtil
     /**
      * Renders an HTML <script/> tag to the output stream
      * 
-     * @param context
-     * @param uri
+     * @param context RequestContext
+     * @param uri String
      * 
      * @return script tag to the resource
      */
@@ -145,8 +146,8 @@ public final class RenderUtil
     /**
      * Renders an HTML stylesheet <link/> tag.
      * 
-     * @param context
-     * @param uri
+     * @param context RequestContext
+     * @param uri String
      * 
      * @return script tag to the resource
      */
@@ -159,9 +160,9 @@ public final class RenderUtil
      * Renders an HTML stylesheet <link/> tag and optionally appends
      * the incoming query string to the URL.
      * 
-     * @param context
-     * @param uri
-     * @param id
+     * @param context RequestContext
+     * @param uri String
+     * @param id String
      * 
      * @return link tag to the resource
      */
@@ -281,8 +282,8 @@ public final class RenderUtil
      * Attempts to retrieve the render context instance bound to the given
      * http servlet request
      * 
-     * @param request
-     * @return
+     * @param request HttpServletRequest
+     * @return RequestContext
      */
     public static RequestContext getContext(HttpServletRequest request)
     {
@@ -335,9 +336,9 @@ public final class RenderUtil
      * Returns the object to which this component is bound
      * This is the same as calling component.getSourceObject()
      * 
-     * @param context
-     * @param component
-     * @return
+     * @param context RequestContext
+     * @param component Component
+     * @return Object
      */
     public static Object getComponentBindingSourceObject(RequestContext context, Component component)
     {
@@ -372,10 +373,10 @@ public final class RenderUtil
     
     /**
      * Generates the deterministic component id from its key properties
-     * 
-     * @param scopeId
-     * @param regionId
-     * @param sourceId
+     *
+     * @param scopeId String
+     * @param regionId String
+     * @param sourceId String
      * 
      * @return deterministic component id based on supplied values
      */

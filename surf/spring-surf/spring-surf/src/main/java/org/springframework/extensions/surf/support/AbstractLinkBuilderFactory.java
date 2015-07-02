@@ -60,7 +60,7 @@ public abstract class AbstractLinkBuilderFactory extends BaseFactory implements 
     /**
      * <p>This method is supplied so that subclasses can get a reference to the <code>WebFrameworkConfigElement</code>
      * that is required to instantiate a <code>AbstractLinkBuilder</code>.</p>
-     * @return
+     * @return WebFrameworkConfigElement
      */
     public WebFrameworkConfigElement getWebFrameworkConfigElement()
     {
@@ -70,7 +70,7 @@ public abstract class AbstractLinkBuilderFactory extends BaseFactory implements 
     /**
      * <p>This method is supplied so that subclasses can get a reference to the <code>ModelObjectService</code>
      * that is required to instantiate a <code>AbstractLinkBuilder</code>.</p>
-     * @return
+     * @return ModelObjectService
      */
     public ModelObjectService getModelObjectService()
     {
@@ -80,7 +80,7 @@ public abstract class AbstractLinkBuilderFactory extends BaseFactory implements 
     /**
      * <p>This method is supplied so that subclasses can get a reference to the <code>ResourceService</code>
      * that is required to instantiate a <code>AbstractLinkBuilder</code>.</p>
-     * @return
+     * @return ResourceService
      */
     public ResourceService getResourceService()
     {
@@ -89,7 +89,7 @@ public abstract class AbstractLinkBuilderFactory extends BaseFactory implements 
 
     /**
      * This method is provided to allow Spring to set the <code>WebFrameworkConfigElement</code> as a bean property.</p>
-     * @param webFrameworkConfigElement
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
      */
     public void setWebFrameworkConfigElement(WebFrameworkConfigElement webFrameworkConfigElement)
     {
@@ -98,7 +98,7 @@ public abstract class AbstractLinkBuilderFactory extends BaseFactory implements 
 
     /**
      * This method is provided to allow Spring to set the <code>ModelObjectService</code> as a bean property.</p>
-     * @param modelObjectService
+     * @param modelObjectService ModelObjectService
      */
     public void setModelObjectService(ModelObjectService modelObjectService)
     {
@@ -107,7 +107,7 @@ public abstract class AbstractLinkBuilderFactory extends BaseFactory implements 
 
     /**
      * This method is provided to allow Spring to set the <code>ResourceService</code> as a bean property.</p>
-     * @param resourceService
+     * @param resourceService ResourceService
      */
     public void setResourceService(ResourceService resourceService)
     {

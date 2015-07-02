@@ -339,7 +339,7 @@ public class WebScriptProcessor extends AbstractProcessor
     /**
      * Helper to build argument map from the servlet request parameters.
      * 
-     * @param request context the request context
+     * @param context context the request context
      * 
      * @return the map< string, string>
      */

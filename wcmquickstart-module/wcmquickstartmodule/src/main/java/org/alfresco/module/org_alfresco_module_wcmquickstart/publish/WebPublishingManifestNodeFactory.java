@@ -223,8 +223,8 @@ public class WebPublishingManifestNodeFactory implements TransferManifestNodeFac
      * This operation provides a hook point for implementations to avoid invoking the delegated manifest node factory.
      * If it returns null then the delegated factory will be invoked, otherwise it won't and the manifest node returned
      * from here will be used in the transfer instead.
-     * @param nodeRef
-     * @return 
+     * @param nodeRef NodeRef
+     * @return TransferManifestNode
      */
     protected TransferManifestNode preProcess(NodeRef nodeRef)
     {
@@ -265,7 +265,7 @@ public class WebPublishingManifestNodeFactory implements TransferManifestNodeFac
     /**
      * Get the mapped node ref
      * 
-     * @param node
+     * @param node NodeRef
      * @return the mapped node ref or null;
      */
     public NodeRef getMappedNodeRef(NodeRef node)

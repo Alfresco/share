@@ -408,8 +408,9 @@ public class LocalWebScriptRuntimeContainer extends PresentationContainer implem
      * WebScript for different requests.</p>
      * 
      * @param webScriptId The id of the WebScript to cache the extended bundle against.
-     * @param extensionBUndle The extended bundle to cache.
+     * @param extensionBundle The extended bundle to cache.
      */
+
     public void addExtensionBundleToCache(String webScriptId, WebScriptPropertyResourceBundle extensionBundle)
     {
         RequestContext context = getRequestContext();

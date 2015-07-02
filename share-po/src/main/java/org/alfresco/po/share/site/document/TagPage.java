@@ -148,8 +148,8 @@ public class TagPage extends AbstractEditProperties
         /**
          * Enter the tag name and click to Add tag.
          *
-         * @param tagName
-         * @return
+         * @param tagName String
+         * @return HtmlPage
          */
         public HtmlPage enterTagValue(String tagName)
         {
@@ -220,7 +220,7 @@ public class TagPage extends AbstractEditProperties
         /**
          * Enter the tag name and click to Remove tag.
          *
-         * @param tagName
+         * @param tagName String
          * @return EditDocumentPropertiesPage
          */
         public EditDocumentPropertiesPage removeTagValue(String tagName)
@@ -251,7 +251,7 @@ public class TagPage extends AbstractEditProperties
         /**
          * Return  count tags in left panel
          *
-         * @return
+         * @return int
          */
         public int getAllTagsCount()
         {
@@ -262,7 +262,7 @@ public class TagPage extends AbstractEditProperties
         /**
          * Return count added to document tags
          *
-         * @return
+         * @return int
          */
         public int getAddedTagsCount()
         {
@@ -280,7 +280,7 @@ public class TagPage extends AbstractEditProperties
         /**
          * Return List of tag names in left panel
          *
-         * @return
+         * @return List<String>
          */
         public List<String> getAllTagsName()
         {
@@ -313,7 +313,7 @@ public class TagPage extends AbstractEditProperties
         /**
          * This private method is used to get the selected tag element from the list of tags on tag page.
          *
-         * @param tagName
+         * @param tagName String
          * @return WebElement
          */
         private WebElement getSelectedTagElement(String tagName)

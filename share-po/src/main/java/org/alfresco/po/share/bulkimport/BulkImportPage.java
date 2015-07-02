@@ -61,7 +61,7 @@ public class BulkImportPage extends AdvancedBulkImportPage
     /**
      * Method to set target space path field
      * 
-     * @param nodeRef
+     * @param nodeRef String
      */
     public void setNodeRefField(final String nodeRef)
     {
@@ -86,11 +86,11 @@ public class BulkImportPage extends AdvancedBulkImportPage
     /**
      * Method for bulk import creation
      * 
-     * @param importDirectory
-     * @param path
-     * @param nodeRef
-     * @param disableRules
-     * @param replaceExistingFiles
+     * @param importDirectory String
+     * @param path String
+     * @param nodeRef String
+     * @param disableRules boolean
+     * @param replaceExistingFiles boolean
      * @return StatusBulkImportPage
      */
     public StatusBulkImportPage createImport(String importDirectory, String path, String nodeRef, boolean disableRules, boolean replaceExistingFiles)

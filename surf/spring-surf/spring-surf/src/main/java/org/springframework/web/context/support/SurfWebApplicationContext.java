@@ -110,7 +110,7 @@ public class SurfWebApplicationContext extends XmlWebApplicationContext implemen
     
 
     /**
-     * @ResourceLoader
+     * ResourceLoader
      * Retrieves a resource at a given location
      * 
      * If the resource is not a classpath resource, then the search
@@ -156,7 +156,7 @@ public class SurfWebApplicationContext extends XmlWebApplicationContext implemen
     
     
     /**
-     * @ResourcePatternResolver
+     * ResourcePatternResolver
      * Resolve the given location pattern into Resource objects.
      * 
      * Resources may either be conventional servlet context resources or they may

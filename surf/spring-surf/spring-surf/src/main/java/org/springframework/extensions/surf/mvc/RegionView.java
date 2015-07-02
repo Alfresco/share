@@ -66,12 +66,11 @@ public class RegionView extends AbstractWebFrameworkView
      * within a <code>AbstractWebFrameworkViewResolver</code> and all the arguments in the constructor signature should be
      * supplied to the <code>AbstractWebFrameworkViewResolver</code> as beans via the Spring configuration.</p> 
      * 
-     * @param webFrameworkServiceRegistry
-     * @param webFrameworkConfiguration
-     * @param modelObjectService
-     * @param resourceService
-     * @param renderService
-     * @param templatesContainer
+     * @param webFrameworkConfiguration WebFrameworkConfigElement
+     * @param modelObjectService ModelObjectService
+     * @param resourceService ResourceService
+     * @param renderService RenderService
+     * @param templatesContainer TemplatesContainer
      */
     public RegionView(WebFrameworkConfigElement webFrameworkConfiguration,
                       ModelObjectService modelObjectService,
@@ -87,7 +86,7 @@ public class RegionView extends AbstractWebFrameworkView
      * argument to provide all the other Spring beans required to render the view. This means that there is no flexibility via
      * configuration to adapt different views to use different beans.</p>
      * 
-     * @param serviceRegistry
+     * @param serviceRegistry WebFrameworkServiceRegistry
      * @deprecated
      */
     public RegionView(WebFrameworkServiceRegistry serviceRegistry)

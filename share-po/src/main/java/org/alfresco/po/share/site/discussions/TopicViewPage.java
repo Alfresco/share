@@ -37,7 +37,7 @@ public class TopicViewPage extends DiscussionsPage
     /**
      * Constructor
      *
-     * @param drone
+     * @param drone WebDrone
      */
     public TopicViewPage(WebDrone drone)
     {
@@ -110,8 +110,8 @@ public class TopicViewPage extends DiscussionsPage
     /**
      * Method for creating a reply
      *
-     * @param replyText
-     * @return
+     * @param replyText String
+     * @return TopicViewPage
      */
     public TopicViewPage createReply(String replyText)
     {
@@ -152,8 +152,8 @@ public class TopicViewPage extends DiscussionsPage
     /**
      * Return information about replay with text.
      *
-     * @param title
-     * @return
+     * @param title String
+     * @return ReplyDirectoryInfo
      */
     public ReplyDirectoryInfo getReplyDirectoryInfo(final String title)
     {
@@ -178,8 +178,8 @@ public class TopicViewPage extends DiscussionsPage
     /**
      * Method to edit a reply
      *
-     * @param title
-     * @param replyText
+     * @param title String
+     * @param replyText String
      * @return Topic View Page
      */
     public TopicViewPage editReply(String title, String replyText)
@@ -282,7 +282,7 @@ public class TopicViewPage extends DiscussionsPage
     /**
      * click on topic tag
      *
-     * @param tagName
+     * @param tagName String
      * @return discussionsPage
      */
     public DiscussionsPage clickOnTag(String tagName)
@@ -294,8 +294,8 @@ public class TopicViewPage extends DiscussionsPage
     /**
      * Return true if this topic has reply with text
      *
-     * @param replyText
-     * @return
+     * @param replyText String
+     * @return boolean
      */
     public boolean isReplyDisplay(String replyText)
     {

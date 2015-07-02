@@ -42,12 +42,10 @@ public abstract class HeaderHelper
     /**
      * This base implementation simply returns true to indicate that the request should be re-rendered.
      * Override in a subclass as necessary
-     * @param asset
-     * @param request
-     * @param response
+     * @param asset Asset
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
      * @return boolean true if browser has old copy and so content should be rendered
-     * @throws IOException 
-     * @throws ParseException 
      */
     public boolean setHeaders(Asset asset, HttpServletRequest request, HttpServletResponse response) 
     {
@@ -57,9 +55,10 @@ public abstract class HeaderHelper
     /**
      * This base implementation simply returns true to indicate that the request should be re-rendered.
      * Override in a subclass as necessary
-     * @param asset
-     * @param request
-     * @param response
+     * @param asset Asset
+     * @param attach boolean
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
      * @return boolean true if browser has old copy and so content should be rendered
      */
     public boolean setHeaders(Asset asset, boolean attach, HttpServletRequest request, HttpServletResponse response) 
@@ -79,7 +78,7 @@ public abstract class HeaderHelper
     
     /**
      * Get a date formatter for the thread as SimpleDateFormat is not thread-safe
-     * @return
+     * @return SimpleDateFormat
      */
     public final SimpleDateFormat dateFormatter() 
     {

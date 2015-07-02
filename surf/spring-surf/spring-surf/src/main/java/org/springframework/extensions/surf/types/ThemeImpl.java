@@ -47,7 +47,7 @@ public class ThemeImpl extends AbstractModelObject implements Theme
     private Map<String, String> cssTokens = new HashMap<String, String>();
     
     /**
-     * @returns A {@link Map} of CSS tokens to substitution values. These are used when processing
+     * @return A {@link Map} of CSS tokens to substitution values. These are used when processing
      * CSS source files so that a common CSS file can be modified per theme.
      */
     public Map<String, String> getCssTokens()

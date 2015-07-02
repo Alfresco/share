@@ -104,7 +104,7 @@ public class AdminConsolePage extends SharePage implements HtmlPage
     /**
      * Select theme and apply selected one
      * 
-     * @param theme
+     * @param theme ThemeType
      * @return {@link AdminConsolePage}
      */
     public AdminConsolePage selectTheme(ThemeType theme) throws TimeoutException, InterruptedException
@@ -128,7 +128,7 @@ public class AdminConsolePage extends SharePage implements HtmlPage
      * Select that theme was applied
      * Verify Admin Console Page, Application option is selected
      * 
-     * @param theme
+     * @param theme ThemeType
      * @return boolean
      */
     public boolean isThemeSelected(ThemeType theme)
@@ -152,7 +152,7 @@ public class AdminConsolePage extends SharePage implements HtmlPage
      * Upload new logo picture
      * admin user is logged in, Application option is selected
      * 
-     * @param filePath
+     * @param filePath String
      * @return {@link AdminConsolePage}
      */
     public AdminConsolePage uploadPicture(String filePath)

@@ -40,8 +40,7 @@ import org.springframework.extensions.surf.exception.ModelObjectPersisterExcepti
  * databases or Alfresco content models directly.
  * 
  * @see StoreObjectPersister
- * @see CachedStoreObjectPersister
- * 
+ *
  * @author muzquiano
  * @author kevinr
  */

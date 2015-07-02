@@ -49,9 +49,9 @@ public final class ScriptResourceContent extends ScriptBase
     /**
      * Constructor
      * 
-     * @param context
-     * @param resource
-     * @param resourceContent
+     * @param context RequestContext
+     * @param resource ScriptResource
+     * @param resourceContent ResourceContent
      */
     public ScriptResourceContent(RequestContext context, ScriptResource resource, ResourceContent resourceContent)
     {

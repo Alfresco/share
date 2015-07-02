@@ -93,7 +93,7 @@ public class MyProfilePage extends SharePage
     /**
      * Method to get element text for Username
      *
-     * @return
+     * @return String
      */
     public String getUserName()
     {
@@ -103,7 +103,7 @@ public class MyProfilePage extends SharePage
     /**
      * Method to get element text for email.
      *
-     * @return
+     * @return String
      */
     public String getEmailName()
     {

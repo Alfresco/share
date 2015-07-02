@@ -118,7 +118,6 @@ public final class ScriptLinkBuilder extends ScriptBase
      * Constructs a link to a given page type.
      * This will automatically use the default format.
      * 
-     * @param context The Request Context instance
      * @param pageTypeId The type of the page
      */
     public String pageType(String pageTypeId)
@@ -206,8 +205,7 @@ public final class ScriptLinkBuilder extends ScriptBase
     /**
      * Constructs a link to a resources at a given relative uri.
      * 
-     * @param context
-     * @param uri
+     * @param uri String
      * 
      * @return the 
      */

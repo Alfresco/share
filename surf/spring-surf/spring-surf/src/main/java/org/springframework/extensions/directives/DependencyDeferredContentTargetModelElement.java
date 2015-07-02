@@ -167,15 +167,15 @@ public abstract class DependencyDeferredContentTargetModelElement extends Defaul
     
     /**
      * <p>This method must be implemented to return the mapping to the resource controller, e.g. "/share/res/"</p>
-     * @return
+     * @return String
      */
     protected abstract String getResourceControllerMapping();
     
     /**
      * <p>This method can be used to normalise supplied dependencies such that they are all referenced from the
      * same location and that there are no duplicate forward slashes.</p>
-     * @param dependency
-     * @return
+     * @param dependency String
+     * @return String
      */
     protected String normaliseDependency(String dependency) {
         // Normalise the path...

@@ -147,7 +147,7 @@ public class CloudSyncPage extends SharePage
     /**
      * This method tries to connect to cloud account. Else throws {@link PageException} if already connected.
      * 
-     * @return
+     * @return CloudSignInPage
      */
     public CloudSignInPage selectCloudSign()
     {
@@ -170,7 +170,7 @@ public class CloudSyncPage extends SharePage
     /**
      * This method tries to disconnect to cloud account. Else throws {@link PageException} if already disconnected.
      * 
-     * @return
+     * @return CloudSyncPage
      */
     public CloudSyncPage disconnectCloudAccount()
     {

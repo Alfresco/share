@@ -56,7 +56,7 @@ public abstract class BaseFactoryBean
     /**
      * <p>This constructor has been deprecated as it relies on the <code>WebFrameworkServiceRegistry</code> argument
      * to access all the required Spring beans rather than using a properly configured Spring application context.</p>
-     * @param serviceRegistry
+     * @param serviceRegistry WebFrameworkServiceRegistry
      * @deprecated
      */
     public BaseFactoryBean(WebFrameworkServiceRegistry serviceRegistry)
@@ -72,9 +72,9 @@ public abstract class BaseFactoryBean
      * required Spring beans directly rather than relying on them being obtained from the <code>WebFrameworkServiceRegistry</code>
      * supplied to the deprecated constructor.</p>
      * 
-     * @param webFrameworkConfigElement
-     * @param modelObjectService
-     * @param resourceService
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
+     * @param modelObjectService ModelObjectService
+     * @param resourceService ResourceService
      */
     public BaseFactoryBean(WebFrameworkConfigElement webFrameworkConfigElement,
                            ModelObjectService modelObjectService,

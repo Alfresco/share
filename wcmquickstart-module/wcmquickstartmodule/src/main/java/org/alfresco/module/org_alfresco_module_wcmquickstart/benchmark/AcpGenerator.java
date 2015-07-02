@@ -70,8 +70,8 @@ public class AcpGenerator
     }
 
     /**
-     * @param destination
-     * @return
+     * @param destination String
+     * @return File
      * @throws IOException
      */
     private File getOutputFile(String destination) throws IOException

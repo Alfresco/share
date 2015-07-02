@@ -200,10 +200,10 @@ public class AlfrescoUserFactory extends AbstractUserFactory
     /**
      * <p>Build the REST URl to use to retrieve the metadata for the supplied user</p>
      * 
-     * @param context
-     * @param userId
-     * @param endpointId
-     * @return
+     * @param context RequestContext
+     * @param userId String
+     * @param endpointId String
+     * @return String
      */
     protected String buildUserMetadataRestUrl(RequestContext context, String userId, String endpointId)
     {

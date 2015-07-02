@@ -82,7 +82,7 @@ public class DojoDependencyRule
     /**
      * Gets the token map for replacing tokens in dependencies.
      * 
-     * @return
+     * @return Map
      */
     public Map<Pattern, String> getTokens()
     {
@@ -93,7 +93,7 @@ public class DojoDependencyRule
      * Replaces any tokens in the supplied input String. This currently isn't used by any of the default
      * Surf dependency rules but has been left for extensions to make use of.
      * 
-     * @param input
+     * @param input String
      * @return The input String with tokens replaced.
      */
     protected String replaceTokens(String input)
@@ -121,10 +121,8 @@ public class DojoDependencyRule
      * <p>This method processes the regular expression that has been defined to detect a group of dependencies.</p>
      * 
      * @param filePath The path of the dependency that has been requested.
-     * @param currentFileContents The current modified file contents
-     * @param declarationRegexPattern The regular expression that identifies the overall dependency statement
-     * @param targetGroup The group within the declarationRegex that identifies the list of dependencies
-     * @param dependencyRegexPattern The regular expression that identifies each dependency within the list of dependencies
+     * @param fileContents The current modified file contents
+     * @param dependencies DojoDependencies
      */
     protected void processRegexRules(String filePath,
                                      String fileContents,

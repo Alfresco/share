@@ -15,7 +15,6 @@ public interface Dashboard
      * 
      * @param name String title of dashlet
      * @return HtmlPage page object
-     * @throws Exception
      */
     Dashlet getDashlet(final String name);
 }

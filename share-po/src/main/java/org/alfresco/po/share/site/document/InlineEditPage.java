@@ -120,7 +120,7 @@ public class InlineEditPage extends SitePage
     /**
      * Get TinyMCEEditor object to navigate TinyMCE functions.
      * 
-     * @return
+     * @return AdvancedTinyMceEditor
      */
     public AdvancedTinyMceEditor getContentTinyMCEEditor()
     {
@@ -131,7 +131,7 @@ public class InlineEditPage extends SitePage
     /**
      * Method for inserting text into the Reply form
      * 
-     * @param txtLines
+     * @param txtLines String
      */
     public void insertTextInContent(String txtLines)
     {

@@ -114,7 +114,7 @@ public class AssetDeserializerXmlImpl extends DefaultHandler implements Webscrip
      * Retrieve the list of assets that were deserialized. Never null, may be empty.
      * Note that concrete collection classes used in the return value to guarantee they're
      * serializable.
-     * @return
+     * @return LinkedList
      */
     public LinkedList<TreeMap<String, Serializable>> getAssets()
     {
@@ -125,7 +125,7 @@ public class AssetDeserializerXmlImpl extends DefaultHandler implements Webscrip
      * Retrieve any properties that were deserialized from the header of the response. Never null, may be empty.
      * Note that the concrete collection class used in the return value is to guarantee that it's
      * serializable.
-     * @return
+     * @return TreeMap
      */
     public TreeMap<String, Serializable> getHeader()
     {

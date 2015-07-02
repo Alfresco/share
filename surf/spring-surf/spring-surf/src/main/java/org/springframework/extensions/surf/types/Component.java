@@ -129,7 +129,7 @@ public interface Component extends ModelObject, Comparable<Component>, SurfBugDa
     
     /**
      * Gets the URI
-     * @return
+     * @return String
      */
     public String getURI();
     
@@ -173,14 +173,13 @@ public interface Component extends ModelObject, Comparable<Component>, SurfBugDa
     /**
      * Gets the index of the component. This is only used for ordering components when they are part of
      * a component group and does not have any affect when a component is bound directly to a region.
-     * @return
+     * @return String
      */
     public String getIndex();
 
     /**
      * Sets the index of the component. This is only used for ordering components when they are part of
      * a component group and does not have any affect when a component is bound directly to a region.
-     * @return
      */
     public void setIndex(String index);
     

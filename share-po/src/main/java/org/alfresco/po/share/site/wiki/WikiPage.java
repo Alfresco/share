@@ -154,7 +154,7 @@ public class WikiPage extends SitePage
     /**
      * Check if wiki page is displayed or not.
      *
-     * @return
+     * @return boolean
      */
     public boolean isWikiPageDisplayed()
     {
@@ -182,7 +182,7 @@ public class WikiPage extends SitePage
     /**
      * Check content tool bar is displayed.
      *
-     * @return
+     * @return boolean
      */
     public boolean isTinyMCEDisplayed()
     {
@@ -216,7 +216,7 @@ public class WikiPage extends SitePage
     /**
      * Create wiki page title.
      *
-     * @param wikiTitle
+     * @param wikiTitle String
      */
     public void createWikiPageTitle(String wikiTitle)
     {
@@ -233,7 +233,7 @@ public class WikiPage extends SitePage
     /**
      * Insert text in wiki text area.
      *
-     * @param txtLines
+     * @param txtLines List<String>
      */
     public void insertText(List<String> txtLines)
     {
@@ -379,8 +379,8 @@ public class WikiPage extends SitePage
     /**
      * Retrieve formatted wiki text.
      *
-     * @param type
-     * @return
+     * @param type String
+     * @return String
      */
     public String retrieveWikiText(String type)
     {
@@ -401,7 +401,7 @@ public class WikiPage extends SitePage
     /**
      * Check for image library is displayed.
      *
-     * @return
+     * @return boolean
      */
     public boolean isImageLibraryDisplayed()
     {
@@ -492,7 +492,7 @@ public class WikiPage extends SitePage
     /**
      * Check if image is rendered in wiki text area.
      *
-     * @return
+     * @return int
      */
     public int imageCount(Mode mode)
     {
@@ -539,8 +539,8 @@ public class WikiPage extends SitePage
     }
 
     /**
-     * @param type
-     * @return
+     * @param type String
+     * @return By
      */
     private By getCSSToRetrieveText(String type)
     {
@@ -572,7 +572,7 @@ public class WikiPage extends SitePage
     /**
      * Get TinyMCEEditor object to navigate TinyMCE functions.
      *
-     * @return
+     * @return TinyMceEditor
      */
     public TinyMceEditor getTinyMCEEditor()
     {
@@ -623,7 +623,7 @@ public class WikiPage extends SitePage
     /**
      * Edit Wiki Page.
      *
-     * @return
+     * @return WikiPage
      */
     public WikiPage editWikiPage()
     {
@@ -640,8 +640,8 @@ public class WikiPage extends SitePage
     }
 
     /**
-     * @param type
-     * @return
+     * @param type String
+     * @return String
      */
     public String verifyEditText(String type)
     {
@@ -660,8 +660,8 @@ public class WikiPage extends SitePage
     }
 
     /**
-     * @param type
-     * @return
+     * @param type FONT_ATTR
+     * @return String
      */
     public String getFontAttributeValue(FONT_ATTR type)
     {
@@ -683,8 +683,8 @@ public class WikiPage extends SitePage
     /**
      * Method to create a wiki page
      *
-     * @param wikiTitle
-     * @param txtLines
+     * @param wikiTitle String
+     * @param txtLines List<String>
      * @return WikiPage object
      */
 
@@ -710,9 +710,9 @@ public class WikiPage extends SitePage
     /**
      * Method to create a wiki page with tags
      *
-     * @param wikiTitle
-     * @param txtLines
-     * @param tagsList
+     * @param wikiTitle String
+     * @param txtLines List<String>
+     * @param tagsList List<String>
      * @return WikiPage object
      */
     public WikiPage createWikiPage(String wikiTitle, List<String> txtLines, List<String> tagsList)
@@ -737,7 +737,7 @@ public class WikiPage extends SitePage
     /**
      * Edit Wiki Page.
      *
-     * @return
+     * @return WikiPage
      */
     public WikiPage editWikiPage(String txtLines, List<String> tagsList)
     {
@@ -759,7 +759,7 @@ public class WikiPage extends SitePage
     /**
      * Method to add tags to the new wiki page
      *
-     * @param tagsList
+     * @param tagsList List<String>
      * @return WikiPage object
      */
     public WikiPage addTag(List<String> tagsList)
@@ -859,8 +859,8 @@ public class WikiPage extends SitePage
     /**
      * Method to rename Wiki Page
      *
-     * @param newTitle
-     * @return
+     * @param newTitle String
+     * @return WikiPage
      */
     public WikiPage renameWikiPage(String newTitle)
     {
@@ -903,7 +903,7 @@ public class WikiPage extends SitePage
     /**
      * Method to revert to version provided
      *
-     * @param versionNum
+     * @param versionNum Double
      * @return WikiPage
      */
     public WikiPage revertToVersion(Double versionNum)
@@ -976,7 +976,7 @@ public class WikiPage extends SitePage
     /**
      * Method to edit a wiki text
      *
-     * @param txtLines
+     * @param txtLines String
      */
     public void editWikiText(String txtLines)
     {
@@ -1028,7 +1028,7 @@ public class WikiPage extends SitePage
     /**
      * Method to check whether Rename button is displayed
      *
-     * @return
+     * @return boolean
      */
     public boolean isRenameEnabled()
     {
@@ -1073,7 +1073,7 @@ public class WikiPage extends SitePage
     /**
      * Method to view the given version of wiki page
      *
-     * @param versionNum
+     * @param versionNum HtmlPage
      */
     public HtmlPage viewVersion(Double versionNum)
     {
@@ -1121,8 +1121,8 @@ public class WikiPage extends SitePage
     /**
      * Method to view Rss Feed for wiki pages
      *
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      * @return RssFeedPage
      */
     public RssFeedPage clickRssFeedBtn(String username, String password)
@@ -1174,8 +1174,8 @@ public class WikiPage extends SitePage
     /**
      * Method to verify whether wiki details page has all necessary elements present
      *
-     * @param wikiTitle
-     * @param wikiText
+     * @param wikiTitle String
+     * @param wikiText String
      * @return boolean
      */
     public boolean isWikiDetailsCorrect(String wikiTitle, String wikiText)

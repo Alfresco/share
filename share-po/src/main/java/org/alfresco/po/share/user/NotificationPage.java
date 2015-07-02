@@ -78,7 +78,7 @@ public class NotificationPage extends SharePage
     /**
      * Get the navigation bar.
      * 
-     * @return
+     * @return ProfileNavigation
      */
     public ProfileNavigation getProfileNav()
     {
@@ -130,7 +130,7 @@ public class NotificationPage extends SharePage
     /**
      * Returns <code>true</true> if the Notification Feed checkbox is checked.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isNotificationFeedChecked()
     {

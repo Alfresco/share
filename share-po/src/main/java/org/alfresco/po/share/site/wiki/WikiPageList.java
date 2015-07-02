@@ -103,9 +103,9 @@ public class WikiPageList extends WikiPage
 
     /**
      * Method to edit a wiki page based on title provided
-     * @param title
-     * @param txtLines
-     * @return
+     * @param title String
+     * @param txtLines String
+     * @return WikiPage
      */
     public WikiPage editWikiPage (String title, String txtLines)
     {
@@ -118,8 +118,8 @@ public class WikiPageList extends WikiPage
     /**
      * Method to rename a wiki page
      *
-     * @param wikiOldTitle
-     * @param wikiNewTitle
+     * @param wikiOldTitle String
+     * @param wikiNewTitle String
      * @return WikiPage object
      */
     public WikiPage renameWikiPage (String wikiOldTitle, String wikiNewTitle)
@@ -151,8 +151,8 @@ public class WikiPageList extends WikiPage
 
     /**
      * Method to delete a wiki with confirmation
-     * @param title
-     * @return
+     * @param title String
+     * @return WikiPageList
      */
     public WikiPageList deleteWikiWithConfirm(String title)
     {
@@ -177,8 +177,8 @@ public class WikiPageList extends WikiPage
     /**
      * Method to verify whether wiki page is available in the list (if title contains "_" it will be replaced for space)
      *
-     * @param title
-     * @return
+     * @param title String
+     * @return boolean
      */
     public boolean isWikiPagePresent(String title)
     {
@@ -205,8 +205,8 @@ public class WikiPageList extends WikiPage
     /**
      * Method to verify whether item is available (if title contains "_" it will be replaced for space)
      *
-     * @param title
-     * @return
+     * @param title String
+     * @return String
      */
     public String getWikiPageTextFromPageList(String title)
     {
@@ -236,8 +236,8 @@ public class WikiPageList extends WikiPage
     /**
      * Method click on wiki page title (if title contains "_" it will be replaced for space)
      * 
-     * @param title
-     * @return
+     * @param title String
+     * @return WikiPage
      */
     public WikiPage clickWikiPage(String title)
     {
@@ -267,8 +267,8 @@ public class WikiPageList extends WikiPage
     /**
      * Method click on wiki page details action (if title contains "_" it will be replaced for space)
      *
-     * @param title
-     * @return
+     * @param title String
+     * @return WikiPage
      */
     public WikiPage clickWikiPageDetails(String title)
     {
@@ -298,9 +298,9 @@ public class WikiPageList extends WikiPage
 
     /**
      * Method to remove tags for wiki page
-     * @param title
-     * @param tags
-     * @return
+     * @param title String
+     * @param tags String[]
+     * @return WikiPage
      */
     public WikiPage removeTag (String title, final String[] tags)
     {
@@ -338,9 +338,9 @@ public class WikiPageList extends WikiPage
      * Method to check tags for wiki page
      * if param tag is null will be return true if 'Tags: (None)'
      * 
-     * @param title
-     * @param tag
-     * @return
+     * @param title String
+     * @param tag String
+     * @return boolean
      */
     public boolean checkTags(String title, String tag)
     {

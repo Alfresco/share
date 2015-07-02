@@ -29,7 +29,7 @@ public interface DirectiveFactory
     /**
      * <p>The {@link MessagesWebScript} is required for setting up i18n messages so will be needed by the <code>createMessagesDependencyDirective</code>
      * method. It should be set through Spring bean configuration so that it can easily be reconfigured without changing the Surf source code.</p>
-     * @return
+     * @return MessagesWebScript
      */
     public MessagesWebScript getMessagesWebScript();
     
@@ -44,7 +44,7 @@ public interface DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return JavaScriptDependencyDirective
      */
     public JavaScriptDependencyDirective createJavaScriptDependencyDirective(String directiveName,
                                                                              ModelObject object,
@@ -56,7 +56,7 @@ public interface DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return CssDependencyDirective
      */
     public CssDependencyDirective createCssDependencyDirective(String directiveName,
                                                                ModelObject object,
@@ -68,7 +68,7 @@ public interface DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return ChecksumResourceDirective
      */
     public ChecksumResourceDirective createChecksumResourceDirective(String directiveName,
                                                                      ModelObject object,
@@ -80,7 +80,7 @@ public interface DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return AddInlineJavaScriptDirective
      */
     public AddInlineJavaScriptDirective createAddInlineJavaScriptDirective(String directiveName,
                                                                            ModelObject object,
@@ -92,7 +92,7 @@ public interface DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return CreateWebScriptWidgetsDirective
      */
     public CreateWebScriptWidgetsDirective createCreateWebScriptsDirective(String directiveName,
                                                                            ModelObject object,
@@ -104,7 +104,7 @@ public interface DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return OutputCSSDirective
      */
     public OutputCSSDirective createOutputCssDirective(String directiveName,
                                                        ModelObject object,
@@ -116,7 +116,7 @@ public interface DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return OutputJavaScriptDirective
      */
     public OutputJavaScriptDirective createOutputJavaScriptDirective(String directiveName,
                                                                      ModelObject object,
@@ -129,7 +129,7 @@ public interface DirectiveFactory
      * @param object The current {@link ModelObject} being processed.
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return RelocateJavaScriptOutputDirective
      */
     public RelocateJavaScriptOutputDirective createRelocateJavaScriptDirective(String directiveName,
                                                                                ModelObject object,
@@ -141,7 +141,7 @@ public interface DirectiveFactory
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param webFrameworkConfigElement The {@link WebFrameworkConfigElement} for the application.
      * @param context The current {@link RequestContext}
-     * @return
+     * @return ChromeDetectionDirective
      */
     public ChromeDetectionDirective createChromeDetectionDirective(String directiveName,
                                                                    ExtensibilityModel extensibilityModel,
@@ -156,18 +156,18 @@ public interface DirectiveFactory
     /**
      * <p>Creates a new {@link CreateComponentDirective}.</p>
      * @param directiveName The name of the directive
-     * @return
+     * @return CreateComponentDirective
      */
     public CreateComponentDirective createCreateComponentDirective(String directiveName);
     
     /**
      * <p>Creates a new {@link ProcessJsonModelDirective}.</p>
      * @param directiveName The name of the directive
+     * @param object ModelObject
      * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
      * @param webFrameworkConfig TODO
-     * @param webFrameworkConfigElement The {@link WebFrameworkConfigElement} for the application.
-     * @return
+     * @return ProcessJsonModelDirective
      */
     public ProcessJsonModelDirective createProcessJsonModelDirective(String directiveName,
                                                                      ModelObject object,
@@ -178,11 +178,9 @@ public interface DirectiveFactory
     /**
      * <p>Creates a new {@link AutoComponentRegionDirective}.</p>
      * @param directiveName The name of the directive
-     * @param extensibilityModel The current {@link ExtensibilityModel} being worked on.
      * @param context The current {@link RequestContext}
-     * @param webFrameworkConfig TODO
-     * @param webFrameworkConfigElement The {@link WebFrameworkConfigElement} for the application.
-     * @return
+     * @param renderService RenderService
+     * @return AutoComponentRegionDirective
      */
     public AutoComponentRegionDirective createAutoComponentRegionDirective(String directiveName,
                                                                            RequestContext context, 

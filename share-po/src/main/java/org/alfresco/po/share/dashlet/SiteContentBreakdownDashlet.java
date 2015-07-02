@@ -46,7 +46,7 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
     /**
      * Constructor
      * 
-     * @param drone
+     * @param drone WebDrone
      */
     protected SiteContentBreakdownDashlet(WebDrone drone)
     {
@@ -75,7 +75,7 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
 
     /**
      * Gets the list of files data appearing in tooltips (file type-count) 
-     * @return
+     * @return List<String>
      */
     public List<String> getTooltipFileData()throws Exception
     {
@@ -99,7 +99,7 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
     
     /**
      * Gets the list of file types data appearing in tooltips  
-     * @return
+     * @return List<String>
      */
     public List<String> getTooltipFileTypes() throws Exception
     {
@@ -118,7 +118,7 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
     /**
      * Gets the list of pie chart slices elements
      * 
-     * @return
+     * @return List<WebElement>
      */
     private List<WebElement> getPieChartSlices()
     {

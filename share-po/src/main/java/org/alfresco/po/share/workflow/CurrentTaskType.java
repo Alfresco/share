@@ -49,7 +49,7 @@ public enum CurrentTaskType
     /**
      * Returns {@link CurrentTaskType} based on given value.
      * 
-     * @param value
+     * @param value String
      * @return {@link CurrentTaskType}
      */
     public static CurrentTaskType getCurrentTaskType(String value)

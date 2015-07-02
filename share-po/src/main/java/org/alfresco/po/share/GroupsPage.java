@@ -86,7 +86,7 @@ public class GroupsPage extends SharePage
     }
 
     /**
-     * @return
+     * @return GroupsPage
      */
     public GroupsPage clickBrowse()
     {
@@ -96,7 +96,7 @@ public class GroupsPage extends SharePage
     }
 
     /**
-     * @return
+     * @return NewGroupPage
      */
     public NewGroupPage navigateToNewGroupPage()
     {
@@ -114,7 +114,7 @@ public class GroupsPage extends SharePage
     /**
      * Get list of available groups.
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getGroupList()
     {
@@ -599,7 +599,7 @@ public class GroupsPage extends SharePage
     /**
      * Get list of added users
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getUserList()
     {
@@ -615,7 +615,7 @@ public class GroupsPage extends SharePage
     /**
      * Click on Edit icon on list of groups in group page
      * 
-     * @param groupName
+     * @param groupName String
      * @return EditGroupPage
      */
     public EditGroupPage selectEditGroup(String groupName)
@@ -644,7 +644,7 @@ public class GroupsPage extends SharePage
     /**
      * Click on Delete icon on list of groups in group page
      * 
-     * @param groupName
+     * @param groupName String
      */
     public DeleteGroupFromGroupPage deleteGroup(String groupName)
     {

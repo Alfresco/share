@@ -77,7 +77,7 @@ public class SiteResultsPage extends SearchResultsPage
     /**
      * Method to verify if 'Back to..Site' link is displayed
      *
-     * @param siteName
+     * @param siteName String
      * @return true if displayed
      */
     public boolean isBackToSiteDisplayed(String siteName)

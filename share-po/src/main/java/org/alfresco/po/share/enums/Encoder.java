@@ -28,7 +28,7 @@ public enum Encoder
     /**
      * Gets appropriate Encoder type.
      * 
-     * @param name
+     * @param name String
      * @return {@link Encoder}
      */
     public static Encoder getEncoder(String name)

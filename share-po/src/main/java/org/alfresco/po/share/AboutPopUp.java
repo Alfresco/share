@@ -46,7 +46,7 @@ public class AboutPopUp extends HtmlElement
     /**
      * Return About Logo Url
      *
-     * @return
+     * @return String
      */
     public String getLogoUrl()
     {

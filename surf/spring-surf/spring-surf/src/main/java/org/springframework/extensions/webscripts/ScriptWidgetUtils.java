@@ -38,12 +38,12 @@ public class ScriptWidgetUtils extends ScriptBase
     /**
      * This method performs recursive searching through the supplied object.
      * 
-     * @param o
-     * @param targetAttributeKey
-     * @param targetAttributeValue
-     * @param delete
-     * @param results
-     * @return
+     * @param o Object
+     * @param targetAttributeKey String
+     * @param targetAttributeValue String
+     * @param delete boolean
+     * @param results RecursionResults
+     * @return ScriptableObject
      */
     public static ScriptableObject findObject(Object o, 
                                               String targetAttributeKey, 
@@ -135,10 +135,10 @@ public class ScriptWidgetUtils extends ScriptBase
      * object matching this criteria will be deleted - any other occurrences will remain. This method is intended for use
      * in deleting widget definitions from the JSON model that will be processed by the {@link ProcessJsonModelDirective}. 
      * 
-     * @param o
-     * @param targetAttributeKey
-     * @param targetAttributeValue
-     * @return
+     * @param o Object
+     * @param targetAttributeKey String
+     * @param targetAttributeValue String
+     * @return boolean
      */
     public static boolean deleteObjectFromArray(Object o, String targetAttributeKey, String targetAttributeValue)
     {

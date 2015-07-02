@@ -47,7 +47,7 @@ public abstract class AbstractTopicForm extends SharePage
     /**
      * Check if topic form is displayed or not.
      *
-     * @return
+     * @return boolean
      */
     protected boolean isTopicFormDisplayed()
     {
@@ -112,8 +112,8 @@ public abstract class AbstractTopicForm extends SharePage
     /**
      * Method to set String input in the field
      *
-     * @param input
-     * @param value
+     * @param input WebElement
+     * @param value String
      */
 
     private void setInput(final WebElement input, final String value)
@@ -132,7 +132,7 @@ public abstract class AbstractTopicForm extends SharePage
     /**
      * Method to click on any element by its locator
      *
-     * @param locator
+     * @param locator By
      */
     protected void click(By locator)
     {
@@ -143,7 +143,7 @@ public abstract class AbstractTopicForm extends SharePage
     /**
      * Method to check if the element is displayed
      *
-     * @param locator
+     * @param locator By
      * @return boolean
      */
 
@@ -163,7 +163,7 @@ public abstract class AbstractTopicForm extends SharePage
     /**
      * Method to set Title field
      *
-     * @param title
+     * @param title String
      */
     public void setTitleField(final String title)
     {
@@ -173,7 +173,7 @@ public abstract class AbstractTopicForm extends SharePage
     /**
      * Insert text in topic text area.
      *
-     * @param txtLines
+     * @param txtLines String
      */
     public void insertText(String txtLines)
     {
@@ -207,7 +207,7 @@ public abstract class AbstractTopicForm extends SharePage
     /**
      * Method to add tag
      *
-     * @param tag
+     * @param tag String
      */
     protected void addTag(final String tag)
     {
@@ -228,7 +228,7 @@ public abstract class AbstractTopicForm extends SharePage
      * Method for removing tag
      * method validate by DiscussionsPageTest.removeTags
      *
-     * @param tag
+     * @param tag String
      */
     protected void removeTag(String tag)
     {

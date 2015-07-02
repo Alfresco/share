@@ -69,8 +69,6 @@ public final class ScriptForm extends ScriptBase
      * 
      * @param title the title
      * @param value the value
-     * 
-     * @return the object
      */
     public void bind(String title, Object value)
     {
@@ -80,7 +78,7 @@ public final class ScriptForm extends ScriptBase
     /**
      * Binds an element to this form.
      * 
-     * @param title the title
+     * @param id the id
      * @param value the value
      * @param nullValue the null value
      * 

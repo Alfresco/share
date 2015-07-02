@@ -100,9 +100,9 @@ public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
      * 
      * Uploads files to site's document library
      * 
-     * @param docPage
-     * @param numberofFiles
-     * @param extension
+     * @param docPage DocumentLibraryPage
+     * @param numberofFiles int
+     * @param extension String
      * @throws IOException
      */
     private void uploadFiles(DocumentLibraryPage docPage, int numberofFiles, String extension) throws IOException

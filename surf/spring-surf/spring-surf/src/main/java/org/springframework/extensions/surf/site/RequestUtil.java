@@ -43,10 +43,11 @@ public class RequestUtil
      * With this method, all dispatch path referencing is relative 
      * to the request.
      * 
-     * @param request
-     * @param response
-     * @param dispatchPath
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param dispatchPath String
      * @throws ServletException
+     * @throws IOException
      */
     public static void include(HttpServletRequest request,
             HttpServletResponse response, String dispatchPath)
@@ -62,11 +63,14 @@ public class RequestUtil
      * With this method, all dispatch path referencing is relative 
      * to the servlet context.
      * 
-     * @param request
-     * @param response
-     * @param dispatchPath
+     * @param context ServletContext
+     * @param request ServletContext
+     * @param response ServletRequest
+     * @param dispatchPath String
+     *
      * @throws ServletException
-     */    
+     * @throws IOException
+     */
     public static void include(ServletContext context, ServletRequest request,
             ServletResponse response, String dispatchPath)
             throws ServletException, IOException
@@ -82,9 +86,9 @@ public class RequestUtil
      * With this method, all dispatch path referencing is relative 
      * to the request.
      * 
-     * @param request
-     * @param response
-     * @param dispatchPath
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param dispatchPath String
      * @throws ServletException
      */    
     public static void forward(HttpServletRequest request,
@@ -108,9 +112,10 @@ public class RequestUtil
      * With this method, all dispatch path referencing is relative 
      * to the servlet context.
      * 
-     * @param request
-     * @param response
-     * @param dispatchPath
+     * @param context ServletContext
+     * @param request ServletRequest
+     * @param response ServletResponse
+     * @param dispatchPath String
      * @throws ServletException
      */    
     public static void forward(ServletContext context, ServletRequest request,

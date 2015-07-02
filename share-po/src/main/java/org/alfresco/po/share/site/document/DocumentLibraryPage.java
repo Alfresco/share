@@ -614,7 +614,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Selects an entry regardless of type (file or folder)
      *
-     * @return
+     * @return WebElement
      */
     protected WebElement selectEntry(final String title)
     {
@@ -844,11 +844,11 @@ public class DocumentLibraryPage extends SitePage
 
     /**
      * This method does the clicking on given tag name, which presents under the Tags Tree menu on Document Library page.
+     * <br>depricated Use {@link TreeMenuNavigation#selectTagNode(String)} instead.
      *
-     * @param tagName
+     * @param tagName String
      * @return {@link DocumentLibraryPage}
-     * 
-     * @depricated Use {@link TreeMenuNavigation#selectTagNode(String)} instead.
+     *
      */
     @Deprecated
     public HtmlPage clickOnTagNameUnderTagsTreeMenuOnDocumentLibrary(String tagName)
@@ -990,7 +990,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Check the uploaded content has uploaded successfully
      *
-     * @param - String
+     * @param contentName String
      * @return - Boolean
      * @deprecated as of 2.1, use isItemVisble to determine if file exists
      */
@@ -1100,8 +1100,8 @@ public class DocumentLibraryPage extends SitePage
     }
 
     /**
-     * @param optype
-     * @return
+     * @param optype Optype
+     * @return boolean
      */
     public boolean isMessagePresent(Optype optype)
     {
@@ -1171,11 +1171,11 @@ public class DocumentLibraryPage extends SitePage
 
     /**
      * This method returns the count for the given tag string.
+     * <br>depricated Use {@link TreeMenuNavigation#getTagCount(String)}
      *
-     * @param tagName
+     * @param tagName String
      * @return int
-     * 
-     * @depricated Use {@link TreeMenuNavigation#getTagCount(String)} 
+     *
      */
     @Deprecated
     public int getTagsCountUnderTagsTreeMenu(String tagName)
@@ -1295,7 +1295,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Click on "My Favourites" it will take you to document library/Repository page.
      *
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage clickOnMyFavourites()
     {
@@ -1323,7 +1323,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Click on "Recently Modified" it will take you to document library/Repository page.
      *
-     * @return
+     * @return DocumentLibraryPage
      */
     public DocumentLibraryPage clickOnRecentlyModified()
     {
@@ -1351,7 +1351,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Click on "Recently Added" it will take you to document library/Repository page.
      *
-     * @return
+     * @return DocumentLibraryPage
      */
     public DocumentLibraryPage clickOnRecentlyAdded()
     {
@@ -1402,7 +1402,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Returned Object mimic all action with Pagination.
      *
-     * @return
+     * @return PaginationForm
      */
     public PaginationForm getBottomPaginationForm()
     {
@@ -1419,8 +1419,8 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Click on Category link in left tree menu.
      *
-     * @param categoryName
-     * @return
+     * @param categoryName Categories
+     * @return PaginationForm
      */
     public DocumentLibraryPage clickOnCategory(Categories categoryName)
     {
@@ -1440,7 +1440,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Create content from template
      *
-     * @param templateName
+     * @param templateName String
      * @return {@link DocumentLibraryPage}
      */
     public HtmlPage createContentFromTemplate(String templateName)
@@ -1468,7 +1468,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Create folder from template
      *
-     * @param templateName
+     * @param templateName String
      * @return {@link DocumentLibraryPage}
      */
     public HtmlPage createFolderFromTemplate(String templateName)
@@ -1511,7 +1511,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * find needed template from lists of templates
      *
-     * @param templateName
+     * @param templateName String
      * @return WebElement of needed template
      */
     public WebElement getTemplate(String templateName){
@@ -1534,7 +1534,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Create content from template
      *
-     * @param templateName
+     * @param templateName String
      * @return {@link DocumentLibraryPage}
      */
     public DocumentLibraryPage createContentFromTemplateHover(String templateName)
@@ -1559,7 +1559,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Create folder from template
      *
-     * @param templateName
+     * @param templateName String
      * @return {@link DocumentLibraryPage}
      */
     public DocumentLibraryPage createFolderFromTemplateHover(String templateName)
@@ -1610,8 +1610,8 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Click on Document Library
      * 
-     * @param drone
-     * @return
+     * @param drone WebDrone
+     * @return DocumentLibraryPage
      */
     public DocumentLibraryPage selectDocumentLibrary(WebDrone drone)
     {
@@ -1623,7 +1623,7 @@ public class DocumentLibraryPage extends SitePage
     /**
      * Create folder from template
      *
-     * @param templateName
+     * @param templateName String
      * @return {@link DocumentLibraryPage}
      */
     public NewFolderPage openFolderFromTemplateHover(String templateName)
@@ -1645,8 +1645,8 @@ public class DocumentLibraryPage extends SitePage
 
     /**
      * The method helps to navigate to a folder or a file from document library.
-     * @param title
-     * @return
+     * @param title String
+     * @return HtmlPage
      */
     public HtmlPage browseToEntry(String title) throws Exception
     {

@@ -73,7 +73,7 @@ public interface Resource extends Serializable
     /**
      * Sets the endpoint of the resource
      * 
-     * @param endpoint
+     * @param endpointId String
      */
     public void setEndpointId(String endpointId);
     

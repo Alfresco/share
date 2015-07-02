@@ -146,7 +146,7 @@ public class SiteDataListsDashlet extends AbstractDashlet implements Dashlet
     /**
      * Get Count displayed in dashlet data-lists.
      *
-     * @return
+     * @return int
      */
     public int getListsCount()
     {
@@ -156,8 +156,8 @@ public class SiteDataListsDashlet extends AbstractDashlet implements Dashlet
     /**
      * true if data-list with name 'dataListName' displayed in dashlet
      *
-     * @param dataListName
-     * @return
+     * @param dataListName String
+     * @return boolean
      */
     public boolean isDataListDisplayed(String dataListName)
     {

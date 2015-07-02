@@ -61,7 +61,6 @@ public class ShareProperties implements WebDroneProperties
     /**
      * Gets the properties file for the HTML element id.
      * 
-     * @return Properties properties
      */
     private void initProperties()
     {

@@ -55,7 +55,7 @@ public class ResourceController extends VirtualizedResourceController
     /**
      * <p>Sets the {@link DependencyHandler} to be used when looking up resources.</p>
      * 
-     * @param dependencyHandler
+     * @param dependencyHandler DependencyHandler
      */
     public void setDependencyHandler(DependencyHandler dependencyHandler)
     {

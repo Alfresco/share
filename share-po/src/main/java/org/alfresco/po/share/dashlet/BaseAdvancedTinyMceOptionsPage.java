@@ -44,7 +44,8 @@ public abstract class BaseAdvancedTinyMceOptionsPage extends SharePage
     
     /**
      * Constructor.
-     * @param drone
+     * @param drone WebDrone
+     * @param element WebElement
      */
     public BaseAdvancedTinyMceOptionsPage(WebDrone drone, WebElement element)
     {

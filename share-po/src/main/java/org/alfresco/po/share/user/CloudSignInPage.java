@@ -184,7 +184,7 @@ public class CloudSignInPage extends ShareDialogue
     /**
      * Method to get the Cloud SignIn page dialog header
      * 
-     * @return
+     * @return String
      */
 
     @Override
@@ -228,7 +228,7 @@ public class CloudSignInPage extends ShareDialogue
     /**
      * Method to get Forgot password link URL
      * 
-     * @return
+     * @return String
      */
     public String getForgotPasswordURL()
     {

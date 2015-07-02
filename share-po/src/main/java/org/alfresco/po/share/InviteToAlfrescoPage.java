@@ -116,7 +116,7 @@ public class InviteToAlfrescoPage extends SharePage
     /**
      * Enter email addresses
      * 
-     * @param userEmails
+     * @param userEmails String[]
      */
     public void inputEmailsForInvitation(String[] userEmails)
     {
@@ -140,7 +140,7 @@ public class InviteToAlfrescoPage extends SharePage
     /**
      * Enter email message
      * 
-     * @param emailMessage
+     * @param emailMessage String
      */
     public void inputMessage(String emailMessage)
     {

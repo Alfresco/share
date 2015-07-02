@@ -183,7 +183,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
      * Checks the site is favourite.
      * 
      * @param siteName Site Name checked for is in Favourite.
-     * @return
+     * @return boolean
      */
     public boolean isSiteFavourite(String siteName)
     {
@@ -211,7 +211,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Returns the div that hold the site info.
      * 
-     * @return
+     * @return WebElement
      */
     private WebElement getSiteRow(String siteName)
     {
@@ -235,8 +235,8 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Delete site from the delete symbol of My site Dashlets.
      * 
-     * @param siteName
-     * @return
+     * @param siteName String
+     * @return HtmlPage
      */
     public HtmlPage deleteSite(String siteName)
     {
@@ -313,8 +313,8 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Select My Favourties sites from My Sites Dashlets.
      * 
-     * @param type
-     * @return
+     * @param type FavouriteType
+     * @return HtmlPage
      */
     public HtmlPage selectMyFavourites(FavouriteType type)
     {
@@ -346,7 +346,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Select favorite for a site in My site Dashlets.
      * 
-     * @param siteName
+     * @param siteName String
      */
     public void selectFavorite(String siteName)
     {
@@ -412,7 +412,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method to check if a site name is displayed in My Sites Dashlet
      *
-     * @param siteName
+     * @param siteName String
      * @return True if Site exists
      */
     public boolean isSitePresent(String siteName)

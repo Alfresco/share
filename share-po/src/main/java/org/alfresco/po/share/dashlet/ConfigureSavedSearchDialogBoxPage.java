@@ -184,7 +184,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
      * This method sets the given Search Term into Search Content Configure
      * Search Term box.
      * 
-     * @param searchTerm
+     * @param searchTerm String
      */
     public void setSearchTerm(String searchTerm)
     {
@@ -209,7 +209,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     /**
      * This method sets the given title into Site Content Configure title box.
      * 
-     * @param title
+     * @param title String
      */
     public void setTitle(String title)
     {
@@ -234,7 +234,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     /**
      * Method to select Search searchLimit from search searchLimit drop down
      * 
-     * @param searchLimit
+     * @param searchLimit SearchLimit
      */
     public void setSearchLimit(SearchLimit searchLimit)
     {

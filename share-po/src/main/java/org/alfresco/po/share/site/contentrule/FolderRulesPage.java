@@ -64,7 +64,7 @@ public class FolderRulesPage extends SitePage
     /**
      * Clicks on the button to switch on/off inherit rules (if it is displayed)
      * 
-     * @return
+     * @return FolderRulesPage
      */
     public FolderRulesPage toggleInheritRules()
     {
@@ -102,7 +102,7 @@ public class FolderRulesPage extends SitePage
      * Returns true if the button for switching inherit rules on and off is present
      * Should be always called before clicking the button
      * 
-     * @return
+     * @return boolean
      */
     public boolean isInheritRuleToggleAvailable()
     {
@@ -113,7 +113,7 @@ public class FolderRulesPage extends SitePage
     /**
      * Returns true if "This folder inherits Rules from its parent folder(s)." is displayed, otherwise false
      * 
-     * @return
+     * @return boolean
      */
     public boolean isInheritRulesMessageDisplayed()
     {
@@ -133,7 +133,7 @@ public class FolderRulesPage extends SitePage
      * Returns text displayed on the button for switching the rules on/off:
      * Inherit Rules or Don't Inherit Rules
      * 
-     * @return
+     * @return String
      */
     public String getInheritRulesText()
     {

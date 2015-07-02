@@ -101,11 +101,11 @@ public class DefaultSubComponentEvaluation implements SubComponentEvaluation
     /**
      * <p>Adds a {@link SubComponentEvaluator} along with the parameters that should be used to evaluate it to the 
      * evaluator map.</p>
+     * @param evaluatorId The id of a {@link SubComponentEvaluator} that should be used as part of the overall evaluation.
      * @param evaluationParams A {@link Map} of name/value parameters that should be passed to the {@link SubComponentEvaluator} when
      * evaluation is performed.
-     * @param negate Indicates that the result of the evaluator should be negated (e.g. an evaluator returning <code>false</code> should 
+     * @param negate Indicates that the result of the evaluator should be negated (e.g. an evaluator returning <code>false</code> should
      * be converted to <code>true</code>
-     * @param evaluatorid The id of a {@link SubComponentEvaluator} that should be used as part of the overall evaluation.
      */
     public void addEvaluator(String evaluatorId, Map<String, String> evaluationParams, boolean negate)
     {

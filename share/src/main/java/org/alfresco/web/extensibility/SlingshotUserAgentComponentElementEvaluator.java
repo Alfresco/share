@@ -9,18 +9,18 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- * Evaluator used to decide if a {@code<sub-component>} shall be bound in to a {@code<component>} and {@code<@region>}.
+ * Evaluator used to decide if a {@code <sub-component>} shall be bound in to a {@code <component>} and {@code <@region>}.
  * </p>
  *
  * <p>
- * Returns true if the current User Agent matches the regexp from the {@code<useragent>} parameter.
+ * Returns true if the current User Agent matches the regexp from the {@code <useragent>} parameter.
  * </p>
  *
  * <p>
  * Note! The regexp is expressed without using the surrounding // characters.
  * </p>
  * <p>
- * Note! the default value of the {@code<useragent>} parameter is ".*" which will make it match all User Agents.
+ * Note! the default value of the {@code <useragent>} parameter is ".*" which will make it match all User Agents.
  * </p>
  *
  * <p>
@@ -68,9 +68,9 @@ public class SlingshotUserAgentComponentElementEvaluator extends DefaultSubCompo
     /**
      * Decides if the requesting User Agent matches a given expression.
      *
-     * @param context
-     * @param params
-     * @return true if the requesting User Agent matches the {@code<useragent>} param (defaults to ".*")
+     * @param context RequestContext
+     * @param params Map
+     * @return true if the requesting User Agent matches the {@code <useragent>} param (defaults to ".*")
      */
     @Override
     public boolean evaluate(RequestContext context, Map<String, String> params)

@@ -212,8 +212,8 @@ public class XHRDojoDependencies extends DeclarativeWebScript
     
     /**
      * 
-     * @param dependenciesForCurrentRequest
-     * @return
+     * @param dependenciesForCurrentRequest Map<String, DojoDependencies>
+     * @return Map
      */
     public Map<String, String> generateCssMediaToResourceMap(Map<String, DojoDependencies> dependenciesForCurrentRequest)
     {

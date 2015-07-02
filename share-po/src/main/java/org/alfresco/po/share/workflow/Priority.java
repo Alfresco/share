@@ -48,7 +48,7 @@ public enum Priority
     /**
      * Returns {@link Priority} based on given value.
      * 
-     * @param stringValue
+     * @param stringValue String
      * @return {@link Priority}
      */
     public static Priority getPriority(String stringValue)

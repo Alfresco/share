@@ -135,7 +135,7 @@ public class BootstrapRenditionDefinition implements WebSiteModel
 
     /**
      * Set the rendition definition default parameter values.
-     * @param parameters    rendition definition parameter values
+     * @param defaultParameters    rendition definition parameter values
      */
     public void setDefaultParameters(Map<String, Serializable> defaultParameters)
     {

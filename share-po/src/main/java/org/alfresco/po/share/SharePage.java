@@ -216,7 +216,6 @@ public abstract class SharePage extends Page
      * navigation.
      *
      * @return Search page object
-     * @throws Exception if error
      */
     public SearchBox getSearch()
     {
@@ -488,8 +487,8 @@ public abstract class SharePage extends Page
      * <li>Click the element which passed and wait for given ElementState on the same element.</li> <li>If the Element State not changed, then render the
      * {@link SharePopup} Page, if it is rendered the return {@link SharePopup} page.</li>
      *
-     * @param locator
-     * @param elementState
+     * @param locator By
+     * @param elementState ElementState
      * @return {@link HtmlPage}
      */
     protected HtmlPage submit(By locator, ElementState elementState)
@@ -549,8 +548,8 @@ public abstract class SharePage extends Page
      * Method to get element text for given locator.
      * If the element is not found, returns empty string
      *
-     * @param locator
-     * @return
+     * @param locator By
+     * @return String
      */
     public String getElementText(By locator)
     {
@@ -640,7 +639,7 @@ public abstract class SharePage extends Page
      * Find the all the elements for given locator and returns the first visible {@link WebElement}.
      * It could be used to elemanate the hidden element with same locators.
      *
-     * @param locator
+     * @param locator By
      * @return {@link WebElement}
      */
     protected WebElement getVisibleElement(By locator)
@@ -665,7 +664,7 @@ public abstract class SharePage extends Page
      * Returns the validation message from the validation popup balloon for the web element
      * or an empty string if there is no message or the field is not validated.
      *
-     * @param locator
+     * @param locator By
      * @return The validation message
      */
     public String getValidationMessage(By locator)
@@ -690,7 +689,7 @@ public abstract class SharePage extends Page
      * Returns the validation message from the validation popup balloon for the web element
      * or an empty string if there is no message or the field is not validated.
      *
-     * @param webElement
+     * @param webElement WebElement
      * @return The validation message
      */
     public String getValidationMessage(WebElement webElement)
@@ -712,7 +711,7 @@ public abstract class SharePage extends Page
     /**
      * Method for wait while balloon message about some changes hide.
      *
-     * @param seconds
+     * @param seconds long
      */
     public SharePage waitUntilAlert(long seconds)
     {
@@ -749,8 +748,7 @@ public abstract class SharePage extends Page
     /**
      * Accept inputs from keyborad on page level.
      *
-     * @param inputs
-     * @return
+     * @param inputs Keys...
      */
     public void inputFromKeyborad(Keys ...inputs)
     {
@@ -763,7 +761,7 @@ public abstract class SharePage extends Page
     /**
      * Get Footer page which has license details.
      *
-     * @return
+     * @return FootersPage
      */
     public FootersPage getFooter()
     {
@@ -784,7 +782,7 @@ public abstract class SharePage extends Page
 
 
     /**
-     * @return
+     * @return String
      */
     public String getLicenseHolder()
     {
@@ -805,7 +803,7 @@ public abstract class SharePage extends Page
     // 
 
     /**
-     * @return
+     * @return String
      */
     public String getCopyRightDetails()
     {
@@ -833,7 +831,7 @@ public abstract class SharePage extends Page
     /**
      * Get background color of element or color of element (font color)
      *
-     * @param locator
+     * @param locator By
      * @param background if needed to find color of element's background - param must be true
      *                   if needed to find color of element itself - param must be false
      * @return hex
@@ -881,7 +879,7 @@ public abstract class SharePage extends Page
     /**
      * Open About popUp from footer.
      *
-     * @return
+     * @return AboutPopUp
      */
     public AboutPopUp openAboutPopUp()
     {
@@ -892,7 +890,7 @@ public abstract class SharePage extends Page
     /**
      * Return Top Logo image url.
      *
-     * @return
+     * @return String
      */
     public String getTopLogoUrl()
     {
@@ -902,7 +900,7 @@ public abstract class SharePage extends Page
     /**
      * Return Footer Logo image Url
      *
-     * @return
+     * @return String
      */
     public String getFooterLogoUrl()
     {

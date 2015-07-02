@@ -141,7 +141,7 @@ public class AuthenticationUtil
     /**
      * Helper to return cookie that saves the last login time for the current user.
      * 
-     * @param httpRequest
+     * @param request HttpServletRequest
      * 
      * @return Cookie if found or null if not present
      */
@@ -153,7 +153,7 @@ public class AuthenticationUtil
     /**
      * Helper to return cookie that saves the last login time for the current user.
      * 
-     * @param httpRequest
+     * @param request HttpServletRequest
      * 
      * @return Cookie if found or null if not present
      */

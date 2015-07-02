@@ -90,7 +90,7 @@ public class EditTaskPage extends SharePage
     }
 
     /**
-     * @param drone
+     * @param drone WebDrone
      */
     public EditTaskPage(WebDrone drone)
     {
@@ -229,7 +229,7 @@ public class EditTaskPage extends SharePage
     /**
      * Enter comment
      * 
-     * @param comment
+     * @param comment String
      */
     public void enterComment(String comment)
     {
@@ -263,7 +263,7 @@ public class EditTaskPage extends SharePage
     /**
      * Method to get Info section of Edit Task page
      * 
-     * @return
+     * @return TaskInfo
      */
     public TaskInfo getTaskDetailsInfo()
     {
@@ -299,7 +299,7 @@ public class EditTaskPage extends SharePage
     /**
      * Method to get the list of Items in a Task
      * 
-     * @return {@link List< TaskItem >}
+     * @return List
      */
     public List<TaskItem> getTaskItems()
     {
@@ -326,8 +326,8 @@ public class EditTaskPage extends SharePage
     /**
      * Method to get the List of TaskItem object for a given File Name
      * 
-     * @param fileName
-     * @return {@link List< TaskItem >}
+     * @param fileName String
+     * @return List
      */
     public List<TaskItem> getTaskItem(String fileName)
     {
@@ -357,7 +357,7 @@ public class EditTaskPage extends SharePage
     /**
      * Method to get Status Drop down options
      * 
-     * @return
+     * @return List<TaskStatus>
      */
     public List<TaskStatus> getStatusOptions()
     {
@@ -442,7 +442,7 @@ public class EditTaskPage extends SharePage
     /**
      * Return is all buttons displayed on page.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isButtonsDisplayed(Button button)
     {
@@ -459,8 +459,8 @@ public class EditTaskPage extends SharePage
     /**
      * Method to select given file from the given site.
      * 
-     * @param fileName
-     * @param siteName
+     * @param fileName String
+     * @param siteName String
      */
     public void selectItem(String fileName, String siteName)
     {
@@ -520,7 +520,7 @@ public class EditTaskPage extends SharePage
      * Method to reassign task for another user.
      * test is EditTaskPageTest.selectReassign
      * 
-     * @param userName
+     * @param userName String
      */
     public MyTasksPage selectReassign(String userName)
     {
@@ -536,7 +536,7 @@ public class EditTaskPage extends SharePage
     /**
      * Method mimic click interaction with Claim button.
      * 
-     * @return
+     * @return EditTaskPage
      */
     public EditTaskPage selectClaim()
     {
@@ -572,7 +572,7 @@ public class EditTaskPage extends SharePage
     /**
      * Method to get All labels from Workflow Form
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getAllLabels()
     {

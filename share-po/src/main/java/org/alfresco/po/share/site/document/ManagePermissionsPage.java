@@ -126,7 +126,7 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Mimics the action of clicking on Add user button.
      *
-     * @return
+     * @return UserSearchPage
      */
     public UserSearchPage selectAddUser()
     {
@@ -139,7 +139,7 @@ public class ManagePermissionsPage extends SharePage
     }
 
     /**
-     * @param areYouSure
+     * @param areYouSure ButtonType
      */
     private void clickAreYouSureDialogue(ButtonType areYouSure)
     {
@@ -153,9 +153,9 @@ public class ManagePermissionsPage extends SharePage
     }
 
     /**
-     * @param turnOn
-     * @param areYouSure
-     * @return
+     * @param turnOn boolean
+     * @param areYouSure ButtonType
+     * @return ManagePermissionsPage
      */
     public ManagePermissionsPage toggleInheritPermission(boolean turnOn, ButtonType areYouSure)
     {
@@ -192,7 +192,7 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Resolves the inherit permission button to 'on' or 'off'
      *
-     * @return
+     * @return boolean
      */
     private boolean getInheritButtonStatus()
     {
@@ -210,7 +210,7 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Clicks on save and returns the page from where user arrived to this page.
      *
-     * @return
+     * @return boolean
      */
     public boolean isInheritPermissionEnabled()
     {
@@ -225,7 +225,7 @@ public class ManagePermissionsPage extends SharePage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isLocallyPermissionEnabled()
     {
@@ -242,7 +242,7 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Clicks on save and returns the page from where user arrived to this page.
      *
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectSave()
     {
@@ -263,7 +263,7 @@ public class ManagePermissionsPage extends SharePage
      * Clicks on cancel and returns the page from where user arrived to this
      * page.
      *
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectCancel()
     {
@@ -274,9 +274,9 @@ public class ManagePermissionsPage extends SharePage
 
     /**
      * From the drop down, the access level is selected for the first user.
-     *
-     * @param userRole
-     * @depricated Use {@link ManagePermissionsPage setAccessType(UserProfile, UserRole)} or {@link ManagePermissionsPage setAccessType(String, UserRole)}
+     * <br>
+     * depricated Use {@link ManagePermissionsPage setAccessType(UserProfile, UserRole)} or {@link ManagePermissionsPage setAccessType(String, UserRole)}
+     * @param userRole UserRole
      */
     @Deprecated
     public void setAccessType(UserRole userRole)
@@ -293,8 +293,8 @@ public class ManagePermissionsPage extends SharePage
     /**
      * From the drop down, the access level is selected for the specified user.
      *
-     * @param userProfile
-     * @param userRole
+     * @param userProfile UserProfile
+     * @param userRole UserRole
      */
     public void setAccessType(UserProfile userProfile, UserRole userRole)
     {
@@ -312,7 +312,7 @@ public class ManagePermissionsPage extends SharePage
      * From the drop down, the access level is selected for the specified user or group.
      *
      * @param name     The name of the user or group as it appears on screen including spaces.
-     * @param userRole
+     * @param userRole UserRole
      */
     public void setAccessType(String name, UserRole userRole)
     {
@@ -345,7 +345,7 @@ public class ManagePermissionsPage extends SharePage
      * Check if user is already added for permission.
      *
      * @param name - First name or last name or full name <fName><space><lName>
-     * @return
+     * @return boolean
      */
     public boolean isUserExistForPermission(String name)
     {
@@ -373,7 +373,7 @@ public class ManagePermissionsPage extends SharePage
      * Check if user is already added for permission.
      *
      * @param name - First name or last name or full name <fName><space><lName>
-     * @return
+     * @return UserRole
      */
     public UserRole getExistingPermissionForInheritPermission(String name)
     {
@@ -404,7 +404,7 @@ public class ManagePermissionsPage extends SharePage
      * Get existing permission for user/group
      *
      * @param name - First name or last name or full name <fName><space><lName>
-     * @return
+     * @return UserRole
      */
     public UserRole getExistingPermission(String name)
     {
@@ -430,9 +430,9 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Update role of existing Users in permission table.
      *
-     * @param userName
-     * @param userRole
-     * @return
+     * @param userName String
+     * @param userRole UserRole
+     * @return boolean
      */
     public boolean updateUserRole(String userName, UserRole userRole)
     {
@@ -465,9 +465,9 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Delete user or group from permission table.
      *
-     * @param name
-     * @param role
-     * @return
+     * @param name String
+     * @param role UserRole
+     * @return boolean
      */
     public boolean deleteUserOrGroupFromPermission(String name, UserRole role)
     {
@@ -497,7 +497,7 @@ public class ManagePermissionsPage extends SharePage
     }
 
     /**
-     * @param userRole
+     * @param userRole UserRole
      */
     private void selectRole(UserRole userRole)
     {
@@ -543,8 +543,8 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Get available roles for existing users.
      *
-     * @param userName
-     * @return
+     * @param userName String
+     * @return List<String>
      */
     public List<String> getListOfUserRoles(String userName)
     {
@@ -589,8 +589,8 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Checks whether a user has direct permissions present.
      *
-     * @param userProfile
-     * @return
+     * @param userProfile UserProfile
+     * @return boolean
      */
     public boolean isDirectPermissionForUser(UserProfile userProfile)
     {
@@ -682,8 +682,8 @@ public class ManagePermissionsPage extends SharePage
         }
 
         /**
-         * @param userProfile
-         * @return
+         * @param userProfile UserProfile
+         * @return HtmlPage
          */
         public HtmlPage searchAndSelectUser(UserProfile userProfile)
         {
@@ -691,8 +691,8 @@ public class ManagePermissionsPage extends SharePage
         }
 
         /**
-         * @param groupName
-         * @return
+         * @param groupName String
+         * @return HtmlPage
          */
         public HtmlPage searchAndSelectGroup(String groupName)
         {
@@ -702,8 +702,8 @@ public class ManagePermissionsPage extends SharePage
         /**
          * Returns if "EVERYONE" is available in search result.
          *
-         * @param searchText
-         * @return
+         * @param searchText String
+         * @return boolean
          */
         public boolean isEveryOneDisplayed(String searchText)
         {
@@ -727,9 +727,9 @@ public class ManagePermissionsPage extends SharePage
         }
 
         /**
-         * @param groupName
-         * @param userProfile
-         * @return
+         * @param groupName String
+         * @param userProfile UserProfile
+         * @return HtmlPage
          */
         private HtmlPage searchAndSelect(String groupName, UserProfile userProfile)
         {
@@ -753,8 +753,8 @@ public class ManagePermissionsPage extends SharePage
         }
 
         /**
-         * @param searchText
-         * @return
+         * @param searchText String
+         * @return List<UserSearchRow>
          */
         public List<UserSearchRow> searchUserAndGroup(String searchText) throws UnsupportedOperationException
         {
@@ -806,11 +806,11 @@ public class ManagePermissionsPage extends SharePage
         }
 
         /**
-         * @param searchRows
-         * @param searchText
-         * @param isGroupSearch
-         * @param userProfile
-         * @return
+         * @param searchRows List<UserSearchRow>
+         * @param searchText String
+         * @param isGroupSearch boolean
+         * @param userProfile UserProfile
+         * @return HtmlPage
          */
         public HtmlPage selectUserOrGroup(List<UserSearchRow> searchRows, String searchText, boolean isGroupSearch, UserProfile userProfile)
         {
@@ -857,8 +857,8 @@ public class ManagePermissionsPage extends SharePage
         /**
          * Verify if user or group exist in the search list.
          *
-         * @param searchText
-         * @return
+         * @param searchText String
+         * @return boolean
          */
         public boolean isUserOrGroupPresentInSearchList(String searchText)
         {
@@ -884,7 +884,7 @@ public class ManagePermissionsPage extends SharePage
         /**
          * Returns the error message if there is one when searching for a user or group.
          *
-         * @param searchText
+         * @param searchText String
          * @return The error message.  Empty if there is no message.
          */
         public String getSearchErrorMessage(String searchText) throws UnsupportedOperationException
@@ -912,9 +912,9 @@ public class ManagePermissionsPage extends SharePage
         /**
          * Returns true if all the userNames are in the search results.
          *
-         * @param searchText
-         * @param userNames
-         * @return
+         * @param searchText String
+         * @param userNames String...
+         * @return boolean
          */
         public boolean usersExistInSearchResults(String searchText, String... userNames)
         {
@@ -947,9 +947,9 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Finds the CSS for user role and clicks it option.
      *
-     * @param drone
-     * @param userRole
-     * @return
+     * @param drone WebDrone
+     * @param userRole UserRole
+     * @return WebElement
      */
     private WebElement getRoleOption(WebDrone drone, UserRole userRole)
     {
@@ -967,7 +967,7 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Get Inherited Site permission table in map key value pair.
      *
-     * @return
+     * @return Map
      */
     public Map<String, String> getInheritedPermissions()
     {
@@ -994,7 +994,7 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Verifies the delete button for the user is present in the page object.
      *
-     * @return
+     * @return boolean
      */
     public boolean isUserDeleteButtonPresent(String name)
     {
@@ -1022,9 +1022,9 @@ public class ManagePermissionsPage extends SharePage
     }
 
     /**
-     * @param name
-     * @param role
-     * @return
+     * @param name String
+     * @param role UserRole
+     * @return WebElement
      */
     private WebElement getDeleteAction(String name, UserRole role)
     {
@@ -1053,9 +1053,9 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Check if delete action is present for the user and permission.
      *
-     * @param name
-     * @param role
-     * @return
+     * @param name String
+     * @param role UserRole
+     * @return boolean
      */
     public boolean isDeleteActionPresent(String name, UserRole role)
     {
@@ -1071,9 +1071,9 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Delete the user and permission.
      *
-     * @param name
-     * @param role
-     * @return
+     * @param name String
+     * @param role UserRole
+     * @return ManagePermissionsPage
      */
     public ManagePermissionsPage deleteUserWithPermission(String name, UserRole role)
     {

@@ -173,7 +173,7 @@ public class LoginPage extends SharePage
     /**
      * Return url for Logo Image.
      *
-     * @return
+     * @return String
      */
     public String getLogoUrl()
     {
@@ -225,7 +225,7 @@ public class LoginPage extends SharePage
     /**
      * Method to get Forgot password link URL
      * 
-     * @return
+     * @return String
      */
     public String getForgotPasswordURL()
     {

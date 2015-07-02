@@ -123,9 +123,9 @@ public class LinksPage extends SharePage
     /**
      * Method to create a link
      * 
-     * @param name
-     * @param url
-     * @return
+     * @param name String
+     * @param url String
+     * @return LinksDetailsPage
      */
     public LinksDetailsPage createLink(String name, String url)
     {
@@ -148,9 +148,9 @@ public class LinksPage extends SharePage
     /**
      * Method to create a link with tag
      * 
-     * @param name
-     * @param url
-     * @param tagName
+     * @param name String
+     * @param url String
+     * @param tagName String
      * @return LinksDetailsPage
      */
     public LinksDetailsPage createLink(String name, String url, String tagName)
@@ -176,9 +176,9 @@ public class LinksPage extends SharePage
      * /**
      * Method to create a link with tag and desc
      *
-     * @param name
-     * @param url
-     * @param tagName
+     * @param name String
+     * @param url String
+     * @param tagName String
      * @return LinksDetailsPage
      */
     public LinksDetailsPage createLink(String name, String url, String description, String tagName)
@@ -217,8 +217,8 @@ public class LinksPage extends SharePage
     /**
      * Return object associated with links info block.
      * 
-     * @param title
-     * @return
+     * @param title String
+     * @return LinkDirectoryInfo
      */
     public LinkDirectoryInfo getLinkDirectoryInfo(final String title)
     {
@@ -248,12 +248,12 @@ public class LinksPage extends SharePage
     /**
      * Method to edit a link
      * 
-     * @param linkTitle
-     * @param linkNewTitle
-     * @param url
-     * @param desc
-     * @param internalChkBox
-     * @return
+     * @param linkTitle String
+     * @param linkNewTitle String
+     * @param url String
+     * @param desc String
+     * @param internalChkBox boolean
+     * @return LinksDetailsPage
      */
     public LinksDetailsPage editLink(String linkTitle, String linkNewTitle, String url, String desc, boolean internalChkBox)
     {
@@ -273,7 +273,7 @@ public class LinksPage extends SharePage
     /**
      * Method to delete a link
      * 
-     * @param title
+     * @param title String
      * @return Links page
      */
     public LinksPage deleteLinkWithConfirm(String title)
@@ -313,7 +313,7 @@ public class LinksPage extends SharePage
     /**
      * Method to verify whether edit link is displayed
      * 
-     * @param linkName
+     * @param linkName String
      * @return boolean
      */
     public boolean isEditLinkDisplayed(String linkName)
@@ -324,7 +324,7 @@ public class LinksPage extends SharePage
     /**
      * Method to verify whether delete link is displayed
      * 
-     * @param linkName
+     * @param linkName String
      * @return boolean
      */
     public boolean isDeleteLinkDisplayed(String linkName)
@@ -335,7 +335,7 @@ public class LinksPage extends SharePage
     /**
      * Method to click to the link
      * 
-     * @param linkTitle
+     * @param linkTitle String
      * @return LinksDetailsPage
      */
     public LinksDetailsPage clickLink(String linkTitle)
@@ -355,7 +355,7 @@ public class LinksPage extends SharePage
     /**
      * Get rss feed url from link and navigate to.
      * 
-     * @return
+     * @return RssFeedPage
      */
     public RssFeedPage selectRssFeed(String username, String password)
     {
@@ -389,7 +389,7 @@ public class LinksPage extends SharePage
     /**
      * Return Object for interacting with left filter panel.
      * 
-     * @return
+     * @return LinksListFilter
      */
     public LinksListFilter getLinkListFilter()
     {
@@ -399,7 +399,7 @@ public class LinksPage extends SharePage
     /**
      * Mimic interaction with button select"
      * 
-     * @param checkBoxAction
+     * @param checkBoxAction CheckBoxAction
      */
     public void selectAction(CheckBoxAction checkBoxAction)
     {
@@ -412,7 +412,7 @@ public class LinksPage extends SharePage
     /**
      * Mimic interaction with button 'Selected Items'
      * 
-     * @param selectedAction
+     * @param selectedAction SelectedAction
      */
     public void selectedItemsAction(SelectedAction selectedAction)
     {
@@ -430,8 +430,8 @@ public class LinksPage extends SharePage
     /**
      * Return true if link displayed, and return false if link is absent
      * 
-     * @param title
-     * @return
+     * @param title String
+     * @return boolean
      */
     public boolean isLinkPresented(String title)
     {
@@ -462,9 +462,9 @@ public class LinksPage extends SharePage
      * Method to check tags for link page
      * if param tag is null will be return true if 'Tags: (None)'
      * 
-     * @param title
-     * @param tag
-     * @return
+     * @param title String
+     * @param tag String
+     * @return boolean
      */
     public boolean checkTags(String title, String tag)
     {

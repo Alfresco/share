@@ -44,7 +44,7 @@ public enum SendEMailNotifications
     /**
      * Returns {@link SendEMailNotifications} based on given value.
      * 
-     * @param value
+     * @param value String
      * @return {@link SendEMailNotifications}
      */
     public static SendEMailNotifications getValue(String value)

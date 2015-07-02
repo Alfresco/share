@@ -84,7 +84,7 @@ public enum WorkFlowType
     /**
      * Based title return {@link WorkFlowType}.
      * 
-     * @param title
+     * @param title String
      * @return {@link WorkFlowType}
      */
     public static WorkFlowType getWorkflowTypeByTitle(String title)

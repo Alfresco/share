@@ -93,7 +93,6 @@ public abstract class AbstractRenderer implements Renderer
      *
      * @param context The current <code>RequestContext</code> that contains all the information required to perform rendering.
      * @param object The current object to be rendered.
-     * @param focus The focus to be rendered.
      *
      * @throws RendererExecutionException if thrown from the <code>header</code> or <code>body</code> methods.
      */

@@ -78,8 +78,8 @@ public class ReassignPage extends SharePage
      * Method to select a single user for reassign
      * test is EditTaskPageTest.selectReassign
      * 
-     * @param userName
-     * @return
+     * @param userName String
+     * @return HtmlPage
      */
     public HtmlPage selectUser(String userName)
     {
@@ -133,7 +133,7 @@ public class ReassignPage extends SharePage
     /**
      * Method to search for given user
      * 
-     * @param userName
+     * @param userName String
      */
     public void searchForUser(String userName)
     {

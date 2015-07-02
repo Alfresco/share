@@ -320,7 +320,7 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method to check if a given item is listed in the search results or not
      * 
-     * @param itemName
+     * @param itemName String
      * @return True if item found in search results
      */
     public boolean isItemFound(String itemName)

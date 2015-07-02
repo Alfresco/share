@@ -59,7 +59,7 @@ public abstract class TagBase extends BodyTagSupport implements Serializable
     /**
      * Gets the request context bound to the current request
      * 
-     * @return
+     * @return RequestContext
      * @throws JspException
      */
     protected RequestContext getRequestContext()

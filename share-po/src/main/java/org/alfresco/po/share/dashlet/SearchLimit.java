@@ -42,7 +42,7 @@ public enum SearchLimit
     /**
      * Returns {@link SearchLimit} based on given value.
      * 
-     * @param intValue
+     * @param intValue int
      * @return {@link SearchLimit}
      */
     public static SearchLimit getSearchLimit(int intValue)

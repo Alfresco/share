@@ -307,9 +307,9 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Select option from "My Activities" drop down
      *
-     * @param myActivitiesOption
+     * @param myActivitiesOption String
      * @return {@link ShareLink} collection
-     * @author Cristina.Axinte
+     * <br/><br/>author Cristina.Axinte
      */
     public HtmlPage selectOptionFromUserActivities(String myActivitiesOption)
     {
@@ -349,7 +349,7 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
      *
      * @param lastDays SiteActivitiesHistoryFilter
      * @return {@link ShareLink} collection
-     * @author Cristina.Axinte
+     * <br/><br/>author Cristina.Axinte
      */
     public HtmlPage selectOptionFromHistoryFilter(SiteActivitiesHistoryFilter lastDays)
     {
@@ -371,10 +371,10 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method for navigate to RSS Feed Page from site activity dashlet.
      *
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      * @return RssFeedPage
-     * @author Cristina.Axinte
+     * <br/><br/>author Cristina.Axinte
      */
     public RssFeedPage selectRssFeedPage(String username, String password)
     {
@@ -402,9 +402,9 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method returns if the specified option is selected in My Activities button
      *
-     * @param myActivitiesOption
-     * @return
-     * @author Cristina.Axinte
+     * @param myActivitiesOption String
+     * @return boolean
+     * <br/><br/>author Cristina.Axinte
      */
     public boolean isOptionSelected(String myActivitiesOption)
     {
@@ -429,8 +429,8 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
      * Method returns if the specified option is selected in history button
      *
      * @param lastDays SiteActivitiesHistoryFilter
-     * @return
-     * @author Cristina.Axinte
+     * @return boolean
+     * <br/><br/>author Cristina.Axinte
      */
     public boolean isHistoryOptionSelected(SiteActivitiesHistoryFilter lastDays)
     {

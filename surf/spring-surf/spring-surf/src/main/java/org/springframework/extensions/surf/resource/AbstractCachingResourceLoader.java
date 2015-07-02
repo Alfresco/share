@@ -78,7 +78,7 @@ public abstract class AbstractCachingResourceLoader extends AbstractResourceLoad
     /**
      * Builds the resource bound to the given object id
      * 
-     * @param objectId
+     * @param objectId String
      * 
      * @return resource
      */

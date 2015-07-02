@@ -69,7 +69,6 @@ public class ShareLink
     /**
      * Actions a click on the link element without verifying the page.
      * 
-     * @return void
      */
     public void openLink()
     {

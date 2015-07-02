@@ -47,7 +47,7 @@ public interface ResourceLoaderFactory
      * Identifies whether this factory can produce resource
      * loaders that can handle the given protocol
      * 
-     * @param protocolId
+     * @param protocolId String
      * 
      * @return whether this factory can produce for the given protocol 
      */

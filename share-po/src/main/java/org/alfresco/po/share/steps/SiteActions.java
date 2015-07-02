@@ -186,7 +186,7 @@ public class SiteActions extends CommonActions
      * Assumes a specific Site is open Opens the Document Library Page and navigates to the Path specified.
      * 
      * @param drone WebDrone Instance
-     * @param folderPath: String folder path relative to DocumentLibrary e.g. DOCLIB + file.seperator + folderName1
+     * @param folderPath  String folder path relative to DocumentLibrary e.g. DOCLIB + file.seperator + folderName1
      * @throws ShareException if error in this API
      */
     public DocumentLibraryPage navigateToFolder(WebDrone drone, String folderPath) throws ShareException
@@ -251,9 +251,9 @@ public class SiteActions extends CommonActions
     /**
      * Util traverses through all the pages of the doclib to find the content within the folder and clicks on the contentTile
      * 
-     * @param drone
-     * @param contentName
-     * @return
+     * @param drone WebDrone
+     * @param contentName String
+     * @return HtmlPage
      */
     public HtmlPage selectContent(WebDrone drone, String contentName)
     {
@@ -283,9 +283,9 @@ public class SiteActions extends CommonActions
     /**
      * Util traverses through all the pages of the doclib to find the content within the folder
      * 
-     * @param drone
-     * @param contentName
-     * @return
+     * @param drone WebDrone
+     * @param contentName String
+     * @return FileDirectoryInfo
      */
     public FileDirectoryInfo getFileDirectoryInfo(WebDrone drone, String contentName)
     {
@@ -391,9 +391,9 @@ public class SiteActions extends CommonActions
      * This method is used to create content with name, title and description.
      * User should be logged in and present on site page.
      *
-     * @param drone
-     * @param contentDetails
-     * @param contentType
+     * @param drone WebDrone
+     * @param contentDetails ContentDetails
+     * @param contentType ContentType
      * @return {@link DocumentLibraryPage}
      * @throws Exception
      */
@@ -422,9 +422,9 @@ public class SiteActions extends CommonActions
     /**
      * isFileVisible is to check whether file or folder visible..
      * 
-     * @param drone
-     * @param contentName
-     * @return
+     * @param drone WebDrone
+     * @param contentName String
+     * @return boolean
      */
     public boolean isFileVisible(WebDrone drone, String contentName)
     {
@@ -511,8 +511,8 @@ public class SiteActions extends CommonActions
      * Method to navigate to site dashboard url, based on siteshorturl, rather than sitename
      * This is to be used to navigate only as a util, not to test getting to the site dashboard
      * 
-     * @param drone
-     * @param siteShortURL
+     * @param drone WebDrone
+     * @param siteShortURL String
      * @return {@link org.alfresco.po.share.site.SiteDashboardPage}
      */
     public SiteDashboardPage openSiteURL(WebDrone drone, String siteShortURL)
@@ -611,12 +611,12 @@ public class SiteActions extends CommonActions
     /**
      * Checks the checkbox for a content if not selected on the document library
      * page.
-     * 
-     * @param drone
-     * @param contentName
-     * @return DocumentLibraryPage
-     * @IMP Note: Expects the user is logged in and document library page within
+     *  Note: Expects the user is logged in and document library page within
      *      the selected site is open.
+     *
+     * @param drone WebDrone
+     * @param contentName String
+     * @return DocumentLibraryPage
      */
     private DocumentLibraryPage selectContentCheckBox(WebDrone drone, String contentName)
     {
@@ -631,8 +631,8 @@ public class SiteActions extends CommonActions
     /**
      * Delete doc lib contents.
      * 
-     * @param drone
-     * @return
+     * @param drone WebDrone
+     * @return DocumentLibraryPage
      */
     private DocumentLibraryPage deleteDocLibContents(WebDrone drone)
     {
@@ -644,9 +644,10 @@ public class SiteActions extends CommonActions
      * This method uploads the new version for the document with the given file
      * from data folder. User should be on Document details page.
      * 
-     * @param fileName
-     * @param drone
-     * @return DocumentDetailsPage
+     * @param drone WebDrone
+     * @param title String
+     * @param fileName String
+     * @param comments String
      * @throws IOException
      */
     public void uploadNewVersionOfDocument(WebDrone drone, String title, String fileName, String comments) throws IOException
@@ -695,11 +696,11 @@ public class SiteActions extends CommonActions
     /**
      * Copy or Move to File or folder from document library.
      * 
-     * @param drone
-     * @param destination
-     * @param siteName
-     * @param fileName
-     * @return
+     * @param drone WebDrone
+     * @param destination String
+     * @param siteName String
+     * @param fileName String
+     * @return HtmlPage
      */
     public HtmlPage copyOrMoveArtifact(WebDrone drone, String destination, String siteName,  String fileName, String type, String... moveFolderName)
     {
@@ -729,11 +730,11 @@ public class SiteActions extends CommonActions
      * Uses the in-line rename function to rename content
      * Assumes User is logged in and a DocumentLibraryPage of the selected site is open
      * 
-     * @param drone
-     * @param contentName
-     * @param newName
+     * @param drone WebDrone
+     * @param contentName String
+     * @param newName String
      * @param saveChanges <code>true</code> saves the changes, <code>false</code> cancels without saving.
-     * @return
+     * @return DocumentLibraryPage
      */
     public DocumentLibraryPage editContentNameInline(WebDrone drone, String contentName, String newName, boolean saveChanges)
     {
@@ -757,12 +758,12 @@ public class SiteActions extends CommonActions
      * In the document library page select edit properties to set a new title , description or name for the content
      * Assume the user is logged in and a documentLibraryPage of the selected site is open
      * 
-     * @author sprasanna
-     * @param - Webdrone
-     * @param - String contentName
-     * @param - String newContentName
-     * @param - String title
-     * @param - String descirption
+     * <br/><br/>author sprasanna
+     * @param drone Webdrone
+     * @param contentName String
+     * @param newContentName String
+     * @param title String
+     * @param description String
      */
     public DocumentLibraryPage editProperties(WebDrone drone, String contentName, String newContentName, String title, String description)
     {

@@ -45,7 +45,7 @@ public enum WorkFlowHistoryOutCome
     /**
      * Returns {@link WorkFlowHistoryOutCome} based on given value.
      * 
-     * @param value
+     * @param value String
      * @return {@link WorkFlowHistoryOutCome}
      */
     public static WorkFlowHistoryOutCome getWorkFlowHistoryOutCome(String value)

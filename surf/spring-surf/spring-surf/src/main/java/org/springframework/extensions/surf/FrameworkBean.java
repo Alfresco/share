@@ -81,7 +81,7 @@ public final class FrameworkBean
     /**
      * Retrieves the web framework services registry.
      * 
-     * @return
+     * @return WebFrameworkServiceRegistry
      * @deprecated
      */
     public static WebFrameworkServiceRegistry getServiceRegistry()
@@ -91,7 +91,7 @@ public final class FrameworkBean
     
     /**
      * 
-     * @return
+     * @return WebFrameworkConfigElement
      * @deprecated
      */
     public static WebFrameworkConfigElement getConfig()

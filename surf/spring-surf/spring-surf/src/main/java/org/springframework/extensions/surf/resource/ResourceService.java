@@ -157,9 +157,9 @@ public class ResourceService implements ApplicationContextAware, ApplicationList
     /**
      * Gets a resource for the given protocol, endpoint and object id
      * 
-     * @param protocolId
-     * @param endpointId
-     * @param objectId
+     * @param protocolId String
+     * @param endpointId String
+     * @param objectId String
      * 
      * @return the resource
      */
@@ -183,10 +183,10 @@ public class ResourceService implements ApplicationContextAware, ApplicationList
      * Returns an appropriate resource loader for the given
      * protocol and endpoint
      * 
-     * @param protocolId
-     * @param endpointId
+     * @param protocolId String
+     * @param endpointId String
      * 
-     * @return
+     * @return ResourceLoader
      */
     public ResourceLoader getResourceLoader(String protocolId, String endpointId)
     {
@@ -206,8 +206,8 @@ public class ResourceService implements ApplicationContextAware, ApplicationList
     /**
      * Returns a resource loader factory for the given protocol
      * 
-     * @param protocolId
-     * 
+     * @param protocolId String
+     *
      * @return resource loader factory
      */
     public ResourceLoaderFactory getResourceLoaderFactory(String protocolId)
@@ -229,10 +229,10 @@ public class ResourceService implements ApplicationContextAware, ApplicationList
     /**
      * Retrieves the content payload for the described resource
      * 
-     * @param resourceId
-     * @return
+     * @param resourceId String
+     * @return ResourceContent
      * @throws ResourceLoaderException
-     * @throws ContentLoaderException
+     * @throws IOException
      */    
     public ResourceContent getResourceContent(String resourceId)
         throws IOException, ResourceLoaderException
@@ -253,12 +253,12 @@ public class ResourceService implements ApplicationContextAware, ApplicationList
     /**
      * Retrieves the content payload for the described resource
      * 
-     * @param protocolId
-     * @param objectId
-     * @param endpointId
-     * @return
+     * @param protocolId String
+     * @param objectId String
+     * @param endpointId String
+     * @return ResourceContent
      * @throws ResourceLoaderException
-     * @throws ContentLoaderException
+     * @throws IOException
      */    
     public ResourceContent getResourceContent(String protocolId, String endpointId, String objectId)
         throws IOException, ResourceLoaderException
@@ -278,10 +278,10 @@ public class ResourceService implements ApplicationContextAware, ApplicationList
     /**
      * Retrieves the metadata payload for the described resource
      * 
-     * @param resourceId
-     * @return
+     * @param resourceId String
+     * @return ResourceContent
      * @throws ResourceLoaderException
-     * @throws ContentLoaderException
+     * @throws IOException
      */    
     public ResourceContent getResourceMetadata(String resourceId)
         throws IOException, ResourceLoaderException

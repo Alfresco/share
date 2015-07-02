@@ -271,7 +271,6 @@ public class DocumentLibraryNavigation extends SharePage
      * Action of selecting Create document from template.
      * 
      * @return {@link DocumentLibraryPage}
-     * @throws TimeoutException
      */
     public DocumentLibraryPage selectCreateContentFromTemplate()
     {
@@ -296,7 +295,6 @@ public class DocumentLibraryNavigation extends SharePage
      * Action of selecting Create folder from template.
      * 
      * @return {@link NewFolderPage}
-     * @throws TimeoutException
      */
     public NewFolderPage selectCreateFolderFromTemplate()
     {
@@ -322,7 +320,6 @@ public class DocumentLibraryNavigation extends SharePage
      * Action of selecting Create document from template.
      * 
      * @return {@link DocumentLibraryPage}
-     * @throws TimeoutException
      */
     public HtmlPage selectCreateContentFromTemplateHover()
     {
@@ -349,7 +346,6 @@ public class DocumentLibraryNavigation extends SharePage
      * Action of selecting Create folder from template.
      * 
      * @return {@link DocumentLibraryPage}
-     * @throws TimeoutException
      */
     public HtmlPage selectCreateFolderFromTemplateHover()
     {
@@ -374,8 +370,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Mimics the action of selecting Create Plain Text.
      * 
-     * @return {@link SharePage}
-     * @throws Exception
+     * @return {@link HtmlPage}
      */
     public HtmlPage selectCreateContent(ContentType content)
     {
@@ -894,7 +889,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Click on delete item of selected items drop down.
      * 
-     * @return
+     * @return ConfirmDeletePage
      */
     public ConfirmDeletePage selectDelete()
     {
@@ -943,7 +938,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Click on copy to item of selected items drop down.
      * 
-     * @return
+     * @return ConfirmDeletePage
      */
     public CopyOrMoveContentPage selectCopyTo()
     {
@@ -974,7 +969,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Click on Move to item of selected items drop down.
      * 
-     * @return
+     * @return CopyOrMoveContentPage
      */
     public CopyOrMoveContentPage selectMoveTo()
     {
@@ -1005,7 +1000,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Click on DeselectAll item of selected items drop down.
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectDesellectAll()
     {
@@ -1180,8 +1175,8 @@ public class DocumentLibraryNavigation extends SharePage
     }
 
     /**
-     * @param viewType
-     * @return
+     * @param viewType String
+     * @return HtmlPage
      * @throws PageOperationException
      */
     private HtmlPage selectViewType(String viewType) throws PageOperationException
@@ -1585,7 +1580,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Returns true if the Set current view to default is visible
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSetDefaultViewVisible()
     {
@@ -1595,7 +1590,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Returns true if the Remove current default view is present
      * 
-     * @return
+     * @return boolean
      */
     public boolean isRemoveDefaultViewVisible()
     {
@@ -1605,7 +1600,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Clicks on the 'Set "<current view>" as default for this folder' button in the options menu.
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectSetCurrentViewToDefault()
     {
@@ -1629,7 +1624,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Clicks on the 'Remove "<current view>" as default for this folder' button in the options menu.
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectRemoveCurrentViewFromDefault()
     {
@@ -1800,7 +1795,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * This methods does the zoom in and zoom out on Gallery view.
      * 
-     * @param zoomStyle
+     * @param zoomStyle ZoomStyle
      * @return HtmlPage
      */
     public HtmlPage selectZoom(ZoomStyle zoomStyle)
@@ -1871,7 +1866,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Checks if the file upload button is enabled
      * 
-     * @return
+     * @return boolean
      */
     public boolean isFileUploadEnabled()
     {
@@ -1888,7 +1883,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Checks if the file upload button is visible
      * 
-     * @return
+     * @return boolean
      */
     public boolean isFileUploadVisible()
     {
@@ -1905,7 +1900,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Checks if the create content dropdown is enabled
      * 
-     * @return
+     * @return boolean
      */
     public boolean isCreateContentEnabled()
     {
@@ -1922,7 +1917,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Checks if the folder up button is visible
      * 
-     * @return
+     * @return boolean
      */
     public boolean isFolderUpVisible()
     {
@@ -1939,7 +1934,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Checks if the create content dropdown is visible
      * 
-     * @return
+     * @return boolean
      */
     public boolean isCreateContentVisible()
     {
@@ -2117,7 +2112,7 @@ public class DocumentLibraryNavigation extends SharePage
      * Method checks if content type is present at the Options drop-down
      * 
      * @param content Content type to check
-     * @return
+     * @return boolean
      */
     public boolean isCreateContentPresent(ContentType content)
     {
@@ -2166,7 +2161,7 @@ public class DocumentLibraryNavigation extends SharePage
      * Method checks if Create Folder/Document from Template are present at the Options drop-down
      * 
      * @param folder if true, checks for Folder template; false - Document template
-     * @return
+     * @return boolean
      */
     public boolean isCreateFromTemplatePresent(boolean folder)
     {
@@ -2238,7 +2233,7 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * Click on the parent item link of the breadcrumbs path
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage clickCrumbsParentLinkName()
     {

@@ -456,9 +456,9 @@ public class ProcessJsonModelDirective extends JavaScriptDependencyDirective
      * Constructs the i18n properties JavaScript content for the page. This will be loaded into the page
      * as a separate resource.
      * 
-     * @param dependenciesForCurrentRequest
-     * @param model
-     * @return
+     * @param dependenciesForCurrentRequest Map<String, DojoDependencies>
+     * @param model TemplateHashModel
+     * @return String
      */
     protected String buildI18nForPage(Map<String, DojoDependencies> dependenciesForCurrentRequest, 
                                       TemplateHashModel model)
@@ -589,7 +589,7 @@ public class ProcessJsonModelDirective extends JavaScriptDependencyDirective
      * that includes the context specific data (such as user information). This is can be immediately processed
      * into the Dojo cache such that an asynchronous request isn't required to to be made. 
      * 
-     * @return
+     * @return String
      */
     protected String buildConstantsForPage()
     {
@@ -605,11 +605,11 @@ public class ProcessJsonModelDirective extends JavaScriptDependencyDirective
     }
     
     /**
-     * Run a WebScript against the supplied {@link Writer}. This by-passes the {@link ExtensibilityModel and so that
+     * Run a WebScript against the supplied {@link Writer}. This by-passes the {@link ExtensibilityModel} and so that
      * we can build a cache file directly from the processed content.
      * 
-     * @param uri
-     * @param writer
+     * @param uri String
+     * @param writer Writer
      */
     protected void runWebScript(String uri, Writer writer)
     {
@@ -676,7 +676,7 @@ public class ProcessJsonModelDirective extends JavaScriptDependencyDirective
 
     /**
      * This inner-class is required to run the WebScript for generating the default constants file (see the runWebScript method)
-     * @author dave
+     * <br/><br/>author dave
      */
     @SuppressWarnings("serial")
     class DummyModelObject extends AbstractModelObject

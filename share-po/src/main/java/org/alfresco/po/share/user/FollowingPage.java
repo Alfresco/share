@@ -117,7 +117,7 @@ public class FollowingPage extends SharePage
     /**
      * Get the navigation bar.
      *
-     * @return
+     * @return ProfileNavigation
      */
     public ProfileNavigation getProfileNav()
     {
@@ -148,7 +148,7 @@ public class FollowingPage extends SharePage
     /**
      * Returns <code>true</true> if the Private checkbox is checked.
      *
-     * @return
+     * @return boolean
      */
     public boolean isPrivateChecked()
     {

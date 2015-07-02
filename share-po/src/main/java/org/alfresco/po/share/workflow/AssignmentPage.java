@@ -114,7 +114,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to add multiple Users
      *
-     * @param userNames
+     * @param userNames List<String>
      */
     public void selectUsers(List<String> userNames)
     {
@@ -128,7 +128,7 @@ public class AssignmentPage extends SharePage
      * Method to add a single user
      * Move this as a util in qa-share
      *
-     * @param userName
+     * @param userName String
      */
     @Deprecated
     public void selectUserWithRetry(String userName)
@@ -157,8 +157,8 @@ public class AssignmentPage extends SharePage
     /**
      * Method to add a single user
      *
-     * @param userName
-     * @return
+     * @param userName String
+     * @return boolean
      */
     public boolean selectUser(String userName)
     {
@@ -211,9 +211,6 @@ public class AssignmentPage extends SharePage
 
     /**
      * Method to select the cloud assignee and submit.
-     *
-     * @return Assignment Page return type clod sync cloud user part will be
-     * modified after completing other page objects.
      */
     public void selectAssignee(String userName)
     {
@@ -260,7 +257,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to search for given user
      *
-     * @param userName
+     * @param userName String
      */
     public void searchForUser(String userName)
     {
@@ -295,7 +292,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to check if "No items found" message is displayed
      *
-     * @param userName
+     * @param userName String
      * @return True if "No items found" message is displayed
      */
     public boolean isNoItemsFoundMessageDisplayed(String userName)
@@ -319,7 +316,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to check if a given user found after search.
      *
-     * @param userName
+     * @param userName String
      * @return True if given user found
      */
     public boolean isUserFound(String userName)
@@ -348,7 +345,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to check "Enter a search term" message is displayed
      *
-     * @return
+     * @return boolean
      */
     public boolean isEnterASearchTermMessageDisplayed()
     {
@@ -440,7 +437,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to get User list after search
      *
-     * @param userName
+     * @param userName String
      * @return List of users
      */
     public List<String> getUserList(String userName)
@@ -457,7 +454,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to verify Add Icon is present for a given user
      *
-     * @param userName
+     * @param userName String
      * @return True if Add icon is present
      */
     public boolean isAddIconPresent(String userName)
@@ -501,7 +498,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to verify if the given user is selected or not
      *
-     * @param userName
+     * @param userName String
      * @return True if selected
      */
     public boolean isUserSelected(String userName)
@@ -526,7 +523,7 @@ public class AssignmentPage extends SharePage
     /**
      * Method to remove a user from Selected Users list
      *
-     * @param userName
+     * @param userName String
      */
     public void removeUser(String userName)
     {

@@ -41,7 +41,7 @@ import org.springframework.extensions.webscripts.WebScriptRequest;
 
 /**
  * <p>This is the Java controller for the Module Deployment WebScript (/modules/deploy) that returns the status of the module
- * deployment configuration. The corrent configuration is retrieved from the configured {@iink ModuleDeploymentService} and
+ * deployment configuration. The corrent configuration is retrieved from the configured {@link ModuleDeploymentService} and
  * converted into "stringified" JSON and added to the model for rendering by the template.</p>
  * 
  * @author David Draper
@@ -73,7 +73,7 @@ public class GetDeployedModules extends DeclarativeWebScript implements Applicat
      * <p>Provided so that the Spring application context can set the {@link ModuleDeploymentService} to use. It is essential that
      * the Spring bean configuration has been set correctly otherwise this controller will not achieve anything.</p>
      * 
-     * @param moduleDeploymentService
+     * @param moduleDeploymentService ModuleDeploymentService
      */
     public void setModuleDeploymentService(ModuleDeploymentService moduleDeploymentService)
     {
@@ -174,8 +174,8 @@ public class GetDeployedModules extends DeclarativeWebScript implements Applicat
 
     /**
      * <p>Constructs a {@link JSONObject} representation of an {@link ExtensionModule}.</p>
-     * @param extMod
-     * @return
+     * @param extMod ExtensionModule
+     * @return JSONObject
      * @throws JSONException
      */
     private JSONObject createModuleDefinition(ExtensionModule extMod) throws JSONException
@@ -191,8 +191,8 @@ public class GetDeployedModules extends DeclarativeWebScript implements Applicat
     /**
      * <p>Constructs a {@link JSONObject} representation of a configured {@link ModuleDeployment}. This will only
      * contain <code>evaluatorOverrideId</code> and <code>evaluatorPropertyOverrides</code> attributes if configured.</p> 
-     * @param modDep
-     * @return
+     * @param modDep ModuleDeployment
+     * @return JSONObject
      * @throws JSONException
      */
     private JSONObject createModuleDefinition(ModuleDeployment modDep) throws JSONException

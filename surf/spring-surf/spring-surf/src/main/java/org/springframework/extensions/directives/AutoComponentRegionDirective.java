@@ -22,7 +22,7 @@ import freemarker.template.TemplateModel;
 /**
  * The purpose of this directive is to circumvent the requirement to create and persist Components as a means of executing
  * Aikau pages defined by a single WebScript. Previously the solution had been to use the {@link CreateComponentDirective} directive
- * prior to using the {@link RegionDirective}. However, this resulted in calls to persist the Component and were ultimately unnecessary.
+ * prior to using the {@link RegionDirectiveData}. However, this resulted in calls to persist the Component and were ultimately unnecessary.
  * This solution simply requires that a new {@link Component} is created on demand and not persisted.
  * 
  * @author Dave Draper
@@ -40,7 +40,7 @@ public class AutoComponentRegionDirective extends AbstractFreeMarkerDirective
     public static final String DIRECTIVE_NAME = "autoComponentRegion";
 
     /**
-     * A {@link RequestContext} is required to be passed in the call to the {@link RenderService.renderComponent}
+     * A {@link RequestContext} is required to be passed in the call to the {@link RenderService#renderComponent(RequestContext, RenderFocus, Component, String, boolean)}
      * method.
      */
     private RequestContext context = null;
@@ -48,7 +48,7 @@ public class AutoComponentRegionDirective extends AbstractFreeMarkerDirective
     /**
      * Set the {@link RequestContext} required for rendering the {@link Component}.
      * 
-     * @param context
+     * @param context RequestContext
      */
     public void setRequestContext(RequestContext context)
     {
@@ -63,7 +63,7 @@ public class AutoComponentRegionDirective extends AbstractFreeMarkerDirective
     /**
      * Set the {@link RenderService} required to render the {@link Component}
      * 
-     * @param renderService
+     * @param renderService RenderService
      */
     public void setRenderService(RenderService renderService)
     {

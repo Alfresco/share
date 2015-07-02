@@ -33,7 +33,7 @@ public interface ContentStream
 
     /**
      * 
-     * @return
+     * @return InputStream
      * @deprecated
      */
     InputStream getStream();
@@ -41,7 +41,7 @@ public interface ContentStream
     /**
      * Writes the content of this stream into the supplied Writer using UTF-8 encoding.
      * This operation neither flushes nor closes the supplied writer.
-     * @param writer
+     * @param writer Writer
      * @throws IOException
      */
     void write(Writer writer) throws IOException;
@@ -49,8 +49,8 @@ public interface ContentStream
     /**
      * Writes the content of this stream into the supplied Writer using the specified character encoding.
      * This operation neither flushes nor closes the supplied writer.
-     * @param writer
-     * @param encoding
+     * @param writer Writer
+     * @param encoding String
      * @throws IOException
      */
     void write(Writer writer, String encoding) throws IOException;
@@ -58,7 +58,7 @@ public interface ContentStream
     /**
      * Streams the content from this stream into the supplied output stream.
      * This operation neither flushes nor closes the supplied output stream.
-     * @param output
+     * @param output OutputStream
      * @throws IOException
      */
     void output(OutputStream output) throws IOException;

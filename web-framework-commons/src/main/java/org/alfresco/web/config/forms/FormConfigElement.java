@@ -249,7 +249,7 @@ public class FormConfigElement extends ConfigElementAdapter
      * i&#46;e&#46; those that are 'roots' in the tree of sets. Note that this map will
      * always have at least one member; the default set.
      * 
-     * @return
+     * @return List<FormSet>
      * @see #DEFAULT_SET_ID
      */
     public List<FormSet> getRootSetsAsList()
@@ -450,7 +450,7 @@ public class FormConfigElement extends ConfigElementAdapter
      * This method returns an array of fieldNames for those fields which are
      * visible in Create mode and which are also members of the specified set.
      * 
-     * @param setId
+     * @param setId String
      * @return the array of fieldNames (if there are any).
      *         <code>null</code> will be returned if the specified setId is not
      *         recognised or if the visible fields are not known.
@@ -565,7 +565,7 @@ public class FormConfigElement extends ConfigElementAdapter
     
     /**
      * 
-     * @param m
+     * @param m Mode
      * @return <code>null</code> if there is no template available for the specified mode.
      */
     public String getFormTemplate(Mode m)
@@ -607,9 +607,9 @@ public class FormConfigElement extends ConfigElementAdapter
      * This method checks whether the specified field is visible in the specified mode.
      * This is added as a convenience for JavaScript clients.
      * 
-     * @param fieldId
-     * @param modeString
-     * @return
+     * @param fieldId String
+     * @param modeString String
+     * @return boolean
      * @see #isFieldVisible(String, Mode)
      */
     public boolean isFieldVisibleInMode(String fieldId, String modeString)
@@ -625,9 +625,9 @@ public class FormConfigElement extends ConfigElementAdapter
      * This method checks whether the specified field is specifically hidden in the specified mode.
      * This is added as a convenience for JavaScript clients.
      * 
-     * @param fieldId
-     * @param modeString
-     * @return #isFieldHidden(String, Mode)
+     * @param fieldId String
+     * @param modeString String
+     * @return boolean
      */
     public boolean isFieldHiddenInMode(String fieldId, String modeString)
     {

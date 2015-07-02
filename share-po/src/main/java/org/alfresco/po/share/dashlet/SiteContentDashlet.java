@@ -214,7 +214,6 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     /**
      * Retrieves the link based on the given cssSelector.
      * 
-     * @return WebElement
      */
     public void selectHelpButton()
     {
@@ -298,7 +297,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
      * This method gets the list of messages based on given cssselector and
      * appends it to a string.
      * 
-     * @param cssLocator
+     * @param cssLocator String
      */
     private String getHelpButtonMessage(String cssLocator)
     {

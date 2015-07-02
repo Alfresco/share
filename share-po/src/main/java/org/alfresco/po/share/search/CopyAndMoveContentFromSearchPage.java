@@ -131,7 +131,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     /**
      * This method finds the clicks on copy/move/cancel button.
      * 
-     * @param buttonName
+     * @param buttonName String
      * @return HtmlPage FacetedSerachResultsPage
      */
     private FacetedSearchPage selectCopyOrMoveOrCancelButton(String buttonName)
@@ -220,7 +220,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      * This method finds and selects the given destination from the
      * displayed list of destinations in CopyAndMoveContentFromSearchPage
      * 
-     * @param destinationName
+     * @param destinationName String
      * @return CopyOrMoveContentPage
      */
     public CopyAndMoveContentFromSearchPage selectDestination(String destinationName)
@@ -265,7 +265,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      * This method finds and selects any folder from repository in CopyAndMoveContentFromSearchPage
      * This method is used when Repository is selected as destination
      * 
-     * @param repoFolder
+     * @param repoFolder String
      * @return CopyOrMoveContentPage
      */
     public CopyAndMoveContentFromSearchPage selectFolderInRepo(String repoFolder)
@@ -469,7 +469,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     /**
      * Helper method to click on the page marker in copy and move dialog page
      * 
-     * @return
+     * @return CopyAndMoveContentFromSearchPage
      */
     public CopyAndMoveContentFromSearchPage scrollDwon()
     {              

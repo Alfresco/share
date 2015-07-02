@@ -56,7 +56,7 @@ public class CreateComponentDirective extends AbstractFreeMarkerDirective
     
     /**
      * Setter provided so that the Spring application context can set the {@link ModelObjectService}.
-     * @param modelObjectService
+     * @param modelObjectService ModelObjectService
      */
     public void setModelObjectService(ModelObjectService modelObjectService)
     {

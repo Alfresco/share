@@ -88,7 +88,7 @@ public class SiteCalendarDashletTest extends AbstractSiteDashletTest
     /**
      * Tests to verify the method isEventsWithDetailDisplayed()
      * 
-     * @author bogdan.bocancea
+     * <br/><br/>author bogdan.bocancea
      */
     @Test(dependsOnMethods = "verifyEventsCount")
     public void verifyEventCreated()

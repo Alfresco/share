@@ -35,7 +35,7 @@ import org.springframework.extensions.webscripts.WebScriptRequest;
 /**
  * <p>This is the Java controller for the Module Deployment WebScript (/modules/deploy) that handles updates to the module
  * deployment configuration. The modules to deploy are retrieved from a request as an array of "stringified" JSON objects.
- * These are then parsed into {@link JSONObject} instances and passed to the configured {@iink ModuleDeploymentService} to
+ * These are then parsed into {@link JSONObject} instances and passed to the configured {@link ModuleDeploymentService} to
  * be processed.</p>
  * 
  * @author David Draper
@@ -54,7 +54,7 @@ public class PostDeployedModules extends DeclarativeWebScript
      * <p>Provided so that the Spring application context can set the {@link ModuleDeploymentService} to use. It is essential that
      * the Spring bean configuration has been set correctly otherwise this controller will not achieve anything.</p>
      * 
-     * @param moduleDeploymentService
+     * @param moduleDeploymentService ModuleDeploymentService
      */
     public void setModuleDeploymentService(ModuleDeploymentService moduleDeploymentService)
     {

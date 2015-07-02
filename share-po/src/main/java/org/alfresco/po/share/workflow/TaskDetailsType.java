@@ -48,7 +48,7 @@ public enum TaskDetailsType
     /**
      * Returns {@link TaskDetailsType} based on given value.
      * 
-     * @param value
+     * @param value String
      * @return {@link TaskDetailsType}
      */
     public static TaskDetailsType getTaskDetailsType(String value)

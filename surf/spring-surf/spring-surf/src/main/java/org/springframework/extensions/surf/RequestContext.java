@@ -95,7 +95,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
      * Returns the title of the web site.  This is drawn from the
      * site configuration XML if available.
      *
-     * @return
+     * @return String
      */
     public String getWebsiteTitle();
 
@@ -110,30 +110,30 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Sets a custom attribute onto the request context
      *
-     * @param key
-     * @param value
+     * @param key String
+     * @param value Serializable
      */
     public void setValue(String key, Serializable value);
 
     /**
      * Retrieves a custom value from the request context
      *
-     * @param key
-     * @return
+     * @param key String
+     * @return Serializable
      */
     public Serializable getValue(String key);
 
     /**
      * Removes a custom value from the request context
      *
-     * @param key
+     * @param key String
      */
     public void removeValue(String key);
 
     /**
      * Returns true if a custom value exists in the request context
      *
-     * @param key
+     * @param key String
      * @return true if a custom value exists in the request context
      */
     public boolean hasValue(String key);
@@ -149,15 +149,15 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Retrieves a parameter from the request context
      *
-     * @param key
-     * @return
+     * @param key String
+     * @return String
      */
     public String getParameter(String key);
 
     /**
      * Returns true if a parameter exists in the request context
      *
-     * @param key
+     * @param key String
      * @return true if a custom value exists in the request context
      */
     public boolean hasParameter(String key);
@@ -203,7 +203,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Sets the currently executing page.
      *
-     * @param page
+     * @param page Page
      */
     public void setPage(Page page);
 
@@ -220,7 +220,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
      * page.  In general, you will have one link builder per site but
      * this hook allows for the possibility of multiple.
      *
-     * @return
+     * @return LinkBuilder
      */
     public LinkBuilder getLinkBuilder();
 
@@ -236,14 +236,13 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Returns the current executing template.
      *
-     * @return
+     * @return TemplateInstance
      */
     public TemplateInstance getTemplate();
 
     /**
      * Sets the current executing template.
      *
-     * @return
      */
     public void setTemplate(TemplateInstance currentTemplate);
 
@@ -274,48 +273,48 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Sets the current object
      *
-     * @param object
+     * @param object Resource
      */
     public void setCurrentObject(Resource object);
 
     /**
      * Returns the current format id
      *
-     * @return
+     * @return String
      */
     public String getFormatId();
 
     /**
      * Sets the current format id
      *
-     * @param formatId
+     * @param formatId String
      */
     public void setFormatId(String formatId);
 
     /**
      * Sets the current user for this request
-     * @param user
+     * @param user User
      */
     public void setUser(User user);
 
     /**
      * Returns the current user
      *
-     * @return
+     * @return User
      */
     public User getUser();
 
     /**
      * Returns the current user id
      *
-     * @return
+     * @return String
      */
     public String getUserId();
 
     /**
      * Returns the credential vault
      *
-     * @return
+     * @return CredentialVault
      */
     public CredentialVault getCredentialVault();
 
@@ -327,7 +326,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Sets the theme
      *
-     * @param theme
+     * @param theme Theme
      */
     public void setTheme(Theme theme);
 
@@ -372,7 +371,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
 
     /**
      * <p>Returns the protocol (e.g. HTTP/HTTPS) of the request.</p>
-     * @return
+     * @return String
      */
     public String getRequestScheme();
     
@@ -394,7 +393,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Sets the spring mvc model
      *
-     * @param model
+     * @param model Map<String, Object>
      */
     public void setModel(Map<String, Object> model);
 
@@ -427,15 +426,15 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Retrieves an attribute from the request context
      *
-     * @param key
-     * @return
+     * @param key String
+     * @return Serializable
      */
     public Serializable getAttribute(String key);
 
     /**
      * Returns true if an attribute exists in the request context
      *
-     * @param key
+     * @param key String
      * @return whether the attribute exists
      */
     public boolean hasAttribute(String key);
@@ -450,15 +449,15 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Retrieves an header from the request context
      *
-     * @param key
-     * @return
+     * @param key String
+     * @return String
      */
     public String getHeader(String key);
 
     /**
      * Returns true if an header exists in the request context
      *
-     * @param key
+     * @param key String
      * @return whether the header exists
      */
     public boolean hasHeader(String key);
@@ -473,7 +472,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
     /**
      * Sets the parsed URI tokens
      *
-     * @param uriTokens
+     * @param uriTokens Map<String,String>
      */
     public void setUriTokens(Map<String,String> uriTokens);
 
@@ -500,7 +499,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
      * The <code>RenderMode</code> only affects the rendering of Components. Different
      * <code>RenderModes</code> can be configured in ComponentType configuration files.</p>
      *
-     * @param renderMode
+     * @param renderMode RenderMode
      */
     public void setRenderMode(RenderMode renderMode);
 
@@ -533,7 +532,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
      * used in passive mode or not. Passive mode is used to calculate component dependencies for bound
      * regions before the templates are executed properly</p>
      *
-     * @param passiveMode
+     * @param passiveMode boolean
      */
     public void setPassiveMode(boolean passiveMode);
 
@@ -606,7 +605,7 @@ public interface RequestContext extends Serializable, HandlesExtensibility
      * the URI, properties, etc. that were used.</p>
      * 
      * @param id The identifier of the {@link SubComponent} to retrieve the {@link RenderData} for.
-     * @param The {@link RenderData} to add.
+     * @param data The {@link RenderData} to add.
      */
     public void addSubComponentDebugData(String id, RenderData data);
     

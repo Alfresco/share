@@ -101,7 +101,6 @@ public class DashBoardPage extends SharePage implements Dashboard
      *
      * @param name String title of dashlet
      * @return HtmlPage page object
-     * @throws Exception
      */
     public Dashlet getDashlet(final String name)
     {

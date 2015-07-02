@@ -38,7 +38,7 @@ public interface ModelObject extends Serializable
     /**
      * Returns the model object key instance
      * 
-     * @return
+     * @return ModelPersisterInfo
      */
     public ModelPersisterInfo getKey();
     
@@ -66,7 +66,7 @@ public interface ModelObject extends Serializable
     /**
      * Sets the title property of the model object
      * 
-     * @param The new title
+     * @param value The new title
      */
     public void setTitle(String value);
     
@@ -80,7 +80,7 @@ public interface ModelObject extends Serializable
     /**
      * Sets the title id property of the model object
      * 
-     * @param The new title id
+     * @param value The new title id
      */
     public void setTitleId(String value);
     
@@ -94,7 +94,7 @@ public interface ModelObject extends Serializable
     /**
      * Sets the description property of the model object
      * 
-     * @param The description
+     * @param value The description
      */
     public void setDescription(String value);
     
@@ -108,7 +108,7 @@ public interface ModelObject extends Serializable
     /**
      * Sets the description id property of the model object
      * 
-     * @param The description id
+     * @param value The description id
      */
     public void setDescriptionId(String value);
         

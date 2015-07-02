@@ -153,8 +153,8 @@ public interface LinkBuilder
     /**
      * Constructs a link to a resources at a given relative uri.
      * 
-     * @param context
-     * @param uri
+     * @param context RequestContext
+     * @param uri String
      * 
      * @return the 
      */

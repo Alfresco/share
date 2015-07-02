@@ -35,7 +35,7 @@ public class WebFrameworkConfigElementReader implements ConfigElementReader
     * Called from the configuration service to handle the loading of the
     * Web Framework configuration XML.
     * 
-    * @param element the element
+    * @param elem the element
     * 
     * @return the config element
     * 

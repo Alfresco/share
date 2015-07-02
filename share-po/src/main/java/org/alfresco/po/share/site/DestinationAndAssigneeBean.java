@@ -53,7 +53,7 @@ public class DestinationAndAssigneeBean
      * If user does not set path for the sync file location on cloud
      * default return will be "Documents".
      * 
-     * @return
+     * @return String[]
      */
     public String[] getSyncToPath()
     {

@@ -34,13 +34,13 @@ public class FootersPageTest extends AbstractTest
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * Test process of accessing dashboard page.
-     * 
-     * @throws Exception
-     */
     DashBoardPage dashBoard;
 
+    /**
+     * Test process of accessing dashboard page.
+     *
+     * @throws Exception
+     */
     @Test(groups = "EnterpriseOnly")
     public void loadDashBoard() throws Exception
     {

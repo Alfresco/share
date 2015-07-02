@@ -58,7 +58,7 @@ public class ClusterValidationPage extends ShareDialogue {
     /**
      * Checks if Close button present at a page
      *
-     * @return
+     * @return boolean
      */
     public boolean isCancelButtonPresent() {
         try {
@@ -94,7 +94,7 @@ public class ClusterValidationPage extends ShareDialogue {
     /**
      * Gets popup title
      *
-     * @return
+     * @return String
      */
     public String getTitle() {
         try {
@@ -108,8 +108,8 @@ public class ClusterValidationPage extends ShareDialogue {
     /**
      * Close Validate Cluster page
      *
-     * @param drone
-     * @return
+     * @param drone WebDrone
+     * @return RepositoryServerClusteringPage
      */
     public RepositoryServerClusteringPage closeValidationPage(WebDrone drone) {
 

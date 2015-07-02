@@ -30,43 +30,43 @@ public interface UrlUtils
 {
 	/**
 	 * Get the url of an asset
-	 * @param Asset asset
+	 * @param asset Asset
 	 * @return String url
 	 */
 	String getUrl(Asset asset);
 	
 	/**
 	 * Get the url of a section
-	 * @param Section section
+	 * @param section Section
 	 * @return String url
 	 */
 	String getUrl(Section section);
 	
 	/**
 	 * Get the short url of an asset
-	 * @param Asset asset
+	 * @param asset Asset
 	 * @return String url
 	 */
 	String getShortUrl(Asset asset);
 	
 	/**
 	 * Get the long url of an asset
-	 * @param Asset asset
+	 * @param asset Asset
 	 * @return String url
 	 */
 	String getLongUrl(Asset asset);	
 
 	/**
      * Get the asset id from a short url.
-     * @param url the url
+     * @param uri the url
      * @return String the asset id
      */
 	String getAssetIdFromShortUrl(String uri);
 	
 	/**
 	 * Reverse the URL encoding process to get the original resource name.
-	 * @param resourceName
-	 * @return
+	 * @param resourceName String
+	 * @return String
 	 */
 	String decodeResourceName(String resourceName);	
 	

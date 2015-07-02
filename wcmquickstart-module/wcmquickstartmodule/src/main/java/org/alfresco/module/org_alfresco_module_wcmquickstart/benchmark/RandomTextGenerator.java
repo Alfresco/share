@@ -100,12 +100,12 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }
 
     /**
-     * @param minParagraphs
-     * @param maxParagraphs
-     * @param minParagraphLength
-     * @param maxParagraphLength
-     * @param lineWidth
-     * @return
+     * @param minParagraphs int
+     * @param maxParagraphs int
+     * @param minParagraphLength int
+     * @param maxParagraphLength int
+     * @param lineWidth int
+     * @return String
      */
     public String generateHTMLString(int minParagraphs, int maxParagraphs, int minParagraphLength, int maxParagraphLength, int lineWidth)
     {
@@ -128,12 +128,12 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }    
 
     /**
-     * @param minParagraphs
-     * @param maxParagraphs
-     * @param minParagraphLength
-     * @param maxParagraphLength
-     * @param lineWidth
-     * @return
+     * @param minParagraphs int
+     * @param maxParagraphs int
+     * @param minParagraphLength int
+     * @param maxParagraphLength int
+     * @param lineWidth int
+     * @return String
      */
     public String generateTextString(int minParagraphs, int maxParagraphs, int minParagraphLength, int maxParagraphLength, int lineWidth)
     {
@@ -149,13 +149,13 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }  
     
     /**
-     * @param outputFile
-     * @param minParagraphs
-     * @param maxParagraphs
-     * @param minParagraphLength
-     * @param maxParagraphLength
-     * @param lineWidth
-     * @return
+     * @param outputFile int
+     * @param minParagraphs int
+     * @param maxParagraphs int
+     * @param minParagraphLength int
+     * @param maxParagraphLength int
+     * @param lineWidth int
+     * @return int
      */
     public int generateTextFile(String outputFile, int minParagraphs, int maxParagraphs, int minParagraphLength, int maxParagraphLength, int lineWidth)
     {
@@ -195,9 +195,9 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }
 
     /**
-     * @param min
-     * @param max
-     * @return
+     * @param min int
+     * @param max int
+     * @return int
      */
     private int randomNumber (int min, int max)
     {
@@ -205,7 +205,7 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }
 
     /**
-     * @return
+     * @return String
      */
     public String generateSentence ()
     {
@@ -213,8 +213,9 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }
 
     /**
-     * @param totalCharacters
-     * @return
+     * @param totalCharacters int
+     * @param enforceFullWord boolean
+     * @return String
      */
     public String generateSentence (int totalCharacters,boolean enforceFullWord)
     {
@@ -227,8 +228,9 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }
 
     /**
-     * @param totalCharacters
-     * @return
+     * @param totalCharacters int
+     * @param enforceFullWord boolean
+     * @return String
      */
     public String generateName (int totalCharacters,boolean enforceFullWord)
     {
@@ -248,7 +250,7 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }
     
     /**
-     * @return
+     * @return String
      */
     public String generateText ()
     {
@@ -256,9 +258,10 @@ public class RandomTextGenerator implements TextGenerator, InitializingBean
     }
 
     /**
-     * @param totalCharacters
-     * @param lineWidth
-     * @return
+     * @param totalCharacters int
+     * @param lineWidth int
+     * @param enforceFullWord boolean
+     * @return String
      */
     public String generateText (int totalCharacters, int lineWidth, boolean enforceFullWord)
     {

@@ -55,7 +55,8 @@ public class TemplateInstanceRenderer extends AbstractRenderer
      * to capture which components are bound into regions. This information can then be
      * used to render the "head" templates up-front before the main template executes.
      *
-     * @param parentContext
+     * @param context RequestContext
+     * @param object ModelObject
      * @throws RendererExecutionException
      */
     private void calculateComponentDependencies(RequestContext context, ModelObject object)

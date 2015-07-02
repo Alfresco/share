@@ -130,7 +130,6 @@ public class CloudReviewTaskTest extends AbstractTest
 
     /**
      * TearDown method to delete the site
-     * @throws Exception
      */
     @AfterClass
     public void tearDown()

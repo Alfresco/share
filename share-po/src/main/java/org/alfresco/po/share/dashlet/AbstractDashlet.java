@@ -395,9 +395,9 @@ public abstract class AbstractDashlet extends SharePage
      * Parses the xml string of the original-title attribute element to get tooltip 
      * data for report dashlets
      * 
-     * @param xml
-     * @param element
-     * @return
+     * @param xml String
+     * @param element String
+     * @return String
      */
     protected String getElement(String xml, String element) throws Exception
     {
@@ -443,7 +443,7 @@ public abstract class AbstractDashlet extends SharePage
     /**
      * Checks if No data found is displayed instead of chart
      * 
-     * @return
+     * @return boolean
      */
     public boolean isNoDataFoundDisplayed()
     {

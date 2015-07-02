@@ -76,7 +76,7 @@ public class FootersPage extends ShareDialogue
     /**
      * Is License info present.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isLicenseInfoPresent()
     {
@@ -96,8 +96,8 @@ public class FootersPage extends ShareDialogue
     }
 
     /**
-     * @param drone
-     * @return
+     * @param drone WebDrone
+     * @return Map
      */
     private Map<String, String> getHeaderInfo(WebDrone drone)
     {
@@ -132,7 +132,7 @@ public class FootersPage extends ShareDialogue
 
     /**
      * Get Alfresco product info which contains the version and name of the product.
-     * @return
+     * @return String
      */
     public String getAlfrescoVersion()
     {

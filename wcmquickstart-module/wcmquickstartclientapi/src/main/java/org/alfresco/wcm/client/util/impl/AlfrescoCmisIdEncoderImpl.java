@@ -42,7 +42,7 @@ public class AlfrescoCmisIdEncoderImpl implements CmisIdEncoder
 	}
 
 	/**
-	 * @see org.alfresco.wcm.client.util.CmisIdEncoder#getU
+	 * @see org.alfresco.wcm.client.util.CmisIdEncoder#getUrlSafeString(String)
 	 */
 	@Override
 	public String getUrlSafeString(String objectId)

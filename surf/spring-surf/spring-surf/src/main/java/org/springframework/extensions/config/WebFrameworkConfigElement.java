@@ -94,7 +94,7 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     /**
      * <p>Updates the status of SurfBug to indicate whether it is enabled or disabled</code>. This method
      * has been provided to be invoked by the toggle_surfbug WebScript.</p>
-     * @param surfBugEnabled
+     * @param surfBugEnabled boolean
      */
     public void setSurfBugEnabled(boolean surfBugEnabled)
     {
@@ -1402,8 +1402,8 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
 
     /**
      * Processes the Dojo configuration from the supplied {@link Element}
-     * @param configElement
-     * @param elem
+     * @param configElement WebFrameworkConfigElement
+     * @param elem Element
      */
     public static void processDojoConfiguration(WebFrameworkConfigElement configElement, Element elem)
     {
@@ -1478,8 +1478,8 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     
     /**
      * Combines Dojo configuration from the configElement into the combinedElement.
-     * @param configElement
-     * @param combinedElement
+     * @param configElement WebFrameworkConfigElement
+     * @param combinedElement WebFrameworkConfigElement
      */
     public void combineDojoConfiguration(WebFrameworkConfigElement configElement, 
                                          WebFrameworkConfigElement combinedElement)

@@ -86,7 +86,7 @@ public class PdfJsPlugin extends SharePage
     /**
      * Checks if sidebar is displayed
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSidebarVisible()
     {
@@ -148,7 +148,7 @@ public class PdfJsPlugin extends SharePage
     /**
      * Return the current page number
      * 
-     * @return
+     * @return int
      */
     public int getCurrentPageNum()
     {
@@ -167,7 +167,7 @@ public class PdfJsPlugin extends SharePage
     /**
      * Return the claimed number of pages shown in the toolbar
      * 
-     * @return
+     * @return int
      */
     public int getNumClaimedPages()
     {
@@ -186,7 +186,7 @@ public class PdfJsPlugin extends SharePage
     /**
      * Return the number of pages present within the main view
      * 
-     * @return
+     * @return int
      */
     public int getNumDisplayedPages(String viewerClass)
     {
@@ -205,7 +205,7 @@ public class PdfJsPlugin extends SharePage
     /**
      * Return the number of pages present within the main view
      * 
-     * @return
+     * @return int
      */
     public int getMainViewNumDisplayedPages()
     {
@@ -215,7 +215,7 @@ public class PdfJsPlugin extends SharePage
     /**
      * Return the number of pages present within the main view
      * 
-     * @return
+     * @return int
      */
     public int getSidebarNumDisplayedPages()
     {

@@ -67,7 +67,11 @@ public abstract class AbstractWebFrameworkView extends AbstractUrlBasedView
     /**
      * Constructor
      *
-     * @param webFrameworkServiceRegistry   WebFrameworkServiceRegistry
+     * @param webFrameworkConfiguration WebFrameworkConfigElement
+     * @param modelObjectService ModelObjectService
+     * @param resourceService ResourceService
+     * @param renderService RenderService
+     * @param templatesContainer TemplatesContainer
      */
     public AbstractWebFrameworkView(WebFrameworkConfigElement webFrameworkConfiguration,
                                     ModelObjectService modelObjectService,
@@ -358,8 +362,8 @@ public abstract class AbstractWebFrameworkView extends AbstractUrlBasedView
      * Implementation classes should extend this method to provide for any initial setup
      * of the request context.  This may include setting its internal state.
      *
-     * @param mvcModel
-     * @param request
+     * @param mvcModel Map<String, Object>
+     * @param request HttpServletRequest
      */
     protected void setupRequestContext(Map<String, Object> mvcModel, HttpServletRequest request)
         throws Exception
@@ -369,8 +373,8 @@ public abstract class AbstractWebFrameworkView extends AbstractUrlBasedView
     /**
      * Performs default population of the request context.
      *
-     * @param context
-     * @param request
+     * @param context RequestContext
+     * @param request HttpServletRequest
      *
      * @throws Exception
      */
@@ -388,8 +392,8 @@ public abstract class AbstractWebFrameworkView extends AbstractUrlBasedView
      *
      * By default, no validation is performed.
      *
-     * @param context
-     * @param request
+     * @param context RequestContext
+     * @param request HttpServletRequest
      */
     protected void validateRequestContext(RequestContext context, HttpServletRequest request)
         throws Exception
@@ -405,7 +409,7 @@ public abstract class AbstractWebFrameworkView extends AbstractUrlBasedView
      *
      * This provides a quick way to get started building templated sites.
      *
-     * @param pageId
+     * @param pageId String
      *
      * @return page object
      */

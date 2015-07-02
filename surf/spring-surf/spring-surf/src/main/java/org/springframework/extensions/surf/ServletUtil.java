@@ -94,7 +94,7 @@ public class ServletUtil
     /**
      * Sets the http servlet request onto the spring request attributes
      * 
-     * @param request
+     * @param request HttpServletRequest
      */
     public static void setRequest(HttpServletRequest request)
     {
@@ -109,8 +109,7 @@ public class ServletUtil
      * Retrieves the http servlet object heard by the view implementation.
      * This is stored on a thread local by the Spring view handler.
      * 
-     * @param request
-     * @return
+     * @return HttpServletRequest
      */
     public static HttpServletRequest getRequest()
     {

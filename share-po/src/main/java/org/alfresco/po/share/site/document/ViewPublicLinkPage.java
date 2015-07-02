@@ -151,7 +151,7 @@ public class ViewPublicLinkPage extends SharePage
      * Gets the button label
      * 
      * @return String button label
-     * @author bogdan.bocancea
+     * <br/><br/>author bogdan.bocancea
      */
     public String getButtonName()
     {
@@ -170,7 +170,7 @@ public class ViewPublicLinkPage extends SharePage
      * Gets the error title label
      * 
      * @return String Page not available
-     * @author bogdan.bocancea
+     * <br/><br/>author bogdan.bocancea
      */
     public String getPageNotAvailable()
     {
@@ -191,7 +191,7 @@ public class ViewPublicLinkPage extends SharePage
      * Gets the error body label
      * 
      * @return String Page not available
-     * @author bogdan.bocancea
+     * <br/><br/>author bogdan.bocancea
      */
     public String getBodyPageNotAvailable()
     {
@@ -211,7 +211,7 @@ public class ViewPublicLinkPage extends SharePage
      * Gets the content body.
      * 
      * @return String content body
-     * @author Cristina Axinte
+     * <br/><br/>author Cristina Axinte
      */
     public String getDocumentBody()
     {

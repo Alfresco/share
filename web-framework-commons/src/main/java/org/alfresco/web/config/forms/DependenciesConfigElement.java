@@ -62,7 +62,7 @@ public class DependenciesConfigElement extends ConfigElementAdapter
      * the values of the 'src' attribute. If there are no dependencies, <code>null</code>
      * is returned.
      * 
-     * @return
+     * @return String[]
      */
     public String[] getCss()
     {
@@ -81,7 +81,7 @@ public class DependenciesConfigElement extends ConfigElementAdapter
      * the values of the 'src' attribute. If there are no dependencies, <code>null</code>
      * is returned.
      * 
-     * @return
+     * @return String[]
      */
     public String[] getJs()
     {

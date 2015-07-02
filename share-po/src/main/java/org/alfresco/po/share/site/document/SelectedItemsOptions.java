@@ -44,7 +44,7 @@ public enum SelectedItemsOptions
     /**
      * Get value of CSS from the page type.
      * 
-     * @return
+     * @return String
      */
     public String getOption()
     {

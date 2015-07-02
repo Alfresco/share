@@ -28,9 +28,11 @@ public class TreeNode<T>
     private final T parent;
     private final T child;
     private final boolean isLeaf;
+
     /**
-     * @param value
-     * @param isLeaf
+     * @param parent T
+     * @param child T
+     * @param isLeaf boolean
      */
     public TreeNode(T parent, T child, boolean isLeaf)
     {

@@ -29,7 +29,7 @@ public interface ResourceMetadata
     /**
      * A link back to the resource of which this content is a part
      * 
-     * @return
+     * @return Resource
      */
     public Resource getResource();
 
@@ -48,7 +48,7 @@ public interface ResourceMetadata
     /**
      * Gets the timestamp of the metadata retrieval
      * 
-     * @return
+     * @return long
      */
     public long getTimestamp();
     

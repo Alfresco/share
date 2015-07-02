@@ -169,8 +169,8 @@ public final class ModelHelper
     /**
      * Allows model object ids to be set manually
      * 
-     * @param object
-     * @param id
+     * @param object ModelObject
+     * @param id String
      */
     public static void resetId(ModelObject object, String id)
     {

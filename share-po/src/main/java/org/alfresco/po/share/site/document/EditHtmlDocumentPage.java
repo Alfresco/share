@@ -71,7 +71,7 @@ public class EditHtmlDocumentPage extends InlineEditPage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isEditHtmlDocumentPage()
     {
@@ -92,7 +92,7 @@ public class EditHtmlDocumentPage extends InlineEditPage
     /**
      * return the count of text lines entered in editor.
      * 
-     * @return
+     * @return int
      */
     public int countOfTxtsFromEditor()
     {
@@ -106,8 +106,7 @@ public class EditHtmlDocumentPage extends InlineEditPage
     /**
      * Edit the editor, enter new text line, count the lines and save it.
      * 
-     * @param txtLine
-     * @return
+     * @param txtLine String
      */
     public void editText(String txtLine)
     {
@@ -128,8 +127,7 @@ public class EditHtmlDocumentPage extends InlineEditPage
     /**
      * Edit the editor, enter new text line, count the lines and save it.
      *
-     * @param txtLine
-     * @return
+     * @param txtLine String
      */
     public void addTextToTinyMCE(String txtLine)
     {
@@ -152,7 +150,7 @@ public class EditHtmlDocumentPage extends InlineEditPage
     }
     /**
      * Edit the editor, enter new text line, count the lines and save it.
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage saveText()
     {

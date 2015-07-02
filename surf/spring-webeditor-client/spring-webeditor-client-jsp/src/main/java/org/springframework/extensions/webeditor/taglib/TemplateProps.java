@@ -65,9 +65,9 @@ public class TemplateProps
      * Reads a property from a bundle.  Considers empty strings to be null.
      * If an exception occurs, null is returned.
      * 
-     * @param bundle
-     * @param key
-     * @return
+     * @param bundle ResourceBundle
+     * @param key String
+     * @return String
      */
     private static String readProperty(ResourceBundle bundle, String key)
     {

@@ -179,7 +179,7 @@ public class CalendarPage extends SitePage
     /**
      * Method click on button 'Add event'
      * 
-     * @return
+     * @return AddEventForm
      */
     public AddEventForm clickOnAddEvent()
     {
@@ -202,7 +202,7 @@ public class CalendarPage extends SitePage
     /**
      * Method click on button 'Add event' or on Tab for adding event
      * 
-     * @return
+     * @return AddEventForm
      */
     public AddEventForm clickOnTabOrButtonAddEvent(ActionEventVia createEventVia)
     {
@@ -269,17 +269,17 @@ public class CalendarPage extends SitePage
     /**
      * Method for event creation
      * 
-     * @param createEventVia
-     * @param whatField
-     * @param whereField
-     * @param description
-     * @param startDate
-     * @param startTime
-     * @param endDate
-     * @param endTime
-     * @param tags
-     * @param allDay
-     * @return
+     * @param createEventVia ActionEventVia
+     * @param whatField String
+     * @param whereField String
+     * @param description String
+     * @param startDate String
+     * @param startTime String
+     * @param endDate String
+     * @param endTime String
+     * @param tags String
+     * @param allDay boolean
+     * @return CalendarPage
      */
 
     public CalendarPage createEvent(ActionEventVia createEventVia, String whatField, String whereField, String description, String startDate, String startTime, String endDate, String endTime, String tags, boolean allDay)
@@ -288,21 +288,21 @@ public class CalendarPage extends SitePage
     }
 
     /**
-     * @param createEventVia
-     * @param whatField
-     * @param whereField
-     * @param description
-     * @param startYear
-     * @param startMonth
-     * @param startDate
-     * @param startTime
-     * @param endYear
-     * @param endMonth
-     * @param endDate
-     * @param endTime
-     * @param tags
-     * @param allDay
-     * @return
+     * @param createEventVia ActionEventVia
+     * @param whatField String
+     * @param whereField String
+     * @param description String
+     * @param startYear String
+     * @param startMonth String
+     * @param startDate String
+     * @param startTime String
+     * @param endYear String
+     * @param endMonth String
+     * @param endDate String
+     * @param endTime String
+     * @param tags String
+     * @param allDay boolean
+     * @return CalendarPage
      */
     public CalendarPage createEvent(ActionEventVia createEventVia, String whatField, String whereField, String description, String startYear, String startMonth, String startDate, String startTime, String endYear, String endMonth, String endDate, String endTime, String tags, boolean allDay)
     {
@@ -473,18 +473,18 @@ public class CalendarPage extends SitePage
     /**
      * Method for event edition
      * 
-     * @param eventName
-     * @param eventType
-     * @param editEventVia
-     * @param whatField
-     * @param whereField
-     * @param description
-     * @param startDate
-     * @param startTime
-     * @param endDate
-     * @param endTime
-     * @param tags
-     * @param allDay
+     * @param eventName String
+     * @param eventType EventType
+     * @param editEventVia ActionEventVia
+     * @param whatField String
+     * @param whereField String
+     * @param description String
+     * @param startDate String
+     * @param startTime String
+     * @param endDate String
+     * @param endTime String
+     * @param tags String
+     * @param allDay boolean
      * @return CalendarPage
      */
     public CalendarPage editEvent(String eventName, EventType eventType, ActionEventVia editEventVia, String whatField, String whereField, String description, String startDate, String startTime, String endDate, String endTime, String tags, boolean allDay, String[] removeTag)
@@ -611,10 +611,10 @@ public class CalendarPage extends SitePage
     /**
      * Method for event deletion
      * 
-     * @param eventName
-     * @param eventType
-     * @param editEventVia
-     * @return
+     * @param eventName String
+     * @param eventType EventType
+     * @param editEventVia ActionEventVia
+     * @return CalendarPage
      */
     public CalendarPage deleteEvent(String eventName, EventType eventType, ActionEventVia editEventVia)
     {
@@ -679,7 +679,7 @@ public class CalendarPage extends SitePage
     /**
      * Choose day tab
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage chooseDayTab()
     {
@@ -1030,10 +1030,10 @@ public class CalendarPage extends SitePage
 
     /**
      * Check that element presented(e.g. for hour element )
-     * 
-     * @param eventType
-     * @param eventName
-     * @return
+     *
+     * @param eventType EventType
+     * @param eventName String
+     * @return InformationEventForm
      */
     public InformationEventForm clickOnEvent(EventType eventType, String eventName)
     {
@@ -1065,7 +1065,7 @@ public class CalendarPage extends SitePage
     /**
      * Method return href for iCalFeed button
      * 
-     * @return
+     * @return String
      */
     public String clickIcalFeedButton()
     {
@@ -1088,7 +1088,7 @@ public class CalendarPage extends SitePage
     /**
      * Method return href for iCalFeed button
      * 
-     * @return
+     * @return String
      */
     public String getIcalFeedHref()
     {
@@ -1260,7 +1260,7 @@ public class CalendarPage extends SitePage
     /**
      * Method to return the number of events
      * 
-     * @param viaTab
+     * @param viaTab ActionEventVia
      * @return int
      */
     public int getTheNumOfEvents(ActionEventVia viaTab)

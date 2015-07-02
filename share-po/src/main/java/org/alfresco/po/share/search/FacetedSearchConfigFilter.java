@@ -207,7 +207,6 @@ public class FacetedSearchConfigFilter
     /**
      * Gets the filter show_i edit.
      * 
-     * @return the filter show_i edit
      */
     public void editFilterShow(String show)
     {

@@ -147,7 +147,6 @@ public class StartWorkFlowPageTest extends AbstractTest
 
     /**
      * TearDown method to delete the site
-     * @throws Exception 
      */
     @AfterClass
     public void tearDown()

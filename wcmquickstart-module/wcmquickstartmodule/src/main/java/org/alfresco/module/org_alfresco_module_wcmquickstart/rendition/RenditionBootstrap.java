@@ -172,8 +172,8 @@ public class RenditionBootstrap implements ApplicationContextAware, ApplicationL
 
     /**
      * 
-     * @param definition
-     * @return
+     * @param definition BootstrapRenditionDefinition
+     * @return RenditionDefinition
      */
     private RenditionDefinition getRenditionDefinition(BootstrapRenditionDefinition definition)
     {

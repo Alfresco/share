@@ -49,7 +49,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     /**
      * Constructor.
      *
-     * @param drone
+     * @param drone WebDrone
      */
     protected MyProfileDashlet(WebDrone drone)
     {
@@ -153,7 +153,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method to get element text for user name
      *
-     * @return
+     * @return String
      */
     public String getUserName()
     {
@@ -172,7 +172,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method to get element text for email.
      *
-     * @return
+     * @return String
      */
     public String getEmailName()
     {
@@ -201,7 +201,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     /**
      * Click on the user name to go to the user profile.
      *
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage clickOnUserName()
     {

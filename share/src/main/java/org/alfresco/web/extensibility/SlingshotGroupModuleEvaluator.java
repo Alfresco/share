@@ -32,9 +32,9 @@ public class SlingshotGroupModuleEvaluator implements ExtensionModuleEvaluator
 
     /**
      * Checks for a request for to negate the ruling. The default is false.
-     * @param context
-     * @param evaluationProperties
-     * @return
+     * @param context RequestContext
+     * @param evaluationProperties Map<String, String>
+     * @return boolean
      */
     protected boolean getNegation(RequestContext context, Map<String, String> evaluationProperties)
     {
@@ -47,9 +47,9 @@ public class SlingshotGroupModuleEvaluator implements ExtensionModuleEvaluator
      * this boils down to a straight choice between "AND" (must be a member of ALL groups) and "OR"
      * (only needs to be a member of one group)
      *
-     * @param context
-     * @param evaluationProperties
-     * @return
+     * @param context RequestContext
+     * @param evaluationProperties Map<String, String>
+     * @return boolean
      */
     protected boolean getRelationship(RequestContext context, Map<String, String> evaluationProperties)
     {

@@ -101,8 +101,8 @@ public class RssFeedPage extends Page
     /**
      * Click on link in feed if 'linkTextContains'
      *
-     * @param linkTextContains
-     * @return
+     * @param linkTextContains String
+     * @return SharePage
      */
     public SharePage clickOnFeedContent(String linkTextContains)
     {
@@ -139,8 +139,8 @@ public class RssFeedPage extends Page
     /**
      * return true if in feedContent has information about link with 'linkTextContains'
      *
-     * @param linkTextContains
-     * @return
+     * @param linkTextContains String
+     * @return boolean
      */
     public boolean isDisplayedInFeed(String linkTextContains)
     {
@@ -157,7 +157,7 @@ public class RssFeedPage extends Page
     /**
      * return count elements in feed
      *
-     * @return
+     * @return int
      */
     public int getFeedContentsCount()
     {

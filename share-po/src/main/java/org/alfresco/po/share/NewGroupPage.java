@@ -128,10 +128,10 @@ public class NewGroupPage extends SharePage
     }
 
     /**
-     * @param identifier
-     * @param displayName
-     * @param groupButton
-     * @return
+     * @param identifier String
+     * @param displayName String
+     * @param groupButton ActionButton
+     * @return HtmlPage
      */
     public HtmlPage createGroup(String identifier, String displayName, ActionButton groupButton)
     {

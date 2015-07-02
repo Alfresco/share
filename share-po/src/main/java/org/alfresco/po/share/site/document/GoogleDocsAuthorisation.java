@@ -49,7 +49,7 @@ public class GoogleDocsAuthorisation extends SharePage
      *
      * @param drone           {@link WebDrone}
      * @param documentVersion String original document version.
-     * @Param - flase - Edit in ofline flag.
+     * @param isGoogleCreate Boolean
      */
     protected GoogleDocsAuthorisation(WebDrone drone, String documentVersion, Boolean isGoogleCreate)
     {

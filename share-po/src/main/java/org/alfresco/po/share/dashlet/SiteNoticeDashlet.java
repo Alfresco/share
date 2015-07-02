@@ -286,7 +286,6 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
      * 
      * @param name
      *            identifier
-     * @return {@link ShareLink} that matches members name
      */
     public void selectLink(final String name)
     {

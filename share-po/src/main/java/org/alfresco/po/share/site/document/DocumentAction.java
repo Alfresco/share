@@ -63,8 +63,8 @@ public enum DocumentAction
     /**
      * Get value of CSS from the page type.
      *
-     * @param type
-     * @return
+     * @param type DetailsPageType
+     * @return String
      */
     public String getDocumentAction(DetailsPageType type)
     {
@@ -82,7 +82,7 @@ public enum DocumentAction
     /**
      * Check the CSS present in page type.
      *
-     * @return
+     * @return DetailsPageType
      */
     public DetailsPageType getType()
     {

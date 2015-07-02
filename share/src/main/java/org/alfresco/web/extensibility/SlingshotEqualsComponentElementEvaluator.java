@@ -7,7 +7,7 @@ import org.springframework.extensions.surf.extensibility.impl.DefaultSubComponen
 
 /**
  * <p>
- * Evaluator used to decide if a <{@code}sub-component> shall be bound in to a {@code<component>} and {@code<@region>}.
+ * Evaluator used to decide if a {@code <sub-component>} shall be bound in to a {@code <component>} and {@code <@region>}.
  * Returns true if all parameter values matches each other AND there are at least 2 parameters.
  * </p>
  *
@@ -25,7 +25,7 @@ import org.springframework.extensions.surf.extensibility.impl.DefaultSubComponen
  * }</pre>
  *
  * <p>
- * Will return true if the resolved value of {referrer} equals the value of the {@code<workflows>} parameter ("workflows").
+ * Will return true if the resolved value of {referrer} equals the value of the {@code <workflows>} parameter ("workflows").
  * </p>
  *
  * @author ewinlof
@@ -35,8 +35,8 @@ public class SlingshotEqualsComponentElementEvaluator extends DefaultSubComponen
     /**
      * Returns true if all parameter values equal each other.
      *
-     * @param context
-     * @param params
+     * @param context RequestContext
+     * @param params Map
      * @return true if 2 or more values are equal to each other.
      */
     @Override

@@ -105,8 +105,8 @@ public class ReplyDirectoryInfo extends HtmlElement
     /**
      * Create sub reply to this reply
      *
-     * @param text
-     * @return
+     * @param text String
+     * @return TopicViewPage
      */
     public TopicViewPage createSubReply(String text)
     {
@@ -120,8 +120,8 @@ public class ReplyDirectoryInfo extends HtmlElement
     /**
      * Return true if reply has sub reply with text
      *
-     * @param text
-     * @return
+     * @param text String
+     * @return boolean
      */
     public boolean isSubReply(String text)
     {
@@ -138,7 +138,7 @@ public class ReplyDirectoryInfo extends HtmlElement
     /**
      * Return reply count
      *
-     * @return
+     * @return int
      */
     public int getSubRepliesCount()
     {

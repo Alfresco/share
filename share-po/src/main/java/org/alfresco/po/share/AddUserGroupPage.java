@@ -28,9 +28,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
-/**
- * @author
- */
 
 @SuppressWarnings("unused")
 public class AddUserGroupPage extends ShareDialogue
@@ -78,7 +75,7 @@ public class AddUserGroupPage extends ShareDialogue
     /**
      * Checks if search button is present and enabled
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSearchButtonEnabled()
     {
@@ -96,7 +93,7 @@ public class AddUserGroupPage extends ShareDialogue
     /**
      * Checks if search field is present and enabled
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSearchFieldEnabled()
     {
@@ -139,8 +136,8 @@ public class AddUserGroupPage extends ShareDialogue
     /**
      * Serch for user to add to a group
      * 
-     * @param userName
-     * @return
+     * @param userName String
+     * @return AddUserGroupPage
      */
     public AddUserGroupPage searchUser(String userName)
     {

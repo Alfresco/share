@@ -30,7 +30,6 @@ import org.testng.annotations.Test;
 /**
  *
  * 
- * @author
  * @since 1.6.1
  */
 @Listeners(FailedTestListener.class)

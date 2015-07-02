@@ -62,7 +62,7 @@ public class SearchResultItem implements SearchResult
      * Constructor
      * 
      * @param element {@link WebElement}
-     * @param drone
+     * @param drone WebDrone
      */
     public SearchResultItem(WebElement element, WebDrone drone)
     {

@@ -37,9 +37,9 @@ import freemarker.template.TemplateException;
  * should be placed within the <{@code}head> element in the HTML page and the {@link DefaultContentModelElement}
  * it adds to the {@link ExtensibilityModel} will be updated through the use of the following directives:
  * <ul>
- * <li>{@link AggregateCssDependencyDirective}</li>
- * <li>{@link AggregateIeCssDependencyDirective}</li>
- * <li>{@link AggregateJavaScriptDependencyDirective}</li>
+ * <li>AggregateCssDependencyDirective</li>
+ * <li>AggregateIeCssDependencyDirective</li>
+ * <li>AggregateJavaScriptDependencyDirective</li>
  * </ul>
  * </p>
  * 

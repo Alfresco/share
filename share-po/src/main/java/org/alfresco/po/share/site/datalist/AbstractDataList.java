@@ -65,7 +65,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to locate an item in the table
      *
-     * @param fieldValue
+     * @param fieldValue String
      */
     protected WebElement locateItemActions(String fieldValue)
     {
@@ -92,7 +92,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to duplicate an item
      *
-     * @param fieldValue
+     * @param fieldValue String
      */
     public void duplicateAnItem(String fieldValue)
     {
@@ -139,7 +139,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to delete an item
      *
-     * @param fieldValue
+     * @param fieldValue String
      */
     public void deleteAnItemWithConfirm(String fieldValue)
     {
@@ -151,7 +151,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to click edit for item
      *
-     * @param fieldValue
+     * @param fieldValue String
      */
     public void clickEditItem(String fieldValue)
     {
@@ -203,7 +203,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to verify whether New Item link is displayed
      *
-     * @return
+     * @return boolean
      */
     public boolean isNewItemEnabled()
     {
@@ -219,7 +219,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to verify whether duplicate item link is available
      *
-     * @param itemName
+     * @param itemName String
      * @return boolean
      */
     public boolean isDuplicateDisplayed(String itemName)
@@ -231,7 +231,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to verify whether edit item link is available
      *
-     * @param itemName
+     * @param itemName String
      * @return boolean
      */
     public boolean isEditDisplayed(String itemName)
@@ -242,7 +242,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to verify whether delete item link is available
      *
-     * @param itemName
+     * @param itemName String
      * @return boolean
      */
     public boolean isDeleteDisplayed(String itemName)
@@ -287,7 +287,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to verify whether item is selected
      *
-     * @param itemName
+     * @param itemName String
      * @return boolean
      */
     public boolean isCheckBoxSelected(String itemName)
@@ -308,7 +308,7 @@ public abstract class AbstractDataList extends SharePage
     /**
      * Method to select item's checkbox
      *
-     * @param itemName
+     * @param itemName String
      */
     public void selectAnItem(String itemName)
     {

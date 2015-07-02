@@ -410,7 +410,7 @@ public class InviteMembersPage extends SharePage
     /**
      * Navigate to Site Groups.
      *
-     * @return
+     * @return SiteGroupsPage
      */
     public SiteGroupsPage navigateToSiteGroupsPage()
     {
@@ -432,7 +432,7 @@ public class InviteMembersPage extends SharePage
     }
 
     /**
-     * @param role
+     * @param role UserRole
      */
     public void selectRoleForAll(UserRole role)
     {
@@ -443,8 +443,8 @@ public class InviteMembersPage extends SharePage
     /**
      * true if 'Add' button displayed and enabled for user.
      *
-     * @param userName
-     * @return
+     * @param userName String
+     * @return boolean
      */
     public boolean isAddButtonEnabledFor(String userName)
     {
@@ -452,7 +452,7 @@ public class InviteMembersPage extends SharePage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isInviteButtonEnabled()
     {
@@ -470,8 +470,8 @@ public class InviteMembersPage extends SharePage
     /**
      * true if 'SelectRole' button displayed and enabled for user.
      *
-     * @param userName
-     * @return
+     * @param userName String
+     * @return boolean
      */
     public boolean isSelectRoleEnabledFor(String userName)
     {
@@ -481,8 +481,8 @@ public class InviteMembersPage extends SharePage
     /**
      * true if 'Remove Icon' image displayed and enabled for user.
      *
-     * @param userName
-     * @return
+     * @param userName String
+     * @return boolean
      */
     public boolean isRemoveIconEnabledFor(String userName)
     {
@@ -492,7 +492,7 @@ public class InviteMembersPage extends SharePage
     /**
      * Mimic click on People link
      *
-     * @return
+     * @return SiteMembersPage
      */
     public SiteMembersPage navigateToMembersSitePage()
     {
@@ -510,7 +510,7 @@ public class InviteMembersPage extends SharePage
     /**
      * Mimic click on Pending Invites link
      *
-     * @return
+     * @return PendingInvitesPage
      */
     public PendingInvitesPage navigateToPendingInvitesPage()
     {
@@ -528,10 +528,10 @@ public class InviteMembersPage extends SharePage
     /**
      * Send external invitation to email for some user
      *
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param userRole
+     * @param firstName String
+     * @param lastName String
+     * @param email String
+     * @param userRole UserRole
      */
     public void invExternalUser(String firstName, String lastName, String email, UserRole userRole)
     {

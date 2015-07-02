@@ -71,8 +71,7 @@ public class WebScriptsPage extends SharePage
     /**
      * Method for click Refresh Button
      *
-     * @param
-     * @return
+     * @return WebScriptsMaintenancePage
      */
 
     public WebScriptsMaintenancePage clickRefresh()
@@ -84,9 +83,6 @@ public class WebScriptsPage extends SharePage
 
     /**
      * Method for click Clear Button
-     *
-     * @param
-     * @return
      */
 
     public void clickClear()
