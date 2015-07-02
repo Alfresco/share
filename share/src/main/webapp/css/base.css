@@ -1903,3 +1903,8 @@ table.mceLayout
    display: none !important;
 }
 
+.alf-site-visibility {
+   color: green;
+   margin-left: 0.5em;
+   margin-top: 2em;
+}
