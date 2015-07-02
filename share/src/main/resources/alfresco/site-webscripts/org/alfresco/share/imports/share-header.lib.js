@@ -1068,6 +1068,21 @@ function getPageTitle() {
    return pageTitle;
 }
 
+/**
+ * Returns information about the site visibility
+ * @param dataType the type of information to get
+ * @returns {String}
+ */
+function getSiteVisibilityData(dataType) {
+   var siteData = getSiteData();
+      
+   if (siteData) {
+      var propertyKey = "site.visibility." + dataType + "." + siteData.profile.visibility;
+      return msg.get(propertyKey);
+   }
+   return "";
+}
+
 
 /* *********************************************************************************
  *                                                                                 *
@@ -1570,6 +1585,30 @@ function getHeaderModel(pageTitle) {
                   label: (pageTitle != null) ? pageTitle : getPageTitle(),
                   setBrowserTitle: (pageTitle != null),
                   maxWidth: "500px"
+               }
+            },
+            {
+               id: "HEADER_TITLE_VISIBILITY",
+               align: "left", 
+               name: "alfresco/misc/AlfTooltip",
+               config: {
+                  widgets: [
+                     {
+                        name: "alfresco/html/Label",
+                        config: {
+                           label: "[" + getSiteVisibilityData("label") + "]"
+                        }
+                     }
+                  ],
+                  widgetsForTooltip: [
+                     {
+                        name: "alfresco/html/Label",
+                        config: {
+                           label: getSiteVisibilityData("description")
+                        }
+                     }
+                  ],
+                  additionalCssClasses: "alf-site-visibility"
                }
             },
             {
