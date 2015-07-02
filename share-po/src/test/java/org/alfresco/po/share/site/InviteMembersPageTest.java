@@ -9,14 +9,11 @@ import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.TestNGException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -85,33 +82,15 @@ public class InviteMembersPageTest extends AbstractTest
     @Test(groups = "Enterprise-only")
     public void testSearchUser() throws Exception
     {
-        List<String> searchUsers;
-        membersPage.searchUser(userNameTest);
-        RenderTime t = new RenderTime(30000);
-        try
+        List<String> searchUsers = null;      
+        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
         {
-            while (true)
+            searchUsers = membersPage.searchUser(userNameTest);
+            if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userNameTest))
             {
-                t.start();
-                try
-                {
-                    searchUsers = membersPage.searchUser(userNameTest);
-                    if (searchUsers != null)
-                    {
-                        break;
-                    }
-                }
-                finally
-                {
-                    t.end();
-                }
+                break;
             }
-        }
-        catch (PageRenderTimeException e)
-        {
-            saveScreenShot("InviteMembersPage.testSearchUser");
-            throw new TestNGException("failed to render in time");
-        }
+        }      
         user = searchUsers.get(0);
         Assert.assertNotNull(user);
         Assert.assertTrue(user.contains(userNameTest));
