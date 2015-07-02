@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Welcome Panel Preference</shortname>
+   <description>Welcome panel preference component</description>
+   <url>/components/dashboard/welcome-preference</url>
+</webscript>

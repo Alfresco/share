@@ -1,0 +1,50 @@
+/* Style YUI components */
+
+/* Add padding and make sure left: float doesn't place them in a row */
+.alf-welcome-preference div.actions
+{
+   clear: both;
+   margin: 0px 10px;
+   padding-top: 1em;
+   padding-bottom: 1em;
+}
+
+/* Make sure left: float doesn't place them in a row */
+.alf-welcome-preference hr
+{
+   clear: both;
+}
+
+/* Marginise and align text and buttons */
+.alf-welcome-preference div.text,
+.alf-welcome-preference div.buttons
+{
+   margin-left: auto;
+   margin-right: auto;
+   padding-top: 1em;
+   width: 56em;
+}
+
+/* Left text */
+.alf-welcome-preference div.text
+{
+   text-align: left;
+}
+
+/* Center buttons */
+.alf-welcome-preference div.buttons
+{
+   padding-bottom: 1em;
+   text-align: center;
+}
+
+.alf-welcome-preference div.buttons.alf-values
+{
+   text-align: left;
+}
+
+.alf-welcome-preference div.buttons.alf-values input
+{
+   margin-right: 0.5em;
+   margin-bottom: 0.7em;
+}

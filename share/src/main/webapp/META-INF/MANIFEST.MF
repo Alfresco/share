@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Implementation-Title: Alfresco Share WAR Community
+Build-Date: 2015-07-02T17:29:41Z
+Build-Number: 
+Implementation-Version: 5.1-SIMP1-SNAPSHOT
+Built-By: rgauss
+Specification-Vendor: Alfresco Software
+Specification-Title: Alfresco Share WAR Community
+Implementation-Vendor-Id: org.alfresco
+Build-Key: 
+Implementation-Vendor: Alfresco Software
+Build-Revision: 
+Build-Name: 
+Created-By: Apache Maven 3.2.5
+Build-Jdk: 1.8.0_45
+Implementation-URL: http://www.alfresco.org/alfresco-share-parent/shar
+ e/
+Specification-Version: 5.1.0
+
+Name: Share Libraries
+surf: 5.1-SIMP1-SNAPSHOT
+spring: 3.2.10.RELEASE
+freemarker: 2.3.20-alfresco-patched
+rhino: 1.7R4-alfresco-patched
+alfresco-core: null
+alfresco-jlan: null
+yui: 2.9.0-alfresco-20141223
+webscripts: 5.1.1
+aikau: 1.0.17.1
+
+Name: Source-control
+Source-Url: null
+Source-Revision: null
+Last-change-Revision: null
+

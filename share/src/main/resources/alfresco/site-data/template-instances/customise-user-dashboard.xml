@@ -26,5 +26,11 @@
              <dashboardType>user</dashboardType>
           </properties>
        </component>
+       
+       <!-- Welcome Panel Preference -->
+       <component>
+          <region-id>welcome-preference</region-id>
+          <url>/components/dashboard/welcome-preference</url>
+       </component>
     </components>
 </template-instance>

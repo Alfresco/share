@@ -15,6 +15,7 @@
       <div id="bd">
          <@region id="customise-layout" scope="template" />
          <@region id="customise-dashlets" scope="template" />
+         <@region id="welcome-preference" scope="template" />
       </div>
       </@>
    </#if>
