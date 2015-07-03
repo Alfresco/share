@@ -33,7 +33,7 @@
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -XX:MaxPermSize=256m -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
-        <dependency.spring.version>3.2.10.RELEASE</dependency.spring.version>
+        <dependency.spring.version>3.2.14.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
         <dependency.aikau.version>1.0.23.2</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
