@@ -16,7 +16,7 @@
    <@uniqueIdDiv>
       <#if showDashlet>
          <#assign el=args.htmlid?html>
-         <div class="dashlet dynamic-welcome">
+         <div id="${el}-get-started-panel-container" class="dashlet dynamic-welcome<#if args.dashboardType = "user"> alf-user-welcome</#if>">
             <div class="alf-welcome-hide-button">
                 <span id="${el}-hide-button" class="yui-button yui-push-button">
                     <span class="first-child">
@@ -28,7 +28,7 @@
 
                <#-- OVERVIEW CONTAINER -->
                <@markup id="overviewContainer">
-                  <div class="welcome-info<#if args.dashboardType = "user"> alf-user-welcome</#if>">
+                  <div class="welcome-info">
                      <h1>${msg(title, user.fullName, site)?html}</h1>
                      <#if description??>
                         <p class="welcome-info-text">${msg(description)}</p>
