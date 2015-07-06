@@ -1617,7 +1617,7 @@ function getHeaderModel(pageTitle) {
                      {
                         name: "alfresco/html/Label",
                         config: {
-                           label: "[" + getSiteVisibilityData("label", siteData.profile.visibility) + "]"
+                           label: getSiteVisibilityData("label", siteData.profile.visibility)
                         }
                      }
                   ],

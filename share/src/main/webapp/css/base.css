@@ -1904,7 +1904,14 @@ table.mceLayout
 }
 
 .alf-site-visibility {
-   color: green;
    margin-left: 0.5em;
    margin-top: 2em;
+   padding: 3px 4px;
+   font-size: 90%;
+   font-family: 'Open Sans', Arial, sans-serif;
+   display: inline-block;
+   border: 1px solid #eaeaea; 
+   background-color: #dff0d8;
+   border-color: #d6e9c6;
+   border-radius: 5px;
 }
