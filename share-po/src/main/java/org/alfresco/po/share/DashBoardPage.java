@@ -48,7 +48,6 @@ public class DashBoardPage extends SharePage implements Dashboard
     public static final By GET_STARTED_PANEL_TEXT = By.cssSelector(".welcome-info-text");
     
     //Get Started Panel Hide Button
-    //public static final By HIDE_GET_STARTED_PANEL_BUTTON = By.cssSelector(".alf-welcome-hide-button");
     public static final By HIDE_GET_STARTED_PANEL_BUTTON = By.xpath("//button[text()='Hide']");
  
 

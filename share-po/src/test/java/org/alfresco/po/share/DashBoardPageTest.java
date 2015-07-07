@@ -118,8 +118,7 @@ public class DashBoardPageTest extends AbstractTest
      * 
      * @throws Exception
      */
-    //@Test(dependsOnMethods = "checkVersionsFromPopUpLogo", groups = "Enterprise-only")
-    /**
+    @Test(dependsOnMethods = "checkVersionsFromPopUpLogo", groups = "Enterprise-only")
     public void testHideGetStartedPanelFromUserDashboard() throws Exception
     {
         drone.refresh();
@@ -135,14 +134,13 @@ public class DashBoardPageTest extends AbstractTest
         Assert.assertFalse(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
                 
     }
-    **/
+    
     /**
      * Verifies that Get Started Panel on user dashboard page can be restored from Customise User dashboard page
      * 
      * @throws Exception
      */
-    //@Test(dependsOnMethods = "testHideGetStartedPanelFromUserDashboard", groups = "Enterprise-only")
-    /**
+    @Test(dependsOnMethods = "testHideGetStartedPanelFromUserDashboard", groups = "Enterprise-only")
     public void testShowGetStartedPanelFromCustomiseUserDashboard() throws Exception
     {
         //go to Customise User Dashboard page and click on Show radio button
@@ -158,10 +156,8 @@ public class DashBoardPageTest extends AbstractTest
         Assert.assertTrue(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
                 
     }
-    **/
     
-    //@Test(dependsOnMethods = "testShowGetStartedPanelFromCustomiseUserDashboard", groups = "Enterprise-only")
-    /**
+    @Test(dependsOnMethods = "testShowGetStartedPanelFromCustomiseUserDashboard", groups = "Enterprise-only")
     public void testHideGetStartedPanelFromCustomiseUserDashboard() throws Exception
     {
         //go to Customise User Dashboard page and click on Hide radio button 
@@ -177,8 +173,5 @@ public class DashBoardPageTest extends AbstractTest
         Assert.assertFalse(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
                 
     }
-    **/
-    
-    
 }
 

@@ -53,8 +53,8 @@ public class CustomiseUserDashboardPage extends SharePage
     private static final By SELECT_FOUR_COLUMN_LAYOUT_BTN = By.cssSelector("button[id*='dashboard-4-columns-button']");
 
     //Restore Get Started Panel
-    private static final By SHOW_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("");
-    private static final By HIDE_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("");
+    private static final By SHOW_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("input[id*='welcomePanelEnabled']");
+    private static final By HIDE_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("input[id*='welcomePanelDisabled']");
     
     
     /**

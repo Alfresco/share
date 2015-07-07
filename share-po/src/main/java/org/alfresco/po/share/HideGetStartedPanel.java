@@ -20,6 +20,7 @@ package org.alfresco.po.share;
 
 
 import org.alfresco.webdrone.HtmlPage;
+import org.alfresco.webdrone.RenderElement;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageException;
@@ -45,17 +46,12 @@ public class HideGetStartedPanel extends SharePage
     public static final By HIDE_GET_STARTED_PANEL_TITLE = By.cssSelector("#prompt_h");
     
     //Hide Get Started Panel popup Text
-    public static final String HIDE_GET_STARTED_PANEL_TEXT = "";
+    public static final String HIDE_GET_STARTED_PANEL_TEXT = "You can always show it again later by using the";
     
-    //Hide Get Started Panel popup close button
-    public static final String HIDE_GET_STERTED_PANEL_CLOSE_BUTTON = "";
-    
-    //Hide Get Started Panel popup OK button 
-    //public static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='Yes']";
+    //Hide Get Started Panel popup OK button
     public static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='OK']";
     
     //Hide Get Started Panel popup Cancel button
-    //public static final String HIDE_GET_STARTED_CANCEL_BUTTON = "//button[text()='No']";
     public static final String HIDE_GET_STARTED_CANCEL_BUTTON = "//button[text()='Cancel']";
     
 
@@ -74,7 +70,7 @@ public class HideGetStartedPanel extends SharePage
     @Override
     public HideGetStartedPanel render(RenderTime timer)
     {
-        //elementRender(timer, RenderElement.getVisibleRenderElement(HIDE_GET_STARTED_PANEL_TITLE));
+        elementRender(timer, RenderElement.getVisibleRenderElement(HIDE_GET_STARTED_PANEL_TITLE));
         return this;
     }
 
