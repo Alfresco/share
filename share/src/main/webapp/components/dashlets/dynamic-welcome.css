@@ -16,7 +16,8 @@ div.dashlet.dynamic-welcome.alf-user-welcome
 .alf-welcome-hide-button
 {
    position: absolute;
-   right: 0;
+   right: 10px;
+   top: 34%;
    margin-right: 10px;
    text-align: right;
    zoom: 1;
