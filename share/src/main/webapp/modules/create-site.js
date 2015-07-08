@@ -124,10 +124,6 @@
          this.widgets.isModerated = Dom.get(this.id + "-isModerated");
          this.widgets.isPrivate = Dom.get(this.id + "-isPrivate");
 
-         // Make sure we disable moderated if public isn't selected
-         Event.addListener(this.widgets.isPublic, "change", this.onVisibilityChange, this.widgets.isPublic, this);
-         Event.addListener(this.widgets.isPrivate, "change", this.onVisibilityChange, this.widgets.isPrivate, this);
-
          // Configure the forms runtime
          var createSiteForm = new Alfresco.forms.Form(this.id + "-form");
          this.widgets.form = createSiteForm;
@@ -306,23 +302,7 @@
 
          return text;
       },
-
-      /**
-       * Called when user clicks on the isPublic checkbox.
-       *
-       * @method onVisibilityChange
-       * @param type
-       * @param el
-       */
-      onVisibilityChange: function CreateSite_onVisibilityChange(type, el)
-      {
-         var element = new Element(this.widgets.isModerated);
-         element.set("disabled", el == this.widgets.isPrivate);
-         // reset the flag
-         // ACE-2056
-         element.set("checked", false);
-      },
-
+      
       /**
        * Called when user fills site name input
        *

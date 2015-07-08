@@ -14,15 +14,14 @@
             <#-- TITLE -->
             <div class="yui-gd">
                <div class="yui-u first"><label for="${el}-title">${msg("label.name")}:</label></div>
-               <div class="yui-u"><input id="${el}-title" type="text" name="title" tabindex="0" maxlength="255" />&nbsp;*</div>
+               <div class="yui-u"><input id="${el}-title" type="text" name="title" tabindex="0" maxlength="255" /></div>
             </div>
 
             <#-- SHORTNAME -->
             <div class="yui-gd">
                <div class="yui-u first"><label for="${el}-shortName">${msg("label.shortName")}:</label></div>
                <div class="yui-u">
-                  <input id="${el}-shortName" type="text" name="shortName" tabindex="0" maxlength="255" />&nbsp;*<br>
-                  <span class="help">${msg("label.shortNameHelp")}</span>
+                  <input id="${el}-shortName" type="text" name="shortName" tabindex="0" maxlength="255" />
                </div>
             </div>
 
@@ -33,7 +32,7 @@
             </div>
 
             <#-- SITEPRESET -->
-            <div class="yui-gd">
+            <div class="yui-gd hidden">
                <div class="yui-u first"><label for="${el}-sitePreset">${msg("label.type")}:</label></div>
                <div class="yui-u">
                   <select id="${el}-sitePreset" name="sitePreset" tabindex="0">
@@ -48,24 +47,35 @@
             <div class="yui-gd">
                <div class="yui-u first"><label for="${el}-isPublic">${msg("label.access")}:</label></div>
                <div class="yui-u">
-                  <input id="${el}-isPublic" type="radio" <#if defaultVisibility == "PUBLIC">checked="checked" </#if>tabindex="0" name="-" /> <label for="${el}-isPublic">${msg("label.isPublic")}</label><br />
-                  <div class="moderated">
-                     <input id="${el}-isModerated" type="checkbox" tabindex="0" name="-" <#if defaultVisibility == "PRIVATE">disabled </#if> /> <label for="${el}-isModerated">${msg("label.isModerated")}</label><br />
-                     <span class="help">${msg("label.moderatedHelp")}</span>
-                  </div>
+                  <input id="${el}-isPublic" type="radio" <#if defaultVisibility == "PUBLIC">checked="checked" </#if>tabindex="0" name="-" />
+                  <label for="${el}-isPublic">${msg("site.visibility.label.PUBLIC")}<br />
+                     <span class="help">${msg("site.visibility.description.PUBLIC")}</span>
+                  </label>
                </div>
             </div>
             <div class="yui-gd">
                <div class="yui-u first">&nbsp;</div>
                <div class="yui-u">
-                  <input id="${el}-isPrivate" type="radio" <#if defaultVisibility == "PRIVATE">checked="checked" </#if>tabindex="0" name="-" /> <label for="${el}-isPrivate">${msg("label.isPrivate")}</label>
+                  <input id="${el}-isModerated" type="radio" <#if defaultVisibility == "MODERATED">checked="checked" </#if>tabindex="0" name="-" />
+                  <label for="${el}-isModerated">${msg("site.visibility.label.MODERATED")}<br />
+                     <span class="help">${msg("site.visibility.description.MODERATED")}</span>
+                  </label>
+               </div>
+            </div>
+            <div class="yui-gd">
+               <div class="yui-u first">&nbsp;</div>
+               <div class="yui-u">
+                  <input id="${el}-isPrivate" type="radio" <#if defaultVisibility == "PRIVATE">checked="checked" </#if>tabindex="0" name="-" />
+                  <label for="${el}-isPrivate">${msg("site.visibility.label.PRIVATE")}<br />
+                     <span class="help">${msg("site.visibility.description.PRIVATE")}</span>
+                  </label>
                </div>
             </div>
          </@markup>
 
          <div class="bdft">
             <#-- BUTTONS -->
-            <input type="submit" id="${el}-ok-button" value="${msg("button.ok")}" tabindex="0"/>
+            <input type="submit" id="${el}-ok-button" value="${msg("button.save")}" tabindex="0"/>
             <input type="button" id="${el}-cancel-button" value="${msg("button.cancel")}" tabindex="0"/>
          </div>
       </form>
