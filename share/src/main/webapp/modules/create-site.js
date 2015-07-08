@@ -263,13 +263,14 @@
          this.widgets.cancelButton.set("disabled", true);
 
          // Site access
-         var siteVisibility = "PUBLIC";
+         var siteVisibility;
          if (this.widgets.isPublic.checked)
          {
-            if (this.widgets.isModerated.checked)
-            {
-               siteVisibility = "MODERATED";
-            }
+            siteVisibility = "PUBLIC";
+         }
+         else if (this.widgets.isModerated.checked)
+         {
+            siteVisibility = "MODERATED";
          }
          else
          {
