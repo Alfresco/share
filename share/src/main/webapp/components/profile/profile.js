@@ -120,6 +120,11 @@
             
             // Form field validation
             form.addValidation(this.id + "-input-firstName", Alfresco.forms.validation.mandatory, null, "keyup");
+			
+            //email field validation
+            form.addValidation(this.id + "-input-email", Alfresco.forms.validation.mandatory, null, "keyup");
+            form.addValidation(this.id + "-input-email", Alfresco.forms.validation.email, null, "keyup");
+            form.addValidation(this.id + "-input-companyemail", Alfresco.forms.validation.email, null, "keyup");
             
             // Initialise the form
             form.init();
