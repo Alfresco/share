@@ -733,7 +733,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
         
         Map<String, WebElement> formFieldInfo = new HashMap<String, WebElement>();
 
-        // Find Field: Try TextInput first (text area & checkbox)
+        // Find Field: Try TextInput first (text area)
         try
         {
             WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
@@ -750,6 +750,41 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
         catch (NoSuchElementException nse)
         {
             // No Text input field for this property
+        }
+        
+        // Find Field: Try checkbox
+        try
+        {
+            fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "-entry']";
+            
+            WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
+            if ("checkbox".equals(field.getAttribute("type")))
+            {
+                formFieldInfo.put("checkbox", field);
+            }
+            else
+            {
+                formFieldInfo.put("text", field);
+            }
+            return formFieldInfo;
+        }
+        catch (NoSuchElementException nse)
+        {
+            // No Text input field for this property
+        }
+        
+        // Find Field: Date Field 
+        try
+        {
+            fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "-cntrl-date']";
+            
+            WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
+            formFieldInfo.put("text", field);
+            return formFieldInfo;
+        }
+        catch (NoSuchElementException nse)
+        {
+            // No Date input field for this property
         }
         
         // Find Field: Then try TextArea: (Description, Content)
@@ -822,7 +857,13 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
                 }
                 else if ("checkbox".equals(field.getKey()))
                 {
-                    field.getValue().click();
+                    boolean currentValue = isCheckBoxSet(field.getValue());
+                    boolean valueToBeSet = Boolean.parseBoolean(entry.getValue().toString());
+
+                    if (valueToBeSet != currentValue)
+                    {
+                        field.getValue().click();
+                    }
                 }
                 else if ("select".equals(field.getKey()))
                 {
@@ -844,5 +885,19 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
             }
 
         }
+    }
+
+    private boolean isCheckBoxSet(WebElement checkBox)
+    {
+        boolean currentValue = false;
+        try
+        {
+            currentValue = checkBox.getAttribute("value").equals("true");
+        }
+        catch(Exception e)
+        {
+            
+        }
+        return currentValue;
     }
 }

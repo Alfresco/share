@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.alfresco.po.share.DashBoardPage;
@@ -48,6 +49,7 @@ import org.alfresco.po.share.site.document.ConfirmDeletePage.Action;
 import org.alfresco.po.share.site.document.SelectAspectsPage;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.WebDrone;
+import org.alfresco.webdrone.WebDroneUtil;
 import org.alfresco.webdrone.exception.PageException;
 import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
@@ -789,6 +791,44 @@ public class SiteActions extends CommonActions
     }
     
     /**
+     * Util to Navigate to Edit Properties Page from DocLib or Details Page
+     * 
+     * @param driver
+     * @param contentName
+     * @return HtmlPage
+     */
+    public HtmlPage getEditPropertiesPage(WebDrone driver, String contentName)
+    {
+        WebDroneUtil.checkMandotaryParam("Expected ContentName", contentName);
+
+        try
+        {
+            SharePage sharePage = getSharePage(driver).render();
+            EditDocumentPropertiesPage editPropertiesPage = null;
+
+            // Get DetailsPage
+            if (sharePage instanceof DocumentLibraryPage)
+            {
+                sharePage = selectContent(driver, contentName).render();
+            }
+            
+            // Select EditPropertiesPage
+            if (sharePage instanceof DetailsPage)
+            {
+                return ((DetailsPage) sharePage).selectEditProperties().render();
+            }
+            else
+            {
+                throw new UnexpectedSharePageException("Expected Doclib or Details Page");
+            }
+        }
+        catch (Exception e)
+        {
+            throw new PageException("Error getting EditDocumentPropertiesPage", e);
+        }
+    }
+    
+    /**
      * Util to change the type of the selected folder / content to the specified type 
      * Expects Document / Folder Details Page is already open
      */
@@ -912,6 +952,41 @@ public class SiteActions extends CommonActions
         catch(PageException pe)
         {
             throw new PageException("Unable to select Manage Aspects", pe);
+        }
+    }
+    
+    /**
+     * Util to Save or Cancel the Node Properties from Details Page
+     * 
+     * @param driver
+     * @param actionSaveOrCancel
+     * @param contentName
+     * @return HtmlPage
+     */
+    public HtmlPage editNodeProperties(WebDrone driver, boolean saveProperties, Map<String, Object> properties)
+    {
+        WebDroneUtil.checkMandotaryParam("Expected Properties Map", properties);
+
+        try
+        {
+            EditDocumentPropertiesPage editPropPage = getSharePage(driver).render();
+
+            // Edit Properties
+            editPropPage.setProperties(properties);
+
+            // Save or Cancel
+            if (saveProperties)
+            {
+                return editPropPage.selectSave().render();
+            }
+            else
+            {
+                return editPropPage.selectCancel().render();
+            }
+        }
+        catch (ClassCastException ce)
+        {
+            throw new UnexpectedSharePageException("Expected EditDocumentPropertiesPage Page", ce);
         }
     }
 }
