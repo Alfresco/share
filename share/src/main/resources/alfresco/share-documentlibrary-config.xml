@@ -1129,7 +1129,7 @@
             <permissions>
                <permission allow="true">Unlock</permission>
             </permissions>
-            <evaluator>evaluator.doclib.metadata.isWorkingCopyLocked</evaluator>
+            <evaluator>evaluator.doclib.metadata.isSomeoneLocked</evaluator>
             <evaluator>evaluator.doclib.action.notHasWorkingCopy</evaluator>
             <evaluator>evaluator.doclib.action.cancelLockedBlacklist</evaluator>
          </action>
