@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -23,6 +23,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -36,6 +37,8 @@ import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage.Fields;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
+import org.alfresco.webdrone.exception.PageException;
+import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -46,6 +49,7 @@ import org.testng.annotations.Test;
  * Integration test to verify document CRUD is operating correctly.
  *
  * @author Michael Suzuki
+ * @author Meenal Bhave
  * @since 1.0
  */
 @Listeners(FailedTestListener.class)
@@ -301,6 +305,71 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
         TagPage tagPage = drone.getCurrentPage().render();
         tagPage.refreshTags();
         tagPage.clickCancelButton();
+    }
+    
+    @Test(dependsOnMethods = "checkRefreshTagList")
+    public void checkEditCustomFieldsNoPropsToEdit()
+    {
+        editPropertiesPage = drone.getCurrentPage().render();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        
+        // No Pros
+        editPropertiesPage.setProperties(properties);
+        editPropertiesPage.selectSave().render();
+    }
+    
+    @Test(dependsOnMethods = "checkEditCustomFieldsNoPropsToEdit")
+    public void checkEditCustomFieldsEditTextArea()
+    {
+        
+        DetailsPage detailsPage = drone.getCurrentPage().render();
+        editPropertiesPage = detailsPage.selectEditProperties().render();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("cm_name", "newvalue");
+        properties.put("cm_description", "this is new description");
+        
+        // Text
+        editPropertiesPage.setProperties(properties);
+        editPropertiesPage.selectSave().render();
+    }
+    
+    @Test(dependsOnMethods = "checkEditCustomFieldsEditTextArea")
+    public void checkEditCustomFieldsEditList()
+    {
+        
+        DetailsPage detailsPage = drone.getCurrentPage().render();
+        editPropertiesPage = detailsPage.selectEditProperties().render();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("mimetype", "HTML");
+        
+        // Text
+        editPropertiesPage.setProperties(properties);
+        editPropertiesPage.selectSave().render();
+    }
+    
+    @Test(dependsOnMethods = "checkEditCustomFieldsEditList", expectedExceptions=NoSuchElementException.class)
+    public void checkEditCustomFieldsEditListInvalidOption()
+    {
+        
+        DetailsPage detailsPage = drone.getCurrentPage().render();
+        editPropertiesPage = detailsPage.selectEditProperties().render();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("mimetype", "----");
+        
+        // Text
+        editPropertiesPage.setProperties(properties);
+    }
+    
+    @Test(dependsOnMethods = "checkEditCustomFieldsEditListInvalidOption", expectedExceptions=PageException.class)
+    public void checkEditCustomFieldsFieldNotFound()
+    {
+        
+        editPropertiesPage = drone.getCurrentPage().render();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("cm_notrealfield", "expected exception");
+        
+        // Text
+        editPropertiesPage.setProperties(properties);
     }
 
 }
