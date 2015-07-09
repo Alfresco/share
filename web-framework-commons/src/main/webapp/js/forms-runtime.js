@@ -2288,7 +2288,7 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
          
          args.match = true;
 
-         valid = Alfresco.forms.validation.regexMatch(field, args, event, form);
+         valid = Alfresco.forms.validation.regexMatch(field, args, event, form, silent, message);
       }
       return valid;
    };
