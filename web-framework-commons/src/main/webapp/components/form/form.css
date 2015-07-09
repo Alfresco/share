@@ -208,8 +208,20 @@
    float: right;
 }
 
+.form-container .alf-gc .alf-u
+{
+   width: 32%;
+   float: right;
+}
+
 .form-container .alf-g .alf-u.first
 {
+   float: left;
+}
+
+.form-container .alf-gc .alf-u.first
+{
+   width: 66%;
    float: left;
 }
 
@@ -220,7 +232,8 @@
 }
 
 .form-container .alf-g:after,
-.form-container .alf-gb:after
+.form-container .alf-gb:after,
+.form-container .alf-gc:after
 {
    content: "";
    display: block;
@@ -230,7 +243,11 @@
 .form-container .alf-gb .alf-u input,
 .form-container .alf-gb .alf-u input[type="file"],
 .form-container .alf-gb .alf-u input[type="text"],
-.form-container .alf-gb .alf-u input[type="password"]
+.form-container .alf-gb .alf-u input[type="password"],
+.form-container .alf-gc .alf-u input,
+.form-container .alf-gc .alf-u input[type="file"],
+.form-container .alf-gc .alf-u input[type="text"],
+.form-container .alf-gc .alf-u input[type="password"]
 {
    width: auto;
 }
