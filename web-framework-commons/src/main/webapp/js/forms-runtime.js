@@ -2273,43 +2273,10 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
          args = {};
       }
 
-      var valid = false
-      if (field.value && field.value.length > 0)
-      {
-         //Strip out the name and surrounding angle brackets, if present.
-         var start = field.value.indexOf("<");
-         if (start >= 0)
-         {
-            start = start + 1;
-            var end = field.value.lastIndexOf(">");
-            if (end > start)
-            {
-               field.value = field.value.substr(start, (end -start));
-            }
-         }
+      args.pattern = /(.+@.+\.[a-zA-Z0-9]{2,6})/;
+      args.match = true;
 
-         var emailFirstCharIndex = field.value.indexOf('"');
-
-          /* MNT-7031 fix. Added validation according RFC 2822.
-           If email local part starts with " (double quote) pattern for special characters space and
-           "(),:;<>@[\] (ASCII: 32, 34, 40, 41, 44, 58, 59, 60, 62, 64, 91–93) with restrictions is used.
-           Otherwise pattern for uppercase and lowercase English letters, digits,
-           characters  !#$%&'*+-/=?^_`{|}~  ((ASCII: 33, 35–39, 42, 43, 45, 47, 61, 63, 94–96, 123–126)) , dot is used
-           */
-         if (emailFirstCharIndex == 0)
-         {
-         	args.pattern = /^("[-A-Za-z0-9\xc0-\xff\(\)<>\[\]\\:,;@\".\" *"!#$%&'*+\/=?^_`{}~|]*")+@([\.A-Za-z0-9_-])*[A-Za-z0-9_-]$/;
-         }
-         else 
-         {
-         	args.pattern = /^([-A-Za-z0-9\xc0-\xff!#$%&'*+\/=?^_`{}~|]+\.)*[-A-Za-z0-9\xc0-\xff!#$%&'*+\/=?^_`{}|~_]+@([\.A-Za-z0-9_-])*[A-Za-z0-9_-]$/;
-         }
-         
-         args.match = true;
-
-         valid = Alfresco.forms.validation.regexMatch(field, args, event, form, silent, message);
-      }
-      return valid;
+      return Alfresco.forms.validation.regexMatch(field, args, event, form, silent, message);
    };
 
 
