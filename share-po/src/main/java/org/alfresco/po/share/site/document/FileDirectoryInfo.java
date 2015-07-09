@@ -888,5 +888,7 @@ public interface FileDirectoryInfo
     public String getModelName();
     
     public String getModelDesription();
+    
+    public CopyOrMoveContentPage selectCopyToOnFolderCloud();
 
 }
