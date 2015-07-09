@@ -14,14 +14,15 @@
             <#-- TITLE -->
             <div class="yui-gd">
                <div class="yui-u first"><label for="${el}-title">${msg("label.name")}:</label></div>
-               <div class="yui-u"><input id="${el}-title" type="text" name="title" tabindex="0" maxlength="255" /></div>
+               <div class="yui-u"><input id="${el}-title" type="text" name="title" tabindex="0" maxlength="255" />&nbsp;*</div>
             </div>
 
             <#-- SHORTNAME -->
             <div class="yui-gd">
                <div class="yui-u first"><label for="${el}-shortName">${msg("label.shortName")}:</label></div>
                <div class="yui-u">
-                  <input id="${el}-shortName" type="text" name="shortName" tabindex="0" maxlength="255" />
+                  <input id="${el}-shortName" type="text" name="shortName" tabindex="0" maxlength="255" />&nbsp;*<br>
+                  <span class="help">${msg("label.shortNameHelp")}</span>
                </div>
             </div>
 
@@ -32,7 +33,7 @@
             </div>
 
             <#-- SITEPRESET -->
-            <div class="yui-gd hidden">
+            <div class="yui-gd${sitePresetsClass}">
                <div class="yui-u first"><label for="${el}-sitePreset">${msg("label.type")}:</label></div>
                <div class="yui-u">
                   <select id="${el}-sitePreset" name="sitePreset" tabindex="0">

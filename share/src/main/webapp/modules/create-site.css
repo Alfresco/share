@@ -3,7 +3,7 @@
    width: 40em;
 }
 
-.create-site .bd span.help
+.create-site .bd label span.help
 {
    font-size: 81%;
    display: block;
@@ -14,10 +14,4 @@
 {
    resize: vertical;
    overflow: auto;
-}
-
-.alfresco-share .yui-panel .bd div.yui-u.first
-{
-   text-align: left;
-   padding-left: 3em;
 }
