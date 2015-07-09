@@ -215,7 +215,7 @@
             </div>
             <div class="row">
                <span class="label"><label for="${el}-input-email">${msg("label.email")}:</label></span>
-               <span><input type="text" maxlength="256" size="30" id="${el}-input-email" value="" <@immutablefield field="email" /> /></span>
+               <span><input type="text" maxlength="256" size="30" id="${el}-input-email" value="" <@immutablefield field="email" /> />&nbsp;*</span>
             </div>
             <div class="row">
                <span class="label"><label for="${el}-input-skype">${msg("label.skype")}:</label></span>
