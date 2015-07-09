@@ -1431,8 +1431,14 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
                      // Make sure that error containers are created for custom fields as well
                      errorsByField[errorField.id] = errorsByField[errorField.id] || [];
                      errorsByFieldText[errorField.id] = errorsByFieldText[errorField.id] || [];
-                     errorsByField[errorField.id].push(message);
-                     errorsByFieldText[errorField.id].push(textMessage);
+                     if (errorsByField[errorField.id].indexOf(message) == -1)
+                     {
+                        errorsByField[errorField.id].push(message);
+                     }
+                     if (errorsByFieldText[errorField.id].indexOf(textMessage) == -1)
+                     {
+                        errorsByFieldText[errorField.id].push(textMessage);
+                     }
                   }
 
                   // Mark the first field with an error as the primary field (will be used if user tried to submit form)
