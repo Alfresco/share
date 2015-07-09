@@ -428,7 +428,7 @@ public abstract class SharePage extends Page
             catch (TimeoutException e)
             {
                 logger.error("Not able to render the element : " + element.getLocator().toString(), e);
-                throw new PageRenderTimeException("element not rendered in time.");
+                throw new PageRenderTimeException("element not rendered in time. Locator: " + element.getLocator().toString());
             }
             finally
             {

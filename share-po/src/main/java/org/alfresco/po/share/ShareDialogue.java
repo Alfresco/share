@@ -107,7 +107,7 @@ public class ShareDialogue extends SharePage
         {
             return clickClose();
         }
-        return FactorySharePage.resolvePage(drone);
+        return drone.getCurrentPage().render();
     }
 
     /**
@@ -117,7 +117,7 @@ public class ShareDialogue extends SharePage
     {
         WebElement button = drone.findFirstDisplayedElement(CANCEL_BUTTON);
         button.click();
-        return FactorySharePage.resolvePage(drone);
+        return drone.getCurrentPage().render();
     }
 
     /**
