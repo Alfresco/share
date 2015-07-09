@@ -310,6 +310,15 @@
     </build>
 
     <profiles>
+
+        <!-- Profile to build Enterprise version of share-enabled alfresco war -->
+        <profile>
+            <id>enterprise</id>
+            <modules>
+                <module>alfresco-enterprise</module>
+            </modules>
+        </profile>
+
         <profile>
             <properties>
                 <!-- Filter solrcore.properties -->
