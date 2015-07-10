@@ -1082,6 +1082,18 @@
             <evaluator negate="true">evaluator.doclib.action.isWorkingCopy</evaluator>
          </action>
 
+         <!-- Take Ownership -->
+         <action id="document-take-ownership" type="javascript" icon="document-manage-permissions" label="actions.document.take-ownership">
+            <!-- Take Ownership is the same permission level as delete -->
+            <permissions>
+                <permission allow="true">Delete</permission>
+            </permissions>
+            <param name="function">onActionTakeOwnership</param>
+            <param name="action">take-ownership</param>
+            <param name="successMessage">message.take-ownership.success</param>
+            <param name="failureMessage">message.take-ownership.failure</param>
+         </action>
+
          <!-- Manage aspects -->
          <action id="document-manage-aspects" type="javascript" label="actions.document.manage-aspects">
             <param name="function">onActionManageAspects</param>
@@ -1260,6 +1272,7 @@
             <action index="285" id="document-cancel-editing-unlock" icon="document-cancel-editing"/>
             <action index="290" id="document-manage-granular-permissions" />
             <action index="300" id="document-manage-repo-permissions" />
+            <action index="305" id="document-take-ownership" />
             <action index="310" id="document-manage-aspects" />
             <action index="320" id="document-change-type" />
             <action index="330" id="document-view-in-source-repository" />
@@ -1303,6 +1316,7 @@
             <action index="160" id="document-delete" icon="folder-delete" label="actions.folder.delete" />
             <action index="170" id="document-manage-granular-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
             <action index="180" id="document-manage-repo-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="185" id="document-take-ownership" icon="folder-manage-permissions" />
             <action index="190" id="document-manage-aspects" label="actions.folder.manage-aspects" />
             <action index="200" id="document-change-type" label="actions.folder.change-type" />
             <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />

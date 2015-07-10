@@ -1878,6 +1878,65 @@
             files: record
          }).showDialog();
       },
+      
+      /**
+       * Take Ownership.
+       *
+       * @method onActionTakeOwnership
+       * @param record {object} Object literal representing the file or folder to be actioned
+       */
+      onActionTakeOwnership: function dlA_onActionTakeOwnership(record, owner)
+      {
+         var me = this,
+            jsNode = record.jsNode,
+            content = jsNode.isContainer ? "folder" : "document",
+            displayName = record.displayName,
+            zIndex = 0;
+
+         var displayPromptText = this.msg("message.confirm.take-ownership", displayName);
+
+         if (this.fullscreen !== undefined && ( this.fullscreen.isWindowOnly || Dom.hasClass(this.id, 'alf-fullscreen')))
+         {
+            zIndex = 1000;
+         }
+
+         //MNT-11084 : Full screen/window view: Actions works incorrectly;
+         var parent = undefined;
+         var container = Dom.get(this.id);
+         var ua = navigator.userAgent.toLowerCase();
+         if ((ua.indexOf('gecko') != -1 || ua.indexOf('safari')!=-1) && ua.indexOf('chrome')==-1)
+         {
+            parent = container;
+         }
+       
+         var buttons =
+         [
+            {
+               text: this.msg("button.take-ownership"),
+               handler: function dlA_onActionTakeOwnership_confirm()
+               {
+                  this.destroy();
+                  me.onActionSimpleRepoAction.call(me, record, owner);
+               }
+            },
+            {
+               text: this.msg("button.cancel"),
+               handler: function dlA_onActionTakeOwnership_cancel()
+               {
+                  this.destroy();
+               },
+               isDefault: true
+            }
+         ];
+         
+         Alfresco.util.PopupManager.displayPrompt(
+         {
+            title: this.msg("actions." + content + ".take-ownership"),
+            text: displayPromptText,
+            noEscape: true,
+            buttons: buttons
+         });
+      },
 
       /**
        * Manage aspects.
