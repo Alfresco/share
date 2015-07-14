@@ -56,7 +56,7 @@
    YAHOO.extend(Alfresco.module.CreateSite, Alfresco.component.Base,
    {
       /**
-       * Shows the CreteSite dialog to the user.
+       * Shows the CreateSite dialog to the user.
        *
        * @method show
        */
