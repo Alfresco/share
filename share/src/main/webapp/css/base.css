@@ -1915,3 +1915,7 @@ table.mceLayout
    border-color: #d6e9c6;
    border-radius: 5px;
 }
+
+.alf-site-visibility span {
+   vertical-align: baseline;
+}
