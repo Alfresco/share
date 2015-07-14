@@ -1931,7 +1931,7 @@
          
          Alfresco.util.PopupManager.displayPrompt(
          {
-            title: this.msg("actions." + content + ".take-ownership"),
+            title: this.msg("message.confirm.take-ownership.title"),
             text: displayPromptText,
             noEscape: true,
             buttons: buttons
