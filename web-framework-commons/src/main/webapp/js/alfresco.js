@@ -7176,7 +7176,7 @@ Alfresco.util.PopupManager = function()
          // MNT-11084 Full screen/window view: Actions works incorrectly; 
          if (c.zIndex !== undefined && c.zIndex > 0)
          {
-            var index = c.zIndex + this.zIndex - 1;
+            var index = c.zIndex + this.zIndex;
             var onBeforeShow = function () 
             {
                element = Dom.get("prompt_mask");
