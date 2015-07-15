@@ -93,6 +93,7 @@ public abstract class DetailsPage extends SitePage
     private static final String EDIT_PROPERTIES_ICON_DOC = ".document-metadata-header h2 .edit";
     @SuppressWarnings("unused")
     private static final String MANAGE_RULES = "div[class$='-permissions'] a";
+    public static final String TAKE_OWNERSHIP = "//span[text()='Take Ownership']";
 
     public enum ShareLinks
     {
@@ -952,6 +953,28 @@ public abstract class DetailsPage extends SitePage
         throw new PageException("This content is not Synced, Can not return SyncInfoPage!!");
     }
 
+    /**
+     * Clicks on Take Ownership link under folder options on the right handside
+     * 
+     * @return
+     */
+    public TakeOwnershipPage selectTakeOwnership()
+    {
+        try
+        {
+            drone.findAndWait(By.xpath(TAKE_OWNERSHIP)).click();
+        }
+        catch (TimeoutException toe)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Unable to find Take Ownership link.", toe);
+            }
+        }
+        return new TakeOwnershipPage(drone).render();
+    }
+    
+   
     /**
      * Mimics the action of select the manage aspects.
      *

@@ -97,6 +97,7 @@ public abstract class AbstractTest implements AlfrescoTests
     protected static final String UNAME_PASSWORD = "password";
     protected long popupRendertime;
     public static long maxWaitTime_CloudSync = 50000;
+    protected static long refreshDuration = 15000;
     public static String licenseShare;
     protected static String blogUrl;
     protected static String blogUsername;

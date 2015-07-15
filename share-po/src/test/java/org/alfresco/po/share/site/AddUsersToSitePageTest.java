@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.alfresco.po.share.site;
 
 import java.util.List;
@@ -19,6 +34,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+/**
+ * 
+ * Add Users to Site tests
+ * 
+ * @author jcule
+ *
+ */
 @Listeners(FailedTestListener.class)
 public class AddUsersToSitePageTest extends AbstractTest
 {
@@ -30,7 +52,6 @@ public class AddUsersToSitePageTest extends AbstractTest
     private SiteDashboardPage siteDashBoard;
     private UserSitesPage userSitesPage;
     private String siteName = "AddUserToSiteTest" + System.currentTimeMillis();
-    private static long refreshDuration = 15000;
 
     @BeforeClass(groups = "Enterprise-only")
     public void createSite() throws Exception
