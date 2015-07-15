@@ -746,5 +746,14 @@
          </list>
       </property>
    </bean>
+   
+   <bean id="evaluator.doclib.action.unzipTo" parent="evaluator.doclib.action.isMimetype">
+      <property name="mimetypes">
+         <list>
+            <value>application/acp</value>
+            <value>application/zip</value>
+         </list>
+      </property>
+   </bean>
 
 </beans>

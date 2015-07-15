@@ -1045,6 +1045,12 @@
             </permissions>
             <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
          </action>
+         
+         <!-- Unzip to -->
+         <action id="document-unzip-to" type="javascript" label="actions.document.unzip-to">
+            <param name="function">onActionUnzipTo</param>
+            <evaluator>evaluator.doclib.action.unzipTo</evaluator>
+         </action>
 
          <!-- Delete -->
          <action id="document-delete" type="javascript" label="actions.document.delete">
@@ -1266,6 +1272,7 @@
             <action index="200" id="document-edit-offline" />
             <action index="240" id="document-copy-to" />
             <action index="250" id="document-move-to" />
+            <action index="255" id="document-unzip-to" />
             <action index="260" id="document-delete" />
             <action index="270" id="document-assign-workflow" />
             <action index="280" id="document-cancel-editing" />

@@ -1759,6 +1759,17 @@
       {
          this._copyMoveTo("move", record);
       },
+      
+      /**
+       * Unzip a single archive.
+       *
+       * @method onActionUnzipTo
+       * @param record {object} Object literal representing the archive to be actioned
+       */
+      onActionUnzipTo: function dlA_onActionUnzipTo(record)
+      {
+         this._copyMoveTo("unzip", record);
+      },
 
       /**
        * Copy/Move To implementation.
@@ -1774,7 +1785,8 @@
          if (!mode in
             {
                copy: true,
-               move: true
+               move: true,
+               unzip: true
             })
          {
             throw new Error("'" + mode + "' is not a valid Copy/Move to mode.");
@@ -1800,7 +1812,7 @@
             allowedViewModes.push(DLGF.VIEW_MODE_REPOSITORY);
          }
 
-         allowedViewModes.push(DLGF.VIEW_MODE_USERHOME)
+         allowedViewModes.push(DLGF.VIEW_MODE_USERHOME);
 
          var zIndex = 0;
          if (this.fullscreen !== undefined && ( this.fullscreen.isWindowOnly || Dom.hasClass(this.id, 'alf-fullscreen')))

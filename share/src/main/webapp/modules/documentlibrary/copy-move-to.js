@@ -71,7 +71,8 @@
             var dataWebScripts =
             {
                copy: "copy-to",
-               move: "move-to"
+               move: "move-to",
+               unzip: "unzip-to"
             };
             if (typeof dataWebScripts[obj.mode] == "undefined")
             {
@@ -146,7 +147,8 @@
             eventSuffix =
             {
                copy: "Copied",
-               move: "Moved"
+               move: "Moved",
+               unzip: "Unzipped"
             };
 
          // Single/multi files into array of nodeRefs
