@@ -878,6 +878,7 @@
             <permissions>
                <permission allow="true">Write</permission>
             </permissions>
+            <evaluator negate="true">evaluator.doclib.metadata.isLocked</evaluator>
             <evaluator negate="true">evaluator.doclib.action.checkedOutAspect</evaluator>
          </action>
 
@@ -887,6 +888,7 @@
             <permissions>
                <permission allow="true">Write</permission>
             </permissions>
+            <evaluator negate="true">evaluator.doclib.metadata.isLocked</evaluator>
             <evaluator negate="true">evaluator.doclib.action.checkedOutAspect</evaluator>
          </action>
 

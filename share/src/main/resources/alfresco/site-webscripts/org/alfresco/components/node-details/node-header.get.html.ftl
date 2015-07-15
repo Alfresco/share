@@ -55,7 +55,7 @@
                         </#if>
                         </div>
                      </#if>
-                  <#elseif (node.isLocked && ( ((node.properties["cm:lockType"]!"") == "WRITE_LOCK") || ((node.properties["cm:lockType"]!"") == "READ_ONLY_LOCK") ))>
+                  <#elseif (node.isLocked && ( ((node.properties["cm:lockType"]!"") == "WRITE_LOCK") || ((node.properties["cm:lockType"]!"") == "READ_ONLY_LOCK") || ((node.properties["cm:lockType"]!"") == "NODE_LOCK") ))>
                      <#assign lockUser = node.properties["cm:lockOwner"]>
                      <#if lockUser??>
                         <div class="status-banner theme-bg-color-2 theme-border-4">
