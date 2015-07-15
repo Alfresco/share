@@ -779,6 +779,9 @@
             });
          }
 
+         // Add the dialog to the dom
+         this.widgets.dialog.render(this.options.parentElement || document.body);
+
          // MNT-11084 Full screen/window view: Actions works incorrectly;
          if (this.options.zIndex !== undefined && this.options.zIndex > 0)
          {
