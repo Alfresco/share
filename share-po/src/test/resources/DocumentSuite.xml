@@ -123,6 +123,11 @@
             <class name="org.alfresco.po.share.site.document.FolderDetailsPageTest"/>
         </classes>
     </test>
+        <test name="TakeOwnershipTest">
+        <classes>
+            <class name="org.alfresco.po.share.site.document.TakeOwnershipTest"/>
+        </classes>
+    </test>
     <test name="ManagePermissionsTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.ManagePermissionsTest"/>
