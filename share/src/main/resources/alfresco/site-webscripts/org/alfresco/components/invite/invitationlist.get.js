@@ -11,19 +11,13 @@ function main()
 
    // add all roles except "None"
    model.siteRoles = [];
-   var rolesTooltipData = [];
    for (var i = 0, j = data.siteRoles.length; i < j; i++)
    {
       if (data.siteRoles[i] != "None")
       {
          model.siteRoles.push(data.siteRoles[i]);
-         rolesTooltipData.push({
-            roleName: msg.get("role." + data.siteRoles[i]),
-            roleDescription: msg.get("role." + data.siteRoles[i] + ".description")
-         });
       }
    }
-   model.rolesTooltipData = rolesTooltipData;
 
    // Widget instantiation metadata...
    var invitationList = {

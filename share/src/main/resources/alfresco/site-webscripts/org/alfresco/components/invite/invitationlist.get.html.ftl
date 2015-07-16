@@ -1,11 +1,13 @@
 <@markup id="css" >
    <#-- CSS Dependencies -->
    <@link href="${url.context}/res/components/invite/invitationlist.css" group="invite"/>
+   <@link href="${url.context}/res/modules/roles-tooltip.css" group="invite"/>
 </@>
 
 <@markup id="js">
    <#-- JavaScript Dependencies -->
    <@script src="${url.context}/res/components/invite/invitationlist.js" group="invite"/>
+   <@script src="${url.context}/res/modules/roles-tooltip.js" group="invite"/>
 </@>
 
 <@markup id="widgets">
@@ -20,15 +22,7 @@
             <div id="${args.htmlid}-invitationBar" class="invitelist-bar alf-invite-panel-header">
                <div class="alf-label">${msg("invitationlist.addDirect.title")}</div>
                <div id="${args.htmlid}-role-info" class="alf-role-info-tooltip">
-                    <button id="${args.htmlid}-role-info-button">&nbsp;</button>
-                    <div id="${args.htmlid}-role-info-panel" class="hidden">
-                        <p><span class="alf-role-tooltip-header">${msg("invitationlist.role-tooltip.header")}</span></p>
-                        <#list rolesTooltipData as roleInfo>
-                            <p><span class="alf-role-tooltip-role-name">${roleInfo.roleName}</span>
-                            <span>${roleInfo.roleDescription}</span></p>
-                        </#list>
-                        <p><a href="http://docs.alfresco.com/${server.versionMajor}.${server.versionMinor}/references/permissions_share.html">${msg("invitationlist.role-tooltip.docs-url-label")}</a></p>
-                    </div>
+                  <button id="${args.htmlid}-role-info-button">&nbsp;</button>
                </div>
                <div class="invitationlist-selectallroles alf-colored-button">
                    <button id="${args.htmlid}-selectallroles-button">${msg("invitationlist.selectallroles")}&nbsp;&#9662;</button>

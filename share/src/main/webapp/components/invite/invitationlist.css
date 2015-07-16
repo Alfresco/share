@@ -111,54 +111,6 @@
    display: none;
 }
 
-.invitationlist .alf-role-info-tooltip .yui-button .first-child:hover
-{
-   background: transparent url(../images/info-hover-20.png) no-repeat;
-}
-
-.invitationlist .alf-role-info-tooltip .yui-button button:focus
-{
-    outline: none;
-}
-
-.invitationlist .alf-role-info-tooltip .yui-button,
-.invitationlist .alf-role-info-tooltip .yui-button .first-child
-{
-    border: none;
-    background: none;
-}
-
-.invitationlist .alf-role-info-tooltip .yui-button .first-child
-{
-   background: transparent url(../images/info-default-20.png) no-repeat;
-   width: 20px;
-   height: 20px;
-   display: block;
-}
-
-.alf-info-balloon
-{
-  background-color: #FFFFFF;
-  border: 1px solid #808080;
-  border-radius: 4px;
-  color: #333333;
-  padding: 15px;
-}
-
-.alf-info-balloon .closeButton {
-   background: url("../../themes/default/images/sprite.png") no-repeat scroll 0 -300px transparent;
-   cursor: pointer;
-   float: right;
-   text-indent: -999em;
-   width: 25px;
-}
-
-.alf-role-tooltip-role-name,
-.alf-role-tooltip-header
-{
-    font-weight: bold;
-}
-
 .invitationlist .inviteelist .remove-item-button:active > .removeIcon
 {
    background: transparent url(../images/delete-pressed-20.png) no-repeat center center;

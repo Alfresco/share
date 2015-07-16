@@ -126,17 +126,7 @@
          });
          
          // Role info tooltip
-         this.widgets.roleTooltip = new Alfresco.util.createInfoBalloon(
-               Dom.get(this.id + '-role-info'),
-         {
-            html: Dom.get(this.id + '-role-info-panel').innerHTML,
-            width: "350px",
-            wrapperClass: "alf-info-balloon"
-         });
-         this.widgets.roleTooltip.isShown = false;
-         // button to show role info tooltip 
-         this.widgets.roleInfoButton = Alfresco.util.createYUIButton(
-               this, "role-info-button", this.onRoleInfoButtonClick);
+         this.widgets.roleTooltip = new Alfresco.module.RolesTooltip(this.id, this.id + "-role-info", "role-info-button", this.options.siteId);
          
          // setup the datasource
          this.widgets.dataSource = new YAHOO.util.DataSource([],
@@ -531,21 +521,6 @@
          
          // kick off the processing
          this._processInviteData(inviteData);
-      },
-      
-      /**
-       * Event handler for role info button click.
-       *
-       * @method onRoleInfoButtonClick
-       * @param e {Object} Event arguments
-       */
-      onRoleInfoButtonClick: function InvitationList_onRoleInfoButtonClick(e)
-      {
-         // Show Balloon with initial message
-         this.widgets.roleTooltip.show();
-         // Override default alignment
-         this.widgets.roleTooltip.balloon.align(
-               YAHOO.widget.Overlay.TOP_RIGHT, YAHOO.widget.Overlay.BOTTOM_LEFT, [30, 8]);
       },
       
       /**
