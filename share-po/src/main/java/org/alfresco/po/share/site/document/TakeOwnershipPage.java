@@ -43,7 +43,7 @@ public class TakeOwnershipPage extends SharePage
     public static final By TAKE_OWNERSHIP_POPUP_TITLE = By.cssSelector("#prompt_h");
 
     // Take ownership popup Take Ownership button
-    public static final String TAKE_OWNERSHIP_BUTTON = "//button[text()='Take Ownership']";
+    public static final String TAKE_OWNERSHIP_BUTTON = "//button[text()='OK']";
 
     // Take Ownership popup Cancel button
     public static final String TAKE_OWNERSHIP_CANCEL_BUTTON = "//button[text()='Cancel']";

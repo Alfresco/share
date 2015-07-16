@@ -93,7 +93,7 @@ public abstract class DetailsPage extends SitePage
     private static final String EDIT_PROPERTIES_ICON_DOC = ".document-metadata-header h2 .edit";
     @SuppressWarnings("unused")
     private static final String MANAGE_RULES = "div[class$='-permissions'] a";
-    public static final String TAKE_OWNERSHIP = "//span[text()='Take Ownership']";
+    public static final String TAKE_OWNERSHIP = "//span[text()='Become Owner']";
 
     public enum ShareLinks
     {
