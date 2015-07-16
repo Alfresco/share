@@ -151,7 +151,7 @@
           * @default [ "SiteManager" ]
           */
          nonEditableNames: [ "^GROUP_site_.*_SiteManager$" ],
-	 nonEditableRoles: [ "SiteManager" ],
+         nonEditableRoles: [ "SiteManager" ],
          unDeletableRoles: [ "^GROUP_site_.*_SiteManager$", "^GROUP_site_.*_SiteCollaborator$", "^GROUP_site_.*_SiteContributor$", "^GROUP_site_.*_SiteConsumer$" ],
          showGroups: true
       },
@@ -168,7 +168,9 @@
          this.widgets.inherited = Alfresco.util.createYUIButton(this, "inheritedButton", this.onInheritedButton);
          this.widgets.saveButton = Alfresco.util.createYUIButton(this, "okButton", this.onSaveButton);
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancelButton", this.onCancelButton);
-
+         this.widgets.rolesTooltip = new Alfresco.module.RolesTooltip(this.id, this.id + "-role-info", "role-info-button", 
+               this.options.site, this.options.nodeRef);
+         
          // DataSource set-up and event registration
          this._setupDataSources();
          

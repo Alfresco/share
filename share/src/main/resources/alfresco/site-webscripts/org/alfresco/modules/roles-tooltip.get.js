@@ -8,10 +8,13 @@ function main()
    {
       // This may be called from a context where there is a nodref such as Manage Permissions
       var nodeRefUri = args.noderef.replace("://", "/");
-      var json = remote.call("slingshot/doclib/permissions/" + nodeRefUri);
-      if (json.status == 200)
+      var connector = remote.connect("alfresco");
+      var remoteUrl = "slingshot/doclib/permissions/" + nodeRefUri;
+      var result = connector.get(remoteUrl);
+      if (result.status == status.STATUS_OK)
       {
-         var data = JSON.parse(json);
+         var response = result.response;
+         var data = JSON.parse(response);
          if (data)
          {
             var rolesTooltipData = [];
@@ -27,6 +30,9 @@ function main()
       }
       else
       {
+         var jresponse = result.response;
+         var jstatus = result.status;
+         var jmessage = result.message;
          status.setCode(json.status, json.status.message);
       }
    }
