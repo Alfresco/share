@@ -139,29 +139,10 @@ public class TakeOwnershipTest extends AbstractTest
         takeOwnershipFileCancelPrepared = fileCancel.getName();
         uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(fileCancel.getCanonicalPath()).render();
-        
+      
         ShareUtil.logout(drone);
-
         
-  }
-
-    @AfterClass
-    public void teardown()
-    {
-        SiteUtil.deleteSite(drone, takeOwnershipSiteName);
-    }
-    
-    @Test
-    public void testTakeOwnershipOfTheFolder() throws Exception
-    {
-        if (logger.isTraceEnabled())
-        {
-            logger.trace("====testTakeOwnershipOfTheFolder====");
-        }
-
-        System.out.println("SITE **** " + takeOwnershipSiteName);
-        System.out.println("USER **** " + takeOwnershipUserName);
-
+        //collaborator becomes consumer
         dashBoard = loginAs(username, password);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
@@ -186,11 +167,33 @@ public class TakeOwnershipTest extends AbstractTest
         Assert.assertTrue(siteMembersSearchUsers.size() > 0);
  
         siteMembersPage = siteMembersPage.assignRole(takeOwnershipUserName, UserRole.CONSUMER).render();
-  
+ 
+ 
+  }
+
+    @AfterClass
+    public void teardown()
+    {
+        SiteUtil.deleteSite(drone, takeOwnershipSiteName);
+    }
+    
+    @Test
+    public void testTakeOwnershipOfTheFolder() throws Exception
+    {
+        if (logger.isTraceEnabled())
+        {
+            logger.trace("====testTakeOwnershipOfTheFolder====");
+        }
+
+        System.out.println("SITE **** " + takeOwnershipSiteName);
+        System.out.println("USER **** " + takeOwnershipUserName);
+
         //admin user takes ownership of the folder created by collaborator
         dashBoard = siteMembersPage.getNav().selectMyDashBoard().render();
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
+        
+        
         documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
         List<FileDirectoryInfo> folders = documentLibPage.getFiles();
         FileDirectoryInfo folder = folders.get(0);
