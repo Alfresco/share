@@ -86,9 +86,9 @@ public class AddUsersToSitePage extends SharePage
     //Info tooltip 
     private static final By INFO_TOOLTIP_BUTTON = By.cssSelector("button[id$='default-role-info-button-button']");
     
-    //Tooltip header .alf-role-tooltip-header
-    private static final By TOOLTIP_HEADER = By.cssSelector(".alf-role-tooltip-header");
-
+    //Role info tooltip
+    private static final By ROLE_INFOTOOLTIP = By.cssSelector(".alf-info-balloon");
+ 
     // Set All Roles to button
     private static final By SET_ALL_ROLES_TO_BUTTON = By.cssSelector("button[id$='selectallroles-button-button']");
 
@@ -447,6 +447,7 @@ public class AddUsersToSitePage extends SharePage
         try
         {
             drone.findAndWait(INFO_TOOLTIP_BUTTON, maxPageLoadingTime).click();
+
         }
         catch (TimeoutException te)
         {
@@ -460,19 +461,17 @@ public class AddUsersToSitePage extends SharePage
      * 
      * @return
      */
-    public WebElement getTooltipHeader()
+    public boolean isRoleInfoTooltipDisplayed()
     {
-        WebElement tooltipHeader = null;
         try
         {
-            tooltipHeader = drone.find(TOOLTIP_HEADER);
-            return tooltipHeader;
+            return drone.findAndWait(ROLE_INFOTOOLTIP).isDisplayed();
         }
-        catch (NoSuchElementException nse)
+        catch (TimeoutException nse)
         {
             logger.info("Cannot find info tooltip header.", nse);
         } 
-        return tooltipHeader;
+        return false;
     }
     
 
@@ -656,26 +655,6 @@ public class AddUsersToSitePage extends SharePage
     }
 
     /**
-     * Get added users list
-     * 
-     * @return List<WebElement> Collection of added users
-     */
-    /**
-     * private List<WebElement> getAddedUsers()
-     * {
-     * try
-     * {
-     * List<WebElement> addedUsers = drone.findAll(ADDED_USERS_LIST);
-     * return addedUsers;
-     * }
-     * catch (NoSuchElementException e)
-     * {
-     * logger.info("Added users don't found. Returned empty list.", e);
-     * }
-     * return Collections.emptyList();
-     * }
-     **/
-    /**
      * Get added user user name
      * 
      * @return String user name
@@ -686,10 +665,8 @@ public class AddUsersToSitePage extends SharePage
         {
             List<String> addedUserNames = new ArrayList<String>();
             List<WebElement> addedUsers = drone.findAll(ADDED_USERS_NAMES_LIST);
-            System.out.println("UUUU **** " + addedUsers.size());
             for (WebElement addedUser : addedUsers)
             {
-                System.out.println("UUUU 1 **** " + addedUser.getText());
                 addedUserNames.add(addedUser.getText());
             }
             return addedUserNames;
@@ -701,37 +678,7 @@ public class AddUsersToSitePage extends SharePage
         return Collections.emptyList();
     }
 
-    /**
-     * public String getAddedUserName(String user)
-     * {
-     * String userName = "";
-     * List<WebElement> addedUsersList = getAddedUsers();
-     * if (user == null || addedUsersList == null || addedUsersList.isEmpty())
-     * {
-     * throw new UnsupportedOperationException("user input required or addeded users list should not be blank.");
-     * }
-     * for (WebElement addedUser : addedUsersList)
-     * {
-     * try
-     * {
-     * userName = addedUser.findElement(ADDED_USERS_NAMES_LIST).getText();
-     * if (userName != null && user.equalsIgnoreCase(userName))
-     * {
-     * return userName;
-     * }
-     * }
-     * catch (NoSuchElementException e)
-     * {
-     * if (logger.isTraceEnabled())
-     * {
-     * logger.trace("Unable to find added user role css.", e);
-     * }
-     * }
-     * }
-     * return userName;
-     * }
-     **/
-
+ 
     /**
      * This method clicks on Add Users button on Invite user page.
      * 
@@ -770,38 +717,7 @@ public class AddUsersToSitePage extends SharePage
         return Collections.emptyList();
     }
 
-    /**
-     * public String getAddedUserRole(String user)
-     * {
-     * String addedUserRole = "";
-     * List<WebElement> addedUsersList = getAddedUsers();
-     * if (user == null || addedUsersList == null || addedUsersList.isEmpty())
-     * {
-     * throw new UnsupportedOperationException("user input required or addeded users list should not be blank.");
-     * }
-     * for (WebElement addedUser : addedUsersList)
-     * {
-     * try
-     * {
-     * String userName = addedUser.findElement(ADDED_USERS_NAMES_LIST).getText();
-     * if (userName != null && user.equalsIgnoreCase(userName))
-     * {
-     * addedUserRole = addedUser.findElement(ADDED_USERS_ROLES_LIST).getText();
-     * break;
-     * }
-     * }
-     * catch (NoSuchElementException e)
-     * {
-     * if (logger.isTraceEnabled())
-     * {
-     * logger.trace("Unable to find added user role css.", e);
-     * }
-     * }
-     * }
-     * return addedUserRole;
-     * }
-     **/
-
+ 
     /**
      * 4 - External Users panel:
      * enterExternalUserFirstName()

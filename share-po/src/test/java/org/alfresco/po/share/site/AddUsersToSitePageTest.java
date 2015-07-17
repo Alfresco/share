@@ -580,8 +580,8 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
-        addUsersToSitePage.clickOnInfoTooltip();
-        Assert.assertNotNull(addUsersToSitePage.getTooltipHeader());
+        addUsersToSitePage =  addUsersToSitePage.clickOnInfoTooltip().render();
+        Assert.assertTrue(addUsersToSitePage.isRoleInfoTooltipDisplayed());
 
         ShareUtil.logout(drone);
 
