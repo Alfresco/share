@@ -41,6 +41,9 @@ public class CreateSitePage extends ShareDialogue
     protected static final By MODERATED_CHECKBOX = By.cssSelector("input[id$='-isModerated']");
     protected static final By PRIVATE_CHECKBOX = By.cssSelector("input[id$='-isPrivate']");
     protected static final By PUBLIC_CHECKBOX = By.cssSelector("input[id$='-isPublic']");
+    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-createSite-instance-isModerated'] span[class='help']");
+    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-createSite-instance-isPrivate'] span[class='help']");
+    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-createSite-instance-isPublic'] span[class='help']");
     protected static final By INPUT_DESCRIPTION = By.cssSelector("textarea[id$='-description']");
     protected static final By INPUT_TITLE = By.name("title");
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
@@ -55,6 +58,7 @@ public class CreateSitePage extends ShareDialogue
         super(drone);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public CreateSitePage render(RenderTime timer)
     {
@@ -62,12 +66,14 @@ public class CreateSitePage extends ShareDialogue
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public CreateSitePage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public CreateSitePage render(final long time)
     {
@@ -278,6 +284,25 @@ public class CreateSitePage extends ShareDialogue
     }
 
     /**
+     * Returns help text under private checkbox
+     * 
+     * 
+     * @return
+     */
+    public String getPrivateCheckboxHelpText()
+    {
+        String privateCheckboxHelpText = "";
+        try
+        {
+            privateCheckboxHelpText = drone.find(PRIVATE_CHECKBOX_HELP_TEXT).getText();
+        } catch (NoSuchElementException nse)
+        {
+            
+        }
+        return privateCheckboxHelpText;
+    }    
+    
+    /**
      * Checks if the check box with the label public is ticked.
      * 
      * @return true if selected
@@ -292,6 +317,25 @@ public class CreateSitePage extends ShareDialogue
         {
             return false;
         }
+    }
+    
+    /**
+     * Returns help text under public checkbox
+     * 
+     * 
+     * @return
+     */
+    public String getPublicCheckboxHelpText()
+    {
+        String publicCheckboxHelpText = "";
+        try
+        {
+            publicCheckboxHelpText = drone.find(PUBLIC_CHECKBOX_HELP_TEXT).getText();
+        } catch (NoSuchElementException nse)
+        {
+            
+        }
+        return publicCheckboxHelpText;
     }
 
     /**
@@ -310,6 +354,26 @@ public class CreateSitePage extends ShareDialogue
             return false;
         }
     }
+    
+    /**
+     * Returns help text under moderated checkbox
+     * 
+     * 
+     * @return
+     */
+    public String getModeratedCheckboxHelpText()
+    {
+        String moderatedCheckboxHelpText = "";
+        try
+        {
+            moderatedCheckboxHelpText = drone.find(MODERATED_CHECKBOX_HELP_TEXT).getText();
+        } catch (NoSuchElementException nse)
+        {
+            
+        }
+        return moderatedCheckboxHelpText;
+    }
+
 
     /**
      * Action of selecting site type drop down.

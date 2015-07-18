@@ -51,10 +51,17 @@ import org.testng.annotations.Test;
 @Test(groups="alfresco-one")
 public class SiteTest extends AbstractTest
 {
+    private static final String PUBLIC_CHECKBOX_HELP_TEXT = "Everyone in your organization can access this site.";
+    private static final String PRIVATE_CHECKBOX_HELP_TEXT = "Only people added by a Site Manager can find and use this site.";
+    private static final String MODERATED_CHECKBOX_HELP_TEXT = "Everyone in your organization can find this site and request access. Access is granted by Site Managers.";
     private String siteName;
     private String privateSiteName;
     private String moderateSiteName;
     private String privateModSiteName;
+    private String publicSiteNameLabel;
+    private String moderatedSiteNameLabel;
+    private String privateSiteNameLabel;
+    
     DashBoardPage dashBoard;
     String testuser = "testuser" + System.currentTimeMillis();
 
@@ -65,6 +72,9 @@ public class SiteTest extends AbstractTest
         privateSiteName = "private-" + siteName;
         moderateSiteName = "mod-" + siteName;
         privateModSiteName = "privateMod-" + siteName;
+        publicSiteNameLabel = "publicSiteNameLabel" + System.currentTimeMillis();
+        moderatedSiteNameLabel = "moderatedSiteNameLabel" + System.currentTimeMillis();
+        privateSiteNameLabel = "privateSiteNameLabel" + System.currentTimeMillis();
         // user joining the above sites
     }
     
@@ -85,8 +95,11 @@ public class SiteTest extends AbstractTest
         SiteUtil.deleteSite(drone, privateSiteName);
         SiteUtil.deleteSite(drone, moderateSiteName);
         SiteUtil.deleteSite(drone, privateModSiteName);
+        SiteUtil.deleteSite(drone, publicSiteNameLabel);
+        SiteUtil.deleteSite(drone, moderatedSiteNameLabel);
+        SiteUtil.deleteSite(drone, privateSiteNameLabel);
     }
-    
+        
     @BeforeMethod
     public void navigateToDash()
     {
@@ -104,6 +117,12 @@ public class SiteTest extends AbstractTest
     {
         // TODO: Create site option is not available for admin, admin user in Cloud. Pl run tests with other user, i.e. user1@freenet.test
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
+        
+        //checks for site visbility help text
+        Assert.assertEquals(createSite.getPublicCheckboxHelpText(), PUBLIC_CHECKBOX_HELP_TEXT);
+        Assert.assertEquals(createSite.getPrivateCheckboxHelpText(), PRIVATE_CHECKBOX_HELP_TEXT);
+        Assert.assertEquals(createSite.getModeratedCheckboxHelpText(), MODERATED_CHECKBOX_HELP_TEXT);
+        
         SiteDashboardPage site = createSite.createNewSite(siteName).render();
         
         Assert.assertTrue(FactorySharePage.getPage(drone.getCurrentUrl(), drone) instanceof SiteDashboardPage);
@@ -252,6 +271,12 @@ public class SiteTest extends AbstractTest
         SiteDashboardPage site = createSite.createPrivateSite(privateSiteName).render();
         Assert.assertTrue(privateSiteName.equalsIgnoreCase(site.getPageTitle()));
         EditSitePage siteDetails = site.getSiteNav().selectEditSite().render();
+        
+        //checks for site visbility help text
+        Assert.assertEquals(siteDetails.getPublicCheckboxHelpText(), PUBLIC_CHECKBOX_HELP_TEXT);
+        Assert.assertEquals(siteDetails.getPrivateCheckboxHelpText(), PRIVATE_CHECKBOX_HELP_TEXT);
+        Assert.assertEquals(siteDetails.getModeratedCheckboxHelpText(), MODERATED_CHECKBOX_HELP_TEXT);
+              
         Assert.assertTrue(siteDetails.isPrivate());
         Assert.assertFalse(siteDetails.isModerate());
         siteDetails.cancel();
@@ -315,6 +340,76 @@ public class SiteTest extends AbstractTest
         Assert.assertEquals(createSite.getSiteUrl(), siteURL.toLowerCase());
         createSite.clickCancel().render();
 
+    }
+    
+    @Test(dependsOnMethods = "checkSetSiteURL")
+    public void checkPublicSiteVisibilityLabel() throws Exception
+    {
+        SiteUtil.createSite(drone, publicSiteNameLabel, "description", "Public");
+        SiteDashboardPage siteDashBoard = drone.getCurrentPage().render();
+        
+        //Check site visibility label
+        Assert.assertEquals(siteDashBoard.getPageTitleLabel(), "Public");
+        
+        DocumentLibraryPage documentLibraryPage = siteDashBoard.getSiteNav().selectSiteDocumentLibrary().render();
+        Assert.assertEquals(documentLibraryPage.getPageTitleLabel(), "Public");
+        
+        AddUsersToSitePage addUsersToSitePage = documentLibraryPage.getSiteNav().selectAddUser().render();
+        Assert.assertEquals(addUsersToSitePage.getPageTitleLabel(), "Public");
+        
+        SiteMembersPage siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
+        Assert.assertEquals(siteMembersPage.getPageTitleLabel(), "Public");
+        
+        SiteGroupsPage siteGroupsPage = siteMembersPage.navigateToSiteGroups().render();
+        Assert.assertEquals(siteGroupsPage.getPageTitleLabel(), "Public");
+        
+       
+    }
+    
+    @Test(dependsOnMethods = "checkPublicSiteVisibilityLabel")
+    public void checkModeratedSiteVisibilityLabel() throws Exception
+    {
+        SiteUtil.createSite(drone, moderatedSiteNameLabel, "description", "Moderated");
+        SiteDashboardPage siteDashBoard = drone.getCurrentPage().render();
+        
+        //Check site visibility label
+        Assert.assertEquals(siteDashBoard.getPageTitleLabel(), "Moderated");
+        
+        DocumentLibraryPage documentLibraryPage = siteDashBoard.getSiteNav().selectSiteDocumentLibrary().render();
+        Assert.assertEquals(documentLibraryPage.getPageTitleLabel(), "Moderated");
+        
+        AddUsersToSitePage addUsersToSitePage = documentLibraryPage.getSiteNav().selectAddUser().render();
+        Assert.assertEquals(addUsersToSitePage.getPageTitleLabel(), "Moderated");
+        
+        SiteMembersPage siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
+        Assert.assertEquals(siteMembersPage.getPageTitleLabel(), "Moderated");
+        
+        SiteGroupsPage siteGroupsPage = siteMembersPage.navigateToSiteGroups().render();
+        Assert.assertEquals(siteGroupsPage.getPageTitleLabel(), "Moderated");
+                
+    }
+    
+    @Test(dependsOnMethods = "checkModeratedSiteVisibilityLabel")
+    public void checkPrivateSiteVisibilityLabel() throws Exception
+    {
+        SiteUtil.createSite(drone, privateSiteNameLabel, "description", "Private");
+        SiteDashboardPage siteDashBoard = drone.getCurrentPage().render();
+        
+        //Check site visibility label
+        Assert.assertEquals(siteDashBoard.getPageTitleLabel(), "Private");
+        
+        DocumentLibraryPage documentLibraryPage = siteDashBoard.getSiteNav().selectSiteDocumentLibrary().render();
+        Assert.assertEquals(documentLibraryPage.getPageTitleLabel(), "Private");
+        
+        AddUsersToSitePage addUsersToSitePage = documentLibraryPage.getSiteNav().selectAddUser().render();
+        Assert.assertEquals(addUsersToSitePage.getPageTitleLabel(), "Private");
+        
+        SiteMembersPage siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
+        Assert.assertEquals(siteMembersPage.getPageTitleLabel(), "Private");
+        
+        SiteGroupsPage siteGroupsPage = siteMembersPage.navigateToSiteGroups().render();
+        Assert.assertEquals(siteGroupsPage.getPageTitleLabel(), "Private");
+        
     }
 
 //    /**

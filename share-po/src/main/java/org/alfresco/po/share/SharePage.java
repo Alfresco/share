@@ -53,7 +53,8 @@ public abstract class SharePage extends Page
     protected static final By CANCEL_DELETE = By.xpath("//span[@class='button-group']/span[2]/span/button");
     private final static By TOP_LOGO = By.xpath("//div[@id='HEADER_LOGO']/div/img");
     private final static By FOOTER_LOGO = By.xpath("//span[@class='copyright']/a/img");
-
+    private static final By PAGE_TITLE_LABEL = By.cssSelector("span[id^=alfresco_html_Label]");
+    
     protected SharePage(WebDrone drone)
     {
         super(drone);
@@ -153,7 +154,28 @@ public abstract class SharePage extends Page
         }
         return drone.find(By.cssSelector(selector)).getText().trim();
     }
+    
+    /**
+     * Page title label
+     * 
+     * 
+     * @return
+     */
+    public String getPageTitleLabel()
+    {
+        String pageTitleLabel = "";
+        try
+        {
+            drone.waitForElement(PAGE_TITLE_LABEL, WAIT_TIME_3000);
+            pageTitleLabel = drone.findAndWait(PAGE_TITLE_LABEL).getText();
+        } catch (TimeoutException toe)
+        {
+            
+        }
+        return pageTitleLabel;
+    }
 
+    
     /**
      * Verify share page title is present and matches the page
      * 

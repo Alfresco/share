@@ -37,25 +37,33 @@ public class EditSitePage extends CreateSitePage
      */
     public EditSitePage(WebDrone drone)
     {
+
         super(drone);
+        MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-editSite-instance-isModerated'] span[class='help']");
+        PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-editSite-instance-isPrivate'] span[class='help']");
+        PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-editSite-instance-isPublic'] span[class='help']");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public EditSitePage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public EditSitePage render(final long time)
     {
         return render(new RenderTime(time));
     }
 
+    @SuppressWarnings("unchecked")
     public EditSitePage render(RenderTime timer)
     {
         elementRender(timer, RenderElement.getVisibleRenderElement(EDIT_SITE_FORM));
 
         return this;
     }
+
 }
