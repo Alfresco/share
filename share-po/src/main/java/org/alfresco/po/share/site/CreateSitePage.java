@@ -26,6 +26,7 @@ import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -294,8 +295,9 @@ public class CreateSitePage extends ShareDialogue
         String privateCheckboxHelpText = "";
         try
         {
-            privateCheckboxHelpText = drone.find(PRIVATE_CHECKBOX_HELP_TEXT).getText();
-        } catch (NoSuchElementException nse)
+            drone.waitForElement(PRIVATE_CHECKBOX_HELP_TEXT, WAIT_TIME_3000);
+            privateCheckboxHelpText = drone.findAndWait(PRIVATE_CHECKBOX_HELP_TEXT).getText();
+        } catch (TimeoutException toe)
         {
             
         }
@@ -330,8 +332,9 @@ public class CreateSitePage extends ShareDialogue
         String publicCheckboxHelpText = "";
         try
         {
-            publicCheckboxHelpText = drone.find(PUBLIC_CHECKBOX_HELP_TEXT).getText();
-        } catch (NoSuchElementException nse)
+            drone.waitForElement(PUBLIC_CHECKBOX_HELP_TEXT, WAIT_TIME_3000);
+            publicCheckboxHelpText = drone.findAndWait(PUBLIC_CHECKBOX_HELP_TEXT).getText();
+        } catch (TimeoutException te)
         {
             
         }
@@ -366,8 +369,9 @@ public class CreateSitePage extends ShareDialogue
         String moderatedCheckboxHelpText = "";
         try
         {
-            moderatedCheckboxHelpText = drone.find(MODERATED_CHECKBOX_HELP_TEXT).getText();
-        } catch (NoSuchElementException nse)
+            drone.waitForElement(MODERATED_CHECKBOX_HELP_TEXT, WAIT_TIME_3000);
+            moderatedCheckboxHelpText = drone.findAndWait(MODERATED_CHECKBOX_HELP_TEXT).getText();
+        } catch (TimeoutException toe)
         {
             
         }
