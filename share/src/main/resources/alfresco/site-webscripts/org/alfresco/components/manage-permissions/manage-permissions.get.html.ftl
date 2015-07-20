@@ -25,9 +25,6 @@
             <div id="${id}-headerBar" class="header-bar flat-button">
                <div class="left">
                   <span id="${id}-title"></span>
-                  <div id="${args.htmlid}-role-info" class="alf-role-info-tooltip">
-                    <button id="${args.htmlid}-role-info-button">&nbsp;</button>
-                  </div>
                </div>
                <div class="right">
                   <div id="${id}-inheritedButtonContainer" class="inherited">
