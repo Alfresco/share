@@ -99,6 +99,9 @@ public abstract class AbstractTest implements AlfrescoTests
     protected static String blogUrl;
     protected static String blogUsername;
     protected static String blogPassword;
+    
+    public static final String SLASH = File.separator;
+    private static final String SRC_ROOT = System.getProperty("user.dir") + SLASH;
 
     public WebDrone getDrone()
     {
