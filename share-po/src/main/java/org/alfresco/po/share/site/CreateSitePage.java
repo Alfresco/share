@@ -42,9 +42,9 @@ public class CreateSitePage extends ShareDialogue
     protected static final By MODERATED_CHECKBOX = By.cssSelector("input[id$='-isModerated']");
     protected static final By PRIVATE_CHECKBOX = By.cssSelector("input[id$='-isPrivate']");
     protected static final By PUBLIC_CHECKBOX = By.cssSelector("input[id$='-isPublic']");
-    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-createSite-instance-isModerated'] span[class='help']");
-    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-createSite-instance-isPrivate'] span[class='help']");
-    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("label[for='alfresco-createSite-instance-isPublic'] span[class='help']");
+    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isModerated']+label[for='alfresco-createSite-instance-isModerated'] span[class='help']");
+    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isPrivate']+label[for='alfresco-createSite-instance-isPrivate'] span[class='help']");
+    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isPublic']+label[for='alfresco-createSite-instance-isPublic'] span[class='help']");
     protected static final By INPUT_DESCRIPTION = By.cssSelector("textarea[id$='-description']");
     protected static final By INPUT_TITLE = By.name("title");
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
@@ -302,7 +302,25 @@ public class CreateSitePage extends ShareDialogue
             
         }
         return privateCheckboxHelpText;
-    }    
+    }  
+    
+    /**
+     * Returns true if help text under privete checkbox is displayed
+     * 
+     * @return
+     */
+    public boolean isPrivateCheckboxHelpTextDisplayed()
+    {
+        boolean privateCheckboxHelpTextDisplayed = false;
+        try
+        {
+            privateCheckboxHelpTextDisplayed = drone.findAndWait(PRIVATE_CHECKBOX_HELP_TEXT).isDisplayed();
+        } catch (TimeoutException te)
+        {
+            
+        }
+        return privateCheckboxHelpTextDisplayed;
+    }
     
     /**
      * Checks if the check box with the label public is ticked.
@@ -339,6 +357,24 @@ public class CreateSitePage extends ShareDialogue
             
         }
         return publicCheckboxHelpText;
+    }
+    
+    /**
+     * Returns true if help text under public checkbox is displayed
+     * 
+     * @return
+     */
+    public boolean isPublicCheckboxHelpTextDisplayed()
+    {
+        boolean publicCheckboxHelpTextDisplayed = false;
+        try
+        {
+            publicCheckboxHelpTextDisplayed = drone.findAndWait(PUBLIC_CHECKBOX_HELP_TEXT).isDisplayed();
+        } catch (TimeoutException te)
+        {
+            
+        }
+        return publicCheckboxHelpTextDisplayed;
     }
 
     /**
@@ -377,6 +413,25 @@ public class CreateSitePage extends ShareDialogue
         }
         return moderatedCheckboxHelpText;
     }
+    
+    /**
+     * Returns true if help text under moderated checkbox is displayed
+     * 
+     * @return
+     */
+    public boolean isModeratedCheckboxHelpTextDisplayed()
+    {
+        boolean moderatedCheckboxHelpTextDisplayed = false;
+        try
+        {
+            moderatedCheckboxHelpTextDisplayed = drone.findAndWait(MODERATED_CHECKBOX_HELP_TEXT).isDisplayed();
+        } catch (TimeoutException te)
+        {
+            
+        }
+        return moderatedCheckboxHelpTextDisplayed;
+    }
+
 
 
     /**
