@@ -9,7 +9,7 @@ function main()
       // This may be called from a context where there is a nodref such as Manage Permissions
       var nodeRefUri = args.noderef.replace("://", "/");
       var connector = remote.connect("alfresco");
-      var remoteUrl = "slingshot/doclib/permissions/" + nodeRefUri;
+      var remoteUrl = "/slingshot/doclib/permissions/" + nodeRefUri;
       var result = connector.get(remoteUrl);
       if (result.status == status.STATUS_OK)
       {
