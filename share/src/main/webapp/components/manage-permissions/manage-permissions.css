@@ -151,15 +151,3 @@
 {
    background-image: url(../images/delete-16.png);
 }
-
-.permissions .permissions-list .alf-role-info-tooltip
-{
-   float: left;
-}
-
-.permissions .permissions-list .alf-role-column-label
-{
-   float: left;
-   position: relative;
-   top: 4px;
-}

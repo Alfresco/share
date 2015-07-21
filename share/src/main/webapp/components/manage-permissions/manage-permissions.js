@@ -168,6 +168,8 @@
          this.widgets.inherited = Alfresco.util.createYUIButton(this, "inheritedButton", this.onInheritedButton);
          this.widgets.saveButton = Alfresco.util.createYUIButton(this, "okButton", this.onSaveButton);
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancelButton", this.onCancelButton);
+         this.widgets.rolesTooltip = new Alfresco.module.RolesTooltip(this.id, this.id + "-role-info", "role-info-button", 
+               this.options.site, this.options.nodeRef);
          
          // DataSource set-up and event registration
          this._setupDataSources();
@@ -858,46 +860,6 @@
          // Enable row highlighting 
          this.widgets.dtDirect.subscribe("rowMouseoverEvent", this.onEventHighlightRow, this, true);
          this.widgets.dtDirect.subscribe("rowMouseoutEvent", this.onEventUnhighlightRow, this, true);
-         
-         this._injectRoleTooltip(this.id + "-directPermissions", "-role");
-      },
-      
-      /**
-       * Finds the YUI data table column corresponding to the given headerIdSuffix
-       * and injects and initializes a role info tooltip.
-       *
-       * @method _injectRoleTooltip
-       * @param role {String} Event object.
-       * @return The role info tooltip
-       * @private
-       */
-      _injectRoleTooltip: function Permissions__injectRoleTooltip(dataTableId, headerIdSuffix)
-      {
-         // Find the role column header
-         var roleColumnHeaders = Dom.getElementsBy(
-               function (foundElement) { return foundElement.id.indexOf(headerIdSuffix) > 0; },
-               "th",
-               dataTableId
-         );
-         if (roleColumnHeaders.length > 0)
-         {
-            // Inject the role tooltip
-            var roleTooltipId = this.id + '-role-info';
-            var roleTooltip = document.createElement('div');
-            roleTooltip.id = roleTooltipId;
-            roleTooltip.className = 'alf-role-info-tooltip';
-            roleTooltip.innerHTML = '<button id="' + this.id + '-role-info-button">&nbsp;</button>';
-            
-            roleColumnHeaders[0].children[0].children[0].className += ' alf-role-column-label';
-            roleColumnHeaders[0].children[0].appendChild(roleTooltip);
-            
-            // Intialize the role tooltip
-            this.widgets.rolesTooltip = new Alfresco.module.RolesTooltip(
-                  this.id, roleTooltipId, "role-info-button", 
-                  this.options.site, this.options.nodeRef);
-            return this.widgets.rolesTooltip;
-         }
-         return null;
       },
 
       /**
