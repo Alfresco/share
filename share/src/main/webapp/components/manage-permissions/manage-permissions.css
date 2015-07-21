@@ -155,4 +155,6 @@
 .permissions .alf-role-info-tooltip
 {
    color: grey;
+   margin-right: 6em;
+   padding: 2px;
 }
