@@ -92,7 +92,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return drone.findAndWait(CREATE_SITE_FORM).isDisplayed();
+            return drone.find(CREATE_SITE_FORM).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -141,7 +141,7 @@ public class CreateSitePage extends ShareDialogue
         switch (siteType)
         {
             case SiteType.COLLABORATION:
-                WebElement inputSiteName = drone.findAndWait(INPUT_TITLE);
+                WebElement inputSiteName = drone.find(INPUT_TITLE);
                 inputSiteName.sendKeys(siteName);
                 if (description != null)
                 {
@@ -182,7 +182,7 @@ public class CreateSitePage extends ShareDialogue
         }
         else
         {
-            drone.findAndWait(PUBLIC_CHECKBOX).click();
+            drone.find(PUBLIC_CHECKBOX).click();
             if (isModerated)
             {
                 drone.find(MODERATED_CHECKBOX).click();
@@ -264,7 +264,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public void cancel()
     {
-        drone.findAndWait(CANCEL_BUTTON).click();
+        drone.find(CANCEL_BUTTON).click();
     }
 
     /**
@@ -276,7 +276,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return drone.findAndWait(PRIVATE_CHECKBOX).isSelected();
+            return drone.find(PRIVATE_CHECKBOX).isSelected();
         }
         catch (NoSuchElementException nse)
         {
@@ -292,16 +292,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getPrivateCheckboxHelpText()
     {
-        String privateCheckboxHelpText = "";
-        try
-        {
-            drone.waitForElement(PRIVATE_CHECKBOX_HELP_TEXT, WAIT_TIME_3000);
-            privateCheckboxHelpText = drone.findAndWait(PRIVATE_CHECKBOX_HELP_TEXT).getText();
-        } catch (TimeoutException toe)
-        {
-            
-        }
-        return privateCheckboxHelpText;
+        return drone.find(PRIVATE_CHECKBOX_HELP_TEXT).getText();
     }  
     
     /**
@@ -332,7 +323,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return drone.findAndWait(PUBLIC_CHECKBOX).isSelected();
+            return drone.find(PUBLIC_CHECKBOX).isSelected();
         }
         catch (NoSuchElementException nse)
         {
@@ -348,16 +339,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getPublicCheckboxHelpText()
     {
-        String publicCheckboxHelpText = "";
-        try
-        {
-            drone.waitForElement(PUBLIC_CHECKBOX_HELP_TEXT, WAIT_TIME_3000);
-            publicCheckboxHelpText = drone.findAndWait(PUBLIC_CHECKBOX_HELP_TEXT).getText();
-        } catch (TimeoutException te)
-        {
-            
-        }
-        return publicCheckboxHelpText;
+        return drone.find(PUBLIC_CHECKBOX_HELP_TEXT).getText();
     }
     
     /**
@@ -370,8 +352,8 @@ public class CreateSitePage extends ShareDialogue
         boolean publicCheckboxHelpTextDisplayed = false;
         try
         {
-            publicCheckboxHelpTextDisplayed = drone.findAndWait(PUBLIC_CHECKBOX_HELP_TEXT).isDisplayed();
-        } catch (TimeoutException te)
+            publicCheckboxHelpTextDisplayed = drone.find(PUBLIC_CHECKBOX_HELP_TEXT).isDisplayed();
+        } catch (NoSuchElementException nse)
         {
             
         }
@@ -387,7 +369,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return drone.findAndWait(MODERATED_CHECKBOX).isSelected();
+            return drone.find(MODERATED_CHECKBOX).isSelected();
         }
         catch (NoSuchElementException nse)
         {
@@ -403,16 +385,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getModeratedCheckboxHelpText()
     {
-        String moderatedCheckboxHelpText = "";
-        try
-        {
-            drone.waitForElement(MODERATED_CHECKBOX_HELP_TEXT, WAIT_TIME_3000);
-            moderatedCheckboxHelpText = drone.findAndWait(MODERATED_CHECKBOX_HELP_TEXT).getText();
-        } catch (TimeoutException toe)
-        {
-            
-        }
-        return moderatedCheckboxHelpText;
+            return drone.find(MODERATED_CHECKBOX_HELP_TEXT).getText();
     }
     
     /**
@@ -425,7 +398,7 @@ public class CreateSitePage extends ShareDialogue
         boolean moderatedCheckboxHelpTextDisplayed = false;
         try
         {
-            moderatedCheckboxHelpTextDisplayed = drone.findAndWait(MODERATED_CHECKBOX_HELP_TEXT).isDisplayed();
+            moderatedCheckboxHelpTextDisplayed = drone.find(MODERATED_CHECKBOX_HELP_TEXT).isDisplayed();
         } catch (TimeoutException te)
         {
             
@@ -496,7 +469,7 @@ public class CreateSitePage extends ShareDialogue
 
     public void setSiteName(String siteName)
     {
-        WebElement inputSiteName = drone.findAndWait(INPUT_TITLE);
+        WebElement inputSiteName = drone.find(INPUT_TITLE);
         inputSiteName.sendKeys(siteName);
     }
 
