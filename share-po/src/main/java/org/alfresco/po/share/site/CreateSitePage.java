@@ -42,9 +42,9 @@ public class CreateSitePage extends ShareDialogue
     protected static final By MODERATED_CHECKBOX = By.cssSelector("input[id$='-isModerated']");
     protected static final By PRIVATE_CHECKBOX = By.cssSelector("input[id$='-isPrivate']");
     protected static final By PUBLIC_CHECKBOX = By.cssSelector("input[id$='-isPublic']");
-    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isModerated']+label[for='alfresco-createSite-instance-isModerated'] span[class='help']");
-    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isPrivate']+label[for='alfresco-createSite-instance-isPrivate'] span[class='help']");
-    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isPublic']+label[for='alfresco-createSite-instance-isPublic'] span[class='help']");
+    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.id("moderated-help-text");
+    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.id("private-help-text");
+    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.id("public-help-text");
     protected static final By INPUT_DESCRIPTION = By.cssSelector("textarea[id$='-description']");
     protected static final By INPUT_TITLE = By.name("title");
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
@@ -314,8 +314,9 @@ public class CreateSitePage extends ShareDialogue
         boolean privateCheckboxHelpTextDisplayed = false;
         try
         {
-            privateCheckboxHelpTextDisplayed = drone.findAndWait(PRIVATE_CHECKBOX_HELP_TEXT).isDisplayed();
-        } catch (TimeoutException te)
+            privateCheckboxHelpTextDisplayed = drone.find(PRIVATE_CHECKBOX_HELP_TEXT).isDisplayed();
+        } 
+        catch (NoSuchElementException e)
         {
             
         }
