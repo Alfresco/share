@@ -112,7 +112,7 @@ public class DocumentDetailsPage extends DetailsPage
     private static final By DOCUMENT_BODY = By.cssSelector("div[id$='document-details_x0023_default-viewer']");
 
     private static final By VIEW_ORIGINAL_DOCUMENT = By.cssSelector("div.document-view-original>a");
-
+    public static final String UNZIP_TO = "//span[text()='Unzip to...']";
     private static final String ERROR_EDITING_DOCUMENT = ".//*[@id='message']/div/span";
     private static final String LINK_CANCEL_GOOGLE_DOCS = "#onGoogledocsActionCancel a";
 
@@ -917,8 +917,8 @@ public class DocumentDetailsPage extends DetailsPage
         }
         String currUrl = drone.getCurrentUrl();
         HtmlPage currPage = drone.getCurrentPage();
-        if (!currUrl.contains(GOOGLE_DOCS_URL) && !currUrl.contains("docs.google.com") && !(currPage instanceof DocumentDetailsPage) && !(currPage instanceof
-            DocumentLibraryPage))
+        if (!currUrl.contains(GOOGLE_DOCS_URL) && !currUrl.contains("docs.google.com") && !(currPage instanceof DocumentDetailsPage)
+                && !(currPage instanceof DocumentLibraryPage))
         {
             return new GoogleDocsAuthorisation(drone, documentVersion, isGoogleCreate);
         }
@@ -971,8 +971,8 @@ public class DocumentDetailsPage extends DetailsPage
 
             String currUrl = drone.getCurrentUrl();
             HtmlPage currPage = drone.getCurrentPage();
-            if (!currUrl.contains(GOOGLE_DOCS_URL) && !currUrl.contains("docs.google.com") && !(currPage instanceof DocumentDetailsPage) && !(currPage instanceof
-                DocumentLibraryPage))
+            if (!currUrl.contains(GOOGLE_DOCS_URL) && !currUrl.contains("docs.google.com") && !(currPage instanceof DocumentDetailsPage)
+                    && !(currPage instanceof DocumentLibraryPage))
             {
                 return new GoogleDocsAuthorisation(drone, documentVersion, isGoogleCreate);
             }
@@ -1844,7 +1844,7 @@ public class DocumentDetailsPage extends DetailsPage
 
     /**
      * Returns true if Sync message is present
-     *
+     * 
      * @return boolean
      */
     public boolean isSyncMessagePresent()
@@ -1856,7 +1856,7 @@ public class DocumentDetailsPage extends DetailsPage
             if (syncMessage != null)
                 return true;
         }
-        catch(TimeoutException toe)
+        catch (TimeoutException toe)
         {
             logger.error("Message element not found!!", toe);
             return false;
@@ -1866,7 +1866,7 @@ public class DocumentDetailsPage extends DetailsPage
 
     /**
      * Method to click Check In Google Doc
-     *
+     * 
      * @return GoogleDocCheckInPage
      */
     public GoogleDocCheckInPage clickCheckInGoogleDoc()
@@ -1885,7 +1885,7 @@ public class DocumentDetailsPage extends DetailsPage
 
     /**
      * Method to click Cancel Editing in Google Docs
-     *
+     * 
      * @return HtmlPage
      */
     public HtmlPage clickCancelEditingInGoogleDocs()

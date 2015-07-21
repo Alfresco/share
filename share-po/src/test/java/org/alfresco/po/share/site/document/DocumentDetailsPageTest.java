@@ -46,6 +46,9 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     private static Log logger = LogFactory.getLog(DocumentDetailsPageTest.class);
     private static final String COMMENT = "adding a comment to document is easy!!.";
     private static final String EDITED_COMMENT = "editing a comment is even easier!";
+    private String zipFile = "ZipFile" + System.currentTimeMillis();
+    private String zipFilePrepared = "";
+    private static final String ZIPPED_TXT_FILE_NAME = "SampleTextFile.txt";
     private String siteName;
     private File file;
     private String fileName;
@@ -433,11 +436,36 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     }
 
     /**
+     * Test for Unzip to... link
+     */
+    @Test(dependsOnMethods = "editOffline")
+    public void unzipTo() throws Exception
+    {
+        DocumentLibraryPage docLibraryPage = drone.getCurrentPage().render();
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File zipFile = new File(classLoader.getResource("SampleTextFile.zip").getFile());
+
+        UploadFilePage upLoadPage = docLibraryPage.getNavigation().selectFileUpload().render();
+        docLibraryPage = upLoadPage.uploadFile(zipFile.getCanonicalPath()).render();
+        zipFilePrepared = zipFile.getName();
+        docLibraryPage.setContentName(zipFilePrepared);
+
+        DocumentDetailsPage docDetailsPage = docLibraryPage.selectFile(zipFilePrepared).render();
+        CopyOrMoveContentPage copyOrMoveContentPage = docDetailsPage.selectUnzipTo().render();
+        copyOrMoveContentPage.selectOkButton().render();
+
+        docLibraryPage = docDetailsPage.getSiteNav().selectSiteContentLibrary().render();
+        Assert.assertTrue(docLibraryPage.isItemVisble(ZIPPED_TXT_FILE_NAME));
+
+    }
+
+    /**
      * Test the function of get document body - the content of the document
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "editOffline", groups="communityIssue")
+    @Test(dependsOnMethods = "unzipTo", groups = "communityIssue")
     public void getDocumentBody() throws Exception
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();
@@ -458,7 +486,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "getDocumentBody",groups="communityIssue")
+    @Test(dependsOnMethods = "getDocumentBody", groups = "communityIssue")
     public void testViewOriginalDocument() throws Exception
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();
@@ -470,13 +498,13 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         assertTrue(docDetailsPage.isViewWorkingCopyDisplayed());
         docDetailsPage.getSiteNav().selectSiteDocumentLibrary().render();
     }
-    
+
     /**
      * Test the function of view original document
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testViewOriginalDocument",groups="communityIssue")
+    @Test(dependsOnMethods = "testViewOriginalDocument", groups = "communityIssue")
     public void testGetCommentHtml() throws Exception
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();

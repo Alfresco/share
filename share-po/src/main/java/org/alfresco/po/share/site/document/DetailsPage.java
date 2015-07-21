@@ -1810,6 +1810,15 @@ public abstract class DetailsPage extends SitePage
         return selectCopyOrMoveTo("Move to...");
     }
 
+    /**
+     * Select link Unzip to... from Actions
+     *
+     * @return
+     */
+    public CopyOrMoveContentPage selectUnzipTo()
+    {
+        return selectCopyOrMoveTo("Unzip to...");
+    }
     private CopyOrMoveContentPage selectCopyOrMoveTo(String link)
     {
         try
