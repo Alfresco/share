@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-share-parent</artifactId>
+        <version>5.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>alfresco-share-distribution</artifactId>
+    <name>Distribution of Alfresco Share</name>
+    <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>share</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-share-services</artifactId>
+            <version>${project.version}</version>
+            <type>amp</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <!-- Copies local files: README, ... -->
+                    <execution>
+                        <id>default-resources</id>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- Extract licenses and bin from distribution resources -->
+                    <execution>
+                        <id>unpack-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>alfresco-distribution</artifactId>
+                                    <version>${alfresco.platform.version}</version>
+                                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                    <includes>bin/**,licenses/**</includes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <!-- Copy MMT jar -->
+                    <execution>
+                        <id>fetch-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>alfresco-mmt</artifactId>
+                                    <version>${alfresco.platform.version}</version>
+                                    <outputDirectory>${project.build.outputDirectory}/bin</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                 <executions>
+                    <execution>
+                        <id>package-share</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/assembly/share-distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
