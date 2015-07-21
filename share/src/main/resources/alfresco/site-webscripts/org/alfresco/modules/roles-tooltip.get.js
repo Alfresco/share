@@ -8,13 +8,10 @@ function main()
    {
       // This may be called from a context where there is a nodref such as Manage Permissions
       var nodeRefUri = args.noderef.replace("://", "/");
-      var connector = remote.connect("alfresco");
-      var remoteUrl = "/slingshot/doclib/permissions/" + nodeRefUri;
-      var result = connector.get(remoteUrl);
-      if (result.status == status.STATUS_OK)
+      var json = remote.call("/slingshot/doclib/permissions/" + nodeRefUri);
+      if (json.status == status.STATUS_OK)
       {
-         var response = result.response;
-         var data = JSON.parse(response);
+         var data = JSON.parse(json);
          if (data)
          {
             var rolesTooltipData = [];
@@ -30,9 +27,6 @@ function main()
       }
       else
       {
-         var jresponse = result.response;
-         var jstatus = result.status;
-         var jmessage = result.message;
          status.setCode(json.status, json.status.message);
       }
    }
@@ -40,7 +34,7 @@ function main()
    {
       // This may also be called from a context where there is only a site id such as Add Users
       var json = remote.call("/api/sites/" + args.siteId + "/roles");
-      if (json.status == 200)
+      if (json.status == status.STATUS_OK)
       {
          var data = JSON.parse(json);
          if (data)
