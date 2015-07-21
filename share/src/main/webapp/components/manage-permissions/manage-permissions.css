@@ -151,3 +151,8 @@
 {
    background-image: url(../images/delete-16.png);
 }
+
+.permissions .alf-role-info-tooltip
+{
+   color: grey;
+}
