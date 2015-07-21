@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -18,7 +18,6 @@
  */
 package org.alfresco.web.site;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -30,7 +29,6 @@ import org.alfresco.web.site.servlet.MTAuthenticationFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.extensions.config.ConfigBootstrap;
 import org.springframework.extensions.config.ConfigService;
 import org.springframework.extensions.surf.RequestContext;
@@ -65,6 +63,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
     
     private static EditionInfo EDITIONINFO = null;
     private static volatile boolean outputInfo = false;
+    private static volatile boolean outputEditionInfo = false;
     private static final ReadWriteLock editionLock = new ReentrantReadWriteLock();
     
     
@@ -107,21 +106,43 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                                             "alfresco", (String)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID), session);
                                     response = conn.call("/api/admin/restrictions");
                                 }
+                                else
+                                {
+                                    // as a last resort try retrieving the server version so that
+                                    // we can at least determine what the edition is
+                                    response = conn.call("/api/server");
+                                }
                             }
                         }
                         if (response.getStatus().getCode() == Status.STATUS_OK)
                         {
-                            logger.info("Successfully retrieved license information from Alfresco.");
-                            
-                            EDITIONINFO = new EditionInfo(response.getResponse());
+                            EditionInfo editionInfo = new EditionInfo(response.getResponse());
+                            if (editionInfo.getValidResponse())
+                            {
+                               logger.info("Successfully retrieved license information from Alfresco.");
+                               EDITIONINFO = editionInfo;
+                            }
+                            else
+                            {
+                                if (!outputEditionInfo)
+                                {
+                                    logger.info("Successfully retrieved edition information from Alfresco.");
+                                    outputEditionInfo = true;
+                                }
+                                
+                                // set edition info for current thread
+                                ThreadLocalRequestContext.getRequestContext().setValue(EDITION_INFO, editionInfo);
+                                
+                                // NOTE: We do NOT assign to the EDITIONINFO so that we re-evaluate next time.
+                            }
                             
                             // apply runtime config overrides based on the repository edition
                             String runtimeConfig = null;
-                            if (TEAM_EDITION.equals(EDITIONINFO.getEdition()))
+                            if (TEAM_EDITION.equals(editionInfo.getEdition()))
                             {
                                 runtimeConfig = "classpath:alfresco/team-config.xml";
                             }
-                            else if (ENTERPRISE_EDITION.equals(EDITIONINFO.getEdition()))
+                            else if (ENTERPRISE_EDITION.equals(editionInfo.getEdition()))
                             {
                                 runtimeConfig = "classpath:alfresco/enterprise-config.xml";
                             }
@@ -141,7 +162,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                                 configservice.reset();
                             }
                             if (logger.isDebugEnabled())
-                                logger.debug("Current EditionInfo: " + EDITIONINFO);
+                                logger.debug("Current EditionInfo: " + editionInfo);
                         }
                         else
                         {
