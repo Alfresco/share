@@ -11,6 +11,8 @@
 
     <modules>
         <module>distribution</module>
+        <module>webeditor</module>
+        <module>wcmqs</module>
     </modules>
 
 </project>
