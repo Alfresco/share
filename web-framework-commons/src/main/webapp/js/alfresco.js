@@ -11115,14 +11115,6 @@ Alfresco.util.RENDERLOOPSIZE = 25;
                {
                     failureMsg = this.msg("message.details.failure.more.max.length");
                }
-               else if (response.json && response.json.message && response.json.message.indexOf("org.alfresco.error.AlfrescoRuntimeException") == 0)
-               {  
-                  var split =  response.json.message.split(/(?:org.alfresco.error.AlfrescoRuntimeException:\s*\d*\s*)/ig);
-                  if (split && split[1])
-                  {
-                        failureMsg = split[1];
-                  }
-               }
                Alfresco.util.PopupManager.displayPrompt(
                {
                     title: this.msg(this.options.failureMessageKey),
