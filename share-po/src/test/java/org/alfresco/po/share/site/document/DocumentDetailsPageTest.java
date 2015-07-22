@@ -50,6 +50,8 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     private String acpFile = "AcpFile" + System.currentTimeMillis();
     private String zipFilePrepared = "";
     private String acpFilePrepared = "";
+    private static final String SRC_ROOT = System.getProperty("user.dir") + File.separator;
+    protected static final String TEST_DATA_FOLDER = SRC_ROOT + "testdata" + File.separator;
     private static final String ZIPPED_TXT_FILE_NAME = "SampleTextFile.txt";
     private static final String ACP_TXT_FILE_NAME = "quick.txt";
     private static final String PDF_TXT_FILE_NAME = "quick.pdf";
@@ -443,15 +445,13 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     /**
      * Test for Unzip to... link for zip file
      */
-    //@Test(dependsOnMethods = "editOffline")
-    /**
+    @Test(dependsOnMethods = "editOffline")
     public void unzipZipFileTo() throws Exception
     {
         DocumentLibraryPage docLibraryPage = drone.getCurrentPage().render();
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File zipFile = new File(classLoader.getResource("SampleTextFile.zip").getFile());
-
+        File zipFile = new File(TEST_DATA_FOLDER + File.separator + "SampleTextFile.zip");
+ 
         UploadFilePage upLoadPage = docLibraryPage.getNavigation().selectFileUpload().render();
         docLibraryPage = upLoadPage.uploadFile(zipFile.getCanonicalPath()).render();
         zipFilePrepared = zipFile.getName();
@@ -465,18 +465,17 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         Assert.assertTrue(docLibraryPage.isItemVisble(ZIPPED_TXT_FILE_NAME));
 
     }
-    **/
+    
     /**
      * Test for Unzip to... link for acp file
      */
-    //@Test(dependsOnMethods = "unzipZipFileTo")
-    /**
+    @Test(dependsOnMethods = "unzipZipFileTo")
     public void unzipAcpFileTo() throws Exception
     {
         DocumentLibraryPage docLibraryPage = drone.getCurrentPage().render();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        File acpFile = new File(classLoader.getResource("quick.acp").getFile());
+        File acpFile = new File(TEST_DATA_FOLDER + File.separator + "quick.acp");
 
         UploadFilePage upLoadPage = docLibraryPage.getNavigation().selectFileUpload().render();
         docLibraryPage = upLoadPage.uploadFile(acpFile.getCanonicalPath()).render();
@@ -493,14 +492,14 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         Assert.assertTrue(docLibraryPage.isItemVisble(HTML_TXT_FILE_NAME));
 
     }
-    **/
+    
 
     /**
      * Test the function of get document body - the content of the document
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "editOffline", groups = "communityIssue")
+    @Test(dependsOnMethods = "unzipAcpFileTo", groups = "communityIssue")
     public void getDocumentBody() throws Exception
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();
