@@ -719,7 +719,10 @@ public class SiteActions extends CommonActions
         }
 
         copyOrMoveToPage.selectDestination(destination);
+        if(destination.contains("Sites"))
+        {
         copyOrMoveToPage.selectSite(siteName).render();
+        }
         if (moveFolderName != null)
         {
             copyOrMoveToPage.selectPath(moveFolderName).render();
