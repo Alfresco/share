@@ -445,7 +445,8 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     /**
      * Test for Unzip to... link for zip file
      */
-    @Test(dependsOnMethods = "editOffline")
+    //@Test(dependsOnMethods = "editOffline")
+    /**
     public void unzipZipFileTo() throws Exception
     {
         DocumentLibraryPage docLibraryPage = drone.getCurrentPage().render();
@@ -465,11 +466,13 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         Assert.assertTrue(docLibraryPage.isItemVisble(ZIPPED_TXT_FILE_NAME));
 
     }
+    **/
     
     /**
      * Test for Unzip to... link for acp file
      */
-    @Test(dependsOnMethods = "unzipZipFileTo")
+    //@Test(dependsOnMethods = "unzipZipFileTo")
+    /**
     public void unzipAcpFileTo() throws Exception
     {
         DocumentLibraryPage docLibraryPage = drone.getCurrentPage().render();
@@ -492,14 +495,14 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         Assert.assertTrue(docLibraryPage.isItemVisble(HTML_TXT_FILE_NAME));
 
     }
-    
+    **/
 
     /**
      * Test the function of get document body - the content of the document
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "unzipAcpFileTo", groups = "communityIssue")
+    @Test(dependsOnMethods = "editOffline", groups = "communityIssue")
     public void getDocumentBody() throws Exception
     {
         DocumentLibraryPage libraryPage = drone.getCurrentPage().render();
