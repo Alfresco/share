@@ -6,8 +6,10 @@ import java.util.List;
 import org.alfresco.po.share.util.PageUtils;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.WebDrone;
+import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -99,23 +101,30 @@ public class ActionsSet
         // Click the action
         clickActionByName(actionName);
 
-        // Find the dialog
-        WebElement dialog = this.drone.findFirstDisplayedElement((DIALOG));
-
-        if (PageUtils.usableElement(dialog))
+        try
         {
-            // Within the dialog find the buttons
-            List<WebElement> dialogButtons = dialog.findElements(DIALOG_BUTTONS);
+            // Find the dialog
+            WebElement dialog = this.drone.findFirstDisplayedElement((DIALOG));
 
-            // Iterate over the dialogButtons and click the button that matches the named dialog button name
-            for (WebElement button : dialogButtons)
+            if (PageUtils.usableElement(dialog))
             {
-                if (dialogButtonName.equalsIgnoreCase(StringUtils.trim(button.getText())))
+                // Within the dialog find the buttons
+                List<WebElement> dialogButtons = dialog.findElements(DIALOG_BUTTONS);
+
+                // Iterate over the dialogButtons and click the button that matches the named dialog button name
+                for (WebElement button : dialogButtons)
                 {
-                    button.click();
-                    break;
+                    if (dialogButtonName.equalsIgnoreCase(StringUtils.trim(button.getText())))
+                    {
+                        button.click();
+                        break;
+                    }
                 }
             }
+        }
+        catch (NoSuchElementException e)
+        {
+            throw new PageOperationException("Unable to find an Open Dialog: ", e);
         }
         return drone.getCurrentPage();
     }
