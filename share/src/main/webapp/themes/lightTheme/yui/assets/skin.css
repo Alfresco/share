@@ -94,42 +94,33 @@ cursor: pointer;
 .yui-button a {
 text-decoration: none;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button {
-border-color: #0082c8;
-border-radius: 5px;
-}
 .yui-skin-lightTheme .yui-button {
+border-radius: 5px;
 border-width: 1px 0;
 border-style: solid;
-border-color: #ccc;
+border-color: #0082c8;
 margin: auto .25em;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button .first-child {
-border-color: #0082c8;
-border-radius: 5px;
-}
 .yui-skin-lightTheme .yui-button .first-child {
+border-radius: 5px;
 border-width: 0 1px;
 border-style: solid;
-border-color: #ccc;
+border-color: #0082c8;
 margin: 0;
 _margin: 0;
 }
-.yui-skin-lightTheme .alf-colored-button.alf-inverted-colors .yui-button button {
+.yui-skin-lightTheme .alf-inverted-colors .yui-button button {
 color: white;
 background-color: #0082c8;
 border-radius: 3px;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button button,
-.yui-skin-lightTheme .alf-colored-button .yui-button a {
-color: #0082c8;
-}
-.yui-skin-lightTheme .yui-button button,.yui-skin-lightTheme .yui-button a {
+.yui-skin-lightTheme .yui-button button,
+.yui-skin-lightTheme .yui-button a {
 padding: 0 10px;
 -font-size: 93%;
 line-height: 2;*line-height:1.7;
 min-height: 2em;*min-height:auto;
-color: #000;
+color: #0082c8;
 }
 .yui-skin-lightTheme .yui-button a {*line-height:1.875;*padding-bottom:1px;
 }
@@ -141,80 +132,57 @@ background-repeat: no-repeat;
 .yui-skin-lightTheme .yui-split-button button {
 background-image: url(split-button-arrow.png);
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-focus {
-border-color: #006ca6;
-}
 .yui-skin-lightTheme .yui-button-focus {
-border-color: #aaa;
+border-color: #006ca6;
 background-position: 0 -1300px;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-focus .first-child {
+.yui-skin-lightTheme .yui-button-focus .first-child {
 border-color: #006ca6;
 }
-.yui-skin-lightTheme .yui-button-focus .first-child {
-border-color: #aaa;
-}
-.yui-skin-lightTheme .alf-colored-button.alf-inverted-colors .yui-button-focus button {
+.yui-skin-lightTheme .alf-inverted-colors .yui-button-focus button {
 background-color: #006ca6;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-focus button,
-.yui-skin-lightTheme .alf-colored-button .yui-button-focus a {
+.yui-skin-lightTheme .yui-button-focus button,
+.yui-skin-lightTheme .yui-button-focus a {
 color: #006ca6;
-}
-.yui-skin-lightTheme .yui-button-focus button,.yui-skin-lightTheme .yui-button-focus a {
-color: #000;
 }
 .yui-skin-lightTheme .yui-split-button-focus button {
 background-image: url(split-button-arrow-focus.png);
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-hover {
-border-color: #006ca6;
-}
 .yui-skin-lightTheme .yui-button-hover {
-border-color: #aaa;
+border-color: #006ca6;
 background-position: 0 -1300px;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-hover .first-child {
+.yui-skin-lightTheme .yui-button-hover .first-child {
 border-color: #006ca6;
 }
-.yui-skin-lightTheme .yui-button-hover .first-child {
-border-color: #aaa;
-}
-.yui-skin-lightTheme .alf-colored-button.alf-inverted-colors .yui-button-hover button {
+.yui-skin-lightTheme .alf-inverted-colors .yui-button-hover button {
 background-color: #006ca6;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-hover button,
-.yui-skin-lightTheme .alf-colored-button .yui-button-hover a {
+.yui-skin-lightTheme .yui-button-hover button,
+.yui-skin-lightTheme .yui-button-hover a,
+.yui-skin-lightTheme .yui-link-button-hover a,
+.yui-skin-lightTheme .yui-link-button-hover a:hover {
 color: #006ca6;
-}
-.yui-skin-lightTheme .yui-button-hover button,.yui-skin-lightTheme .yui-button-hover a {
-color: #000;
 }
 .yui-skin-lightTheme .yui-split-button-hover button {
 background-image: url(split-button-arrow-hover.png);
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-active {
-border-color: #005684;
-}
 .yui-skin-lightTheme .yui-button-active {
-border-color: #aaa;
+border-color: #005684;
 background-position: 0 -1700px;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-active .first-child {
+.yui-skin-lightTheme .yui-button-active .first-child {
 border-color: #005684;
 }
-.yui-skin-lightTheme .yui-button-active .first-child {
-border-color: #aaa;
-}
-.yui-skin-lightTheme .alf-colored-button.alf-inverted-colors .yui-button-active button {
+.yui-skin-lightTheme .alf-inverted-colors .yui-button-active button {
 background-color: #005684;
 }
-.yui-skin-lightTheme .alf-colored-button .yui-button-active button,
-.yui-skin-lightTheme .alf-colored-button .yui-button-active a {
+.yui-skin-lightTheme .yui-button-active button,
+.yui-skin-lightTheme .yui-button-active a,
+.yui-skin-lightTheme .yui-link-button-active a,
+.yui-skin-lightTheme .yui-link-button-active a:hover {
 color: #005684;
-}
-.yui-skin-lightTheme .yui-button-active button,.yui-skin-lightTheme .yui-button-active a {
-color: #000;
 }
 .yui-skin-lightTheme .yui-split-button-activeoption {
 border-color: #ccc;
@@ -236,24 +204,20 @@ border-color: #333;
 .yui-skin-lightTheme .yui-radio-button-checked button,.yui-skin-lightTheme .yui-checkbox-button-checked button {
 color: #000;
 }
-.yui-skin-lightTheme .yui-button-disabled,
-.yui-skin-lightTheme .alf-colored-button .yui-button-disabled {
+.yui-skin-lightTheme .yui-button-disabled {
 border-color: #ccc;
 background-position: 0 -1500px;
 }
-.yui-skin-lightTheme .yui-button-disabled .first-child,
-.yui-skin-lightTheme .alf-colored-button .yui-button-disabled .first-child  {
+.yui-skin-lightTheme .yui-button-disabled .first-child {
 border-color: #ccc;
 }
-.yui-skin-lightTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled button {
+.yui-skin-lightTheme .alf-inverted-colors .yui-button-disabled button {
 background-color: transparent;
 }
 .yui-skin-lightTheme .yui-button-disabled button,
-.yui-skin-lightTheme .alf-colored-button .yui-button-disabled button,
-.yui-skin-lightTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled button,
+.yui-skin-lightTheme .alf-inverted-colors .yui-button-disabled button,
 .yui-skin-lightTheme .yui-button-disabled a,
-.yui-skin-lightTheme .alf-colored-button .yui-button-disabled a,
-.yui-skin-lightTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled a {
+.yui-skin-lightTheme .alf-inverted-colors .yui-button-disabled a {
 color: #A6A6A6;
 cursor: default;
 }
@@ -1047,19 +1011,10 @@ text-align: right;
 font-weight: bold;
 }
 .yui-skin-lightTheme .yui-dialog .ft span.default {
-border-color: #333;
 background-position: 0 -1400px;
 }
-.yui-skin-lightTheme .yui-dialog .ft span.default .first-child {
-border-color: #333;
-}
-.yui-skin-lightTheme .yui-dialog .ft button {
-color: #333;
-background-color: #fff;
-}
 .yui-skin-lightTheme .yui-dialog .bdft button {
-color: #333;
-background-color: #fff;
+color: #0082c8;
 }
 .yui-skin-lightTheme .yui-dialog .ft span.yui-button-disabled {
 background-position: 0pt -1500px;
