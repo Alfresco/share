@@ -100,7 +100,7 @@ public class ActionsSet
         clickActionByName(actionName);
 
         // Find the dialog
-        WebElement dialog = this.drone.find(DIALOG);
+        WebElement dialog = this.drone.findFirstDisplayedElement((DIALOG));
 
         if (PageUtils.usableElement(dialog))
         {
