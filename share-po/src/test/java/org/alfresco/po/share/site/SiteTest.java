@@ -51,9 +51,6 @@ import org.testng.annotations.Test;
 @Test(groups="alfresco-one")
 public class SiteTest extends AbstractTest
 {
-    private static final String PUBLIC_CHECKBOX_HELP_TEXT = "Everyone in your organization can access this site.";
-    private static final String PRIVATE_CHECKBOX_HELP_TEXT = "Only people added by a Site Manager can find and use this site.";
-    private static final String MODERATED_CHECKBOX_HELP_TEXT = "Everyone in your organization can find this site and request access. Access is granted by Site Managers.";
     private String siteName;
     private String privateSiteName;
     private String moderateSiteName;
@@ -119,9 +116,6 @@ public class SiteTest extends AbstractTest
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
         
         //checks for site visbility help text
-        //Assert.assertEquals(createSite.getPublicCheckboxHelpText(), PUBLIC_CHECKBOX_HELP_TEXT);
-        //Assert.assertEquals(createSite.getPrivateCheckboxHelpText(), PRIVATE_CHECKBOX_HELP_TEXT);
-        //Assert.assertEquals(createSite.getModeratedCheckboxHelpText(), MODERATED_CHECKBOX_HELP_TEXT);
         Assert.assertTrue(createSite.isPublicCheckboxHelpTextDisplayed());
         Assert.assertTrue(createSite.isPrivateCheckboxHelpTextDisplayed());
         Assert.assertTrue(createSite.isModeratedCheckboxHelpTextDisplayed());
@@ -276,9 +270,6 @@ public class SiteTest extends AbstractTest
         EditSitePage siteDetails = site.getSiteNav().selectEditSite().render();
         
         //checks for site visbility help text
-        //Assert.assertEquals(siteDetails.getPublicCheckboxHelpText(), PUBLIC_CHECKBOX_HELP_TEXT);
-        //Assert.assertEquals(siteDetails.getPrivateCheckboxHelpText(), PRIVATE_CHECKBOX_HELP_TEXT);
-        //Assert.assertEquals(siteDetails.getModeratedCheckboxHelpText(), MODERATED_CHECKBOX_HELP_TEXT);
         Assert.assertTrue(createSite.isPublicCheckboxHelpTextDisplayed());
         Assert.assertTrue(createSite.isPrivateCheckboxHelpTextDisplayed());
         Assert.assertTrue(createSite.isModeratedCheckboxHelpTextDisplayed());

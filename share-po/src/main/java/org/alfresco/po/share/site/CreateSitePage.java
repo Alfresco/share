@@ -302,16 +302,16 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isPrivateCheckboxHelpTextDisplayed()
     {
-        boolean privateCheckboxHelpTextDisplayed = false;
         try
         {
-            privateCheckboxHelpTextDisplayed = drone.find(PRIVATE_CHECKBOX_HELP_TEXT).isDisplayed();
+            drone.find(PRIVATE_CHECKBOX_HELP_TEXT);
+            return true;
         } 
         catch (NoSuchElementException e)
         {
             
         }
-        return privateCheckboxHelpTextDisplayed;
+        return false;
     }
     
     /**
@@ -349,15 +349,15 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isPublicCheckboxHelpTextDisplayed()
     {
-        boolean publicCheckboxHelpTextDisplayed = false;
         try
         {
-            publicCheckboxHelpTextDisplayed = drone.find(PUBLIC_CHECKBOX_HELP_TEXT).isDisplayed();
+            drone.find(PUBLIC_CHECKBOX_HELP_TEXT);
+            return true;
         } catch (NoSuchElementException nse)
         {
             
         }
-        return publicCheckboxHelpTextDisplayed;
+        return false;
     }
 
     /**
@@ -395,15 +395,15 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isModeratedCheckboxHelpTextDisplayed()
     {
-        boolean moderatedCheckboxHelpTextDisplayed = false;
         try
         {
-            moderatedCheckboxHelpTextDisplayed = drone.find(MODERATED_CHECKBOX_HELP_TEXT).isDisplayed();
-        } catch (TimeoutException te)
+            drone.find(MODERATED_CHECKBOX_HELP_TEXT);
+            return true;
+        } catch (NoSuchElementException nse)
         {
             
         }
-        return moderatedCheckboxHelpTextDisplayed;
+        return false;
     }
 
 
