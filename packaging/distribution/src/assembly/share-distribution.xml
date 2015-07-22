@@ -4,7 +4,6 @@
     <formats>
         <format>zip</format>
     </formats>
-    <includeBaseDirectory>false</includeBaseDirectory>
 
     <fileSets>
         <!-- Local resources: README, etc. -->
@@ -29,6 +28,7 @@
             <includes>
                 <include>*:*:amp</include>
             </includes>
+            <outputFileNameMapping>alfresco-share-services.amp</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>
