@@ -50,8 +50,6 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     private String acpFile = "AcpFile" + System.currentTimeMillis();
     private String zipFilePrepared = "";
     private String acpFilePrepared = "";
-    private static final String SRC_ROOT = System.getProperty("user.dir") + File.separator;
-    protected static final String TEST_DATA_FOLDER = SRC_ROOT + "testdata" + File.separator;
     private final String ZIPPED_TXT_FILE_NAME = zipFile + ".txt";
     private String siteName;
     private File file;
