@@ -28,9 +28,9 @@
          <@markup id="links">
          <div class="links">
             <#list links![] as link>
-            <span class="yui-button yui-link-button">
+            <span id="${el}-${link.id}" class="yui-button yui-link-button">
                <span class="first-child">
-                  <a id="${el}-${link.id}" href="${link.href!"#"}" class="${link.cssClass!""}">${msg(link.label)}</a>
+                  <a href="${link.href!"#"}" class="${link.cssClass!""}">${msg(link.label)}</a>
                </span>
             </span>
             </#list>
