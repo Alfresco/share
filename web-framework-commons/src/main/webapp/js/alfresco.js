@@ -2216,6 +2216,12 @@ Alfresco.util.createYUIButton = function(p_scope, p_name, p_onclick, p_obj, p_oE
          {
             button.get("element").getElementsByTagName("button")[0].name = obj.htmlName;
          }
+         
+         // Adds button styling
+         if (typeof obj.additionalClass == "string")
+         {
+            YUIDom.addClass(button._button.parentElement.parentElement, obj.additionalClass);
+         }
       }
    }
    return button;
