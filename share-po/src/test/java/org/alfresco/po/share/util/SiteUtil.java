@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
@@ -135,6 +137,59 @@ public class SiteUtil
         }
         return file;
     }
+    
+    
+    /**
+     * Prepare a zip or acp file in system temp directory to be used
+     * in test for uploads.
+     *
+     * @param name      Name to give the file, without the file extension. If null a default name will be used.
+     * @param extension File extension to append to the end of the filename
+     * @return {@link File} simple zip/acp file.
+     */
+    public static File prepareZipFile(final String name, String extension)
+    {
+
+        File file = null;
+        OutputStreamWriter writer = null;
+        try
+        {
+            String fileName = (name != null && !name.isEmpty() ? name : "myfile");
+            file = File.createTempFile(fileName, extension);
+            
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file));
+            ZipEntry e = new ZipEntry(fileName + ".txt");
+            out.putNextEntry(e);
+            
+            writer = new OutputStreamWriter(out);
+            writer.close();
+        }
+        catch (IOException ioe)
+        {
+            logger.error("Unable to create sample file", ioe);
+        }
+        catch (Exception e)
+        {
+            logger.error("Unable to create site", e);
+        }
+        finally
+        {
+            if (writer != null)
+            {
+                try
+                {
+                    writer.close();
+                }
+                catch (IOException ioe)
+                {
+                    logger.error("Unable to close properly", ioe);
+                }
+            }
+        }
+        return file;
+    }
+    
+    
 
     /**
      * Prepare a text file in system temp directory to be used
