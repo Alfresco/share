@@ -32,7 +32,7 @@
             <div class="yui-u">
                <input id="${el}-isPublic" type="radio" <#if profile.visibility == "PUBLIC">checked="checked"</#if> tabindex="0" name="-" />
                <label for="${el}-isPublic">${msg("site.visibility.label.PUBLIC")}<br />
-                 <span class="help">${msg("site.visibility.description.PUBLIC")}</span>
+                 <span id="${el}-public-help-text" class="help">${msg("site.visibility.description.PUBLIC")}</span>
               </label>
             </div>
          </div>
@@ -41,7 +41,7 @@
             <div class="yui-u">
                <input id="${el}-isModerated" type="radio" <#if profile.visibility == "MODERATED">checked="checked" </#if>tabindex="0" name="-" />
                <label for="${el}-isModerated">${msg("site.visibility.label.MODERATED")}<br />
-                  <span class="help">${msg("site.visibility.description.MODERATED")}</span>
+                  <span id="${el}-moderated-help-text" class="help">${msg("site.visibility.description.MODERATED")}</span>
                </label>
             </div>
          </div>
@@ -50,7 +50,7 @@
             <div class="yui-u">
                <input id="${el}-isPrivate" type="radio" <#if profile.visibility == "PRIVATE">checked="checked" </#if>tabindex="0" name="-" />
                <label for="${el}-isPrivate">${msg("site.visibility.label.PRIVATE")}<br />
-                  <span class="help">${msg("site.visibility.description.PRIVATE")}</span>
+                  <span id="${el}-private-help-text" class="help">${msg("site.visibility.description.PRIVATE")}</span>
                </label>
             </div>
          </div>
