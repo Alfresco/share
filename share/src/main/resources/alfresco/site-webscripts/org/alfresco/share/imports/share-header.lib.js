@@ -930,36 +930,36 @@ function getUserMenuWidgets()
          }
       },
       {
-         id: "HEADER_USER_MENU_DEFAULT_PAGE_GROUP",
+         id: "HEADER_USER_MENU_HOME_PAGE_GROUP",
          name: "alfresco/menus/AlfMenuGroup",
          config:
          {
-            label: "group.default_page.label",
+            label: "group.home_page.label",
             widgets:
             [
                {
-                  id: "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_DEFAULT",
+                  id: "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME",
                   name: "alfresco/header/AlfMenuItem",
                   config:
                   {
-                     id: "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_DEFAULT",
-                     label: "set_current_page_as_default.label",
-                     publishTopic: "ALF_SET_USER_DEFAULT_PAGE",
+                     id: "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME",
+                     label: "set_current_page_as_home.label",
+                     publishTopic: "ALF_SET_USER_HOME_PAGE",
                      publishPayload: {
-                        defaultPage: getUserDefaultPageCurrent()
+                        homePage: getUserHomePageCurrent()
                      }
                   }
                },
                {
-                  id: "HEADER_USER_MENU_SET_DASHBOARD_AS_DEFAULT",
+                  id: "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME",
                   name: "alfresco/header/AlfMenuItem",
                   config:
                   {
-                     id: "HEADER_USER_MENU_SET_DASHBOARD_AS_DEFAULT",
-                     label: "set_dashboard_as_default.label",
-                     publishTopic: "ALF_SET_USER_DEFAULT_PAGE",
+                     id: "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME",
+                     label: "set_dashboard_as_home.label",
+                     publishTopic: "ALF_SET_USER_HOME_PAGE",
                      publishPayload: {
-                        defaultPage: getUserDefaultPageDashboard()
+                        homePage: getUserHomePageDashboard()
                      }
                   }
                }
@@ -1035,12 +1035,12 @@ function getUserMenuWidgets()
 }
 
 /**
- * Gets the current page in a format to be persisted as a default page
+ * Gets the current page in a format to be persisted as a home page
  * preference, i.e. "/page/site/swsdp/documentlibrary"
  *
  * @returns {object} The current page path
  */
-function getUserDefaultPageCurrent() {
+function getUserHomePageCurrent() {
    var currentPage = "/page" + page.url.url.substring(
          page.url.url.indexOf(page.url.servletContext) + page.url.servletContext.length(), 
          page.url.url.length());
@@ -1048,12 +1048,12 @@ function getUserDefaultPageCurrent() {
 }
 
 /**
- * Gets the user dashboard page in a format to be persisted as a default page
+ * Gets the user dashboard page in a format to be persisted as a home page
  * preference, i.e. "/page/user/jsmith/dashboard"
  *
  * @returns {object} The user dashboard page path
  */
-function getUserDefaultPageDashboard() {
+function getUserHomePageDashboard() {
    return "/page/user/" + encodeURIComponent(user.name) + "/dashboard";
 }
 
