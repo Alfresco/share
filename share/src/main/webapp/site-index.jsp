@@ -21,11 +21,11 @@
    String siteName = request.getParameter("site");
    if (siteName == null || siteName.length() == 0)
    {
-      // Get and forward to user's default page
+      // Get and forward to user's home page
       SlingshotUserFactory slingshotUserFactory = 
               (SlingshotUserFactory) FrameworkUtil.getServiceRegistry().getUserFactory();
-      String userDefaultPage = slingshotUserFactory.getUserDefaultPage(context, userid);
-      response.sendRedirect(request.getContextPath() + userDefaultPage);
+      String userHomePage = slingshotUserFactory.getUserHomePage(context, userid);
+      response.sendRedirect(request.getContextPath() + userHomePage);
    }
    else
    {

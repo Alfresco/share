@@ -70,8 +70,8 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
     public static final String PROP_USERHOME = "userHome";
     
     public static final String CM_PREFERENCEVALUES = "{http://www.alfresco.org/model/content/1.0}preferenceValues";
-    public static final String PROP_USERDEFAULTPAGE = "userDefaultPage";
-    public static final String PREFERENCE_USERDEFAULTPAGE = "org.alfresco.share.user.defaultPage";
+    public static final String PROP_USERHOMEPAGE = "userHomePage";
+    public static final String PREFERENCE_USERHOMEPAGE = "org.alfresco.share.user.homePage";
     
     public static final String ACTIVITI_ADMIN_ENDPOINT_ID = "activiti-admin";
     
@@ -114,10 +114,10 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
             String preferenceValues = properties.getString(CM_PREFERENCEVALUES);
             JSONObject preferences = new JSONObject(preferenceValues);
             try{
-                String defaultPage = preferences.getString(PREFERENCE_USERDEFAULTPAGE);
+                String defaultPage = preferences.getString(PREFERENCE_USERHOMEPAGE);
                 if (defaultPage != null && !defaultPage.trim().equals(""))
                 {
-                    user.setProperty(PROP_USERDEFAULTPAGE, defaultPage);
+                    user.setProperty(PROP_USERHOMEPAGE, defaultPage);
                 }
             }
             catch (JSONException e)
@@ -155,7 +155,7 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
     }
     
     /**
-     * Gets the default page for the given user, for example:
+     * Gets the home page for the given user, for example:
      * <code>/page/site/swsdp/documentlibrary</code>
      * <p>
      * The default value if none has been set is the user's dashboard: 
@@ -163,22 +163,22 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
      * 
      * @param context
      * @param userId
-     * @return the user's default page
+     * @return the user's home page
      * @throws UserFactoryException
      */
-    public String getUserDefaultPage(RequestContext context, String userId) throws UserFactoryException
+    public String getUserHomePage(RequestContext context, String userId) throws UserFactoryException
     {
-        String defaultPage = "/page/user/" + URLEncoder.encode(userId) + "/dashboard";
+        String homePage = "/page/user/" + URLEncoder.encode(userId) + "/dashboard";
         User user = context.getUser();
         if (user != null)
         {
-            String userDefaultPage = (String) user.getProperty(PROP_USERDEFAULTPAGE);
-            if (userDefaultPage != null && !userDefaultPage.trim().equals(""))
+            String userHomePage = (String) user.getProperty(PROP_USERHOMEPAGE);
+            if (userHomePage != null && !userHomePage.trim().equals(""))
             {
-                defaultPage = userDefaultPage;
+                homePage = userHomePage;
             }
         }
-        return defaultPage;
+        return homePage;
     }
 
     /**
