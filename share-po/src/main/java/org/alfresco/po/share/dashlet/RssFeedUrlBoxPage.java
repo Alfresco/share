@@ -116,7 +116,7 @@ public class RssFeedUrlBoxPage extends SharePage
     /**
      * Mimic fill URL field
      * 
-     * @param url
+     * @param url String
      */
     public void fillURL(String url)
     {

@@ -124,7 +124,7 @@ public class TrashCanPage extends SharePage
     /**
      * Input serach text and perform search with in the items which are displayed in the trashcan page.
      *
-     * @param - String
+     * @param searchText String
      * @return - TrashCanPage as response
      */
     public HtmlPage itemSearch(String searchText)
@@ -216,7 +216,7 @@ public class TrashCanPage extends SharePage
      * This method will get TrashCanItem for the File
      *
      * @return - TrashCanItem
-     * @throws - PageOperationException
+     * @throws PageOperationException
      */
     public List<TrashCanItem> getTrashCanItemForContent(TrashCanValues trashCanFileType, String contentName, String contentPath) throws PageOperationException
     {
@@ -310,7 +310,7 @@ public class TrashCanPage extends SharePage
     /**
      * Click on select in the trashcan Page
      *
-     * @param - String Action Type
+     * @param selectAction String Action Type
      * @return - TrashCanPage
      */
     public HtmlPage selectAction(SelectActions selectAction)

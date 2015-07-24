@@ -147,7 +147,7 @@ public class CreatePlainTextContentPage extends InlineEditPage
     /**
      * Click the Cancel button without completing the form
      *
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage cancel()
     {

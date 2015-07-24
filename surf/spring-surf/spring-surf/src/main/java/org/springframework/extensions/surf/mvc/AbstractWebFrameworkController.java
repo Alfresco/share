@@ -126,8 +126,8 @@ public abstract class AbstractWebFrameworkController extends AbstractController 
      * Internal method to be implemented by inheriting class to create
      * model and view for the controller.
      * 
-     * @param request
-     * @param response
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
      * @return ModelAndView
      */
     public abstract ModelAndView createModelAndView(HttpServletRequest request, HttpServletResponse response) throws Exception;

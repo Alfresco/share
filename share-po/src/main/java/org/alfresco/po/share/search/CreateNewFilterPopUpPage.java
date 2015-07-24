@@ -121,7 +121,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     /**
      * Send Filter ID in CreateNewFilterPopUpPage
      * 
-     * @param filterID
+     * @param filterID String
      * @return CreateNewFilterPopUpPage
      */
 
@@ -143,7 +143,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     /**
      * Send displayName in CreateNewFilterPopUpPage
      * 
-     * @param filterName
+     * @param filterName String
      * @return CreateNewFilterPopUpPage
      **/
 
@@ -707,7 +707,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     /**
      * Select Site name from drop down.
      *
-     * @param siteName
+     * @param siteName String
      * @return CreateNewFilterPopUpPage
      */
     public CreateNewFilterPopUpPage selectSiteNameAndSave(String siteName)

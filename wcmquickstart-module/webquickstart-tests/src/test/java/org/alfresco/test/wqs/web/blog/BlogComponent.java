@@ -440,7 +440,7 @@ public class BlogComponent extends AbstractWQS
         // Open My Web Site via Alfresco Share;
         // ---- Expected results ----
         // Site is opened successfully;
-        navigateTo(getShareUrl());
+        navigateTo(shareUrl);
         loginActions.loginToShare(drone, loginInfo, shareUrl);
         SiteDashboardPage shareSite = siteActions.openSiteDashboard(drone, siteName).render();
 
@@ -956,7 +956,7 @@ public class BlogComponent extends AbstractWQS
         // ---- Expected results ----
         // Visitor Feedback data list is opened;
 
-        navigateTo(getShareUrl());
+        navigateTo(shareUrl);
         loginActions.loginToShare(drone, loginInfo, shareUrl);
 
         SiteDashboardPage siteDashboardPage2 = siteActions.openSiteDashboard(drone, siteName).render();

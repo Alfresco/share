@@ -52,7 +52,7 @@ public enum Language
      * Returns the Language from string value.
      * 
      * @param value - string value of enum eg - "en_US"
-     * @return
+     * @return Language
      */
     public static Language getLanguageFromValue(String value)
     {

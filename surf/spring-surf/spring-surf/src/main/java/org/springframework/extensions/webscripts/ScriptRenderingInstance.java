@@ -100,7 +100,7 @@ public final class ScriptRenderingInstance extends ScriptBase
     /**
      * Gets the html id
      * 
-     * @return
+     * @return String
      */
     public String getHtmlId()
     {
@@ -121,8 +121,8 @@ public final class ScriptRenderingInstance extends ScriptBase
     /**
      * Returns the value of a request parameter
      * 
-     * @param name
-     * @return
+     * @param name String
+     * @return Object
      */
     public Object getParameter(String name)
     {
@@ -132,7 +132,7 @@ public final class ScriptRenderingInstance extends ScriptBase
     /**
      * Returns a scriptable map of name/value pairs
      * 
-     * @return
+     * @return Scriptable
      */
     public Scriptable getParameters()
     {

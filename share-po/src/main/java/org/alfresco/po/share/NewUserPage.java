@@ -352,13 +352,13 @@ public class NewUserPage extends SharePage
     /**
      * Create user with a group.
      *
-     * @param userName
-     * @param fname
-     * @param lname
-     * @param userEmail
-     * @param password
-     * @param groupName
-     * @return
+     * @param userName String
+     * @param fname String
+     * @param lname String
+     * @param userEmail String
+     * @param password String
+     * @param groupName String
+     * @return HtmlPage
      */
     public synchronized HtmlPage createEnterpriseUserWithGroup(String userName, String fname, String lname, String userEmail, String password, String groupName)
     {
@@ -379,8 +379,8 @@ public class NewUserPage extends SharePage
     /**
      * Add group with User Name.
      *
-     * @param groupName
-     * @return
+     * @param groupName String
+     * @return boolean
      */
     private boolean addGroup(String groupName)
     {

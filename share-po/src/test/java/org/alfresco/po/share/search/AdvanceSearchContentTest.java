@@ -288,7 +288,7 @@ public class AdvanceSearchContentTest extends AbstractTest
     /**
      * This test is to test whether the first result item is Document or not.
      * 
-     * @throw Exception
+     * @throws Exception
      */
     @Test(dependsOnMethods = "toDateNullCheckTest",groups = {"Enterprise-only","TestBug"})
     public void testIsFolder() throws Exception
@@ -305,7 +305,7 @@ public class AdvanceSearchContentTest extends AbstractTest
     /**
      * This test is to click on download icon and view in browser icon of the selected search result item.
      * Note: This test will be enabled only with chrome browser execution.
-     * @throw Exception
+     * @throws Exception
      */
     @Test(dependsOnMethods = "testIsFolder", groups = { "Enterprise-only", "chromeOnly" ,"TestBug"})
     public void testClickOnDownloadAndViewInBrowserLink() throws Exception
@@ -330,7 +330,7 @@ public class AdvanceSearchContentTest extends AbstractTest
     /**
      * This test is to click on download icon and view in browser icon of the selected search result item.
      * Note: This test will be enabled only with chrome browser execution.
-     * @throw Exception
+     * @throws Exception
      */
     @Test(dependsOnMethods="testIsFolder", groups={"Enterprise-only","TestBug"})
     public void testGetFolderNamesFromPath() throws Exception

@@ -40,7 +40,7 @@ public class ConfigureBlogPage extends ShareDialogue
     /**
      * Constructor
      *
-     * @param drone
+     * @param drone WebDrone
      */
     protected ConfigureBlogPage(WebDrone drone)
     {
@@ -90,7 +90,7 @@ public class ConfigureBlogPage extends ShareDialogue
     /**
      * Method for selecting the type of the blog
      *
-     * @param option
+     * @param option ConfigureBlogPage.TypeOptions
      */
     public void selectTypeOption(ConfigureBlogPage.TypeOptions option)
     {
@@ -102,8 +102,8 @@ public class ConfigureBlogPage extends ShareDialogue
     /**
      * Method for setting input into the fields
      *
-     * @param input
-     * @param value
+     * @param input WebElement
+     * @param value String
      */
     private void setInput(final WebElement input, final String value)
     {
@@ -146,7 +146,6 @@ public class ConfigureBlogPage extends ShareDialogue
     /**
      * Method for clicking OK button
      *
-     * @return Blog page object
      */
     protected void clickOk()
     {

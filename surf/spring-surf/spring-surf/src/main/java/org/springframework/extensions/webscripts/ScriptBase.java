@@ -81,8 +81,9 @@ public abstract class ScriptBase implements Serializable
      * wrapped as a ScriptModelObject.  If the model object cannot be found,
      * null will be returned.
      * 
-     * @param id the id
-     * 
+     * @param objectTypeId the object type id
+     * @param objectId the object id
+     *
      * @return the script model object
      */
     final public ScriptModelObject getObject(String objectTypeId, String objectId)

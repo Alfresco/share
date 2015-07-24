@@ -614,36 +614,18 @@ span.navigation-separator-alt
    background-color: #fff;
    margin-left: 10px;
    width: 800px;
+   box-shadow: 0.33px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.share-form .form-manager h1
+{
+   margin-bottom: -4px;
 }
 
 .form-container textarea,
 .page-form-body textarea
 {
    width: 99.5% !important;
-}
-
-.form-container .input,
-.form-container input[type="file"],
-.form-container input[type="text"],
-.form-container input[type="password"],
-.form-container textarea,
-.form-container .input input[type="file"],
-.form-container .input input[type="text"],
-.form-container .input input[type="password"],
-.form-container .input textarea,
-.form-container select,
-.page-form-body .input,
-.page-form-body input[type="file"],
-.page-form-body input[type="text"],
-.page-form-body input[type="password"],
-.page-form-body textarea,
-.page-form-body .input input[type="file"],
-.page-form-body .input input[type="text"],
-.page-form-body .input input[type="password"],
-.page-form-body .input textarea,
-.page-form-body select
-{
-   box-shadow: 0.33px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .defaultSkin table.mceLayout
@@ -653,7 +635,6 @@ span.navigation-separator-alt
 
 .mceEditor.defaultSkin
 {
-   box-shadow: 0.33px 2px 8px rgba(0, 0, 0, 0.15);
    display: block;
 }
 

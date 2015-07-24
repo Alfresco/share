@@ -35,9 +35,22 @@ function getConfigTypes(scopedRoot, currentType)
                      if (typeName)
                      {
                         typeName = typeName.toString();
+                        
+                        // if we have a type label defined then use it and append typename for clarity (e.g. resolving duplicates)
+                        if (typeLabel)
+                        {
+                           typeLabel = typeLabel.toString() + " ("+typeName+")";
+                        }
+                        else
+                        {
+                           var labelMsg = "type." + typeName.replace(":","_");
+                           typeLabel = msg.get(labelMsg);
+                           if (labelMsg == typeLabel) typeLabel = typeName;
+                        }
+                        
                         types.push({
                            name: typeName,
-                           label: typeLabel ? typeLabel.toString() : msg.get("type." + typeName.replace(":","_"))
+                           label: typeLabel
                         });
                      }
                   }

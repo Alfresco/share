@@ -52,7 +52,7 @@ public enum TaskType
     /**
      * Returns {@link TaskType} based on given value.
      * 
-     * @param value
+     * @param value String
      * @return {@link TaskType}
      */
     public static TaskType getTaskType(String value)

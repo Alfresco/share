@@ -51,16 +51,16 @@ public interface ModelObjectPersister
      * If this is wrapped around a RemoteStore, this will return the
      * AVM Store ID to which this persister is bound
      * 
-     * @return
+     * @return String
      */
     public String getId();
     
     /**
      * Gets an object from persisted storage by id
      * 
-     * @param context
-     * @param objectTypeId
-     * @param objectId 
+     * @param context ModelPersistenceContext
+     * @param objectTypeId String
+     * @param objectId String
      * 
      * @return object instance
      */
@@ -70,8 +70,8 @@ public interface ModelObjectPersister
     /**
      * Saves an object to persisted storage
      * 
-     * @param context
-     * @param object
+     * @param context ModelPersistenceContext
+     * @param object ModelObject
      * 
      * @return whether the object was saved
      */
@@ -80,8 +80,11 @@ public interface ModelObjectPersister
     
     /**
      * Saves a collection of objects to persisted storage
-     * 
-     * @param object
+     *
+     * @param context ModelPersistenceContext
+     * @param objects List<ModelObject>
+     * @return boolean
+     * @throws ModelObjectPersisterException
      */
     public boolean saveObjects(ModelPersistenceContext context, List<ModelObject> objects) 
         throws ModelObjectPersisterException;
@@ -89,8 +92,8 @@ public interface ModelObjectPersister
     /**
      * Removes an object from persisted storage
      * 
-     * @param context
-     * @param object
+     * @param context ModelPersistenceContext
+     * @param object ModelObject
      * 
      * @return whether the object was removed
      */
@@ -100,9 +103,9 @@ public interface ModelObjectPersister
     /**
      * Removes an object from persisted storage
      * 
-     * @param context
-     * @param objectTypeId
-     * @param objectId
+     * @param context ModelPersistenceContext
+     * @param objectTypeId String
+     * @param objectId String
      * 
      * @return whether the object was removed
      */
@@ -112,8 +115,8 @@ public interface ModelObjectPersister
     /**
      * Checks whether the given object is persisted
      * 
-     * @param context
-     * @param object
+     * @param context ModelPersistenceContext
+     * @param object ModelObject
      * 
      * @return whether the object is persisted
      */
@@ -123,9 +126,9 @@ public interface ModelObjectPersister
     /**
      * Checks whether an object with the given path is persisted
      * 
-     * @param context
-     * @param objectTypeId
-     * @param objectId
+     * @param context ModelPersistenceContext
+     * @param objectTypeId String
+     * @param objectId String
      * 
      * @return whether the object is persisted
      */
@@ -135,9 +138,9 @@ public interface ModelObjectPersister
     /**
      * Creates a new object
      * 
-     * @param context
-     * @param objectTypeId
-     * @param objectId
+     * @param context ModelPersistenceContext
+     * @param objectTypeId String
+     * @param objectId String
      * 
      * @return the object
      */
@@ -150,12 +153,12 @@ public interface ModelObjectPersister
      * In general, this is a very expensive call and should be avoided. Each object
      * descriptor referenced by the persister is loaded into the model object cache. 
      * 
-     * @param context
-     * @param objectTypeId
+     * @param context ModelPersistenceContext
+     * @param objectTypeId String
      * 
      * @return Map of object IDs to ModelObject instances
      * 
-     * @throws ModelObjectException
+     * @throws ModelObjectPersisterException
      */
     public Map<String, ModelObject> getAllObjects(ModelPersistenceContext context, String objectTypeId)
         throws ModelObjectPersisterException;
@@ -168,13 +171,13 @@ public interface ModelObjectPersister
      * Each object descriptor referenced by the persister found using the filter is
      * loaded into the model object cache. 
      * 
-     * @param context
-     * @param objectTypeId
-     * @param objectIdPattern
+     * @param context ModelPersistenceContext
+     * @param objectTypeId String
+     * @param objectIdPattern String
      * 
      * @return Map of object IDs to ModelObject instances
      * 
-     * @throws ModelObjectException
+     * @throws ModelObjectPersisterException
      */
     public Map<String, ModelObject> getAllObjectsByFilter(ModelPersistenceContext context, String objectTypeId, String objectIdPattern)
         throws ModelObjectPersisterException;
@@ -182,9 +185,10 @@ public interface ModelObjectPersister
     /**
      * Returns the timestamp of the given object in the underlying store
      * 
-     * @param context
-     * @param objectId
-     * @return
+     * @param context ModelPersistenceContext
+     * @param objectTypeId String
+     * @param objectId String
+     * @return long
      * @throws ModelObjectPersisterException
      */
     public long getTimestamp(ModelPersistenceContext context, String objectTypeId, String objectId)
@@ -200,7 +204,7 @@ public interface ModelObjectPersister
     
     /**
      * Indicates whether or not the persister uses a store that is read only.
-     * @return
+     * @return boolean
      */
     public boolean hasReadOnlyStore();
 }

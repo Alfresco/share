@@ -56,7 +56,7 @@ public class DeleteJobPage extends ConfirmDeletePage
     /**
      * Method to select the action (Delete or Cancel)
      *
-     * @param action
+     * @param action Action
      * @return HtmlPage
      */
     public HtmlPage selectAction(Action action)

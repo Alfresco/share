@@ -39,7 +39,7 @@ public class AddCategoryForm extends HtmlElement
     /**
      * Basic constructor
      *
-     * @param drone
+     * @param drone WebDrone
      */
     public AddCategoryForm(WebDrone drone)
     {

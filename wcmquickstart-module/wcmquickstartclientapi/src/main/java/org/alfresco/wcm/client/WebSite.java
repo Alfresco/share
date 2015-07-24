@@ -61,8 +61,8 @@ public interface WebSite extends Serializable
     
     /**
      * 
-     * @param path
-     * @return
+     * @param path String
+     * @return Asset
      */
     Asset getAssetByPath(String path);
 
@@ -76,43 +76,43 @@ public interface WebSite extends Serializable
     /**
      * Obtain the identifier of this website
      * 
-     * @return
+     * @return String
      */
     String getId();
 
     /**
      * Get the web site's title
      * 
-     * @return
+     * @return String
      */
     String getTitle();
 
     /**
      * Get the web site's title
      * 
-     * @return
+     * @return String
      */
     String getDescription();
 
     /**
      * Get the asset which is the site logo
      * 
-     * @return
+     * @return Asset
      */
     Asset getLogo();
 
     /**
      * Get the UGC service
      * 
-     * @return
+     * @return UgcService
      */
     UgcService getUgcService();
 
     /**
      * Get a section by path
      * 
-     * @param path
-     * @return
+     * @param path String
+     * @return Section
      */
     Section getSectionByPath(String path);
 
@@ -121,14 +121,14 @@ public interface WebSite extends Serializable
      * together with the host name and host port, is used to generate absolute
      * URLs for assets in this site when necessary
      * 
-     * @return
+     * @return String
      */
     String getContext();
 
     /**
      * Obtain the map of configuration properties set on this website.
      * 
-     * @return
+     * @return Map
      */
     Map<String, String> getConfig();
 
@@ -136,7 +136,7 @@ public interface WebSite extends Serializable
      * Returns true if this website has been marked as an editorial site. May be
      * used by templates to enable editorial features on the website.
      * 
-     * @return
+     * @return boolean
      */
     boolean isEditorialSite();
 }

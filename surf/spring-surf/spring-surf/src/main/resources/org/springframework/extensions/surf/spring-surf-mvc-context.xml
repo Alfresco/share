@@ -93,6 +93,7 @@
         <property name="useExpiresHeader"><value>true</value></property>
         <property name="useCacheControlHeader"><value>true</value></property>
         <property name="userFactory" ref="user.factory"></property>
+        <property name="webFrameworkConfiguration" ref="webframework.config.element"></property>
         <property name="supportedMethods">
             <list>
                 <value>HEAD</value>

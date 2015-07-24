@@ -132,7 +132,7 @@ public class DependencyAggregator implements ApplicationContextAware
      * <p>Indicates whether the client should operate in debug mode. This means that all dependency resources
      * should not be compressed or collated.</p>
      * 
-     * @return
+     * @return boolean
      */
     public boolean isDebugMode()
     {
@@ -147,7 +147,7 @@ public class DependencyAggregator implements ApplicationContextAware
      * <p>Indicates whether the client should operate in collation debug mode. This means that collated dependency
      * resources should include the names of the files that have been collated.</p>  
      * 
-     * @return
+     * @return boolean
      */
     public boolean isCollationDebugMode()
     {
@@ -277,8 +277,8 @@ public class DependencyAggregator implements ApplicationContextAware
      * be used to retrieve the resource from the cache.</p>
      * 
      * @param paths A list of the paths to retrieve, compress and combine.
-     * @param compressionType
-     * @return
+     * @param compressionType CompressionType
+     * @return String
      */
     private String generateDependencies(LinkedHashSet<String> paths, CompressionType compressionType)
     {
@@ -413,8 +413,8 @@ public class DependencyAggregator implements ApplicationContextAware
      * an aggregated resource. The supplied fileset is updated to include the current theme id to ensure
      * that theme specific resources are returned (the theme id is removed after the cached is checked).
      * 
-     * @param fileSet
-     * @return
+     * @param fileSet Set<String>
+     * @return String
      */
     public String getCachedChecksumForFileSet(Set<String> fileSet)
     {
@@ -473,8 +473,8 @@ public class DependencyAggregator implements ApplicationContextAware
      * generated against. The current theme id is added to the fileset to ensure that
      * resources are cached per theme.
      * 
-     * @param fileSet
-     * @param checksum
+     * @param fileSet Set<String>
+     * @param checksum String
      */
     protected void cacheChecksumForFileSet(Set<String> fileSet, String checksum)
     {
@@ -516,8 +516,8 @@ public class DependencyAggregator implements ApplicationContextAware
      * current theme ID as a prefix. This is done so that the same CSS resource is not used when
      * switching themes.
      * 
-     * @param path
-     * @return
+     * @param path String
+     * @return String
      */
     public String getCachedCompressedCssResource(String path)
     {
@@ -538,8 +538,8 @@ public class DependencyAggregator implements ApplicationContextAware
     /**
      * Caches the supplied CSS resource using a combination of the current Theme ID with
      * the CSS source path. 
-     * @param path
-     * @param content
+     * @param path String
+     * @param content String
      */
     protected void cacheCompressedCssResource(String path, String content)
     {
@@ -572,7 +572,7 @@ public class DependencyAggregator implements ApplicationContextAware
      * Retrieves the the cached map of checksums to aggregated resources (and creates 
      * a new map if one doesn't already exist)
      * 
-     * @return
+     * @return Map
      */
     protected Map<String, DependencyResource> getCombinedDependencyCache()
     {
@@ -777,9 +777,11 @@ public class DependencyAggregator implements ApplicationContextAware
      * expanded to become the imported file contents
      * 
      * TODO: It would be worth looking into caching processed CSS files.
-     * 
-     * @param fileContents
-     * @return
+     *
+     * @param cssPath String
+     * @param fileContents String
+     * @param processedPaths Set<String>
+     * @return StringBuffer
      */
     public StringBuffer processCssImports(String cssPath, String fileContents, Set<String> processedPaths)
     {
@@ -883,8 +885,9 @@ public class DependencyAggregator implements ApplicationContextAware
     
     /**
      * Returns the compressed version of the 
-     * @param path
-     * @return
+     * @param path String
+     * @param type CompressionType
+     * @return String
      * @throws IOException
      */
     String getCompressedFile(String path, CompressionType type) throws IOException
@@ -993,7 +996,7 @@ public class DependencyAggregator implements ApplicationContextAware
     /**
      * <p>Compresses the JavaScript file provided by the supplied {@link InputStream} using the YUI {@link JavaScriptCompressor}.</p>
      * 
-     * @param in
+     * @param reader Reader
      * @return A String representation of the compressed JavaScript file
      * @throws IOException
      */
@@ -1039,7 +1042,7 @@ public class DependencyAggregator implements ApplicationContextAware
     /**
      * <p>Compresses the CSS file provided by the supplied {@link InputStream} using the YUI {@link CssCompressor}.</p>
      * 
-     * @param in
+     * @param in InputStream
      * @return A String representation of the compressed CSS file
      * @throws IOException
      */

@@ -103,7 +103,7 @@ public class WikiTreeMenuNavigation extends SharePage
     /**
      * Retuns true if the given menu tree is visible.
      *
-     * @return
+     * @return boolean
      */
     public boolean isMenuTreeVisible(TreeMenu treeMenu)
     {
@@ -126,8 +126,8 @@ public class WikiTreeMenuNavigation extends SharePage
     /**
      * Checks if the menu is open
      *
-     * @param treeMenu
-     * @return
+     * @param treeMenu TreeMenu
+     * @return boolean
      */
     private boolean isMenuExpanded(TreeMenu treeMenu)
     {
@@ -155,7 +155,7 @@ public class WikiTreeMenuNavigation extends SharePage
     /**
      * Opens the menu tree
      *
-     * @param treeMenu
+     * @param treeMenu TreeMenu
      */
     private void expandMenu(TreeMenu treeMenu)
     {
@@ -176,7 +176,7 @@ public class WikiTreeMenuNavigation extends SharePage
     /**
      * Expands the Pages menu and selects the given link.
      *
-     * @param pagesMenu
+     * @param pagesMenu PagesMenu
      * @return The page loaded when the node is selected.
      */
     public HtmlPage selectPageNode(PagesMenu pagesMenu)
@@ -205,7 +205,7 @@ public class WikiTreeMenuNavigation extends SharePage
     /**
      * Expands the Tags menu and selects the given link.
      *
-     * @param tagName
+     * @param tagName String
      * @return The page loaded when the node is selected.
      */
     public HtmlPage selectTagNode(String tagName)

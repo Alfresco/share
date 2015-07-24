@@ -40,9 +40,6 @@ public abstract class AbstractAdminConsole extends SharePage
 
     /**
      * Method for click Close Button
-     *
-     * @param
-     * @return
      */
     public void clickClose()
     {

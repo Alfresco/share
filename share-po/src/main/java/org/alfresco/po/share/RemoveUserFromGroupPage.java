@@ -78,7 +78,7 @@ public class RemoveUserFromGroupPage extends SharePage
     /**
      * Action of selecting "Yes" or "No" on Remove User from group page.
      * 
-     * @param - Enum action - Yes/no
+     * @param action Action
      * @return - HtmlPage
      */
     public HtmlPage selectAction(Action action)

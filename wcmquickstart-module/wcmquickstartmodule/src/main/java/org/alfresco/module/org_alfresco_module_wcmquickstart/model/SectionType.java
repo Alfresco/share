@@ -263,7 +263,7 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
      * their names as prefixed qualified names ("ws:indexPage", for instance) to
      * this method.
      * 
-     * @param typesToIgnore
+     * @param typesToIgnore Set<String>
      */
     public void setTypesToIgnore(Set<String> typesToIgnore)
     {
@@ -274,7 +274,7 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
      * When a new section is created asset collections can be auto-created.
      * Inject the definitions of them here.
      * 
-     * @param collectionDefinitions
+     * @param collectionDefinitions List<AssetCollectionDefinition>
      */
     public void setAssetCollectionDefinitions(List<AssetCollectionDefinition> collectionDefinitions)
     {
@@ -325,8 +325,8 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
 
     /**
      * 
-     * @param childAssoc
-     * @param isNewNode
+     * @param childAssoc ChildAssociationRef
+     * @param isNewNode boolean
      */
     public void onCreateChildAssociationEveryEvent(ChildAssociationRef childAssoc, boolean isNewNode)
     {
@@ -350,8 +350,8 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
 
     /**
      * 
-     * @param childAssoc
-     * @param isNewNode
+     * @param childAssoc ChildAssociationRef
+     * @param isNewNode boolean
      */
     public void onCreateChildAssociationTransactionCommit(ChildAssociationRef childAssoc, boolean isNewNode)
     {
@@ -360,7 +360,7 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
 
     /**
      * 
-     * @param childAssoc
+     * @param childAssoc ChildAssociationRef
      */
     public void onDeleteChildAssociationEveryEvent(ChildAssociationRef childAssoc)
     {
@@ -369,7 +369,7 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
 
     /**
      * 
-     * @param childAssoc
+     * @param childAssoc ChildAssociationRef
      */
     public void onDeleteChildAssociationTransactionCommit(ChildAssociationRef childAssoc)
     {
@@ -393,7 +393,7 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
 
     /**
      * 
-     * @param childAssoc
+     * @param childAssoc ChildAssociationRef
      */
     private void recordAffectedChild(ChildAssociationRef childAssoc)
     {
@@ -414,7 +414,7 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
 
     /**
      * 
-     * @param childNode
+     * @param childNodeAssoc ChildAssociationRef
      */
     @SuppressWarnings("unchecked")
     private void processCommit(ChildAssociationRef childNodeAssoc)
@@ -574,7 +574,7 @@ public class SectionType extends TransactionListenerAdapter implements WebSiteMo
     /**
      * On creation of a section node
      * 
-     * @param childAssocRef
+     * @param section
      *            created child association reference
      */
     @SuppressWarnings("unchecked")

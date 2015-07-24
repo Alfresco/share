@@ -62,7 +62,7 @@ public class ServletLinkBuilder extends RequestParameterLinkBuilder
     
     /**
      * 
-     * @param serviceRegistry
+     * @param serviceRegistry WebFrameworkServiceRegistry
      * @deprecated
      */
     protected ServletLinkBuilder(WebFrameworkServiceRegistry serviceRegistry)
@@ -74,9 +74,9 @@ public class ServletLinkBuilder extends RequestParameterLinkBuilder
      * <p>This is the preferred constructor to use when instantiating a <code>PortletLinkBuilder</code> because
      * it allows the services to be set directly.</p>
      * 
-     * @param webFrameworkConfigElement
-     * @param modelObjectService
-     * @param resourceService
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
+     * @param modelObjectService ModelObjectService
+     * @param resourceService ResourceService
      */
     public ServletLinkBuilder(WebFrameworkConfigElement webFrameworkConfigElement, 
                               ModelObjectService modelObjectService,

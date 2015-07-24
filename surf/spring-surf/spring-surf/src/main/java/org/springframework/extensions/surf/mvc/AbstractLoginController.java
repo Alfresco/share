@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.extensions.config.WebFrameworkConfigElement;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.site.AuthenticationUtil;
 import org.springframework.web.servlet.ModelAndView;
@@ -53,16 +54,22 @@ public abstract class AbstractLoginController extends AbstractController
      * Spring Beans</p>
      */
     private UserFactory userFactory;
+    private WebFrameworkConfigElement webFrameworkConfiguration;
 
     /**
      * <p>This method is provided to allow the Spring framework to set a <code>UserFactory</code> required for authenticating
      * requests</p>
      * 
-     * @param userFactory
+     * @param userFactory UserFactory
      */
     public void setUserFactory(UserFactory userFactory) 
     {
         this.userFactory = userFactory;
+    }
+
+    public void setWebFrameworkConfiguration(WebFrameworkConfigElement webFrameworkConfiguration)
+    {
+        this.webFrameworkConfiguration = webFrameworkConfiguration;
     }
 
 
@@ -90,7 +97,7 @@ public abstract class AbstractLoginController extends AbstractController
             boolean authenticated = this.userFactory.authenticate(request, username, password);
             if (authenticated)
             {
-                AuthenticationUtil.login(request, response, username, false);
+                AuthenticationUtil.login(request, response, username, false, webFrameworkConfiguration.isLoginCookiesEnabled());
                 
                 // mark the fact that we succeeded
                 success = true;

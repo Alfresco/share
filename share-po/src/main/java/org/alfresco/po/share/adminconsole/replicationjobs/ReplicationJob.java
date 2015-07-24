@@ -53,8 +53,8 @@ public class ReplicationJob
     /**
      * Constructor
      *
-     * @param drone
-     * @param jobContainer
+     * @param drone WebDrone
+     * @param jobContainer WebElement
      */
     protected ReplicationJob(WebDrone drone, WebElement jobContainer)
     {
@@ -161,7 +161,7 @@ public class ReplicationJob
     /**
      * Method to wait until job starts
      *
-     * @param driver
+     * @param driver WebDrone
      * @return ReplicationJobsPage
      * @throws ParseException
      * @throws InterruptedException

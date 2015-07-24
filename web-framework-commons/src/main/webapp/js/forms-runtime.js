@@ -41,7 +41,7 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
       this.ajaxSubmitMethod = "POST";
       this.ajaxNoReloadOnAuthFailure = null;
       this.errorContainer = "tooltip";
-      this.showMultipleErrors = false;
+      this.showMultipleErrors = true;
 
       // Make sure to hide error containers (i.e. tooltips) when overlays and panels are closed
 
@@ -1431,8 +1431,14 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
                      // Make sure that error containers are created for custom fields as well
                      errorsByField[errorField.id] = errorsByField[errorField.id] || [];
                      errorsByFieldText[errorField.id] = errorsByFieldText[errorField.id] || [];
-                     errorsByField[errorField.id].push(message);
-                     errorsByFieldText[errorField.id].push(textMessage);
+                     if (errorsByField[errorField.id].indexOf(message) == -1)
+                     {
+                        errorsByField[errorField.id].push(message);
+                     }
+                     if (errorsByFieldText[errorField.id].indexOf(textMessage) == -1)
+                     {
+                        errorsByFieldText[errorField.id].push(textMessage);
+                     }
                   }
 
                   // Mark the first field with an error as the primary field (will be used if user tried to submit form)
@@ -1462,6 +1468,19 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
                   // Update error indication css classes
                   if (validationType == INVALID)
                   {
+		    
+                     allErrors.push({ id: valFieldId, msg: fieldMsg });
+                     // we don't want to add the same text
+                     if (errorsByField[valFieldId].indexOf(message) == -1)
+                     {
+                        errorsByField[valFieldId].push(message);
+                     }
+                     // we don't want to add the same text
+                     if (errorsByFieldText[valFieldId].indexOf(textMessage) == -1)
+                     {
+                        errorsByFieldText[valFieldId].push(textMessage);
+                     }
+                     
                      // Remove the mandatory class since it now is invalid
                      if (notificationLevel >= Alfresco.forms.Form.NOTIFICATION_LEVEL_FIELD)
                      {
@@ -1484,13 +1503,19 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
                         else
                         {
                            field.setAttribute("title", errorsByFieldText[valFieldId][0]);
-                           field.setAttribute(this._VALIDATION_MSG_ATTR, errorsByField[valFieldId][0]);
+                           var validationMsgAttr = '';
+                           for (var mess = 0; mess < errorsByField[valFieldId].length; mess++)
+                           {
+                              if (mess > 0 && !this.showMultipleErrors)
+                              {
+                                 break;
+                              }
+                              validationMsgAttr += '<div>' + errorsByField[valFieldId][mess] + '</div>';
+                           }
+                           field.setAttribute(this._VALIDATION_MSG_ATTR, validationMsgAttr);
                         }
                      }
                      
-                     allErrors.push({ id: valFieldId, msg: fieldMsg });
-                     errorsByField[valFieldId].push(message);
-                     errorsByFieldText[valFieldId].push(textMessage);
                   }
                   else
                   {

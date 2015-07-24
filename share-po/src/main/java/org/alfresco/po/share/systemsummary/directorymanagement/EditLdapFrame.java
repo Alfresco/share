@@ -213,7 +213,7 @@ public class EditLdapFrame extends SharePage
     /**
      * Return Frame title.
      *
-     * @return
+     * @return String
      */
     @Override
     public String getTitle()
@@ -238,7 +238,7 @@ public class EditLdapFrame extends SharePage
     /**
      * Click 'Save' button
      *
-     * @return
+     * @return DirectoryManagementPage
      */
     public DirectoryManagementPage clickSave()
     {
@@ -250,7 +250,7 @@ public class EditLdapFrame extends SharePage
     /**
      * Click 'Close' button
      *
-     * @return
+     * @return DirectoryManagementPage
      */
     public DirectoryManagementPage clickClose()
     {
@@ -307,7 +307,7 @@ public class EditLdapFrame extends SharePage
     /**
      * Click on Open Adv settings arrow. Method return object associated with "adv options" inputs.
      *
-     * @return
+     * @return AdvSettings
      */
     public AdvSettings openAdvSettings()
     {

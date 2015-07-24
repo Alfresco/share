@@ -135,8 +135,8 @@ public class EditGroupPage extends SharePage
     /**
      * Save or cancel action button
      * 
-     * @param groupButton
-     * @return
+     * @param groupButton ActionButton
+     * @return HtmlPage
      */
     public HtmlPage clickButton(ActionButton groupButton)
     {
@@ -160,7 +160,7 @@ public class EditGroupPage extends SharePage
     /**
      * Checks if Save button is present and enabled
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSaveButtonEnabled()
     {
@@ -178,7 +178,7 @@ public class EditGroupPage extends SharePage
     /**
      * Checks if Display name filed is present
      * 
-     * @return
+     * @return boolean
      */
     public boolean isDisplayNameInputPresent()
     {

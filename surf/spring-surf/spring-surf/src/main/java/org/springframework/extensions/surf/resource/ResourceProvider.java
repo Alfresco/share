@@ -41,30 +41,30 @@ public interface ResourceProvider
     /**
      * Looks up a resource with the given name
      * 
-     * @param id
-     * @return
+     * @param name String
+     * @return Resource
      */
     public Resource getResource(String name);
 
     /**
      * Returns the set of all resources
      * 
-     * @return
+     * @return Resource[]
      */
     public Resource[] getResources();
 
     /**
      * Returns the map of resources
      * 
-     * @return
+     * @return Map
      */
     public Map<String, Resource> getResourcesMap();
 
     /**
      * Adds/Creates a resource with the given name and resource id
      * 
-     * @param name
-     * @param resourceId
+     * @param name String
+     * @param resourceId String
      * 
      * @return resource
      */
@@ -74,10 +74,10 @@ public interface ResourceProvider
      * Adds/Creates a resource with the given name, object id and
      * endpoint id
      * 
-     * @param name
-     * @param protocolId
-     * @param endpointId
-     * @param objectId
+     * @param name String
+     * @param protocolId String
+     * @param endpointId String
+     * @param objectId String
      * 
      * @return resource
      */
@@ -86,15 +86,15 @@ public interface ResourceProvider
     /**
      * Updates a resource for the given name
      * 
-     * @param name
-     * @param resource
+     * @param name String
+     * @param resource Resource
      */
     public void updateResource(String name, Resource resource);
 
     /**
      * Removes a resource with the given name
      * 
-     * @param name
+     * @param name String
      */
     public void removeResource(String name);
 

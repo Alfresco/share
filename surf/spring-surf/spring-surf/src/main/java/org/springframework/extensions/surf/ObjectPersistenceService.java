@@ -84,7 +84,7 @@ public final class ObjectPersistenceService
      * with information to inform the persisters of how to bind to the appropriate
      * Alfresco store.
      *
-     * @return
+     * @return ModelPersistenceContext
      */
     public ModelPersistenceContext getPersistenceContext()
     {
@@ -197,7 +197,6 @@ public final class ObjectPersistenceService
      *
      * @return the ModelObject or null if not found
      *
-     * @return the model object
      */
     public ModelObject newObject(String objectTypeId)
     {

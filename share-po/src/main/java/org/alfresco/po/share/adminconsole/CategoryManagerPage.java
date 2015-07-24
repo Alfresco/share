@@ -196,7 +196,7 @@ public class CategoryManagerPage extends AdminConsolePage
     /**
      * Check that category present on Page.
      *
-     * @param categoryName
+     * @param categoryName String
      * @return true - if present
      */
     public boolean isCategoryPresent(String categoryName)

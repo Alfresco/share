@@ -64,8 +64,8 @@ public class ScriptResourceUtils extends ScriptBase
     
     /**
      * 
-     * @param jsResources
-     * @return
+     * @param jsResources String[]
+     * @return String
      */
     public String getAggregratedJsResources(String[] jsResources)
     {
@@ -79,8 +79,8 @@ public class ScriptResourceUtils extends ScriptBase
     
     /**
      * 
-     * @param cssResources
-     * @return
+     * @param cssResources String[]
+     * @return String
      */
     public String getAggregratedCssResources(String[] cssResources)
     {

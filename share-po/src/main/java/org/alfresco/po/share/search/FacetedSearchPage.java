@@ -132,7 +132,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
     /**
      * Gets the results.
      * 
-     * @return List<{@link FacetedSearchResult}>
+     * @return List
      */
     public List<SearchResult> getResults()
     {
@@ -148,7 +148,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
     /**
      * Gets a result by its title if it exists.
      *
-     * @param title
+     * @param title String
      * @return the result
      */
 	public SearchResult getResultByTitle(String title) 
@@ -183,7 +183,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
     /**
      * Gets a result by its name if it exists.
      *
-     * @param name
+     * @param name String
      * @return the result
      */
     public SearchResult getResultByName(String name)
@@ -244,7 +244,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
     /**
      * Get the numeric value display on top of search results.
      * The number indicates the total count found for given search.
-     * @return
+     * @return int
      */
     public int getResultCount()
     {
@@ -287,7 +287,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
          
     /**
      * verify configureSearchlink is displayed
-     * @param driver
+     * @param driver WebDrone
      * @return Boolean
      */
     public Boolean isConfigureSearchDisplayed(WebDrone driver)

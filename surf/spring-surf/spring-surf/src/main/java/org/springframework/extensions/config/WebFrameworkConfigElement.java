@@ -94,7 +94,7 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     /**
      * <p>Updates the status of SurfBug to indicate whether it is enabled or disabled</code>. This method
      * has been provided to be invoked by the toggle_surfbug WebScript.</p>
-     * @param surfBugEnabled
+     * @param surfBugEnabled boolean
      */
     public void setSurfBugEnabled(boolean surfBugEnabled)
     {
@@ -149,6 +149,8 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     protected Boolean enableDynamicExtensions;
     
     protected Boolean disableResourceCaching;
+    
+    protected Boolean loginCookiesEnabled;
     
     /**
      * Default Constructor
@@ -264,10 +266,10 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
             combinedElement.surfBug = configElement.surfBug;
         }
         
-        combinedElement.surfBug = this.surfBug;
-        if (configElement.surfBug != null)
+        combinedElement.loginCookiesEnabled = this.loginCookiesEnabled;
+        if (configElement.loginCookiesEnabled != null)
         {
-            combinedElement.surfBug = configElement.surfBug;
+            combinedElement.loginCookiesEnabled = configElement.loginCookiesEnabled;
         }
         
         combinedElement.defaultSiteConfiguration = this.defaultSiteConfiguration;
@@ -635,6 +637,11 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     public boolean isResourceCachingDisabled()
     {
         return (this.disableResourceCaching != null) ? this.disableResourceCaching.booleanValue() : Boolean.FALSE; 
+    }
+    
+    public boolean isLoginCookiesEnabled()
+    {
+        return (this.loginCookiesEnabled != null) ? this.loginCookiesEnabled.booleanValue() : Boolean.TRUE; 
     }
     
     /**
@@ -1098,6 +1105,12 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
                 configElement.surfBug = _surfBug;
             }
             
+            String _loginCookiesEnabled = defaults.elementTextTrim("login-cookies-enabled");
+            if (_loginCookiesEnabled != null)
+            {
+                configElement.loginCookiesEnabled = Boolean.valueOf(_loginCookiesEnabled);
+            }
+            
             String _theme = defaults.elementTextTrim("theme");
             if (_theme != null && _theme.length() != 0)
             {
@@ -1389,8 +1402,8 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
 
     /**
      * Processes the Dojo configuration from the supplied {@link Element}
-     * @param configElement
-     * @param elem
+     * @param configElement WebFrameworkConfigElement
+     * @param elem Element
      */
     public static void processDojoConfiguration(WebFrameworkConfigElement configElement, Element elem)
     {
@@ -1465,8 +1478,8 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     
     /**
      * Combines Dojo configuration from the configElement into the combinedElement.
-     * @param configElement
-     * @param combinedElement
+     * @param configElement WebFrameworkConfigElement
+     * @param combinedElement WebFrameworkConfigElement
      */
     public void combineDojoConfiguration(WebFrameworkConfigElement configElement, 
                                          WebFrameworkConfigElement combinedElement)

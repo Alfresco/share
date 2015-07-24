@@ -48,8 +48,8 @@ public class MarkovChain
      * length "length".  Reads the entire input stream and
      * creates the Markov chain.
      * 
-     * @param in
-     * @param length
+     * @param in InputStream
+     * @param length int
      * @throws java.io.IOException
      */
     public MarkovChain(InputStream in, int length) throws java.io.IOException 
@@ -116,9 +116,9 @@ public class MarkovChain
      * Returns the next character to print given the prefix.
      * Returns -1 when there are no possible next characters.
      * 
-     * @param prefix
-     * @param random
-     * @return
+     * @param prefix String
+     * @param random Random
+     * @return int
      */
     public int get(String prefix, Random random) 
     {
@@ -154,7 +154,7 @@ public class MarkovChain
         private List<Link> list;
 
         /**
-         * @param prefix
+         * @param prefix String
          */
         public Chain(String prefix) 
         {
@@ -164,7 +164,7 @@ public class MarkovChain
         }
 
         /**
-         * @return
+         * @return String
          */
         public String getPrefix() 
         {
@@ -172,7 +172,7 @@ public class MarkovChain
         }
 
         /**
-         * @return
+         * @return int
          */
         public int getTotal() 
         {
@@ -180,8 +180,8 @@ public class MarkovChain
         }
 
         /**
-         * @param index
-         * @return
+         * @param index int
+         * @return char
          */
         public char get(int index) 
         {

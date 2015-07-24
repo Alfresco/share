@@ -104,7 +104,8 @@ public class TopSiteContributorDashletTest extends AbstractSiteDashletTest
      * Creates a user, invites it to the site as a collaborator and logs out
      * Collaborator logs in and uploads files to site's document library
      * 
-     * @param numberOfFiles
+     * @param numberOfFiles int
+     * @param random1 String
      * @throws Exception
      */
     

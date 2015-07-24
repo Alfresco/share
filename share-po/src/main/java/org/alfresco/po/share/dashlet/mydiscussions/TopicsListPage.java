@@ -78,7 +78,7 @@ public class TopicsListPage extends SitePage
     /**
      * Get rss feed url from link and navigate to.
      *
-     * @return
+     * @return RssFeedPage
      */
     public RssFeedPage selectRssFeed(String username, String password)
     {

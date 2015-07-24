@@ -92,6 +92,27 @@ public class DashBoardPageTest extends AbstractTest
     }
     
     @Test(dependsOnMethods = "checkOpenAboutPopUpLogo", groups = "alfresco-one")
+    public void clickViewTutorialsLink()
+    {
+        drone.refresh();
+        DashBoardPage dashBoardPage = drone.getCurrentPage().render();
+        dashBoardPage.clickTutorialsLink();
+        String mainWindow = drone.getWindowHandle();
+        waitInSeconds(3);
+        AlfrescoVersion version = drone.getProperties().getVersion();
+        if (!version.isCloud())
+        {
+            Assert.assertTrue(isWindowOpened("Alfresco One video tutorials"));
+        }
+        else
+        {
+            Assert.assertTrue(isWindowOpened("Video tutorials"));
+        }      
+        drone.closeWindow();
+        drone.switchToWindow(mainWindow);        
+    }
+    
+    @Test(dependsOnMethods = "clickViewTutorialsLink", groups = "Enterprise-only")
     public void checkVersionsFromPopUpLogo()
     {
         drone.refresh();
@@ -101,7 +122,7 @@ public class DashBoardPageTest extends AbstractTest
         Assert.assertTrue(aboutPopUp.isVersionsDetailDisplayed());
         Assert.assertTrue(versionsDetail.contains("Aikau") && versionsDetail.contains("Spring Surf") && versionsDetail.contains("Spring WebScripts"));
     }
-
+    
     @Test(dependsOnMethods = "refreshPage", enabled = false, groups = "nonGrid")
     public void testKeysForHeaderBar() throws Exception
     {

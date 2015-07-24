@@ -162,11 +162,10 @@ public class CreateWebScriptWidgetsDirective extends JavaScriptDependencyDirecti
     
     /**
      * <p>Constructs a String of JavaScript that can be used to instantiate the widget defined by the
-     * supplied {@lik WidgetData} objects. The output will be a single line of JavaScript with chained
+     * supplied {@link WidgetData} objects. The output will be a single line of JavaScript with chained
      * .setOptions() and .setMessages() functions calls if appropriate.</p>
      * 
-     * @param model The {@link TemplateHashModel} for the current execution environment. This can be used to
-     * retrieve additional data such as any configuration options that need to be provided.
+     * @param env Environment
      * @param widget The {@link WidgetData} object containing the data about the widget to be instantiated.
      * @param htmlId The current unique id of an HTML <{@code}div> element that should have been placed in the
      * WebScript FreeMarker template for the JavaScript widget to attach to.
@@ -254,9 +253,9 @@ public class CreateWebScriptWidgetsDirective extends JavaScriptDependencyDirecti
      * converted into a JSON string it will fall back on the .toString() method of the unknown
      * type which we can therefore control.</p>
      * 
-     * @param options
-     * @return
-     * @throws Exception 
+     * @param env Environment
+     * @param options Map<Object, Object>
+     * @return Map
      */
     protected Map<Object, Object> processCustomOptionsInMap(Environment env, Map<Object, Object> options)
     {
@@ -277,9 +276,9 @@ public class CreateWebScriptWidgetsDirective extends JavaScriptDependencyDirecti
      * so this method will check all {@link Map} instances for those attributes and return a {@link JSONAware}
      * object in their place for outputting. Otherwise the method will recurse through all the objects.
      * 
-     * @param env
-     * @param object
-     * @return
+     * @param env Environment
+     * @param object Object
+     * @return Object
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected Object processCustomOptionsInObject(Environment env, Object object)
@@ -324,9 +323,9 @@ public class CreateWebScriptWidgetsDirective extends JavaScriptDependencyDirecti
     
     /**
      * <p>This method is provided to allow extending classes to process custom options other than the
-     * default {@link ReferenceCustomOption} that is used to render variable references instead of
+     * default ReferenceCustomOption that is used to render variable references instead of
      * String literals. It should be called with a {@link Map} containing two entries; the 
-     * value and the type. This implementation will only return a {@link ReferenceCustomOption}
+     * value and the type. This implementation will only return a ReferenceCustomOption
      * instance.</p>
      * 
      * @param env The current FreeMarker {@link Environment}. Not used by this implementation but 
@@ -341,8 +340,8 @@ public class CreateWebScriptWidgetsDirective extends JavaScriptDependencyDirecti
     
     /**
      * 
-     * @param env
-     * @return
+     * @param model TemplateHashModel
+     * @return List<WidgetData>
      * @throws TemplateModelException 
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })

@@ -124,7 +124,7 @@ public class WebViewDashlet extends AbstractDashlet implements Dashlet
     /**
      * return default text from dashlet. or throw Exception.
      * 
-     * @return
+     * @return String
      */
     public String getDefaultMessage()
     {
@@ -141,8 +141,8 @@ public class WebViewDashlet extends AbstractDashlet implements Dashlet
     /**
      * return true if frame with url displayed.
      * 
-     * @param url
-     * @return
+     * @param url String
+     * @return boolean
      */
     public boolean isFrameShow(String url)
     {

@@ -61,8 +61,8 @@ public abstract class AdvancedAdminConsolePage extends SharePage
 
     /**
      * Checks if tab present at a left column af tabs' list
-     * @param adminConsoleLink
-     * @return
+     * @param adminConsoleLink AdminConsoleLink
+     * @return boolean
      */
     public boolean isConsoleLinkPresent(AdminConsoleLink adminConsoleLink)
     {
@@ -118,15 +118,11 @@ public abstract class AdvancedAdminConsolePage extends SharePage
      *
      * @return true if the ratio button is present
      */
-    public boolean isRadioButtonPresent(String element)
-    {
-        try
-        {
-            WebElement button = drone.findAndWait(By.xpath(element + CHECKBOX));
+    public boolean isRadioButtonPresent(String element) {
+        try {
+            WebElement button = drone.find(By.xpath(element + CHECKBOX));
             return button.isDisplayed();
-        }
-        catch (NoSuchElementException te)
-        {
+        } catch (NoSuchElementException te) {
             return false;
         }
     }

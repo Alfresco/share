@@ -86,7 +86,7 @@ public class ProfileNavigation
      * Click on the trashcan link
      * 
      * @return - {@link TrashCanPage}
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     public TrashCanPage selectTrashCan()
     {
@@ -97,7 +97,7 @@ public class ProfileNavigation
     /**
      * Method to select Language link
      * 
-     * @return
+     * @return <br/><br/>
      */
     public LanguageSettingsPage selectLanguage()
     {
@@ -121,7 +121,7 @@ public class ProfileNavigation
      * Click on the Notifications link
      * 
      * @return - {@link NotificationPage}
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     public NotificationPage selectNotification()
     {
@@ -133,7 +133,7 @@ public class ProfileNavigation
      * Click on the Sites link
      * 
      * @return - {@link UserSitesPage}
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     public UserSitesPage selectSites()
     {
@@ -145,7 +145,7 @@ public class ProfileNavigation
      * Click on the Content link
      * 
      * @return - {@link UserContentPage}
-     * @author bogdan - 30.06.2014
+     * <br/><br/>author bogdan - 30.06.2014
      */
     public UserContentPage selectContent()
     {

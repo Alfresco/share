@@ -32,8 +32,8 @@ public class QuerySanitizer
     
     /**
      * Overridable sanitization method
-     * @param text
-     * @return
+     * @param text String
+     * @return String
      */
     protected String sanitizeImpl(String text)
     {
@@ -43,7 +43,7 @@ public class QuerySanitizer
     /**
      * Inject a new implementation if desired. Create a subclass of this class, override the sanitizeImpl operation,
      * and inject an instance of it using this operation. QuerySanitizer.sanitize will then be routed to your object.
-     * @param sanitizer
+     * @param sanitizer QuerySanitizer
      */
     public static void setSanitizer(QuerySanitizer sanitizer)
     {

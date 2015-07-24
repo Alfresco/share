@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.alfresco.po.share.DashBoardPage;
@@ -33,6 +34,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.site.UploadFilePage;
+import org.alfresco.po.share.site.document.ChangeTypePage;
 import org.alfresco.po.share.site.document.ConfirmDeletePage;
 import org.alfresco.po.share.site.document.ContentDetails;
 import org.alfresco.po.share.site.document.ContentType;
@@ -47,6 +49,7 @@ import org.alfresco.po.share.site.document.ConfirmDeletePage.Action;
 import org.alfresco.po.share.site.document.SelectAspectsPage;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.WebDrone;
+import org.alfresco.webdrone.WebDroneUtil;
 import org.alfresco.webdrone.exception.PageException;
 import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
@@ -185,7 +188,7 @@ public class SiteActions extends CommonActions
      * Assumes a specific Site is open Opens the Document Library Page and navigates to the Path specified.
      * 
      * @param drone WebDrone Instance
-     * @param folderPath: String folder path relative to DocumentLibrary e.g. DOCLIB + file.seperator + folderName1
+     * @param folderPath  String folder path relative to DocumentLibrary e.g. DOCLIB + file.seperator + folderName1
      * @throws ShareException if error in this API
      */
     public DocumentLibraryPage navigateToFolder(WebDrone drone, String folderPath) throws ShareException
@@ -250,9 +253,9 @@ public class SiteActions extends CommonActions
     /**
      * Util traverses through all the pages of the doclib to find the content within the folder and clicks on the contentTile
      * 
-     * @param drone
-     * @param contentName
-     * @return
+     * @param drone WebDrone
+     * @param contentName String
+     * @return HtmlPage
      */
     public HtmlPage selectContent(WebDrone drone, String contentName)
     {
@@ -282,9 +285,9 @@ public class SiteActions extends CommonActions
     /**
      * Util traverses through all the pages of the doclib to find the content within the folder
      * 
-     * @param drone
-     * @param contentName
-     * @return
+     * @param drone WebDrone
+     * @param contentName String
+     * @return FileDirectoryInfo
      */
     public FileDirectoryInfo getFileDirectoryInfo(WebDrone drone, String contentName)
     {
@@ -390,9 +393,9 @@ public class SiteActions extends CommonActions
      * This method is used to create content with name, title and description.
      * User should be logged in and present on site page.
      *
-     * @param drone
-     * @param contentDetails
-     * @param contentType
+     * @param drone WebDrone
+     * @param contentDetails ContentDetails
+     * @param contentType ContentType
      * @return {@link DocumentLibraryPage}
      * @throws Exception
      */
@@ -421,9 +424,9 @@ public class SiteActions extends CommonActions
     /**
      * isFileVisible is to check whether file or folder visible..
      * 
-     * @param drone
-     * @param contentName
-     * @return
+     * @param drone WebDrone
+     * @param contentName String
+     * @return boolean
      */
     public boolean isFileVisible(WebDrone drone, String contentName)
     {
@@ -510,8 +513,8 @@ public class SiteActions extends CommonActions
      * Method to navigate to site dashboard url, based on siteshorturl, rather than sitename
      * This is to be used to navigate only as a util, not to test getting to the site dashboard
      * 
-     * @param drone
-     * @param siteShortURL
+     * @param drone WebDrone
+     * @param siteShortURL String
      * @return {@link org.alfresco.po.share.site.SiteDashboardPage}
      */
     public SiteDashboardPage openSiteURL(WebDrone drone, String siteShortURL)
@@ -610,12 +613,12 @@ public class SiteActions extends CommonActions
     /**
      * Checks the checkbox for a content if not selected on the document library
      * page.
-     * 
-     * @param drone
-     * @param contentName
-     * @return DocumentLibraryPage
-     * @IMP Note: Expects the user is logged in and document library page within
+     *  Note: Expects the user is logged in and document library page within
      *      the selected site is open.
+     *
+     * @param drone WebDrone
+     * @param contentName String
+     * @return DocumentLibraryPage
      */
     private DocumentLibraryPage selectContentCheckBox(WebDrone drone, String contentName)
     {
@@ -630,8 +633,8 @@ public class SiteActions extends CommonActions
     /**
      * Delete doc lib contents.
      * 
-     * @param drone
-     * @return
+     * @param drone WebDrone
+     * @return DocumentLibraryPage
      */
     private DocumentLibraryPage deleteDocLibContents(WebDrone drone)
     {
@@ -643,9 +646,10 @@ public class SiteActions extends CommonActions
      * This method uploads the new version for the document with the given file
      * from data folder. User should be on Document details page.
      * 
-     * @param fileName
-     * @param drone
-     * @return DocumentDetailsPage
+     * @param drone WebDrone
+     * @param title String
+     * @param fileName String
+     * @param comments String
      * @throws IOException
      */
     public void uploadNewVersionOfDocument(WebDrone drone, String title, String fileName, String comments) throws IOException
@@ -694,11 +698,11 @@ public class SiteActions extends CommonActions
     /**
      * Copy or Move to File or folder from document library.
      * 
-     * @param drone
-     * @param destination
-     * @param siteName
-     * @param fileName
-     * @return
+     * @param drone WebDrone
+     * @param destination String
+     * @param siteName String
+     * @param fileName String
+     * @return HtmlPage
      */
     public HtmlPage copyOrMoveArtifact(WebDrone drone, String destination, String siteName,  String fileName, String type, String... moveFolderName)
     {
@@ -728,11 +732,11 @@ public class SiteActions extends CommonActions
      * Uses the in-line rename function to rename content
      * Assumes User is logged in and a DocumentLibraryPage of the selected site is open
      * 
-     * @param drone
-     * @param contentName
-     * @param newName
+     * @param drone WebDrone
+     * @param contentName String
+     * @param newName String
      * @param saveChanges <code>true</code> saves the changes, <code>false</code> cancels without saving.
-     * @return
+     * @return DocumentLibraryPage
      */
     public DocumentLibraryPage editContentNameInline(WebDrone drone, String contentName, String newName, boolean saveChanges)
     {
@@ -756,12 +760,12 @@ public class SiteActions extends CommonActions
      * In the document library page select edit properties to set a new title , description or name for the content
      * Assume the user is logged in and a documentLibraryPage of the selected site is open
      * 
-     * @author sprasanna
-     * @param - Webdrone
-     * @param - String contentName
-     * @param - String newContentName
-     * @param - String title
-     * @param - String descirption
+     * <br/><br/>author sprasanna
+     * @param drone Webdrone
+     * @param contentName String
+     * @param newContentName String
+     * @param title String
+     * @param description String
      */
     public DocumentLibraryPage editProperties(WebDrone drone, String contentName, String newContentName, String title, String description)
     {
@@ -787,6 +791,44 @@ public class SiteActions extends CommonActions
     }
     
     /**
+     * Util to Navigate to Edit Properties Page from DocLib or Details Page
+     * 
+     * @param driver
+     * @param contentName
+     * @return HtmlPage
+     */
+    public HtmlPage getEditPropertiesPage(WebDrone driver, String contentName)
+    {
+        WebDroneUtil.checkMandotaryParam("Expected ContentName", contentName);
+
+        try
+        {
+            SharePage sharePage = getSharePage(driver).render();
+            EditDocumentPropertiesPage editPropertiesPage = null;
+
+            // Get DetailsPage
+            if (sharePage instanceof DocumentLibraryPage)
+            {
+                sharePage = selectContent(driver, contentName).render();
+            }
+            
+            // Select EditPropertiesPage
+            if (sharePage instanceof DetailsPage)
+            {
+                return ((DetailsPage) sharePage).selectEditProperties().render();
+            }
+            else
+            {
+                throw new UnexpectedSharePageException("Expected Doclib or Details Page");
+            }
+        }
+        catch (Exception e)
+        {
+            throw new PageException("Error getting EditDocumentPropertiesPage", e);
+        }
+    }
+    
+    /**
      * Util to change the type of the selected folder / content to the specified type 
      * Expects Document / Folder Details Page is already open
      */
@@ -799,19 +841,54 @@ public class SiteActions extends CommonActions
         }
         catch(Exception e)
         {
-            throw new PageException("Error During Change Type", e);
+            throw new PageException("Error During Change Type: " + typeToBeSelected, e);
         }
     }
     
     /**
-     * Util to change the type of the selected folder / content to the specified type 
+     * Util to check if the type is available for selection in the <Change Type> drop down 
      * Expects Document / Folder Details Page is already open
      */
-    public boolean isType(WebDrone driver, String typeToBeSelected)
+    public boolean isTypeAvailable(WebDrone driver, String typeToBeSelected)
     {
+        boolean isType = false;
+        try
+        {
             DetailsPage detailsPage = getSharePage(driver).render();
-            return detailsPage.isTypeAvailable(typeToBeSelected);
+        
+            isType = detailsPage.isTypeAvailable(typeToBeSelected);
+            ChangeTypePage typePopup = getSharePage(driver).render();
+            typePopup.clickClose().render();            
+        }
+        catch (ClassCastException ce)
+        {
+            
+        }
+        return isType;
     }
+    
+    /**
+     * Util to check if the specified Aspect is added to the selected node 
+     * Expects Document / Folder Details Page is already open
+     */
+    public boolean isAspectAdded(WebDrone driver, String aspectName)
+    {
+    
+        boolean aspectAdded = false;
+        
+        try
+        {
+            SelectAspectsPage aspectsPage = getAspectsPage(driver).render();
+            aspectAdded = aspectsPage.isAspectAdded(aspectName);
+            aspectsPage.clickCancel().render();
+        }
+        catch (ClassCastException | PageException e)
+        {
+
+        }
+
+        return aspectAdded;
+}
     
     /**
      * Util to add the list of aspects to the selected document / folder
@@ -875,6 +952,41 @@ public class SiteActions extends CommonActions
         catch(PageException pe)
         {
             throw new PageException("Unable to select Manage Aspects", pe);
+        }
+    }
+    
+    /**
+     * Util to Save or Cancel the Node Properties from Details Page
+     * 
+     * @param driver
+     * @param actionSaveOrCancel
+     * @param contentName
+     * @return HtmlPage
+     */
+    public HtmlPage editNodeProperties(WebDrone driver, boolean saveProperties, Map<String, Object> properties)
+    {
+        WebDroneUtil.checkMandotaryParam("Expected Properties Map", properties);
+
+        try
+        {
+            EditDocumentPropertiesPage editPropPage = getSharePage(driver).render();
+
+            // Edit Properties
+            editPropPage.setProperties(properties);
+
+            // Save or Cancel
+            if (saveProperties)
+            {
+                return editPropPage.selectSave().render();
+            }
+            else
+            {
+                return editPropPage.selectCancel().render();
+            }
+        }
+        catch (ClassCastException ce)
+        {
+            throw new UnexpectedSharePageException("Expected EditDocumentPropertiesPage Page", ce);
         }
     }
 }

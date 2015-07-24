@@ -54,6 +54,7 @@
 
 .site-members .yui-dt td
 {
+   display: table-cell;
    border-bottom: 1px dashed #D7D7D7;
    border-right: medium none;
 }
@@ -135,11 +136,7 @@
 }
 
 .site-members .uninvite button
-{  max-width: 6.5em;
-   text-align: center;    
-}
-
-.site-members .yui-dt-last .uninvite
-{   
-   padding-right: 13px;
+{
+   padding: 0px 10px;
+   min-width: 6.5em
 }

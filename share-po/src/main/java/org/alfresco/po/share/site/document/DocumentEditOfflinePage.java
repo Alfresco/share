@@ -146,7 +146,7 @@ public class DocumentEditOfflinePage extends DocumentDetailsPage
     /**
      * Mimics the action of clicking on View Original Document link
      * 
-     * @return
+     * @return DocumentDetailsPage
      */
     public DocumentDetailsPage selectViewOriginalDocument()
     {
@@ -165,7 +165,7 @@ public class DocumentEditOfflinePage extends DocumentDetailsPage
     /**
      * Mimics the action of clicking on View Working Copy link
      * 
-     * @return
+     * @return DocumentEditOfflinePage
      */
     public DocumentEditOfflinePage selectViewWorkingCopy()
     {

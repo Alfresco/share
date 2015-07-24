@@ -246,7 +246,7 @@ public class PeopleFinderPage extends SharePage
      * finders page.
      * 
      * @param person String name
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage clearAndSearchFor(final String person)
     {

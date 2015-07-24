@@ -45,7 +45,7 @@ public abstract class AbstractUserFactory extends BaseFactory implements UserFac
     /**
      * Retrieve the special "Guest" user instance.
      * 
-     * @param context
+     * @param context RequestContext
      * 
      * @return Guest User
      * 
@@ -70,8 +70,8 @@ public abstract class AbstractUserFactory extends BaseFactory implements UserFac
     /**
      * Loads a user from the remote user store and store it into the session.
      * 
-     * @param context
-     * @param request
+     * @param context RequestContext
+     * @param request HttpServletRequest
      * 
      * @return User
      * 
@@ -86,9 +86,10 @@ public abstract class AbstractUserFactory extends BaseFactory implements UserFac
     /**
      * Loads a user from the remote user store and store it into the session.
      * 
-     * @param context
-     * @param request
-     * 
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param endpoint String
+     *
      * @return User
      * 
      * @throws UserFactoryException
@@ -105,9 +106,9 @@ public abstract class AbstractUserFactory extends BaseFactory implements UserFac
      * If the force flag is set, the current in-session user
      * object will be purged, forcing the user object to reload.
      * 
-     * @param context
-     * @param request
-     * @param force
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param force boolean
      * 
      * @return User
      * 
@@ -125,9 +126,10 @@ public abstract class AbstractUserFactory extends BaseFactory implements UserFac
      * If the force flag is set, the current in-session user
      * object will be purged, forcing the user object to reload.
      * 
-     * @param context
-     * @param request
-     * @param force
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param endpoint String
+     * @param force boolean
      * 
      * @return User
      * 
@@ -220,8 +222,8 @@ public abstract class AbstractUserFactory extends BaseFactory implements UserFac
     /**
      * Load the user from a store
      * 
-     * @param context
-     * @param userId
+     * @param context RequestContext
+     * @param userId String
      * 
      * @return User
      * 
@@ -233,9 +235,9 @@ public abstract class AbstractUserFactory extends BaseFactory implements UserFac
     /**
      * Load the user from a store
      * 
-     * @param context
-     * @param userId
-     * @param endpointId
+     * @param context RequestContext
+     * @param userId String
+     * @param endpointId String
      * 
      * @return User
      * 
@@ -247,9 +249,9 @@ public abstract class AbstractUserFactory extends BaseFactory implements UserFac
     /**
      * Authentication the user given the supplied username/password
      * 
-     * @param request
-     * @param username
-     * @param password
+     * @param request HttpServletRequest
+     * @param username String
+     * @param password String
      * 
      * @return success/failure
      */

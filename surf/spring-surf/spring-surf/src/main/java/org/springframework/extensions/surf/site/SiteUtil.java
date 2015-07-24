@@ -56,8 +56,8 @@ public class SiteUtil
     /**
      * Returns the root page for the given site configuration
      * 
-     * @param context
-     * @param siteConfiguration
+     * @param context RequestContext
+     * @param siteConfiguration Configuration
      * 
      * @return the root page instance
      */

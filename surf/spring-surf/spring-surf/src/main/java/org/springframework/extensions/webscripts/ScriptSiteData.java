@@ -367,7 +367,7 @@ public final class ScriptSiteData extends ScriptBase
     /**
      * Creates a new object for the given type id
      * 
-     * @param objectTypeId
+     * @param objectTypeId String
      * @return A ScriptModelObject representing the new instance
      */
     public ScriptModelObject newObject(String objectTypeId)
@@ -379,8 +379,8 @@ public final class ScriptSiteData extends ScriptBase
     /**
      * Creates a new object for the given type id
      * 
-     * @param objectTypeId
-     * @param objectId
+     * @param objectTypeId String
+     * @param objectId String
      * @return A ScriptModelObject representing the new instance
      */
     public ScriptModelObject newObject(String objectTypeId, String objectId)
@@ -1002,7 +1002,7 @@ public final class ScriptSiteData extends ScriptBase
      * constraints. If a constraint is set to null, it is not considered as 
      * part of the search.
      * 
-     * @param scopeId   The value of the "scopeId" property of the instance
+     * @param sourceId   The value of the "sourceId" property of the instance
      * @param destId  The value of the "destId" property of the instance
      * 
      * @return  An array of ScriptModelObject instances that wrap the
@@ -1019,7 +1019,7 @@ public final class ScriptSiteData extends ScriptBase
      * constraints.  If a constraint is set to null, it is not considered as
      * part of the search.
      * 
-     * @param scopeId   The value of the "scopeId" property of the instance
+     * @param sourceId   The value of the "sourceId" property of the instance
      * @param destId  The value of the "destId" property of the instance
      * @param associationType   The value of the "associationType" property of the instance
      * 
@@ -1039,8 +1039,8 @@ public final class ScriptSiteData extends ScriptBase
      * This is a shortcut method - the alternative is to look up associations directly and then look up
      * their corresponding page objects
      * 
-     * @param sourceId
-     * @return
+     * @param sourceId String
+     * @return Object[]
      */
     public Object[] findChildPages(String sourceId)
     {
@@ -1075,8 +1075,8 @@ public final class ScriptSiteData extends ScriptBase
      * This is a shortcut method - the alternative is to look up associations directly and then look up
      * their corresponding page objects
      * 
-     * @param sourceId
-     * @return
+     * @param pageId String
+     * @return Object[]
      */
     public Object[] findParentPages(String pageId)
     {
@@ -1520,7 +1520,7 @@ public final class ScriptSiteData extends ScriptBase
     /**
      * Constructs a GUID
      * 
-     * @return
+     * @return String
      */
     public String newGUID()
     {

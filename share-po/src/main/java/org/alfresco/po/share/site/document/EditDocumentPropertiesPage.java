@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  * This file is part of Alfresco
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,8 +18,12 @@ import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.WebDrone;
+import org.alfresco.webdrone.WebDroneUtil;
+import org.alfresco.webdrone.exception.PageException;
 import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -36,10 +40,13 @@ import java.util.Map;
  * relating to share's edit document properties page.
  * 
  * @author Michael Suzuki
+ * @author Meenal Bhave
  * @since 1.3.1
  */
 public class EditDocumentPropertiesPage extends AbstractEditProperties
 {
+    private static Log logger = LogFactory.getLog(EditDocumentPropertiesPage.class);
+    
     public enum Fields
     {
         NAME, TITLE, DESCRIPTION, AUTHOR, PUBLISHER, CONTRIBUTOR, TYPE, IDENTIFIER, SOURCE, COVERAGE, RIGHTS, SUBJECT, SITE_CONFIGURATION, HOSTNAME
@@ -496,7 +503,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param publisher
+     * @param publisher String
      */
     public void setPublisher(String publisher)
     {
@@ -514,7 +521,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param contributor
+     * @param contributor String
      */
     public void setContributor(String contributor)
     {
@@ -532,7 +539,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param type
+     * @param type String
      */
     public void setType(String type)
     {
@@ -550,7 +557,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param identifier
+     * @param identifier String
      */
     public void setIdentifier(String identifier)
     {
@@ -568,7 +575,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param source
+     * @param source String
      */
     public void setSource(String source)
     {
@@ -586,7 +593,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param coverage
+     * @param coverage String
      */
     public void setCoverage(String coverage)
     {
@@ -604,7 +611,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param rights
+     * @param rights String
      */
     public void setRights(String rights)
     {
@@ -622,7 +629,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      * 
-     * @param subject
+     * @param subject String
      */
     public void setSubject(String subject)
     {
@@ -641,7 +648,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
      * Option for folder.
      * Enters a value in the rendition configuration. Option enabled if WQS is installed.
      *
-     * @param rendConfig
+     * @param rendConfig String
      */
     public void setRenditionConfig(String rendConfig)
     {
@@ -660,7 +667,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      *
-     * @param siteConfiguration
+     * @param siteConfiguration String
      */
     public void setSiteConfiguration(String siteConfiguration)
     {
@@ -678,7 +685,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Enters a value in to the properties form.
      *
-     * @param Hostname
+     * @param Hostname String
      */
     public void setSiteHostname(String Hostname)
     {
@@ -696,7 +703,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     /**
      * Gets the web assets visible on the dialog.
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getWebAssets()
     {
@@ -709,5 +716,188 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
             foundAssets.add(asset.getText());
         }
         return foundAssets;
+    }
+    
+    /**
+     * This method returns the input fields for dynamically added Properties through CMM
+     * @param propertyName
+     * @return {@link}WebElement
+     * @author mbhave
+     */
+    private Map<String, WebElement> getInputFieldForProperty(String propertyName)
+    {
+        WebDroneUtil.checkMandotaryParam("Specify appropriate Property Name", propertyName);
+        
+        String fieldType = "input";
+        String fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "']";
+        
+        Map<String, WebElement> formFieldInfo = new HashMap<String, WebElement>();
+
+        // Find Field: Try TextInput first (text area)
+        try
+        {
+            WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
+            if ("checkbox".equals(field.getAttribute("type")))
+            {
+                formFieldInfo.put("checkbox", field);
+            }
+            else
+            {
+                formFieldInfo.put("text", field);
+            }
+            return formFieldInfo;
+        }
+        catch (NoSuchElementException nse)
+        {
+            // No Text input field for this property
+        }
+        
+        // Find Field: Try checkbox
+        try
+        {
+            fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "-entry']";
+            
+            WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
+            if ("checkbox".equals(field.getAttribute("type")))
+            {
+                formFieldInfo.put("checkbox", field);
+            }
+            else
+            {
+                formFieldInfo.put("text", field);
+            }
+            return formFieldInfo;
+        }
+        catch (NoSuchElementException nse)
+        {
+            // No Text input field for this property
+        }
+        
+        // Find Field: Date Field 
+        try
+        {
+            fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "-cntrl-date']";
+            
+            WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
+            formFieldInfo.put("text", field);
+            return formFieldInfo;
+        }
+        catch (NoSuchElementException nse)
+        {
+            // No Date input field for this property
+        }
+        
+        // Find Field: Then try TextArea: (Description, Content)
+        try
+        {
+            fieldType = "textarea";
+            fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "']";
+            WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
+            formFieldInfo.put("textarea", field);
+            return formFieldInfo;
+        }
+        catch (NoSuchElementException nse)
+        {         
+            // No Select List field for this property
+        }
+
+        // Find Field: Then try Select List
+        try
+        {
+            fieldType = "select";
+            fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "']";
+            WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
+            formFieldInfo.put("select", field);
+            return formFieldInfo;
+        }
+        catch (NoSuchElementException nse)
+        {         
+            // No Select List field for this property
+        }
+        
+        // Find Field: Then try Select List Multiple Entry
+        try
+        {
+            fieldType = "select";
+            fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "_multilist-entry']";
+            WebElement field = drone.findFirstDisplayedElement(By.cssSelector(fieldSelector));
+            formFieldInfo.put("multiselect", field);
+            return formFieldInfo;
+        }
+        catch (NoSuchElementException nse)
+        {         
+            // No Select List field for this property
+        }
+        
+        throw new PageException("No input field found on EditPropertiesPage for Property: " + propertyName);
+    }
+    
+    /**
+     * This method sets the property values for dynamically added Properties through CMM
+     * @param Map<String, Object> properties: map of Property Names and corresponding values to be set
+     * @return void
+     * @author mbhave
+     */
+    public void setProperties(Map<String, Object> properties)
+    {
+        WebDroneUtil.checkMandotaryParam("Expected Properties Map", properties);
+        
+        for (Map.Entry<String, Object> entry : properties.entrySet())
+        {
+            String propertyName = entry.getKey();
+            
+            Map<String, WebElement> inputField = getInputFieldForProperty(propertyName);
+            
+            for (Map.Entry<String, WebElement> field : inputField.entrySet())
+            {
+
+                if ("text".equals(field.getKey()) || "textarea".equals(field.getKey()))
+                {
+                    setInput(field.getValue(), entry.getValue().toString());
+                }
+                else if ("checkbox".equals(field.getKey()))
+                {
+                    boolean currentValue = isCheckBoxSet(field.getValue());
+                    boolean valueToBeSet = Boolean.parseBoolean(entry.getValue().toString());
+
+                    if (valueToBeSet != currentValue)
+                    {
+                        field.getValue().click();
+                    }
+                }
+                else if ("select".equals(field.getKey()))
+                {
+                    Select listElement = new Select(field.getValue());
+                    listElement.selectByVisibleText(entry.getValue().toString());
+                }
+                else if ("multiselect".equals(field.getKey()))
+                {
+                    Select listElement = new Select(field.getValue());
+                    for (String listValue : entry.getValue().toString().split(","))
+                    {
+                        listElement.selectByVisibleText(listValue);
+                    }
+                }
+                else
+                {
+                    logger.error("Input type unknown / Not supported");
+                }
+            }
+
+        }
+    }
+
+    private boolean isCheckBoxSet(WebElement checkBox)
+    {
+        boolean currentValue = false;
+        try
+        {
+            currentValue = checkBox.getAttribute("value").equals("true");
+        }
+        catch(Exception e)
+        {
+            
+        }
+        return currentValue;
     }
 }

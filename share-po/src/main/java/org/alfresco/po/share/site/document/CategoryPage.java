@@ -32,9 +32,6 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
-/**
- * @author
- */
 public class CategoryPage extends AbstractEditProperties
 {
     private Log logger = LogFactory.getLog(this.getClass());
@@ -355,7 +352,7 @@ public class CategoryPage extends AbstractEditProperties
     }
 
     /**
-     * Click on {@link cancel} in {@link CategoryPage}
+     * Click on  cancel in {@link CategoryPage}
      *
      * @return {@link EditDocumentPropertiesPage}
      */
@@ -373,7 +370,7 @@ public class CategoryPage extends AbstractEditProperties
     }
 
     /**
-     * Click on {@link ApplyChanges} in {@link selectAspectsPage}
+     * Click on  ApplyChanges in selectAspectsPage
      *
      * @return {@link SelectAspectsPage}
      */

@@ -1,18 +1,14 @@
 /*
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
  * This file is part of Alfresco
- *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -49,6 +45,8 @@ public class RssFeedPage extends Page
     private final static By CONTENT = By.cssSelector(".entry>h3>a>span");
     private final static By SUBSCRIBE_BUTTONS_PANEL = By.xpath(".//*[@id='feedSubscribeLine']");
     private final static By CONTENTS_BODY = By.xpath(".//*[@id='feedBody']");
+    private final static By ALFRESCO_LOGO = By.cssSelector("#feedTitleImage");
+    private final static By CONTENT_LOCATION = By.cssSelector(".feedEntryContent>a");
 
     public RssFeedPage(WebDrone drone)
     {
@@ -59,9 +57,7 @@ public class RssFeedPage extends Page
     @SuppressWarnings("unchecked")
     public RssFeedPage render(RenderTime timer)
     {
-        elementRender(timer,
-                getVisibleRenderElement(SUBSCRIBE_BUTTONS_PANEL),
-                getVisibleRenderElement(CONTENTS_BODY));
+        elementRender(timer, getVisibleRenderElement(SUBSCRIBE_BUTTONS_PANEL), getVisibleRenderElement(CONTENTS_BODY));
         return this;
     }
 
@@ -80,7 +76,7 @@ public class RssFeedPage extends Page
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    //TODO Temporary method. Before elementRender from SharePage didn't moved out to Page.
+    // TODO Temporary method. Before elementRender from SharePage didn't moved out to Page.
     private void elementRender(RenderTime renderTime, RenderElement... elements)
     {
         for (RenderElement element : elements)
@@ -105,8 +101,8 @@ public class RssFeedPage extends Page
     /**
      * Click on link in feed if 'linkTextContains'
      *
-     * @param linkTextContains
-     * @return
+     * @param linkTextContains String
+     * @return SharePage
      */
     public SharePage clickOnFeedContent(String linkTextContains)
     {
@@ -122,10 +118,29 @@ public class RssFeedPage extends Page
     }
 
     /**
+     * Click on location link in feed for a given content name
+     *
+     * @param contentName
+     * @return
+     */
+    public SharePage clickOnContentLocation(String contentName)
+    {
+        try
+        {
+            getContentLocationLink(contentName).click();
+            return drone.getCurrentPage().render();
+        }
+        catch (StaleElementReferenceException e)
+        {
+            return clickOnContentLocation(contentName);
+        }
+    }
+
+    /**
      * return true if in feedContent has information about link with 'linkTextContains'
      *
-     * @param linkTextContains
-     * @return
+     * @param linkTextContains String
+     * @return boolean
      */
     public boolean isDisplayedInFeed(String linkTextContains)
     {
@@ -142,7 +157,7 @@ public class RssFeedPage extends Page
     /**
      * return count elements in feed
      *
-     * @return
+     * @return int
      */
     public int getFeedContentsCount()
     {
@@ -173,6 +188,18 @@ public class RssFeedPage extends Page
         }
     }
 
+    private List<WebElement> getContentLocations()
+    {
+        try
+        {
+            return drone.findAndWaitForElements(CONTENT_LOCATION, 5000);
+        }
+        catch (TimeoutException e)
+        {
+            return Collections.emptyList();
+        }
+    }
+
     private WebElement getFeedLinkWith(String linkTextContains)
     {
         List<WebElement> feedContentLinks = getFeedContentLinks();
@@ -185,6 +212,38 @@ public class RssFeedPage extends Page
             }
         }
         throw new PageOperationException(String.format("Links with text '%s' don't found in feed.", linkTextContains));
+    }
+
+    private WebElement getContentLocationLink(String contentName)
+    {
+        List<WebElement> feedContentLinks = getContentLocations();
+        for (WebElement feedContentLink : feedContentLinks)
+        {
+            String linkText = feedContentLink.getText();
+            if (linkText.contains("file=" + contentName))
+            {
+                return feedContentLink;
+            }
+        }
+        throw new PageOperationException(String.format("Location link with '%s' not found in feed.", contentName));
+    }
+
+    /**
+     * Returns the Img Src from the Alfresco logo
+     * 
+     * @return String img src
+     */
+    public String getLogoImgSrc()
+    {
+        try
+        {
+            WebElement scr = drone.find(ALFRESCO_LOGO);
+            return scr.getAttribute("src");
+        }
+        catch (TimeoutException e)
+        {
+            throw new PageOperationException("Not able to find the Alfresco logo");
+        }
     }
 
 }

@@ -175,7 +175,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
      * This test is validate the list of sort descriptions are same as what is
      * displayed.
      * 
-     * @author Charu
+     * <br/><br/>author Charu
      * @throws Exception
      */
 
@@ -197,7 +197,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
      * This test is to validate whether when we pass the sort type we get
      * correct results back.
      * 
-     * @author Charu
+     * <br/><br/>author Charu
      * @throws Exception
      */
 
@@ -228,7 +228,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
      * This test is validate the sort with invalid data and to verify the sort order is set to default.
      * To toggle the sort order and verify there are some search results 
      * in sort filter list     * 
-     * @author Charu
+     * <br/><br/>author Charu
      * 
      */
     @Test(groups = { "Enterprise-only", "TestBug" }, dependsOnMethods="searchSortTest")
@@ -273,7 +273,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
      * This test is validate the sort with invalid data and to verify the sort order is set to default.
      * To toggle the sort order and verify there are some search results 
      * in sort filter list      
-     * @author Charu
+     * <br/><br/>author Charu
      * 
      */
     @Test(groups = { "Enterprise-only", "TestBug" })

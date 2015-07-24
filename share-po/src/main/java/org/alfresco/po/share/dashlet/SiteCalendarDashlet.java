@@ -123,7 +123,7 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
     /**
      * Gets count of Events displayed in Dashlet
      * 
-     * @return
+     * @return int
      */
     public int getEventsCount()
     {
@@ -133,8 +133,8 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
     /**
      * Return true if link with eventName Displayed.
      * 
-     * @param eventName
-     * @return
+     * @param eventName String
+     * @return boolean
      */
     public boolean isEventsDisplayed(String eventName)
     {
@@ -152,7 +152,7 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
     }
 
     /**
-     * @param eventDetail
+     * @param eventDetail String
      * @return boolean
      */
     public boolean isEventsWithDetailDisplayed(String eventDetail)
@@ -172,7 +172,7 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
     
     /**
      * 
-     * @param eventHeader
+     * @param eventHeader String
      * @return boolean
      */
     public boolean isEventsWithHeaderDisplayed(String eventHeader)
@@ -189,9 +189,11 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
         }
         return false;
     }
-    
+
     /**
-     * @param eventName
+     * @param eventName String
+     * @param startTime String
+     * @param endTime String
      * @return boolean
      */
     public boolean isEventsWithDetailDisplayed(String eventName, String startTime, String endTime)
@@ -214,7 +216,7 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
     /**
      * Return the name of the event.
      * 
-     * @param event
+     * @param event String
      * @return boolean
      */
     public boolean isRepeating(String event)

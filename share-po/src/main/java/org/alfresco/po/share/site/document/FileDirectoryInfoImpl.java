@@ -782,7 +782,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
     /**
      * This method finds the remove button on tag element and returns button
      * 
-     * @param tagName
+     * @param tagName String
      * @return WebElement
      */
     private WebElement getRemoveTagButton(String tagName)
@@ -896,7 +896,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
      * folder Page.
      * 
      * @return {boolean} <tt>true</tt> if the content is of type folder.
-     * @author hamara
+     * <br/><br/>author hamara
      */
     @Override
     public boolean isFolder()
@@ -2037,7 +2037,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
     /**
      * Check if quick share link is present.
      * 
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isShareLinkVisible()
@@ -2645,7 +2645,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
     /**
      * Check if the file is shared.
      * 
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isFileShared()
@@ -2675,7 +2675,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
     /**
      * Check if the save link is visible.
      * 
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isSaveLinkVisible()
@@ -2686,7 +2686,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
     /**
      * Check if the save link is visible.
      * 
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isCancelLinkVisible()
@@ -2697,7 +2697,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
     /**
      * Check if the link is visible.
      * 
-     * @return
+     * @return boolean
      */
     private boolean isLinkVisible(String linkText)
     {
@@ -2967,7 +2967,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
     /**
      * Verifies whether type is record.
      * 
-     * @author hamara
+     * <br/><br/>author hamara
      */
     public boolean isTypeRecord()
     {
@@ -2995,7 +2995,7 @@ public abstract class FileDirectoryInfoImpl extends HtmlElement implements FileD
     /**
      * Verifies whether type is record.
      * 
-     * @author hamara
+     * <br/><br/>author hamara
      */
     public boolean isFolderType()
     {

@@ -65,7 +65,7 @@ public final class FrameworkUtil
     /**
      * Retrieves the web framework services registry.
      * 
-     * @return
+     * @return WebFrameworkServiceRegistry
      */
     public static WebFrameworkServiceRegistry getServiceRegistry()
     {
@@ -85,7 +85,7 @@ public final class FrameworkUtil
     /**
      * Retrieves the web framework configuration.
      * 
-     * @return
+     * @return WebFrameworkConfigElement
      */
     public static WebFrameworkConfigElement getWebFrameworkConfiguration()
     {
@@ -96,7 +96,7 @@ public final class FrameworkUtil
      * Retrieves the web framework configuration.
      * Note: Provided for convenience
      * 
-     * @return
+     * @return WebFrameworkConfigElement
      * @deprecated
      */
     public static WebFrameworkConfigElement getConfig()
@@ -106,7 +106,7 @@ public final class FrameworkUtil
     
     /**
      * Retrieves the web framework remote configuration.
-     * @return
+     * @return RemoteConfigElement
      */
     public static RemoteConfigElement getRemoteConfiguration()
     {
@@ -116,7 +116,7 @@ public final class FrameworkUtil
     /**
      * Retrieves the connector service.
      * 
-     * @return
+     * @return ConnectorService
      */
     public static ConnectorService getConnectorService()
     {
@@ -367,7 +367,7 @@ public final class FrameworkUtil
         
     /**
      * @deprecated
-     * @param throwable
+     * @param throwable Throwable
      */
     public static void logFullStacktrace(Throwable throwable)
     {

@@ -77,9 +77,9 @@ public class ShareUtil
     /**
      * Logs user into share from the current page.
      * 
-     * @param drone
-     * @param userInfo
-     * @return
+     * @param drone WebDrone
+     * @param userInfo String...
+     * @return HtmlPage
      */
     public static HtmlPage logInAs(final WebDrone drone, final String... userInfo)
     {
@@ -123,9 +123,10 @@ public class ShareUtil
     }
 
     /**
-     * @param drone
-     * @param userInfo
-     * @return
+     * @param drone WebDrone
+     * @param url String
+     * @param userInfo String
+     * @return HtmlPage
      */
     public static HtmlPage navigateToSystemSummary(final WebDrone drone, String url, final String... userInfo)
     {
@@ -146,10 +147,10 @@ public class ShareUtil
     /**
      * Methods for navigation bulk import page
      *
-     * @param drone
-     * @param inPlace
-     * @param userInfo
-     * @return
+     * @param drone WebDrone
+     * @param inPlace boolean
+     * @param userInfo String...
+     * @return HtmlPage
      */
     public static HtmlPage navigateToBulkImport(final WebDrone drone, boolean inPlace, final String... userInfo)
     {
@@ -187,7 +188,7 @@ public class ShareUtil
      * 
      * @param uname - This should always be unique. So the user of this method needs to verify it is unique. 
      *                eg. - "testUser" + System.currentTimeMillis();
-     * @return
+     * @return boolean
      * @throws Exception if error
      */
     public static boolean createEnterpriseUser(final WebDrone drone, final String uname, final String url, final String... userInfo) throws Exception
@@ -222,9 +223,9 @@ public class ShareUtil
 
     /**
      * Helper method to extract alfresco webscript url and direct webdrone to location. 
-     * @param drone
-     * @param userInfo
-     * @return
+     * @param drone WebDrone
+     * @param userInfo String
+     * @return HtmlPage
      * @throws Exception
      */
     public static HtmlPage navigateToWebScriptsHome(final WebDrone drone,final String... userInfo) throws Exception
@@ -233,9 +234,9 @@ public class ShareUtil
     }
     /**
      * Helper method to extract alfresco tenant admin console url and direct webdrone to location. 
-     * @param drone
-     * @param userInfo
-     * @return
+     * @param drone WebDrone
+     * @param userInfo String
+     * @return HtmlPage
      * @throws Exception
      */
     public static HtmlPage navigateToTenantAdminConsole(final WebDrone drone,final String... userInfo) throws Exception
@@ -244,9 +245,9 @@ public class ShareUtil
     }
     /**
      * Helper method to extract alfresco repository admin console url and direct webdrone to location. 
-     * @param drone
-     * @param userInfo
-     * @return
+     * @param drone WebDrone
+     * @param userInfo String...
+     * @return HtmlPage
      * @throws Exception
      */
     public static HtmlPage navigateToRepositoryAdminConsole(final WebDrone drone,final String... userInfo) throws Exception
@@ -256,9 +257,9 @@ public class ShareUtil
 
     /**
      * Helper method to extract alfresco repository admin console url and direct webdrone to location.
-     * @param drone
-     * @param userInfo
-     * @return
+     * @param drone WebDrone
+     * @param userInfo String...
+     * @return HtmlPage
      * @throws Exception
      */
     public static HtmlPage navigateToWebDav(final WebDrone drone,final String... userInfo) throws Exception
@@ -269,10 +270,10 @@ public class ShareUtil
     /**
      * Base helper method that extracts the url to required alfresco admin location.
      * Once extracted it formats it with the username and password to allow access to the page.
-     * @param drone
-     * @param path
-     * @param userInfo
-     * @return
+     * @param drone WebDrone
+     * @param path String
+     * @param userInfo String...
+     * @return HtmlPage
      * @throws Exception
      */
     public static HtmlPage navigateToAlfresco(final WebDrone drone, final String path,final String... userInfo) throws Exception

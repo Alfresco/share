@@ -779,6 +779,9 @@
             });
          }
 
+         // Add the dialog to the dom
+         this.widgets.dialog.render(this.options.parentElement || document.body);
+
          // MNT-11084 Full screen/window view: Actions works incorrectly;
          if (this.options.zIndex !== undefined && this.options.zIndex > 0)
          {
@@ -787,9 +790,10 @@
             var onBeforeShow = function () 
             {
                elements = Dom.getElementsByClassName("mask");
-               if (elements.length > 0)
+               //there can be more "mask"s on a page; make sure all of them have lower zIndexes
+               for (i = 0, j = elements.length; i < j; i++)
                {
-                  Dom.setStyle(elements[0], "zIndex", index - 1);
+                  Dom.setStyle(elements[i], "zIndex", index - 1);
                }
 
                Dom.setStyle(dialog.element, "zIndex", index);

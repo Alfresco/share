@@ -102,9 +102,9 @@ public class BasicExtensibilityModuleHandler extends WebScriptExtensibilityModul
     
     /**
      * 
-     * @param module
-     * @param path
-     * @return
+     * @param module ExtensionModule
+     * @param path String
+     * @return LinkedHashSet<String>
      */
     public LinkedHashSet<String> getModuleJsDeps(ExtensionModule module, String path)
     {
@@ -127,9 +127,9 @@ public class BasicExtensibilityModuleHandler extends WebScriptExtensibilityModul
     
     /**
      * 
-     * @param module
-     * @param path
-     * @return
+     * @param module ExtensionModule
+     * @param path String
+     * @return Map
      */
     public Map<String, LinkedHashSet<String>> getModuleCssDeps(ExtensionModule module, String path)
     {
@@ -169,8 +169,7 @@ public class BasicExtensibilityModuleHandler extends WebScriptExtensibilityModul
      * supplied could be to a FreeMarker template, JavaScript controller or NLS properties file. Modules will
      * only be added to the list returned if they meet target and evaluation criteria.</p>
      * @param context The current {@link RequestContext}
-     * @param basePath The path of the file being processed.
-     * 
+     *
      * @return A list of {@link ExtensionModule} instances that are applicable to the file being processed.
      */
     public List<ExtensionModule> evaluateModules(RequestContext context)

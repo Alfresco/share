@@ -48,9 +48,9 @@ public final class RequestContextUtil
     /**
      * Instantiates a default request context for the given http servlet request
      * 
-     * @param applicationContext
-     * @param request
-     * @return
+     * @param applicationContext ApplicationContext
+     * @param request HttpServletRequest
+     * @return RequestContext
      * 
      * @throws RequestContextException
      */
@@ -62,11 +62,11 @@ public final class RequestContextUtil
     
     /**
      * Instantiates a default request context for the given http servlet request
-     * 
-     * @param applicationContext
-     * @param request
-     * @param silentInit
-     * @return
+     *
+     * @param applicationContext ApplicationContext
+     * @param request HttpServletRequest
+     * @param silentInit boolean
+     * @return RequestContext
      * @throws RequestContextException
      */
     public static RequestContext initRequestContext(ApplicationContext applicationContext, HttpServletRequest request, boolean silentInit)
@@ -125,8 +125,8 @@ public final class RequestContextUtil
     /**
      * Populates an existing request context with context and user information
      * 
-     * @param context
-     * @param request
+     * @param context RequestContext
+     * @param request HttpServletRequest
      * 
      * @throws UserFactoryException
      * @throws ResourceLoaderException
@@ -140,9 +140,9 @@ public final class RequestContextUtil
     /**
      * Populates an existing request context with environment and user information
      * 
-     * @param context
-     * @param request
-     * @param silentInit
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @param silentInit boolean
      * 
      * @throws UserFactoryException
      * @throws ResourceLoaderException
@@ -243,9 +243,9 @@ public final class RequestContextUtil
     /**
      * Loads the user and places them onto the request context
      * 
-     * @param context
-     * @param request
-     * @throws Exception
+     * @param context RequestContext
+     * @param request HttpServletRequest
+     * @throws UserFactoryException
      */
     private static void initialiseUser(RequestContext context, HttpServletRequest request)
         throws UserFactoryException

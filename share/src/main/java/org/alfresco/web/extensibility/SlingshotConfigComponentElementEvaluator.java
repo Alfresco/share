@@ -12,18 +12,18 @@ import java.util.Map;
 
 /**
  * <p>
- * Evaluator used to decide if a {@code<sub-component>} shall be bound in to a {@code<component>} and {@code<@region>}.
+ * Evaluator used to decide if a {@code <sub-component>} shall be bound in to a {@code <component>} and {@code <@region>}.
  * </p>
  *
  * <p>
  * Finds the value of the config element in share-config.xml (or other deployed xxx-config.xml files)
- * specificed by the {@code<element>} parameter.
+ * specificed by the {@code <element>} parameter.
  * </p>
  *
  * <p>
  * If no additional parameters has been provided it will simply test if the value equals "true".
  * If the value instead shall match a different value that value can be specified using a regexp inside the
- * {@code<match>} parameter.
+ * {@code <match>} parameter.
  * </p>
  *
  * <p>
@@ -83,9 +83,9 @@ public class SlingshotConfigComponentElementEvaluator extends DefaultSubComponen
     /**
      * Decides if we are inside a site or not.
      *
-     * @param context
-     * @param params
-     * @return true if we are in a site and its id matches the {@code<sites>} param (defaults to ".*")
+     * @param context RequestContext
+     * @param params Map<String, String>
+     * @return true if we are in a site and its id matches the {@code <sites>} param (defaults to ".*")
      */
     @Override
     public boolean evaluate(RequestContext context, Map<String, String> params)

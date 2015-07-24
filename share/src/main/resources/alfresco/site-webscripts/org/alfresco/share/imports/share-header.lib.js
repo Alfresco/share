@@ -528,6 +528,7 @@ function getSiteNavigationWidgets() {
                label: "page.navigation.more.label",
                widgets: [
                   {
+                     id: "HEADER_SITE_MORE_PAGES_GROUP",
                      name: "alfresco/menus/AlfMenuGroup",
                      config: {
                         widgets: forMoreMenu
@@ -662,7 +663,7 @@ function getSubNavigationWidgets() {
    {
       // Get the standard navigation widgets (expected to be site pages)...
       var siteData = getSiteData();
-      if (siteData.profile.visibility != "PUBLIC" && siteData.userIsMember === false)
+      if (!user.isAdmin && siteData.profile.visibility != "PUBLIC" && siteData.userIsMember === false)
       {
          navigationWidgets = [];
       }
@@ -784,7 +785,8 @@ function generateAppItems() {
             id: "HEADER_TASKS",
             label: "header.menu.tasks.label",
             widgets: [
-               {   
+               {  
+                  id: "HEADER_TASKS_GROUP", 
                   name: "alfresco/menus/AlfMenuGroup",
                   config: {
                      widgets: [

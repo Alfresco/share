@@ -56,7 +56,7 @@ public class ViewPublicLinkPage extends SharePage
     private static final String DOCUMENT_ZOOMSCALE = "#page_x002e_components_x002e_quickshare_x0023_web-preview-scaleSelectBtn-button" ;
 
     //@RenderWebElement
-    private static final By TEXT_LAYER = By.cssSelector("div[id$='web-preview-viewer-pageContainer-1']>.textLayer");
+    //private static final By TEXT_LAYER = By.cssSelector("div[id$='web-preview-viewer-pageContainer-1']>.textLayer");
     @RenderWebElement
     private static final By ZOOM = By.cssSelector(DOCUMENT_ZOOMSCALE);
         
@@ -151,7 +151,7 @@ public class ViewPublicLinkPage extends SharePage
      * Gets the button label
      * 
      * @return String button label
-     * @author bogdan.bocancea
+     * <br/><br/>author bogdan.bocancea
      */
     public String getButtonName()
     {
@@ -170,7 +170,7 @@ public class ViewPublicLinkPage extends SharePage
      * Gets the error title label
      * 
      * @return String Page not available
-     * @author bogdan.bocancea
+     * <br/><br/>author bogdan.bocancea
      */
     public String getPageNotAvailable()
     {
@@ -191,7 +191,7 @@ public class ViewPublicLinkPage extends SharePage
      * Gets the error body label
      * 
      * @return String Page not available
-     * @author bogdan.bocancea
+     * <br/><br/>author bogdan.bocancea
      */
     public String getBodyPageNotAvailable()
     {
@@ -211,7 +211,7 @@ public class ViewPublicLinkPage extends SharePage
      * Gets the content body.
      * 
      * @return String content body
-     * @author Cristina Axinte
+     * <br/><br/>author Cristina Axinte
      */
     public String getDocumentBody()
     {
@@ -311,5 +311,21 @@ public class ViewPublicLinkPage extends SharePage
         throw new PageOperationException("Not able to find the zoom scale percentage.");
     }
     
-
+    /**
+     * Returns the Img Src from the Alfresco logo
+     * 
+     * @return String img src
+     */
+    public String getLogoImgSrc()
+    {
+        try
+        {
+            WebElement scr = drone.find(alfrescoImageLocator);
+            return scr.getAttribute("src");
+        }
+        catch (TimeoutException e)
+        {
+            throw new PageOperationException("Not able to find the Alfresco logo");
+        }
+    }
 }

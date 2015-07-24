@@ -73,8 +73,8 @@ public class PostViewPage extends BlogPage
     /**
      * Method for clicking Add comment button
      *
-     * @param comment
-     * @return
+     * @param comment String
+     * @return BlogCommentForm
      */
     private BlogCommentForm clickAddCommentBtn(String comment)
     {
@@ -92,7 +92,7 @@ public class PostViewPage extends BlogPage
     /**
      * Method for creating blog comment
      *
-     * @param comment
+     * @param comment String
      * @return Post View page object
      */
     public PostViewPage createBlogComment(String comment)
@@ -243,8 +243,8 @@ public class PostViewPage extends BlogPage
     /**
      * Method to edit post comment
      *
-     * @param oldComment
-     * @param newComment
+     * @param oldComment String
+     * @param newComment String
      * @return PostViewPage
      */
     public PostViewPage editBlogComment(String oldComment, String newComment)
@@ -276,8 +276,9 @@ public class PostViewPage extends BlogPage
     /**
      * Method to edit a blog post and save it as draft
      *
-     * @param newTitle
-     * @param newLines
+     * @param newTitle String
+     * @param newLines String
+     * @param tags List<String>
      * @return PostViewPage
      */
     public PostViewPage editBlogPostAndUpdate(String newTitle, String newLines, List<String> tags)
@@ -297,8 +298,9 @@ public class PostViewPage extends BlogPage
     /**
      * Method to edit a blog post and save it as draft
      *
-     * @param newTitle
-     * @param newLines
+     * @param newTitle String
+     * @param newLines String
+     * @param tags List<String>
      * @return PostViewPage
      */
     public PostViewPage editBlogPostAndPublishInternally(String newTitle, String newLines, List<String> tags)
@@ -318,9 +320,9 @@ public class PostViewPage extends BlogPage
     /**
      * Method to edit blog post and publish it externally
      *
-     * @param newTitle
-     * @param newLines
-     * @param tags
+     * @param newTitle String
+     * @param newLines String
+     * @param tags List<String>
      * @return PostViewPage
      */
     public PostViewPage editBlogPostAndPublishExternally(String newTitle, String newLines, List<String> tags)
@@ -384,7 +386,7 @@ public class PostViewPage extends BlogPage
     /**
      * Method to delete a comment and confirm
      *
-     * @param commentTitle
+     * @param commentTitle String
      * @return PostViewPage
      */
     public PostViewPage deleteCommentWithConfirm(String commentTitle)
@@ -426,7 +428,7 @@ public class PostViewPage extends BlogPage
     /**
      * Method to verify whether edit comment is displayed
      *
-     * @param comment
+     * @param comment String
      * @return true if displayed
      */
     public boolean isEditCommentDisplayed(String comment)
@@ -437,7 +439,7 @@ public class PostViewPage extends BlogPage
     /**
      * Method to verify whether delete comment is displayed
      *
-     * @param comment
+     * @param comment String
      * @return true if displayed
      */
     public boolean isDeleteCommentDisplayed(String comment)
@@ -499,10 +501,10 @@ public class PostViewPage extends BlogPage
     /**
      * Method to verify whether the post is correct
      *
-     * @param postTitle
-     * @param postText
-     * @param tags
-     * @return
+     * @param postTitle String
+     * @param postText String
+     * @param tags List<String>
+     * @return boolean
      */
     public boolean isPostCorrect(String postTitle, String postText, List<String> tags)
     {
@@ -536,8 +538,8 @@ public class PostViewPage extends BlogPage
     /**
      * Method to click on the tag link
      *
-     * @param tagName
-     * @return
+     * @param tagName String
+     * @return BlogPage
      */
     public BlogPage clickOnTheTag(String tagName)
     {
@@ -572,8 +574,8 @@ public class PostViewPage extends BlogPage
     /**
      * Check is comment has Avatar, Edit and Remove buttons, Commentator name.
      *
-     * @param comment
-     * @return
+     * @param comment String
+     * @return boolean
      */
     public boolean isCommentCorrect(String comment)
     {

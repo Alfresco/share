@@ -87,7 +87,7 @@ public class StatusRow extends HtmlElement
     /**
      * Return true if all information in row displayed.
      *
-     * @return
+     * @return boolean
      */
     public boolean isAllInfoDisplayed()
     {

@@ -38,7 +38,7 @@ public class ChainedMatchAllEvaluator extends BaseEvaluator
     /**
      * Evaluators to participate in the evaluation chain
      *
-     * @param evaluators
+     * @param evaluators ArrayList<Evaluator>
      */
     public void setEvaluators(ArrayList<Evaluator> evaluators)
     {
@@ -50,7 +50,7 @@ public class ChainedMatchAllEvaluator extends BaseEvaluator
      *
      *
      * @param jsonObject The object the action is for
-     * @return
+     * @return boolean
      */
     @Override
     public boolean evaluate(JSONObject jsonObject)

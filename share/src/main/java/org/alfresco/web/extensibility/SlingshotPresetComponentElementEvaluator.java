@@ -7,11 +7,11 @@ import org.springframework.extensions.surf.extensibility.impl.DefaultSubComponen
 
 /**
  * <p>
- * Evaluator used to decide if a {@code<sub-component>} shall be bound in to a {@code<component>} and {@code<@region>}.
+ * Evaluator used to decide if a {@code <sub-component>} shall be bound in to a {@code <component>} and {@code <@region>}.
  * </p>
  *
  * <p>
- * Returns true if we are inside a site AND that site's sitePreset matches the regexp from the {@code<sitePresets>}
+ * Returns true if we are inside a site AND that site's sitePreset matches the regexp from the {@code <sitePresets>}
  * parameter.
  * </p>
  *
@@ -19,7 +19,7 @@ import org.springframework.extensions.surf.extensibility.impl.DefaultSubComponen
  * Note! The regexp is expressed without using the surrounding // characters.
  * </p>
  * <p>
- * Note! The default value of the {@code<sitePresets>} parameter is ".*" which will make it match all site presets.
+ * Note! The default value of the {@code <sitePresets>} parameter is ".*" which will make it match all site presets.
  * </p>
  *
  * <p>
@@ -57,9 +57,9 @@ public class SlingshotPresetComponentElementEvaluator extends DefaultSubComponen
     /**
      * Decides if we are inside a site or not.
      *
-     * @param context
-     * @param params
-     * @return true if we are in a site and its id matches the {@code<sites>} param (defaults to ".*")
+     * @param context RequestContext
+     * @param params Map
+     * @return true if we are in a site and its id matches the {@code <sites>} param (defaults to ".*")
      */
     @Override
     public boolean evaluate(RequestContext context, Map<String, String> params)

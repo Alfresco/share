@@ -7,18 +7,18 @@ import java.util.Map;
 
 /**
  * <p>
- * Evaluator used to decide if a {@code<sub-component>} shall be bound in to a {@code<component>} and {@code<@region>}.
+ * Evaluator used to decide if a {@code <sub-component>} shall be bound in to a {@code <component>} and {@code <@region>}.
  * </p>
  *
  * <p>
- * Returns true if we are inside a site's id matches the regexp from the {@code<pages>} parameter.
+ * Returns true if we are inside a site's id matches the regexp from the {@code <pages>} parameter.
  * </p>
  *
  * <p>
  * Note! The regexp is expressed without using the surrounding // characters.
  * </p>
  * <p>
- * Note! the  value of the {@code<pages>} parameter is ".*" which will make it match all page's ids.
+ * Note! the  value of the {@code <pages>} parameter is ".*" which will make it match all page's ids.
  * </p>
  *
  * <p>
@@ -66,9 +66,9 @@ public class SlingshotPageComponentElementEvaluator extends DefaultSubComponentE
     /**
      * Decides if we are inside a site or not.
      *
-     * @param context
-     * @param params
-     * @return true if we are on a page with an id that matches the {@code<pages>} param (defaults to ".*")
+     * @param context RequestContext
+     * @param params Map
+     * @return true if we are on a page with an id that matches the {@code <pages>} param (defaults to ".*")
      */
     @Override
     public boolean evaluate(RequestContext context, Map<String, String> params)

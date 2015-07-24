@@ -83,7 +83,7 @@ public class RemoteResourcesHandler
      * By default this method simply returns the path provided. The method is provided for extensions
      * to have the opportunity to manipulate the supplied path before any resource resolving is attempted.
      * 
-     * @return
+     * @return String
      */
     protected String processPath(String path)
     {

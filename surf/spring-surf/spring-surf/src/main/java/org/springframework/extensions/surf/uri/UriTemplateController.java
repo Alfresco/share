@@ -35,8 +35,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
  * URI template remapping controller.
  * 
  * Using the facilities of the UriTemplateIndex and a configured list of URI Template mappings.
- * @see UriTemplateIndex
- * 
+ *
  * Each URI Template maps to one a page resource urls. The page resource URL is then forwarded
  * to the PageRendererServlet. 
  *

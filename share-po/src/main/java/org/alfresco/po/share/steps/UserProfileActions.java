@@ -78,7 +78,9 @@ public class UserProfileActions extends CommonActions
     /**
      * Delete specified content from User's TrashCan page 
      * @param driver WebDriver Instance
-     * @param 
+     * @param contentType TrashCanValues
+     * @param contentName String
+     * @param path String
      * @return {@link TrashCanPage}
      */
     public TrashCanPage deleteFromTrashCan(WebDrone driver, TrashCanValues contentType, String contentName, String path)
@@ -112,7 +114,9 @@ public class UserProfileActions extends CommonActions
     /**
      * Delete specified content from User's TrashCan page 
      * @param driver WebDriver Instance
-     * @param 
+     * @param contentType TrashCanValues
+     * @param contentName String
+     * @param path String
      * @return {@link TrashCanPage}
      */
     public TrashCanPage recoverFromTrashCan(WebDrone driver, TrashCanValues contentType, String contentName, String path)

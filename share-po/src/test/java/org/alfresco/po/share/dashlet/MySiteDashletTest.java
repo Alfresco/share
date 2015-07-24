@@ -135,8 +135,6 @@ public class MySiteDashletTest extends AbstractTest
 
     /**
      * Checks the site is favourite.
-     * 
-     * @return
      */
     @Test(dependsOnMethods = "selectSite")
     public void isSiteFavouriteTest()

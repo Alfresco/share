@@ -50,7 +50,7 @@ import javax.servlet.http.HttpSession;
 public class FakeHttpServletRequest extends HttpServletRequestWrapper
 {
     /**
-     * @param request
+     * @param request HttpServletRequest
      */
     public FakeHttpServletRequest(HttpServletRequest request)
     {

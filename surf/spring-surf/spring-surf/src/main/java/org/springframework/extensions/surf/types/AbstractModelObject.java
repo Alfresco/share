@@ -802,7 +802,7 @@ public abstract class AbstractModelObject implements ModelObject, ResourceProvid
     /**
      * Allows for reassignment of the id of the object
      * 
-     * @param id
+     * @param id String
      */
     public void setId(String id)
     {

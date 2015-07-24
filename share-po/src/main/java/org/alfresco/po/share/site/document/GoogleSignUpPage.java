@@ -44,8 +44,9 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 public class GoogleSignUpPage extends SharePage
 {
     private static final By GOOGLE_USERNAME = By.xpath("//input[@name='Email']");
-    private static final By GOOGLE_PASSWORD = By.xpath("//input[@name='Passwd']");
-    private static final By SIGNUP_BUTTON = By.xpath("//input[@type='submit']");
+    private static final By GOOGLE_PASSWORD = By.xpath("//input[@id='Passwd']");
+    private static final By NEXT_BUTTON = By.xpath("//input[@id='next']");
+    private static final By SIGNUP_BUTTON = By.xpath("//input[@id='signIn']");
     private static final String googleAccountTitle = "Google Accounts";
     private static final By MSG_SELECTOR = By.xpath("//div[contains(@class, 'bd')]/span[text()='We hit a problem opening the file in Google Docs™. Please try " +
         "again. If this happens again then please contact your Alfresco Administrator.' or text()='There was an error opening the document in Google Docs™. " +
@@ -93,8 +94,7 @@ public class GoogleSignUpPage extends SharePage
     public GoogleSignUpPage render(RenderTime timer)
     {
         switchToGoogleSignIn();
-        elementRender(timer, getVisibleRenderElement(GOOGLE_USERNAME), getVisibleRenderElement(GOOGLE_PASSWORD),
-            getVisibleRenderElement(SIGNUP_BUTTON));
+        elementRender(timer, getVisibleRenderElement(GOOGLE_USERNAME), getVisibleRenderElement(NEXT_BUTTON));
         return this;
     }
 
@@ -125,21 +125,26 @@ public class GoogleSignUpPage extends SharePage
     /**
      * Enter the Username , password and Click on Sign up button.
      *
-     * @return-EditInGoogleDocsPage
+     * @return EditInGoogleDocsPage
      */
     public EditInGoogleDocsPage signUp(String username, String password)
     {
         try
         {
+            logger.info("Signing in to GoogleDocs");
             WebElement usernameInput = drone.findAndWait(GOOGLE_USERNAME);
             usernameInput.clear();
             usernameInput.sendKeys(username);
+            
+            WebElement submitButton = drone.findAndWait(NEXT_BUTTON);
+            submitButton.click();
 
-            WebElement passwordInput = drone.findAndWait(GOOGLE_PASSWORD);
+            drone.waitUntilElementPresent(GOOGLE_PASSWORD, WAIT_TIME_3000);
+            WebElement passwordInput = drone.find(GOOGLE_PASSWORD);
             passwordInput.clear();
-            passwordInput.sendKeys(password);
+            passwordInput.sendKeys(password);           
 
-            WebElement submitButton = drone.find(SIGNUP_BUTTON);
+            submitButton = drone.find(SIGNUP_BUTTON);
             submitButton.click();
             switchToShare();
             waitUntilAlert(10);

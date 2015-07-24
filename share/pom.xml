@@ -34,6 +34,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
+            <version>${dependency.alfresco-core.version}</version>            
             <exclusions>
                 <exclusion>
                     <groupId>aopalliance</groupId>
@@ -60,6 +61,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-jlan-embed</artifactId>
+            <version>${dependency.alfresco-jlan.version}</version>            
             <exclusions>
                 <exclusion>
                     <groupId>aopalliance</groupId>
@@ -340,12 +342,16 @@
                         </goals>
                         <phase>generate-resources</phase>
                     </execution>
+                    <!-- MANIFEST.MF needs to be generated too, since Share reads it -->
                     <execution>
                         <id>generate-manifest</id>
                         <goals>
                             <goal>manifest</goal>
                         </goals>
                         <phase>generate-resources</phase>
+                        <configuration>
+                            <warSourceDirectory>${project.build.directory}/${project.build.finalName}</warSourceDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

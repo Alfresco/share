@@ -244,8 +244,8 @@ public class AbstractTestServerSetup
     /**
      * Copy a source file to a destination.
      *
-     * @param src
-     * @param dst
+     * @param src File
+     * @param dst File
      * @throws IOException
      */
     private static void copy(File src, File dst) throws IOException

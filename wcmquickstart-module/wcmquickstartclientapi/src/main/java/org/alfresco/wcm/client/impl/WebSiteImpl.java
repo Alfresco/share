@@ -137,7 +137,6 @@ public class WebSiteImpl implements WebSite
 	}	
 	
 	/**
-	 * @throws Exception 
 	 * @see org.alfresco.wcm.client.WebSite#getAssetByPath(java.lang.String)
 	 */
 	@Override
@@ -148,7 +147,6 @@ public class WebSiteImpl implements WebSite
 	}
 	
 	/**
-	 * @throws Exception 
 	 * @see org.alfresco.wcm.client.WebSite#getSectionByPath(java.lang.String)
 	 */
 	@Override

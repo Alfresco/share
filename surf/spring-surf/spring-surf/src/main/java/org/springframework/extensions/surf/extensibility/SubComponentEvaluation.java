@@ -34,7 +34,7 @@ public interface SubComponentEvaluation
 {
     /**
      * An evaluation should define an ID to help with debugging. This will return it.
-     * @return
+     * @return String
      */
     public String getId();
     
@@ -45,13 +45,13 @@ public interface SubComponentEvaluation
     public String getUri();
 
     /**
-     * <p>Processes all the configured {@link ComponentEvaluator} instances and returns the overall
+     * <p>Processes all the configured {@code evaluator} instances and returns the overall
      * result. This is effectively an AND gate such that it will only return <code>true</code> if 
      * every {@link SubComponentEvaluator} returns true.</p>
      * @param context The current {@link RequestContext}
      * @param applicationContext The {@link ApplicationContext} to use to look up the {@link SubComponentEvaluator}
      * instances from.
-     * @return
+     * @return boolean
      */
     public boolean evaluate(RequestContext context, ApplicationContext applicationContext);
     
@@ -60,7 +60,7 @@ public interface SubComponentEvaluation
      * be rendered or not. This should return <code>false</code> if the the <{@code}evaluation> XML configuration
      * includes has the attribute <code>renderIfEvaluated</code> set to the value "false".</p>
      *  
-     * @return
+     * @return boolean
      */
     public boolean renderIfEvaluated();
     

@@ -1735,7 +1735,10 @@
          }
          else if (YAHOO.lang.isArray(property))
          {
-            return property.length;
+            var rp = this.renderProperty;
+            return property.reduce(function(previousValue, currentValue) {
+                return rp(previousValue) + ", " + rp(currentValue);
+              });
          }
          else if (YAHOO.lang.isBoolean(property))
          {

@@ -91,7 +91,7 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
     /**
      * This method sets the given text into Site Content Configure text editor.
      *
-     * @param text
+     * @param text String
      */
     public void setText(String text)
     {
@@ -153,7 +153,7 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
     /**
      * This method sets the given title into Site Content Configure title box.
      *
-     * @param title
+     * @param title String
      */
     public void setTitle(String title)
     {

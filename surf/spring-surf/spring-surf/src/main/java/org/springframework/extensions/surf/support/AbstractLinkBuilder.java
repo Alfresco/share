@@ -53,7 +53,7 @@ public abstract class AbstractLinkBuilder extends BaseFactoryBean implements Lin
      * <p>This constructor has been deprecated because it uses the deprecated <code>WebFrameworkServiceRegistry</code>
      * to obtain the actual Spring bean elements needed by the <code>AbstractLinkBuilder</code>.
      * 
-     * @param serviceRegistry
+     * @param serviceRegistry WebFrameworkServiceRegistry
      * @deprecated
      */
     public AbstractLinkBuilder(WebFrameworkServiceRegistry serviceRegistry)
@@ -67,9 +67,9 @@ public abstract class AbstractLinkBuilder extends BaseFactoryBean implements Lin
      * directly (rather than obtaining them from the <code>WebFrameworkServiceRegistry</code>) you can have link builders
      * using different services.</p>
      * 
-     * @param webFrameworkConfigElement
-     * @param modelObjectService
-     * @param resourceService
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
+     * @param modelObjectService ModelObjectService
+     * @param resourceService ResourceService
      */
     public AbstractLinkBuilder(WebFrameworkConfigElement webFrameworkConfigElement, 
                                ModelObjectService modelObjectService,

@@ -1,11 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>wqs-tests</artifactId>
-    <packaging>jar</packaging>
     <name>Alfresco WQS Test Automation</name>
     <description>Alfresco WQS Test Automation, ene to end functional tests.</description>
     <groupId>org.alfresco.test</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <artifactId>alfresco-parent</artifactId>
+        <groupId>org.alfresco</groupId>
+        <version>5.0.3-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
     <developers>
         <developer>
             <name>Michael Suzuki</name>
@@ -23,6 +27,8 @@
         <!-- Default suite allows a single test to be run via -Dtest=... in this case the suite will be ignored then anyway -->
         <testng.xml>src/test/resources/tests_debug.xml</testng.xml>
         <enterprise.installer.path>/data/bamboo/artifacts/${enterprise.build.plan}/ALL/alfresco-enterprise-*-installer-linux-x64.???</enterprise.installer.path>
+        <selenium.version>2.45.0-alfresco</selenium.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
     </properties>
     <dependencies>
         <dependency>
@@ -66,8 +72,43 @@
             <artifactId>jackson-core-asl</artifactId>
             <version>1.8.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
     </dependencies>
     <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>

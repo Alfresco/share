@@ -5,6 +5,7 @@ import org.alfresco.po.share.user.MyProfilePage;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.RenderWebElement;
 import org.alfresco.webdrone.WebDrone;
+import org.alfresco.webdrone.exception.PageException;
 import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,9 +14,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 
 /**
- * This page is verifies the various 
+ * This page is verifies the various
  * links present in the user menu
  * also verifies the rendering
+ * 
  * @author hamara
  */
 public class UserPage extends SharePage
@@ -26,15 +28,16 @@ public class UserPage extends SharePage
     private static final By MY_PROFILE_CSS = By.cssSelector("td#HEADER_USER_MENU_PROFILE_text");
     private static final By STATUS_LINK_CSS = By.cssSelector("td#HEADER_USER_MENU_SET_STATUS_text");
     private static final By HELP_CSS = By.cssSelector("td#HEADER_USER_MENU_HELP_text");
-    private static final By CHANGE_PASSWORD_CSS= By.cssSelector("td#HEADER_USER_MENU_CHANGE_PASSWORD_text");
+    private static final By CHANGE_PASSWORD_CSS = By.cssSelector("td#HEADER_USER_MENU_CHANGE_PASSWORD_text");
     private static final By LOGOUT_CSS = By.cssSelector("td#HEADER_USER_MENU_LOGOUT_text");
     private static final By ACCOUNT_SETTINGS = By.cssSelector("td#CLOUD__NetworkAdminToolsLink_text>a.alfresco-navigation-_HtmlAnchorMixin");
     private Log logger = LogFactory.getLog(this.getClass());
-   
+
     /**
-     * Constructor.      
+     * Constructor.
+     * 
      * @param drone
-     * WebDriver to access page
+     *            WebDriver to access page
      */
     public UserPage(WebDrone drone)
     {
@@ -66,6 +69,7 @@ public class UserPage extends SharePage
 
     /**
      * verifies whether form is present.
+     * 
      * @return true if form is present , else false.
      */
     public boolean formPresent()
@@ -79,9 +83,10 @@ public class UserPage extends SharePage
         }
         return false;
     }
-    
+
     /**
      * verifies whether MyProfile link is present.
+     * 
      * @return true if MyProfile link present , else false.
      */
     public boolean isMyProfileLinkPresent()
@@ -95,9 +100,10 @@ public class UserPage extends SharePage
         }
         return false;
     }
-    
+
     /**
      * verifies whether Help link is present.
+     * 
      * @return true if Help link present , else false.
      */
     public boolean isHelpLinkPresent()
@@ -111,9 +117,10 @@ public class UserPage extends SharePage
         }
         return false;
     }
-    
+
     /**
      * verifies whether status link is present.
+     * 
      * @return true if status link present , else false.
      */
     public boolean isSetStausLinkPresent()
@@ -130,6 +137,7 @@ public class UserPage extends SharePage
 
     /**
      * verifies whether change password link is present.
+     * 
      * @return true if change password link present , else false.
      */
     public boolean isChangePassWordLinkPresent()
@@ -143,8 +151,10 @@ public class UserPage extends SharePage
         }
         return false;
     }
+
     /**
      * verifies whether Logout link is present.
+     * 
      * @return true if log out option present , else false.
      */
     public boolean isLogoutLinkPresent()
@@ -158,9 +168,10 @@ public class UserPage extends SharePage
         }
         return false;
     }
-    
+
     /**
      * verifies whether accounts settings link is present.
+     * 
      * @return true if log out option present , else false.
      */
     public boolean isAccountSettingsLinkPresent()
@@ -174,9 +185,10 @@ public class UserPage extends SharePage
         }
         return false;
     }
-    
+
     /**
      * Mimics the action of selecting my profile link is present.
+     * 
      * @return {@link MyProfilePage}
      */
     public MyProfilePage selectMyProfile()
@@ -188,6 +200,7 @@ public class UserPage extends SharePage
     /**
      * Mimics the action of selecting logout link.
      * The page returned from a logout is a LoginPage.
+     * 
      * @return {@link LoginPage} page response
      */
     public LoginPage logout()
@@ -196,8 +209,8 @@ public class UserPage extends SharePage
         {
             drone.findAndWait(LOGOUT_CSS).click();
             return new LoginPage(drone);
-            
-        }       
+
+        }
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find css.", e);
@@ -207,11 +220,12 @@ public class UserPage extends SharePage
 
     /**
      * Mimics the action of selecting Account SoSettings link.
+     * 
      * @return {AccountSettingsPage}
      */
     public AccountSettingsPage selectAccountSettingsPage()
     {
-        if(!alfrescoVersion.isCloud())
+        if (!alfrescoVersion.isCloud())
         {
             throw new UnsupportedOperationException("This option is in cloud only, not available for Enterprise");
         }
@@ -223,13 +237,14 @@ public class UserPage extends SharePage
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find css.", e);
-        }       
-       
+        }
+
         throw new PageOperationException("Not able to find the AccountSettings link");
     }
 
     /**
      * Mimics the action of selecting my profile link.
+     * 
      * @return {@link ChangePasswordPage} change password page object
      */
     public ChangePasswordPage selectChangePassword()
@@ -237,14 +252,34 @@ public class UserPage extends SharePage
         try
         {
             drone.findAndWait(CHANGE_PASSWORD_CSS).click();
-            return new ChangePasswordPage(drone); 
-        }       
+            return new ChangePasswordPage(drone);
+        }
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find css.", e);
         }
         throw new PageOperationException("Not able to find the ChangePassword link");
     }
-    
+
+    /**
+     * Click Help Link
+     */
+    public void clickHelp()
+    {
+        try
+        {
+            drone.findAndWait(HELP_CSS).click();
+        }
+        catch (NoSuchElementException ex)
+        {
+            logger.error("Unable to find Help link.", ex);
+            throw new PageException("Unable to find Help link");
+        }
+        catch (TimeoutException e)
+        {
+            logger.error("Exceeded the time to find Help link.", e);
+            throw new PageOperationException("Not able to find the Help link");
+        }
+    }
 
 }

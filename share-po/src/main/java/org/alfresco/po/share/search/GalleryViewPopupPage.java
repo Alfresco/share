@@ -16,7 +16,6 @@ import org.openqa.selenium.WebElement;
  * GalleryViewPopupPage object 
  * 
  * @author Charu
- * @since 
  */
 @SuppressWarnings("unchecked")
 public class GalleryViewPopupPage extends SharePage

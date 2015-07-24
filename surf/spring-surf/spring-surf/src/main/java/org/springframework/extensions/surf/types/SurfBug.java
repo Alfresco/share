@@ -40,21 +40,21 @@ public interface SurfBug extends ModelObject
     
     /**
      * <p>Should set the <code>Component</code> currently being debugged.</p>
-     * @param component
+     * @param component Component
      */
     public void setCurrentComponent(Component component);
     
     /**
      * <p>Should return the <code>Component</code> currently being debugged.</p>
-     * @return
+     * @return Component
      */
     public Component getCurrentComponent();
     
     /**
      * <p>Should return a boolean value indicating whether or not the supplied <code>Component</code>
      * has already been debugged</p>
-     * @param object
-     * @return
+     * @param object Component
+     * @return boolean
      */
     public boolean hasBeenDebugged(Component object);
 }

@@ -48,7 +48,7 @@ public enum WorkFlowTitle
     /**
      * Returns {@link WorkFlowTitle} based on given value.
      * 
-     * @param value
+     * @param value String
      * @return {@link WorkFlowTitle}
      */
     public static WorkFlowTitle getTitle(String value)

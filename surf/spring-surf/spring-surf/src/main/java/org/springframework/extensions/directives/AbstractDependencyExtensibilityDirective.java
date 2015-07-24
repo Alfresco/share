@@ -49,7 +49,7 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
     /**
      * <p>Returns a String that is used to map requests to the {@link ResourceController}. This defaults to
      * "/res/" but has been abstracted to a method so that this can be overridden.</p>
-     * @return
+     * @return String
      */
     protected String getResourceControllerMapping()
     {
@@ -77,7 +77,7 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
     /**
      * <p>Sets the {@link DependencyHandler}</p>
      * 
-     * @param dependencyHandler
+     * @param dependencyHandler DependencyHandler
      */
     public void setDependencyHandler(DependencyHandler dependencyHandler)
     {
@@ -97,7 +97,7 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
     
     /**
      * <p>Sets the {@link RequestContext} for the current thread.</p>
-     * @param requestContext
+     * @param requestContext RequestContext
      */
     public void setRequestContext(RequestContext requestContext)
     {
@@ -106,7 +106,7 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
  
     /**
      * <p>Retrieves the {@link RequestContext} for the current thread.</p>
-     * @return
+     * @return RequestContext
      */
     public RequestContext getRequestContext()
     {
@@ -120,7 +120,7 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
     
     /**
      * <p>Sets the {@link ModelObject} for the current thread.</p>
-     * @param object
+     * @param object ModelObject
      */
     public void setModelObject(ModelObject object)
     {
@@ -128,8 +128,8 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
     }
     
     /**
-     * <p>Gets the {@linkm ModelObject} for the current thread.</p>
-     * @return
+     * <p>Gets the {@link ModelObject} for the current thread.</p>
+     * @return ModelObject
      */
     public ModelObject getModelObject()
     {
@@ -141,8 +141,8 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
      * containing the updated source (to be passed to the {@link DependencyHandler} as well as the
      * prefix that should be added back to the updated source when outputting the source in the 
      * HTML element.</p>
-     * @param src
-     * @return
+     * @param src String
+     * @return ProcessedDependency
      */
     public ProcessedDependency processDependency(String src)
     {
@@ -169,8 +169,8 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
     /**
      * <p>Retrieves the modified source URL from the {@link ProcessedDependency} object. This method simply
      * wraps that provided by {@link ProcessedDependency} but does so to allow overrides to customise behaviour.</p>
-     * @param pd
-     * @return
+     * @param pd ProcessedDependency
+     * @return String
      */
     protected String getUpdatedSrc(ProcessedDependency pd)
     {
@@ -180,8 +180,8 @@ public abstract class AbstractDependencyExtensibilityDirective extends AbstractE
     /**
      * <p>Retrieves the prefix to insert of the URL from the {@link ProcessedDependency} object. This method simply
      * wraps that provided by {@link ProcessedDependency} but does so to allow overrides to customise behaviour.</p>
-     * @param pd
-     * @return
+     * @param pd ProcessedDependency
+     * @return String
      */
     protected String getToInsert(ProcessedDependency pd)
     {

@@ -199,8 +199,9 @@ public class UserContentsPageTest extends AbstractTest
     /**
      * Searching with retry for content
      * 
-     * @param contentPage
-     * @param contentName
+     * @param drone WebDrone
+     * @param contentPage UserContentPage
+     * @param contentName String
      * @return contentPage
      */
     public static UserContentPage contentRefreshRetry(WebDrone drone, UserContentPage contentPage, String contentName)

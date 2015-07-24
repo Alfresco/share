@@ -440,7 +440,7 @@ public final class ScriptModelObject extends ScriptBase
     /**
      * Returns the model object
      * 
-     * @return
+     * @return ModelObject
      */
     public ModelObject getModelObject()
     {

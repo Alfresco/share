@@ -118,7 +118,7 @@ public abstract class DetailsPage extends SitePage
     }
 
     /**
-     * @param type
+     * @param type String
      * @return Verify if the page viewed is the @type@ details page.
      */
     public boolean isDetailsPage(String type)
@@ -328,7 +328,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Return list with categories names added to file;
      *
-     * @return
+     * @return List<String>
      */
     public List<String> getCategoriesNames()
     {
@@ -420,7 +420,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Gets the Like status on the details page.
      *
-     * @return
+     * @return boolean
      */
     public boolean isLiked()
     {
@@ -442,7 +442,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Gets the Tool Tip for Favourites action on the details page.
      *
-     * @return
+     * @return String
      */
     public String getToolTipForFavourite()
     {
@@ -805,7 +805,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Verifies the modified information is present in the page object.
      *
-     * @return
+     * @return boolean
      */
     public boolean isModifiedByDetailsPresent()
     {
@@ -832,7 +832,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Verify the share panel is present or not in the page.
      *
-     * @return
+     * @return boolean
      */
     public boolean isSharePanePresent()
     {
@@ -851,7 +851,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Get Rich Text or to edit the contents of Comments etc.
      *
-     * @return
+     * @return TinyMceEditor
      */
     public TinyMceEditor getContentPage()
     {
@@ -878,7 +878,7 @@ public abstract class DetailsPage extends SitePage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isCommentLinkPresent()
     {
@@ -932,7 +932,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Get Sync info page details.
      *
-     * @return
+     * @return SyncInfoPage
      */
     public SyncInfoPage getSyncInfoPage()
     {
@@ -1163,7 +1163,6 @@ public abstract class DetailsPage extends SitePage
     /**
      * Mimics the action of cancelling the edited comments on details page.
      *
-     * @return {@link DetailsPage}
      */
     public void cancelEditComments()
     {
@@ -1198,8 +1197,8 @@ public abstract class DetailsPage extends SitePage
     /**
      * Check is comment has edit button on details page
      *
-     * @param comment
-     * @return
+     * @param comment String
+     * @return boolean
      */
     public boolean isEditCommentButtonPresent(String comment)
     {
@@ -1246,8 +1245,8 @@ public abstract class DetailsPage extends SitePage
     /**
      * Check is comment has delete button on details page
      *
-     * @param comment
-     * @return
+     * @param comment String
+     * @return boolean
      */
     public boolean isDeleteCommentButtonPresent(String comment)
     {
@@ -1294,8 +1293,8 @@ public abstract class DetailsPage extends SitePage
     /**
      * Check is comment has Avatar, Edit and Remove buttons, Commentator name.
      *
-     * @param comment
-     * @return
+     * @param comment String
+     * @return boolean
      */
     public boolean isCommentCorrect(String comment)
     {
@@ -1313,8 +1312,8 @@ public abstract class DetailsPage extends SitePage
     /**
      * Check is Remove and Edit Buttons display and Enable.
      *
-     * @param comment
-     * @return
+     * @param comment String
+     * @return boolean
      */
 
     private boolean isCommentButtonsEnableAndDisplay(String comment)
@@ -1393,8 +1392,8 @@ public abstract class DetailsPage extends SitePage
     /**
      * Open DeleteConfirmForm for comment. Verify that all buttons and text correct.
      *
-     * @param comment
-     * @return
+     * @param comment String
+     * @return boolean
      */
     public boolean checkConfirmDeleteForm(final String comment)
     {
@@ -1631,7 +1630,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Add comment by clicking 'Comment' link
      *
-     * @return
+     * @return AddCommentForm
      */
 
     public AddCommentForm selectAddComment()
@@ -1644,7 +1643,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Click Add comment button from the comment form after clicking 'Comment' link
      *
-     * @return
+     * @return AddCommentForm
      */
     public AddCommentForm clickAddButton()
     {
@@ -1657,7 +1656,7 @@ public abstract class DetailsPage extends SitePage
      * Click on Edit Tags icon from Tags panel at Details page
      *
      * @param folder when true is for folder details page; false - document details page
-     * @return
+     * @return EditDocumentPropertiesPage
      */
     public EditDocumentPropertiesPage clickEditTagsIcon(boolean folder)
     {
@@ -1694,7 +1693,7 @@ public abstract class DetailsPage extends SitePage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isCommentFieldPresent()
     {
@@ -1720,7 +1719,7 @@ public abstract class DetailsPage extends SitePage
      * Verify if Link View on Google Maps is visible.
      *
      * @return true if displayed
-     * @author rmanyam
+     * <br/><br/>author rmanyam
      */
     public boolean isViewOnGoogleMapsLinkVisible()
     {
@@ -1793,7 +1792,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Select link Copy to... from Actions
      *
-     * @return
+     * @return CopyOrMoveContentPage
      */
     public CopyOrMoveContentPage selectCopyTo()
     {
@@ -1803,7 +1802,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Select link Move to... from Actions
      *
-     * @return
+     * @return CopyOrMoveContentPage
      */
     public CopyOrMoveContentPage selectMoveTo()
     {
@@ -1866,9 +1865,7 @@ public abstract class DetailsPage extends SitePage
             throw new ShareException(typeValue + " isn't present in the list");
         }
         changeTypePage.selectChangeType(typeValue);
-        changeTypePage.selectSave();
-        waitUntilAlert();
-        return drone.getCurrentPage().render();
+        return changeTypePage.selectSave().render();
     }
     
     /**

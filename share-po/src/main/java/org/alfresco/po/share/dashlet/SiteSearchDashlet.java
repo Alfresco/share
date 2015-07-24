@@ -356,7 +356,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method to perform search with retry
      *
-     * @param fileName
+     * @param fileName String
      * @return true is item is found
      */
     public boolean siteSearchWithRetry(String fileName)
@@ -441,7 +441,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Method to set result size
-     * @param searchLimit
+     * @param searchLimit SearchLimit
      */
     public void setResultSize(SearchLimit searchLimit)
     {
@@ -473,9 +473,9 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Method to perform search with required search limit
-     * @param searchString
-     * @param searchLimit
-     * @return
+     * @param searchString String
+     * @param searchLimit SearchLimit
+     * @return SiteSearchDashlet
      */
     public SiteSearchDashlet search(String searchString, SearchLimit searchLimit)
     {
@@ -485,7 +485,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Method to get selected Search Limit
-     * @return
+     * @return SearchLimit
      */
     public SearchLimit getSelectedSearchLimit()
     {

@@ -47,7 +47,7 @@ public class WebFrameworkConnectorProvider implements ConnectorProvider
     /**
      * Sets the connector service.
      * 
-     * @param connectorService
+     * @param connectorService ConnectorService
      */
     public void setConnectorService(ConnectorService connectorService)
     {

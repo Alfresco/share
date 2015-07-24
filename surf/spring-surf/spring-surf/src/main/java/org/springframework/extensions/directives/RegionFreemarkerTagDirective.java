@@ -31,7 +31,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 
 /**
- * <p>A FreeMarker directive that uses a {@link PresentationService} to render the region 
+ * <p>A FreeMarker directive that uses a PresentationService to render the region
  * specified through properties supplied when invoking it.</p>
  * 
  * @author David Draper
@@ -39,7 +39,7 @@ import freemarker.template.TemplateException;
 public class RegionFreemarkerTagDirective extends RenderServiceExtensibilityDirective
 {
     /**
-     * <p>Instantiates a new {@link RegionFreeMarkerTagDirective}. The {@link RenderService} will be 
+     * <p>Instantiates a new {@link RegionFreemarkerTagDirective}. The {@link RenderService} will be
      * used by calling its <code>renderRegion</code> method to generate the output. The directive name is only needed
      * for generating useful exception messages to assist debugging problems but an effort should be made to set it 
      * correctly</p>

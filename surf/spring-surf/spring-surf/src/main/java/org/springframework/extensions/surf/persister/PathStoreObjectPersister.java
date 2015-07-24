@@ -447,7 +447,6 @@ public class PathStoreObjectPersister extends AbstractStoreObjectPersister
      * Places an object into this persister's cache.
      * 
      * @param context the context
-     * @param id ID of the object in the cache
      * @param obj the obj
      */
     @Override
@@ -468,8 +467,7 @@ public class PathStoreObjectPersister extends AbstractStoreObjectPersister
      * Removes an object from the cache
      * 
      * @param context the context
-     * @param objectTypeId
-     * @param objectId
+     * @param obj ModelObject
      */
     @Override
     protected void cacheRemove(ModelPersistenceContext context, ModelObject obj)
@@ -489,8 +487,8 @@ public class PathStoreObjectPersister extends AbstractStoreObjectPersister
      * Removes an object from the cache
      * 
      * @param context the context
-     * @param objectTypeId
-     * @param objectId
+     * @param objectTypeId String
+     * @param objectId String
      */
     @Override
     protected void cacheRemove(ModelPersistenceContext context, String objectTypeId, String objectId)
@@ -524,8 +522,8 @@ public class PathStoreObjectPersister extends AbstractStoreObjectPersister
      * nested component definitions are always cached otherwise they would not be found on lookup.
      * 
      * @param context the context
-     * @param objectTypeId
-     * @param objectId
+     * @param objectTypeId String
+     * @param objectId String
      * 
      * @return the model object
      */
@@ -553,8 +551,8 @@ public class PathStoreObjectPersister extends AbstractStoreObjectPersister
      * This performs an interrogation of the underlying document
      * to determine its object type and object id.
      * 
-     * @param context
-     * @param path
+     * @param context ModelPersistenceContext
+     * @param path String
      * 
      * @return ModelObject
      * 

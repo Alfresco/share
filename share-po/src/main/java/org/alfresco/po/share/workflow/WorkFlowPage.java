@@ -120,7 +120,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     }
 
     /**
-     * @return
+     * @return WebElement
      */
     protected abstract WebElement getSelectReviewButton();
 
@@ -135,12 +135,12 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     }
 
     /**
-     * @return
+     * @return WebElement
      */
     protected abstract WebElement getStartWorkflowButton();
 
     /**
-     * @param cloudUsers
+     * @param cloudUsers List<String>
      * @return boolean suggesting any user is blank.
      */
     protected boolean isReviewersBlank(List<String> cloudUsers)
@@ -158,7 +158,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     /**
      * Returns the WebElement for message textarea.
      * 
-     * @return
+     * @return WebElement
      */
     abstract WebElement getMessageTextareaElement();
 
@@ -193,15 +193,15 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     /**
      * Returns the WebElement for message textarea.
      * 
-     * @return
+     * @return WebElement
      */
     abstract WebElement getDueDateElement();
 
     /**
      * Method to select given file from the given site.
      * 
-     * @param fileName
-     * @param siteName
+     * @param fileName String
+     * @param siteName String
      */
     public void selectItem(String fileName, String siteName)
     {
@@ -267,7 +267,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     /**
      * Method to get List of all selected workflow items
      * 
-     * @return {@link List<SelectedWorkFlowItem>}
+     * @return List
      */
     public List<SelectedWorkFlowItem> getSelectedItems()
     {
@@ -294,8 +294,8 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     /**
      * Method to get the Selected Items List for a given file name
      * 
-     * @param fileName
-     * @return {@link List<SelectedWorkFlowItem>}
+     * @param fileName String
+     * @return List
      */
     public List<SelectedWorkFlowItem> getSelectedItem(String fileName)
     {
@@ -318,7 +318,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     /**
      * Method to verify if the item is added or not
      * 
-     * @param fileName
+     * @param fileName String
      * @return True if the item is added
      */
     public boolean isItemAdded(String fileName)
@@ -345,8 +345,6 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
 
     /**
      * Method to verify Remove All button is Enabled
-     * 
-     * @return True if Remove All button
      */
     public void selectRemoveAllButton()
     {
@@ -449,7 +447,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
      * Method to select a date from Calender date picker. The date should be in
      * "dd/MM/yyyy" format
      * 
-     * @param date
+     * @param date String
      */
     public void selectDateFromCalendar(String date) throws InterruptedException
     {
@@ -551,7 +549,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     /**
      * Method to get the Due date entered in Due field
      * 
-     * @return
+     * @return String
      */
     public String getDueDate()
     {
@@ -581,7 +579,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     /**
      * Method to get Priority Dropdown options
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getPriorityOptions()
     {
@@ -606,7 +604,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     /**
      * Method to get Selected Priority Option
      * 
-     * @return
+     * @return Priority
      */
     public Priority getSelectedPriorityOption()
     {

@@ -44,7 +44,8 @@ public class InsertOrEditAnchorPage extends BaseAdvancedTinyMceOptionsPage
     /**
      * Constructor.
      * 
-     * @param element
+     * @param drone WebDrone
+     * @param element WebElement
      */
     public InsertOrEditAnchorPage(WebDrone drone, WebElement element)
     {
@@ -73,7 +74,7 @@ public class InsertOrEditAnchorPage extends BaseAdvancedTinyMceOptionsPage
     /**
      * This method sets the given text into name.
      * 
-     * @param text
+     * @param text String
      */
     public void setName(String text)
     {

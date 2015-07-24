@@ -60,7 +60,7 @@ public class ComponentTest extends AbstractJettyTest
      *
      * @param resource The resource to request.
      * @param headerTarget The content that should appear in the header.
-     * @param target The target String that should occur in the body between the default chrome prefix and suffix.
+     * @param bodyTarget The target String that should occur in the body between the default chrome prefix and suffix.
      */
     private void testAllFocusComponentRequestPattern(String resource, String headerTarget, String bodyTarget)
     {

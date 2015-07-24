@@ -124,7 +124,7 @@ public class HybridCssThemeHandler extends CssThemeHandler
      * Looks for a CSS token called "LessVariables" which should contain the LESS style variables that 
      * can be applied to each CSS file.
      * 
-     * @return
+     * @return String
      */
     public String getLessVariables() {
         String variables = this.getDefaultLessConfig();

@@ -743,7 +743,7 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Mimics the action of selecting the Sync to Cloud icon on the document page.
      * 
-     * @param isCloudSyncSetUp
+     * @param isCloudSyncSetUp boolean
      * @return If Cloud Sync has not been set up yet, returns {@link DocumentDetailsPage} else it returns {@link DestinationAndAssigneePage}
      */
     public HtmlPage selectSyncToCloud(boolean isCloudSyncSetUp)
@@ -895,7 +895,7 @@ public class DocumentDetailsPage extends DetailsPage
      * session gets initiated.
      * 
      * @return {@link HtmlPage} page response
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     public HtmlPage editInGoogleDocs()
     {
@@ -942,7 +942,7 @@ public class DocumentDetailsPage extends DetailsPage
      * Public method to edit in google docs for old format
      * 
      * @return {@link HtmlPage} page response
-     * @author Sergey Kardash
+     * <br/><br/>author Sergey Kardash
      */
     public HtmlPage editInGoogleDocsOldFormat(boolean confirmUpgrade)
     {
@@ -1003,7 +1003,7 @@ public class DocumentDetailsPage extends DetailsPage
      * session gets initiated.
      * 
      * @return {@link HtmlPage} page response
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     public HtmlPage resumeEditInGoogleDocs()
     {
@@ -1049,7 +1049,7 @@ public class DocumentDetailsPage extends DetailsPage
      * Verify if Link Edit in Google docs is visible.
      * 
      * @return true if displayed
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     public boolean isEditInGoogleDocsLinkVisible()
     {
@@ -1067,7 +1067,7 @@ public class DocumentDetailsPage extends DetailsPage
      * Verify if Link Resume Editing in Google docs is visible.
      * 
      * @return true if displayed
-     * @author sprasanna
+     * <br/><br/>author sprasanna
      */
     public boolean isResumeEditingInGoogleDocsLinkVisible()
     {
@@ -1101,8 +1101,8 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Verify if the comment count is displayed or not
      * 
-     * @param waitTime
-     * @return
+     * @param waitTime long
+     * @return boolean
      */
     public boolean isCommentCountPresent(long waitTime)
     {
@@ -1146,7 +1146,7 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Method to get Sync Status
      * 
-     * @return
+     * @return String
      */
     public String getSyncStatus()
     {
@@ -1168,7 +1168,7 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Method to get location in cloud
      * 
-     * @return
+     * @return String
      */
     public String getLocationInCloud()
     {
@@ -1190,7 +1190,7 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Method to check if "Request To Sync" icon is displayed in DocumentDetails page
      * 
-     * @return
+     * @return boolean
      */
     public boolean isRequestSyncIconDisplayed()
     {
@@ -1374,7 +1374,7 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Check if the file is shared.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isFileShared()
     {
@@ -1411,7 +1411,7 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Verify if Link View on Google Maps is visible.
      * 
-     * @author rmanyam
+     * <br/><br/>author rmanyam
      * @return true if displayed
      */
     public boolean isViewOnGoogleMapsLinkVisible()
@@ -1541,7 +1541,7 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Verify the Version histiry panel is present in the page.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isVersionHistoryPanelPresent()
     {
@@ -1765,7 +1765,7 @@ public class DocumentDetailsPage extends DetailsPage
      * Get the file content from the document details page.
      * 
      * @return theContentOfFile
-     * @author Cristina Axinte
+     * <br/><br/>author Cristina Axinte
      */
     public String getDocumentBody()
     {

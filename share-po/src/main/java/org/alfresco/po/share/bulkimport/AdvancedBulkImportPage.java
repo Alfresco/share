@@ -90,8 +90,8 @@ public abstract class AdvancedBulkImportPage extends SharePage
     /**
      * Method to set String input in the field
      * 
-     * @param input
-     * @param value
+     * @param input WebElement
+     * @param value String
      */
     public void setInput(final WebElement input, final String value)
     {
@@ -109,7 +109,7 @@ public abstract class AdvancedBulkImportPage extends SharePage
     /**
      * Method to set import directory field
      * 
-     * @param importDirectory
+     * @param importDirectory String
      */
     public void setImportDirectoryField(final String importDirectory)
     {
@@ -119,7 +119,7 @@ public abstract class AdvancedBulkImportPage extends SharePage
     /**
      * Method to set target space path field
      * 
-     * @param path
+     * @param path String
      */
     public void setTargetPathField(final String path)
     {

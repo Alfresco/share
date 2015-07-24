@@ -106,7 +106,7 @@ public class ViewWorkflowPage extends SharePage
     /**
      * Method to get All labels from Workflow Form
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getAllLabels()
     {

@@ -61,8 +61,8 @@ public class RequestCachingConnector extends AlfrescoConnector
     /**
      * Constructor
      * 
-     * @param descriptor
-     * @param endpoint
+     * @param descriptor ConnectorDescriptor
+     * @param endpoint String
      */
     public RequestCachingConnector(ConnectorDescriptor descriptor, String endpoint)
     {

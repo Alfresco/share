@@ -166,7 +166,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      * Get the {@link List} of added {@link Categories}.
      *
      * @return {@link List} of {@link Categories}
-     * @depricated Use {@link #getCategoryList()} instead.
+     * @deprecated Use {@link #getCategoryList()} instead.
      */
     @Deprecated
     public List<Categories> getCategories()

@@ -52,7 +52,7 @@ public class InPlaceBulkImportPage extends AdvancedBulkImportPage
     /**
      * Method to set import directory field
      * 
-     * @param contentStore
+     * @param contentStore String
      */
     public void setContentStoreField(final String contentStore)
     {
@@ -62,11 +62,11 @@ public class InPlaceBulkImportPage extends AdvancedBulkImportPage
     /**
      * Method for bulk import creation
      * 
-     * @param importDirectory
-     * @param contentStore
-     * @param path
-     * @param disableRules
-     * @return
+     * @param importDirectory String
+     * @param contentStore String
+     * @param path String
+     * @param disableRules boolean
+     * @return StatusBulkImportPage
      */
     public StatusBulkImportPage createImportInPlace(String importDirectory, String contentStore, String path, boolean disableRules)
     {

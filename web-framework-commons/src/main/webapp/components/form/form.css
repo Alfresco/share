@@ -3,7 +3,7 @@
 .form-container fieldset
 {
    border: 1px solid #aaaaaa;
-   padding: 1.2em 0 0.5em 1.5em;
+   padding: 1.0em 0 0.5em 1.0em;
    margin-bottom: 1em;
 }
 
@@ -47,7 +47,7 @@
 .form-container input[type="password"]
 {
    clear: both;
-   width: 30em;
+   width: 28em;
 }
 
 .form-container input[type="checkbox"]
@@ -67,7 +67,7 @@
 
 .form-container textarea
 {
-   width: 30em;
+   width: 28em;
 }
 
 .form-container select
@@ -199,6 +199,57 @@
 {
    color: #333333;
    word-wrap: break-word;
+}
+
+/* Grid containers */
+.form-container .alf-g .alf-u
+{
+   width: 49.1%;
+   float: right;
+}
+
+.form-container .alf-gc .alf-u
+{
+   width: 32%;
+   float: right;
+}
+
+.form-container .alf-g .alf-u.first
+{
+   float: left;
+}
+
+.form-container .alf-gc .alf-u.first
+{
+   width: 66%;
+   float: left;
+}
+
+.form-container .alf-gb .alf-u
+{
+   width: 32%;
+   float: left;
+}
+
+.form-container .alf-g:after,
+.form-container .alf-gb:after,
+.form-container .alf-gc:after
+{
+   content: "";
+   display: block;
+   clear: both;
+}
+
+.form-container .alf-gb .alf-u input,
+.form-container .alf-gb .alf-u input[type="file"],
+.form-container .alf-gb .alf-u input[type="text"],
+.form-container .alf-gb .alf-u input[type="password"],
+.form-container .alf-gc .alf-u input,
+.form-container .alf-gc .alf-u input[type="file"],
+.form-container .alf-gc .alf-u input[type="text"],
+.form-container .alf-gc .alf-u input[type="password"]
+{
+   width: auto;
 }
 
 form .mandatory,
@@ -408,22 +459,15 @@ form .error,
 
 /* Balloon pop-up default styling */
 
-.balloon
-{
+.balloon {
    background: #35403f;
    color: #e8e8e8;
    padding: 8px 10px;
    position: relative;
    border-radius: 3px;
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
    border:1px solid #2c3635;
    box-shadow: 0 1px 0 #fff;
    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
-   -moz-box-shadow: 0 1px 0 #fff;
-   -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
-   -webkit-box-shadow: 0 1px 0 #fff;
-   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
    margin-bottom: 10px;
    min-width: 20em;
 }

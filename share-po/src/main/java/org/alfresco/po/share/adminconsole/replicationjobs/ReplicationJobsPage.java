@@ -103,7 +103,7 @@ public class ReplicationJobsPage extends AdminConsolePage
     /**
      * Method to check whether job exists in the list
      *
-     * @param jobTitle
+     * @param jobTitle String
      * @return true if present
      */
     public boolean isJobExists(String jobTitle)
@@ -115,7 +115,7 @@ public class ReplicationJobsPage extends AdminConsolePage
     /**
      * Method to get replication job details
      *
-     * @param jobTitle
+     * @param jobTitle String
      * @return ReplicationJob
      */
     public ReplicationJob getJobDetails(String jobTitle)
@@ -139,7 +139,7 @@ public class ReplicationJobsPage extends AdminConsolePage
     /**
      * Method to get job status from jobs' list
      *
-     * @param jobTitle
+     * @param jobTitle String
      * @return ReplicationJobStatus
      */
     public ReplicationJobStatus getJobStatus(String jobTitle)

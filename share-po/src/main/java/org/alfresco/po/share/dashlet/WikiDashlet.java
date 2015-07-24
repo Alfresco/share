@@ -97,7 +97,7 @@ public class WikiDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method to click Configure icon
      *
-     * @return
+     * @return SelectWikiDialogueBoxPage
      */
     public SelectWikiDialogueBoxPage clickConfigure()
     {
@@ -116,7 +116,7 @@ public class WikiDashlet extends AbstractDashlet implements Dashlet
     /**
      * Return content text from dashlet
      *
-     * @return
+     * @return String
      */
     public String getContent()
     {

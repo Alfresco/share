@@ -14,6 +14,8 @@
  */
 package org.alfresco.po.share;
 
+import java.io.IOException;
+
 import org.alfresco.po.share.user.CloudForgotPasswordPage;
 import org.alfresco.po.share.user.Language;
 import org.alfresco.webdrone.HtmlPage;
@@ -21,7 +23,6 @@ import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.RenderWebElement;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.WebDroneImpl;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.NameValuePair;
@@ -34,8 +35,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import java.io.IOException;
 
 /**
  * Login Page object that holds all information and methods that can be found on
@@ -174,7 +173,7 @@ public class LoginPage extends SharePage
     /**
      * Return url for Logo Image.
      *
-     * @return
+     * @return String
      */
     public String getLogoUrl()
     {
@@ -226,7 +225,7 @@ public class LoginPage extends SharePage
     /**
      * Method to get Forgot password link URL
      * 
-     * @return
+     * @return String
      */
     public String getForgotPasswordURL()
     {
@@ -257,7 +256,7 @@ public class LoginPage extends SharePage
 
             //add cookies to browser and navigate to user dashboard
             WebDriver driver = ((WebDroneImpl) drone).getDriver();
-            drone.navigateTo(shareUrl + "/page/user/" + userName + "/dashboard/");
+            drone.navigateTo(shareUrl + "/page/user/" + userName + "/dashboard");
             driver.manage().addCookie(new Cookie(state.getCookies()[0].getName(),state.getCookies()[0].getValue()));
             drone.refresh();
 

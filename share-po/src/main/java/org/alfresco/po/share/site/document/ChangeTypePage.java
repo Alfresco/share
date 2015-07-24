@@ -78,7 +78,7 @@ public class ChangeTypePage extends ShareDialogue
     /**
      * Checks whether the page/dialog is displayed.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isChangeTypeDisplayed()
     {
@@ -136,6 +136,7 @@ public class ChangeTypePage extends ShareDialogue
     public HtmlPage selectSave()
     {
         drone.find(OK_BUTTON).click();
+        waitUntilAlert();
         return drone.getCurrentPage().render();
     }
 

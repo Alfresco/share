@@ -33,7 +33,7 @@ public class PropertyNotNullEvaluator extends BaseEvaluator
     /**
      * Property name
      *
-     * @param name
+     * @param name String
      */
     public void setProperty(String name)
     {
@@ -45,7 +45,7 @@ public class PropertyNotNullEvaluator extends BaseEvaluator
      *
      *
      * @param jsonObject The object the action is for
-     * @return
+     * @return boolean
      */
     @Override
     public boolean evaluate(JSONObject jsonObject)

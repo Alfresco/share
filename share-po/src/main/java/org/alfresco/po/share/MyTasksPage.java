@@ -113,7 +113,7 @@ public class MyTasksPage extends SharePage
     /**
      * Method to select the task and click edit task button
      * 
-     * @param searchParams, first item should be taskName, second is optional user first name
+     * @param searchParams first item should be taskName, second is optional user first name
      */
     public EditTaskPage navigateToEditTaskPage(String... searchParams)
     {
@@ -178,7 +178,7 @@ public class MyTasksPage extends SharePage
     /**
      * Method to get the page subtitle (Active Tasks, Completed Tasks etc)
      * 
-     * @return
+     * @return String
      */
     public String getSubTitle()
     {
@@ -241,7 +241,8 @@ public class MyTasksPage extends SharePage
     }
 
     /**
-     * @param taskName
+     * @param taskName String
+     * @param action By
      */
     private void performActionOnTask(String taskName, By action)
     {
@@ -278,8 +279,8 @@ public class MyTasksPage extends SharePage
     /**
      * Method to find given task row
      * 
-     * @param taskName
-     * @return
+     * @param taskName String
+     * @return WebElement
      */
     public WebElement findTaskRow(String taskName)
     {
@@ -315,7 +316,7 @@ public class MyTasksPage extends SharePage
     /**
      * Method to get the Task Details. If more than one task found, the first task details will be returned.
      * 
-     * @param taskName
+     * @param taskName String
      * @return {@link TaskDetails}
      */
     public TaskDetails getTaskDetails(String taskName)
@@ -405,7 +406,7 @@ public class MyTasksPage extends SharePage
     /**
      * Method to get the Task Details. If more than one task found, the first task details will be returned.
      * 
-     * @param taskName
+     * @param taskName String
      * @return {@link TaskDetails}
      */
     public TaskDetails getTaskLabels(String taskName)
@@ -450,7 +451,7 @@ public class MyTasksPage extends SharePage
     /**
      * Method to check if a given task is displayed in MyTasksPage page
      * 
-     * @param taskName
+     * @param taskName String
      * @return True if Task exists
      */
     public boolean isTaskPresent(String taskName)
@@ -473,8 +474,8 @@ public class MyTasksPage extends SharePage
      * Returns <code>true</code> if the Task edit button is present and enabled,
      * otherwise returns <code>false</code>.
      * 
-     * @param taskName
-     * @return
+     * @param taskName String
+     * @return boolean
      */
     public boolean isTaskViewButtonEnabled(String taskName)
     {
@@ -497,8 +498,8 @@ public class MyTasksPage extends SharePage
      * Returns <code>true</code> if the Task view button is present and enabled,
      * otherwise returns <code>false</code>.
      * 
-     * @param taskName
-     * @return
+     * @param taskName String
+     * @return boolean
      */
     public boolean isTaskWorkflowButtonEnabled(String taskName)
     {
@@ -521,8 +522,8 @@ public class MyTasksPage extends SharePage
      * Returns <code>true</code> if the Task workflow view button is present and
      * enabled, otherwise returns <code>false</code>.
      * 
-     * @param taskName
-     * @return
+     * @param taskName String
+     * @return boolean
      */
     public boolean isTaskEditButtonEnabled(String taskName)
     {
@@ -544,7 +545,7 @@ public class MyTasksPage extends SharePage
     /**
      * Return Object for interacting with left filter panel.
      * 
-     * @return
+     * @return TaskFilters
      */
     public TaskFilters getTaskFilters()
     {
@@ -554,7 +555,7 @@ public class MyTasksPage extends SharePage
     /**
      * Return count of task on page.
      * 
-     * @return
+     * @return int
      */
     public int getTasksCount()
     {
@@ -571,8 +572,8 @@ public class MyTasksPage extends SharePage
     /**
      * Return true if filter title text displayed.
      * 
-     * @param titleText
-     * @return
+     * @param titleText String
+     * @return boolean
      */
     public boolean isFilterTitle(String titleText)
     {
@@ -584,8 +585,8 @@ public class MyTasksPage extends SharePage
     /**
      * Return count workFlows with same taskName.
      * 
-     * @param taskName
-     * @return
+     * @param taskName String
+     * @return int
      */
     public int getTaskCount(String taskName)
     {
@@ -623,8 +624,8 @@ public class MyTasksPage extends SharePage
      * Returns <code>true</code> if the Priority icon is present and
      * enabled, otherwise returns <code>false</code>.
      * 
-     * @param taskName
-     * @return
+     * @param taskName String
+     * @return boolean
      */
     public boolean isTaskPriorityIconEnabled(String taskName)
     {

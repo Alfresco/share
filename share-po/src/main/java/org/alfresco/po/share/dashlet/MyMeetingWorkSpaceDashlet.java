@@ -104,7 +104,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
      * 
      * @param timer - {@link RenderTime}
      * @param waitForLoading boolean to whether check for waiting for Loading text to disappear.
-     * @return {@link }
+     * @return MyMeetingWorkSpaceDashlet
      */
     public synchronized MyMeetingWorkSpaceDashlet render(RenderTime timer, boolean waitForLoading)
     {
@@ -168,8 +168,8 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
     /**
      * Delete site from the delete symbol of My Meeting Workspaces Dashlets.
      * 
-     * @param siteName
-     * @return
+     * @param siteName String
+     * @return HtmlPage
      */
     public HtmlPage deleteSite(String siteName)
     {
@@ -242,8 +242,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
     /**
      * Delete site from the delete symbol of My Meeting Workspaces Dashlets.
      * 
-     * @param siteName
-     * @return
+     * @param siteName String
      */
     public void selectFavoriteSite(String siteName)
     {
@@ -272,7 +271,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
      * Checks the site is favourite.
      * 
      * @param siteName Site Name checked for is in Favourite.
-     * @return
+     * @return boolean
      */
     public boolean isSiteFavourite(String siteName)
     {

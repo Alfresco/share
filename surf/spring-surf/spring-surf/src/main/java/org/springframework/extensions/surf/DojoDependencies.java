@@ -60,7 +60,7 @@ public class DojoDependencies
     
     /**
      * Adds a new JavaScript dependency.
-     * @param javaScriptDep
+     * @param javaScriptDep String
      */
     public void addJavaScriptDep(String javaScriptDep)
     {
@@ -69,7 +69,7 @@ public class DojoDependencies
     
     /**
      * Adds a new text dependency
-     * @param textDep
+     * @param textDep String
      */
     public void addTextDep(String textDep)
     {
@@ -88,7 +88,8 @@ public class DojoDependencies
     
     /**
      * Adds a new i18n dependency
-     * @param dep
+     * @param path String
+     * @param scope String
      */
     public void addI18nDep(String path, String scope)
     {
@@ -97,7 +98,7 @@ public class DojoDependencies
     
     /**
      * Adds a new non-AMD dependency
-     * @param dep
+     * @param path String
      */
     public void addNonAmdDep(String path)
     {

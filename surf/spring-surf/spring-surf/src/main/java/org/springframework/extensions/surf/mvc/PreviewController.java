@@ -69,7 +69,7 @@ public class PreviewController extends AbstractWebFrameworkController
         
     /**
      * <p>Setter required by the Spring Framework to set the <code>FrameworkUtil</code> bean used for resetting WebScripts</p>
-     * @param frameworkUtil
+     * @param frameworkUtil FrameworkBean
      */
     public void setFrameworkUtil(FrameworkBean frameworkUtil)
     {

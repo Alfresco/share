@@ -108,7 +108,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Method to select the siteName
      * 
-     * @param siteName
+     * @param siteName String
      */
     public void selectSite(String siteName)
     {
@@ -169,7 +169,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Method to check the given folder's permissions
      * 
-     * @param folderName
+     * @param folderName String
      * @return true if the given folder class is set to ".no-permission"
      */
     public boolean isSyncPermitted(String folderName)
@@ -211,7 +211,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Helper method to get all folder web elements
      * 
-     * @return
+     * @return List<WebElement>
      */
     private List<WebElement> getFoldersList()
     {
@@ -229,7 +229,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Method to check if given site exists or not.
      * 
-     * @param siteName
+     * @param siteName String
      * @return True if site displayed
      */
     public boolean isSiteDisplayed(String siteName)
@@ -262,7 +262,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Method to check if given Network exists or not.
      * 
-     * @param networkName
+     * @param networkName String
      * @return True if Network displayed
      */
     public boolean isNetworkDisplayed(String networkName)
@@ -298,7 +298,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Method to check if given folder exists or not
      * 
-     * @param folderName
+     * @param folderName String
      * @return True if a specified folder displayed
      */
     public boolean isFolderDisplayed(String folderName)
@@ -383,7 +383,7 @@ public class DestinationAndAssigneePage extends SharePage
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isIncludeSubFoldersSelected()
     {
@@ -419,7 +419,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Check Lock (On-Premise) copy selected.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isLockOnPremCopy()
     {
@@ -440,10 +440,11 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * This method accepts string array of
      * folders.
-     * 
-     * @ForMultiLevelFolder folder, subFolder, superSubFolder...
-     * @FotSingleLevelFolder folder.
-     * @param folderPath
+     * <br>
+     * ForMultiLevelFolder folder, subFolder, superSubFolder...
+     * <br>
+     * FotSingleLevelFolder folder.
+     * @param folderPath String...
      */
     public void selectFolder(String... folderPath)
     {
@@ -495,7 +496,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Click on submit button to submit sync properties.
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectSubmitButtonToSync()
     {
@@ -528,8 +529,6 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Click on submit button to submit sync properties.
      * The method does not verify if the page was rendered
-     * 
-     * @return
      */
     public void clickSyncButton()
     {
@@ -570,7 +569,7 @@ public class DestinationAndAssigneePage extends SharePage
     }
 
     /**
-     * @return
+     * @return CreateNewFolderInCloudPage
      */
     public CreateNewFolderInCloudPage selectCreateNewFolder()
     {
@@ -615,7 +614,7 @@ public class DestinationAndAssigneePage extends SharePage
     /**
      * Method to verify Sync button is enable or not
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSyncButtonEnabled()
     {

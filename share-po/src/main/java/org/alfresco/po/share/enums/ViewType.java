@@ -33,7 +33,7 @@ public enum ViewType
     /**
      * Finds the view type based on the name passed.
      * 
-     * @param name
+     * @param name String
      * @return {@link ViewType}
      */
     public static ViewType getViewType(String name)

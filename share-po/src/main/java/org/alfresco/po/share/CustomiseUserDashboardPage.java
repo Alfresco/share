@@ -201,8 +201,8 @@ public class CustomiseUserDashboardPage extends SharePage
     /**
      * Add given dashlet into given column.
      *
-     * @param dashletName
-     * @param columnNumber
+     * @param dashletName Dashlets
+     * @param columnNumber int
      * @return {@link SiteDashboardPage}
      */
     public DashBoardPage addDashlet(Dashlets dashletName, int columnNumber)
@@ -302,8 +302,8 @@ public class CustomiseUserDashboardPage extends SharePage
     /**
      * Add given dashlet into given column.
      *
-     * @param dashletName
-     * @param columnNumber
+     * @param dashletName String
+     * @param columnNumber int
      * @return {@link SiteDashboardPage}
      */
     public DashBoardPage addDashlet(String dashletName, int columnNumber)
@@ -422,7 +422,7 @@ public class CustomiseUserDashboardPage extends SharePage
     /**
      * Remove dashlet by name.
      *
-     * @param dashlet
+     * @param dashlet Dashlets
      */
     public DashBoardPage removeDashlet(Dashlets dashlet)
     {
@@ -436,7 +436,7 @@ public class CustomiseUserDashboardPage extends SharePage
     /**
      * Method to change layout on Customize Site Dashboard page
      *
-     * @param numOfColumns
+     * @param numOfColumns int
      */
 
     public void selectNewLayout(int numOfColumns)

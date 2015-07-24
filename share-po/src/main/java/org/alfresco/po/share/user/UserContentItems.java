@@ -21,7 +21,7 @@ public class UserContentItems extends HtmlElement {
      * Constructor
      * 
      * @param element {@link WebElement}
-     * @param drone
+     * @param drone WebDrone
      */
     public UserContentItems(WebElement element, WebDrone drone)
     {
@@ -31,7 +31,7 @@ public class UserContentItems extends HtmlElement {
     /**
      * Get the content name as displayed on screen.
      * 
-     * @return
+     * @return String
      */
     public String getContentName()
     {

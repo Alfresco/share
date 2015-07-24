@@ -76,7 +76,7 @@ public class BlogTreeMenuNavigation extends SharePage
      * Returns true if the given menu tree is visible.
      * BlogPageTest.BlogTreeMenuNavigation
      * 
-     * @return
+     * @return boolean
      */
     public boolean isMenuTreeVisible()
     {
@@ -96,7 +96,7 @@ public class BlogTreeMenuNavigation extends SharePage
      * Checks if the menu is open
      * BlogPageTest.BlogTreeMenuNavigation
      * 
-     * @return
+     * @return boolean
      */
     public boolean isMenuExpanded()
     {
@@ -140,7 +140,7 @@ public class BlogTreeMenuNavigation extends SharePage
      * Expands the Pages menu and selects the given link.
      * BlogPageTest.BlogTreeMenuNavigation
      * 
-     * @param postsMenu
+     * @param postsMenu PostsMenu
      * @return The page loaded when the node is selected.
      */
     public HtmlPage selectListNode(PostsMenu postsMenu)

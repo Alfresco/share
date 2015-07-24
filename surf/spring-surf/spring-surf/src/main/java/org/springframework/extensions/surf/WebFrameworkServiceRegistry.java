@@ -247,7 +247,7 @@ public class WebFrameworkServiceRegistry
     }
     
     /**
-     * @param webFrameworkContainer
+     * @param webFrameworkContainer Container
      * @deprecated
      */
     public void setWebFrameworkContainer(Container webFrameworkContainer)
@@ -262,7 +262,7 @@ public class WebFrameworkServiceRegistry
     
     /**
      * @deprecated
-     * @param remoteConfigElement
+     * @param remoteConfigElement RemoteConfigElement
      */
     public void setRemoteConfigElement(RemoteConfigElement remoteConfigElement)
     {
@@ -287,7 +287,7 @@ public class WebFrameworkServiceRegistry
 
     /**
      * @deprecated
-     * @param webFrameworkConfigElement
+     * @param webFrameworkConfigElement WebFrameworkConfigElement
      */
     public void setWebFrameworkConfigElement(WebFrameworkConfigElement webFrameworkConfigElement)
     {
@@ -350,7 +350,7 @@ public class WebFrameworkServiceRegistry
     
     /**
      * @deprecated 
-     * @param taglibFactory
+     * @param taglibFactory TaglibFactory
      */
     public static void setTaglibFactory(TaglibFactory taglibFactory)
     {
@@ -364,7 +364,7 @@ public class WebFrameworkServiceRegistry
     
     /**
      * @deprecated
-     * @param servletContextHashModel
+     * @param servletContextHashModel ServletContextHashModel
      */
     public static void setServletContextHashModel(ServletContextHashModel servletContextHashModel)
     {

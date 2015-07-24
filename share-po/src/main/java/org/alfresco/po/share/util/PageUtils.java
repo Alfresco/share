@@ -38,7 +38,7 @@ public class PageUtils
     /**
      * Method to return current protocol from the url
      *
-     * @param shareUrl
+     * @param shareUrl String
      * @return String
      */
     public static String getProtocol(String shareUrl)
@@ -55,7 +55,7 @@ public class PageUtils
     /**
      * Method to return Share Url without the protocol string (i.e pbld01.alfresco.com/share)
      *
-     * @param shareUrl
+     * @param shareUrl String
      * @return String
      */
     public static String getShareUrl(String shareUrl)
@@ -72,7 +72,7 @@ public class PageUtils
     /**
      * Method to return Share server address and port(i.e pbld01.alfresco.com, 127.0.0.1:8080)
      *
-     * @param shareUrl
+     * @param shareUrl String
      * @return String
      */
     public static String getAddress(String shareUrl)
@@ -98,7 +98,7 @@ public class PageUtils
     /**
      * Method to retrieve site name from the url
      *
-     * @param shareUrl
+     * @param shareUrl String
      * @return String
      */
     public static String getSiteName(String shareUrl)

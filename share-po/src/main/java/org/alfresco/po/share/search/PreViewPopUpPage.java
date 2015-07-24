@@ -19,7 +19,6 @@ import org.openqa.selenium.WebElement;
  * PreView pop up page object 
  * 
  * @author Charu
- * @since 
  */
 @SuppressWarnings("unchecked")
 public class PreViewPopUpPage extends SharePage

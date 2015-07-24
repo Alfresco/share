@@ -300,7 +300,7 @@ public class ShareLinkPage extends SharePage
     /**
      * Get the shared url for the document.
      * 
-     * @return
+     * @return String
      */
     public String getShareURL()
     {

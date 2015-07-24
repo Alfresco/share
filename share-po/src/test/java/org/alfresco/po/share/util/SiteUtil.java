@@ -213,7 +213,6 @@ public class SiteUtil
      * @param desc String
      * @param siteVisibility SiteVisiblity
      * @return true if site created
-     * @throws Exception if error
      */
     public static boolean createSite(WebDrone drone, final String siteName, String desc, String siteVisibility)
     {
@@ -355,7 +354,7 @@ public class SiteUtil
     /**
      * This method create in Temp directory jpg file for uploading.
      *
-     * @param jpgName
+     * @param jpgName String
      * @return File object for created Image.
      */
     public static File prepareJpg(String jpgName)
@@ -381,9 +380,10 @@ public class SiteUtil
      * 
      * Searching with retry for sites to handle solr lag
      * 
-     * @param finderPage
-     * @param siteName
-     * @return
+     * @param drone WebDrone
+     * @param finderPage SiteFinderPage
+     * @param siteName String
+     * @return SiteFinderPage
      */
     public static SiteFinderPage siteSearchRetry(WebDrone drone, SiteFinderPage finderPage, String siteName)
     {

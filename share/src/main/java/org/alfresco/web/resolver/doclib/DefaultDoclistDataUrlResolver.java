@@ -38,7 +38,7 @@ public class DefaultDoclistDataUrlResolver implements DoclistDataUrlResolver
     /**
      * The base path to the repository doclist webscript.
      *
-     * @param basePath
+     * @param basePath String
      */
     public void setBasePath(String basePath)
     {

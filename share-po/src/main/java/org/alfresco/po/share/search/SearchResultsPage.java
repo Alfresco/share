@@ -492,7 +492,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     /**
      * Click on go to Advanced Search link.
      * 
-     * @returns {@link SharePage}
+     * @return {@link SharePage}
      */
     public HtmlPage goBackToAdvanceSearch()
     {
@@ -505,7 +505,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      * different sort type present in the search results page.
      * 
      * @throws NoSuchElementException
-     * @returns - list of Sort type elements.
+     * @return - list of Sort type elements.
      */
     private List<ShareLink> sortFilterList() throws NoSuchElementException
     {

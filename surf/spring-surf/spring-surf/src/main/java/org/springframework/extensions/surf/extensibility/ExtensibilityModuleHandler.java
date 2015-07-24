@@ -27,7 +27,7 @@ import org.springframework.extensions.surf.types.ExtensionModule;
 
 /**
  * <p>Classes implementing this interface should be able to determine paths to the files provided by
- * a module that extend a {@linl ExtensibilityModel} being processed. They should also be able to 
+ * a module that extend a {@link ExtensibilityModel} being processed. They should also be able to
  * return a String representing the HTML instructions for importing client side JavaScript and CSS
  * resource dependencies required by the extending modules.</p>
  * 

@@ -117,7 +117,7 @@ public class UserSitesPage extends SharePage
     /**
      * Get the navigation bar.
      * 
-     * @return
+     * @return ProfileNavigation
      */
     public ProfileNavigation getProfileNav()
     {
@@ -127,7 +127,7 @@ public class UserSitesPage extends SharePage
     /**
      * Return <code>true</code> if the No Site message is displayed on screen.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isNoSiteMessagePresent()
     {
@@ -178,8 +178,8 @@ public class UserSitesPage extends SharePage
     /**
      * Get a {@link UserSiteItem} for the named site
      * 
-     * @param siteName
-     * @return
+     * @param siteName String
+     * @return UserSiteItem
      */
     public UserSiteItem getSite(String siteName)
     {

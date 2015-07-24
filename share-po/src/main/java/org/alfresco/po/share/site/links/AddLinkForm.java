@@ -18,7 +18,7 @@ public class AddLinkForm extends AbstractLinkForm
     /**
      * Constructor
      *
-     * @param drone
+     * @param drone WebDrone
      */
     public AddLinkForm(WebDrone drone)
     {
@@ -50,7 +50,7 @@ public class AddLinkForm extends AbstractLinkForm
     /**
      * Method for clicking Save button on Add Link form
      *
-     * @return
+     * @return LinksDetailsPage
      */
     public LinksDetailsPage clickSaveBtn()
     {

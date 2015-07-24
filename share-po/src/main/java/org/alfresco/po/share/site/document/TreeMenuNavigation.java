@@ -151,8 +151,8 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Checks if the menu node is expanded.
      * 
-     * @param node
-     * @return
+     * @param node By
+     * @return boolean
      */
     private boolean isNodeExpanded(By node)
     {
@@ -173,8 +173,8 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Checks if the menu is open
      * 
-     * @param treeMenu
-     * @return
+     * @param treeMenu TreeMenu
+     * @return boolean
      */
     private boolean isMenuExpanded(TreeMenu treeMenu)
     {
@@ -202,8 +202,8 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Expands the menu tree in order of the list
      * 
-     * @param treeMenu
-     * @param nodePath
+     * @param treeMenu TreeMenu
+     * @param nodePath List<String>
      */
     private void expandNode(TreeMenu treeMenu, List<String> nodePath)
     {
@@ -244,7 +244,7 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Opens the menu tree
      * 
-     * @param treeMenu
+     * @param treeMenu TreeMenu
      */
     private void expandMenu(TreeMenu treeMenu)
     {
@@ -265,7 +265,7 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Expands the Documents menu and selects the given link.
      * 
-     * @param docMenu
+     * @param docMenu DocumentsMenu
      * @return The page loaded when the node is selected.
      */
     public HtmlPage selectDocumentNode(DocumentsMenu docMenu)
@@ -293,7 +293,7 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Expands the Tags menu and selects the given link.
      * 
-     * @param tagName
+     * @param tagName String
      * @return The page loaded when the node is selected.
      */
     public HtmlPage selectTagNode(String tagName)
@@ -329,8 +329,8 @@ public class TreeMenuNavigation extends SharePage
      * Expands the menu tree and selects the last node in the supplied node
      * path. For Documents menu use selectDocumentNode(DocumentsMenu)
      * 
-     * @param treeMenu
-     * @param nodePath
+     * @param treeMenu TreeMenu
+     * @param nodePath String...
      * @return The page loaded when the node is selected.
      */
     public HtmlPage selectNode(TreeMenu treeMenu, String... nodePath)
@@ -374,9 +374,9 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Expands the menu tree and returns a list of the immediate children text.
      * 
-     * @param treeMenu
-     * @param nodePath
-     * @return
+     * @param treeMenu TreeMenu
+     * @param nodePath String...
+     * @return List<String>
      */
     public List<String> getNodeChildren(TreeMenu treeMenu, String... nodePath)
     {
@@ -424,7 +424,7 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Retuns true if the given menu tree is visible.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isMenuTreeVisible(TreeMenu treeMenu)
     {
@@ -447,7 +447,7 @@ public class TreeMenuNavigation extends SharePage
     /**
      * Checks if the given menu item in the Documents menu is visible.
      * 
-     * @param docMenu
+     * @param docMenu DocumentsMenu
      * @return <code>true</code> if visible.
      */
     public boolean isDocumentNodeVisible(DocumentsMenu docMenu)
@@ -471,8 +471,8 @@ public class TreeMenuNavigation extends SharePage
     /**
      * This method returns the count for the given tag string.
      *
-     * @param tagName
-     * @return
+     * @param tagName String
+     * @return int
      */
     public int getTagCount(String tagName)
     {

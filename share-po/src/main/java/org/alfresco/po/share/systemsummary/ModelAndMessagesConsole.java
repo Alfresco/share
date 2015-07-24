@@ -44,8 +44,7 @@ public class ModelAndMessagesConsole  extends TenantConsole
     /**
      * Method for send commands
      *
-     * @param request
-     * @return
+     * @param request String
      */
     public void sendCommand(String request)
     {

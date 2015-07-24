@@ -42,9 +42,9 @@ public class ServletRequestContext extends AbstractRequestContext
     /**
      * <p>Constructor for default servlet container request context</p>
      * 
-     * @param webRequest servlet web request object
-     * @param frameworkBean
-     * @param linkBuilder
+     * @param serviceRegistry WebFrameworkServiceRegistry
+     * @param frameworkBean FrameworkBean
+     * @param linkBuilder LinkBuilder
      */
     public ServletRequestContext(WebFrameworkServiceRegistry serviceRegistry, 
                                  FrameworkBean frameworkBean, 
@@ -57,8 +57,8 @@ public class ServletRequestContext extends AbstractRequestContext
     /**
      * <p>Constructor for default servlet container request context.</p>
      * 
-     * @param webRequest servlet web request object
-     * @param linkBuilder 
+     * @param serviceRegistry WebFrameworkServiceRegistry
+     * @param linkBuilder LinkBuilder
      * @deprecated
      */
     public ServletRequestContext(WebFrameworkServiceRegistry serviceRegistry, LinkBuilder linkBuilder)

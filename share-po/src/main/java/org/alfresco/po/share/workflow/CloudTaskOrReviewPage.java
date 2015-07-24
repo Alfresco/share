@@ -226,8 +226,6 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
 
     /**
      * Selects specific tasks on the pageS
-     * 
-     * @return true if exists
      */
     public void selectTask(TaskType taskType)
     {
@@ -243,9 +241,9 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to check for test in WorkFlow page
      * 
-     * @param selector
-     * @param text
-     * @return
+     * @param selector By
+     * @param text String
+     * @return boolean
      */
     protected boolean isTextPresent(By selector, String text)
     {
@@ -280,7 +278,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Returns the WebElement for message textarea.
      * 
-     * @return
+     * @return WebElement
      */
     @Override
     protected WebElement getMessageTextareaElement()
@@ -291,7 +289,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Returns the WebElement for message text area.
      * 
-     * @return
+     * @return WebElement
      */
     @Override
     protected WebElement getDueDateElement()
@@ -302,7 +300,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Returns the WebElement for Select reviewer button.
      * 
-     * @return
+     * @return WebElement
      */
     @Override
     protected WebElement getSelectReviewButton()
@@ -313,7 +311,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Returns the WebElement for Start workflow button.
      * 
-     * @return
+     * @return WebElement
      */
     @Override
     protected WebElement getStartWorkflowButton()
@@ -397,8 +395,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Mimics the action of selecting the Lock on premise checkbox.
      * 
-     * @param toCheck
-     * @return HtmlPage response page object
+     * @param toCheck boolean
      */
     public void selectLockOnPremiseCheckbox(boolean toCheck)
     {
@@ -421,7 +418,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     }
 
     /**
-     * @return
+     * @return String
      */
     public String getErrorMessage()
     {
@@ -457,7 +454,8 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     }
 
     /**
-     * @param filename
+     * @param filename String
+     * @param action By
      */
     private void performActionForFile(String filename, By action)
     {
@@ -478,7 +476,8 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     }
 
     /**
-     * @param filename
+     * @param filename String
+     * @param action By
      */
     private String getDetailsForFile(String filename, By action)
     {
@@ -501,8 +500,8 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     }
 
     /**
-     * @param filename
-     * @return
+     * @param filename String
+     * @return WebElement
      */
     private WebElement findFileRow(String filename)
     {
@@ -527,7 +526,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Selects the Status drop down list.
      * 
-     * @param strategy
+     * @param strategy KeepContentStrategy
      */
     public void selectAfterCompleteDropDown(KeepContentStrategy strategy)
     {
@@ -542,7 +541,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to enter Required Approval Percentage
      * 
-     * @param percentage
+     * @param percentage int
      */
     public void enterRequiredApprovalPercentage(int percentage)
     {
@@ -570,7 +569,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to get Cloud Destination Network
      * 
-     * @return
+     * @return String
      */
     public String getDestinationNetwork()
     {
@@ -580,7 +579,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to get Destination Cloud Site
      * 
-     * @return
+     * @return String
      */
     public String getDestinationSite()
     {
@@ -590,7 +589,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to get Destination Cloud Folder
      * 
-     * @return
+     * @return String
      */
     public String getDestinationFolder()
     {
@@ -612,7 +611,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
      * Destination select button, Assignee label and Assignee select button
      * are present.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSimpleCloudTaskElementsPresent()
     {
@@ -624,7 +623,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
      * Destination select button, Reviewer label and Reviewer select button,
      * Required Approval Percentage field and Approval percentage Help Icon are present.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isCloudReviewTaskElementsPresent()
     {
@@ -704,7 +703,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to get Assignee for Simple Cloud Task. If no users found, return empty string.
      * 
-     * @return
+     * @return String
      */
     public String getAssignee()
     {
@@ -750,7 +749,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to get Assignee or Reviewers List. If No users found, returns empty list
      * 
-     * @return
+     * @return List<String>
      */
     private List<String> getAssigneeOrReviewersList()
     {
@@ -777,7 +776,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to select Approval percentage help icon and
      * 
-     * @return
+     * @return String
      */
     public String getRequiredApprovalPercentageHelpText()
     {
@@ -803,7 +802,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to get After Completion Dropdown options
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getAfterCompletionOptions()
     {
@@ -828,7 +827,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to get Selected After Completion Option
      * 
-     * @return
+     * @return KeepContentStrategy
      */
     public KeepContentStrategy getSelectedAfterCompletionOption()
     {
@@ -1045,7 +1044,7 @@ public class CloudTaskOrReviewPage extends WorkFlowPage
     /**
      * Method to get All labels from Workflow Form
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getAllLabels()
     {

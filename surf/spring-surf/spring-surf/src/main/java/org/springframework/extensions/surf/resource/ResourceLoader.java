@@ -55,8 +55,8 @@ public interface ResourceLoader
     /**
      * Loads the resource with the given object id
      * 
-     * @param objectId
-     * @return
+     * @param objectId String
+     * @return Resource
      * @throws ResourceLoaderException
      */
     public Resource load(String objectId)

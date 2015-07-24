@@ -71,11 +71,11 @@ public class PendingInvitesPageTest extends AbstractTest
         userCreated.searchFor(userNameTest).render();
         Assert.assertTrue(userCreated.hasResults());
         **/
-        //Creating a site.
+        // Creating a site.
         CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
 
-        //Invite a user
+        // Invite a user
         //List<String> searchUsers = null;
         //membersPage = site.getSiteNav().selectInvite().render();
  
@@ -93,9 +93,11 @@ public class PendingInvitesPageTest extends AbstractTest
         {
             //searchUsers = membersPage.searchUser(userNameTest);
             searchUsers = membersPage.searchUser("user");
+            waitInSeconds(1);
             try
             {
-                if (searchUsers != null && searchUsers.size() > 0)
+                if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userNameTest))
+                    
                 {
                     membersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
                     membersPage.clickInviteButton().render();
@@ -130,6 +132,8 @@ public class PendingInvitesPageTest extends AbstractTest
     public void checkSearch()
     {
         pendingInvitesPage.search(userNameTest);
+        pendingInvitesPage.render();
+        waitInSeconds(1);
         assertEquals(pendingInvitesPage.getInvitees().size(), 1);
     }
 

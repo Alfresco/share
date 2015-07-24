@@ -92,9 +92,9 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to create new topic
      * 
-     * @param titleField
-     * @param textLines
-     * @return
+     * @param titleField String
+     * @param textLines String
+     * @return TopicViewPage
      */
 
     public TopicViewPage createTopic(String titleField, String textLines)
@@ -130,8 +130,8 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to create new topic without text field
      * 
-     * @param titleField
-     * @return
+     * @param titleField String
+     * @return TopicViewPage
      */
 
     public TopicViewPage createTopic(String titleField)
@@ -159,10 +159,10 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to create new topic with tag
      * 
-     * @param titleField
-     * @param textLines
-     * @param tag
-     * @return
+     * @param titleField String
+     * @param textLines String
+     * @param tag String
+     * @return TopicViewPage
      */
 
     public TopicViewPage createTopic(String titleField, String textLines, String tag)
@@ -260,9 +260,10 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to edit topic
      * 
-     * @param oldTitle
-     * @param newTitle
-     * @return
+     * @param oldTitle String
+     * @param newTitle String
+     * @param txtLines String
+     * @return TopicViewPage
      */
     public TopicViewPage editTopic(String oldTitle, String newTitle, String txtLines)
     {
@@ -285,11 +286,11 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to edit topic
      * 
-     * @param oldTitle
-     * @param newTitle
-     * @param txtLines
-     * @param tagName
-     * @return
+     * @param oldTitle String
+     * @param newTitle String
+     * @param txtLines String
+     * @param tagName String
+     * @return TopicViewPage
      */
     public TopicViewPage editTopic(String oldTitle, String newTitle, String txtLines, String tagName)
     {
@@ -299,11 +300,12 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to edit topic
      *
-     * @param oldTitle
-     * @param newTitle
-     * @param txtLines
-     * @param tagName
-     * @return
+     * @param oldTitle String
+     * @param newTitle String
+     * @param txtLines String
+     * @param tagName String
+     * @param removeTag boolean
+     * @return TopicViewPage
      */
     public TopicViewPage editTopic(String oldTitle, String newTitle, String txtLines, String tagName,  boolean removeTag)
     {
@@ -331,7 +333,7 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to delete topic with confirmation
      * 
-     * @param title
+     * @param title String
      * @return Discussions Page
      */
     public DiscussionsPage deleteTopicWithConfirm(String title)
@@ -372,7 +374,7 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to verify whether edit topic is displayed
      * 
-     * @param title
+     * @param title String
      * @return true if displayed
      */
     public boolean isEditTopicDisplayed(String title)
@@ -383,7 +385,7 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to verify whether delete topic is displayed
      * 
-     * @param title
+     * @param title String
      * @return true if displayed
      */
     public boolean isDeleteTopicDisplayed(String title)
@@ -394,7 +396,7 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Return Object for interacting with left filter panel.
      * 
-     * @return
+     * @return TopicsListFilter
      */
     public TopicsListFilter getTopicsListFilter()
     {
@@ -404,7 +406,7 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Return list of titles displayed on page.
      * 
-     * @return
+     * @return List<String>
      */
     public List<String> getTopicTitles()
     {
@@ -420,7 +422,7 @@ public class DiscussionsPage extends TopicsListPage
     /**
      * Method to verify is discussion presented
      * 
-     * @param title
+     * @param title String
      * @return Return true if discussion displayed, and return false if discussion is absent
      */
     public boolean isTopicPresented(String title)
@@ -452,8 +454,8 @@ public class DiscussionsPage extends TopicsListPage
      * Method to check tags for topic page
      * if param tag is null will be return true if 'Tags: (None)'
      * 
-     * @param title
-     * @param tag
+     * @param title String
+     * @param tag String
      * @return return true if expected tag information presented
      */
     public boolean checkTags(String title, String tag)

@@ -176,9 +176,10 @@ public abstract class RenderServiceTag extends RequestContextAwareTag
      * <p>This method should be implemented to invoke the required method of the <code>RenderService</code>
      * that the subclass needs to render its output</p>
      *   
-     * @param renderService
-     * @param renderContext
-     * @return The appropriate return code to pass on (e.g. SKIP_BODY, EVAL_BODY_INCLUDE, etc). 
+     * @param renderService RenderService
+     * @param renderContext RequestContext
+     * @param object ModelObject
+     * @return The appropriate return code to pass on (e.g. SKIP_BODY, EVAL_BODY_INCLUDE, etc).
      */
     protected abstract int invokeRenderService(RenderService renderService, RequestContext renderContext, ModelObject object) throws Exception;
 

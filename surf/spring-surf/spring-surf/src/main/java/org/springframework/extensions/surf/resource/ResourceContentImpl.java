@@ -48,8 +48,9 @@ public class ResourceContentImpl implements ResourceContent
     /**
      * Constructor
      * 
-     * @param resource
-     * @param url
+     * @param resource Resource
+     * @param url String
+     * @param frameworkUtil FrameworkBean
      */
     public ResourceContentImpl(Resource resource, String url, FrameworkBean frameworkUtil)
     {

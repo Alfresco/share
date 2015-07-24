@@ -328,9 +328,9 @@ public class LocalFileSystemStore extends AbstractStore implements ServletContex
      * 
      * Returns an array of valid document paths
      * 
-     * @param path
-     * @param regexPattern
-     * @param traverseChildren
+     * @param path String
+     * @param regexPattern String
+     * @param traverseChildren boolean
      * 
      * @return document paths
      */
@@ -461,8 +461,8 @@ public class LocalFileSystemStore extends AbstractStore implements ServletContex
      * Returns the absolute path relative to the root of the store
      * given a particular document path.
      * 
-     * @param documentPath
-     * @return
+     * @param documentPath String
+     * @return String
      */
     protected String toAbsolutePath(String documentPath)
     {

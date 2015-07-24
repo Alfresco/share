@@ -30,22 +30,22 @@ import java.util.Map;
 
 /**
  * <p>
- * Evaluator used to decide if an extension module (and its {@code<components>} & {@code<customizations>}) shall be
+ * Evaluator used to decide if an extension module (and its {@code <components>} & {@code <customizations>}) shall be
  * used for this request.
  * </p>
  *
  * <p>
  * Makes it possible to decide if we are viewed specific sites based on their ids and sitePreset ids by matching them
- * against the regexps inside the {@code<sites>} and {@code<sitePresets>} parameters and the comma separated groups list
- * in the {@code<groups>} parameter. The {@code<groupsRelation>} parameter decides if the groups list shall be
+ * against the regexps inside the {@code <sites>} and {@code <sitePresets>} parameters and the comma separated groups list
+ * in the {@code <groups>} parameter. The {@code <groupsRelation>} parameter decides if the groups list shall be
  * matched using "and" or "or", allowed values are: AND and OR.
  * </p>
  *
  * <p>
  * Note! If we are outside a side (i.e. a "global/non-site-page"  page: i.e. the "Repository browser", A users dashboard or the
  * "My Workflows" page the evaluator will return <code>true</code> by default. To change this behaviour you can set
- * {@code<applyForNonSites>} to false, which means the evaluator will return true ONLY when inside a site.
- * Note that the {@code<groups>} parameter still applies even
+ * {@code <applyForNonSites>} to false, which means the evaluator will return true ONLY when inside a site.
+ * Note that the {@code <groups>} parameter still applies even
  * </p>
  * <p>
  * Note! The regexp is expressed without using the surrounding // characters.
@@ -136,8 +136,8 @@ public class SlingshotSiteModuleEvaluator implements ExtensionModuleEvaluator
     /**
      * Will return true if we are outside a site OR inside a site with a sitePreset id of "rm-site-dashboard".
      *
-     * @param context
-     * @param params
+     * @param context RequestContext
+     * @param params Map
      * @return true if we are outside a site OR inside a site with a sitePreset id of "rm-site-dashboard".
      */
     public boolean applyModule(RequestContext context, Map<String, String> params)
@@ -189,8 +189,8 @@ public class SlingshotSiteModuleEvaluator implements ExtensionModuleEvaluator
      * Checks to see whether or not the current user satisfies the group membership requirements
      * specified.
      *
-     * @param context
-     * @param params
+     * @param context RequestContext
+     * @param params Map
      * @return true if groups param is empty or user is a member of the specified groups (honouring the groupsRelation parameter)
 
      */

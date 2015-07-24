@@ -89,8 +89,8 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     /**
      * Add new authChain.
      * 
-     * @param authType
-     * @param authName
+     * @param authType AuthType
+     * @param authName String
      */
     public DirectoryManagementPage addAuthChain(AuthType authType, String authName)
     {
@@ -113,7 +113,7 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     /**
      * Return list of objects associated with Auth Chain Rows in table.
      * 
-     * @return
+     * @return List<DirectoryInfoRow>
      */
     public List<DirectoryInfoRow> getDirectoryInfoRows()
     {
@@ -136,8 +136,8 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     /**
      * Return object by 'name' associated with Auth Chain Row in table.
      * 
-     * @param name
-     * @return
+     * @param name String
+     * @return DirectoryInfoRow
      */
     public DirectoryInfoRow getDirectoryInfoRowBy(String name)
     {
@@ -156,8 +156,8 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     /**
      * Remove auth chain by 'name' from alfresco.
      * 
-     * @param name
-     * @return
+     * @param name String
+     * @return DirectoryManagementPage
      */
     public DirectoryManagementPage removeAuthChain(String name)
     {
@@ -170,7 +170,7 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     /**
      * Return sync status.
      * 
-     * @return
+     * @return String
      */
     public String getSyncStatus()
     {
@@ -180,7 +180,7 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     /**
      * Return sync status.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSyncStatusDisplayed()
     {
@@ -209,8 +209,8 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     /**
      * Run test sync for auth chain selected by 'name'
      * 
-     * @param name
-     * @return
+     * @param name String
+     * @return String
      */
     public String runTestSyncFor(String name)
     {

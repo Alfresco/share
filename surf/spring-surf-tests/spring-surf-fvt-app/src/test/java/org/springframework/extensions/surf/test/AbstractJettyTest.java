@@ -233,7 +233,7 @@ public abstract class AbstractJettyTest
      * @param resource The resource to request from the application
      * @param httpMethod The HTTP method to use
      * @param strings A list of Strings to search for in the response
-     * @throws Exception
+     * @throws AssertionError
      */
     protected void checkResponseTextOrdering(String resource, String httpMethod, String... strings) throws AssertionError
     {

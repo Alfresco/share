@@ -33,7 +33,7 @@ public interface CmisIdEncoder
 	
 	/**
 	 * Convert url valid encoding of a CMIS object Id back into the id.
-	 * @param String url portion
+	 * @param urlPortion String url portion
 	 * @return objectId CMIS object id
 	 */
 	String getObjectId(String urlPortion);	

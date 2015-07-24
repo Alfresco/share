@@ -29,9 +29,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-/**
- * @author
- */
 
 @SuppressWarnings("unused")
 public class DeleteGroupFromGroupPage extends SharePage

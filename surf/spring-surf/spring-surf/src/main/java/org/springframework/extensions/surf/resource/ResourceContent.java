@@ -35,7 +35,7 @@ public interface ResourceContent
     /**
      * A link back to the resource of which this content is a part.
      * 
-     * @return
+     * @return Resource
      */
     public Resource getResource();
     

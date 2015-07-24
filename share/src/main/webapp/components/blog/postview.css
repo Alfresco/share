@@ -112,6 +112,7 @@ html>body .node, .reply, .comment
   margin-left: 1em;
   margin-right: 5em;
   padding-right: 2em;
+  overflow: auto;
 }
 
 .nodeContent ul li

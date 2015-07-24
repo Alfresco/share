@@ -48,7 +48,7 @@ public enum SortField
     /**
      * Get the xpath for the SortField.
      * 
-     * @return
+     * @return By
      */
     public By getSortLocator()
     {
@@ -65,7 +65,7 @@ public enum SortField
      * Get the SortField enum from the name string
      * 
      * @param name
-     * @returns
+     * @return SortField
      */
     public static SortField getEnum(String name)
     {

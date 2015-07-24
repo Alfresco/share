@@ -77,9 +77,9 @@ public class SlingshotEvaluatorUtil {
     /**
      * Helper for getting an evaluator parameter trimmed OR defaultValue if no value has been provided.
      *
-     * @param params
-     * @param name
-     * @param defaultValue
+     * @param params Map<String, String>
+     * @param name String
+     * @param defaultValue String
      * @return A trimmed evaluator parameter OR defaultValue if no value has been provided.
      */
     public String getEvaluatorParam(Map<String, String> params, String name, String defaultValue)
@@ -95,7 +95,7 @@ public class SlingshotEvaluatorUtil {
     /**
      * Returns true if we are viewed from inside a portal.
      *
-     * @param context
+     * @param context RequestContext
      * @return true if we are viewed from inside a portal
      */
     public Boolean getPortletHost(RequestContext context)
@@ -111,7 +111,7 @@ public class SlingshotEvaluatorUtil {
 
     /**
      * Returns the portal url if we are inside a portal, otherwise null.
-     * @param context
+     * @param context RequestContext
      * @return the portal url if we are inside a portal, otherwise null.
      */
     public String getPortletUrl(RequestContext context)
@@ -127,7 +127,7 @@ public class SlingshotEvaluatorUtil {
     /**
      * Returns the current site id OR null if we aren't in a site
      *
-     * @param context
+     * @param context RequestContext
      * @return The current page id OR null if it doesn't exist
      */
     public String getPageId(RequestContext context)
@@ -139,7 +139,7 @@ public class SlingshotEvaluatorUtil {
     /**
      * Returns the current site id OR null if we aren't in a site
      *
-     * @param context
+     * @param context RequestContext
      * @return The current site id OR null if we aren't in a site
      */
     public String getSite(RequestContext context)
@@ -167,7 +167,7 @@ public class SlingshotEvaluatorUtil {
     /**
      * Returns the current page context id OR null if one isn't supplied
      *
-     * @param context
+     * @param context RequestContext
      * @return The current page context id OR null if there is no page context
      */
     public String getPageContext(RequestContext context)
@@ -195,7 +195,7 @@ public class SlingshotEvaluatorUtil {
     /**
      * The site's sitePreset OR null if something goes wrong.
      *
-     * @param context
+     * @param context RequestContext
      * @param siteId The id of the site to retrieve the sitePreset for.
      * @return The site's sitePreset OR null if something goes wrong.
      */
@@ -266,10 +266,10 @@ public class SlingshotEvaluatorUtil {
     /**
      * Determines whether or not the current user is a member of the supplied group.
      *
-     * @param context
-     * @param groups
-     * @param memberOfAllGroups
-     * @return
+     * @param context RequestContext
+     * @param groups List<String>
+     * @param memberOfAllGroups boolean
+     * @return boolean
      */
     @SuppressWarnings({ "rawtypes" })
     public boolean isMemberOfGroups(RequestContext context, List<String> groups, boolean memberOfAllGroups)
@@ -464,8 +464,8 @@ public class SlingshotEvaluatorUtil {
      * provided as a comma delimited string and will convert that string into a List removing trailing
      * whitespace along the way.
      *
-     * @param groupsParm
-     * @return
+     * @param groupsParm String
+     * @return List<String>
      */
     public List<String> getGroups(String groupsParm)
     {

@@ -121,9 +121,9 @@ public class StartWorkFlowPage extends SharePage
     /**
      * Method to check for test in WorkFlow page
      * 
-     * @param selector
-     * @param text
-     * @return
+     * @param selector By
+     * @param text String
+     * @return boolean
      */
     protected boolean isTextPresent(By selector, String text)
     {
@@ -151,8 +151,8 @@ public class StartWorkFlowPage extends SharePage
      * Method to get the workflow sub page for the workflow passed.
      * StartWorkFlow page is returned in common,for any of its subclass.
      * 
-     * @param workFlowType
-     * @return
+     * @param workFlowType WorkFlowType
+     * @return WorkFlow
      */
     public WorkFlow getWorkflowPage(WorkFlowType workFlowType)
     {
@@ -212,8 +212,8 @@ public class StartWorkFlowPage extends SharePage
     /**
      * Method to check if a given WorkFlowType is present in the select Workflow drop down
      * 
-     * @param workFlowType
-     * @return
+     * @param workFlowType WorkFlowType
+     * @return boolean
      */
     public boolean isWorkflowTypePresent(WorkFlowType workFlowType)
     {
@@ -257,9 +257,9 @@ public class StartWorkFlowPage extends SharePage
      * Method to get the Cloud Task or Review page for different languages
      * StartWorkFlow page is returned in common,for any of its subclass.
      * 
-     * @param Language
+     * @param language Language
      * @return CloudTaskOrReviewPage page
-     * @author Bogdan
+     * <br/><br/>author Bogdan
      */
     public CloudTaskOrReviewPage getCloudTaskOrReviewPageInLanguage(Language language)
     {

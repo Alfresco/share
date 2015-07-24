@@ -339,7 +339,7 @@ public class SelectContentPage extends SharePage
     /**
      * Method to click OK button
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage selectOKButton()
     {
@@ -387,8 +387,8 @@ public class SelectContentPage extends SharePage
     /**
      * Method to add given file from given site
      * 
-     * @param fileName
-     * @param siteName
+     * @param fileName String
+     * @param siteName String
      */
     public void addItemFromSite(String fileName, String siteName)
     {
@@ -448,7 +448,7 @@ public class SelectContentPage extends SharePage
     /**
      * Method to remove a user from Selected Users list
      * 
-     * @param fileName
+     * @param fileName String
      */
     public void removeItem(String fileName)
     {
@@ -548,7 +548,7 @@ public class SelectContentPage extends SharePage
     }
 
     /**
-     * @return
+     * @return String
      */
     public String getNoItemsSelected()
     {

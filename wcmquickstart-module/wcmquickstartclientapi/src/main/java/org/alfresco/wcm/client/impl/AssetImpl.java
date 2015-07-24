@@ -207,7 +207,7 @@ public class AssetImpl extends ResourceBaseImpl implements Asset
     }
 
     /**
-     * @see org.alfresco.wcm.client.Asset#getMimetype()
+     * @see Asset#getMimeType()
      */
     @Override
     public String getMimeType()

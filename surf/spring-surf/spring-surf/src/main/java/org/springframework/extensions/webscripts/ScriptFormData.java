@@ -49,7 +49,8 @@ public final class ScriptFormData extends ScriptBase
     /**
      * Instantiates a new script form.
      * 
-     * @param rendererContext the renderer context
+     * @param context the request context
+     * @param object ModelObject
      */
     public ScriptFormData(RequestContext context, ModelObject object)
     {
@@ -157,8 +158,8 @@ public final class ScriptFormData extends ScriptBase
      * Converts a map of name/value pairs into fields if they match
      * the specified prefix
      * 
-     * @param map
-     * @param prefix
+     * @param map Map
+     * @param prefix String
      */
     protected void processMapIntoFields(Map map, String prefix)
     {

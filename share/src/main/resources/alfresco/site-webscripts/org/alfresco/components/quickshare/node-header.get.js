@@ -1,3 +1,4 @@
+<import resource="classpath:/alfresco/templates/org/alfresco/import/alfresco-util.js">
 function main()
 {
    var shareId = args.shareId,
@@ -22,6 +23,26 @@ function main()
       model.modifierFirstName = nodeMetadata.modifier.firstName || "";
       model.modifierLastName = nodeMetadata.modifier.lastName || "";
       model.modifyDate = nodeMetadata.modifiedOn;
+
+      // Download button for images
+      model.showDownload = "false";
+
+      var isImage = (nodeMetadata.mimetype && nodeMetadata.mimetype.match("^image/"));
+      var  nodeRef= nodeMetadata.nodeRef;
+
+      if (isImage)
+      {
+         var documentDetails = AlfrescoUtil.getNodeDetails(nodeRef, null);
+         if (documentDetails)
+         {
+            model.contentURL = documentDetails.item.node.contentURL;
+            model.showDownload = "true";
+         }
+         else
+         {
+            model.contentURL="";
+         }
+      }
    }
 
 }

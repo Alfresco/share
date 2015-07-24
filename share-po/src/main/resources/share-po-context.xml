@@ -12,6 +12,7 @@
                 <value>classpath:sharepo.properties</value>
             </list>
         </property>
+        <property name="ignoreUnresolvablePlaceholders" value="false"/>
     </bean>
     <bean id="factoryPage"  class="org.alfresco.po.share.FactorySharePage" />
     <bean id="poProperties"  class="org.alfresco.po.share.ShareProperties" />

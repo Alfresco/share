@@ -28,16 +28,16 @@ public interface WorkFlow extends HtmlPage
     /**
      * Gets workflow subpage in the WorkFlow view.
      *
-     * @param formDetails
+     * @param formDetails WorkFlowFormDetails
      * @return HtmlPage page object
-     * @throws Exception
+     * @throws InterruptedException
      */
     HtmlPage startWorkflow(WorkFlowFormDetails formDetails) throws InterruptedException;
 
     /**
      * Enters message in the message box.
      *
-     * @param messageString
+     * @param messageString String
      */
     void enterMessageText(String messageString);
 
@@ -49,16 +49,16 @@ public interface WorkFlow extends HtmlPage
     /**
      * Enters due date in the date box.
      *
-     * @param date
+     * @param date String
      */
     void enterDueDateText(String date);
 
     /**
      * Cancels creation of the workflow.
      *
-     * @param formDetails
+     * @param formDetails WorkFlowFormDetails
      * @return HtmlPage page object
-     * @throws Exception
+     * @throws InterruptedException
      */
     HtmlPage cancelCreateWorkflow(WorkFlowFormDetails formDetails) throws InterruptedException;
 }

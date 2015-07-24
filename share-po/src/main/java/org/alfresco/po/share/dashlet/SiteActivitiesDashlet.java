@@ -238,7 +238,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Get Activities descriptions.
      *
-     * @return {@String} collection
+     * @return List<String> collection
      */
     public synchronized List<String> getSiteActivityDescriptions()
     {
@@ -274,8 +274,8 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method for navigate to RSS from site activity dashlet.
      *
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      */
     public RssFeedPage selectRssFeed(String username, String password)
     {

@@ -68,6 +68,11 @@ public class AuthenticationUtil
     
     public static void login(HttpServletRequest request, HttpServletResponse response, String userId, boolean logout)
     {
+        login(request, response, userId, logout, true);
+    }
+    
+    public static void login(HttpServletRequest request, HttpServletResponse response, String userId, boolean logout, boolean setLoginCookies)
+    {
         if (logout)
         {
             // check whether there is already a user logged in
@@ -83,7 +88,7 @@ public class AuthenticationUtil
         request.getSession().setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, userId);
         
         // set login and last username cookies
-        if (response != null)
+        if (response != null && setLoginCookies)
         {
             long timeInSeconds = System.currentTimeMillis() / 1000L;
             Cookie loginCookie = new Cookie(COOKIE_ALFLOGIN, Long.toString(timeInSeconds));
@@ -136,7 +141,7 @@ public class AuthenticationUtil
     /**
      * Helper to return cookie that saves the last login time for the current user.
      * 
-     * @param httpRequest
+     * @param request HttpServletRequest
      * 
      * @return Cookie if found or null if not present
      */
@@ -148,7 +153,7 @@ public class AuthenticationUtil
     /**
      * Helper to return cookie that saves the last login time for the current user.
      * 
-     * @param httpRequest
+     * @param request HttpServletRequest
      * 
      * @return Cookie if found or null if not present
      */

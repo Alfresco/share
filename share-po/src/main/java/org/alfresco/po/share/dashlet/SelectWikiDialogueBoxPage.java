@@ -75,7 +75,7 @@ public class SelectWikiDialogueBoxPage extends SharePage
 
     /**
      * Method for config wikiPages
-     * @param visibleText
+     * @param visibleText String
      */
     public void selectWikiPageBy(String visibleText)
     {

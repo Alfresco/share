@@ -56,7 +56,7 @@ public class ConfigBeanFactory implements ApplicationContextAware, ServletContex
     /**
      * <p>This method is provided so that the Spring Framework can set the <code>ConfigService</code> required to 
      * obtain the <code>RemoteConfigElement</code> and <code>WebFrameworkConfigElement</code>.
-     * @param configService
+     * @param configService ConfigService
      */
     public void setConfigService(ConfigService configService)
     {
@@ -72,7 +72,7 @@ public class ConfigBeanFactory implements ApplicationContextAware, ServletContex
      * <p>This method is provided so that the Spring Framework can set the <code>ApplicationContext</code> required to
      * obtain a <code>UserFactory</code></p>
      * 
-     * @param applicationContext
+     * @param applicationContext ApplicationContext
      */
     public void setApplicationContext(ApplicationContext applicationContext)
     {
@@ -88,7 +88,7 @@ public class ConfigBeanFactory implements ApplicationContextAware, ServletContex
     /**
      * <p>This method is provided so that the Spring Framework can set the <code>ServletContext</code> required to instantiate a
      * <code>TagLibFactory</code></p>
-     * @param servletContext
+     * @param servletContext ServletContext
      */
     public void setServletContext(ServletContext servletContext)
     {
@@ -194,7 +194,7 @@ public class ConfigBeanFactory implements ApplicationContextAware, ServletContex
     
     /**
      * <p>Instantiates a new instance of <code>ServletContextHashModel</code>.</p>
-     * @return
+     * @return ServletContextHashModel
      */
     public ServletContextHashModel getServletContextHashModel()
     {

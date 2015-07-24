@@ -141,7 +141,7 @@ public class WebSiteServiceImpl extends WebSiteService
     /**
      * Gets the web site cache
      * 
-     * @return Map<String, WebSite> map of web sites by host:port
+     * @return map of web sites by host:port
      */
     private Map<String, WebSite> getWebSiteCache()
     {
@@ -285,7 +285,7 @@ public class WebSiteServiceImpl extends WebSiteService
     /**
      * Set the logo image filename pattern, eg logo.%
      * 
-     * @param logo
+     * @param logoFilename String
      */
     public void setLogoFilename(String logoFilename)
     {

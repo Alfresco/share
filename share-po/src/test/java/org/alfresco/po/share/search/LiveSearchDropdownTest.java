@@ -288,7 +288,7 @@ public class LiveSearchDropdownTest extends AbstractTest
 
      /**
      * Retries search for a document result
-     * @return
+     * @return List<LiveSearchDocumentResult>
      * @throws Exception
      */
     public List<LiveSearchDocumentResult> liveSearchDocumentsRetry() throws Exception
@@ -332,7 +332,7 @@ public class LiveSearchDropdownTest extends AbstractTest
 
     /**
      * Retries search for a site result
-     * @return
+     * @return List<LiveSearchSiteResult>
      * @throws Exception
      */
     public List<LiveSearchSiteResult> liveSearchSitesRetry() throws Exception

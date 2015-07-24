@@ -67,7 +67,7 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Constructor
      * 
-     * @param drone
+     * @param drone WebDrone
      */
     public LiveSearchDropdown(WebDrone drone)
     {
@@ -204,7 +204,7 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Checks if documents title is displayed
      * 
-     * @return
+     * @return boolean
      */
     public boolean isDocumentsTitleVisible()
     {
@@ -223,7 +223,7 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Checks if sites title is displayed
      * 
-     * @return
+     * @return boolean
      */
     public boolean isSitesTitleVisible()
     {
@@ -242,7 +242,7 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Checks if people title is displayed
      * 
-     * @return
+     * @return boolean
      */
     public boolean isPeopleTitleVisible()
     {
@@ -261,7 +261,7 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Checks if more icon is displayed
      * 
-     * @return
+     * @return boolean
      */
     public boolean isMoreResultsVisible()
     {
@@ -280,7 +280,7 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Checks if live search returns document search results
      * 
-     * @return
+     * @return boolean
      */
     public boolean hasDocumentSearchResults()
     {
@@ -296,7 +296,7 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Checks if live search returns sites search results
      * 
-     * @return
+     * @return boolean
      */
     public boolean hasSitesSearchResults()
     {
@@ -312,7 +312,7 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Checks if live search returns people search results
      * 
-     * @return
+     * @return boolean
      */
     public boolean hasPeopleSearchResults()
     {
@@ -328,7 +328,6 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Clicks on see more results arrow
      * 
-     * @return
      */
     public void clickToSeeMoreDocumentResults()
     {
@@ -354,8 +353,8 @@ public class LiveSearchDropdown extends SharePage
     /**
      * Clicks on any link in live search results
      * 
-     * @param liveSearchItem
-     * @return
+     * @param liveSearchItem String
+     * @return HtmlPage
      */
     public HtmlPage selectLiveSearchItem(String liveSearchItem)
     {

@@ -130,10 +130,10 @@ public class OutputCSSContentModelElement extends DependencyDeferredContentTarge
     /**
      * Adds a new CSS dependency.
      * 
-     * @param fileName
-     * @param mediaType
-     * @param group
-     * @param cssGroupToDependencyMap
+     * @param fileName String
+     * @param mediaType String
+     * @param group Stringvvv
+     * @param cssGroupToDependencyMap LinkedHashMap<String, HashMap<String, LinkedHashSet<String>>>
      */
     public void addCssDependency(String fileName,
                                  String mediaType, 
@@ -167,9 +167,9 @@ public class OutputCSSContentModelElement extends DependencyDeferredContentTarge
      * instances can be manipulated to add/remove/change dependency requests). However, we want to only output Dojo dependencies
      * if they have <b>not</b> requested via a <{@code}@link> directive.
      * 
-     * @param fileName
-     * @param mediaType
-     * @param group
+     * @param fileName String
+     * @param mediaType String
+     * @param group String
      */
     public void addDojoCssDependency(String fileName, 
                                      String mediaType,
@@ -183,7 +183,7 @@ public class OutputCSSContentModelElement extends DependencyDeferredContentTarge
      * Filters CSS dependencies that have already been requested from the supplied map.
      * 
      * @param dependencies The dependency map to filter duplicates from.
-     * @return
+     * @return LinkedHashMap
      */
     protected LinkedHashMap<String, HashMap<String, LinkedHashSet<String>>> filterCssDependencies(LinkedHashMap<String, HashMap<String, LinkedHashSet<String>>> dependencies) {
         
@@ -259,8 +259,8 @@ public class OutputCSSContentModelElement extends DependencyDeferredContentTarge
      * <p>Generates a {@link StringBuilder} containing all the statements required to import the supplied
      * map of media to CSS files.</p>
      * 
-     * @param cssMap
-     * @return
+     * @param cssMap LinkedHashMap<String, HashMap<String, LinkedHashSet<String>>>
+     * @return StringBuilder
      */
     private StringBuilder generateCSSDependencies(LinkedHashMap<String, HashMap<String, LinkedHashSet<String>>> cssMap, boolean aggregate)
     {

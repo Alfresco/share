@@ -80,6 +80,7 @@ import org.alfresco.po.share.site.document.FolderDetailsPage;
 import org.alfresco.po.share.site.document.InlineEditPage;
 import org.alfresco.po.share.site.document.ManagePermissionsPage;
 import org.alfresco.po.share.site.document.MyFilesPage;
+import org.alfresco.po.share.site.document.SelectAspectsPage;
 import org.alfresco.po.share.site.document.SharedFilesPage;
 import org.alfresco.po.share.site.document.TagPage;
 import org.alfresco.po.share.site.document.ViewPropertiesPage;
@@ -659,9 +660,13 @@ public class FactorySharePage implements PageFactory
                 {
                     sharePage = new DestinationAndAssigneePage(drone);
                 }
-                if(dialogueID.contains("changeType"))
+                else if(dialogueID.contains("changeType"))
                 {
                     sharePage = new ChangeTypePage(drone);
+                }
+                if(dialogueID.contains("default-aspects"))
+                {
+                    sharePage = new SelectAspectsPage(drone);
                 }
             }
         }

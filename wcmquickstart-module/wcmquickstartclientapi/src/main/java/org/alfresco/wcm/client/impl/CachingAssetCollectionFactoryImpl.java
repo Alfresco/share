@@ -177,7 +177,7 @@ public class CachingAssetCollectionFactoryImpl implements AssetCollectionFactory
     protected AssetCollectionImpl copyAssetCollection(AssetCollection objToCopy)
     {
         AssetCollectionImpl copy = null;
-        if (AssetCollectionImpl.class.isAssignableFrom(objToCopy.getClass()))
+        if (objToCopy != null && AssetCollectionImpl.class.isAssignableFrom(objToCopy.getClass()))
         {
             copy = new AssetCollectionImpl();
             AssetCollectionImpl other = (AssetCollectionImpl) objToCopy;

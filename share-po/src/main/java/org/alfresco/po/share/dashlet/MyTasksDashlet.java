@@ -136,9 +136,9 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     /**
      * Renderer to ensure the task is fully loaded.
      * 
-     * @param time
-     * @param taskName
-     * @return
+     * @param time long
+     * @param taskName String
+     * @return MyTasksDashlet
      */
     public MyTasksDashlet renderTask(final long time, String taskName)
     {
@@ -149,7 +149,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     /**
      * This method clicks on specific task which appears on my-tasks dashlet.
      * 
-     * @param task
+     * @param task String
      * @return {@link EditTaskPage}
      */
     public HtmlPage clickOnTask(String task)
@@ -207,7 +207,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     /**
     * Mimic click on 'Complete task' button
     *
-    * @return
+    * @return MyTasksPage
     */
     public MyTasksPage selectComplete()
     {
@@ -265,7 +265,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     /**
      * Mimic click on 'Active task' button
      *
-     * @return
+     * @return MyTasksPage
      */
     public MyTasksPage selectActive()
     {
@@ -280,7 +280,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     /**
      * Returns the div that hold the task info.
      *
-     * @return
+     * @return WebElement
      */
     private WebElement getTaskRow(String taskName)    {
 
@@ -290,7 +290,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     /**
      * Method to check if a given task is displayed in My Tasks Dashlet
      *
-     * @param taskName
+     * @param taskName String
      * @return True if Task exists
      */
     public boolean isTaskPresent(String taskName)
@@ -319,8 +319,8 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
      * Returns <code>true</code> if the Task view button is present and enabled,
      * otherwise returns <code>false</code>.
      *
-     * @param taskName
-     * @return
+     * @param taskName String
+     * @return boolean
      */
     public boolean isTaskViewButtonEnabled(String taskName)
     {
@@ -348,8 +348,8 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
      * Returns <code>true</code> if the Task edit button is present and
      * enabled, otherwise returns <code>false</code>.
      *
-     * @param taskName
-     * @return
+     * @param taskName String
+     * @return boolean
      */
     public boolean isTaskEditButtonEnabled(String taskName)
     {
@@ -376,7 +376,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Clicks on edit task for single task
-     * @param taskName
+     * @param taskName String
      * @return {@link HtmlPage}
      */
 
@@ -410,7 +410,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
 
     /**
      * Clicks on edit task for single task
-     * @param taskName
+     * @param taskName String
      * @return {@link HtmlPage}
      */
 

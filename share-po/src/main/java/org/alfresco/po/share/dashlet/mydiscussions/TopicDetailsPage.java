@@ -60,7 +60,7 @@ public class TopicDetailsPage extends SitePage
     /**
      * Constructor
      * 
-     * @param drone
+     * @param drone WebDrone
      */
     public TopicDetailsPage(WebDrone drone)
     {
@@ -92,7 +92,7 @@ public class TopicDetailsPage extends SitePage
     /**
      * Returns topic title
      * 
-     * @return
+     * @return String
      */
     public String getTopicTitle()
     {
@@ -112,7 +112,7 @@ public class TopicDetailsPage extends SitePage
     /**
      * Returns topic creation date
      * 
-     * @return
+     * @return String
      */
     public String getTopicCreationDate()
     {
@@ -132,7 +132,7 @@ public class TopicDetailsPage extends SitePage
     /**
      * Returns topic created by text
      * 
-     * @return
+     * @return String
      */
     public String getTopicCreatedBy()
     {
@@ -152,7 +152,7 @@ public class TopicDetailsPage extends SitePage
     /**
      * Returns topic author
      * 
-     * @return
+     * @return String
      */
     public String getTopicAuthor()
     {
@@ -172,7 +172,7 @@ public class TopicDetailsPage extends SitePage
     /**
      * Returns topic text
      * 
-     * @return
+     * @return String
      */
     public String getTopicText()
     {
@@ -192,7 +192,7 @@ public class TopicDetailsPage extends SitePage
     /**
      * Returns topic author
      * 
-     * @return
+     * @return String
      */
     public String getTopicReplies()
     {

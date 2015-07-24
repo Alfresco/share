@@ -76,6 +76,7 @@ var accessMenu = {
 
 // Headings
 var headingForSearchForm = {
+   id: "FCTSRCH_SEARCH_FORM_HEADING",
    name: "alfresco/html/Heading",
    config: {
       level: 2,
@@ -84,6 +85,7 @@ var headingForSearchForm = {
    }
 };
 var headingForFacetMenu = {
+   id: "FCTSRCH_FACET_MENU_HEADING",
    name: "alfresco/html/Heading",
    config: {
       level: 2,
@@ -92,6 +94,7 @@ var headingForFacetMenu = {
    }
 };
 var headingForSortMenu = {
+   id: "FCTSRCH_SORT_MENU_HEADING",
    name: "alfresco/html/Heading",
    config: {
       level: 2,
@@ -100,6 +103,7 @@ var headingForSortMenu = {
    }
 };
 var headingForResultsList = {
+   id: "FCTSRCH_RESULTS_LIST_HEADING",
    name: "alfresco/html/Heading",
    config: {
       level: 2,
@@ -170,6 +174,7 @@ var sideBarMenu = {
       visibilityConfig: hideOnZeroResultsConfig,
       widgets: [
          {
+            id: "FCTSRCH_FACET_MENU_INSTRUCTION",
             name: "alfresco/html/Label",
             align: "left",
             config: {
@@ -234,6 +239,7 @@ rawFacets.forEach(function(facet, index, rawFacets) {
             id: "FCTSRCH_" + facet.filterID,
             name: facet.displayControl,
             config: {
+               additionalCssClasses: "separated",
                label: msg.get(facet.displayName),
                facetQName: facet.facetQName,
                sortBy: facet.sortBy,
@@ -410,6 +416,7 @@ var searchResultsMenuBar = {
 
 var widgetsForNoDataDisplay = [
    {
+      id: "FCTSRCH_NO_SEARCH_RESULTS",
       name: "alfresco/search/NoSearchResults",
       config: {
          title: msg.get("faceted-search.advice.title"),
@@ -457,6 +464,7 @@ var searchDocLib = {
                a11yCaptionClass: "hiddenAccessible",
                widgetsForHeader: [
                   {
+                     id: "FCTSRCH_THUMBNAIL_HEADER_CELL",
                      name: "alfresco/documentlibrary/views/layouts/HeaderCell",
                      config: {
                         label: msg.get("faceted-search.results.heading.thumbnail"),
@@ -465,6 +473,7 @@ var searchDocLib = {
                      }
                   },
                   {
+                     id: "FCTSRCH_DETAILS_HEADER_CELL",
                      name: "alfresco/documentlibrary/views/layouts/HeaderCell",
                      config: {
                         label: msg.get("faceted-search.results.heading.details"),
@@ -473,6 +482,7 @@ var searchDocLib = {
                      }
                   },
                   {
+                     id: "FCTSRCH_ACTIONS_HEADER_CELL",
                      name: "alfresco/documentlibrary/views/layouts/HeaderCell",
                      config: {
                         label: msg.get("faceted-search.results.heading.actions"),
@@ -493,6 +503,7 @@ var searchDocLib = {
             }
          },
          {
+            id: "FCTSRCH_GALLERY_VIEW",
             name: "alfresco/documentlibrary/views/AlfGalleryView",
             config: {
                showNextLink: true,
@@ -500,10 +511,12 @@ var searchDocLib = {
                widgetsForNoDataDisplay: widgetsForNoDataDisplay,
                widgets: [
                   {
+                     id: "FCTSRCH_GALLERY_VIEW_THUMBNAIL_DOC_OR_FOLDER",
                      name: "alfresco/search/SearchGalleryThumbnail",
                      config: {
                         widgetsForSelectBar: [
                            {
+                              id: "FCTSRCH_GALLERY_VIEW_MORE_INFO_OR_FOLDER",
                               name: "alfresco/renderers/MoreInfo",
                               align: "right",
                               config: {
@@ -524,10 +537,12 @@ var searchDocLib = {
                      }
                   },
                   {
+                     id: "FCTSRCH_GALLERY_VIEW_THUMBNAIL_OTHER",
                      name: "alfresco/search/SearchGalleryThumbnail",
                      config: {
                         widgetsForSelectBar: [
                            {
+                              id: "FCTSRCH_GALLERY_VIEW_MORE_INFO_OTHER",
                               name: "alfresco/renderers/MoreInfo",
                               align: "right",
                               config: {
@@ -551,6 +566,7 @@ var searchDocLib = {
             }
          },
          {
+            id: "FCTSRCH_INFINITE_SCROLL",
             name: "alfresco/documentlibrary/AlfDocumentListInfiniteScroll"
          }
       ]
@@ -627,14 +643,17 @@ var searchSuggestions = {
                itemsProperty: "searchSuggestions",
                widgets: [
                   {
+                     id: "FCTSRCH_SEARCH_SUGGESTIONS_LIST_ROW",
                      name: "alfresco/documentlibrary/views/layouts/Row",
                      config: {
                         widgets: [
                            {
+                              id: "FCTSRCH_SEARCH_SUGGESTIONS_LIST_CELL",
                               name: "alfresco/documentlibrary/views/layouts/Cell",
                               config: {
                                  widgets: [
                                     {
+                                       id: "FCTSRCH_SEARCH_SUGGESTIONS_LIST_PROPERTY_LINK",
                                        name: "alfresco/renderers/PropertyLink",
                                        config: {
                                           useCurrentItemAsPayload: false,
@@ -670,6 +689,7 @@ var main = {
       baseClass: "side-margins",
       widgets: [
          {
+            id: "FCTSRCH_SPACER_1",
             name: "alfresco/html/Spacer",
             config: {
                height: "12px"
@@ -678,16 +698,19 @@ var main = {
          headingForSearchForm,
          searchForm,
          {
+            id: "FCTSRCH_SPACER_2",
             name: "alfresco/html/Spacer",
             config: {
                height: "8px"
             }
          },
          {
+            id: "FCTSRCH_MAIN_HORIZONTAL",
             name: "alfresco/layout/HorizontalWidgets",
             config: {
                widgets: [
                   {
+                     id: "FCTSRCH_SIDEBAR_MENU",
                      name: "alfresco/layout/VerticalWidgets",
                      align: "sidebar",
                      widthPx: 340,
@@ -698,6 +721,7 @@ var main = {
                      }
                   },
                   {
+                     id: "FCTSRCH_RESULTS_MENU",
                      name: "alfresco/layout/VerticalWidgets",
                      config: {
                         additionalCssClasses: "bottom-border",
@@ -711,6 +735,7 @@ var main = {
          },
          headingForFacetMenu,
          {
+            id: "FCTSRCH_MAIN_BODY",
             name: "alfresco/layout/HorizontalWidgets",
             config: {
                widgets: [
@@ -726,6 +751,7 @@ var main = {
                      }
                   },
                   {
+                     id: "FCTSRCH_SEARCH_RESULTS_AREA",
                      name: "alfresco/layout/VerticalWidgets",
                      config: {
                         widgets: [
@@ -812,12 +838,14 @@ var scopeSelection = {
    config: {
       widgets: [
          {
+            id: "FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL",
             name: "alfresco/html/Label",
             config: {
                label: msg.get("faceted-search.scope.label")
             }
          },
          {
+            id: "FCTSRCH_TOP_MENU_BAR_SCOPE_MENU_BAR",
             name: "alfresco/menus/AlfMenuBar",
             config: {
                widgets: [
@@ -857,12 +885,10 @@ services.push("alfresco/services/SearchService",
               },
               "alfresco/services/actions/SimpleWorkflowService",
               "alfresco/services/DocumentService",
-              "alfresco/dialogs/AlfDialogService",
               "alfresco/services/PreferenceService",
               "alfresco/services/QuickShareService",
               "alfresco/services/RatingsService",
               "alfresco/services/CrudService",
-              "alfresco/services/NotificationService",
               "alfresco/services/ContentService",
               "alfresco/services/TagService",
               "alfresco/services/LightboxService");

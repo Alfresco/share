@@ -80,7 +80,7 @@ public class JavaScriptDependencyDirective extends AbstractDependencyExtensibili
      * approach to making dependency requests. The preferred approach is to move the requests to the *.html.ftl file and 
      * use the new <@script> and <@link> directive implementations.</p>
      * 
-     * @param params
+     * @param params Map
      * @throws TemplateModelException
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -107,7 +107,7 @@ public class JavaScriptDependencyDirective extends AbstractDependencyExtensibili
     /**
      * <p>Gets the {@link DeferredContentTargetModelElement} to associate with the directive. By default this is the
      * {@link OutputJavaScriptContentModelElement}.</p>
-     * @return
+     * @return DeferredContentTargetModelElement
      */
     protected DeferredContentTargetModelElement getTargetElement()
     {
@@ -132,15 +132,15 @@ public class JavaScriptDependencyDirective extends AbstractDependencyExtensibili
     
     /**
      * <p>Creates the {@link DependencyDirectiveData}.</p>
-     * @param id
-     * @param action
-     * @param target
-     * @param params
-     * @param body
-     * @param env
-     * @param dependencyToAdd
-     * @param group
-     * @return
+     * @param id String
+     * @param action String
+     * @param target String
+     * @param params Map
+     * @param body TemplateDirectiveBody
+     * @param env Environment
+     * @param dependencyToAdd String
+     * @param group String
+     * @return DependencyDirectiveData
      */
     @SuppressWarnings("rawtypes")
     protected DependencyDirectiveData createDependencyDirectiveData(String id,

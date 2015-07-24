@@ -79,8 +79,6 @@ public class CalendarPageTest extends AbstractSiteDashletTest
 
     /**
      * Method for event creation
-     * 
-     * @return CalendarPage
      */
     @Test(dependsOnMethods = "addCalendarPage", timeOut = 60000)
     public void testCreateEvent()
@@ -198,7 +196,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
     /**
      * test to verify the Start and End Date Time
      * 
-     * @author Bogdan.Bocancea
+     * author Bogdan.Bocancea
      */
     @Test(groups = "Verifycalendar", timeOut = 60000)
     public void testStartEndDateInfoFields()
@@ -241,7 +239,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
     /**
      * test to verify create event method with year and month
      * 
-     * @author Bogdan.Bocancea
+     * author Bogdan.Bocancea
      */
     @Test(groups = "Verifycalendar", timeOut = 60000)
     public void testCreateEventWithMonth()

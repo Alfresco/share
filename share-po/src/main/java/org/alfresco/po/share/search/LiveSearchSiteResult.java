@@ -56,7 +56,7 @@ public class LiveSearchSiteResult
     /**
      * Constructor
      * @param element {@link WebElement} 
-     * @param drone 
+     * @param drone WebDrone
      */
     public LiveSearchSiteResult(WebElement element, WebDrone drone)
     {

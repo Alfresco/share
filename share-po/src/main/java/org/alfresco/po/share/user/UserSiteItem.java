@@ -43,7 +43,7 @@ public class UserSiteItem extends HtmlElement
      * Constructor
      * 
      * @param element {@link WebElement}
-     * @param drone
+     * @param drone WebDrone
      */
     public UserSiteItem(WebElement element, WebDrone drone)
     {
@@ -53,7 +53,7 @@ public class UserSiteItem extends HtmlElement
     /**
      * Get the site name as displayed on screen.
      * 
-     * @return
+     * @return String
      */
     public String getSiteName()
     {
@@ -72,7 +72,7 @@ public class UserSiteItem extends HtmlElement
     /**
      * Check if the activity feed is enabled for the site.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isActivityFeedEnabled()
     {
@@ -92,7 +92,7 @@ public class UserSiteItem extends HtmlElement
     /**
      * Click on the Site name to go to the site daskboard.
      * 
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage clickOnSiteName()
     {
@@ -114,7 +114,7 @@ public class UserSiteItem extends HtmlElement
      * Enable or disable activity feed.
      * 
      * @param enabled <code>true</code> to enable avtivities. <code>false</code> to disable.
-     * @return
+     * @return HtmlPage
      */
     public HtmlPage toggleActivityFeed(boolean enabled)
     {
@@ -138,7 +138,7 @@ public class UserSiteItem extends HtmlElement
     /**
      * Returns the text from the activity feed button for the site.
      * 
-     * @return
+     * @return String
      */
     public String getActivityFeedButtonLabel()
     {

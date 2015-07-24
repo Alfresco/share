@@ -45,8 +45,8 @@ public class TenantConsole extends AdvancedAdminConsolePage
     /**
      * Method for create tenant
      *
-     * @param tenantName
-     * @param password
+     * @param tenantName String
+     * @param password String
      */
     public void createTenant(String tenantName, String password)
     {
@@ -59,8 +59,7 @@ public class TenantConsole extends AdvancedAdminConsolePage
     /**
      * Method for send commands
      *
-     * @param request
-     * @return
+     * @param request String
      */
     public void sendCommand(String request)
     {

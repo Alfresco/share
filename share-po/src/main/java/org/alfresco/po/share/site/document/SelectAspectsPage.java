@@ -39,7 +39,7 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
  * Select Aspects page object, this page comes from Document Detail Page's Manage Aspects.
  * 
  * @author Shan Nagarajan
- * @@author mbhave
+ * @author mbhave
  * @since 1.6.1
  */
 public class SelectAspectsPage extends SharePage
@@ -61,7 +61,7 @@ public class SelectAspectsPage extends SharePage
     /**
      * Constructor.
      */
-    protected SelectAspectsPage(WebDrone drone)
+    public SelectAspectsPage(WebDrone drone)
     {
         super(drone);
     }
@@ -185,7 +185,7 @@ public class SelectAspectsPage extends SharePage
     
     /**
      * Util to check if the aspect appears in the added aspects list
-     * @param aspectName
+     * @param aspectName String
      * @return true if aspect name is found in the list
      */
     public boolean isAspectAdded(String aspectName)
@@ -204,7 +204,7 @@ public class SelectAspectsPage extends SharePage
     
     /**
      * Util to check if the aspect appears in the available aspects list
-     * @param aspectName
+     * @param aspectName String
      * @return true if aspect name is found in the list
      */
     public boolean isAspectAvailable(String aspectName)
@@ -275,7 +275,7 @@ public class SelectAspectsPage extends SharePage
     }
 
     /**
-     * Click on {@link #CANCEL} in {@link selectAspectsPage}
+     * Click on {@code #CANCEL} in {@code selectAspectsPage}
      * 
      * @return {@link SelectAspectsPage}
      */
@@ -293,26 +293,34 @@ public class SelectAspectsPage extends SharePage
     }
 
     /**
-     * Click on {@link ApplyChanges} in {@link selectAspectsPage}
+     * Click on {@code ApplyChanges} in {@code selectAspectsPage}
      * 
      * @return {@link SelectAspectsPage}
      */
     public HtmlPage clickApplyChanges()
     {
+        String msgText = "Successfully updated aspects";
+        
         try
         {
             drone.find(APPLY_CHANGE).click();
+            
+            // Wait for Notification
             drone.waitForElement(NOTIFICATION, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+
             if (!isNotificationTextCorrect())
             {
-                throw new PageException("Incorrect notification is displayed");
+                // Aspect Changes NOT Successful
+                msgText = "Could not update Aspects";
+                logger.debug("Aspect Changes were unsuccessful");
             }
-            drone.waitUntilNotVisible(NOTIFICATION,"Successfully updated aspects", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+
+            drone.waitUntilNotVisible(NOTIFICATION, msgText, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             return drone.getCurrentPage();
         }
-        catch (NoSuchElementException nse)
+        catch (NoSuchElementException | TimeoutException nse)
         {
-            throw new PageException("Not able find the apply change button: ", nse);
+            throw new PageException("Error Applying Changes: Not able find the apply change button or Notification: ", nse);
         }
 
     }
@@ -386,8 +394,8 @@ public class SelectAspectsPage extends SharePage
     /**
      * Util to convert a Map<String, shareLink> to Map<DocumentAspect, sharelink> for system aspects.
      * This util will exclude dynamic aspects
-     * @param by
-     * @return Map<DocumentAspect, ShareLink>
+     * @param by By
+     * @return Map
      */
     public Map<DocumentAspect, ShareLink> getSystemAspectsMap(By by)
     {

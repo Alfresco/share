@@ -138,9 +138,9 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
     /**
      * Return true if item link with the details is displayed.
      *
-     * @param itemName
-     * @param siteName
-     * @return
+     * @param itemName String
+     * @param siteName String
+     * @return boolean
      */
     public boolean isItemWithDetailDisplayed(String itemName, String siteName)
     {
@@ -176,7 +176,7 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
     /**
      * Click on item
      *
-     * @param itemName
+     * @param itemName String
      * @return HTMLPage
      */
     public HtmlPage clickItem(String itemName)
@@ -215,7 +215,7 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
     /**
      * Click on site
      *
-     * @param siteName
+     * @param siteName String
      * @return SitePage
      */
     public SiteDashboardPage clickSite(String siteName)

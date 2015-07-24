@@ -105,7 +105,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     /**
      * Method to get WorkFlow Details header
      * 
-     * @return
+     * @return String
      */
     public String getPageHeader()
     {
@@ -122,7 +122,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     /**
      * Method to get workflow status
      * 
-     * @return
+     * @return String
      */
     public String getWorkFlowStatus()
     {
@@ -140,7 +140,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
      * Method to click Cancel button from Workflow Details page
      * // TODO - Should return to MyWorkFlowsPage rather than MyTasksPage
      * 
-     * @return
+     * @return MyTasksPage
      */
     public MyTasksPage selectCancelWorkFlow()
     {
@@ -192,7 +192,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     /**
      * Method to get General Info section on WorkFlow Details Page
      * 
-     * @return {@link WorkFlowDetailsGeneralInfo}
+     * @return WorkFlowDetailsGeneralInfo
      */
     public WorkFlowDetailsGeneralInfo getWorkFlowDetailsGeneralInfo()
     {
@@ -222,7 +222,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     /**
      * Method to get More Info section on WorkFlow Details Page
      * 
-     * @return {@link WorkFlowDetailsMoreInfo}
+     * @return WorkFlowDetailsMoreInfo
      */
     public WorkFlowDetailsMoreInfo getWorkFlowDetailsMoreInfo()
     {
@@ -272,7 +272,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     /**
      * Method to get the list of Items in a workflow
      * 
-     * @return {@link List<WorkFlowDetailsItem>}
+     * @return List
      */
     public List<WorkFlowDetailsItem> getWorkFlowItems()
     {
@@ -298,8 +298,8 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     /**
      * Method to get the List of WorkFlowDetailsItem object for a given File Name
      * 
-     * @param fileName
-     * @return {@link List<WorkFlowDetailsItem>}
+     * @param fileName String
+     * @return List
      */
     public List<WorkFlowDetailsItem> getWorkFlowItem(String fileName)
     {
@@ -351,7 +351,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     /**
      * Method to get List of Current Tasks that are in the workflow details page
      * 
-     * @return {@link List<WorkFlowDetailsCurrentTask>}
+     * @return List
      */
     public List<WorkFlowDetailsCurrentTask> getCurrentTasksList()
     {
@@ -389,7 +389,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     /**
      * Method to get List of History rows that are in the workflow details page
      * 
-     * @return {@link List<WorkFlowDetailsHistory>}
+     * @return List
      */
     public List<WorkFlowDetailsHistory> getWorkFlowHistoryList()
     {

@@ -436,8 +436,8 @@ public class UserSearchPage extends SharePage
     /**
      * Checks if user present in a search page
      * 
-     * @param userName
-     * @return
+     * @param userName String
+     * @return boolean
      */
     public boolean isUserPresent(String userName)
     {

@@ -624,7 +624,7 @@ public class ModelObjectService
      * Object ID patterns support wildcard '*' only i.e. "page.*.dashboard"
      *
      * @param objectTypeId  the object type id
-     * @param filter        the object id filter pattern
+     * @param objectIdPattern        the object id filter pattern
      *
      * @return the map
      */
@@ -1452,7 +1452,7 @@ public class ModelObjectService
      *
      * @param objectTypeId the object type id
      * @param objectId the object id
-     * @param newId the id to set to the new object
+     * @param newObjectId the id to set to the new object
      *
      * @return the page
      */

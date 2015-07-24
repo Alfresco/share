@@ -49,9 +49,9 @@ public class ContextParserService
 	
 	/**
 	 * 
-	 * @param context
-	 * @param value
-	 * @return
+	 * @param context NodeRef
+	 * @param value String
+	 * @return String
 	 */
 	public String parse(NodeRef context, String value)
 	{		

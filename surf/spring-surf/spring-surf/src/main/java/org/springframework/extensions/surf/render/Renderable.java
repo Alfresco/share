@@ -73,7 +73,7 @@ public interface Renderable
     /**
      * Gets the processor id
      * 
-     * @param renderMode
+     * @param renderMode RenderMode
      * 
      * @return the processor id
      */
@@ -82,7 +82,7 @@ public interface Renderable
     /**
      * Gets a default 'view' processor property
      * 
-     * @param propertyName
+     * @param propertyName String
      * 
      * @return the processor property value
      */
@@ -91,8 +91,8 @@ public interface Renderable
     /**
      * Gets a processor property
      * 
-     * @param renderMode
-     * @param propertyName
+     * @param renderMode RenderMode
+     * @param propertyName String
      * 
      * @return the processor property value
      */

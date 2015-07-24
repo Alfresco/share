@@ -72,9 +72,9 @@ public class DependenciesElementReader implements ConfigElementReader
      * xpath expression and returns a List<String> containing the values of the "src"
      * attribute on each of those child nodes.
      * 
-     * @param typeNode
-     * @param xpathExpression
-     * @return
+     * @param typeNode Element
+     * @param xpathExpression String
+     * @return List<String>
      */
     @SuppressWarnings("unchecked")
     private List<String> getSrcDependencies(Element typeNode, final String xpathExpression)
