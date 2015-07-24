@@ -1329,8 +1329,6 @@
             formData.append("filedata", fileInfo.uploadData.filedata);
             formData.append("filename", fileInfo.uploadData.filename);
             formData.append("destination", fileInfo.uploadData.destination);
-            formData.append("siteId", fileInfo.uploadData.siteId);
-            formData.append("containerId", fileInfo.uploadData.containerId);
             formData.append("uploaddirectory", fileInfo.uploadData.uploaddirectory);
             formData.append("majorVersion", fileInfo.uploadData.majorVersion ? "true" : "false");
             formData.append("username", fileInfo.uploadData.username);
@@ -1342,6 +1340,12 @@
             {
                formData.append("updateNodeRef", fileInfo.uploadData.updateNodeRef);
             }
+            else
+            {
+               formData.append("siteId", fileInfo.uploadData.siteId);
+               formData.append("containerId", fileInfo.uploadData.containerId);
+            }
+
             if (fileInfo.uploadData.description)
             {
                formData.append("description", fileInfo.uploadData.description);
