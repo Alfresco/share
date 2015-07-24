@@ -739,23 +739,30 @@
                singleSelectMode: false,
                wildcardPrefix: false
             });
-			
+
             var groupSearchText = Dom.get(parent.id + "-create-groupfinder-search-text");
-			
-            new YAHOO.util.Event.addListener(groupSearchText, "focus", function(e)
+            new YAHOO.util.Event.addListener(groupSearchText, "focus", this._disableEnterKeyListener);
+            new YAHOO.util.Event.addListener(groupSearchText, "blur", this._enableEnterKeyListener);
+
+            var groupSearchButton = Dom.get(parent.id + "-create-groupfinder-group-search-button").getElementsByTagName("button")[0];
+            new YAHOO.util.Event.addListener(groupSearchButton, "focus", this._disableEnterKeyListener);
+            new YAHOO.util.Event.addListener(groupSearchButton, "blur", this._enableEnterKeyListener);
+         },
+
+         _disableEnterKeyListener: function _disableEnterKeyListener(e)
+         {
+            if (parent.widgets && parent.widgets.enterKeyListener)
             {
-               if (parent.widgets && parent.widgets.enterKeyListener)
-               {
-                  parent.widgets.enterKeyListener.disable();
-               }
-            });
-            new YAHOO.util.Event.addListener(groupSearchText, "blur", function(e)
+               parent.widgets.enterKeyListener.disable();
+            }
+         },
+
+         _enableEnterKeyListener: function _enableEnterKeyListener(e)
+         {
+            if (parent.widgets && parent.widgets.enterKeyListener)
             {
-               if (parent.widgets && parent.widgets.enterKeyListener)
-               {
-                  parent.widgets.enterKeyListener.enable();
-               }
-            });
+               parent.widgets.enterKeyListener.enable();
+            }
          },
 
          /**
