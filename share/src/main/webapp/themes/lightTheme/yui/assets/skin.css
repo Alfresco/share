@@ -1016,6 +1016,12 @@ background-position: 0 -1400px;
 .yui-skin-lightTheme .yui-dialog .bdft button {
 color: #0082c8;
 }
+.yui-skin-lightTheme .yui-dialog .bdft .alf-inverted-colors button {
+color: white;
+}
+.yui-skin-lightTheme .yui-dialog .bdft .alf-inverted-colors.yui-button-disabled button {
+color: #a6a6a6;
+}
 .yui-skin-lightTheme .yui-dialog .ft span.yui-button-disabled {
 background-position: 0pt -1500px;
 border-color: #ccc;
