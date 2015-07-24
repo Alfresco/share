@@ -746,7 +746,7 @@ function generateAppItems() {
          config: {
             id: "HEADER_HOME",
             label: "header.menu.home.label",
-            targetUrl: "user/" + encodeURIComponent(user.name) + "/dashboard"
+            targetUrl: ".."
          }
       },
       {
@@ -896,16 +896,13 @@ function generateUserItems() {
 function getUserMenuWidgets()
 {
    var userMenuWidgets = [
-      getUserStatusWidget(),
       {
-         id: "HEADER_USER_MENU_SET_STATUS",
-         name: "alfresco/header/AlfMenuItem",
-         config:
-         {
-            id: "HEADER_USER_MENU_SET_STATUS",
-            label: "set_status.label",
-            iconClass: "alf-user-status-icon",
-            publishTopic: "ALF_SET_USER_STATUS"
+         id: "HEADER_USER_MENU_DAHSBOARD",
+         name: "alfresco/menus/AlfMenuBarItem",
+         config: {
+            id: "HEADER_USER_MENU_DASHBOARD",
+            label: "header.menu.user_dashboard.label",
+            targetUrl: "user/" + encodeURIComponent(user.name) + "/dashboard"
          }
       },
       {
@@ -918,23 +915,8 @@ function getUserMenuWidgets()
             iconClass: "alf-user-profile-icon",
             targetUrl: "user/" + encodeURIComponent(user.name) + "/profile"
          }
-      }
-   ];
-   if (user.capabilities.isMutable)
-   {
-      userMenuWidgets.push({
-         id: "HEADER_USER_MENU_PASSWORD",
-         name: "alfresco/header/AlfMenuItem",
-         config:
-         {
-            id: "HEADER_USER_MENU_CHANGE_PASSWORD",
-            label: "change_password.label",
-            iconClass: "alf-user-password-icon",
-            targetUrl: "user/" + encodeURIComponent(user.name) + "/change-password"
-         }
-      });
-   }
-   userMenuWidgets.push({
+      },
+      {
          id: "HEADER_USER_MENU_HELP",
          name: "alfresco/header/AlfMenuItem",
          config:
@@ -946,22 +928,133 @@ function getUserMenuWidgets()
             targetUrlType: "FULL_PATH",
             targetUrlLocation: "NEW"
          }
-      });
-   if (!context.externalAuthentication)
-   {
-      userMenuWidgets.push({
-         id: "HEADER_USER_MENU_LOGOUT",
-         name: "alfresco/header/AlfMenuItem",
+      },
+      {
+         id: "HEADER_USER_MENU_DEFAULT_PAGE_GROUP",
+         name: "alfresco/menus/AlfMenuGroup",
          config:
          {
+            label: "group.default_page.label",
+            widgets:
+            [
+               {
+                  id: "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_DEFAULT",
+                  name: "alfresco/header/AlfMenuItem",
+                  config:
+                  {
+                     id: "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_DEFAULT",
+                     label: "set_current_page_as_default.label",
+                     publishTopic: "ALF_SET_USER_DEFAULT_PAGE",
+                     publishPayload: {
+                        defaultPage: getUserDefaultPageCurrent()
+                     }
+                  }
+               },
+               {
+                  id: "HEADER_USER_MENU_SET_DASHBOARD_AS_DEFAULT",
+                  name: "alfresco/header/AlfMenuItem",
+                  config:
+                  {
+                     id: "HEADER_USER_MENU_SET_DASHBOARD_AS_DEFAULT",
+                     label: "set_dashboard_as_default.label",
+                     publishTopic: "ALF_SET_USER_DEFAULT_PAGE",
+                     publishPayload: {
+                        defaultPage: getUserDefaultPageDashboard()
+                     }
+                  }
+               }
+            ]
+         }
+      },
+      {
+         id: "HEADER_USER_MENU_STATUS_GROUP",
+         name: "alfresco/menus/AlfMenuGroup",
+         config:
+         {
+            label: "group.set_status.label",
+            widgets:
+            [
+               getUserStatusWidget(),
+               {
+                  id: "HEADER_USER_MENU_SET_STATUS",
+                  name: "alfresco/header/AlfMenuItem",
+                  config:
+                  {
+                     id: "HEADER_USER_MENU_SET_STATUS",
+                     label: "set_status.label",
+                     iconClass: "alf-user-status-icon",
+                     publishTopic: "ALF_SET_USER_STATUS"
+                  }
+               }
+            ]
+         }
+      }
+   ];
+   if (user.capabilities.isMutable || !context.externalAuthentication)
+   {
+      var otherWidgets = [];
+      if (user.capabilities.isMutable)
+      {
+         otherWidgets.push({
+            id: "HEADER_USER_MENU_PASSWORD",
+            name: "alfresco/header/AlfMenuItem",
+            config:
+            {
+               id: "HEADER_USER_MENU_CHANGE_PASSWORD",
+               label: "change_password.label",
+               iconClass: "alf-user-password-icon",
+               targetUrl: "user/" + encodeURIComponent(user.name) + "/change-password"
+            }
+         });
+      }
+      if (!context.externalAuthentication)
+      {
+         otherWidgets.push({
             id: "HEADER_USER_MENU_LOGOUT",
-            label: "logout.label",
-            iconClass: "alf-user-logout-icon",
-            publishTopic: "ALF_DOLOGOUT"
+            name: "alfresco/header/AlfMenuItem",
+            config:
+            {
+               id: "HEADER_USER_MENU_LOGOUT",
+               label: "logout.label",
+               iconClass: "alf-user-logout-icon",
+               publishTopic: "ALF_DOLOGOUT"
+            }
+         });
+      }
+      userMenuWidgets.push({
+         id: "HEADER_USER_MENU_OTHER_GROUP",
+         name: "alfresco/menus/AlfMenuGroup",
+         config:
+         {
+            label: "group.other.label",
+            widgets: otherWidgets
          }
       });
    }
    return userMenuWidgets;
+}
+
+/**
+ * Gets the current page in a format to be persisted as a default page
+ * preference, i.e. "/page/site/swsdp/documentlibrary"
+ *
+ * @returns {object} The current page path
+ */
+function getUserDefaultPageCurrent() {
+   var currentPage = "/page" + page.url.url.substring(
+         page.url.url.indexOf(page.url.servletContext) + page.url.servletContext.length(), 
+         page.url.url.length());
+   return currentPage;
+}
+
+/**
+ * Gets the user dashboard page in a format to be persisted as a default page
+ * preference, i.e. "/page/user/jsmith/dashboard"
+ *
+ * @returns {object} The user dashboard page path
+ */
+function getUserDefaultPageDashboard() {
+   return "/page/user/" + encodeURIComponent(user.name) + "/dashboard";
 }
 
 /**
