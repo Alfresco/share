@@ -203,7 +203,8 @@
          // Create the ok button, the forms runtime will handle when its clicked
          this.widgets.okButton = Alfresco.util.createYUIButton(this, "ok-button", null,
          {
-            type: "submit"
+            type: "submit",
+            additionalClass: "alf-inverted-colors"
          });
 
          // Configure the forms runtime
