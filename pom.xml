@@ -319,6 +319,14 @@
             </modules>
         </profile>
 
+        <!-- Profile to build Share packaging, including installer -->
+        <profile>
+            <id>packaging</id>
+            <modules>
+                <module>packaging</module>
+            </modules>
+        </profile>
+
         <profile>
             <properties>
                 <!-- Filter solrcore.properties -->
