@@ -70,8 +70,8 @@
     </properties>
 
    <scm>
-       <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
-       <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/branches/HEAD-BUG-FIX/</developerConnection>
+     <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
+     <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/trunk/</developerConnection>
    </scm>
     <pluginRepositories>
         <pluginRepository>
