@@ -541,7 +541,7 @@
 
          // Create and save a reference to the buttons so we can alter them later
          this.widgets.cancelOkButton = Alfresco.util.createYUIButton(this, "cancelOk-button", this.onCancelOkButtonClick);
-         this.widgets.uploadButton = Alfresco.util.createYUIButton(this, "upload-button", this.onUploadButtonClick);
+         this.widgets.uploadButton = Alfresco.util.createYUIButton(this, "upload-button", this.onUploadButtonClick, {additionalClass: "alf-inverted-colors"});
          this.widgets.fileSelectionOverlayButton = Alfresco.util.createYUIButton(this, "file-selection-button-overlay", this._doNothing);
          Dom.addClass(this.widgets.fileSelectionOverlayButton._button, "dnd-file-selection-button-overlay");
          Dom.addClass(this.widgets.fileSelectionOverlayButton._button.parentNode, "dnd-file-selection-button-overlay-wrapper");
