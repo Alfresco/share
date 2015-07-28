@@ -114,15 +114,17 @@ public class SiteMembersPageTest extends AbstractTest
                 }
             }
 
-            ShareUtil.logout(drone);
-            DashBoardPage userDashBoardPage = loginAs(userName, userName).render();
-            MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
-            EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
-            userDashBoardPage = editTaskPage.selectAcceptButton().render();
-            ShareUtil.logout(drone);
-            dashBoard = loginAs(username, password);
-            drone.navigateTo(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
-            site = drone.getCurrentPage().render();
+            /**
+             * ShareUtil.logout(drone);
+             * DashBoardPage userDashBoardPage = loginAs(userName, userName).render();
+             * MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
+             * EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
+             * userDashBoardPage = editTaskPage.selectAcceptButton().render();
+             * ShareUtil.logout(drone);
+             * dashBoard = loginAs(username, password);
+             * drone.navigateTo(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
+             * site = drone.getCurrentPage().render();
+             **/
         }
         else
         {
