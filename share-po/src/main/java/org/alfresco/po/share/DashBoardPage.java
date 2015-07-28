@@ -160,17 +160,17 @@ public class DashBoardPage extends SharePage implements Dashboard
     {
         try
         {
-            drone.findAndWait(By.xpath("//span[text()='View the tutorials']")).click();
+            drone.findAndWait(By.xpath("//h1[text()='GET STARTED']")).click();
         }
         catch (NoSuchElementException ex)
         {
-            logger.error("Unable to find tutorials link.", ex);
-            throw new PageException("Unable to find tutorials link");
+            logger.error("Unable to find Get Started link.", ex);
+            throw new PageException("Unable to find Get Started link");
         }
         catch (TimeoutException e)
         {
-            logger.error("Exceeded the time to find tutorials link.", e);
-            throw new PageOperationException("Not able to find the tutorials link");
+            logger.error("Exceeded the time to find Get Started link.", e);
+            throw new PageOperationException("Not able to find Get Started link");
         }  
     }
 }
