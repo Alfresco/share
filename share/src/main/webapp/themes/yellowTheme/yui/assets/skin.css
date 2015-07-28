@@ -110,7 +110,7 @@ border-color: #808080;
 margin: 0 -1px;
 _margin: 0;
 }
-.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button button {
+.yui-skin-yellowTheme .alf-colored-button.alf-primary-button .yui-button button {
 color: white;
 background-color: #0082c8;
 border-radius: 3px;
@@ -149,7 +149,7 @@ border-color: #006ca6;
 .yui-skin-yellowTheme .yui-button-focus .first-child {
 border-color: #7D98B8;
 }
-.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-focus button {
+.yui-skin-yellowTheme .alf-colored-button.alf-primary-button .yui-button-focus button {
 background-color: #006ca6;
 }
 .yui-skin-yellowTheme .alf-colored-button .yui-button-focus button,
@@ -175,7 +175,7 @@ border-color: #006ca6;
 .yui-skin-yellowTheme .yui-button-hover .first-child {
 border-color: #7D98B8;
 }
-.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-hover button {
+.yui-skin-yellowTheme .alf-colored-button.alf-primary-button .yui-button-hover button {
 background-color: #006ca6;
 }
 .yui-skin-yellowTheme .alf-colored-button .yui-button-hover button,
@@ -201,7 +201,7 @@ border-color: #005684;
 .yui-skin-yellowTheme .yui-button-active .first-child {
 border-color: #7D98B8;
 }
-.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-active button {
+.yui-skin-yellowTheme .alf-colored-button.alf-primary-button .yui-button-active button {
 background-color: #005684;
 }
 .yui-skin-yellowTheme .alf-colored-button .yui-button-active button,
@@ -240,15 +240,15 @@ background-position: 0 -1500px;
 .yui-skin-yellowTheme .alf-colored-button .yui-button-disabled .first-child  {
 border-color: #ccc;
 }
-.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled button {
+.yui-skin-yellowTheme .alf-colored-button.alf-primary-button .yui-button-disabled button {
 background-color: transparent;
 }
 .yui-skin-yellowTheme .yui-button-disabled button,
 .yui-skin-yellowTheme .alf-colored-button .yui-button-disabled button,
-.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled button,
+.yui-skin-yellowTheme .alf-colored-button.alf-primary-button .yui-button-disabled button,
 .yui-skin-yellowTheme .yui-button-disabled a,
 .yui-skin-yellowTheme .alf-colored-button .yui-button-disabled a,
-.yui-skin-yellowTheme .alf-colored-button.alf-inverted-colors .yui-button-disabled a {
+.yui-skin-yellowTheme .alf-colored-button.alf-primary-button .yui-button-disabled a {
 color: #A6A6A6;
 cursor: default;
 }

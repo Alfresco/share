@@ -116,7 +116,7 @@
          this.widgets.okButton = Alfresco.util.createYUIButton(this, "ok-button", null,
          {
             type: "submit",
-            additionalClass: "alf-inverted-colors"
+            additionalClass: "alf-primary-button"
          });
          
          // Site access form controls

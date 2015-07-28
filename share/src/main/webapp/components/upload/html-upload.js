@@ -229,7 +229,7 @@
          this.widgets.uploadButton = Alfresco.util.createYUIButton(this, "upload-button", null,
          {
             type: "submit",
-            additionalClass: "alf-inverted-colors"
+            additionalClass: "alf-primary-button"
          });
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancel-button", this.onCancelButtonClick);
          

@@ -118,7 +118,7 @@
          // button to invite all people in the list 
          this.widgets.inviteButton = Alfresco.util.createYUIButton(this, "invite-button", this.inviteButtonClick,
                {
-                  additionalClass: "alf-inverted-colors"
+                  additionalClass: "alf-primary-button"
                });
          
          // File Select menu button
