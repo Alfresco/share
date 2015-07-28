@@ -99,15 +99,16 @@ public class AddUsersToSitePageTest extends AbstractTest
         {
             List<String> searchUsers = null;
             addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-            for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+            for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
             {
                 searchUsers = addUsersToSitePage.searchUser(userName);
                 try
                 {
-                    if (searchUsers != null && searchUsers.size() > 0)
+                    if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(userName) != -1))
                     {
                         addUsersToSitePage.clickSelectUser(userName);
                         addUsersToSitePage.setUserRoles(userName, role);
+
                         addUsersToSitePage.clickAddUsersButton();
                         break;
                     }

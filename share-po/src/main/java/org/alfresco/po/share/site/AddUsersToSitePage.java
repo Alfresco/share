@@ -204,12 +204,6 @@ public class AddUsersToSitePage extends SharePage
                     drone.find(By.cssSelector(SEARCH_USER_INPUT));
                     drone.find(By.cssSelector(SEARCH_USER_BUTTON));
                     drone.find(SET_ALL_ROLES_TO_BUTTON);
-                    // drone.find(YOU_HAVE_NOT_ADDED_ANY_USERS_MESSAGE);
-                    //drone.find(EXTERNAL_ADD_BUTTON);
-                    //drone.find(EXTERNAL_EMAIL_INPUT);
-                    //drone.find(EXTERNAL_FIRST_NAME_INPUT);
-                    //drone.find(EXTERNAL_LAST_NAME_INPUT);
-
                     break;
                 }
                 catch (NoSuchElementException pe)
@@ -393,7 +387,6 @@ public class AddUsersToSitePage extends SharePage
         {
             throw new UnsupportedOperationException("user input required");
         }
-
         List<WebElement> searchResults = getUserSearchResults();
         if (searchResults != null)
         {
@@ -406,10 +399,8 @@ public class AddUsersToSitePage extends SharePage
                     String value = element.getText();
                     if (value != null && !value.isEmpty())
                     {
-                        // if (value.contains(user))
                         if (value.indexOf(user) != -1)
                         {
-                            // searchResult.findElement(By.cssSelector(SELECT_USER_BUTTONS)).click();
                             searchResult.findElement(By.xpath(String.format(SELECT_USER_BUTTONS, user))).click();
                             break;
                         }
@@ -582,14 +573,9 @@ public class AddUsersToSitePage extends SharePage
             {
                 WebElement userNameElement = selectedUser.findElement(By.cssSelector(LIST_OF_SELECTED_USERS_USER_NAMES));
                 String userName = userNameElement.getText();
-                // if (userName != null && user.equalsIgnoreCase(userName))
                 if (userName != null && userName.indexOf(user) != -1)
                 {
-                    // selectRolesDropdown();
-                    drone.findAndWait(By.xpath(SELECT_ROLE_BUTTONS)).click();
-                    // getRoles();
-                    // drone.findAndWaitForElements(By.cssSelector(SELECT_ROLE_DROP_DOWN_VALUES), maxPageLoadingTime);
-                    // assignRole();
+                    drone.findAndWait(By.xpath(SELECT_ROLE_BUTTONS), maxPageLoadingTime).click();
                     selectRole(role);
                     break;
                 }
@@ -687,7 +673,6 @@ public class AddUsersToSitePage extends SharePage
     public AddUsersToSitePage clickAddUsersButton()
     {
         drone.findAndWait(By.cssSelector(ADD_USERS_BUTTON), maxPageLoadingTime).click();
-        // drone.findAndWait(By.xpath(ADD_USERS_BUTTON), maxPageLoadingTime).click();
         waitUntilAlert();
         return new AddUsersToSitePage(drone).render();
     }
