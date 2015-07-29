@@ -116,9 +116,9 @@ public class SiteTest extends AbstractTest
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
         
         //checks for site visbility help text
-        //Assert.assertTrue(createSite.isPublicCheckboxHelpTextDisplayed());
-        //Assert.assertTrue(createSite.isPrivateCheckboxHelpTextDisplayed());
-        //Assert.assertTrue(createSite.isModeratedCheckboxHelpTextDisplayed());
+        Assert.assertTrue(createSite.isPublicCheckboxHelpTextDisplayed());
+        Assert.assertTrue(createSite.isPrivateCheckboxHelpTextDisplayed());
+        Assert.assertTrue(createSite.isModeratedCheckboxHelpTextDisplayed());
         
         SiteDashboardPage site = createSite.createNewSite(siteName).render();
         
@@ -270,9 +270,9 @@ public class SiteTest extends AbstractTest
         EditSitePage siteDetails = site.getSiteNav().selectEditSite().render();
         
         //checks for site visbility help text
-        //Assert.assertTrue(createSite.isPublicCheckboxHelpTextDisplayed());
-        //Assert.assertTrue(createSite.isPrivateCheckboxHelpTextDisplayed());
-        //Assert.assertTrue(createSite.isModeratedCheckboxHelpTextDisplayed());
+        Assert.assertTrue(createSite.isPublicCheckboxHelpTextDisplayed());
+        Assert.assertTrue(createSite.isPrivateCheckboxHelpTextDisplayed());
+        Assert.assertTrue(createSite.isModeratedCheckboxHelpTextDisplayed());
               
         Assert.assertTrue(siteDetails.isPrivate());
         Assert.assertFalse(siteDetails.isModerate());

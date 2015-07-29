@@ -24,6 +24,8 @@ import org.alfresco.webdrone.RenderElement;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.WebDrone;
 import org.alfresco.webdrone.exception.PageOperationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -39,12 +41,14 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class CreateSitePage extends ShareDialogue
 {
+    private static Log logger = LogFactory.getLog(SitePage.class);
+    
     protected static final By MODERATED_CHECKBOX = By.cssSelector("input[id$='-isModerated']");
     protected static final By PRIVATE_CHECKBOX = By.cssSelector("input[id$='-isPrivate']");
     protected static final By PUBLIC_CHECKBOX = By.cssSelector("input[id$='-isPublic']");
-    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.id("moderated-help-text");
-    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.id("private-help-text");
-    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.id("public-help-text");
+    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='moderated-help-text']");
+    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='private-help-text']");
+    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='public-help-text']");
     protected static final By INPUT_DESCRIPTION = By.cssSelector("textarea[id$='-description']");
     protected static final By INPUT_TITLE = By.name("title");
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
@@ -307,9 +311,13 @@ public class CreateSitePage extends ShareDialogue
             drone.find(PRIVATE_CHECKBOX_HELP_TEXT);
             return true;
         } 
-        catch (NoSuchElementException e)
+        catch (NoSuchElementException nse)
         {
-            
+            logger.error("Can't find css for private checkbox help. ", nse);
+        }
+        catch (TimeoutException te)
+        {
+            logger.error("Timed out finding css for private checkbox help. ", te);
         }
         return false;
     }
@@ -355,7 +363,11 @@ public class CreateSitePage extends ShareDialogue
             return true;
         } catch (NoSuchElementException nse)
         {
-            
+            logger.error("Can't find css for public checkbox help. ", nse);
+        }
+        catch (TimeoutException te)
+        {
+            logger.error("Timed out finding css for public checkbox help. ", te);
         }
         return false;
     }
@@ -401,7 +413,11 @@ public class CreateSitePage extends ShareDialogue
             return true;
         } catch (NoSuchElementException nse)
         {
-            
+            logger.error("Can't find css for moderated checkbox help. ", nse);
+        }
+        catch (TimeoutException te)
+        {
+            logger.error("Timed out finding css for moderated checkbox help. ", te);
         }
         return false;
     }

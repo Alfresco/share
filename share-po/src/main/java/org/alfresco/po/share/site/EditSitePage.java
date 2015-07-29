@@ -39,9 +39,9 @@ public class EditSitePage extends CreateSitePage
     {
 
         super(drone);
-        MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isModerated']+label[for='alfresco-editSite-instance-isModerated'] span[class='help']");
-        PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isPrivate']+label[for='alfresco-editSite-instance-isPrivate'] span[class='help']");
-        PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("input[id$='-isPublic']+label[for='alfresco-editSite-instance-isPublic'] span[class='help']");
+        MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='moderated-help-text']");
+        PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='private-help-text']");
+        PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='public-help-text']");
     }
 
     @SuppressWarnings("unchecked")
