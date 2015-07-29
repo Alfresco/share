@@ -262,12 +262,13 @@
          this._setupDataTable();
          
          // setup the buttons
-         this.widgets.searchButton = Alfresco.util.createYUIButton(this, "button", this.onSearch);
+         this.widgets.searchButton = Alfresco.util.createYUIButton(this, "button", this.onSearch, {additionalClass: "alf-primary-button"});
          if (Dom.get(this.id + "-invitePeople"))
          {
             this.widgets.invitePeople = Alfresco.util.createYUIButton(this, "invitePeople", null,
             {
-               type: "link"
+               type: "link",
+               additionalClass: "alf-primary-button"
             });
          }
 
