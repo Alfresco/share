@@ -45,8 +45,9 @@
     */
    Alfresco.module.RolesTooltip = function(containerComponentId, tooltipContextElementId, buttonName, siteId, noderef)
    {
+      var buttonId = containerComponentId + "-" + buttonName;
       Alfresco.module.RolesTooltip.superclass.constructor.call(this, "Alfresco.module.RolesTooltip", 
-            containerComponentId + "-roles-tooltip", ["button", "json"]);
+            buttonId + "-roles-tooltip", ["button", "json"]);
 
       this.tooltipDivId = containerComponentId + '-role-info-panel';
       this.tooltipContextElementId = tooltipContextElementId;
@@ -54,7 +55,6 @@
       this.noderef = noderef ? noderef : "";
       
       // Button to show role info tooltip
-      var buttonId = containerComponentId + "-" + buttonName;
       this.widgets.roleInfoButton = Alfresco.util.createYUIButton(this, buttonName, this.show, {}, buttonId);
       
       return this;
@@ -89,7 +89,7 @@
        */
       show: function RolesTooltip_show()
       {
-         if (!Dom.get(this.tooltipDivId))
+         if (!Alfresco.module.RolesTooltip.tooltipDiv)
          {
             /**
              * Load the gui and site info from the server and let the templateLoaded() method
@@ -132,20 +132,22 @@
          Dom.addClass(tooltipDiv, "hidden");
          tooltipDiv.innerHTML = response.serverResponse.responseText;
          Dom.get(this.tooltipContextElementId).appendChild(tooltipDiv);
-
-         this.widgets.roleTooltip = new Alfresco.util.createInfoBalloon(
-            this.tooltipContextElementId,
-            {
-               html: tooltipDiv.innerHTML,
-               width: "350px",
-               wrapperClass: "alf-info-balloon"
-            });
-         
+         Alfresco.module.RolesTooltip.tooltipDiv = tooltipDiv;
          this._show();
       },
       
       _show: function RolesTooltip__show()
       {
+         if (!this.widgets.roleTooltip)
+         {
+            this.widgets.roleTooltip = new Alfresco.util.createInfoBalloon(
+               this.tooltipContextElementId,
+               {
+                  html: Alfresco.module.RolesTooltip.tooltipDiv.innerHTML,
+                  width: "350px",
+                  wrapperClass: "alf-info-balloon"
+               });
+         }
          this.widgets.roleTooltip.show();
          
          // Override default alignment

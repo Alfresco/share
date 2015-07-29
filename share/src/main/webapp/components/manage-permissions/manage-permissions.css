@@ -152,9 +152,14 @@
    background-image: url(../images/delete-16.png);
 }
 
-.permissions .alf-role-info-tooltip
+.permissions .permissions-list .alf-role-info-tooltip
 {
-   color: grey;
-   margin-right: 6em;
-   padding: 2px;
+   float: left;
+}
+
+.permissions .permissions-list .alf-role-column-label
+{
+   float: left;
+   position: relative;
+   top: 4px;
 }

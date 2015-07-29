@@ -27,9 +27,6 @@
                   <span id="${id}-title"></span>
                </div>
                <div class="right">
-                  <div id="${args.htmlid}-role-info" class="alf-role-info-tooltip">
-                    ${msg("roles-tooltip.label")}&nbsp;<button id="${args.htmlid}-role-info-button">&nbsp;</button>
-                  </div>
                   <div id="${id}-inheritedButtonContainer" class="inherited">
                      <span id="${id}-inheritedButton" class="yui-button yui-push-button">
                         <span class="first-child">
