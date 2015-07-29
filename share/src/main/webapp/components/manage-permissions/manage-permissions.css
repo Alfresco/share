@@ -154,7 +154,9 @@
 
 .permissions .permissions-list .alf-role-info-tooltip
 {
-   float: left;
+   float: left;    
+   margin-left: 0.2em;
+   margin-top: 0.2em;
 }
 
 .permissions .permissions-list .alf-role-column-label
