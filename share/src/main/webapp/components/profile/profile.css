@@ -182,7 +182,7 @@
    text-align: center;
 }
 
-.profile .btn-edit button
+.profile .btn-edit
 {
    background: transparent url(images/edit.png) no-repeat 12px 4px;
    padding-left: 32px;

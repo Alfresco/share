@@ -28,7 +28,7 @@
             <#if isEditable>
             <div class="editcolumn">
                <div class="btn-edit">
-                  <span class="yui-button yui-push-button" id="${el}-button-edit">
+                  <span class="yui-button yui-push-button alf-primary-button" id="${el}-button-edit">
                      <span class="first-child"><button name="edit">${msg("button.editprofile")}</button></span>
                   </span>
                </div>
