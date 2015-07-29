@@ -26,6 +26,8 @@ import java.util.List;
 
 import org.alfresco.po.share.AbstractTest;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.document.CopyOrMoveContentPage.ACTION;
+import org.alfresco.po.share.site.document.CopyOrMoveContentPage.DESTINATION;
 import org.alfresco.po.share.site.document.DetailsPage;
 import org.alfresco.po.share.site.document.DocumentAspect;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
@@ -36,6 +38,7 @@ import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -45,6 +48,7 @@ public class SiteActionsTest extends AbstractTest
     private SiteActions siteActions = new SiteActions();
     private String  siteName = "swsdp";
     private String newSite = "site" + System.currentTimeMillis();
+    private String[] hyerarcy = new String[]{"parent", "childA", "childB"};
 
     @BeforeClass(groups = "Enterprise-only")
     public void setup() throws Exception
@@ -130,4 +134,71 @@ public class SiteActionsTest extends AbstractTest
         Assert.assertTrue(detailsPage instanceof DocumentDetailsPage, "Error during View Document Details");
 
     }
+    
+    @Test(groups = "Enterprise-only", priority=7)
+    public void createHyerarcyFolders() {
+	  siteActions.openSitesDocumentLibrary(drone, newSite);
+  	  for (int i = 0; i < hyerarcy.length; i++) {
+  		  siteActions.createFolder(drone, hyerarcy[i], hyerarcy[i], hyerarcy[i]);
+  		  siteActions.navigateToFolder(drone, hyerarcy[i]);
+  	  }
+    }
+    
+    @Test(groups = "Enterprise-only", priority=8, dataProvider="tempFilesData")
+    public void testCopyArtifact(File file) throws Exception
+    {
+	  copyOrMoveAction(file,ACTION.COPY, new String[] {});
+	  Assert.assertTrue(siteActions.isFileVisible(drone, file.getName()),"File: " + file.getName() + " was copied in document library of site ");  
+    }
+     
+    @Test(groups = "Enterprise-only", priority=9, dataProvider="tempFilesData")
+    public void testCopyArtifactInFolderHyerarcy(File file) throws Exception
+    {
+	  String fullHyerarcy ="";
+	  copyOrMoveAction(file, ACTION.COPY, hyerarcy);
+	  
+	  for (int i = 0; i < hyerarcy.length; i++) {
+		  fullHyerarcy += "/" + hyerarcy[i];
+		  siteActions.navigateToFolder(drone, hyerarcy[i]);
+	  }
+	  	  
+	  Assert.assertTrue(siteActions.isFileVisible(drone, file.getName()),String.format("File: [%s[ was copied in document library[%s] of site %s ", file.getName(), fullHyerarcy, newSite));  
+    }
+    
+    @Test(groups = "Enterprise-only", priority=10, dataProvider="tempFilesData")
+    public void testMoveArtifact(File file) throws Exception
+    {
+	  copyOrMoveAction(file,ACTION.MOVE, new String[] {});	  
+	  Assert.assertTrue(siteActions.isFileVisible(drone, file.getName()),"File: " + file.getName() + " was moved in document library of site ");  
+    }
+    
+    @Test(groups = "Enterprise-only", priority=11, dataProvider="tempFilesData")
+    public void testMoveArtifactInFolderHyerarcy(File file) throws Exception
+    {
+	  String fullHyerarcy ="";
+	  copyOrMoveAction(file, ACTION.MOVE, hyerarcy);
+	  
+	  for (int i = 0; i < hyerarcy.length; i++) {
+		  fullHyerarcy += "/" + hyerarcy[i];
+		  siteActions.navigateToFolder(drone, hyerarcy[i]);
+	  }
+	  Assert.assertTrue(siteActions.isFileVisible(drone, file.getName()),String.format("File: [%s] was moved in document library[%s] of site %s ",file.getName(),fullHyerarcy, newSite));  
+    }
+    
+    /**
+     * Private method used for copying/moving artifacts between sites.
+     * @param file
+     * @param action
+     */
+    private void copyOrMoveAction(File file, ACTION action, String[] structure) {
+	  siteActions.openSitesDocumentLibrary(drone, siteName);
+	  siteActions.uploadFile(drone, file);
+	  siteActions.copyOrMoveArtifact(drone, DESTINATION.ALL_SITES, newSite, file.getName(), action, structure);
+	  siteActions.openSitesDocumentLibrary(drone, newSite);
+    }
+    
+    @DataProvider
+    public Object[][] tempFilesData() {
+		return new Object[][] { {SiteUtil.prepareFile()}, {SiteUtil.prepareFile()}, {SiteUtil.prepareFile()} };  
+    }    
 }

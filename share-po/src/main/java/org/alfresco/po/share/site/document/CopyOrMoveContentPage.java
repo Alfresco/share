@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.ShareDialogue;
+import org.alfresco.po.share.steps.SiteActions;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderElement;
 import org.alfresco.webdrone.RenderTime;
@@ -71,7 +72,33 @@ public class CopyOrMoveContentPage extends ShareDialogue
             .cssSelector("div[id$='default-copyMoveTo-title'], div[id$='_default-ruleConfigAction-destinationDialog-title']");
 
     private final By rmfolderItemsListCss = By.cssSelector("div#ygtvc7.ygtvchildren");
+    private final By selectedDestination = By.xpath("//span[@class='yui-button yui-radio-button yui-button-checked yui-radio-button-checked']");
 
+    /**
+     * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
+     * @author pbrodner
+     */
+    public enum ACTION{COPY, MOVE};
+    
+    /**
+     * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
+     * @author pbrodner
+     */
+    public enum DESTINATION{
+    	RECENT_SITES("Recent Sites"), FAVORITE_SITES("Favorite Sites"), ALL_SITES("All Sites"), REPOSITORY("Repository"), SHARED_FILES("Shared Files"), MY_FILES("My Files");
+    	private String value;
+    	private DESTINATION(String value){
+    		this.value = value;
+    	}
+    	public String getValue(){
+    		return this.value;
+    	}
+    	
+    	public boolean hasSites(){
+    		return getValue().contains("Sites");
+    	}
+    }
+    
     /**
      * Constructor.
      *
@@ -529,5 +556,12 @@ public class CopyOrMoveContentPage extends ShareDialogue
             }
         }
     }
-
+    
+   /**
+   * @return
+   */
+   public String getSelectedDestination(){
+	   WebElement destination = drone.findAndWait(selectedDestination);
+	   return destination.getText();
+   }
 }
