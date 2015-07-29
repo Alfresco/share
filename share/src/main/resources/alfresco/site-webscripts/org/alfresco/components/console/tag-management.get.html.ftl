@@ -24,7 +24,7 @@
          <div class="search-text"><input type="text" id="${el}-search-text" name="-" value="" />
             <!-- Search button -->
             <div class="search-button">
-               <span class="yui-button yui-push-button" id="${el}-search-button">
+               <span class="yui-button yui-push-button alf-primary-button" id="${el}-search-button">
                   <span class="first-child"><button>${msg("button.search")}</button></span>
                </span>
             </div>
