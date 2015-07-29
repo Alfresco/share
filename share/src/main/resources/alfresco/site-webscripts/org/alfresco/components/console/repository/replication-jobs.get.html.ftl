@@ -42,7 +42,7 @@
                   <div class="yui-u first jobs-list-container">
                      <div class="container-panel">
                         <div class="bottom-border">
-                           <span id="${id}-create" class="yui-button yui-push-button">
+                           <span id="${id}-create" class="yui-button yui-push-button alf-primary-button">
                               <span class="first-child">
                                  <a tabindex="0" href="${url.context}/page/console/replication-job">${msg("button.create-job")}</a>
                               </span>

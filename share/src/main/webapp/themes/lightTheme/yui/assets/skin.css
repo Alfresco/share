@@ -166,6 +166,7 @@ border-color: #006ca6;
 .yui-skin-lightTheme .alf-primary-button.yui-button a:hover
 {
 background-color: #006ca6;
+color: white;
 }
 .yui-skin-lightTheme .yui-button-hover button,
 .yui-skin-lightTheme .yui-button-hover a,
@@ -188,6 +189,7 @@ border-color: #005684;
 .yui-skin-lightTheme .alf-primary-button.yui-button a:active
 {
 background-color: #005684;
+color: white;
 }
 .yui-skin-lightTheme .yui-button-active button,
 .yui-skin-lightTheme .yui-button-active a,
