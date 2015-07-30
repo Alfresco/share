@@ -179,6 +179,7 @@
 
          // Enable buttons
          this.widgets.okButton.set("disabled", false);
+         this.widgets.okButton.addClass("alf-primary-button");
          this.widgets.cancelButton.set("disabled", false);
       },
       
