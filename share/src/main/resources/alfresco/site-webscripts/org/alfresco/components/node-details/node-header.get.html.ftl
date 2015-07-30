@@ -117,7 +117,7 @@
                <div class="node-action">
                   <#if showDownload == "true" && node.contentURL??>
                   <!-- Download Button -->
-                  <span class="yui-button yui-link-button onDownloadDocumentClick alf-primary-button">
+                  <span class="yui-button yui-link-button onDownloadDocumentClick">
                      <span class="first-child">
                         <a href="${url.context}/proxy/alfresco${node.contentURL?html}?a=true" tabindex="0">${msg("button.download")}</a>
                      </span>
