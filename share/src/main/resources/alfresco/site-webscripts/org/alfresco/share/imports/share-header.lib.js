@@ -988,7 +988,8 @@ function getUserMenuWidgets()
                      publishTopic: "ALF_SET_USER_STATUS"
                   }
                }
-            ]
+            ],
+            additionalCssClasses: "alf-menu-group-no-label"
          }
       }
    ];
@@ -1029,7 +1030,8 @@ function getUserMenuWidgets()
          config:
          {
             label: "group.other.label",
-            widgets: otherWidgets
+            widgets: otherWidgets,
+            additionalCssClasses: "alf-menu-group-no-label"
          }
       });
    }

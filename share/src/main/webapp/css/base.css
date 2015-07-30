@@ -133,6 +133,14 @@ blockquote
    width: auto;
 }
 
+.alfresco-share .alf-menu-group-no-label .alf-menu-group-title
+{
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+    height: 0.8em;
+}
+
 .sticky-wrapper fieldset,
 .yui-overlay fieldset,
 .login-panel fieldset
