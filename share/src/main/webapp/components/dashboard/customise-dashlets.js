@@ -85,7 +85,7 @@
       {
          // Save reference to buttons so we can change label and such later
          this.widgets.addDashletsButton = Alfresco.util.createYUIButton(this, "addDashlets-button", this.onAddDashletsButtonClick);
-         this.widgets.saveButton = Alfresco.util.createYUIButton(this, "save-button", this.onSaveButtonClick);
+         this.widgets.saveButton = Alfresco.util.createYUIButton(this, "save-button", this.onSaveButtonClick, {additionalClass: "alf-primary-button"});
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancel-button", this.onCancelButtonClick);
 
          // Save a reference to the dashlet list and garbage can
