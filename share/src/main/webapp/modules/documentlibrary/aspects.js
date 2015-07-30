@@ -78,7 +78,7 @@
       {
          Alfresco.module.DoclibAspects.superclass.setOptions.call(this,
          {
-            width: "50em",
+            width: "56em",
             templateUrl: Alfresco.constants.URL_SERVICECONTEXT + "modules/documentlibrary/aspects",
             doBeforeDialogShow:
             {
@@ -150,7 +150,7 @@
       {
          var key = "aspect." + aspect.replace(":", "_"),
              msg = this.msg(key);
-         return (msg !== key ? msg : this.options.labels[aspect]);
+         return (msg !== key ? msg : this.options.labels[aspect]) + " (" + aspect + ")";
       },
       
       /**
@@ -350,7 +350,7 @@
           */
          var renderCellName = function renderCellName(elCell, oRecord, oColumn, oData)
          {
-            elCell.innerHTML = me.renderItem(oRecord.getData(), '<h3 class="name">{name}</h3>');
+            elCell.innerHTML = me.renderItem(oRecord.getData(), '<h4 class="name">{name}</h4>');
          };
 
          /**

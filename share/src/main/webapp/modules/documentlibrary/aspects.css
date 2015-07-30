@@ -24,7 +24,7 @@
 .aspects .title-left,
 .aspects .title-right
 {
-   padding: 0.5em;
+   padding: 0.55em 0.6em 0.75em;
    text-align: left;
 }
 
@@ -32,7 +32,7 @@
 .aspects .list-right
 {
    border: 1px solid #c0c0c0;
-   height: 24em;
+   height: 36em;
    overflow: auto;
    margin: 0 0.5em;
 }
