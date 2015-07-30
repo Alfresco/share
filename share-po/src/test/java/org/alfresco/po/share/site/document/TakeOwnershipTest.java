@@ -91,12 +91,12 @@ public class TakeOwnershipTest extends AbstractTest
         siteDashBoard = drone.getCurrentPage().render();
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         List<String> searchUsers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
         {
             searchUsers = addUsersToSitePage.searchUser(takeOwnershipUserName);
             try
             {
-                if (searchUsers != null && searchUsers.size() > 0)
+                if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(takeOwnershipUserName) != -1))
                 {
                     addUsersToSitePage.clickSelectUser(takeOwnershipUserName);
                     addUsersToSitePage.setUserRoles(takeOwnershipUserName, UserRole.COLLABORATOR);
