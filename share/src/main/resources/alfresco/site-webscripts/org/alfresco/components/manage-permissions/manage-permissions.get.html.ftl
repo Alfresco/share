@@ -52,7 +52,7 @@
                <div id="${id}-directPermissions" class="permissions-list"></div>
             </div>
             <div class="center">
-               <span id="${id}-okButton" class="yui-button yui-push-button">
+               <span id="${id}-okButton" class="yui-button yui-push-button alf-primary-button">
                   <span class="first-child">
                      <button>${msg("button.save")}</button>
                   </span>
