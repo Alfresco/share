@@ -91,7 +91,14 @@
          * @property currentSiteVisibility
          * @type string
          */
-         currentSiteVisibility: null
+         currentSiteVisibility: null,
+
+         /**
+         * Is requested site exists
+         * @property siteExists
+         * @type boolean
+         */
+         siteExists: false
       },
 
       /**
@@ -102,6 +109,26 @@
        */
       onReady: function CollaborationTitle_onReady()
       {
+          // MNT-3053 fix. Report a user if site exists
+          if (!this.options.siteExists)
+          {
+              Alfresco.util.PopupManager.displayPrompt(
+                  {
+                      title: this.msg("message.site-does-not-exist-title", this.options.site),
+                      text: this.msg("message.site-does-not-exist"),
+                      buttons: [
+                          {
+                              text: this.msg("button.ok"),
+                              handler: function ()
+                              {
+                                  this.destroy();
+                              },
+                              isDefault: true
+                          }
+                      ]
+                  });
+          }
+          else
           // MNT-9185 fix. Report a user if he doesn't have access rights to the site, except PUBLIC site.
           if (this.options.userIsMember == "false" && this.options.currentSiteVisibility !=="PUBLIC")
           {
