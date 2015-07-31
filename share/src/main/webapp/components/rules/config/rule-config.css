@@ -79,16 +79,17 @@
    padding-top: 0.5em;
 }
 
-.rule-config ul.rule-config-body div.name select
+.rule-config ul.rule-config-body select
 {
    width: auto;
+   background-color: #fff;
 }
 
 .rule-config ul.rule-config-body div.name select optgroup
 {
-   padding-top: 0.25em;
-   padding-bottom: 0.25em;
-   border-bottom:1px dashed #DDDDDD;
+   padding-top: 0.15em;
+   padding-bottom: 0.15em;
+   border-bottom: 1px dashed #ccc;
 }
 
 .rule-config ul.rule-config-body div.parameters
