@@ -100,9 +100,9 @@
    width: 20em;
 }
 
-.site-members .search-button
+.site-members .search-button button
 {
-   background: transparent url(../images/search-16.png) no-repeat 15px 9px;
+   background: transparent url(../images/search-16.png) no-repeat 12px 4px;
    padding-left: 32px;
 }
 
