@@ -97,7 +97,7 @@
          onLoad: function onLoad()
          {
             // Buttons
-            parent.widgets.searchButton = Alfresco.util.createYUIButton(parent, "search-button", parent.onSearchClick);
+            parent.widgets.searchButton = Alfresco.util.createYUIButton(parent, "search-button", parent.onSearchClick, {additionalClass: "alf-primary-button"});
             parent.widgets.newuserButton = Alfresco.util.createYUIButton(parent, "newuser-button", parent.onNewUserClick);
             parent.widgets.uploadUsersButton = Alfresco.util.createYUIButton(parent, "uploadusers-button", parent.onUploadUsersClick);
 
