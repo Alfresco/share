@@ -21,7 +21,7 @@
          <div class="search-bar theme-bg-color-3">
             <div class="search-text toolbar-widget"><input type="text" id="${el}-search-text" name="-" value="" maxlength="256" tabindex="0"/></div>
             <div class="search-button toolbar-widget">
-               <span id="${el}-search-button" class="yui-button yui-push-button alf-primary-button">
+               <span id="${el}-search-button" class="yui-button yui-push-button">
                   <span class="first-child"><button>${msg("button.search")}</button></span>
                </span>
             </div>
