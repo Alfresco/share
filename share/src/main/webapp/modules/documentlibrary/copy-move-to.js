@@ -196,8 +196,9 @@
 
                Alfresco.util.PopupManager.displayMessage(
                {
-                  text: this.msg(message)
-               });
+                  text: this.msg(message),
+                  zIndex: this.options.zIndex
+               }, this.options.parentElement);
 
                return;
             }
@@ -236,8 +237,9 @@
             {
                Alfresco.util.PopupManager.displayMessage(
                {
-                  text: this.msg("message.success", successCount)
-               });
+                  text: this.msg("message.success", successCount),
+                  zIndex: this.options.zIndex
+               }, this.options.parentElement);
                YAHOO.Bubbling.fire("metadataRefresh");
             }
          };
@@ -256,8 +258,9 @@
 
             Alfresco.util.PopupManager.displayMessage(
             {
-               text: this.msg(msgFailure)
-            });
+               text: this.msg(msgFailure),
+               zIndex: this.options.zIndex
+            }, this.options.parentElement);
          };
 
          // Construct webscript URI based on current viewMode
