@@ -40,7 +40,7 @@
    /**
     * ConsoleApplication constructor.
     * 
-    * @param {String} htmlId The HTML id üof the parent element
+    * @param {String} htmlId The HTML id ï¿½of the parent element
     * @return {Alfresco.ConsoleApplication} The new ConsoleApplication instance
     * @constructor
     */
@@ -78,7 +78,8 @@
             // Buttons
             parent.widgets.applyButton = Alfresco.util.createYUIButton(parent, "apply-button", null,
             {
-               type: "submit"
+               type: "submit",
+               additionalClass: "alf-primary-button"
             });
             parent.widgets.upload = Alfresco.util.createYUIButton(parent, "upload-button", this.onUpload);
             parent.widgets.reset = Alfresco.util.createYUIButton(parent, "reset-button", this.onReset);
