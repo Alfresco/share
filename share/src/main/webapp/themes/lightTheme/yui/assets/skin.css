@@ -1257,10 +1257,10 @@ background-color: #FFF;
 background-color: #eee;
 }
 .yui-skin-lightTheme tr.yui-dt-even td.yui-dt-asc,.yui-skin-lightTheme tr.yui-dt-even td.yui-dt-desc {
-background-color: #eee;
+background-color: #FFF;
 }
 .yui-skin-lightTheme tr.yui-dt-odd td.yui-dt-asc,.yui-skin-lightTheme tr.yui-dt-odd td.yui-dt-desc {
-background-color: #FFF;
+background-color: #eee;
 }
 .yui-skin-lightTheme .yui-dt-list tr.yui-dt-even {
 background-color: #FFF;
