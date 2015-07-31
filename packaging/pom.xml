@@ -9,10 +9,28 @@
     <name>Packaging Alfresco Share</name>
     <packaging>pom</packaging>
 
+    <properties>
+        <highest.basedir>${basedir}/../../..</highest.basedir>
+        <alfresco.package.name>alfresco-share</alfresco.package.name>
+        <alfresco.distribution.name>${alfresco.package.name}-distribution</alfresco.distribution.name>
+
+        <!-- Versions of binaries packaged in the installer -->
+        <installer.common.version>5.0-20150414</installer.common.version>
+        <installer.tomcat.version>7.0.59-alfresco-distribution</installer.tomcat.version>
+        <installer.java.version>1.8.0_31</installer.java.version>
+        <installer.postgresql.version>9.3.6-openssl101</installer.postgresql.version>
+        <installer.libreoffice.version>4.2.5-alfresco</installer.libreoffice.version>
+
+        <!-- Install builder version -->
+        <installer.installbuilder.version>15.1.0</installer.installbuilder.version>
+
+    </properties>
+
     <modules>
         <module>distribution</module>
         <module>webeditor</module>
         <module>wcmqs</module>
+        <module>installer</module>
     </modules>
 
 </project>
