@@ -344,7 +344,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     {
         try
         {
-            return drone.find(By.cssSelector("span.yui-button.yui-submit-button")).isDisplayed();
+            return drone.find(By.cssSelector("span.yui-button.yui-submit-button.alf-primary-button")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {

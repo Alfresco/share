@@ -54,6 +54,7 @@ public class CreateSitePage extends ShareDialogue
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
     protected static final By CANCEL_BUTTON = By.cssSelector("button[id$='cancel-button-button']");
     protected static final By CREATE_SITE_FORM = By.cssSelector("form[id$='createSite-instance-form']");
+    protected static final By SAVE_BUTTON = By.cssSelector("span.yui-button.yui-submit-button.alf-primary-button");
 
     /**
      * Constructor.
@@ -67,7 +68,7 @@ public class CreateSitePage extends ShareDialogue
     @Override
     public CreateSitePage render(RenderTime timer)
     {
-        elementRender(timer, RenderElement.getVisibleRenderElement(CREATE_SITE_FORM), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION));
+        elementRender(timer, RenderElement.getVisibleRenderElement(CREATE_SITE_FORM), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(SAVE_BUTTON));
         return this;
     }
 
