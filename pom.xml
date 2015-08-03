@@ -102,6 +102,33 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- Override dependencies with the locally defined versions -->
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-core</artifactId>
+                <version>${dependency.alfresco-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-jlan-embed</artifactId>
+                <version>${dependency.alfresco-jlan.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.extensions.surf</groupId>
+                <artifactId>spring-webscripts</artifactId>
+                <version>${dependency.webscripts.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.extensions.surf</groupId>
+                <artifactId>spring-surf-core</artifactId>
+                <version>${dependency.webscripts.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.extensions.surf</groupId>
+                <artifactId>spring-surf-core-configservice</artifactId>
+                <version>${dependency.webscripts.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
