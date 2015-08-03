@@ -18,8 +18,21 @@
 --%>
 <%@ page isErrorPage="true" %>
 <%@ page import="java.io.*" %>
+<%@ page import="org.alfresco.web.site.*" %>
 <%@ page import="org.springframework.extensions.webscripts.ui.common.StringUtils" %>
 <%@ page import="org.apache.commons.logging.LogFactory" %>
+<%
+   String dashboardPath = "";
+   // try retrieving user name from the session
+   if (session != null)
+   {
+       String userid = (String)session.getAttribute(SlingshotUserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
+       if (userid != null)
+       {
+           dashboardPath = "/page/user/" + userid + "/dashboard";
+       }
+   }
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -76,7 +89,7 @@ div.panel
          <ul>
       </div>
       <br/>
-      <a href="${pageContext.request.contextPath}">Return to your dashboard page</a>
+      <a href="${pageContext.request.contextPath}<%=dashboardPath%>">Return to your dashboard page</a>
       <br/>
       <br/>
       <br/>
