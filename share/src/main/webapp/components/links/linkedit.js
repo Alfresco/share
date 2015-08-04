@@ -232,6 +232,7 @@
             type: "submit",
             label: okButtonLabel
          });
+         Dom.addClass(this.widgets.okButton._button.parentElement.parentElement, "alf-primary-button");
 
          // cancel button
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancel", this.onFormCancelButtonClick);
