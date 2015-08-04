@@ -20,15 +20,19 @@
 /*
  * @module share/services/UserHomePageService
  * @extends module:alfresco/core/Core
+ * @mixes module:alfresco/services/_UserServiceTopicMixin
  * @author Dave Draper
  * @author Ray Gauss II
  */
 define(["dojo/_base/declare",
   "dojo/_base/lang",
-  "alfresco/core/Core"],
-  function(declare, lang, AlfCore) {
+  "dojo/dom",
+  "dojo/dom-attr",
+  "alfresco/core/Core",
+  "alfresco/services/_UserServiceTopicMixin"],
+  function(declare, lang, dom, domAttr, AlfCore, _UserServiceTopicMixin) {
     
-  return declare([AlfCore], {
+  return declare([AlfCore, _UserServiceTopicMixin], {
      
      /**
       * Topic for setting the current page as the user home
@@ -39,20 +43,69 @@ define(["dojo/_base/declare",
       */
      TOPIC_SET_CURRENT_PAGE_AS_HOME: "ALF_SET_CURRENT_PAGE_AS_HOME",
      
+     _lastSeenHomePageRequest: null,
+     
      constructor: function share_services_UserHomePageService__constructor(args) {
         declare.safeMixin(this, args);
         lang.mixin(this, args);
         
         this.alfSubscribe(this.TOPIC_SET_CURRENT_PAGE_AS_HOME, lang.hitch(this, this.onSetCurrentPageAsHome));
+        this.alfSubscribe(this.setUserHomePageTopic, lang.hitch(this, this.onSetHomePage));
+        this.alfSubscribe(this.setUserHomePageSuccessTopic, lang.hitch(this, this.onSetHomePageSuccess));
+        this.alfSubscribe(this.setUserHomePageFailureTopic, lang.hitch(this, this.onSetHomePageFailure));
       },
       
+      /**
+       * Grabs the current URL and publishes to the set home page topic
+       * @instance
+       * @param {object} publishPayload The message payload
+       */
       onSetCurrentPageAsHome:  function share_services_UserHomePageService__onSetCurrentPageAsHome(publishPayload) {
          if (publishPayload && publishPayload.servletContext)
          {
             var currentPage = window.location.href;
             currentPage = currentPage.replace(window.location.origin + publishPayload.servletContext, "/page");
-            this.alfPublish("ALF_SET_USER_HOME_PAGE", { homePage: currentPage });
+            this.alfPublish(this.setUserHomePageTopic, { homePage: currentPage });
          }
+      },
+      
+      /**
+       * Stores the last seen home page set request
+       * @instance
+       * @param {object} publishPayload The message payload
+       */
+      onSetHomePage:  function share_services_UserHomePageService__onSetHomePage(publishPayload) {
+         if (publishPayload && publishPayload.homePage)
+         {
+            this._lastSeenHomePageRequest = publishPayload.homePage;
+         }
+      },
+      
+      /**
+       * Changes the header home link on successfully setting the home page
+       * @instance
+       * @param {object} publishPayload The message payload
+       */
+      onSetHomePageSuccess:  function share_services_UserHomePageService__onSetHomePageSuccess(publishPayload) {
+         if (this._lastSeenHomePageRequest)
+         {
+            var homeLinkParent = dom.byId("HEADER_HOME_text");
+            if (homeLinkParent)
+            {
+               location.reload();
+               // TODO Instead of reload, programmatically set menu item link, dijit intercepts via Javascript
+               // domAttr.set(homeLinkParent.children[0], "href", this._lastSeenHomePageRequest);
+            }
+         }
+      },
+      
+      /**
+       * Clears the last seen home page set request on failure
+       * @instance
+       * @param {object} publishPayload The message payload
+       */
+      onSetHomePageFailure:  function share_services_UserHomePageService__onSetHomePageFailure(publishPayload) {
+         this._lastSeenHomePageRequest = null;
       }
   });
 });

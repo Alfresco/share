@@ -747,7 +747,7 @@ function generateAppItems() {
          config: {
             id: "HEADER_HOME",
             label: "header.menu.home.label",
-            targetUrl: ".."
+            targetUrl: getUserHomeTargetUrl()
          }
       },
       {
@@ -1036,6 +1036,26 @@ function getUserMenuWidgets()
       });
    }
    return userMenuWidgets;
+}
+
+/**
+ * Gets the user home page in a format for menu links, i.e. 
+ * "site/swsdp/documentlibrary"
+ *
+ * @returns {object} The user home page target URL
+ */
+function getUserHomeTargetUrl() {
+   var userHomeTargetUrl = "..";
+   if (userPreferences &&
+         userPreferences.org &&
+         userPreferences.org.alfresco &&
+         userPreferences.org.alfresco.share &&
+         userPreferences.org.alfresco.share.user &&
+         userPreferences.org.alfresco.share.user.homePage)
+   {
+      userHomeTargetUrl = userPreferences.org.alfresco.share.user.homePage.replace("/page/", "");
+   }
+   return userHomeTargetUrl;
 }
 
 /**
