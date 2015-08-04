@@ -134,7 +134,6 @@
             // Search Button
             var searchButton = new YAHOO.widget.Button(parent.id + "-search-button", {});
             searchButton.on("click", this.onSearchClick, searchButton, this);
-            searchButton.addClass("alf-primary-button");
             this.widgets.searchButton = searchButton;
 
             // ColumnBrowser

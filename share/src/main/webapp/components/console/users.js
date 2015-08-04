@@ -97,7 +97,7 @@
          onLoad: function onLoad()
          {
             // Buttons
-            parent.widgets.searchButton = Alfresco.util.createYUIButton(parent, "search-button", parent.onSearchClick, {additionalClass: "alf-primary-button"});
+            parent.widgets.searchButton = Alfresco.util.createYUIButton(parent, "search-button", parent.onSearchClick);
             parent.widgets.newuserButton = Alfresco.util.createYUIButton(parent, "newuser-button", parent.onNewUserClick);
             parent.widgets.uploadUsersButton = Alfresco.util.createYUIButton(parent, "uploadusers-button", parent.onUploadUsersClick);
 
@@ -652,7 +652,7 @@
             YAHOO.Bubbling.on("removeGroupCreate", this.onRemoveGroupCreate, this);
 
             // Buttons
-            parent.widgets.createuserOkButton = Alfresco.util.createYUIButton(parent, "createuser-ok-button", parent.onCreateUserOKClick, {additionalClass: "alf-primary-button"});
+            parent.widgets.createuserOkButton = Alfresco.util.createYUIButton(parent, "createuser-ok-button", parent.onCreateUserOKClick);
             parent.widgets.createuserAnotherButton = Alfresco.util.createYUIButton(parent, "createuser-another-button", parent.onCreateUserAnotherClick);
             parent.widgets.createuserCancelButton = Alfresco.util.createYUIButton(parent, "createuser-cancel-button", parent.onCreateUserCancelClick);
 
