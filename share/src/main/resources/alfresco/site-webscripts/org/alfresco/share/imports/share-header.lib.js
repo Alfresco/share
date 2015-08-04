@@ -946,9 +946,9 @@ function getUserMenuWidgets()
                   {
                      id: "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME",
                      label: "set_current_page_as_home.label",
-                     publishTopic: "ALF_SET_USER_HOME_PAGE",
+                     publishTopic: "ALF_SET_CURRENT_PAGE_AS_HOME",
                      publishPayload: {
-                        homePage: getUserHomePageCurrent()
+                        servletContext: page.url.servletContext
                      }
                   }
                },
@@ -1036,19 +1036,6 @@ function getUserMenuWidgets()
       });
    }
    return userMenuWidgets;
-}
-
-/**
- * Gets the current page in a format to be persisted as a home page
- * preference, i.e. "/page/site/swsdp/documentlibrary"
- *
- * @returns {object} The current page path
- */
-function getUserHomePageCurrent() {
-   var currentPage = "/page" + page.url.url.substring(
-         page.url.url.indexOf(page.url.servletContext) + page.url.servletContext.length(), 
-         page.url.url.length());
-   return currentPage;
 }
 
 /**
@@ -1449,7 +1436,8 @@ function getHeaderServices() {
       "alfresco/services/SiteService",
       "alfresco/services/LogoutService",
       "alfresco/services/NotificationService",
-      "alfresco/services/DialogService"
+      "alfresco/services/DialogService",
+      "share/services/UserHomePageService"
    ];
    if (page.url.templateArgs.site)
    {
