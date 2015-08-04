@@ -142,7 +142,7 @@ div.alf-error-detail p
    <div class="alf-error-wrapper">
       <div class="alf-error-header">Something's wrong with this page...</div>
       <div class="alf-error-detail">
-	        <p>We may have hit an error but it might have been removed or deleted, so check that the URL is correct.</p>
+	        <p>We may have hit an error or something might have been removed or deleted, so check that the URL is correct.</p>
             <p>Alternatively you might not have permission to view the page (it could be on a private site) 
             or there could have been an internal error. Try checking with your Alfresco administrator.</p>
             <p>If you're trying to get to your home page and it's no longer available you 
