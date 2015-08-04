@@ -2,6 +2,7 @@ package org.alfresco.po.share;
 
 import org.alfresco.po.share.user.AccountSettingsPage;
 import org.alfresco.po.share.user.MyProfilePage;
+import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderTime;
 import org.alfresco.webdrone.RenderWebElement;
 import org.alfresco.webdrone.WebDrone;
@@ -31,6 +32,9 @@ public class UserPage extends SharePage
     private static final By CHANGE_PASSWORD_CSS = By.cssSelector("td#HEADER_USER_MENU_CHANGE_PASSWORD_text");
     private static final By LOGOUT_CSS = By.cssSelector("td#HEADER_USER_MENU_LOGOUT_text");
     private static final By ACCOUNT_SETTINGS = By.cssSelector("td#CLOUD__NetworkAdminToolsLink_text>a.alfresco-navigation-_HtmlAnchorMixin");
+    private static final By USE_CURRENT_PAGE_LINK = By.cssSelector("td#HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text");
+    private static final By USE_MY_DASHBOARD_LINK  = By.cssSelector("td#HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text");
+    
     private Log logger = LogFactory.getLog(this.getClass());
 
     /**
@@ -187,6 +191,41 @@ public class UserPage extends SharePage
     }
 
     /**
+     * verifies whether Use Current Page as a home page link is present.
+     * 
+     * @return true if Use Current Page out option present , else false.
+     */
+    public boolean isUseCurrentPagePresent()
+    {
+        try
+        {
+            return drone.find(USE_CURRENT_PAGE_LINK).isDisplayed();
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+        return false;
+    }
+    
+    /**
+     * verifies whether Use My Dashboard as a home page link is present.
+     * 
+     * @return true if Use My Dashboard out option present , else false.
+     */
+    public boolean isUseMyDashboardPresent()
+    {
+        try
+        {
+            return drone.find(USE_MY_DASHBOARD_LINK).isDisplayed();
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+        return false;
+    }
+    
+    
+    /**
      * Mimics the action of selecting my profile link is present.
      * 
      * @return {@link MyProfilePage}
@@ -259,6 +298,41 @@ public class UserPage extends SharePage
             logger.error("Exceeded the time to find css.", e);
         }
         throw new PageOperationException("Not able to find the ChangePassword link");
+    }
+    /**
+     * Mimics the action of selecting Use Current Page link.
+     * @return {@link HtmlPage} current page po
+     */
+    public HtmlPage selectUseCurrentPage()
+    {
+        try
+        {
+            drone.findAndWait(USE_CURRENT_PAGE_LINK).click();
+            return FactorySharePage.resolvePage(drone);
+        }       
+        catch (TimeoutException e)
+        {
+            logger.error("Exceeded the time to find css.", e);
+        }
+        throw new PageOperationException("Not able to find the Use Current Page link");
+    }
+    
+    /**
+     * Mimics the action of selecting Use My Dashboard link.
+     * @return {@link HtmlPage} user dashboard page po
+     */
+    public HtmlPage selectUseMyDashboardPage()
+    {
+        try
+        {
+            drone.findAndWait(USE_MY_DASHBOARD_LINK).click();
+            return FactorySharePage.resolvePage(drone);
+        }       
+        catch (TimeoutException e)
+        {
+            logger.error("Exceeded the time to find css.", e);
+        }
+        throw new PageOperationException("Not able to find the Use My Dashboard Page link");
     }
 
     /**
