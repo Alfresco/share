@@ -66,13 +66,13 @@
 
    <br />
    <div class="bdft">
+      <input type="submit" id="${el}-cancel-button" value="${msg("button.close")}" />
       <#if result.permissions?? && result.permissions.edit>
          <input type="submit" id="${el}-edit-button" value="${msg("button.edit")}" />
       </#if>
       <#if result.permissions?? && result.permissions.delete>
          <input type="submit" id="${el}-delete-button" value="${msg("button.delete")}" />
       </#if>
-      <input type="submit" id="${el}-cancel-button" value="${msg("button.ok")}" />
    </div>
    <#if result.isoutlook?? && result.isoutlook == 'false'>
    <div id="${el}-edit-available" />

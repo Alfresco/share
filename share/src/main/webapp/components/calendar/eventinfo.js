@@ -573,7 +573,8 @@
                   }
                   
                   // Style button
-                  Dom.addClass(EditDialog.widgets.okButton._button.parentElement.parentElement, "alf-primary-button");
+                  Dom.addClass(this.widgets.okButton._button.parentElement.parentElement, "alf-primary-button");
+                  this.widgets.okButton._button.innerHTML = this.msg("button.save");
                },
                scope: EditDialog
             },
