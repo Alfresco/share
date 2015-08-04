@@ -793,6 +793,9 @@
                isDefault: true
             }]
          });
+
+         var elements = Dom.getElementsByClassName('yui-button', 'span', 'prompt');
+         Dom.addClass(elements[0], 'alf-primary-button');
       }
    });
 })();
