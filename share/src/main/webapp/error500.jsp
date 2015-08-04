@@ -40,8 +40,8 @@
    <style type="text/css">
 body
 {
-   font: 13px/1.231 arial,helvetica,clean,sans-serif;
-   color: #000000;
+   font: 13px/1.231 Open Sans,arial,helvetica,clean,sans-serif;
+   color: #333333;
 }
 
 body,div,p
@@ -50,50 +50,110 @@ body,div,p
    padding: 0;
 }
 
-div
+.alf-error-wrapper
 {
-	text-align: center;
+    width: 600px;
+    margin: 0 auto;
+    margin-top: 10%;
+    position: relative;
+    z-index: 2;
 }
 
-ul
+.alf-error-logo
 {
-   text-align: left;
+    margin: 5px 20px;
 }
 
-li
+.alf-error-bg
 {
-   padding: 0.2em;
+    float: right;
+    width: 501px;
+}
+.alf-error-bg img
+{
+    position: absolute;
+    top: 0;
+    clip: rect(0px,501px,250px,250px);
 }
 
-div.panel
+.alf-error-header
+{
+    font-size: 1.8em;
+    color: #4F4F57;
+    clear: both;
+}
+
+div.alf-error-detail
 {
    display: inline-block;
+   margin-top: 2em;
+}
+
+div.alf-error-detail p
+{
+   padding: 0.7em 0;
+   font-size: 1.1em;
+}
+
+.alf-error-nav
+{
+    margin: 3em 0;
+    text-align: center;
+}
+
+.alf-primary-button
+{
+    color: white;
+    background-color: #0082c8;
+    padding: 0.4em 10px;
+    min-height: 2em;
+    cursor: pointer;
+    border-radius: 5px;
+    border-width: 1px 0;
+    border-style: solid;
+    border-color: #0082c8;
+    text-decoration: none;
+}
+.alf-primary-button:hover
+{
+    background-color: #006ca6;
+}
+.alf-primary-button:active
+{
+    background-color: #005684;
+}
+
+.alf-error-footer
+{
+    margin-top: 10%;
+    text-align: center;
+    color: #A6A6A6;
 }
    </style>
    <title>Alfresco Share &raquo; System Error</title>
 </head>
 <body>
-   <div>
-      <br/>
-      <img src="${pageContext.request.contextPath}/res/themes/default/images/app-logo.png">
-      <br/>
-      <br/>
-      <p style="font-size:150%">A server error has occurred.</p>
-      <br/>
-      <p>There are a number of reasons why this could have happened:</p>
-      <div class="panel">
-         <ul>
-            <li>You have attempted to access a page that does not exist - check the URL in the address bar.</li>
-            <li>You have attempted to access a page that is not accessible to you, such as a private Site dashboard.</li>
-            <li>A valid page has been requested but the server was unable to render it due to an internal error - contact your administrator.</li>
-         <ul>
+   <div class="alf-error-bg">
+       <img src="${pageContext.request.contextPath}/res/modules/images/about-bg-vanilla.png" />
+   </div>
+   <div class="alf-error-logo">
+       <img src="${pageContext.request.contextPath}/res/themes/default/images/app-logo.png" />
+    </div>
+   <div class="alf-error-wrapper">
+      <div class="alf-error-header">Something's wrong with this page...</div>
+      <div class="alf-error-detail">
+	        <p>We may have hit an error but it might have been removed or deleted, so check that the URL is correct.</p>
+            <p>Alternatively you might not have permission to view the page (it could be on a private site) 
+            or there could have been an internal error. Try checking with your Alfresco administrator.</p>
+            <p>If you're trying to get to your home page and it's no longer available you 
+            should change it by clicking your name on the Alfresco toolbar.</p>
+            <div class="alf-error-nav">
+                <a class="alf-primary-button" href="${pageContext.request.contextPath}<%=dashboardPath%>">Back to My Dashboard</a>
+            </div>
       </div>
-      <br/>
-      <a href="${pageContext.request.contextPath}<%=dashboardPath%>">Return to your dashboard page</a>
-      <br/>
-      <br/>
-      <br/>
-      <a href="http://www.alfresco.com">Alfresco Software</a> Inc. &copy; 2005-2015 All rights reserved.
+      <div class="alf-error-footer">
+        <a href="http://www.alfresco.com">Alfresco Software</a> Inc. &copy; 2005-2015 All rights reserved.
+      </div>
    </div>
    <div>
 <%
@@ -111,6 +171,5 @@ if (exception != null)
 }
 %>
    </div>
-</div>
 </body>
 </html>
