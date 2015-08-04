@@ -383,7 +383,7 @@ public class DependencyAggregator implements ApplicationContextAware
             DependencyResource resource = new DependencyResource(compressionType.mimetype, combinedDependencies);
             cacheDependencyResource(checksum, resource);
             
-            if (cacheByFileSet == true)
+            if (cacheByFileSet == true && this.dependencyHandler.isDebugMode() == false)
             {
                 cacheChecksumForFileSet(paths, checksum);
             }
