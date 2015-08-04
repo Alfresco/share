@@ -36,16 +36,17 @@ import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.ChangeTypePage;
 import org.alfresco.po.share.site.document.ConfirmDeletePage;
+import org.alfresco.po.share.site.document.ConfirmDeletePage.Action;
 import org.alfresco.po.share.site.document.ContentDetails;
 import org.alfresco.po.share.site.document.ContentType;
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
+import org.alfresco.po.share.site.document.CopyOrMoveContentPage.ACTION;
 import org.alfresco.po.share.site.document.CreatePlainTextContentPage;
 import org.alfresco.po.share.site.document.DetailsPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.site.document.FileDirectoryInfo;
-import org.alfresco.po.share.site.document.ConfirmDeletePage.Action;
 import org.alfresco.po.share.site.document.SelectAspectsPage;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.WebDrone;
@@ -703,7 +704,9 @@ public class SiteActions extends CommonActions
      * @param siteName String
      * @param fileName String
      * @return HtmlPage
+     * @deprecated This will be removed in the future releases, please use {@link SiteActions#copyOrMoveArtifact(WebDrone, org.alfresco.po.share.site.document.CopyOrMoveContentPage.DESTINATION, String, String, ACTION, String...)}
      */
+    @Deprecated
     public HtmlPage copyOrMoveArtifact(WebDrone drone, String destination, String siteName,  String fileName, String type, String... moveFolderName)
     {
         DocumentLibraryPage docPage =drone.getCurrentPage().render();
@@ -722,6 +725,44 @@ public class SiteActions extends CommonActions
         copyOrMoveToPage.selectSite(siteName).render();
         if (moveFolderName != null)
         {
+            copyOrMoveToPage.selectPath(moveFolderName).render();
+        }
+        copyOrMoveToPage.selectOkButton().render();
+        return getSharePage(drone);
+    }
+    
+    /**
+     * Copy or Move to File or folder from document library.
+     * 
+     * @param drone WebDrone
+     * @param destination String (options: Recent Sites, Favorite Sites, All Sites, Repository, Shared Files, My File)
+     * @param siteName String - the siteName that exists in <destination>
+     * @param fileName String
+     * @return HtmlPage
+     * @author pbrodner
+     */
+    public HtmlPage copyOrMoveArtifact(WebDrone drone, CopyOrMoveContentPage.DESTINATION destination, String siteName,  String fileName, CopyOrMoveContentPage.ACTION action, String... moveFolderName)
+    {
+        DocumentLibraryPage docPage =drone.getCurrentPage().render();
+        CopyOrMoveContentPage copyOrMoveToPage;
+
+        if (action==ACTION.COPY) {
+            copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectCopyTo().render();
+        }
+        else {
+            copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectMoveTo().render();
+        }
+
+        //if our <destination> is already selected - continue
+        String active = copyOrMoveToPage.getSelectedDestination();
+        if(!active.equals(destination.getValue())) {
+       	 copyOrMoveToPage.selectDestination(destination.getValue());	 
+        }
+
+        if(destination.hasSites()) {
+        	copyOrMoveToPage.selectSite(siteName).render();
+        }
+        if (moveFolderName != null && moveFolderName.length > 0){
             copyOrMoveToPage.selectPath(moveFolderName).render();
         }
         copyOrMoveToPage.selectOkButton().render();
@@ -804,7 +845,6 @@ public class SiteActions extends CommonActions
         try
         {
             SharePage sharePage = getSharePage(driver).render();
-            EditDocumentPropertiesPage editPropertiesPage = null;
 
             // Get DetailsPage
             if (sharePage instanceof DocumentLibraryPage)

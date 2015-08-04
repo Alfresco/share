@@ -72,7 +72,6 @@
 		<dependency>
 			<groupId>org.springframework.extensions.surf</groupId>
 			<artifactId>spring-webscripts</artifactId>
-			<version>${dependency.webscripts.version}</version>
 		</dependency>
 		
 		<!-- Yahoo UI -->

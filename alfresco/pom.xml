@@ -21,7 +21,6 @@
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-platform</artifactId>
             <version>${alfresco.platform.version}</version>
-            <!-- <classifier>nossl</classifier> -->
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
@@ -47,7 +46,6 @@
                         <overlay>
                             <groupId>org.alfresco</groupId>
                             <artifactId>alfresco-platform</artifactId>
-                            <!-- <classifier>nossl</classifier> -->
                             <excludes/>
                         </overlay>
                         <overlay>
@@ -66,77 +64,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                     </execution>
-                    <!-- Additional execution to generate a non-ssl war -->
-                    <execution>
-                        <id>nossl-war</id>
-                        <goals>
-                            <goal>war</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>nossl</classifier>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>default-war</id>
-                        <goals>
-                            <goal>war</goal>
-                        </goals>
-                        <configuration>
-                            <webappDirectory>${project.build.directory}/${project.build.finalName}-ssl</webappDirectory>
-                        </configuration>
-                    </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-webapp-for-ssl</id>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/${project.build.finalName}-ssl</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}/${project.build.finalName}</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- NonSSL war: Replaces web.xml where applicable, commenting out the security-constraints -->
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <executions>
-                    <execution>
-                        <id>disable-securecomms</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <file>${project.build.directory}/${project.build.finalName}/WEB-INF/web.xml</file>
-                    <replacements>
-                        <replacement>
-                            <token><![CDATA[<!-- Toggle securecomms placeholder start -->]]></token>
-                            <value><![CDATA[<!-- ]]></value>
-                        </replacement>
-                        <replacement>
-                            <token><![CDATA[<!-- Toggle securecomms placeholder end -->]]></token>
-                            <value><![CDATA[--> ]]></value>
-                        </replacement>
-                    </replacements>
-                </configuration>
             </plugin>
 
             <!--

@@ -689,21 +689,20 @@
             }, "change", parent._msg("Alfresco.forms.validation.length.message"));
             form.addValidation(parent.id + "-create-quota", Alfresco.forms.validation.number, null, "keyup");
 
-            // Add an enter listener to the form
-            parent.widgets.enterKeyListener = new YAHOO.util.KeyListener(form.formId, {
-               keys: [13]
-            }, {
-               fn: function(e) {
-                  parent.onCreateUserOKClick();
-               },
-               scope: this,
-               correctScope: true
-            });
-            parent.widgets.enterKeyListener.enable();
-
             // Initialise the form
             form.init();
             this._form = form;
+			
+            // Add an enter listener to the items
+            var createForm = Dom.get(parent.id + "-create-form");
+            if (createForm)
+            {
+               var inputs = createForm.getElementsByTagName("input");
+               for (var i=0; i < inputs.length; i++)
+               {
+                  YAHOO.util.Event.addListener(inputs[i], "keyup", this._enterKeyListener); 
+               }
+            }
 
             // Load in the Groups Finder component from the server
             Alfresco.util.Ajax.request(
@@ -739,23 +738,14 @@
                singleSelectMode: false,
                wildcardPrefix: false
             });
-			
-            var groupSearchText = Dom.get(parent.id + "-create-groupfinder-search-text");
-			
-            new YAHOO.util.Event.addListener(groupSearchText, "focus", function(e)
+         },
+	 
+         _enterKeyListener: function _enterKeyListener(e)
+         {
+            if (e && e.keyCode == 13)
             {
-               if (parent.widgets && parent.widgets.enterKeyListener)
-               {
-                  parent.widgets.enterKeyListener.disable();
-               }
-            });
-            new YAHOO.util.Event.addListener(groupSearchText, "blur", function(e)
-            {
-               if (parent.widgets && parent.widgets.enterKeyListener)
-               {
-                  parent.widgets.enterKeyListener.enable();
-               }
-            });
+               parent.onCreateUserOKClick();
+            }
          },
 
          /**

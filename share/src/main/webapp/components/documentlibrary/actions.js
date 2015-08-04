@@ -606,6 +606,11 @@
             displayName = record.displayName,
             nodeRef = jsNode.nodeRef,
             parentNodeRef = this.getParentNodeRef(record);
+            var display =
+            {
+               zIndex: this.fullscreen !== undefined && ( Dom.hasClass(this.id, 'alf-true-fullscreen') || Dom.hasClass(this.id, 'alf-fullscreen')) ? 1000 : 0,
+               parentElement: Dom.hasClass(this.id, 'alf-true-fullscreen') ? Dom.get(this.id) : undefined
+            }
 
          this.modules.actions.genericAction(
          {
@@ -632,6 +637,7 @@
                      path: filePath
                   }
                },
+               display : display,
                message: this.msg("message.delete.success", displayName),
                callback:
                {
@@ -647,6 +653,7 @@
             },
             failure:
             {
+               display : display,
                message: this.msg("message.delete.failure", displayName)
             },
             webscript:

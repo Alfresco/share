@@ -6999,7 +6999,7 @@ Alfresco.util.PopupManager = function()
                effect: c.effect,
                duration: c.effectDuration
             },
-            zIndex: this.zIndex++
+            zIndex: (c.zIndex == undefined ? 0 : c.zIndex) + this.zIndex++
          };
          // IE browsers don't deserve fading, as they can't handle it properly
          if (c.effect === null || YAHOO.env.ua.ie > 0)

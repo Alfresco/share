@@ -1,10 +1,6 @@
-.web-preview .Image
-{
-}
-
 .web-preview .Image img
 {
-   max-height: 100%;
+   max-height: 960px;
    max-width: 100%;
    overflow: auto;
    width: auto;

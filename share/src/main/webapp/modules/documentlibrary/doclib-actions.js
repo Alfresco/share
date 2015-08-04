@@ -213,10 +213,21 @@
                   // Message?
                   if (obj.message)
                   {
-                     Alfresco.util.PopupManager.displayMessage(
+                     if (obj.display)
                      {
-                        text: obj.message
-                     });
+                        Alfresco.util.PopupManager.displayMessage(
+                        {
+                           text: obj.message,
+                           zIndex: obj.display.zIndex
+                        }, obj.display.parentElement);
+                     }
+                     else
+                     {
+                        Alfresco.util.PopupManager.displayMessage(
+                        {
+                           text: obj.message
+                        });
+                     }
                   }
                };
 

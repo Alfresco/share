@@ -26,7 +26,8 @@ function main()
    // Call the repository to see if the user is site manager or not
    var userIsSiteManager = false,
        userIsMember = user.isAdmin,
-       userIsDirectMember = false;
+       userIsDirectMember = false,
+       exists = (json.status == 404) ? false : true;
 
    json = remote.call("/api/sites/" + page.url.templateArgs.site + "/memberships/" + encodeURIComponent(user.name));
    if (json.status == 200)
@@ -129,6 +130,7 @@ function main()
    model.activePage = activePage;
    model.siteTitle = siteTitle;
    model.siteDashboardUrl = siteDashboardUrl;
+   model.siteExists = exists;
    model.profile = profile;
    model.userIsSiteManager = userIsSiteManager;
    model.userIsMember = userIsMember;
@@ -145,7 +147,8 @@ function main()
          siteTitle : model.siteTitle,
          user : (user.name != null) ? user.name : "",
          userIsMember: userIsMember,
-         currentSiteVisibility: profile.visibility
+         currentSiteVisibility: profile.visibility,
+         siteExists: exists
       }
    };
    model.widgets = [collaborationTitle];
