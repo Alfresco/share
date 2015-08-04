@@ -1,8 +1,14 @@
 package org.alfresco.po.share;
 
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.AccountSettingsPage;
 import org.alfresco.po.share.user.MyProfilePage;
+import org.alfresco.po.share.user.UserSitesPage;
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.document.DocumentLibraryPage;
+import org.alfresco.po.share.util.SiteUtil;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -12,6 +18,21 @@ import org.testng.annotations.Test;
 public class UserPageTest extends AbstractTest
 {
     UserPage userpage;
+    private String setHomePageUserSiteName = "setHomePageUserSite" + System.currentTimeMillis(); 
+    private String setHomePageUser = "setHomePageUser" + System.currentTimeMillis();
+    
+    
+    @BeforeClass
+    public void prepare() throws Exception
+    { 
+        createEnterpriseUser(setHomePageUser);
+        loginAs(setHomePageUser, UNAME_PASSWORD);
+        SiteUtil.createSite(drone, setHomePageUserSiteName, "description", "Public");
+        ShareUtil.logout(drone);
+        
+    }
+    
+    
     @Test(groups = "alfresco-one")
     public void userPageLinks() throws Exception
     {
@@ -68,7 +89,7 @@ public class UserPageTest extends AbstractTest
         Assert.assertTrue(userpage.isChangePassWordLinkPresent());
         ChangePasswordPage changepasswordpage = userpage.selectChangePassword();
         Assert.assertTrue(changepasswordpage.formPresent());
-        //userpage = changepasswordpage.getNav().selectUserDropdown().render();
+        ShareUtil.logout(drone);
     }
     
     /**
@@ -77,17 +98,20 @@ public class UserPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", dependsOnMethods = "changePassWordPageCheck")
     public void useCurrentPageAsHomePageCheck() throws Exception
     {
-        ChangePasswordPage changePasswordPage = drone.getCurrentPage().render();
-        userpage = changePasswordPage.getNav().selectUserDropdown().render();
-        Assert.assertTrue(userpage.isUseCurrentPagePresent());
-
+        DashBoardPage dashBoard = loginAs(setHomePageUser, UNAME_PASSWORD);
+ 
+        UserSitesPage userSitesPage = dashBoard.getNav().selectMySites().render();     
+        SiteDashboardPage siteDashBoard = userSitesPage.getSite(setHomePageUserSiteName).clickOnSiteName().render();
+        DocumentLibraryPage documentLibPage = siteDashBoard.getSiteNav().selectSiteDocumentLibrary().render();
+        
+        userpage = documentLibPage.getNav().selectUserDropdown().render();
         //set Change Password Page as a home page   
         userpage.selectUseCurrentPage();
         //log out, log in again and check that Change Password Page is set as a home page - navigate to user dashboard
         ShareUtil.logout(drone);
-        changePasswordPage = ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        Assert.assertEquals("Change User Password", changePasswordPage.getPageTitle());
-        userpage = changePasswordPage.getNav().selectUserDropdown().render();
+        documentLibPage = ShareUtil.loginAs(drone, shareUrl, setHomePageUser, UNAME_PASSWORD).render();
+        Assert.assertEquals(setHomePageUserSiteName, documentLibPage.getPageTitle());
+        userpage = documentLibPage.getNav().selectUserDropdown().render();
     }
     
     /**
@@ -102,8 +126,8 @@ public class UserPageTest extends AbstractTest
         userpage.selectUseMyDashboardPage();
         //check that page is set as a home page
         ShareUtil.logout(drone);
-        DashBoardPage dashBoard = loginAs(drone, shareUrl, username, password);
-        Assert.assertEquals("Administrator Dashboard", dashBoard.getPageTitle());
+        DashBoardPage dashBoard = loginAs(drone, shareUrl, setHomePageUser, UNAME_PASSWORD);
+        Assert.assertTrue(dashBoard.getPageTitle().indexOf(setHomePageUser + "@test.com" + " Dashboard") != -1);
         userpage = dashBoard.getNav().selectUserDropdown().render();
     }
     
