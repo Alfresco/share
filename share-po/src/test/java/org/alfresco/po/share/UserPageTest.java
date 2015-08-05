@@ -1,5 +1,6 @@
 package org.alfresco.po.share;
 
+import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.AccountSettingsPage;
 import org.alfresco.po.share.user.MyProfilePage;
@@ -19,6 +20,7 @@ public class UserPageTest extends AbstractTest
 {
     UserPage userpage;
     private String setHomePageUserSiteName = "setHomePageUserSite" + System.currentTimeMillis(); 
+    private String setHomePageFolder = "setHomePageFolder" + System.currentTimeMillis();
     private String setHomePageUser = "setHomePageUser" + System.currentTimeMillis();
     
     
@@ -28,6 +30,12 @@ public class UserPageTest extends AbstractTest
         createEnterpriseUser(setHomePageUser);
         loginAs(setHomePageUser, UNAME_PASSWORD);
         SiteUtil.createSite(drone, setHomePageUserSiteName, "description", "Public");
+        
+        SiteDashboardPage siteDashBoard = drone.getCurrentPage().render();
+        DocumentLibraryPage documentLibPage = siteDashBoard.getSiteNav().selectSiteDocumentLibrary().render();
+        
+        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
+        documentLibPage = newFolderPage.createNewFolder(setHomePageFolder, setHomePageFolder).render();
         ShareUtil.logout(drone);
         
     }
@@ -103,7 +111,8 @@ public class UserPageTest extends AbstractTest
         UserSitesPage userSitesPage = dashBoard.getNav().selectMySites().render();     
         SiteDashboardPage siteDashBoard = userSitesPage.getSite(setHomePageUserSiteName).clickOnSiteName().render();
         DocumentLibraryPage documentLibPage = siteDashBoard.getSiteNav().selectSiteDocumentLibrary().render();
-        
+        documentLibPage.selectFolder(setHomePageFolder);
+
         userpage = documentLibPage.getNav().selectUserDropdown().render();
         //set Change Password Page as a home page   
         userpage.selectUseCurrentPage();
@@ -111,6 +120,7 @@ public class UserPageTest extends AbstractTest
         ShareUtil.logout(drone);
         documentLibPage = ShareUtil.loginAs(drone, shareUrl, setHomePageUser, UNAME_PASSWORD).render();
         Assert.assertEquals(setHomePageUserSiteName, documentLibPage.getPageTitle());
+        Assert.assertTrue(drone.getCurrentUrl().indexOf(setHomePageFolder) != -1);
         userpage = documentLibPage.getNav().selectUserDropdown().render();
     }
     
