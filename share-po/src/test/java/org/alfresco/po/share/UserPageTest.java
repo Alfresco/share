@@ -5,17 +5,19 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.AccountSettingsPage;
 import org.alfresco.po.share.user.MyProfilePage;
 import org.alfresco.po.share.user.UserSitesPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.util.SiteUtil;
+import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 /**
  * User Page Test 
  * @author hamara
  */
+@Listeners(FailedTestListener.class)
 public class UserPageTest extends AbstractTest
 {
     UserPage userpage;
