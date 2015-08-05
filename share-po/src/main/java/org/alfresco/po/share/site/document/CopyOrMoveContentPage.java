@@ -444,7 +444,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * @param siteDescription String
      * @return CopyOrMoveContentPage
      */
-    public CopyOrMoveContentPage selectSiteByDescription(String siteDescription)
+    public CopyOrMoveContentPage selectSiteByDescription(String siteName, String siteDescription)
     {
     	if (StringUtils.isEmpty(siteDescription))
         {
@@ -462,7 +462,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             	}
                 if (siteFullText != null)
                 {
-                    if (tmpDescription.equalsIgnoreCase(siteDescription))
+                    if (siteFullText.toLowerCase().contains(siteName.toLowerCase()) && tmpDescription.equalsIgnoreCase(siteDescription))
                     {
                         site.click();                       
                     	drone.waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));

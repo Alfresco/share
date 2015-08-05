@@ -764,8 +764,8 @@ public class SiteActions extends CommonActions
         }
 
         if(destination.hasSites()) {
-    	  if (!siteDescription.isEmpty()){
-    		  copyOrMoveToPage.selectSiteByDescription(siteDescription).render();
+    	  if (siteDescription!=null && !siteDescription.isEmpty()){
+    		  copyOrMoveToPage.selectSiteByDescription(siteName, siteDescription).render();
     	  }
     	  else{
     		  copyOrMoveToPage.selectSite(siteName).render();
