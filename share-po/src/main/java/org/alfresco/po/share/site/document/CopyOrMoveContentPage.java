@@ -73,6 +73,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
     private final By rmfolderItemsListCss = By.cssSelector("div#ygtvc7.ygtvchildren");
     private final By selectedDestination = By.xpath("//span[@class='yui-button yui-radio-button yui-button-checked yui-radio-button-checked']");
+    private final By siteDocumentsCount = By.cssSelector("div#ygtvc,.ygtvchildren.ygtvitem.selected div#ygtvc,.ygtvchildren");
 
     /**
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
@@ -435,6 +436,52 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
         throw new PageOperationException("Unable to select site.");
     }
+    
+    /**
+     * This method finds and selects the given site name from the
+     * displayed list of sites.
+     *
+     * @param siteName String
+     * @return CopyOrMoveContentPage
+     */
+    public CopyOrMoveContentPage selectSiteWithDocuments(String siteName)
+    {
+    	if (StringUtils.isEmpty(siteName))
+        {
+            throw new IllegalArgumentException("Site name is required");
+        }
+
+        try
+        {	
+            for (WebElement site : drone.findAndWaitForElements(siteListCss))
+            {
+                if (site.getText() != null)
+                {
+                    if (site.getText().equalsIgnoreCase(siteName))
+                    {
+                        site.click();
+                        if(getSiteDocumentPathCount() > 0){
+                        	drone.waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                            drone.waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+
+                            return new CopyOrMoveContentPage(drone);	
+                        }                        
+                    }
+                }
+            }
+            throw new PageOperationException("Unable to find the site: " + siteName);
+        }
+        catch (NoSuchElementException ne)
+        {
+            logger.error("Unable to find the inner text of site", ne);
+        }
+        catch (TimeoutException e)
+        {
+            logger.error("Unable to get the list of sites", e);
+        }
+
+        throw new PageOperationException("Unable to select site.");
+    }
 
     /**
      * This method finds and selects the given folder path from the displayed list
@@ -563,5 +610,19 @@ public class CopyOrMoveContentPage extends ShareDialogue
    public String getSelectedDestination(){
 	   WebElement destination = drone.findAndWait(selectedDestination);
 	   return destination.getText();
+   }
+   
+   /**
+	* @return the list of all document paths available for selected site.
+	*/
+   public int getSiteDocumentPathCount(){
+	   int size = drone.findAndWaitForElements(siteDocumentsCount).size();
+	   if (size>0){
+		   return size - 11;
+	   }
+	   else
+	   {
+		   return size;   
+	   }
    }
 }

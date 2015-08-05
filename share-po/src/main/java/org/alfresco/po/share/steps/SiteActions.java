@@ -763,7 +763,12 @@ public class SiteActions extends CommonActions
         }
 
         if(destination.hasSites()) {
-        	copyOrMoveToPage.selectSite(siteName).render();
+    	  if (moveFolderName != null && moveFolderName.length > 0){
+    		  copyOrMoveToPage.selectSiteWithDocuments(siteName).render();
+    	  }
+    	  else{
+    		  copyOrMoveToPage.selectSite(siteName).render();
+    	  }        	
         }
         if (moveFolderName != null && moveFolderName.length > 0){
             copyOrMoveToPage.selectPath(moveFolderName).render();
