@@ -213,11 +213,13 @@
       <property name="searchPath" ref="webframework.webscripts.searchpath" />
       <property name="defaultEncoding"><value>UTF-8</value></property>
       <property name="templateProcessorRegistry" ref="webframework.webscripts.registry.templateprocessor" />
+      <property name="configService" ref="web.config" />
    </bean>
    
    <bean id="webframework.webscripts.scriptprocessor.javascript" class="org.springframework.extensions.webscripts.processor.JSScriptProcessor">
       <property name="searchPath" ref="webframework.webscripts.searchpath" />
       <property name="scriptProcessorRegistry" ref="webframework.webscripts.registry.scriptprocessor" />
+      <property name="configService" ref="web.config" />
    </bean>
 
    <!-- Web Scripts - Container Configuration -->
@@ -340,11 +342,13 @@
       <property name="defaultEncoding"><value>UTF-8</value></property>
       <property name="updateDelay"><value>600</value></property>
       <property name="templateProcessorRegistry" ref="webframework.templates.registry.templateprocessor" />
+      <property name="configService" ref="web.config" />
    </bean>
    
    <bean id="webframework.templates.scriptprocessor.javascript" class="org.springframework.extensions.webscripts.processor.JSScriptProcessor">
       <property name="searchPath" ref="webframework.templates.searchpath" />
       <property name="scriptProcessorRegistry" ref="webframework.templates.registry.scriptprocessor" />
+      <property name="configService" ref="web.config" />
    </bean>
 
    <!-- Templates - Container Configuration -->

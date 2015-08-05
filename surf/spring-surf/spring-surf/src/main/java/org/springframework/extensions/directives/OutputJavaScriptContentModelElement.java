@@ -250,19 +250,29 @@ public class OutputJavaScriptContentModelElement extends DependencyDeferredConte
         }
         
         // Process the dependencies into JavaScript output...
-        StringBuilder content = new StringBuilder();
-        // Temporailty commented out for ACE-1354
-//        if (javaScriptFiles.size() != 0 || aggJavaScriptFiles.size() != 0)
-//        {
-//            // we either output a lot here or nothing at all
-//            content.setLength(20480);
-//        }
-        content.append(generateJavaScriptDependencies(javaScriptFiles, false));
-        content.append(generateJavaScriptDependencies(aggJavaScriptFiles, true));
+        int bufferSize = 0;
+        bufferSize += 2048 * this.javaScriptFiles.size() * 3;
+        bufferSize += 256 * this.aggJavaScriptFiles.size();
+        bufferSize += 256 * this.dojoNonAmdFiles.size();
+        final StringBuilder content = new StringBuilder(bufferSize);
+        
+        // Append JavaScript for standard and aggregated JavaScript files
+        if (this.javaScriptFiles.size() != 0)
+        {
+            content.append(generateJavaScriptDependencies(this.javaScriptFiles, false));
+        }
+        if (this.aggJavaScriptFiles.size() != 0)
+        {
+            content.append(generateJavaScriptDependencies(this.aggJavaScriptFiles, true));
+        }
         
         // Filter out any already requested dependencies from those requested by Dojo widgets...
-        LinkedHashMap<String, LinkedHashSet<String>> filteredNonAmdFiles = this.filterJsDependencies(this.dojoNonAmdFiles);
-        content.append(generateJavaScriptDependencies(filteredNonAmdFiles, true));
+        if (this.dojoNonAmdFiles.size() != 0)
+        {
+            LinkedHashMap<String, LinkedHashSet<String>> filteredNonAmdFiles = this.filterJsDependencies(this.dojoNonAmdFiles);
+            content.append(generateJavaScriptDependencies(filteredNonAmdFiles, true));
+        }
+        
         return content.toString();
     }
     
