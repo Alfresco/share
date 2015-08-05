@@ -103,10 +103,7 @@
 
 .node-header .node-action .onDownloadDocumentClick a
 {
-   background-image: url(../documentlibrary/actions/document-download-16.png);
-   background-repeat: no-repeat;
-   background-attachment: scroll;
-   background-position: 12px 4px;
+   background: transparent url(../documentlibrary/actions/document-download-16.png) no-repeat scroll 12px 4px;
    padding-left: 32px;
 }
 
