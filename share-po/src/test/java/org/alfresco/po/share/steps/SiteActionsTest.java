@@ -142,6 +142,9 @@ public class SiteActionsTest extends AbstractTest
   		  siteActions.createFolder(drone, hyerarcy[i], hyerarcy[i], hyerarcy[i]);
   		  siteActions.navigateToFolder(drone, hyerarcy[i]);
   	  }
+  	  
+  	 siteName = "old" + System.currentTimeMillis();
+  	 siteActions.createSite(drone, siteName, siteName, "Public");
     }
     
     @Test(groups = "Enterprise-only", priority=8, dataProvider="tempFilesData")
@@ -191,14 +194,16 @@ public class SiteActionsTest extends AbstractTest
      * @param action
      */
     private void copyOrMoveAction(File file, ACTION action, String[] structure) {
-	  siteActions.openSitesDocumentLibrary(drone, siteName);
+	  siteActions.openSiteDashboard(drone, siteName);
+	  siteActions.openDocumentLibrary(drone);
 	  siteActions.uploadFile(drone, file);
-	  siteActions.copyOrMoveArtifact(drone, DESTINATION.ALL_SITES, newSite, file.getName(), action, structure);
-	  siteActions.openSitesDocumentLibrary(drone, newSite);
+	  siteActions.copyOrMoveArtifact(drone, DESTINATION.ALL_SITES, newSite, "", file.getName(), action, structure);
+	  siteActions.openSiteDashboard(drone, newSite);
+	  siteActions.openDocumentLibrary(drone);
     }
     
     @DataProvider
     public Object[][] tempFilesData() {
-		return new Object[][] { {SiteUtil.prepareFile()}, {SiteUtil.prepareFile()}, {SiteUtil.prepareFile()} };  
+		return new Object[][] { {SiteUtil.prepareFile()}};  
     }    
 }

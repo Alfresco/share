@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.po.share.steps.SiteActions;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderElement;
 import org.alfresco.webdrone.RenderTime;
@@ -56,6 +55,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             .cssSelector("div[id$='default-copyMoveTo-title'], div[id$='_default-ruleConfigAction-destinationDialog-title']"));
     private final By destinationListCss = By.cssSelector(".mode.flat-button>div>span[style*='block']>span>button");
     private final By siteListCss = By.cssSelector("div.site>div>div>a>h4");
+    private final By siteDescriptionsCss = By.cssSelector("div.site div div");
     private final By defaultDocumentsFolderCss = By
             .cssSelector("div.path>div[id$='default-copyMoveTo-treeview']>div.ygtvitem>div.ygtvchildren>div.ygtvitem>table.ygtvtable>tbody>tr>td>span.ygtvlabel,"
                     + "div.path>div[id$='_default-ruleConfigAction-destinationDialog-treeview']>div.ygtvitem>div.ygtvchildren>div.ygtvitem>table.ygtvtable>tbody>tr>td>span.ygtvlabel");
@@ -441,35 +441,38 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * This method finds and selects the given site name from the
      * displayed list of sites.
      *
-     * @param siteName String
+     * @param siteDescription String
      * @return CopyOrMoveContentPage
      */
-    public CopyOrMoveContentPage selectSiteWithDocuments(String siteName)
+    public CopyOrMoveContentPage selectSiteByDescription(String siteDescription)
     {
-    	if (StringUtils.isEmpty(siteName))
+    	if (StringUtils.isEmpty(siteDescription))
         {
-            throw new IllegalArgumentException("Site name is required");
+            throw new IllegalArgumentException("Site description is required");
         }
 
         try
         {	
-            for (WebElement site : drone.findAndWaitForElements(siteListCss))
+            for (WebElement site : drone.findAndWaitForElements(siteDescriptionsCss))
             {
-                if (site.getText() != null)
+            	String siteFullText = site.getText();
+            	String tmpDescription ="<none>";
+            	if (siteFullText.split("\n").length>1){
+            		tmpDescription = siteFullText.split("\n")[1];
+            	}
+                if (siteFullText != null)
                 {
-                    if (site.getText().equalsIgnoreCase(siteName))
+                    if (tmpDescription.equalsIgnoreCase(siteDescription))
                     {
-                        site.click();
-                        if(getSiteDocumentPathCount() > 0){
-                        	drone.waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                            drone.waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        site.click();                       
+                    	drone.waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        drone.waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
 
-                            return new CopyOrMoveContentPage(drone);	
-                        }                        
+                        return new CopyOrMoveContentPage(drone);	                            
                     }
                 }
             }
-            throw new PageOperationException("Unable to find the site: " + siteName);
+            throw new PageOperationException("Unable to find the site: " + siteDescription);
         }
         catch (NoSuchElementException ne)
         {
