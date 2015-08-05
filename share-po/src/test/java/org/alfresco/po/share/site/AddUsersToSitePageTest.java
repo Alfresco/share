@@ -145,7 +145,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     public List<String> searchForSiteMembers(String userName) throws Exception
     {
         List<String> siteMembers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
         {
             try
             {
@@ -155,7 +155,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             catch (PageRenderTimeException exception)
             {
             }
-            if (siteMembers != null && siteMembers.size() > 0)
+            if (siteMembers != null && siteMembers.size() > 0 && siteMembers.get(0).indexOf(userName) != -1)
             {
                 break;
             }
