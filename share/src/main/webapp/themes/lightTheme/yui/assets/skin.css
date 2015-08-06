@@ -95,14 +95,14 @@ cursor: pointer;
 text-decoration: none;
 }
 .yui-skin-lightTheme .yui-button {
-border-radius: 5px;
+border-radius: 2px;
 border-width: 1px 0;
 border-style: solid;
 border-color: #0082c8;
 margin: auto .25em;
 }
 .yui-skin-lightTheme .yui-button .first-child {
-border-radius: 5px;
+border-radius: 2px;
 border-width: 0 1px;
 border-style: solid;
 border-color: #0082c8;
@@ -114,7 +114,7 @@ _margin: 0;
 {
 color: white;
 background-color: #0082c8;
-border-radius: 3px;
+border-radius: 1px;
 }
 .yui-skin-lightTheme .yui-button button,
 .yui-skin-lightTheme .yui-button a {
