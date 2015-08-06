@@ -1619,7 +1619,7 @@ body.brand-bg-1 .sticky-wrapper
    background: -o-linear-gradient(top, #fff 0%,#f0f4fb 100%); /* Opera 11.10+ */
    background: -ms-linear-gradient(top, #fff 0%,#f0f4fb 100%); /* IE10+ */
    background: linear-gradient(top, #fff 0%,#f0f4fb 100%); /* W3C */
-   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#f0f4fb',GradientType=0 ); /* IE6-9 */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#f0f4fb',GradientType=0 ); /* IE6-9 */
    background-repeat: no-repeat;
    background-attachment: fixed;
    background-position: 0px 7.4em; /* Right below the public header */
