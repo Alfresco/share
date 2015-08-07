@@ -24,23 +24,23 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum DocumentAspect
 {
-    CLASSIFIABLE("Classifiable", "P:cm:generalclassifiable"),
-    VERSIONABLE("Versionable", "P:cm:versionable"),
-    AUDIO("Audio", "P:audio:audio"),
-    INDEX_CONTROL("Index Control", "P:cm:indexControl"),
-    COMPLIANCEABLE("Complianceable", "P:cm:complianceable"),
-    DUBLIN_CORE("Dublin Core", "P:cm:dublincore"),
-    EFFECTIVITY("Effectivity", "P:cm:effectivity"),
-    SUMMARIZABLE("Summarizable", "P:cm:summarizable"),
-    TEMPLATABLE("Templatable", "P:cm:templatable"),
-    EMAILED("Emailed", "P:cm:emailed"),
-    ALIASABLE_EMAIL("Email Alias", "P:emailserver:aliasable"),
-    TAGGABLE("Taggable", "P:cm:taggable"),
-    INLINE_EDITABLE("Inline Editable", "P:app:inlineeditable"),
+    CLASSIFIABLE("Classifiable (cm:generalclassifiable)", "P:cm:generalclassifiable"),
+    VERSIONABLE("Versionable (cm:versionable)", "P:cm:versionable"),
+    AUDIO("Audio (audio:audio)", "P:audio:audio"),
+    INDEX_CONTROL("Index Control (cm:indexControl)", "P:cm:indexControl"),
+    COMPLIANCEABLE("Complianceable (cm:complianceable)", "P:cm:complianceable"),
+    DUBLIN_CORE("Dublin Core (cm:dublincore)", "P:cm:dublincore"),
+    EFFECTIVITY("Effectivity (cm:effectivity)", "P:cm:effectivity"),
+    SUMMARIZABLE("Summarizable (cm:summarizable)", "P:cm:summarizable"),
+    TEMPLATABLE("Templatable (cm:templatable)", "P:cm:templatable"),
+    EMAILED("Emailed (cm:emailed)", "P:cm:emailed"),
+    ALIASABLE_EMAIL("Email Alias (emailserver:aliasable)", "P:emailserver:aliasable"),
+    TAGGABLE("Taggable (cm:taggable)", "P:cm:taggable"),
+    INLINE_EDITABLE("Inline Editable (app:inlineeditable)", "P:app:inlineeditable"),
     GOOGLE_DOCS_EDITABLE("Google Docs Editable", "P:gd:googleEditable"),
-    GEOGRAPHIC("Geographic", "P:cm:geographic"),
-    EXIF("EXIF", "P:exif:exif"),
-    RESTRICTABLE("Restrictable", "P:dp:restrictable");
+    GEOGRAPHIC("Geographic (cm:geographic)", "P:cm:geographic"),
+    EXIF("EXIF (exif:exif)", "P:exif:exif"),
+    RESTRICTABLE("Restrictable (dp:restrictable)", "P:dp:restrictable");
 
     private String value;
     private String property;
