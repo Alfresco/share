@@ -1,0 +1,7 @@
+<webscript>
+   <shortname>CMM Service PUT</shortname>
+   <description>Custom Model Management Service</description>
+   <format default="json" />
+   <url>/cmm/model-service</url>
+   <authentication>user</authentication>
+</webscript>

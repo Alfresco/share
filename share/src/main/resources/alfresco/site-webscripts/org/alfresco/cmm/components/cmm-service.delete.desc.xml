@@ -1,0 +1,8 @@
+<webscript>
+   <shortname>CMM Service DELETE</shortname>
+   <description>Custom Model Management Service</description>
+   <format default="json" />
+   <url>/cmm/model-service</url>
+   <url>/cmm/model-service/{model}/{entity}</url>
+   <authentication>user</authentication>
+</webscript>

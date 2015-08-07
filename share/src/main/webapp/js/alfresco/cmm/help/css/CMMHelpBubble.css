@@ -1,0 +1,62 @@
+.speech-bubble {
+   position: relative;
+   padding: 15px;
+   margin: 1em 0 3em;
+   background-color: #fff;
+   color: #0081c7;
+   border: 3px solid #0081c7;
+   border-radius: 20px;
+   font-size: 132%;
+   line-height: 24px;
+}
+
+/* Variant : for left positioned triangle */
+.speech-bubble.left {
+   margin-left: 28px;
+}
+
+/* creates triangle */
+.speech-bubble:before {
+   content: "";
+   position: absolute;
+   bottom: -18px; /* value = - border-top-width - border-bottom-width */
+   left: 45px; /* controls horizontal position */
+   border-width: 15px 15px 0;
+   border-style: solid;
+   border-color: #0081c7 transparent;
+}
+.speech-bubble:after {
+   content: "";
+   position: absolute;
+   bottom: -13px; /* value = - border-top-width - border-bottom-width */
+   left: 47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
+   border-width: 13px 13px 0;
+   border-style: solid;
+   border-color: #fff transparent;
+}
+
+/* Variant : top */
+.speech-bubble.top:before {
+   top: -18px; /* value = - border-top-width - border-bottom-width */
+   bottom: auto;
+   border-width: 0 15px 15px;
+}
+.speech-bubble.top:after {
+   top: -13px; /* value = - border-top-width - border-bottom-width */
+   bottom: auto;
+   border-width: 0 13px 13px; /* vary these values to change the angle of the vertex */
+}
+
+/* Variant : left */
+.speech-bubble.left:before {
+   left: -28px; /* value = - border-left-width - border-right-width */
+   bottom: 50px;
+   border-width: 15px 28px 15px 0;
+   border-color: transparent #0081c7;
+}
+.speech-bubble.left:after {
+   left: -20px; /* value = - border-left-width - border-right-width */
+   bottom: 55px;
+   border-width: 10px 20px 10px 0;
+   border-color: transparent #fff;
+}

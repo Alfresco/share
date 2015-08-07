@@ -1,0 +1,25 @@
+.cmm-layout-TitlePane {
+}
+.cmm-layout-TitlePane > .dijitTitlePaneTitle {
+   background-color: #eee;
+   background-image: none;
+   padding: 11px;
+   border-color: #ccc;
+   color: #333;
+   border-bottom: none;
+   font-family: 'Open Sans Bold';
+}
+.cmm-layout-TitlePane.moveable > .dijitTitlePaneTitle {
+   cursor: move;
+}
+.cmm-layout-TitlePane > .dijitTitlePaneTitle .close {
+   float: right;
+   margin: -2px 4px 0 0;
+   cursor: pointer;
+}
+.cmm-layout-TitlePane > .dijitTitlePaneContentOuter {
+   border-color: #ccc;
+}
+.cmm-layout-TitlePane > .dijitTitlePaneContentOuter .dijitTitlePaneContentInner {
+   padding: 8px;
+}

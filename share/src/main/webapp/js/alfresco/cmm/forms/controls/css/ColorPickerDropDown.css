@@ -1,0 +1,9 @@
+.cmm-forms-controls-ColorPickerDropDown {
+   padding: 6px;
+   border: 1px solid #ccc;
+   background-image: none;
+   background-color: #fff;
+}
+.cmm-forms-controls-ColorPickerDropDown .controlButtons{
+	margin-top: 6px;
+}
