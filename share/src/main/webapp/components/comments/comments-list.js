@@ -302,6 +302,7 @@
             type: "submit"
          });
          submitButton.set("label", this.msg(editMode ? 'button.save' : 'button.addComment'));
+         submitButton.addClass("alf-primary-button");
 
          // register the cancel button
          var cancelButton = new YAHOO.widget.Button(rowId + "-cancel");
