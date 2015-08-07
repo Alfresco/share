@@ -836,6 +836,9 @@
                scope: obj
             }
          });
+
+         var elements = Dom.getElementsByClassName('yui-button', 'span', 'userInput');
+         Dom.addClass(elements[0], 'alf-primary-button');
       },
       
       /**
