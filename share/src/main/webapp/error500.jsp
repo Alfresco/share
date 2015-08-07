@@ -108,7 +108,7 @@ div.alf-error-detail p
     padding: 0.4em 10px;
     min-height: 2em;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 2px;
     border-width: 1px 0;
     border-style: solid;
     border-color: #0082c8;
