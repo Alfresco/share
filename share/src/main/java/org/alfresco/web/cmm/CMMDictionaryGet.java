@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.alfresco.module.org_alfresco_module_cmm_share.scripts;
+package org.alfresco.web.cmm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.alfresco.module.org_alfresco_module_cmm_share.scripts.CMMService.TWrapper;
+import org.alfresco.web.cmm.CMMService.TWrapper;
 import org.alfresco.web.scripts.DictionaryQuery;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
