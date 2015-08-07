@@ -125,6 +125,21 @@ public class Navigation extends SharePage
         return new DashBoardPage(drone);
     }
 
+    
+    /**
+     * Mimics the action of selecting the Home link.
+     *
+     * @return HtmlPage dashboard page object
+     */
+    public HtmlPage selectHome()
+    {
+        String selector = isDojoSupport() ? "div#HEADER_HOME" : "a[id$='-dashboard-button']";
+        drone.findAndWait(By.cssSelector(selector)).click();
+        return FactorySharePage.resolvePage(drone);
+    }
+    
+    
+    
     /**
      * Mimics the action of selecting people finder link.
      *

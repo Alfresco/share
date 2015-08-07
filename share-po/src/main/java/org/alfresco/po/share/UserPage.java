@@ -32,6 +32,8 @@ public class UserPage extends SharePage
     private static final By CHANGE_PASSWORD_CSS = By.cssSelector("td#HEADER_USER_MENU_CHANGE_PASSWORD_text");
     private static final By LOGOUT_CSS = By.cssSelector("td#HEADER_USER_MENU_LOGOUT_text");
     private static final By ACCOUNT_SETTINGS = By.cssSelector("td#CLOUD__NetworkAdminToolsLink_text>a.alfresco-navigation-_HtmlAnchorMixin");
+
+    private static final By USER_DASHBOARD_LINK = By.linkText("User Dashboard");
     private static final By USE_CURRENT_PAGE_LINK = By.cssSelector("td#HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text");
     private static final By USE_MY_DASHBOARD_LINK  = By.cssSelector("td#HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text");
     
@@ -299,6 +301,28 @@ public class UserPage extends SharePage
         }
         throw new PageOperationException("Not able to find the ChangePassword link");
     }
+    
+    
+    /**
+     * Mimics the action of selecting User Dashboard link.
+     * @return {@link HtmlPage} current page po
+     */
+    public HtmlPage selectUserDashboard()
+    {
+        try
+        {
+            drone.findAndWait(USER_DASHBOARD_LINK).click();
+            return FactorySharePage.resolvePage(drone);
+        }       
+        catch (TimeoutException e)
+        {
+            logger.error("Exceeded the time to find css.", e);
+        }
+        throw new PageOperationException("Not able to find the User Dashboard link");
+    }
+    
+    
+    
     /**
      * Mimics the action of selecting Use Current Page link.
      * @return {@link HtmlPage} current page po
