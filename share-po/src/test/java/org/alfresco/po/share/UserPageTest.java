@@ -121,7 +121,7 @@ public class UserPageTest extends AbstractTest
         siteDashboardPage =  (SiteDashboardPage) siteFinderPage.getNav().selectHome();
                 
         //check that error page is displayed
-        Assert.assertEquals(siteDashboardPage.getTitle(), "Alfresco Share » System Error");
+        Assert.assertTrue(siteDashboardPage.getTitle().indexOf("System Error") != -1);
 
         drone.navigateTo(dashboardUrl);
         DashBoardPage dashBoard = drone.getCurrentPage().render();        
