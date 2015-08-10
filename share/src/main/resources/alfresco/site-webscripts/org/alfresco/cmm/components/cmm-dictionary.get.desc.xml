@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>CMM Dictionary GET</shortname>
+   <description>Custom Model Management Dictionary Query Service</description>
+   <format default="json" />
+   <url>/cmm/dictionary/subclasses/{entity}</url>
+   <url>/cmm/dictionary/{classtype}</url>
+   <authentication>user</authentication>
+   <cache><never>true</never></cache>
+</webscript>

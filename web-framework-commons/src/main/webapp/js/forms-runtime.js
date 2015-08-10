@@ -2279,7 +2279,7 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
          args = {};
       }
 
-      var valid = false
+      var valid = true;
       if (field.value && field.value.length > 0)
       {
          //Strip out the name and surrounding angle brackets, if present.

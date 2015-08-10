@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.po.share.steps.SiteActions;
 import org.alfresco.webdrone.HtmlPage;
 import org.alfresco.webdrone.RenderElement;
 import org.alfresco.webdrone.RenderTime;
@@ -56,6 +55,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             .cssSelector("div[id$='default-copyMoveTo-title'], div[id$='_default-ruleConfigAction-destinationDialog-title']"));
     private final By destinationListCss = By.cssSelector(".mode.flat-button>div>span[style*='block']>span>button");
     private final By siteListCss = By.cssSelector("div.site>div>div>a>h4");
+    private final By siteDescriptionsCss = By.cssSelector("div.site div div");
     private final By defaultDocumentsFolderCss = By
             .cssSelector("div.path>div[id$='default-copyMoveTo-treeview']>div.ygtvitem>div.ygtvchildren>div.ygtvitem>table.ygtvtable>tbody>tr>td>span.ygtvlabel,"
                     + "div.path>div[id$='_default-ruleConfigAction-destinationDialog-treeview']>div.ygtvitem>div.ygtvchildren>div.ygtvitem>table.ygtvtable>tbody>tr>td>span.ygtvlabel");
@@ -73,6 +73,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
     private final By rmfolderItemsListCss = By.cssSelector("div#ygtvc7.ygtvchildren");
     private final By selectedDestination = By.xpath("//span[@class='yui-button yui-radio-button yui-button-checked yui-radio-button-checked']");
+    private final By siteDocumentsCount = By.cssSelector("div#ygtvc,.ygtvchildren.ygtvitem.selected div#ygtvc,.ygtvchildren");
 
     /**
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
@@ -435,6 +436,55 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
         throw new PageOperationException("Unable to select site.");
     }
+    
+    /**
+     * This method finds and selects the given site name from the
+     * displayed list of sites.
+     *
+     * @param siteDescription String
+     * @return CopyOrMoveContentPage
+     */
+    public CopyOrMoveContentPage selectSiteByDescription(String siteName, String siteDescription)
+    {
+    	if (StringUtils.isEmpty(siteDescription))
+        {
+            throw new IllegalArgumentException("Site description is required");
+        }
+
+        try
+        {	
+            for (WebElement site : drone.findAndWaitForElements(siteDescriptionsCss))
+            {
+            	String siteFullText = site.getText();
+            	String tmpDescription ="<none>";
+            	if (siteFullText.split("\n").length>1){
+            		tmpDescription = siteFullText.split("\n")[1];
+            	}
+                if (siteFullText != null)
+                {
+                    if (siteFullText.toLowerCase().contains(siteName.toLowerCase()) && tmpDescription.equalsIgnoreCase(siteDescription))
+                    {
+                        site.click();                       
+                    	drone.waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        drone.waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+
+                        return new CopyOrMoveContentPage(drone);	                            
+                    }
+                }
+            }
+            throw new PageOperationException("Unable to find the site: " + siteDescription);
+        }
+        catch (NoSuchElementException ne)
+        {
+            logger.error("Unable to find the inner text of site", ne);
+        }
+        catch (TimeoutException e)
+        {
+            logger.error("Unable to get the list of sites", e);
+        }
+
+        throw new PageOperationException("Unable to select site.");
+    }
 
     /**
      * This method finds and selects the given folder path from the displayed list
@@ -563,5 +613,19 @@ public class CopyOrMoveContentPage extends ShareDialogue
    public String getSelectedDestination(){
 	   WebElement destination = drone.findAndWait(selectedDestination);
 	   return destination.getText();
+   }
+   
+   /**
+	* @return the list of all document paths available for selected site.
+	*/
+   public int getSiteDocumentPathCount(){
+	   int size = drone.findAndWaitForElements(siteDocumentsCount).size();
+	   if (size>0){
+		   return size - 11;
+	   }
+	   else
+	   {
+		   return size;   
+	   }
    }
 }

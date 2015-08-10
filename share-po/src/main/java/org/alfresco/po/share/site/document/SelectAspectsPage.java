@@ -47,7 +47,7 @@ public class SelectAspectsPage extends SharePage
 
     private static final By AVAILABLE_ASPECT_TABLE = By.cssSelector("div[id$='aspects-left']>table>tbody.yui-dt-data>tr");
     private static final By CURRENTLY_ADDED_ASPECT_TABLE = By.cssSelector("div[id$='aspects-right']>table>tbody.yui-dt-data>tr");
-    private static final By HEADER_ASPECT_TABLE = By.cssSelector("td>div>h3");
+    private static final By HEADER_ASPECT_TABLE = By.cssSelector("td>div>h4");
     private static final By ADD_REMOVE_LINK = By.cssSelector("td>div>a");
     private static final By APPLY_CHANGE = By.cssSelector("button[id$='aspects-ok-button']");
     private static final By CANCEL = By.cssSelector("button[id$='aspects-cancel-button']");
@@ -57,7 +57,7 @@ public class SelectAspectsPage extends SharePage
     private static final By ASPECTS_SELECTED = By.xpath("//div[contains(@id,'default-aspects-right')]//td/div[@class='yui-dt-liner']");
     private static final By NOTIFICATION = By.cssSelector("div.bd>span.message");
 
-    private static final String ASPECT_AVAILBLE_XPATH ="//div[contains(@id,'aspects-left')]//td/div[@class='yui-dt-liner']//h3[text()='%s']";
+    private static final String ASPECT_AVAILBLE_XPATH ="//div[contains(@id,'aspects-left')]//td/div[@class='yui-dt-liner']//h4[text()='%s']";
     /**
      * Constructor.
      */

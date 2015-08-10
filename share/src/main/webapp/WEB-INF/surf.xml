@@ -79,7 +79,7 @@
               added and removed from an Extension created on the Alfresco Repository. When this is enabled then
               authentication errors will be generated on the Repository when accessing guest authenticated pages (e.g.
               the Login page) unless "enable-guest-page-extension-modules" is set to false -->
-         <enable-dynamic-extension-modules>false</enable-dynamic-extension-modules>
+         <enable-dynamic-extension-modules>true</enable-dynamic-extension-modules>
          
          <enable-remote-resource-resolving>false</enable-remote-resource-resolving>
          
@@ -96,6 +96,7 @@
                 <!--All Aikau packages are now defined within the Aikau dependency JAR-->
                 <package name="share" location="js/share" />
                 <package name="share-components" location="components" />
+                <package name="cmm" location="js/alfresco/cmm"/>
             </packages>
          </dojo-pages>
 

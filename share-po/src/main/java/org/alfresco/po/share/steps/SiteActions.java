@@ -737,11 +737,12 @@ public class SiteActions extends CommonActions
      * @param drone WebDrone
      * @param destination String (options: Recent Sites, Favorite Sites, All Sites, Repository, Shared Files, My File)
      * @param siteName String - the siteName that exists in <destination>
+     * @param siteDescription String - the siteDescription - IF THIS VALUE IS SET, THEN WE WILL SELECT THE SITE BY DESCRIPTION NOT BY <siteName>
      * @param fileName String
      * @return HtmlPage
      * @author pbrodner
      */
-    public HtmlPage copyOrMoveArtifact(WebDrone drone, CopyOrMoveContentPage.DESTINATION destination, String siteName,  String fileName, CopyOrMoveContentPage.ACTION action, String... moveFolderName)
+    public HtmlPage copyOrMoveArtifact(WebDrone drone, CopyOrMoveContentPage.DESTINATION destination, String siteName, String siteDescription, String fileName, CopyOrMoveContentPage.ACTION action, String... moveFolderName)
     {
         DocumentLibraryPage docPage =drone.getCurrentPage().render();
         CopyOrMoveContentPage copyOrMoveToPage;
@@ -760,7 +761,12 @@ public class SiteActions extends CommonActions
         }
 
         if(destination.hasSites()) {
-        	copyOrMoveToPage.selectSite(siteName).render();
+    	  if (siteDescription!=null && !siteDescription.isEmpty()){
+    		  copyOrMoveToPage.selectSiteByDescription(siteName, siteDescription).render();
+    	  }
+    	  else{
+    		  copyOrMoveToPage.selectSite(siteName).render();
+    	  }        	
         }
         if (moveFolderName != null && moveFolderName.length > 0){
             copyOrMoveToPage.selectPath(moveFolderName).render();

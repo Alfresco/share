@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Custom Model Manager Page</shortname>
+  <description>This WebScript defines the Custom Model Manager page - it should be accessible to Admins and Custom Model Manager Admins only</description>
+  <family>admin-console</family>
+  <family>custom-model-management-console</family>
+  <url>/components/console/custom-model-management</url>
+</webscript>

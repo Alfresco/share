@@ -1,0 +1,15 @@
+.alfresco-dnd-DroppedItemWrapper > .actions > .action img,
+.alfresco-dnd-DroppedItemWrapper > .actions:hover > .action.show img {
+   display: none;
+}
+.alfresco-dnd-DroppedItemWrapper > .actions:hover > .action img,
+.alfresco-dnd-DroppedItemWrapper > .actions > .action.show img {
+   display: inline;
+}
+.alfresco-dnd-DroppedItemWrapper > .actions > .action {
+   opacity: 0;
+}
+.alfresco-dnd-DroppedItemWrapper > .actions:hover > .action,
+.alfresco-dnd-DroppedItemWrapper > .actions > .action.show {
+   opacity: 1;
+}
