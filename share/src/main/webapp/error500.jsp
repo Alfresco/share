@@ -104,23 +104,23 @@ div.alf-error-detail p
 .alf-primary-button
 {
     color: white;
-    background-color: #0082c8;
+    background-color: #0C79BF;
     padding: 0.4em 10px;
     min-height: 2em;
     cursor: pointer;
     border-radius: 3px;
     border-width: 1px 0;
     border-style: solid;
-    border-color: #0082c8;
+    border-color: #0C79BF;
     text-decoration: none;
 }
 .alf-primary-button:hover
 {
-    background-color: #006ca6;
+    background-color: #135FA3;
 }
 .alf-primary-button:active
 {
-    background-color: #005684;
+    background-color: #125380;
 }
 
 .alf-error-footer
