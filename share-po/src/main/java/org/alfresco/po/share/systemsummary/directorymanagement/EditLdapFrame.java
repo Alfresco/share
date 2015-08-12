@@ -18,14 +18,14 @@
  */
 package org.alfresco.po.share.systemsummary.directorymanagement;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Class associated with PopUp frame in admin console system summary page 'Directory Manage'
@@ -99,23 +99,12 @@ public class EditLdapFrame extends SharePage
             return this;
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public AdvSettings render(long time)
-        {
-            return render(new RenderTime(time));
-        }
 
         @SuppressWarnings("unchecked")
         @Override
         public AdvSettings render()
         {
             return render(new RenderTime(maxPageLoadingTime));
-        }
-
-        public AdvSettings(WebDrone drone)
-        {
-            super(drone);
         }
 
         public void fillGroupDiffQuery(String groupDiffQuery)
@@ -186,7 +175,7 @@ public class EditLdapFrame extends SharePage
         private void fillField(By selector, String text)
         {
             checkNotNull(selector);
-            WebElement inputField = drone.findAndWait(selector);
+            WebElement inputField = findAndWait(selector);
             inputField.clear();
             if (text != null)
             {
@@ -194,12 +183,6 @@ public class EditLdapFrame extends SharePage
             }
         }
 
-    }
-
-
-    public EditLdapFrame(WebDrone drone)
-    {
-        super(drone);
     }
 
     @SuppressWarnings("unchecked")
@@ -218,15 +201,9 @@ public class EditLdapFrame extends SharePage
     @Override
     public String getTitle()
     {
-        return drone.findAndWait(TITLE).getText();
+        return findAndWait(TITLE).getText();
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public EditLdapFrame render(long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -240,11 +217,11 @@ public class EditLdapFrame extends SharePage
      *
      * @return DirectoryManagementPage
      */
-    public DirectoryManagementPage clickSave()
+    public HtmlPage clickSave()
     {
         click(SAVE_BUTTON);
-        drone.switchToDefaultContent();
-        return drone.getCurrentPage().render();
+        driver.switchTo().defaultContent();
+        return getCurrentPage();
     }
 
     /**
@@ -252,11 +229,11 @@ public class EditLdapFrame extends SharePage
      *
      * @return DirectoryManagementPage
      */
-    public DirectoryManagementPage clickClose()
+    public HtmlPage clickClose()
     {
         click(CLOSE_BUTTON);
-        drone.switchToDefaultContent();
-        return drone.getCurrentPage().render();
+        driver.switchTo().defaultContent();
+        return getCurrentPage();
     }
 
     public void fillLdapUrl(String ldapUrl)
@@ -312,20 +289,20 @@ public class EditLdapFrame extends SharePage
     public AdvSettings openAdvSettings()
     {
         click(ADV_SETTINGS);
-        return new AdvSettings(drone).render();
+        return factoryPage.instantiatePage(driver, AdvSettings.class);
     }
 
     private void click(By locator)
     {
         checkNotNull(locator);
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
     private void fillField(By selector, String text)
     {
         checkNotNull(selector);
-        WebElement inputField = drone.findAndWait(selector);
+        WebElement inputField = findAndWait(selector);
         inputField.clear();
         if (text != null)
         {

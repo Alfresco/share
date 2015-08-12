@@ -1,8 +1,21 @@
+/*
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.systemsummary;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.openqa.selenium.By;
 
 /**
@@ -14,11 +27,6 @@ public class TenantConsole extends AdvancedAdminConsolePage
     private final static By TENANT_FIELD = By.cssSelector("input[name='tenant-cmd']");
     @RenderWebElement
     private final static By EXECUTE_BUTTON = By.cssSelector("input[value='Execute']");
-
-
-    public TenantConsole(WebDrone drone) {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -35,13 +43,6 @@ public class TenantConsole extends AdvancedAdminConsolePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public TenantConsole render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method for create tenant
      *
@@ -50,9 +51,9 @@ public class TenantConsole extends AdvancedAdminConsolePage
      */
     public void createTenant(String tenantName, String password)
     {
-        drone.findAndWait(TENANT_FIELD, 60000).clear();
-        drone.findAndWait(TENANT_FIELD).sendKeys(String.format("create %s %s", tenantName, password));
-        drone.findAndWait(EXECUTE_BUTTON).click();
+        findAndWait(TENANT_FIELD, 60000).clear();
+        findAndWait(TENANT_FIELD).sendKeys(String.format("create %s %s", tenantName, password));
+        findAndWait(EXECUTE_BUTTON).click();
 
     }
 
@@ -63,9 +64,9 @@ public class TenantConsole extends AdvancedAdminConsolePage
      */
     public void sendCommand(String request)
     {
-        drone.findAndWait(TENANT_FIELD, 60000).clear();
-        drone.findAndWait(TENANT_FIELD).sendKeys(String.format("%s", request));
-        drone.findAndWait(EXECUTE_BUTTON).click();
+        findAndWait(TENANT_FIELD, 60000).clear();
+        findAndWait(TENANT_FIELD).sendKeys(String.format("%s", request));
+        findAndWait(EXECUTE_BUTTON).click();
     }
 
     /**
@@ -74,7 +75,7 @@ public class TenantConsole extends AdvancedAdminConsolePage
      */
     public String findText()
     {
-        return drone.findAndWait(By.xpath("//div[@class='column-full']/h2[text()='Result']/..//pre")).getText();
+        return findAndWait(By.xpath("//div[@class='column-full']/h2[text()='Result']/..//pre")).getText();
     }
 
 }

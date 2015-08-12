@@ -26,7 +26,7 @@ import org.alfresco.po.share.dashlet.AbstractSiteDashletTest;
 import org.alfresco.po.share.site.document.TinyMceEditor;
 import org.alfresco.po.share.site.document.TinyMceEditor.FormatType;
 import org.alfresco.po.share.site.wiki.WikiPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
@@ -57,24 +57,24 @@ public class WikiPageTest extends AbstractSiteDashletTest
     {
         dashBoard = loginAs(username, password);
         siteName = "wiki" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
 
     @AfterClass
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
     @Test
     public void selectCustomizeDashboard()
     {
         siteDashBoard.getSiteNav().selectConfigure();
-        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite();
+        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
         List<SitePageType> addPageTypes = new ArrayList<SitePageType>();
         addPageTypes.add(SitePageType.WIKI);
         siteDashBoard = customizeSitePage.addPages(addPageTypes).render();
-        wikiPage = siteDashBoard.getSiteNav().selectSiteWikiPage().render();
+        wikiPage = siteDashBoard.getSiteNav().selectWikiPage().render();
         Assert.assertTrue(wikiPage.getTitle().contains("Wiki"));
     }
 

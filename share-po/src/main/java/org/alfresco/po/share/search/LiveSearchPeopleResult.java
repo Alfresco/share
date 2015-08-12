@@ -19,17 +19,18 @@
 
 package org.alfresco.po.share.search;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -37,14 +38,10 @@ import org.openqa.selenium.WebElement;
  * @author jcule
  *
  */
-public class LiveSearchPeopleResult
+public class LiveSearchPeopleResult extends PageElement
 {
-    
     private static Log logger = LogFactory.getLog(LiveSearchPeopleResult.class);
-    
     private static final String USER_NAME = "a";
-    
-    private WebDrone drone ;
     private WebElement webElement;
     private ShareLink userName;
     
@@ -52,12 +49,17 @@ public class LiveSearchPeopleResult
     /**
      * Constructor
      * @param element {@link WebElement} 
+<<<<<<< .working
+     * @param driver 
+=======
      * @param drone WebDrone
+>>>>>>> .merge-right.r109852
      */
-    public LiveSearchPeopleResult(WebElement element, WebDrone drone)
+    public LiveSearchPeopleResult(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
         webElement = element;
-        this.drone = drone;
+        this.driver = driver;
+        this.factoryPage = factoryPage;
     }
 
     /**
@@ -71,7 +73,7 @@ public class LiveSearchPeopleResult
             try
             {
                 WebElement siteTitleElement = webElement.findElement(By.cssSelector(USER_NAME));
-                userName = new ShareLink(siteTitleElement, drone);
+                userName = new ShareLink(siteTitleElement, driver, factoryPage);
             }
             catch (NoSuchElementException nse)
             {
@@ -91,7 +93,7 @@ public class LiveSearchPeopleResult
         try
         {
             webElement.findElement(By.cssSelector(USER_NAME)).click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
          
         }
         catch (NoSuchElementException nse)

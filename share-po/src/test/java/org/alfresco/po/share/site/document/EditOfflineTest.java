@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
 
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -47,14 +47,14 @@ public class EditOfflineTest extends AbstractDocumentTest
     {
         siteName = "Site" + System.currentTimeMillis();
         loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        testFile = SiteUtil.prepareFile();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        testFile = siteUtil.prepareFile();
         StringTokenizer st = new StringTokenizer(testFile.getName(), ".");
         fileName = st.nextToken();
-        File file = SiteUtil.prepareFile();
+        File file = siteUtil.prepareFile();
         fileName = file.getName();
-        SitePage site = drone.getCurrentPage().render();
-        documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage site = resolvePage(driver).render();
+        documentLibPage = site.getSiteNav().selectDocumentLibrary().render();
 
         UploadFilePage upLoadPage = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
@@ -64,7 +64,7 @@ public class EditOfflineTest extends AbstractDocumentTest
     @AfterClass(groups="alfresco-one")
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
     /**
      * Test updating an existing file with a new uploaded file. The test covers major and minor version changes

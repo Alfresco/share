@@ -11,14 +11,14 @@ import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.enums.ViewType;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.TreeMenuNavigation.DocumentsMenu;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
@@ -50,11 +50,11 @@ public class DocumentLibraryNavigationTest extends AbstractTest
     public void prepare() throws Exception
     {
         siteName = "site" + System.currentTimeMillis();
-        file1 = SiteUtil.prepareFile(siteName + "1");
+        file1 = siteUtil.prepareFile(siteName + "1");
         loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "Public");
-        SitePage site = drone.getCurrentPage().render();
-        documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        siteUtil.createSite(driver, username, password, siteName, "", "Public");
+        SitePage site = resolvePage(driver).render();
+        documentLibPage = site.getSiteNav().selectDocumentLibrary().render();
         // uploading new files.
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file1.getCanonicalPath()).render();
@@ -63,11 +63,11 @@ public class DocumentLibraryNavigationTest extends AbstractTest
     @AfterClass
     public void teardown()
     {
-        SiteFinderPage siteFinder = SiteUtil.searchSite(drone, siteName).render();
+        SiteFinderPage siteFinder = siteUtil.searchSite(driver, siteName);
         SiteDashboardPage siteDash = siteFinder.selectSite(siteName).render();
-        DocumentLibraryPage docPage = siteDash.getSiteNav().selectSiteDocumentLibrary().render();
+        DocumentLibraryPage docPage = siteDash.getSiteNav().selectDocumentLibrary().render();
         docPage.getNavigation().selectDetailedView();
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test(enabled = true, priority = 1)
@@ -93,7 +93,7 @@ public class DocumentLibraryNavigationTest extends AbstractTest
         int count = 0;
         while (count < 6)
         {
-            drone.refresh();
+            driver.navigate().refresh();
             treeMenuNav.selectDocumentNode(DocumentsMenu.ALL_DOCUMENTS);
             if (documentLibPage.isFileVisible(file1.getName()))
             {

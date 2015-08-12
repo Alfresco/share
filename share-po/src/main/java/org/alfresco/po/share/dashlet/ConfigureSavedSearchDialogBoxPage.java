@@ -16,18 +16,17 @@ package org.alfresco.po.share.dashlet;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,13 +58,6 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     private static final By HELP_BALLOON = By.cssSelector("div[style*='visible']>div.bd>div.balloon");
     private static final By HELP_BALLOON_TEXT = By.cssSelector("div[style*='visible']>div.bd>div.balloon>div.text");
 
-    /**
-     * Constructor.
-     */
-    protected ConfigureSavedSearchDialogBoxPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -77,14 +69,6 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
         return this;
 
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ConfigureSavedSearchDialogBoxPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public ConfigureSavedSearchDialogBoxPage render()
@@ -96,7 +80,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     {
         try
         {
-            drone.waitUntilElementDisappears(CONFIGURE_SEARCH_DIALOG_BOX, SECONDS.convert(WAIT_TIME_3000, MILLISECONDS));
+            waitUntilElementDisappears(CONFIGURE_SEARCH_DIALOG_BOX, SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
         }
         catch (TimeoutException te)
         {
@@ -114,18 +98,14 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     {
         try
         {
-            drone.find(OK_BUTTON).submit();
+            driver.findElement(OK_BUTTON).submit();
             if (isConfigureSavedSearchDialogDisplayed())
             {
                 return this;
             }
-            else if (drone.getCurrentPage().render() instanceof SiteDashboardPage)
+            else if (getCurrentPage().render() instanceof SiteDashboardPage)
             {
-                return new SiteDashboardPage(drone);
-            }
-            else if (drone.getCurrentPage().render() instanceof DashBoardPage)
-            {
-                return new DashBoardPage(drone);
+                return getCurrentPage();
             }
             else
             {
@@ -159,14 +139,11 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     {
         try
         {
-            drone.find(locator).click();
-            if (drone.getCurrentPage().render() instanceof DashBoardPage)
+            driver.findElement(locator).click();
+            HtmlPage p = getCurrentPage();
+            if (p instanceof DashBoardPage || p instanceof SiteDashboardPage)
             {
-                return new DashBoardPage(drone);
-            }
-            else if (drone.getCurrentPage().render() instanceof SiteDashboardPage)
-            {
-                return new SiteDashboardPage(drone);
+                return p;
             }
             else
             {
@@ -195,7 +172,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
 
         try
         {
-            WebElement searchTermBox = drone.find(SEARCH_TERM_BOX);
+            WebElement searchTermBox = driver.findElement(SEARCH_TERM_BOX);
             searchTermBox.clear();
             searchTermBox.sendKeys(searchTerm);
         }
@@ -220,7 +197,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
 
         try
         {
-            WebElement titleBox = drone.find(TITLE_BOX);
+            WebElement titleBox = driver.findElement(TITLE_BOX);
             titleBox.clear();
             titleBox.sendKeys(title);
         }
@@ -240,7 +217,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     {
         try
         {
-            Select limitSelectBox = new Select(drone.find(LIMIT_SELECT_BOX));
+            Select limitSelectBox = new Select(driver.findElement(LIMIT_SELECT_BOX));
             limitSelectBox.selectByValue(String.valueOf(searchLimit.getValue()));
         }
         catch (NoSuchElementException te)
@@ -258,7 +235,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     public List<Integer> getAvailableListOfSearchLimitValues()
     {
         List<Integer> searchLimitList = new ArrayList<Integer>();
-        Select limitSelectBox = new Select(drone.find(LIMIT_SELECT_BOX));
+        Select limitSelectBox = new Select(driver.findElement(LIMIT_SELECT_BOX));
 
         for (WebElement element : limitSelectBox.getOptions())
         {
@@ -276,7 +253,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     {
         try
         {
-            return drone.find(HELP_BALLOON).isDisplayed();
+            return driver.findElement(HELP_BALLOON).isDisplayed();
         }
         catch (NoSuchElementException elementException)
         {
@@ -294,7 +271,7 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(HELP_BALLOON_TEXT).getText();
+            return findAndWait(HELP_BALLOON_TEXT).getText();
         }
         catch (TimeoutException elementException)
         {

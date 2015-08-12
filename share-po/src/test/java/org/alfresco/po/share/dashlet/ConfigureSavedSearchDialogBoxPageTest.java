@@ -65,7 +65,7 @@ public class ConfigureSavedSearchDialogBoxPageTest extends AbstractSiteDashletTe
     @Test
     public void instantiateDashlet()
     {
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.SAVED_SEARCH, 1).render();
         savedSearchDashlet = siteDashBoard.getDashlet(SAVED_SEARCH).render();
@@ -153,19 +153,5 @@ public class ConfigureSavedSearchDialogBoxPageTest extends AbstractSiteDashletTe
         configureSavedSearchDialogBoxPage = savedSearchDashlet.clickOnEditButton().render();
         dashBoardPage = configureSavedSearchDialogBoxPage.clickOnCloseButton().render();
         Assert.assertTrue(dashBoardPage != null);
-    }
-
-    @Test(dependsOnMethods = "isHelpBalloonDisplayed", groups="TestBug")
-    public void dashBoardPageClickOKButton()
-    {
-        savedSearchDashlet = dashBoardPage.getDashlet("saved-search").render();
-
-        configureSavedSearchDialogBoxPage = savedSearchDashlet.clickOnEditButton().render();
-        configureSavedSearchDialogBoxPage.setSearchTerm(fileName);
-        dashBoardPage = configureSavedSearchDialogBoxPage.clickOnOKButton().render();
-        Assert.assertTrue(dashBoardPage != null);
-        savedSearchDashlet = dashBoardPage.getDashlet("saved-search").render();
-        Assert.assertTrue(savedSearchDashlet.isItemFound(fileName));
-        Assert.assertFalse(savedSearchDashlet.isItemFound(String.valueOf(System.currentTimeMillis())));
     }
 }

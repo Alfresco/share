@@ -18,12 +18,18 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.po.share.CustomiseUserDashboardPage;
+import org.alfresco.po.share.DashBoardPage;
+import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.user.MyProfilePage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static org.testng.Assert.*;
 
 /**
  * @author Aliaksei Boole
@@ -33,7 +39,7 @@ public class MyProfileDashletTest extends AbstractDashletTest
     private DashBoardPage dashBoardPage;
     private MyProfilePage myProfilePage;
     private CustomiseUserDashboardPage customiseUserDashboardPage;
-    private AlfrescoVersion version;
+    
     private String userName;
     private String email;
     private MyProfileDashlet dashlet;
@@ -44,38 +50,29 @@ public class MyProfileDashletTest extends AbstractDashletTest
     {
         userName = "UserMeeting" + System.currentTimeMillis();
         email = userName + "@test.com";
-
-        version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            createEnterpriseUser(userName);
-            ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
-        }
+        createEnterpriseUser(userName);
+        shareUtil.loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
     }
 
     @Test
     public void instantiateMyProfileDashlet()
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
 
         customiseUserDashboardPage = dashBoard.getNav().selectCustomizeUserDashboard();
         customiseUserDashboardPage.render();
 
         dashBoard = customiseUserDashboardPage.addDashlet(Dashlets.MY_PROFILE, 1).render();
 
-        dashlet = new MyProfileDashlet(drone).render();
+        dashlet = factoryPage.instantiatePage(driver, MyProfileDashlet.class);
     }
 
     @Test(dependsOnMethods = "instantiateMyProfileDashlet")
     public void verifyHelpIcon() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         dashlet = dashBoardPage.getDashlet("my-profile").render();
         assertTrue(dashlet.isHelpIconPresent(), "Help icon isn't displayed");
         dashlet.clickOnHelpIcon();
@@ -89,8 +86,8 @@ public class MyProfileDashletTest extends AbstractDashletTest
     @Test(dependsOnMethods = "verifyHelpIcon")
     public void isUserNameDisplayed() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         dashlet = dashBoardPage.getDashlet("my-profile").render();
         assertTrue(dashlet.getUserName().contains(userName), "User name isn't presented");
     }
@@ -98,8 +95,8 @@ public class MyProfileDashletTest extends AbstractDashletTest
     @Test(dependsOnMethods = "isUserNameDisplayed")
     public void isAvatarDisplayed() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         dashlet = dashBoardPage.getDashlet("my-profile").render();
         assertTrue(dashlet.isAvatarDisplayed(), "Avatar isn't displayed");
     }
@@ -107,8 +104,8 @@ public class MyProfileDashletTest extends AbstractDashletTest
     @Test(dependsOnMethods = "isAvatarDisplayed")
     public void isEmailPresented() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         dashlet = dashBoardPage.getDashlet("my-profile").render();
         assertEquals(dashlet.getEmailName(), email);
     }
@@ -116,8 +113,8 @@ public class MyProfileDashletTest extends AbstractDashletTest
     @Test(dependsOnMethods = "isEmailPresented")
     public void clickOnUserName()throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         dashlet = dashBoardPage.getDashlet("my-profile").render();
         myProfilePage = dashlet.clickOnUserName().render();
         assertNotNull(myProfilePage);
@@ -126,8 +123,8 @@ public class MyProfileDashletTest extends AbstractDashletTest
     @Test(dependsOnMethods = "clickOnUserName")
     public void clickViewFullProfileButton() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         dashlet = dashBoardPage.getDashlet("my-profile").render();
         assertTrue(dashlet.isViewFullProfileDisplayed(), "View Full Profile is absent");
         myProfilePage = dashlet.clickViewFullProfileButton().render();

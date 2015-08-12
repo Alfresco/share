@@ -1,7 +1,20 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.PageElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -9,21 +22,15 @@ import org.openqa.selenium.WebElement;
 /**
  * @author Aliaksei Boole
  */
-public abstract class AbstractCommentForm extends HtmlElement
+public abstract class AbstractCommentForm extends PageElement
 {
     private final static By FORM_TITLE = By.cssSelector("div[class='comment-form']>h2.thin.dark");
+    private TinyMceEditor tinyMceEditor;
 
-    private final TinyMceEditor tinyMceEditor;
-
-    public AbstractCommentForm(WebDrone drone)
-    {
-        super(drone);
-        tinyMceEditor = new TinyMceEditor(drone);
-    }
 
     public String getTitle()
     {
-        return drone.findAndWait(FORM_TITLE).getText();
+        return findAndWait(FORM_TITLE).getText();
     }
 
     public TinyMceEditor getTinyMceEditor()
@@ -33,27 +40,15 @@ public abstract class AbstractCommentForm extends HtmlElement
 
     protected void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
-    }
-
-    protected boolean isDisplay(By locator)
-    {
-        try
-        {
-            return drone.findAndWait(locator, 2000).isDisplayed();
-        }
-        catch (TimeoutException e)
-        {
-            return false;
-        }
     }
 
     public boolean isButtonsEnable(By submit, By cancel)
     {
         try
         {
-            return drone.findAndWait(submit).isEnabled() && drone.findAndWait(cancel).isEnabled();
+            return findAndWait(submit).isEnabled() && findAndWait(cancel).isEnabled();
         }
         catch (TimeoutException e)
         {

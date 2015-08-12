@@ -19,22 +19,24 @@
 
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collections;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div[id$='-my-docs-dashlet']")
 /**
  * Page object to hold Content I'm Editing dashlet
  * Created by olga lokhach
@@ -46,22 +48,13 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
     private static final By ITEM_LINKS = By.cssSelector(".detail-list-item>div.details>h4>a");
     private static final By SITE_LINKS = By.cssSelector(".detail-list-item>div.details>div>a[class$='site-link']");
     private Log logger = LogFactory.getLog(this.getClass());
-
-    /**
-     * Constructor.
-     */
-    protected EditingContentDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector(".yui-resize-handle"));
-    }
-
     @SuppressWarnings("unchecked")
-    @Override
     public EditingContentDashlet render(RenderTime timer)
     {
         try
         {
+            //Set focus of dashlet if below visbile area of screen.
+            setResizeHandle(DASHLET_CONTAINER_PLACEHOLDER);
             while (true)
             {
                 timer.start();
@@ -79,7 +72,7 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus(DASHLET_CONTAINER_PLACEHOLDER);
-                    this.dashlet = drone.find((DASHLET_CONTAINER_PLACEHOLDER));
+                    this.dashlet = driver.findElement((DASHLET_CONTAINER_PLACEHOLDER));
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -103,22 +96,12 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
         }
         return this;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public EditingContentDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public EditingContentDashlet render()
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
-
     private List<WebElement> getItemsDetailsElem()
     {
         try
@@ -189,7 +172,7 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
             if (linkText.equalsIgnoreCase(itemName))
             {
                 itemLink.click();
-                return FactorySharePage.resolvePage(drone);
+                return getCurrentPage();
             }
         }
 
@@ -218,7 +201,7 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
      * @param siteName String
      * @return SitePage
      */
-    public SiteDashboardPage clickSite(String siteName)
+    public HtmlPage clickSite(String siteName)
     {
         checkNotNull(siteName);
         List<WebElement> eventLinks = getSitesDetailsElem();
@@ -228,12 +211,12 @@ public class EditingContentDashlet extends AbstractDashlet implements Dashlet
             if (linkText.equalsIgnoreCase(siteName))
             {
                 eventLink.click();
-                return new SiteDashboardPage(drone);
+                return getCurrentPage();
             }
         }
-
         throw new PageOperationException("Site '" + siteName + "' was not found!");
     }
+
 
 
 }

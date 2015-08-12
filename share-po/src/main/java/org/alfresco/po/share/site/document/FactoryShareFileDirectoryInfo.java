@@ -14,9 +14,11 @@
  */
 package org.alfresco.po.share.site.document;
 
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.enums.ViewType;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -28,41 +30,37 @@ import org.openqa.selenium.WebElement;
  */
 public final class FactoryShareFileDirectoryInfo
 {
-
-    /**
-     * Constructor.
-     */
-    private FactoryShareFileDirectoryInfo()
-    {
-    }
-
     /**
      * Gets the FileDirectoryInfo based on the given view type.
      * 
-     * @param drone
-     *            {@link org.alfresco.webdrone.WebDrone}
+     * @param driver
+     *            {@link org.alfresco.po.WebDriver}
      * @param viewType
      * @return FileDirectoryInfo
      */
-    public static FileDirectoryInfo getPage(final String nodeRef, final WebElement webElement, final WebDrone drone, final ViewType viewType)
+    public static FileDirectoryInfo getPage(final String nodeRef, final WebElement webElement, final WebDriver driver, final ViewType viewType, FactoryPage factoryPage)
     {
         try
         {
+            PageElement pe = null;
             switch (viewType)
             {
                 case SIMPLE_VIEW:
-                    return new SimpleViewFileDirectoryInfo(nodeRef, webElement, drone);
+                    pe = factoryPage.instantiatePageElement(driver, SimpleViewFileDirectoryInfo.class);
+                    break;
                 case DETAILED_VIEW:
-                    return new DetailedViewFileDirectoryInfo(nodeRef, webElement, drone);
-                case GALLERY_VIEW:
-                    return new GalleryViewFileDirectoryInfo(nodeRef, webElement, drone);
-                case FILMSTRIP_VIEW:
-                    return new FilmStripViewFileDirectoryInfo(nodeRef, webElement, drone);
+                    pe = factoryPage.instantiatePageElement(driver, DetailedViewFileDirectoryInfo.class);
+                    break;
                 case TABLE_VIEW:
-                    return new TableViewFileDirectoryInfo(nodeRef, webElement, drone);
+                    pe = factoryPage.instantiatePageElement(driver, DetailedTableViewFileDirectoryInfo.class);
+                    break;
                 default:
                     throw new PageException(String.format("%s does not match any known file directory view name", viewType.name()));
             }
+            FileDirectoryInfoImpl fdi = (FileDirectoryInfoImpl)pe;
+            fdi.setNodeRef(nodeRef);
+            fdi.setWrappedElement(webElement);
+            return fdi;
         }
         catch (Exception ex)
         {

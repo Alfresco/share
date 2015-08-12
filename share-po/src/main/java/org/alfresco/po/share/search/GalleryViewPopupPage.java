@@ -1,56 +1,42 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.search;
 
-import java.util.List;
-
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 /**
  * GalleryViewPopupPage object 
  * 
  * @author Charu
  */
-@SuppressWarnings("unchecked")
 public class GalleryViewPopupPage extends SharePage
 {
-	private static final By GALLERY_POPUP_TITLE = By.cssSelector("div[class='dijitDialogTitleBar']>span[class='dijitDialogTitle']");
-	private static final By GALLERY_VIEW_CLOSE_BUTTON = By.cssSelector("div[class='dijitDialogTitleBar']>span[class='dijitDialogCloseIcon']");
-	private WebElement galleryPopupTitle;
-	private WebElement closeButton;
-	private static final Log logger = LogFactory.getLog(GalleryViewPopupPage.class);	
-	
-	public GalleryViewPopupPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    public GalleryViewPopupPage render(RenderTime timer)
-    {
-    	webElementRender(timer);
-    	List<WebElement> elements = drone.findAll(GALLERY_POPUP_TITLE);
-    	for (WebElement webElement : elements) 
-    	{
-			System.out.println(webElement.isDisplayed());
-		}
-        return this;
-    }      
+    private static final By GALLERY_POPUP_TITLE = By.cssSelector("div[class='dijitDialogTitleBar']>span[class='dijitDialogTitle']");
+    private static final By GALLERY_VIEW_CLOSE_BUTTON = By.cssSelector("span.dijitDialogCloseIcon");
+    private WebElement galleryPopupTitle;
+    private WebElement closeButton;
 
     
-    @Override
-    public GalleryViewPopupPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    
-    @Override
+    @SuppressWarnings("unchecked")
     public GalleryViewPopupPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -63,12 +49,12 @@ public class GalleryViewPopupPage extends SharePage
     {
         try
         {
-        	galleryPopupTitle = drone.findAndWait(GALLERY_POPUP_TITLE);
-        	if(galleryPopupTitle.isDisplayed())
-        	{
-        		if(galleryPopupTitle.getText().contains(name));
-        		return true;        		       		 
-        	}
+            galleryPopupTitle = findAndWait(GALLERY_POPUP_TITLE);
+            if(galleryPopupTitle.isDisplayed())
+            {
+                if(galleryPopupTitle.getText().contains(name));
+                return true;
+            }
         }
         catch (NoSuchElementException nse)
         {
@@ -78,7 +64,7 @@ public class GalleryViewPopupPage extends SharePage
         {
             return false;
         }
-		return false;
+        return false;
         
     }
     
@@ -87,29 +73,13 @@ public class GalleryViewPopupPage extends SharePage
      * 
      * @return {@link FacetedSearchPage} page response
      */
-    public FacetedSearchPage selectClose()
+    public HtmlPage selectClose()
     {
-       	try 
-        {
-        	closeButton = drone.findFirstDisplayedElement(GALLERY_VIEW_CLOSE_BUTTON);
-        	if(closeButton.isDisplayed())
-        	closeButton.click();
-			
-		}
-        catch (NoSuchElementException nse)
-        {
-        	if (logger.isTraceEnabled())
-            {
-                logger.trace("Unable to find close button");
-            }
-        }
-        catch (StaleElementReferenceException e ) 
-		{
-		    e.printStackTrace();
-		}
-        
-        return new FacetedSearchPage(drone);
-    }  
-    
-    
+        closeButton = driver.findElement(GALLERY_VIEW_CLOSE_BUTTON);
+        Actions a = new Actions(driver);
+        a.moveToElement(closeButton);
+        a.click();
+        a.perform();
+        return factoryPage.instantiatePage(driver, FacetedSearchPage.class);
+    }
 }

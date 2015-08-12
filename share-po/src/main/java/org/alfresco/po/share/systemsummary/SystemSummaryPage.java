@@ -1,13 +1,12 @@
 package org.alfresco.po.share.systemsummary;
 
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author sergey.kardash on 4/14/14.
@@ -189,11 +188,6 @@ public class SystemSummaryPage extends AdvancedAdminConsolePage
         }
     }
 
-    public SystemSummaryPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     /**
      * Gets header names of the Authentication Directories table
      *
@@ -204,7 +198,7 @@ public class SystemSummaryPage extends AdvancedAdminConsolePage
         List<String> columnNames = new ArrayList<String>();
         try
         {
-            List<WebElement> elements = drone.findAll(AUT_DIRECTORIES_HEAD);
+            List<WebElement> elements = driver.findElements(AUT_DIRECTORIES_HEAD);
             for (WebElement webElement : elements)
             {
                 columnNames.add(webElement.getText());
@@ -228,7 +222,7 @@ public class SystemSummaryPage extends AdvancedAdminConsolePage
         List<String> columnNames = new ArrayList<String>();
         try
         {
-            List<WebElement> elements = drone.findAll(AUT_DIRECTORIES);
+            List<WebElement> elements = driver.findElements(AUT_DIRECTORIES);
             for (WebElement webElement : elements)
             {
                 columnNames.add(webElement.getText());

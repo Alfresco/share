@@ -14,14 +14,13 @@
  */
 package org.alfresco.po.share.site.document;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.dashlet.AdvancedTinyMceEditor;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -40,13 +39,7 @@ public class InlineEditPage extends SitePage
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='form-submit-button']");
     protected static final String CONTENT_IFRAME="template_x002e_inline-edit_x002e_inline-edit_x0023_default_prop_cm_content_ifr";
     
-    private final AdvancedTinyMceEditor contentTinyMceEditor;
-
-    public InlineEditPage(WebDrone drone)
-    {
-        super(drone);
-        contentTinyMceEditor=new AdvancedTinyMceEditor(drone);
-    }
+    private AdvancedTinyMceEditor contentTinyMceEditor;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -55,13 +48,6 @@ public class InlineEditPage extends SitePage
         elementRender(timer, getVisibleRenderElement(NAME), getVisibleRenderElement(TITLE), getVisibleRenderElement(DESCRIPTION),
                 getVisibleRenderElement(SUBMIT_BUTTON));
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public InlineEditPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -79,9 +65,9 @@ public class InlineEditPage extends SitePage
         switch (mimeType)
         {
             case HTML:
-                return new EditHtmlDocumentPage(drone);
+                return factoryPage.instantiatePage(driver,EditHtmlDocumentPage.class);
             default:
-                return new EditTextDocumentPage(drone);
+                return factoryPage.instantiatePage(driver, EditTextDocumentPage.class);
         }
     }
 
@@ -104,7 +90,7 @@ public class InlineEditPage extends SitePage
      */
     public void setName(final String name)
     {
-        setInput(drone.findAndWait(NAME), name);
+        setInput(findAndWait(NAME), name);
     }
     
     /**
@@ -114,7 +100,7 @@ public class InlineEditPage extends SitePage
      */
     public void setTitle(final String name)
     {
-        setInput(drone.findAndWait(TITLE), name);
+        setInput(findAndWait(TITLE), name);
     }
     
     /**
@@ -124,7 +110,7 @@ public class InlineEditPage extends SitePage
      */
     public AdvancedTinyMceEditor getContentTinyMCEEditor()
     {
-        contentTinyMceEditor.setTinyMce(CONTENT_IFRAME);
+        contentTinyMceEditor.setTinyMce();
         return contentTinyMceEditor;
     }
     
@@ -137,7 +123,7 @@ public class InlineEditPage extends SitePage
     {
         try
         {
-            contentTinyMceEditor.setTinyMce(CONTENT_IFRAME);
+            contentTinyMceEditor.setTinyMce();
             contentTinyMceEditor.addContent(txtLines);
         }
         catch (TimeoutException toe)

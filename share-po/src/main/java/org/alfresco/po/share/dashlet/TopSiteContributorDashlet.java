@@ -15,24 +15,23 @@
 
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-
+@FindBy(css="div[id*='DASHLET']")
 /**
  * TopSiteContributorDashlet page object for top site contributor report dashlet
  * 
@@ -58,29 +57,6 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     private static final String FROM_DATE_INPUT_FIELD = "";
     private static final String TO_DATE_INPUT_FIELD = "";
     private static final String DATE_INPUT_FIELDS = "input[id^='alfresco_forms_controls_DojoDateTextBox']";
-  
-    /**
-     * Constructor
-     * 
-     * @param drone WebDrone
-     */
-    protected TopSiteContributorDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(TOP_SITE_CONTRIBUTOR_REPORT_DASHLET));
-    }
-
-    @SuppressWarnings("unchecked")
-    public TopSiteContributorDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public TopSiteContributorDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     @SuppressWarnings("unchecked")
     public TopSiteContributorDashlet render(RenderTime timer)
@@ -113,8 +89,8 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
         List<String> toolTipData = new ArrayList<String>();
         for (WebElement pieChartSlice : pieChartSlices)
         {
-            drone.mouseOver(pieChartSlice);
-            WebElement tooltipElement = drone.findAndWait(By.cssSelector(TOOLTIP_DATA));
+            mouseOver(pieChartSlice);
+            WebElement tooltipElement = findAndWait(By.cssSelector(TOOLTIP_DATA));
             String user = getElement(tooltipElement.getAttribute(ORIGINAL_TITLE_ATTRIBUTE), "/table/tr/td/div/strong");
             String items = getElement(tooltipElement.getAttribute(ORIGINAL_TITLE_ATTRIBUTE), "/table/tr/td/div/text()[preceding-sibling::br]");
             String [] counts = items.split(" ");
@@ -137,9 +113,9 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
         List<String> users = new ArrayList<String>();
         for (WebElement pieChartSlice : pieChartSlices)
         {
-            drone.mouseOver(pieChartSlice);
-            drone.mouseOver(pieChartSlice);
-            WebElement tooltipElement = drone.findAndWait(By.cssSelector(TOOLTIP_DATA));
+            mouseOver(pieChartSlice);
+            mouseOver(pieChartSlice);
+            WebElement tooltipElement = findAndWait(By.cssSelector(TOOLTIP_DATA));
             String user = getElement(tooltipElement.getAttribute(ORIGINAL_TITLE_ATTRIBUTE), "/table/tr/td/div/strong");
             users.add(user);
         }   
@@ -158,7 +134,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
         List<WebElement> pieChartSlices = new ArrayList<WebElement>();
         try
         {
-            pieChartSlices = drone.findAll(By.cssSelector(PIE_CHART_SLICES));
+            pieChartSlices = driver.findElements(By.cssSelector(PIE_CHART_SLICES));
 
         }
         catch (NoSuchElementException nse)
@@ -183,7 +159,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
         }
         try
         {
-            WebElement input = drone.findAndWait(By.cssSelector(FROM_DATE_INPUT_FIELD));
+            WebElement input = findAndWait(By.cssSelector(FROM_DATE_INPUT_FIELD));
             input.clear();
             input.sendKeys(fromDate);
             
@@ -192,7 +168,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
                 logger.trace("From date entered: " + fromDate);
             }
             
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException nse)
         {
@@ -214,14 +190,14 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
         }
         try
         {
-            WebElement input = drone.findAndWait(By.cssSelector(TO_DATE_INPUT_FIELD));
+            WebElement input = findAndWait(By.cssSelector(TO_DATE_INPUT_FIELD));
             input.clear();
             input.sendKeys(toDate);
             if (logger.isTraceEnabled())
             {
                 logger.trace("To date entered: " + toDate);
             }
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException nse)
         {
@@ -237,7 +213,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     {
         try
         {
-            drone.findAndWait(By.cssSelector(DATE_PICKER_DROP_DOWN)).click();
+            findAndWait(By.cssSelector(DATE_PICKER_DROP_DOWN)).click();
         }
         catch (TimeoutException e)
         {
@@ -256,7 +232,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     {
         try
         {
-            drone.findAndWait(By.cssSelector(TODAY)).click();
+            findAndWait(By.cssSelector(TODAY)).click();
         }
         catch (TimeoutException e)
         {
@@ -275,7 +251,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     {
         try
         {
-            drone.findAndWait(By.cssSelector(LAST_SEVEN_DAYS)).click();
+            findAndWait(By.cssSelector(LAST_SEVEN_DAYS)).click();
         }
         catch (TimeoutException e)
         {
@@ -293,7 +269,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     {
         try
         {
-            drone.findAndWait(By.cssSelector(LAST_THIRTY_DAYS)).click();
+            findAndWait(By.cssSelector(LAST_THIRTY_DAYS)).click();
         }
         catch (TimeoutException e)
         {
@@ -312,7 +288,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     {
         try
         {
-            drone.findAndWait(By.cssSelector(PAST_YEAR)).click();
+            findAndWait(By.cssSelector(PAST_YEAR)).click();
         }
         catch (TimeoutException e)
         {
@@ -331,7 +307,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     {
         try
         {
-            drone.findAndWait(By.cssSelector(DATE_RANGE)).click();
+            findAndWait(By.cssSelector(DATE_RANGE)).click();
         }
         catch (TimeoutException e)
         {
@@ -383,7 +359,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
             {
                 logger.trace("To date entered: " + toDate);
             }
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException nse)
         {
@@ -402,7 +378,7 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
     {
         try
         {
-            List<WebElement> elements = drone.findDisplayedElements(By.cssSelector(DATE_INPUT_FIELDS));
+            List<WebElement> elements = findDisplayedElements(By.cssSelector(DATE_INPUT_FIELDS));
             return elements;
         }
         catch (NoSuchElementException nse)
@@ -411,5 +387,11 @@ public class TopSiteContributorDashlet extends AbstractDashlet implements Dashle
             throw new PageException("Unable to find date input fields.", nse);
             
         }
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public TopSiteContributorDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

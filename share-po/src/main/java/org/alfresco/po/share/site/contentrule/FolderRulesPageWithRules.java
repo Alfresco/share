@@ -1,14 +1,27 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.contentrule;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
-import org.alfresco.po.share.site.contentrule.createrules.CreateRulePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -36,11 +49,6 @@ public class FolderRulesPageWithRules extends FolderRulesPage
     // Delete and Cancel button has same css.
     private static final By ALERT_DELETE_OK = By.xpath("//button[text()='Delete']");
 
-    protected FolderRulesPageWithRules(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public FolderRulesPageWithRules render(RenderTime timer)
@@ -56,25 +64,18 @@ public class FolderRulesPageWithRules extends FolderRulesPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public FolderRulesPageWithRules render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     private boolean isRuleDetailsDisplay()
     {
-        if (drone.find(RULE_DETAILS_BLOCK).isDisplayed() && drone.find(EDIT_BUTTON).isDisplayed() && drone.find(DELETE_BUTTON).isDisplayed())
+        if (driver.findElement(RULE_DETAILS_BLOCK).isDisplayed() && driver.findElement(EDIT_BUTTON).isDisplayed() && driver.findElement(DELETE_BUTTON).isDisplayed())
         {
             return true;
         }
         return false;
     }
 
-    public <T extends FolderRulesPage> T deleteRule(String ruleName)
+    public HtmlPage deleteRule(String ruleName)
     {
-        List<WebElement> ruleItems = drone.findAndWaitForElements(RULE_ITEMS);
+        List<WebElement> ruleItems = findAndWaitForElements(RULE_ITEMS);
         for (WebElement ruleItem : ruleItems)
         {
             if (ruleItem.getText().contains(ruleName))
@@ -82,29 +83,29 @@ public class FolderRulesPageWithRules extends FolderRulesPage
                 ruleItem.click();
                 render(new RenderTime(maxPageLoadingTime));
                 click(DELETE_BUTTON);
-                drone.findAndWait(ALERT_DELETE_BLOCK).findElement(ALERT_DELETE_OK).click();
-                return drone.getCurrentPage().render();
+                findAndWait(ALERT_DELETE_BLOCK).findElement(ALERT_DELETE_OK).click();
+                return getCurrentPage();
             }
         }
         throw new PageOperationException("Rule with name:" + ruleName + " not found on Page");
     }
 
-    public CreateRulePage clickNewRuleButton()
+    public HtmlPage clickNewRuleButton()
     {
         click(NEW_RULE_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
-    public CreateRulePage clickEditButton()
+    public HtmlPage clickEditButton()
     {
         click(EDIT_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     private void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
-        drone.mouseOver(element);
+        WebElement element = findAndWait(locator);
+        mouseOver(element);
         element.click();
     }
 
@@ -127,7 +128,7 @@ public class FolderRulesPageWithRules extends FolderRulesPage
         {
             String inheritedFolderXpath = String.format("//a[contains(text(),'%s')]/following-sibling::a[@class='inherited-folder']", ruleName);
 
-            return drone.findAndWait(By.xpath(inheritedFolderXpath)).getText();
+            return findAndWait(By.xpath(inheritedFolderXpath)).getText();
         }
         catch (NoSuchElementException e)
         {
@@ -142,7 +143,7 @@ public class FolderRulesPageWithRules extends FolderRulesPage
      */
     public boolean isRuleNameDisplayed(String ruleName)
     {
-        List<WebElement> ruleItems = drone.findAndWaitForElements(RULE_ITEMS);
+        List<WebElement> ruleItems = findAndWaitForElements(RULE_ITEMS);
         for (WebElement ruleItem : ruleItems)
         {
             if (ruleItem.getText().contains(ruleName))

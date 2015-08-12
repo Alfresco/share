@@ -14,23 +14,29 @@
  */
 package org.alfresco.po.share.workflow;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.*;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.SharePage;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Assignment page is to select the cloud reviewer in the workflow start form.
@@ -79,15 +85,6 @@ public class AssignmentPage extends SharePage
     private final RenderElement cancelButtonElement = new RenderElement(CANCEL_BUTTON, ElementState.PRESENT);
     private final RenderElement closeButtonElement = getVisibleRenderElement(CLOSE_BUTTON);
 
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public AssignmentPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -102,13 +99,6 @@ public class AssignmentPage extends SharePage
     public AssignmentPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public AssignmentPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -176,7 +166,7 @@ public class AssignmentPage extends SharePage
 
             if (webElement.findElement(By.cssSelector(".item-name")).getText().toLowerCase().contains(userName))
             {
-                drone.mouseOver(webElement.findElement(SELECT_CLOUD_REVIEWER));
+                mouseOver(webElement.findElement(SELECT_CLOUD_REVIEWER));
                 webElement.findElement(SELECT_CLOUD_REVIEWER).click();
                 if (!isUserSelected(userName))
                 {
@@ -206,7 +196,7 @@ public class AssignmentPage extends SharePage
     {
         selectUsers(userNames);
         selectOKButton();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -244,8 +234,8 @@ public class AssignmentPage extends SharePage
         try
         {
             searchForUser(userName);
-            drone.waitForElement(LIST_CLOUD_REVIEWER, SECONDS.convert(drone.getDefaultWaitTime(), MILLISECONDS));
-            return drone.findAndWaitForElements(LIST_CLOUD_REVIEWER);
+            waitForElement(LIST_CLOUD_REVIEWER, SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
+            return findAndWaitForElements(LIST_CLOUD_REVIEWER);
         }
         catch (TimeoutException toe)
         {
@@ -272,12 +262,12 @@ public class AssignmentPage extends SharePage
             selectSearchButton();
             try
             {
-                drone.waitForElement(By.id("AlfrescoWebdronez1"), SECONDS.convert(LOADING_WAIT_TIME, MILLISECONDS));
+                waitForElement(By.id("AlfrescoWebdriverz1"), SECONDS.convert(LOADING_WAIT_TIME, MILLISECONDS));
             }
             catch (TimeoutException e)
             {
             }
-            // drone.waitFor(LOADING_WAIT_TIME);
+            // driver.waitFor(LOADING_WAIT_TIME);
         }
         catch (NoSuchElementException nse)
         {
@@ -304,7 +294,7 @@ public class AssignmentPage extends SharePage
         try
         {
             searchForUser(userName);
-            WebElement message = drone.find(By.cssSelector("div[id$='ssignment-cntrl-picker-left']>div[id$='-cntrl-picker-results']>table>tbody.yui-dt-message>tr div, div[id$='_assignee-cntrl-picker-left']>div[id$='-cntrl-picker-results']>table>tbody.yui-dt-message>tr div"));
+            WebElement message = driver.findElement(By.cssSelector("div[id$='ssignment-cntrl-picker-left']>div[id$='-cntrl-picker-results']>table>tbody.yui-dt-message>tr div, div[id$='_assignee-cntrl-picker-left']>div[id$='-cntrl-picker-results']>table>tbody.yui-dt-message>tr div"));
             return message.isDisplayed() && message.getText().equals("No items found");
         }
         catch (NoSuchElementException nse)
@@ -351,7 +341,7 @@ public class AssignmentPage extends SharePage
     {
         try
         {
-            return (drone.find(ENTER_A_SEARCH_TERM_MESSAGE).isDisplayed() && drone.find(ENTER_A_SEARCH_TERM_MESSAGE).getText().equals("Enter a search term"));
+            return (driver.findElement(ENTER_A_SEARCH_TERM_MESSAGE).isDisplayed() && driver.findElement(ENTER_A_SEARCH_TERM_MESSAGE).getText().equals("Enter a search term"));
         }
         catch (NoSuchElementException nse)
         {
@@ -366,7 +356,7 @@ public class AssignmentPage extends SharePage
     {
         try
         {
-            drone.findFirstDisplayedElement(SEARCH_TEXT).clear();
+            findFirstDisplayedElement(SEARCH_TEXT).clear();
         }
         catch (NoSuchElementException nse)
         {
@@ -403,7 +393,7 @@ public class AssignmentPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(WARNING_MESSAGE).getText();
+            return findAndWait(WARNING_MESSAGE).getText();
         }
         catch (TimeoutException te)
         {
@@ -424,7 +414,7 @@ public class AssignmentPage extends SharePage
     {
         try
         {
-            WebElement el = drone.findAndWait(By.cssSelector("div[id$='ssignee-cntrl-picker-results'] tbody[class$='message'] div"));
+            WebElement el = findAndWait(By.cssSelector("div[id$='ssignee-cntrl-picker-results'] tbody[class$='message'] div"));
             String s = el.getText();
             return s;
         }
@@ -470,7 +460,7 @@ public class AssignmentPage extends SharePage
         {
             if (webElement.findElement(By.cssSelector(".item-name")).getText().contains("(" + userName + ")"))
             {
-                isDisplayed = drone.find(SELECT_CLOUD_REVIEWER).isDisplayed();
+                isDisplayed = driver.findElement(SELECT_CLOUD_REVIEWER).isDisplayed();
                 break;
             }
         }
@@ -486,7 +476,7 @@ public class AssignmentPage extends SharePage
     {
         try
         {
-            return drone.findAll(SELECTED_USERS);
+            return driver.findElements(SELECTED_USERS);
         }
         catch (NoSuchElementException nse)
         {
@@ -542,7 +532,7 @@ public class AssignmentPage extends SharePage
         {
             if (user.findElement(By.cssSelector("h3.name")).getText().contains("(" + userName + ")"))
             {
-                drone.mouseOver(user.findElement(By.cssSelector("a.remove-item")));
+                mouseOver(user.findElement(By.cssSelector("a.remove-item")));
                 user.findElement(By.cssSelector("a.remove-item")).click();
 
                 if (isUserSelected(userName))
@@ -586,7 +576,7 @@ public class AssignmentPage extends SharePage
     {
         try
         {
-            drone.find(CLOSE_BUTTON).click();
+            driver.findElement(CLOSE_BUTTON).click();
         }
         catch (NoSuchElementException nse)
         {

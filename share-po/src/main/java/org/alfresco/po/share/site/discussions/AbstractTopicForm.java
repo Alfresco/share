@@ -1,12 +1,29 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.discussions;
 
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Abstract of Topic form
@@ -29,10 +46,6 @@ public abstract class AbstractTopicForm extends SharePage
     protected static final By ADD_TAG_BUTTON = By.cssSelector("#template_x002e_createtopic_x002e_discussions-createtopic_x0023_default-add-tag-button");
     protected static final String TOPIC_TAG = "//a[@class='taglibrary-action']/span[text()='%s']";
 
-    protected AbstractTopicForm(WebDrone drone)
-    {
-        super(drone);
-    }
 
     public AbstractTopicForm render()
     {
@@ -53,7 +66,7 @@ public abstract class AbstractTopicForm extends SharePage
     {
         try
         {
-            return drone.findAndWait(CANCEL_BUTTON).isDisplayed();
+            return findAndWait(CANCEL_BUTTON).isDisplayed();
         }
         catch (TimeoutException toe)
         {
@@ -81,7 +94,7 @@ public abstract class AbstractTopicForm extends SharePage
     {
         try
         {
-            return drone.findAndWait(DEFAULT_CONTENT_TOOLBAR).isDisplayed();
+            return findAndWait(DEFAULT_CONTENT_TOOLBAR).isDisplayed();
         }
         catch (TimeoutException toe)
         {
@@ -100,7 +113,7 @@ public abstract class AbstractTopicForm extends SharePage
     {
         try
         {
-            return drone.findAndWait(FORM_TITLE).getText();
+            return findAndWait(FORM_TITLE).getText();
         }
         catch (NoSuchElementException e)
         {
@@ -136,28 +149,8 @@ public abstract class AbstractTopicForm extends SharePage
      */
     protected void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
-    }
-
-    /**
-     * Method to check if the element is displayed
-     *
-     * @param locator By
-     * @return boolean
-     */
-
-    protected boolean isDisplayed(By locator)
-    {
-        try
-        {
-            return drone.findAndWait(locator, 2000).isDisplayed();
-        }
-        catch (TimeoutException e)
-        {
-            logger.error("The " + locator + " isn't displayed");
-        }
-        return false;
     }
 
     /**
@@ -167,7 +160,7 @@ public abstract class AbstractTopicForm extends SharePage
      */
     public void setTitleField(final String title)
     {
-        setInput(drone.findAndWait(TITLE_FIELD), title);
+        setInput(findAndWait(TITLE_FIELD), title);
     }
 
     /**
@@ -180,7 +173,7 @@ public abstract class AbstractTopicForm extends SharePage
         try
         {
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", txtLines);
-            drone.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
         }
         catch (TimeoutException toe)
         {
@@ -193,7 +186,7 @@ public abstract class AbstractTopicForm extends SharePage
      */
     public void clickSave()
     {
-        WebElement saveButton = drone.findAndWait(SAVE_BUTTON);
+        WebElement saveButton = findAndWait(SAVE_BUTTON);
         try
         {
             saveButton.click();
@@ -213,10 +206,10 @@ public abstract class AbstractTopicForm extends SharePage
     {
         try
         {
-            WebElement tagField = drone.findAndWait(TAG_INPUT);
+            WebElement tagField = findAndWait(TAG_INPUT);
             tagField.clear();
             tagField.sendKeys(tag);
-            drone.find(ADD_TAG_BUTTON).click();
+            driver.findElement(ADD_TAG_BUTTON).click();
         }
         catch (NoSuchElementException e)
         {
@@ -236,9 +229,9 @@ public abstract class AbstractTopicForm extends SharePage
         WebElement element;
         try
         {
-            element = drone.findAndWait(By.xpath(tagXpath));
+            element = findAndWait(By.xpath(tagXpath));
             element.click();
-            drone.waitUntilElementDisappears(By.xpath(tagXpath), 3000);
+            waitUntilElementDisappears(By.xpath(tagXpath), 3000);
         }
         catch (NoSuchElementException e)
         {

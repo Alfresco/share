@@ -1,11 +1,24 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.calendar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -26,10 +39,6 @@ public class AbstractCalendarContainer extends AbstractEventForm
     private final static String PREVIOUS_MONTH_BUTTON = "//table[@id='buttoncalendar']//a[@class='calnavleft']";
     private final static String CURRENT_MONTH = "//table[@id='buttoncalendar']//div[@class='calheader']";
 
-    protected AbstractCalendarContainer(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -45,13 +54,6 @@ public class AbstractCalendarContainer extends AbstractEventForm
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AbstractCalendarContainer render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to click on any element by its locator
      * 
@@ -59,7 +61,7 @@ public class AbstractCalendarContainer extends AbstractEventForm
      */
     public void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
@@ -73,7 +75,7 @@ public class AbstractCalendarContainer extends AbstractEventForm
     {
         try
         {
-            return drone.findAndWait(locator, 2000).isDisplayed();
+            return findAndWait(locator, 2000).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -96,7 +98,7 @@ public class AbstractCalendarContainer extends AbstractEventForm
         try
         {
             String dateXpath = String.format(DATE_BUTTON, date);
-            WebElement element = drone.findAndWait(By.xpath(dateXpath));
+            WebElement element = findAndWait(By.xpath(dateXpath));
             element.click();
         }
         catch (TimeoutException te)
@@ -136,7 +138,7 @@ public class AbstractCalendarContainer extends AbstractEventForm
 
                 for (int i = 0; i < Math.abs(count); i++)
                 {
-                    WebElement buttonToClick = drone.findAndWait(By.xpath(buttonToClickXpath));
+                    WebElement buttonToClick = findAndWait(By.xpath(buttonToClickXpath));
                     buttonToClick.click();
 
                 }
@@ -179,7 +181,7 @@ public class AbstractCalendarContainer extends AbstractEventForm
 
                 for (int i = 0; i < Math.abs(count) * 12; i++)
                 {
-                    WebElement buttonToClick = drone.findAndWait(By.xpath(buttonToClickXpath));
+                    WebElement buttonToClick = findAndWait(By.xpath(buttonToClickXpath));
                     buttonToClick.click();
 
                 }
@@ -204,7 +206,7 @@ public class AbstractCalendarContainer extends AbstractEventForm
 
         try
         {
-            WebElement monthElem = drone.findAndWait(By.xpath(CURRENT_MONTH));
+            WebElement monthElem = findAndWait(By.xpath(CURRENT_MONTH));
             String value = monthElem.getText();
 
             return value.split("\n")[1].split(" ")[0];
@@ -223,7 +225,7 @@ public class AbstractCalendarContainer extends AbstractEventForm
 
         try
         {
-            WebElement monthElem = drone.findAndWait(By.xpath(CURRENT_MONTH));
+            WebElement monthElem = findAndWait(By.xpath(CURRENT_MONTH));
             String value = monthElem.getText();
 
             return value.split("\n")[1].split(" ")[1];

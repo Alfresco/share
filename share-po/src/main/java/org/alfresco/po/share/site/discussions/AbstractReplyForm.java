@@ -1,14 +1,29 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.discussions;
 
+import org.alfresco.po.PageElement;
+import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.site.document.TinyMceEditor;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -18,22 +33,14 @@ import org.openqa.selenium.WebElement;
  * @author Marina Nenadovets
  */
 @SuppressWarnings("unused")
-public abstract class AbstractReplyForm extends HtmlElement
+public abstract class AbstractReplyForm extends PageElement
 {
     private Log logger = LogFactory.getLog(this.getClass());
 
-    private final TinyMceEditor tinyMceEditor;
+    private TinyMceEditor tinyMceEditor;
     private static final By SUBMIT_BTN = By.cssSelector("span[class~='yui-submit-button']");
     private static final By CANCEL_BTN = By.cssSelector("span[class~='yui-push-button']");
 
-    /*
-     * Constructor
-     */
-    protected AbstractReplyForm(WebDrone drone)
-    {
-        super(drone);
-        tinyMceEditor = new TinyMceEditor(drone);
-    }
 
     public TinyMceEditor getTinyMceEditor()
     {
@@ -42,7 +49,7 @@ public abstract class AbstractReplyForm extends HtmlElement
 
     protected void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
@@ -55,8 +62,7 @@ public abstract class AbstractReplyForm extends HtmlElement
     {
         try
         {
-            TinyMceEditor tinyMceEditor = new TinyMceEditor(drone);
-            drone.waitUntilElementClickable(SUBMIT_BTN, 300000);
+            waitUntilElementClickable(SUBMIT_BTN, getDefaultWaitTime());
             tinyMceEditor.setText(txtLines);
         }
         catch (TimeoutException toe)
@@ -74,8 +80,8 @@ public abstract class AbstractReplyForm extends HtmlElement
     {
         try
         {
-            drone.findAndWait(SUBMIT_BTN).click();
-            return new TopicViewPage(drone).waitUntilAlert().render();
+            findAndWait(SUBMIT_BTN).click();
+            return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
         }
         catch (NoSuchElementException nse)
         {

@@ -17,19 +17,16 @@ package org.alfresco.po.share.workflow;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.site.CreateNewFolderInCloudPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -72,15 +69,6 @@ public class DestinationAndAssigneePage extends SharePage
 
     private static final long FOLDER_LOAD_TIME = 2000;
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public DestinationAndAssigneePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -98,13 +86,6 @@ public class DestinationAndAssigneePage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public DestinationAndAssigneePage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to select the siteName
      * 
@@ -118,7 +99,7 @@ public class DestinationAndAssigneePage extends SharePage
         }
         try
         {
-            List<WebElement> availableElements = drone.findAndWaitForElements(SITE_ELEMENTS);
+            List<WebElement> availableElements = findAndWaitForElements(SITE_ELEMENTS);
             if (!CollectionUtils.isEmpty(availableElements))
             {
                 for (WebElement webElement : availableElements)
@@ -135,17 +116,17 @@ public class DestinationAndAssigneePage extends SharePage
                         {
                             logger.trace("Site " + siteName + " selected");
                         }
-                        // drone.waitUntilElementDeletedFromDom(By.cssSelector("div[id$='default-cloud-folder-treeview'] td[class='ygtvcell ygtvloading']"),
+                        // waitUntilElementDeletedFromDom(By.cssSelector("div[id$='default-cloud-folder-treeview'] td[class='ygtvcell ygtvloading']"),
                         // SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                        // drone.waitForElement(FOLDER_LABELS, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        // waitForElement(FOLDER_LABELS, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                         try
                         {
-                            drone.waitForElement(By.id("AlfrescoWebdronez1"), SECONDS.convert(FOLDER_LOAD_TIME, MILLISECONDS));
+                            waitForElement(By.id("AlfrescoWebdriverz1"), SECONDS.convert(FOLDER_LOAD_TIME, MILLISECONDS));
                         }
                         catch (TimeoutException e)
                         {
                         }
-                        // drone.waitFor(FOLDER_LOAD_TIME);
+                        // driver.waitFor(FOLDER_LOAD_TIME);
                         return;
                     }
                 }
@@ -163,7 +144,7 @@ public class DestinationAndAssigneePage extends SharePage
      */
     public String getSyncToCloudTitle()
     {
-        return drone.find(By.cssSelector("div[id$='-cloud-folder-title']")).getText();
+        return driver.findElement(By.cssSelector("div[id$='-cloud-folder-title']")).getText();
     }
 
     /**
@@ -215,10 +196,10 @@ public class DestinationAndAssigneePage extends SharePage
      */
     private List<WebElement> getFoldersList()
     {
-        List<WebElement> webElements = drone.findAndWaitForElements(FOLDER_LABELS);
+        List<WebElement> webElements = findAndWaitForElements(FOLDER_LABELS);
         try
         {
-            webElements.addAll(drone.findAll(By.cssSelector("div[id$='default-cloud-folder-treeview'] .no-permission")));
+            webElements.addAll(driver.findElements(By.cssSelector("div[id$='default-cloud-folder-treeview'] .no-permission")));
         }
         catch (NoSuchElementException nse)
         {
@@ -240,7 +221,7 @@ public class DestinationAndAssigneePage extends SharePage
         }
         try
         {
-            List<WebElement> availableSites = drone.findAndWaitForElements(SITE_ELEMENTS);
+            List<WebElement> availableSites = findAndWaitForElements(SITE_ELEMENTS);
             if (availableSites != null && !availableSites.isEmpty())
             {
                 for (WebElement site : availableSites)
@@ -273,7 +254,7 @@ public class DestinationAndAssigneePage extends SharePage
         }
         try
         {
-            List<WebElement> availableNetworks = drone.findAndWaitForElements(NETWORK);
+            List<WebElement> availableNetworks = findAndWaitForElements(NETWORK);
             if (availableNetworks != null && !availableNetworks.isEmpty())
             {
                 for (WebElement network : availableNetworks)
@@ -347,7 +328,7 @@ public class DestinationAndAssigneePage extends SharePage
         List<WebElement> availableNetworks = null;
         try
         {
-            availableNetworks = drone.findAndWaitForElements(NETWORK);
+            availableNetworks = findAndWaitForElements(NETWORK);
         }
         catch (TimeoutException exception)
         {
@@ -359,7 +340,7 @@ public class DestinationAndAssigneePage extends SharePage
                 if (network.equals(webElement.getText()))
                 {
                     webElement.click();
-                    drone.waitUntilElementClickable(SITE_ELEMENTS, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                    waitUntilElementClickable(SITE_ELEMENTS, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                     return;
                 }
             }
@@ -374,7 +355,7 @@ public class DestinationAndAssigneePage extends SharePage
     {
         try
         {
-            drone.findAndWait(INCLUDE_SUB_FOLDER).click();
+            findAndWait(INCLUDE_SUB_FOLDER).click();
         }
         catch (TimeoutException toe)
         {
@@ -389,7 +370,7 @@ public class DestinationAndAssigneePage extends SharePage
     {
         try
         {
-            return drone.findAndWait(INCLUDE_SUB_FOLDER).isSelected();
+            return findAndWait(INCLUDE_SUB_FOLDER).isSelected();
         }
         catch (TimeoutException toe)
         {
@@ -408,7 +389,7 @@ public class DestinationAndAssigneePage extends SharePage
     {
         try
         {
-            drone.findAndWait(LOCK_ON_PREM).click();
+            findAndWait(LOCK_ON_PREM).click();
         }
         catch (TimeoutException toe)
         {
@@ -425,7 +406,7 @@ public class DestinationAndAssigneePage extends SharePage
     {
         try
         {
-            return drone.findAndWait(LOCK_ON_PREM).isSelected();
+            return findAndWait(LOCK_ON_PREM).isSelected();
         }
         catch (TimeoutException toe)
         {
@@ -473,18 +454,18 @@ public class DestinationAndAssigneePage extends SharePage
 
                     if (folderPath.length > 1)
                     {
-                        // drone.waitUntilElementDeletedFromDom(By.cssSelector("div[id$='default-cloud-folder-treeview'] td[class='ygtvcell ygtvloading']"),
+                        // waitUntilElementDeletedFromDom(By.cssSelector("div[id$='default-cloud-folder-treeview'] td[class='ygtvcell ygtvloading']"),
                         // SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                        // drone.waitForElement(By.cssSelector("div[id$='default-cloud-folder-treeview'] td[class^='ygtvcell']>a.ygtvspacer"),
+                        // waitForElement(By.cssSelector("div[id$='default-cloud-folder-treeview'] td[class^='ygtvcell']>a.ygtvspacer"),
                         // SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                         try
                         {
-                            drone.waitForElement(By.id("AlfrescoWebdronez1"), SECONDS.convert(WAIT_TIME_3000, MILLISECONDS));
+                            waitForElement(By.id("AlfrescoWebdriverz1"), SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
                         }
                         catch (TimeoutException e)
                         {
                         }
-                        // drone.waitFor(FOLDER_LOAD_TIME);
+                        // driver.waitFor(FOLDER_LOAD_TIME);
                     }
 
                     break;
@@ -502,22 +483,22 @@ public class DestinationAndAssigneePage extends SharePage
     {
         try
         {
-            WebElement syncButton = drone.findAndWait(SUBMIT_SYNC_BUTTON);
+            WebElement syncButton = findAndWait(SUBMIT_SYNC_BUTTON);
             if (!syncButton.isEnabled())
             {
                 throw new PageOperationException("Sync Button is disabled");
             }
             String saveButtonId = syncButton.getAttribute("id");
             syncButton.click();
-            drone.waitUntilElementDisappears(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            waitUntilElementDisappears(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
 
-            if (!drone.getCurrentUrl().contains("workflow"))
+            if (!driver.getCurrentUrl().contains("workflow"))
             {
-                drone.waitUntilElementPresent(By.cssSelector("div#message>div.bd>span"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                drone.waitUntilElementDeletedFromDom(By.cssSelector("div#message>div.bd>span"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                waitUntilElementPresent(By.cssSelector("div#message>div.bd>span"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                waitUntilElementDeletedFromDom(By.cssSelector("div#message>div.bd>span"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             }
 
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException toe)
         {
@@ -535,7 +516,7 @@ public class DestinationAndAssigneePage extends SharePage
         try
         {
 
-            drone.findAndWait(SUBMIT_SYNC_BUTTON).click();
+            findAndWait(SUBMIT_SYNC_BUTTON).click();
 
         }
         catch (TimeoutException toe)
@@ -552,11 +533,11 @@ public class DestinationAndAssigneePage extends SharePage
     {
         try
         {
-            WebElement cancelButton = drone.findAndWait(BUTTON_CANCEL);
+            WebElement cancelButton = findAndWait(BUTTON_CANCEL);
             String id = cancelButton.getAttribute("id");
             cancelButton.click();
-            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (TimeoutException toe)
         {
@@ -569,37 +550,17 @@ public class DestinationAndAssigneePage extends SharePage
     }
 
     /**
-     * @return CreateNewFolderInCloudPage
-     */
-    public CreateNewFolderInCloudPage selectCreateNewFolder()
-    {
-        try
-        {
-            drone.find(CREATE_NEW_FOLDER_ICON).click();
-            return new CreateNewFolderInCloudPage(drone);
-        }
-        catch (NoSuchElementException nse)
-        {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Unable to find \"Create New Folder\" element", nse);
-            }
-        }
-        throw new PageException("Unable to find \"Create New Folder\" element");
-    }
-
-    /**
      * Select close button on pop up to cancel cloud sync data selection.
      */
     public HtmlPage selectCloseButton()
     {
         try
         {
-            WebElement cancelButton = drone.find(CLOSE_BUTTON);
+            WebElement cancelButton = driver.findElement(CLOSE_BUTTON);
             String id = cancelButton.getAttribute("id");
             cancelButton.click();
-            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -620,7 +581,7 @@ public class DestinationAndAssigneePage extends SharePage
     {
         try
         {
-            return drone.find(SUBMIT_SYNC_BUTTON).isEnabled();
+            return driver.findElement(SUBMIT_SYNC_BUTTON).isEnabled();
         }
         catch (NoSuchElementException nse)
         {

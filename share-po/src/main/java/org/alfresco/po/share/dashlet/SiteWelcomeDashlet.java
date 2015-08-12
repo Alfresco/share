@@ -14,21 +14,20 @@
  */
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.dynamic-welcome")
 /**
  * Site Welcome dashlet object, holds all element of the HTML relating to site welcome dashlet.
  *
@@ -43,16 +42,7 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
     private static final String OPTIONS_CSS_LOCATION = ".welcome-details-column-info>a";
     private static Log logger = LogFactory.getLog(SiteWelcomeDashlet.class);
 
-    /**
-     * Constructor.
-     */
-    protected SiteWelcomeDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
-    }
-
     @SuppressWarnings("unchecked")
-    @Override
     public SiteWelcomeDashlet render(RenderTime timer)
     {
         try
@@ -60,7 +50,7 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
             while (true)
             {
                 timer.start();
-                synchronized (this)
+                synchronized(this)
                 {
                     try
                     {
@@ -74,7 +64,7 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
-                    dashlet = drone.find(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
+                    dashlet = driver.findElement(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
                     if (logger.isTraceEnabled())
                     {
                         logger.trace("== found it == " + dashlet.isDisplayed());
@@ -103,42 +93,28 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteWelcomeDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteWelcomeDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
     /**
      * Find Welcome Dashlet remove button and close the dashlet.
      *
      * @return {@link HtmlPage} page response
      */
-    public synchronized HtmlPage removeDashlet()
+    public HtmlPage removeDashlet()
     {
         WebElement removeElement = dashlet.findElement(By.cssSelector(REMOVE_WELCOME_DASHLET));
         removeElement.click();
         confirmRemoval();
-        return new SiteDashboardPage(drone);
+        return getCurrentPage();
     }
 
     /**
      * Final step to confirm delete dialog acceptance action.
      */
-    protected synchronized void confirmRemoval()
+    protected  void confirmRemoval()
     {
-        WebElement prompt = drone.findAndWaitById(PROMPT_PANEL_ID);
+        WebElement prompt = findAndWaitById(PROMPT_PANEL_ID);
         List<WebElement> elements = prompt.findElements(By.tagName("button"));
         // Find the delete button in the prompt
-        WebElement button = findButton("Yes", elements);
+        WebElement button = elements.get(0);
         button.click();
         if (logger.isTraceEnabled())
         {
@@ -151,7 +127,7 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
      *
      * @return {@link List}<ShareLink> site links
      */
-    public synchronized List<ShareLink> getOptions()
+    public  List<ShareLink> getOptions()
     {
         return getList(OPTIONS_CSS_LOCATION);
     }
@@ -165,7 +141,7 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER)).isDisplayed();
+            return driver.findElement(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER)).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -174,5 +150,11 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
         {
         }
         return false;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteWelcomeDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

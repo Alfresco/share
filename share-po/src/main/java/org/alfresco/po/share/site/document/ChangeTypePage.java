@@ -17,12 +17,10 @@ package org.alfresco.po.share.site.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -42,23 +40,11 @@ public class ChangeTypePage extends ShareDialogue
     private static final By CANCEL_BUTTON = By.cssSelector("div[style^='visibility: visible;'] form button[id$='-cancel-button']");
     protected static final By OK_BUTTON = By.cssSelector("div[style^='visibility: visible;'] form button[id$='-ok-button']");
 
-    public ChangeTypePage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public ChangeTypePage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ChangeTypePage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -84,7 +70,7 @@ public class ChangeTypePage extends ShareDialogue
     {
         try
         {
-            return drone.find(TYPE_DROPDOWN).isDisplayed();
+            return driver.findElement(TYPE_DROPDOWN).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -97,7 +83,7 @@ public class ChangeTypePage extends ShareDialogue
      */
     public List<String> getTypes()
     {
-        List<WebElement> typeOptions = drone.findAll(By.cssSelector("div[style^='visibility: visible;'] form select option"));
+        List<WebElement> typeOptions = driver.findElements(By.cssSelector("div[style^='visibility: visible;'] form select option"));
         List<String> typesList = new ArrayList<String>();
         for (WebElement webElement : typeOptions)
         {
@@ -113,8 +99,8 @@ public class ChangeTypePage extends ShareDialogue
      */
     public HtmlPage selectCancel()
     {
-        drone.find(CANCEL_BUTTON).click();
-        return new FolderDetailsPage(drone);
+        driver.findElement(CANCEL_BUTTON).click();
+        return getCurrentPage();
     }
 
     public void selectChangeType(final String changeType)
@@ -123,7 +109,7 @@ public class ChangeTypePage extends ShareDialogue
         {
             throw new UnsupportedOperationException("Search term is required to perform a search");
         }
-        WebElement dropDown = drone.find(TYPE_DROPDOWN);
+        WebElement dropDown = driver.findElement(TYPE_DROPDOWN);
         Select select = new Select(dropDown);
         select.selectByVisibleText(changeType);
     }
@@ -135,9 +121,8 @@ public class ChangeTypePage extends ShareDialogue
      */
     public HtmlPage selectSave()
     {
-        drone.find(OK_BUTTON).click();
-        waitUntilAlert();
-        return drone.getCurrentPage().render();
+        driver.findElement(OK_BUTTON).click();
+        return getCurrentPage();
     }
 
 }

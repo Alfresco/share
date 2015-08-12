@@ -14,24 +14,26 @@
  */
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.enums.UserRole;
+import org.alfresco.po.share.exception.ShareException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author nshah
@@ -49,13 +51,6 @@ public class SiteGroupsPage extends SharePage
     private static final String ROLES_DROP_DOWN_VALUES_CSS_PART_2 = "']>div[class*='yui-menu-button-menu']>div>ul>li";
     private static final String ROLES_DROP_DOWN_BUTTON_CSS_PART_1 = "span[id$='";
     private static final String ROLES_DROP_DOWN_BUTTON_CSS_PART_2 = "']>span[class$='menu-button']>span>button";
-    private AlfrescoVersion alfrescoVersion;
-
-    public SiteGroupsPage(WebDrone drone)
-    {
-        super(drone);
-        alfrescoVersion = drone.getProperties().getVersion();
-    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -74,14 +69,6 @@ public class SiteGroupsPage extends SharePage
         }
 
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteGroupsPage render(long time)
-    {
-
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -116,8 +103,8 @@ public class SiteGroupsPage extends SharePage
     {
         try
         {
-            drone.find(By.cssSelector(ADD_GROUPS)).click();
-            return new AddGroupsPage(drone);
+            driver.findElement(By.cssSelector(ADD_GROUPS)).click();
+            return factoryPage.instantiatePage(driver, AddGroupsPage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -132,7 +119,7 @@ public class SiteGroupsPage extends SharePage
     {
         try
         {
-            if (drone.find(By.cssSelector(ADD_GROUPS)).isDisplayed())
+            if (driver.findElement(By.cssSelector(ADD_GROUPS)).isDisplayed())
             {
                 return true;
             }
@@ -153,7 +140,7 @@ public class SiteGroupsPage extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector(ADD_GROUPS)).isDisplayed();
+            return driver.findElement(By.cssSelector(ADD_GROUPS)).isDisplayed();
         }
         catch (NoSuchElementException te)
         {
@@ -169,8 +156,6 @@ public class SiteGroupsPage extends SharePage
      */
     public List<String> searchGroup(String groupName)
     {
-        if (getAlfrescoVersion().isCloud())
-            throw new UnsupportedOperationException("The version is cloud");
         if (groupName == null)
         {
             throw new UnsupportedOperationException("GroupName value is required");
@@ -181,13 +166,13 @@ public class SiteGroupsPage extends SharePage
         }
         try
         {
-            WebElement groupRoleSearchTextBox = drone.findAndWait(SEARCH_GROUP_ROLE_TEXT);
+            WebElement groupRoleSearchTextBox = findAndWait(SEARCH_GROUP_ROLE_TEXT);
             groupRoleSearchTextBox.clear();
             groupRoleSearchTextBox.sendKeys(groupName);
 
-            WebElement searchButton = drone.findAndWait(SEARCH_GROUP_ROLE_BUTTON);
+            WebElement searchButton = findAndWait(SEARCH_GROUP_ROLE_BUTTON);
             searchButton.click();
-            List<WebElement> list = drone.findAndWaitForElements(LIST_OF_GROUPS, WAIT_TIME_3000);
+            List<WebElement> list = findAndWaitForElements(LIST_OF_GROUPS, getDefaultWaitTime());
             List<String> groupNamesList = new ArrayList<String>();
             for (WebElement group : list)
             {
@@ -228,19 +213,12 @@ public class SiteGroupsPage extends SharePage
         {
             logger.trace("Members Page: Returning the roles list");
         }
-
         List<WebElement> listOfRoles = new ArrayList<WebElement>();
         String name = groupName.trim();
-
-        if (getAlfrescoVersion().isCloud())
-        {
-            throw new UnsupportedOperationException("Alfresco version is Cloud");
-        }
-
         try
         {
-            drone.findAndWait(By.cssSelector(ROLES_DROP_DOWN_BUTTON_CSS_PART_1 + name + ROLES_DROP_DOWN_BUTTON_CSS_PART_2)).click();
-            listOfRoles = drone.findAndWaitForElements(By.cssSelector(ROLES_DROP_DOWN_VALUES_CSS_PART_1 + name + ROLES_DROP_DOWN_VALUES_CSS_PART_2));
+            findAndWait(By.cssSelector(ROLES_DROP_DOWN_BUTTON_CSS_PART_1 + name + ROLES_DROP_DOWN_BUTTON_CSS_PART_2)).click();
+            listOfRoles = findAndWaitForElements(By.cssSelector(ROLES_DROP_DOWN_VALUES_CSS_PART_1 + name + ROLES_DROP_DOWN_VALUES_CSS_PART_2));
         }
         catch (TimeoutException e)
         {
@@ -277,7 +255,7 @@ public class SiteGroupsPage extends SharePage
             if (roleText != null && userRole.getRoleName().equalsIgnoreCase(roleText))
             {
                 role.click();
-                return new SiteGroupsPage(drone);
+                return factoryPage.instantiatePage(driver, SiteGroupsPage.class);
             }
         }
         throw new PageException("Unable to find the rolename.");
@@ -294,7 +272,7 @@ public class SiteGroupsPage extends SharePage
         String name = groupName.trim();
         try
         {
-            return drone.isElementDisplayed(By.cssSelector(ROLES_DROP_DOWN_BUTTON_CSS_PART_1 + name + ROLES_DROP_DOWN_BUTTON_CSS_PART_2));
+            return isElementDisplayed(By.cssSelector(ROLES_DROP_DOWN_BUTTON_CSS_PART_1 + name + ROLES_DROP_DOWN_BUTTON_CSS_PART_2));
         }
         catch (TimeoutException te)
         {
@@ -317,7 +295,7 @@ public class SiteGroupsPage extends SharePage
         String name = groupName.trim();
         try
         {
-            return drone.isElementDisplayed(By.cssSelector(String.format("span[id$='button-GROUP_%s']>span>span>button", name)));
+            return isElementDisplayed(By.cssSelector(String.format("span[id$='button-GROUP_%s']>span>span>button", name)));
         }
         catch (TimeoutException te)
         {
@@ -336,19 +314,13 @@ public class SiteGroupsPage extends SharePage
         {
             throw new IllegalArgumentException("User Name is required.");
         }
-
-        if (alfrescoVersion.isCloud())
-        {
-            groupName = groupName.toLowerCase();
-        }
-
         try
         {
-            WebElement element = drone.findAndWait(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
+            WebElement element = findAndWait(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
             String id = element.getAttribute("id");
             element.click();
-            drone.waitUntilElementDeletedFromDom(By.id(id), maxPageLoadingTime);
-            return new SiteGroupsPage(getDrone());
+            waitUntilElementDeletedFromDom(By.id(id), maxPageLoadingTime);
+            return factoryPage.instantiatePage(driver, SiteGroupsPage.class);
         }
         catch (TimeoutException e)
         {
@@ -358,10 +330,5 @@ public class SiteGroupsPage extends SharePage
             }
         }
         throw new PageException("Group: \"" + groupName + "\" can not be found in groups list.");
-    }
-
-    protected AlfrescoVersion getAlfrescoVersion()
-    {
-        return alfrescoVersion;
     }
 }

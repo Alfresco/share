@@ -19,10 +19,10 @@
 
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -53,9 +53,9 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
      * @param drone WebDrone
      * @param element WebElement
      */
-    public InsertOrEditLinkPage(WebDrone drone, WebElement element)
+    public InsertOrEditLinkPage(WebDriver driver, WebElement element)
     {
-        super(drone, element);
+        super(driver, element);
     }
 
     /**
@@ -88,13 +88,6 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
 
     @SuppressWarnings("unchecked")
     @Override
-    public InsertOrEditLinkPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public InsertOrEditLinkPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -114,7 +107,7 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
         
         try
         {
-            drone.findAndWait(LINK_URL).sendKeys(text);
+            findAndWait(LINK_URL).sendKeys(text);
         }
         catch(TimeoutException te)
         {
@@ -137,7 +130,7 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
         
         try
         {
-            WebElement title = drone.findAndWait(TITLE);
+            WebElement title = findAndWait(TITLE);
             title.clear();
             title.sendKeys(text);
         }
@@ -180,8 +173,8 @@ public class InsertOrEditLinkPage extends BaseAdvancedTinyMceOptionsPage
     {
         try
         {
-            drone.find(by).click();
-            drone.findAndWait(By.xpath("//div[contains(@class, 'mce-stack-layout')]/div/span[contains(text(), '" + text + "')]")).click();
+            driver.findElement(by).click();
+            findAndWait(By.xpath("//div[contains(@class, 'mce-stack-layout')]/div/span[contains(text(), '" + text + "')]")).click();
         }
         catch (NoSuchElementException nse)
         {

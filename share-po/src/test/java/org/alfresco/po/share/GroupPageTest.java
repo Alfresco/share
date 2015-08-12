@@ -16,6 +16,7 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.NewGroupPage.ActionButton;
 import org.alfresco.po.share.RemoveUserFromGroupPage.Action;
 import org.alfresco.po.share.site.document.UserProfile;
@@ -44,7 +45,7 @@ public class GroupPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", enabled = false)
     public void testNewGroup() throws Exception
     {
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         NewGroupPage newGroupPage = page.navigateToNewGroupPage().render();
         page = newGroupPage.createGroup(groupName, groupName, ActionButton.CREATE_GROUP).render();
@@ -54,7 +55,7 @@ public class GroupPageTest extends AbstractTest
     @Test(groups = "Enterprise-only")
     public void testSelectGroup() throws Exception
     {
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         Assert.assertTrue(page.getGroupList().contains(siteAdmin), "Site Admin Group is present!!");
         GroupsPage groupsPage = page.selectGroup(siteAdmin).render();
@@ -65,7 +66,7 @@ public class GroupPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", dependsOnMethods = "testSelectGroup")
     public void testisGroupPresent() throws Exception
     {
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         Assert.assertTrue(page.getGroupList().contains(siteAdmin), "Site Admin Group is present!!");
 
@@ -80,7 +81,7 @@ public class GroupPageTest extends AbstractTest
         NewUserPage newPage = userPage.selectNewUser().render();
         String userinfo = "user" + System.currentTimeMillis() + "@test.com";
         newPage.createEnterpriseUserWithGroup(userinfo, userinfo, userinfo, userinfo, userinfo, siteAdmin);
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         GroupsPage groupspage = page.selectGroup(siteAdmin).render();
         Assert.assertTrue(groupspage.hasMembers(), "Group members are present");
@@ -127,7 +128,7 @@ public class GroupPageTest extends AbstractTest
         NewUserPage newPage = userPage.selectNewUser().render();
         String userinfo = "user" + System.currentTimeMillis() + "@test.com";
         newPage.createEnterpriseUserWithGroup(userinfo, userinfo, userinfo, userinfo, userinfo, siteAdmin);
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         GroupsPage groupspage = page.selectGroup(siteAdmin).render();
         RemoveUserFromGroupPage removeUserFromGroupPage = groupspage.removeUser(userinfo).render();
@@ -149,7 +150,7 @@ public class GroupPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", dependsOnMethods = "testRemoveUser")
     public void testSelectAddUser() throws Exception
     {
-        GroupsPage page = drone.getCurrentPage().render();
+        GroupsPage page = resolvePage(driver).render();
         page = page.clickBrowse().render();
         page.selectGroup(siteAdmin).render();
         AddUserGroupPage addUserPage = page.selectAddUser().render();
@@ -161,7 +162,7 @@ public class GroupPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", dependsOnMethods = "testSelectAddUser")
     public void testSelectAddGroup() throws Exception
     {
-        GroupsPage page = drone.getCurrentPage().render();
+        GroupsPage page = resolvePage(driver).render();
         page = page.clickBrowse().render();
         EditGroupPage editGroupPage = page.selectEditGroup(siteAdmin);
         editGroupPage.isDisplayNameInputPresent();
@@ -173,7 +174,7 @@ public class GroupPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", dependsOnMethods = "testSelectAddGroup")
     public void testDeleteGroup() throws Exception
     {
-        GroupsPage page = drone.getCurrentPage().render();
+        GroupsPage page = resolvePage(driver).render();
         page = page.clickBrowse();
         DeleteGroupFromGroupPage deleteGroup = page.deleteGroup(siteAdmin);
         Assert.assertTrue(deleteGroup.getTitle().equals("Delete Group"));

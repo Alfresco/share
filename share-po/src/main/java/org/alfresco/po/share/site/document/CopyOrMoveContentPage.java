@@ -16,19 +16,17 @@ package org.alfresco.po.share.site.document;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,6 +41,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author cbairaajoni
  */
+@SuppressWarnings("unchecked")
 public class CopyOrMoveContentPage extends ShareDialogue
 {
     private static Log logger = LogFactory.getLog(CopyOrMoveContentPage.class);
@@ -85,7 +84,8 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
      * @author pbrodner
      */
-    public enum DESTINATION{
+    public enum DESTINATION
+    {
     	RECENT_SITES("Recent Sites"), FAVORITE_SITES("Favorite Sites"), ALL_SITES("All Sites"), REPOSITORY("Repository"), SHARED_FILES("Shared Files"), MY_FILES("My Files");
     	private String value;
     	private DESTINATION(String value){
@@ -99,35 +99,12 @@ public class CopyOrMoveContentPage extends ShareDialogue
     		return getValue().contains("Sites");
     	}
     }
-    
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public CopyOrMoveContentPage(WebDrone drone)
-    {
-        super(drone);
 
-    }
-
-    @Override
-    public CopyOrMoveContentPage render(RenderTime timer)
-    {
-        elementRender(timer, headerElement, footerElement);
-        return this;
-    }
-
-    @Override
-    public CopyOrMoveContentPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @Override
     public CopyOrMoveContentPage render()
     {
-        return render(new RenderTime(maxPageLoadingTime));
+        RenderTime timer = new RenderTime(maxPageLoadingTime);
+        elementRender(timer, headerElement, footerElement);
+        return this;
     }
 
     /**
@@ -141,7 +118,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         String title = "";
         try
         {
-            title = drone.findAndWait(copyMoveDialogTitleCss).getText();
+            title = findAndWait(copyMoveDialogTitleCss).getText();
         }
         catch (TimeoutException e)
         {
@@ -164,7 +141,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         List<String> destinations = new LinkedList<String>();
         try
         {
-            for (WebElement destination : drone.findAndWaitForElements(destinationListCss))
+            for (WebElement destination : findAndWaitForElements(destinationListCss))
             {
                 destinations.add(destination.getText());
             }
@@ -191,7 +168,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
         try
         {
-            for (WebElement site : drone.findAndWaitForElements(siteListCss))
+            for (WebElement site : findAndWaitForElements(siteListCss))
             {
                 sites.add(site.getText());
             }
@@ -220,13 +197,13 @@ public class CopyOrMoveContentPage extends ShareDialogue
         {
             try
             {
-                drone.waitForElement(By.id("AlfrescoWebdronez1"), SECONDS.convert(WAIT_TIME_3000, MILLISECONDS));
+                waitForElement(By.id("AlfrescoWebdriverz1"), SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
             }
             catch (TimeoutException e)
             {
             }
 
-            for (WebElement folder : drone.findAndWaitForElements(folderItemsListCss))
+            for (WebElement folder : findAndWaitForElements(folderItemsListCss))
             {
                 folders.add(folder.getText());
             }
@@ -250,7 +227,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
     {
         try
         {
-            return drone.find(copyMoveOkButtonCss).isDisplayed();
+            return driver.findElement(copyMoveOkButtonCss).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -268,7 +245,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
     {
         try
         {
-            return drone.find(copyMoveCancelButtonCss).isDisplayed();
+            return driver.findElement(copyMoveCancelButtonCss).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -286,7 +263,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
     {
         try
         {
-            drone.findAndWait(copyMoveOkButtonCss).click();
+            findAndWait(copyMoveOkButtonCss).click();
         }
         catch (TimeoutException e)
         {
@@ -295,15 +272,15 @@ public class CopyOrMoveContentPage extends ShareDialogue
         }
         try
         {
-            drone.waitForElement(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            drone.waitUntilElementDisappears(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            drone.waitUntilElementDeletedFromDom(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            waitForElement(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            waitUntilElementDisappears(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            waitUntilElementDeletedFromDom(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         }
         catch (NoSuchElementException | TimeoutException e)
         {
             //ignore exception as this is only used to verify the message dialog disappears. 
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -314,8 +291,8 @@ public class CopyOrMoveContentPage extends ShareDialogue
     {
         try
         {
-            drone.findAndWait(copyMoveCancelButtonCss).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(copyMoveCancelButtonCss).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -332,7 +309,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
     {
         try
         {
-            drone.findAndWait(copyMoveDialogCloseButtonCss).click();
+            findAndWait(copyMoveDialogCloseButtonCss).click();
         }
         catch (TimeoutException e)
         {
@@ -348,7 +325,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * @param destinationName String
      * @return CopyOrMoveContentPage
      */
-    public CopyOrMoveContentPage selectDestination(String destinationName)
+    public HtmlPage selectDestination(String destinationName)
     {
         if (StringUtils.isEmpty(destinationName))
         {
@@ -356,7 +333,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         }
         try
         {
-            for (WebElement destination : drone.findAndWaitForElements(destinationListCss))
+            for (WebElement destination : findAndWaitForElements(destinationListCss))
             {
                 if (destination.getText() != null)
                 {
@@ -369,14 +346,14 @@ public class CopyOrMoveContentPage extends ShareDialogue
                         destination.click();
                         if (destinationName.contains("Sites"))
                         {
-                            drone.waitForElement(siteListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                            waitForElement(siteListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                         }
                         else if ((destinationName.contains("Repository")) || (destinationName.contains("Shared Files"))
                                 || (destinationName.contains("My Files")))
                         {
-                            drone.waitForElement(folderPathElementId, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                            waitForElement(folderPathElementId, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                         }
-                        return new CopyOrMoveContentPage(drone);
+                        return getCurrentPage();
                     }
                 }
             }
@@ -400,7 +377,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * @param siteName String
      * @return CopyOrMoveContentPage
      */
-    public CopyOrMoveContentPage selectSite(String siteName)
+    public HtmlPage selectSite(String siteName)
     {
         if (StringUtils.isEmpty(siteName))
         {
@@ -409,17 +386,17 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
         try
         {
-            for (WebElement site : drone.findAndWaitForElements(siteListCss))
+            for (WebElement site : findAndWaitForElements(siteListCss))
             {
                 if (site.getText() != null)
                 {
                     if (site.getText().equalsIgnoreCase(siteName))
                     {
                         site.click();
-                        drone.waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                        drone.waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
 
-                        return new CopyOrMoveContentPage(drone);
+                        return getCurrentPage();
                     }
                 }
             }
@@ -453,7 +430,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
         try
         {	
-            for (WebElement site : drone.findAndWaitForElements(siteDescriptionsCss))
+            for (WebElement site : findAndWaitForElements(siteDescriptionsCss))
             {
             	String siteFullText = site.getText();
             	String tmpDescription ="<none>";
@@ -465,10 +442,10 @@ public class CopyOrMoveContentPage extends ShareDialogue
                     if (siteFullText.toLowerCase().contains(siteName.toLowerCase()) && tmpDescription.equalsIgnoreCase(siteDescription))
                     {
                         site.click();                       
-                    	drone.waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                        drone.waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                    	waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
 
-                        return new CopyOrMoveContentPage(drone);	                            
+                        return factoryPage.instantiatePage(driver, CopyOrMoveContentPage.class);	                            
                     }
                 }
             }
@@ -493,7 +470,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * @param folderPath
      * @return CopyOrMoveContentPage
      */
-    public CopyOrMoveContentPage selectPath(String... folderPath)
+    public HtmlPage selectPath(String... folderPath)
     {
         if (folderPath == null || folderPath.length < 1)
         {
@@ -507,13 +484,13 @@ public class CopyOrMoveContentPage extends ShareDialogue
             {
                 try
                 {
-                    drone.waitForElement(By.id("AlfrescoWebdronez1"), SECONDS.convert(WAIT_TIME_3000, MILLISECONDS));
+                    waitForElement(By.id("AlfrescoWebdriverz1"), SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
                 }
                 catch (TimeoutException e)
                 {
                 }
 
-                folderNames = drone.findAndWaitForElements(folderItemsListCss);
+                folderNames = findAndWaitForElements(folderItemsListCss);
                 boolean selected = false;
 
                 for (WebElement folderName : folderNames)
@@ -527,7 +504,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
                         // The below logic is written to check the destination folder is displayed and not selected, then selecting the destination folder.
                         try
                         {
-                            drone.waitForElement(By.id("AlfrescoWebdronez1"), SECONDS.convert(WAIT_TIME_3000, MILLISECONDS));
+                            waitForElement(By.id("AlfrescoWebdriverz1"), SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
                         }
                         catch (TimeoutException e)
                         {
@@ -535,7 +512,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
                         try
                         {
-                            if (!drone.findAndWait(By.xpath(String.format("//span[@class='ygtvlabel' and text()='%s']/../../../../..", folderName.getText())))
+                            if (!findAndWait(By.xpath(String.format("//span[@class='ygtvlabel' and text()='%s']/../../../../..", folderName.getText())))
                                     .getAttribute("class").contains("selected"))
                             {
                                 folderName.click();
@@ -549,8 +526,8 @@ public class CopyOrMoveContentPage extends ShareDialogue
                         logger.info("Folder \"" + folder + "\" selected");
                         if (length > 1)
                         {
-                            drone.waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                            drone.waitForElement(selectedFolderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                            waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                            waitForElement(selectedFolderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                         }
                         break;
                     }
@@ -561,7 +538,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
                     throw new PageException("Cannot select the folder metioned in the path");
                 }
             }
-            return new CopyOrMoveContentPage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException ne)
         {
@@ -582,7 +559,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
     public void rmSelectFolders(String folderName)
     {
         List<WebElement> folders;
-        folders = drone.findAndWaitForElements(rmfolderItemsListCss);
+        folders = findAndWaitForElements(rmfolderItemsListCss);
         for (WebElement folder : folders)
         {
 
@@ -610,16 +587,18 @@ public class CopyOrMoveContentPage extends ShareDialogue
    /**
    * @return
    */
-   public String getSelectedDestination(){
-	   WebElement destination = drone.findAndWait(selectedDestination);
+   public String getSelectedDestination()
+   {
+	   WebElement destination = findAndWait(selectedDestination);
 	   return destination.getText();
    }
    
    /**
 	* @return the list of all document paths available for selected site.
 	*/
-   public int getSiteDocumentPathCount(){
-	   int size = drone.findAndWaitForElements(siteDocumentsCount).size();
+   public int getSiteDocumentPathCount()
+   {
+	   int size = findAndWaitForElements(siteDocumentsCount).size();
 	   if (size>0){
 		   return size - 11;
 	   }

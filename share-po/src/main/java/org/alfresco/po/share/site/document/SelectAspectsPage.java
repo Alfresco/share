@@ -14,13 +14,23 @@
  */
 package org.alfresco.po.share.site.document;
 
-import com.sun.jna.platform.unix.X11.XSizeHints.Aspect;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -28,12 +38,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import com.sun.jna.platform.unix.X11.XSizeHints.Aspect;
 
 /**
  * Select Aspects page object, this page comes from Document Detail Page's Manage Aspects.
@@ -58,29 +63,15 @@ public class SelectAspectsPage extends SharePage
     private static final By NOTIFICATION = By.cssSelector("div.bd>span.message");
 
     private static final String ASPECT_AVAILBLE_XPATH ="//div[contains(@id,'aspects-left')]//td/div[@class='yui-dt-liner']//h4[text()='%s']";
-    /**
-     * Constructor.
-     */
-    public SelectAspectsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
     public SelectAspectsPage render(RenderTime timer)
     {
         elementRender(timer, getVisibleRenderElement(TITLE));
-        drone.waitUntilNotVisible(ASPECTS_AVAILABLE, "Loading...", SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-        drone.waitUntilNotVisible(ASPECTS_SELECTED, "Loading...", SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+        waitUntilNotVisible(ASPECTS_AVAILABLE, "Loading...", SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+        waitUntilNotVisible(ASPECTS_SELECTED, "Loading...", SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SelectAspectsPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -150,7 +141,7 @@ public class SelectAspectsPage extends SharePage
         Map<String, ShareLink> availableAspectMap = null;
         try
         {
-            availableElements = drone.findAndWaitForElements(by);
+            availableElements = findAndWaitForElements(by);
         }
         catch (TimeoutException exception)
         {
@@ -167,7 +158,7 @@ public class SelectAspectsPage extends SharePage
                 {
                     WebElement header = webElement.findElement(HEADER_ASPECT_TABLE);
                     WebElement addLink = webElement.findElement(ADD_REMOVE_LINK);
-                    ShareLink addShareLink = new ShareLink(addLink, drone);
+                    ShareLink addShareLink = new ShareLink(addLink, driver, factoryPage);
                     availableAspectMap.put(header.getText(), addShareLink);
                 }
                 catch (NoSuchElementException e)
@@ -246,13 +237,13 @@ public class SelectAspectsPage extends SharePage
                     {
                         if (AVAILABLE_ASPECT_TABLE.equals(by))
                         {
-                            WebElement aspectElement = drone.find(By.xpath(String.format(ASPECT_AVAILBLE_XPATH, aspect.getValue())));
+                            WebElement aspectElement = driver.findElement(By.xpath(String.format(ASPECT_AVAILBLE_XPATH, aspect.getValue())));
                             if (!aspectElement.isSelected())
                             {
                                 aspectElement.click();
                             }
                         }
-                        link.click();
+                        link.openLink();
                         if (logger.isTraceEnabled())
                         {
                             logger.trace(aspect + "Aspect Added.");
@@ -260,7 +251,7 @@ public class SelectAspectsPage extends SharePage
                     }
                     catch (StaleElementReferenceException exception)
                     {
-                        drone.find(CANCEL).click();
+                        driver.findElement(CANCEL).click();
                         throw new PageException("Unexpected Refresh on Page lost reference to the Aspects.", exception);
                     }
                 }
@@ -283,8 +274,8 @@ public class SelectAspectsPage extends SharePage
     {
         try
         {
-            drone.find(CANCEL).click();
-            return drone.getCurrentPage();
+            driver.findElement(CANCEL).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -299,24 +290,17 @@ public class SelectAspectsPage extends SharePage
      */
     public HtmlPage clickApplyChanges()
     {
-        String msgText = "Successfully updated aspects";
-        
         try
         {
-            drone.find(APPLY_CHANGE).click();
-            
-            // Wait for Notification
-            drone.waitForElement(NOTIFICATION, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            driver.findElement(APPLY_CHANGE).click();
+            waitForElement(NOTIFICATION, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
 
             if (!isNotificationTextCorrect())
             {
-                // Aspect Changes NOT Successful
-                msgText = "Could not update Aspects";
                 logger.debug("Aspect Changes were unsuccessful");
             }
-
-            drone.waitUntilNotVisible(NOTIFICATION, msgText, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return drone.getCurrentPage();
+            waitUntilNotVisible(NOTIFICATION,"Successfully updated aspects", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException | TimeoutException nse)
         {
@@ -327,14 +311,14 @@ public class SelectAspectsPage extends SharePage
 
     private boolean isNotificationTextCorrect()
     {
-        WebElement messageText = drone.findAndWait(NOTIFICATION);
+        WebElement messageText = findAndWait(NOTIFICATION);
         return messageText.getText().equals("Successfully updated aspects");
     }
 
     @Override
     public String getTitle()
     {
-        return drone.find(TITLE).getText();
+        return driver.findElement(TITLE).getText();
     } 
     
     /**
@@ -363,7 +347,7 @@ public class SelectAspectsPage extends SharePage
                     {
                         if (AVAILABLE_ASPECT_TABLE.equals(by))
                         {
-                            WebElement aspectElement = drone.find(By.xpath(String.format(ASPECT_AVAILBLE_XPATH, aspect)));
+                            WebElement aspectElement = driver.findElement(By.xpath(String.format(ASPECT_AVAILBLE_XPATH, aspect)));
                             if (!aspectElement.isSelected())
                             {
                                 aspectElement.click();
@@ -377,7 +361,7 @@ public class SelectAspectsPage extends SharePage
                     }
                     catch (StaleElementReferenceException exception)
                     {
-                        drone.find(CANCEL).click();
+                        driver.findElement(CANCEL).click();
                         throw new PageException("Unexpected Refresh on Page lost reference to the Aspects.", exception);
                     }
                 }

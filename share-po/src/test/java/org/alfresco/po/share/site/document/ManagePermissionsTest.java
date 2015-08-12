@@ -21,18 +21,16 @@ package org.alfresco.po.share.site.document;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.ManagePermissionsPage.ButtonType;
-import org.alfresco.po.share.site.document.ManagePermissionsPage.UserSearchPage;
-import org.alfresco.po.share.util.SiteUtil;
+import org.alfresco.po.share.site.document.UserSearchPage;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
@@ -55,19 +53,15 @@ public class ManagePermissionsTest extends AbstractTest
     private ManagePermissionsPage pageUnderTest;
     private UserSearchPage pageReturned;
     @BeforeClass
-    public void beforeClass() throws IOException
+    public void beforeClass() throws Exception
     {
-        if(alfrescoVersion.isCloud()){
-            FNAME = "Auto";
-        }
         siteName = "site" + System.currentTimeMillis();
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        SitePage sitePage = resolvePage(driver).render();
 
-        ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        SitePage sitePage = drone.getCurrentPage().render();
-
-        DocumentLibraryPage documentLibPage = sitePage.getSiteNav().selectSiteDocumentLibrary().render();
-        sampleFile = SiteUtil.prepareFile();
+        DocumentLibraryPage documentLibPage = sitePage.getSiteNav().selectDocumentLibrary().render();
+        sampleFile = siteUtil.prepareFile();
         UploadFilePage upLoadPage = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = upLoadPage.uploadFile(sampleFile.getCanonicalPath()).render();
         DocumentDetailsPage docDetailPage = documentLibPage.selectFile(sampleFile.getName()).render();
@@ -78,7 +72,7 @@ public class ManagePermissionsTest extends AbstractTest
     @AfterClass
     public void afterClass()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test
@@ -139,7 +133,7 @@ public class ManagePermissionsTest extends AbstractTest
         userProfile.setUsername(username);
         userProfile.setfName(FNAME);
         userProfile.setlName("");
-        UserRole userRole = UserRole.COLLABORATOR;
+        UserRole userRole = UserRole.SITECOLLABORATOR;
         String userFullName = FNAME;
         
         //Test ManagePermissionsPage.setAccessType(UserProfile, UserRole)
@@ -149,7 +143,7 @@ public class ManagePermissionsTest extends AbstractTest
         assertTrue(pageReturned instanceof DocumentDetailsPage);
         pageUnderTest = pageReturned.selectManagePermissions().render();
         UserRole role = pageUnderTest.getAccessType();
-        assertTrue(UserRole.COLLABORATOR.equals(role),
+        assertTrue(UserRole.SITECOLLABORATOR.equals(role),
                 "Access type should have been '" + userRole + "' but was - " + pageUnderTest.getAccessType());
         pageReturned = (DocumentDetailsPage) pageUnderTest.selectCancel();
         pageReturned.render();
@@ -163,7 +157,7 @@ public class ManagePermissionsTest extends AbstractTest
         assertTrue(pageReturned instanceof DocumentDetailsPage);
         pageUnderTest = pageReturned.selectManagePermissions().render();
         role = pageUnderTest.getAccessType();
-        assertTrue(UserRole.COLLABORATOR.equals(role),
+        assertTrue(UserRole.SITECOLLABORATOR.equals(role),
                 "Access type should have been '" + userRole + "' but was - " + pageUnderTest.getAccessType());
         pageReturned = (DocumentDetailsPage) pageUnderTest.selectCancel();
         pageReturned.render();
@@ -173,30 +167,30 @@ public class ManagePermissionsTest extends AbstractTest
     @Test(dependsOnMethods = "setAccessTypeTest")
     public void updateRoleTest()
     {
-        pageUnderTest = ((DocumentDetailsPage)drone.getCurrentPage()).selectManagePermissions().render();
-        Assert.assertFalse(pageUnderTest.isUserExistForPermission(username));       
+        pageUnderTest = ((DocumentDetailsPage)resolvePage(driver)).selectManagePermissions().render();
+        Assert.assertFalse(pageUnderTest.isUserExistForPermission(username));
         assertTrue(pageUnderTest.isUserExistForPermission(FNAME));
         
         List<String> roles = pageUnderTest.getListOfUserRoles(FNAME);
         //[Editor, Consumer, Collaborator, Coordinator, Contributor, Site Consumer, Site Contributor, Site Manager, Site Collaborator]
-        Assert.assertTrue(roles.contains(UserRole.EDITOR.getRoleName()));
-        Assert.assertTrue(roles.contains(UserRole.CONSUMER.getRoleName()));
-        Assert.assertTrue(roles.contains(UserRole.COORDINATOR.getRoleName()));
-        Assert.assertTrue(roles.contains(UserRole.CONTRIBUTOR.getRoleName()));
+        Assert.assertFalse(roles.contains(UserRole.EDITOR.getRoleName()));
+        Assert.assertFalse(roles.contains(UserRole.CONSUMER.getRoleName()));
+        Assert.assertFalse(roles.contains(UserRole.COORDINATOR.getRoleName()));
+        Assert.assertFalse(roles.contains(UserRole.CONTRIBUTOR.getRoleName()));
         Assert.assertTrue(roles.contains(UserRole.SITECONSUMER.getRoleName()));
         Assert.assertTrue(roles.contains(UserRole.SITECONTRIBUTOR.getRoleName()));
         Assert.assertTrue(roles.contains(UserRole.SITEMANAGER.getRoleName()));
         Assert.assertTrue(roles.contains(UserRole.SITECOLLABORATOR.getRoleName()));
         
-        assertTrue(pageUnderTest.updateUserRole(FNAME, UserRole.CONSUMER));        
-        ((DocumentDetailsPage) pageUnderTest.selectCancel()).render();        
+        assertTrue(pageUnderTest.updateUserRole(FNAME, UserRole.SITECONSUMER));
+        ((DocumentDetailsPage) pageUnderTest.selectCancel()).render();
     }
     
     
     @Test(dependsOnMethods = "updateRoleTest")
     public void getInheritedPermissions()
     {
-        pageUnderTest = ((DocumentDetailsPage)drone.getCurrentPage()).selectManagePermissions().render();       
+        pageUnderTest = ((DocumentDetailsPage)resolvePage(driver)).selectManagePermissions().render();       
         String role = pageUnderTest.getInheritedPermissions().get("site_"+siteName.toLowerCase()+"_"+ StringUtils.replace(UserRole.SITEMANAGER.getRoleName().trim(), " ", ""));
         Assert.assertEquals(role, UserRole.SITEMANAGER.getRoleName());
     }
@@ -204,11 +198,6 @@ public class ManagePermissionsTest extends AbstractTest
     public void getExistingPermissionTest()
     {
         String userName = "EVERYONE";
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if(version.isCloud())
-        {
-            userName = "INTERNAL_USERS";
-        }
         UserRole role = pageUnderTest.getExistingPermissionForInheritPermission(userName);
         Assert.assertEquals(role, UserRole.SITECONSUMER);
     }
@@ -217,18 +206,13 @@ public class ManagePermissionsTest extends AbstractTest
     public void deletePermissionTest()
     {
         String userName = "Administrator";
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if(version.isCloud())
-        {
-            userName = "Auto Account";
-        }
-        if(drone.getCurrentPage() instanceof ManagePermissionsPage)
+        if(resolvePage(driver) instanceof ManagePermissionsPage)
         {
             
         }
         else
         {
-            pageUnderTest = ((DocumentDetailsPage)drone.getCurrentPage()).selectManagePermissions().render();
+            pageUnderTest = ((DocumentDetailsPage)resolvePage(driver)).selectManagePermissions().render();
         }
         UserProfile userProfile = new UserProfile();
         userProfile.setUsername(username);
@@ -236,7 +220,7 @@ public class ManagePermissionsTest extends AbstractTest
         pageUnderTest = pageUnderTest.selectAddUser().searchAndSelectUser(userProfile).render();
         
         Assert.assertTrue(pageUnderTest.isDeleteActionPresent(userName, UserRole.SITEMANAGER));
-        pageUnderTest = pageUnderTest.deleteUserWithPermission(userName, UserRole.SITEMANAGER);
+        pageUnderTest = pageUnderTest.deleteUserWithPermission(userName, UserRole.SITEMANAGER).render();
         pageUnderTest.selectCancel().render();
     }
     
@@ -244,38 +228,34 @@ public class ManagePermissionsTest extends AbstractTest
     public void deleteExistingPermissionTest()
     {
         String userName = "Administrator";
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if(version.isCloud())
-        {
-            userName = "Auto Account";
-        }
-        Assert.assertTrue(pageUnderTest.deleteUserOrGroupFromPermission(userName, UserRole.COLLABORATOR));
+        Assert.assertTrue(pageUnderTest.deleteUserOrGroupFromPermission(userName, UserRole.SITECOLLABORATOR));
     }
     
     @Test(dependsOnMethods = "deleteExistingPermissionTest")
     public void isEveryOnePresent()
     {
         
-        pageUnderTest = ((DocumentDetailsPage)drone.getCurrentPage()).selectManagePermissions().render();    
-        ManagePermissionsPage.UserSearchPage userSearchPage = pageUnderTest.selectAddUser().render();
+        pageUnderTest = ((DocumentDetailsPage)resolvePage(driver)).selectManagePermissions().render();
+        UserSearchPage userSearchPage = pageUnderTest.selectAddUser().render();
         Assert.assertTrue(userSearchPage.isEveryOneDisplayed("<>?:\"|}{+_)(*&^%$#@!~;"));
         pageUnderTest.selectCancel();
     }
-    
+//    TODO Fixme
+//    @Test(dependsOnMethods = "isEveryOnePresent")
+//    public void getSearchErrorMessage()
+//    {
+//        pageUnderTest = ((DocumentDetailsPage)resolvePage(driver)).selectManagePermissions().render();
+//        UserSearchPage userSearchPage = pageUnderTest.selectAddUser().render();
+//        Assert.assertEquals(userSearchPage.getSearchErrorMessage(""), "Enter at least 3 character(s)");
+//        pageUnderTest.selectCancel();
+//    }
+//    
+//    @Test(dependsOnMethods = "getSearchErrorMessage")
     @Test(dependsOnMethods = "isEveryOnePresent")
-    public void getSearchErrorMessage()
-    {
-        pageUnderTest = ((DocumentDetailsPage)drone.getCurrentPage()).selectManagePermissions().render();    
-        ManagePermissionsPage.UserSearchPage userSearchPage = pageUnderTest.selectAddUser().render();
-        Assert.assertEquals(userSearchPage.getSearchErrorMessage(""), "Enter at least 3 character(s)");
-        pageUnderTest.selectCancel();
-    }
-    
-    @Test(dependsOnMethods = "getSearchErrorMessage")
     public void usersExistInSearchResults()
     {
-        pageUnderTest = ((DocumentDetailsPage)drone.getCurrentPage()).selectManagePermissions().render();    
-        ManagePermissionsPage.UserSearchPage userSearchPage = pageUnderTest.selectAddUser().render();
+        pageUnderTest = ((DocumentDetailsPage)resolvePage(driver)).selectManagePermissions().render();
+        UserSearchPage userSearchPage = pageUnderTest.selectAddUser().render();
         Assert.assertTrue(userSearchPage.usersExistInSearchResults(username, username));
         pageUnderTest.selectCancel();
     }

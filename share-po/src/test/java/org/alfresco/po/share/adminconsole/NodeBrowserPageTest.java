@@ -25,10 +25,10 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.exception.PageOperationException;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -47,13 +47,13 @@ public class NodeBrowserPageTest extends AbstractTest
     {
         SharePage page = loginAs("admin", "admin");
         page.getNav().getNodeBrowserPage().render();
-        drone.getCurrentPage().render();
+        resolvePage(driver).render();
     }
 
     @Test(dependsOnMethods = "checkThatFactoryReturnNodeBrowserPage", groups = "Enterprise-only", timeOut = 400000)
     public void executeCustomNodeSearch() throws Exception
     {
-        nodeBrowserPage = drone.getCurrentPage().render();
+        nodeBrowserPage = resolvePage(driver).render();
         nodeBrowserPage.selectStore(WORKSPACE_SPACE_STORE);
         nodeBrowserPage.selectQueryType(STORE_ROOT);
         nodeBrowserPage.clickSearchButton();

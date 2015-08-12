@@ -1,10 +1,25 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ *
+ * This file is part of Alfresco
+ *
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.alfresco.webdav;
 
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 
 /**
@@ -13,15 +28,9 @@ import org.openqa.selenium.By;
 public class AdvancedWebDavPage extends SharePage
 {
 
-    private static Log logger = LogFactory.getLog(AdvancedWebDavPage.class);
     private final By DIRECTORY_LISTING = By.cssSelector("td[class='textLocation']");
     private final String DIRECTORY_LINK = "//td[@class='textData']/a[text()='%s']";
     private final By UP_TO_LEVEL = By.xpath("//td[@class='textData']/a[text()='[Up a level]']");
-
-    public AdvancedWebDavPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -38,13 +47,6 @@ public class AdvancedWebDavPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AdvancedWebDavPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to verify webdav is opened
      *
@@ -54,7 +56,7 @@ public class AdvancedWebDavPage extends SharePage
     {
         try
         {
-            return drone.find(DIRECTORY_LISTING).isDisplayed();
+            return driver.findElement(DIRECTORY_LISTING).isDisplayed();
         }
         catch (Exception e)
         {
@@ -70,7 +72,7 @@ public class AdvancedWebDavPage extends SharePage
      */
     public String getDirectoryText()
     {
-        return drone.findAndWait(DIRECTORY_LISTING).getText();
+        return findAndWait(DIRECTORY_LISTING).getText();
     }
 
     /**
@@ -78,7 +80,7 @@ public class AdvancedWebDavPage extends SharePage
      */
     public void clickDirectory(String directoryName)
     {
-        drone.findAndWait(By.xpath(String.format(DIRECTORY_LINK, directoryName))).click();
+        findAndWait(By.xpath(String.format(DIRECTORY_LINK, directoryName))).click();
     }
 
     /**
@@ -90,7 +92,7 @@ public class AdvancedWebDavPage extends SharePage
     {
         try
         {
-            return drone.find(By.xpath(String.format(DIRECTORY_LINK, directoryName))).isDisplayed();
+            return driver.findElement(By.xpath(String.format(DIRECTORY_LINK, directoryName))).isDisplayed();
         }
         catch (Exception e)
         {
@@ -103,7 +105,7 @@ public class AdvancedWebDavPage extends SharePage
      */
     public void clickUpToLevel()
     {
-        drone.findAndWait(UP_TO_LEVEL).click();
+        findAndWait(UP_TO_LEVEL).click();
     }
 
     /**
@@ -115,7 +117,7 @@ public class AdvancedWebDavPage extends SharePage
     {
         try
         {
-            return drone.find(UP_TO_LEVEL).isDisplayed();
+            return driver.findElement(UP_TO_LEVEL).isDisplayed();
         }
         catch (Exception e)
         {

@@ -17,10 +17,10 @@ package org.alfresco.po.share;
 import java.util.List;
 
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -43,15 +43,6 @@ public class RemoveUserFromGroupPage extends SharePage
         Yes, No
     }
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public RemoveUserFromGroupPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -68,13 +59,6 @@ public class RemoveUserFromGroupPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public RemoveUserFromGroupPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Action of selecting "Yes" or "No" on Remove User from group page.
      * 
@@ -85,14 +69,14 @@ public class RemoveUserFromGroupPage extends SharePage
     {
         try
         {
-            List<WebElement> buttons = drone.findAll(By.cssSelector(".button-group span span button"));
+            List<WebElement> buttons = driver.findElements(By.cssSelector(".button-group span span button"));
             for (WebElement button : buttons)
             {
                 if (action.name().equals(button.getText()))
                 {
                     button.click();
                     canResume();
-                    return FactorySharePage.resolvePage(drone);
+                    return getCurrentPage();
                 }
 
             }
@@ -115,7 +99,7 @@ public class RemoveUserFromGroupPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector("div[class='yui-module yui-overlay yui-panel']>div[id='prompt_h']")).getText();
+            return findAndWait(By.cssSelector("div[class='yui-module yui-overlay yui-panel']>div[id='prompt_h']")).getText();
         }
         catch (TimeoutException toe)
         {

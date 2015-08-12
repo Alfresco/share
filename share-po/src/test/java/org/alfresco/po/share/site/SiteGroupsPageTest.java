@@ -20,13 +20,13 @@ package org.alfresco.po.share.site;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.GroupsPage;
 import org.alfresco.po.share.NewGroupPage;
 import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -61,7 +61,7 @@ public class SiteGroupsPageTest extends AbstractTest
         dashBoard = loginAs(username, password);
 
         //create a group
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         NewGroupPage newGroupPage = page.navigateToNewGroupPage().render();
         newGroupPage.createGroup(groupName, groupName, NewGroupPage.ActionButton.CREATE_GROUP).render();

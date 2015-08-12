@@ -15,13 +15,12 @@
 
 package org.alfresco.po.share.user;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -41,14 +40,6 @@ public class LanguageSettingsPage extends SharePage
     protected static final By CANCEL_BUTTON = By.cssSelector("button[id$='_default-button-cancel-button']");
 
     /*
-     * Constructor
-     */
-    public LanguageSettingsPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    /*
      * Render logic
      */
     @SuppressWarnings("unchecked")
@@ -60,13 +51,6 @@ public class LanguageSettingsPage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public LanguageSettingsPage render(long time)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public LanguageSettingsPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -74,7 +58,7 @@ public class LanguageSettingsPage extends SharePage
 
     public ProfileNavigation getProfileNav()
     {
-        return new ProfileNavigation(drone);
+        return new ProfileNavigation(driver, factoryPage);
     }
 
     /**
@@ -87,9 +71,9 @@ public class LanguageSettingsPage extends SharePage
     {
         try
         {
-            Select languageDropDown = new Select(drone.find(LANGUAGE_DROP_DOWN));
+            Select languageDropDown = new Select(driver.findElement(LANGUAGE_DROP_DOWN));
             languageDropDown.selectByValue(language.getLanguageValue());
-            drone.find(OK_BUTTON).click();
+            driver.findElement(OK_BUTTON).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -108,7 +92,7 @@ public class LanguageSettingsPage extends SharePage
     {
         try
         {
-            Select languageDropDown = new Select(drone.find(LANGUAGE_DROP_DOWN));
+            Select languageDropDown = new Select(driver.findElement(LANGUAGE_DROP_DOWN));
             return languageDropDown.getFirstSelectedOption().getAttribute("value").equals(language.getLanguageValue());
         }
         catch (NoSuchElementException nse)
@@ -126,7 +110,7 @@ public class LanguageSettingsPage extends SharePage
     {
         try
         {
-            Select languageDropDown = new Select(drone.find(LANGUAGE_DROP_DOWN));
+            Select languageDropDown = new Select(driver.findElement(LANGUAGE_DROP_DOWN));
             return Language.getLanguageFromValue(languageDropDown.getFirstSelectedOption().getAttribute("value"));
         }
         catch (NoSuchElementException nse)

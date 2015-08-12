@@ -14,30 +14,34 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.FactorySharePage;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.po.share.site.document.DocumentAction.CHNAGE_TYPE;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.RepositoryPage;
 import org.alfresco.po.share.enums.Encoder;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.document.DocumentAction.DetailsPageType;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 import org.owasp.esapi.ESAPI;
-
-import java.util.*;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.po.share.site.document.DocumentAction.CHNAGE_TYPE;
 
 /**
  * <li>This is a parent class for all the pages using View Details as asection.</li> <li>Functionality here is to support below details: Title, Modified
@@ -56,14 +60,9 @@ public abstract class DetailsPage extends SitePage
     private static final By PROP_FROM_LABEL = By.cssSelector(".viewmode-label");
     private static final By PROP_FROM_VALUE = By.cssSelector(".viewmode-value");
     private static final By FORM_VIEW_MODE_FIELD = By.cssSelector(".viewmode-field");
-    private static final String ADD_COMMENT_BUTTON_SPAN_ID = "document.detail.add.comment.button.section";
-    private static final String ADD_FOLDER_COMMENT_BUTTON_SPAN_ID = "folder.detail.add.comment.button.section";
     private static final String ADD_COMMENT_BUTTON = "span.yui-button.yui-push-button.onAddCommentClick>span.first-child>button";
     private static final String COMMENT_PANEL = "div[id$='default-comments-list']";
     private static final String COMMENT_SECTION = "div[class='comments-list']";
-    private static final String SUBMIT_COMMENT_BUTTON_ID = "document.detail.submit.comment.button.id";
-    private static final String SUBMIT_FOLDER_COMMENT_BUTTON_ID = "folder.detail.submit.comment.button.id";
-    private static final String PROMPT_PANEL_ID = "prompt.panel.id";
     private static final String DIV_COMMENT_CONTENT = "//div[@class='comment-content']";
     private static final String SPAN_LIKE_COMMENT = "span.likes-count";
     private static final String THIN_DARK_TITLE_ELEMENT = "div.node-header>div.node-info>h1.thin.dark";
@@ -73,20 +72,18 @@ public abstract class DetailsPage extends SitePage
     private static final String MANAGE_PERMISSIONS = "div[class$='-permissions'] a";
     private final static By PAGINATION = By.xpath(".//*[@id='template_x002e_comments_x002e_folder-details_x0023_default-paginator-top']");
     private Log logger = LogFactory.getLog(DetailsPage.class);
-    private SyncInfoPage syncInfoPage;
     private static final By NODE_PATH = By.cssSelector("div.node-path span a");
     private static final By TAGS_PANEL = By.cssSelector("div[class*='tags']");
     private static final By PROPERTIES_PANEL = By.cssSelector("div[class*='metadata-header']");
     private static final By PERMISSIONS_PANEL = By.cssSelector("div[id*='permissions']");
     private static final By COMMENT_COUNT = By.cssSelector("span.comment-count");
-    protected String PERMISSION_SETTINGS_PANEL_CSS = null;
+    protected String PERMISSION_SETTINGS_PANEL_CSS = ".folder-permissions";
     private final By SYNC_SETTINGS_PANEL_CSS = By.cssSelector(".document-sync");
     private final By COMMENTS_PANEL_CSS = By.cssSelector("div.comments-list");
     private final By COPY_TO_SHARE_LINKS = By.cssSelector("h3.thin.dark");
     private static final String LINK_VIEW_ON_GOOGLE_MAPS = "div[id$='default-actionSet'] div.document-view-googlemaps a";
     private static final String EDIT_TAGS_ICON = ".folder-tags h2 .edit";
     private static final String EDIT_PROPERTIES_ICON = ".folder-metadata-header h2 .edit";
-    private static final String COMMENT_FIELD = "table[id$='add-content_tbl']";
     private static final String COMMENT_FIELD_CSS = "form[id*='add-form']";
 
     private static final String EDIT_TAGS_ICON_DOC = ".document-tags h2 .edit";
@@ -111,11 +108,6 @@ public abstract class DetailsPage extends SitePage
         }
     }
 
-    protected DetailsPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     /**
      * @param type String
      * @return Verify if the page viewed is the @type@ details page.
@@ -124,7 +116,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector("div[id$='" + type + "-details']")).isDisplayed();
+            return findAndWait(By.cssSelector("div[id$='" + type + "-details']")).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -143,7 +135,7 @@ public abstract class DetailsPage extends SitePage
      */
     public String getContentTitle()
     {
-        WebElement element = drone.findAndWait(By.cssSelector(THIN_DARK_TITLE_ELEMENT));
+        WebElement element = findAndWait(By.cssSelector(THIN_DARK_TITLE_ELEMENT));
         return element.getText();
     }
 
@@ -157,7 +149,7 @@ public abstract class DetailsPage extends SitePage
         List<String> comments = new ArrayList<String>();
         try
         {
-            WebElement commentInput = drone.find(By.cssSelector(COMMENT_PANEL));
+            WebElement commentInput = driver.findElement(By.cssSelector(COMMENT_PANEL));
             WebElement table = commentInput.findElement(By.tagName("table"));
             List<WebElement> elements = table.findElements(By.xpath(DIV_COMMENT_CONTENT));
             for (WebElement element : elements)
@@ -186,9 +178,9 @@ public abstract class DetailsPage extends SitePage
      */
     public HtmlPage selectLike()
     {
-        drone.findAndWait(By.cssSelector("a[class^=\"like-action\"][title=\"Like this document\"]")).click();
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        findAndWait(By.cssSelector("a[class^=\"like-action\"][title=\"Like this document\"]")).click();
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -196,9 +188,9 @@ public abstract class DetailsPage extends SitePage
      */
     public HtmlPage selectLikeFolder()
     {
-        drone.findAndWait(By.cssSelector("a[class^=\"like-action\"][title=\"Like this folder\"]")).click();
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        findAndWait(By.cssSelector("a[class^=\"like-action\"][title=\"Like this folder\"]")).click();
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -206,9 +198,9 @@ public abstract class DetailsPage extends SitePage
      */
     public HtmlPage selectUnlike()
     {
-        drone.findAndWait(By.cssSelector("a[class^=\"like-action\"][title=\"Unlike\"]")).click();
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        findAndWait(By.cssSelector("a[class^=\"like-action\"][title=\"Unlike\"]")).click();
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -221,7 +213,7 @@ public abstract class DetailsPage extends SitePage
         String count = "";
         try
         {
-            count = drone.findAndWait(By.cssSelector(SPAN_LIKE_COMMENT)).getText();
+            count = findAndWait(By.cssSelector(SPAN_LIKE_COMMENT)).getText();
         }
         catch (TimeoutException nsee)
         {
@@ -241,7 +233,7 @@ public abstract class DetailsPage extends SitePage
         Map<String, String> prop = new HashMap<String, String>();
         try
         {
-            WebElement formFieldElements = drone.findAndWait(By.cssSelector("#template_x002e_folder-permissions_x002e_folder-details_x0023_default-body"));
+            WebElement formFieldElements = findAndWait(By.cssSelector("#template_x002e_folder-permissions_x002e_folder-details_x0023_default-body"));
             for (WebElement element : formFieldElements.findElements(FORM_VIEW_MODE_FIELD))
             {
                 String key = element.findElement(PROP_FROM_LABEL).getText().trim().replace(":", "").replace(" ", "");
@@ -278,7 +270,7 @@ public abstract class DetailsPage extends SitePage
         Map<String, Object> prop = new HashMap<String, Object>();
         try
         {
-            for (WebElement webElement : drone.findAndWaitForElements(By.cssSelector(".form-field")))
+            for (WebElement webElement : findAndWaitForElements(By.cssSelector(".form-field")))
             {
                 String key = webElement.findElement(PROP_FROM_LABEL).getText().trim().replace(":", "").replace(" ", "");
 
@@ -331,7 +323,7 @@ public abstract class DetailsPage extends SitePage
      */
     public List<String> getCategoriesNames()
     {
-        List<WebElement> categoriesElems = drone.findAndWaitForElements(By.cssSelector("div[class='itemtype-cm:category']"));
+        List<WebElement> categoriesElems = findAndWaitForElements(By.cssSelector("div[class='itemtype-cm:category']"));
         List<String> categoriesNames = new ArrayList<>();
         for (WebElement categoryElem : categoriesElems)
         {
@@ -349,7 +341,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            List<WebElement> tagList = drone.findAndWaitForElements(By.cssSelector("span.tag"));
+            List<WebElement> tagList = findAndWaitForElements(By.cssSelector("span.tag"));
             if (tagList != null && !tagList.isEmpty())
             {
                 List<String> tagNames = new ArrayList<String>();
@@ -379,9 +371,9 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            drone.findAndWait(By.cssSelector(FAVOURITE_ACTION)).click();
-            drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(By.cssSelector(FAVOURITE_ACTION)).click();
+            waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -399,7 +391,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement favouriteStatus = drone.find(By.cssSelector(FAVOURITE_ACTION));
+            WebElement favouriteStatus = driver.findElement(By.cssSelector(FAVOURITE_ACTION));
             String status = favouriteStatus.getAttribute("class");
             if (status != null)
             {
@@ -425,7 +417,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement likeStatus = drone.find(By.cssSelector(LIKE_ACTION));
+            WebElement likeStatus = driver.findElement(By.cssSelector(LIKE_ACTION));
             String status = likeStatus.getAttribute("class");
             if (status != null)
             {
@@ -448,7 +440,7 @@ public abstract class DetailsPage extends SitePage
         String toolTip = "";
         try
         {
-            WebElement favouriteStatus = drone.find(By.cssSelector(FAVOURITE_ACTION));
+            WebElement favouriteStatus = driver.findElement(By.cssSelector(FAVOURITE_ACTION));
             toolTip = favouriteStatus.getAttribute("title");
             if (toolTip == null)
             {
@@ -472,7 +464,7 @@ public abstract class DetailsPage extends SitePage
         String toolTip = "";
         try
         {
-            WebElement likeStatus = drone.findAndWait(By.cssSelector(LIKE_ACTION));
+            WebElement likeStatus = findAndWait(By.cssSelector(LIKE_ACTION));
             toolTip = likeStatus.getAttribute("title");
             if (toolTip == null)
             {
@@ -489,23 +481,15 @@ public abstract class DetailsPage extends SitePage
     /**
      * Mimics the action of selecting edit properties on the details page.
      *
-     * @return WebDrone (Drone object which has to be casted at runtime)
+     * @return WebDriver (Drone object which has to be casted at runtime)
      */
     public EditDocumentPropertiesPage selectEditProperties()
     {
         String type = "document";
-        // WEBDRONE-523:
-        // So commenting the if block below, Uncomment it to revert back to original css if this is fixed / amended later
-        /*
-         * if (this instanceof FolderDetailsPage)
-         * {
-         * type = "folder";
-         * }
-         */
         try
         {
-            drone.findAndWait(By.cssSelector("div[id$='default-actionSet'] div." + type + "-edit-metadata a")).click();
-            return new EditDocumentPropertiesPage(drone).render();
+            findAndWait(By.cssSelector("div[id$='default-actionSet'] div." + type + "-edit-metadata a")).click();
+            return getCurrentPage().render();
         }
         catch (TimeoutException e)
         {
@@ -557,7 +541,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(COMMENT_SECTION)).isDisplayed();
+            return findAndWait(By.cssSelector(COMMENT_SECTION)).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -581,7 +565,7 @@ public abstract class DetailsPage extends SitePage
 
         try
         {
-            addComment = drone.findAndWait(By.cssSelector(ADD_COMMENT_BUTTON));
+            addComment = findAndWait(By.cssSelector(ADD_COMMENT_BUTTON));
 
             if (logger.isTraceEnabled())
             {
@@ -593,7 +577,7 @@ public abstract class DetailsPage extends SitePage
         {
             try
             {
-                tinymceaddCommentButton = drone.findAndWait(By.cssSelector("button[id$='default-add-submit-button']"));
+                tinymceaddCommentButton = findAndWait(By.cssSelector("button[id$='default-add-submit-button']"));
 
                 if (logger.isTraceEnabled())
                 {
@@ -609,37 +593,8 @@ public abstract class DetailsPage extends SitePage
         if ((addComment != null && addComment.isDisplayed()) || (tinymceaddCommentButton != null && tinymceaddCommentButton.isDisplayed()))
         {
 
-            boolean isDocument = false;
-            boolean isFolder = false;
-            String jsElementButtonId = "";
             // String whichPage = getTitle();
             String addCommentButtonId = null;
-
-            try
-            {
-                isDocument = drone.find(By.cssSelector(".document-actions")).isDisplayed();
-            }
-            catch (Exception e)
-            {
-                try
-                {
-                    isFolder = drone.find(By.cssSelector(".folder-actions")).isDisplayed();
-                }
-                catch (Exception f)
-                {
-                }
-            }
-
-            /*
-             * if (whichPage.contains("Document"))
-             * {
-             * isDocument = true;
-             * }
-             * else if (whichPage.contains("Folder"))
-             * {
-             * isFolder = true;
-             * }
-             */
 
             /*
              * Adding comment uses the rich editor to ensure it works on all
@@ -648,53 +603,22 @@ public abstract class DetailsPage extends SitePage
              * to submit.
              */
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", comment);
-
-            if (isDocument)
-            {
-                jsElementButtonId = drone.getElement(SUBMIT_COMMENT_BUTTON_ID);
-            }
-            else if (isFolder)
-            {
-                jsElementButtonId = drone.getElement(SUBMIT_FOLDER_COMMENT_BUTTON_ID);
-            }
-            String submitCommentJs = String.format("var t = document.getElementById('%s'); t.click(); t.click();", jsElementButtonId);
-
             if (addComment != null)
             {
                 addCommentButtonId = addComment.getAttribute("id");
                 String addCommentJs = String.format("document.getElementById('%s').click();", addCommentButtonId);
-                drone.executeJavaScript(addCommentJs);
+                executeJavaScript(addCommentJs);
             }
 
-            drone.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
             /*
              * As of Alfresco v4.2 the add comment button is enclosed in a span
              * that disables/enables the add comment button hence why we need to
              * know of it to enable the button.
              */
-            if (alfrescoVersion.getVersion() >= 4.2)
-            {
-                String addCommentDivId = null;
-
-                if (isDocument)
-                {
-                    addCommentDivId = drone.getElement(ADD_COMMENT_BUTTON_SPAN_ID);
-                }
-                else if (isFolder)
-                {
-                    addCommentDivId = drone.getElement(ADD_FOLDER_COMMENT_BUTTON_SPAN_ID);
-                }
-                String enableAddCommentButton = String.format("YAHOO.widget.Button.getButton('%s').set('disabled', false)", addCommentDivId);
-                drone.executeJavaScript(enableAddCommentButton);
-            }
-
-            drone.executeJavaScript(submitCommentJs);
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Add Comment has been executed");
-            }
+            driver.findElement(By.cssSelector("button[id$='_default-add-submit-button']")).click();
             // check to ensure js completed
-            if (isErrorBalloonMessageDisplay() || addCommentButtonId != null && drone.findAndWait(By.id(addCommentButtonId)).isDisplayed())
+            if (isErrorBalloonMessageDisplay() || addCommentButtonId != null && findAndWait(By.id(addCommentButtonId)).isDisplayed())
             {
                 if (logger.isTraceEnabled())
                 {
@@ -711,8 +635,8 @@ public abstract class DetailsPage extends SitePage
         {
             logger.trace("about to render new page response");
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -728,13 +652,13 @@ public abstract class DetailsPage extends SitePage
             throw new UnsupportedOperationException("Comment input required");
         }
         WebElement commentWebElement = getCommentWebElement(comment);
-        drone.mouseOver(commentWebElement);
+        mouseOver(commentWebElement);
         WebElement delete = commentWebElement.findElement(By.name(".onConfirmDeleteCommentClick"));
         delete.click();
         confirmDelete();
         canResume();
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -749,7 +673,7 @@ public abstract class DetailsPage extends SitePage
         {
             throw new UnsupportedOperationException("Comment input required");
         }
-        List<WebElement> comments = drone.findAndWaitForElements(By.xpath("//div[@class='comment-details']//div[@class='comment-content']"));
+        List<WebElement> comments = findAndWaitForElements(By.xpath("//div[@class='comment-details']//div[@class='comment-content']"));
         WebElement commentEl = null;
         if (logger.isTraceEnabled())
         {
@@ -768,16 +692,16 @@ public abstract class DetailsPage extends SitePage
         }
         if (commentEl != null)
         {
-            drone.mouseOver(commentEl);
-            WebElement delete = drone.findAndWait(By.xpath("//p[text()='" + comment + "']/../..//a[@title='Delete Comment']"));
+            mouseOver(commentEl);
+            WebElement delete = findAndWait(By.xpath("//p[text()='" + comment + "']/../..//a[@title='Delete Comment']"));
             delete.click();
             confirmDelete();
             canResume();
-            drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
 
         }
 
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
 
     }
 
@@ -788,7 +712,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement prompt = drone.findAndWaitById(PROMPT_PANEL_ID);
+            WebElement prompt = findAndWait(PROMPT_PANEL_ID);
             List<WebElement> elements = prompt.findElements(By.tagName("button"));
             // Find the delete button in the prompt
             WebElement delete = findButton("Delete", elements);
@@ -808,10 +732,10 @@ public abstract class DetailsPage extends SitePage
      */
     public boolean isModifiedByDetailsPresent()
     {
-        String selector = AlfrescoVersion.Enterprise42 == alfrescoVersion ? "span.item-modifier" : "div.node-info > div:nth-of-type(2)";
+        String selector =  "span.item-modifier";
         try
         {
-            WebElement modified = drone.find(By.cssSelector(selector));
+            WebElement modified = driver.findElement(By.cssSelector(selector));
             boolean hasLink = modified.findElement(By.tagName("a")).isDisplayed();
             if (!modified.getText().isEmpty() && hasLink)
             {
@@ -837,7 +761,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement sharePaneElement = drone.find(By.xpath(PAGE_SHARE_PANEL));
+            WebElement sharePaneElement = driver.findElement(By.xpath(PAGE_SHARE_PANEL));
             return sharePaneElement.isDisplayed();
         }
         catch (NoSuchElementException exce)
@@ -847,6 +771,7 @@ public abstract class DetailsPage extends SitePage
 
     }
 
+    TinyMceEditor tinyMceEditor;
     /**
      * Get Rich Text or to edit the contents of Comments etc.
      *
@@ -855,7 +780,7 @@ public abstract class DetailsPage extends SitePage
     public TinyMceEditor getContentPage()
     {
 
-        WebElement addComment = drone.findAndWait(By.cssSelector(ADD_COMMENT_BUTTON));
+        WebElement addComment = findAndWait(By.cssSelector(ADD_COMMENT_BUTTON));
         if (logger.isTraceEnabled())
         {
             logger.trace(String.format("Add Comment panel isDisplayed : %s ", addComment.isDisplayed()));
@@ -870,10 +795,10 @@ public abstract class DetailsPage extends SitePage
              * to submit.
              */
             String addCommentJs = String.format("document.getElementById('%s').click();", addCommentButtonId);
-            drone.executeJavaScript(addCommentJs);
+            executeJavaScript(addCommentJs);
         }
 
-        return new TinyMceEditor(drone);
+        return tinyMceEditor;
     }
 
     /**
@@ -883,7 +808,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(COMMENT_LINK)).isDisplayed();
+            return findAndWait(By.cssSelector(COMMENT_LINK)).isDisplayed();
         }
         catch (TimeoutException toe)
         {
@@ -901,7 +826,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement span = drone.find(COMMENT_COUNT);
+            WebElement span = driver.findElement(COMMENT_COUNT);
             return Integer.valueOf(span.getText());
         }
         catch (NoSuchElementException e)
@@ -920,36 +845,12 @@ public abstract class DetailsPage extends SitePage
      *
      * @return {@link ManagePermissionsPage}
      */
-    public ManagePermissionsPage selectManagePermissions()
+    public HtmlPage selectManagePermissions()
     {
         logger.trace(" -- Searching for manage permission link --");
-        drone.find(By.cssSelector(MANAGE_PERMISSIONS)).click();
+        driver.findElement(By.cssSelector(MANAGE_PERMISSIONS)).click();
         logger.trace(" -- Got it --");
-        return new ManagePermissionsPage(drone);
-    }
-
-    /**
-     * Get Sync info page details.
-     *
-     * @return SyncInfoPage
-     */
-    public SyncInfoPage getSyncInfoPage()
-    {
-        try
-        {
-            if (drone.find(By.cssSelector(".document-sync")).isDisplayed())
-            {
-                return this.syncInfoPage == null ? new SyncInfoPage(drone) : this.syncInfoPage;
-            }
-        }
-        catch (NoSuchElementException nse)
-        {
-        }
-        catch (TimeoutException toe)
-        {
-            logger.error("This content is not Synced, Can not return SyncInfoPage!!", toe);
-        }
-        throw new PageException("This content is not Synced, Can not return SyncInfoPage!!");
+        return getCurrentPage();
     }
 
     /**
@@ -961,14 +862,14 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            drone.findAndWait(By.cssSelector(".document-manage-aspects>a")).click();
+            findAndWait(By.cssSelector(".document-manage-aspects>a")).click();
         }
         catch (TimeoutException exception)
         {
             logger.error("Not able to find the web element");
             throw new PageException("Unable to select manage aspects", exception);
         }
-        return new SelectAspectsPage(drone);
+        return factoryPage.instantiatePage(driver, SelectAspectsPage.class);
     }
 
     /**
@@ -976,19 +877,19 @@ public abstract class DetailsPage extends SitePage
      *
      * @return RepositoryPage
      */
-    public RepositoryPage navigateToFolderInRepositoryPage() throws PageOperationException
+    public HtmlPage navigateToFolderInRepositoryPage() throws PageOperationException
     {
         WebElement folderLink = null;
         try
         {
-            List<WebElement> path = drone.findAndWaitForElements(NODE_PATH);
+            List<WebElement> path = findAndWaitForElements(NODE_PATH);
             if (path.isEmpty())
             {
                 throw new PageException("The link elements are not found");
             }
             folderLink = path.get((path.size() - 1));
             folderLink.click();
-            return new RepositoryPage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -1001,12 +902,12 @@ public abstract class DetailsPage extends SitePage
      *
      * @return RepositoryPage
      */
-    public RepositoryPage navigateToParentFolder() throws PageOperationException
+    public HtmlPage navigateToParentFolder() throws PageOperationException
     {
         WebElement folderLink = null;
         try
         {
-            List<WebElement> path = drone.findAndWaitForElements(NODE_PATH);
+            List<WebElement> path = findAndWaitForElements(NODE_PATH);
             if (path.isEmpty())
             {
                 throw new PageException("The link elements are not found");
@@ -1024,7 +925,7 @@ public abstract class DetailsPage extends SitePage
             }
 
             folderLink.click();
-            RepositoryPage repositoryPage = new RepositoryPage(drone);
+            RepositoryPage repositoryPage = getCurrentPage().render();
             repositoryPage.setViewType(repositoryPage.getNavigation().getViewType());
             return repositoryPage;
         }
@@ -1057,7 +958,7 @@ public abstract class DetailsPage extends SitePage
             {
                 throw new UnsupportedOperationException("This action is not supported.");
             }
-            return drone.find(By.cssSelector(action.getDocumentAction(type))).isDisplayed();
+            return driver.findElement(By.cssSelector(action.getDocumentAction(type))).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1082,20 +983,20 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement editCommentLink = drone.findAndWait(By.xpath(String.format("//div[@class='comment-content']/p[text()='%s']/../..", comment)));
-            drone.mouseOver(editCommentLink);
+            WebElement editCommentLink = findAndWait(By.xpath(String.format("//div[@class='comment-content']/p[text()='%s']/../..", comment)));
+            mouseOver(editCommentLink);
             editCommentLink.findElement(By.cssSelector("span.comment-actions a")).click();
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", newComment);
-            drone.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
             // check to ensure js completed
-            if (isErrorBalloonMessageDisplay() || newComment.equals(new TinyMceEditor(drone).getText()))
+            if (isErrorBalloonMessageDisplay() || newComment.equals(new TinyMceEditor().getText()))
             {
                 if (logger.isTraceEnabled())
                 {
                     logger.trace("Adding comment JavaScript executed successfully");
                 }
             }
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -1127,8 +1028,8 @@ public abstract class DetailsPage extends SitePage
                     logger.trace("Adding comment JavaScript executed successfully");
                 }
             }
-            drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException e)
         {
@@ -1156,19 +1057,19 @@ public abstract class DetailsPage extends SitePage
 
     public AddCommentForm clickAddCommentButton()
     {
-        WebElement addComment = drone.findAndWait(By.cssSelector(ADD_COMMENT_BUTTON));
+        WebElement addComment = findAndWait(By.cssSelector(ADD_COMMENT_BUTTON));
         addComment.click();
-        return new AddCommentForm(drone);
+        return new AddCommentForm();
     }
 
     public EditCommentForm clickEditCommentButton(String comment)
     {
         checkNotNull(comment);
         WebElement commentElement = getCommentWebElement(comment);
-        drone.mouseOver(commentElement);
+        mouseOver(commentElement);
         WebElement edit = commentElement.findElement(By.name(".onEditCommentClick"));
         edit.click();
-        return new EditCommentForm(drone);
+        return new EditCommentForm();
     }
 
     /**
@@ -1183,7 +1084,7 @@ public abstract class DetailsPage extends SitePage
         try
         {
             checkNotNull(comment);
-            List<WebElement> comments = drone.findAndWaitForElements(By.xpath("//div[@class='comment-details']//div[@class='comment-content']"));
+            List<WebElement> comments = findAndWaitForElements(By.xpath("//div[@class='comment-details']//div[@class='comment-content']"));
             WebElement commentEl = null;
             if (logger.isTraceEnabled())
             {
@@ -1202,7 +1103,7 @@ public abstract class DetailsPage extends SitePage
             }
             if (commentEl != null)
             {
-                drone.mouseOver(commentEl);
+                mouseOver(commentEl);
                 present = commentEl.findElement(By.name(".onEditCommentClick")).isDisplayed();
 
             }
@@ -1231,7 +1132,7 @@ public abstract class DetailsPage extends SitePage
         try
         {
             checkNotNull(comment);
-            List<WebElement> comments = drone.findAndWaitForElements(By.xpath("//div[@class='comment-details']//div[@class='comment-content']"));
+            List<WebElement> comments = findAndWaitForElements(By.xpath("//div[@class='comment-details']//div[@class='comment-content']"));
             WebElement commentEl = null;
             if (logger.isTraceEnabled())
             {
@@ -1250,7 +1151,7 @@ public abstract class DetailsPage extends SitePage
             }
             if (commentEl != null)
             {
-                drone.mouseOver(commentEl);
+                mouseOver(commentEl);
                 present = commentEl.findElement(By.name(".onConfirmDeleteCommentClick")).isDisplayed();
 
             }
@@ -1296,7 +1197,7 @@ public abstract class DetailsPage extends SitePage
     private boolean isCommentButtonsEnableAndDisplay(String comment)
     {
         WebElement commentElement = getCommentWebElement(comment);
-        drone.mouseOver(commentElement);
+        mouseOver(commentElement);
         WebElement edit = commentElement.findElement(By.name(".onEditCommentClick"));
         WebElement delete = commentElement.findElement(By.name(".onConfirmDeleteCommentClick"));
         return edit.isEnabled() && delete.isEnabled() && edit.isDisplayed() && delete.isDisplayed();
@@ -1327,7 +1228,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(".balloon>.text>div"), 1000).isDisplayed();
+            return findAndWait(By.cssSelector(".balloon>.text>div"), 1000).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -1339,7 +1240,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            List<WebElement> comments = drone.findAndWaitForElements(By.xpath("//div[@class='comment-details']"));
+            List<WebElement> comments = findAndWaitForElements(By.xpath("//div[@class='comment-details']"));
             if (logger.isTraceEnabled())
             {
                 logger.trace(String.format("Are there comments on the page : %s ", comments.isEmpty()));
@@ -1375,7 +1276,7 @@ public abstract class DetailsPage extends SitePage
     public boolean checkConfirmDeleteForm(final String comment)
     {
         WebElement commentWebElement = getCommentWebElement(comment);
-        drone.mouseOver(commentWebElement);
+        mouseOver(commentWebElement);
         WebElement delete = commentWebElement.findElement(By.name(".onConfirmDeleteCommentClick"));
         delete.click();
         return isDeleteDialogDisplay() && isDeleteDialogTextCorrect() && isDeleteDialogButtonsEnableAndDisplay();
@@ -1383,20 +1284,20 @@ public abstract class DetailsPage extends SitePage
 
     private boolean isDeleteDialogDisplay()
     {
-        WebElement dialogForm = drone.findAndWait(By.cssSelector("#prompt"));
+        WebElement dialogForm = findAndWait(By.cssSelector("#prompt"));
         return dialogForm.isDisplayed();
     }
 
     private boolean isDeleteDialogTextCorrect()
     {
-        WebElement dialogText = drone.findAndWait(By.cssSelector(".yui-simple-dialog .bd"));
+        WebElement dialogText = findAndWait(By.cssSelector(".yui-simple-dialog .bd"));
         return dialogText.getText().equals("Are you sure you want to delete this comment?");
     }
 
     private boolean isDeleteDialogButtonsEnableAndDisplay()
     {
         boolean result = false;
-        List<WebElement> buttons = drone.findAndWaitForElements(By.cssSelector("#prompt button"));
+        List<WebElement> buttons = findAndWaitForElements(By.cssSelector("#prompt button"));
         for (WebElement button : buttons)
         {
             result = button.isDisplayed() && button.isEnabled();
@@ -1409,7 +1310,7 @@ public abstract class DetailsPage extends SitePage
      */
     public void cancelDeleteComment()
     {
-        WebElement prompt = drone.findAndWaitById(PROMPT_PANEL_ID);
+        WebElement prompt = findAndWait(PROMPT_PANEL_ID);
         List<WebElement> elements = prompt.findElements(By.tagName("button"));
         WebElement cancel = findButton("Cancel", elements);
         cancel.click();
@@ -1417,7 +1318,7 @@ public abstract class DetailsPage extends SitePage
 
     public PaginationForm getCommentsPagination()
     {
-        return new PaginationForm(drone, PAGINATION);
+        return new PaginationForm(driver, PAGINATION);
     }
 
     /**
@@ -1429,7 +1330,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(TAGS_PANEL).isDisplayed();
+            return driver.findElement(TAGS_PANEL).isDisplayed();
         }
         catch (NoSuchElementException exce)
         {
@@ -1446,7 +1347,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(PROPERTIES_PANEL).isDisplayed();
+            return driver.findElement(PROPERTIES_PANEL).isDisplayed();
         }
         catch (NoSuchElementException exce)
         {
@@ -1463,7 +1364,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(By.cssSelector(LIKE_ACTION)).isDisplayed();
+            return driver.findElement(By.cssSelector(LIKE_ACTION)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1480,7 +1381,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(By.cssSelector(FAVOURITE_ACTION)).isDisplayed();
+            return driver.findElement(By.cssSelector(FAVOURITE_ACTION)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1498,7 +1399,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(By.cssSelector(ADD_COMMENT_BUTTON)).isDisplayed();
+            return driver.findElement(By.cssSelector(ADD_COMMENT_BUTTON)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1515,7 +1416,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(COMMENTS_PANEL_CSS).isDisplayed();
+            return driver.findElement(COMMENTS_PANEL_CSS).isDisplayed();
 
         }
         catch (NoSuchElementException nse)
@@ -1534,7 +1435,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(By.cssSelector(ADD_COMMENT_BUTTON)).isEnabled();
+            return driver.findElement(By.cssSelector(ADD_COMMENT_BUTTON)).isEnabled();
 
         }
         catch (NoSuchElementException nse)
@@ -1553,7 +1454,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            for (WebElement element : drone.findAll(COPY_TO_SHARE_LINKS))
+            for (WebElement element : driver.findElements(COPY_TO_SHARE_LINKS))
             {
                 if (element.getText().equalsIgnoreCase(ShareLinks.COPY_LINK_TO_SHARE_THIS_PAGE.getLinkText()))
                 {
@@ -1577,7 +1478,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(SYNC_SETTINGS_PANEL_CSS).isDisplayed();
+            return driver.findElement(SYNC_SETTINGS_PANEL_CSS).isDisplayed();
 
         }
         catch (NoSuchElementException nse)
@@ -1596,7 +1497,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(By.cssSelector(PERMISSION_SETTINGS_PANEL_CSS)).isDisplayed();
+            return driver.findElement(By.cssSelector(PERMISSION_SETTINGS_PANEL_CSS)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1612,9 +1513,9 @@ public abstract class DetailsPage extends SitePage
 
     public AddCommentForm selectAddComment()
     {
-        drone.findAndWait(By.xpath("//a[contains(@class,'comment')]")).click();
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return new AddCommentForm(drone);
+        findAndWait(By.xpath("//a[contains(@class,'comment')]")).click();
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return new AddCommentForm();
     }
 
     /**
@@ -1624,9 +1525,9 @@ public abstract class DetailsPage extends SitePage
      */
     public AddCommentForm clickAddButton()
     {
-        drone.findAndWait(By.xpath("//button[contains(@id,'comments')]")).click();
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return new AddCommentForm(drone);
+        findAndWait(By.xpath("//button[contains(@id,'comments')]")).click();
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return new AddCommentForm();
     }
 
     /**
@@ -1635,18 +1536,18 @@ public abstract class DetailsPage extends SitePage
      * @param folder when true is for folder details page; false - document details page
      * @return EditDocumentPropertiesPage
      */
-    public EditDocumentPropertiesPage clickEditTagsIcon(boolean folder)
+    public HtmlPage clickEditTagsIcon(boolean folder)
     {
         if (folder)
         {
-            drone.findAndWait(By.cssSelector(EDIT_TAGS_ICON)).click();
+            findAndWait(By.cssSelector(EDIT_TAGS_ICON)).click();
         }
         else
         {
-            drone.findAndWait(By.cssSelector(EDIT_TAGS_ICON_DOC)).click();
+            findAndWait(By.cssSelector(EDIT_TAGS_ICON_DOC)).click();
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return new EditDocumentPropertiesPage(drone);
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -1655,18 +1556,18 @@ public abstract class DetailsPage extends SitePage
      * @param folder when true is for folder details page; false - document details page
      * @return EditDocumentPropertiesPage
      */
-    public EditDocumentPropertiesPage clickEditPropertiesIcon(boolean folder)
+    public HtmlPage clickEditPropertiesIcon(boolean folder)
     {
         if (folder)
         {
-            drone.findAndWait(By.cssSelector(EDIT_PROPERTIES_ICON)).click();
+            findAndWait(By.cssSelector(EDIT_PROPERTIES_ICON)).click();
         }
         else
         {
-            drone.findAndWait(By.cssSelector(EDIT_PROPERTIES_ICON_DOC)).click();
+            findAndWait(By.cssSelector(EDIT_PROPERTIES_ICON_DOC)).click();
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return new EditDocumentPropertiesPage(drone);
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -1676,14 +1577,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            if (alfrescoVersion.getVersion() > 4.2)
-            {
-                return drone.findAndWait(By.cssSelector(COMMENT_FIELD_CSS)).isDisplayed();
-            }
-            else
-            {
-                return drone.findAndWait(By.cssSelector(COMMENT_FIELD)).isDisplayed();
-            }
+            return findAndWait(By.cssSelector(COMMENT_FIELD_CSS)).isDisplayed();
         }
         catch (TimeoutException toe)
         {
@@ -1702,7 +1596,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.find(By.cssSelector(LINK_VIEW_ON_GOOGLE_MAPS)).isDisplayed();
+            return driver.findElement(By.cssSelector(LINK_VIEW_ON_GOOGLE_MAPS)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1719,7 +1613,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(ADD_COMMENT_BUTTON), 2000).isDisplayed();
+            return findAndWait(By.cssSelector(ADD_COMMENT_BUTTON), 2000).isDisplayed();
         }
         catch (TimeoutException nse)
         {
@@ -1746,7 +1640,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement webElement = drone.findAndWait(locator);
+            WebElement webElement = findAndWait(locator);
             return webElement.findElement(By.cssSelector(".alfresco-twister-actions>a")).isDisplayed();
         }
         catch (TimeoutException te)
@@ -1758,12 +1652,12 @@ public abstract class DetailsPage extends SitePage
     /**
      * Mimics the action of deleting a document/folder.
      */
-    public DocumentLibraryPage delete()
+    public HtmlPage delete()
     {
-        WebElement button = drone.findAndWait(By.cssSelector("div.document-delete>a"));
+        WebElement button = findAndWait(By.cssSelector("div.document-delete>a"));
         button.click();
         confirmDelete();
-        return new DocumentLibraryPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -1790,9 +1684,9 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement toLink = drone.findAndWait(By.linkText(link));
+            WebElement toLink = findAndWait(By.linkText(link));
             toLink.click();
-            return new CopyOrMoveContentPage(drone);
+            return factoryPage.instantiatePage(driver,CopyOrMoveContentPage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -1814,7 +1708,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            WebElement changeTypeLink = drone.findAndWait(By.cssSelector(CHNAGE_TYPE.getCssValue() + " a"));
+            WebElement changeTypeLink = findAndWait(By.cssSelector(CHNAGE_TYPE.getCssValue() + " a"));
             changeTypeLink.click();
 
         }
@@ -1824,16 +1718,18 @@ public abstract class DetailsPage extends SitePage
         }
     }
 
-    public DetailsPage changeType(String typeValue)
+    public HtmlPage changeType(String typeValue)
     {
         selectChangeType();
-        ChangeTypePage changeTypePage = new ChangeTypePage(drone).render();
+        ChangeTypePage changeTypePage = factoryPage.instantiatePage(driver,ChangeTypePage.class).render();
         if (!changeTypePage.getTypes().contains(typeValue))
         {
             throw new ShareException(typeValue + " isn't present in the list");
         }
         changeTypePage.selectChangeType(typeValue);
-        return changeTypePage.selectSave().render();
+        changeTypePage.selectSave();
+        waitUntilAlert();
+        return getCurrentPage();
     }
     
     /**
@@ -1846,7 +1742,7 @@ public abstract class DetailsPage extends SitePage
         try
         {
             selectChangeType();
-            ChangeTypePage changeTypePage = new ChangeTypePage(drone).render();
+            ChangeTypePage changeTypePage = factoryPage.instantiatePage(driver,ChangeTypePage.class).render();
             if (changeTypePage.getTypes().contains(typeValue))
             {
                 return true;
@@ -1871,7 +1767,7 @@ public abstract class DetailsPage extends SitePage
     {
         try
         {
-            List<WebElement> comments = drone.findAndWaitForElements(By.xpath("//div[@class='comment-details']"));
+            List<WebElement> comments = findAndWaitForElements(By.xpath("//div[@class='comment-details']"));
             if (logger.isTraceEnabled())
             {
                 logger.trace(String.format("Are there comments on the page : %s ", comments.isEmpty()));

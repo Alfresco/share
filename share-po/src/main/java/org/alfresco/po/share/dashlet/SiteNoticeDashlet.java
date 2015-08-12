@@ -16,17 +16,17 @@ package org.alfresco.po.share.dashlet;
 
 import java.util.List;
 
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.notice-dashlet")
 /**
  * Site Notice dashlet object, holds all element of the HTML relating to site Notice dashlet.
  * 
@@ -49,37 +49,22 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
     private static final By DASHLET_HELP_BALLOON_TEXT = By.cssSelector("div[style*='visible']>div.bd>div.balloon>div.text");
     private static final By DASHLET_HELP_BALLOON_CLOSE_BUTTON = By.cssSelector("div[style*='visible']>div.bd>div.balloon>div.closeButton");
 
-    /**
-     * Constructor.
-     */
-    protected SiteNoticeDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector("div.dashlet.notice-dashlet .yui-resize-handle"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected SiteNoticeDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector("div.dashlet.notice-dashlet .yui-resize-handle"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public SiteNoticeDashlet render(RenderTime timer)
     {
+        setResizeHandle(By.cssSelector("div.dashlet.notice-dashlet .yui-resize-handle"));
         scrollDownToDashlet();
         getFocus();
         webElementRender(timer);
         return this;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteNoticeDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteNoticeDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
     }
 
     /**
@@ -93,7 +78,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            return drone.findAndWait(HELP_ICON).isDisplayed();
+            return findAndWait(HELP_ICON).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -117,7 +102,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            return drone.findAndWait(CONFIGURE_ICON).isDisplayed();
+            return findAndWait(CONFIGURE_ICON).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -139,7 +124,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            drone.findAndWait(HELP_ICON).click();
+            findAndWait(HELP_ICON).click();
         }
         catch (TimeoutException te)
         {
@@ -162,8 +147,8 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            drone.findAndWait(CONFIGURE_ICON).click();
-            return new ConfigureSiteNoticeDialogBoxPage(drone);
+            findAndWait(CONFIGURE_ICON).click();
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
@@ -185,7 +170,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
+            return findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -206,7 +191,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
+            return findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
         }
         catch (TimeoutException elementException)
         {
@@ -226,7 +211,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
+            findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
             return this;
         }
         catch (TimeoutException elementException)
@@ -246,7 +231,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            return drone.findAndWait(DASHLET_TITLE).getText();
+            return findAndWait(DASHLET_TITLE).getText();
         }
         catch (TimeoutException te)
         {
@@ -265,7 +250,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            return drone.findAndWait(DASHLET_CONTENT).getText();
+            return findAndWait(DASHLET_CONTENT).getText();
         }
         catch (TimeoutException te)
         {
@@ -278,7 +263,7 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
  
     /**
@@ -310,5 +295,11 @@ public class SiteNoticeDashlet extends AbstractDashlet implements Dashlet
                     shareLinks.size()));
         }
         throw new PageException("Link can not be found on the dashlet");
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteNoticeDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

@@ -15,20 +15,19 @@
 
 package org.alfresco.po.share.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by olga.lokhach
@@ -38,21 +37,9 @@ public class FollowersPage extends SharePage
 {
 
     private static Log logger = LogFactory.getLog(FollowersPage.class);
-    private static final By HEADER_BAR = By.cssSelector(".header-bar");
     private static final By NO_FOLLOWERS_MESSAGE = By.cssSelector("div.viewcolumn p");
     private static final By USERS_LIST = By.xpath(".//div[@class='profile']//ul[1]");
     private static final By FOLLOWERS_COUNT = By.cssSelector("div>a[href='followers']");
-
-
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public FollowersPage (WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -75,7 +62,7 @@ public class FollowersPage extends SharePage
             {
                 try
                 {
-                    if (drone.find(USERS_LIST).isDisplayed())
+                    if (driver.findElement(USERS_LIST).isDisplayed())
                     {
                         break;
                     }
@@ -84,7 +71,7 @@ public class FollowersPage extends SharePage
                 {
                 }
 
-                if (drone.find(NO_FOLLOWERS_MESSAGE).isDisplayed() || drone.find(NO_FOLLOWERS_MESSAGE).getText().equals(drone.getValue("user.profile.followers.nofollowers")))
+                if (driver.findElement(NO_FOLLOWERS_MESSAGE).isDisplayed() || driver.findElement(NO_FOLLOWERS_MESSAGE).getText().equals(getValue("user.profile.followers.nofollowers")))
                 {
                     break;
                 }
@@ -107,13 +94,6 @@ public class FollowersPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public FollowersPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Get the navigation bar.
      *
@@ -121,7 +101,7 @@ public class FollowersPage extends SharePage
      */
     public ProfileNavigation getProfileNav()
     {
-        return new ProfileNavigation(drone);
+        return new ProfileNavigation(driver, factoryPage);
     }
 
     /**
@@ -135,12 +115,12 @@ public class FollowersPage extends SharePage
         List<ShareLink> shareLinks = new ArrayList<>();
         try
         {
-            List<WebElement> elements = drone.findAll(USERS_LIST);
+            List<WebElement> elements = driver.findElements(USERS_LIST);
 
             for (WebElement element : elements)
             {
                 WebElement result = element.findElement(By.tagName("a"));
-                shareLinks.add(new ShareLink(result, drone));
+                shareLinks.add(new ShareLink(result, driver, factoryPage));
             }
         }
         catch (TimeoutException nse)
@@ -189,7 +169,7 @@ public class FollowersPage extends SharePage
         boolean present = false;
         try
         {
-            present = drone.findAndWait(NO_FOLLOWERS_MESSAGE).getText().equals(drone.getValue("user.profile.followers.nofollowers"));
+            present = findAndWait(NO_FOLLOWERS_MESSAGE).getText().equals(getValue("user.profile.followers.nofollowers"));
             return present;
         }
         catch (NoSuchElementException e)
@@ -209,7 +189,7 @@ public class FollowersPage extends SharePage
         String count = "";
         try
         {
-            count = drone.findAndWait(FOLLOWERS_COUNT).getText().split("[()]+")[1];
+            count = findAndWait(FOLLOWERS_COUNT).getText().split("[()]+")[1];
         }
         catch (TimeoutException nsee)
         {

@@ -19,17 +19,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.Pagination;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.UnknownSharePage;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -50,32 +47,15 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     private static final String SEARCH_FIELD = "page_x002e_search_x002e_search_x0023_default-search-text";
     private static final String SEARCH_BUTTON = "page_x002e_search_x002e_search_x0023_default-search-button-button";
     private static final String SEARCH_RESULT_COUNT = "search.results.count";
-    private static final String SEARCH_RESULT_PAGINATOR_ID = "search.results.paginator.id";
+    private static final String SEARCH_RESULT_PAGINATOR_ID = "_default-paginator-top";
     private static final String SEARCH_RESULTS_DIV_ID = "search.results.div.id";
     private static final String CURRENT_POSITION_CSS = "span.yui-pg-current-page.yui-pg-page";
     private static final String PAGINATION_BUTTON_NEXT = "a.yui-pg-next";
     private static final String PAGINATION_BUTTON_PREVIOUS = "a.yui-pg-previous";
-    private final String goToAdvancedSearch;
+    private final String goToAdvancedSearch = "span#HEADER_ADVANCED_SEARCH_text";
     private static final String SORT_BY_RELEVANCE = "button[id$='default-sort-menubutton-button']";
     private static final String SORT_LIST = "span[id$='-sort-menubutton'] + div>div.bd>ul>li>a";
     protected static final By BACK_TO_SITE_LINK = By.cssSelector("#HEADER_SEARCH_BACK_TO_SITE_DASHBOARD");
-
-    /**
-     * Constructor.
-     */
-    public SearchResultsPage(WebDrone drone)
-    {
-        super(drone);
-        switch (alfrescoVersion)
-        {
-            case Enterprise41:
-                goToAdvancedSearch = ".navigation-item.forwardLink>a";
-                break;
-            default:
-                goToAdvancedSearch = "span#HEADER_ADVANCED_SEARCH_text";
-                break;
-        }
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -96,7 +76,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
             }
             try
             {
-                if (drone.find(By.cssSelector(SEARCH_INFO_DIV)).isDisplayed())
+                if (driver.findElement(By.cssSelector(SEARCH_INFO_DIV)).isDisplayed())
                 {
                     if (completedSearch())
                     {
@@ -122,13 +102,6 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public SearchResultsPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Resolves if searching message is displayed.
      * 
@@ -138,7 +111,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     {
         try
         {
-            String info = drone.find(By.cssSelector(SEARCH_INFO_DIV)).getText();
+            String info = driver.findElement(By.cssSelector(SEARCH_INFO_DIV)).getText();
             return !info.contains("Searching");
         }
         catch (Exception e)
@@ -167,7 +140,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
         boolean exists = false;
         try
         {
-            WebElement element = drone.findByKey(SEARCH_RESULT_PAGINATOR_ID);
+            WebElement element = driver.findElement(By.cssSelector("[id$='_default-paginator-top']"));
             exists = element.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -186,7 +159,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     {
         try
         {
-            WebElement info = drone.find(By.cssSelector(SEARCH_INFO_DIV));
+            WebElement info = driver.findElement(By.cssSelector(SEARCH_INFO_DIV));
             String value = info.getText();
             if (value != null)
             {
@@ -211,10 +184,10 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public HtmlPage selectFirstResult()
     {
-        List<WebElement> searchResults = drone.findAll(By.cssSelector("h3 a"));
+        List<WebElement> searchResults = driver.findElements(By.cssSelector("h3 a"));
         WebElement result = searchResults.get(0);
         result.click();
-        return FactorySharePage.getUnknownPage(drone);
+        return factoryPage.instantiatePage(driver, UnknownSharePage.class);
     }
 
     /**
@@ -226,9 +199,9 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     public HtmlPage selectOnlyOnSite(final String text)
     {
 
-        WebElement searchType = drone.findByKey(SEARCH_ON_SITE);
+        WebElement searchType = findByKey(SEARCH_ON_SITE);
         searchType.click();
-        return FactorySharePage.getUnknownPage(drone);
+        return factoryPage.instantiatePage(driver, UnknownSharePage.class);
     }
 
     /**
@@ -240,9 +213,9 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public HtmlPage selectOnAllSites(final String text)
     {
-        WebElement searchType = drone.findByKey(SEARCH_ON_ALL_SITES);
+        WebElement searchType = findByKey(SEARCH_ON_ALL_SITES);
         searchType.click();
-        return FactorySharePage.getUnknownPage(drone);
+        return factoryPage.instantiatePage(driver, UnknownSharePage.class);
     }
 
     /**
@@ -251,12 +224,12 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public HtmlPage selectRepository()
     {
-        WebElement searchType = drone.find(By.cssSelector("a[id$='repo-link']"));
+        WebElement searchType = driver.findElement(By.cssSelector("a[id$='repo-link']"));
         searchType.click();
         // Check till the results render
         try
         {
-            WebElement element = drone.findByKey(SEARCH_RESULT_COUNT);
+            WebElement element = findByKey(SEARCH_RESULT_COUNT);
             String result = element.getText();
             if (result != null && !result.isEmpty())
             {
@@ -266,7 +239,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
         catch (NoSuchElementException e)
         {
         }
-        return FactorySharePage.getUnknownPage(drone);
+        return factoryPage.instantiatePage(driver, UnknownSharePage.class);
     }
 
     /**
@@ -277,13 +250,13 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public HtmlPage doSearch(final String text)
     {
-        WebElement searchField = drone.find(By.id(SEARCH_FIELD));
+        WebElement searchField = driver.findElement(By.id(SEARCH_FIELD));
         searchField.clear();
         searchField.sendKeys(text);
-        WebElement button = drone.find(By.id(SEARCH_BUTTON));
+        WebElement button = driver.findElement(By.id(SEARCH_BUTTON));
         button.click();
 
-        return FactorySharePage.getUnknownPage(drone);
+        return factoryPage.instantiatePage(driver, UnknownSharePage.class);
     }
 
     /**
@@ -293,7 +266,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public String searchType()
     {
-        WebElement searchType = drone.find(By.cssSelector("a.bold"));
+        WebElement searchType = driver.findElement(By.cssSelector("a.bold"));
         return searchType.getText();
     }
 
@@ -306,7 +279,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public int getPaginationPosition()
     {
-        WebElement paginator = drone.findByKey(SEARCH_RESULT_PAGINATOR_ID);
+        WebElement paginator = findByKey(SEARCH_RESULT_PAGINATOR_ID);
         WebElement element = paginator.findElement(By.cssSelector(CURRENT_POSITION_CSS));
         String position = element.getText();
 
@@ -321,7 +294,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public boolean hasNextPage()
     {
-        return Pagination.hasPaginationButton(drone, PAGINATION_BUTTON_NEXT);
+        return Pagination.hasPaginationButton(driver, PAGINATION_BUTTON_NEXT);
     }
 
     /**
@@ -332,74 +305,9 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public boolean hasPrevioudPage()
     {
-        return Pagination.hasPaginationButton(drone, PAGINATION_BUTTON_PREVIOUS);
+        return Pagination.hasPaginationButton(driver, PAGINATION_BUTTON_PREVIOUS);
     }
 
-    /**
-     * Action of selecting next page on pagination bar.
-     * 
-     * @return results of the next page
-     */
-    public HtmlPage selectNextPage()
-    {
-        return Pagination.selectPaginationButton(drone, PAGINATION_BUTTON_NEXT);
-    }
-
-    /**
-     * Action of selecting previous page on pagination bar.
-     * 
-     * @return results of the next page
-     */
-    public HtmlPage selectPreviousPage()
-    {
-        return Pagination.selectPaginationButton(drone, PAGINATION_BUTTON_PREVIOUS);
-    }
-
-    /**
-     * The total number of pages in pagination bar.
-     * 
-     * @return int total pages of pagiantion
-     */
-    public int paginationCount()
-    {
-        List<WebElement> results = null;
-        try
-        {
-            WebElement element = drone.findByKey(SEARCH_RESULT_PAGINATOR_ID);
-            HtmlElement paginator = new HtmlElement(element, drone);
-            WebElement span = paginator.findAndWait(By.cssSelector("span.yui-pg-pages"));
-            results = span.findElements(By.tagName("a"));
-        }
-        catch (NoSuchElementException nse)
-        {
-        }
-        return results != null ? results.size() + 1 : 0;
-    }
-
-    /**
-     * Selects and opens the paginated page based on the
-     * required position.
-     * 
-     * @param position int pagination page position
-     * @return the select paginated page
-     */
-    public HtmlPage paginationSelect(int position)
-    {
-        try
-        {
-            WebElement element = drone.findByKey(SEARCH_RESULT_PAGINATOR_ID);
-            HtmlElement paginator = new HtmlElement(element, drone);
-            WebElement button = paginator.findAndWait(By.linkText(String.valueOf(position)));
-            button.click();
-        }
-        catch (NoSuchElementException nse)
-        {
-        }
-        catch (TimeoutException te)
-        {
-        }
-        return FactorySharePage.getUnknownPage(drone);
-    }
 
     /**
      * Gets the search results as a collection of SearResultItems.
@@ -413,10 +321,10 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
         {
             try
             {
-                List<WebElement> elements = drone.findAll(By.cssSelector("tbody.yui-dt-data tr"));
+                List<WebElement> elements = driver.findElements(By.cssSelector("tbody.yui-dt-data tr"));
                 for (WebElement element : elements)
                 {
-                    results.add(new SearchResultItem(element, drone));
+                    results.add(new SearchResultItem(element, driver));
                 }
             }
             catch (NoSuchElementException nse)
@@ -439,8 +347,8 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
         {
             throw new IllegalArgumentException("Title is required");
         }
-        drone.find(By.xpath(String.format("//h3/a[text()='%s']", title))).click();
-        return FactorySharePage.getUnknownPage(drone);
+        driver.findElement(By.xpath(String.format("//h3/a[text()='%s']", title))).click();
+        return factoryPage.instantiatePage(driver, UnknownSharePage.class);
     }
 
     /**
@@ -457,19 +365,17 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
             throw new IllegalArgumentException("Value can not be negative");
         }
         number += 1;
-        String selector = AlfrescoVersion.Enterprise43.equals(alfrescoVersion) || alfrescoVersion.isCloud() ?
-                "tr.alfresco-search-AlfSearchResult:nth-of-type(%d) td.thumbnailCell a" :
-                    "tbody.yui-dt-data tr:nth-of-type(%d) > td div span a ";
+        String selector = "tr.alfresco-search-AlfSearchResult:nth-of-type(%d) td.thumbnailCell a";
         try
         {
-            drone.find(By.cssSelector(String.format(selector, number))).click();
+            driver.findElement(By.cssSelector(String.format(selector, number))).click();
         }
         catch (NoSuchElementException e)
         {
             throw new PageException(String.format("Search result %d item not found", number), e);
         }
 
-        return FactorySharePage.getUnknownPage(drone);
+        return factoryPage.instantiatePage(driver, UnknownSharePage.class);
     }
 
     /**
@@ -484,7 +390,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
         {
             throw new UnsupportedOperationException("Search term is required to perform a search");
         }
-        WebElement searchInput = drone.find(By.cssSelector("input[id$='default-search-text']"));
+        WebElement searchInput = driver.findElement(By.cssSelector("input[id$='default-search-text']"));
         searchInput.clear();
         searchInput.sendKeys(term + "\n");
     }
@@ -496,8 +402,8 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
      */
     public HtmlPage goBackToAdvanceSearch()
     {
-        drone.find(By.cssSelector(goToAdvancedSearch)).click();
-        return FactorySharePage.resolvePage(drone);
+        driver.findElement(By.cssSelector(goToAdvancedSearch)).click();
+        return getCurrentPage();
     }
 
     /**
@@ -511,13 +417,13 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     {
         try
         {
-            WebElement sortDropDown = drone.find(By.cssSelector(SORT_BY_RELEVANCE));
+            WebElement sortDropDown = driver.findElement(By.cssSelector(SORT_BY_RELEVANCE));
             sortDropDown.click();
-            List<WebElement> sortLinkWebElement = drone.findAndWaitForElements(By.cssSelector(SORT_LIST));
+            List<WebElement> sortLinkWebElement = findAndWaitForElements(By.cssSelector(SORT_LIST));
             List<ShareLink> sortLinks = new ArrayList<ShareLink>();
             for (WebElement sortListElement : sortLinkWebElement)
             {
-                sortLinks.add(new ShareLink(sortListElement, drone));
+                sortLinks.add(new ShareLink(sortListElement, driver, factoryPage));
             }
             return sortLinks;
         }
@@ -563,7 +469,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
                 if (sortElement.getDescription().equalsIgnoreCase(sortType.getSortName()))
                 {
                     sortElement.click();
-                    return FactorySharePage.resolvePage(drone);
+                    return getCurrentPage();
                 }
             }
         }
@@ -581,8 +487,8 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     public boolean isPageCorrect()
     {
         boolean isCorrect;
-        isCorrect = drone.isElementDisplayed(By.id(SEARCH_FIELD)) && drone.isElementDisplayed(By.id(SEARCH_BUTTON))
-            && drone.findByKey(SEARCH_RESULTS_DIV_ID).isDisplayed() && isSortCorrect() && drone.isElementDisplayed(By.cssSelector(goToAdvancedSearch));
+        isCorrect = isElementDisplayed(By.id(SEARCH_FIELD)) && isElementDisplayed(By.id(SEARCH_BUTTON))
+            && findByKey(SEARCH_RESULTS_DIV_ID).isDisplayed() && isSortCorrect() && isElementDisplayed(By.cssSelector(goToAdvancedSearch));
         return isCorrect;
     }
 
@@ -590,7 +496,7 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
     {
         try
         {
-            List <WebElement> sortList = drone.findAll(By.cssSelector(SORT_LIST));
+            List <WebElement> sortList = driver.findElements(By.cssSelector(SORT_LIST));
             SortType sortTypesValues [] = SortType.values();
             if (sortList.size() == sortTypesValues.length)
             {
@@ -612,25 +518,4 @@ public abstract class SearchResultsPage extends SharePage implements SearchResul
         }
     }
 
-    /**
-     * Click next page button on the
-     * pagination bar.
-     *
-     * @return if visible and clickable
-     */
-    public HtmlPage clickNextPage()
-    {
-        return Pagination.selectPaginationButton(drone, PAGINATION_BUTTON_NEXT);
-    }
-
-    /**
-     * Click prev page button on the
-     * pagination bar.
-     *
-     * @return if visible and clickable
-     */
-    public HtmlPage clickPrevPage()
-    {
-        return Pagination.selectPaginationButton(drone, PAGINATION_BUTTON_PREVIOUS);
-    }
 }

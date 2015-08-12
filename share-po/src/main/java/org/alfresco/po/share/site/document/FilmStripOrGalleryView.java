@@ -1,26 +1,34 @@
-/**
- * 
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.exception.AlfrescoVersionException;
-import org.alfresco.po.share.site.UpdateFilePage;
-import org.alfresco.po.share.workflow.StartWorkFlowPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneImpl;
-import org.alfresco.webdrone.exception.PageException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
-
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.site.UpdateFilePage;
+import org.alfresco.po.share.workflow.StartWorkFlowPage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Abstract of an Gallery/FilmStrip view of FileDirectoryInfo.
@@ -35,10 +43,10 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
     protected static final String MODIFIED_F = "//div/span[contains(text(),'Modified')]";
     protected static final By DOC_FOOTER = By.cssSelector("div[id$='default-doclistBarBottom']");
 
-    public FilmStripOrGalleryView(String nodeRef, WebElement webElement, WebDrone drone)
-    {
-        super(nodeRef, webElement, drone);
-    }
+//    public FilmStripOrGalleryView(String nodeRef, WebElement webElement, WebDriver driver)
+//    {
+//        super(nodeRef, webElement, driver);
+//    }
 
     /*
      * (non-Javadoc)
@@ -66,33 +74,6 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         return editInfo;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#getTags()
-     */
-    @Override
-    public List<String> getTags()
-    {
-        clickInfoIcon(false);
-
-        List<String> tags = super.getTags();
-        focusOnDocLibFooter();
-        return tags;
-    }
-
-    /**
-     * This method gets the list of in line tags after clicking on tag info icon.
-     *
-     * @return List<WebElement> collection of tags
-     */
-    @Override
-    public List<String> getInlineTagsList()
-    {
-        clickInfoIcon(false);
-        List<String> tagsList = super.getInlineTagsList();
-        focusOnDocLibFooter();
-        return tagsList;
-    }
 
     /*
      * (non-Javadoc)
@@ -205,19 +186,6 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
 
     /*
      * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#hasTags()
-     */
-    @Override
-    public boolean hasTags()
-    {
-        clickInfoIcon(false);
-        boolean tag = super.hasTags();
-        focusOnDocLibFooter();
-        return tag;
-    }
-
-    /*
-     * (non-Javadoc)
      * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#getContentNodeRef()
      */
     @Override
@@ -227,100 +195,6 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         String nodeRef = super.getContentNodeRef();
         focusOnDocLibFooter();
         return nodeRef;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#addTag(java.lang.String)
-     */
-    @Override
-    public void addTag(final String tagName)
-    {
-        clickInfoIcon(false);
-        super.addTag(tagName);
-        focusOnDocLibFooter();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnAddTag()
-     */
-    @Override
-    public void clickOnAddTag()
-    {
-        RenderTime timer = new RenderTime(((WebDroneImpl) getDrone()).getMaxPageRenderWaitTime() * 2);
-        while (true)
-        {
-            try
-            {
-                timer.start();
-                clickInfoIcon();
-                WebElement tagInfo = drone.findFirstDisplayedElement(By.xpath(TAG_INFO));
-                getDrone().mouseOver(tagInfo);
-                drone.waitForElement(By.xpath(String.format(TAG_ICON, getName())),
-                        SECONDS.convert(((WebDroneImpl) getDrone()).getMaxPageRenderWaitTime(), MILLISECONDS));
-                WebElement addTagBtn = drone.findAndWait(By.xpath(String.format(TAG_ICON, getName())));
-                addTagBtn.click();
-                // getDrone().waitForElement(By.cssSelector(INPUT_TAG_NAME), SECONDS.convert(((WebDroneImpl) getDrone()).getMaxPageRenderWaitTime(),
-                // MILLISECONDS));
-                if (findElement(By.cssSelector(INPUT_TAG_NAME)).isDisplayed())
-                {
-                    break;
-                }
-            }
-            catch (NoSuchElementException e)
-            {
-                logger.error("Unable to find the add tag icon", e);
-            }
-            catch (TimeoutException te)
-            {
-                logger.error("Exceeded time to find the tag info area ", te);
-            }
-            catch (ElementNotVisibleException e2)
-            {
-            }
-            catch (StaleElementReferenceException stale)
-            {
-            } finally
-            {
-                timer.end();
-            }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#removeTagButtonIsDisplayed(java.lang.String)
-     */
-    @Override
-    public boolean removeTagButtonIsDisplayed(String tagName)
-    {
-        clickInfoIcon(false);
-        return super.removeTagButtonIsDisplayed(tagName);
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnTagRemoveButton(java.lang.String)
-     */
-    @Override
-    public void clickOnTagRemoveButton(String tagName)
-    {
-        clickInfoIcon(false);
-        super.clickOnTagRemoveButton(tagName);
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isCloudSynced()
-     */
-    @Override
-    public boolean isCloudSynced()
-    {
-        clickInfoIcon(false);
-        boolean cloudSync = super.isCloudSynced();
-        focusOnDocLibFooter();
-        return cloudSync;
     }
 
     /*
@@ -343,16 +217,10 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
     @Override
     public void selectDownloadFolderAsZip()
     {
-        AlfrescoVersion version = getDrone().getProperties().getVersion();
         if (!isFolder())
         {
             throw new UnsupportedOperationException("Download folder as zip is available for folders only.");
         }
-        if (AlfrescoVersion.Enterprise41.equals(version) || version.isCloud())
-        {
-            throw new AlfrescoVersionException("Option Download Folder as Zip is not available for this version of Alfresco");
-        }
-
         clickInfoIcon(false);
         super.downloadFolderAsZip();
         focusOnDocLibFooter();
@@ -380,72 +248,6 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         return super.selectViewFolderDetails();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnTagNameLink(java.lang.String)
-     */
-    @Override
-    public HtmlPage clickOnTagNameLink(String tagName)
-    {
-        return super.clickOnTagNameLink(tagName);
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectSyncToCloud()
-     */
-    @Override
-    public HtmlPage selectSyncToCloud()
-    {
-        clickInfoIcon(true);
-        return super.selectSyncToCloud();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectEditInGoogleDocs()
-     */
-    @Override
-    public HtmlPage selectEditInGoogleDocs()
-    {
-        clickInfoIcon(true);
-        return super.selectEditInGoogleDocs();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectUnSyncFromCloud()
-     */
-    @Override
-    public void selectUnSyncFromCloud()
-    {
-        clickInfoIcon(true);
-        super.selectUnSyncFromCloud();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isViewCloudSyncInfoLinkPresent()
-     */
-    @Override
-    public boolean isViewCloudSyncInfoLinkPresent()
-    {
-        clickInfoIcon(false);
-        boolean viewCloudSyncInfo = super.isViewCloudSyncInfoLinkPresent();
-        focusOnDocLibFooter();
-        return viewCloudSyncInfo;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnViewCloudSyncInfo()
-     */
-    @Override
-    public SyncInfoPage clickOnViewCloudSyncInfo()
-    {
-        clickInfoIcon(false);
-        return super.clickOnViewCloudSyncInfo();
-    }
 
     /*
      * (non-Javadoc)
@@ -456,17 +258,6 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
     {
         clickInfoIcon(true);
         return super.selectInlineEdit();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#getCloudSyncType()
-     */
-    @Override
-    public String getCloudSyncType()
-    {
-        clickInfoIcon(false);
-        return super.getCloudSyncType();
     }
 
     /*
@@ -506,19 +297,6 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
 
     /*
      * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isEditInGoogleDocsPresent()
-     */
-    @Override
-    public boolean isEditInGoogleDocsPresent()
-    {
-        clickInfoIcon(true);
-        boolean googleDocsPresent = super.isEditInGoogleDocsPresent();
-        focusOnDocLibFooter();
-        return googleDocsPresent;
-    }
-
-    /*
-     * (non-Javadoc)
      * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isDeletePresent()
      */
     @Override
@@ -551,77 +329,6 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         clickInfoIcon(true);
         return super.selectManageRules();
     }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isUnSyncFromCloudLinkPresent()
-     */
-    @Override
-    public boolean isUnSyncFromCloudLinkPresent()
-    {
-        clickInfoIcon(true);
-        return super.isUnSyncFromCloudLinkPresent();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isSyncFailedIconPresent(long)
-     */
-    @Override
-    public boolean isSyncFailedIconPresent(long waitTime)
-    {
-        clickInfoIcon(false);
-        boolean syncFail = super.isSyncFailedIconPresent(waitTime);
-        focusOnDocLibFooter();
-        return syncFail;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isIndirectlySyncedIconPresent()
-     */
-    @Override
-    public boolean isIndirectlySyncedIconPresent()
-    {
-        clickInfoIcon(false);
-        boolean syncFail = super.isIndirectlySyncedIconPresent();
-        focusOnDocLibFooter();
-        return syncFail;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectRequestSync()
-     */
-    @Override
-    public DocumentLibraryPage selectRequestSync()
-    {
-        clickInfoIcon(true);
-        return super.selectRequestSync();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isRequestToSyncLinkPresent()
-     */
-    @Override
-    public boolean isRequestToSyncLinkPresent()
-    {
-        clickInfoIcon(true);
-        return super.isRequestToSyncLinkPresent();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isSyncToCloudLinkPresent()
-     */
-    @Override
-    public boolean isSyncToCloudLinkPresent()
-    {
-        clickInfoIcon(true);
-        return super.isSyncToCloudLinkPresent();
-    }
-
     /*
      * (non-Javadoc)
      * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectManagePermission()
@@ -834,8 +541,8 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
     {
         try
         {
-            // drone.mouseOver(drone.findAndWait(By.linkText(getName())));
-            drone.mouseOver(drone.findAndWait(By.xpath(String.format(".//div[@class='alf-label']/a[text()='%s']", getName()))));
+            // mouseOver(findAndWait(By.linkText(getName())));
+            mouseOver(findAndWait(By.xpath(String.format(".//div[@class='alf-label']/a[text()='%s']", getName()))));
             return findAndWait(By.cssSelector("a.alf-show-detail"));
         }
         catch (TimeoutException e)
@@ -848,19 +555,14 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
 
     private void focusOnDocLibFooter()
     {
-        drone.mouseOver(drone.findAndWait(By.xpath("//div[contains(@id,'default-doclistBarBottom')]")));
-    }
-
-    private void focusOnUpButton()
-    {
-        drone.mouseOver(drone.findAndWait(By.cssSelector("button[id$='_default-folderUp-button-button']")));
+        mouseOver(findAndWait(By.xpath("//div[contains(@id,'default-doclistBarBottom')]")));
     }
 
     @Override
     public void contentNameEnableEdit()
     {
         // hover over tag area
-        RenderTime timer = new RenderTime(((WebDroneImpl) getDrone()).getMaxPageRenderWaitTime() * 2);
+        RenderTime timer = new RenderTime(maxPageLoadingTime * 2);
         while (true)
         {
             try
@@ -925,10 +627,10 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
     {
         clickInfoIcon(false);
         boolean shareLinkVisible = super.isShareLinkVisible();//findFirstDisplayedElement
-        WebElement element = drone.find(By.xpath("//div[@class='alf-detail-thumbnail']/../../.."));
+        WebElement element = driver.findElement(By.xpath("//div[@class='alf-detail-thumbnail']/../../.."));
         String id = element.getAttribute("id");
-        drone.mouseOver(drone.findAndWait(By.cssSelector("button[id$='default-fileSelect-button-button']")));
-        drone.waitUntilElementDisappears(By.id(id), 30);
+        mouseOver(findAndWait(By.cssSelector("button[id$='default-fileSelect-button-button']")));
+        waitUntilElementDisappears(By.id(id), 30);
         return shareLinkVisible; 
     }
 
@@ -1044,7 +746,7 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         try
         {
             findAndWait(By.cssSelector("h3.filename a")).click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -1082,104 +784,7 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoImpl#selectForceUnSyncInCloud()
-     */
-    @Override
-    public DocumentLibraryPage selectForceUnSyncInCloud()
-    {
-        clickInfoIcon(true);
-        return super.selectForceUnSyncInCloud();
-    }
-    
-    @Override
-    public void enterTagString(final String tagName)
-    {
-        if(!isInfoPopUpDisplayed())
-        {
-            WebElement infoIcon = getInfoIcon();
-            infoIcon.click();  
-        }
-        super.enterTagString(tagName);
-    }
 
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface.isGeoLocationIconDisplayed()
-     */
-    @Override
-    public boolean isGeoLocationIconDisplayed()
-    {
-        clickInfoIcon(false);
-        boolean geoLocation = super.isGeoLocationIconDisplayed();
-        WebElement element = drone.findFirstDisplayedElement(DETAIL_WINDOW);
-        String id = element.getAttribute("id");
-//        focusOnDocLibFooter();
-        focusOnUpButton();
-        drone.waitUntilElementDisappears(By.id(id), 30);
-        return geoLocation;
-    }
-
-    /*
-    * (non-Javadoc)
-    * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface.isEXIFIconDisplayed()
-    */
-    @Override
-    public boolean isEXIFIconDisplayed()
-    {
-        clickInfoIcon(false);
-        boolean exifIcon = super.isEXIFIconDisplayed();
-        WebElement element = drone.findFirstDisplayedElement(DETAIL_WINDOW);
-        String id = element.getAttribute("id");
-//        focusOnDocLibFooter();
-        focusOnUpButton();
-        drone.waitUntilElementDisappears(By.id(id), 30);
-        return exifIcon;
-    }
-    
-//    /*
-//     * (non-Javadoc)
-//     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isModelInfoPresent()
-//     */
-//    @Override
-//    public boolean isModelInfoPresent()
-//    {
-//        clickInfoIcon(false);
-//        return super.isModelInfoPresent();
-//    }
-//    
-//    /*
-//     * (non-Javadoc)
-//     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isModelActive()
-//     */
-//    @Override
-//    public boolean isModelActive()
-//    {
-//        clickInfoIcon(false);
-//        return super.isModelActive();
-//    }
-//    
-//    /*
-//     * (non-Javadoc)
-//     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#getModelName()
-//     */
-//    @Override
-//    public String getModelName()
-//    {
-//        clickInfoIcon(false);
-//        return super.getModelName();
-//    }
-//    
-//    /*
-//     * (non-Javadoc)
-//     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#getModelDesription()
-//     */
-//    @Override
-//    public String getModelDesription()
-//    {
-//        clickInfoIcon(false);
-//        return super.getModelDesription();
-//    }
     
     @Override
     public boolean isModelActive()
@@ -1199,27 +804,4 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         throw new UnsupportedOperationException("Model info not available in Table view.");
     }  
 
-    /**
-     * Method to select Check In Google Doc
-     *
-     * @return GoogleDocCheckInPage
-     */
-    @Override
-    public GoogleDocCheckInPage selectCheckInGoogleDoc()
-    {
-        clickInfoIcon(true);
-        return super.selectCheckInGoogleDoc();
-    }
-
-    /**
-     * Method to select Cancel Editing in Google Docs
-     *
-     * @return DocumentLibraryPage
-     */
-    @Override
-    public DocumentLibraryPage selectCancelEditingInGoogleDocs()
-    {
-        clickInfoIcon(true);
-        return super.selectCancelEditingInGoogleDocs();
-    }
 }

@@ -9,10 +9,11 @@ import org.alfresco.po.share.RepositoryPage;
 import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
 import org.alfresco.po.share.site.document.UserProfile;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-
+import org.alfresco.po.HtmlPage;
+import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Component;
+import org.alfresco.po.exception.PageOperationException;
+@Component
 public class AdminActions extends DashBoardActions
 {
     /**
@@ -21,7 +22,7 @@ public class AdminActions extends DashBoardActions
      * @return Groups page
      */
 
-    public GroupsPage navigateToGroup(WebDrone driver)
+    public GroupsPage navigateToGroup(WebDriver driver)
     {
         DashBoardPage dashBoard = openUserDashboard(driver);
         GroupsPage page = dashBoard.getNav().getGroupsPage().render();
@@ -34,7 +35,7 @@ public class AdminActions extends DashBoardActions
      * @return Groups page
      */
 
-    public UserSearchPage navigateToUserPage(WebDrone driver)
+    public UserSearchPage navigateToUserPage(WebDriver driver)
     {
         DashBoardPage dashBoard = openUserDashboard(driver);
         return dashBoard.getNav().getUsersPage().render();
@@ -46,7 +47,7 @@ public class AdminActions extends DashBoardActions
      * @return GroupsPage 
      * @throws UnexpectedSharePageException if not a Groups page instance
      */
-    private GroupsPage getGroupsPage(WebDrone driver) throws UnexpectedSharePageException
+    private GroupsPage getGroupsPage(WebDriver driver) throws UnexpectedSharePageException
     {
         try
         {
@@ -66,7 +67,7 @@ public class AdminActions extends DashBoardActions
      * @param driver WebDriver Instance        
      * @return Groups page
      */
-    public GroupsPage browseGroups(WebDrone driver)
+    public GroupsPage browseGroups(WebDriver driver)
     {
             GroupsPage page = getGroupsPage(driver);
             page = page.clickBrowse().render();
@@ -83,7 +84,7 @@ public class AdminActions extends DashBoardActions
      * @return Boolean
      */
 
-    public Boolean isUserGroupMember(WebDrone driver, String fName, String uName, String groupName)
+    public Boolean isUserGroupMember(WebDriver driver, String fName, String uName, String groupName)
     {
         GroupsPage page = browseGroups(driver);
         GroupsPage groupspage = page.selectGroup(groupName).render();
@@ -103,7 +104,7 @@ public class AdminActions extends DashBoardActions
         return false;
     }
 
-    public HtmlPage createEnterpriseUserWithGroup(WebDrone driver, String userName, String fName, String lName, String userEmail, String password,
+    public HtmlPage createEnterpriseUserWithGroup(WebDriver driver, String userName, String fName, String lName, String userEmail, String password,
             String groupName)
     {
         UserSearchPage userPage = navigateToUserPage(driver);
@@ -115,10 +116,10 @@ public class AdminActions extends DashBoardActions
     /**
      * Open DashBoard > Repository > Data Dictionary
      * 
-     * @param driver WebDrone
+     * @param driver WebDriver
      * @return RepoPage
      */
-    public HtmlPage openRepositoryDataDictionaryPage(WebDrone driver)
+    public HtmlPage openRepositoryDataDictionaryPage(WebDriver driver)
     {
         DashBoardPage dashBoard = openUserDashboard(driver);
         RepositoryPage repoPage = dashBoard.getNav().selectRepository().render();
@@ -136,10 +137,10 @@ public class AdminActions extends DashBoardActions
     /**
      * Open Open DashBoard > Repository > Data Dictionary > Models Page
      * 
-     * @param driver WebDrone
+     * @param driver WebDriver
      * @return ModelsPage
      */
-    public HtmlPage openRepositoryModelsPage(WebDrone driver)
+    public HtmlPage openRepositoryModelsPage(WebDriver driver)
     {        
         RepositoryPage repoPage = openRepositoryDataDictionaryPage(driver).render();
         try

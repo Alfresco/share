@@ -1,9 +1,10 @@
 package org.alfresco.po.share.util;
 
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -109,5 +110,35 @@ public class PageUtils
             return m1.group(1);
         else
             throw new PageException("Can't extract Share URL");
+    }
+    /**
+     * Helper method to check the parameters. This method should be used for all public methods.
+     *
+     * @author Tuna Aksoy
+     * @param paramName {@link String} A name for the parameter to check
+     * @param object {@link Object} The object to check
+     * @param <E> type
+     * @exception IllegalArgumentException will be thrown if the parameter value is null
+     * (for {@link String} also if the value is empty or blank)
+     * 
+     */
+    public static <E> void checkMandotaryParam(final String paramName, final Object object)
+    {
+        if(StringUtils.isBlank(paramName))
+        {
+            throw new IllegalArgumentException(String.format("The parameter paramName is required and can not be'%s'", paramName));
+        }
+        if (object == null)
+        {
+            throw new IllegalArgumentException(String.format("'%s' is a mandatory parameter and must have a value", paramName));
+        }
+        if(object instanceof String && StringUtils.isBlank((String) object))
+        {
+            throw new IllegalArgumentException(String.format("'%s' is a mandatory parameter", paramName));
+        }
+        if(object instanceof Collection<?> && ((Collection<?>)object).isEmpty())
+        {
+            throw new IllegalArgumentException(String.format("'%s' is a mandatory parameter and can not be empty", paramName));
+        }
     }
 }

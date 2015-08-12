@@ -14,7 +14,8 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.RenderTime;
+import org.alfresco.po.RenderTime;
+
 
 /**
  * A dashlet interface.
@@ -32,21 +33,5 @@ public interface Dashlet
      * @return Dashlet object response
      */
     <T extends Dashlet> T render(final RenderTime timer);
-
-    /**
-     * Dashlet renderer verifies the page has rendered
-     * by checking java script page loaded status is complete.
-     * 
-     * @return Dashlet object response
-     */
     <T extends Dashlet> T render();
-
-    /**
-     * Dashlet renderer verifies the page has rendered
-     * by checking java script page loaded status is complete.
-     * 
-     * @param timer long
-     * @return Dashlet object response
-     */
-    <T extends Dashlet> T render(long timer);
 }

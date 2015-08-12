@@ -11,7 +11,7 @@ import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.dashlet.AbstractSiteDashletTest;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SitePageType;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -42,14 +42,14 @@ public class LinksPageTest extends AbstractSiteDashletTest
     {
         dashBoard = loginAs(username, password);
         siteName = "links" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
 
     @AfterClass
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test(groups = "Enterprise-only")

@@ -1,6 +1,20 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.enums;
 
-import org.alfresco.webdrone.WebDroneUtil;
+import org.alfresco.po.share.util.PageUtils;
 
 /**
  * Enum to contain all the view Type
@@ -12,8 +26,6 @@ public enum ViewType
 {
     SIMPLE_VIEW("Simple"),
     DETAILED_VIEW("Detailed"),
-    GALLERY_VIEW("Gallery"),
-    FILMSTRIP_VIEW("Filmstrip"),
     TABLE_VIEW("Table"),
     AUDIO_VIEW("Audio"),
     MEDIA_VIEW("media_table");
@@ -38,7 +50,7 @@ public enum ViewType
      */
     public static ViewType getViewType(String name)
     {
-        WebDroneUtil.checkMandotaryParam("name", name);
+        PageUtils.checkMandotaryParam("name", name);
 
         if (name.equalsIgnoreCase((SIMPLE_VIEW.getName())))
         {
@@ -47,14 +59,6 @@ public enum ViewType
         else if (name.equalsIgnoreCase((DETAILED_VIEW.getName())))
         {
             return DETAILED_VIEW;
-        }
-        else if (name.equalsIgnoreCase((GALLERY_VIEW.getName())))
-        {
-            return GALLERY_VIEW;
-        }
-        else if (name.equalsIgnoreCase((FILMSTRIP_VIEW.getName())))
-        {
-            return FILMSTRIP_VIEW;
         }
         else if (name.equalsIgnoreCase((TABLE_VIEW.getName())))
         {

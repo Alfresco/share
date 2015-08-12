@@ -18,8 +18,6 @@
  */
 package org.alfresco.po.share.workflow;
 
-import static org.alfresco.po.share.task.AssignFilter.ME;
-import static org.alfresco.po.share.task.AssignFilter.UNASSIGNED;
 import static org.alfresco.po.share.workflow.DueFilters.NEXT_7_DAYS;
 import static org.alfresco.po.share.workflow.DueFilters.NO_DATE;
 import static org.alfresco.po.share.workflow.DueFilters.OVERDUE;
@@ -41,7 +39,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.SharePage;
@@ -50,8 +50,6 @@ import org.alfresco.po.share.task.TaskDetails;
 import org.alfresco.po.share.task.TaskFilters;
 import org.alfresco.po.share.task.TaskStatus;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.testng.Assert;
@@ -103,7 +101,7 @@ public class MyWorkFlowsPageTest extends AbstractTest
     @AfterClass
     public void afterClass()
     {
-        SharePage sharePage = drone.getCurrentPage().render();
+        SharePage sharePage = resolvePage(driver).render();
 
         List<String> workFlowList = Arrays.asList(workFlow1, workFlow3);
 
@@ -226,7 +224,7 @@ public class MyWorkFlowsPageTest extends AbstractTest
         assertEquals(taskDetails.getStatus(), "Not Yet Started");
         assertEquals(taskDetails.getType(), TaskDetailsType.TASK);
         assertEquals(taskDetails.getDescription(), "Task allocated by colleague");
-        assertEquals(taskDetails.getStartedBy(), uname + "@test.com");
+        assertEquals(taskDetails.getStartedBy(), uname);
         assertTrue(taskDetails.isViewWorkFlowDisplayed());
         assertTrue(taskDetails.isViewTaskDisplayed());
         assertTrue(taskDetails.isEditTaskDisplayed());
@@ -284,14 +282,14 @@ public class MyWorkFlowsPageTest extends AbstractTest
     @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyCompletedWorkFlowDetails")
     public void verifyGetWorkFlowCount()
     {
-        myWorkFlowsPage = drone.getCurrentPage().render();
+        myWorkFlowsPage = resolvePage(driver).render();
         assertEquals(myWorkFlowsPage.getDisplayedWorkFlowCount(), 1);
     }
 
     @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyGetWorkFlowCount")
     public void verifyWorkFlowFilterCount()
     {
-        myWorkFlowsPage = drone.getCurrentPage().render();
+        myWorkFlowsPage = resolvePage(driver).render();
         WorkFlowFilters workFlowFilters = myWorkFlowsPage.getWorkFlowsFilter();
         workFlowFilters.select(NEXT_7_DAYS);
         workFlowFilters.select(TOMORROW);
@@ -310,37 +308,13 @@ public class MyWorkFlowsPageTest extends AbstractTest
         workFlowFilters.select(NEW_WORKFLOW);
     }
 
-    @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyWorkFlowFilterCount")
-    public void selectCancelWorkFlow() throws Exception
-    {
-        myWorkFlowsPage = myWorkFlowsPage.selectActiveWorkFlows().render();
-        StartWorkFlowPage startWorkFlowPage = myWorkFlowsPage.selectStartWorkflowButton().render();
-        NewWorkflowPage workFlow = (NewWorkflowPage) startWorkFlowPage.getWorkflowPage(NEW_WORKFLOW);
-        workFlow.render();
-
-        WorkFlowFormDetails formDetails = getFormDetails(workFlow2);
-        myWorkFlowsPage = workFlow.startWorkflow(formDetails).render();
-
-        myWorkFlowsPage = myWorkFlowsPage.selectActiveWorkFlows().render();
-        assertTrue(myWorkFlowsPage.isWorkFlowPresent(workFlow2));
-
-        workFlowDetailsPage = myWorkFlowsPage.selectWorkFlow(workFlow2).render();
-
-        assertTrue(workFlowDetailsPage.isCancelTaskOrWorkFlowButtonDisplayed());
-        myTasksPage = workFlowDetailsPage.selectCancelWorkFlow().render();
-        myWorkFlowsPage = myTasksPage.getNav().selectWorkFlowsIHaveStarted().render();
-        Assert.assertFalse(myWorkFlowsPage.isWorkFlowPresent(workFlow2));
-        myWorkFlowsPage = myWorkFlowsPage.selectCompletedWorkFlows().render();
-        Assert.assertFalse(myWorkFlowsPage.isWorkFlowPresent(workFlow2));
-    }
-
     private String getDueDateOnMyTaskPage(String dueDateString)
     {
         DateTime date = DateTimeFormat.forPattern("dd/MM/yyyy").parseDateTime(dueDateString);
         return date.toString(DateTimeFormat.forPattern("dd MMMM, yyyy"));
     }
 
-    @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "selectCancelWorkFlow")
+    @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyWorkFlowFilterCount")
     public void selectStartWorkflowButtonWithDueDateNone() throws InterruptedException
     {
         dueDate = "";
@@ -366,7 +340,7 @@ public class MyWorkFlowsPageTest extends AbstractTest
         assertEquals(taskDetails.getStatus(), "Not Yet Started");
         assertEquals(taskDetails.getType(), TaskDetailsType.TASK);
         assertEquals(taskDetails.getDescription(), "Task allocated by colleague");
-        assertEquals(taskDetails.getStartedBy(), uname + "@test.com");
+        assertEquals(taskDetails.getStartedBy(), uname);
     }
 
     @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyTaskDetailsWithDueDateNone")
@@ -384,34 +358,14 @@ public class MyWorkFlowsPageTest extends AbstractTest
     @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyTaskButtonsPresent")
     public void verifyTaskCountMethod()
     {
-        myTasksPage = drone.getCurrentPage().render();
+        myTasksPage = resolvePage(driver).render();
         assertEquals(myTasksPage.getTasksCount(), 1);
     }
 
-    @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyTaskCountMethod")
-    public void verifyTaskFilter()
-    {
-        myTasksPage = drone.getCurrentPage().render();
-        TaskFilters taskFilters = myTasksPage.getTaskFilters();
-
-        taskFilters.select(NEXT_7_DAYS);
-        taskFilters.select(TOMORROW);
-        taskFilters.select(TODAY);
-        taskFilters.select(OVERDUE);
-        taskFilters.select(NO_DATE);
-
-        taskFilters.select(LOW);
-        taskFilters.select(HIGH);
-        taskFilters.select(MEDIUM);
-
-        taskFilters.select(ME);
-        taskFilters.select(UNASSIGNED);
-    }
-
-    @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyTaskFilter", expectedExceptions = PageOperationException.class)
+    @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyTaskCountMethod", expectedExceptions = PageOperationException.class)
     public void verifyTaskFilterByWorkFlowTypeWithException()
     {
-        myTasksPage = drone.getCurrentPage().render();
+        myTasksPage = resolvePage(driver).render();
         TaskFilters taskFilters = myTasksPage.getTaskFilters();
 
         taskFilters.select(NEW_WORKFLOW);
@@ -420,7 +374,7 @@ public class MyWorkFlowsPageTest extends AbstractTest
     @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyTaskFilterByWorkFlowTypeWithException", expectedExceptions = PageOperationException.class)
     public void verifyTaskFilterByStartedWithException()
     {
-        myTasksPage = drone.getCurrentPage().render();
+        myTasksPage = resolvePage(driver).render();
         TaskFilters taskFilters = myTasksPage.getTaskFilters();
 
         taskFilters.select(LAST_28_DAYS);
@@ -429,7 +383,7 @@ public class MyWorkFlowsPageTest extends AbstractTest
     @Test(groups = {"Enterprise4.2", "TestBug"}, dependsOnMethods = "verifyTaskFilterByStartedWithException")
     public void checkFilterTitle()
     {
-        myTasksPage = drone.getCurrentPage().render();
+        myTasksPage = resolvePage(driver).render();
         TaskFilters taskFilters = myTasksPage.getTaskFilters();
 
         taskFilters.select(LOW);

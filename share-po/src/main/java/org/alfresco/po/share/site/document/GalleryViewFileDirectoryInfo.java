@@ -12,9 +12,8 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -32,29 +31,29 @@ public class GalleryViewFileDirectoryInfo extends FilmStripOrGalleryView
     private static Log logger = LogFactory.getLog(GalleryViewFileDirectoryInfo.class);
 
     private WebElement fileDirectoryInfo;
-
-    public GalleryViewFileDirectoryInfo(String nodeRef, WebElement webElement, WebDrone drone)
-    {
-        super(nodeRef, webElement, drone);
-
-        FILENAME_IDENTIFIER = "div.alf-label>a";
-        THUMBNAIL_TYPE = "div.alf-gallery-item-thumbnail>span";
-        rowElementXPath = "../../../..";
-        FILE_DESC_IDENTIFIER = "h3.filename+div.detail+div.detail>span";
-        TAG_LINK_LOCATOR = By.cssSelector("div>div>span>span>a.tag-link");
-        DETAIL_WINDOW = By.xpath("//div[@class='alf-detail-thumbnail']/../../..");
-        fileDirectoryInfo = webElement;
-        resolveStaleness();
-
-        if (isFolder())
-        {
-            THUMBNAIL = "div.alf-gallery-item-thumbnail span a";
-        }
-        else
-        {
-            THUMBNAIL = "div.alf-gallery-item-thumbnail>div+div+a>img";
-        }
-    }
+//
+//    public GalleryViewFileDirectoryInfo(String nodeRef, WebElement webElement, WebDriver driver)
+//    {
+//        super(nodeRef, webElement, driver);
+//
+//        FILENAME_IDENTIFIER = "div.alf-label>a";
+//        THUMBNAIL_TYPE = "div.alf-gallery-item-thumbnail>span";
+//        rowElementXPath = "../../../..";
+//        FILE_DESC_IDENTIFIER = "h3.filename+div.detail+div.detail>span";
+//        TAG_LINK_LOCATOR = By.cssSelector("div>div>span>span>a.tag-link");
+//        DETAIL_WINDOW = By.xpath("//div[@class='alf-detail-thumbnail']/../../..");
+//        fileDirectoryInfo = webElement;
+//        resolveStaleness();
+//
+//        if (isFolder())
+//        {
+//            THUMBNAIL = "div.alf-gallery-item-thumbnail span a";
+//        }
+//        else
+//        {
+//            THUMBNAIL = "div.alf-gallery-item-thumbnail>div+div+a>img";
+//        }
+//    }
 
     /*
      * (non-Javadoc)
@@ -63,7 +62,7 @@ public class GalleryViewFileDirectoryInfo extends FilmStripOrGalleryView
     @Override
     public HtmlPage selectThumbnail()
     {
-        drone.mouseOver(drone.findAndWait(By.xpath(String.format(".//div[@class='alf-label']/a[text()='%s']", getName()))));
+        mouseOver(findAndWait(By.xpath(String.format(".//div[@class='alf-label']/a[text()='%s']", getName()))));
         return super.selectThumbnail();
     }
 
@@ -93,7 +92,7 @@ public class GalleryViewFileDirectoryInfo extends FilmStripOrGalleryView
     @Override
     public void selectCheckbox()
     {
-        drone.mouseOver(drone.findAndWait(By.xpath(String.format(".//div[@class='alf-label']/a[text()='%s']", getName()))));
+        mouseOver(findAndWait(By.xpath(String.format(".//div[@class='alf-label']/a[text()='%s']", getName()))));
         super.selectCheckbox();
     }
 
@@ -117,7 +116,7 @@ public class GalleryViewFileDirectoryInfo extends FilmStripOrGalleryView
                 xPath = ".//div[@class='alf-label']/a[text()='%s']/../../a/img";
             }
 
-            WebElement img = drone.findAndWait(By.xpath(String.format(xPath, getName())));
+            WebElement img = findAndWait(By.xpath(String.format(xPath, getName())));
 
             return img.getAttribute("src");
         }

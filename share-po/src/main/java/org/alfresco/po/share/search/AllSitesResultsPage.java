@@ -14,8 +14,8 @@
  */
 package org.alfresco.po.share.search;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 
 /**
  * All sites search results page object, holds all element of the html page relating to
@@ -27,14 +27,6 @@ import org.alfresco.webdrone.WebDrone;
  */
 public class AllSitesResultsPage extends SearchResultsPage
 {
-
-    /**
-     * Constructor.
-     */
-    public AllSitesResultsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -51,13 +43,6 @@ public class AllSitesResultsPage extends SearchResultsPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AllSitesResultsPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Performs the search by entering the term into search field
      * and submitting the search.
@@ -65,9 +50,9 @@ public class AllSitesResultsPage extends SearchResultsPage
      * @param term String term to search
      * @return {@link AllSitesResultsPage} page response
      */
-    public AllSitesResultsPage search(final String term)
+    public HtmlPage search(final String term)
     {
         searchFor(term);
-        return new AllSitesResultsPage(drone);
+        return getCurrentPage();
     }
 }

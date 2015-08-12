@@ -6,11 +6,6 @@
             <class name="org.alfresco.po.share.search.AdvanceSearchContentTest" />
     	</classes>
     </test>
-    <test name="AdvanceSearchCRMTest">
-        <classes>
-            <class name="org.alfresco.po.share.search.AdvanceSearchCRMTest" />
-        </classes>
-    </test>
     <test name="LiveSearchDropdownTest">
         <classes>
             <class name="org.alfresco.po.share.search.LiveSearchDropdownTest" />

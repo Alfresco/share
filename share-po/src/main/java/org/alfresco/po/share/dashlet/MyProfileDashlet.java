@@ -18,20 +18,19 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.user.MyProfilePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
-
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(xpath="//div[count(./div[@class='toolbar'])=0 and @class='dashlet']")
 /**
  * @author Aliaksei Boole
  */
@@ -43,21 +42,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     private static final By AVATAR = By.cssSelector (".photo>img");
     static final By HELP_ICON = By.xpath("//div[contains(@class, 'help')]");
     private final By userName = By.cssSelector(".namelabel>a");
-    private final By emailName = By.cssSelector(".fieldvalue>a");
-    private static final By titleBarActions = By.xpath("//div[count(./div[@class='toolbar'])=0 and @class='dashlet']//div[@class='titleBarActions']");
-
-    /**
-     * Constructor.
-     *
-     * @param drone WebDrone
-     */
-    protected MyProfileDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-    }
-
     @SuppressWarnings("unchecked")
-    @Override
     public MyProfileDashlet render(RenderTime timer)
     {
         try
@@ -79,7 +64,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus(DASHLET_CONTAINER_PLACEHOLDER);
-                    this.dashlet = drone.find(DASHLET_CONTAINER_PLACEHOLDER);
+                    this.dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -103,20 +88,6 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyProfileDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyProfileDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
     /**
      * Method to verify View Full Profile is displayed
      */
@@ -124,7 +95,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(VIEW_FULL_PROFILE).isDisplayed();
+            return findAndWait(VIEW_FULL_PROFILE).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -136,12 +107,12 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     /**
      * Click on View Full Profile button
      */
-    public MyProfilePage clickViewFullProfileButton()
+    public HtmlPage clickViewFullProfileButton()
     {
         try
         {
-            drone.find(VIEW_FULL_PROFILE).click();
-            return drone.getCurrentPage().render();
+            driver.findElement(VIEW_FULL_PROFILE).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -159,7 +130,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(userName).getText();
+            return findAndWait(userName).getText();
         }
         catch (TimeoutException e)
         {
@@ -169,6 +140,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
         throw new PageOperationException("Unable to find the username: " + userName);
     }
 
+    @FindBy(css=".fieldvalue>a") WebElement emailName;
     /**
      * Method to get element text for email.
      *
@@ -176,7 +148,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
      */
     public String getEmailName()
     {
-        return getElementText(emailName);
+        return emailName.getText();
     }
 
 
@@ -190,7 +162,7 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(AVATAR).isDisplayed();
+            return findAndWait(AVATAR).isDisplayed();
         }
         catch (TimeoutException nse)
         {
@@ -207,8 +179,8 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(userName).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(userName).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -238,5 +210,11 @@ public class MyProfileDashlet extends AbstractDashlet implements Dashlet
         }
 
         return false;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyProfileDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

@@ -14,16 +14,13 @@
  */
 package org.alfresco.po.share.user;
 
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ChangePasswordPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.alfresco.po.share.FactoryPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Represent elements found on the HTML page relating to the profile navigation
@@ -32,9 +29,8 @@ import org.openqa.selenium.TimeoutException;
  * @author Abhijeet Bharade
  * @since 1.7.1
  */
-public class ProfileNavigation
+public class ProfileNavigation extends PageElement
 {
-    private static final By CLOUD_SYNC_LINK = By.cssSelector("div>a[href='user-cloud-auth']");
     private static final By TRASHCAN_LINK = By.cssSelector("div>a[href='user-trashcan']");
     private static final By LANGUAGE_LINK = By.cssSelector("div>a[href='change-locale']");
     private static final By NOTIFICATIONS_LINK = By.cssSelector("div>a[href='user-notifications']");
@@ -43,44 +39,17 @@ public class ProfileNavigation
     private static final By FOLLOWING_LINK = By.cssSelector("div>a[href='following']");
     private static final By FOLLOWERS_LINK = By.cssSelector("div>a[href='followers']");
     private static final By CHANGE_PASSWORD_LINK = By.cssSelector("div>a[href='change-password']");
-    private final Log logger = LogFactory.getLog(ProfileNavigation.class);
-
-    private final WebDrone drone;
-
     /**
      * Constructor
      * 
-     * @param drone WebDriver browser client
+     * @param driver WebDriver browser client
      */
-    public ProfileNavigation(WebDrone drone)
+    public ProfileNavigation(WebDriver driver, FactoryPage factoryPage)
     {
-        this.drone = drone;
+        this.driver = driver;
+        this.factoryPage = factoryPage;
     }
 
-    /**
-     * Does the action of clicking on Cloud Sync link on
-     * 
-     * @return {@link CloudSyncPage}
-     */
-    public CloudSyncPage selectCloudSyncPage()
-    {
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            throw new UnsupportedOperationException("Cloud sync functionality available only for Enterprise.");
-        }
-        try
-        {
-            drone.findAndWait(CLOUD_SYNC_LINK).click();
-        }
-        catch (TimeoutException exception)
-        {
-            String message = "Not able to find the Cloud Sync Link";
-            logger.error(message + exception);
-            throw new PageException(message, exception);
-        }
-        return new CloudSyncPage(drone);
-    }
 
     /**
      * Click on the trashcan link
@@ -90,8 +59,8 @@ public class ProfileNavigation
      */
     public TrashCanPage selectTrashCan()
     {
-        drone.find(TRASHCAN_LINK).click();
-        return new TrashCanPage(drone);
+        driver.findElement(TRASHCAN_LINK).click();
+        return getCurrentPage().render();
     }
 
     /**
@@ -101,15 +70,10 @@ public class ProfileNavigation
      */
     public LanguageSettingsPage selectLanguage()
     {
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (!version.isCloud())
-        {
-            throw new UnsupportedOperationException("Language Settings are not available for Environment: " + version.toString());
-        }
         try
         {
-            drone.find(LANGUAGE_LINK).click();
-            return new LanguageSettingsPage(drone);
+            driver.findElement(LANGUAGE_LINK).click();
+            return factoryPage.instantiatePage(driver, LanguageSettingsPage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -125,8 +89,8 @@ public class ProfileNavigation
      */
     public NotificationPage selectNotification()
     {
-        drone.find(NOTIFICATIONS_LINK).click();
-        return new NotificationPage(drone);
+        driver.findElement(NOTIFICATIONS_LINK).click();
+        return factoryPage.instantiatePage(driver, NotificationPage.class);
     }
 
     /**
@@ -137,8 +101,8 @@ public class ProfileNavigation
      */
     public UserSitesPage selectSites()
     {
-        drone.find(SITES_LINK).click();
-        return new UserSitesPage(drone);
+        driver.findElement(SITES_LINK).click();
+        return factoryPage.instantiatePage(driver, UserSitesPage.class);
     }
     
     /**
@@ -149,8 +113,8 @@ public class ProfileNavigation
      */
     public UserContentPage selectContent()
     {
-        drone.find(CONTENT_LINK).click();
-        return new UserContentPage(drone);
+        driver.findElement(CONTENT_LINK).click();
+        return factoryPage.instantiatePage(driver,UserContentPage.class);
     }
 
     /**
@@ -162,8 +126,8 @@ public class ProfileNavigation
 
     public FollowingPage selectFollowing()
     {
-        drone.find(FOLLOWING_LINK).click();
-        return new FollowingPage(drone);
+        driver.findElement(FOLLOWING_LINK).click();
+        return factoryPage.instantiatePage(driver, FollowingPage.class);
     }
 
     /**
@@ -175,8 +139,8 @@ public class ProfileNavigation
 
     public FollowersPage selectFollowers()
     {
-        drone.find(FOLLOWERS_LINK).click();
-        return new FollowersPage(drone);
+        driver.findElement(FOLLOWERS_LINK).click();
+        return factoryPage.instantiatePage(driver, FollowersPage.class);
     }
 
     /**
@@ -188,8 +152,8 @@ public class ProfileNavigation
 
     public ChangePasswordPage selectChangePassword()
     {
-        drone.find(CHANGE_PASSWORD_LINK).click();
-        return new ChangePasswordPage(drone);
+        driver.findElement(CHANGE_PASSWORD_LINK).click();
+        return factoryPage.instantiatePage(driver, ChangePasswordPage.class);
     }
 
 }

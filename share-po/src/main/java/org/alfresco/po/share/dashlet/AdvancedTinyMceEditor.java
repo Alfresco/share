@@ -20,9 +20,8 @@ package org.alfresco.po.share.dashlet;
 
 import java.util.Set;
 
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.site.document.TinyMceEditor;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -43,14 +42,6 @@ public class AdvancedTinyMceEditor extends TinyMceEditor
     private static final By ANCHOR_CSS = By.cssSelector("i.mce-i-anchor");
     private static final By IMAGE_LINK_CSS = By.cssSelector("i.mce-i-image");
     private static final By HTML_CODE_CSS = By.cssSelector("i.mce-i-code");
-    @SuppressWarnings("unused")
-    private String mainWindow = null;
-    
-    public AdvancedTinyMceEditor(WebDrone drone)
-    {
-        super(drone);
-        mainWindow = drone.getWindowHandle();
-    }
 
     /**
      * This method does the clicking on Insert/Edit Link present on Site Notice Configure Tiny mce editor.
@@ -61,8 +52,8 @@ public class AdvancedTinyMceEditor extends TinyMceEditor
     {
         try
         {
-            drone.findAndWait(LINK_CSS).click();
-            return new InsertOrEditLinkPage(drone, drone.findFirstDisplayedElement(By.cssSelector("div.mce-reset")));
+            driver.findElement(LINK_CSS).click();
+            return new InsertOrEditLinkPage(driver, findFirstDisplayedElement(By.cssSelector("div.mce-reset")));
         }
         catch (TimeoutException te)
         {
@@ -78,7 +69,7 @@ public class AdvancedTinyMceEditor extends TinyMceEditor
     {
         try
         {
-            drone.findAndWait(UNLINK_CSS).click();
+            driver.findElement(UNLINK_CSS).click();
         }
         catch (TimeoutException te)
         {
@@ -95,8 +86,8 @@ public class AdvancedTinyMceEditor extends TinyMceEditor
     {
         try
         {
-            drone.findAndWait(ANCHOR_CSS).click();
-            return new InsertOrEditAnchorPage(drone, drone.findFirstDisplayedElement(By.cssSelector("div.mce-reset")));
+            driver.findElement(ANCHOR_CSS).click();
+            return new InsertOrEditAnchorPage(driver, findFirstDisplayedElement(By.cssSelector("div.mce-reset")));
         }
         catch (TimeoutException te)
         {
@@ -117,8 +108,8 @@ public class AdvancedTinyMceEditor extends TinyMceEditor
     {
         try
         {
-            drone.findAndWait(IMAGE_LINK_CSS).click();
-            return new InsertOrEditImagePage(drone, drone.findFirstDisplayedElement(By.cssSelector("div.mce-reset")));
+            driver.findElement(IMAGE_LINK_CSS).click();
+            return new InsertOrEditImagePage(driver, findFirstDisplayedElement(By.cssSelector("div.mce-reset")));
         }
         catch (TimeoutException te)
         {
@@ -135,9 +126,8 @@ public class AdvancedTinyMceEditor extends TinyMceEditor
     {
         try
         {
-            drone.findAndWait(HTML_CODE_CSS).click();
-//            switchDroneToNewWindowOfListOfWindows(drone.getValue("page.html.source.editor.title"));
-            return new HtmlSourceEditorPage(drone, drone.findFirstDisplayedElement(By.cssSelector("div.mce-reset")));
+            driver.findElement(HTML_CODE_CSS).click();
+            return new HtmlSourceEditorPage(driver, findFirstDisplayedElement(By.cssSelector("div.mce-reset")));
         }
         catch (TimeoutException te)
         {
@@ -148,13 +138,13 @@ public class AdvancedTinyMceEditor extends TinyMceEditor
     @SuppressWarnings("unused")
     private void switchDroneToNewWindowOfListOfWindows(String windowName)
     {
-        Set<String> windowHandles = drone.getWindowHandles();
+        Set<String> windowHandles = driver.getWindowHandles();
 
         for (String windowHandle : windowHandles)
         {
-            drone.switchToWindow(windowHandle);
-            logger.info(drone.getTitle());
-            if (drone.getTitle().equals(windowName))
+            driver.switchTo().window(windowHandle);
+            logger.info(driver.getTitle());
+            if (driver.getTitle().equals(windowName))
             {
                 return;
             }

@@ -18,6 +18,7 @@
  */
 package org.alfresco.po.share;
 
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.site.document.SharedFilesPage;
 import org.alfresco.test.FailedTestListener;
 import org.openqa.selenium.Keys;
@@ -47,13 +48,6 @@ public class DashBoardPageTest extends AbstractTest
         dashBoard = loginAs(username, password);
 
         Assert.assertTrue(dashBoard.isLogoPresent());
-        // TODO remove this condition once bug Cloud-881 is fixed
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (!version.isCloud())
-        {
-            Assert.assertTrue(dashBoard.titlePresent());
-            Assert.assertEquals("Administrator Dashboard", dashBoard.getPageTitle());
-        }
         String copyright = dashBoard.getCopyRight();
         Assert.assertTrue(copyright.contains("Alfresco Software"));
     }
@@ -62,74 +56,34 @@ public class DashBoardPageTest extends AbstractTest
     public void refreshPage() throws Exception
     {
         //Were already logged in from the previous test.
-        drone.refresh();
-        DashBoardPage dashBoard = drone.getCurrentPage().render();
+        driver.navigate().refresh();
+        DashBoardPage dashBoard = resolvePage(driver).render();
         Assert.assertNotNull(dashBoard);
     }
 
     @Test(dependsOnMethods = "refreshPage", groups = "alfresco-one")
     public void checkTopLogoUrl()
     {
-        DashBoardPage dashBoardPage = drone.getCurrentPage().render();
+        DashBoardPage dashBoardPage = resolvePage(driver).render();
         Assert.assertNotNull(dashBoardPage.getTopLogoUrl());
     }
 
     @Test(dependsOnMethods = "refreshPage", groups = "alfresco-one")
     public void checkFooterLogoUrl()
     {
-        DashBoardPage dashBoardPage = drone.getCurrentPage().render();
+        DashBoardPage dashBoardPage = resolvePage(driver).render();
         Assert.assertNotNull(dashBoardPage.getFooterLogoUrl());
     }
 
-    @Test(dependsOnMethods = "checkFooterLogoUrl", groups = "alfresco-one")
-    public void checkOpenAboutPopUpLogo()
-    {
-        DashBoardPage dashBoardPage = drone.getCurrentPage().render();
-        AboutPopUp aboutPopUp = dashBoardPage.openAboutPopUp();
-        Assert.assertNotNull(aboutPopUp.getLogoUrl());
-    }
-    
-    @Test(dependsOnMethods = "checkOpenAboutPopUpLogo", groups = "alfresco-one")
-    public void clickViewTutorialsLink()
-    {
-        drone.refresh();
-        DashBoardPage dashBoardPage = drone.getCurrentPage().render();
-        dashBoardPage.clickTutorialsLink();
-        String mainWindow = drone.getWindowHandle();
-        waitInSeconds(3);
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (!version.isCloud())
-        {
-            Assert.assertTrue(isWindowOpened("Alfresco One video tutorials"));
-        }
-        else
-        {
-            Assert.assertTrue(isWindowOpened("Video tutorials"));
-        }      
-        drone.closeWindow();
-        drone.switchToWindow(mainWindow);        
-    }
-    
-    @Test(dependsOnMethods = "clickViewTutorialsLink", groups = "Enterprise-only")
-    public void checkVersionsFromPopUpLogo()
-    {
-        drone.refresh();
-        DashBoardPage dashBoardPage = drone.getCurrentPage().render();
-        AboutPopUp aboutPopUp = dashBoardPage.openAboutPopUp();
-        String versionsDetail = aboutPopUp.getVersionsDetail();
-        Assert.assertTrue(aboutPopUp.isVersionsDetailDisplayed());
-        Assert.assertTrue(versionsDetail.contains("Aikau") && versionsDetail.contains("Spring Surf") && versionsDetail.contains("Spring WebScripts"));
-    }
-    
     @Test(dependsOnMethods = "refreshPage", enabled = false, groups = "nonGrid")
     public void testKeysForHeaderBar() throws Exception
     {
-        drone.refresh();
+        driver.navigate().refresh();
         dashBoard.inputFromKeyborad(Keys.TAB);
         dashBoard.inputFromKeyborad(Keys.ARROW_RIGHT);
         dashBoard.inputFromKeyborad(Keys.ARROW_RIGHT);
         dashBoard.inputFromKeyborad(Keys.RETURN);
-        Assert.assertTrue(drone.getCurrentPage().render() instanceof SharedFilesPage);
+        Assert.assertTrue(resolvePage(driver).render() instanceof SharedFilesPage);
     }
 }
 

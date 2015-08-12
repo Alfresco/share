@@ -1,16 +1,31 @@
+/*
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.links;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
+import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.RenderTime;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
@@ -40,16 +55,6 @@ public class LinksDetailsPage extends SharePage
     private static final By LINK_TAGS = By.xpath("//a[@class='tag-link']");
     private static final By LINK_ITSELF = By.xpath("//div[@class='nodeURL']/a");
 
-    /**
-     * Constructor
-     *
-     * @param drone WebDrone
-     */
-    public LinksDetailsPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     public LinksDetailsPage render(RenderTime timer)
     {
@@ -66,12 +71,6 @@ public class LinksDetailsPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    public LinksDetailsPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to browse to links list
      *
@@ -81,8 +80,8 @@ public class LinksDetailsPage extends SharePage
     {
         try
         {
-            drone.findAndWait(LINKS_LIST_LINK).click();
-            return new LinksPage(drone).render();
+            driver.findElement(LINKS_LIST_LINK).click();
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
@@ -99,9 +98,9 @@ public class LinksDetailsPage extends SharePage
     {
         try
         {
-            if (!drone.isElementDisplayed(TAG_NONE))
+            if (!isElementDisplayed(TAG_NONE))
             {
-                String tagName = drone.findAndWait(TAG).getAttribute("title");
+                String tagName = driver.findElement(TAG).getAttribute("title");
                 if (!tagName.isEmpty())
                     return tagName;
                 else
@@ -109,7 +108,7 @@ public class LinksDetailsPage extends SharePage
 
             }
             else
-                return drone.find(TAG_NONE).getText();
+                return driver.findElement(TAG_NONE).getText();
         }
         catch (TimeoutException te)
         {
@@ -124,7 +123,7 @@ public class LinksDetailsPage extends SharePage
      */
     public String getUrl()
     {
-        return drone.findAndWait(LINK_ITSELF).getText();
+        return driver.findElement(LINK_ITSELF).getText();
     }
 
     /**
@@ -134,7 +133,7 @@ public class LinksDetailsPage extends SharePage
      */
     public String getTitle()
     {
-        return drone.findAndWait(LINK_TITLE).getText();
+        return driver.findElement(LINK_TITLE).getText();
     }
 
     /**
@@ -144,7 +143,7 @@ public class LinksDetailsPage extends SharePage
      */
     public String getDescription()
     {
-        return drone.findAndWait(LINK_DESCRIPTION).getText();
+        return driver.findElement(LINK_DESCRIPTION).getText();
     }
 
     /**
@@ -159,7 +158,7 @@ public class LinksDetailsPage extends SharePage
     {
         editLink(url, title, description, tag, false);
     }
-
+    AddLinkForm addLinkForm;
     /**
      * Mimic edit link (remove tag or add).
      * set true if you want remove tag
@@ -178,8 +177,7 @@ public class LinksDetailsPage extends SharePage
         checkNotNull(title);
         checkNotNull(description);
         checkNotNull(tag);
-        drone.findAndWait(EDIT_LINK).click();
-        AddLinkForm addLinkForm = new AddLinkForm(drone);
+        driver.findElement(EDIT_LINK).click();
         addLinkForm.setUrlField(url);
         addLinkForm.setTitleField(title);
         addLinkForm.setDescriptionField(description);
@@ -196,7 +194,7 @@ public class LinksDetailsPage extends SharePage
      */
     public void clickOnLinkUrl()
     {
-        drone.findAndWait(LINK_ITSELF).click();
+        driver.findElement(LINK_ITSELF).click();
     }
 
     /**
@@ -206,14 +204,14 @@ public class LinksDetailsPage extends SharePage
     {
         try
         {
-            if (!drone.isElementDisplayed(TAG_NONE))
+            if (!isElementDisplayed(TAG_NONE))
             {
-                WebElement tagElement = drone.findAndWait(TAG);
+                WebElement tagElement = driver.findElement(TAG);
                 String tagName = tagElement.getAttribute("title");
                 if (!tagName.isEmpty())
                 {
                     tagElement.click();
-                    return new LinksPage(drone).waitUntilAlert().render();
+                    return factoryPage.instantiatePage(driver,LinksDetailsPage.class).waitUntilAlert().render();
                 }
             }
         }
@@ -232,8 +230,8 @@ public class LinksDetailsPage extends SharePage
     public void addComment(String comment)
     {
         checkNotNull(comment);
-        drone.findAndWait(COMMENT_LINK).click();
-        AddCommentLinkForm addCommentLinkForm = new AddCommentLinkForm(drone);
+        driver.findElement(COMMENT_LINK).click();
+        AddCommentLinkForm addCommentLinkForm = new AddCommentLinkForm();
         addCommentLinkForm.insertText(comment);
         addCommentLinkForm.clickSubmit();
     }
@@ -249,10 +247,10 @@ public class LinksDetailsPage extends SharePage
         checkNotNull(text);
         try
         {
-            List<WebElement> commentBaseElements = drone.findAndWaitForElements(LINK_COMMENTS);
+            List<WebElement> commentBaseElements = findAndWaitForElements(LINK_COMMENTS);
             for (WebElement baseElement : commentBaseElements)
             {
-                LinkComment linkComment = new LinkComment(baseElement, drone);
+                LinkComment linkComment = new LinkComment(baseElement, driver);
                 String commentText = linkComment.getText();
                 if (commentText.equals(text))
                 {
@@ -269,9 +267,9 @@ public class LinksDetailsPage extends SharePage
 
     public LinksPage deleteLink()
     {
-        drone.findAndWait(DELETE_LINK).click();
-        drone.findAndWait(CONFIRM_DELETE_BUTTON).click();
-        return new LinksPage(drone).waitUntilAlert().render();
+        driver.findElement(DELETE_LINK).click();
+        driver.findElement(CONFIRM_DELETE_BUTTON).click();
+        return factoryPage.instantiatePage(driver,LinksDetailsPage.class).waitUntilAlert().render();
     }
 
     private WebElement getElementWithText(By selector, String text)
@@ -280,7 +278,7 @@ public class LinksDetailsPage extends SharePage
         checkNotNull(selector);
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(selector);
+            List<WebElement> elements = findAndWaitForElements(selector);
             for (WebElement element : elements)
             {
                 if (element.getText().contains(text))
@@ -300,7 +298,7 @@ public class LinksDetailsPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(".nodeTitle>a")).getText();
+            return driver.findElement(By.cssSelector(".nodeTitle>a")).getText();
         }
         catch (TimeoutException te)
         {

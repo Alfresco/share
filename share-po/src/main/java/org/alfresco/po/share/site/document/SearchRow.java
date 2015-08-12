@@ -14,7 +14,7 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.webdrone.HtmlPage;
+import org.alfresco.po.HtmlPage;
 
 /**
  * @author nshah

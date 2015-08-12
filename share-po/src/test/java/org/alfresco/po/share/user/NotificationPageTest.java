@@ -22,11 +22,8 @@ package org.alfresco.po.share.user;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -53,17 +50,8 @@ public class NotificationPageTest extends AbstractTest
     @BeforeClass(groups = { "alfresco-one" })
     public void prepare() throws Exception
     {
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-
-        DashBoardPage dashboardPage = FactorySharePage.resolvePage(drone).render();
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
+        DashBoardPage dashboardPage = factoryPage.getPage(driver).render();
         myprofile = dashboardPage.getNav().selectMyProfile().render();
         notificationPage = myprofile.getProfileNav().selectNotification().render();
     }

@@ -7,7 +7,7 @@ import static org.testng.Assert.assertTrue;
 
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
@@ -44,13 +44,13 @@ public class SiteProfileDashletTest extends AbstractSiteDashletTest
     public void setUp() throws Exception
     {
         loginAs("admin", "admin");
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
     @Test(groups = "Enterprise-only")
     public void instantiateDashlet()
     {
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();;
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.SITE_PROFILE, 1).render();
         siteProfileDashlet = siteDashBoard.getDashlet(SITE_PROFILE_DASHLET).render();

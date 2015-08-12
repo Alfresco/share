@@ -19,14 +19,15 @@
 
 package org.alfresco.po.alfresco;
 
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * Created by olga.lokhach on 6/16/2014.
@@ -38,11 +39,6 @@ public class WebScriptsPage extends SharePage
     private static Log logger = LogFactory.getLog(WebScriptsPage.class);
     private final By REFRESH_WEB_SCRIPTS_BUTTON = By.cssSelector("div>form>table>tbody>tr>td>input[value*='Refresh']");
     private final By CLEAR_CHACHES_BUTTON = By.cssSelector("div>form>table>tbody>tr>td>input[value*='Clear']");
-
-    public WebScriptsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -61,23 +57,16 @@ public class WebScriptsPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public WebScriptsPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method for click Refresh Button
      *
      * @return WebScriptsMaintenancePage
      */
 
-    public WebScriptsMaintenancePage clickRefresh()
+    public HtmlPage clickRefresh()
     {
-        drone.findAndWait(REFRESH_WEB_SCRIPTS_BUTTON).click();
-        return new WebScriptsMaintenancePage(drone);
+        findAndWait(REFRESH_WEB_SCRIPTS_BUTTON).click();
+        return factoryPage.instantiatePage(driver, WebScriptsMaintenancePage.class);
 
     }
 
@@ -87,7 +76,7 @@ public class WebScriptsPage extends SharePage
 
     public void clickClear()
     {
-        drone.findAndWait(CLEAR_CHACHES_BUTTON).click();
+        findAndWait(CLEAR_CHACHES_BUTTON).click();
     }
 
     /**
@@ -98,7 +87,7 @@ public class WebScriptsPage extends SharePage
 
     public boolean isOpened()
     {
-        return drone.findAndWait(By.xpath("*//span[contains(text(), 'Web Scripts Home')]")).isDisplayed();
+        return findAndWait(By.xpath("*//span[contains(text(), 'Web Scripts Home')]")).isDisplayed();
     }
 
 }

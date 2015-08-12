@@ -2,13 +2,15 @@ package org.alfresco.po.share.site;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -152,7 +154,7 @@ public class InviteMembersPageTest extends AbstractTest
     public void testNavigateToPendingInvitesPage()
     {
         membersPage.navigateToPendingInvitesPage();
-        Assert.assertTrue(drone.getCurrentPage().render() instanceof PendingInvitesPage);
+        Assert.assertTrue(resolvePage(driver).render() instanceof PendingInvitesPage);
         membersPage = siteNavigation.selectInvite().render();
     }
 
@@ -160,7 +162,7 @@ public class InviteMembersPageTest extends AbstractTest
     public void testNavigateToGroupsInvitePage()
     {
         membersPage.navigateToSiteGroupsPage();
-        Assert.assertTrue(drone.getCurrentPage().render() instanceof SiteGroupsPage);
+        Assert.assertTrue(resolvePage(driver).render() instanceof SiteGroupsPage);
         membersPage = siteNavigation.selectInvite().render();
     }
 
@@ -175,10 +177,10 @@ public class InviteMembersPageTest extends AbstractTest
     {
         try
         {
-            if (drone != null && !StringUtils.isEmpty(siteName))
+            if (driver != null && !StringUtils.isEmpty(siteName))
             {
-                SiteUtil.deleteSite(drone, siteName);
-                closeWebDrone();
+                siteUtil.deleteSite(username, password, siteName);
+                closeWebDriver();
             }
         }
         catch (Exception e)

@@ -15,11 +15,11 @@
 package org.alfresco.po.share;
 
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -43,16 +43,6 @@ public class DeleteGroupFromGroupPage extends SharePage
         Yes, No
     }
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public DeleteGroupFromGroupPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public DeleteGroupFromGroupPage render(RenderTime timer)
@@ -67,14 +57,6 @@ public class DeleteGroupFromGroupPage extends SharePage
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DeleteGroupFromGroupPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Confirmation (or not) of deleting any group from Group page
      * 
@@ -86,14 +68,14 @@ public class DeleteGroupFromGroupPage extends SharePage
         switch (groupButton)
         {
             case Yes:
-                drone.findAndWait(By.cssSelector(DELETE_BUTTON)).click();
+                findAndWait(By.cssSelector(DELETE_BUTTON)).click();
                 canResume();
-                return new GroupsPage(drone);
+                return factoryPage.instantiatePage(driver, GroupsPage.class);
 
             case No:
-                drone.findAndWait(By.cssSelector(CANCEL_BUTTON)).click();
+                findAndWait(By.cssSelector(CANCEL_BUTTON)).click();
                 canResume();
-                return new EditGroupPage(drone);
+                return factoryPage.instantiatePage(driver, EditGroupPage.class);
 
         }
         throw new PageException("Wrong Page");
@@ -109,7 +91,7 @@ public class DeleteGroupFromGroupPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector("div[id*='deletegroupdialog_h']")).getText();
+            return findAndWait(By.cssSelector("div[id*='deletegroupdialog_h']")).getText();
         }
         catch (TimeoutException toe)
         {

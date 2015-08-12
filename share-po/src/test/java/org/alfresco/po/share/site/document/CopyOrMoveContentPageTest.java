@@ -22,10 +22,10 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -65,17 +65,17 @@ public class CopyOrMoveContentPageTest extends AbstractTest
     {
         siteName1 = "Site-1" + System.currentTimeMillis();
 
-        file1 = SiteUtil.prepareFile("File-1" + System.currentTimeMillis());
-        file2 = SiteUtil.prepareFile("File-2" + System.currentTimeMillis());
+        file1 = siteUtil.prepareFile("File-1" + System.currentTimeMillis());
+        file2 = siteUtil.prepareFile("File-2" + System.currentTimeMillis());
 
         loginAs(username, password);
 
-        SiteUtil.createSite(drone, siteName1, "Public");
+        siteUtil.createSite(driver, username, password, siteName1,"", "Public");
 
-        SitePage sitePage = (SitePage) drone.getCurrentPage();
+        SitePage sitePage = (SitePage) resolvePage(driver);
         sitePage.render();
 
-        documentLibPage = sitePage.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibPage = sitePage.getSiteNav().selectDocumentLibrary().render();
         documentLibPage  = documentLibPage.getNavigation().selectDetailedView().render();
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file1.getCanonicalPath()).render();
@@ -87,7 +87,7 @@ public class CopyOrMoveContentPageTest extends AbstractTest
         documentLibPage.getNavigation().selectCreateNewFolder().render().createNewFolder(folder2);
         documentLibPage.render();
 
-        documentLibPage = (DocumentLibraryPage) documentLibPage.getSiteNav().selectSiteDocumentLibrary();
+        documentLibPage = (DocumentLibraryPage) documentLibPage.getSiteNav().selectDocumentLibrary();
         documentLibPage.render();
         
         copyOrMoveContentPage = documentLibPage.getFileDirectoryInfo(file1.getName()).selectCopyTo().render();
@@ -96,8 +96,8 @@ public class CopyOrMoveContentPageTest extends AbstractTest
     @AfterClass(groups={"alfresco-one"})
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName1);
-        logout(drone);
+        siteUtil.deleteSite(username, password, siteName1);
+        logout(driver);
     }
 
     @Test
@@ -139,33 +139,15 @@ public class CopyOrMoveContentPageTest extends AbstractTest
         Assert.assertNotNull(copyOrMoveContentPage);
     }
 
-    @Test(dependsOnMethods = "testSelectDestination", expectedExceptions = { IllegalArgumentException.class })
-    public void testSelectDestinationWithNull() throws Exception
-    {
-        copyOrMoveContentPage = copyOrMoveContentPage.selectDestination(null);
-    }
-
-    @Test(dependsOnMethods = "testSelectDestinationWithNull")
+    @Test(dependsOnMethods = "testSelectDestination")
     public void testSelectSite() throws Exception
     {
         copyOrMoveContentPage = copyOrMoveContentPage.selectSite(siteName1).render();
         Assert.assertNotNull(copyOrMoveContentPage);
     }
 
-    @Test(dependsOnMethods = "testSelectSite", expectedExceptions = { IllegalArgumentException.class })
-    public void testSelectSiteWithNull() throws Exception
-    {
-        copyOrMoveContentPage = copyOrMoveContentPage.selectSite(null);
-    }
     
-    @Test(dependsOnMethods = "testSelectSiteWithNull", expectedExceptions = { IllegalArgumentException.class })
-    public void testSelectFolderWithNull() throws Exception
-    {
-    	CopyOrMoveContentPage testPage = new CopyOrMoveContentPage(drone);
-    	testPage.selectPath((String[])null);
-    }
-    
-    @Test(dependsOnMethods = "testSelectFolderWithNull")
+    @Test(dependsOnMethods = "testSelectSite")
     public void testCloseAndCancelDialog() throws Exception
     {
         copyOrMoveContentPage.selectCloseButton();
@@ -200,14 +182,14 @@ public class CopyOrMoveContentPageTest extends AbstractTest
     @Test(dependsOnMethods = "testCopyToFolder")
     public void testMoveToFolder() throws Exception
     {
-        documentLibPage = (DocumentLibraryPage) documentLibPage.getSiteNav().selectSiteDocumentLibrary();
+        documentLibPage = (DocumentLibraryPage) documentLibPage.getSiteNav().selectDocumentLibrary();
         documentLibPage.render();
         
         Assert.assertNotNull(documentLibPage);
         Assert.assertTrue(documentLibPage.getFiles().size() == 4);
         
         documentLibPage = documentLibPage.getNavigation().selectHideFolders().render();
-        documentLibPage = (DocumentLibraryPage) documentLibPage.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibPage = (DocumentLibraryPage) documentLibPage.getSiteNav().selectDocumentLibrary().render();
         copyOrMoveContentPage = documentLibPage.getFileDirectoryInfo(file2.getName()).selectMoveTo().render();
         copyOrMoveContentPage = selectDestination(copyOrMoveContentPage, destinations);
         Assert.assertNotNull(copyOrMoveContentPage);

@@ -1,9 +1,22 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.calendar;
 
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -32,11 +45,6 @@ public abstract class AbstractEventForm extends ShareDialogue
     protected static final By ADD_TAGS_BUTTON = By.cssSelector("button[id$='eventEditPanel-add-tag-button-button']");
     private final static String eventTag = "//span[text()='%s']/parent::a";
 
-    protected AbstractEventForm(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public AbstractEventForm render(RenderTime timer)
@@ -51,12 +59,6 @@ public abstract class AbstractEventForm extends ShareDialogue
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AbstractEventForm render(long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Method to retrieve the title of a form
@@ -65,7 +67,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public String getTitle()
     {
-        return drone.findAndWait(FORM_TITLE).getText();
+        return findAndWait(FORM_TITLE).getText();
     }
 
     /**
@@ -75,7 +77,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
@@ -90,7 +92,7 @@ public abstract class AbstractEventForm extends ShareDialogue
     {
         try
         {
-            return drone.findAndWait(locator, 2000).isDisplayed();
+            return findAndWait(locator, 2000).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -126,7 +128,7 @@ public abstract class AbstractEventForm extends ShareDialogue
 
     public void setWhatField(final String title)
     {
-        setInput(drone.findAndWait(WHAT_FIELD), title);
+        setInput(findAndWait(WHAT_FIELD), title);
     }
 
     /**
@@ -137,7 +139,7 @@ public abstract class AbstractEventForm extends ShareDialogue
 
     public void setWhereField(final String title)
     {
-        setInput(drone.findAndWait(WHERE_FIELD), title);
+        setInput(findAndWait(WHERE_FIELD), title);
     }
 
     /**
@@ -148,7 +150,7 @@ public abstract class AbstractEventForm extends ShareDialogue
 
     public void setDescriptionField(final String title)
     {
-        setInput(drone.findAndWait(DESCRIPTION_FIELD), title);
+        setInput(findAndWait(DESCRIPTION_FIELD), title);
     }
 
     /**
@@ -158,7 +160,7 @@ public abstract class AbstractEventForm extends ShareDialogue
     {
         try
         {
-            drone.find(ALL_DAY_CHECKBOX).click();
+            driver.findElement(ALL_DAY_CHECKBOX).click();
         }
         catch (NoSuchElementException e)
         {
@@ -171,7 +173,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public void clickSave()
     {
-        WebElement saveButton = drone.findAndWait(OK_BUTTON);
+        WebElement saveButton = findAndWait(OK_BUTTON);
         try
         {
             saveButton.click();
@@ -187,7 +189,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public void clickStartDatePicker()
     {
-        WebElement startDateButton = drone.findAndWait(START_DATE_PICKER);
+        WebElement startDateButton = findAndWait(START_DATE_PICKER);
         try
         {
             startDateButton.click();
@@ -203,7 +205,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public void clickEndDatePicker()
     {
-        WebElement endDateButton = drone.findAndWait(END_DATE_PICKER);
+        WebElement endDateButton = findAndWait(END_DATE_PICKER);
         try
         {
             endDateButton.click();
@@ -221,7 +223,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public void setStartTimeField(final String startTime)
     {
-        setInput(drone.findAndWait(START_TIME_FIELD), startTime);
+        setInput(findAndWait(START_TIME_FIELD), startTime);
     }
 
     /**
@@ -231,7 +233,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public void setEndTimeField(final String endTime)
     {
-        setInput(drone.findAndWait(END_TIME_FIELD), endTime);
+        setInput(findAndWait(END_TIME_FIELD), endTime);
     }
 
     /**
@@ -241,7 +243,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public void setTagsField(final String tags)
     {
-        setInput(drone.findAndWait(TAGS_FIELD), tags);
+        setInput(findAndWait(TAGS_FIELD), tags);
     }
 
     /**
@@ -257,9 +259,9 @@ public abstract class AbstractEventForm extends ShareDialogue
             String tagXpath = String.format(eventTag, tag);
             try
             {
-                element = drone.findAndWait(By.xpath(tagXpath));
+                element = findAndWait(By.xpath(tagXpath));
                 element.click();
-                drone.waitUntilElementDisappears(By.xpath(tagXpath), 3000);
+                waitUntilElementDisappears(By.xpath(tagXpath), 3000);
             }
             catch (NoSuchElementException e)
             {
@@ -273,7 +275,7 @@ public abstract class AbstractEventForm extends ShareDialogue
      */
     public void clickAddTag()
     {
-        WebElement addButton = drone.findAndWait(ADD_TAGS_BUTTON);
+        WebElement addButton = findAndWait(ADD_TAGS_BUTTON);
         try
         {
             addButton.click();

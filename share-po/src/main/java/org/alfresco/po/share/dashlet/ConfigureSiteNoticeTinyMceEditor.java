@@ -14,8 +14,6 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
 
 /**
  * Site Notice Configure TinyMce Editor page object, it is used to apply the styles to text using fore&back color,font and formatting.
@@ -24,11 +22,4 @@ import org.openqa.selenium.By;
  */
 public class ConfigureSiteNoticeTinyMceEditor extends AdvancedTinyMceEditor
 {
-    public ConfigureSiteNoticeTinyMceEditor(WebDrone drone)
-    {
-        super(drone);
-        setTinyMce(drone.findAndWait(By.cssSelector("iframe[id$='configDialog-text_ifr']")).getAttribute("id"));
-        setForeColorLinkCss("div[aria-label='Text color']>button.mce-open");
-        setBGColorLinkCss("div[aria-label='Background color']>button.mce-open");
-    }
 }

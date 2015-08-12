@@ -14,22 +14,28 @@
  */
 package org.alfresco.po.share.workflow;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.*;
-import org.alfresco.webdrone.exception.PageException;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.SharePage;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * My WorkFlows page object, holds all element of the html page relating to share's
@@ -54,16 +60,6 @@ public class MyWorkFlowsPage extends SharePage
     private RenderElement startWorkFlowButtonRender = RenderElement.getVisibleRenderElement(START_WORKFLOW_BUTTON);
     private RenderElement content = new RenderElement(By.cssSelector("div.yui-dt-liner"), ElementState.PRESENT);
 
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public MyWorkFlowsPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public MyWorkFlowsPage render(RenderTime timer)
@@ -77,13 +73,6 @@ public class MyWorkFlowsPage extends SharePage
     public MyWorkFlowsPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyWorkFlowsPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -105,8 +94,8 @@ public class MyWorkFlowsPage extends SharePage
     {
         try
         {
-            drone.findAndWait(By.cssSelector("button[id$='-startWorkflow-button-button']")).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(By.cssSelector("button[id$='-startWorkflow-button-button']")).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -129,7 +118,7 @@ public class MyWorkFlowsPage extends SharePage
 
         try
         {
-            List<WebElement> workFlowRows = drone.findAndWaitForElements(WORKFLOW_ROWS);
+            List<WebElement> workFlowRows = findAndWaitForElements(WORKFLOW_ROWS);
             if (null != workFlowRows && workFlowRows.size() > 0)
             {
                 for (WebElement workFlowRow : workFlowRows)
@@ -176,7 +165,7 @@ public class MyWorkFlowsPage extends SharePage
                 List<WorkFlowDetails> workFlowDetailsList = new ArrayList<WorkFlowDetails>();
                 for (WebElement workflow : workFlowRow)
                 {
-                    drone.mouseOver(workflow);
+                    mouseOver(workflow);
                     waitUntilAlert();
                     WorkFlowDetails workFlowDetails = new WorkFlowDetails();
                     workFlowDetails.setWorkFlowName(workflow.findElement(By.cssSelector("div.yui-dt-liner>h3>a")).getText());
@@ -256,7 +245,7 @@ public class MyWorkFlowsPage extends SharePage
         else if (workFlowRow.size() == 1)
         {
             workFlowRow.get(0).findElement(By.cssSelector("td.yui-dt-col-title>div.yui-dt-liner>h3>a[title='View History']")).click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         else if (workFlowRow.size() > 1)
         {
@@ -282,7 +271,7 @@ public class MyWorkFlowsPage extends SharePage
         try
         {
 
-            WebElement workFlowRow = drone.findAndWait(By.xpath(xpathExpression), 3000);
+            WebElement workFlowRow = findAndWait(By.xpath(xpathExpression), 3000);
             return workFlowRow.isDisplayed();
         }
         catch (TimeoutException e)
@@ -301,7 +290,7 @@ public class MyWorkFlowsPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(SUB_TITLE).getText();
+            return findAndWait(SUB_TITLE).getText();
         }
         catch (TimeoutException te)
         {
@@ -316,10 +305,10 @@ public class MyWorkFlowsPage extends SharePage
      */
     public HtmlPage selectActiveWorkFlows()
     {
-        drone.findAndWait(ACTIVE_LINK).click();
-        drone.waitUntilVisible(SUB_TITLE, "Active Workflows", TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+        findAndWait(ACTIVE_LINK).click();
+        waitUntilVisible(SUB_TITLE, "Active Workflows", TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
         waitUntilAlert();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -329,9 +318,9 @@ public class MyWorkFlowsPage extends SharePage
      */
     public HtmlPage selectCompletedWorkFlows()
     {
-        drone.findAndWait(COMPLETED_LINK).click();
-        drone.waitUntilVisible(SUB_TITLE, "Completed Workflows", TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        findAndWait(COMPLETED_LINK).click();
+        waitUntilVisible(SUB_TITLE, "Completed Workflows", TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -351,18 +340,18 @@ public class MyWorkFlowsPage extends SharePage
             for (int i = (workFlowRow.size() - 1); i >= 0; i--)
             {
                 workFlowRow = findWorkFlowRow(workFlowName);
-                drone.mouseOver(workFlowRow.get(i));
+                mouseOver(workFlowRow.get(i));
                 workFlowRow.get(i).findElement(By.cssSelector("td.yui-dt-last>div.yui-dt-liner>div.workflow-cancel-link>a>span")).click();
-                drone.waitForElement(By.cssSelector("div#prompt"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-                List<WebElement> buttons = drone.findAll(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));
+                waitForElement(By.cssSelector("div#prompt"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+                List<WebElement> buttons = driver.findElements(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));
                 for (WebElement button : buttons)
                 {
                     if (button.getText().equals("Yes"))
                     {
                         button.click();
-                        drone.waitUntilElementPresent(By.cssSelector("div#message>div.bd>span"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                        drone.waitUntilElementDeletedFromDom(By.cssSelector("div#message>div.bd>span"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                        drone.waitUntilElementDisappears(By.xpath("//div[contains(text(), 'Workflow was successfully cancelled')]"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        waitUntilElementPresent(By.cssSelector("div#message>div.bd>span"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        waitUntilElementDeletedFromDom(By.cssSelector("div#message>div.bd>span"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        waitUntilElementDisappears(By.xpath("//div[contains(text(), 'Workflow was successfully cancelled')]"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                         break;
                     }
                 }
@@ -395,10 +384,10 @@ public class MyWorkFlowsPage extends SharePage
         {
             for (WebElement workFlow : workFlowRow)
             {
-                drone.mouseOver(workFlow);
+                mouseOver(workFlow);
                 workFlow.findElement(By.cssSelector("td.yui-dt-last>div.yui-dt-liner>div.workflow-delete-link>a")).click();
-                drone.waitForElement(By.cssSelector("div#prompt"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-                List<WebElement> buttons = drone.findAll(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));
+                waitForElement(By.cssSelector("div#prompt"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+                List<WebElement> buttons = driver.findElements(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));
                 for (WebElement button : buttons)
                 {
                     if (button.getText().equals("Yes"))
@@ -425,14 +414,14 @@ public class MyWorkFlowsPage extends SharePage
     {
         try
         {
-            return drone.findAndWaitForElements(TASK_CONTAINER, 3).size();
+            return findAndWaitForElements(TASK_CONTAINER, 3).size();
         }
         catch (TimeoutException e)
         {
             return 0;
         }
     }
-
+    WorkFlowFilters workFlowFilters;
     /**
      * Return Object for interacting with left filter panel.
      *
@@ -440,7 +429,7 @@ public class MyWorkFlowsPage extends SharePage
      */
     public WorkFlowFilters getWorkFlowsFilter()
     {
-        return new WorkFlowFilters(drone);
+        return workFlowFilters;
     }
 
 }

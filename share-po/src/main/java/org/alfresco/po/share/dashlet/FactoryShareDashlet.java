@@ -14,12 +14,15 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.enums.Dashlets;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-
 import java.util.NoSuchElementException;
 
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.FactoryPage;
+import org.alfresco.po.share.enums.Dashlets;
+import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+@Component
 /**
  * Alfresco Share factory, creates the appropriate page object that corresponds
  * to the browser view.
@@ -28,135 +31,133 @@ import java.util.NoSuchElementException;
  */
 public final class FactoryShareDashlet
 {
-    private FactoryShareDashlet()
-    {
-    }
-
+	@Autowired FactoryPage factoryPage;
+	public Dashlet getDashlet(WebDriver driver, Class<?> pageClassToProxy)
+	{
+		return (Dashlet) factoryPage.instantiatePageElement(driver, pageClassToProxy);
+	}
     /**
      * Gets the dashlet HTML element from the dashboard page.
      *
-     * @param drone {@link WebDrone}
+     * @param driver {@link WebDriver}
      * @return name dashlet title
      */
-    public static Dashlet getPage(final WebDrone drone, final String name)
+    public Dashlet getPage(final WebDriver driver, final String name)
     {
+        //TODO Fix this to use a Map and rename the method as dashlet is not a page.
         try
         {
             if ("my-sites".equalsIgnoreCase(name) || Dashlets.MY_SITES.getDashletName().equalsIgnoreCase(name))
             {
-                return new MySitesDashlet(drone);
+                return getDashlet(driver, MySitesDashlet.class);
             }
             if ("my-documents".equalsIgnoreCase(name) || Dashlets.MY_DOCUMENTS.getDashletName().equalsIgnoreCase(name))
             {
-                return new MyDocumentsDashlet(drone);
+                return getDashlet(driver, MyDocumentsDashlet.class);
             }
             if ("activities".equalsIgnoreCase(name) || Dashlets.MY_ACTIVITIES.getDashletName().equalsIgnoreCase(name))
             {
-                return new MyActivitiesDashlet(drone);
+                return getDashlet(driver, MyActivitiesDashlet.class);
             }
             if ("my-tasks".equalsIgnoreCase(name) || "tasks".equalsIgnoreCase(name) || Dashlets.MY_TASKS.getDashletName().equalsIgnoreCase(name))
             {
-                return new MyTasksDashlet(drone);
+                return getDashlet(driver, MyTasksDashlet.class);
             }
             if ("site-members".equalsIgnoreCase(name) || Dashlets.SITE_MEMBERS.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteMembersDashlet(drone);
+                return getDashlet(driver, SiteMembersDashlet.class);
             }
             if ("site-contents".equalsIgnoreCase(name) || Dashlets.SITE_CONTENT.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteContentDashlet(drone);
+                return getDashlet(driver, SiteContentDashlet.class);
             }
             if ("site-activities".equalsIgnoreCase(name) || Dashlets.SITE_ACTIVITIES.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteActivitiesDashlet(drone);
+                return getDashlet(driver, SiteActivitiesDashlet.class);
             }
             if ("welcome-site".equalsIgnoreCase(name) || Dashlets.WELCOME_SITE.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteWelcomeDashlet(drone);
+                return getDashlet(driver, SiteWelcomeDashlet.class);
             }
             if ("site-notice".equalsIgnoreCase(name) || Dashlets.SITE_NOTICE.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteNoticeDashlet(drone);
+                return getDashlet(driver, SiteNoticeDashlet.class);
             }
             if ("site-search".equalsIgnoreCase(name) || Dashlets.SITE_SEARCH.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteSearchDashlet(drone);
+                return getDashlet(driver, SiteSearchDashlet.class);
             }
             if ("my-discussions".equalsIgnoreCase(name) || Dashlets.MY_DISCUSSIONS.getDashletName().equalsIgnoreCase(name))
             {
-                return new MyDiscussionsDashlet(drone);
+                return getDashlet(driver, MyDiscussionsDashlet.class);
             }
             if ("saved-search".equalsIgnoreCase(name) || Dashlets.SAVED_SEARCH.getDashletName().equalsIgnoreCase(name))
             {
-                return new SavedSearchDashlet(drone);
+                return getDashlet(driver, SavedSearchDashlet.class);
             }
             if ("image-preview".equalsIgnoreCase(name) || Dashlets.IMAGE_PREVIEW.getDashletName().equalsIgnoreCase(name))
             {
-                return new ImagePreviewDashlet(drone);
+                return getDashlet(driver, ImagePreviewDashlet.class);
             }
             if ("wiki".equalsIgnoreCase(name) || Dashlets.WIKI.getDashletName().equalsIgnoreCase(name))
             {
-                return new WikiDashlet(drone);
+                return getDashlet(driver, WikiDashlet.class);
             }
             if ("web-view".equalsIgnoreCase(name) || Dashlets.WEB_VIEW.getDashletName().equalsIgnoreCase(name))
             {
-                return new WebViewDashlet(drone);
+                return getDashlet(driver, WebViewDashlet.class);
             }
             if ("rss-feed".equalsIgnoreCase(name) || Dashlets.RSS_FEED.getDashletName().equalsIgnoreCase(name))
             {
-                return new RssFeedDashlet(drone);
+                return getDashlet(driver, RssFeedDashlet.class);
             }
             if ("site-links".equalsIgnoreCase(name) || Dashlets.SITE_LINKS.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteLinksDashlet(drone);
-            }
-            if ("data-lists".equalsIgnoreCase(name) || Dashlets.DATA_LISTS.getDashletName().equalsIgnoreCase(name))
-            {
-                return new SiteDataListsDashlet(drone);
+                return getDashlet(driver, SiteLinksDashlet.class);
             }
             if ("site-calendar".equalsIgnoreCase(name) || Dashlets.SITE_CALENDAR.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteCalendarDashlet(drone);
+                return getDashlet(driver, SiteCalendarDashlet.class);
             }
             if ("site-profile".equalsIgnoreCase(name) || Dashlets.SITE_PROFILE.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteProfileDashlet(drone);
+                return getDashlet(driver, SiteProfileDashlet.class);
             }
             if ("addOns-rss".equalsIgnoreCase(name) || Dashlets.ALFRESCO_ADDONS_RSS_FEED.getDashletName().equalsIgnoreCase(name))
             {
-                return new AddOnsRssFeedDashlet(drone);
+                return getDashlet(driver, AddOnsRssFeedDashlet.class);
             }
             if ("site-content-report".equalsIgnoreCase(name))
             {
-                return new SiteContentBreakdownDashlet(drone);
+                return getDashlet(driver, SiteContentBreakdownDashlet.class);
             }
             if ("top-site-contributor-report".equalsIgnoreCase(name))
             {
-                return new TopSiteContributorDashlet(drone);
+                return getDashlet(driver, TopSiteContributorDashlet.class);
             }
             if ("my-calendar".equalsIgnoreCase(name) || Dashlets.MY_CALENDAR.getDashletName().equalsIgnoreCase(name))
             {
-                return new MyCalendarDashlet(drone);
+                return getDashlet(driver, MyCalendarDashlet.class);
             }
             if ("my-meeting-workspaces".equalsIgnoreCase(name) || Dashlets.MY_MEETING_WORKSPACES.getDashletName().equalsIgnoreCase(name))
             {
-                return new MyMeetingWorkSpaceDashlet(drone);
+                return getDashlet(driver, MyMeetingWorkSpaceDashlet.class);
             }
             if ("my-profile".equalsIgnoreCase(name)|| Dashlets.MY_PROFILE.getDashletName().equalsIgnoreCase(name))
             {
-                return new MyProfileDashlet(drone);
+                return getDashlet(driver, MyProfileDashlet.class);
             }
             if ("site-contents".equalsIgnoreCase(name) || Dashlets.SITE_CONTENT.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteContentDashlet(drone);
+                return getDashlet(driver, SiteContentDashlet.class);
             }
             if ("site-wqs".equalsIgnoreCase(name) || Dashlets.WEB_QUICK_START.getDashletName().equalsIgnoreCase(name))
             {
-                return new SiteWebQuickStartDashlet(drone);
+                return getDashlet(driver, SiteWebQuickStartDashlet.class);
             }
             if ("editing-content".equalsIgnoreCase(name) || Dashlets.CONTENT_I_AM_EDITING.getDashletName().equalsIgnoreCase(name))
             {
-                return new EditingContentDashlet(drone);
+                return getDashlet(driver, EditingContentDashlet.class);
             }
             throw new PageException(String.format("%s does not match any known dashlet name", name));
         }

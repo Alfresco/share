@@ -1,10 +1,24 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.admin;
 
 import java.util.List;
 
 import org.alfresco.po.share.enums.SiteVisibility;
 import org.alfresco.po.share.util.PageUtils;
-import org.alfresco.webdrone.WebDrone;
+import org.openqa.selenium.WebDriver;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -24,7 +38,7 @@ public class VisibilityDropDown
     private static final By MENU_ROWS = By.cssSelector("tr.dijitMenuItem");
     private static final By MENU_LABEL = By.cssSelector("td.dijitMenuItemLabel");
 
-    private WebDrone drone;
+    private WebDriver driver;
     private WebElement control;
     private String menuId;
     private SiteVisibility value;
@@ -32,12 +46,12 @@ public class VisibilityDropDown
     /**
      * Instantiates a new visibility drop down.
      * 
-     * @param drone the web drone
+     * @param driver the web driver
      * @param element the element
      */
-    public VisibilityDropDown(WebDrone drone, WebElement element)
+    public VisibilityDropDown(WebDriver driver, WebElement element)
     {
-        this.drone = drone;
+        this.driver = driver;
         this.value = SiteVisibility.getEnum(StringUtils.trim(element.getText()));
         this.control = element.findElement(CONTROL_ELEMENT);
         // The dropdown menu has the same id as the control element with '_dropdown' appended
@@ -68,7 +82,7 @@ public class VisibilityDropDown
         String menuSelector = StringUtils.replace(MENU_ELEMENT_SELECTOR_TEMPLATE, "?", this.menuId);
 
         // Find the menu
-        WebElement menu = this.drone.find(By.cssSelector(menuSelector));
+        WebElement menu = this.driver.findElement(By.cssSelector(menuSelector));
 
         // If the menu is not null and is displayed and is enabled
         if (PageUtils.usableElement(menu))

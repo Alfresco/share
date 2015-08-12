@@ -14,10 +14,8 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -32,23 +30,23 @@ public class FilmStripViewFileDirectoryInfo extends FilmStripOrGalleryView
 
     private static Log logger = LogFactory.getLog(FilmStripViewFileDirectoryInfo.class);
 
-    /**
-     * @param nodeRef
-     * @param webElement
-     * @param drone
-     */
-    public FilmStripViewFileDirectoryInfo(String nodeRef, WebElement webElement, WebDrone drone)
-    {
-        super(nodeRef, webElement, drone);
-
-        THUMBNAIL_TYPE = String.format(".//div[@class='alf-filmstrip-nav-item-thumbnail']//img[@id='%s']", nodeRef);
-        rowElementXPath = "../../../..";
-        FILE_DESC_IDENTIFIER = "div.detail:first-of-type span.item";
-        THUMBNAIL = THUMBNAIL_TYPE + "/../..";
-        DETAIL_WINDOW = By.xpath("//div[@class='alf-actions']/../../..");
-        resolveStaleness();
-        TAG_ICON = "//h3[@class='filename']/span/a[text()='%s']/../../../div/span[@class='insitu-edit']";
-    }
+//    /**
+//     * @param nodeRef
+//     * @param webElement
+//     * @param driver
+//     */
+//    public FilmStripViewFileDirectoryInfo(String nodeRef, WebElement webElement, WebDriver driver)
+//    {
+//        super(nodeRef, webElement, driver);
+//
+//        THUMBNAIL_TYPE = String.format(".//div[@class='alf-filmstrip-nav-item-thumbnail']//img[@id='%s']", nodeRef);
+//        rowElementXPath = "../../../..";
+//        FILE_DESC_IDENTIFIER = "div.detail:first-of-type span.item";
+//        THUMBNAIL = THUMBNAIL_TYPE + "/../..";
+//        DETAIL_WINDOW = By.xpath("//div[@class='alf-actions']/../../..");
+//        resolveStaleness();
+//        TAG_ICON = "//h3[@class='filename']/span/a[text()='%s']/../../../div/span[@class='insitu-edit']";
+//    }
 
     /**
      * @return WebElement
@@ -58,7 +56,7 @@ public class FilmStripViewFileDirectoryInfo extends FilmStripOrGalleryView
     {
         try
         {
-            if (drone.findAndWait(By.xpath(THUMBNAIL)).isDisplayed())
+            if (findAndWait(By.xpath(THUMBNAIL)).isDisplayed())
             {
                 selectThumbnail();
             }
@@ -79,7 +77,7 @@ public class FilmStripViewFileDirectoryInfo extends FilmStripOrGalleryView
     @Override
     public String getName()
     {
-        return drone.findAndWait(By.xpath(THUMBNAIL)).getText();
+        return findAndWait(By.xpath(THUMBNAIL)).getText();
     }
 
     /**
@@ -92,7 +90,7 @@ public class FilmStripViewFileDirectoryInfo extends FilmStripOrGalleryView
     {
         try
         {
-            WebElement thumbnailType = drone.findAndWait(By.xpath(THUMBNAIL_TYPE));
+            WebElement thumbnailType = findAndWait(By.xpath(THUMBNAIL_TYPE));
             if (logger.isTraceEnabled())
             {
                 logger.trace("thumbnailType - " + thumbnailType.getAttribute("src"));
@@ -112,9 +110,9 @@ public class FilmStripViewFileDirectoryInfo extends FilmStripOrGalleryView
     @Override
     public HtmlPage selectThumbnail()
     {
-        drone.findAndWait(By.xpath(THUMBNAIL)).click();
+        findAndWait(By.xpath(THUMBNAIL)).click();
         domEventCompleted();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -134,16 +132,5 @@ public class FilmStripViewFileDirectoryInfo extends FilmStripOrGalleryView
     {
         clickInfoIcon();
         super.selectCheckbox();
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnTitle()
-     */
-    @Override
-    public HtmlPage clickOnTitle()
-    {
-        clickInfoIcon();
-        return super.clickOnTitle();
     }
 }

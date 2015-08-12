@@ -14,58 +14,34 @@
  */
 package org.alfresco.po.share;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
 import org.alfresco.po.share.util.PageUtils;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * Pagination object for Document List.
  * 
  * @author Richard Smith
  */
-public class DocListPaginator
+public class DocListPaginator extends PageElement
 {
-
-    /** Constants */
-    private static final By PAGINATION_GROUP = By.cssSelector("div[id=DOCLIB_PAGINATION_MENU]");  
-    private static final By PAGINATION_PAGE_SELECTOR = By.cssSelector("div[id=DOCLIB_PAGINATION_MENU_PAGE_SELECTOR]");
-    private static final By PAGINATION_PREVIOUS_BUTTON = By.cssSelector("div[id=DOCLIB_PAGINATION_MENU_PAGE_BACK]");
-    private static final By PAGINATION_PAGE_MARKER = By.cssSelector("div[id=DOCLIB_PAGINATION_MENU_PAGE_MARKER]");
-    private static final By PAGINATION_NEXT_BUTTON = By.cssSelector("div[id=DOCLIB_PAGINATION_MENU_PAGE_FORWARD]");
-    private static final By PAGINATION_RESULTS_PER_PAGE_SELECTOR = By.cssSelector("div[id=DOCLIB_PAGINATION_MENU_RESULTS_PER_PAGE_SELECTOR]");
-
     private static final String MENU_ELEMENT_SUFFIX = "_dropdown";
     private static final String MENU_ELEMENT_SELECTOR_TEMPLATE = "div#?";
     private static final By FIRST_MENU_ROW = By.cssSelector("tr.dijitMenuItem:first-of-type");
 
-    private WebDrone drone;
-    private WebElement pageSelector;
-    private WebElement prevPageButton;
-    private Integer pageNumber;
-    private WebElement nextPageButton;
-    @SuppressWarnings("unused")
-    private WebElement resultsPerPageSelector;
-
-    /**
-     * Instantiates a new doc list paginator.
-     * 
-     * @param drone the WebDrone
-     */
-    public DocListPaginator(WebDrone drone)
-    {
-        this.drone = drone;
-        WebElement element = drone.find(PAGINATION_GROUP);
-        pageSelector = element.findElement(PAGINATION_PAGE_SELECTOR);
-        prevPageButton = element.findElement(PAGINATION_PREVIOUS_BUTTON);
-        pageNumber = Integer.parseInt(StringUtils.trim(element.findElement(PAGINATION_PAGE_MARKER).getText()));
-        nextPageButton = element.findElement(PAGINATION_NEXT_BUTTON);
-        resultsPerPageSelector = element.findElement(PAGINATION_RESULTS_PER_PAGE_SELECTOR);
-    }
+    private WebDriver driver;
+    @FindBy(css="div[id=DOCLIB_PAGINATION_MENU_PAGE_SELECTOR]") private WebElement pageSelector;
+    @FindBy(css="div[id=DOCLIB_PAGINATION_MENU_PAGE_BACK]") private WebElement prevPageButton;
+    @FindBy(css="div[id=DOCLIB_PAGINATION_MENU_PAGE_FORWARD]") private WebElement nextPageButton;
+    @FindBy(css="div[id=DOCLIB_PAGINATION_MENU_RESULTS_PER_PAGE_SELECTOR]") private WebElement resultsPerPageSelector;
+	@FindBy(css="div[id=DOCLIB_PAGINATION_MENU_PAGE_MARKER]") private WebElement pageNumber;
 
     /**
      * Go to the first page of results.
@@ -75,9 +51,9 @@ public class DocListPaginator
     public HtmlPage gotoFirstResultsPage()
     {
         // If we're on page 1 return
-        if (pageNumber == 1)
+        if (getPageNumber() == 1)
         {
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         else
         {
@@ -91,7 +67,7 @@ public class DocListPaginator
                 String menuSelector = StringUtils.replace(MENU_ELEMENT_SELECTOR_TEMPLATE, "?", menuId);
 
                 // Find the menu
-                WebElement menu = this.drone.find(By.cssSelector(menuSelector));
+                WebElement menu = this.driver.findElement(By.cssSelector(menuSelector));
 
                 // If the menu is not null and is displayed and is enabled
                 if (PageUtils.usableElement(menu))
@@ -116,7 +92,7 @@ public class DocListPaginator
         }
 
         // Return the resolved page
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -158,7 +134,7 @@ public class DocListPaginator
             catch (TimeoutException te)
             {
             }
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         return null;
     }
@@ -170,7 +146,7 @@ public class DocListPaginator
      */
     public Integer getPageNumber()
     {
-        return pageNumber;
+        return Integer.parseInt(StringUtils.trim(pageNumber.getText()));
     }
 
     /**
@@ -212,7 +188,7 @@ public class DocListPaginator
             catch (TimeoutException te)
             {
             }
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         return null;
     }

@@ -14,11 +14,12 @@
  */
 package org.alfresco.po.share.workflow;
 
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.WebDrone;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -39,12 +40,12 @@ public class WorkFlowDetailsItem
     private static final By ITEM_DESCRIPTION = By.cssSelector("div.description");
     private static final By ITEM_DATE_MODIFIED = By.cssSelector("div.viewmode-label");
 
-    public WorkFlowDetailsItem(WebElement element, WebDrone drone)
+    public WorkFlowDetailsItem(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
         itemName = element.findElement(ITEM_NAME).getText();
         description = element.findElement(ITEM_DESCRIPTION).getText().split("Description: ")[1];
         dateModified = DateTimeFormat.forPattern("E d MMM yyyy HH:mm:ss").parseDateTime(element.findElement(ITEM_DATE_MODIFIED).getText().split("on:")[1].trim());
-        itemNameLink = new ShareLink(element.findElement(ITEM_NAME_LINK), drone);
+        itemNameLink = new ShareLink(element.findElement(ITEM_NAME_LINK), driver, factoryPage);
     }
 
     public String getItemName()

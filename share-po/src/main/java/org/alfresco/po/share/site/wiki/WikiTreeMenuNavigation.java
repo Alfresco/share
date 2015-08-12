@@ -1,12 +1,24 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.wiki;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -73,11 +85,6 @@ public class WikiTreeMenuNavigation extends SharePage
     private static final String TAG_NODE = "//a[text()='%s']";
     private static final String SHOW_ALL_ITEMS = "//a[@rel='-all-']";
 
-    public WikiTreeMenuNavigation(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public WikiTreeMenuNavigation render(RenderTime timer)
@@ -91,13 +98,6 @@ public class WikiTreeMenuNavigation extends SharePage
     public WikiTreeMenuNavigation render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public WikiTreeMenuNavigation render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -114,7 +114,7 @@ public class WikiTreeMenuNavigation extends SharePage
 
         try
         {
-            return drone.findAndWait(By.xpath(treeMenu.getXpath())).isDisplayed();
+            return findAndWait(By.xpath(treeMenu.getXpath())).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -139,7 +139,7 @@ public class WikiTreeMenuNavigation extends SharePage
         By menuLocator = By.xpath(treeMenu.getXpath() + "/h2");
         try
         {
-            String elClass = drone.find(menuLocator).getAttribute("class");
+            String elClass = driver.findElement(menuLocator).getAttribute("class");
             if (elClass.contains("alfresco-twister-open"))
             {
                 return true;
@@ -164,7 +164,7 @@ public class WikiTreeMenuNavigation extends SharePage
             By menuLocator = By.xpath(treeMenu.getXpath());
             try
             {
-                drone.find(menuLocator).click();
+                driver.findElement(menuLocator).click();
             }
             catch (NoSuchElementException e)
             {
@@ -192,14 +192,14 @@ public class WikiTreeMenuNavigation extends SharePage
         try
         {
             expandMenu(TreeMenu.PAGES);
-            drone.find(nodeLocator).click();
+            driver.findElement(nodeLocator).click();
         }
         catch (NoSuchElementException e)
         {
             throw new PageException("Unable to find element " + nodeLocator, e);
         }
 
-        return FactorySharePage.resolvePage(drone).render();
+        return getCurrentPage().render();
     }
 
     /**
@@ -225,8 +225,8 @@ public class WikiTreeMenuNavigation extends SharePage
         try
         {
             expandMenu(TreeMenu.TAGS);
-            drone.find(nodeLocator).click();
-            drone.waitForPageLoad(WAIT_TIME_3000);
+            driver.findElement(nodeLocator).click();
+            waitForPageLoad(getDefaultWaitTime());
 
         }
         catch (NoSuchElementException e)
@@ -234,7 +234,7 @@ public class WikiTreeMenuNavigation extends SharePage
             throw new PageOperationException("Unable to find element " + nodeLocator, e);
         }
 
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -251,13 +251,13 @@ public class WikiTreeMenuNavigation extends SharePage
         try
         {
             expandMenu(TreeMenu.TAGS);
-            drone.find(nodeLocator).click();
-            drone.waitForPageLoad(WAIT_TIME_3000);
+            driver.findElement(nodeLocator).click();
+            waitForPageLoad(getDefaultWaitTime());
         }
         catch (NoSuchElementException e)
         {
             throw new PageOperationException (SHOW_ALL_ITEMS + "isn't available", e);
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 }

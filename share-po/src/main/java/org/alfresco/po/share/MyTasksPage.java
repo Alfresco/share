@@ -14,27 +14,32 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.po.share.task.EditTaskPage;
-import org.alfresco.po.share.task.TaskDetails;
-import org.alfresco.po.share.task.TaskDetailsPage;
-import org.alfresco.po.share.task.TaskFilters;
-import org.alfresco.po.share.workflow.StartWorkFlowPage;
-import org.alfresco.po.share.workflow.TaskHistoryPage;
-import org.alfresco.po.share.workflow.ViewWorkflowPage;
-import org.alfresco.webdrone.*;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.task.TaskDetails;
+import org.alfresco.po.share.task.TaskFilters;
+import org.alfresco.po.share.workflow.StartWorkFlowPage;
+import org.alfresco.po.share.workflow.TaskHistoryPage;
+import org.alfresco.po.share.workflow.ViewWorkflowPage;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 /**
  * My tasks page object, holds all element of the html page relating to share's
@@ -62,15 +67,6 @@ public class MyTasksPage extends SharePage
     private static final RenderElement START_WORKFLOW_BUTTON_RENDER = RenderElement.getVisibleRenderElement(START_WORKFLOW_BUTTON);
     private static final RenderElement CONTENT = new RenderElement(By.cssSelector("div[id$='_my-tasks']"), ElementState.PRESENT);
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public MyTasksPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -87,12 +83,6 @@ public class MyTasksPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyTasksPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     public MyTasksPage renderTask(final long time, String taskName)
     {
@@ -115,7 +105,7 @@ public class MyTasksPage extends SharePage
      * 
      * @param searchParams first item should be taskName, second is optional user first name
      */
-    public EditTaskPage navigateToEditTaskPage(String... searchParams)
+    public HtmlPage navigateToEditTaskPage(String... searchParams)
     {
         if (searchParams == null || searchParams.length < 1)
         {
@@ -129,9 +119,9 @@ public class MyTasksPage extends SharePage
         try
         {
             String xpathExpression = String.format("//h3[.='%s']", taskName);
-            WebElement row = drone.findAndWait(By.xpath(xpathExpression));
+            WebElement row = findAndWait(By.xpath(xpathExpression));
             clickEdit(row);
-            return new EditTaskPage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException e)
         {
@@ -161,12 +151,12 @@ public class MyTasksPage extends SharePage
      * 
      * @return {@link StartWorkFlowPage}
      */
-    public StartWorkFlowPage selectStartWorkflowButton()
+    public HtmlPage selectStartWorkflowButton()
     {
         try
         {
-            drone.findAndWait(By.cssSelector("button[id$='-startWorkflow-button-button']")).click();
-            return new StartWorkFlowPage(drone);
+            findAndWait(By.cssSelector("button[id$='-startWorkflow-button-button']")).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -184,7 +174,7 @@ public class MyTasksPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(SUB_TITLE).getText();
+            return findAndWait(SUB_TITLE).getText();
         }
         catch (TimeoutException te)
         {
@@ -199,9 +189,9 @@ public class MyTasksPage extends SharePage
      */
     public MyTasksPage selectActiveTasks()
     {
-        drone.findAndWait(ACTIVE_LINK).click();
-        drone.waitUntilVisible(SUB_TITLE, drone.getValue("active.tasks.label"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-        return new MyTasksPage(drone);
+        findAndWait(ACTIVE_LINK).click();
+        waitUntilVisible(SUB_TITLE, getValue("active.tasks.label"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+        return getCurrentPage().render();
     }
 
     /**
@@ -211,10 +201,9 @@ public class MyTasksPage extends SharePage
      */
     public MyTasksPage selectCompletedTasks()
     {
-        drone.findAndWait(COMPLETED_LINK).click();
-        drone.waitUntilVisible(SUB_TITLE, drone.getValue("completed.tasks.label"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-        return new MyTasksPage(drone).render();
-
+        findAndWait(COMPLETED_LINK).click();
+        waitUntilVisible(SUB_TITLE, getValue("completed.tasks.label"), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+        return getCurrentPage().render();
     }
 
     /**
@@ -222,10 +211,10 @@ public class MyTasksPage extends SharePage
      * 
      * @return {@link MyTasksPage}
      */
-    public TaskDetailsPage selectViewTasks(String taskName)
+    public HtmlPage selectViewTasks(String taskName)
     {
         performActionOnTask(taskName, TASK_VIEW_LINK);
-        return new TaskDetailsPage(drone);
+        return getCurrentPage();
 
     }
 
@@ -237,7 +226,7 @@ public class MyTasksPage extends SharePage
     public ViewWorkflowPage selectViewWorkflow(String taskName)
     {
         performActionOnTask(taskName, WORKFLOW_VIEW_LINK);
-        return new ViewWorkflowPage(drone);
+        return factoryPage.instantiatePage(driver, ViewWorkflowPage.class);
     }
 
     /**
@@ -253,20 +242,20 @@ public class MyTasksPage extends SharePage
         WebElement taskRow = findTaskRow(taskName);
         if (taskRow != null)
         {
-            drone.findAndWait(By.xpath("//a[text()='"+taskName+"']"));
+            findAndWait(By.xpath("//a[text()='"+taskName+"']"));
             try
             {
             taskRow.click();
             WebElement lastTD = taskRow.findElement(By.cssSelector("td:last-of-type"));
-            getDrone().mouseOver(lastTD);
+            mouseOver(lastTD);
             lastTD.findElement(action).click();
             }
             catch (StaleElementReferenceException ex)
             {
-                Actions mouseOver = new Actions(((WebDroneImpl)drone).getDriver());
-                mouseOver.moveToElement(drone.find(By.xpath("//a[text()='"+taskName+"']"))).
-                        moveToElement(taskRow.findElement(By.cssSelector("td:last-of-type")))
-                        .moveToElement(drone.find(action)).moveToElement(drone.find(action)).click().perform();
+                Actions mouseOver = new Actions(driver);
+                mouseOver.moveToElement(driver.findElement(By.xpath("//a[text()='"+taskName+"']")))
+                         .moveToElement(taskRow.findElement(By.cssSelector("td:last-of-type")))
+                         .moveToElement(driver.findElement(action)).moveToElement(driver.findElement(action)).click().perform();
             }
 
         }
@@ -286,7 +275,7 @@ public class MyTasksPage extends SharePage
     {
         try
         {
-            List<WebElement> taskRows = drone.findAndWaitForElements(TASKS_ROWS);
+            List<WebElement> taskRows = findAndWaitForElements(TASKS_ROWS);
             if (null != taskRows && taskRows.size() > 0)
             {
                 for (WebElement taskRow : taskRows)
@@ -351,7 +340,7 @@ public class MyTasksPage extends SharePage
                 }
 
                 List<String> labels = new ArrayList<String>();
-                List<WebElement> webElements = drone.findAll(By.cssSelector("div > label"));
+                List<WebElement> webElements = driver.findElements(By.cssSelector("div > label"));
                 for (WebElement label : webElements)
                 {
                     labels.add(label.getText());
@@ -359,7 +348,7 @@ public class MyTasksPage extends SharePage
 
                 taskDetails.setTaskLabels(labels);
 
-                drone.mouseOver(taskRow);
+                mouseOver(taskRow);
                 if (taskRow.findElements(By.xpath(".//div[contains(@class, 'task-edit')]/a/span")).size() != 0)
                 {
                     taskDetails.setEditTaskDisplayed(taskRow.findElement(By.xpath(".//div[contains(@class, 'task-edit')]/a/span")).isDisplayed());
@@ -424,7 +413,7 @@ public class MyTasksPage extends SharePage
             if (taskRow != null)
             {
                 List<String> labels = new ArrayList<String>();
-                List<WebElement> webElements = drone.findAll(By.cssSelector("div > label"));
+                List<WebElement> webElements = driver.findElements(By.cssSelector("div > label"));
                 for (WebElement label : webElements)
                 {
                     labels.add(label.getText());
@@ -467,7 +456,7 @@ public class MyTasksPage extends SharePage
     public TaskHistoryPage selectTaskHistory(String taskName)
     {
         performActionOnTask(taskName, WORKFLOW_VIEW_LINK);
-        return new TaskHistoryPage(drone);
+        return factoryPage.instantiatePage(driver, TaskHistoryPage.class);
     }
 
     /**
@@ -541,7 +530,7 @@ public class MyTasksPage extends SharePage
 
         return false;
     }
-
+    TaskFilters taskFilters;
     /**
      * Return Object for interacting with left filter panel.
      * 
@@ -549,7 +538,7 @@ public class MyTasksPage extends SharePage
      */
     public TaskFilters getTaskFilters()
     {
-        return new TaskFilters(drone);
+        return taskFilters;
     }
 
     /**
@@ -561,7 +550,7 @@ public class MyTasksPage extends SharePage
     {
         try
         {
-            return drone.findAndWaitForElements(TASKS_ROWS, 1000).size();
+            return findAndWaitForElements(TASKS_ROWS, 1000).size();
         }
         catch (TimeoutException e)
         {
@@ -578,7 +567,7 @@ public class MyTasksPage extends SharePage
     public boolean isFilterTitle(String titleText)
     {
         checkNotNull(titleText);
-        String actualTitle = drone.findAndWait(WORKFLOW_FILTER_TITLE).getText();
+        String actualTitle = findAndWait(WORKFLOW_FILTER_TITLE).getText();
         return titleText.equals(actualTitle);
     }
 
@@ -593,7 +582,7 @@ public class MyTasksPage extends SharePage
         int count = 0;
         try
         {
-            List<WebElement> taskRows = drone.findAndWaitForElements(TASKS_ROWS);
+            List<WebElement> taskRows = findAndWaitForElements(TASKS_ROWS);
             if (null != taskRows && taskRows.size() > 0)
             {
                 for (WebElement taskRow : taskRows)
@@ -646,7 +635,7 @@ public class MyTasksPage extends SharePage
 
     public boolean isTaskNameUnique(String taskName)
     {
-        List<WebElement> taskRows = drone.findAll(TASKS_ROWS);
+        List<WebElement> taskRows = driver.findElements(TASKS_ROWS);
         int count=0;
         if (null != taskRows && taskRows.size() > 0)
         {

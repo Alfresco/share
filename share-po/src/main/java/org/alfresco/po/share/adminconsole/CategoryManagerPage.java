@@ -14,19 +14,17 @@
  */
 package org.alfresco.po.share.adminconsole;
 
-import org.alfresco.po.share.admin.AdminConsolePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.admin.AdminConsolePage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Class associated with page in admin console 'Category Manager'
@@ -49,16 +47,6 @@ public class CategoryManagerPage extends AdminConsolePage
     private static String CATEGORY_ROOT_SPACER = "//table[contains(@class, 'depth0')]";
     private static By CATEGORY_ROOT_SPACER_LINK = By.xpath(CATEGORY_ROOT_SPACER + "//a");
 
-    /**
-     * Instantiates a new admin console page(Category Manager).
-     *
-     * @param drone WebDriver browser client
-     */
-    public CategoryManagerPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public CategoryManagerPage render(RenderTime renderTime)
@@ -72,14 +60,6 @@ public class CategoryManagerPage extends AdminConsolePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public CategoryManagerPage render(long l)
-    {
-        checkArgument(l > 0);
-        return render(new RenderTime(l));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public CategoryManagerPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -89,7 +69,7 @@ public class CategoryManagerPage extends AdminConsolePage
     {
         try
         {
-            return drone.findAndWaitForElements(ALL_CATEGORIES);
+            return findAndWaitForElements(ALL_CATEGORIES);
         }
         catch (StaleElementReferenceException e)
         {
@@ -128,7 +108,7 @@ public class CategoryManagerPage extends AdminConsolePage
     {
         checkNotNull(categoryName, newName);
         WebElement category = getCategory(categoryName);
-        drone.mouseOver(category);
+        mouseOver(category);
         click(VISIBLE_EDIT_BUTTON);
         fillField(NAME_CATEGORY_INPUT, newName);
         click(SAVE_CATEGORY_NAME);
@@ -150,7 +130,7 @@ public class CategoryManagerPage extends AdminConsolePage
         addCategoryForm.clickOk();
         waitUntilAlert();
     }
-
+    AddCategoryForm addCategoryForm;
     /**
      * Just open add category form for check it.
      *
@@ -161,9 +141,9 @@ public class CategoryManagerPage extends AdminConsolePage
     {
         checkNotNull(categoryName);
         WebElement category = getCategory(categoryName);
-        drone.mouseOver(category);
+        mouseOver(category);
         click(VISIBLE_ADD_BUTTON);
-        return new AddCategoryForm(drone);
+        return addCategoryForm;
     }
 
     /**
@@ -187,7 +167,7 @@ public class CategoryManagerPage extends AdminConsolePage
     {
         checkNotNull(categoryName);
         WebElement category = getCategory(categoryName);
-        drone.mouseOver(category);
+        mouseOver(category);
         click(VISIBLE_DELETE_BUTTON);
         click(DELETE_POPUP_BUTTON);
         waitUntilAlert();
@@ -231,15 +211,15 @@ public class CategoryManagerPage extends AdminConsolePage
 
     private void click(By locator)
     {
-        drone.waitUntilElementPresent(locator, 5);
-        WebElement element = drone.findAndWait(locator);
-        drone.executeJavaScript("arguments[0].click();", element);
+        waitUntilElementPresent(locator, 5);
+        WebElement element = driver.findElement(locator);
+        executeJavaScript("arguments[0].click();", element);
     }
 
     private void fillField(By selector, String text)
     {
         checkNotNull(text);
-        WebElement inputField = drone.findAndWait(selector);
+        WebElement inputField = driver.findElement(selector);
         inputField.clear();
         if (text != null)
         {
@@ -255,12 +235,12 @@ public class CategoryManagerPage extends AdminConsolePage
 
         try
         {
-            WebElement spacer = drone.findAndWait(By.xpath(CATEGORY_ROOT_SPACER), 5000);
+            WebElement spacer = findAndWait(By.xpath(CATEGORY_ROOT_SPACER), 5000);
 
             if (!isCategoryRootTreeExpanded())
             {
                 click(CATEGORY_ROOT_SPACER_LINK);
-                drone.waitUntilElementPresent(ALL_CATEGORIES, 5);
+                waitUntilElementPresent(ALL_CATEGORIES, 5);
                 if (!spacer.getAttribute("class").contains("expanded"))
                     expandCategoryRootTree();
             }
@@ -282,7 +262,7 @@ public class CategoryManagerPage extends AdminConsolePage
     {
         try
         {
-            WebElement spacer = drone.findAndWait(By.xpath(CATEGORY_ROOT_SPACER), 5000);
+            WebElement spacer = findAndWait(By.xpath(CATEGORY_ROOT_SPACER), 5000);
             return spacer.getAttribute("class").contains("expanded");
         }
         catch (StaleElementReferenceException e)

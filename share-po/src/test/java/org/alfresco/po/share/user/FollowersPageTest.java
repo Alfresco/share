@@ -26,12 +26,12 @@ import static org.testng.Assert.fail;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -59,14 +59,14 @@ public class FollowersPageTest extends AbstractTest
         userName2 = "User_2_" + System.currentTimeMillis();
         createEnterpriseUser(userName1);
         createEnterpriseUser(userName2);
-        ShareUtil.loginAs(drone, shareUrl, userName1, UNAME_PASSWORD).render();
+        shareUtil.loginAs(driver, shareUrl, userName1, UNAME_PASSWORD).render();
     }
 
     @Test(groups = { "Enterprise-only"})
     public void openFollowersPage()
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followersPage = myProfilePage.getProfileNav().selectFollowers().render();
         assertNotNull(followersPage);
@@ -75,8 +75,8 @@ public class FollowersPageTest extends AbstractTest
     @Test(groups="Enterprise-only", dependsOnMethods = "openFollowersPage")
     public void isHeaderTitlePresent() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followersPage = myProfilePage.getProfileNav().selectFollowers().render();
         assertTrue(followersPage.isTitlePresent("Followers"), "Title is incorrect");
@@ -85,21 +85,21 @@ public class FollowersPageTest extends AbstractTest
     @Test(groups="Enterprise-only", dependsOnMethods = "isHeaderTitlePresent")
     public void isNoFollowersMessagePresent() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followersPage = myProfilePage.getProfileNav().selectFollowers().render();
         assertTrue(followersPage.isNoFollowersMessagePresent(), "No Followers message isn't displayed");
         assertEquals(followersPage.getFollowersCount(), "0");
-        ShareUtil.logout(drone);
+        shareUtil.logout(driver);
     }
 
     @Test(groups="Enterprise-only", dependsOnMethods = "isNoFollowersMessagePresent")
     public void isUserLinkPresent() throws Exception
     {
-        ShareUtil.loginAs(drone, shareUrl, userName2, UNAME_PASSWORD).render();
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        shareUtil.loginAs(driver, shareUrl, userName2, UNAME_PASSWORD).render();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         peopleFinderPage = dashBoard.getNav().selectPeople().render();
         peopleFinderPage = peopleFinderPage.searchFor(userName1).render();
         List<ShareLink> searchLinks = peopleFinderPage.getResults();
@@ -118,10 +118,10 @@ public class FollowersPageTest extends AbstractTest
             fail(userName1 + " is not found");
         }
         assertEquals(peopleFinderPage.getTextForFollowButton(userName1), "Unfollow");
-        ShareUtil.logout(drone);
-        ShareUtil.loginAs(drone, shareUrl, userName1, UNAME_PASSWORD).render();
-        page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        shareUtil.logout(driver);
+        shareUtil.loginAs(driver, shareUrl, userName1, UNAME_PASSWORD).render();
+        page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followersPage = myProfilePage.getProfileNav().selectFollowers().render();
         assertTrue(followersPage.isUserLinkPresent(userName2), "Can't find " + userName2);

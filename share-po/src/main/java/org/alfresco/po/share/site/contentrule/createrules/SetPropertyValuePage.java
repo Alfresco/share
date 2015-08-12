@@ -14,25 +14,26 @@
  */
 package org.alfresco.po.share.site.contentrule.createrules;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.ShareDialogue;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author Maryia Zaichanka
@@ -60,16 +61,6 @@ public class SetPropertyValuePage extends ShareDialogue
     }
 
 
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public SetPropertyValuePage(WebDrone drone)
-    {
-        super(drone);
-
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -77,13 +68,6 @@ public class SetPropertyValuePage extends ShareDialogue
     {
         elementRender(timer, headerElement);
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SetPropertyValuePage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -102,8 +86,8 @@ public class SetPropertyValuePage extends ShareDialogue
     {
         try
         {
-            drone.findAndWait(setValueOkButtonCss).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(setValueOkButtonCss).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -118,7 +102,7 @@ public class SetPropertyValuePage extends ShareDialogue
      *
      * @return SetPropertyValuePage
      */
-    public SetPropertyValuePage selectPropertyTypeFolder(String folderName)
+    public HtmlPage selectPropertyTypeFolder(String folderName)
     {
         if (StringUtils.isEmpty(folderName))
         {
@@ -126,16 +110,15 @@ public class SetPropertyValuePage extends ShareDialogue
         }
         try
         {
-            for (WebElement folder : drone.findAndWaitForElements(propertyFoldersListCss))
+            for (WebElement folder : findAndWaitForElements(propertyFoldersListCss))
             {
                 if (folder.getText() != null)
                 {
                     if (folder.getText().equalsIgnoreCase(folderName))
                     {
                         folder.click();
-                        drone.waitForElement(propertyFoldersListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-
-                        return new SetPropertyValuePage(drone);
+                        waitForElement(propertyFoldersListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        return factoryPage.instantiatePage(driver, SetPropertyValuePage.class);
                     }
                 }
             }
@@ -158,14 +141,14 @@ public class SetPropertyValuePage extends ShareDialogue
      *
      * @return SetPropertyValuePage
      */
-    public SetPropertyValuePage selectValueFromList(String valueName)
+    public HtmlPage selectValueFromList(String valueName)
     {
 
         try
         {
-            WebElement value = drone.findAndWait(getValueXpath(valueName));
+            WebElement value = findAndWait(getValueXpath(valueName));
             value.click();
-            return new SetPropertyValuePage(drone);
+            return factoryPage.instantiatePage(driver, SetPropertyValuePage.class);
 
         }
         catch (NoSuchElementException ne)
@@ -195,7 +178,7 @@ public class SetPropertyValuePage extends ShareDialogue
         try
         {
             String dateXpath = String.format(DATE_BUTTON, date);
-            WebElement element = drone.findAndWait(By.xpath(dateXpath));
+            WebElement element = findAndWait(By.xpath(dateXpath));
             element.click();
         }
         catch (TimeoutException te)
@@ -215,7 +198,7 @@ public class SetPropertyValuePage extends ShareDialogue
     {
         try
         {
-            drone.findAndWait(CALENDAR_BUTTON).click();
+            findAndWait(CALENDAR_BUTTON).click();
         }
         catch (TimeoutException e)
         {
@@ -235,7 +218,7 @@ public class SetPropertyValuePage extends ShareDialogue
         List<String> values = new LinkedList<String>();
         try
         {
-            for (WebElement value : drone.findAndWaitForElements(valuesListCss))
+            for (WebElement value : findAndWaitForElements(valuesListCss))
             {
                 values.add(value.getText());
             }
@@ -254,19 +237,19 @@ public class SetPropertyValuePage extends ShareDialogue
      * This method finds and clicks on select button
      * @return SetPropertyValuePage
      */
-    public SetPropertyValuePage clickSelectButton()
+    public HtmlPage clickSelectButton()
     {
 
         try
         {
-            drone.findAndWait(SET_PROPERTY_VALUE_SELECT).click();
+            findAndWait(SET_PROPERTY_VALUE_SELECT).click();
         }
         catch (TimeoutException e)
         {
             logger.error("Unable to find a select button : ", e);
             throw new PageException("Unable to find the select button.");
         }
-        return new SetPropertyValuePage(drone);
+        return factoryPage.instantiatePage(driver, SetPropertyValuePage.class);
     }
 
 }

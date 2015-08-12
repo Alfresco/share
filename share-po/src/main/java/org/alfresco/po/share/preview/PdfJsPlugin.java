@@ -1,15 +1,28 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.preview;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
+import org.alfresco.po.ElementState;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -47,11 +60,6 @@ public class PdfJsPlugin extends SharePage
     // Generic button, can add [id$="-blah"] to get a specific one
     private static final String VIEWER_CONTROLS_BUTTON = ".controls span.yui-button";
 
-    public PdfJsPlugin(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public PdfJsPlugin render()
@@ -76,12 +84,6 @@ public class PdfJsPlugin extends SharePage
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public PdfJsPlugin render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Checks if sidebar is displayed
@@ -92,7 +94,7 @@ public class PdfJsPlugin extends SharePage
     {
         try
         {
-            WebElement sidebar = drone.find(By.cssSelector(SIDEBAR_DIV));
+            WebElement sidebar = driver.findElement(By.cssSelector(SIDEBAR_DIV));
             return sidebar.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -106,7 +108,7 @@ public class PdfJsPlugin extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector(VIEWER_CONTROLS_BUTTON + "[id$=\"-" + btnId + "\"] button"));
+            return driver.findElement(By.cssSelector(VIEWER_CONTROLS_BUTTON + "[id$=\"-" + btnId + "\"] button"));
         }
         catch (NoSuchElementException nse)
         {
@@ -154,7 +156,7 @@ public class PdfJsPlugin extends SharePage
     {
         try
         {
-            WebElement span = drone.findFirstDisplayedElement(By.cssSelector(CONTROLS_PAGE_NUM));
+            WebElement span = findFirstDisplayedElement(By.cssSelector(CONTROLS_PAGE_NUM));
             return Integer.parseInt(span.getAttribute("value"), 10);
         }
         catch (NoSuchElementException nse)
@@ -173,7 +175,7 @@ public class PdfJsPlugin extends SharePage
     {
         try
         {
-            WebElement span = drone.findFirstDisplayedElement(By.cssSelector(CONTROLS_NUM_PAGES));
+            WebElement span = findFirstDisplayedElement(By.cssSelector(CONTROLS_NUM_PAGES));
             return Integer.parseInt(span.getText(), 10);
         }
         catch (NoSuchElementException nse)
@@ -192,7 +194,7 @@ public class PdfJsPlugin extends SharePage
     {
         try
         {
-            List<WebElement> pages = drone.findDisplayedElements(By.cssSelector(viewerClass));
+            List<WebElement> pages = findDisplayedElements(By.cssSelector(viewerClass));
             return pages.size();
         }
         catch (NoSuchElementException nse)

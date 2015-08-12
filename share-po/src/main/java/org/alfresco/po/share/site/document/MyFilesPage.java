@@ -14,9 +14,8 @@
  */
 package org.alfresco.po.share.site.document;
 
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.RepositoryPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,35 +25,19 @@ import org.apache.commons.logging.LogFactory;
  * Represent Myfiles option from header bar of share. 
  */
 public class MyFilesPage extends RepositoryPage {
-	
-	private static Log logger = LogFactory.getLog(DocumentLibraryPage.class);
-	
-	public MyFilesPage(WebDrone drone) {
-		super(drone);
-		
-	}
+    
+    private static Log logger = LogFactory.getLog(DocumentLibraryPage.class);
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public MyFilesPage render(RenderTime timer) {
-		
-		logger.info("Logged in to :"+this);
-		super.render(timer);
-		return this;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public MyFilesPage render(long time) {
-		
-		return render(new RenderTime(time));
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public MyFilesPage render() {
-		
-		return render(new RenderTime(maxPageLoadingTime));
-	}
-
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyFilesPage render(RenderTime timer) {
+        logger.info("Logged in to :"+this);
+        super.render(timer);
+        return this;
+}   
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyFilesPage render() {
+        return render(new RenderTime(maxPageLoadingTime));
+    }
 }

@@ -21,9 +21,8 @@ package org.alfresco.po.share.dashlet;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
-import org.alfresco.po.share.AlfrescoVersion;
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -47,20 +46,20 @@ public class SiteWelcomeDashletTest extends AbstractSiteDashletTest
     {
         dashBoard = loginAs(username, password);
         siteName = "SiteWelcomeDashletTests" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
     
     @AfterClass(groups = "alfresco-one")
     public void deleteSite()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     // TEST REMOVED - SEE ACE-3485
     public void instantiateDashlet()
     {
-        SiteWelcomeDashlet dashlet = new SiteWelcomeDashlet(drone);
+        SiteWelcomeDashlet dashlet = factoryPage.instantiatePage(driver, SiteWelcomeDashlet.class);
         assertNotNull(dashlet);
     }
 
@@ -73,15 +72,7 @@ public class SiteWelcomeDashletTest extends AbstractSiteDashletTest
     public void selectSiteWelcometDashlet() throws Exception
     {
         SiteWelcomeDashlet dashlet = siteDashBoard.getDashlet(SITE_WELCOME).render();
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (version.equals(AlfrescoVersion.Cloud))
-        {
-            assertEquals(dashlet.getOptions().size(), 3);
-        }
-        else
-        {
-            assertEquals(dashlet.getOptions().size(), 4);
-        }
+        assertEquals(dashlet.getOptions().size(), 4);
     }
     
     /**
@@ -96,7 +87,7 @@ public class SiteWelcomeDashletTest extends AbstractSiteDashletTest
         SiteWelcomeDashlet dashlet;
         dashlet = siteDashBoard.getDashlet(SITE_WELCOME).render();
         dashlet.removeDashlet().render();
-        dashlet = siteDashBoard.getDashlet(SITE_WELCOME).render(100);
+        dashlet = siteDashBoard.getDashlet(SITE_WELCOME).render();
     }
     
     /**

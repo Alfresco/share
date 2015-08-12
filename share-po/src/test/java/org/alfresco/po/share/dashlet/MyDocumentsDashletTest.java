@@ -16,15 +16,15 @@
 // * You should have received a copy of the GNU Lesser General Public License
 // * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
 // */
-//package org.alfresco.webdrone.share.dashlet;
+//package org.alfresco.po.share.dashlet;
 //
 //import java.util.List;
 //import java.util.concurrent.TimeUnit;
 //
-//import org.alfresco.webdrone.PageException;
-//import org.alfresco.webdrone.RenderTime;
-//import org.alfresco.webdrone.share.ShareLink;
-//import org.alfresco.webdrone.share.site.document.DocumentDetailsPage;
+//import org.alfresco.po.PageException;
+//import org.alfresco.po.RenderTime;
+//import org.alfresco.po.share.ShareLink;
+//import org.alfresco.po.share.site.document.DocumentDetailsPage;
 //import org.testng.Assert;
 //import org.testng.annotations.BeforeClass;
 //import org.testng.annotations.BeforeTest;
@@ -54,7 +54,7 @@
 //    @Test
 //    public void instantiateMyDocumentsDashlet()
 //    {
-//        MySitesDashlet dashlet = new MySitesDashlet(drone);
+//        MySitesDashlet dashlet = new MySitesDashlet(driver);
 //        Assert.assertNotNull(dashlet);
 //    }
 //    
@@ -76,7 +76,7 @@
 //    {
 //    	//My Site dashlet takes 15s to update
 //    	boolean hasResult = dashletRenderedWithResult();
-//    	if(!hasResult){saveScreenShot(drone, "getDocumentsAndSelectDocument");}
+//    	if(!hasResult){saveScreenShot(driver, "getDocumentsAndSelectDocument");}
 //    	Assert.assertTrue(hasResult);
 //    	MyDocumentsDashlet dashlet = dashBoard.getDashlet("my-documents").render();
 //		List<ShareLink> documents = dashlet.getDocuments();
@@ -120,7 +120,7 @@
 //    						}
 //    					}
 //    				}
-//    				drone.refresh();
+//    				driver.navigate().refresh();
 //    			}
 //    			finally
 //    			{

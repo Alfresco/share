@@ -15,25 +15,21 @@
 
 package org.alfresco.po.share.search;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.ContentDetails;
 import org.alfresco.po.share.site.document.ContentType;
 import org.alfresco.po.share.site.document.CreatePlainTextContentPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.user.MyProfilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -68,33 +64,16 @@ public class LiveSearchDropdownTest extends AbstractTest
             String random = UUID.randomUUID().toString();
             siteName = random;
             fileName = random;
-            SiteUtil.createSite(drone, siteName, "description", "Public");
-            SitePage site = drone.getCurrentPage().render();
-            DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
-
-            AlfrescoVersion version = drone.getProperties().getVersion();
-            if (version.isCloud())
-            {
-                UploadFilePage filePage = docPage.getNavigation().selectFileUpload().render();
-                File file = SiteUtil.prepareFile(fileName, fileName, "");
-                docPage = filePage.uploadFile(file.getCanonicalPath()).render();
-                DocumentDetailsPage detailsPage = docPage.selectFile(file.getName()).render();
-                EditDocumentPropertiesPage propertiesPage = detailsPage.selectEditProperties().render();
-                propertiesPage.setName(fileName);
-                detailsPage = propertiesPage.selectSave().render();
-                docPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
-            }
-            else
-            {
-                CreatePlainTextContentPage contentPage = docPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
-                ContentDetails contentDetails = new ContentDetails();
-                contentDetails.setName(fileName);
-                contentDetails.setTitle("House");
-                contentDetails.setDescription("House");
-                contentDetails.setContent("House");
-                contentPage.create(contentDetails).render();
-            }
-
+            siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+            SitePage site = resolvePage(driver).render();
+            DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
+            CreatePlainTextContentPage contentPage = docPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
+            ContentDetails contentDetails = new ContentDetails();
+            contentDetails.setName(fileName);
+            contentDetails.setTitle("House");
+            contentDetails.setDescription("House");
+            contentDetails.setContent("House");
+            contentPage.create(contentDetails).render();
         }
         catch (Throwable pe)
         {
@@ -106,7 +85,7 @@ public class LiveSearchDropdownTest extends AbstractTest
     @AfterClass
     public void deleteSite()
     {
-      SiteUtil.deleteSite(drone, siteName);
+      siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test

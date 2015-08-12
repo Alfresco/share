@@ -27,10 +27,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.dashlet.AbstractSiteDashletTest;
 import org.alfresco.po.share.site.wiki.WikiPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -55,7 +54,7 @@ public class CustomizeSitePageTest extends AbstractSiteDashletTest
     {
         dashBoard = loginAs(username, password);
         siteName = "customizePage" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
     
@@ -94,7 +93,7 @@ public class CustomizeSitePageTest extends AbstractSiteDashletTest
     {
         List<SitePageType> addPageTypes = new ArrayList<SitePageType>();
         addPageTypes.add(SitePageType.WIKI);
-        customizeSitePage = FactorySharePage.resolvePage(drone).render();
+        customizeSitePage = factoryPage.getPage(driver).render();
         siteDashBoard = customizeSitePage.addPages(addPageTypes).render();
         customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
         List<SitePageType> currentPages = customizeSitePage.getCurrentPages();

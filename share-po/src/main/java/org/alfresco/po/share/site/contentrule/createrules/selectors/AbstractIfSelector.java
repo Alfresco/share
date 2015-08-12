@@ -1,21 +1,35 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.contentrule.createrules.selectors;
-
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.PageElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
+
 /**
  * User: aliaksei.bul Date: 08.07.13 Time: 12:12
  */
-public abstract class AbstractIfSelector
+@FindBy(tagName="form")
+public abstract class AbstractIfSelector extends PageElement
 {
-    private WebDrone drone;
-
-    private static final By IF_OPTIONS_SELECT = By.cssSelector("ul[id$=ruleConfigIfCondition-configs] select[class$='config-name']");
+    @FindBy(css="ul[id$=ruleConfigIfCondition-configs] select[class$='config-name']") WebElement ifOptions;
     private static final By SIMILARITY_IF_SELECT = By.cssSelector("select[param='operation']");
     private static final By IS_SELECT = By.cssSelector("select[title='is']");
 
@@ -48,36 +62,30 @@ public abstract class AbstractIfSelector
         }
     }
 
-    protected AbstractIfSelector(WebDrone drone)
-    {
-        this.drone = drone;
-    }
-
     public void selectIFOption(int ifOptionNumber)
     {
-        List<WebElement> ifOptions = drone.findAndWaitForElements(IF_OPTIONS_SELECT);
-        List<Select> ifSelects = new ArrayList<Select>();
-        for (WebElement ifOption : ifOptions)
-        {
-            ifSelects.add(new Select(ifOption));
-        }
-        ifSelects.get(ifSelects.size() - 1).selectByIndex(ifOptionNumber);
+        Select selector = new Select(ifOptions);
+        selector.selectByIndex(ifOptionNumber);
     }
 
     private void selectIfSimilarity(int similarityNumber)
     {
-        List<WebElement> similarityInStringOptions = drone.findAndWaitForElements(SIMILARITY_IF_SELECT);
-        List<Select> similaritySelects = new ArrayList<Select>();
-        for (WebElement similarityInStringOption : similarityInStringOptions)
+        List<WebElement> similarityInStringOptions = findAndWaitForElements(SIMILARITY_IF_SELECT);
+        int count = 0;
+        for (WebElement option : similarityInStringOptions)
         {
-            similaritySelects.add(new Select(similarityInStringOption));
+            if(count == similarityNumber)
+            {
+                option.click();
+                return;
+            }
+            count++;
         }
-        similaritySelects.get(similaritySelects.size() - 1).selectByIndex(similarityNumber);
     }
 
     public void fillField(By selector, String text)
     {
-        List<WebElement> similarityStringFields = drone.findAndWaitForElements(selector);
+        List<WebElement> similarityStringFields = findAndWaitForElements(selector);
         similarityStringFields.get(similarityStringFields.size() - 1).sendKeys(text);
     }
 
@@ -155,7 +163,7 @@ public abstract class AbstractIfSelector
             throw new UnsupportedOperationException("visibleText is required");
         }
         selectIFOption(optionNumber);
-        List<WebElement> mimeTypeElements = drone.findAndWaitForElements(IS_SELECT);
+        List<WebElement> mimeTypeElements = findAndWaitForElements(IS_SELECT);
         List<Select> mimeTypeSelects = new ArrayList<Select>();
         for (WebElement mimeTypeElement : mimeTypeElements)
         {
@@ -167,7 +175,7 @@ public abstract class AbstractIfSelector
     protected void selectWithButton(int optionNumber)
     {
         selectIFOption(optionNumber);
-        List<WebElement> selectButtons = drone.findAndWaitForElements(SELECT_BUTTON);
+        List<WebElement> selectButtons = findAndWaitForElements(SELECT_BUTTON);
         selectButtons.get(selectButtons.size() - 1).click();
         // todo need add logic for work with Popup menu
     }

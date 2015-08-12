@@ -14,17 +14,16 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * @author nshah
@@ -42,12 +41,6 @@ public class NewGroupPage extends SharePage
         CREATE_GROUP,
         CREATE_ANOTHER,
         CANCEL_GROUP;
-    }
-
-    protected NewGroupPage(WebDrone drone)
-    {
-        super(drone);
-
     }
 
     @SuppressWarnings("unchecked")
@@ -70,13 +63,6 @@ public class NewGroupPage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public NewGroupPage render(long time)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public NewGroupPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -89,7 +75,7 @@ public class NewGroupPage extends SharePage
             throw new PageException("Enter value of Identifier");
         }
 
-        WebElement input = drone.findAndWait(By.cssSelector(TEXT_INPUT_IDENTIFIER));
+        WebElement input = findAndWait(By.cssSelector(TEXT_INPUT_IDENTIFIER));
         input.clear();
         input.sendKeys(identifier);
     }
@@ -100,7 +86,7 @@ public class NewGroupPage extends SharePage
         {
             throw new PageException("Enter value of DisplayName");
         }
-        WebElement input = drone.findAndWait(By.cssSelector(TEXT_INPUT_DISPLAY_NAME));
+        WebElement input = findAndWait(By.cssSelector(TEXT_INPUT_DISPLAY_NAME));
         input.clear();
         input.sendKeys(displayName);
     }
@@ -110,21 +96,17 @@ public class NewGroupPage extends SharePage
         switch (groupButton)
         {
             case CREATE_GROUP:
-                drone.findAndWait(By.cssSelector(BUTTON_CREATE_GROUP)).click();
+                findAndWait(By.cssSelector(BUTTON_CREATE_GROUP)).click();
                 waitUntilAlert();
-                return new GroupsPage(drone);
-
+                return factoryPage.instantiatePage(driver, GroupsPage.class);
             case CREATE_ANOTHER:
-                drone.findAndWait(By.cssSelector(BUTTON_CREATE_ANOTHER_GROUP)).click();
+                findAndWait(By.cssSelector(BUTTON_CREATE_ANOTHER_GROUP)).click();
                 waitUntilAlert();
-                return new NewGroupPage(drone);
-
-            case CANCEL_GROUP:
-                drone.findAndWait(By.cssSelector(BUTTON_CREATE_GROUP_CANCEL)).click();
-                return new GroupsPage(drone);
+                return factoryPage.instantiatePage(driver, NewGroupPage.class);
+            default:
+                findAndWait(By.cssSelector(BUTTON_CREATE_GROUP_CANCEL)).click();
+                return factoryPage.instantiatePage(driver, GroupsPage.class);
         }
-        throw new PageException("Wrong Page!!");
-
     }
 
     /**

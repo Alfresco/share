@@ -15,14 +15,13 @@
 package org.alfresco.po.share.dashlet;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.NoSuchElementException;
 
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -58,14 +57,6 @@ public class RssFeedUrlBoxPage extends SharePage
         }
     }
 
-    /**
-     * Constructor.
-     */
-    protected RssFeedUrlBoxPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public RssFeedUrlBoxPage render(RenderTime timer)
@@ -73,13 +64,6 @@ public class RssFeedUrlBoxPage extends SharePage
         elementRender(timer, getVisibleRenderElement(OK_BUTTON), getVisibleRenderElement(CANCEL_BUTTON), getVisibleRenderElement(CLOSE_BUTTON));
         return this;
 
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public RssFeedUrlBoxPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -125,16 +109,16 @@ public class RssFeedUrlBoxPage extends SharePage
 
     private void click(By locator)
     {
-        drone.waitUntilElementPresent(locator, 5);
-        WebElement element = drone.findAndWait(locator);
-        drone.executeJavaScript("arguments[0].click();", element);
+        waitUntilElementPresent(locator, 5);
+        WebElement element = findAndWait(locator);
+        executeJavaScript("arguments[0].click();", element);
     }
 
     private void fillField(By selector, String text)
     {
         checkNotNull(selector);
         checkNotNull(text);
-        WebElement inputField = drone.findAndWait(selector);
+        WebElement inputField = findAndWait(selector);
         inputField.clear();
         inputField.sendKeys(text);
     }
@@ -143,7 +127,7 @@ public class RssFeedUrlBoxPage extends SharePage
     {
         try
         {
-            Select select = new Select(drone.findAndWait(By.cssSelector("select[id$='_default-configDialog-limit']")));
+            Select select = new Select(findAndWait(By.cssSelector("select[id$='_default-configDialog-limit']")));
             select.selectByValue(items.getLabel());
         }
         catch (TimeoutException te)
@@ -156,7 +140,7 @@ public class RssFeedUrlBoxPage extends SharePage
     {
         try
         {
-            WebElement element = drone.findAndWait(CHK_OPEN_IN_NEW_WINDOW);
+            WebElement element = findAndWait(CHK_OPEN_IN_NEW_WINDOW);
             element.click();
         }
         catch (TimeoutException te)
@@ -175,7 +159,7 @@ public class RssFeedUrlBoxPage extends SharePage
         boolean selected;
         try
         {
-            WebElement element = drone.find(CHK_OPEN_IN_NEW_WINDOW);
+            WebElement element = driver.findElement(CHK_OPEN_IN_NEW_WINDOW);
             selected = element.isSelected();
             return selected;
         }
@@ -189,7 +173,7 @@ public class RssFeedUrlBoxPage extends SharePage
     {
         try
         {
-            WebElement element = drone.find(URL_FIELD);
+            WebElement element = driver.findElement(URL_FIELD);
             element.clear();
         }
         catch (TimeoutException te)
@@ -202,7 +186,7 @@ public class RssFeedUrlBoxPage extends SharePage
     {
         try
         {
-            WebElement element = drone.find(URL_FIELD);
+            WebElement element = driver.findElement(URL_FIELD);
             element.clear();
             element.sendKeys(text);
             clickOk();
@@ -220,7 +204,7 @@ public class RssFeedUrlBoxPage extends SharePage
      */
     public void waitUntilCheckDisapperers()
     {
-        drone.waitUntilElementDisappears(CHK_OPEN_IN_NEW_WINDOW, 30);
+        waitUntilElementDisappears(CHK_OPEN_IN_NEW_WINDOW, 30);
     }
 
     /**
@@ -230,7 +214,7 @@ public class RssFeedUrlBoxPage extends SharePage
     {
         try
         {
-            return drone.find(OK_BUTTON).isEnabled();
+            return driver.findElement(OK_BUTTON).isEnabled();
         }
         catch (NoSuchElementException te)
         {

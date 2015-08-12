@@ -14,9 +14,10 @@
  */
 package org.alfresco.po.share.site.document;
 
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -37,13 +38,13 @@ public class VersionDetails
     private String comment;
     private String fullDetails;
 
-    public VersionDetails(WebDrone drone, WebElement element)
+    public VersionDetails(WebDriver driver, WebElement element, FactoryPage factoryPage)
     {
         try
         {
             versionNumber = element.findElement(By.cssSelector("div.version-panel-left>span.document-version")).getText();
             fileName = element.findElement(By.cssSelector("div.version-panel-right>h3")).getText();
-            userName = new ShareLink(element.findElement(By.cssSelector("div.version-panel-right>div.version-details>div.version-details-right>a")), drone);
+            userName = new ShareLink(element.findElement(By.cssSelector("div.version-panel-right>div.version-details>div.version-details-right>a")), driver, factoryPage);
             lastModified = element.findElement(By.cssSelector("div.version-panel-right>div.version-details>div.version-details-right>span")).getText();
             comment = element.findElement(By.cssSelector("div.version-panel-right>div.version-details>div.version-details-right")).getText().split("\n")[1];
             fullDetails = element.findElement(By.cssSelector(".version-details-right")).getText();

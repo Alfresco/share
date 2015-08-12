@@ -14,14 +14,13 @@ import java.util.List;
 import org.alfresco.po.share.CustomiseUserDashboardPage;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.InformationEventForm;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -57,20 +56,20 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
         userName = "MyCalendarDashletTest_User" + System.currentTimeMillis();
 
         createEnterpriseUser(userName);
-        ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
+        shareUtil.loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
 
     }
 
     @AfterClass(groups = { "alfresco-one" })
     public void deleteSite()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test
     public void instantiateMyCalendarDashlet()
     {
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         // customize user dashboard
         customiseUserDashBoard = page.getNav().selectCustomizeUserDashboard().render();
         // add My Calendar Dashlet
@@ -115,11 +114,11 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
         String event1 = "MyCalendarEvents";
 
         // Create public site
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
 
-        siteDashBoard = drone.getCurrentPage().render();
+        siteDashBoard = resolvePage(driver).render();
         // customize site
-        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite();
+        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
         List<SitePageType> addPageTypes = new ArrayList<>();
 
         // add site calendar dashlet
@@ -127,10 +126,10 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
         customizeSitePage.addPages(addPageTypes);
 
         // navigate to calendar page
-        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage();
+        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage().render();
 
         // Create any single day event, e.g. event1
-        calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.DAY_TAB, event1, event1, event1, null, null, null, null, null, false);
+        calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.DAY_TAB, event1, event1, event1, null, null, null, null, null, false).render();
 
         // verify the event is present
         Assert.assertTrue(calendarPage.isEventPresent(CalendarPage.EventType.DAY_TAB_SINGLE_EVENT, event1), "The " + event1
@@ -175,7 +174,7 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
         dashBoard = dashBoard.getNav().selectMyDashBoard().render();
         myCalendarDashlet = dashBoard.getDashlet("my-calendar").render();
 
-        SiteDashboardPage siteDash = myCalendarDashlet.clickSite(siteName);
+        SiteDashboardPage siteDash = myCalendarDashlet.clickSite(siteName).render();
 
         boolean siteTitle = siteDash.isSiteTitle(siteName);
         Assert.assertTrue(siteTitle);
@@ -184,7 +183,7 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
         myCalendarDashlet = dashBoard.getDashlet("my-calendar").render();
 
         // Click the event's name;
-        CalendarPage calendarPage = myCalendarDashlet.clickEvent(event1);
+        CalendarPage calendarPage = myCalendarDashlet.clickEvent(event1).render();
         Assert.assertTrue(calendarPage.isSitePage("Calendar"));
 
     }
@@ -198,7 +197,7 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
         String eventDate = date + " 12:00 PM - 1:00 PM";
         String event1 = "MyCalendarEvents";
 
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         dashBoard = page.getNav().selectMyDashBoard().render();
         MyCalendarDashlet myCalendarDashlet = dashBoard.getDashlet("my-calendar").render();
 
@@ -212,10 +211,10 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
     {
         String event1 = "MyCalendarEvents";
 
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         dashBoard = page.getNav().selectMyDashBoard().render();
         MyCalendarDashlet myCalendarDashlet = dashBoard.getDashlet("my-calendar").render();
-        SiteDashboardPage siteDash = myCalendarDashlet.clickEventSiteName(event1, siteName);
+        SiteDashboardPage siteDash = myCalendarDashlet.clickEventSiteName(event1, siteName).render();
 
         boolean siteTitle = siteDash.isSiteTitle(siteName);
         Assert.assertTrue(siteTitle,"Expected site dashbord isn't opened");

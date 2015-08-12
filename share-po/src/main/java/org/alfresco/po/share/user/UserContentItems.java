@@ -1,17 +1,18 @@
 package org.alfresco.po.share.user;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.FactoryPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class UserContentItems extends HtmlElement {
+public class UserContentItems extends PageElement 
+{
 
 	private static final By CONTENT_NAME = By.cssSelector("p a");
 	
@@ -21,11 +22,16 @@ public class UserContentItems extends HtmlElement {
      * Constructor
      * 
      * @param element {@link WebElement}
+<<<<<<< .working
+     * @param driver
+=======
      * @param drone WebDrone
+>>>>>>> .merge-right.r109852
      */
-    public UserContentItems(WebElement element, WebDrone drone)
+    public UserContentItems(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
-        super(element, drone);
+        setWrappedElement(element);
+        this.factoryPage = factoryPage;
     }
     
     /**
@@ -56,9 +62,9 @@ public class UserContentItems extends HtmlElement {
     {
         try
         {
-            findAndWait(CONTENT_NAME).click();           
+            findAndWait(CONTENT_NAME).click();
             domEventCompleted();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {

@@ -1,11 +1,28 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.admin;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.concurrent.TimeoutException;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.adminconsole.replicationjobs.ReplicationJobsPage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -14,16 +31,11 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.concurrent.TimeoutException;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
-
 /**
  * The Class AdminConsolePage.
  */
 @SuppressWarnings("unchecked")
-public class AdminConsolePage extends SharePage implements HtmlPage
+public class AdminConsolePage extends SharePage
 {
     private Log logger = LogFactory.getLog(this.getClass());
     private final static By APPLY_BUTTON = By.cssSelector("#page_x002e_ctool_x002e_admin-console_x0023_default-apply-button-button");
@@ -56,19 +68,9 @@ public class AdminConsolePage extends SharePage implements HtmlPage
         }
     }
 
-    /**
-     * Instantiates a new admin console page.
-     * 
-     * @param drone WebDriver browser client
-     */
-    public AdminConsolePage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     /*
      * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render(long)
+     * @see org.alfresco.po.Render#render(long)
      */
     @Override
     public AdminConsolePage render(RenderTime renderTime)
@@ -83,20 +85,10 @@ public class AdminConsolePage extends SharePage implements HtmlPage
 
     /*
      * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @Override
     public AdminConsolePage render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render(long)
-     */
-    @Override
-    public AdminConsolePage render(long maxPageLoadingTime)
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
@@ -107,20 +99,20 @@ public class AdminConsolePage extends SharePage implements HtmlPage
      * @param theme ThemeType
      * @return {@link AdminConsolePage}
      */
-    public AdminConsolePage selectTheme(ThemeType theme) throws TimeoutException, InterruptedException
+    public HtmlPage selectTheme(ThemeType theme) throws TimeoutException, InterruptedException
     {
         checkNotNull(theme.text);
-        Select themeType = new Select(drone.find(THEME_MENU_SELECT));
+        Select themeType = new Select(driver.findElement(THEME_MENU_SELECT));
         themeType.selectByValue(theme.text);
         clickApplyButton();
-        return new AdminConsolePage(drone).render();
+        return getCurrentPage();
     }
 
     public void clickApplyButton()
     {
-        WebElement applay = drone.findAndWait(APPLY_BUTTON);
+        WebElement applay = findAndWait(APPLY_BUTTON);
         applay.click();
-        drone.waitForPageLoad(maxPageLoadingTime);
+        waitForPageLoad(maxPageLoadingTime);
 
     }
 
@@ -133,7 +125,7 @@ public class AdminConsolePage extends SharePage implements HtmlPage
      */
     public boolean isThemeSelected(ThemeType theme)
     {
-        AdminConsolePage adminConsolePage = drone.getCurrentPage().render();
+        AdminConsolePage adminConsolePage = getCurrentPage().render();
         String hex = "";
         try
         {
@@ -155,19 +147,15 @@ public class AdminConsolePage extends SharePage implements HtmlPage
      * @param filePath String
      * @return {@link AdminConsolePage}
      */
-    public AdminConsolePage uploadPicture(String filePath)
+    public HtmlPage uploadPicture(String filePath)
     {
 
         try
         {
-            UploadFilePage uploadFilePage = new UploadFilePage(drone);
-            if (!alfrescoVersion.isFileUploadHtml5())
-            {
-                setSingleMode();
-            }
-            WebElement button = drone.findAndWait(FILE_UPLOAD_BUTTON);
+            UploadFilePage uploadFilePage = getCurrentPage().render();
+            WebElement button = findAndWait(FILE_UPLOAD_BUTTON);
             button.click();
-            WebElement element = drone.findAndWait(By.cssSelector("#template_x002e_dnd-upload_x002e_console_x0023_default-title-span"));
+            WebElement element = findAndWait(By.cssSelector("#template_x002e_dnd-upload_x002e_console_x0023_default-title-span"));
             if (element.isDisplayed())
             {
                 uploadFilePage.upload(filePath).render();
@@ -183,7 +171,7 @@ public class AdminConsolePage extends SharePage implements HtmlPage
             }
         }
 
-        return new AdminConsolePage(drone).render();
+        return getCurrentPage();
     }
 
     /**
@@ -191,12 +179,12 @@ public class AdminConsolePage extends SharePage implements HtmlPage
      *
      * @return ReplicationJobsPage
      */
-    public ReplicationJobsPage navigateToReplicationJobs()
+    public HtmlPage navigateToReplicationJobs()
     {
-        WebElement replicationJobsPage = drone.find(REPLICATION_JOBS_LINK);
+        WebElement replicationJobsPage = driver.findElement(REPLICATION_JOBS_LINK);
         replicationJobsPage.click();
-        drone.waitForPageLoad(5);
+        waitForPageLoad(5);
         logger.info("Navigating to Replication Jobs page");
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 }

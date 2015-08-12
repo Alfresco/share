@@ -15,18 +15,17 @@
 
 package org.alfresco.po.share.dashlet.mydiscussions;
 
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.site.discussions.DiscussionsPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * Class that represents Delete Topic Dialog Popup
@@ -41,11 +40,6 @@ public class DeleteTopicDialogPage extends SharePage
     private static final String DELETE_BUTTON = "//button[text()='Delete']";
     private static final String CANCEL_BUTTON = "//button[text()='Cancel']";
 
-    protected DeleteTopicDialogPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public DeleteTopicDialogPage render(RenderTime timer)
@@ -57,29 +51,22 @@ public class DeleteTopicDialogPage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public DeleteTopicDialogPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public DeleteTopicDialogPage render()
     {
-        return render(maxPageLoadingTime);
+        return render(new RenderTime(maxPageLoadingTime));
     }
 
     /**
      * Clicks on topic delete button
      */
-    public DiscussionsPage clickOnDeleteButton()
+    public HtmlPage clickOnDeleteButton()
     {
         try
         {
-            WebElement deleteButton = drone.findAndWait(By.xpath(DELETE_BUTTON));
+            WebElement deleteButton = findAndWait(By.xpath(DELETE_BUTTON));
             deleteButton.click();
             waitUntilAlert();
-            return drone.getCurrentPage().render();
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -98,7 +85,7 @@ public class DeleteTopicDialogPage extends SharePage
     {
         try
         {
-            WebElement deleteButton = drone.findAndWait(By.xpath(CANCEL_BUTTON));
+            WebElement deleteButton = findAndWait(By.xpath(CANCEL_BUTTON));
             deleteButton.click();
         }
         catch (TimeoutException te)

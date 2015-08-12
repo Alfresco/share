@@ -18,10 +18,9 @@
  */
 package org.alfresco.po.share.site.links;
 
+import org.alfresco.po.PageElement;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.site.document.TinyMceEditor;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -30,21 +29,13 @@ import org.openqa.selenium.WebElement;
 /**
  * @author Aliaksei Boole
  */
-public class AddCommentLinkForm extends HtmlElement
+public class AddCommentLinkForm extends PageElement
 {
 
-    protected final TinyMceEditor tinyMceEditor;
+    protected TinyMceEditor tinyMceEditor;
     protected static final By SUBMIT_BTN = By.cssSelector("button[id$='-submit-button']");
 
 
-    /*
-     * Constructor
-     */
-    public AddCommentLinkForm(WebDrone drone)
-    {
-        super(drone);
-        tinyMceEditor = new TinyMceEditor(drone);
-    }
 
     public TinyMceEditor getTinyMceEditor()
     {
@@ -53,7 +44,7 @@ public class AddCommentLinkForm extends HtmlElement
 
     protected void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
@@ -66,7 +57,7 @@ public class AddCommentLinkForm extends HtmlElement
     {
         try
         {
-            drone.waitUntilElementClickable(getSubmitBtnBy(), 3000);
+            waitUntilElementClickable(getSubmitBtnBy(), 3000);
             tinyMceEditor.setText(txtLines);
         }
         catch (TimeoutException toe)
@@ -84,8 +75,8 @@ public class AddCommentLinkForm extends HtmlElement
     {
         try
         {
-            drone.findAndWait(getSubmitBtnBy()).click();
-            return new LinksDetailsPage(drone).waitUntilAlert().render();
+            findAndWait(getSubmitBtnBy()).click();
+            return factoryPage.instantiatePage(driver,LinksDetailsPage.class).waitUntilAlert().render();
         }
         catch (NoSuchElementException nse)
         {

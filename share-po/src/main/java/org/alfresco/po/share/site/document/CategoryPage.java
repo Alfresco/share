@@ -19,11 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -42,11 +41,6 @@ public class CategoryPage extends AbstractEditProperties
     private static final By ADD_REMOVE_LINK = By.cssSelector("td>div>a");
     protected static final By OK_BUTTON = By.cssSelector("button[id$='categories-cntrl-ok-button']");
     protected static final By CANCEL_BUTTON = By.cssSelector("button[id$='categories-cntrl-cancel-button']");
-
-    public CategoryPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -85,13 +79,6 @@ public class CategoryPage extends AbstractEditProperties
 
     @SuppressWarnings("unchecked")
     @Override
-    public CategoryPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public CategoryPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -106,7 +93,7 @@ public class CategoryPage extends AbstractEditProperties
     {
         try
         {
-            return (drone.find(SELECT_HEADER).isDisplayed());
+            return (driver.findElement(SELECT_HEADER).isDisplayed());
         }
         catch (NoSuchElementException nse)
         {
@@ -208,7 +195,7 @@ public class CategoryPage extends AbstractEditProperties
         Map<String, ShareLink> availableCategoriesMap = null;
         try
         {
-            availableElements = drone.findAndWaitForElements(by);
+            availableElements = findAndWaitForElements(by);
         }
         catch (TimeoutException exception)
         {
@@ -224,7 +211,7 @@ public class CategoryPage extends AbstractEditProperties
                 {
                     WebElement header = webElement.findElement(HEADER_CATEGORIES_TABLE);
                     WebElement addLink = webElement.findElement(ADD_REMOVE_LINK);
-                    ShareLink addShareLink = new ShareLink(addLink, drone);
+                    ShareLink addShareLink = new ShareLink(addLink, driver, factoryPage);
                     availableCategoriesMap.put(header.getText(), addShareLink);
                 }
                 catch (NoSuchElementException e)
@@ -255,7 +242,7 @@ public class CategoryPage extends AbstractEditProperties
                     }
                     catch (StaleElementReferenceException exception)
                     {
-                        drone.find(CANCEL_BUTTON).click();
+                        driver.findElement(CANCEL_BUTTON).click();
                         throw new PageException("Unexpected Refresh on Page lost reference to the Categories.", exception);
                     }
                 }
@@ -279,7 +266,7 @@ public class CategoryPage extends AbstractEditProperties
     public List<Categories> getAddAbleCatgories()
     {
         List<Categories> categories = new ArrayList<Categories>();
-        List<WebElement> elements = drone.findAndWaitForElements(AVAILABLE_CATEGORIES_TABLE);
+        List<WebElement> elements = findAndWaitForElements(AVAILABLE_CATEGORIES_TABLE);
         for (WebElement webElement : elements)
         {
             if (webElement.findElement(By.cssSelector(".addIcon")).isDisplayed())
@@ -298,7 +285,7 @@ public class CategoryPage extends AbstractEditProperties
     public List<String> getAddAbleCatgoryList()
     {
         List<String> categories = new ArrayList<>();
-        List<WebElement> elements = drone.findAndWaitForElements(AVAILABLE_CATEGORIES_TABLE);
+        List<WebElement> elements = findAndWaitForElements(AVAILABLE_CATEGORIES_TABLE);
         for (WebElement webElement : elements)
         {
             if (webElement.findElement(By.cssSelector(".addIcon")).isDisplayed())
@@ -319,7 +306,7 @@ public class CategoryPage extends AbstractEditProperties
     public List<Categories> getAddedCatgories()
     {
         List<Categories> categories = new ArrayList<Categories>();
-        List<WebElement> elements = drone.findAll(CURRENTLY_ADDED_CATEGORIES_TABLE);
+        List<WebElement> elements = driver.findElements(CURRENTLY_ADDED_CATEGORIES_TABLE);
         for (WebElement webElement : elements)
         {
             String categoryName = webElement.findElement(By.cssSelector("h3.name")).getText();
@@ -339,7 +326,7 @@ public class CategoryPage extends AbstractEditProperties
     public List<String> getAddedCatgoryList()
     {
         List<String> categories = new ArrayList<>();
-        List<WebElement> elements = drone.findAll(CURRENTLY_ADDED_CATEGORIES_TABLE);
+        List<WebElement> elements = driver.findElements(CURRENTLY_ADDED_CATEGORIES_TABLE);
         for (WebElement webElement : elements)
         {
             String categoryName = webElement.findElement(By.cssSelector("h3.name")).getText();
@@ -360,8 +347,8 @@ public class CategoryPage extends AbstractEditProperties
     {
         try
         {
-            drone.find(CANCEL_BUTTON).click();
-            return drone.getCurrentPage();
+            driver.findElement(CANCEL_BUTTON).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -378,8 +365,8 @@ public class CategoryPage extends AbstractEditProperties
     {
         try
         {
-            drone.find(OK_BUTTON).click();
-            return drone.getCurrentPage();
+            driver.findElement(OK_BUTTON).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -406,7 +393,7 @@ public class CategoryPage extends AbstractEditProperties
      */
     public void openSubCategories(String category)
     {
-        List<WebElement> elements = drone.findAndWaitForElements(AVAILABLE_CATEGORIES_TABLE);
+        List<WebElement> elements = findAndWaitForElements(AVAILABLE_CATEGORIES_TABLE);
         for (WebElement webElement : elements)
         {
             if (webElement.findElement(By.cssSelector(".item-name>a")).getText().equals(category))
@@ -415,7 +402,7 @@ public class CategoryPage extends AbstractEditProperties
                 WebElement headerElement = webElement.findElement(headerSelector);
                 String headerText = headerElement.getText();
                 headerElement.click();
-                drone.waitUntilNotVisibleWithParitalText(headerSelector, headerText, drone.getDefaultWaitTime()/1000);
+                waitUntilNotVisibleWithParitalText(headerSelector, headerText, getDefaultWaitTime()/1000);
                 return;
             }
         }

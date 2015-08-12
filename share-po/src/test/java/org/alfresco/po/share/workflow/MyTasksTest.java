@@ -23,7 +23,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.SharePage;
@@ -57,7 +57,7 @@ public class MyTasksTest extends AbstractTest
         siteName = "AdhocReassign" + System.currentTimeMillis();
         message = siteName;
         loginAs(username, password);
-        myTasksPage = ((DashBoardPage) drone.getCurrentPage()).getNav().selectMyTasks().render();
+        myTasksPage = ((DashBoardPage) resolvePage(driver)).getNav().selectMyTasks().render();
         StartWorkFlowPage startWorkFlowPage = myTasksPage.selectStartWorkflowButton().render();
         NewWorkflowPage newWorkflowPage = ((NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW)).render();
 
@@ -94,7 +94,7 @@ public class MyTasksTest extends AbstractTest
     @Test(dependsOnMethods = { "selectCompletedTasksTest", "selectActiveTasksTest" }, groups = "Enterprise4.2")
     public void navigateToCloudTaskPage() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         myTasksPage =  page.getNav().selectMyTasks().render();
         EditTaskPage returnPage = myTasksPage.navigateToEditTaskPage(message, "Administrator").render();
         Assert.assertNotNull(returnPage);

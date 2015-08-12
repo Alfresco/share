@@ -14,16 +14,22 @@
  */
 package org.alfresco.po.share.site.document;
 
-import com.google.common.base.Predicate;
+import java.util.List;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneImpl;
-import org.openqa.selenium.*;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.share.FactorySharePage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+
+import com.google.common.base.Predicate;
 
 /**
  * FormObject mimic actions with Pagination on any page.
@@ -31,7 +37,7 @@ import java.util.List;
  * @author Aliaksei Boole
  */
 @SuppressWarnings("unused")
-public class PaginationForm extends HtmlElement
+public class PaginationForm extends PageElement
 {
     private final By FORM_XPATH;
     private final static By NEXT_PAGE_LINK = By.xpath(".//a[@title='Next Page']");
@@ -45,18 +51,17 @@ public class PaginationForm extends HtmlElement
     /**
      * Constructor for creating FormObject mimic actions with Pagination on any page.
      *
-     * @param drone
+     * @param driver
      * @param formXpath -basic xpath (all xpath's on form building based on him)
      */
-    public PaginationForm(WebDrone drone, By formXpath)
+    public PaginationForm(WebDriver driver, By formXpath)
     {
-        super(drone);
         FORM_XPATH = formXpath;
     }
 
     private WebElement getFormElement()
     {
-        return drone.findAndWait(FORM_XPATH);
+        return findAndWait(FORM_XPATH);
     }
 
     /**
@@ -80,7 +85,7 @@ public class PaginationForm extends HtmlElement
         int beforePageNumber = getCurrentPageNumber();
         getFormElement().findElement(NEXT_PAGE_LINK).click();
         waitUntilPageNumberChanged(beforePageNumber);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -93,7 +98,7 @@ public class PaginationForm extends HtmlElement
         int beforePageNumber = getCurrentPageNumber();
         getFormElement().findElement(PREVIOUS_PAGE_LINK).click();
         waitUntilPageNumberChanged(beforePageNumber);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -163,7 +168,7 @@ public class PaginationForm extends HtmlElement
                 break;
             }
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -185,7 +190,7 @@ public class PaginationForm extends HtmlElement
     {
         try
         {
-            return drone.findAndWait(FORM_XPATH, 2000).isDisplayed();
+            return findAndWait(FORM_XPATH, 2000).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -195,7 +200,7 @@ public class PaginationForm extends HtmlElement
 
     private void waitUntilPageNumberChanged(int beforePageNumber)
     {
-        WebDriverWait wait = new WebDriverWait(((WebDroneImpl) drone).getDriver(), 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(paginationPageChanged(beforePageNumber));
     }
 

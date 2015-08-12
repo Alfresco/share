@@ -1,16 +1,30 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.search;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneUtil;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -67,29 +81,12 @@ public class CreateNewFilterPopUpPage extends SharePage
     private static final By MIN_REQ_RESULT = By.cssSelector("div[id$='FORM_HIT_THRESHOLD']>div>div>div>div>input[class='dijitReset dijitInputInner']");
     private static final By ADD_NEW_ENTRY = By.cssSelector("div[id='FORM_SCOPED_SITES']>div>div>div>div[class='button add']");
 
-    public CreateNewFilterPopUpPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     public CreateNewFilterPopUpPage render(RenderTime timer)
     {
         RenderElement actionMessage = getActionMessageElement(ElementState.INVISIBLE);
         elementRender(timer, getVisibleRenderElement(CREATE_FILTER_POPUP_TITLE_BAR), actionMessage);
         return this;
-    }
-
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.alfresco.webdrone.Render#render()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public CreateNewFilterPopUpPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -107,7 +104,7 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     protected String getValue(By by)
     {
-        return drone.find(by).getAttribute("value");
+        return driver.findElement(by).getAttribute("value");
     }
 
     /**
@@ -127,10 +124,10 @@ public class CreateNewFilterPopUpPage extends SharePage
 
     public CreateNewFilterPopUpPage sendFilterID(String filterID)
     {
-        WebDroneUtil.checkMandotaryParam("filterID", filterID);
+        PageUtils.checkMandotaryParam("filterID", filterID);
         try
         {
-            drone.findAndWait(FILTER_ID).sendKeys(filterID);
+            findAndWait(FILTER_ID).sendKeys(filterID);
             return this;
         }
         catch (TimeoutException toe)
@@ -149,10 +146,10 @@ public class CreateNewFilterPopUpPage extends SharePage
 
     public CreateNewFilterPopUpPage sendFilterName(String filterName)
     {
-        WebDroneUtil.checkMandotaryParam("filterName", filterName);
+        PageUtils.checkMandotaryParam("filterName", filterName);
         try
         {
-            drone.findAndWait(FILTER_NAME).sendKeys(filterName);
+            findAndWait(FILTER_NAME).sendKeys(filterName);
             return this;
         }
         catch (TimeoutException toe)
@@ -179,16 +176,16 @@ public class CreateNewFilterPopUpPage extends SharePage
 
     public CreateNewFilterPopUpPage selectFilterProperty(String property)
     {
-        WebDroneUtil.checkMandotaryParam("property", property);
+        PageUtils.checkMandotaryParam("property", property);
         try
         {
             // Find the select control
-            WebElement selectControl = drone.findAndWait(FILTER_PROPERTY__DD_CTRL);
+            WebElement selectControl = findAndWait(FILTER_PROPERTY__DD_CTRL);
 
             selectControl.click();
 
             // Find the pop up menu
-            WebElement popupMenu = drone.findAndWait(POP_UP_MENU);
+            WebElement popupMenu = findAndWait(POP_UP_MENU);
 
             // Get the pop up menu items
             List<WebElement> menuItems = popupMenu.findElements(FILTER_PROPERTY_DD_POPUPMENU_ITEM);
@@ -234,16 +231,16 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public CreateNewFilterPopUpPage selectSortBy(String order)
     {
-        WebDroneUtil.checkMandotaryParam("order", order);
+        PageUtils.checkMandotaryParam("order", order);
         try
         {
             // Find the select control
-            WebElement selectControl = drone.findAndWait(SORT_BY_DD_CTRL);
+            WebElement selectControl = findAndWait(SORT_BY_DD_CTRL);
 
             selectControl.click();
 
             // Find the pop up menu
-            WebElement popupMenu = drone.findAndWait(SORT_POP_UP);
+            WebElement popupMenu = findAndWait(SORT_POP_UP);
 
             // Get the pop up menu items
             List<WebElement> menuItems = popupMenu.findElements(SORT_BY_DD_POPUPMENU_ITEM);
@@ -281,10 +278,10 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public boolean isSortByDisplayed(String sortBy)
     {
-        WebDroneUtil.checkMandotaryParam("sortBy", sortBy);
+        PageUtils.checkMandotaryParam("sortBy", sortBy);
         try
         {
-            if (drone.findAndWait(SORT_BY_SELECTED).isDisplayed() && drone.findAndWait(SORT_BY_SELECTED).getText().endsWith(sortBy))
+            if (findAndWait(SORT_BY_SELECTED).isDisplayed() && findAndWait(SORT_BY_SELECTED).getText().endsWith(sortBy))
             {
                 return true;
             }
@@ -300,13 +297,13 @@ public class CreateNewFilterPopUpPage extends SharePage
      * 
      * @return {@link FacetedSearchConfigPage Page} page response
      */
-    public FacetedSearchConfigPage selectSaveOrCancel(String buttonName)
+    public HtmlPage selectSaveOrCancel(String buttonName)
     {
-        WebDroneUtil.checkMandotaryParam("buttonName", buttonName);
+        PageUtils.checkMandotaryParam("buttonName", buttonName);
         try
         {
             // Get the list of buttons
-            List<WebElement> buttonNames = drone.findAndWaitForElements(NEW_FILTER_SAVE_OR_CANCEL_BUTTON);
+            List<WebElement> buttonNames = findAndWaitForElements(NEW_FILTER_SAVE_OR_CANCEL_BUTTON);
 
             // Iterate list of buttons
             for (WebElement button : buttonNames)
@@ -314,9 +311,9 @@ public class CreateNewFilterPopUpPage extends SharePage
                 if (button.getText().equalsIgnoreCase(buttonName) && (button.isDisplayed()))
                 {
                     button.click();
-                    drone.waitUntilVisible(By.cssSelector("div.bd"), "Operation Completed Successfully", 10);
-                    drone.waitUntilNotVisibleWithParitalText(By.cssSelector("div.bd"), "Operation Completed Successfully", 10);
-                    return new FacetedSearchConfigPage(drone);
+                    waitUntilVisible(By.cssSelector("div.bd"), "Operation Completed Successfully", 10);
+                    waitUntilNotVisibleWithParitalText(By.cssSelector("div.bd"), "Operation Completed Successfully", 10);
+                    return getCurrentPage();
                 }
             }
 
@@ -342,7 +339,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     public CreateNewFilterPopUpPage incrementMinimumFilterLength(int clickCount)
     {
 
-        WebDroneUtil.checkMandotaryParam("clickCount", clickCount);
+        PageUtils.checkMandotaryParam("clickCount", clickCount);
         try
         {
 
@@ -355,7 +352,7 @@ public class CreateNewFilterPopUpPage extends SharePage
             if (!(initialMinFilterVal > MAXNIUM_FILTER_SIZE - 1) && !(clickCount + initialMinFilterVal > MAXNIUM_FILTER_SIZE))
             {
                 // Find the select control
-                WebElement selectControl = drone.findAndWait(MIN_FILTER_LENGTH_UP_ARROW);
+                WebElement selectControl = findAndWait(MIN_FILTER_LENGTH_UP_ARROW);
 
                 for (int count = 1; count <= clickCount; count++)
                 {
@@ -415,7 +412,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     public CreateNewFilterPopUpPage incrementMaxNumberOfFilters(int clickCount)
     {
 
-        WebDroneUtil.checkMandotaryParam("clickCount", clickCount);
+        PageUtils.checkMandotaryParam("clickCount", clickCount);
         try
         {
 
@@ -428,7 +425,7 @@ public class CreateNewFilterPopUpPage extends SharePage
             if (!(initialMaxNumberOfFiltersVal > MAXNIUM_FILTER_SIZE - 1) && !(clickCount + initialMaxNumberOfFiltersVal > MAXNIUM_FILTER_SIZE))
             {
                 // Find the select control
-                WebElement selectControl = drone.findAndWait(MAX_NO_OF_FILTERS_UP_ARROW);
+                WebElement selectControl = findAndWait(MAX_NO_OF_FILTERS_UP_ARROW);
 
                 for (int count = 1; count <= clickCount; count++)
                 {
@@ -488,7 +485,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     public CreateNewFilterPopUpPage incrementMinimumRequiredResults(int clickCount)
     {
 
-        WebDroneUtil.checkMandotaryParam("clickCount", clickCount);
+        PageUtils.checkMandotaryParam("clickCount", clickCount);
         try
         {
 
@@ -501,7 +498,7 @@ public class CreateNewFilterPopUpPage extends SharePage
             if (!(initialMinReqResultVal > MAXNIUM_FILTER_SIZE - 1) && !(clickCount + initialMinReqResultVal > MAXNIUM_FILTER_SIZE))
             {
                 // Find the select control
-                WebElement selectControl = drone.findAndWait(MIN_REQ_RESULTS_UP_ARROW);
+                WebElement selectControl = findAndWait(MIN_REQ_RESULTS_UP_ARROW);
 
                 for (int count = 1; count <= clickCount; count++)
                 {
@@ -559,16 +556,16 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public CreateNewFilterPopUpPage selectFilterAvailability(String availability)
     {
-        WebDroneUtil.checkMandotaryParam("availability", availability);
+        PageUtils.checkMandotaryParam("availability", availability);
         try
         {
             // Find the select control
-            WebElement selectControl = drone.findAndWait(FILTER_AVAI_DD_CTRL);
+            WebElement selectControl = findAndWait(FILTER_AVAI_DD_CTRL);
 
             selectControl.click();
 
             // Find the pop up menu
-            WebElement popupMenu = drone.findAndWait(FILTER_AVAI_POP_UP);
+            WebElement popupMenu = findAndWait(FILTER_AVAI_POP_UP);
 
             // Get the pop up menu items
             List<WebElement> menuItems = popupMenu.findElements(FILTER_AVAI_DD_POPUPMENU_ITEM);
@@ -605,10 +602,10 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public boolean isFilterAvailabiltyDisplayed(String availability)
     {
-        WebDroneUtil.checkMandotaryParam("availability", availability);
+        PageUtils.checkMandotaryParam("availability", availability);
         try
         {
-            if (drone.findAndWait(FILTER_AVAI_SELECTED).isDisplayed() && drone.findAndWait(FILTER_AVAI_SELECTED).getText().equalsIgnoreCase(availability))
+            if (findAndWait(FILTER_AVAI_SELECTED).isDisplayed() && findAndWait(FILTER_AVAI_SELECTED).getText().equalsIgnoreCase(availability))
             {
                 return true;
             }
@@ -629,7 +626,7 @@ public class CreateNewFilterPopUpPage extends SharePage
         try
         {
             // Get the list of buttons
-            WebElement addNewEntryButton = drone.findAndWait(ADD_NEW_ENTRY);
+            WebElement addNewEntryButton = findAndWait(ADD_NEW_ENTRY);
 
             // Iterate list of buttons
             if (addNewEntryButton.isDisplayed())
@@ -690,10 +687,10 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public boolean isSelectedSiteDisplayed(String siteName)
     {
-        WebDroneUtil.checkMandotaryParam("siteName", siteName);
+        PageUtils.checkMandotaryParam("siteName", siteName);
         try
         {
-            if (drone.findAndWait(SELECTED_SITE_DD).isDisplayed() && drone.findAndWait(SELECTED_SITE_DD).getText().contains(siteName))
+            if (findAndWait(SELECTED_SITE_DD).isDisplayed() && findAndWait(SELECTED_SITE_DD).getText().contains(siteName))
             {
                 return true;
             }
@@ -713,17 +710,17 @@ public class CreateNewFilterPopUpPage extends SharePage
     public CreateNewFilterPopUpPage selectSiteNameAndSave(String siteName)
     {
 
-        WebDroneUtil.checkMandotaryParam("siteName", siteName);
+        PageUtils.checkMandotaryParam("siteName", siteName);
         try
         {
             // Find the select control
-            WebElement selectControl = drone.findAndWait(SITE_DD_CTRL);
-            // WebElement selectCancel = drone.findAndWait(CANCEL_SITE);
+            WebElement selectControl = findAndWait(SITE_DD_CTRL);
+            // WebElement selectCancel = findAndWait(CANCEL_SITE);
 
             selectControl.click();
 
             // Find the pop up menu
-            WebElement popupMenu = drone.findAndWait(SITE_POP_UP);
+            WebElement popupMenu = findAndWait(SITE_POP_UP);
 
             // Get the pop up menu items
             List<WebElement> menuItems = popupMenu.findElements(POP_UP_SITES_DD);
@@ -734,7 +731,7 @@ public class CreateNewFilterPopUpPage extends SharePage
                 if (menuItem.getText().equalsIgnoreCase(siteName))
                 {
                     menuItem.click();
-                    WebElement selectSave = drone.findAndWait(SAVE_SITE);
+                    WebElement selectSave = findAndWait(SAVE_SITE);
                     if (selectSave.isDisplayed() && selectSave.isEnabled())
                     {
                         selectSave.click();
@@ -770,10 +767,10 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public boolean isSavedSiteDisplayed(String siteName)
     {
-        WebDroneUtil.checkMandotaryParam("siteName", siteName);
+        PageUtils.checkMandotaryParam("siteName", siteName);
         try
         {
-            if (drone.findAndWait(SAVED_SITE_DISPLAY).isDisplayed() && drone.findAndWait(SAVED_SITE_DISPLAY).getText().contains(siteName))
+            if (findAndWait(SAVED_SITE_DISPLAY).isDisplayed() && findAndWait(SAVED_SITE_DISPLAY).getText().contains(siteName))
             {
                 return true;
             }

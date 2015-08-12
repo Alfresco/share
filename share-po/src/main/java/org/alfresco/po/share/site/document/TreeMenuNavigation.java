@@ -16,27 +16,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(id="alf-filters")
 /**
  * Represent elements found on the HTML page relating to the document library
  * left hand menus that appear on the document library site page.
@@ -44,7 +41,7 @@ import java.util.List;
  * @author Jamie Allison
  * @since 4.3.0
  */
-public class TreeMenuNavigation extends SharePage
+public class TreeMenuNavigation extends PageElement
 {
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -121,33 +118,6 @@ public class TreeMenuNavigation extends SharePage
     private static final String TAG_NODE = "//a[text()='%s']";
     private static final long FOLDER_LOAD_TIME = 5000;
 
-    public TreeMenuNavigation(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public TreeMenuNavigation render(RenderTime timer)
-    {
-        basicRender(timer);
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public TreeMenuNavigation render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public TreeMenuNavigation render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Checks if the menu node is expanded.
      * 
@@ -158,7 +128,7 @@ public class TreeMenuNavigation extends SharePage
     {
         try
         {
-            String elClass = drone.find(node).getAttribute("class");
+            String elClass = driver.findElement(node).getAttribute("class");
             if (elClass.contains("ygtvtm") || elClass.contains("ygtvlm"))
             {
                 return true;
@@ -186,7 +156,7 @@ public class TreeMenuNavigation extends SharePage
         By menuLocator = By.xpath(treeMenu.getXpath() + "/h2");
         try
         {
-            String elClass = drone.find(menuLocator).getAttribute("class");
+            String elClass = driver.findElement(menuLocator).getAttribute("class");
             if (elClass.contains("alfresco-twister-open"))
             {
                 return true;
@@ -220,17 +190,17 @@ public class TreeMenuNavigation extends SharePage
                 {
                     try
                     {
-                        drone.findAndWait(nodeLocator).click();
+                        findAndWait(nodeLocator).click();
 
                         try
                         {
-                            drone.findAndWait(loadingLocator);
+                            findAndWait(loadingLocator);
                         }
                         catch (TimeoutException e)
                         {
                         }
 
-                        drone.waitUntilElementDeletedFromDom(loadingLocator, FOLDER_LOAD_TIME);
+                        waitUntilElementDeletedFromDom(loadingLocator, FOLDER_LOAD_TIME);
                     }
                     catch (TimeoutException e)
                     {
@@ -253,7 +223,7 @@ public class TreeMenuNavigation extends SharePage
             By menuLocator = By.xpath(treeMenu.getXpath());
             try
             {
-                drone.find(menuLocator).click();
+                driver.findElement(menuLocator).click();
             }
             catch (NoSuchElementException e)
             {
@@ -280,14 +250,14 @@ public class TreeMenuNavigation extends SharePage
         try
         {
             expandMenu(TreeMenu.DOCUMENTS);
-            drone.find(nodeLocator).click();
+            driver.findElement(nodeLocator).click();
         }
         catch (NoSuchElementException e)
         {
             throw new PageException("Unable to find element " + nodeLocator, e);
         }
 
-        return FactorySharePage.resolvePage(drone).render();
+        return getCurrentPage().render();
     }
 
     /**
@@ -296,34 +266,6 @@ public class TreeMenuNavigation extends SharePage
      * @param tagName String
      * @return The page loaded when the node is selected.
      */
-    public HtmlPage selectTagNode(String tagName)
-    {
-        if (tagName == null)
-        {
-            throw new IllegalArgumentException("Tag name is required.");
-        }
-
-        //Tag names are lower case so change tagNAme to lower case to allow matching.
-        tagName = tagName.toLowerCase();
-
-        String xpath = TreeMenu.TAGS.getXpath() + String.format(TAG_NODE, tagName);
-
-        By nodeLocator = By.xpath(xpath);
-        try
-        {
-            expandMenu(TreeMenu.DOCUMENTS);
-            drone.find(nodeLocator).click();
-            drone.waitForPageLoad(WAIT_TIME_3000);
-
-            //drone.refresh();
-        }
-        catch (NoSuchElementException e)
-        {
-            throw new PageOperationException("Unable to find element " + nodeLocator, e);
-        }
-
-        return FactorySharePage.resolvePage(drone);
-    }
 
     /**
      * Expands the menu tree and selects the last node in the supplied node
@@ -361,14 +303,14 @@ public class TreeMenuNavigation extends SharePage
         By nodeLocator = By.xpath(xpath);
         try
         {
-            drone.find(nodeLocator).click();
+            driver.findElement(nodeLocator).click();
         }
         catch (NoSuchElementException e)
         {
             throw new PageOperationException("Unable to find element " + nodeLocator, e);
         }
 
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -406,7 +348,7 @@ public class TreeMenuNavigation extends SharePage
         By nodeLocator = By.xpath(xpath);
         try
         {
-            List<WebElement> results = drone.findAll(nodeLocator);
+            List<WebElement> results = driver.findElements(nodeLocator);
 
             for (WebElement element : results)
             {
@@ -435,7 +377,7 @@ public class TreeMenuNavigation extends SharePage
 
         try
         {
-            return drone.findAndWait(By.xpath(treeMenu.getXpath())).isDisplayed();
+            return findAndWait(By.xpath(treeMenu.getXpath())).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -459,7 +401,7 @@ public class TreeMenuNavigation extends SharePage
 
         try
         {
-            return drone.find(By.xpath(TreeMenu.DOCUMENTS.getXpath() + docMenu.getXpath())).isDisplayed();
+            return driver.findElement(By.xpath(TreeMenu.DOCUMENTS.getXpath() + docMenu.getXpath())).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -487,7 +429,7 @@ public class TreeMenuNavigation extends SharePage
         try
         {
             String xpath = TreeMenu.TAGS.getXpath() + String.format(TAG_NODE, tagName) + "/..";
-            String count = drone.findAndWait(By.xpath(xpath)).getText();
+            String count = findAndWait(By.xpath(xpath)).getText();
             
             return Integer.parseInt(count.substring(count.indexOf("(") + 1, count.indexOf(")")));
         }

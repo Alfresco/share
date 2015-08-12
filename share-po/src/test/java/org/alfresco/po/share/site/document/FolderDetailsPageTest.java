@@ -17,13 +17,13 @@ package org.alfresco.po.share.site.document;
 import java.util.List;
 import java.util.Map;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,32 +61,22 @@ public class FolderDetailsPageTest extends AbstractTest
         siteName = "site" + System.currentTimeMillis();
         folderName = "The first folder";
         folderDescription = String.format("Description of %s", folderName);
-        if (!alfrescoVersion.isCloud())
-        {
-            DashBoardPage dashBoard = loginAs(username, password);
-            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-            NewUserPage newPage = page.selectNewUser().render();
-            newPage.createEnterpriseUserWithGroup(userName, firstName, lastName, userName, userName, "ALFRESCO_ADMINISTRATORS");
-            UserSearchPage userPage = dashBoard.getNav().getUsersPage().render();
-            userPage.searchFor(userName).render();
-            Assert.assertTrue(userPage.hasResults());
-            logout(drone);
-            loginAs(userName, userName);
-        }
-        else
-        {
-            loginAs(username, password);
-            firstName = anotherUser.getfName();
-            lastName = anotherUser.getlName();
-            userName = firstName + " " + lastName;
-        }
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        DashBoardPage dashBoard = loginAs(username, password);
+        UserSearchPage page = dashBoard.getNav().getUsersPage().render();
+        NewUserPage newPage = page.selectNewUser().render();
+        newPage.createEnterpriseUserWithGroup(userName, firstName, lastName, userName, userName, "ALFRESCO_ADMINISTRATORS");
+        UserSearchPage userPage = dashBoard.getNav().getUsersPage().render();
+        userPage.searchFor(userName).render();
+        Assert.assertTrue(userPage.hasResults());
+        logout(driver);
+        loginAs(userName, userName);
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
     }
 
     @AfterClass(groups = { "alfresco-one" })
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     /**
@@ -100,8 +90,8 @@ public class FolderDetailsPageTest extends AbstractTest
     {
         if (logger.isTraceEnabled())
             logger.trace("====createData====");
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(folderName, folderDescription).render();
     }
@@ -246,7 +236,7 @@ public class FolderDetailsPageTest extends AbstractTest
     {
         if (logger.isTraceEnabled())
             logger.trace("====testFolderComments====");
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         List<FileDirectoryInfo> results = documentLibPage.getFiles();
         if (results.isEmpty())
         {

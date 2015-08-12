@@ -17,14 +17,14 @@ package org.alfresco.po.share;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -42,14 +42,6 @@ public class FootersPage extends ShareDialogue
   
     private static By HEADER_DETAILS = By.cssSelector(".about>div.header");
   
-   
-    /**
-     * Constructor.
-     */
-    public FootersPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -66,13 +58,6 @@ public class FootersPage extends ShareDialogue
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public FootersPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Is License info present.
      * 
@@ -82,7 +67,7 @@ public class FootersPage extends ShareDialogue
     {
         try
         {
-            return drone.find(LICENSE_TO).isDisplayed();
+            return driver.findElement(LICENSE_TO).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -96,22 +81,21 @@ public class FootersPage extends ShareDialogue
     }
 
     /**
+<<<<<<< .working
+     * @param driver
+     * @return
+=======
      * @param drone WebDrone
      * @return Map
+>>>>>>> .merge-right.r109852
      */
-    private Map<String, String> getHeaderInfo(WebDrone drone)
+    private Map<String, String> getHeaderInfo(WebDriver driver)
     {
         String searchString = "Alfresco Enterprise v";
-        if(alfrescoVersion.isCloud())
-        {
-            searchString = "Alfresco Cloud v";
-        }
-        
-        
         Map<String, String> headerMap = new HashMap<String, String>();
         try
         {
-            for (WebElement element : drone.findAll(HEADER_DETAILS))
+            for (WebElement element : driver.findElements(HEADER_DETAILS))
             {
                 if (element.getText().contains(searchString))
                 {
@@ -136,7 +120,7 @@ public class FootersPage extends ShareDialogue
      */
     public String getAlfrescoVersion()
     {
-        Map<String, String> versionMap = getHeaderInfo(drone);
+        Map<String, String> versionMap = getHeaderInfo(driver);
         if(versionMap.containsKey("productInfo"))
         {
             return versionMap.get("productInfo");
@@ -157,7 +141,7 @@ public class FootersPage extends ShareDialogue
 //        
 //        try
 //        {
-//            return drone.find(LICENSE_HOLDER).getText();
+//            return driver.findElement(LICENSE_HOLDER).getText();
 //        }
 //        catch (NoSuchElementException nse)
 //        {
@@ -177,7 +161,7 @@ public class FootersPage extends ShareDialogue
 //    {
 //        List<String> contributors = new ArrayList<String>();
 //
-//        List<WebElement> elements = drone.findAll(CONTRIBUTORS);
+//        List<WebElement> elements = driver.findElements(CONTRIBUTORS);
 //
 //        for (WebElement element : elements)
 //        {
@@ -196,7 +180,7 @@ public class FootersPage extends ShareDialogue
 //            COPYRIGHTS_DATE = By.cssSelector(".copy") ;//All rights reserved.
 //        }
 //        try{
-//        for(WebElement element: drone.findAll(COPYRIGHTS_DATE))
+//        for(WebElement element: driver.findElements(COPYRIGHTS_DATE))
 //        {
 //            if(element.getText().contains("All rights reserved."))
 //            {

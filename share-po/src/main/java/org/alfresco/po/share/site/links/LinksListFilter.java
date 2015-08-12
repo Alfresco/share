@@ -18,21 +18,18 @@
  */
 package org.alfresco.po.share.site.links;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.alfresco.po.PageElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author Aliaksei Boole
  */
-public class LinksListFilter extends HtmlElement
+public class LinksListFilter extends PageElement
 {
 
     private final static By BASE_FILTER_ELEMENT = By.xpath("//ul[@class='filterLink']");
@@ -53,23 +50,11 @@ public class LinksListFilter extends HtmlElement
         public final By by;
     }
 
-    public LinksListFilter(WebDrone drone)
+    public LinksListFilter(WebDriver driver)
     {
-        super(drone);
-        setWebElement(drone.findAndWait(BASE_FILTER_ELEMENT));
+        setWrappedElement(findAndWait(BASE_FILTER_ELEMENT));
     }
 
-    /**
-     * Mimic select filter type in upper left angle
-     *
-     * @param option FilterOption
-     */
-    public LinksPage select(FilterOption option)
-    {
-            checkNotNull(option);
-            findAndWait(option.by).click();
-            return new LinksPage(drone).waitUntilAlert().render();
-    }
 
     /**
      * Return List with visible tags name
@@ -79,31 +64,11 @@ public class LinksListFilter extends HtmlElement
     public List<String> getTags()
     {
         List<String> tags = new ArrayList<String>();
-        List<WebElement> tagElements = findAllWithWait(TAGS_LINK);
+        List<WebElement> tagElements = driver.findElements(TAGS_LINK);
         for (WebElement tagElement : tagElements)
         {
             tags.add(tagElement.getText());
         }
         return tags;
-    }
-
-    /**
-     * Mimic select tag in left filter panel.
-     *
-     * @param tagName String
-     */
-    public LinksPage clickOnTag(String tagName)
-    {
-        checkNotNull(tagName);
-        List<WebElement> tagElements = findAllWithWait(TAGS_LINK);
-        for (WebElement tagElement : tagElements)
-        {
-            if (tagName.equals(tagElement.getText()))
-            {
-                tagElement.click();
-                return new LinksPage(drone).waitUntilAlert().render();
-            }
-        }
-        throw new PageException(String.format("Tag with name[%s] don't found.", tagName));
     }
 }

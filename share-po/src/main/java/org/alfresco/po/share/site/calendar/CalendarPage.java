@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.calendar;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -6,12 +20,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -145,15 +156,6 @@ public class CalendarPage extends SitePage
         }
     }
 
-    public CalendarPage(WebDrone drone)
-    {
-        super(drone);
-        /*if (alfrescoVersion.isCloud())
-        {
-            throw new PageOperationException("Calendar is not applicable to a specific alfresco version 'Cloud'");
-        }*/
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public CalendarPage render(RenderTime timer)
@@ -169,13 +171,6 @@ public class CalendarPage extends SitePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public CalendarPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method click on button 'Add event'
      * 
@@ -185,7 +180,7 @@ public class CalendarPage extends SitePage
     {
         try
         {
-            drone.findAndWait(ADD_EVENT).click();
+            findAndWait(ADD_EVENT).click();
             logger.info("Click add event button");
         }
         catch (NoSuchElementException e)
@@ -196,7 +191,7 @@ public class CalendarPage extends SitePage
         {
             logger.debug("The operation has timed out");
         }
-        return new AddEventForm(drone);
+        return factoryPage.instantiatePage(driver, AddEventForm.class);
     }
 
     /**
@@ -220,27 +215,27 @@ public class CalendarPage extends SitePage
                 {
                     case DAY_TAB:
                         String dayXpath = String.format(DAY_TAB_ADD_EVENT, Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-                        WebElement element1 = drone.findAndWait(By.xpath(dayXpath));
+                        WebElement element1 = findAndWait(By.xpath(dayXpath));
                         element1.click();
                         break;
                     case WEEK_TAB:
                         String weekXpath = String.format(WEEK_TAB_ADD_EVENT, Calendar.getInstance().get(Calendar.HOUR_OF_DAY) * 2);
-                        WebElement element2 = drone.findAndWait(By.xpath(weekXpath));
+                        WebElement element2 = findAndWait(By.xpath(weekXpath));
                         element2.click();
                         break;
                     case MONTH_TAB:
                         String monthXpath = String.format(MONTH_TAB_ADD_EVENT, Calendar.getInstance().get(Calendar.DATE));
-                        WebElement element3 = drone.findAndWait(By.xpath(monthXpath));
+                        WebElement element3 = findAndWait(By.xpath(monthXpath));
                         element3.click();
                         break;
                     case AGENDA_TAB:
-                        drone.findAndWait(ADD_EVENT).click();
+                        findAndWait(ADD_EVENT).click();
                         break;
                     case ADD_EVENT_BUTTON:
-                        drone.findAndWait(ADD_EVENT).click();
+                        findAndWait(ADD_EVENT).click();
                         break;
                     default:
-                        drone.findAndWait(ADD_EVENT).click();
+                        findAndWait(ADD_EVENT).click();
                         break;
                 }
             }
@@ -253,7 +248,7 @@ public class CalendarPage extends SitePage
         {
             logger.debug("The operation has timed out");
         }
-        return new AddEventForm(drone);
+        return factoryPage.instantiatePage(driver, AddEventForm.class);
     }
 
     /**
@@ -261,7 +256,7 @@ public class CalendarPage extends SitePage
      * 
      * @return CalendarPage
      */
-    public CalendarPage createEvent(String whatField, String whereField, String description, boolean allDay)
+    public HtmlPage createEvent(String whatField, String whereField, String description, boolean allDay)
     {
         return createEvent(null, whatField, whereField, description, null, null, null, null, null, allDay);
     }
@@ -282,7 +277,7 @@ public class CalendarPage extends SitePage
      * @return CalendarPage
      */
 
-    public CalendarPage createEvent(ActionEventVia createEventVia, String whatField, String whereField, String description, String startDate, String startTime, String endDate, String endTime, String tags, boolean allDay)
+    public HtmlPage createEvent(ActionEventVia createEventVia, String whatField, String whereField, String description, String startDate, String startTime, String endDate, String endTime, String tags, boolean allDay)
     {
         return createEvent(createEventVia, whatField, whereField, description, null, null, startDate, startTime, null, null, endDate, endTime, tags, allDay);
     }
@@ -304,14 +299,14 @@ public class CalendarPage extends SitePage
      * @param allDay boolean
      * @return CalendarPage
      */
-    public CalendarPage createEvent(ActionEventVia createEventVia, String whatField, String whereField, String description, String startYear, String startMonth, String startDate, String startTime, String endYear, String endMonth, String endDate, String endTime, String tags, boolean allDay)
+    public HtmlPage createEvent(ActionEventVia createEventVia, String whatField, String whereField, String description, String startYear, String startMonth, String startDate, String startTime, String endYear, String endMonth, String endDate, String endTime, String tags, boolean allDay)
     {
         logger.info("Create event with name " + whatField);
         try
         {
             AddEventForm addEventForm;
-            CalendarPage calendarPage = new CalendarPage(drone);
-            CalendarContainer calendarContainer = new CalendarContainer(drone);
+            CalendarPage calendarPage = getCurrentPage().render();
+            CalendarContainer calendarContainer = factoryPage.instantiatePage(driver, CalendarContainer.class);
             if (createEventVia != null)
             {
                 switch (createEventVia)
@@ -443,14 +438,14 @@ public class CalendarPage extends SitePage
         {
             logger.debug("Unable to find the elements");
         }
-        drone.waitUntilElementDisappears(EDIT_PANEL, TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
-        drone.waitUntilNotVisible(By.cssSelector(".message"), "created", TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+        waitUntilElementDisappears(EDIT_PANEL, TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
+        waitUntilNotVisible(By.cssSelector(".message"), "created", TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
         if (tags != null)
         {
             String tagXpath = String.format(TAG_LINK, tags.split(" ")[0]);
-            drone.waitUntilElementPresent(By.xpath(tagXpath), TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+            waitUntilElementPresent(By.xpath(tagXpath), TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
         }
-        return new CalendarPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -462,7 +457,7 @@ public class CalendarPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(ADD_EVENT, 2000).isDisplayed();
+            return findAndWait(ADD_EVENT, 2000).isDisplayed();
         }
         catch (TimeoutException nse)
         {
@@ -487,14 +482,14 @@ public class CalendarPage extends SitePage
      * @param allDay boolean
      * @return CalendarPage
      */
-    public CalendarPage editEvent(String eventName, EventType eventType, ActionEventVia editEventVia, String whatField, String whereField, String description, String startDate, String startTime, String endDate, String endTime, String tags, boolean allDay, String[] removeTag)
+    public HtmlPage editEvent(String eventName, EventType eventType, ActionEventVia editEventVia, String whatField, String whereField, String description, String startDate, String startTime, String endDate, String endTime, String tags, boolean allDay, String[] removeTag)
     {
         logger.info("Edit event with name " + whatField);
         try
         {
             EditEventForm editEventForm = null;
-            CalendarPage calendarPage = new CalendarPage(drone);
-            CalendarContainer calendarContainer = new CalendarContainer(drone);
+            CalendarPage calendarPage = getCurrentPage().render();
+            CalendarContainer calendarContainer = factoryPage.instantiatePage(driver, CalendarContainer.class);
             InformationEventForm informationEventForm;
             if (editEventVia != null)
             {
@@ -594,18 +589,18 @@ public class CalendarPage extends SitePage
         {
             logger.debug("Unable to find the elements");
         }
-        drone.waitUntilElementDisappears(EDIT_PANEL, TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+        waitUntilElementDisappears(EDIT_PANEL, TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
         if (tags != null)
         {
             String tagXpath = String.format(TAG_LINK, tags.split(" ")[0]);
-            drone.waitUntilElementPresent(By.xpath(tagXpath), TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+            waitUntilElementPresent(By.xpath(tagXpath), TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
         }
         if (removeTag != null)
         {
             String tagXpath = String.format(TAG_LINK, removeTag[0]);
-            drone.waitUntilElementDisappears(By.xpath(tagXpath), TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+            waitUntilElementDisappears(By.xpath(tagXpath), TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
         }
-        return new CalendarPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -616,13 +611,13 @@ public class CalendarPage extends SitePage
      * @param editEventVia ActionEventVia
      * @return CalendarPage
      */
-    public CalendarPage deleteEvent(String eventName, EventType eventType, ActionEventVia editEventVia)
+    public HtmlPage deleteEvent(String eventName, EventType eventType, ActionEventVia editEventVia)
     {
         logger.info("Delete event with name " + eventName);
         try
         {
             DeleteEventForm deleteEventForm;
-            CalendarPage calendarPage = new CalendarPage(drone);
+            CalendarPage calendarPage = getCurrentPage().render();
             InformationEventForm informationEventForm;
             if (editEventVia != null)
             {
@@ -669,11 +664,11 @@ public class CalendarPage extends SitePage
         {
             logger.debug("Unable to find the elements");
         }
-        drone.waitUntilElementDisappears(INFO_PANEL, TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
-        drone.waitUntilNotVisible(By.cssSelector(".message"), "was deleted", TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+        waitUntilElementDisappears(INFO_PANEL, TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
+        waitUntilNotVisible(By.cssSelector(".message"), "was deleted", TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
         String linkEventXpath = String.format(eventType.getXpathLocator(), eventName);
-        drone.waitUntilElementDeletedFromDom(By.xpath(linkEventXpath), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return new CalendarPage(drone);
+        waitUntilElementDeletedFromDom(By.xpath(linkEventXpath), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -686,7 +681,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Choose day tab");
-            drone.findAndWait(DAY_BUTTON).click();
+            findAndWait(DAY_BUTTON).click();
         }
         catch (NoSuchElementException e)
         {
@@ -696,7 +691,7 @@ public class CalendarPage extends SitePage
         {
             logger.debug("The operation has timed out");
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         synchronized (this)
         {
             try
@@ -707,7 +702,7 @@ public class CalendarPage extends SitePage
             {
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -720,7 +715,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Choose week tab");
-            drone.findAndWait(WEEK_BUTTON).click();
+            findAndWait(WEEK_BUTTON).click();
         }
         catch (NoSuchElementException e)
         {
@@ -730,7 +725,7 @@ public class CalendarPage extends SitePage
         {
             logger.debug("The operation has timed out");
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         synchronized (this)
         {
             try
@@ -741,7 +736,7 @@ public class CalendarPage extends SitePage
             {
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -754,7 +749,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Choose month tab");
-            drone.findAndWait(MONTH_BUTTON).click();
+            findAndWait(MONTH_BUTTON).click();
         }
         catch (NoSuchElementException e)
         {
@@ -764,7 +759,7 @@ public class CalendarPage extends SitePage
         {
             logger.debug("The operation has timed out");
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         synchronized (this)
         {
             try
@@ -775,7 +770,7 @@ public class CalendarPage extends SitePage
             {
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -788,7 +783,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Choose agenda tab");
-            drone.findAndWait(AGENDA_BUTTON).click();
+            findAndWait(AGENDA_BUTTON).click();
         }
         catch (NoSuchElementException e)
         {
@@ -798,7 +793,7 @@ public class CalendarPage extends SitePage
         {
             logger.debug("The operation has timed out");
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         synchronized (this)
         {
             try
@@ -809,7 +804,7 @@ public class CalendarPage extends SitePage
             {
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -822,7 +817,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Check is day tab opened");
-            WebElement dayTab = drone.find(DAY_TAB_TABLE);
+            WebElement dayTab = driver.findElement(DAY_TAB_TABLE);
             return dayTab.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -842,7 +837,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Check is week tab opened");
-            WebElement weekTab = drone.find(WEEK_TAB_TABLE);
+            WebElement weekTab = driver.findElement(WEEK_TAB_TABLE);
             return weekTab.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -862,7 +857,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Check is month tab opened");
-            WebElement monthTab = drone.find(MONTH_TAB_TABLE);
+            WebElement monthTab = driver.findElement(MONTH_TAB_TABLE);
             return monthTab.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -882,7 +877,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Check is agenda tab opened");
-            WebElement linkPreviousEvent = drone.find(AGENDA_LINK_PREVIOUS);
+            WebElement linkPreviousEvent = driver.findElement(AGENDA_LINK_PREVIOUS);
             return linkPreviousEvent.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -906,7 +901,7 @@ public class CalendarPage extends SitePage
             {
                 waitUntilAlert();
                 String linkEventXpath = String.format(eventType.getXpathLocator(), eventName);
-                WebElement element = drone.find(By.xpath(linkEventXpath));
+                WebElement element = driver.findElement(By.xpath(linkEventXpath));
                 return element.isDisplayed();
             }
             else
@@ -930,12 +925,12 @@ public class CalendarPage extends SitePage
      * 
      * @return CalendarPage
      */
-    public CalendarPage showAllHours()
+    public HtmlPage showAllHours()
     {
         try
         {
             logger.info("Click show all hours");
-            drone.findAndWait(SHOW_ALL_HOURS_BUTTON).click();
+            findAndWait(SHOW_ALL_HOURS_BUTTON).click();
         }
         catch (NoSuchElementException e)
         {
@@ -945,7 +940,7 @@ public class CalendarPage extends SitePage
         {
             logger.debug("The operation has timed out");
         }
-        return new CalendarPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -958,7 +953,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Check 'show all hours' button displayed");
-            WebElement button = drone.find(SHOW_ALL_HOURS_BUTTON);
+            WebElement button = driver.findElement(SHOW_ALL_HOURS_BUTTON);
             return button.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -973,12 +968,12 @@ public class CalendarPage extends SitePage
      * 
      * @return CalendarPage
      */
-    public CalendarPage showWorkingHours()
+    public HtmlPage showWorkingHours()
     {
         try
         {
             logger.info("Click show working hours");
-            drone.findAndWait(SHOW_WORKING_HOURS_BUTTON).click();
+            findAndWait(SHOW_WORKING_HOURS_BUTTON).click();
         }
         catch (NoSuchElementException e)
         {
@@ -988,7 +983,7 @@ public class CalendarPage extends SitePage
         {
             logger.debug("The operation has timed out");
         }
-        return new CalendarPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -1001,7 +996,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Check 'show working hours' button displayed");
-            WebElement button = drone.find(SHOW_WORKING_HOURS_BUTTON);
+            WebElement button = driver.findElement(SHOW_WORKING_HOURS_BUTTON);
             return button.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -1020,7 +1015,7 @@ public class CalendarPage extends SitePage
     {
         try
         {
-            return drone.find(By.xpath(xpath.getXpathLocator())).isDisplayed();
+            return driver.findElement(By.xpath(xpath.getXpathLocator())).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -1043,7 +1038,7 @@ public class CalendarPage extends SitePage
             {
                 logger.info("Click on event link with name " + eventName + "if it presented at the current tab");
                 String linkEventXpath = String.format(eventType.getXpathLocator(), eventName);
-                WebElement element = drone.findAndWait(By.xpath(linkEventXpath));
+                WebElement element = findAndWait(By.xpath(linkEventXpath));
                 element.click();
             }
             else
@@ -1059,7 +1054,7 @@ public class CalendarPage extends SitePage
         {
             return clickOnEvent(eventType, eventName);
         }
-        return new InformationEventForm(drone);
+        return factoryPage.instantiatePage(driver, InformationEventForm.class);
     }
 
     /**
@@ -1074,7 +1069,7 @@ public class CalendarPage extends SitePage
         {
 
             logger.info("Click on iCallFeed link");
-            WebElement element = drone.findAndWait(ICALL_FED_LINK);
+            WebElement element = findAndWait(ICALL_FED_LINK);
             element.click();
 
         }
@@ -1097,7 +1092,7 @@ public class CalendarPage extends SitePage
         {
 
             logger.info("Get href for iCallFeed link");
-            WebElement element = drone.findAndWait(ICALL_FED_LINK);
+            WebElement element = findAndWait(ICALL_FED_LINK);
             iCallHref = element.getAttribute("href");
 
         }
@@ -1118,7 +1113,7 @@ public class CalendarPage extends SitePage
         try
         {
             logger.info("Check is link 'Show all items' present");
-            WebElement link = drone.find(SHOW_ALL_ITEMS_LINK);
+            WebElement link = driver.findElement(SHOW_ALL_ITEMS_LINK);
             return link.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -1133,12 +1128,12 @@ public class CalendarPage extends SitePage
      * 
      * @return CalendarPage
      */
-    public CalendarPage clickShowAllItems()
+    public HtmlPage clickShowAllItems()
     {
         try
         {
             logger.info("Click link 'Show all items'");
-            drone.findAndWait(SHOW_ALL_ITEMS_LINK).click();
+            findAndWait(SHOW_ALL_ITEMS_LINK).click();
         }
         catch (NoSuchElementException e)
         {
@@ -1159,7 +1154,7 @@ public class CalendarPage extends SitePage
             {
             }
         }
-        return new CalendarPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -1173,7 +1168,7 @@ public class CalendarPage extends SitePage
         {
             logger.info("Check is tag '" + tagName + "' present");
             String tagXpath = String.format(TAG_LINK, tagName);
-            WebElement element = drone.find(By.xpath(tagXpath));
+            WebElement element = driver.findElement(By.xpath(tagXpath));
             return element.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -1192,7 +1187,7 @@ public class CalendarPage extends SitePage
      * 
      * @return CalendarPage
      */
-    public CalendarPage clickTagLink(String tagName)
+    public HtmlPage clickTagLink(String tagName)
     {
         String tagXpath;
         WebElement element;
@@ -1200,7 +1195,7 @@ public class CalendarPage extends SitePage
         {
             logger.info("Click tag link with name '" + tagName + "'");
             tagXpath = String.format(TAG_LINK, tagName);
-            element = drone.find(By.xpath(tagXpath));
+            element = driver.findElement(By.xpath(tagXpath));
             element.click();
         }
         catch (NoSuchElementException e)
@@ -1222,7 +1217,7 @@ public class CalendarPage extends SitePage
             {
             }
         }
-        return new CalendarPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -1247,12 +1242,12 @@ public class CalendarPage extends SitePage
             }
             else
             {
-                return drone.isElementDisplayed(By.cssSelector("div[id*='defaultView']>span>a"));
+                return isElementDisplayed(By.cssSelector("div[id*='defaultView']>span>a"));
             }
         }
         else
         {
-            WebElement container = drone.findAndWait(TAB_CONTAINER);
+            WebElement container = findAndWait(TAB_CONTAINER);
             return container.getAttribute("class").contains("calendar-editable");
         }
     }
@@ -1269,13 +1264,13 @@ public class CalendarPage extends SitePage
         switch (viaTab)
         {
             case AGENDA_TAB:
-                if (!drone.isElementDisplayed(By.cssSelector("tbody[class*='data']>tr")))
+                if (!isElementDisplayed(By.cssSelector("tbody[class*='data']>tr")))
                 {
                     size = 0;
                 }
                 else
                 {
-                    size = drone.findAll(By.cssSelector("tbody[class*='data']>tr")).size();
+                    size = driver.findElements(By.cssSelector("tbody[class*='data']>tr")).size();
                 }
                 break;
              default:

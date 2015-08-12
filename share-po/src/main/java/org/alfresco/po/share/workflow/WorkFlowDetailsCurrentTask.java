@@ -14,9 +14,10 @@
  */
 package org.alfresco.po.share.workflow;
 
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.task.TaskStatus;
-import org.alfresco.webdrone.WebDrone;
+import org.openqa.selenium.WebDriver;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.openqa.selenium.By;
@@ -45,7 +46,7 @@ public class WorkFlowDetailsCurrentTask
     private static final By TASK_DETAILS_LINK = By.cssSelector("td.yui-dt-col-properties a.task-details");
     private static final By EDIT_TASK_LINK = By.cssSelector("td.yui-dt-col-properties a.task-edit");
 
-    public WorkFlowDetailsCurrentTask(WebElement element, WebDrone drone)
+    public WorkFlowDetailsCurrentTask(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
         taskType = CurrentTaskType.getCurrentTaskType(element.findElement(TASK_TYPE).getText());
         assignedTo = element.findElement(ASSIGNED_TO).getText();
@@ -59,8 +60,8 @@ public class WorkFlowDetailsCurrentTask
         }
         dueDateString = element.findElement(DUE_DATE).getText();
         taskStatus = TaskStatus.getTaskFromString(element.findElement(STATUS).getText());
-        taskDetailsLink = new ShareLink(element.findElement(TASK_DETAILS_LINK), drone);
-        editTaskLink = new ShareLink(element.findElement(EDIT_TASK_LINK), drone);
+        taskDetailsLink = new ShareLink(element.findElement(TASK_DETAILS_LINK), driver, factoryPage);
+        editTaskLink = new ShareLink(element.findElement(EDIT_TASK_LINK), driver, factoryPage);
     }
 
     public CurrentTaskType getTaskType()

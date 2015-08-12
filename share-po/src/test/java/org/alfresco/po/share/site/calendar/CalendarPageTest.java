@@ -13,7 +13,7 @@ import org.alfresco.po.share.dashlet.AbstractSiteDashletTest;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.calendar.CalendarPage.ActionEventVia;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -47,20 +47,20 @@ public class CalendarPageTest extends AbstractSiteDashletTest
     {
         dashBoard = loginAs(username, password);
         siteName = "calendar" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
 
     @AfterClass
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test
     public void addCalendarPage()
     {
-        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite();
+        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
         List<SitePageType> addPageTypes = new ArrayList<>();
         addPageTypes.add(SitePageType.CALENDER);
         customizeSitePage.addPages(addPageTypes);
@@ -73,7 +73,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
         {
             e.printStackTrace();
         }
-        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage();
+        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage().render();
         assertNotNull(calendarPage);
     }
 
@@ -84,10 +84,10 @@ public class CalendarPageTest extends AbstractSiteDashletTest
     public void testCreateEvent()
     {
         navigateToSiteDashboard();
-        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage();
+        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage().render();
 
         // Create any single day event, e.g. event1
-        calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.MONTH_TAB, event1, event1, event1, null, null, null, null, tag1, false);
+        calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.MONTH_TAB, event1, event1, event1, null, null, null, null, tag1, false).render();
     }
 
     @Test(dependsOnMethods = "testCreateEvent", timeOut = 60000)
@@ -189,7 +189,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
                 + " isn't correctly displayed on the information form where field. Server B");
         Assert.assertTrue(informationEventForm.getDescriptionDetail().contains(edit_event1_description), "The " + edit_event1_description
                 + " isn't correctly displayed on the information form description field. Server B");
-        calendarPage = informationEventForm.closeInformationForm();
+        calendarPage = informationEventForm.closeInformationForm().render();
         assertNotNull(calendarPage, "Calendar page month tab isn't opened");
     }
 
@@ -204,17 +204,17 @@ public class CalendarPageTest extends AbstractSiteDashletTest
 
         navigateToSiteDashboard();
 
-        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage();
+        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage().render();
 
         String event_2 = "event2";
         // Create any event
-        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage();
+        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage().render();
 
         Calendar calendar = Calendar.getInstance();
 
         int todayDate = calendar.get(Calendar.DATE);
         calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.DAY_TAB, event_2, event_2, event_2, String.valueOf(todayDate), null,
-                String.valueOf(todayDate), null, null, false);
+                String.valueOf(todayDate), null, null, false).render();
         Assert.assertTrue(calendarPage.isEventPresent(CalendarPage.EventType.DAY_TAB_SINGLE_EVENT, event_2), "The " + event_2
                 + " isn't correctly displayed on the day tab");
 
@@ -252,7 +252,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
         navigateToSiteDashboard();
 
         // navigate to Site Calendar Page
-        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage();
+        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage().render();
 
         Calendar calendar = Calendar.getInstance();
 
@@ -272,7 +272,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
 
         calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.MONTH_TAB, event_month, event_month, event_month, String.valueOf(currentYear),
                 String.valueOf(startMonth), String.valueOf(todayDate), "7:00 AM", String.valueOf(nextMonthsYear), String.valueOf(endMonth),
-                String.valueOf(lastDate), "9:00 AM", null, false);
+                String.valueOf(lastDate), "9:00 AM", null, false).render();
 
         // verify event is present
         Assert.assertTrue(calendarPage.isEventPresent(CalendarPage.EventType.MONTH_TAB_MULTIPLY_EVENT, event_month), "The " + event_month

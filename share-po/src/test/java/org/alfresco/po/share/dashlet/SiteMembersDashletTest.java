@@ -24,7 +24,7 @@ import static org.testng.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
@@ -32,9 +32,8 @@ import org.alfresco.po.share.SiteMember;
 import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.po.share.site.SiteMembersPage;
 import org.alfresco.po.share.user.MyProfilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -61,27 +60,27 @@ public class SiteMembersDashletTest extends AbstractSiteDashletTest
         String fname = anotherUser.getfName();
         String lname = anotherUser.getlName();
         loginName = fname + " " + lname;
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
 
     @AfterClass(groups = { "check", "alfresco-one" })
     public void deleteSite()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test
     public void instantiateMySiteDashlet()
     {
-        MySitesDashlet dashlet = new MySitesDashlet(drone);
+        SiteMembersDashlet dashlet = dashletFactory.getDashlet(driver, SiteMembersDashlet.class).render();
         assertNotNull(dashlet);
     }
 
     @Test(dependsOnMethods = "instantiateMySiteDashlet")
     public void getMembers() throws IOException
     {
-        SiteMembersDashlet dashlet = new SiteMembersDashlet(drone).render();
+        SiteMembersDashlet dashlet = dashletFactory.getDashlet(driver, SiteMembersDashlet.class).render();
         if (dashlet.getMembers().isEmpty())
             saveScreenShot("SiteMembersDashletTest.getMembers.empty");
         List<ShareLink> members = dashlet.getMembers();
@@ -107,8 +106,8 @@ public class SiteMembersDashletTest extends AbstractSiteDashletTest
     @Test(dependsOnMethods = "selectMySiteDashlet")
     public void navigateSiteDashboard()
     {
-        drone.navigateTo(shareUrl);
-        SharePage page = drone.getCurrentPage().render();
+        driver.navigate().to(shareUrl);
+        SharePage page = resolvePage(driver).render();
         DashBoardPage dashboard = page.getNav().selectMyDashBoard().render();
         MySitesDashlet siteDashlet = dashboard.getDashlet("my-sites").render();
         siteDashBoard = siteDashlet.selectSite(siteName).click().render();
@@ -120,8 +119,8 @@ public class SiteMembersDashletTest extends AbstractSiteDashletTest
     public void selectMember() throws Exception
     {
         SiteMembersDashlet dashlet = siteDashBoard.getDashlet("site-members").render();
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        String name = version.isCloud() ? loginName : "Administrator";
+        
+        String name = "Administrator";
         SiteMember siteMember = dashlet.selectMember(name);
         Assert.assertEquals(siteMember.getRole(), UserRole.MANAGER);
         SharePage page = siteMember.getShareLink().click().render();
@@ -142,9 +141,9 @@ public class SiteMembersDashletTest extends AbstractSiteDashletTest
     public void selectAllMembers()
     {
         SiteMembersDashlet dashlet = siteDashBoard.getDashlet("site-members").render();
-        SiteMembersPage siteMembersPage = dashlet.clickAllMembers();
+        SiteMembersPage siteMembersPage = dashlet.clickAllMembers().render();
         assertNotNull(siteMembersPage);
-        assertTrue(drone.getCurrentPage().render() instanceof SiteMembersPage);
+        assertTrue(resolvePage(driver).render() instanceof SiteMembersPage);
     }
 
     @Test(dependsOnMethods = "selectAllMembers")
@@ -152,16 +151,8 @@ public class SiteMembersDashletTest extends AbstractSiteDashletTest
     {
         navigateToSiteDashboard();
         SiteMembersDashlet dashlet = siteDashBoard.getDashlet("site-members").render();
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        SharePage sharePage = null;
-        if (version.isCloud())
-        {
-            sharePage = dashlet.clickOnUser(anotherUser.getfName() + " " + anotherUser.getlName());
-        }
-        else 
-        {
-            sharePage = dashlet.clickOnUser("Administrator");
-        }
+        
+        SharePage sharePage = dashlet.clickOnUser("Administrator").render();
         assertNotNull(sharePage);
         assertTrue(sharePage instanceof MyProfilePage);
     }

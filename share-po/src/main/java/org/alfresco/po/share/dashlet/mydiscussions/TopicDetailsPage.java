@@ -15,17 +15,15 @@
 
 package org.alfresco.po.share.dashlet.mydiscussions;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -57,15 +55,6 @@ public class TopicDetailsPage extends SitePage
     private final static By NEW_TOPIC = By.xpath("//button[text()='New Topic']");
     private final static By CREATE_REPLY = By.xpath("//button[text()='Create']");
 
-    /**
-     * Constructor
-     * 
-     * @param drone WebDrone
-     */
-    public TopicDetailsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -77,16 +66,9 @@ public class TopicDetailsPage extends SitePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public TopicDetailsPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public TopicDetailsPage render()
     {
-        return render(maxPageLoadingTime);
+        return render(new RenderTime(maxPageLoadingTime));
     }
 
     /**
@@ -98,7 +80,7 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicTitle = drone.find(By.cssSelector(TOPIC_TITLE));
+            WebElement topicTitle = driver.findElement(By.cssSelector(TOPIC_TITLE));
             return topicTitle.getText();
         }
         catch (NoSuchElementException nse)
@@ -118,7 +100,7 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicTitle = drone.find(By.cssSelector(CREATION_DATE));
+            WebElement topicTitle = driver.findElement(By.cssSelector(CREATION_DATE));
             return topicTitle.getText();
         }
         catch (NoSuchElementException nse)
@@ -138,7 +120,7 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicCreatedBy = drone.find(By.cssSelector(CREATED_BY));
+            WebElement topicCreatedBy = driver.findElement(By.cssSelector(CREATED_BY));
             return topicCreatedBy.getText();
         }
         catch (NoSuchElementException nse)
@@ -158,7 +140,7 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicTitle = drone.find(By.cssSelector(TOPIC_AUTHOR));
+            WebElement topicTitle = driver.findElement(By.cssSelector(TOPIC_AUTHOR));
             return topicTitle.getText();
         }
         catch (NoSuchElementException nse)
@@ -178,7 +160,7 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicText = drone.find(By.cssSelector(TOPIC_TEXT));
+            WebElement topicText = driver.findElement(By.cssSelector(TOPIC_TEXT));
             return topicText.getText();
         }
         catch (NoSuchElementException nse)
@@ -198,7 +180,7 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicReplies = drone.find(By.cssSelector(TOPIC_REPLIES));
+            WebElement topicReplies = driver.findElement(By.cssSelector(TOPIC_REPLIES));
             return topicReplies.getText();
         }
         catch (NoSuchElementException nse)
@@ -216,9 +198,9 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicTitle = drone.findAndWait(By.cssSelector(TOPIC_TITLE));
+            WebElement topicTitle = findAndWait(By.cssSelector(TOPIC_TITLE));
             topicTitle.click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
 
         }
         catch (TimeoutException te)
@@ -238,9 +220,9 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicTitle = drone.findAndWait(By.cssSelector(TOPIC_AUTHOR));
+            WebElement topicTitle = findAndWait(By.cssSelector(TOPIC_AUTHOR));
             topicTitle.click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
 
         }
         catch (NoSuchElementException te)
@@ -260,9 +242,9 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement topicTitle = drone.findAndWait(By.cssSelector(TOPIC_TAGS_LINK));
+            WebElement topicTitle = findAndWait(By.cssSelector(TOPIC_TAGS_LINK));
             topicTitle.click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
 
         }
         catch (TimeoutException te)
@@ -285,7 +267,7 @@ public class TopicDetailsPage extends SitePage
         List<String> tagsList = new ArrayList<String>();
         try
         {
-            List<WebElement> tagList = drone.findAll(By.cssSelector(TOPIC_TAGS_LIST));
+            List<WebElement> tagList = driver.findElements(By.cssSelector(TOPIC_TAGS_LIST));
             for (WebElement tag : tagList)
             {
                 tagsList.add(tag.getText());
@@ -304,13 +286,13 @@ public class TopicDetailsPage extends SitePage
     /**
      * Clicks on topic reply link
      */
-    public TopicDetailsPage clickOnReplyLink()
+    public HtmlPage clickOnReplyLink()
     {
         try
         {
-            WebElement topicReply = drone.findAndWait(By.cssSelector(REPLY_LINK));
+            WebElement topicReply = findAndWait(By.cssSelector(REPLY_LINK));
             topicReply.click();
-            return new TopicDetailsPage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -326,13 +308,13 @@ public class TopicDetailsPage extends SitePage
      * Clicks on topic create button
      */
 
-    public TopicDetailsPage clickOnCreateReply()
+    public HtmlPage clickOnCreateReply()
     {
         try
         {
-            WebElement replyCreateButton = drone.findAndWait(CREATE_REPLY);
+            WebElement replyCreateButton = findAndWait(CREATE_REPLY);
             replyCreateButton.click();
-            return new TopicDetailsPage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -351,9 +333,9 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement editTopic = drone.findAndWait(By.cssSelector(EDIT_LINK));
+            WebElement editTopic = findAndWait(By.cssSelector(EDIT_LINK));
             editTopic.click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
 
         }
         catch (TimeoutException te)
@@ -373,9 +355,9 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement deleteTopic = drone.findAndWait(By.cssSelector(DELETE_LINK));
+            WebElement deleteTopic = findAndWait(By.cssSelector(DELETE_LINK));
             deleteTopic.click();
-            return new DeleteTopicDialogPage(drone);
+            return factoryPage.instantiatePage(driver, DeleteTopicDialogPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -394,9 +376,9 @@ public class TopicDetailsPage extends SitePage
     {
         try
         {
-            WebElement newTopic = drone.findAndWait(NEW_TOPIC);
+            WebElement newTopic = findAndWait(NEW_TOPIC);
             newTopic.click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
 
         }
         catch (TimeoutException te)

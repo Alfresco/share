@@ -16,7 +16,7 @@ package org.alfresco.po.share.workflow;
 
 import java.util.List;
 
-import org.alfresco.webdrone.WebDrone;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -54,10 +54,10 @@ public enum WorkFlowType
         return title;
     }
 
-    protected WebElement getTaskTypeElement(WebDrone drone)
+    protected WebElement getTaskTypeElement(WebDriver driver)
     {
         By dropDown = By.cssSelector("div[id$='default-workflow-definition-menu'] li span.title");
-        List<WebElement> liElements = drone.findAndWaitForElements(dropDown);
+        List<WebElement> liElements = driver.findElements(dropDown);
         for (WebElement liElement : liElements)
         {
             String elementText = liElement.getText().trim();

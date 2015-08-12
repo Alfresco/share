@@ -18,10 +18,10 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -48,9 +48,9 @@ public class HtmlSourceEditorPage extends BaseAdvancedTinyMceOptionsPage
      * @param drone WebDrone
      * @param element WebElement
      */
-    public HtmlSourceEditorPage(WebDrone drone, WebElement element)
+    public HtmlSourceEditorPage(WebDriver driver, WebElement element)
     {
-        super(drone, element);
+        super(driver, element);
     }
 
     @SuppressWarnings("unchecked")
@@ -58,12 +58,6 @@ public class HtmlSourceEditorPage extends BaseAdvancedTinyMceOptionsPage
     {
         webElementRender(timer);
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public HtmlSourceEditorPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -86,7 +80,7 @@ public class HtmlSourceEditorPage extends BaseAdvancedTinyMceOptionsPage
 
         try
         {
-            WebElement source = drone.findAndWait(HTML_CONTENT_SOURCE);
+            WebElement source = findAndWait(HTML_CONTENT_SOURCE);
             source.clear();
             source.sendKeys(htmlSource);
         }

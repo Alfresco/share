@@ -14,26 +14,29 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.dashlet.MyActivitiesDashlet.LinkType;
-import org.alfresco.po.share.util.PageUtils;
-import org.alfresco.po.thirdparty.firefox.RssFeedPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
-
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.ShareLink;
+import org.alfresco.po.share.dashlet.MyActivitiesDashlet.LinkType;
+import org.alfresco.po.share.util.PageUtils;
+import org.alfresco.po.thirdparty.firefox.RssFeedPage;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.activities")
 /**
  * Site activities dashlet object, holds all element of the HTML relating to dashlet site activity.
  *
@@ -58,35 +61,22 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
 
     private Log logger = LogFactory.getLog(SiteActivitiesDashlet.class);
 
-    /**
-     * Constructor.
-     */
-    protected SiteActivitiesDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector(".yui-resize-handle"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected SiteActivitiesDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector(".yui-resize-handle"));
+//    }
     @SuppressWarnings("unchecked")
-    public SiteActivitiesDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteActivitiesDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public SiteActivitiesDashlet render(RenderTime timer)
     {
+        setResizeHandle(By.cssSelector(".yui-resize-handle"));
         elementRender(timer,
                 getVisibleRenderElement(DASHLET_CONTAINER_PLACEHOLDER),
                 getVisibleRenderElement(DASHLET_TITLE));
+        dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
         return this;
     }
 
@@ -94,14 +84,14 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
      * Populates all the possible links that appear on the dashlet
      * data view, the links are of user, document or site.
      */
-    private synchronized void populateData()
+    private  void populateData()
     {
         userLinks = new ArrayList<ShareLink>();
         documetLinks = new ArrayList<ShareLink>();
         activityDescriptions = new ArrayList<String>();
         try
         {
-            List<WebElement> linksMore = drone.findAll(MY_ACTIVITIES_MORE_LINK);
+            List<WebElement> linksMore = driver.findElements(MY_ACTIVITIES_MORE_LINK);
             if (!linksMore.isEmpty())
             {
                 for (WebElement link : linksMore)
@@ -110,14 +100,14 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
                 }
             }
 
-            List<WebElement> links = drone.findAll(By.cssSelector("div[id$='default-activityList'] > div.activity div:last-child[class$='content']"));
+            List<WebElement> links = driver.findElements(By.cssSelector("div[id$='default-activityList'] > div.activity div:last-child[class$='content']"));
             for (WebElement div : links)
             {
                 WebElement userLink = div.findElement(By.cssSelector("a:nth-of-type(1)"));
-                userLinks.add(new ShareLink(userLink, drone));
+                userLinks.add(new ShareLink(userLink, driver, factoryPage));
 
                 WebElement documentLink = div.findElement(By.cssSelector("a:nth-of-type(2)"));
-                documetLinks.add(new ShareLink(documentLink, drone));
+                documetLinks.add(new ShareLink(documentLink, driver, factoryPage));
 
                 WebElement desc = div.findElement(By.cssSelector("span.detail"));
                 activityDescriptions.add(desc.getText());
@@ -163,7 +153,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
      * @param name identifier to match against link title
      * @param type that determines document, site or user type link
      */
-    private synchronized ShareLink selectLink(final String name, LinkType type)
+    private  ShareLink selectLink(final String name, LinkType type)
     {
         if (name == null)
         {
@@ -217,7 +207,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
      * @param linktype Document, User or Site
      * @return {@link ShareLink} collection
      */
-    public synchronized List<ShareLink> getSiteActivities(LinkType linktype)
+    public  List<ShareLink> getSiteActivities(LinkType linktype)
     {
         if (linktype == null)
         {
@@ -240,7 +230,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
      *
      * @return List<String> collection
      */
-    public synchronized List<String> getSiteActivityDescriptions()
+    public  List<String> getSiteActivityDescriptions()
     {
 
         if (activityDescriptions == null)
@@ -260,9 +250,8 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            WebElement theTitleOfDashlet = drone.findAndWait(By.xpath(".//div[contains(@class,'activities')]/div[@class='title']"));
-            drone.mouseOver(theTitleOfDashlet);
-            waitUntilAlert();
+            WebElement theTitleOfDashlet = findAndWait(By.xpath(".//div[contains(@class,'activities')]/div[@class='title']"));
+            mouseOver(theTitleOfDashlet);
             return dashlet.findElement(RSS_FEED_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -281,13 +270,13 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            String currentUrl = drone.getCurrentUrl();
-            String rssUrlPart = (String) drone.executeJavaScript("return activities.link");
+            String currentUrl = driver.getCurrentUrl();
+            String rssUrlPart = (String) executeJavaScript("return activities.link");
             String protocolVar = PageUtils.getProtocol(currentUrl);
             String address = PageUtils.getAddress(currentUrl);
             String rssUrl = String.format("%s%s:%s@%s%s", protocolVar, username, password, address, rssUrlPart);
-            drone.navigateTo(rssUrl);
-            return new RssFeedPage(drone).render();
+            driver.navigate().to(rssUrl);
+            return factoryPage.instantiatePage(driver,RssFeedPage.class).render();
         }
         catch (NoSuchElementException nse)
         {
@@ -309,7 +298,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            drone.findAndWait(By.cssSelector(DEFAULT_USER_BUTTON)).click();
+            findAndWait(By.cssSelector(DEFAULT_USER_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
@@ -329,7 +318,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            drone.findAndWait(By.cssSelector(DEFAULT_TYPE_BUTTON)).click();
+            findAndWait(By.cssSelector(DEFAULT_TYPE_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
@@ -349,7 +338,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            drone.findAndWait(By.cssSelector(DEFAULT_HISTORY_BUTTON)).click();
+            findAndWait(By.cssSelector(DEFAULT_HISTORY_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
@@ -370,7 +359,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
         List<SiteActivitiesUserFilter> list = new ArrayList<SiteActivitiesUserFilter>();
         try
         {
-            for (WebElement element : drone.findDisplayedElements(DASHLET_LIST_OF_FILTER))
+            for (WebElement element : findDisplayedElements(DASHLET_LIST_OF_FILTER))
             {
                 String text = element.getText();
                 if (text != null)
@@ -397,7 +386,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
         List<SiteActivitiesTypeFilter> list = new ArrayList<SiteActivitiesTypeFilter>();
         try
         {
-            for (WebElement element : drone.findDisplayedElements(DASHLET_LIST_OF_FILTER))
+            for (WebElement element : findDisplayedElements(DASHLET_LIST_OF_FILTER))
             {
                 String text = element.getText();
                 if (text != null)
@@ -424,7 +413,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
         List<SiteActivitiesHistoryFilter> list = new ArrayList<SiteActivitiesHistoryFilter>();
         try
         {
-            for (WebElement element : drone.findDisplayedElements(DASHLET_LIST_OF_FILTER))
+            for (WebElement element : findDisplayedElements(DASHLET_LIST_OF_FILTER))
             {
                 String text = element.getText();
                 if (text != null)
@@ -445,12 +434,12 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
      * Select the given {@link SiteActivitiesUserFilter} on Site Avtivities Dashlet.
      *
      * @param users - The {@link SiteActivitiesUserFilter} to be selected
-     * @return {@link org.alfresco.webdrone.HtmlPage}
+     * @return {@link org.alfresco.po.HtmlPage}
      */
     public HtmlPage selectUserFilter(SiteActivitiesUserFilter users)
     {
         clickUserButton();
-        List<WebElement> filterElements = drone.findDisplayedElements(DASHLET_LIST_OF_FILTER);
+        List<WebElement> filterElements = findDisplayedElements(DASHLET_LIST_OF_FILTER);
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -461,19 +450,19 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
      * Select the given {@link SiteActivitiesTypeFilter} on Site Avtivities Dashlet.
      *
      * @param type - The {@link SiteActivitiesTypeFilter} to be selected
-     * @return {@link org.alfresco.webdrone.HtmlPage}
+     * @return {@link org.alfresco.po.HtmlPage}
      */
     public HtmlPage selectTypeFilter(SiteActivitiesTypeFilter type)
     {
         clickTypeButton();
-        List<WebElement> filterElements = drone.findDisplayedElements(DASHLET_LIST_OF_FILTER);
+        List<WebElement> filterElements = findDisplayedElements(DASHLET_LIST_OF_FILTER);
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -484,19 +473,19 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
      * Select the given {@link SiteActivitiesHistoryFilter} on Site Avtivities Dashlet.
      *
      * @param lastXDays - The {@link SiteActivitiesHistoryFilter} to be selected
-     * @return {@link org.alfresco.webdrone.HtmlPage}
+     * @return {@link org.alfresco.po.HtmlPage}
      */
     public HtmlPage selectHistoryFilter(SiteActivitiesHistoryFilter lastXDays)
     {
         clickHistoryButton();
-        List<WebElement> filterElements = drone.findDisplayedElements(DASHLET_LIST_OF_FILTER);
+        List<WebElement> filterElements = findDisplayedElements(DASHLET_LIST_OF_FILTER);
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -507,7 +496,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -519,7 +508,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return SiteActivitiesUserFilter.getFilter(drone.find(By.cssSelector(DEFAULT_USER_BUTTON)).getText());
+            return SiteActivitiesUserFilter.getFilter(driver.findElement(By.cssSelector(DEFAULT_USER_BUTTON)).getText());
         }
         catch (NoSuchElementException e)
         {
@@ -536,7 +525,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return SiteActivitiesTypeFilter.getFilter(drone.find(By.cssSelector(DEFAULT_TYPE_BUTTON)).getText());
+            return SiteActivitiesTypeFilter.getFilter(driver.findElement(By.cssSelector(DEFAULT_TYPE_BUTTON)).getText());
         }
         catch (NoSuchElementException e)
         {
@@ -553,7 +542,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return SiteActivitiesHistoryFilter.getFilter(drone.find(By.cssSelector(DEFAULT_HISTORY_BUTTON)).getText());
+            return SiteActivitiesHistoryFilter.getFilter(driver.findElement(By.cssSelector(DEFAULT_HISTORY_BUTTON)).getText());
         }
         catch (NoSuchElementException e)
         {
@@ -566,6 +555,12 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteActivitiesDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

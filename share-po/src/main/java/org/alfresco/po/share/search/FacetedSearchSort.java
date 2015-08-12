@@ -1,22 +1,23 @@
 package org.alfresco.po.share.search;
 
-import org.alfresco.po.share.FactorySharePage;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Class FacetedSearchSort.
  */
-public class FacetedSearchSort
+public class FacetedSearchSort extends PageElement
 {
     /** Constants. */
     private static final By FACETED_SEARCH_RESULTS_MENU_BAR = By.cssSelector("div#FCTSRCH_RESULTS_MENU_BAR");
@@ -27,7 +28,6 @@ public class FacetedSearchSort
     private static final By MENU_ITEMS = By.cssSelector("div#FCTSRCH_SORT_MENU_dropdown tr.dijitMenuItem");
     private static final Log logger = LogFactory.getLog(FacetedSearchSort.class);
 
-    private WebDrone drone;
     private WebElement resultsElement;
     private String results;
     private WebElement sortOrderButton;
@@ -38,10 +38,11 @@ public class FacetedSearchSort
     /**
      * Instantiates a new faceted search sort.
      */
-    public FacetedSearchSort(WebDrone drone)
+    public FacetedSearchSort(WebDriver driver, FactoryPage factoryPage)
     {
-        this.drone = drone;
-        WebElement facetedSearchResultsMenuBar = drone.find(FACETED_SEARCH_RESULTS_MENU_BAR);
+        this.driver = driver;
+        this.factoryPage = factoryPage;
+        WebElement facetedSearchResultsMenuBar = driver.findElement(FACETED_SEARCH_RESULTS_MENU_BAR);
         this.resultsElement = facetedSearchResultsMenuBar.findElement(RESULTS_STRING);
         this.results = resultsElement.getText();
 
@@ -107,7 +108,7 @@ public class FacetedSearchSort
         {
             this.sortOrderButton.click();
         }
-        return FactorySharePage.resolvePage(this.drone);
+        return factoryPage.getPage(this.driver);
     }
 
     /**
@@ -130,7 +131,7 @@ public class FacetedSearchSort
         {
             cancelMenu();
         }
-        return FactorySharePage.resolvePage(this.drone);
+        return factoryPage.getPage(this.driver);
     }
 
     /**
@@ -157,7 +158,7 @@ public class FacetedSearchSort
         {
             cancelMenu();
         }
-        return FactorySharePage.resolvePage(this.drone);
+        return factoryPage.getPage(this.driver);
     }
 
     /**
@@ -166,7 +167,7 @@ public class FacetedSearchSort
     private void openMenu()
     {
         this.menuButton.click();
-        this.menuElements = this.drone.findAll(MENU_ITEMS);
+        this.menuElements = this.driver.findElements(MENU_ITEMS);
     }
 
     /**

@@ -21,15 +21,14 @@ package org.alfresco.po.share.site;
 import java.io.IOException;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.SharePopup;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
+import org.springframework.social.alfresco.connect.exception.AlfrescoException;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -37,9 +36,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-
-
 /**
  * Site CRUD integration test.
  * 
@@ -71,26 +67,30 @@ public class SiteTest extends AbstractTest
     @BeforeClass(groups="alfresco-one")
     public void loginPrep() throws Exception
     {
-        if (!alfrescoVersion.isCloud())
-        {
-            createEnterpriseUser(testuser);
-        }
+        createEnterpriseUser(testuser);
         dashBoard = loginAs(username, password);
     }
     
     @AfterClass(groups="alfresco-one")
     public void teardown() throws Exception
     {
-        SiteUtil.deleteSite(drone, siteName);
-        SiteUtil.deleteSite(drone, privateSiteName);
-        SiteUtil.deleteSite(drone, moderateSiteName);
-        SiteUtil.deleteSite(drone, privateModSiteName);
+        try 
+        {
+        	siteUtil.deleteSite(username, password, siteName);
+        }
+        catch(AlfrescoException ae)
+        {
+        	//Ignore as site has already been removed notification.
+        }
+        siteUtil.deleteSite(username, password, privateSiteName);
+        siteUtil.deleteSite(username, password, moderateSiteName);
+        siteUtil.deleteSite(username, password, privateModSiteName);
     }
     
     @BeforeMethod
     public void navigateToDash()
     {
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         dashBoard = page.getNav().selectMyDashBoard().render();
     }
     
@@ -106,7 +106,7 @@ public class SiteTest extends AbstractTest
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
         SiteDashboardPage site = createSite.createNewSite(siteName).render();
         
-        Assert.assertTrue(FactorySharePage.getPage(drone.getCurrentUrl(), drone) instanceof SiteDashboardPage);
+        Assert.assertTrue(factoryPage.getPage(driver) instanceof SiteDashboardPage);
         
         Assert.assertTrue(siteName.equalsIgnoreCase(site.getPageTitle()));
         Assert.assertTrue(site.getSiteNav().isDashboardActive());
@@ -134,14 +134,14 @@ public class SiteTest extends AbstractTest
     @Test(dependsOnMethods = "createDuplicateSite")
     public void checkSiteNavigation()
     {
-        SharePage sharePage = drone.getCurrentPage().render();
+        SharePage sharePage = resolvePage(driver).render();
         SiteFinderPage siteFinder = sharePage.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(siteName).render();
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteName);
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteName);
         SiteDashboardPage siteDash = siteFinder.selectSite(siteName).render();
-        DocumentLibraryPage docPage = siteDash.getSiteNav().selectSiteDocumentLibrary().render();
+        DocumentLibraryPage docPage = siteDash.getSiteNav().selectDocumentLibrary().render();
         
-        Assert.assertFalse(FactorySharePage.getPage(drone.getCurrentUrl(), drone) instanceof SiteDashboardPage);
+        Assert.assertFalse(factoryPage.getPage(driver) instanceof SiteDashboardPage);
         
         Assert.assertFalse(docPage.getSiteNav().isDashboardActive());
         Assert.assertTrue(docPage.getSiteNav().isDocumentLibraryActive());
@@ -158,72 +158,6 @@ public class SiteTest extends AbstractTest
         Assert.assertFalse(siteFinder.hasResults());
     }
     
-//    /**
-//     * Test public site joining.
-//     * 
-//     * @throws Exception
-//     */
-//    @Test(dependsOnMethods = "createSite", groups = "nonCloud")
-//    public void joinPublicSite() throws Exception
-//    {
-//        logout(drone);
-//        loginAs(testuser, "password");
-//        SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
-//        siteFinder = siteFinder.searchForSite(siteName).render();
-//        boolean hasResults = siteFinder.hasResults();
-//        Assert.assertTrue(hasResults);
-//        SharePage returnedSiteFinder = siteFinder.joinSite(siteName).render();
-//        assertTrue("Should be an instance of SiteFinderPage", returnedSiteFinder instanceof SiteFinderPage);
-//    }
-
-//    /**
-//     * Test public-moderated site joining.
-//     * 
-//     * @throws IOException
-//     */
-//    @Test(dependsOnMethods = { "createPublicModerateSite", "joinPublicSite" }, groups = "nonCloud")
-//    public void joinPublicModSite()
-//    {
-//        SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
-//        siteFinder = siteFinder.searchForSite(moderateSiteName).render();
-//        boolean hasResults = siteFinder.hasResults();
-//        Assert.assertTrue(hasResults);
-//        SharePage returnedSiteFinder = siteFinder.joinSite(moderateSiteName).render();
-//        assertTrue("Should be an instance of SiteFinderPage", returnedSiteFinder instanceof SiteFinderPage);
-//    }
-//
-//    /**
-//     * Test public site joining.
-//     * 
-//     * @throws Exception
-//     */
-//    @Test(dependsOnMethods = "joinPublicSite", groups = "nonCloud")
-//    public void leaveSite() throws Exception
-//    {
-//    	SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
-//    	siteFinder = siteFinder.searchForSite(siteName).render();
-//    	boolean hasResults = siteFinder.hasResults();
-//    	Assert.assertTrue(hasResults);
-//    	SharePage returnedSiteFinder = siteFinder.leaveSite(siteName).render();
-//    	assertTrue("Should be an instance of SiteFinderPage", returnedSiteFinder instanceof SiteFinderPage);
-//    }
-//    
-//
-//    /**
-//     * Test public-moderated site joining.
-//     * @throws Exception 
-//     */
-//    @Test(expectedExceptions = PageException.class,
-//          dependsOnMethods = { "createPublicModerateSite", "joinPublicModSite" }, 
-//          groups = "nonCloud")
-//    public void joinNonExistingSite()
-//    {
-//        SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
-//        siteFinder = siteFinder.searchForSite(moderateSiteName).render();
-//        boolean hasResults = siteFinder.hasResults();
-//        Assert.assertTrue(hasResults);
-//        siteFinder = siteFinder.joinSite("ertwertwe").render();
-//    }
 
     /**
      * Test site deletion.
@@ -236,7 +170,7 @@ public class SiteTest extends AbstractTest
     {
         SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(siteName).render();
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteName);
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteName);
         boolean hasResults = siteFinder.hasResults();
         Assert.assertTrue(hasResults);
         siteFinder = siteFinder.deleteSite(siteName).render();
@@ -290,10 +224,10 @@ public class SiteTest extends AbstractTest
         createSite.cancel();
     }
     
-    @Test(expectedExceptions = UnsupportedOperationException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void checkSiteNaveActiveLinkWithNull()
     {
-        SiteNavigation nav = new SiteNavigation(drone);
+        SiteNavigation nav = new SiteNavigation();
         nav.isLinkActive(null);
     }
 
@@ -303,7 +237,7 @@ public class SiteTest extends AbstractTest
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
         createSite.setSiteName(siteName);
         Assert.assertEquals(createSite.getSiteName(), siteName);
-        createSite.clickCancel().render();
+        createSite.cancel();
     }
 
     @Test(dependsOnMethods = "checkSetSiteName")
@@ -313,30 +247,7 @@ public class SiteTest extends AbstractTest
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
         createSite.setSiteName(siteURL);
         Assert.assertEquals(createSite.getSiteUrl(), siteURL.toLowerCase());
-        createSite.clickCancel().render();
+        createSite.cancel();
 
     }
-
-//    /**
-//     * A 4.2 bug  ALF-18320
-//     * https://issues.alfresco.com/jira/browse/ALF-18320
-//     * Tests SiteResultsPage by searching from a site page.
-//     * @throws IOException 
-//     */
-//    @Test(dependsOnMethods = "searchForSiteThatDoesntExists")
-//    public void searchInSite() throws Exception
-//    {
-//        try
-//        {
-//            SitePage site = getSiteDashboard(siteName);
-//            SiteResultsPage serchResults = site.getSearch().search("*e*").render();
-//            Assert.assertNotNull(serchResults);
-//            Assert.assertTrue(serchResults.getResults().isEmpty());
-//        }
-//        catch (Exception e)
-//        {
-//            saveScreenShot(drone, "SiteTest.searchInSite");
-//            throw new Exception("Unable to search in site", e);
-//        }
-//    }
 }

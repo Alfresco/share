@@ -16,12 +16,11 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageException;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
@@ -41,70 +40,14 @@ public class UserProfilePage extends SharePage
     private final By deleteUser = By.cssSelector("button[id$='default-deleteuser-button-button']");
     private final By buttonGroup = By.cssSelector("span.button-group>span>span>button");
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDrone
-     */
-    public UserProfilePage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public UserProfilePage render(RenderTime timer)
-    {
-        try
-        {
-            webElementRender(timer);
-            while (true)
-            {
-                timer.start();
-                synchronized (this)
-                {
-                    try
-                    {
-                        this.wait(100L);
-                    }
-                    catch (InterruptedException e)
-                    {
-                    }
-                }
-                try
-                {
-                    if (!isJSMessageDisplayed())
-                    {
-                        break;
-                    }
-                }
-                catch (NoSuchElementException nse)
-                {
-                }
-                timer.end();
-            }
-        }
-        catch (NoSuchElementException e)
-        {
-        }
-        catch (TimeoutException e)
-        {
-        }
-        return this;
-    }
 
     @SuppressWarnings("unchecked")
     @Override
     public UserProfilePage render()
     {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public UserProfilePage render(final long time)
-    {
-        return render(new RenderTime(time));
+        RenderTime timer = new RenderTime(maxPageLoadingTime);
+        basicRender(timer);
+        return this;
     }
 
     /**
@@ -116,7 +59,7 @@ public class UserProfilePage extends SharePage
     {
         try
         {
-            return drone.findAndWaitForElements(buttonGroup);
+            return findAndWaitForElements(buttonGroup);
         }
         catch (TimeoutException te)
         {
@@ -133,7 +76,7 @@ public class UserProfilePage extends SharePage
     {
         try
         {
-            drone.findAndWait(deleteUser).click();
+            findAndWait(deleteUser).click();
 
             List<WebElement> buttons = getButtons();
 
@@ -142,7 +85,7 @@ public class UserProfilePage extends SharePage
                 if (button.getText().equalsIgnoreCase("Delete"))
                 {
                     button.click();
-                    return new UserSearchPage(drone);
+                    return getCurrentPage().render();
                 }
             }
         }
@@ -157,12 +100,12 @@ public class UserProfilePage extends SharePage
      * 
      * @return NewUserPage
      */
-    public EditUserPage selectEditUser()
+    public HtmlPage selectEditUser()
     {
         try
         {
-            drone.findAndWait(editUser).click();
-            return new EditUserPage(drone);
+            driver.findElement(editUser).click();
+            return factoryPage.instantiatePage(driver, EditUserPage.class);
         }
         catch (TimeoutException te)
         {
@@ -179,12 +122,19 @@ public class UserProfilePage extends SharePage
     {
         try
         {
-            drone.findAndWait(goBackButton).click();
-            return new UserSearchPage(drone);
+            findAndWait(goBackButton).click();
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
         }
         throw new PageException("Not able to find the GoBack Button.");
+    }
+
+    @Override
+    public <T extends HtmlPage> T render(RenderTime timer)
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

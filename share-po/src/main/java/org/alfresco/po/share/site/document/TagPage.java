@@ -14,12 +14,13 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,9 +28,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Tag Page allows the user to manage tags relating to document in view.
@@ -48,20 +46,10 @@ public class TagPage extends AbstractEditProperties
         private static final By ALL_TAG_LINES = By.xpath("//div[contains(@id,'-cntrl-picker-left')]//tr[contains(@class,'yui-dt-rec')]");
         private static final By ADDED_TAG_LINES = By.xpath("//div[contains(@id,'-cntrl-picker-right')]//tr[contains(@class,'yui-dt-rec')]");
         private static final By TAG_NAME_RELATIVE = By.xpath(".//h3[@class='item-name']");
-        private static final By TAG_ADD_ICON_RELATIVE = By.xpath(".//a[contains(@class,'add-item')]");
         private static final By NAVIGATION_BUTTON = By.xpath("//button[contains(@id,'picker-navigator-button')]");
         private static final By REFRESH_TAGS_BUTTON = By.xpath("//a[contains(@class,'yuimenuitemlabel')]");
         private Log logger = LogFactory.getLog(this.getClass());
 
-        /**
-         * Constructor.
-         *
-         * @param drone {@link WebDrone}
-         */
-        public TagPage(WebDrone drone)
-        {
-                super(drone);
-        }
 
         @SuppressWarnings("unchecked")
         @Override
@@ -90,13 +78,6 @@ public class TagPage extends AbstractEditProperties
 
         @SuppressWarnings("unchecked")
         @Override
-        public TagPage render(long time)
-        {
-                return render(new RenderTime(time));
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
         public TagPage render()
         {
                 return render(new RenderTime(maxPageLoadingTime));
@@ -111,7 +92,7 @@ public class TagPage extends AbstractEditProperties
         {
                 try
                 {
-                        List<WebElement> elements = drone.findAll(By.cssSelector("div[id$='cntrl-picker-head']"));
+                        List<WebElement> elements = driver.findElements(By.cssSelector("div[id$='cntrl-picker-head']"));
                         if (elements.size() > 0)
                         {
                                 return true;
@@ -137,7 +118,7 @@ public class TagPage extends AbstractEditProperties
         {
                 try
                 {
-                        return drone.find(ENTER_TAG_VALUE).isDisplayed();
+                        return driver.findElement(ENTER_TAG_VALUE).isDisplayed();
                 }
                 catch (NoSuchElementException nse)
                 {
@@ -155,17 +136,17 @@ public class TagPage extends AbstractEditProperties
         {
                 try
                 {
-                        WebElement input = drone.findAndWait(ENTER_TAG_VALUE);
+                        WebElement input = findAndWait(ENTER_TAG_VALUE);
                         input.clear();
                         input.sendKeys(tagName);
 
-                        WebElement createButton = drone.findAndWait(CREATE_TAG);
+                        WebElement createButton = findAndWait(CREATE_TAG);
                         createButton.click();
                         canResume();
-                        HtmlPage page = FactorySharePage.resolvePage(drone);
+                        HtmlPage page = getCurrentPage();
                         if (page instanceof ShareDialogue)
                         {
-                                return FactorySharePage.resolvePage(drone);
+                                return getCurrentPage();
                         }
                         return page;
                 }
@@ -182,13 +163,13 @@ public class TagPage extends AbstractEditProperties
          *
          * @return EditDocumentPropertiesPage
          */
-        public EditDocumentPropertiesPage clickOkButton()
+        public HtmlPage clickOkButton()
         {
                 try
                 {
-                        WebElement okButton = drone.findAndWait(OK_BUTTON);
+                        WebElement okButton = findAndWait(OK_BUTTON);
                         okButton.click();
-                        return new EditDocumentPropertiesPage(drone);
+                        return getCurrentPage();
                 }
                 catch (NoSuchElementException nse)
                 {
@@ -202,13 +183,13 @@ public class TagPage extends AbstractEditProperties
          *
          * @return EditDocumentPropertiesPage
          */
-        public EditDocumentPropertiesPage clickCancelButton()
+        public HtmlPage clickCancelButton()
         {
                 try
                 {
-                        WebElement cancelButton = drone.find(CANCEL_BUTTON);
+                        WebElement cancelButton = driver.findElement(CANCEL_BUTTON);
                         cancelButton.click();
-                        return new EditDocumentPropertiesPage(drone);
+                        return getCurrentPage();
                 }
                 catch (NoSuchElementException nse)
                 {
@@ -223,7 +204,7 @@ public class TagPage extends AbstractEditProperties
          * @param tagName String
          * @return EditDocumentPropertiesPage
          */
-        public EditDocumentPropertiesPage removeTagValue(String tagName)
+        public HtmlPage removeTagValue(String tagName)
         {
                 if (StringUtils.isEmpty(tagName))
                 {
@@ -234,8 +215,8 @@ public class TagPage extends AbstractEditProperties
                 {
                         WebElement tagElement = getSelectedTagElement(tagName);
                         tagElement.findElement(REMOVE_TAG).click();
-                        drone.find(OK_BUTTON).click();
-                        return new EditDocumentPropertiesPage(drone);
+                        driver.findElement(OK_BUTTON).click();
+                        return getCurrentPage();
                 }
                 catch (NoSuchElementException nse)
                 {
@@ -268,7 +249,7 @@ public class TagPage extends AbstractEditProperties
         {
                 try
                 {
-                        List<WebElement> addedTags = drone.findAndWaitForElements(ADDED_TAG_LINES);
+                        List<WebElement> addedTags = findAndWaitForElements(ADDED_TAG_LINES);
                         return addedTags.size();
                 }
                 catch (TimeoutException e)
@@ -298,14 +279,14 @@ public class TagPage extends AbstractEditProperties
          */
         public void refreshTags()
         {
-                drone.findAndWait(NAVIGATION_BUTTON).click();
-                drone.findAndWait(REFRESH_TAGS_BUTTON).click();
+                findAndWait(NAVIGATION_BUTTON).click();
+                findAndWait(REFRESH_TAGS_BUTTON).click();
                 waitUntilAlert();
         }
 
         private List<WebElement> getAllTagElements()
         {
-                List<WebElement> addedTags = drone.findAndWaitForElements(ALL_TAG_LINES);
+                List<WebElement> addedTags = findAndWaitForElements(ALL_TAG_LINES);
                 addedTags.remove(0);
                 return addedTags;
         }
@@ -323,7 +304,7 @@ public class TagPage extends AbstractEditProperties
 
                 try
                 {
-                        tags = drone.findAndWaitForElements(By.cssSelector("div[id$='prop_cm_taggable-cntrl-picker-selectedItems'] tbody.yui-dt-data tr"));
+                        tags = findAndWaitForElements(By.cssSelector("div[id$='prop_cm_taggable-cntrl-picker-selectedItems'] tbody.yui-dt-data tr"));
                 }
                 catch (TimeoutException te)
                 {

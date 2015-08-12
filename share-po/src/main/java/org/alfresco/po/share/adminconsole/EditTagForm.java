@@ -1,29 +1,37 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.adminconsole;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.alfresco.po.PageElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Part of Tag Manager page. Showing when you edit tag on the page.
  * @author Olga Antonik
  */
-public class EditTagForm extends HtmlElement 
+public class EditTagForm extends PageElement 
 {
 
     private final static By FORM = By.cssSelector("#page_x002e_ctool_x002e_admin-console_x0023_default-edit-tag-dialog");
     private final static By RENAME_TAG_INPUT = By.cssSelector("#page_x002e_ctool_x002e_admin-console_x0023_default-edit-tag-name");
     private final static By OK = By.cssSelector("#page_x002e_ctool_x002e_admin-console_x0023_default-edit-tag-ok-button");
     private final static By CANCEL = By.cssSelector("#page_x002e_ctool_x002e_admin-console_x0023_default-edit-tag-cancel-button");
-
-    public EditTagForm(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /**
      * Fill field with new tag name.
@@ -33,7 +41,7 @@ public class EditTagForm extends HtmlElement
     public void fillTagField(String text)
     {
         checkNotNull(text);
-        WebElement inputField = drone.findAndWait(RENAME_TAG_INPUT);
+        WebElement inputField = findAndWait(RENAME_TAG_INPUT);
         inputField.clear();
         if (text != null)
         {
@@ -59,7 +67,7 @@ public class EditTagForm extends HtmlElement
 
     private void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
@@ -72,7 +80,7 @@ public class EditTagForm extends HtmlElement
     {
         try
         {
-            return drone.findAndWait(FORM, 2000).isDisplayed();
+            return driver.findElement(FORM).isDisplayed();
         }
         catch (TimeoutException e)
         {

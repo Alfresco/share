@@ -14,17 +14,24 @@
  */
 package org.alfresco.po.share.site.wiki;
 
-import org.alfresco.po.share.AlfrescoVersion;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.document.TinyMceEditor;
 import org.alfresco.po.share.util.PageUtils;
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -33,15 +40,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 
 /**
@@ -67,7 +65,6 @@ public class WikiPage extends SitePage
     private static final By IMAGE_LIB = By.cssSelector("div[aria-label='Insert Library Image'] i.mce-ico.mce-i-image");
     private static final By IMAGE_RSLT = By.cssSelector("#image_results");
     private static final By BUTTON_SAVE = By.cssSelector("button[id$='default-save-button-button']");
-    private static final By REMOVE_FORMAT = By.cssSelector(".mceIcon.mce_removeformat");
     private static final By FORMAT_BUTTON = By.xpath("//div[contains(@class,'mce-menubar')]//div[5]//button");
     private static final By FORMATS_BUTTON = By.xpath("//button/span[text()='Formats']");
     private static final By HEADINGS_BUTTON = By.xpath("//div[contains(@class,'expand')]/span[text()='Headings']");
@@ -107,7 +104,7 @@ public class WikiPage extends SitePage
     private static final String TAGS_CONTAINER = "//div[contains(@class, 'tags')]/..";
     private static final String LINKED_PAGES_CONTAINER = "//div[contains(@class, 'links')]/..";
 
-    private TinyMceEditor tinyMCEEditor = new TinyMceEditor(drone);
+    private TinyMceEditor tinyMCEEditor;
 
     public enum ImageType
     {
@@ -122,11 +119,6 @@ public class WikiPage extends SitePage
     public enum FONT_ATTR
     {
         face, size
-    }
-
-    public WikiPage(WebDrone drone)
-    {
-        super(drone);
     }
 
     @SuppressWarnings("unchecked")
@@ -144,13 +136,6 @@ public class WikiPage extends SitePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public WikiPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Check if wiki page is displayed or not.
      *
@@ -160,7 +145,7 @@ public class WikiPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(DEFAULT_CONTENT_TOOLBAR).isDisplayed();
+            return findAndWait(DEFAULT_CONTENT_TOOLBAR).isDisplayed();
         }
         catch (TimeoutException toe)
         {
@@ -188,7 +173,7 @@ public class WikiPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(DEFAULT_CONTENT_TOOLBAR).isDisplayed();
+            return findAndWait(DEFAULT_CONTENT_TOOLBAR).isDisplayed();
         }
         catch (TimeoutException toe)
         {
@@ -204,7 +189,7 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.findAndWait(BUTTON_CREATE).click();
+            findAndWait(BUTTON_CREATE).click();
         }
         catch (TimeoutException toe)
         {
@@ -222,7 +207,7 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.findAndWait(CREATE_WIKI_TITLE).sendKeys(wikiTitle);
+            findAndWait(CREATE_WIKI_TITLE).sendKeys(wikiTitle);
         }
         catch (TimeoutException toe)
         {
@@ -239,14 +224,7 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.executeJavaScript(String.format("tinyMCE.activeEditor.setContent('%s');", txtLines.get(0)));
-//            drone.switchToFrame(WIKI_FORMAT_IFRAME);
-//            WebElement element = drone.findAndWait(By.cssSelector("#tinymce"));
-//            if (!element.getText().isEmpty())
-//            {
-//                element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-//            }
-//            drone.switchToDefaultContent();
+            executeJavaScript(String.format("tinyMCE.activeEditor.setContent('%s');", txtLines.get(0)));
         }
         catch (TimeoutException toe)
         {
@@ -262,7 +240,7 @@ public class WikiPage extends SitePage
      * {
      * try
      * {
-     * drone.findAndWait(BULLET_LIST).click();
+     * findAndWait(BULLET_LIST).click();
      * }
      * catch (TimeoutException toe)
      * {
@@ -278,8 +256,8 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.findAndWait(FONT_STYLE_SELECT).click();
-            drone.findAndWait(By.cssSelector("#mce_22")).click();
+            findAndWait(FONT_STYLE_SELECT).click();
+            findAndWait(By.cssSelector("#mce_22")).click();
         }
         catch (TimeoutException toe)
         {
@@ -294,8 +272,8 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.findAndWait(FONT_SIZE_SELECT).click();
-            List<WebElement> elements = drone.findAll(By.cssSelector(".mceText"));
+            findAndWait(FONT_SIZE_SELECT).click();
+            List<WebElement> elements = driver.findElements(By.cssSelector(".mceText"));
             for (WebElement webElement : elements)
             {
                 if ("font-size: 12pt;".equals(webElement.getAttribute("style")))
@@ -312,20 +290,12 @@ public class WikiPage extends SitePage
     }
 
     /**
-     * Select all test in editor on Wiki Page
+     * Select all test in editor on Wiki Page, as of alfresco 5.
      */
     public void selectAllText()
     {
-        if (getDrone().getProperties().getVersion() == AlfrescoVersion.Enterprise5)
-        {
-            drone.findAndWait(EDIT_BUTTON).click();
-            drone.findAndWait(SELECT_ALL_BUTTON).click();
-        }
-        else
-        {
-            logger.error("Unsupported operation. selectAllText should be updated for specific Alfresco Version");
-        }
-
+        findAndWait(EDIT_BUTTON).click();
+        findAndWait(SELECT_ALL_BUTTON).click();
     }
 
     /**
@@ -339,38 +309,38 @@ public class WikiPage extends SitePage
         }
         else
         {
-            drone.findAndWait(FORMATS_BUTTON).click();
-            drone.findAndWait(HEADINGS_BUTTON).click();
+            findAndWait(FORMATS_BUTTON).click();
+            findAndWait(HEADINGS_BUTTON).click();
             switch (headingSize)
             {
                 case (1):
                 {
-                    drone.findAndWait(HEADING_1).click();
+                    findAndWait(HEADING_1).click();
                     break;
                 }
                 case (2):
                 {
-                    drone.findAndWait(HEADING_2).click();
+                    findAndWait(HEADING_2).click();
                     break;
                 }
                 case (3):
                 {
-                    drone.findAndWait(HEADING_3).click();
+                    findAndWait(HEADING_3).click();
                     break;
                 }
                 case (4):
                 {
-                    drone.findAndWait(HEADING_4).click();
+                    findAndWait(HEADING_4).click();
                     break;
                 }
                 case (5):
                 {
-                    drone.findAndWait(HEADING_5).click();
+                    findAndWait(HEADING_5).click();
                     break;
                 }
                 case (6):
                 {
-                    drone.findAndWait(HEADING_6).click();
+                    findAndWait(HEADING_6).click();
                     break;
                 }
             }
@@ -386,9 +356,9 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.switchToFrame(WIKI_FORMAT_IFRAME);
-            String richText = drone.findAndWait(getCSSToRetrieveText(type)).getText();
-            drone.switchToDefaultContent();
+            driver.switchTo().frame(WIKI_FORMAT_IFRAME);
+            String richText = findAndWait(getCSSToRetrieveText(type)).getText();
+            driver.switchTo().defaultContent();
             return richText;
         }
         catch (TimeoutException toe)
@@ -407,8 +377,8 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.findAndWait(IMAGE_LIB).click();
-            return drone.findAndWait(IMAGE_RSLT).isDisplayed();
+            findAndWait(IMAGE_LIB).click();
+            return findAndWait(IMAGE_RSLT).isDisplayed();
         }
         catch (TimeoutException toe)
         {
@@ -424,18 +394,18 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.waitUntilElementClickable(BUTTON_SAVE, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            WebElement saveButton = drone.findAndWait(BUTTON_SAVE);
+            waitUntilElementClickable(BUTTON_SAVE, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            WebElement saveButton = findAndWait(BUTTON_SAVE);
             if (saveButton.isEnabled())
             {
                 saveButton.click();
-                drone.waitUntilElementDeletedFromDom(DEFAULT_CONTENT_TOOLBAR, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                waitUntilElementDeletedFromDom(DEFAULT_CONTENT_TOOLBAR, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             }
             else
             {
                 throw new PageException(BUTTON_SAVE + " is not enabled");
             }
-                return new WikiPage(drone).render();
+                return getCurrentPage().render();
             }
         catch (TimeoutException toe)
         {
@@ -448,30 +418,8 @@ public class WikiPage extends SitePage
      */
     public void clickOnRemoveFormatting()
     {
-        if (getDrone().getProperties().getVersion() == AlfrescoVersion.Enterprise5)
-        {
-            try
-            {
-
-                drone.findAndWait(FORMAT_BUTTON).click();
-                drone.findAndWait(CLEAR_FORMAT_BUTTON).click();
-            }
-            catch (TimeoutException toe)
-            {
-                logger.error("Time out finding " + FORMAT_BUTTON + " or " + CLEAR_FORMAT_BUTTON, toe);
-            }
-        }
-        else
-        {
-            try
-            {
-                drone.findAndWait(REMOVE_FORMAT).click();
-            }
-            catch (TimeoutException toe)
-            {
-                logger.error("Time out finding " + REMOVE_FORMAT, toe);
-            }
-        }
+        findAndWait(FORMAT_BUTTON).click();
+        findAndWait(CLEAR_FORMAT_BUTTON).click();
     }
 
     /**
@@ -481,7 +429,7 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.findAndWaitForElements(By.cssSelector("#image_results>img")).get(0).click();
+            findAndWaitForElements(By.cssSelector("#image_results>img")).get(0).click();
         }
         catch (TimeoutException toe)
         {
@@ -507,9 +455,9 @@ public class WikiPage extends SitePage
                 default:
                     frameId = WIKI_FORMAT_IFRAME;
             }
-            drone.switchToFrame(frameId);
-            int totalImage = drone.findAndWaitForElements(By.cssSelector("#tinymce>p>img")).size();
-            drone.switchToDefaultContent();
+            driver.switchTo().frame(frameId);
+            int totalImage = findAndWaitForElements(By.cssSelector("#tinymce>p>img")).size();
+            driver.switchTo().defaultContent();
             return totalImage;
 
         }
@@ -528,9 +476,9 @@ public class WikiPage extends SitePage
 
         try
         {
-            By popupDeleteButton = By.cssSelector(drone.getElement("delete.wiki.popup"));
-            drone.findAndWait(DELETE_WIKI).click();
-            drone.findAndWait(popupDeleteButton).click();
+            By popupDeleteButton = By.cssSelector(getValue("delete.wiki.popup"));
+            findAndWait(DELETE_WIKI).click();
+            findAndWait(popupDeleteButton).click();
         }
         catch (TimeoutException toe)
         {
@@ -576,7 +524,7 @@ public class WikiPage extends SitePage
      */
     public TinyMceEditor getTinyMCEEditor()
     {
-        tinyMCEEditor.setTinyMce(WIKI_FORMAT_IFRAME);
+        tinyMCEEditor.setTinyMce();
         return tinyMCEEditor;
     }
 
@@ -587,12 +535,12 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.switchToDefaultContent();
-            drone.switchToFrame(WIKI_FORMAT_IFRAME);
-            WebElement element = drone.findAndWait(By.cssSelector("#tinymce>p>img"));
+            driver.switchTo().defaultContent();
+            driver.switchTo().frame(WIKI_FORMAT_IFRAME);
+            WebElement element = findAndWait(By.cssSelector("#tinymce>p>img"));
             element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
             element.sendKeys(Keys.chord(Keys.CONTROL, "c"));
-            drone.switchToDefaultContent();
+            driver.switchTo().defaultContent();
         }
         catch (TimeoutException toe)
         {
@@ -607,12 +555,12 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.switchToDefaultContent();
-            drone.switchToFrame(WIKI_FORMAT_IFRAME);
-            WebElement element = drone.findAndWait(By.cssSelector("#tinymce"));
+            driver.switchTo().defaultContent();
+            driver.switchTo().frame(WIKI_FORMAT_IFRAME);
+            WebElement element = findAndWait(By.cssSelector("#tinymce"));
             element.sendKeys(Keys.chord(Keys.CONTROL, "v"));
             element.sendKeys(Keys.chord(Keys.CONTROL, "v"));
-            drone.switchToDefaultContent();
+            driver.switchTo().defaultContent();
         }
         catch (TimeoutException toe)
         {
@@ -629,9 +577,9 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.findAndWait(EDIT_WIKI).click();
-            drone.waitUntilElementClickable(DEFAULT_CONTENT_TOOLBAR, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return new WikiPage(drone).render();
+            findAndWait(EDIT_WIKI).click();
+            waitUntilElementClickable(DEFAULT_CONTENT_TOOLBAR, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage().render();
         }
         catch (TimeoutException toe)
         {
@@ -647,9 +595,9 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.switchToFrame(WIKI_EDIT_IFRAME);
-            String richText = drone.findAndWait(getCSSToRetrieveText(type)).getText();
-            drone.switchToDefaultContent();
+            driver.switchTo().frame(WIKI_EDIT_IFRAME);
+            String richText = findAndWait(getCSSToRetrieveText(type)).getText();
+            driver.switchTo().defaultContent();
             return richText;
         }
         catch (TimeoutException toe)
@@ -667,10 +615,10 @@ public class WikiPage extends SitePage
     {
         try
         {
-            drone.switchToFrame(WIKI_EDIT_IFRAME);
-            String attrValue = drone.findAndWait(By.cssSelector("#tinymce>ul>li>font")).getAttribute(type.name());
+            driver.switchTo().frame(WIKI_EDIT_IFRAME);
+            String attrValue = findAndWait(By.cssSelector("#tinymce>ul>li>font")).getAttribute(type.name());
 
-            drone.switchToDefaultContent();
+            driver.switchTo().defaultContent();
             return attrValue;
         }
         catch (TimeoutException toe)
@@ -688,17 +636,17 @@ public class WikiPage extends SitePage
      * @return WikiPage object
      */
 
-    public WikiPage createWikiPage(String wikiTitle, List<String> txtLines)
+    public HtmlPage createWikiPage(String wikiTitle, List<String> txtLines)
     {
         logger.info("Creating wiki page " + wikiTitle);
         try
         {
-            WikiPage wikiPage = new WikiPage(drone);
+            WikiPage wikiPage = getCurrentPage().render();
             wikiPage.clickOnNewPage();
             wikiPage.createWikiPageTitle(wikiTitle);
             wikiPage.insertText(txtLines);
             wikiPage.clickSaveButton();
-            return drone.getCurrentPage().render();
+            return getCurrentPage().render();
         }
         catch (TimeoutException e)
         {
@@ -720,7 +668,7 @@ public class WikiPage extends SitePage
         logger.info("Creating wiki page " + wikiTitle);
         try
         {
-            WikiPage wikiPage = new WikiPage(drone);
+            WikiPage wikiPage = getCurrentPage().render();
             wikiPage.clickOnNewPage();
             wikiPage.createWikiPageTitle(wikiTitle);
             wikiPage.insertText(txtLines);
@@ -753,7 +701,7 @@ public class WikiPage extends SitePage
         {
             throw new PageException("Time out finding image", toe);
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage().render();
     }
 
     /**
@@ -762,39 +710,23 @@ public class WikiPage extends SitePage
      * @param tagsList List<String>
      * @return WikiPage object
      */
-    public WikiPage addTag(List<String> tagsList)
+    public HtmlPage addTag(List<String> tagsList)
     {
 
         checkNotNull(tagsList);
-        WebElement inputTag = drone.findAndWait(WIKI_TAG_INPUT);
+        WebElement inputTag = findAndWait(WIKI_TAG_INPUT);
 
         String tagString = "";
         for (String tag : tagsList)
             tagString += tag;
 
         inputTag.sendKeys(tagString);
-        WebElement addButton = drone.findAndWait(ADD_TAG_BUTTON);
+        WebElement addButton = findAndWait(ADD_TAG_BUTTON);
         addButton.click();
 
-        return new WikiPage(drone);
+        return getCurrentPage();
     }
 
-    private boolean isDisplayed(By locator)
-    {
-        try
-        {
-            return drone.findAndWait(locator, 2000).isEnabled()
-                && drone.find(locator).isDisplayed();
-        }
-        catch (TimeoutException te)
-        {
-            return false;
-        }
-        catch (NoSuchElementException nse)
-        {
-            return false;
-        }
-    }
 
     /**
      * Method to verify whether New Page button is displayed
@@ -816,10 +748,10 @@ public class WikiPage extends SitePage
         boolean isClicked = false;
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector(".forwardLink>a"));
+            List<WebElement> elements = driver.findElements(By.cssSelector(".forwardLink>a"));
             for (WebElement webElement : elements)
             {
-                if (drone.getValue("wiki.page.list").equals(webElement.getText()))
+                if (getValue("wiki.page.list").equals(webElement.getText()))
                 //if(!webElement.getAttribute("href").contains("Main_Page"))
                 {
                     webElement.click();
@@ -829,10 +761,10 @@ public class WikiPage extends SitePage
             }
             if (!isClicked)
             {
-                elements = drone.findAll(By.cssSelector(".backLink>a"));
+                elements = driver.findElements(By.cssSelector(".backLink>a"));
                 for (WebElement webElement : elements)
                 {
-                    if (drone.getValue("wiki.page.list").equals(webElement.getText()))
+                    if (getValue("wiki.page.list").equals(webElement.getText()))
                     //if(!webElement.getAttribute("href").contains("Main_Page"))
                     {
                         webElement.click();
@@ -842,7 +774,7 @@ public class WikiPage extends SitePage
                 }
             }
 
-            //drone.findAndWait(BACK_LINK).click();
+            //findAndWait(BACK_LINK).click();
             waitUntilAlert();
         }
         catch (TimeoutException te)
@@ -853,7 +785,7 @@ public class WikiPage extends SitePage
         {
             throw new ShareException("Unable to click " + BACK_LINK);
         }
-        return new WikiPageList(drone);
+        return getCurrentPage().render();
     }
 
     /**
@@ -867,14 +799,14 @@ public class WikiPage extends SitePage
         logger.info("Renaming wiki page to" + newTitle);
         try
         {
-            drone.findAndWait(RENAME_BUTTON).click();
-            WebElement inputField = drone.findAndWait(By.cssSelector("input[id$='default-renameTo']"));
+            findAndWait(RENAME_BUTTON).click();
+            WebElement inputField = findAndWait(By.cssSelector("input[id$='default-renameTo']"));
             inputField.clear();
             inputField.sendKeys(newTitle);
-            drone.findAndWait(RENAME_SAVE_BTN).click();
+            findAndWait(RENAME_SAVE_BTN).click();
             waitUntilAlert();
             logger.info("Renamed Wiki page");
-            return new WikiPage(drone).render();
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
@@ -890,7 +822,7 @@ public class WikiPage extends SitePage
         logger.info("Viewing details for wiki page");
         try
         {
-            drone.findAndWait(DETAILS_LINK).click();
+            findAndWait(DETAILS_LINK).click();
             waitUntilAlert();
             logger.info("Opened wiki details page");
         }
@@ -906,9 +838,9 @@ public class WikiPage extends SitePage
      * @param versionNum Double
      * @return WikiPage
      */
-    public WikiPage revertToVersion(Double versionNum)
+    public HtmlPage revertToVersion(Double versionNum)
     {
-        List<WebElement> allVersions = drone.findAndWaitForElements(VERSION_PLACEHOLDER);
+        List<WebElement> allVersions = findAndWaitForElements(VERSION_PLACEHOLDER);
         if (allVersions.size() == 0)
         {
             throw new ShareException("The wiki page has no versions");
@@ -921,7 +853,7 @@ public class WikiPage extends SitePage
                 allVersion.click();
             }
         }
-        List<WebElement> allReverts = drone.findAll(REVERT_BTN);
+        List<WebElement> allReverts = driver.findElements(REVERT_BTN);
         for (WebElement allRevert : allReverts)
         {
             if (allRevert.isDisplayed())
@@ -931,14 +863,14 @@ public class WikiPage extends SitePage
         }
         confirmRevert();
         logger.info("Reverted Wiki page to version " + versionNum);
-        return new WikiPage(drone);
+        return getCurrentPage();
     }
 
     private void confirmRevert()
     {
         try
         {
-            drone.findAndWait(By.cssSelector("button[id$='ok-button-button']")).click();
+            findAndWait(By.cssSelector("button[id$='ok-button-button']")).click();
             waitUntilAlert();
         }
         catch (TimeoutException te)
@@ -958,7 +890,7 @@ public class WikiPage extends SitePage
         {
             Pattern p1 = Pattern.compile("(\\d{1,3}\\.\\d{1,3})");
 
-            String wikiVersion = drone.findAndWait(VERSION_HEADER).getText();
+            String wikiVersion = findAndWait(VERSION_HEADER).getText();
             Matcher m1 = p1.matcher(wikiVersion);
             if (m1.find())
             {
@@ -983,7 +915,7 @@ public class WikiPage extends SitePage
         try
         {
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", txtLines);
-            drone.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
         }
         catch (TimeoutException toe)
         {
@@ -1000,7 +932,7 @@ public class WikiPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(WIKI_TEXT).getText();
+            return findAndWait(WIKI_TEXT).getText();
         }
         catch (TimeoutException te)
         {
@@ -1017,7 +949,7 @@ public class WikiPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(WIKI_TITLE).getText();
+            return findAndWait(WIKI_TITLE).getText();
         }
         catch (TimeoutException te)
         {
@@ -1032,12 +964,12 @@ public class WikiPage extends SitePage
      */
     public boolean isRenameEnabled()
     {
-        return drone.findAndWait(RENAME_BUTTON).isEnabled();
+        return findAndWait(RENAME_BUTTON).isEnabled();
     }
 
     public boolean isRevertEnabled()
     {
-        return drone.isElementDisplayed(REVERT_BTN);
+        return isElementDisplayed(REVERT_BTN);
     }
 
     /**
@@ -1049,11 +981,11 @@ public class WikiPage extends SitePage
     {
         try
         {
-            if (!drone.find(TAG).isDisplayed())
+            if (!driver.findElement(TAG).isDisplayed())
                 return null;
             else
             {
-                String tagName = drone.findAndWait(TAG).getText();
+                String tagName = findAndWait(TAG).getText();
                 if (!tagName.isEmpty())
                     return tagName;
 
@@ -1063,10 +995,10 @@ public class WikiPage extends SitePage
         }
         catch (NoSuchElementException te)
         {
-            if(!drone.find(TAG_NONE).isDisplayed())
+            if(!driver.findElement(TAG_NONE).isDisplayed())
                 return null;
             else
-                return drone.findAndWait(TAG_NONE).getText();
+                return findAndWait(TAG_NONE).getText();
         }
     }
 
@@ -1085,10 +1017,10 @@ public class WikiPage extends SitePage
         try
         {
             String versionNumber = Double.toString(versionNum);
-            WebElement selectVersionBtn = drone.findAndWait(SELECT_VERSION_BUTTON);
+            WebElement selectVersionBtn = findAndWait(SELECT_VERSION_BUTTON);
             selectVersionBtn.click();
 
-            List<WebElement> allVerions = drone.findAll(By.cssSelector(".bd>ul>li"));
+            List<WebElement> allVerions = driver.findElements(By.cssSelector(".bd>ul>li"));
 
             List<String> stringValues = new ArrayList<String>();
             for (WebElement allVers : allVerions)
@@ -1115,7 +1047,7 @@ public class WikiPage extends SitePage
         {
             throw new PageException("Unable to find the button");
         }
-        return drone.getCurrentPage();
+        return getCurrentPage();
     }
 
     /**
@@ -1125,16 +1057,16 @@ public class WikiPage extends SitePage
      * @param password String
      * @return RssFeedPage
      */
-    public RssFeedPage clickRssFeedBtn(String username, String password)
+    public HtmlPage clickRssFeedBtn(String username, String password)
     {
         logger.info("Viewing RSS Feed for wiki page");
-        String currentWikiUrl = drone.getCurrentUrl();
+        String currentWikiUrl = driver.getCurrentUrl();
         String protocolVar = PageUtils.getProtocol(currentWikiUrl);
         String shareUrlVar = PageUtils.getShareUrl(currentWikiUrl);
         String siteName = PageUtils.getSiteName(currentWikiUrl);
         String rssUrl = String.format("%s%s:%s@%s/feedservice/components/wiki/rss?site=%s", protocolVar, username, password, shareUrlVar, siteName);
-        drone.navigateTo(rssUrl);
-        return new RssFeedPage(drone).render();
+        driver.navigate().to(rssUrl);
+        return factoryPage.instantiatePage(driver, RssFeedPage.class);
     }
 
     /**
@@ -1147,7 +1079,7 @@ public class WikiPage extends SitePage
         boolean isMainPage = false;
         try
         {
-            List<WebElement> mainPage = drone.findAll(MAIN_PAGE);
+            List<WebElement> mainPage = driver.findElements(MAIN_PAGE);
             for (WebElement theMainPage : mainPage)
             {
                 if (theMainPage.getAttribute("href").contains("Main_Page"))
@@ -1157,7 +1089,7 @@ public class WikiPage extends SitePage
                 }
             }
             waitUntilAlert();
-            String currentUrl = drone.getCurrentUrl();
+            String currentUrl = driver.getCurrentUrl();
             if (currentUrl.contains("filter=main&title=Main_Page"))
             {
                 logger.info("Opened Wiki Main Page");

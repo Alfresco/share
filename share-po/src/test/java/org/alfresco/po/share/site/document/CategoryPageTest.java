@@ -30,7 +30,6 @@ import java.util.List;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.enums.ViewType;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -60,9 +59,9 @@ public class CategoryPageTest extends AbstractDocumentTest
     {
         dashBoard = loginAs(username, password).render();
         siteName = "CreateContentPageTest" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        SiteDashboardPage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        SiteDashboardPage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         documentLibPage = documentLibPage.getNavigation().selectDetailedView().render();
         CreatePlainTextContentPage contentPage = documentLibPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
         ContentDetails contentDetails = new ContentDetails();
@@ -77,8 +76,8 @@ public class CategoryPageTest extends AbstractDocumentTest
         aspects.add(DocumentAspect.CLASSIFIABLE);
         aspectsPage = aspectsPage.add(aspects).render();
         detailsPage = aspectsPage.clickApplyChanges().render();
-        categoryTags = drone.getValue("category.tags");
-        categoryRegions = drone.getValue("category.regions");
+        categoryTags = factoryPage.getValue("category.tags");
+        categoryRegions = factoryPage.getValue("category.regions");
 
     }
 
@@ -87,7 +86,7 @@ public class CategoryPageTest extends AbstractDocumentTest
     {
         if (siteName != null)
         {
-            SiteUtil.deleteSite(drone, siteName);
+            siteUtil.deleteSite(username, password, siteName);
         }
     }
 
@@ -117,11 +116,11 @@ public class CategoryPageTest extends AbstractDocumentTest
         assertFalse(addAbleCategoryList.isEmpty(), "addable category list is empty.");
         assertTrue(addAbleCategoryList.contains(categoryTags), categoryTags + "is not in category list.");
         categoryPage.addCategories(Arrays.asList(categoryTags)).render();
-        categoryPage.addCategories(Arrays.asList(drone.getValue("category.english")), drone.getValue("category.languages")).render();
+        categoryPage.addCategories(Arrays.asList(factoryPage.getValue("category.english")), factoryPage.getValue("category.languages")).render();
         List<String> addedCategories = categoryPage.getAddedCatgoryList();
         assertTrue(addedCategories.size() > 0);
         assertTrue(addedCategories.contains(categoryTags));
-        assertTrue(addedCategories.contains(drone.getValue("category.english")));
+        assertTrue(addedCategories.contains(factoryPage.getValue("category.english")));
         propertiesPage = categoryPage.clickCancel().render();
         detailsPage = propertiesPage.selectCancel().render();
     }
@@ -171,7 +170,7 @@ public class CategoryPageTest extends AbstractDocumentTest
         {
             Arrays.asList(categoryTags, categoryRegions).contains(category);
         }
-        documentLibPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
         documentLibPage.setViewType(ViewType.DETAILED_VIEW);
         FileDirectoryInfo directoryInfo = documentLibPage.getFileDirectoryInfo("Test Doc");
         addedCategoryList = directoryInfo.getCategoryList();

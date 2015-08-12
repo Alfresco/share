@@ -14,26 +14,21 @@
  */
 package org.alfresco.po.thirdparty.firefox;
 
-import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.Page;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import java.util.Collections;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.Page;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 
 /**
  * Native page in FireFox for RSS
@@ -48,11 +43,6 @@ public class RssFeedPage extends Page
     private final static By ALFRESCO_LOGO = By.cssSelector("#feedTitleImage");
     private final static By CONTENT_LOCATION = By.cssSelector(".feedEntryContent>a");
 
-    public RssFeedPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public RssFeedPage render(RenderTime timer)
@@ -63,39 +53,9 @@ public class RssFeedPage extends Page
 
     @Override
     @SuppressWarnings("unchecked")
-    public RssFeedPage render(long time)
-    {
-        checkArgument(time > 0);
-        return render(new RenderTime(time));
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
     public RssFeedPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    // TODO Temporary method. Before elementRender from SharePage didn't moved out to Page.
-    private void elementRender(RenderTime renderTime, RenderElement... elements)
-    {
-        for (RenderElement element : elements)
-        {
-            try
-            {
-                renderTime.start();
-                long waitSeconds = TimeUnit.MILLISECONDS.toSeconds(renderTime.timeLeft());
-                element.render(drone, waitSeconds);
-            }
-            catch (TimeoutException e)
-            {
-                throw new PageRenderTimeException("element not rendered in time.");
-            }
-            finally
-            {
-                renderTime.end(element.getLocator().toString());
-            }
-        }
     }
 
     /**
@@ -104,12 +64,12 @@ public class RssFeedPage extends Page
      * @param linkTextContains String
      * @return SharePage
      */
-    public SharePage clickOnFeedContent(String linkTextContains)
+    public HtmlPage clickOnFeedContent(String linkTextContains)
     {
         try
         {
             getFeedLinkWith(linkTextContains).click();
-            return drone.getCurrentPage().render();
+            return getCurrentPage();
         }
         catch (StaleElementReferenceException e)
         {
@@ -123,12 +83,12 @@ public class RssFeedPage extends Page
      * @param contentName
      * @return
      */
-    public SharePage clickOnContentLocation(String contentName)
+    public HtmlPage clickOnContentLocation(String contentName)
     {
         try
         {
             getContentLocationLink(contentName).click();
-            return drone.getCurrentPage().render();
+            return getCurrentPage();
         }
         catch (StaleElementReferenceException e)
         {
@@ -168,7 +128,7 @@ public class RssFeedPage extends Page
     {
         try
         {
-            return drone.find(SUBSCRIBE_BUTTONS_PANEL).isDisplayed();
+            return driver.findElement(SUBSCRIBE_BUTTONS_PANEL).isDisplayed();
         }
         catch (ElementNotFoundException e)
         {
@@ -180,7 +140,7 @@ public class RssFeedPage extends Page
     {
         try
         {
-            return drone.findAndWaitForElements(CONTENT, 5000);
+            return findAndWaitForElements(CONTENT, 5000);
         }
         catch (TimeoutException e)
         {
@@ -192,7 +152,7 @@ public class RssFeedPage extends Page
     {
         try
         {
-            return drone.findAndWaitForElements(CONTENT_LOCATION, 5000);
+            return findAndWaitForElements(CONTENT_LOCATION, 5000);
         }
         catch (TimeoutException e)
         {
@@ -237,7 +197,7 @@ public class RssFeedPage extends Page
     {
         try
         {
-            WebElement scr = drone.find(ALFRESCO_LOGO);
+            WebElement scr = driver.findElement(ALFRESCO_LOGO);
             return scr.getAttribute("src");
         }
         catch (TimeoutException e)

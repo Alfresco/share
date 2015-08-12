@@ -26,17 +26,15 @@ import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 
-import org.alfresco.po.share.AlfrescoVersion;
 import org.alfresco.po.share.CustomiseUserDashboardPage;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.FileDirectoryInfo;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -52,7 +50,6 @@ public class EditingContentDashletTest extends AbstractSiteDashletTest
 {
     private DashBoardPage dashBoardPage;
     private CustomiseUserDashboardPage customiseUserDashboardPage;
-    private AlfrescoVersion version;
     private String userName;
     private DocumentLibraryPage documentLibPage;
     private EditingContentDashlet editingContentDashlet;
@@ -63,21 +60,12 @@ public class EditingContentDashletTest extends AbstractSiteDashletTest
     {
         userName = "User_" + System.currentTimeMillis();
         siteName = "MySiteTests" + System.currentTimeMillis();
-
-        version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            createEnterpriseUser(userName);
-            ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
-        }
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
-        File file = SiteUtil.prepareFile(fileName);
+        createEnterpriseUser(userName);
+        loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName, "description", "Public");
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
+        File file = siteUtil.prepareFile(fileName);
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
         fileName = file.getName();
@@ -88,21 +76,21 @@ public class EditingContentDashletTest extends AbstractSiteDashletTest
     @Test
     public void instantiateDashlet()
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
 
         customiseUserDashboardPage = dashBoardPage.getNav().selectCustomizeUserDashboard();
         customiseUserDashboardPage.render();
         dashBoardPage = customiseUserDashboardPage.addDashlet(Dashlets.CONTENT_I_AM_EDITING, 1).render();
-        editingContentDashlet = new EditingContentDashlet(drone).render();
+        editingContentDashlet = dashletFactory.getDashlet(driver, EditingContentDashlet.class).render();
         assertNotNull(editingContentDashlet);
     }
 
     @Test(dependsOnMethods = "instantiateDashlet")
     public void verifyHelpIcon() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         editingContentDashlet = dashBoardPage.getDashlet("editing-content").render();
         editingContentDashlet.clickOnHelpIcon();
         assertTrue(editingContentDashlet.isBalloonDisplayed(), "Baloon popup isn't displayed");
@@ -115,8 +103,8 @@ public class EditingContentDashletTest extends AbstractSiteDashletTest
     @Test(dependsOnMethods = "verifyHelpIcon")
     public void isItemDisplayed() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         editingContentDashlet = dashBoardPage.getDashlet("editing-content").render();
         assertTrue(editingContentDashlet.isItemWithDetailDisplayed(fileName, siteName), "Item is not found");
     }
@@ -124,8 +112,8 @@ public class EditingContentDashletTest extends AbstractSiteDashletTest
     @Test(dependsOnMethods = "isItemDisplayed")
     public void clickItem() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         editingContentDashlet = dashBoardPage.getDashlet("editing-content").render();
         documentLibPage = editingContentDashlet.clickItem(fileName).render();
         assertNotNull(documentLibPage);
@@ -134,8 +122,8 @@ public class EditingContentDashletTest extends AbstractSiteDashletTest
     @Test(dependsOnMethods = "clickItem")
     public void clickSite() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoardPage = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoardPage = page.getNav().selectMyDashBoard().render();
         editingContentDashlet = dashBoardPage.getDashlet("editing-content").render();
         siteDashBoard = editingContentDashlet.clickSite(siteName).render();
         assertNotNull(siteDashBoard);

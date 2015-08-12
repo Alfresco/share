@@ -14,14 +14,11 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -52,14 +49,6 @@ public class ShareLinkPage extends SharePage
     @RenderWebElement
     private static final By googlePlusLinkLocator = By.cssSelector("div.visible a.linkshare-action-google-plus");
 
-    /**
-     * Constructor.
-     */
-    public ShareLinkPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public ShareLinkPage render(RenderTime timer)
@@ -75,13 +64,6 @@ public class ShareLinkPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public ShareLinkPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Verify that ViewLink is displayed.
      * 
@@ -91,7 +73,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            return drone.find(viewLinkLocator).isDisplayed();
+            return driver.findElement(viewLinkLocator).isDisplayed();
         }
         catch (NoSuchElementException ex)
         {
@@ -109,9 +91,9 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            drone.findAndWait(viewLinkLocator).click();
+            findAndWait(viewLinkLocator).click();
 
-            return new ViewPublicLinkPage(drone);
+            return factoryPage.instantiatePage(driver, ViewPublicLinkPage.class);
         }
         catch (TimeoutException ex)
         {
@@ -130,7 +112,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            return drone.find(unShareLinkLocator).isDisplayed();
+            return driver.findElement(unShareLinkLocator).isDisplayed();
         }
         catch (NoSuchElementException ex)
         {
@@ -148,8 +130,8 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            drone.findAndWait(unShareLinkLocator).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(unShareLinkLocator).click();
+            return getCurrentPage();
         }
         catch (TimeoutException ex)
         {
@@ -168,7 +150,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            return drone.find(emailLinkLocator).isDisplayed();
+            return driver.findElement(emailLinkLocator).isDisplayed();
         }
         catch (NoSuchElementException ex)
         {
@@ -184,7 +166,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            drone.find(emailLinkLocator).click();
+            driver.findElement(emailLinkLocator).click();
         }
         catch (NoSuchElementException ex)
         {
@@ -202,7 +184,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            return drone.find(facebookLinkLocator).isDisplayed();
+            return driver.findElement(facebookLinkLocator).isDisplayed();
         }
         catch (NoSuchElementException ex)
         {
@@ -218,7 +200,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            drone.find(facebookLinkLocator).click();
+            driver.findElement(facebookLinkLocator).click();
         }
         catch (NoSuchElementException ex)
         {
@@ -236,7 +218,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            return drone.find(twitterLinkLocator).isDisplayed();
+            return driver.findElement(twitterLinkLocator).isDisplayed();
         }
         catch (NoSuchElementException ex)
         {
@@ -253,7 +235,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            drone.find(twitterLinkLocator).click();
+            driver.findElement(twitterLinkLocator).click();
         }
         catch (NoSuchElementException ex)
         {
@@ -271,7 +253,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            return drone.find(googlePlusLinkLocator).isDisplayed();
+            return driver.findElement(googlePlusLinkLocator).isDisplayed();
         }
         catch (NoSuchElementException ex)
         {
@@ -288,7 +270,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            drone.find(googlePlusLinkLocator).click();
+            driver.findElement(googlePlusLinkLocator).click();
         }
         catch (NoSuchElementException ex)
         {
@@ -306,7 +288,7 @@ public class ShareLinkPage extends SharePage
     {
         try
         {
-            WebElement element = drone.findAndWait(viewLinkLocator);
+            WebElement element = findAndWait(viewLinkLocator);
             return element.getAttribute("href");
         }
         catch (TimeoutException ex)

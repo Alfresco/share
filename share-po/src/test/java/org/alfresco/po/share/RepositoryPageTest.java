@@ -21,6 +21,7 @@ package org.alfresco.po.share;
 import java.io.File;
 import java.util.List;
 
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.AbstractDocumentTest;
@@ -33,9 +34,8 @@ import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.FileDirectoryInfo;
 import org.alfresco.po.share.site.document.FolderDetailsPage;
 import org.alfresco.po.share.site.document.SelectAspectsPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
@@ -66,36 +66,29 @@ public class RepositoryPageTest extends AbstractDocumentTest
     @BeforeClass(groups={"Repository", "Enterprise4.2"})
     public void createSite()throws Exception
     {
-        if (!alfrescoVersion.isCloud())
-        {
-            DashBoardPage dashBoard = loginAs(username, password);
-            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-            NewUserPage newPage = page.selectNewUser().render();
-            newPage.createEnterpriseUserWithGroup(userName, firstName, lastName, userName, userName, "ALFRESCO_ADMINISTRATORS");
-            UserSearchPage userPage = dashBoard.getNav().getUsersPage().render();
-            userPage.searchFor(userName).render();
-            Assert.assertTrue(userPage.hasResults());
-            logout(drone);
-            loginAs(userName, userName);
-        }
-        else
-        {
-            loginAs(cloudUserName, cloudUserPassword);
-        }
-        sampleFile = SiteUtil.prepareFile("ab--" + System.currentTimeMillis());
+        DashBoardPage dashBoard = loginAs(username, password);
+        UserSearchPage page = dashBoard.getNav().getUsersPage().render();
+        NewUserPage newPage = page.selectNewUser().render();
+        newPage.createEnterpriseUserWithGroup(userName, firstName, lastName, userName, userName, "ALFRESCO_ADMINISTRATORS");
+        UserSearchPage userPage = dashBoard.getNav().getUsersPage().render();
+        userPage.searchFor(userName).render();
+        Assert.assertTrue(userPage.hasResults());
+        logout(driver);
+        loginAs(userName, userName);
+        sampleFile = siteUtil.prepareFile("ab--" + System.currentTimeMillis());
         logger.info("===completed create site");
     }
 
     @AfterClass(groups={"Repository", "Enterprise4.2"})
     public void deleteSite()
     {
-        closeWebDrone();
+        closeWebDriver();
     }
 
     @Test
     public void navigateToRepository() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         RepositoryPage repositoryPage = page.getNav().selectRepository().render();
         repositoryPage = repositoryPage.getNavigation().selectDetailedView().render();
         List<FileDirectoryInfo> files = repositoryPage.getFiles();
@@ -106,11 +99,11 @@ public class RepositoryPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods="navigateToRepository")
     public void createFolder()
     {
-        RepositoryPage repositoryPage = drone.getCurrentPage().render();
+        RepositoryPage repositoryPage = resolvePage(driver).render();
         NewFolderPage form = repositoryPage.getNavigation().selectCreateNewFolder();
         repositoryPage = form.createNewFolder(MY_FOLDER, "my test folder").render();
         Assert.assertNotNull(repositoryPage);
-        FileDirectoryInfo folder = getItem(repositoryPage.getFiles(), MY_FOLDER);
+        FileDirectoryInfo folder = repositoryPage.getFileDirectoryInfo(MY_FOLDER);
         Assert.assertNotNull(folder);
         Assert.assertEquals(folder.getName(),MY_FOLDER);
 //        Assert.assertEquals(folder.getDescription(),"my test folder");
@@ -119,7 +112,7 @@ public class RepositoryPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods="createFolder")
     public void navigateToParentFolderTest()
     {
-        RepositoryPage repositoryPage = drone.getCurrentPage().render();
+        RepositoryPage repositoryPage = resolvePage(driver).render();
         FolderDetailsPage detailsPage = repositoryPage.getFileDirectoryInfo(MY_FOLDER).selectViewFolderDetails().render();
         repositoryPage = detailsPage.navigateToParentFolder().render();
         Assert.assertTrue(repositoryPage.isFileVisible(MY_FOLDER));
@@ -128,10 +121,10 @@ public class RepositoryPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods="navigateToParentFolderTest")
     public void uploadFile() throws Exception
     {
-        RepositoryPage repositoryPage = drone.getCurrentPage().render();
+        RepositoryPage repositoryPage = resolvePage(driver).render();
         UploadFilePage uploadForm = repositoryPage.getNavigation().selectFileUpload().render();
         repositoryPage = uploadForm.uploadFile(sampleFile.getCanonicalPath()).render();
-        FileDirectoryInfo file = getItem(repositoryPage.getFiles(), sampleFile.getName());
+        FileDirectoryInfo file = repositoryPage.getFileDirectoryInfo(sampleFile.getName());
         Assert.assertNotNull(file);
         Assert.assertEquals(file.getName(), sampleFile.getName());
     }
@@ -140,7 +133,7 @@ public class RepositoryPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods="uploadFile")
     public void selectFolderByName()
     {
-        RepositoryPage repositoryPage = drone.getCurrentPage().render();
+        RepositoryPage repositoryPage = resolvePage(driver).render();
         DocumentLibraryPage libPage = repositoryPage.selectFolder(MY_FOLDER).render();
         Assert.assertFalse(libPage.hasFiles());
     }
@@ -153,7 +146,7 @@ public class RepositoryPageTest extends AbstractDocumentTest
         boolean Results = false;
         String copyFolder = "Copy Folder" + System.currentTimeMillis();
         String toFolderCopied = "Folder to be Copied" + System.currentTimeMillis();
-        RepositoryPage repoPage = drone.getCurrentPage().render();
+        RepositoryPage repoPage = resolvePage(driver).render();
         NewFolderPage form = repoPage.getNavigation().selectCreateNewFolder();
         repoPage = form.createNewFolder(copyFolder).render();
         form = repoPage.getNavigation().selectCreateNewFolder();
@@ -184,7 +177,7 @@ public class RepositoryPageTest extends AbstractDocumentTest
         FileDirectoryInfo info = null;
         String copyFolder = "Copy Folder" + System.currentTimeMillis();
         String toFolderCopied = "Folder to be Copied" + System.currentTimeMillis();
-        RepositoryPage repoPage = drone.getCurrentPage().render();
+        RepositoryPage repoPage = resolvePage(driver).render();
         NewFolderPage form = repoPage.getNavigation().selectCreateNewFolder();
         repoPage = form.createNewFolder(copyFolder).render();
         form = repoPage.getNavigation().selectCreateNewFolder();
@@ -202,10 +195,10 @@ public class RepositoryPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods="selectFolderByName")
     public void createInSubFolder()
     {
-        RepositoryPage repoPage = drone.getCurrentPage().render();
+        RepositoryPage repoPage = resolvePage(driver).render();
         NewFolderPage form = repoPage.getNavigation().selectCreateNewFolder();
         repoPage = form.createNewFolder("test").render();
-        FileDirectoryInfo folder = getItem(repoPage.getFiles(), "test");
+        FileDirectoryInfo folder = repoPage.getFileDirectoryInfo("test");
         Assert.assertNotNull(folder);
         Assert.assertEquals(folder.getName(),"test");
     }
@@ -213,33 +206,23 @@ public class RepositoryPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods="createInSubFolder")
     public void uploadInSubFolder() throws Exception
     {
-        RepositoryPage repositoryPage = drone.getCurrentPage().render();
+        RepositoryPage repositoryPage = resolvePage(driver).render();
         UploadFilePage uploadForm = repositoryPage.getNavigation().selectFileUpload().render();
         repositoryPage = uploadForm.uploadFile(sampleFile.getCanonicalPath()).render();
-        FileDirectoryInfo file = getItem(repositoryPage.getFiles(), sampleFile.getName());
+        FileDirectoryInfo file = repositoryPage.getFileDirectoryInfo(sampleFile.getName());
         Assert.assertNotNull(file);
         Assert.assertEquals(file.getName(), sampleFile.getName());
     }
     
-    @Test(dependsOnMethods="uploadInSubFolder")
+    @Test(dependsOnMethods="uploadInSubFolder",expectedExceptions = PageOperationException  .class)
     public void delete()
     {
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         RepositoryPage repositoryPage = page.getNav().selectRepository().render();
+        
         repositoryPage = repositoryPage.getFileDirectoryInfo(MY_FOLDER).delete().render();
-        FileDirectoryInfo folder = getItem(repositoryPage.getFiles(), MY_FOLDER);
+        FileDirectoryInfo folder = repositoryPage.getFileDirectoryInfo(MY_FOLDER);
         Assert.assertNull(folder);
-    }
-    private  FileDirectoryInfo getItem(List<FileDirectoryInfo> items, final String name)
-    {
-        for(FileDirectoryInfo item : items)
-        {
-            if(name.equalsIgnoreCase(item.getName()))
-            {
-                return item;
-            }
-        }
-        return null;
     }
     /**
      * create content in repository 
@@ -252,13 +235,13 @@ public class RepositoryPageTest extends AbstractDocumentTest
         ContentDetails contentDetails = new ContentDetails();
         contentDetails.setName(contentName);
         contentDetails.setContent("test");
-        SharePage sharePage = drone.getCurrentPage().render();
+        SharePage sharePage = resolvePage(driver).render();
         RepositoryPage page = sharePage.getNav().selectRepository().render();
         CreatePlainTextContentPage contentPage = page.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
         DocumentDetailsPage detailsPage = contentPage.create(contentDetails).render();
         RepositoryPage repositoryPage = detailsPage.navigateToFolderInRepositoryPage().render();
-        FileDirectoryInfo file = getItem(repositoryPage.getFiles(), contentName);
-        Assert.assertTrue(file.getName().equalsIgnoreCase(contentName));            
+        FileDirectoryInfo file = repositoryPage.getFileDirectoryInfo(contentName);
+        Assert.assertTrue(file.getName().equalsIgnoreCase(contentName));
     }
  
     /**
@@ -270,9 +253,9 @@ public class RepositoryPageTest extends AbstractDocumentTest
     dependsOnMethods="createContent")
     public void selectMangeAspectTest()
     {
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         RepositoryPage repositoryPage = page.getNav().selectRepository().render();
-        FileDirectoryInfo file = getItem(repositoryPage.getFiles(), "Data Dictionary");
+        FileDirectoryInfo file = repositoryPage.getFileDirectoryInfo("Data Dictionary");
         SelectAspectsPage selectAspectPage = file.selectManageAspects().render();
         Assert.assertNotNull(selectAspectPage);
     }

@@ -1,11 +1,24 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.contentrule;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.po.share.site.contentrule.createrules.CreateRulePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -26,11 +39,6 @@ public class FolderRulesPage extends SitePage
     private static final By INHERIT_RULES_TOGGLE = By.cssSelector("button[id$='_default-inheritButton-button']");
     private static final By THIS_FOLDER_INHERIT_RULES_MESSAGE = By.cssSelector("div[id$='_default-inheritedRules']");
 
-    public FolderRulesPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public FolderRulesPage render(RenderTime timer)
@@ -47,18 +55,11 @@ public class FolderRulesPage extends SitePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public FolderRulesPage render(final long time)
+    public HtmlPage openCreateRulePage()
     {
-        return render(new RenderTime(time));
-    }
-
-    public CreateRulePage openCreateRulePage()
-    {
-        WebElement element = drone.findAndWait(LINK_CREATE_RULE_PAGE_SELECTOR);
+        WebElement element = findAndWait(LINK_CREATE_RULE_PAGE_SELECTOR);
         element.click();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -66,12 +67,12 @@ public class FolderRulesPage extends SitePage
      * 
      * @return FolderRulesPage
      */
-    public FolderRulesPage toggleInheritRules()
+    public HtmlPage toggleInheritRules()
     {
-        WebElement element = drone.findAndWait(INHERIT_RULES_TOGGLE);
+        WebElement element = findAndWait(INHERIT_RULES_TOGGLE);
         element.click();
         waitUntilAlert(5);
-        return new FolderRulesPage(drone);
+        return factoryPage.instantiatePage(driver, FolderRulesPage.class);
     }
 
     public boolean isPageCorrect(final String folderName)
@@ -82,19 +83,19 @@ public class FolderRulesPage extends SitePage
     protected boolean isTitleCorrect(final String folderName)
     {
         String expectedTitle = folderName + ": Rules";
-        String titleOnPage = drone.findAndWait(TITLE_SELECTOR).getText();
+        String titleOnPage = findAndWait(TITLE_SELECTOR).getText();
         return (expectedTitle.equals(titleOnPage));
     }
 
     private boolean isLinkCreateRuleAvailable()
     {
-        WebElement linkCreateRule = drone.findAndWait(LINK_CREATE_RULE_PAGE_SELECTOR);
+        WebElement linkCreateRule = findAndWait(LINK_CREATE_RULE_PAGE_SELECTOR);
         return (linkCreateRule.isDisplayed() && linkCreateRule.isEnabled());
     }
 
     private boolean isLinkToRuleSetAvailable()
     {
-        WebElement linkToRuleSet = drone.findAndWait(LINK_TO_RULE_SET_SELECTOR);
+        WebElement linkToRuleSet = findAndWait(LINK_TO_RULE_SET_SELECTOR);
         return (linkToRuleSet.isDisplayed() && linkToRuleSet.isEnabled());
     }
 
@@ -106,7 +107,7 @@ public class FolderRulesPage extends SitePage
      */
     public boolean isInheritRuleToggleAvailable()
     {
-        WebElement inheritRulesToggle = drone.findAndWait(INHERIT_RULES_TOGGLE);
+        WebElement inheritRulesToggle = findAndWait(INHERIT_RULES_TOGGLE);
         return inheritRulesToggle.isDisplayed();
     }
 
@@ -119,7 +120,7 @@ public class FolderRulesPage extends SitePage
     {
         try
         {
-            WebElement inheritRulesToggle = drone.find(THIS_FOLDER_INHERIT_RULES_MESSAGE);
+            WebElement inheritRulesToggle = driver.findElement(THIS_FOLDER_INHERIT_RULES_MESSAGE);
             return inheritRulesToggle.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -137,7 +138,7 @@ public class FolderRulesPage extends SitePage
      */
     public String getInheritRulesText()
     {
-        String inheritRulesText = drone.findAndWait(INHERIT_RULES_TOGGLE).getText();
+        String inheritRulesText = findAndWait(INHERIT_RULES_TOGGLE).getText();
         return inheritRulesText;
     }
 }

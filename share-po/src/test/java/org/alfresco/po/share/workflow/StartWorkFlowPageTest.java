@@ -37,12 +37,12 @@ package org.alfresco.po.share.workflow;
  */
 import java.io.File;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -72,11 +72,11 @@ public class StartWorkFlowPageTest extends AbstractTest
     public void prepare() throws Exception
     {
         siteName = "StartWorkFlow" + System.currentTimeMillis();
-        file = SiteUtil.prepareFile();
+        file = siteUtil.prepareFile();
         loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "Public");
-        SitePage site = drone.getCurrentPage().render();
-        documentLibraryPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        siteUtil.createSite(driver, username, password, siteName, "", "Public");
+        SitePage site = resolvePage(driver).render();
+        documentLibraryPage = site.getSiteNav().selectDocumentLibrary().render();
         UploadFilePage upLoadPage = documentLibraryPage.getNavigation().selectFileUpload().render();
         documentLibraryPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
     }
@@ -89,9 +89,9 @@ public class StartWorkFlowPageTest extends AbstractTest
     @Test(groups = "Enterprise4.2")
     public void navigateToStartWorkFlow() throws Exception
     {
-        DocumentLibraryPage docsPage = drone.getCurrentPage().render();
+        DocumentLibraryPage docsPage = resolvePage(driver).render();
         DocumentDetailsPage documentDetailsPage = docsPage.selectFile(file.getName()).render();
-        StartWorkFlowPage startWorkFlowPage = documentDetailsPage.selectStartWorkFlowPage();
+        StartWorkFlowPage startWorkFlowPage = documentDetailsPage.selectStartWorkFlowPage().render();
         Assert.assertTrue(startWorkFlowPage.isWorkFlowTextPresent());
     }
 
@@ -103,7 +103,7 @@ public class StartWorkFlowPageTest extends AbstractTest
     @Test(groups = "Enterprise4.2", dependsOnMethods = "navigateToStartWorkFlow")
     public void selectStartWorkFlowIcon() throws Exception
     {
-        documentLibraryPage = openSiteDocumentLibraryFromSearch(drone, siteName).render();
+        documentLibraryPage = openSiteDocumentLibraryFromSearch(driver, siteName).render();
         DocumentDetailsPage documentDetailsPage = documentLibraryPage.selectFile(file.getName()).render();
         StartWorkFlowPage startWorkFlowPage = documentDetailsPage.selectStartWorkFlowIcon().render();
         Assert.assertTrue(startWorkFlowPage.isWorkFlowTextPresent());
@@ -117,7 +117,7 @@ public class StartWorkFlowPageTest extends AbstractTest
     @Test(groups = "Enterprise4.2", dependsOnMethods = "selectStartWorkFlowIcon")
     public void isWorkflowTypePresentWithValidData() throws Exception
     {
-        StartWorkFlowPage startWorkFlowPage = drone.getCurrentPage().render();
+        StartWorkFlowPage startWorkFlowPage = resolvePage(driver).render();
         Assert.assertTrue(startWorkFlowPage.isWorkflowTypePresent(WorkFlowType.NEW_WORKFLOW));
     }
 
@@ -129,7 +129,7 @@ public class StartWorkFlowPageTest extends AbstractTest
     @Test(groups = "Enterprise4.2", dependsOnMethods = "isWorkflowTypePresentWithValidData", expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Workflow Type can not be null")
     public void isWorkflowTypePresentWithNullData() throws Exception
     {
-            StartWorkFlowPage startWorkFlowPage = drone.getCurrentPage().render();
+            StartWorkFlowPage startWorkFlowPage = resolvePage(driver).render();
             startWorkFlowPage.isWorkflowTypePresent(null);
     }
 
@@ -141,7 +141,7 @@ public class StartWorkFlowPageTest extends AbstractTest
     @Test(dependsOnMethods = "isWorkflowTypePresentWithNullData", groups = "Enterprise4.2")
     public void checkCloudTaskOrReviewPage() throws Exception
     {
-        StartWorkFlowPage startWorkFlowPage = drone.getCurrentPage().render();
+        StartWorkFlowPage startWorkFlowPage = resolvePage(driver).render();
         ((NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW)).render();
     }
 
@@ -151,7 +151,7 @@ public class StartWorkFlowPageTest extends AbstractTest
     @AfterClass
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
 }

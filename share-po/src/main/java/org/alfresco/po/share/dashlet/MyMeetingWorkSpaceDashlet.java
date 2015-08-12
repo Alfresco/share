@@ -2,32 +2,30 @@ package org.alfresco.po.share.dashlet;
 
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.my-meeting-workspaces")
 /**
  * My meeting workspaces dashlet object.
  * 
  * @author Bogdan.Bocancea
  */
-
 public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashlet
 {
     private final Log logger = LogFactory.getLog(this.getClass());
     private static final By DASHLET_CONTAINER_PLACEHOLDER = By.cssSelector("div.dashlet.my-meeting-workspaces");
     private static final String DATA_LIST_CSS_LOCATION = "div.site-title > a";
-    private static final String DASHLET_CONTENT_DIV_ID_PLACEHOLDER = "div[id$='default-meeting-workspaces']";
+    private static final String DASHLET_CONTENT_DIV_ID_PLACEHOLDER = "div.dashlet.my-meeting-workspaces";
     private static final String DASHLET_EMPTY_PLACEHOLDER = "table>tbody>tr>td.yui-dt-empty>div";
     private static final String ROW_OF_SITE = "div[id$='default-meeting-workspaces'] tr[class*='yui-dt-rec']";
     private static final String SITE_NAME_IN_ROW = "div div[class$='site-title']";
@@ -38,27 +36,13 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
     private static final String FAVORITE_SITE = "a[class$='favourite-site fav-site6']";
     private static final String FAVORITE_SITE_ENABLED = "a[class$='favourite-site fav-site6 enabled']";
 
-    /**
-     * Constructor.
-     */
-    public MyMeetingWorkSpaceDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector("div.dashlet.my-meeting-workspaces .yui-resize-handle"));
-    }
-
-    @SuppressWarnings("unchecked")
-    public MyMeetingWorkSpaceDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyMeetingWorkSpaceDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
+//    /**
+//     * Constructor.
+//     */
+//    public MyMeetingWorkSpaceDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//    }
 
     @SuppressWarnings("unchecked")
     public MyMeetingWorkSpaceDashlet render(RenderTime timer)
@@ -71,7 +55,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
      * 
      * @return List<ShareLink> site links
      */
-    public synchronized List<ShareLink> getSites()
+    public  List<ShareLink> getSites()
     {
         return getList(DATA_LIST_CSS_LOCATION);
     }
@@ -82,7 +66,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
      * @param name identifier
      * @return {@link ShareLink} that matches siteName
      */
-    public synchronized ShareLink selectSite(final String name)
+    public  ShareLink selectSite(final String name)
     {
         if (name == null)
         {
@@ -106,19 +90,20 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
      * @param waitForLoading boolean to whether check for waiting for Loading text to disappear.
      * @return MyMeetingWorkSpaceDashlet
      */
-    public synchronized MyMeetingWorkSpaceDashlet render(RenderTime timer, boolean waitForLoading)
+    public  MyMeetingWorkSpaceDashlet render(RenderTime timer, boolean waitForLoading)
     {
         try
         {
+            setResizeHandle(By.cssSelector(DASHLET_CONTENT_DIV_ID_PLACEHOLDER));
             while (true)
             {
                 try
                 {
                     timer.start();
-                    WebElement dashlet = drone.find(By.cssSelector(DASHLET_CONTENT_DIV_ID_PLACEHOLDER));
+                    WebElement dashlet = driver.findElement(By.cssSelector(DASHLET_CONTENT_DIV_ID_PLACEHOLDER));
                     if (dashlet.isDisplayed())
                     {
-                        this.dashlet = drone.find(DASHLET_CONTAINER_PLACEHOLDER);
+                        this.dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
                         if (waitForLoading)
                         {
                             if (!isLoading(dashlet))
@@ -179,16 +164,16 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
         }
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector(ROW_OF_SITE));
+            List<WebElement> elements = driver.findElements(By.cssSelector(ROW_OF_SITE));
             for (WebElement webElement : elements)
             {
                 if (webElement.findElement(By.cssSelector(SITE_NAME_IN_ROW)).getText().equals(siteName))
                 {
-                    drone.mouseOver(webElement);
+                    mouseOver(webElement);
                     webElement.findElement(By.cssSelector(DELETE_SYMB_IN_ROW)).click();
                     confirmDelete();
-                    drone.refresh();
-                    return FactorySharePage.resolvePage(drone);
+                    driver.navigate().refresh();
+                    return getCurrentPage();
                 }
             }
 
@@ -207,9 +192,9 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
     {
         try
         {
-            WebElement confirmDelete = drone.find(By.cssSelector(DELETE_CONFIRM));
+            WebElement confirmDelete = driver.findElement(By.cssSelector(DELETE_CONFIRM));
             confirmDelete.click();
-            confirmDelete = drone.find(By.cssSelector(DELETE_RE_CONFIRM));
+            confirmDelete = driver.findElement(By.cssSelector(DELETE_RE_CONFIRM));
             confirmDelete.click();
         }
         catch (NoSuchElementException nse)
@@ -229,7 +214,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
         boolean present = false;
         try
         {
-            present = drone.findAndWait(By.cssSelector(NO_MEETINGS_DISPLAYED)).getText().equals(drone.getValue("dashlet.meeting.workspaces.nomeetings"));
+            present = findAndWait(By.cssSelector(NO_MEETINGS_DISPLAYED)).getText().equals(getValue("dashlet.meeting.workspaces.nomeetings"));
             return present;
         }
         catch (NoSuchElementException e)
@@ -252,7 +237,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
         }
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector(ROW_OF_SITE));
+            List<WebElement> elements = driver.findElements(By.cssSelector(ROW_OF_SITE));
             for (WebElement webElement : elements)
             {
                 if (webElement.findElement(By.cssSelector(SITE_NAME_IN_ROW)).getText().equals(siteName))
@@ -281,7 +266,7 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
         }
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector(ROW_OF_SITE));
+            List<WebElement> elements = driver.findElements(By.cssSelector(ROW_OF_SITE));
             for (WebElement webElement : elements)
             {
                 if (webElement.findElement(By.cssSelector(SITE_NAME_IN_ROW)).getText().equals(siteName))
@@ -296,5 +281,10 @@ public class MyMeetingWorkSpaceDashlet extends AbstractDashlet implements Dashle
         }
         return false;
     }
-
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyMeetingWorkSpaceDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
+    }
 }

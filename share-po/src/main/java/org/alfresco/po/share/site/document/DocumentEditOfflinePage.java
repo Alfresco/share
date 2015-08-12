@@ -16,11 +16,9 @@ package org.alfresco.po.share.site.document;
 
 import java.io.File;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -28,24 +26,9 @@ import org.openqa.selenium.WebElement;
 
 public class DocumentEditOfflinePage extends DocumentDetailsPage
 {
-    private final By cancelEditOffLineBtn;
+    private final By cancelEditOffLineBtn = By.cssSelector("div#onActionCancelEditing>a.action-link");
     private static final String VIEW_ORIGINAL_DOCUMENT = "div.document-view-original>a";
     private static final String VIEW_WORKING_COPY = "div.document-view-working-copy>a";
-
-    public DocumentEditOfflinePage(WebDrone drone)
-    {
-        super(drone);
-        String selector = isDojoSupport() ? "div#onActionCancelEditing>a.action-link"
-                : "div[id$='default-actionSet']>div.document-cancel-editing>a.action-link";
-        cancelEditOffLineBtn = By.cssSelector(selector);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DocumentEditOfflinePage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Ensures that the 'checked out' message is visible.
@@ -74,7 +57,7 @@ public class DocumentEditOfflinePage extends DocumentDetailsPage
             {
                 if (!loadingMessageDisplayed())
                 {
-                    if (drone.find(cancelEditOffLineBtn).isDisplayed())
+                    if (driver.findElement(cancelEditOffLineBtn).isDisplayed())
                     {
                         // It's there and visible
                         break;
@@ -133,14 +116,14 @@ public class DocumentEditOfflinePage extends DocumentDetailsPage
     {
         try
         {
-            WebElement link = drone.find(cancelEditOffLineBtn);
+            WebElement link = driver.findElement(cancelEditOffLineBtn);
             link.click();
             canResume();
         }
         catch (NoSuchElementException nse)
         {
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -148,18 +131,18 @@ public class DocumentEditOfflinePage extends DocumentDetailsPage
      * 
      * @return DocumentDetailsPage
      */
-    public DocumentDetailsPage selectViewOriginalDocument()
+    public HtmlPage selectViewOriginalDocument()
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(VIEW_ORIGINAL_DOCUMENT));
+            WebElement link = findAndWait(By.cssSelector(VIEW_ORIGINAL_DOCUMENT));
             link.click();
         }
         catch (TimeoutException e)
         {
             throw new PageOperationException("Unable to select View Original Document ", e);
         }
-        return new DocumentDetailsPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -167,18 +150,18 @@ public class DocumentEditOfflinePage extends DocumentDetailsPage
      * 
      * @return DocumentEditOfflinePage
      */
-    public DocumentEditOfflinePage selectViewWorkingCopy()
+    public HtmlPage selectViewWorkingCopy()
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(VIEW_WORKING_COPY));
+            WebElement link = findAndWait(By.cssSelector(VIEW_WORKING_COPY));
             link.click();
         }
         catch (TimeoutException e)
         {
             throw new PageOperationException("Unable to select View Working Copy ", e);
         }
-        return new DocumentEditOfflinePage(drone);
+        return getCurrentPage();
     }
 
 }

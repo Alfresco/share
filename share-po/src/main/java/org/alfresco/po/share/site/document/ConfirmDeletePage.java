@@ -16,15 +16,14 @@ package org.alfresco.po.share.site.document;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -37,12 +36,6 @@ public class ConfirmDeletePage extends SharePage
     public enum Action
     {
         Delete, Cancel
-    }
-
-    protected ConfirmDeletePage(WebDrone drone)
-    {
-        super(drone);
-
     }
 
     private final Log logger = LogFactory.getLog(ConfirmDeletePage.class);
@@ -72,13 +65,6 @@ public class ConfirmDeletePage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public ConfirmDeletePage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public ConfirmDeletePage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -96,22 +82,22 @@ public class ConfirmDeletePage extends SharePage
         try
         {
             By buttonSelector = By.cssSelector(".button-group span span button");
-            List<WebElement> buttons = drone.findAll(buttonSelector);
+            List<WebElement> buttons = driver.findElements(buttonSelector);
             long elementWaitTime = SECONDS.convert(maxPageLoadingTime, MILLISECONDS);
             for (WebElement button : buttons)
             {
                 if (action.name().equals(button.getText()))
                 {
                     button.click();
-                    drone.waitUntilNotVisibleWithParitalText(By.cssSelector("div#prompt>div.hd"), "Delete", elementWaitTime);
+                    waitUntilNotVisibleWithParitalText(By.cssSelector("div#prompt>div.hd"), "Delete", elementWaitTime);
                     if (Action.Delete.equals(action))
                     {
                         By deleteMessageSelector = By.cssSelector("div.bd>span.message");
                         String deleteMessage = "deleted";
-                        drone.waitUntilVisible(deleteMessageSelector, deleteMessage, elementWaitTime);
-                        drone.waitUntilNotVisibleWithParitalText(deleteMessageSelector, deleteMessage, elementWaitTime);
+                        waitUntilVisible(deleteMessageSelector, deleteMessage, elementWaitTime);
+                        waitUntilNotVisibleWithParitalText(deleteMessageSelector, deleteMessage, elementWaitTime);
                     }
-                    return drone.getCurrentPage();
+                    return getCurrentPage();
                 }
 
             }

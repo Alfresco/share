@@ -15,20 +15,20 @@
 
 package org.alfresco.po.share.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Following page object, holds all element of the html page relating to following page
@@ -39,20 +39,9 @@ public class FollowingPage extends SharePage
 {
     private static Log logger = LogFactory.getLog(FollowingPage.class);
     private static final By PRIVATE_CHECKBOX = By.cssSelector(".private>input");
-    private static final By HEADER_BAR = By.cssSelector(".header-bar");
     private static final By NOT_FOLLOWING_MESSAGE = By.cssSelector("div.viewcolumn p");
     private static final By USERS_LIST = By.xpath(".//div[@class='profile']//ul[1]");
     private static final By FOLLOWING_COUNT = By.cssSelector("div>a[href='following']");
-
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public FollowingPage (WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -75,7 +64,7 @@ public class FollowingPage extends SharePage
             {
                 try
                 {
-                    if (drone.find(USERS_LIST).isDisplayed())
+                    if (driver.findElement(USERS_LIST).isDisplayed())
                     {
                         break;
                     }
@@ -84,7 +73,7 @@ public class FollowingPage extends SharePage
                 {
                 }
 
-                if (drone.find(NOT_FOLLOWING_MESSAGE).isDisplayed() || drone.find(NOT_FOLLOWING_MESSAGE).getText().equals(drone.getValue("user.profile.following.notfollowing")))
+                if (driver.findElement(NOT_FOLLOWING_MESSAGE).isDisplayed() || driver.findElement(NOT_FOLLOWING_MESSAGE).getText().equals(getValue("user.profile.following.notfollowing")))
                 {
                     break;
                 }
@@ -107,13 +96,6 @@ public class FollowingPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public FollowingPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Get the navigation bar.
      *
@@ -121,7 +103,7 @@ public class FollowingPage extends SharePage
      */
     public ProfileNavigation getProfileNav()
     {
-        return new ProfileNavigation(drone);
+        return new ProfileNavigation(driver, factoryPage);
     }
 
     /**
@@ -135,7 +117,7 @@ public class FollowingPage extends SharePage
         boolean present = false;
         try
         {
-            present = drone.findAndWait(NOT_FOLLOWING_MESSAGE).getText().equals(drone.getValue("user.profile.following.notfollowing"));
+            present = findAndWait(NOT_FOLLOWING_MESSAGE).getText().equals(getValue("user.profile.following.notfollowing"));
             return present;
         }
         catch (NoSuchElementException e)
@@ -155,7 +137,7 @@ public class FollowingPage extends SharePage
         boolean present = false;
         try
         {
-            present = drone.findAndWait(PRIVATE_CHECKBOX).isSelected();
+            present = findAndWait(PRIVATE_CHECKBOX).isSelected();
             return present;
         }
         catch (NoSuchElementException e)
@@ -176,7 +158,7 @@ public class FollowingPage extends SharePage
         {
             if (enabled != isPrivateChecked())
             {
-                drone.findAndWait(PRIVATE_CHECKBOX).click();
+                findAndWait(PRIVATE_CHECKBOX).click();
             }
         }
         catch (TimeoutException e)
@@ -197,12 +179,12 @@ public class FollowingPage extends SharePage
         List<ShareLink> shareLinks = new ArrayList<>();
         try
         {
-            List<WebElement> elements = drone.findAll(USERS_LIST);
+            List<WebElement> elements = driver.findElements(USERS_LIST);
 
             for (WebElement element : elements)
             {
                 WebElement result = element.findElement(By.tagName("a"));
-                shareLinks.add(new ShareLink(result, drone));
+                shareLinks.add(new ShareLink(result, driver, factoryPage));
             }
         }
         catch (TimeoutException nse)
@@ -250,7 +232,7 @@ public class FollowingPage extends SharePage
         String count = "";
         try
         {
-            count = drone.findAndWait(FOLLOWING_COUNT).getText().split("[()]+")[1];
+            count = findAndWait(FOLLOWING_COUNT).getText().split("[()]+")[1];
         }
         catch (TimeoutException nsee)
         {
@@ -265,11 +247,9 @@ public class FollowingPage extends SharePage
      * @return Following page
      */
 
-    public FollowingPage selectUnfollowForUser(String userName)
+    public HtmlPage selectUnfollowForUser(String userName)
     {
-
-        List<WebElement> elements = drone.findAndWaitForElements(USERS_LIST);
-
+        List<WebElement> elements = findAndWaitForElements(USERS_LIST);
         try
         {
             if (!elements.isEmpty())
@@ -288,7 +268,7 @@ public class FollowingPage extends SharePage
             throw new PageOperationException("Unable to find the unfollow button", e);
         }
 
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
 }

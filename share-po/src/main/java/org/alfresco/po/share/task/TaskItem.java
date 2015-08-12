@@ -14,9 +14,10 @@
  */
 package org.alfresco.po.share.task;
 
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageOperationException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.openqa.selenium.By;
@@ -42,16 +43,16 @@ public class TaskItem
     private static final By ITEM_DATE_MODIFIED = By.cssSelector("div.viewmode-label");
     private static final By VIEW_MORE_ACTIONS_LINK = By.cssSelector("a.view_more_actions");
 
-    public TaskItem(WebElement element, WebDrone drone, boolean isViewMoreActionDisplayed)
+    public TaskItem(WebElement element, WebDriver driver, boolean isViewMoreActionDisplayed, FactoryPage factoryPage)
     {
         itemName = element.findElement(ITEM_NAME).getText();
         description = element.findElement(ITEM_DESCRIPTION).getText().split("Description: ")[1];
         dateModified = DateTimeFormat.forPattern("E d MMM yyyy HH:mm:ss").parseDateTime(element.findElement(ITEM_DATE_MODIFIED).getText().split("on:")[1].trim());
-        itemNameLink = new ShareLink(element.findElement(ITEM_NAME_LINK), drone);
+        itemNameLink = new ShareLink(element.findElement(ITEM_NAME_LINK), driver, factoryPage);
 
         if (isViewMoreActionDisplayed)
         {
-            viewMoreActionsLink = new ShareLink(element.findElement(VIEW_MORE_ACTIONS_LINK), drone);
+            viewMoreActionsLink = new ShareLink(element.findElement(VIEW_MORE_ACTIONS_LINK), driver, factoryPage);
         }
         else
         {

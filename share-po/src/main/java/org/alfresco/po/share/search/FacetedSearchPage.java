@@ -1,23 +1,37 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.search;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.UnknownSharePage;
 import org.alfresco.po.share.site.SitePageType;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneUtil;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 
@@ -38,19 +52,9 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
     private static final String goToAdvancedSearch = "span#HEADER_ADVANCED_SEARCH_text";
     private static final By SEARCH_RESULTS_LIST = By.cssSelector("div[id='FCTSRCH_SEARCH_RESULTS_LIST']");
 
-    /**
-     * Instantiates a new faceted search page.
-     * 
-     * @param drone WebDriver browser client
-     */
-    public FacetedSearchPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     /*
      * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @Override
     public FacetedSearchPage render()
@@ -60,17 +64,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
 
     /*
      * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render(long)
-     */
-    @Override
-    public FacetedSearchPage render(long maxPageLoadingTime)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render(org.alfresco.webdrone.RenderTime)
+     * @see org.alfresco.po.Render#render(org.alfresco.po.RenderTime)
      */
     @Override
     public FacetedSearchPage render(RenderTime timer)
@@ -91,7 +85,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
             try
             {
                 
-                if (drone.find(SEARCH_MENU_BAR).isDisplayed() && drone.find(SEARCH_RESULTS_LIST).isDisplayed())
+                if (driver.findElement(SEARCH_MENU_BAR).isDisplayed() && driver.findElement(SEARCH_RESULTS_LIST).isDisplayed())
                 {
                     break;
                 }
@@ -115,7 +109,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public FacetedSearchForm getSearchForm()
     {
-        return new FacetedSearchForm(drone);
+        return new FacetedSearchForm(driver, factoryPage);
     }
 
     /**
@@ -125,7 +119,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public FacetedSearchSort getSort()
     {
-        return new FacetedSearchSort(drone);
+        return new FacetedSearchSort(driver, factoryPage);
     }
 
 
@@ -136,11 +130,11 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public List<SearchResult> getResults()
     {
-    	List<SearchResult> results = new ArrayList<SearchResult>();
-        List<WebElement> response = drone.findAll(RESULT);
+        List<SearchResult> results = new ArrayList<SearchResult>();
+        List<WebElement> response = driver.findElements(RESULT);
         for (WebElement result : response)
         {
-        	results.add(new FacetedSearchResult(drone, result));
+            results.add(new FacetedSearchResult(driver, result, factoryPage));
         }
         return results;
     }
@@ -176,10 +170,10 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
 	 * ^M
 	 * @return {@link FacetedSearchView}
 	 */
-	public FacetedSearchView getView()
-	{
-		return new FacetedSearchView(drone);
-	}
+    public FacetedSearchView getView()
+    {
+        return factoryPage.instantiatePage(driver,FacetedSearchView.class).render();
+    }
     /**
      * Gets a result by its name if it exists.
      *
@@ -211,7 +205,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public void scrollSome(int distance)
     {
-        this.drone.executeJavaScript("window.scrollTo(0," + distance + ");", "");
+        executeJavaScript("window.scrollTo(0," + distance + ");", "");
     }
 
     /**
@@ -219,7 +213,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public void scrollToPageBottom()
     {
-        this.drone.executeJavaScript("window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight));", "");
+        executeJavaScript("window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight));", "");
     }
 
     /**
@@ -229,7 +223,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public String getUrlHash()
     {
-        String url = this.drone.getCurrentUrl();
+        String url = this.driver.getCurrentUrl();
 
         // Empty url or no #
         if(StringUtils.isEmpty(url) || !StringUtils.contains(url, "#"))
@@ -248,7 +242,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public int getResultCount()
     {
-        String val = drone.find(By.cssSelector("#FCTSRCH_RESULTS_MENU_BAR>div>div>div>span>b")).getText();
+        String val = driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_MENU_BAR>div>div>div>span>b")).getText();
         return Integer.valueOf(val).intValue();
     }
     /**
@@ -258,8 +252,8 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public FacetedSearchPage selectFacet(final String title)
     {
-        WebDroneUtil.checkMandotaryParam("Facet title", title);
-        WebElement facet = drone.find(By.xpath(String.format("//span[@class = 'filterLabel'][contains(., '%s')]",title)));
+        PageUtils.checkMandotaryParam("Facet title", title);
+        WebElement facet = driver.findElement(By.xpath(String.format("//span[@class = 'filterLabel'][contains(., '%s')]",title)));
         facet.click();
         return this;
     }
@@ -271,12 +265,12 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
     public FacetedSearchConfigPage clickConfigureSearchLink()
     {
         try {
-			WebElement configure_search = drone.find(CONFIGURE_SEARCH);
+			WebElement configure_search = driver.findElement(CONFIGURE_SEARCH);
 			if (configure_search.isDisplayed())
 			{
 			    configure_search.click();        
 			}
-			return new FacetedSearchConfigPage(drone);
+			return getCurrentPage().render();
 		} catch (TimeoutException e)
         {
             logger.error("Unable to find the link : " + e.getMessage());
@@ -290,11 +284,11 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      * @param driver WebDrone
      * @return Boolean
      */
-    public Boolean isConfigureSearchDisplayed(WebDrone driver)
+    public Boolean isConfigureSearchDisplayed(WebDriver driver)
     {
         try
         {
-            WebElement configure_search = drone.find(CONFIGURE_SEARCH);
+            WebElement configure_search = driver.findElement(CONFIGURE_SEARCH);
             if (configure_search.isDisplayed())
             {
                 return true;
@@ -328,14 +322,14 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
         try
         {
             String selector = String.format("//span[@class = 'value'][contains(., '%s')]", name);
-            drone.find(By.xpath(selector)).click();
+            driver.findElement(By.xpath(selector)).click();
         }
         catch (NoSuchElementException e)
         {
             throw new PageException(String.format("Search result %s item not found", name), e);
         }
         
-        return FactorySharePage.getUnknownPage(drone);
+        return factoryPage.instantiatePage(driver, UnknownSharePage.class);
     }
 
     @Override
@@ -348,8 +342,8 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
         number += 1;
         try
         {
-            String selector = String.format("tr.alfresco-search-AlfSearchResult:nth-of-type(%d) a", number);
-            WebElement row = drone.find(By.cssSelector(selector));
+            String selector = String.format("tr.alfresco-search-AlfSearchResult:nth-of-type(%d) div.nameAndTitleCell a", number);
+            WebElement row = driver.findElement(By.cssSelector(selector));
             row.click();
         }
         catch (NoSuchElementException e)
@@ -357,7 +351,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
             throw new PageException(String.format("Search result %d item not found", number), e);
         }
 
-        return FactorySharePage.getUnknownPage(drone);
+        return getCurrentPage();
     }
     
     public boolean isItemPresentInResultsList(SitePageType pageType, String itemName)
@@ -406,30 +400,32 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
     public boolean isPageCorrect()
     {
         boolean isCorrect;
-        isCorrect = drone.isElementDisplayed(getSearchForm().SEARCH_FIELD) && drone.isElementDisplayed(getSearchForm().SEARCH_BUTTON) && drone.isElementDisplayed(RESULT)
-                && getSort().isSortCorrect();
+        isCorrect = driver.findElement(getSearchForm().SEARCH_FIELD).isDisplayed() &&
+                    driver.findElement(getSearchForm().SEARCH_BUTTON).isDisplayed() && 
+                    driver.findElement(RESULT).isDisplayed() &&
+                    getSort().isSortCorrect();
         return isCorrect;
     }
 
     public boolean isGoToAdvancedSearchPresent()
     {
-        return drone.isElementDisplayed(By.cssSelector(goToAdvancedSearch));
+        return driver.findElement(By.cssSelector(goToAdvancedSearch)).isDisplayed();
     }
 
-	public List<FacetedSearchFacetGroup> getFacetGroups() 
-	{
-		List<WebElement> facetGroups = drone.findAll(By.cssSelector("div.alfresco-documentlibrary-AlfDocumentFilters:not(.hidden)"));
-		List<FacetedSearchFacetGroup>filters = new ArrayList<FacetedSearchFacetGroup>();
-		for (WebElement facetGroup : facetGroups)
-		{
-        	filters.add(new FacetedSearchFacetGroup(drone, facetGroup));
+    public List<FacetedSearchFacetGroup> getFacetGroups() 
+    {
+        List<WebElement> facetGroups = driver.findElements(By.cssSelector("div.alfresco-documentlibrary-AlfDocumentFilters:not(.hidden)"));
+        List<FacetedSearchFacetGroup>filters = new ArrayList<FacetedSearchFacetGroup>();
+        for (WebElement facetGroup : facetGroups)
+        {
+            filters.add(new FacetedSearchFacetGroup(driver, facetGroup));
         }
 		return filters;
 	}
 
 	public FacetedSearchScopeMenu getScopeMenu() 
 	{
-		return new FacetedSearchScopeMenu(drone);
+		return new FacetedSearchScopeMenu(driver, factoryPage);
 	}
 
 

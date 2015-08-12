@@ -23,19 +23,19 @@ package org.alfresco.po.share.steps;
 
 import java.io.File;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
 import org.alfresco.po.share.user.TrashCanValues;
-import org.alfresco.po.share.util.SiteUtil;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.exception.PageOperationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class UserProfileActionsTest extends AbstractTest
 {
-    private SiteActions siteActions = new SiteActions();
-    private UserProfileActions userActions = new UserProfileActions();
+	@Autowired SiteActions siteActions;
+    @Autowired UserProfileActions userActions;
     private String siteName;
     private File file;
 
@@ -43,17 +43,14 @@ public class UserProfileActionsTest extends AbstractTest
     public void setup() throws Exception
     {
         siteName = "site" + System.currentTimeMillis();
-        file = SiteUtil.prepareFile();
+        file = siteUtil.prepareFile();;
         
         loginAs("admin", "admin");
         
-        siteActions.createSite(drone, siteName, siteName, "Public");
-        
-        siteActions.openDocumentLibrary(drone);
-        
-        siteActions.uploadFile(drone, file);
-        
-        siteActions.deleteContentInDocLib(drone, file.getName());
+        siteActions.createSite(driver, siteName, siteName, "Public");
+        siteActions.openDocumentLibrary(driver);
+        siteActions.uploadFile(driver, file);
+        siteActions.deleteContentInDocLib(driver, file.getName());
     }
     
     @Test(priority=1)
@@ -62,7 +59,7 @@ public class UserProfileActionsTest extends AbstractTest
         try
         {
             // Without navigating to MyProfile page, this action should return UnexpectedSharePageException
-            userActions.navigateToTrashCan(drone);
+            userActions.navigateToTrashCan(driver);
         }
         catch(UnexpectedSharePageException e)
         {
@@ -74,16 +71,16 @@ public class UserProfileActionsTest extends AbstractTest
     public void testDeleteFromTrashCanNoFile() throws Exception
     {
         String fileName = "file" + System.currentTimeMillis();
-        userActions.navigateToTrashCan(drone);
-        userActions.deleteFromTrashCan(drone, TrashCanValues.FILE, fileName, "documentLibrary");
+        userActions.navigateToTrashCan(driver);
+        userActions.deleteFromTrashCan(driver, TrashCanValues.FILE, fileName, "documentLibrary");
     }
 
     
     @Test(priority=3)
     public void testDeleteFromTrashCanFileFound() throws Exception
     {
-        userActions.navigateToTrashCan(drone);
-        userActions.deleteFromTrashCan(drone, TrashCanValues.FILE, file.getName(), "documentLibrary");
+        userActions.navigateToTrashCan(driver);
+        userActions.deleteFromTrashCan(driver, TrashCanValues.FILE, file.getName(), "documentLibrary");
     }
         
 }

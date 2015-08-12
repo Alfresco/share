@@ -1,20 +1,33 @@
+/*
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.systemsummary;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -27,18 +40,13 @@ public class ClusterValidationPage extends ShareDialogue {
     private static final By TITLE = By.cssSelector(".title>h1");
     private static final By VALIDATTION_RESULT = By.cssSelector("#test-result>span");
 
+    private Log logger = LogFactory.getLog(ClusterValidationPage.class);
 
-    @SuppressWarnings("unused")
-    private Log logger = LogFactory.getLog(this.getClass());
-
-
-    public ClusterValidationPage(WebDrone drone) {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
-    public ClusterValidationPage render(RenderTime timer) {
+    public ClusterValidationPage render(RenderTime timer)
+    {
         basicRender(timer);
         return this;
     }
@@ -49,12 +57,6 @@ public class ClusterValidationPage extends ShareDialogue {
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public ClusterValidationPage render(final long time) {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Checks if Close button present at a page
      *
@@ -62,7 +64,7 @@ public class ClusterValidationPage extends ShareDialogue {
      */
     public boolean isCancelButtonPresent() {
         try {
-            WebElement serverName = drone.find(CLOSE_BUTTON);
+            WebElement serverName = driver.findElement(CLOSE_BUTTON);
             return serverName.isDisplayed();
         } catch (NoSuchElementException nse) {
             return false;
@@ -78,7 +80,7 @@ public class ClusterValidationPage extends ShareDialogue {
 
         try {
             List<String> SucceedNodes = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(NODES);
+            List<WebElement> elements = findAndWaitForElements(NODES);
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
                     SucceedNodes.add(webElement.getText());
@@ -98,7 +100,7 @@ public class ClusterValidationPage extends ShareDialogue {
      */
     public String getTitle() {
         try {
-            return drone.findAndWait(TITLE).getText();
+            return findAndWait(TITLE).getText();
         } catch (TimeoutException toe) {
             throw new PageOperationException("Title isn't present", toe);
         }
@@ -108,17 +110,26 @@ public class ClusterValidationPage extends ShareDialogue {
     /**
      * Close Validate Cluster page
      *
+<<<<<<< .working
+     * @param driver
+     * @return
+=======
      * @param drone WebDrone
      * @return RepositoryServerClusteringPage
+>>>>>>> .merge-right.r109852
      */
-    public RepositoryServerClusteringPage closeValidationPage(WebDrone drone) {
-
-        try {
-            WebElement validateCluster = drone.find(CLOSE_BUTTON);
+    public RepositoryServerClusteringPage closeValidationPage(WebDriver driver)
+    {
+        try
+        {
+            WebElement validateCluster = driver.findElement(CLOSE_BUTTON);
             validateCluster.click();
-            return new RepositoryServerClusteringPage(drone);
-        } catch (NoSuchElementException nse) {
-            if (logger.isTraceEnabled()) {
+            return factoryPage.instantiatePage(driver, RepositoryServerClusteringPage.class);
+        }
+        catch (NoSuchElementException nse)
+        {
+            if (logger.isTraceEnabled()) 
+            {
                 logger.trace("Button " + CLOSE_BUTTON + " isn't found", nse);
             }
         }
@@ -129,7 +140,7 @@ public class ClusterValidationPage extends ShareDialogue {
     {
         try
         {
-            drone.findAndWait(CLOSE_BUTTON).click();
+            findAndWait(CLOSE_BUTTON).click();
         }
         catch (TimeoutException e)
         {
@@ -139,12 +150,12 @@ public class ClusterValidationPage extends ShareDialogue {
         {
             return clickClose();
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     public String getValidationResult() {
         try {
-            return drone.findAndWait(VALIDATTION_RESULT).getText();
+            return findAndWait(VALIDATTION_RESULT).getText();
         } catch (TimeoutException toe) {
             throw new PageOperationException("No result is present", toe);
         }

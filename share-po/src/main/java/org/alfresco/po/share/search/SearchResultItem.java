@@ -14,21 +14,26 @@
  */
 package org.alfresco.po.share.search;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.SharePage;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.admin.ActionsSet;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.po.share.site.SitePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
-
-import java.util.*;
+import org.openqa.selenium.NoSuchWindowException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * Holds the information of a search result item.
@@ -38,9 +43,9 @@ import java.util.*;
  * @author Michael Suzuki
  * @since 1.3
  */
-public class SearchResultItem implements SearchResult
+public class SearchResultItem extends PageElement implements SearchResult
 {
-    private WebDrone drone;    
+    private WebDriver driver;    
     private static final String ITEM_NAME_CSS_HOLDER = "div.nameAndTitleCell span.alfresco-renderers-Property:first-of-type span.inner a";
     private static final String TITLE = "span.value";
     private static final String DOWNLOAD_LINK = "div>a>img[title='Download']";
@@ -62,12 +67,16 @@ public class SearchResultItem implements SearchResult
      * Constructor
      * 
      * @param element {@link WebElement}
+<<<<<<< .working
+     * @param driver
+=======
      * @param drone WebDrone
+>>>>>>> .merge-right.r109852
      */
-    public SearchResultItem(WebElement element, WebDrone drone)
+    public SearchResultItem(WebElement element, WebDriver driver)
     {
         webElement = element;
-        this.drone = drone;
+        this.driver = driver;
     }
 
     /**
@@ -77,20 +86,11 @@ public class SearchResultItem implements SearchResult
      */
     public String getTitle()
     {
-        AlfrescoVersion version = drone.getProperties().getVersion();
         if (title == null)
         {
             try
             {
-                if (version.isFacetedSearch())
-                {
-                    title = webElement.findElement(By.cssSelector(ITEM_NAME_CSS_HOLDER + ">" + TITLE)).getText();
-                }
-                else
-                {
-                    title = webElement.findElement(By.cssSelector("h3.itemname a")).getText();
-                }
-
+                title = webElement.findElement(By.cssSelector(ITEM_NAME_CSS_HOLDER + ">" + TITLE)).getText();
             }
             catch (NoSuchElementException e)
             {
@@ -111,7 +111,7 @@ public class SearchResultItem implements SearchResult
         try
         {
             WebElement thumbnail = webElement.findElement(By.cssSelector(THUMBNAIL_LINK));
-            drone.mouseOver(thumbnail);
+            mouseOver(thumbnail);
 
             while (true)
             {
@@ -160,7 +160,7 @@ public class SearchResultItem implements SearchResult
         try
         {
             WebElement thumbnail = webElement.findElement(By.cssSelector(THUMBNAIL_LINK));
-            drone.mouseOver(thumbnail);
+            mouseOver(thumbnail);
 
             while (true)
             {
@@ -172,15 +172,15 @@ public class SearchResultItem implements SearchResult
 
                     if (viewInBrowser.isDisplayed())
                     {
-                        mainWindow = drone.getWindowHandle();
+                        mainWindow = driver.getWindowHandle();
                         viewInBrowser.click();
-                        windows = drone.getWindowHandles();
+                        windows = driver.getWindowHandles();
                         windows.remove(mainWindow);
                         newTab = windows.iterator().next();
-                        drone.switchToWindow(newTab);
-                        url = drone.getCurrentUrl();
-                        drone.closeWindow();
-                        drone.switchToWindow(mainWindow);
+                        driver.switchTo().window(newTab);
+                        url = driver.getCurrentUrl();
+                        driver.close();
+                        driver.switchTo().window(mainWindow);
 
                         return url;
                     }
@@ -261,7 +261,7 @@ public class SearchResultItem implements SearchResult
     {
         WebElement link = webElement.findElement(By.cssSelector(ITEM_NAME_CSS_HOLDER));
         link.click();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     @Override
@@ -309,7 +309,7 @@ public class SearchResultItem implements SearchResult
     {
         WebElement link = webElement.findElement(By.cssSelector(DATE));
         link.click();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
     
     @Override
@@ -317,7 +317,7 @@ public class SearchResultItem implements SearchResult
     {
         WebElement link = webElement.findElement(By.cssSelector(SITE));
         link.click();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
     
     @Override
@@ -325,15 +325,7 @@ public class SearchResultItem implements SearchResult
     {
         WebElement link = webElement.findElement(By.cssSelector(IMAGE));
         link.click();
-        return new PreViewPopUpPage(drone);
-    }
-
-    @Override
-    public PreViewPopUpImagePage clickImageLinkToPicture()
-    {
-        WebElement link = webElement.findElement(By.cssSelector(IMAGE));
-        link.click();
-        return new PreViewPopUpImagePage(drone);
+        return factoryPage.instantiatePage(driver, PreViewPopUpPage.class).render();
     }
 
     /**
@@ -341,7 +333,7 @@ public class SearchResultItem implements SearchResult
      *
      * @return SharePage
      */
-    public SharePage clickContentPath()
+    public HtmlPage clickContentPath()
     {
         List<WebElement> details = webElement.findElements(By.cssSelector(CONTENT_DETAILS_CSS + " a"));
         for (WebElement detail : details)
@@ -351,7 +343,7 @@ public class SearchResultItem implements SearchResult
                 detail.click();
             }
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -359,7 +351,7 @@ public class SearchResultItem implements SearchResult
      *
      * @return SitePage
      */
-    public SitePage clickSiteName()
+    public HtmlPage clickSiteName()
     {
         List<WebElement> details = webElement.findElements(By.cssSelector(CONTENT_DETAILS_CSS + " a"));
         for (WebElement detail : details)
@@ -370,7 +362,7 @@ public class SearchResultItem implements SearchResult
                 break;
             }
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -401,7 +393,7 @@ public class SearchResultItem implements SearchResult
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(THUMBNAIL_LINK + THUMBNAIL_IMG)).getAttribute("src");
+            return findAndWait(By.cssSelector(THUMBNAIL_LINK + THUMBNAIL_IMG)).getAttribute("src");
         }
         catch (TimeoutException ex)
         {

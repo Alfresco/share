@@ -30,7 +30,7 @@ import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.task.EditTaskPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -81,9 +81,9 @@ public class TopSiteContributorDashletTest extends AbstractSiteDashletTest
     {
         // uploadDocument();
         dashBoard = loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "description", "moderated");
+        siteUtil.createSite(driver, username, password, siteName, "description", "moderated");
         
-        logout(drone);
+        logout(driver);
 
         createUsersAndFiles(firstNumberOfFiles, random1);
         createUsersAndFiles(secondNumberOfFiles, random2);
@@ -97,7 +97,7 @@ public class TopSiteContributorDashletTest extends AbstractSiteDashletTest
     @AfterClass
     public void deleteSite()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
     
     /**
@@ -117,7 +117,7 @@ public class TopSiteContributorDashletTest extends AbstractSiteDashletTest
         loginAs(username, password).render();
 
         navigateToSiteDashboard();
-        SitePage site = drone.getCurrentPage().render();
+        SitePage site = resolvePage(driver).render();
         membersPage = site.getSiteNav().selectInvite().render();
         List<String> users = membersPage.searchUser("User_");
         for (String user : users)
@@ -129,27 +129,27 @@ public class TopSiteContributorDashletTest extends AbstractSiteDashletTest
         }    
         membersPage.selectInviteeAndAssignRole("(" + random1 + ")", UserRole.COLLABORATOR);
         membersPage.clickInviteButton();
-        logout(drone);
+        logout(driver);
         loginAs(random1, UNAME_PASSWORD).render();
         MyTasksDashlet task = dashBoard.getDashlet("tasks").render();
         EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
         dashBoard = editTaskPage.selectAcceptButton().render();
 
         navigateToSiteDashboard();
-        site = drone.getCurrentPage().render();
+        site = resolvePage(driver).render();
 
-        DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
 
         for (int i = 0; i < numberOfFiles; i++)
         {
             String random = UUID.randomUUID().toString();
-            File file = SiteUtil.prepareFile(random, random, ".txt");
-            docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+            File file = siteUtil.prepareFile(random, random, ".txt");
+            docPage = site.getSiteNav().selectDocumentLibrary().render();
             UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
             docPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
 
         }
-        logout(drone);
+        logout(driver);
     }
 
     /**
@@ -162,7 +162,7 @@ public class TopSiteContributorDashletTest extends AbstractSiteDashletTest
         SiteFinderPage siteFinder = boardPage.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(siteName).render();
         siteDashBoard = siteFinder.selectSite(siteName).render();
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();;
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.TOP_SITE_CONTRIBUTOR_REPORT, 2).render();
         topSiteContributorDashlet = siteDashBoard.getDashlet(TOP_SITE_CONTRIBUTOR_REPORT).render();

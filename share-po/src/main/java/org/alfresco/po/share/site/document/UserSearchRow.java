@@ -14,11 +14,12 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.share.FactoryPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -26,19 +27,19 @@ import org.openqa.selenium.WebElement;
  * 
  * @author nshah
  */
-public class UserSearchRow implements SearchRow
+public class UserSearchRow extends PageElement implements SearchRow
 {
     private String userName;
-    private WebDrone drone;
     private WebElement element;
     private By BUTTON_ADD = By.cssSelector("span[class$='button'] span button");
     private By USER_NAME = By.cssSelector("td[class$='fullName'] div h3");
 
-    UserSearchRow(WebDrone drone, WebElement element)
+    UserSearchRow(WebDriver driver, WebElement element, FactoryPage factoryPage)
     {
         this.userName = element.findElement(USER_NAME).getText();
-        this.drone = drone;
+        this.driver = driver;
         this.element = element;
+        this.factoryPage = factoryPage;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class UserSearchRow implements SearchRow
         try
         {
             element.findElement(BUTTON_ADD).click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
 
         }
         catch (NoSuchElementException nse)
@@ -76,7 +77,7 @@ public class UserSearchRow implements SearchRow
         {
             // catch and let go.
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
 
     }
 

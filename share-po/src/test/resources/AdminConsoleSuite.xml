@@ -11,9 +11,4 @@
             <class name="org.alfresco.po.share.adminconsole.NodeBrowserPageTest"/>
         </classes>
     </test>
-    <test name="Replication Jobs">
-        <classes>
-            <class name="org.alfresco.po.share.adminconsole.ReplicationJobsPageTest"/>
-        </classes>
-    </test>
 </suite>

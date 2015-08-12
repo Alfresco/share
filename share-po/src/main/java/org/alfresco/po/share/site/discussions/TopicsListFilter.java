@@ -18,21 +18,21 @@
  */
 package org.alfresco.po.share.site.discussions;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author Aliaksei Boole
  */
-public class TopicsListFilter extends HtmlElement
+public class TopicsListFilter extends PageElement
 {
     private final static By BASE_FILTER_ELEMENT = By.xpath("//ul[@class='filterLink']");
     private final static By TAGS_LINK = By.xpath("//ul[@class='filterLink']//span[@class='tag']/a");
@@ -53,11 +53,10 @@ public class TopicsListFilter extends HtmlElement
         public final By by;
     }
 
-    public TopicsListFilter(WebDrone drone)
+    public TopicsListFilter(WebDriver driver)
     {
-        super(drone);
-        WebElement baseWebElement = drone.findAndWait(BASE_FILTER_ELEMENT);
-        super.setWebElement(baseWebElement);
+        WebElement baseWebElement = findAndWait(BASE_FILTER_ELEMENT);
+        setWrappedElement(baseWebElement);
     }
 
     /**
@@ -69,7 +68,7 @@ public class TopicsListFilter extends HtmlElement
     {
         checkNotNull(option);
         findAndWait(option.by).click();
-        return new DiscussionsPage(drone).waitUntilAlert().render();
+        return factoryPage.instantiatePage(driver, DiscussionsPage.class).waitUntilAlert().render();
     }
 
     /**
@@ -80,7 +79,7 @@ public class TopicsListFilter extends HtmlElement
     public List<String> getTags()
     {
         List<String> tags = new ArrayList<String>();
-        List<WebElement> tagElements = findAllWithWait(TAGS_LINK);
+        List<WebElement> tagElements = driver.findElements(TAGS_LINK);
         for (WebElement tagElement : tagElements)
         {
             tags.add(tagElement.getText());
@@ -96,13 +95,13 @@ public class TopicsListFilter extends HtmlElement
     public DiscussionsPage clickOnTag(String tagName)
     {
         checkNotNull(tagName);
-        List<WebElement> tagElements = findAllWithWait(TAGS_LINK);
+        List<WebElement> tagElements = driver.findElements(TAGS_LINK);
         for (WebElement tagElement : tagElements)
         {
             if (tagName.equals(tagElement.getText()))
             {
                 tagElement.click();
-                return new DiscussionsPage(drone).waitUntilAlert().render();
+                return factoryPage.instantiatePage(driver, DiscussionsPage.class).waitUntilAlert().render();
             }
         }
         throw new PageException(String.format("Tag with name[%s] don't found.", tagName));

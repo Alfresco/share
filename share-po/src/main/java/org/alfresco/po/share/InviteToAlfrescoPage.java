@@ -15,10 +15,9 @@ package org.alfresco.po.share;
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.alfresco.po.share.user.AccountSettingsPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -42,16 +41,6 @@ public class InviteToAlfrescoPage extends SharePage
     private static final By MESSAGE_TEXTAREA = By.cssSelector("textarea[id$='alf-id1-message']");
     private static final By INVITE_BUTTON = By.cssSelector("button[id$='alf-id1-submit-button']");
     private static final By CANCEL_BUTTON = By.cssSelector("button[id$='alf-id1-cancel-button']");
-
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public InviteToAlfrescoPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -90,7 +79,7 @@ public class InviteToAlfrescoPage extends SharePage
         boolean groupsFrameLoaded = false;
         try
         {
-            WebElement element = drone.findAndWait(INVITE_BUTTON);
+            WebElement element = findAndWait(INVITE_BUTTON);
             groupsFrameLoaded = element.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -106,13 +95,6 @@ public class InviteToAlfrescoPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public InviteToAlfrescoPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Enter email addresses
      * 
@@ -124,7 +106,7 @@ public class InviteToAlfrescoPage extends SharePage
         {
             throw new UnsupportedOperationException("userEmail(s) for invitation cannot be null");
         }
-        WebElement textArea = drone.findAndWait(EMAILS_TEXTAREA);
+        WebElement textArea = findAndWait(EMAILS_TEXTAREA);
         textArea.clear();
         for (String userEmail : userEmails)
         {
@@ -144,14 +126,14 @@ public class InviteToAlfrescoPage extends SharePage
      */
     public void inputMessage(String emailMessage)
     {
-        WebElement input = drone.findAndWait(MESSAGE_TEXTAREA);
+        WebElement input = findAndWait(MESSAGE_TEXTAREA);
         input.clear();
         input.sendKeys(emailMessage);
     }
 
     public String getMessageText()
     {
-        WebElement input = drone.findAndWait(MESSAGE_TEXTAREA);
+        WebElement input = findAndWait(MESSAGE_TEXTAREA);
         return input.getText();
     }
 
@@ -160,14 +142,14 @@ public class InviteToAlfrescoPage extends SharePage
      *
      * @return HtmlPage
      */
-    public AccountSettingsPage selectInvite()
+    public HtmlPage selectInvite()
     {
         try
         {
             logger.info("Click Invite button");
-            WebElement element = drone.findAndWait(INVITE_BUTTON);
+            WebElement element = findAndWait(INVITE_BUTTON);
             element.click();
-            return new AccountSettingsPage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -180,13 +162,13 @@ public class InviteToAlfrescoPage extends SharePage
      *
      * @return UserSearchPage
      */
-    public AccountSettingsPage cancelInviteToAlfresco()
+    public HtmlPage cancelInviteToAlfresco()
     {
         try
         {
-            WebElement element = drone.findAndWait(CANCEL_BUTTON);
+            WebElement element = findAndWait(CANCEL_BUTTON);
             element.click();
-            return new AccountSettingsPage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {

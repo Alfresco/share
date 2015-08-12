@@ -14,14 +14,22 @@
  */
 package org.alfresco.po.share;
 
+import java.io.IOException;
+
+import org.alfresco.dataprep.UserService;
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.util.PageUtils;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpState;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+@Component
 /**
  * Share page object util
  * 
@@ -29,22 +37,24 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ShareUtil
 {
-    private static Log logger = LogFactory.getLog(ShareUtil.class);
+    private  Log logger = LogFactory.getLog(ShareUtil.class);
 
-    private static final String ADMIN_SYSTEMSUMMARY_PAGE = "alfresco/service/enterprise/admin";
-    private static final String BULK_IMPORT_PAGE = "alfresco/service/bulkfsimport";
-    private static final String BULK_IMPORT_IN_PLACE_PAGE = "alfresco/service/bulkfsimport/inplace";
-    private static final String WEB_SCRIPTS_PAGE = "alfresco/service/index";
-    private static final String TENANT_ADMIN_CONSOLE_PAGE = "alfresco/s/enterprise/admin/admin-tenantconsole";
-    private static final String REPO_ADMIN_CONSOLE_PAGE = "alfresco/s/enterprise/admin/admin-repoconsole";
-    private static final String WEBDAV_PAGE = "alfresco/webdav";
+    private  final String ADMIN_SYSTEMSUMMARY_PAGE = "alfresco/service/enterprise/admin";
+    private  final String BULK_IMPORT_PAGE = "alfresco/service/bulkfsimport";
+    private  final String BULK_IMPORT_IN_PLACE_PAGE = "alfresco/service/bulkfsimport/inplace";
+    private  final String WEB_SCRIPTS_PAGE = "alfresco/service/index";
+    private  final String TENANT_ADMIN_CONSOLE_PAGE = "alfresco/s/enterprise/admin/admin-tenantconsole";
+    private  final String REPO_ADMIN_CONSOLE_PAGE = "alfresco/s/enterprise/admin/admin-repoconsole";
+    private  final String WEBDAV_PAGE = "alfresco/webdav";
+    @Autowired  FactoryPage factoryPage;
+    @Autowired UserService userService;
 
     /**
      * A simple Enum to request the required Alfresco version.
      *
      * @author Jamal Kaabi-Mofrad
      */
-    public static enum RequiredAlfrescoVersion
+    public  enum RequiredAlfrescoVersion
     {
         CLOUD_ONLY, ENTERPRISE_ONLY;
     }
@@ -52,42 +62,80 @@ public class ShareUtil
     /**
      * Use Logout on header bar and mimics action of logout on share.
      */
-    public static synchronized void logout(final WebDrone drone)
+    public void logout(final WebDriver driver)
     {
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = factoryPage.getPage(driver).render();
         page.getNav().logout();
     }
 
     /**
      * Logs user into share.
      *
-     * @param drone {@link WebDrone}
+     * @param driver {@link WebDriver}
      * @param url Share url
      * @param userInfo username and password
      * @return {@link HtmlPage} page response
+     * @throws Exception 
      */
-    public static HtmlPage loginAs(final WebDrone drone, final String url, final String... userInfo)
+    public HtmlPage loginAs(final WebDriver driver, final String url, final String... userInfo) throws Exception
     {
-        drone.navigateTo(url);
-        LoginPage lp = new LoginPage(drone).render();
+        driver.navigate().to(url);
+        LoginPage lp = factoryPage.getPage(driver).render();
         lp.loginAs(userInfo[0], userInfo[1]);
-        return drone.getCurrentPage();
+        return factoryPage.getPage(driver);
     }
 
     /**
      * Logs user into share from the current page.
      * 
-     * @param drone WebDrone
-     * @param userInfo String...
-     * @return HtmlPage
+     * @param driver
+     * @param userInfo
+     * @return
      */
-    public static HtmlPage logInAs(final WebDrone drone, final String... userInfo)
+    public HtmlPage logInAs(final WebDriver driver, final String... userInfo) throws Exception
     {
-        LoginPage lp = new LoginPage(drone).render();
+        LoginPage lp = factoryPage.instantiatePage(driver, LoginPage.class).render();
         lp.loginAs(userInfo[0], userInfo[1]);
-        return drone.getCurrentPage();
+        return factoryPage.getPage(driver);
     }
     
+    public HtmlPage loginWithPost(WebDriver driver, String shareUrl, String userName, String password)
+    {
+        HttpClient client = new HttpClient();
+
+        //login
+        PostMethod post = new PostMethod((new StringBuilder()).append(shareUrl).append("/page/dologin").toString());
+        NameValuePair[] formParams = (new NameValuePair[]{
+                new org.apache.commons.httpclient.NameValuePair("username", userName),
+                new org.apache.commons.httpclient.NameValuePair("password", password),
+                new org.apache.commons.httpclient.NameValuePair("success", "/share/page/site-index"),
+                new org.apache.commons.httpclient.NameValuePair("failure", "/share/page/type/login?error=true")
+        });
+        post.setRequestBody(formParams);
+        post.addRequestHeader("Accept-Language", "en-us,en;q=0.5");
+        try
+        {
+            client.executeMethod(post);
+
+            HttpState state = client.getState();
+
+            //add cookies to browser and navigate to user dashboard
+            String url = shareUrl + "/page/user/" + userName + "/dashboard";
+            driver.manage().addCookie(new Cookie(state.getCookies()[0].getName(),state.getCookies()[0].getValue()));
+            driver.navigate().to(url);
+        }
+        catch (IOException e)
+        {
+            logger.error("Login error ", e);
+        }
+        finally
+        {
+            post.releaseConnection();
+        }
+
+        return factoryPage.getPage(driver);
+
+    } 
     
     /**
      * A helper method to check the current running Alfresco version against the
@@ -99,7 +147,7 @@ public class ShareUtil
      * @throws UnsupportedOperationException if the {@code requiredVersion} differs from the {@code alfrescoVersion}
      * @throws IllegalArgumentException if {@code requiredVersion} is invalid
      */
-    public static void validateAlfrescoVersion(AlfrescoVersion alfrescoVersion, RequiredAlfrescoVersion requiredVersion) throws UnsupportedOperationException,
+    public  void validateAlfrescoVersion(AlfrescoVersion alfrescoVersion, RequiredAlfrescoVersion requiredVersion) throws UnsupportedOperationException,
             IllegalArgumentException
     {
         boolean isCloud = alfrescoVersion.isCloud();
@@ -123,38 +171,51 @@ public class ShareUtil
     }
 
     /**
+<<<<<<< .working
+     * @param driver
+     * @param userInfo
+     * @return
+=======
      * @param drone WebDrone
      * @param url String
      * @param userInfo String
      * @return HtmlPage
+>>>>>>> .merge-right.r109852
      */
-    public static HtmlPage navigateToSystemSummary(final WebDrone drone, String url, final String... userInfo)
+    public HtmlPage navigateToSystemSummary(final WebDriver driver, String url, final String... userInfo)
     {
         String protocolVar = PageUtils.getProtocol(url);
         String consoleUrlVar = PageUtils.getAddress(url);
         String systemUrl = String.format("%s%s:%s@%s/" + ADMIN_SYSTEMSUMMARY_PAGE, protocolVar, userInfo[0], userInfo[1], consoleUrlVar);
         try {
-            drone.navigateTo(systemUrl);
+            driver.navigate().to(systemUrl);
         } catch (Exception e) {
             if (logger.isDebugEnabled())
             {
                 logger.debug("Following exception was occurred" + e + ". Param systemUrl was " + systemUrl);
             }
         }
-        return drone.getCurrentPage().render();
+        return factoryPage.getPage(driver).render();
     }
 
     /**
      * Methods for navigation bulk import page
      *
+<<<<<<< .working
+     * @param driver
+     * @param inPlace
+     * @param userInfo
+     * @return
+=======
      * @param drone WebDrone
      * @param inPlace boolean
      * @param userInfo String...
      * @return HtmlPage
+>>>>>>> .merge-right.r109852
      */
-    public static HtmlPage navigateToBulkImport(final WebDrone drone, boolean inPlace, final String... userInfo)
+    public HtmlPage navigateToBulkImport(final WebDriver driver, boolean inPlace, final String... userInfo)
     {
-        String currentUrl = drone.getCurrentUrl();
+        String currentUrl = driver.getCurrentUrl();
         String protocolVar = PageUtils.getProtocol(currentUrl);
         String consoleUrlVar = PageUtils.getAddress(currentUrl);
         if (inPlace)
@@ -171,7 +232,7 @@ public class ShareUtil
         try
         {
             logger.info("Navigate to 'currentUrl': " + currentUrl);
-            drone.navigateTo(currentUrl);
+            driver.navigate().to(currentUrl);
         }
         catch (Exception e)
         {
@@ -180,112 +241,81 @@ public class ShareUtil
                 logger.debug("Following exception was occurred" + e + ". Param systemUrl was " + currentUrl);
             }
         }
-        return drone.getCurrentPage().render();
-    }
-    
-    /**
-     * Function to create user on Enterprise using UI
-     * 
-     * @param uname - This should always be unique. So the user of this method needs to verify it is unique. 
-     *                eg. - "testUser" + System.currentTimeMillis();
-     * @return boolean
-     * @throws Exception if error
-     */
-    public static boolean createEnterpriseUser(final WebDrone drone, final String uname, final String url, final String... userInfo) throws Exception
-    {
-        AlfrescoVersion alfrescoVersion = drone.getProperties().getVersion();
-        if (alfrescoVersion.isCloud() || StringUtils.isEmpty(uname))
-        {
-            throw new UnsupportedOperationException("This method is not applicable for cloud");
-        }       
-        try
-        {
-            System.out.println("User Name: " + uname);
-            DashBoardPage dashBoard = loginAs(drone, url, userInfo).render();
-            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-            NewUserPage newPage = page.selectNewUser().render();
-            String userinfo = uname + "@test.com";
-            newPage.inputFirstName(userinfo);
-            newPage.inputLastName(userinfo);
-            newPage.inputEmail(userinfo);
-            newPage.inputUsername(uname);
-            newPage.inputPassword("password");
-            newPage.inputVerifyPassword("password");
-            UserSearchPage userCreated = newPage.selectCreateUser().render();
-            userCreated.searchFor(userinfo).render();
-            return userCreated.hasResults();
-        }
-        finally
-        {
-            logout(drone);
-        }
+        return factoryPage.getPage(driver).render();
     }
 
     /**
+<<<<<<< .working
+     * Helper method to extract alfresco webscript url and direct webdriver to location. 
+     * @param driver
+     * @param userInfo
+     * @return
+=======
      * Helper method to extract alfresco webscript url and direct webdrone to location. 
      * @param drone WebDrone
      * @param userInfo String
      * @return HtmlPage
+>>>>>>> .merge-right.r109852
      * @throws Exception
      */
-    public static HtmlPage navigateToWebScriptsHome(final WebDrone drone,final String... userInfo) throws Exception
+    public HtmlPage navigateToWebScriptsHome(final WebDriver driver,final String... userInfo) throws Exception
     {
-        return navigateToAlfresco(drone, WEB_SCRIPTS_PAGE, userInfo);
+        return navigateToAlfresco(driver, WEB_SCRIPTS_PAGE, userInfo);
     }
     /**
-     * Helper method to extract alfresco tenant admin console url and direct webdrone to location. 
-     * @param drone WebDrone
-     * @param userInfo String
-     * @return HtmlPage
+     * Helper method to extract alfresco tenant admin console url and direct webdriver to location. 
+     * @param driver
+     * @param userInfo
+     * @return
      * @throws Exception
      */
-    public static HtmlPage navigateToTenantAdminConsole(final WebDrone drone,final String... userInfo) throws Exception
+    public HtmlPage navigateToTenantAdminConsole(final WebDriver driver,final String... userInfo) throws Exception
     {
-        return navigateToAlfresco(drone, TENANT_ADMIN_CONSOLE_PAGE, userInfo);
+        return navigateToAlfresco(driver, TENANT_ADMIN_CONSOLE_PAGE, userInfo);
     }
     /**
-     * Helper method to extract alfresco repository admin console url and direct webdrone to location. 
-     * @param drone WebDrone
-     * @param userInfo String...
-     * @return HtmlPage
+     * Helper method to extract alfresco repository admin console url and direct webdriver to location. 
+     * @param driver
+     * @param userInfo
+     * @return
      * @throws Exception
      */
-    public static HtmlPage navigateToRepositoryAdminConsole(final WebDrone drone,final String... userInfo) throws Exception
+    public HtmlPage navigateToRepositoryAdminConsole(final WebDriver driver,final String... userInfo) throws Exception
     {
-        return navigateToAlfresco(drone, REPO_ADMIN_CONSOLE_PAGE, userInfo);
+        return navigateToAlfresco(driver, REPO_ADMIN_CONSOLE_PAGE, userInfo);
     }
 
     /**
-     * Helper method to extract alfresco repository admin console url and direct webdrone to location.
-     * @param drone WebDrone
-     * @param userInfo String...
-     * @return HtmlPage
+     * Helper method to extract alfresco repository admin console url and direct webdriver to location.
+     * @param driver
+     * @param userInfo
+     * @return
      * @throws Exception
      */
-    public static HtmlPage navigateToWebDav(final WebDrone drone,final String... userInfo) throws Exception
+    public HtmlPage navigateToWebDav(final WebDriver driver,final String... userInfo) throws Exception
     {
-        return navigateToAlfresco(drone, WEBDAV_PAGE, userInfo);
+        return navigateToAlfresco(driver, WEBDAV_PAGE, userInfo);
     }
 
     /**
      * Base helper method that extracts the url to required alfresco admin location.
      * Once extracted it formats it with the username and password to allow access to the page.
-     * @param drone WebDrone
-     * @param path String
-     * @param userInfo String...
-     * @return HtmlPage
+     * @param driver
+     * @param path
+     * @param userInfo
+     * @return
      * @throws Exception
      */
-    public static HtmlPage navigateToAlfresco(final WebDrone drone, final String path,final String... userInfo) throws Exception
+    public HtmlPage navigateToAlfresco(final WebDriver driver, final String path,final String... userInfo) throws Exception
     {
-        WebDroneUtil.checkMandotaryParam("WebDrone", drone);
-        WebDroneUtil.checkMandotaryParam("Path", path);
-        WebDroneUtil.checkMandotaryParam("Username and password", userInfo);
-        String currentUrl = drone.getCurrentUrl();
+        PageUtils.checkMandotaryParam("WebDriver", driver);
+        PageUtils.checkMandotaryParam("Path", path);
+        PageUtils.checkMandotaryParam("Username and password", userInfo);
+        String currentUrl = driver.getCurrentUrl();
         String protocolVar = PageUtils.getProtocol(currentUrl);
         String consoleUrlVar = PageUtils.getAddress(currentUrl);
         currentUrl = String.format("%s%s:%s@%s/" + path, protocolVar, userInfo[0], userInfo[1], consoleUrlVar);
-        drone.navigateTo(currentUrl);
-        return drone.getCurrentPage().render();
+        driver.navigate().to(currentUrl);
+        return factoryPage.getPage(driver).render();
     }
 }

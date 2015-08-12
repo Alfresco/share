@@ -14,15 +14,13 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.ShareUtil;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -55,18 +53,8 @@ public class ViewPublicLinkPage extends SharePage
     private static final String DOCUMENT_ZOOMOUT = "#page_x002e_components_x002e_quickshare_x0023_web-preview-zoomOut-button" ;
     private static final String DOCUMENT_ZOOMSCALE = "#page_x002e_components_x002e_quickshare_x0023_web-preview-scaleSelectBtn-button" ;
 
-    //@RenderWebElement
-    //private static final By TEXT_LAYER = By.cssSelector("div[id$='web-preview-viewer-pageContainer-1']>.textLayer");
     @RenderWebElement
     private static final By ZOOM = By.cssSelector(DOCUMENT_ZOOMSCALE);
-        
-    /**
-     * Constructor.
-     */
-    public ViewPublicLinkPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -83,12 +71,6 @@ public class ViewPublicLinkPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public ViewPublicLinkPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Verify that public view page is displayed with document view.
@@ -99,7 +81,7 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            return drone.find(documentPreviewLocator).isDisplayed();
+            return driver.findElement(documentPreviewLocator).isDisplayed();
         }
         catch (NoSuchElementException ex)
         {
@@ -117,8 +99,8 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            drone.find(documentDetailsLinkLocator).click();
-            return FactorySharePage.resolvePage(drone);
+            driver.findElement(documentDetailsLinkLocator).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException ex)
         {
@@ -137,7 +119,7 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            WebElement element = drone.find(By.cssSelector(THIN_DARK_TITLE_ELEMENT));
+            WebElement element = driver.findElement(By.cssSelector(THIN_DARK_TITLE_ELEMENT));
             return element.getText();
         }
         catch (NoSuchElementException e)
@@ -157,7 +139,7 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            WebElement element = drone.find(documentDetailsLinkLocator);
+            WebElement element = driver.findElement(documentDetailsLinkLocator);
             return element.getText();
         }
         catch (NoSuchElementException e)
@@ -177,7 +159,7 @@ public class ViewPublicLinkPage extends SharePage
 
         try
         {
-            WebElement element = drone.find(pageNotFound);
+            WebElement element = driver.findElement(pageNotFound);
             return element.getText();
         }
         catch (NoSuchElementException ex)
@@ -197,7 +179,7 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            WebElement element = drone.find(bodyNotFound);
+            WebElement element = driver.findElement(bodyNotFound);
             return element.getText();
         }
         catch (NoSuchElementException ex)
@@ -218,7 +200,7 @@ public class ViewPublicLinkPage extends SharePage
         int counter = 0;
         int waitInMilliSeconds = 2000;
         int retryRefreshCount = 5;
-        WebElement element = drone.findAndWait(By.cssSelector(DOCUMENT_BODY));
+        WebElement element = findAndWait(By.cssSelector(DOCUMENT_BODY));
 
         while (counter < retryRefreshCount)
         {
@@ -251,7 +233,7 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(DOCUMENT_ZOOMIN));
+            WebElement link = findAndWait(By.cssSelector(DOCUMENT_ZOOMIN));
             link.click();
         }
         catch (TimeoutException exception)
@@ -268,7 +250,7 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(DOCUMENT_ZOOMOUT));
+            WebElement link = findAndWait(By.cssSelector(DOCUMENT_ZOOMOUT));
             link.click();
         }
         catch (TimeoutException exception)
@@ -286,7 +268,7 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            WebElement zoomScale = drone.findAndWait(By.cssSelector(DOCUMENT_ZOOMSCALE));
+            WebElement zoomScale = findAndWait(By.cssSelector(DOCUMENT_ZOOMSCALE));
             return zoomScale.getText();
         }
         catch (TimeoutException e)
@@ -320,7 +302,7 @@ public class ViewPublicLinkPage extends SharePage
     {
         try
         {
-            WebElement scr = drone.find(alfrescoImageLocator);
+            WebElement scr = driver.findElement(alfrescoImageLocator);
             return scr.getAttribute("src");
         }
         catch (TimeoutException e)

@@ -1,23 +1,41 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.discussions;
 
-import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.exception.ShareException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * Holds html elements related to Reply Directory info
  *
  * @author Marina.Nenadovets
  */
-public class ReplyDirectoryInfo extends HtmlElement
+public class ReplyDirectoryInfo extends PageElement
 {
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -29,9 +47,9 @@ public class ReplyDirectoryInfo extends HtmlElement
     /**
      * Constructor
      */
-    protected ReplyDirectoryInfo(WebDrone drone, WebElement webElement)
+    protected ReplyDirectoryInfo(WebDriver driver, WebElement webElement)
     {
-        super(webElement, drone);
+        setWrappedElement(webElement);
     }
 
     /**
@@ -111,7 +129,7 @@ public class ReplyDirectoryInfo extends HtmlElement
     public TopicViewPage createSubReply(String text)
     {
         findElement(REPLY_LINK).click();
-        AddReplyForm addReplyForm = new AddReplyForm(drone);
+        AddReplyForm addReplyForm = new AddReplyForm();
         addReplyForm.insertText(text);
         logger.info("SubReply was created.");
         return addReplyForm.clickSubmit();

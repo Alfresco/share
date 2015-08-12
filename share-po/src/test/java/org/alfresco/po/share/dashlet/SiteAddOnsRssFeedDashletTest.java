@@ -25,7 +25,7 @@ import java.util.List;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.dashlet.RssFeedUrlBoxPage.NrItems;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -57,14 +57,14 @@ public class SiteAddOnsRssFeedDashletTest extends AbstractSiteDashletTest
     {
         siteName = "AddOnsRssDashletTest" + System.currentTimeMillis();
         loginAs("admin", "admin");
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
 
     @Test
     public void instantiateDashlet()
     {
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();;
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(ALFRESCO_ADDONS_RSS_FEED, 1).render();
         rssFeedDashlet = siteDashBoard.getDashlet(DASHLET_NAME).render();

@@ -19,10 +19,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -30,7 +30,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.savedsearch")
 /**
  * Saved Search dashlet object, holds all element of the HTML relating to Saved
  * Search dashlet.
@@ -50,21 +51,20 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     private static final By SEARCH_RESULTS = By.cssSelector("div.dashlet.savedsearch div[id$='default-search-results']");
     private static final By titleBarActions = By.xpath("//div[starts-with(@class,'dashlet savedsearch')] //div[@class='titleBarActions']");
 
-    /**
-     * Constructor.
-     */
-    protected SavedSearchDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector("div.dashlet.savedsearch .yui-resize-handle"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected SavedSearchDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector("div.dashlet.savedsearch .yui-resize-handle"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public SavedSearchDashlet render(RenderTime timer)
     {
         try
         {
+            setResizeHandle(By.cssSelector("div.dashlet.savedsearch .yui-resize-handle"));
             while (true)
             {
                 timer.start();
@@ -82,10 +82,10 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus();
-                    drone.find(DASHLET_CONTAINER_PLACEHOLDER);
-                    drone.find(CONFIGURE_DASHLET_ICON);
-                    drone.find(HELP_ICON);
-                    drone.find(DASHLET_TITLE);
+                    driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
+                    driver.findElement(CONFIGURE_DASHLET_ICON);
+                    driver.findElement(HELP_ICON);
+                    driver.findElement(DASHLET_TITLE);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -109,20 +109,6 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public SavedSearchDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SavedSearchDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
     /**
      * Finds whether help icon is displayed or not.
      * 
@@ -133,8 +119,8 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
         try
         {
             scrollDownToDashlet();
-            drone.mouseOver(drone.find(titleBarActions));
-            return drone.findAndWait(HELP_ICON).isDisplayed();
+            mouseOver(driver.findElement(titleBarActions));
+            return findAndWait(HELP_ICON).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -154,8 +140,8 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.mouseOver(drone.find(titleBarActions));
-            drone.findAndWait(HELP_ICON).click();
+            mouseOver(driver.findElement(titleBarActions));
+            findAndWait(HELP_ICON).click();
         }
         catch (TimeoutException te)
         {
@@ -173,7 +159,7 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
+            return findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -191,7 +177,7 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
+            return findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
         }
         catch (TimeoutException elementException)
         {
@@ -207,8 +193,8 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
-            drone.waitUntilElementDisappears(DASHLET_HELP_BALLOON, TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+            findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
+            waitUntilElementDisappears(DASHLET_HELP_BALLOON, TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
             return this;
         }
         catch (TimeoutException elementException)
@@ -226,7 +212,7 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_TITLE).getText();
+            return findAndWait(DASHLET_TITLE).getText();
         }
         catch (TimeoutException te)
         {
@@ -243,7 +229,7 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(SEARCH_RESULTS).getText();
+            return findAndWait(SEARCH_RESULTS).getText();
         }
         catch (TimeoutException te)
         {
@@ -261,7 +247,7 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            List<WebElement> resultItems = drone.findAndWaitForElements(By
+            List<WebElement> resultItems = findAndWaitForElements(By
                     .cssSelector("div.dashlet.savedsearch div[id$='default-search-results'] .yui-dt-data>tr"));
             List<SiteSearchItem> searchItems = Collections.emptyList();
             if (resultItems != null && resultItems.size() > 0)
@@ -269,7 +255,7 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
                 searchItems = new ArrayList<SiteSearchItem>(resultItems.size());
                 for (WebElement webElement : resultItems)
                 {
-                    searchItems.add(new SiteSearchItem(webElement, drone));
+                    searchItems.add(new SiteSearchItem(webElement, driver, factoryPage));
                 }
             }
             return searchItems;
@@ -296,19 +282,19 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     /**
      * This method is used to Finds Edit icon and clicks on it.
      */
-    public ConfigureSavedSearchDialogBoxPage clickOnEditButton()
+    public HtmlPage clickOnEditButton()
     {
         try
         {
-            drone.mouseOver(drone.find(titleBarActions));
-            drone.findAndWait(CONFIGURE_DASHLET_ICON).click();
-            return new ConfigureSavedSearchDialogBoxPage(drone);
+            mouseOver(driver.findElement(titleBarActions));
+            findAndWait(CONFIGURE_DASHLET_ICON).click();
+            return factoryPage.instantiatePage(driver, ConfigureSavedSearchDialogBoxPage.class);
         }
         catch (TimeoutException te)
         {
@@ -347,12 +333,18 @@ public class SavedSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.isElementDisplayed(CONFIGURE_DASHLET_ICON);
+            return isElementDisplayed(CONFIGURE_DASHLET_ICON);
         }
         catch (TimeoutException te)
         {
             logger.error("Unable to find configure icon");
         }
         return false;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SavedSearchDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

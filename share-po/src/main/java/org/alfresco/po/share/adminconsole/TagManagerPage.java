@@ -1,19 +1,32 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.adminconsole;
 
-import org.alfresco.po.share.admin.AdminConsolePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.Collections;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.admin.AdminConsolePage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author Olga Antonik
@@ -32,20 +45,11 @@ public class TagManagerPage extends AdminConsolePage
     private final static By VISIBLE_DELETE_BUTTON = By.xpath("//a[@class='delete-tag delete-tag-active']");
     private final static By DELETE_BUTTON_POPUP = By.xpath("//button[text()='Delete']");
 
-    /**
-     * Instantiates a Tag Manager page.
-     * 
-     * @param drone WebDriver browser client
-     */
-    public TagManagerPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /**
      * (non-Javadoc)
      * 
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -57,19 +61,7 @@ public class TagManagerPage extends AdminConsolePage
     /**
      * (non-Javadoc)
      * 
-     * @see org.alfresco.webdrone.Render#render()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public TagManagerPage render(long maxPageLoadingTime)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -91,7 +83,7 @@ public class TagManagerPage extends AdminConsolePage
 
     private void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
@@ -102,7 +94,7 @@ public class TagManagerPage extends AdminConsolePage
     public void fillSearchField(String text)
     {
         checkNotNull(text);
-        WebElement inputField = drone.findAndWait(SEARCH_INPUT);
+        WebElement inputField = findAndWait(SEARCH_INPUT);
         inputField.clear();
         inputField.sendKeys(text);
     }
@@ -117,7 +109,7 @@ public class TagManagerPage extends AdminConsolePage
         List<WebElement> results;
         try
         {
-            results = drone.findAndWaitForElements(SEARCH_RESULT, 5000);
+            results = findAndWaitForElements(SEARCH_RESULT, 5000);
         }
         catch (StaleElementReferenceException e)
         {
@@ -162,7 +154,7 @@ public class TagManagerPage extends AdminConsolePage
     {
         try
         {
-            return drone.findAndWaitForElements(RESULT_NAMES, 5000);
+            return findAndWaitForElements(RESULT_NAMES, 5000);
         }
         catch (StaleElementReferenceException e)
         {
@@ -204,9 +196,9 @@ public class TagManagerPage extends AdminConsolePage
     {
         checkNotNull(tagName);
         WebElement tag = getTagElement(tagName);
-        drone.mouseOver(tag);
+        mouseOver(tag);
         click(VISIBLE_EDIT_BUTTON);
-        return new EditTagForm(drone);
+        return new EditTagForm();
     }
 
     /**
@@ -236,7 +228,7 @@ public class TagManagerPage extends AdminConsolePage
     {
         checkNotNull(tagName);
         WebElement tag = getTagElement(tagName);
-        drone.mouseOver(tag);
+        mouseOver(tag);
         click(VISIBLE_DELETE_BUTTON);
         click(DELETE_BUTTON_POPUP);
         waitUntilAlert();

@@ -1,16 +1,15 @@
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * @author Olga Antonik
@@ -25,19 +24,9 @@ public class AddUserToGroupForm extends SharePage
     private static final By CLOSE_X = By.xpath("//div[contains(@id,'-peoplepicker')]/a");
 
     /**
-     * Instantiates a Add User form.
-     *
-     * @param drone WebDriver browser client
-     */
-    protected AddUserToGroupForm(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    /**
      * (non-Javadoc)
      *
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -50,19 +39,7 @@ public class AddUserToGroupForm extends SharePage
     /**
      * (non-Javadoc)
      *
-     * @see org.alfresco.webdrone.Render#render()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public AddUserToGroupForm render(long maxPageLoadingTime)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    /**
-     * (non-Javadoc)
-     *
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -70,7 +47,8 @@ public class AddUserToGroupForm extends SharePage
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
+    AddUserToGroupForm addUserToGroupForm;
+    GroupsPage groupsPage;
     /**
      * Search user
      *
@@ -81,17 +59,17 @@ public class AddUserToGroupForm extends SharePage
     {
         try
         {
-            WebElement searchField = drone.findAndWait(USER_FINDER_INPUT);
+            WebElement searchField = findAndWait(USER_FINDER_INPUT);
             searchField.clear();
             searchField.sendKeys(user);
-            drone.findAndWait(USER_SEARCH_BUTTON).click();
+            findAndWait(USER_SEARCH_BUTTON).click();
 
         }
         catch (TimeoutException te)
         {
             logger.error("Failed to find user search input field");
         }
-        return new AddUserToGroupForm(drone).render();
+        return addUserToGroupForm.render();
     }
 
     /**
@@ -105,7 +83,7 @@ public class AddUserToGroupForm extends SharePage
 
         try
         {
-            WebElement addButton = drone.findAndWait(By.xpath(String.format(ADD_BUTTON, user)));
+            WebElement addButton = findAndWait(By.xpath(String.format(ADD_BUTTON, user)));
             addButton.click();
 
         }
@@ -114,7 +92,7 @@ public class AddUserToGroupForm extends SharePage
             throw new PageException("Not found Element: Add User", e);
         }
 
-        return new GroupsPage(drone).render();
+        return groupsPage.render();
     }
 
     /**
@@ -128,7 +106,7 @@ public class AddUserToGroupForm extends SharePage
         try
         {
             checkNotNull(user);
-            drone.findAndWait(ADD_USER_FORM);
+            findAndWait(ADD_USER_FORM);
             AddUserToGroupForm addUserForm = searchUser(user).render();
             return addUserForm.clickAddButton(user).render();
 
@@ -142,7 +120,7 @@ public class AddUserToGroupForm extends SharePage
 
     public void closeForm()
     {
-        drone.findAndWait(CLOSE_X).click();
+        findAndWait(CLOSE_X).click();
     }
 
 }

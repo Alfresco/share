@@ -1,14 +1,27 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -30,11 +43,6 @@ public class PendingInvitesPage extends SharePage
     private static final By LIST_OF_USERS = By.cssSelector("tbody.yui-dt-data>tr");
     private static final By USER_NAME_FROM_LIST = By.cssSelector(".attr-value>span");
 
-    public PendingInvitesPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public PendingInvitesPage render(RenderTime timer)
@@ -52,13 +60,6 @@ public class PendingInvitesPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public PendingInvitesPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * This method searches all the users whose invites are pending.
      *
@@ -68,8 +69,8 @@ public class PendingInvitesPage extends SharePage
     {
         try
         {
-            drone.findAndWait(SEARCH_BTN).click();
-            return drone.findAndWaitForElements(LIST_OF_USERS);
+            findAndWait(SEARCH_BTN).click();
+            return findAndWaitForElements(LIST_OF_USERS);
         }
         catch (TimeoutException e)
         {
@@ -118,10 +119,10 @@ public class PendingInvitesPage extends SharePage
     public void search(String searchText)
     {
         checkNotNull(searchText);
-        WebElement inputField = drone.findAndWait(SEARCH_FIELD);
+        WebElement inputField = findAndWait(SEARCH_FIELD);
         inputField.clear();
         inputField.sendKeys(searchText);
-        WebElement searchButton = drone.findAndWait(SEARCH_BTN);
+        WebElement searchButton = findAndWait(SEARCH_BTN);
         searchButton.click();
     }
 }

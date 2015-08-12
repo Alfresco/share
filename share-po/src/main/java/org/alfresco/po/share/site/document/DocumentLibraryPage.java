@@ -14,14 +14,22 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.Pagination;
 import org.alfresco.po.share.enums.ViewType;
-import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.webdrone.*;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.utils.URIBuilder;
@@ -30,13 +38,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Site document library page object, holds all element of the HTML page relating to share's site document library page.
@@ -54,7 +55,6 @@ public class DocumentLibraryPage extends SitePage
     private static final String PAGINATION_BUTTON_PREVIOUS = "a.yui-pg-previous";
     public static final String FILES_AND_DOCUMENTS_TABLE_CSS = "table#yuievtautoid-0 > tbody.yui-dt-data > tr";
     private static final String ALL_TAGS_PRESENT_ON_DOC_LIB = "div.filter>ul>li>span.tag>a.tag-link";
-    private static final String NODEREF_LOCATOR = "input[id^='checkbox-yui']";
     private static final String FILE_UPLOAD_INSTRUCTION = "div.docListInstructionsWithDND";
     private static final String BOTTOM_PAGINATOR_LOCATION = "div[id$='_default-paginatorBottom']";
 
@@ -66,10 +66,9 @@ public class DocumentLibraryPage extends SitePage
     private static final By RECENTLY_ADDED = By.cssSelector("span.recentlyAdded > a");
     private static final By ALL_DOCUMENTS = By.cssSelector("span.all > a");
     private static final By CATEGORIES_IN_TREE = By.cssSelector("div[class^='categoryview'] span[id^='ygtvlabelel']");
-    private final String subfolderName;
+    private final String subfolderName = null;
     private boolean shouldHaveFiles;
-    private final String hasTags;
-    private String contentName;
+    private String contentName = null;
     private ViewType viewType = ViewType.DETAILED_VIEW;
     private static final String TEMPLATE_LIST = "//div[contains(@class, 'menu visible')]//div[@class='bd']//ul//ul//li";
     private final By submitButton = By.cssSelector("button[id$='default-createFolder-form-submit-button']");
@@ -77,40 +76,11 @@ public class DocumentLibraryPage extends SitePage
     private static String CATEGORY_ROOT_SPACER = "//span[text()='Category Root']/ancestor-or-self::table[contains(@class, 'depth0')]";
     private static By CATEGORY_ROOT_SPACER_LINK = By.xpath(CATEGORY_ROOT_SPACER + "//a");
     private static final String CHECK_BOX = "input[id^='checkbox-yui']";
-    private static final By DOCUMENT_LIBRARY = By.cssSelector("#HEADER_SITE_DOCUMENTLIBRARY_text");
     private static final By SYNC_MESSAGE = By.xpath(".//span[contains(text(),'Sync was created')]");
 
     public enum Optype
     {
         REQ_TO_SYNC, SYNC, UNSYNC;
-    }
-
-    /**
-     * Constructor.
-     */
-    public DocumentLibraryPage(WebDrone drone, final String subfolderName)
-    {
-        super(drone);
-        this.subfolderName = subfolderName;
-        this.hasTags = "";
-        this.contentName = null;
-    }
-
-    public DocumentLibraryPage(WebDrone drone)
-    {
-        super(drone);
-        subfolderName = null;
-        this.hasTags = "";
-        this.contentName = null;
-    }
-
-    public DocumentLibraryPage(WebDrone drone, final String contentName, final String hasTag)
-    {
-        super(drone);
-        subfolderName = null;
-        this.shouldHaveFiles = true;
-        this.contentName = contentName;
-        this.hasTags = hasTag;
     }
 
     /**
@@ -231,7 +201,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            return drone.find(By.cssSelector(BOTTOM_PAGINATOR_LOCATION)).isDisplayed();
+            return driver.findElement(By.cssSelector(BOTTOM_PAGINATOR_LOCATION)).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -243,7 +213,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            WebElement loadingElement = drone.find(By.cssSelector("table>tbody>tr>td.yui-dt-empty>div"));
+            WebElement loadingElement = driver.findElement(By.cssSelector("table>tbody>tr>td.yui-dt-empty>div"));
             return (loadingElement.isDisplayed() && loadingElement.getText().contains("Loading"));
 
         }
@@ -287,7 +257,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            WebElement td = drone.find(By.cssSelector("tbody.yui-dt-message tr td"));
+            WebElement td = driver.findElement(By.cssSelector("tbody.yui-dt-message tr td"));
             boolean visible = td.isDisplayed();
             return visible;
         }
@@ -329,24 +299,6 @@ public class DocumentLibraryPage extends SitePage
             {
                 logger.trace("checking has content row done hasContentRows: " + hasContentRows);
             }
-            if (hasContentRows)
-            {
-                if (hasTags != null)
-                {
-                    if (!(hasTags.isEmpty()))
-                    {
-                        if (logger.isTraceEnabled())
-                        {
-                            logger.trace("hasTags check: " + hasTags);
-                        }
-                        hasContentRows = hasTag();
-                        if (logger.isTraceEnabled())
-                        {
-                            logger.trace("hasTags check done, hasContentRows: " + hasContentRows);
-                        }
-                    }
-                }
-            }
             return hasContentRows;
         }
         catch (NoSuchElementException e)
@@ -355,23 +307,6 @@ public class DocumentLibraryPage extends SitePage
         return false;
     }
 
-    /**
-     * Check to see if document library contains files or folders.
-     *
-     * @return true if files or folders are displayed
-     */
-    private boolean hasTag()
-    {
-        // Look for Tags
-        try
-        {
-            return getFileDirectoryInfo(contentName).getTags().contains(hasTags.toLowerCase());
-        }
-        catch (NoSuchElementException e)
-        {
-        }
-        return false;
-    }
 
     /**
      * Checks to verify if we are in the correct sub folder document library page.
@@ -383,7 +318,7 @@ public class DocumentLibraryPage extends SitePage
         // If we are expected to be in sub folder assert by checking the bread crumb
         try
         {
-            List<WebElement> list = drone.findAll(By.cssSelector("div[id$='default-breadcrumb']>div.crumb>span.label>a"));
+            List<WebElement> list = driver.findElements(By.cssSelector("div[id$='default-breadcrumb']>div.crumb>span.label>a"));
             WebElement element = list.get(list.size() - 1);
             String folderName = element.getText();
             if (name.equalsIgnoreCase(folderName))
@@ -406,13 +341,6 @@ public class DocumentLibraryPage extends SitePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public DocumentLibraryPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     public DocumentLibraryPage renderItem(final long time, String itemName)
     {
         elementRender(new RenderTime(time), RenderElement.getVisibleRenderElement(By.xpath(String.format("//h3/span/a[text()='%s']/../../../../..", itemName))));
@@ -426,7 +354,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            return drone.find(By.cssSelector("#alfresco-documentlibrary")).isDisplayed();
+            return driver.findElement(By.cssSelector("#alfresco-documentlibrary")).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -434,6 +362,7 @@ public class DocumentLibraryPage extends SitePage
         return false;
     }
 
+    DocumentLibraryNavigation documentLibraryNavigation;
     /**
      * Get document library sub navigation.
      *
@@ -441,7 +370,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public DocumentLibraryNavigation getNavigation()
     {
-        return new DocumentLibraryNavigation(drone);
+        return documentLibraryNavigation;
     }
 
     /**
@@ -451,9 +380,9 @@ public class DocumentLibraryPage extends SitePage
      */
     public FilmstripActions getFilmstripActions()
     {
-        return new FilmstripActions(drone).render();
+        return factoryPage.instantiatePage(driver,FilmstripActions.class).render();
     }
-
+    TreeMenuNavigation treeMenuNavigation;
     /**
      * Get document library left hand navigation menu trees.
      *
@@ -461,7 +390,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public TreeMenuNavigation getLeftMenus()
     {
-        return new TreeMenuNavigation(drone);
+        return treeMenuNavigation;
     }
 
     /**
@@ -473,7 +402,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            boolean displayed = drone.find(By.cssSelector(FILE_UPLOAD_INSTRUCTION)).isDisplayed();
+            boolean displayed = driver.findElement(By.cssSelector(FILE_UPLOAD_INSTRUCTION)).isDisplayed();
             if (logger.isTraceEnabled())
             {
                 logger.trace(String.format("** File upload instruction is displayed: %s", displayed));
@@ -495,7 +424,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            ArrayList<?> objs = (ArrayList<?>) drone.executeJavaScript(JS_SCRIPT_CHECK_DOCLIST);
+            ArrayList<?> objs = (ArrayList<?>) executeJavaScript(JS_SCRIPT_CHECK_DOCLIST);
             if (!objs.isEmpty())
             {
                 return true;
@@ -527,7 +456,7 @@ public class DocumentLibraryPage extends SitePage
                 return Collections.emptyList();
             }
 
-            List<WebElement> results = drone.findAll(By.cssSelector(NODEREF_LOCATOR));
+            List<WebElement> results = driver.findElements(By.cssSelector("tr.yui-dt-rec "));
             if (logger.isTraceEnabled())
             {
                 logger.trace(String.format("getFiles list is empty: %s file size %d", results.isEmpty(), results.size()));
@@ -538,7 +467,9 @@ public class DocumentLibraryPage extends SitePage
                 List<FileDirectoryInfo> fileDirectoryList = new ArrayList<FileDirectoryInfo>();
                 for (WebElement result : results)
                 {
-                    FileDirectoryInfo file = getFileDirectoryInfo(result.getAttribute("value"), result);
+                    String nodeRef = result.findElement(By.cssSelector("input[type='checkbox']")).getAttribute("value");
+                    FileDirectoryInfo file = getFileDirectoryInfo(nodeRef, result);
+                    logger.debug("adding file" + file.getName());
                     if (logger.isTraceEnabled())
                     {
                         logger.trace("adding file" + file.getName());
@@ -572,22 +503,9 @@ public class DocumentLibraryPage extends SitePage
      */
     public HtmlPage selectFile(final String title)
     {
-        HtmlPage page;
-
         selectEntry(title).click();
         waitUntilAlert();
-        page = drone.getCurrentPage();
-
-        try
-        {
-            page.render();
-            return new DocumentDetailsPage(drone);
-        }
-        catch (PageException e)
-        {
-            return new DocumentEditOfflinePage(drone);
-        }
-
+        return getCurrentPage();
     }
 
     /**
@@ -608,7 +526,7 @@ public class DocumentLibraryPage extends SitePage
         {
             throw new PageOperationException("Timeout locating folder: " + title, e);
         }
-        return drone.getCurrentPage();
+        return getCurrentPage();
     }
 
     /**
@@ -624,14 +542,6 @@ public class DocumentLibraryPage extends SitePage
 
         switch (viewType)
         {
-            case GALLERY_VIEW:
-                xpath = ".//div[@class='alf-gallery-item-thumbnail']/div[@class='alf-label']/a[text()='%s']";
-                break;
-            case FILMSTRIP_VIEW:
-                FilmStripViewFileDirectoryInfo fileDirInfo = (FilmStripViewFileDirectoryInfo) getFileDirectoryInfo(title);
-                fileDirInfo.selectThumbnail();
-                fileDirInfo.clickInfoIcon();
-                break;
             case TABLE_VIEW:
                 xpath = "//td[contains(@class,'yui-dt-col-name')]/div/span/a[text()='%s']";
                 break;
@@ -639,10 +549,9 @@ public class DocumentLibraryPage extends SitePage
                 break;
         }
 
-        long defaultWaitTime =  drone.getDefaultWaitTime();
         if(title == null || title.isEmpty()) {throw new IllegalArgumentException("Title is required");}
         String search = String.format(xpath, title);
-        return drone.findAndWait(By.xpath(search), defaultWaitTime);
+        return findAndWait(By.xpath(search), getDefaultWaitTime());
     }
 
     /**
@@ -718,7 +627,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            WebElement content = drone.find(By.cssSelector("div[id$='default-documents']"));
+            WebElement content = driver.findElement(By.cssSelector("div[id$='default-documents']"));
             return content.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -736,7 +645,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            WebElement span = drone.find(By.cssSelector("span.comment-count"));
+            WebElement span = driver.findElement(By.cssSelector("span.comment-count"));
             return Integer.valueOf(span.getText());
         }
         catch (NoSuchElementException nse)
@@ -752,7 +661,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public boolean hasNextPage()
     {
-        return Pagination.hasPaginationButton(drone, PAGINATION_BUTTON_NEXT);
+        return Pagination.hasPaginationButton(driver, PAGINATION_BUTTON_NEXT);
     }
 
     /**
@@ -762,7 +671,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public boolean hasPreviousPage()
     {
-        return Pagination.hasPaginationButton(drone, PAGINATION_BUTTON_PREVIOUS);
+        return Pagination.hasPaginationButton(driver, PAGINATION_BUTTON_PREVIOUS);
     }
 
     /**
@@ -770,7 +679,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public HtmlPage selectNextPage()
     {
-        return Pagination.selectPaginationButton(drone, PAGINATION_BUTTON_NEXT);
+        return new Pagination().selectPaginationButton(driver, PAGINATION_BUTTON_NEXT);
     }
 
     /**
@@ -778,7 +687,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public HtmlPage selectPreviousPage()
     {
-        return Pagination.selectPaginationButton(drone, PAGINATION_BUTTON_PREVIOUS);
+        return new Pagination().selectPaginationButton(driver, PAGINATION_BUTTON_PREVIOUS);
     }
 
     /**
@@ -796,7 +705,7 @@ public class DocumentLibraryPage extends SitePage
         FileDirectoryInfo item = getFileDirectoryInfo(name);
         item.selectDelete();
         confirmDelete();
-        return drone.getCurrentPage();
+        return getCurrentPage();
     }
 
     /**
@@ -810,7 +719,7 @@ public class DocumentLibraryPage extends SitePage
         FileDirectoryInfo item = getFileDirectoryInfo(number);
         item.selectDelete();
         confirmDelete();
-        return new DocumentLibraryPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -818,7 +727,7 @@ public class DocumentLibraryPage extends SitePage
      */
     private void confirmDelete()
     {
-        WebElement confirmDelete = drone.find(By.cssSelector("div#prompt div.ft span span button"));
+        WebElement confirmDelete = driver.findElement(By.cssSelector("div#prompt div.ft span span button"));
         confirmDelete.click();
         if (logger.isTraceEnabled())
         {
@@ -868,7 +777,7 @@ public class DocumentLibraryPage extends SitePage
             if (text != null && text.equalsIgnoreCase(tagName))
             {
                 tag.click();
-                return FactorySharePage.resolvePage(drone);
+                return getCurrentPage();
             }
         }
 
@@ -885,7 +794,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            return drone.findAndWaitForElements(By.cssSelector(ALL_TAGS_PRESENT_ON_DOC_LIB));
+            return findAndWaitForElements(By.cssSelector(ALL_TAGS_PRESENT_ON_DOC_LIB));
         }
         catch (TimeoutException e)
         {
@@ -932,11 +841,11 @@ public class DocumentLibraryPage extends SitePage
         List<String> categoryNames = new ArrayList<>();
         String text;
         openCategoriesTree();
-        WebElement spacer = drone.findAndWait(By.xpath(CATEGORY_ROOT_SPACER), 5000);
+        WebElement spacer = findAndWait(By.xpath(CATEGORY_ROOT_SPACER), 5000);
         if(spacer.getAttribute("class").contains("collapsed"))
         {
-            drone.findAndWait(CATEGORY_ROOT_SPACER_LINK).click();
-            drone.waitUntilElementPresent(CATEGORY_ROOT_SPACER_LINK, 5);
+            findAndWait(CATEGORY_ROOT_SPACER_LINK).click();
+            waitUntilElementPresent(CATEGORY_ROOT_SPACER_LINK, 5);
         }
 
         List<WebElement> categories = getAllCategories();
@@ -962,7 +871,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            return drone.findAndWaitForElements(ALL_CATEGORIES_PRESENT_ON_DOC_LIB);
+            return findAndWaitForElements(ALL_CATEGORIES_PRESENT_ON_DOC_LIB);
         }
         catch (TimeoutException e)
         {
@@ -976,7 +885,7 @@ public class DocumentLibraryPage extends SitePage
 
     public boolean isItemVisble(String contentName)
     {
-        WebDroneUtil.checkMandotaryParam("contentName", contentName);
+        PageUtils.checkMandotaryParam("contentName", contentName);
         try
         {
             return null != findFileOrFolder(contentName);
@@ -984,35 +893,6 @@ public class DocumentLibraryPage extends SitePage
         catch (Exception e)
         {
         }
-        return false;
-    }
-
-    /**
-     * Check the uploaded content has uploaded successfully
-     *
-     * @param contentName String
-     * @return - Boolean
-     * @deprecated as of 2.1, use isItemVisble to determine if file exists
-     */
-    public synchronized boolean isContentUploadedSucessful(String contentName)
-    {
-        // If we are expected content to be uploaded successful check whether it is uploaded
-        try
-        {
-            DocumentLibraryPage docPage = drone.getCurrentPage().render();
-            List<FileDirectoryInfo> results = docPage.getFiles();
-            for (FileDirectoryInfo filenames : results)
-            {
-                if (filenames.getName().equalsIgnoreCase(contentName))
-                {
-                    return true;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-        }
-
         return false;
     }
 
@@ -1030,7 +910,7 @@ public class DocumentLibraryPage extends SitePage
         }
         try
         {
-            WebElement row = drone.find(By.cssSelector(String.format("tbody.yui-dt-data tr:nth-of-type(%d)", number)));
+            WebElement row = driver.findElement(By.cssSelector(String.format("tbody.yui-dt-data tr:nth-of-type(%d)", number)));
             String nodeRef = row.findElement(THUMBNAIL_IMAGE).getAttribute("id");
             return getFileDirectoryInfo(nodeRef, row);
         }
@@ -1052,40 +932,22 @@ public class DocumentLibraryPage extends SitePage
         {
             throw new IllegalArgumentException("Title is required");
         }
-
         WebElement row;
         String nodeRef;
-
         try
         {
-            switch (viewType)
-            {
-                case GALLERY_VIEW:
-                    row = drone.findAndWait(By.xpath(String.format("//h3/span/a[text()='%s']/../../../../../../..", title)), WAIT_TIME_3000);
-                    nodeRef = row.findElement(By.cssSelector("div.alf-gallery-item-thumbnail img.alf-gallery-item-thumbnail-img")).getAttribute("id");
-                    break;
-                case FILMSTRIP_VIEW:
-                    nodeRef = drone.findAndWait(
-                            By.xpath(String.format(".//div[@class='alf-filmstrip-nav']//div[@class='alf-label'][text()='%s']/..//img", title)), WAIT_TIME_3000)
-                            .getAttribute("id");
-                    row = drone.findAndWait(By.xpath(String.format(".//div[@class='alf-filmstrip-nav']//div[@class='alf-label'][text()='%s']", title)),
-                            WAIT_TIME_3000);
-                    break;
-                default:
-                    row = drone.findAndWait(By.xpath(String.format("//h3/span/a[text()='%s']/../../../../..", title)), WAIT_TIME_3000);
-                    nodeRef = row.findElement(THUMBNAIL_IMAGE).getAttribute("id");
-                    break;
-            }
-
+            String query = String.format("//h3/span/a[text()='%s']/../../../../..", title);
+            row = driver.findElement(By.xpath(query));
+            nodeRef = row.findElement(THUMBNAIL_IMAGE).getAttribute("id");
             return getFileDirectoryInfo(nodeRef, row);
         }
         catch (NoSuchElementException e)
         {
-            throw new PageException(String.format("File directory info with title %s was not found", title), e);
+            throw new PageOperationException(String.format("File directory info with title %s was not found", title), e);
         }
         catch (TimeoutException e)
         {
-            throw new PageException(String.format("File directory info with title %s was not found", title), e);
+            throw new PageOperationException(String.format("File directory info with title %s was not found", title), e);
         }
     }
 
@@ -1108,7 +970,7 @@ public class DocumentLibraryPage extends SitePage
 
         try
         {
-            String message = drone.find(By.cssSelector(".message")).getText();
+            String message = driver.findElement(By.cssSelector(".message")).getText();
             switch (optype)
             {
                 case SYNC:
@@ -1138,10 +1000,12 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            drone.waitForElement(SYNC_MESSAGE, SECONDS.convert(drone.getDefaultWaitTime(), MILLISECONDS));
-            WebElement syncMessage = drone.find(SYNC_MESSAGE);
+            waitForElement(SYNC_MESSAGE, SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
+            WebElement syncMessage = driver.findElement(SYNC_MESSAGE);
             if (syncMessage != null)
+            {
                 return true;
+            }
         }
         catch(TimeoutException toe)
         {
@@ -1161,7 +1025,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector("form.cloud-auth-form")).isDisplayed();
+            return findAndWait(By.cssSelector("form.cloud-auth-form")).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -1187,7 +1051,7 @@ public class DocumentLibraryPage extends SitePage
 
         try
         {
-            String count = drone.findAndWait(By.xpath(String.format(".//ul[@class='filterLink']//a[@rel='%s']/..", tagName.toLowerCase()))).getText();
+            String count = findAndWait(By.xpath(String.format(".//ul[@class='filterLink']//a[@rel='%s']/..", tagName.toLowerCase()))).getText();
 
             return Integer.parseInt(count.substring(count.indexOf("(") + 1, count.indexOf(")")));
         }
@@ -1212,7 +1076,7 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            WebElement documents = drone.find(DOCUMENTS_TREE_CSS);
+            WebElement documents = driver.findElement(DOCUMENTS_TREE_CSS);
             if (documents.getAttribute("class").contains("open"))
             {
                 return true;
@@ -1235,8 +1099,8 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            drone.findAndWait(DOCUMENTS_TREE_CSS).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(DOCUMENTS_TREE_CSS).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -1254,10 +1118,10 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            WebElement cat = drone.findAndWait(CATEGORIES_IN_TREE);
+            WebElement cat = findAndWait(CATEGORIES_IN_TREE);
             if(cat.getAttribute("class").contains("closed"))
-                drone.findAndWait(CATEGORIES_TREE_CSS).click();
-            return FactorySharePage.resolvePage(drone);
+                findAndWait(CATEGORIES_TREE_CSS).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -1274,7 +1138,7 @@ public class DocumentLibraryPage extends SitePage
             throw new UnsupportedOperationException("Document Library page render is needed.");
         }
 
-        return FactoryShareFileDirectoryInfo.getPage(nodeRef, webElement, drone, viewType);
+        return FactoryShareFileDirectoryInfo.getPage(nodeRef, webElement, driver, viewType, factoryPage);
     }
 
     protected void setViewType(ViewType viewType)
@@ -1301,12 +1165,12 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            WebElement element = drone.find(MY_FAVOURITES);
+            WebElement element = driver.findElement(MY_FAVOURITES);
             if (element.isDisplayed())
             {
                 element.click();
                 waitUntilAlert();
-                return FactorySharePage.resolvePage(drone);
+                return getCurrentPage();
             }
 
         }
@@ -1325,16 +1189,16 @@ public class DocumentLibraryPage extends SitePage
      *
      * @return DocumentLibraryPage
      */
-    public DocumentLibraryPage clickOnRecentlyModified()
+    public HtmlPage clickOnRecentlyModified()
     {
         try
         {
-            WebElement element = drone.find(RECENTLY_MODIFIED);
+            WebElement element = driver.findElement(RECENTLY_MODIFIED);
             if (element.isDisplayed())
             {
                 element.click();
                 waitUntilAlert();
-                return new DocumentLibraryPage(drone).render();
+                return getCurrentPage();
             }
 
         }
@@ -1353,16 +1217,16 @@ public class DocumentLibraryPage extends SitePage
      *
      * @return DocumentLibraryPage
      */
-    public DocumentLibraryPage clickOnRecentlyAdded()
+    public HtmlPage clickOnRecentlyAdded()
     {
         try
         {
-            WebElement element = drone.find(RECENTLY_ADDED);
+            WebElement element = driver.findElement(RECENTLY_ADDED);
             if (element.isDisplayed())
             {
                 element.click();
                 waitUntilAlert();
-                return new DocumentLibraryPage(drone).render();
+                return getCurrentPage();
             }
 
         }
@@ -1376,16 +1240,16 @@ public class DocumentLibraryPage extends SitePage
         throw new PageOperationException("Recently Added not loaded - Recently Added tape may not be displayed.");
     }
 
-    public DocumentLibraryPage clickOnAllDocuments()
+    public HtmlPage clickOnAllDocuments()
     {
         try
         {
-            WebElement element = drone.find(ALL_DOCUMENTS);
+            WebElement element = driver.findElement(ALL_DOCUMENTS);
             if (element.isDisplayed())
             {
                 element.click();
                 waitUntilAlert();
-                return new DocumentLibraryPage(drone).render();
+                return getCurrentPage();
             }
 
         }
@@ -1406,7 +1270,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public PaginationForm getBottomPaginationForm()
     {
-        PaginationForm bottomPagination = new PaginationForm(drone, By.xpath("//div[contains(@id,'default-paginatorBottom')]"));
+        PaginationForm bottomPagination = new PaginationForm(driver, By.xpath("//div[contains(@id,'default-paginatorBottom')]"));
         if (bottomPagination.isDisplay())
         {
             return bottomPagination;
@@ -1422,16 +1286,16 @@ public class DocumentLibraryPage extends SitePage
      * @param categoryName Categories
      * @return PaginationForm
      */
-    public DocumentLibraryPage clickOnCategory(Categories categoryName)
+    public HtmlPage clickOnCategory(Categories categoryName)
     {
-        List<WebElement> categories = drone.findAndWaitForElements(CATEGORIES_IN_TREE);
+        List<WebElement> categories = findAndWaitForElements(CATEGORIES_IN_TREE);
         for (WebElement category : categories)
         {
             if (category.getText().equals(categoryName.getValue()))
             {
                 category.click();
                 waitUntilAlert();
-                return new DocumentLibraryPage(drone).render();
+                return getCurrentPage().render();
             }
         }
         throw new PageOperationException(String.format("Category didn't found [%s]", categoryName));
@@ -1453,7 +1317,7 @@ public class DocumentLibraryPage extends SitePage
                 WebElement template = getTemplate(templateName);
                 template.click();
 
-                return  FactorySharePage.resolvePage(drone);
+                return  getCurrentPage();
         }
         }
         catch (StaleElementReferenceException ste)
@@ -1478,12 +1342,12 @@ public class DocumentLibraryPage extends SitePage
                 getNavigation().selectCreateFolderFromTemplate();
                 WebElement template = getTemplate(templateName);
                 template.click();
-                WebElement okButton = drone.findAndWait(submitButton);
+                WebElement okButton = findAndWait(submitButton);
                 okButton.click();
                 waitUntilMessageAppearAndDisappear("Folder", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                DocumentLibraryPage page = FactorySharePage.getPage(drone.getCurrentUrl(), drone).render();
+                DocumentLibraryPage page = getCurrentPage().render();
                 page.setShouldHaveFiles(true);
-                return FactorySharePage.resolvePage(drone);
+                return getCurrentPage();
             }
         }
         catch (StaleElementReferenceException ste)
@@ -1502,10 +1366,10 @@ public class DocumentLibraryPage extends SitePage
      * @return List<WebElement> of all existing templates
      */
     public List<WebElement> getTemplateList(){
-        drone.getCurrentPage().render();
-        drone.waitUntilNotVisibleWithParitalText(By.xpath(TEMPLATE_LIST), "Loading...", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        drone.findAndWaitForElements(By.xpath(TEMPLATE_LIST));
-        return drone.findDisplayedElements(By.xpath(TEMPLATE_LIST));
+        getCurrentPage().render();
+        waitUntilNotVisibleWithParitalText(By.xpath(TEMPLATE_LIST), "Loading...", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        findAndWaitForElements(By.xpath(TEMPLATE_LIST));
+        return findDisplayedElements(By.xpath(TEMPLATE_LIST));
     }
 
     /**
@@ -1519,7 +1383,7 @@ public class DocumentLibraryPage extends SitePage
         if(list.get(0).getText().contains("Loading")){
             while (list.get(0).getText().contains("Loading")){
                 list = getTemplateList();
-                drone.getCurrentPage().render();
+                getCurrentPage().render();
             }
 
         }
@@ -1537,7 +1401,7 @@ public class DocumentLibraryPage extends SitePage
      * @param templateName String
      * @return {@link DocumentLibraryPage}
      */
-    public DocumentLibraryPage createContentFromTemplateHover(String templateName)
+    public HtmlPage createContentFromTemplateHover(String templateName)
     {
         try{
             if(!templateName.isEmpty()){
@@ -1545,7 +1409,7 @@ public class DocumentLibraryPage extends SitePage
                 WebElement template = getTemplate(templateName);
                 template.click();
 
-                return  new DocumentLibraryPage(drone).render();
+                return  getCurrentPage();
             }
         }
         catch (StaleElementReferenceException ste)
@@ -1569,12 +1433,12 @@ public class DocumentLibraryPage extends SitePage
                 getNavigation().selectCreateFolderFromTemplateHover().render();
 //                WebElement template = getTemplate(templateName);
 //                template.click();
-                drone.findAndWait(By.xpath("//div[@class='bd']//span[contains(text(), '" + templateName + "')]")).click();
-//                drone.getCurrentPage().render();
-                WebElement okButton = drone.findAndWait(submitButton);
+                findAndWait(By.xpath("//div[@class='bd']//span[contains(text(), '" + templateName + "')]")).click();
+//                getCurrentPage().render();
+                WebElement okButton = findAndWait(submitButton);
                 okButton.click();
                 waitUntilMessageAppearAndDisappear("Folder", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                DocumentLibraryPage page = FactorySharePage.getPage(drone.getCurrentUrl(), drone).render();
+                DocumentLibraryPage page = getCurrentPage().render();
                 page.setShouldHaveFiles(true);
                 return page;
             }
@@ -1596,27 +1460,13 @@ public class DocumentLibraryPage extends SitePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(CHECK_BOX)).isDisplayed();
+            return findAndWait(By.cssSelector(CHECK_BOX)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
             logger.error(CHECK_BOX + " isn't present at a page");
             return false;
         }
-
-    }
-    
-    
-    /**
-     * Click on Document Library
-     * 
-     * @param drone WebDrone
-     * @return DocumentLibraryPage
-     */
-    public DocumentLibraryPage selectDocumentLibrary(WebDrone drone)
-    {
-        drone.find(DOCUMENT_LIBRARY).click();
-        return drone.getCurrentPage().render();
     }
 
 
@@ -1626,14 +1476,15 @@ public class DocumentLibraryPage extends SitePage
      * @param templateName String
      * @return {@link DocumentLibraryPage}
      */
-    public NewFolderPage openFolderFromTemplateHover(String templateName)
+    public HtmlPage openFolderFromTemplateHover(String templateName)
     {
         try{
             if(!templateName.isEmpty()){
                 getNavigation().selectCreateFolderFromTemplateHover().render();
-                drone.findAndWait(By.xpath("//div[@class='bd']//span[contains(text(), '" + templateName + "')]")).click();
-                drone.findAndWait(submitButton);
-                return new NewFolderPage(drone);
+                findAndWait(By.xpath("//div[@class='bd']//span[contains(text(), '" + templateName + "')]")).click();
+                findAndWait(submitButton);
+                
+                return getCurrentPage();
             }
         }
         catch (StaleElementReferenceException ste)
@@ -1650,8 +1501,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public HtmlPage browseToEntry(String title) throws Exception
     {
-
-        DocumentLibraryPage documentLibraryPage = drone.getCurrentPage().render();
+        DocumentLibraryPage documentLibraryPage = getCurrentPage().render();
         FileDirectoryInfo fileInfo = documentLibraryPage.getFileDirectoryInfo(title);
 
         if (fileInfo.isFolder())
@@ -1663,14 +1513,14 @@ public class DocumentLibraryPage extends SitePage
             URIBuilder b = new URIBuilder(url);
             b.addParameter("filter", param);
             url = b.build().toString();
-            drone.navigateTo(url);
+            driver.navigate().to(url);
         }
         else
         {
             String url = selectEntry(title).getAttribute("href");
-            drone.navigateTo(url);
+            driver.navigate().to(url);
         }
 
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 }

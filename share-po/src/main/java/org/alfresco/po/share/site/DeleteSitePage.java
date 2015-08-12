@@ -1,10 +1,23 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -23,15 +36,6 @@ public class DeleteSitePage extends SharePage
     private static final String CANCEL_BUTTON = "//button[text()='Cancel']";
     private static final String MESSAGE_LABEL = "//div[@id='prompt']/div[@class='bd']";
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public DeleteSitePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -48,13 +52,6 @@ public class DeleteSitePage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public DeleteSitePage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Helper method to click on the Delete button
      * 
@@ -64,13 +61,13 @@ public class DeleteSitePage extends SharePage
     {
         try
         {
-            drone.findAndWait(By.cssSelector(DELETE_BUTTON)).click();
+            findAndWait(By.cssSelector(DELETE_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
             throw new PageOperationException("Exceeded the time to find the Delete button", e);
         }
-        return new DeleteSiteConfirmPage(drone);
+        return factoryPage.instantiatePage(driver, DeleteSiteConfirmPage.class);
     }
 
     /**
@@ -80,13 +77,13 @@ public class DeleteSitePage extends SharePage
     {
         try
         {
-            drone.findAndWait(By.xpath(CANCEL_BUTTON)).click();
+            findAndWait(By.xpath(CANCEL_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
             throw new PageOperationException("Exceeded the time to find the Cancel button", e);
         }
-        return new SiteFinderPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -99,7 +96,7 @@ public class DeleteSitePage extends SharePage
         String message = "";
         try
         {
-            message = drone.findAndWait(By.xpath(MESSAGE_LABEL)).getText();
+            message = findAndWait(By.xpath(MESSAGE_LABEL)).getText();
         }
         catch (NoSuchElementException e)
         {

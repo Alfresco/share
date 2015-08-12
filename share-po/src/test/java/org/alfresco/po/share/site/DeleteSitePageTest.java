@@ -2,11 +2,10 @@ package org.alfresco.po.share.site;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
-import org.alfresco.po.share.util.SiteUtil;
+
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -25,7 +24,7 @@ public class DeleteSitePageTest extends AbstractTest
 {
     private String siteName1;
     private String userName;
-    private AlfrescoVersion version;
+    
     private static SiteFinderPage siteFinder;
     private static DeleteSitePage firstPopUp;
     private static DeleteSiteConfirmPage secondPopUp;
@@ -35,17 +34,8 @@ public class DeleteSitePageTest extends AbstractTest
     {
         siteName1 = "SiteForDelete" + System.currentTimeMillis();
         userName = "User_" + System.currentTimeMillis();
-
-        version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            createEnterpriseUser(userName);
-            ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
-        }
+        createEnterpriseUser(userName);
+        shareUtil.loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
     }
 
     @Test
@@ -54,10 +44,10 @@ public class DeleteSitePageTest extends AbstractTest
         String message_delete_site, message_confirm;
         String comparedMsg, compare_confirm_msg;
         
-        SiteUtil.createSite(drone, siteName1, "description", "Public");
-        SharePage page = drone.getCurrentPage().render();
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName1, "description", "Public");
+        SharePage page = resolvePage(driver).render();
         siteFinder = page.getNav().selectSearchForSites().render();
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteName1);
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteName1);
 
         List<String> sitesFound = siteFinder.getSiteList();
 
@@ -87,7 +77,7 @@ public class DeleteSitePageTest extends AbstractTest
         siteFinder = secondPopUp.clickYes().render();
 
         // search for the site
-        page = drone.getCurrentPage().render();
+        page = resolvePage(driver).render();
         siteFinder = page.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(siteName1).render();
         List<String> sitesFound2 = siteFinder.getSiteList();

@@ -14,21 +14,18 @@
  */
 package org.alfresco.po.share.adminconsole;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.admin.AdminConsolePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -107,16 +104,6 @@ public class NodeBrowserPage extends AdminConsolePage
         }
     }
 
-    /**
-     * Basic constructor.
-     *
-     * @param drone WebDrone
-     */
-    public NodeBrowserPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public NodeBrowserPage render(RenderTime renderTime)
@@ -128,14 +115,6 @@ public class NodeBrowserPage extends AdminConsolePage
                 getVisibleRenderElement(STORE_TYPE_BUTTON),
                 getVisibleRenderElement(TITLE_LABEL));
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public NodeBrowserPage render(long l)
-    {
-        checkArgument(l > 0);
-        return render(new RenderTime(l));
     }
 
     @SuppressWarnings("unchecked")
@@ -161,7 +140,7 @@ public class NodeBrowserPage extends AdminConsolePage
     public HtmlPage clickSearchButton()
     {
         click(SEARCH_BUTTON);
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -194,7 +173,7 @@ public class NodeBrowserPage extends AdminConsolePage
         List<WebElement> results;
         try
         {
-            results = drone.findAndWaitForElements(SEARCH_RESULT, 5000);
+            results = findAndWaitForElements(SEARCH_RESULT, 5000);
         }
         catch (StaleElementReferenceException e)
         {
@@ -214,7 +193,7 @@ public class NodeBrowserPage extends AdminConsolePage
      */
     public int getSearchResultsCount()
     {
-        return isSearchResults() ? drone.findAndWaitForElements(SEARCH_RESULT, 5000).size() : 0;
+        return isSearchResults() ? findAndWaitForElements(SEARCH_RESULT, 5000).size() : 0;
     }
 
     /**
@@ -226,7 +205,7 @@ public class NodeBrowserPage extends AdminConsolePage
     public boolean isOnSearchBar(String regExp)
     {
         checkNotNull(regExp);
-        WebElement searchBar = drone.findAndWait(SEARCH_BAR);
+        WebElement searchBar = findAndWait(SEARCH_BAR);
         String text = searchBar.getText();
         return text.matches(formatRegExp(regExp));
     }
@@ -263,7 +242,7 @@ public class NodeBrowserPage extends AdminConsolePage
     {
         checkNotNull(regExp);
         String fRegExp = formatRegExp(regExp);
-        List<WebElement> resultsName = drone.findAndWaitForElements(locator, 5000);
+        List<WebElement> resultsName = findAndWaitForElements(locator, 5000);
         for (WebElement resultName : resultsName)
         {
             String name = resultName.getText();
@@ -284,7 +263,7 @@ public class NodeBrowserPage extends AdminConsolePage
     {
         checkNotNull(text);
         click(buttonLocator);
-        List<WebElement> options = drone.findAndWaitForElements(VISIBLE_DROPDOWN_SELECT);
+        List<WebElement> options = findAndWaitForElements(VISIBLE_DROPDOWN_SELECT);
         for (WebElement option : options)
         {
             if (text.equals(option.getText()))
@@ -297,14 +276,14 @@ public class NodeBrowserPage extends AdminConsolePage
 
     private void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
     private void fillField(By selector, String text)
     {
         checkNotNull(text);
-        WebElement inputField = drone.findAndWait(selector);
+        WebElement inputField = findAndWait(selector);
         inputField.clear();
         inputField.sendKeys(text);
     }
@@ -320,14 +299,14 @@ public class NodeBrowserPage extends AdminConsolePage
         List<NodeBrowserSearchResult> searchResultsList = new ArrayList<>();
         try
         {
-            results = drone.findAndWaitForElements(SEARCH_RESULT, WAIT_TIME_3000);
+            results = findAndWaitForElements(SEARCH_RESULT, getDefaultWaitTime());
 
             for (WebElement result : results)
             {
                 NodeBrowserSearchResult nodeBrowserSearchResult = new NodeBrowserSearchResult();
-                nodeBrowserSearchResult.setName(new ShareLink(result.findElement(NODE_BROWSER_RESULT_NAME), drone));
+                nodeBrowserSearchResult.setName(new ShareLink(result.findElement(NODE_BROWSER_RESULT_NAME), driver, factoryPage));
                 nodeBrowserSearchResult.setParent(result.findElement(NODE_BROWSER_RESULT_PARENT).getText());
-                nodeBrowserSearchResult.setReference(new ShareLink(result.findElement(NODE_BROWSER_RESULT_NODEREF), drone));
+                nodeBrowserSearchResult.setReference(new ShareLink(result.findElement(NODE_BROWSER_RESULT_NODEREF), driver, factoryPage));
 
                 searchResultsList.add(nodeBrowserSearchResult);
             }
@@ -368,11 +347,11 @@ public class NodeBrowserPage extends AdminConsolePage
         try
         {
             NodeBrowserSearchResult searchResult = new NodeBrowserSearchResult();
-            WebElement resultRow = drone.findAndWait(By.xpath("//a[text() = '" + name + "']/../../.."));
+            WebElement resultRow = findAndWait(By.xpath("//a[text() = '" + name + "']/../../.."));
 
-            searchResult.setName(new ShareLink(resultRow.findElement(NODE_BROWSER_RESULT_NAME), drone));
+            searchResult.setName(new ShareLink(resultRow.findElement(NODE_BROWSER_RESULT_NAME), driver, factoryPage));
             searchResult.setParent(resultRow.findElement(NODE_BROWSER_RESULT_PARENT).getText());
-            searchResult.setReference(new ShareLink(resultRow.findElement(NODE_BROWSER_RESULT_NODEREF), drone));
+            searchResult.setReference(new ShareLink(resultRow.findElement(NODE_BROWSER_RESULT_NODEREF), driver, factoryPage));
 
             return  searchResult;
         }
@@ -409,7 +388,7 @@ public class NodeBrowserPage extends AdminConsolePage
      */
     public String getContentUrl ()
     {
-        WebElement contentUrl = drone.findAndWait(CONTENT_URL);
+        WebElement contentUrl = findAndWait(CONTENT_URL);
         return contentUrl.getText();
     }
 }

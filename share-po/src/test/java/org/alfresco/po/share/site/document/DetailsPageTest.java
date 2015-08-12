@@ -16,13 +16,13 @@ package org.alfresco.po.share.site.document;
 
 import java.io.File;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.po.share.enums.Encoder;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,19 +76,19 @@ public class DetailsPageTest extends AbstractTest
         stringBuilder.append("\">");
         xssComment = stringBuilder.toString();
 
-        ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
 
         // Select DocLib
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
 
         // Create Folder
-        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
+        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
         documentLibPage = newFolderPage.createNewFolder(folderName, folderDescription).render();
 
         // Upload File
-        File file = SiteUtil.prepareFile(fileName);
+        File file = siteUtil.prepareFile(fileName);
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
         fileName = file.getName();
@@ -97,7 +97,7 @@ public class DetailsPageTest extends AbstractTest
     @AfterClass(alwaysRun = true)
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test (groups = {"alfresco-one"})
@@ -162,8 +162,8 @@ public class DetailsPageTest extends AbstractTest
     public void addCommentsToFile() throws Exception
     {
 
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         DocumentDetailsPage docDetails = documentLibPage.selectFile(fileName).render();
 
         // Add text comment
@@ -189,7 +189,7 @@ public class DetailsPageTest extends AbstractTest
     @Test(dependsOnMethods="addCommentsToFile", groups = { "alfresco-one" })
     public void isPropertiesPanelPresent() throws Exception
     {
-        DetailsPage detailsPage = drone.getCurrentPage().render();
+        DetailsPage detailsPage = resolvePage(driver).render();
         
         Assert.assertTrue(detailsPage.isPropertiesPanelPresent());
     }
@@ -197,7 +197,7 @@ public class DetailsPageTest extends AbstractTest
     @Test(dependsOnMethods="isPropertiesPanelPresent", groups = { "alfresco-one" })
     public void isTagsPanelPresent() throws Exception
     {
-        DetailsPage detailsPage = drone.getCurrentPage().render();
+        DetailsPage detailsPage = resolvePage(driver).render();
         
         Assert.assertTrue(detailsPage.isTagsPanelPresent());
     }
@@ -205,7 +205,7 @@ public class DetailsPageTest extends AbstractTest
     @Test(dependsOnMethods="isTagsPanelPresent", groups = { "alfresco-one" })
     public void isLikeLinkPresent() throws Exception
     {
-        DetailsPage detailsPage = drone.getCurrentPage().render();
+        DetailsPage detailsPage = resolvePage(driver).render();
         
         Assert.assertTrue(detailsPage.isLikeLinkPresent());
     }
@@ -213,7 +213,7 @@ public class DetailsPageTest extends AbstractTest
     @Test(dependsOnMethods="isLikeLinkPresent", groups = { "alfresco-one" })
     public void isAddCommentButtonPresent() throws Exception
     {
-        DetailsPage detailsPage = drone.getCurrentPage().render();
+        DetailsPage detailsPage = resolvePage(driver).render();
         
         Assert.assertTrue(detailsPage.isAddCommentButtonPresent());
     }
@@ -222,7 +222,7 @@ public class DetailsPageTest extends AbstractTest
     public void isLinkPresentForDocumentTest() throws Exception
     {
 
-        DocumentDetailsPage docDetails = drone.getCurrentPage().render();
+        DocumentDetailsPage docDetails = resolvePage(driver).render();
            
         Assert.assertTrue(docDetails.isDocumentActionPresent(DocumentAction.COPY_TO), "Copy to is not present");
         Assert.assertTrue(docDetails.isDocumentActionPresent(DocumentAction.MOVE_TO), "Move to is not present");
@@ -243,8 +243,8 @@ public class DetailsPageTest extends AbstractTest
     @Test(dependsOnMethods="isLinkPresentForDocumentTest", groups = { "Enterprise4.2" })
     public void isDocumentActionPresent() throws Exception
     {
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         folderDetails = documentLibPage.getFileDirectoryInfo(folderName).selectViewFolderDetails().render();
            
         Assert.assertTrue(folderDetails.isDocumentActionPresent(DocumentAction.COPY_TO), "Copy to is not present");
@@ -256,35 +256,12 @@ public class DetailsPageTest extends AbstractTest
         Assert.assertTrue(folderDetails.isDocumentActionPresent(DocumentAction.EDIT_PROPERTIES), "Edit properties to is not present");
         Assert.assertTrue(folderDetails.isDocumentActionPresent(DocumentAction.MANAGE_RULES), "Manage Rules is not present");
         Assert.assertTrue(folderDetails.isDocumentActionPresent(DocumentAction.DOWNLOAD_FOLDER), "Download Folder is not present");
-
-    }    
-
-    @Test(dependsOnMethods="isDocumentActionPresent", groups = { "Hybrid" })
-    public void isSynPanelPresent() throws Exception
-    {
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
-        folderDetails = documentLibPage.getFileDirectoryInfo(folderName).selectViewFolderDetails().render();
-
-        Assert.assertTrue(folderDetails.isSynPanelPresent());
     }
     
-    @Test(dependsOnMethods="isSynPanelPresent", groups = { "Hybrid" })
-    public void isErrorEditOffline() throws Exception
+    @Test(dependsOnMethods="isDocumentActionPresent", groups = { "Enterprise4.2" })
+    public void isPermissionsPanelPresent() throws Exception
     {
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
-        String fileName = "fileName" + System.currentTimeMillis();
-         
-        // Upload File
-        File file = SiteUtil.prepareFile(fileName);
-        UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
-        documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
-        fileName = file.getName();
-        
-        DocumentDetailsPage docDetails = documentLibPage.selectFile(fileName).render();  
-        docDetails.selectEditOffLine();
-        
-        Assert.assertFalse(docDetails.isErrorEditOfflineDocument(fileName));      
-    }
+        Assert.assertTrue(folderDetails.isPermissionsPanelPresent());
+    }  
+    
 }

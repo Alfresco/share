@@ -15,6 +15,7 @@
 package org.alfresco.po.share;
 
 
+import org.alfresco.po.AbstractTest;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
@@ -45,15 +46,7 @@ public class FootersPageTest extends AbstractTest
     public void loadDashBoard() throws Exception
     {
         dashBoard = loginAs(username, password);
-
         Assert.assertTrue(dashBoard.isLogoPresent());
-
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (!version.isCloud())
-        {
-            Assert.assertTrue(dashBoard.titlePresent());
-            Assert.assertEquals("Administrator Dashboard", dashBoard.getPageTitle());
-        }
         String copyright = dashBoard.getCopyRight();
         Assert.assertTrue(copyright.contains("Alfresco Software"));
     }
@@ -64,32 +57,11 @@ public class FootersPageTest extends AbstractTest
         String copyRightDetails = dashBoard.getCopyRightDetails();
         Assert.assertTrue(copyRightDetails.contains("2005"), "License beginig year is not correct");
         Assert.assertTrue(copyRightDetails.contains("2014"), "License ending year is not correct");
-        if(alfrescoVersion.isCloud())
-        {
-            Assert.assertTrue(dashBoard.getLicenseHolder().contains("Alfresco"), "Please provide correct Licensed to");
-        }
-        else
-        {
-            Assert.assertTrue(dashBoard.getLicenseHolder().contains(licenseShare), "Please provide correct Licensed to");
-        }
+        Assert.assertTrue(dashBoard.getLicenseHolder().contains(licenseShare), "Please provide correct Licensed to");
 
         FootersPage footer = dashBoard.getFooter().render();
         Assert.assertTrue(footer instanceof FootersPage);
         String version = footer.getAlfrescoVersion();       
-        if(!alfrescoVersion.isCloud())
-        {
-            Assert.assertTrue(version.contains(alfrescoVersion.getVersion().toString() + ".0"), "Product version is not correct.");
-        }
-        
-        if(alfrescoVersion.isCloud())
-        {
-            Assert.assertTrue(version.contains("Alfresco Cloud "), "Product is not correct.");
-        }
-        else
-        {
-            Assert.assertTrue(version.contains("Alfresco Enterprise "), "Product is not correct.");
-        }
-        
-
+        Assert.assertTrue(version.contains("Alfresco Enterprise "), "Product is not correct.");
     }
 }

@@ -14,11 +14,11 @@
  */
 package org.alfresco.po.share.search;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.WebElement;
-
 import java.util.NoSuchElementException;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.openqa.selenium.WebElement;
 
 /**
  * Site search results page object, holds all element of the html page relating to
@@ -30,14 +30,6 @@ import java.util.NoSuchElementException;
  */
 public class SiteResultsPage extends SearchResultsPage
 {
-
-    /**
-     * Constructor.
-     */
-    public SiteResultsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -54,13 +46,6 @@ public class SiteResultsPage extends SearchResultsPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteResultsPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Performs the search by entering the term into search field
      * and submitting the search.
@@ -68,10 +53,10 @@ public class SiteResultsPage extends SearchResultsPage
      * @param term String term to search
      * @return {@link SiteResultsPage} page response
      */
-    public SiteResultsPage search(final String term)
+    public HtmlPage search(final String term)
     {
         searchFor(term);
-        return new SiteResultsPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -85,7 +70,7 @@ public class SiteResultsPage extends SearchResultsPage
         boolean isDisplayed = false;
         try
         {
-            WebElement backLink = drone.find(BACK_TO_SITE_LINK);
+            WebElement backLink = driver.findElement(BACK_TO_SITE_LINK);
             if(backLink.getText().contains(siteName))
                 isDisplayed = true;
         }

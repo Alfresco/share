@@ -36,11 +36,6 @@
             <class name="org.alfresco.po.share.NavigationBarTest" />
         </classes>
     </test>
-    <test name="PaginationTest">
-        <classes>
-            <class name="org.alfresco.po.share.PaginationTest" />
-        </classes>
-    </test>
     <test name="PeopleFinderPageTest">
         <classes>
             <class name="org.alfresco.po.share.PeopleFinderPageTest" />
@@ -61,16 +56,6 @@
             <class name="org.alfresco.po.share.ShareDialoguePageTest" />
         </classes>
     </test>
-    <test name="SharePageTest">
-        <classes>
-            <class name="org.alfresco.po.share.SharePageTest" />
-        </classes>
-    </test>
-    <test name="SharePropertiesTest">
-        <classes>
-            <class name="org.alfresco.po.share.SharePropertiesTest" />
-        </classes>
-    </test>
     <test name="UserProfilePageTest">
         <classes>
             <class name="org.alfresco.po.share.UserProfilePageTest" />
@@ -79,11 +64,6 @@
     <test name="UserSearchPageTest">
         <classes>
             <class name="org.alfresco.po.share.UserSearchPageTest" />
-        </classes>
-    </test>
-    <test name="UserPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.UserPageTest" />
         </classes>
     </test>
 </suite>

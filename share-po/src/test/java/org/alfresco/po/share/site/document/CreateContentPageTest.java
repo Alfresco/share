@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -47,7 +47,6 @@ public class CreateContentPageTest extends AbstractDocumentTest
     private String siteName;
     private DocumentLibraryPage documentLibPage;
     DashBoardPage dashBoard;
-    private String uname = "muser" + System.currentTimeMillis();
 
     /**
      * Pre test setup of a dummy file to upload.
@@ -57,17 +56,9 @@ public class CreateContentPageTest extends AbstractDocumentTest
     @BeforeClass(groups="alfresco-one")
     public void prepare() throws Exception
     {
-        if(!alfrescoVersion.isCloud())
-        {
-            createEnterpriseUser(uname);
-            dashBoard = loginAs(uname, UNAME_PASSWORD).render();
-        }
-        else
-        {
-            dashBoard = loginAs(username,password).render();
-        }
+        dashBoard = loginAs(username,password).render();
         siteName = "CreateContentPageTest" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
     }
 
     @AfterClass(groups="alfresco-one")
@@ -75,7 +66,7 @@ public class CreateContentPageTest extends AbstractDocumentTest
     {
         if (siteName != null)
         {
-            SiteUtil.deleteSite(drone, siteName);
+            siteUtil.deleteSite(username, password, siteName);
         }
     }
     
@@ -87,7 +78,7 @@ public class CreateContentPageTest extends AbstractDocumentTest
     @Test(expectedExceptions=UnsupportedOperationException.class, groups="alfresco-one")
     public void createContentWithNullName() throws Exception
     {
-        CreatePlainTextContentPage contentPage = new CreatePlainTextContentPage(drone);
+        CreatePlainTextContentPage contentPage = factoryPage.instantiatePage(driver, CreatePlainTextContentPage.class);
         ContentDetails contentDetails = new ContentDetails();
         contentDetails.setName(null);
         contentDetails.setTitle("Test");
@@ -103,7 +94,7 @@ public class CreateContentPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "createContentWithNullName", expectedExceptions=UnsupportedOperationException.class, groups="alfresco-one")
     public void createContentWithEmptyName() throws Exception
     {
-        CreatePlainTextContentPage contentPage = new CreatePlainTextContentPage(drone);
+        CreatePlainTextContentPage contentPage = factoryPage.instantiatePage(driver, CreatePlainTextContentPage.class);
         ContentDetails contentDetails = new ContentDetails();
         contentDetails.setName("");
         contentDetails.setTitle("Test");
@@ -120,7 +111,7 @@ public class CreateContentPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "createContentWithEmptyName", expectedExceptions=UnsupportedOperationException.class, groups="alfresco-one")
     public void createContentWithNullDetails() throws Exception
     {
-        CreatePlainTextContentPage contentPage = new CreatePlainTextContentPage(drone);
+        CreatePlainTextContentPage contentPage = factoryPage.instantiatePage(driver, CreatePlainTextContentPage.class);
         contentPage.create(null);
     }
     /**
@@ -135,8 +126,8 @@ public class CreateContentPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "createContentWithNullDetails", groups="Enterprise-only")
     public void createContent() throws Exception
     {
-        SiteDashboardPage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SiteDashboardPage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         CreatePlainTextContentPage contentPage = documentLibPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
         ContentDetails contentDetails = new ContentDetails();
         contentDetails.setName("Test Doc");
@@ -163,7 +154,7 @@ public class CreateContentPageTest extends AbstractDocumentTest
         assertEquals(contentDetails.getContent(), "Shan Test Doc");
         contentDetails.setContent("123456789");
         editPage.save(contentDetails).render();
-        documentLibPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
    }
     
     /**
@@ -193,7 +184,7 @@ public class CreateContentPageTest extends AbstractDocumentTest
         assertFalse(aspectsPage.getAvailableSystemAspects().contains(DocumentAspect.VERSIONABLE));
         assertTrue(aspectsPage.getSelectedSystemAspects().contains(DocumentAspect.VERSIONABLE));
         detailsPage = aspectsPage.clickCancel().render();
-        documentLibPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
     }
 
     /**

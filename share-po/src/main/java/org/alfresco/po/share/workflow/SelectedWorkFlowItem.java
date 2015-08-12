@@ -14,9 +14,10 @@
  */
 package org.alfresco.po.share.workflow;
 
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageOperationException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.openqa.selenium.By;
@@ -46,14 +47,14 @@ public class SelectedWorkFlowItem
     private static final By VIEW_MORE_ACTIONS = By.cssSelector("a[title='View More Actions']");
     private static final By REMOVE_BUTTON = By.cssSelector("a[title='Remove']");
 
-    public SelectedWorkFlowItem(WebElement element, WebDrone drone)
+    public SelectedWorkFlowItem(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
         itemRow = element;
         itemName = itemRow.findElement(ITEM_NAME).getText();
         description = itemRow.findElement(ITEM_DESCRIPTION).getText().split("Description: ")[1];
         dateModified = DateTimeFormat.forPattern("E d MMM yyyy HH:mm:ss").parseDateTime(itemRow.findElement(ITEM_DATE_MODIFIED).getText().split("on:")[1].trim());
-        itemNameLink = new ShareLink(itemRow.findElement(ITEM_NAME_LINK), drone);
-        viewMoreActions = new ShareLink(itemRow.findElement(VIEW_MORE_ACTIONS), drone);
+        itemNameLink = new ShareLink(itemRow.findElement(ITEM_NAME_LINK), driver, factoryPage);
+        viewMoreActions = new ShareLink(itemRow.findElement(VIEW_MORE_ACTIONS), driver, factoryPage);
     }
 
     public String getItemName()

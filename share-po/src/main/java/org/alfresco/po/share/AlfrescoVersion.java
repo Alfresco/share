@@ -14,7 +14,7 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.Version;
+import org.alfresco.po.Version;
 
 /**
  * The Alfresco site type and version enum.

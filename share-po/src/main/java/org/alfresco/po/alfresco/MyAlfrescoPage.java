@@ -19,12 +19,11 @@
 
 package org.alfresco.po.alfresco;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
+import org.alfresco.po.RenderTime;
+import org.openqa.selenium.By;
 
 /**
  * Created by ivan.kornilov on 22.04.2014.
@@ -34,11 +33,6 @@ public class MyAlfrescoPage extends LoginAlfrescoPage
 {
 
     private final By logoutXPath = By.xpath("//*[@id='logout']");
-
-    protected MyAlfrescoPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -55,13 +49,6 @@ public class MyAlfrescoPage extends LoginAlfrescoPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyAlfrescoPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to verify My Alfresco Page is opened
      *
@@ -69,7 +56,7 @@ public class MyAlfrescoPage extends LoginAlfrescoPage
      */
     public boolean userIsLoggedIn(String userName)
     {
-        return drone.findAndWait(logoutXPath, SECONDS.convert(maxPageLoadingTime, MILLISECONDS)).getText()
+        return findAndWait(logoutXPath, SECONDS.convert(maxPageLoadingTime, MILLISECONDS)).getText()
             .equalsIgnoreCase(String.format("Logout (%s)", userName));
     }
 }

@@ -16,17 +16,17 @@ package org.alfresco.po.share.site;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
+
 import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.po.share.task.EditTaskPage;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -52,75 +52,56 @@ public class SiteMembersPageTest extends AbstractTest
     {
         siteName = "InviteMembersTest" + System.currentTimeMillis();
         dashBoard = loginAs(username, password);
-        if (!alfrescoVersion.isCloud())
-        {
-            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-            NewUserPage newPage = page.selectNewUser().render();
-            newPage.inputFirstName(userName);
-            newPage.inputLastName(userName);
-            newPage.inputEmail(userName);
-            newPage.inputUsername(userName);
-            newPage.inputPassword(userName);
-            newPage.inputVerifyPassword(userName);
-            UserSearchPage userCreated = newPage.selectCreateUser().render();
-            userCreated.searchFor(userName).render();
-        }
-        else
-        {
-            // TODO: Cloud user creation needs to be implemented
-            // Assert.assertTrue(UserUtil.createUser(userName, userName,
-            // userName, userName, userName, alfrescoVersion.isCloud(),
-            // shareUrl));
-        }
-        SharePage page = drone.getCurrentPage().render();
+        UserSearchPage userPage = dashBoard.getNav().getUsersPage().render();
+        NewUserPage newPage = userPage.selectNewUser().render();
+        newPage.inputFirstName(userName);
+        newPage.inputLastName(userName);
+        newPage.inputEmail(userName);
+        newPage.inputUsername(userName);
+        newPage.inputPassword(userName);
+        newPage.inputVerifyPassword(userName);
+        UserSearchPage userCreated = newPage.selectCreateUser().render();
+        userCreated.searchFor(userName).render();
+        SharePage page = resolvePage(driver).render();
         CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
-        if (!alfrescoVersion.isCloud())
+        List<String> searchUsers = null;
+        inviteMembersPage = site.getSiteNav().selectInvite().render();
+        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
         {
-            List<String> searchUsers = null;
-            inviteMembersPage = site.getSiteNav().selectInvite().render();
-            for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+            searchUsers = inviteMembersPage.searchUser(userName);
+            try
             {
-                searchUsers = inviteMembersPage.searchUser(userName);
-                waitInSeconds(1);
-                try
+                if (searchUsers != null && searchUsers.size() > 0)
                 {
-                    if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userName))
-                    {
-                        inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
-                        inviteMembersPage.clickInviteButton().render();
-                        break;
-                    }
-                }
-                catch (Exception e)
-                {
-                    saveScreenShot("SiteTest.instantiateMembers-error");
-                    throw new Exception("Waiting for object to load", e);
-                }
-                try
-                {
-                    inviteMembersPage.renderWithUserSearchResults(refreshDuration);
-                }
-                catch (PageRenderTimeException exception)
-                {
+                    inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
+                    inviteMembersPage.clickInviteButton().render();
+                    break;
                 }
             }
-           
-            ShareUtil.logout(drone);
-            DashBoardPage userDashBoardPage = loginAs(userName, userName).render();
-            MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
-            EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
-            userDashBoardPage = editTaskPage.selectAcceptButton().render();
-            ShareUtil.logout(drone);
-            dashBoard = loginAs(username, password);
-            drone.navigateTo(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
-            site = drone.getCurrentPage().render();
+            catch (Exception e)
+            {
+                saveScreenShot("SiteTest.instantiateMembers-error");
+                throw new Exception("Waiting for object to load", e);
+            }
+            try
+            {
+                inviteMembersPage.renderWithUserSearchResults(refreshDuration);
+            }
+            catch (PageRenderTimeException exception)
+            {
+            }
         }
-        else
-        {
-            // TODO: In Cloud environemnt, need to implement the inviting and
-            // accepting the invitation to join on another user site page.
-        }
+
+        shareUtil.logout(driver);
+        DashBoardPage userDashBoardPage = loginAs(userName, userName);
+        MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
+        EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
+        userDashBoardPage = editTaskPage.selectAcceptButton().render();
+        shareUtil.logout(driver);
+        dashBoard = loginAs(username, password);
+        driver.navigate().to(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
+        site = resolvePage(driver).render();
         siteMembersPage = site.getSiteNav().selectMembers().render();
     }
 

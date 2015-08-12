@@ -14,8 +14,7 @@
  */
 package org.alfresco.po.alfresco;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -29,11 +28,6 @@ public class RepositoryAdminConsolePage extends AbstractAdminConsole
 {
 
     private final static By INPUT_FIELD = By.name("repo-cmd"); 
-    
-    public RepositoryAdminConsolePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -45,7 +39,7 @@ public class RepositoryAdminConsolePage extends AbstractAdminConsole
             timer.start();
             try
             {
-                if (drone.find(INPUT_FIELD).isDisplayed() && drone.find(SUBMIT_BUTTON).isDisplayed())
+                if (driver.findElement(INPUT_FIELD).isDisplayed() && driver.findElement(SUBMIT_BUTTON).isDisplayed())
                 {
                     break;
                 }
@@ -60,15 +54,9 @@ public class RepositoryAdminConsolePage extends AbstractAdminConsole
     }
     @SuppressWarnings("unchecked")
     @Override
-    public RepositoryAdminConsolePage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-    @SuppressWarnings("unchecked")
-    @Override
     public RepositoryAdminConsolePage render()
     {
-        return render(maxPageLoadingTime);
+        return render(new RenderTime(maxPageLoadingTime));
     }
     /**
      * Populates the input with command and
@@ -77,9 +65,9 @@ public class RepositoryAdminConsolePage extends AbstractAdminConsole
      */
     public void sendCommands(final String command)
     {
-        WebElement input = drone.find(INPUT_FIELD);
+        WebElement input = driver.findElement(INPUT_FIELD);
         input.clear();
         input.sendKeys(command);
-        drone.find(SUBMIT_BUTTON).click();
+        driver.findElement(SUBMIT_BUTTON).click();
     }
 }

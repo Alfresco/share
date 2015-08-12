@@ -14,8 +14,7 @@
  */
 package org.alfresco.po.share.workflow;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
 
 /**
  * WorkFlow Details Page.
@@ -25,10 +24,6 @@ import org.alfresco.webdrone.WebDrone;
  */
 public class WorkFlowDetailsPage extends AbstractWorkFlowTaskDetailsPage
 {
-    public WorkFlowDetailsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @Override
     public WorkFlowDetailsPage render(RenderTime timer)
@@ -38,15 +33,9 @@ public class WorkFlowDetailsPage extends AbstractWorkFlowTaskDetailsPage
     }
 
     @Override
-    public WorkFlowDetailsPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @Override
     public WorkFlowDetailsPage render()
     {
-        return render(maxPageLoadingTime);
+        return render(new RenderTime(maxPageLoadingTime));
     }
 
 }

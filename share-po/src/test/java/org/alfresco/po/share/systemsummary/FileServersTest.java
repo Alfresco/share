@@ -23,11 +23,9 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.test.FailedTestListener;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -40,14 +38,13 @@ import org.testng.annotations.Test;
 public class FileServersTest extends AbstractTest
 {
 
-    private static Log logger = LogFactory.getLog(FileServersPage.class);
     private FileServersPage fileServersPage;
     static final String port = "2121";
 
     @Test
     public void checkOpenPage()
     {
-        SystemSummaryPage sysSummaryPage = (SystemSummaryPage) ShareUtil.navigateToSystemSummary(drone, shareUrl, username, password);
+        SystemSummaryPage sysSummaryPage = (SystemSummaryPage) shareUtil.navigateToSystemSummary(driver, shareUrl, username, password);
         fileServersPage = sysSummaryPage.openConsolePage(AdminConsoleLink.FileServers).render();
         assertNotNull(fileServersPage);
     }
@@ -55,14 +52,14 @@ public class FileServersTest extends AbstractTest
     @Test(dependsOnMethods = "checkOpenPage")
     public void checkDroneReturnFileServersPagePO()
     {
-        fileServersPage = drone.getCurrentPage().render();
+        fileServersPage = resolvePage(driver).render();
         assertNotNull(fileServersPage);
     }
 
     @Test(dependsOnMethods = "checkDroneReturnFileServersPagePO")
     public void checkEditFtpPort()
     {
-        fileServersPage = drone.getCurrentPage().render();
+        fileServersPage = resolvePage(driver).render();
         fileServersPage.configFtpPort(port);
         assertTrue(fileServersPage.getPort().equals(port));
     }
@@ -70,7 +67,7 @@ public class FileServersTest extends AbstractTest
     @Test(dependsOnMethods = "checkEditFtpPort")
     public void canSelectFtpEnabledCheckbox()
     {
-        fileServersPage = drone.getCurrentPage().render();
+        fileServersPage = resolvePage(driver).render();
         fileServersPage.selectFtpEnabledCheckbox();
         assertFalse(fileServersPage.isFtpEnabledSelected());
         fileServersPage.selectFtpEnabledCheckbox();

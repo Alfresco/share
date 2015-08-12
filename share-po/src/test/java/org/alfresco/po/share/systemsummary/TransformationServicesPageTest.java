@@ -23,11 +23,9 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.test.FailedTestListener;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -39,13 +37,12 @@ import org.testng.annotations.Test;
 @Test(groups = "Enterprise-only")
 public class TransformationServicesPageTest extends AbstractTest
 {
-    private static Log logger = LogFactory.getLog(TransformationServicesPage.class);
     private TransformationServicesPage transformationServicesPage;
 
     @Test
     public void checkOpenPage()
     {
-        SystemSummaryPage sysSummaryPage = (SystemSummaryPage) ShareUtil.navigateToSystemSummary(drone, shareUrl, username, password);
+        SystemSummaryPage sysSummaryPage = (SystemSummaryPage) shareUtil.navigateToSystemSummary(driver, shareUrl, username, password);
         transformationServicesPage = sysSummaryPage.openConsolePage(AdminConsoleLink.Transformations).render();
         assertNotNull(transformationServicesPage);
     }
@@ -53,14 +50,14 @@ public class TransformationServicesPageTest extends AbstractTest
     @Test(dependsOnMethods = "checkOpenPage")
     public void checkDroneReturnTransformationServicesPagePO()
     {
-        transformationServicesPage = drone.getCurrentPage().render();
+        transformationServicesPage = resolvePage(driver).render();
         assertNotNull(transformationServicesPage);
     }
 
     @Test(dependsOnMethods = "checkDroneReturnTransformationServicesPagePO")
     public void canSelectJODConverterEnabledCheckbox()
     {
-        transformationServicesPage = drone.getCurrentPage().render();
+        transformationServicesPage = resolvePage(driver).render();
         for (int i = 1; i <= 2; i++)
         {
             transformationServicesPage.selectJODConverterEnabledCheckbox();

@@ -3,17 +3,18 @@ package org.alfresco.po.share.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.share.FactoryPage;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
  * The Class FacetedSearchScopeMenu.
  */
-public class FacetedSearchScopeMenu
+public class FacetedSearchScopeMenu extends PageElement
 {
     /** Constants */
     private static final By FACETED_SEARCH_TOP_MENU_BAR = By.cssSelector("div#FCTSRCH_TOP_MENU_BAR");
@@ -22,7 +23,6 @@ public class FacetedSearchScopeMenu
     private static final By MENU_BUTTON_TEXT = By.cssSelector("span#FCTSRCH_SCOPE_SELECTION_MENU_text");
     private static final By MENU_ITEMS = By.cssSelector("div#FCTSRCH_SCOPE_SELECTION_MENU_dropdown tr.dijitMenuItem");
 
-    private WebDrone drone;
     private WebElement labelElement;
     private WebElement menuButton;
     private String currentSelection;
@@ -31,10 +31,11 @@ public class FacetedSearchScopeMenu
     /**
      * Instantiates a new faceted search form.
      */
-    public FacetedSearchScopeMenu(WebDrone drone)
+    public FacetedSearchScopeMenu(WebDriver driver, FactoryPage factoryPage)
     {
-        this.drone = drone;
-        WebElement facetedSearchTopMenuBar = drone.find(FACETED_SEARCH_TOP_MENU_BAR);
+        this.driver = driver;
+        this.factoryPage = factoryPage;
+        WebElement facetedSearchTopMenuBar = driver.findElement(FACETED_SEARCH_TOP_MENU_BAR);
         this.labelElement = facetedSearchTopMenuBar.findElement(LABEL_STRING);
         this.menuButton = facetedSearchTopMenuBar.findElement(MENU_BUTTON);
         this.currentSelection = facetedSearchTopMenuBar.findElement(MENU_BUTTON_TEXT).getText();
@@ -84,7 +85,7 @@ public class FacetedSearchScopeMenu
         {
             cancelMenu();
         }
-        return FactorySharePage.resolvePage(this.drone);
+        return factoryPage.getPage(this.driver);
     }
     
     /**
@@ -115,7 +116,7 @@ public class FacetedSearchScopeMenu
     private void openMenu()
     {
         this.menuButton.click();
-        this.menuElements = this.drone.findAll(MENU_ITEMS);
+        this.menuElements = this.driver.findElements(MENU_ITEMS);
     }
 
     /**

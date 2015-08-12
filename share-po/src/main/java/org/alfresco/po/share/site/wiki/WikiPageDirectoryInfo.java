@@ -1,73 +1,57 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.wiki;
 
-import org.alfresco.po.share.SharePopup;
-import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
+import org.alfresco.po.PageElement;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * @author Marina.Nenadovets
  */
-public class WikiPageDirectoryInfo extends HtmlElement
+public class WikiPageDirectoryInfo extends PageElement
 {
-    private static final By EDIT_LINK = By.cssSelector(".actionPanel>div.editPage>a");
-    private static final By DETAILS_LINK = By.cssSelector(".detailsPage>a");
-    private static final By DELETE_LINK = By.cssSelector(".deletePage>a");
 
-    /**
-     * Constructor
-     */
-    protected WikiPageDirectoryInfo(WebDrone drone, WebElement webElement)
+
+    @FindBy(css=".actionPanel>div.editPage>a") Link edit;
+    public void clickEdit()
     {
-        super(webElement, drone);
+        edit.click();
     }
 
-    public WikiPage clickEdit()
-    {
-        findAndWait(EDIT_LINK).click();
-        return new WikiPage(drone).render();
-
-    }
-
+    @FindBy(css=".detailsPage>a") Link details;
     /**
      * Method to click Details link
      *
      * @return Wiki page
      */
-    public WikiPage clickDetails()
+    public void clickDetails()
     {
-        try
-        {
-            findAndWait(DETAILS_LINK).click();
-            return drone.getCurrentPage().render();
-        }
-        catch (TimeoutException te)
-        {
-            throw new ShareException("Unable to find " + DETAILS_LINK);
-        }
+        details.click();
     }
-
+    @FindBy(css=".deletePage>a")Link delete;
     /**
      * Method to click Delete
      *
      * @return Wiki page
      */
-    public SharePopup clickDelete()
+    public void clickDelete()
     {
-        try
-        {
-            findAndWait(DELETE_LINK).click();
-            return drone.getCurrentPage().render();
-
-        }
-        catch (TimeoutException te)
-        {
-            throw new ShareException("Unable to find " + DELETE_LINK);
-        }
+        delete.click();
     }
 
     /**
@@ -79,8 +63,7 @@ public class WikiPageDirectoryInfo extends HtmlElement
     {
         try
         {
-            WebElement editLink = findElement(EDIT_LINK);
-            return editLink.isDisplayed();
+            return edit.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -97,8 +80,7 @@ public class WikiPageDirectoryInfo extends HtmlElement
     {
         try
         {
-            WebElement deleteLink = findElement(DELETE_LINK);
-            return deleteLink.isDisplayed();
+            return delete.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {

@@ -17,23 +17,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.contentrule.FolderRulesPage;
-import org.alfresco.po.share.user.CloudSyncPage;
-import org.alfresco.po.share.user.MyProfilePage;
-import org.alfresco.po.share.util.SiteUtil;
-import org.alfresco.po.share.workflow.DestinationAndAssigneePage;
+
 import org.alfresco.po.share.workflow.StartWorkFlowPage;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -50,7 +45,6 @@ import org.testng.annotations.Test;
 public class FileDirectoryInfoTest extends AbstractDocumentTest
 {
     private final Log logger = LogFactory.getLog(this.getClass());
-    private String uname = "ms1user" + System.currentTimeMillis();
     private static String siteName;
     private static String folderName;
     private static String folderDescription;
@@ -70,18 +64,10 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         siteName = "site" + System.currentTimeMillis();
         folderName = "The first folder";
         folderDescription = String.format("Description of %s", folderName);
-        if(!alfrescoVersion.isCloud())
-        {
-            createEnterpriseUser(uname);
-            loginAs(uname, UNAME_PASSWORD).render();
-        }
-        else
-        {
-            loginAs(username, password);
-        }
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        file = SiteUtil.prepareFile("alfresco123");
-        testLockedFile = SiteUtil.prepareFile("Alfresco456");     
+        loginAs(username, password);
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        file = siteUtil.prepareFile("alfresco123");
+        testLockedFile = siteUtil.prepareFile("Alfresco456");     
         createData();
     }
 
@@ -90,20 +76,7 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
     @AfterClass(groups={"alfresco-one"})
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
-        
-        if (isHybridEnabled())
-        {
-            // go to profile
-            MyProfilePage myProfilePage = ((SharePage) drone.getCurrentPage()).getNav().selectMyProfile().render();
-
-            // Click cloud sync
-            CloudSyncPage cloudSyncPage = myProfilePage.getProfileNav().selectCloudSyncPage().render();
-            if (cloudSyncPage.isDisconnectButtonDisplayed())
-            {
-                cloudSyncPage.disconnectCloudAccount().render();
-            }
-        }
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     /**
@@ -114,8 +87,8 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
    
     private void createData() throws Exception
     {
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         documentLibPage = documentLibPage.getNavigation().selectDetailedView().render();
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(testLockedFile.getCanonicalPath()).render();
@@ -124,7 +97,7 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
         documentLibPage = documentLibPage.getNavigation().selectDetailedView().render();
-        doclibUrl = drone.getCurrentUrl();
+        doclibUrl = driver.getCurrentUrl();
     }
 
     /**
@@ -134,7 +107,7 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
      */
     private FileDirectoryInfo getFile() throws Exception
     {
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         List<FileDirectoryInfo> results = documentLibPage.getFiles();
         if(results.isEmpty())
         {
@@ -154,8 +127,8 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         FileDirectoryInfo thisRow =  documentLibPage.getFileDirectoryInfo(folderName);
         FolderRulesPage page = thisRow.selectManageRules().render();
         Assert.assertNotNull(page);
-        drone.navigateTo(doclibUrl);
-        documentLibPage = (DocumentLibraryPage) drone.getCurrentPage();
+        driver.navigate().to(doclibUrl);
+        documentLibPage = (DocumentLibraryPage) resolvePage(driver);
         documentLibPage.render();
     }
     
@@ -185,7 +158,6 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
 
         // NodeRef
         Assert.assertNotNull(thisRow.getContentNodeRef(), "Node Reference is null");
-        logger.info("NodeRef:" + thisRow.getContentNodeRef());
     }
 
     @Test(groups = { "alfresco-one" }, priority = 4)
@@ -223,24 +195,6 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         Assert.assertTrue(thisRow.isFavourite());
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 7)
-    public void test107TagsForFolder() throws Exception
-    {
-        String tagName = "Folder Tag";
-        String tagName2 = "Folder Tag 2";
-
-        // Get folder
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName);
-        Assert.assertFalse(thisRow.hasTags());
-
-        thisRow.addTag(tagName);
-        thisRow.addTag(tagName2);
-
-        Assert.assertTrue(thisRow.getTags().contains(tagName.toLowerCase()));
-        Assert.assertTrue(thisRow.getTags().contains(tagName2.toLowerCase()));
-        Assert.assertEquals(thisRow.getTags().size(), 2);
-        Assert.assertFalse(thisRow.getTags().contains("No Tags"));
-    }
 
     @Test(expectedExceptions = UnsupportedOperationException.class, groups = { "alfresco-one" }, priority = 8)
     public void test108SelectDownloadForFolderWithExpection() throws Exception
@@ -333,25 +287,6 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         Assert.assertTrue(thisRow.isFavourite());
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 14)
-    public void test114TagsForFile() throws Exception
-    {
-        String tagName = "File Tag";
-        String tagName2 = "File Tag 2";
-        documentLibPage = documentLibPage.render();
-        // Get File
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
-        Assert.assertFalse(thisRow.hasTags());
-
-        thisRow.addTag(tagName);
-        thisRow.addTag(tagName2);
-
-        Assert.assertTrue(thisRow.hasTags());
-        Assert.assertTrue(thisRow.getTags().contains(tagName.toLowerCase()));
-        Assert.assertTrue(thisRow.getTags().contains(tagName2.toLowerCase()));
-        Assert.assertEquals(thisRow.getTags().size(), 2);
-    }
-
     @Test(groups = { "alfresco-one" }, priority = 15)
     public void test115SelectDownloadForFile() throws Exception
     {
@@ -380,11 +315,11 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
     @Test(groups = { "alfresco-one" }, priority = 18)
     public void test118SelectThumbnailForFolder() throws Exception
     {
-        SitePage page = drone.getCurrentPage().render();
+        SitePage page = resolvePage(driver).render();
         try
         {
             assertNotNull(page);
-            documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+            documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
 
             // Get File
             FileDirectoryInfo thisRow =  documentLibPage.getFileDirectoryInfo(folderName);
@@ -398,7 +333,7 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         }
         finally
         {
-           documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+           documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         }
     }
 
@@ -411,7 +346,6 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         Assert.assertTrue(mangPermPage.isInheritPermissionEnabled());
         documentLibPage = ((DocumentLibraryPage)mangPermPage.selectSave()).render();
     }
-
     
     @Test(expectedExceptions = PageOperationException.class, groups = { "Enterprise4.2" }, priority = 21)
     public void test121SelectDownloadFolderAsZipForFile() throws Exception
@@ -429,14 +363,6 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
 //        thisRow.selectDownloadFolderAsZip();
 //    }
 
-    @Test(groups = "Enterprise4.2", priority = 23)
-    public void test123SelectDownloadFolderAsZipForFolder() throws Exception
-    {
-        // Get folder
-        FileDirectoryInfo thisRow =  documentLibPage.getFileDirectoryInfo(folderName);
-        thisRow.selectDownloadFolderAsZip();
-        drone.waitUntilElementDisappears(By.cssSelector("div[id*='archive-and-download'] a"), 2000);
-    }
 
     @Test(groups = { "Enterprise4.2" }, priority = 24)
     public void test124SelectStartWorkFlow() throws Exception
@@ -449,80 +375,34 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         SiteFinderPage siteFinder = startWorkFlowPage.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(siteName).render();
         SiteDashboardPage siteDash = siteFinder.selectSite(siteName).render();
-        documentLibPage = siteDash.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibPage = siteDash.getSiteNav().selectDocumentLibrary().render();
         Assert.assertNotNull(documentLibPage);
     }
     
     
-    @Test(groups = { "Hybrid" }, priority = 25)
-    public void test125SelectSyncToCloud() throws Exception
-    {
-        // Select SyncToCloud
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
-        DestinationAndAssigneePage destinationAndAssigneePage = (DestinationAndAssigneePage) thisRow.selectSyncToCloud().render();
-        Assert.assertEquals(destinationAndAssigneePage.getSyncToCloudTitle(), "Sync " + file.getName() + " to The Cloud");
-        destinationAndAssigneePage.selectSubmitButtonToSync();
-        assertTrue(thisRow.isCloudSynced(), "File should be synced");
-    }
-
-
-    @Test(groups = { "Hybrid" }, priority = 26)
-    public void test126selectInlineEdit()
-    {
-        documentLibPage = drone.getCurrentPage().render();        
-        InlineEditPage inlineEditPage = documentLibPage.getFileDirectoryInfo(testLockedFile.getName()).selectInlineEdit().render();
-        EditTextDocumentPage editTextDocumentPage = (EditTextDocumentPage)inlineEditPage.getInlineEditDocumentPage(MimeType.TEXT);
-        ContentDetails contentDetails = editTextDocumentPage.getDetails();
-        Assert.assertEquals(contentDetails.getName(), testLockedFile.getName());
-        documentLibPage = editTextDocumentPage.selectCancel().render();
-        documentLibPage.render();
-        /*inlineEditPage = documentLibPage.getFileDirectoryInfo(HTMLDocument).selectInlineEdit().render();
-        EditHtmlDocumentPage editHtmlDocumentPage = (EditHtmlDocumentPage)inlineEditPage.getInlineEditDocumentPage(MimeType.HTML);
-        Assert.assertTrue(editHtmlDocumentPage.isEditHtmlDocumentPage());
-        documentLibPage = ((DocumentLibraryPage)editHtmlDocumentPage.saveText()).render();*/
-    }
-
-    @Test(groups = { "Hybrid" }, priority = 27)
-    public void test127isLockedTest()
-    {
-        documentLibPage = drone.getCurrentPage().render();
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testLockedFile.getName()).isLocked(), "Verify the file is not locked");
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testLockedFile.getName()).isInlineEditLinkPresent(), "Verify the Inline Edit option is displayed");
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testLockedFile.getName()).isEditOfflineLinkPresent(), "Verify the Edit Offline option is displayed");
-        DestinationAndAssigneePage destinationAndAssigneePage = documentLibPage.getFileDirectoryInfo(testLockedFile.getName()).selectSyncToCloud().render();
-        destinationAndAssigneePage.selectNetwork("premiernet.test");
-        Assert.assertFalse(destinationAndAssigneePage.isFolderDisplayed(String.valueOf(Math.random())));
-        Assert.assertTrue(destinationAndAssigneePage.isFolderDisplayed("Documents"));
-        destinationAndAssigneePage.selectFolder("Documents");
-        destinationAndAssigneePage.selectLockOnPremCopy();
-        DocumentLibraryPage documentLibraryPage = destinationAndAssigneePage.selectSubmitButtonToSync().render();
-        Assert.assertTrue(documentLibraryPage.getFileDirectoryInfo(testLockedFile.getName()).isLocked());
-        Assert.assertEquals(documentLibraryPage.getFileDirectoryInfo(testLockedFile.getName()).getContentInfo(), "This document is locked by you.");
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testLockedFile.getName()).isInlineEditLinkPresent(), "Verify the Inline Edit option is NOT displayed");
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testLockedFile.getName()).isEditOfflineLinkPresent(), "Verify the Edit Offline option is NOT displayed");
-    }
-    
     @Test(groups = { "alfresco-one" }, priority = 28)
     public void test128isCommentOptionPresent()
     {
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testLockedFile.getName()).isCommentLinkPresent(), "Verify the Comment option is displayed");
     }
 
     @Test(enabled = true, groups = "Enterprise4.2", priority = 29)
     public void renameContentTest()
     {
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName);
         folderName = folderName + " updated";
         thisRow.renameContent(folderName);
+        //State of page changed
+        documentLibPage.render();
         Assert.assertEquals(documentLibPage.getFileDirectoryInfo(folderName).getName(), folderName);
     }
 
     @Test(enabled = true, groups = "Enterprise4.2", priority = 30)
     public void cancelRenameContentTest()
     {
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName);
         assertFalse(thisRow.isSaveLinkVisible());
         assertFalse(thisRow.isCancelLinkVisible());
@@ -531,16 +411,16 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         assertTrue(thisRow.isCancelLinkVisible());
         thisRow.contentNameEnter(folderName + " not updated");
         thisRow.contentNameClickCancel();
-        drone.refresh();
-        documentLibPage = drone.getCurrentPage().render();
+        driver.navigate().refresh();
+        documentLibPage = resolvePage(driver).render();
         Assert.assertEquals(documentLibPage.getFileDirectoryInfo(folderName).getName(), folderName);
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class, groups = { "alfresco-one" }, priority = 32)
     public void testGetContentNameFromInfoMenu() throws Exception
     {
-        documentLibPage = drone.getCurrentPage().render();
-        documentLibPage = documentLibPage.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibPage = resolvePage(driver).render();
+        documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
         // Get File
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
 
@@ -550,7 +430,7 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
     @Test(enabled = true, groups = "Enterprise4.2", priority = 31)
     public void clickOnCategoryLink()
     {
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         SelectAspectsPage selectAspectsPage = documentLibPage.getFileDirectoryInfo(folderName).selectManageAspects().render();
 
         // Get several aspects in left hand side
@@ -574,15 +454,15 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         // Click on save button in edit document properties pop up page
         categoryPage.clickOk().render();
 
-        editDocumentPropertiesPopup.selectSave().render();;
+        editDocumentPropertiesPopup.selectSave().render();
         
         documentLibPage = documentLibPage.getFileDirectoryInfo(folderName).clickOnCategoryNameLink(Categories.LANGUAGES.getValue()).render();
         int i = 0;
         do
         {
             i++;
-            drone.refresh();
-            documentLibPage = drone.getCurrentPage().render();
+            driver.navigate().refresh();
+            documentLibPage = resolvePage(driver).render();
         }while(!documentLibPage.isFileVisible(folderName)  && i < 5);
         Assert.assertTrue(documentLibPage.isFileVisible(folderName));
     }
@@ -590,19 +470,19 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
     @Test(enabled = true, groups = "alfresco-one", priority = 32)
     public void testSelectViewInBrowser()
     {
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
-        String mainWinHandle = drone.getWindowHandle();
+        String mainWinHandle = driver.getWindowHandle();
         thisRow.selectViewInBrowser();
-        assertTrue(drone.getCurrentUrl().toLowerCase().contains(file.getName().toLowerCase()));
-        drone.closeWindow();
-        drone.switchToWindow(mainWinHandle);
+        assertTrue(driver.getCurrentUrl().toLowerCase().contains(file.getName().toLowerCase()));
+        driver.close();
+        driver.switchTo().window(mainWinHandle);
     }
 
     @Test(enabled = true, groups = "alfresco-one", priority = 33)
     public void testIsFileShared()
     {
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         ShareLinkPage shareLinkPage = documentLibPage.getFileDirectoryInfo(file.getName()).clickShareLink().render();
         Assert.assertNotNull(shareLinkPage);
         assertTrue(documentLibPage.getFileDirectoryInfo(file.getName()).isFileShared());
@@ -610,7 +490,7 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
     @Test(enabled = true, groups = "alfresco-one", priority = 34)
     public void testClickTitle()
     {
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         DocumentDetailsPage detailsPAge = documentLibPage.getFileDirectoryInfo(file.getName()).clickOnTitle().render();
         Assert.assertTrue(detailsPAge.isDocumentDetailsPage());
     }   

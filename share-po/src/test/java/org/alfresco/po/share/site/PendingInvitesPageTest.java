@@ -6,14 +6,14 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -71,7 +71,6 @@ public class PendingInvitesPageTest extends AbstractTest
         for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
         {
             searchUsers = membersPage.searchUser(userNameTest);
-            waitInSeconds(1);
             try
             {
                 if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userNameTest))
@@ -109,8 +108,6 @@ public class PendingInvitesPageTest extends AbstractTest
     public void checkSearch()
     {
         pendingInvitesPage.search(userNameTest);
-        pendingInvitesPage.render();
-        waitInSeconds(1);
         assertEquals(pendingInvitesPage.getInvitees().size(), 1);
     }
 
@@ -126,7 +123,7 @@ public class PendingInvitesPageTest extends AbstractTest
     @AfterClass
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     private boolean verifyInviteCancelled(String userName)

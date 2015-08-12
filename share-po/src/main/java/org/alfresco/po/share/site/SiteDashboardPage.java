@@ -14,24 +14,27 @@
  */
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.Dashboard;
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.dashlet.Dashlet;
-import org.alfresco.po.share.dashlet.FactoryShareDashlet;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.Dashboard;
+import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.share.dashlet.SiteContentDashlet;
+import org.alfresco.po.share.dashlet.SiteMembersDashlet;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Site dashboard page object, holds all element of the HTML page relating to
@@ -51,18 +54,11 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     private static final By DASHLET_HELP_BALLOON = By.cssSelector("div[style*='visible']>div>div.balloon");
     private static final By HELP_ICON = By.cssSelector("div[class$='titleBarActionIcon help']");
     private static final By MORE_PAGES_BUTTON = By.cssSelector("#HEADER_SITE_MORE_PAGES");
-    private static final By PAGES_LINKS = By.xpath("//div[@id='HEADER_NAVIGATION_MENU_BAR']//a");
     private static final By MENU_BAR = By.cssSelector("div[class^='navigation-menu'] div.alf-menu-bar");
     private static final By DASHLET_TITLE = By.cssSelector(".title");
 
-    /**
-     * Constructor
-     */
-    public SiteDashboardPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
+    SiteMembersDashlet siteMembersDashlet;
+    SiteContentDashlet siteContentDashlet;
     @SuppressWarnings("unchecked")
     @Override
     public SiteDashboardPage render(RenderTime timer)
@@ -77,8 +73,8 @@ public class SiteDashboardPage extends SitePage implements Dashboard
                 {
                     try
                     {
-                        getDashlet("site-members").render(timer);
-                        getDashlet("site-contents").render(timer);
+                        siteMembersDashlet.render(timer);
+                        siteContentDashlet.render(timer);
                     }
                     catch (PageException pe)
                     {
@@ -105,13 +101,6 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteDashboardPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Verify if we are on site dashboard page and the site profile dashlet is
      * displayed.
@@ -123,7 +112,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         boolean displayed = false;
         try
         {
-            WebElement siteProfile = drone.findAndWait(By.className("site-profile"));
+            WebElement siteProfile = findAndWait(By.className("site-profile"));
             return siteProfile.isDisplayed();
         }
         catch (ElementNotVisibleException e)
@@ -146,7 +135,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     @Override
     public Dashlet getDashlet(final String name)
     {
-        return FactoryShareDashlet.getPage(drone, name);
+        return factoryPage.getDashlet(driver, name);
     }
     
 
@@ -164,17 +153,14 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     {
         try
         {
-            clickableElements = drone.getElement("multiple.clickable.object");
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector(clickableElements));
+            clickableElements = getValue("multiple.clickable.object");
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector(clickableElements));
             for (WebElement webElement : elements)
             {
                 if ("More".equals(webElement.getText()) || name.equals(webElement.getText()))
                 {
                     webElement.click();
-                    if (AlfrescoVersion.Enterprise42.equals(alfrescoVersion) || AlfrescoVersion.Enterprise43.equals(alfrescoVersion))
-                    {
-                        drone.findAndWait(By.cssSelector(PROJECT_WIKI_ID)).click();
-                    }
+                    findAndWait(By.cssSelector(PROJECT_WIKI_ID)).click();
                     break;
                 }
             }
@@ -182,8 +168,8 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         catch (TimeoutException toe)
         {
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -195,7 +181,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     {
         try
         {
-            WebElement titleSpan = drone.findAndWait(By.cssSelector(".alfresco-header-Title"));
+            WebElement titleSpan = findAndWait(By.cssSelector(".alfresco-header-Title"));
             return titleSpan.getText().toLowerCase().contains(title.toLowerCase());
         }
         catch (TimeoutException e)
@@ -213,7 +199,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     {
         try
         {
-            return drone.find(By.cssSelector(WELCOME_DASHLET)).isDisplayed();
+            return driver.findElement(By.cssSelector(WELCOME_DASHLET)).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -233,7 +219,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     {
         try
         {
-            drone.waitUntilElementDisappears(CONFIGURE_SEARCH_DIALOG_BOX, 2);
+            waitUntilElementDisappears(CONFIGURE_SEARCH_DIALOG_BOX, 2);
         }
         catch (TimeoutException te)
         {
@@ -242,6 +228,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         return false;
     }
 
+    SiteNavigation siteNavigation;
     /**
      * Method to find if the Customize Site Dashboard link is displayed
      * 
@@ -252,9 +239,8 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     {
         try
         {
-            SiteNavigation siteNavigation = new SiteNavigation(drone);
             siteNavigation.selectConfigure();
-            return drone.find(AbstractSiteNavigation.CUSTOMIZE_SITE_DASHBOARD).isDisplayed();
+            return driver.findElement(AbstractSiteNavigation.CUSTOMIZE_SITE_DASHBOARD).isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
@@ -273,9 +259,8 @@ public class SiteDashboardPage extends SitePage implements Dashboard
 
         try
         {
-            SiteNavigation siteNavigation = new SiteNavigation(drone);
             siteNavigation.selectConfigure();
-            return drone.find(AbstractSiteNavigation.EDIT_SITE_DETAILS).isDisplayed();
+            return driver.findElement(AbstractSiteNavigation.EDIT_SITE_DETAILS).isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
@@ -283,26 +268,6 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         }
     }
 
-    /**
-     * Method to find if the Customize Site link is displayed
-     * 
-     * @return True if displayed
-     */
-
-    public boolean isCustomizeSiteLinkPresent()
-    {
-
-        try
-        {
-            SiteNavigation siteNavigation = new SiteNavigation(drone);
-            siteNavigation.selectConfigure();
-            return drone.find(AbstractSiteNavigation.CUSTOMIZE_SITE).isDisplayed();
-        }
-        catch (NoSuchElementException exc)
-        {
-            return false;
-        }
-    }
 
     /**
      * Method to find if the Customize Site link is displayed
@@ -314,9 +279,8 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     {
         try
         {
-            SiteNavigation siteNavigation = new SiteNavigation(drone);
             siteNavigation.selectConfigure();
-            return drone.find(AbstractSiteNavigation.LEAVE_SITE).isDisplayed();
+            return driver.findElement(AbstractSiteNavigation.LEAVE_SITE).isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
@@ -331,12 +295,12 @@ public class SiteDashboardPage extends SitePage implements Dashboard
      */
     public boolean isHelpDisplayedForAllDashlets()
     {
-        List<WebElement> allIcons = drone.findAll(HELP_ICON);
+        List<WebElement> allIcons = driver.findElements(HELP_ICON);
 
         for (int i = 0; i < allIcons.size(); i++)
         {
             allIcons.get(i).click();
-            if (drone.isElementDisplayed(DASHLET_HELP_BALLOON))
+            if (isElementDisplayed(DASHLET_HELP_BALLOON))
                 continue;
             else
                 return false;
@@ -353,7 +317,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     {
         try
         {
-            return drone.find(MORE_PAGES_BUTTON).isDisplayed();
+            return driver.findElement(MORE_PAGES_BUTTON).isDisplayed();
         }
         catch (Exception e)
         {
@@ -368,16 +332,8 @@ public class SiteDashboardPage extends SitePage implements Dashboard
      */
     public int getPagesLinkCount()
     {
-        if (alfrescoVersion == AlfrescoVersion.Enterprise42)
-        {
-            WebElement navigationHeader = drone.find(MENU_BAR);
-            return navigationHeader.findElements(By.cssSelector("div[id^='HEADER_SITE_'] a")).size();
-
-        }
-        else
-        {
-            return drone.findAndWaitForElements(PAGES_LINKS).size();
-        }
+        WebElement navigationHeader = driver.findElement(MENU_BAR);
+        return navigationHeader.findElements(By.cssSelector("div[id^='HEADER_SITE_'] a")).size();
     }
 
     /**
@@ -390,7 +346,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         List<String> list = new ArrayList<String>();
         try
         {
-            for (WebElement element : drone.findAll(DASHLET_TITLE))
+            for (WebElement element : driver.findElements(DASHLET_TITLE))
             {
                 String text = element.getText();
                 if (text != null)

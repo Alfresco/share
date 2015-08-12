@@ -7,7 +7,7 @@ import static org.testng.Assert.assertNotNull;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -40,15 +40,15 @@ public class SiteWebQuickStartDashletTest extends AbstractSiteDashletTest
     @AfterClass
     public void deleteSite()
     {
-        // SiteUtil.deleteSite(drone, siteName);
+        // siteUtil.deleteSite(username, password, siteName);
     }
     
     @BeforeMethod
     public void siteAndWQSDashletSetup()
     {
          siteName= this.getClass().getSimpleName()+ System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-         SitePage site = drone.getCurrentPage().render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+         SitePage site = resolvePage(driver).render();
          customiseSiteDashBoard = site.getSiteNav().selectCustomizeDashboard().render();
          siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.WEB_QUICK_START, 1).render();
          wqsDashlet = siteDashBoard.getDashlet(SITE_WEB_QUICK_START_DASHLET).render();
@@ -57,14 +57,14 @@ public class SiteWebQuickStartDashletTest extends AbstractSiteDashletTest
     @Test
     public void instantiateDashlet()
     {
-        SiteWebQuickStartDashlet wqsDashlet = new SiteWebQuickStartDashlet(drone);
+        SiteWebQuickStartDashlet wqsDashlet = factoryPage.instantiatePage(driver, SiteWebQuickStartDashlet.class);
         Assert.assertNotNull(wqsDashlet);
     }
     
     @Test
     public void clickImportButttonPositive()
     {
-        drone.getCurrentPage().render();
+        resolvePage(driver).render();
         wqsDashlet.clickImportButtton();
         assertNotNull(wqsDashlet);
 
@@ -73,9 +73,9 @@ public class SiteWebQuickStartDashletTest extends AbstractSiteDashletTest
     @Test
     public void verifyIsWQSHelpLinkDisplayedPositive()
     {
-        SitePage site = drone.getCurrentPage().render();
+        SitePage site = resolvePage(driver).render();
         wqsDashlet.clickImportButtton();
-        site = drone.getCurrentPage().render();
+        site = resolvePage(driver).render();
         site.getSiteNav().selectSiteDashBoard().render();
         Assert.assertTrue(wqsDashlet.isWQSHelpLinkDisplayed());
     }
@@ -83,14 +83,14 @@ public class SiteWebQuickStartDashletTest extends AbstractSiteDashletTest
     @Test
     public void getSelectedWebsiteDataPositive()
     {
-        drone.getCurrentPage().render();
+        resolvePage(driver).render();
         assertEquals(wqsDashlet.getSelectedWebsiteData(), "Finance");
     }
 
     @Test
     public void selectWebsiteDataOptionPositive() throws Exception
     {
-        drone.getCurrentPage().render();
+        resolvePage(driver).render();
         wqsDashlet.selectWebsiteDataOption(WebQuickStartOptions.GOVERNMENT);
         wqsDashlet = siteDashBoard.getDashlet(SITE_WEB_QUICK_START_DASHLET).render();
         assertEquals(wqsDashlet.getSelectedWebsiteData(), "Government");
@@ -99,7 +99,7 @@ public class SiteWebQuickStartDashletTest extends AbstractSiteDashletTest
     @Test
     public void verifyIsWQSHelpLinkDisplayedNegative()
     {
-        drone.getCurrentPage().render();
+        resolvePage(driver).render();
         assertFalse(wqsDashlet.isWQSHelpLinkDisplayed());
     }
 

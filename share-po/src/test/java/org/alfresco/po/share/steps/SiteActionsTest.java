@@ -24,7 +24,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage.ACTION;
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage.DESTINATION;
@@ -34,8 +35,8 @@ import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.FolderDetailsPage;
 import org.alfresco.po.share.site.document.SelectAspectsPage;
-import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -45,7 +46,7 @@ import org.testng.annotations.Test;
 @Listeners(FailedTestListener.class)
 public class SiteActionsTest extends AbstractTest
 {
-    private SiteActions siteActions = new SiteActions();
+	@Autowired SiteActions siteActions;
     private String  siteName = "swsdp";
     private String newSite = "site" + System.currentTimeMillis();
     private String[] hyerarcy = new String[]{"parent", "childA", "childB"};
@@ -55,50 +56,90 @@ public class SiteActionsTest extends AbstractTest
     {
         loginAs(username, password);
     }
+    @Test(groups = "Enterprise-only", priority=1)
+    public void testCheckIfDriverNull() throws Exception
+    {
+        try
+        {
+            siteActions.checkIfDriverIsNull(null);
+        }
+        catch(UnsupportedOperationException e)
+        {
+            Assert.assertTrue(e.getMessage().contains("WebDriver is required"));
+        }
+    }
     
+    @Test(groups = "Enterprise-only", priority=2)
+    public void testCheckIfDriverNotNull() throws Exception
+    {
+        siteActions.checkIfDriverIsNull(driver);
+    }
+
+    @Test(groups = "Enterprise-only", priority=3)
+    public void testRefreshSharePage() throws Exception
+    {
+            SharePage page = resolvePage(driver).render();
+            SharePage pageRefreshed = siteActions.refreshSharePage(driver).render();
+            Assert.assertTrue(page.getClass() == pageRefreshed.getClass());
+            Assert.assertTrue(page != pageRefreshed);
+    }
+    
+    @Test(groups = "Enterprise-only", priority=4)
+    public void testsWebDriverWait() throws Exception
+    {
+        long startTime = System.currentTimeMillis();
+        long waitDuration = 7000;
+        
+        
+        siteActions.webDriverWait(driver, waitDuration);
+        
+        long endTime = System.currentTimeMillis();
+        Assert.assertTrue(endTime >= startTime + waitDuration);
+        
+    }
     @Test(groups = "Enterprise-only", priority=1)
     public void testopenSiteDashBoard() throws Exception
     {
-            SiteDashboardPage siteDashPage = siteActions.openSiteDashboard(drone, siteName);
+            SiteDashboardPage siteDashPage = siteActions.openSiteDashboard(driver, siteName);
             Assert.assertNotNull(siteDashPage);
     }
     
     @Test(groups = "Enterprise-only", priority=2)
     public void testopenSitesContentLibrary() throws Exception
     {
-            DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(drone, siteName);
+            DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(driver, siteName);
             Assert.assertNotNull(docLibPage);
     }
     
     @Test(groups = "Enterprise-only", priority=3)
     public void testCreateSite() throws Exception
     {
-            siteActions.createSite(drone, newSite, newSite, "Public");
-            DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(drone, newSite);
+            siteActions.createSite(driver, newSite, newSite, "Public");
+            DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(driver, newSite);
             Assert.assertNotNull(docLibPage);
     }
     
     @Test(groups = "Enterprise-only", priority=4)
     public void testAddRemoveAspect() throws Exception
     {
-        File file = SiteUtil.prepareFile();
-        DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(drone, siteName);
-        docLibPage = siteActions.uploadFile(drone, file).render();
+        File file = siteUtil.prepareFile();
+        DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(driver, siteName);
+        docLibPage = siteActions.uploadFile(driver, file).render();
         docLibPage.selectFile(file.getName()).render();
         
         List<String> aspects = new ArrayList<String>();
         aspects.add(DocumentAspect.VERSIONABLE.getValue());
-        siteActions.addAspects(drone, aspects);
+        siteActions.addAspects(driver, aspects);
         
-        SelectAspectsPage aspectsPage = siteActions.getAspectsPage(drone);  
+        SelectAspectsPage aspectsPage = siteActions.getAspectsPage(driver);  
         
         Assert.assertTrue(aspectsPage.isAspectAdded(aspects.get(0)));
         
         aspectsPage.clickCancel().render();        
         
-        siteActions.removeAspects(drone, aspects);
+        siteActions.removeAspects(driver, aspects);
         
-        aspectsPage = siteActions.getAspectsPage(drone);
+        aspectsPage = siteActions.getAspectsPage(driver);
         
         Assert.assertTrue(aspectsPage.isAspectAvailable(aspects.get(0)));
         
@@ -110,11 +151,11 @@ public class SiteActionsTest extends AbstractTest
     {
         String folderName = "folder" + System.currentTimeMillis();
         
-        siteActions.openSitesDocumentLibrary(drone, siteName);
+        siteActions.openSitesDocumentLibrary(driver, siteName);
         
-        siteActions.createFolder(drone, folderName, folderName, folderName);
+        siteActions.createFolder(driver, folderName, folderName, folderName);
         
-        DetailsPage detailsPage = siteActions.viewDetails(drone, folderName).render();
+        DetailsPage detailsPage = siteActions.viewDetails(driver, folderName).render();
         
         Assert.assertNotNull(detailsPage, "Error during View Folder Details");
         Assert.assertTrue(detailsPage instanceof FolderDetailsPage, "Error during View Folder Details");
@@ -124,11 +165,11 @@ public class SiteActionsTest extends AbstractTest
     @Test(groups = "Enterprise-only", priority=6)
     public void testViewDetailsForFile() throws Exception
     {
-        File file = SiteUtil.prepareFile();
-        siteActions.openSitesDocumentLibrary(drone, siteName);
-        siteActions.uploadFile(drone, file).render();
+        File file = siteUtil.prepareFile();
+        siteActions.openSitesDocumentLibrary(driver, siteName);
+        siteActions.uploadFile(driver, file).render();
 
-        DetailsPage detailsPage = siteActions.viewDetails(drone, file.getName()).render();
+        DetailsPage detailsPage = siteActions.viewDetails(driver, file.getName()).render();
 
         Assert.assertNotNull(detailsPage, "Error during View Document Details");
         Assert.assertTrue(detailsPage instanceof DocumentDetailsPage, "Error during View Document Details");
@@ -137,21 +178,21 @@ public class SiteActionsTest extends AbstractTest
     
     @Test(groups = "Enterprise-only", priority=7)
     public void createHyerarcyFolders() {
-	  siteActions.openSitesDocumentLibrary(drone, newSite);
+	  siteActions.openSitesDocumentLibrary(driver, newSite);
   	  for (int i = 0; i < hyerarcy.length; i++) {
-  		  siteActions.createFolder(drone, hyerarcy[i], hyerarcy[i], hyerarcy[i]);
-  		  siteActions.navigateToFolder(drone, hyerarcy[i]);
+  		  siteActions.createFolder(driver, hyerarcy[i], hyerarcy[i], hyerarcy[i]);
+  		  siteActions.navigateToFolder(driver, hyerarcy[i]);
   	  }
   	  
   	 siteName = "old" + System.currentTimeMillis();
-  	 siteActions.createSite(drone, siteName, siteName, "Public");
+  	 siteActions.createSite(driver, siteName, siteName, "Public");
     }
     
     @Test(groups = "Enterprise-only", priority=8, dataProvider="tempFilesData")
     public void testCopyArtifact(File file) throws Exception
     {
 	  copyOrMoveAction(file,ACTION.COPY, new String[] {});
-	  Assert.assertTrue(siteActions.isFileVisible(drone, file.getName()),"File: " + file.getName() + " was copied in document library of site ");  
+	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),"File: " + file.getName() + " was copied in document library of site ");  
     }
      
     @Test(groups = "Enterprise-only", priority=9, dataProvider="tempFilesData")
@@ -162,17 +203,17 @@ public class SiteActionsTest extends AbstractTest
 	  
 	  for (int i = 0; i < hyerarcy.length; i++) {
 		  fullHyerarcy += "/" + hyerarcy[i];
-		  siteActions.navigateToFolder(drone, hyerarcy[i]);
+		  siteActions.navigateToFolder(driver, hyerarcy[i]);
 	  }
 	  	  
-	  Assert.assertTrue(siteActions.isFileVisible(drone, file.getName()),String.format("File: [%s[ was copied in document library[%s] of site %s ", file.getName(), fullHyerarcy, newSite));  
+	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),String.format("File: [%s[ was copied in document library[%s] of site %s ", file.getName(), fullHyerarcy, newSite));  
     }
     
     @Test(groups = "Enterprise-only", priority=10, dataProvider="tempFilesData")
     public void testMoveArtifact(File file) throws Exception
     {
 	  copyOrMoveAction(file,ACTION.MOVE, new String[] {});	  
-	  Assert.assertTrue(siteActions.isFileVisible(drone, file.getName()),"File: " + file.getName() + " was moved in document library of site ");  
+	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),"File: " + file.getName() + " was moved in document library of site ");  
     }
     
     @Test(groups = "Enterprise-only", priority=11, dataProvider="tempFilesData")
@@ -183,9 +224,9 @@ public class SiteActionsTest extends AbstractTest
 	  
 	  for (int i = 0; i < hyerarcy.length; i++) {
 		  fullHyerarcy += "/" + hyerarcy[i];
-		  siteActions.navigateToFolder(drone, hyerarcy[i]);
+		  siteActions.navigateToFolder(driver, hyerarcy[i]);
 	  }
-	  Assert.assertTrue(siteActions.isFileVisible(drone, file.getName()),String.format("File: [%s] was moved in document library[%s] of site %s ",file.getName(),fullHyerarcy, newSite));  
+	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),String.format("File: [%s] was moved in document library[%s] of site %s ",file.getName(),fullHyerarcy, newSite));  
     }
     
     /**
@@ -194,16 +235,16 @@ public class SiteActionsTest extends AbstractTest
      * @param action
      */
     private void copyOrMoveAction(File file, ACTION action, String[] structure) {
-	  siteActions.openSiteDashboard(drone, siteName);
-	  siteActions.openDocumentLibrary(drone);
-	  siteActions.uploadFile(drone, file);
-	  siteActions.copyOrMoveArtifact(drone, DESTINATION.ALL_SITES, newSite, "", file.getName(), action, structure);
-	  siteActions.openSiteDashboard(drone, newSite);
-	  siteActions.openDocumentLibrary(drone);
+	  siteActions.openSiteDashboard(driver, siteName);
+	  siteActions.openDocumentLibrary(driver);
+	  siteActions.uploadFile(driver, file);
+	  siteActions.copyOrMoveArtifact(driver, factoryPage, DESTINATION.ALL_SITES, newSite, "", file.getName(), action, structure);
+	  siteActions.openSiteDashboard(driver, newSite);
+	  siteActions.openDocumentLibrary(driver);
     }
     
     @DataProvider
     public Object[][] tempFilesData() {
-		return new Object[][] { {SiteUtil.prepareFile()}};  
+		return new Object[][] { {siteUtil.prepareFile()}};  
     }    
 }

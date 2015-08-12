@@ -14,20 +14,18 @@
  */
 package org.alfresco.po.share.workflow;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -49,15 +47,6 @@ public class ViewWorkflowPage extends SharePage
 
     private final Log logger = LogFactory.getLog(this.getClass());
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public ViewWorkflowPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -83,12 +72,6 @@ public class ViewWorkflowPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public ViewWorkflowPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Selects the Cancel workflow button.
@@ -97,10 +80,10 @@ public class ViewWorkflowPage extends SharePage
      */
     public HtmlPage selectCancelWorkflowButton()
     {
-        drone.findAndWait(CANCEL_BUTTON).click();
-        drone.findAndWait(By.cssSelector("#prompt span.button-group>span:first-of-type button")).click();
-        drone.waitUntilElementDisappears(CANCEL_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        findAndWait(CANCEL_BUTTON).click();
+        findAndWait(By.cssSelector("#prompt span.button-group>span:first-of-type button")).click();
+        waitUntilElementDisappears(CANCEL_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
     
     /**
@@ -113,7 +96,7 @@ public class ViewWorkflowPage extends SharePage
         List<String> labels = new ArrayList<String>();
         try
         {
-            List<WebElement> webElements = drone.findAll(ALL_FIELD_LABELS);
+            List<WebElement> webElements = driver.findElements(ALL_FIELD_LABELS);
             for (WebElement label : webElements)
             {
                 labels.add(label.getText());
@@ -137,7 +120,7 @@ public class ViewWorkflowPage extends SharePage
      * @return - Comment string.
      *         public String getComments()
      *         {
-     *         return drone.find(COMMENT_TEXT).getText();
+     *         return driver.findElement(COMMENT_TEXT).getText();
      *         }
      */
 

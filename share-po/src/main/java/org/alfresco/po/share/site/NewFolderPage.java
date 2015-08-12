@@ -14,14 +14,16 @@
  */
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.FactorySharePage;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,10 +31,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * Create folder page object, holds all element of the HTML page relating to
@@ -43,9 +41,8 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
  */
 public class NewFolderPage extends ShareDialogue
 {
-    private Log logger = LogFactory.getLog(this.getClass());
     private final By folderTitleCss = By.cssSelector("input[id$='default-createFolder_prop_cm_title']");
-    private final By name = By.cssSelector("input[id$='default-createFolder_prop_cm_name']");
+    private final By name = By.cssSelector("input[id$='prop_cm_name']");
     private final By descriptionLocator = By.cssSelector("textarea[id$='default-createFolder_prop_cm_description']");
     private final By submitButton = By.cssSelector("button[id$='default-createFolder-form-submit-button']");
     private final By cancelButton = By.cssSelector("button[id$='createFolder-form-cancel-button']");
@@ -62,14 +59,7 @@ public class NewFolderPage extends ShareDialogue
         NAME, TITLE, DESCRIPTION;
     }
 
-    /**
-     * Constructor.
-     */
-    public NewFolderPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public NewFolderPage render(RenderTime timer)
     {
@@ -77,16 +67,11 @@ public class NewFolderPage extends ShareDialogue
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public NewFolderPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @Override
-    public NewFolderPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -108,34 +93,11 @@ public class NewFolderPage extends ShareDialogue
     {
         typeName(folderName);
         typeDescription(description);
-        WebElement okButton = drone.findAndWait(submitButton);
+        WebElement okButton = driver.findElement(submitButton);
         okButton.click();
         // Wait till the pop up disappears
         waitUntilMessageAppearAndDisappear("Folder");
-        //If something went wrong
-//        try{
-//
-//            if (drone.findAll(submitButton).size() != 0)
-//            {
-//                List<WebElement> submitButtons = drone.findAll(submitButton);
-//                for(WebElement sbmt : submitButtons)
-//                    if(sbmt.isDisplayed())
-//                    {
-//                        sbmt.click();
-//                        waitUntilAlert();
-//                    }
-//            }
-//
-//        }
-//        catch (StaleElementReferenceException e)
-//        {
-//            DocumentLibraryPage page = FactorySharePage.getPage(drone.getCurrentUrl(), drone).render();
-//            page.setShouldHaveFiles(true);
-//            return page;
-//
-//        }
-
-        DocumentLibraryPage page = FactorySharePage.getPage(drone.getCurrentUrl(), drone).render();
+        DocumentLibraryPage page = factoryPage.getPage(driver).render();
         page.setShouldHaveFiles(true);
         return page;
     }
@@ -196,20 +158,20 @@ public class NewFolderPage extends ShareDialogue
 
         if (validationMessage.isEmpty())
         {
-            WebElement okButton = drone.find(submitButton);
+            WebElement okButton = driver.findElement(submitButton);
             okButton.click();
 
             // Wait till the pop up disappears
             waitUntilMessageAppearAndDisappear("Folder");
-            DocumentLibraryPage page = FactorySharePage.getPage(drone.getCurrentUrl(), drone).render();
+            DocumentLibraryPage page = factoryPage.getPage(driver).render();
             page.setShouldHaveFiles(true);
             return page;
         }
 
-        HtmlPage page = FactorySharePage.resolvePage(drone);
+        HtmlPage page = getCurrentPage();
         if (page instanceof ShareDialogue)
         {
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         return page;
     }
@@ -225,14 +187,14 @@ public class NewFolderPage extends ShareDialogue
         {
             throw new IllegalArgumentException("Folder Name input required.");
         }
-        clearAndType(name, folderName);
+        clearAndTypeInput(name, folderName);
     }
 
     private String typeNameWithValidation(final String folderName)
     {
         String fName = (folderName == null ? "" : folderName);
 
-        return clearAndType(name, fName);
+        return clearAndTypeInput(name, fName);
     }
 
     /**
@@ -244,7 +206,7 @@ public class NewFolderPage extends ShareDialogue
     {
         if (folderTitle != null && !folderTitle.isEmpty())
         {
-            return clearAndType(folderTitleCss, folderTitle);
+            return clearAndTypeInput(folderTitleCss, folderTitle);
         }
         return "";
     }
@@ -258,17 +220,16 @@ public class NewFolderPage extends ShareDialogue
     {
         if (description != null && !description.isEmpty())
         {
-            return clearAndType(descriptionLocator, description);
+            return clearAndTypeInput(descriptionLocator, description);
         }
         return "";
     }
 
-    private String clearAndType(By by, String text)
+    private String clearAndTypeInput(By by, String text)
     {
-        WebElement element = drone.find(by);
+        WebElement element = driver.findElement(by);
         element.clear();
         element.sendKeys(text);
-        // element.sendKeys(Keys.TAB);
 
         return getValidationMessage(element);
     }
@@ -280,11 +241,11 @@ public class NewFolderPage extends ShareDialogue
      */
     public HtmlPage selectCancel()
     {
-        WebElement cancelElement = drone.find(cancelButton);
+        WebElement cancelElement = driver.findElement(cancelButton);
         String id = cancelElement.getAttribute("id");
         cancelElement.click();
-        drone.waitUntilElementDeletedFromDom(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return drone.getCurrentPage();
+        waitUntilElementDeletedFromDom(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -305,8 +266,8 @@ public class NewFolderPage extends ShareDialogue
      */
     protected void waitUntilMessageAppearAndDisappear(String text, long timeInSeconds)
     {
-        // drone.waitUntilVisible(By.cssSelector("div.bd>span.message"), text, timeInSeconds);
-        drone.waitUntilElementDisappears(By.cssSelector("div.bd>span.message"), timeInSeconds);
+        // waitUntilVisible(By.cssSelector("div.bd>span.message"), text, timeInSeconds);
+        waitUntilElementDisappears(By.cssSelector("div.bd>span.message"), timeInSeconds);
     }
 
     /**
@@ -354,17 +315,10 @@ public class NewFolderPage extends ShareDialogue
      * Mimics the action of clicking the save button.
      *
      */
-    public HtmlPage selectSubmitButton()
+    public void selectSubmitButton()
     {
-        try
-        {
-            drone.find(submitButton).click();
-        }
-        catch (TimeoutException e)
-        {
-            logger.error("The Save button not displayed", e);
-        }
-        return FactorySharePage.resolvePage(drone);
+        WebElement okButton = findAndWait(submitButton);
+        okButton.click();
     }
 
     /**
@@ -376,7 +330,7 @@ public class NewFolderPage extends ShareDialogue
     {
         try
         {
-            WebElement notifMessage = drone.findAndWait(NOTIFICATION_MESSAGE);
+            WebElement notifMessage = findAndWait(NOTIFICATION_MESSAGE);
             return notifMessage.getText();
         }
         catch (TimeoutException toe)
@@ -388,7 +342,7 @@ public class NewFolderPage extends ShareDialogue
 
     public void type(String text)
     {
-        clearAndType(name, text);
+        clearAndTypeInput(name, text);
     }
 
 }

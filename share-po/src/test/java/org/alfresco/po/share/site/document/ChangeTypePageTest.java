@@ -22,11 +22,11 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -44,13 +44,13 @@ public class ChangeTypePageTest extends AbstractTest
     private ChangeTypePage changeTypePage;
 
     @BeforeClass
-    public void prepare()
+    public void prepare() throws Exception
     {
         siteName = "site" + System.currentTimeMillis();
         String folderName = "The first folder";
-        ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        documentLibPage = ((SitePage) drone.getCurrentPage().render()).getSiteNav().selectSiteDocumentLibrary().render();
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        documentLibPage = ((SitePage) resolvePage(driver).render()).getSiteNav().selectDocumentLibrary().render();
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(folderName, folderName).render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName);
@@ -61,7 +61,7 @@ public class ChangeTypePageTest extends AbstractTest
     @AfterClass
     public void teardown() throws Throwable
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test(priority = 0)

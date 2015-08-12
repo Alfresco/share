@@ -15,16 +15,16 @@
 
 package org.alfresco.po.share.user;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * Represents 1 site from the User Sites List page.
@@ -32,24 +32,13 @@ import org.openqa.selenium.WebElement;
  * @author Jamie Allison
  * @since 4.3
  */
-public class UserSiteItem extends HtmlElement
+public class UserSiteItem extends PageElement
 {
-    private static final By SITE_NAME = By.cssSelector("p a");
     private static final By ACTIVITY_FEED_BUTTON = By.cssSelector("button");
 
     private static Log logger = LogFactory.getLog(UserSiteItem.class);
 
-    /**
-     * Constructor
-     * 
-     * @param element {@link WebElement}
-     * @param drone WebDrone
-     */
-    public UserSiteItem(WebElement element, WebDrone drone)
-    {
-        super(element, drone);
-    }
-
+    @FindBy(css="p a") Link site;
     /**
      * Get the site name as displayed on screen.
      * 
@@ -57,16 +46,8 @@ public class UserSiteItem extends HtmlElement
      */
     public String getSiteName()
     {
-        try
-        {
-            return findAndWait(SITE_NAME).getText();
-        }
-        catch (TimeoutException e)
-        {
-            logger.error("Exceeded the time to find site name: " + SITE_NAME, e);
-        }
-
-        throw new PageOperationException("Unable to find the site name: " + SITE_NAME);
+        String name = site.getText();
+        return name;
     }
 
     /**
@@ -96,18 +77,8 @@ public class UserSiteItem extends HtmlElement
      */
     public HtmlPage clickOnSiteName()
     {
-        try
-        {
-            findAndWait(SITE_NAME).click();
-            domEventCompleted();
-            return FactorySharePage.resolvePage(drone);
-        }
-        catch (TimeoutException e)
-        {
-            logger.error("Exceeded the time to find site name: " + SITE_NAME, e);
-        }
-
-        throw new PageOperationException("Unable to find the site name: " + SITE_NAME);
+        site.click();
+        return getCurrentPage();
     }
 
     /**
@@ -116,24 +87,14 @@ public class UserSiteItem extends HtmlElement
      * @param enabled <code>true</code> to enable avtivities. <code>false</code> to disable.
      * @return HtmlPage
      */
-    public HtmlPage toggleActivityFeed(boolean enabled)
+    public void toggleActivityFeed(boolean enabled)
     {
-        try
+        boolean check =  isActivityFeedEnabled();
+        if (enabled != check)
         {
-            if (enabled != isActivityFeedEnabled())
-            {
-                findAndWait(ACTIVITY_FEED_BUTTON).click();
-                domEventCompleted();
-            }
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(ACTIVITY_FEED_BUTTON).click();
         }
-        catch (TimeoutException e)
-        {
-            logger.error("Exceeded the time to find activity feed button: " + ACTIVITY_FEED_BUTTON, e);
-        }
-
-        throw new PageOperationException("Unable to find the activity feed button: " + ACTIVITY_FEED_BUTTON);
-    }
+    } 
     
     /**
      * Returns the text from the activity feed button for the site.

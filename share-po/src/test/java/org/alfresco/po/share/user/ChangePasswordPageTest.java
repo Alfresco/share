@@ -19,19 +19,19 @@
 
 package org.alfresco.po.share.user;
 
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.ChangePasswordPage;
 import org.alfresco.po.share.DashBoardPage;
+import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.testng.SkipException;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -55,14 +55,14 @@ public class ChangePasswordPageTest extends AbstractTest
         userName = "User_" + System.currentTimeMillis();
         newPassword = UNAME_PASSWORD + "123";
         createEnterpriseUser(userName);
-        ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
+        shareUtil.loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
     }
 
     @Test(groups = { "Enterprise-only" })
     public void openChangePasswordPage()
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         changePasswordPage = myProfilePage.getProfileNav().selectChangePassword().render();
         assertNotNull(changePasswordPage);
@@ -72,8 +72,8 @@ public class ChangePasswordPageTest extends AbstractTest
     public void isHeaderTitlePresent() throws Exception
     {
         String title = "Change User Password";
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         changePasswordPage = myProfilePage.getProfileNav().selectChangePassword().render();
         assertTrue(changePasswordPage.isTitlePresent(title), "Title is incorrect");
@@ -82,29 +82,22 @@ public class ChangePasswordPageTest extends AbstractTest
     @Test(groups="Enterprise-only", dependsOnMethods = "isHeaderTitlePresent")
     public void changePassword() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         changePasswordPage = myProfilePage.getProfileNav().selectChangePassword().render();
         changePasswordPage.changePassword(UNAME_PASSWORD, newPassword);
-        ShareUtil.logout(drone);
-        SharePage resultPage = login(drone, shareUrl, userName, UNAME_PASSWORD).render();
-        assertFalse(resultPage.isLoggedIn(), userName + " can login with old password");
-        resultPage = ShareUtil.loginAs(drone, shareUrl, userName, newPassword).render();
+        shareUtil.logout(driver);
+        LoginPage loginPage = login(driver, shareUrl, userName, UNAME_PASSWORD).render();
+        Assert.assertNotNull(loginPage);
+        SharePage resultPage = shareUtil.loginAs(driver, shareUrl, userName, newPassword).render();
         assertTrue(resultPage.isLoggedIn(), userName + " can't login with new password");
     }
 
-    private HtmlPage login(WebDrone drone, String shareUrl ,String userName, String userPassword)
+    private HtmlPage login(WebDriver driver, String shareUrl ,String userName, String userPassword) throws Exception
     {
         HtmlPage resultPage = null;
-
-        try
-        {
-            resultPage = ShareUtil.loginAs(drone, shareUrl, userName, userPassword);
-        }
-        catch (SkipException se)
-        {
-        }
+        resultPage = shareUtil.loginAs(driver, shareUrl, userName, userPassword);
         return resultPage;
     }
 }

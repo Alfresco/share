@@ -15,7 +15,6 @@
 package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 
@@ -27,15 +26,6 @@ import org.openqa.selenium.NoSuchElementException;
  */
 public abstract class SitePage extends SharePage
 {
-
-    /**
-     * Constructor.
-     */
-    protected SitePage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     /**
      * Checks that the current site is the same as
      * requested site name.
@@ -44,10 +34,10 @@ public abstract class SitePage extends SharePage
      */
     public boolean isSite(final String siteName)
     {
-        String url = drone.getCurrentUrl();
+        String url = driver.getCurrentUrl();
         if (url != null && !url.isEmpty())
         {
-            if (url.contains(String.format("/site/%s/", siteName.toLowerCase())))
+            if (url.toLowerCase().contains(String.format("/site/%s/", siteName.toLowerCase())))
             {
                 return true;
             }
@@ -67,8 +57,8 @@ public abstract class SitePage extends SharePage
         boolean displayed = false;
         try
         {
-            String selector = isDojoSupport() ? "div.dijitSelected span" : "a.active-page.theme-color-4";
-            String title = drone.findAndWait(By.cssSelector(selector)).getText();
+            String selector = "div.dijitSelected span";
+            String title = findAndWait(By.cssSelector(selector)).getText();
             displayed = pageTitle.equalsIgnoreCase(title) ? true : false;
         }
         catch (NoSuchElementException e)
@@ -85,7 +75,7 @@ public abstract class SitePage extends SharePage
      */
     public SiteNavigation getSiteNav()
     {
-        return new SiteNavigation(drone);
+        return factoryPage.instantiatePage(driver, SiteNavigation.class).render();
     }
 
 }
