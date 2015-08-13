@@ -70,45 +70,41 @@
    padding: 10px;
 }
 
-#CMM .alfresco-layout-VerticalWidgets.verticalPalette .dijitButton.alfresco-buttons-AlfButton {
+#CMM .alfresco-layout-VerticalWidgets.verticalPalette .alfresco-buttons-AlfButton {
    width: 100%;
    margin-bottom: 8px;
    background-color: #6e9e2d;
    border: 1px solid #777;
-   padding: 4px 0px;
    border-radius: 4px;
 }
-#CMM .alfresco-layout-VerticalWidgets.verticalPalette .dijitButton.alfresco-buttons-AlfButton .dijitInline.dijitButtonText {
+#CMM .alfresco-layout-VerticalWidgets.verticalPalette .alfresco-buttons-AlfButton .dijitInline.dijitButtonText {
    color: #fff;
 }
 
-#CMM .dijitButton.alfresco-buttons-AlfButton.createButton,
-#CMM .dijitButton.alfresco-buttons-AlfButton.createTypeButton,
-#CMM .dijitButton.alfresco-buttons-AlfButton.createPropertyGroupButton,
-#CMM .dijitButton.alfresco-buttons-AlfButton.createPropertyButton {
+#CMM .alfresco-buttons-AlfButton {
+   padding: 6px 13px;
+}
+
+#CMM .alfresco-buttons-AlfButton.createButton,
+#CMM .alfresco-buttons-AlfButton.createTypeButton,
+#CMM .alfresco-buttons-AlfButton.createPropertyGroupButton,
+#CMM .alfresco-buttons-AlfButton.createPropertyButton {
    background-color: #0078be;
    border: 1px solid #777;
-   padding: 4px 0px;
 }
-#CMM .dijitButton.alfresco-buttons-AlfButton.createButton .dijitInline.dijitButtonText,
-#CMM .dijitButton.alfresco-buttons-AlfButton.createTypeButton .dijitInline.dijitButtonText,
-#CMM .dijitButton.alfresco-buttons-AlfButton.createPropertyGroupButton .dijitInline.dijitButtonText,
-#CMM .dijitButton.alfresco-buttons-AlfButton.createPropertyButton .dijitInline.dijitButtonText {
+#CMM .alfresco-buttons-AlfButton.createButton .dijitInline.dijitButtonText,
+#CMM .alfresco-buttons-AlfButton.createTypeButton .dijitInline.dijitButtonText,
+#CMM .alfresco-buttons-AlfButton.createPropertyGroupButton .dijitInline.dijitButtonText,
+#CMM .alfresco-buttons-AlfButton.createPropertyButton .dijitInline.dijitButtonText {
    color: #fff;
 }
 
-#CMM .dijitButton.alfresco-buttons-AlfButton.createPropertyButton {
+#CMM .alfresco-buttons-AlfButton.createPropertyButton {
    background-color: #0078be;
    border: 1px solid #777;
-   padding: 4px 0px;
 }
-#CMM .dijitButton.alfresco-buttons-AlfButton.createPropertyButton .dijitInline.dijitButtonText {
+#CMM .alfresco-buttons-AlfButton.createPropertyButton .dijitInline.dijitButtonText {
    color: #fff;
-}
-
-#CMM .dijitButton.alfresco-buttons-AlfButton.backButton,
-#CMM .dijitButton.alfresco-buttons-AlfButton.importButton {
-   padding: 4px 0px;
 }
 
 /* Model edit form */
@@ -287,8 +283,8 @@
    margin: 10px 8px;
    border-radius: 3px;
    border: 1px dashed #CCC;
-   padding: 3px 4px 5px 6px;
-   width: 150px;
+   padding: 5px 4px 5px 7px;
+   width: 162px;
 }
 #CMM #FORM_EDITOR_CONSOLE .inlinePropertyButton .dijitButtonNode {
    padding: 0;
@@ -297,7 +293,7 @@
    width: 16px;
    height: 16px;
    background-image: url(./images/plus-16.png);
-   margin-right: 1px;
+   margin-right: 5px;
 }
 
 /* Canvas layout*/

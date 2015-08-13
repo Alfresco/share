@@ -196,7 +196,7 @@ properties.createForm = [
             {
                validation: "regex",
                regex: "^$|^[-]?[0-9]{1,20}(?:\.[0-9]{1,10})?$",
-               errorMessage: "Please enter a valid number"
+               errorMessage: "cmm.property.default.number.error"
             }
          ]
       }
