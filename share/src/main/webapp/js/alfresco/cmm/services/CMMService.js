@@ -290,6 +290,18 @@ define(["dojo/_base/declare",
             facetable: "TRUE",
             indexTokenisationMode: "TRUE"
          },
+         "boolean-none": {
+             type: "boolean",
+             indexed: false,
+             facetable: "UNSET",
+             indexTokenisationMode: "TRUE"
+         },
+         "boolean-standard": {
+             type: "boolean",
+             indexed: true,
+             facetable: "UNSET",
+             indexTokenisationMode: "TRUE"
+         },
          "txt-none": {
             type: "txt",
             indexed: false,
@@ -1631,8 +1643,9 @@ define(["dojo/_base/declare",
 
                            // Parse indexing data
                            var indexingData = this._parsePropertyIndexing(property);
-                           property.indexing_txt = indexingData.txt;
-                           property.indexing_nontxt = indexingData.nontxt;
+                           property.indexing_txt = indexingData.idxtxt;
+                           property.indexing_nontxt = indexingData.idxnontxt;
+                           property.indexing_boolean = indexingData.idxboolean;
 
                         }
                         // call original success topic as the list widget is expecting this data
@@ -2272,7 +2285,18 @@ define(["dojo/_base/declare",
        */
       _processPropertyIndexing: function alfresco_cmm_services_CMMService___processPropertyIndexing(payload) {
  
-         payload.indexing = (payload.datatype === "d:text" || payload.dataType === "d:mltext" || payload.dataType === "d:content") ? payload.indexing_txt : payload.indexing_nontxt;
+         if (payload.datatype === "d:text" || payload.dataType === "d:mltext" || payload.dataType === "d:content")
+         {
+            payload.indexing = payload.indexing_txt;
+         }
+         else if (payload.datatype === "d:boolean")
+         {
+            payload.indexing = payload.indexing_boolean;
+         }
+         else
+         {
+            payload.indexing = payload.indexing_nontxt;
+         }
 
          if(!payload.indexing)
          {
@@ -2297,12 +2321,22 @@ define(["dojo/_base/declare",
        */
       _parsePropertyIndexing: function alfresco_cmm_services_CMMService___parsePropertyIndexing(property) {
 
-         var dTyp = (property.dataType === "d:text" || property.dataType === "d:mltext" || property.dataType === "d:content") ? "txt" : "nontxt",
+         var dTyp = "nontxt",
              idxd = property.indexed,
              fct = property.facetable,
              idxTMode = property.indexTokenisationMode,
              idxSelectionTxt = "txt-standard",
-             idxSelectionNonTxt = "nontxt-standard";
+             idxSelectionNonTxt = "nontxt-standard",
+             idxSelectionBoolean = "boolean-standard";
+
+         if (property.dataType === "d:text" || property.dataType === "d:mltext" || property.dataType === "d:content")
+         {
+            dTyp = "txt";
+         }
+         else if (property.dataType === "d:boolean")
+         {
+            dTyp = "boolean";
+         }
 
          for (var key in this.propertyIndexingOptions) {
             if (this.propertyIndexingOptions.hasOwnProperty(key)) {
@@ -2316,6 +2350,10 @@ define(["dojo/_base/declare",
                   {
                      idxSelectionTxt = key;
                   }
+                  else if(dTyp === "boolean")
+                  {
+                     idxSelectionBoolean = key;
+                  }
                   else
                   {
                      idxSelectionNonTxt = key;
@@ -2326,8 +2364,9 @@ define(["dojo/_base/declare",
          }
 
          return {
-            txt: idxSelectionTxt,
-            nontxt: idxSelectionNonTxt
+            idxtxt: idxSelectionTxt,
+            idxnontxt: idxSelectionNonTxt,
+            idxboolean: idxSelectionBoolean
          }
       },
 
