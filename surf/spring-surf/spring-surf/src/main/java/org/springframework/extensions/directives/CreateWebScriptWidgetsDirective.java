@@ -34,6 +34,7 @@ import org.springframework.extensions.surf.extensibility.ExtensibilityDirectiveD
 import org.springframework.extensions.surf.extensibility.ExtensibilityModel;
 import org.springframework.extensions.webscripts.json.JSONWriter;
 import org.springframework.extensions.webscripts.json.RawValue;
+import org.springframework.extensions.webscripts.ui.common.StringUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.SimpleHash;
@@ -119,6 +120,7 @@ public class CreateWebScriptWidgetsDirective extends JavaScriptDependencyDirecti
             if (_htmlid instanceof SimpleScalar)
             {
                 htmlId = ((SimpleScalar)_htmlid).toString();
+                htmlId =  StringUtils.encode(htmlId);
             }
             else
             {
