@@ -13,6 +13,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <testng.xml>src/test/resources/testng.xml</testng.xml>
         <test.exclude>nonEnterprise</test.exclude>
+        <test.include>unit,alfresco-one,Enterprise4.2,Enterprise-only</test.include>
         <testng.suite.filename>src/test/resources/testng-alfresco-share.xml</testng.suite.filename>
         <argLine>-Xms512m -Xmx1024m</argLine>
         <skipTests>true</skipTests>
