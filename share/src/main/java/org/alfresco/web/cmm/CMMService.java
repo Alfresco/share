@@ -938,7 +938,7 @@ public abstract class CMMService extends DeclarativeWebScript
                                 final JSONObject config = (JSONObject) ((JSONObject)item).get(JSON_ELEMENTCONFIG);
                                 String panelLabel = (String) config.get(JSON_LABEL);
                                 boolean hasLabel = (panelLabel != null && panelLabel.length() != 0);
-                                final String setId = "_cmm_set"+sets.size();
+                                final String setId = entity.get(JSON_PREFIXEDNAME) + "_cmm_set" + sets.size();
                                 TWrapper setWrapper = new TWrapper(8);
                                 setWrapper.put(TEMPLATE_APPEARANCE, hasLabel ? config.get(JSON_APPEARANCE) : "whitespace")
                                           .put(TEMPLATE_ID, setId);
