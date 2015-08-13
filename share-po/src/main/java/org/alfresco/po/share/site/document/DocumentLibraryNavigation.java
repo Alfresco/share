@@ -15,38 +15,32 @@
 
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.FactorySharePage;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.enums.ViewType;
 import org.alfresco.po.share.enums.ZoomStyle;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.user.CloudSignInPage;
 import org.alfresco.po.share.util.PageUtils;
-import org.alfresco.po.share.workflow.DestinationAndAssigneePage;
-import org.alfresco.po.share.workflow.StartWorkFlowPage;
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Represent elements found on the HTML page relating to the document library
@@ -56,7 +50,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * @author Shan Nagarajan
  * @since 1.0
  */
-public class DocumentLibraryNavigation extends SharePage
+public class DocumentLibraryNavigation extends PageElement
 {
     public static final String FILE_UPLOAD_BUTTON = "button[id$='fileUpload-button-button']";
     public static final String CREATE_NEW_FOLDER_BUTTON = "button[id$='newFolder-button-button']";
@@ -68,10 +62,8 @@ public class DocumentLibraryNavigation extends SharePage
     private static final By SELECT_DROPDOWN_MENU = By.cssSelector("div[id$='default-fileSelect-menu']");
     private static final By SELECT_ALL = By.cssSelector(".selectAll");
     private static final By SELECT_NONE = By.cssSelector(".selectNone");
-    private static final By SYNC_TO_CLOUD = By.cssSelector(".onActionCloudSync");
     private static final By REQUEST_SYNC = By.cssSelector(".onActionCloudSyncRequest");
     private static final String FILE_UPLOAD_ERROR_MESSAGE = "Unable to create file upload page";
-    private static final String CREATE_FOLDER_ERROR_MESSAGE = "Unable to create new folder page";
     private static final By DELETE = By.cssSelector(".onActionDelete");
     private static final By COPY_TO = By.cssSelector(".onActionCopyTo");
     private static final By MOVE_TO = By.cssSelector(".onActionMoveTo");
@@ -96,39 +88,8 @@ public class DocumentLibraryNavigation extends SharePage
     private static final String CREATE_DOCUMENT_FROM_TEMPLATE = "//span[text()='Create document from template']/parent::a";
     private static final By BREAD_CRUMBS_PARENT = By.cssSelector("div[id$='default-breadcrumb'] a[class='folder']:first-child");
     private static final By BREAD_CRUMBS_PARENT_SPAN = By.cssSelector("span[class='label']>a");
-    private static final By SYNC_TO_CLOUD_BUTTON = By.cssSelector("button[id$=default-syncToCloud-button-button]");
 
     private Log logger = LogFactory.getLog(this.getClass());
-
-    /**
-     * Constructor.
-     */
-    public DocumentLibraryNavigation(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DocumentLibraryNavigation render(RenderTime timer)
-    {
-        basicRender(timer);
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DocumentLibraryNavigation render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DocumentLibraryNavigation render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * @return <tt>true</tt> if the <b>Upload</b> link is available
@@ -139,7 +100,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             By criteria = By.cssSelector(FILE_UPLOAD_BUTTON);
-            return drone.findAndWait(criteria, 100).isEnabled();
+            return driver.findElement(criteria).isEnabled();
         }
         catch (TimeoutException e)
         {
@@ -154,42 +115,27 @@ public class DocumentLibraryNavigation extends SharePage
      */
     public HtmlPage selectFileUpload()
     {
-        if (!alfrescoVersion.isFileUploadHtml5())
-        {
-            setSingleMode();
-        }
-        WebElement button = drone.findAndWait(By.cssSelector(FILE_UPLOAD_BUTTON));
+        WebElement button = driver.findElement(By.cssSelector(FILE_UPLOAD_BUTTON));
         button.click();
-        return getFileUpload(drone);
+        return getFileUpload(driver);
     }
 
     /**
      * Get file upload page pop up object.
      * 
-     * @param drone WebDrone browser client
+     * @param driver WebDriver browser client
      * @return SharePage page object response
      */
-    public HtmlPage getFileUpload(WebDrone drone)
+    public HtmlPage getFileUpload(WebDriver driver)
     {
 
         // Verify if it is really file upload page, and then create the page.
         try
         {
-            WebElement element;
-            switch (alfrescoVersion)
-            {
-                case Enterprise41:
-                    element = drone.findAndWait(By.cssSelector("form[id$='_default-htmlupload-form']"));
-                    break;
-                default:
-                    // Find by unique folder icon that appears in the dialog
-                    element = drone.findAndWait(By.cssSelector("img.title-folder"));
-                    break;
-            }
-
+            WebElement element = driver.findElement(By.cssSelector("img.title-folder"));
             if (element.isDisplayed())
             {
-                return new UploadFilePage(drone);
+                return factoryPage.instantiatePage(driver, UploadFilePage.class);
             }
         }
         catch (TimeoutException te)
@@ -212,7 +158,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             By criteria = By.cssSelector(CREATE_NEW_FOLDER_BUTTON);
-            return drone.findAndWait(criteria, 250).isEnabled();
+            return driver.findElement(criteria).isEnabled();
         }
         catch (TimeoutException e)
         {
@@ -230,12 +176,11 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            WebElement createContentElement = drone.findAndWait(CREATE_CONTENT_BUTTON);
-
+            WebElement createContentElement = driver.findElement(CREATE_CONTENT_BUTTON);
             if (createContentElement.isEnabled())
             {
                 createContentElement.click();
-                return FactorySharePage.resolvePage(drone);
+                return getCurrentPage();
             }
         }
         catch (TimeoutException e)
@@ -252,19 +197,10 @@ public class DocumentLibraryNavigation extends SharePage
      */
     public NewFolderPage selectCreateNewFolder()
     {
-        WebElement button;
-        switch (alfrescoVersion)
-        {
-            case Enterprise41:
-                button = drone.findAndWait(By.cssSelector(CREATE_NEW_FOLDER_BUTTON));
-                break;
-            default:
-                selectCreateContentDropdown();
-                button = drone.findAndWait(By.cssSelector("span.folder-file"));
-                break;
-        }
+        selectCreateContentDropdown();
+        WebElement button = driver.findElement(By.cssSelector("span.folder-file"));
         button.click();
-        return getNewFolderPage(drone);
+        return getNewFolderPage(driver);
     }
 
     /**
@@ -279,7 +215,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             selectCreateContentDropdown();
-            button = drone.findAndWait(By.xpath("//span[text()='Create document from template']/parent::a"));
+            button = driver.findElement(By.xpath("//span[text()='Create document from template']/parent::a"));
             button.click();
 
         }
@@ -288,7 +224,7 @@ public class DocumentLibraryNavigation extends SharePage
             logger.error("Not able to find the web element");
             throw new PageException("Unable to fine the Create document from template.", exception);
         }
-        return new DocumentLibraryPage(drone);
+        return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
     }
 
     /**
@@ -304,7 +240,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             selectCreateContentDropdown();
-            button = drone.findAndWait(By.xpath("//span[text()='Create folder from template']/parent::a"));
+            button = driver.findElement(By.xpath("//span[text()='Create folder from template']/parent::a"));
             button.click();
         }
         catch (TimeoutException exception)
@@ -313,7 +249,7 @@ public class DocumentLibraryNavigation extends SharePage
             throw new PageException("Unable to fine the Create folder from template.", exception);
         }
 
-        return new NewFolderPage(drone);
+        return factoryPage.instantiatePage(driver, NewFolderPage.class);
     }
 
     /**
@@ -329,9 +265,9 @@ public class DocumentLibraryNavigation extends SharePage
         {
             selectCreateContentDropdown();
 
-            button = drone.findAndWait(By.xpath("//span[text()='Create document from template']/parent::a"));
-            drone.mouseOver(button);
-            return FactorySharePage.resolvePage(drone);
+            button = driver.findElement(By.xpath("//span[text()='Create document from template']/parent::a"));
+            mouseOver(button);
+            return getCurrentPage();
 
         }
         catch (TimeoutException exception)
@@ -355,9 +291,9 @@ public class DocumentLibraryNavigation extends SharePage
         {
             selectCreateContentDropdown();
 
-            button = drone.findAndWait(By.xpath("//span[text()='Create folder from template']/parent::a"));
-            drone.mouseOver(button);
-            return FactorySharePage.resolvePage(drone);
+            button = driver.findElement(By.xpath("//span[text()='Create folder from template']/parent::a"));
+            mouseOver(button);
+            return getCurrentPage();
 
         }
         catch (TimeoutException exception)
@@ -374,25 +310,25 @@ public class DocumentLibraryNavigation extends SharePage
      */
     public HtmlPage selectCreateContent(ContentType content)
     {
-        if (alfrescoVersion.isCloud())
-        {
-            switch (content)
-            {
-                case GOOGLEDOCS:
-                case GOOGLEPRESENTATION:
-                case GOOGLESPREADSHEET:
-                    break;
-                case PLAINTEXT:
-                case HTML:
-                case XML:
-                default:
-                    throw new UnsupportedOperationException("Create Plain Text not Available for Cloud");
-            }
-        }
+//        if (alfrescoVersion.isCloud())
+//        {
+//            switch (content)
+//            {
+//                case GOOGLEDOCS:
+//                case GOOGLEPRESENTATION:
+//                case GOOGLESPREADSHEET:
+//                    break;
+//                case PLAINTEXT:
+//                case HTML:
+//                case XML:
+//                default:
+//                    throw new UnsupportedOperationException("Create Plain Text not Available for Cloud");
+//            }
+//        }
         try
         {
-            drone.findAndWait(CREATE_CONTENT_BUTTON).click();
-            drone.findAndWait(content.getContentLocator()).click();
+            driver.findElement(CREATE_CONTENT_BUTTON).click();
+            driver.findElement(content.getContentLocator()).click();
 
         }
         catch (TimeoutException exception)
@@ -400,7 +336,8 @@ public class DocumentLibraryNavigation extends SharePage
             logger.error("Not able to find the web element");
             throw new PageException("Unable to fine the Create Plain Text Link.", exception);
         }
-        return content.getContentCreationPage(drone);
+        Class<?> proxy = content.getContentCreationPage(driver);
+        return (HtmlPage) factoryPage.instantiatePage(driver, proxy);
     }
 
     /**
@@ -412,12 +349,12 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            WebElement selectedItemsElement = drone.findAndWait(SELECTED_ITEMS);
+            WebElement selectedItemsElement = driver.findElement(SELECTED_ITEMS);
 
             if (selectedItemsElement.isEnabled())
             {
                 selectedItemsElement.click();
-                return FactorySharePage.resolvePage(drone);
+                return getCurrentPage();
             }
             throw new PageException("Selected Items Button found, but is not enabled please select one or more item");
         }
@@ -435,7 +372,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.findAndWait(SELECTED_ITEMS_MENU).isDisplayed();
+            return driver.findElement(SELECTED_ITEMS_MENU).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -456,14 +393,11 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                if (AlfrescoVersion.Enterprise42.equals(alfrescoVersion) || AlfrescoVersion.Enterprise43.equals(alfrescoVersion))
-                {
-                    drone.findAndWait(DOWNLOAD_AS_ZIP).isDisplayed();
-                }
-                drone.findAndWait(COPY_TO).isDisplayed();
-                drone.findAndWait(MOVE_TO).isDisplayed();
-                drone.findAndWait(DELETE).isDisplayed();
-                drone.findAndWait(DESELECT_ALL).isDisplayed();
+                driver.findElement(DOWNLOAD_AS_ZIP).isDisplayed();
+                driver.findElement(COPY_TO).isDisplayed();
+                driver.findElement(MOVE_TO).isDisplayed();
+                driver.findElement(DELETE).isDisplayed();
+                driver.findElement(DESELECT_ALL).isDisplayed();
                 return true;
             }
             else
@@ -489,15 +423,12 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                if (AlfrescoVersion.Enterprise42.equals(alfrescoVersion) || AlfrescoVersion.Enterprise43.equals(alfrescoVersion))
-                {
-                    drone.findAndWait(DOWNLOAD_AS_ZIP).isDisplayed();
-                }
-                drone.findAndWait(COPY_TO).isDisplayed();
-                drone.findAndWait(MOVE_TO).isDisplayed();
-                drone.findAndWait(DELETE).isDisplayed();
-                drone.findAndWait(DESELECT_ALL).isDisplayed();
-                drone.findAndWait(START_WORKFLOW).isDisplayed();
+                driver.findElement(DOWNLOAD_AS_ZIP).isDisplayed();
+                driver.findElement(COPY_TO).isDisplayed();
+                driver.findElement(MOVE_TO).isDisplayed();
+                driver.findElement(DELETE).isDisplayed();
+                driver.findElement(DESELECT_ALL).isDisplayed();
+                driver.findElement(START_WORKFLOW).isDisplayed();
                 return true;
             }
             else
@@ -520,17 +451,13 @@ public class DocumentLibraryNavigation extends SharePage
      */
     public DocumentLibraryPage selectDownloadAsZip()
     {
-        if (AlfrescoVersion.Enterprise41.equals(alfrescoVersion) || alfrescoVersion.isCloud())
-        {
-            throw new UnsupportedOperationException("Download as Zip option is not available on this version " + alfrescoVersion.toString());
-        }
         clickSelectedItems();
         try
         {
             if (isSelectedItemMenuVisible())
             {
-                drone.findAndWait(DOWNLOAD_AS_ZIP).click();
-                return new DocumentLibraryPage(drone);
+                driver.findElement(DOWNLOAD_AS_ZIP).click();
+                return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
             }
             else
             {
@@ -552,7 +479,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            drone.findAndWait(SELECT_DROPDOWN).click();
+            driver.findElement(SELECT_DROPDOWN).click();
         }
         catch (TimeoutException e)
         {
@@ -569,7 +496,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.findAndWait(SELECT_DROPDOWN_MENU).isDisplayed();
+            return driver.findElement(SELECT_DROPDOWN_MENU).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -592,8 +519,8 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectDropDown();
             if (isSelectMenuVisible())
             {
-                drone.findAndWait(SELECT_ALL).click();
-                return FactorySharePage.resolvePage(drone);
+                driver.findElement(SELECT_ALL).click();
+                return getCurrentPage();
             }
             else
             {
@@ -620,8 +547,8 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectDropDown();
             if (isSelectMenuVisible())
             {
-                drone.findAndWait(SELECT_NONE).click();
-                return FactorySharePage.resolvePage(drone);
+                driver.findElement(SELECT_NONE).click();
+                return getCurrentPage();
             }
         }
         catch (TimeoutException e)
@@ -629,79 +556,6 @@ public class DocumentLibraryNavigation extends SharePage
             logger.error("Select None not available : " + SELECT_NONE.toString(), e);
         }
         throw new PageException("Select dropdown menu not visible");
-    }
-
-    /**
-     * Mimics the action select "Sync to Cloud" from selected Item.
-     * Assumes Cloud sync is already set-up
-     * 
-     * @return {@link DocumentLibraryPage}
-     */
-    public HtmlPage selectSyncToCloud()
-    {
-        try
-        {
-            clickSelectedItems();
-            if (isSelectedItemMenuVisible())
-            {
-                WebElement element = drone.findAndWait(SYNC_TO_CLOUD);
-                String id = element.getAttribute("id");
-                element.click();
-                drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                if (isSignUpDialogVisible())
-                {
-                    return new CloudSignInPage(getDrone());
-                }
-                else
-                {
-                    return new DestinationAndAssigneePage(getDrone());
-                }
-            }
-            else
-            {
-                throw new PageOperationException("Selected Items menu not visible");
-            }
-        }
-        catch (TimeoutException e)
-        {
-            String exceptionMessage = "Not able to find the \"Sync to Cloud\" Link";
-            logger.error(exceptionMessage, e);
-            throw new PageOperationException(exceptionMessage);
-        }
-    }
-
-    /**
-     * Mimics the select "Sync to Cloud" button from Navigation bar.
-     * It displays when have boths files and folders selected
-     * Assumes Cloud sync is already set-up
-     *
-     * @return {@link DestinationAndAssigneePage}
-     */
-    public HtmlPage selectSyncToCloudFromNav()
-    {
-
-        try
-        {
-            {
-                WebElement element = drone.findAndWait(SYNC_TO_CLOUD_BUTTON);
-                element.click();
-                if (isSignUpDialogVisible())
-                {
-                    return new CloudSignInPage(getDrone());
-                }
-                else
-                {
-                    return new DestinationAndAssigneePage(getDrone());
-                }
-            }
-
-        }
-        catch (TimeoutException e)
-        {
-            String exceptionMessage = "Not able to find the \"Sync to Cloud\" button";
-            logger.error(exceptionMessage, e);
-            throw new PageOperationException(exceptionMessage);
-        }
     }
 
     /**
@@ -716,8 +570,8 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectDropDown();
             if (isSelectMenuVisible())
             {
-                drone.findAndWait(SELECT_FOLDERS).click();
-                return FactorySharePage.resolvePage(drone);
+                driver.findElement(SELECT_FOLDERS).click();
+                return getCurrentPage();
             }
             else
             {
@@ -744,8 +598,8 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectDropDown();
             if (isSelectMenuVisible())
             {
-                drone.findAndWait(SELECT_DOCUMENTS).click();
-                return FactorySharePage.resolvePage(drone);
+                driver.findElement(SELECT_DOCUMENTS).click();
+                return getCurrentPage();
             }
             else
             {
@@ -772,8 +626,8 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectDropDown();
             if (isSelectMenuVisible())
             {
-                drone.findAndWait(SELECT_INVERT_SELECTION).click();
-                return FactorySharePage.resolvePage(drone);
+                driver.findElement(SELECT_INVERT_SELECTION).click();
+                return getCurrentPage();
             }
             else
             {
@@ -803,13 +657,13 @@ public class DocumentLibraryNavigation extends SharePage
             {
                 try
                 {
-                    return drone.find(By.cssSelector("form.cloud-auth-form")).isDisplayed();
+                    return driver.findElement(By.cssSelector("form.cloud-auth-form")).isDisplayed();
                 }
                 catch (NoSuchElementException e)
                 {
                     try
                     {
-                        return !drone.find(By.cssSelector("div[id$='default-cloud-folder-title']")).isDisplayed();
+                        return !driver.findElement(By.cssSelector("div[id$='default-cloud-folder-title']")).isDisplayed();
                     }
                     catch (NoSuchElementException nse)
                     {
@@ -829,29 +683,12 @@ public class DocumentLibraryNavigation extends SharePage
     /**
      * New folder page pop up object.
      * 
-     * @param drone WebDrone browser client
+     * @param driver WebDriver browser client
      * @return NewFolderPage page object response
      */
-    public NewFolderPage getNewFolderPage(WebDrone drone)
+    public NewFolderPage getNewFolderPage(WebDriver driver)
     {
-        // Verify if it is right page, and then create the page.
-        try
-        {
-            WebElement element = drone.findAndWait(By.cssSelector("div[id$='default-createFolder-dialog']"));
-            if (element.isDisplayed())
-            {
-                return new NewFolderPage(drone);
-            }
-        }
-        catch (TimeoutException te)
-        {
-            throw new PageException(CREATE_FOLDER_ERROR_MESSAGE, te);
-        }
-        catch (NoSuchElementException e)
-        {
-            throw new PageException(FILE_UPLOAD_ERROR_MESSAGE, e);
-        }
-        throw new PageException(CREATE_FOLDER_ERROR_MESSAGE);
+        return factoryPage.instantiatePage(driver, NewFolderPage.class).render();
     }
 
     /**
@@ -867,11 +704,11 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                WebElement element = drone.findAndWait(REQUEST_SYNC);
+                WebElement element = driver.findElement(REQUEST_SYNC);
                 String id = element.getAttribute("id");
                 element.click();
-                drone.waitUntilElementDeletedFromDom(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                return new DocumentLibraryPage(drone);
+                waitUntilElementDeletedFromDom(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
             }
             else
             {
@@ -898,11 +735,11 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                WebElement element = drone.findAndWait(DELETE);
+                WebElement element = driver.findElement(DELETE);
                 String id = element.getAttribute("id");
                 element.click();
-                drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                return new ConfirmDeletePage(drone);
+                waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                return factoryPage.instantiatePage(driver, ConfirmDeletePage.class);
             }
             else
             {
@@ -926,7 +763,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            boolean isDeleteAction = drone.find(DELETE).isDisplayed();
+            boolean isDeleteAction = driver.findElement(DELETE).isDisplayed();
             return isDeleteAction;
         }
         catch (NoSuchElementException ex)
@@ -940,18 +777,18 @@ public class DocumentLibraryNavigation extends SharePage
      * 
      * @return ConfirmDeletePage
      */
-    public CopyOrMoveContentPage selectCopyTo()
+    public HtmlPage selectCopyTo()
     {
         try
         {
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                WebElement element = drone.findAndWait(COPY_TO);
+                WebElement element = driver.findElement(COPY_TO);
                 String id = element.getAttribute("id");
                 element.click();
-                drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                return new CopyOrMoveContentPage(drone);
+                waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                return getCurrentPage();
             }
             else
             {
@@ -978,11 +815,11 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                WebElement element = drone.findAndWait(MOVE_TO);
+                WebElement element = driver.findElement(MOVE_TO);
                 String id = element.getAttribute("id");
                 element.click();
-                drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                return new CopyOrMoveContentPage(drone);
+                waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                return getCurrentPage().render();
             }
             else
             {
@@ -1009,11 +846,11 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                WebElement element = drone.findAndWait(DESELECT_ALL);
+                WebElement element = driver.findElement(DESELECT_ALL);
                 String id = element.getAttribute("id");
                 element.click();
-                drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                return FactorySharePage.resolvePage(drone);
+                waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                return getCurrentPage();
             }
             else
             {
@@ -1040,8 +877,8 @@ public class DocumentLibraryNavigation extends SharePage
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                drone.findAndWait(DESELECT_ALL).click();
-                return FactorySharePage.resolvePage(drone);
+                driver.findElement(DESELECT_ALL).click();
+                return getCurrentPage();
             }
             else
             {
@@ -1061,18 +898,18 @@ public class DocumentLibraryNavigation extends SharePage
      * 
      * @return StartWorkFlowPage
      */
-    public StartWorkFlowPage selectStartWorkFlow()
+    public HtmlPage selectStartWorkFlow()
     {
         try
         {
             clickSelectedItems();
             if (isSelectedItemMenuVisible())
             {
-                WebElement element = drone.findAndWait(START_WORKFLOW);
+                WebElement element = driver.findElement(START_WORKFLOW);
                 String id = element.getAttribute("id");
                 element.click();
-                drone.waitUntilElementDeletedFromDom(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                return new StartWorkFlowPage(drone);
+                waitUntilElementDeletedFromDom(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                return getCurrentPage();
             }
             else
             {
@@ -1090,8 +927,8 @@ public class DocumentLibraryNavigation extends SharePage
     private void clickOptionDropDown()
     {
         By optionButton = By.cssSelector("button[id$='default-options-button-button']");
-        WebElement btn = drone.findAndWait(optionButton);
-        drone.waitUntilElementClickable(optionButton, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        WebElement btn = driver.findElement(optionButton);
+        waitUntilElementClickable(optionButton, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         btn.click();
     }
 
@@ -1105,9 +942,9 @@ public class DocumentLibraryNavigation extends SharePage
     private void selectItemInOptionsDropDown(By button)
     {
         clickOptionDropDown();
-        drone.waitForElement(By.cssSelector("div[id$='default-options-menu']"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        drone.waitUntilElementClickable(button, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        drone.executeJavaScript("arguments[0].click();", drone.findAndWait(button));
+        waitForElement(By.cssSelector("div[id$='default-options-menu']"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitUntilElementClickable(button, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        executeJavaScript("arguments[0].click();", driver.findElement(button));
     }
 
     /**
@@ -1119,21 +956,8 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            switch (alfrescoVersion)
-            {
-                case Enterprise41:
-                    drone.findAndWait(By.cssSelector("button[title='Detailed View']")).click();
-                    break;
-
-                case Cloud:
-                    drone.findAndWait(By.cssSelector("button[id$='default-detailedView-button']")).click();
-                    break;
-
-                default:
-                    selectItemInOptionsDropDown(By.cssSelector("span.view.detailed"));
-                    break;
-            }
-            return drone.getCurrentPage();
+            selectItemInOptionsDropDown(By.cssSelector("li.detailed > a"));
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -1142,16 +966,6 @@ public class DocumentLibraryNavigation extends SharePage
         }
     }
 
-    /**
-     * Selects the Filmstrip View of the Document Library.
-     * 
-     * @return {@link DocumentLibraryPage}
-     */
-    public HtmlPage selectFilmstripView()
-    {
-        String viewType = "span.view.filmstrip";
-        return selectViewType(viewType);
-    }
 
     /**
      * Selects the Filmstrip View of the Document Library.
@@ -1184,7 +998,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             selectItemInOptionsDropDown(By.cssSelector(viewType));
-            return drone.getCurrentPage();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -1206,19 +1020,8 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            switch (alfrescoVersion)
-            {
-                case Enterprise41:
-                    drone.findAndWait(By.cssSelector("button[title='Simple View']")).click();
-                    break;
-                case Cloud:
-                    drone.findAndWait(By.cssSelector("button[id$='default-simpleView-button']")).click();
-                    break;
-                default:
-                    selectItemInOptionsDropDown(By.cssSelector("span.view.simple"));
-                    break;
-            }
-            return drone.getCurrentPage();
+            selectItemInOptionsDropDown(By.cssSelector("span.view.simple"));
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -1236,19 +1039,8 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            switch (alfrescoVersion)
-            {
-                case Enterprise41:
-                    drone.findAndWait(By.cssSelector("button[title='Table View']")).click();
-                    break;
-                case Cloud:
-                    drone.findAndWait(By.cssSelector("button[id$='default-tableView-button']")).click();
-                    break;
-                default:
-                    selectItemInOptionsDropDown(By.cssSelector("span.view.table"));
-                    break;
-            }
-            return drone.getCurrentPage();
+            selectItemInOptionsDropDown(By.cssSelector("span.view.table"));
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -1267,7 +1059,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             selectItemInOptionsDropDown(By.cssSelector(".hideFolders"));
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -1290,15 +1082,8 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            if (AlfrescoVersion.Enterprise41.equals(alfrescoVersion))
-            {
-                drone.find(By.cssSelector("button[id$='howFolders-button-button']")).click();
-            }
-            else
-            {
-                selectItemInOptionsDropDown(By.cssSelector(".showFolders"));
-            }
-            return FactorySharePage.resolvePage(drone);
+            selectItemInOptionsDropDown(By.cssSelector(".showFolders"));
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -1321,8 +1106,7 @@ public class DocumentLibraryNavigation extends SharePage
         {
             try
             {
-                WebElement btn = drone.find(By.cssSelector("button[id$='default-options-button-button']"));
-                HtmlElement dropdownButton = new HtmlElement(btn, drone);
+                WebElement dropdownButton = driver.findElement(By.cssSelector("button[id$='default-options-button-button']"));
                 dropdownButton.click();
             }
             catch (NoSuchElementException e)
@@ -1341,8 +1125,7 @@ public class DocumentLibraryNavigation extends SharePage
         {
             try
             {
-                WebElement btn = drone.find(By.cssSelector("button[id$='default-options-button-button']"));
-                HtmlElement dropdownButton = new HtmlElement(btn, drone);
+                WebElement dropdownButton = driver.findElement(By.cssSelector("button[id$='default-options-button-button']"));
                 dropdownButton.click();
             }
             catch (NoSuchElementException e)
@@ -1356,7 +1139,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector("div[id$='_default-options-menu']")).isDisplayed();
+            return driver.findElement(By.cssSelector("div[id$='_default-options-menu']")).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -1374,7 +1157,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             selectItemInOptionsDropDown(By.cssSelector(".hidePath"));
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -1398,7 +1181,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             selectItemInOptionsDropDown(By.cssSelector(".showPath"));
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -1421,7 +1204,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector("div[id$='_default-navBar']")).isDisplayed();
+            return driver.findElement(By.cssSelector("div[id$='_default-navBar']")).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -1441,7 +1224,7 @@ public class DocumentLibraryNavigation extends SharePage
         {
             try
             {
-                folderUpElement = drone.findAndWait(By.cssSelector("button[id$='folderUp-button-button']"));
+                folderUpElement = driver.findElement(By.cssSelector("button[id$='folderUp-button-button']"));
             }
             catch (TimeoutException ex)
             {
@@ -1451,7 +1234,7 @@ public class DocumentLibraryNavigation extends SharePage
             if (folderUpElement.isEnabled())
             {
                 folderUpElement.click();
-                return FactorySharePage.resolvePage(drone);
+                return getCurrentPage();
             }
             else
             {
@@ -1476,11 +1259,11 @@ public class DocumentLibraryNavigation extends SharePage
             List<ShareLink> folderLinks = new ArrayList<ShareLink>();
             try
             {
-                List<WebElement> folders = drone.findAll(By.cssSelector("a.folder"));
-                folders.add(drone.find(By.cssSelector(".label>a")));
+                List<WebElement> folders = driver.findElements(By.cssSelector("a.folder"));
+                folders.add(driver.findElement(By.cssSelector(".label>a")));
                 for (WebElement folder : folders)
                 {
-                    folderLinks.add(new ShareLink(folder, drone));
+                    folderLinks.add(new ShareLink(folder, driver, factoryPage));
                 }
             }
             catch (NoSuchElementException e)
@@ -1521,35 +1304,12 @@ public class DocumentLibraryNavigation extends SharePage
     }
 
     /**
-     * Selects the Gallery View of the Document Library.
-     * 
-     * @return {@link DocumentLibraryPage}
-     */
-    public HtmlPage selectGalleryView()
-    {
-        try
-        {
-            selectItemInOptionsDropDown(By.cssSelector("span.view.gallery"));
-            return drone.getCurrentPage();
-        }
-        catch (NoSuchElementException nse)
-        {
-            logger.error("Unable to find css.", nse);
-        }
-        catch (TimeoutException e)
-        {
-            logger.error("Exceeded the time to find css.", e);
-        }
-        throw new PageException("Unable to select the Gallery view.");
-    }
-
-    /**
      * This method is used to find the view type.
      */
     public ViewType getViewType()
     {
         // Note: This is temporary fix to find out the view type.
-        String text = (String) drone.executeJavaScript("return Alfresco.util.ComponentManager.findFirst('Alfresco.DocumentList').options.viewRendererName;");
+        String text = (String) executeJavaScript("return Alfresco.util.ComponentManager.findFirst('Alfresco.DocumentList').options.viewRendererName;");
         ViewType type = ViewType.getViewType(text);
         return type;
     }
@@ -1560,9 +1320,9 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             clickOptionDropDown();
-            if (drone.findAndWait(By.cssSelector("div[id$='default-options-menu']")).isDisplayed())
+            if (driver.findElement(By.cssSelector("div[id$='default-options-menu']")).isDisplayed())
             {
-                visible = drone.find(view).isDisplayed();
+                visible = driver.findElement(view).isDisplayed();
             }
         }
         catch (TimeoutException e)
@@ -1607,7 +1367,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             selectItemInOptionsDropDown(SET_DEFAULT_VIEW);
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -1631,7 +1391,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             selectItemInOptionsDropDown(REMOVE_DEFAULT_VIEW);
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -1652,7 +1412,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            drone.find(SORT_DROPDOWN).click();
+            driver.findElement(SORT_DROPDOWN).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -1673,11 +1433,11 @@ public class DocumentLibraryNavigation extends SharePage
         {
             clickSortDropDown();
 
-            WebElement dropdown = drone.findAndWait(SORT_FIELD);
+            WebElement dropdown = driver.findElement(SORT_FIELD);
             if (dropdown.isDisplayed())
             {
-                drone.find(sortField.getSortLocator()).click();
-                return FactorySharePage.resolvePage(drone);
+                driver.findElement(sortField.getSortLocator()).click();
+                return getCurrentPage();
             }
         }
         catch (TimeoutException e)
@@ -1696,7 +1456,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            WebElement button = drone.findAndWait(CURRENT_SORT_FIELD);
+            WebElement button = driver.findElement(CURRENT_SORT_FIELD);
 
             return SortField.getEnum(button.getText().split(" ")[0]);
         }
@@ -1716,7 +1476,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            String classValue = drone.find(SORT_DIRECTION).getAttribute("class");
+            String classValue = driver.findElement(SORT_DIRECTION).getAttribute("class");
 
             if (classValue == null)
             {
@@ -1740,7 +1500,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            drone.find(SORT_DIRECTION_BUTTON).click();
+            driver.findElement(SORT_DIRECTION_BUTTON).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -1760,7 +1520,7 @@ public class DocumentLibraryNavigation extends SharePage
             clickSortOrder();
         }
 
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -1793,49 +1553,13 @@ public class DocumentLibraryNavigation extends SharePage
     }
 
     /**
-     * This methods does the zoom in and zoom out on Gallery view.
-     * 
-     * @param zoomStyle ZoomStyle
-     * @return HtmlPage
-     */
-    public HtmlPage selectZoom(ZoomStyle zoomStyle)
-    {
-        if (!getViewType().equals(ViewType.GALLERY_VIEW))
-        {
-            throw new UnsupportedOperationException("Zoom Control is available in GalleryView only.");
-        }
-
-        if (zoomStyle == null)
-        {
-            throw new IllegalArgumentException("ZoomStyle value is required");
-        }
-
-        WebElement zoomThumbnail = findZoomControl();
-        ZoomStyle actualZoomStyle = getZoomStyle();
-
-        if (zoomStyle.equals(actualZoomStyle))
-        {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("The selected zoom style is already in place.");
-            }
-        }
-        else
-        {
-            drone.dragAndDrop(zoomThumbnail, (zoomStyle.getSize() - actualZoomStyle.getSize()), 0);
-        }
-
-        return FactorySharePage.resolvePage(drone);
-    }
-
-    /**
      * @return WebElement
      */
     private WebElement findZoomControl()
     {
         try
         {
-            return drone.findAndWait(ZOOM_CONTROL_BAR_THUMBNAIL_CSS);
+            return driver.findElement(ZOOM_CONTROL_BAR_THUMBNAIL_CSS);
         }
         catch (TimeoutException e)
         {
@@ -1854,7 +1578,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(ZOOM_CONTROL_BAR_THUMBNAIL_CSS).isDisplayed();
+            return driver.findElement(ZOOM_CONTROL_BAR_THUMBNAIL_CSS).isDisplayed();
         }
         catch (NoSuchElementException ne)
         {
@@ -1872,7 +1596,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector(FILE_UPLOAD_BUTTON)).isEnabled();
+            return driver.findElement(By.cssSelector(FILE_UPLOAD_BUTTON)).isEnabled();
         }
         catch (NoSuchElementException e)
         {
@@ -1889,7 +1613,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector(FILE_UPLOAD_BUTTON)).isDisplayed();
+            return driver.findElement(By.cssSelector(FILE_UPLOAD_BUTTON)).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -1906,7 +1630,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(CREATE_CONTENT_BUTTON).isEnabled();
+            return driver.findElement(CREATE_CONTENT_BUTTON).isEnabled();
         }
         catch (NoSuchElementException e)
         {
@@ -1923,7 +1647,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(FOLDER_UP_BUTTON).isDisplayed();
+            return driver.findElement(FOLDER_UP_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -1940,7 +1664,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(CREATE_CONTENT_BUTTON).isDisplayed();
+            return driver.findElement(CREATE_CONTENT_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -1955,7 +1679,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(SELECT_DROPDOWN).isDisplayed();
+            return driver.findElement(SELECT_DROPDOWN).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -1970,7 +1694,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(SELECTED_ITEMS).isDisplayed();
+            return driver.findElement(SELECTED_ITEMS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -1985,7 +1709,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(SELECTED_ITEMS).isEnabled();
+            return driver.findElement(SELECTED_ITEMS).isEnabled();
         }
         catch (NoSuchElementException e)
         {
@@ -2000,7 +1724,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(CRUMB_TRAIL).isDisplayed();
+            return driver.findElement(CRUMB_TRAIL).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -2018,7 +1742,7 @@ public class DocumentLibraryNavigation extends SharePage
         try
         {
             openOptionMenu();
-            return drone.find(By.cssSelector(option.getOption())).isDisplayed();
+            return driver.findElement(By.cssSelector(option.getOption())).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -2041,7 +1765,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(CREATE_NEW_FOLDER).isDisplayed();
+            return driver.findElement(CREATE_NEW_FOLDER).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -2058,13 +1782,13 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            String currentDocLibUrl = drone.getCurrentUrl();
+            String currentDocLibUrl = driver.getCurrentUrl();
             String protocolVar = PageUtils.getProtocol(currentDocLibUrl);
             String shareUrlVar = PageUtils.getShareUrl(currentDocLibUrl);
             String rssUrl = String.format("%s%s:%s@%s/feedservice/components/documentlibrary/feed/all/site/%s/documentLibrary/?filter=path&format=rss",
                     protocolVar, username, password, shareUrlVar, siteName);
-            drone.navigateTo(rssUrl);
-            return new RssFeedPage(drone);
+            driver.navigate().to(rssUrl);
+            return factoryPage.instantiatePage(driver, RssFeedPage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -2084,9 +1808,9 @@ public class DocumentLibraryNavigation extends SharePage
      */
     public NewFolderPage selectCreateAFolder()
     {
-        WebElement button = drone.findAndWait(By.cssSelector(CREATE_A_FOLDER_LINK));
+        WebElement button = driver.findElement(By.cssSelector(CREATE_A_FOLDER_LINK));
         button.click();
-        return getNewFolderPage(drone);
+        return getNewFolderPage(driver);
     }
 
     /**
@@ -2099,7 +1823,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.findAndWait(CRUMB_TRAIL).getText();
+            return driver.findElement(CRUMB_TRAIL).getText();
         }
         catch (TimeoutException e)
         {
@@ -2119,7 +1843,7 @@ public class DocumentLibraryNavigation extends SharePage
 
         try
         {
-            return drone.findAndWait(content.getContentLocator()).isDisplayed();
+            return driver.findElement(content.getContentLocator()).isDisplayed();
 
         }
         catch (TimeoutException exception)
@@ -2138,17 +1862,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-
-            if (AlfrescoVersion.Enterprise41.equals(drone.getProperties().getVersion()))
-            {
-                return drone.find(By.cssSelector(CREATE_NEW_FOLDER_BUTTON)).isDisplayed();
-
-            }
-            else
-            {
-                return drone.find(By.cssSelector("span.folder-file")).isDisplayed();
-            }
-
+            return driver.findElement(By.cssSelector("span.folder-file")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -2170,12 +1884,12 @@ public class DocumentLibraryNavigation extends SharePage
 
             if (folder)
             {
-                return drone.findAndWait(By.xpath(CREATE_FOLDER_FROM_TEMPLATE)).isDisplayed();
+                return driver.findElement(By.xpath(CREATE_FOLDER_FROM_TEMPLATE)).isDisplayed();
 
             }
             else
             {
-                return drone.findAndWait(By.xpath(CREATE_DOCUMENT_FROM_TEMPLATE)).isDisplayed();
+                return driver.findElement(By.xpath(CREATE_DOCUMENT_FROM_TEMPLATE)).isDisplayed();
             }
 
         }
@@ -2199,7 +1913,7 @@ public class DocumentLibraryNavigation extends SharePage
             if (isSelectedItemMenuVisible())
             {
 
-                return drone.find(By.cssSelector(option.getOption())).isDisplayed();
+                return driver.findElement(By.cssSelector(option.getOption())).isDisplayed();
             }
         }
         catch (NoSuchElementException nse)
@@ -2221,7 +1935,7 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            return drone.find(BREAD_CRUMBS_PARENT_SPAN).getText();
+            return driver.findElement(BREAD_CRUMBS_PARENT_SPAN).getText();
         }
         catch (TimeoutException e)
         {
@@ -2239,8 +1953,8 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            drone.findAndWait(BREAD_CRUMBS_PARENT).click();
-            return FactorySharePage.resolvePage(drone);
+            driver.findElement(BREAD_CRUMBS_PARENT).click();
+            return getCurrentPage();
 
         }
         catch (TimeoutException e)
@@ -2259,8 +1973,8 @@ public class DocumentLibraryNavigation extends SharePage
     {
         try
         {
-            drone.findAndWait(BREAD_CRUMBS_PARENT_SPAN).click();
-            return FactorySharePage.resolvePage(drone);
+            driver.findElement(BREAD_CRUMBS_PARENT_SPAN).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {

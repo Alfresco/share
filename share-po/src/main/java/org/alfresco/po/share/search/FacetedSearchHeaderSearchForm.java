@@ -1,31 +1,45 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.search;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
  * The Class FacetedSearchHeaderSearchForm.
  */
-public class FacetedSearchHeaderSearchForm
+public class FacetedSearchHeaderSearchForm extends PageElement
 {
     /** Constants */
     private static final By HEADER_SEARCH_BOX = By.cssSelector("div#HEADER_SEARCH_BOX");
     private static final By HEADER_SEARCH_BOX_FORM_FIELD = By.cssSelector("INPUT#HEADER_SEARCHBOX_FORM_FIELD");
 
-    private WebDrone drone;
+    private WebDriver driver;
     private WebElement input;
 
     /**
      * Instantiates a new faceted search form.
      */
-    public FacetedSearchHeaderSearchForm(WebDrone drone)
+    public FacetedSearchHeaderSearchForm(WebDriver driver)
     {
-        this.drone = drone;
-        WebElement facetedSearchHeaderSearchForm = drone.find(HEADER_SEARCH_BOX);
+        this.driver = driver;
+        WebElement facetedSearchHeaderSearchForm = driver.findElement(HEADER_SEARCH_BOX);
         this.input = facetedSearchHeaderSearchForm.findElement(HEADER_SEARCH_BOX_FORM_FIELD);
     }
 
@@ -69,7 +83,7 @@ public class FacetedSearchHeaderSearchForm
         setSearchTerm(searchTerm);
         this.input.sendKeys(Keys.RETURN);
 
-        return FactorySharePage.resolvePage(this.drone);
+        return factoryPage.getPage(this.driver);
     }
 
 }

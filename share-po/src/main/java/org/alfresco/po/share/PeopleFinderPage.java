@@ -14,10 +14,13 @@
  */
 package org.alfresco.po.share;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,10 +28,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * People finder page object, holds all element of the html page relating to
@@ -43,16 +42,6 @@ public class PeopleFinderPage extends SharePage
     private static final By SEACH_INPUT = By.cssSelector("input[id$='people-finder_x0023_default-search-text']");
     private static Log logger = LogFactory.getLog(PeopleFinderPage.class);
     private List<ShareLink> shareLinks;
-
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public PeopleFinderPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -74,7 +63,7 @@ public class PeopleFinderPage extends SharePage
             try
             {
                 // Check button is displayed and is not disabled
-                WebElement searchBtn = drone.find(SEARCH_BUTTON);
+                WebElement searchBtn = driver.findElement(SEARCH_BUTTON);
                 if (searchBtn.isEnabled())
                 {
                     if (hasNoResultMessage())
@@ -115,13 +104,6 @@ public class PeopleFinderPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public PeopleFinderPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Verify if people finder title is present on the page
      * 
@@ -141,12 +123,12 @@ public class PeopleFinderPage extends SharePage
      */
     public HtmlPage searchFor(final String person)
     {
-        WebElement input = drone.findAndWait(SEACH_INPUT);
+        WebElement input = findAndWait(SEACH_INPUT);
         input.clear();
         input.sendKeys(person);
-        WebElement button = drone.findAndWait(SEARCH_BUTTON);
+        WebElement button = findAndWait(SEARCH_BUTTON);
         button.click();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -159,7 +141,7 @@ public class PeopleFinderPage extends SharePage
         boolean screenDisplayed = false;
         try
         {
-            WebElement element = drone.find(By.cssSelector("div[id$='default-help']"));
+            WebElement element = driver.findElement(By.cssSelector("div[id$='default-help']"));
             screenDisplayed = element.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -177,7 +159,7 @@ public class PeopleFinderPage extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector("tbody.yui-dt-data > tr")).isDisplayed();
+            return driver.findElement(By.cssSelector("tbody.yui-dt-data > tr")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -196,7 +178,7 @@ public class PeopleFinderPage extends SharePage
         try
         {
             // Search for no data message
-            WebElement message = drone.find(By.cssSelector("tbody.yui-dt-message"));
+            WebElement message = driver.findElement(By.cssSelector("tbody.yui-dt-message"));
             noResults = message.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -225,7 +207,7 @@ public class PeopleFinderPage extends SharePage
         shareLinks = new ArrayList<ShareLink>();
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector("tbody.yui-dt-data > tr"));
+            List<WebElement> elements = driver.findElements(By.cssSelector("tbody.yui-dt-data > tr"));
             if (logger.isTraceEnabled())
             {
                 logger.trace(String.format("Search results has yeilded %d results", elements.size()));
@@ -233,7 +215,7 @@ public class PeopleFinderPage extends SharePage
             for (WebElement element : elements)
             {
                 WebElement result = element.findElement(By.tagName("a"));
-                shareLinks.add(new ShareLink(result, drone));
+                shareLinks.add(new ShareLink(result, driver, factoryPage));
             }
         }
         catch (TimeoutException nse)
@@ -253,12 +235,12 @@ public class PeopleFinderPage extends SharePage
         try
         {
 
-            WebElement input = drone.findAndWait(SEACH_INPUT);
+            WebElement input = findAndWait(SEACH_INPUT);
             input.clear();
             input.sendKeys(person);
-            WebElement button = drone.findAndWait(SEARCH_BUTTON);
+            WebElement button = findAndWait(SEARCH_BUTTON);
             button.click();
-            return FactorySharePage.resolvePage(drone).render();
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
@@ -272,7 +254,7 @@ public class PeopleFinderPage extends SharePage
         {
             throw new IllegalArgumentException("Name can't be empty or null");
         }
-        List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector("tbody.yui-dt-data > tr"));
+        List<WebElement> elements = findAndWaitForElements(By.cssSelector("tbody.yui-dt-data > tr"));
 
         for (WebElement webElement : elements)
         {
@@ -299,7 +281,7 @@ public class PeopleFinderPage extends SharePage
         {
             throw new IllegalArgumentException("Name can't be empty or null");
         }
-        List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector("tbody.yui-dt-data > tr"));
+        List<WebElement> elements = findAndWaitForElements(By.cssSelector("tbody.yui-dt-data > tr"));
 
         for (WebElement webElement : elements)
         {

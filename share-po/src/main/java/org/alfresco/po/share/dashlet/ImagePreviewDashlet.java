@@ -1,12 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -14,8 +8,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(xpath="//div[starts-with(@class,'dashlet resizable')]")
 /**
  * Page object to hold Image Preview Dashlet
  *
@@ -34,19 +39,17 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     private static final By titleBarActions = By.xpath("//div[starts-with(@class,'dashlet resizable')] //div[@class='titleBarActions']");
     private static final By IMAGE_LINK = By.xpath(".//div[@class='thumbnail']/a");
 
-    /**
-     * Constructor.
-     */
-    protected ImagePreviewDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.xpath("//div[starts-with(@class,'dashlet resizable')] //div[starts-with(@class, 'yui-resize-handle')]"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected ImagePreviewDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public ImagePreviewDashlet render(RenderTime timer)
     {
+        setResizeHandle(By.xpath("//div[starts-with(@class,'dashlet resizable')] //div[starts-with(@class, 'yui-resize-handle')]"));
         try
         {
             while (true)
@@ -66,10 +69,10 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus();
-                    drone.find(DASHLET_CONTAINER_PLACEHOLDER);
-                    drone.find(CONFIGURE_DASHLET_ICON);
-                    drone.find(HELP_ICON);
-                    drone.find(DASHLET_TITLE);
+                    driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
+                    driver.findElement(CONFIGURE_DASHLET_ICON);
+                    driver.findElement(HELP_ICON);
+                    driver.findElement(DASHLET_TITLE);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -92,27 +95,18 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
         }
         return this;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ImagePreviewDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public ImagePreviewDashlet render()
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
     /**
      * This method gets the focus by placing mouse over on Site Content Dashlet.
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     /**
@@ -125,8 +119,8 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
         try
         {
             scrollDownToDashlet();
-            drone.mouseOver(drone.find(titleBarActions));
-            return drone.findAndWait(HELP_ICON).isDisplayed();
+            mouseOver(driver.findElement(titleBarActions));
+            return findAndWait(HELP_ICON).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -149,8 +143,8 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
         try
         {
             scrollDownToDashlet();
-            drone.mouseOver(drone.find(titleBarActions));
-            return drone.findAndWait(CONFIGURE_DASHLET_ICON).isDisplayed();
+            mouseOver(driver.findElement(titleBarActions));
+            return findAndWait(CONFIGURE_DASHLET_ICON).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -170,8 +164,8 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.mouseOver(drone.find(titleBarActions));
-            drone.findAndWait(HELP_ICON).click();
+            mouseOver(driver.findElement(titleBarActions));
+            findAndWait(HELP_ICON).click();
         }
         catch (TimeoutException te)
         {
@@ -189,7 +183,7 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
+            return findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -207,7 +201,7 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
+            return findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
         }
         catch (TimeoutException elementException)
         {
@@ -223,8 +217,8 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
-            drone.waitUntilElementDisappears(DASHLET_HELP_BALLOON, TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+            findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
+            waitUntilElementDisappears(DASHLET_HELP_BALLOON, TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
             return this;
         }
         catch (TimeoutException elementException)
@@ -242,7 +236,7 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_TITLE).getText();
+            return findAndWait(DASHLET_TITLE).getText();
         }
         catch (TimeoutException te)
         {
@@ -253,13 +247,13 @@ public class ImagePreviewDashlet extends AbstractDashlet implements Dashlet
     /**
      * This method is used to Finds Config icon and clicks on it.
      */
-    public SelectImageFolderBoxPage clickOnConfigure()
+    public HtmlPage clickOnConfigure()
     {
         try
         {
-            drone.mouseOver(drone.find(titleBarActions));
-            drone.findAndWait(CONFIGURE_DASHLET_ICON).click();
-            return new SelectImageFolderBoxPage(drone).render();
+            mouseOver(driver.findElement(titleBarActions));
+            findAndWait(CONFIGURE_DASHLET_ICON).click();
+            return factoryPage.instantiatePage(driver, SelectImageFolderBoxPage.class);
         }
         catch (TimeoutException te)
         {

@@ -15,13 +15,12 @@
 
 package org.alfresco.po.share.user;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.RenderTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * When the users selects Delete of many items in the trashcan they will be
@@ -35,11 +34,6 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 public class TrashCanDeleteConfirmDialog extends TrashCanPage
 {
     protected static final By DELETE_OK_BUTTON = By.cssSelector("div.ft button");
-
-    public TrashCanDeleteConfirmDialog(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     public TrashCanDeleteConfirmDialog render(RenderTime timer)
@@ -59,13 +53,6 @@ public class TrashCanDeleteConfirmDialog extends TrashCanPage
 
     @SuppressWarnings("unchecked")
     @Override
-    public TrashCanDeleteConfirmDialog render(long time)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public TrashCanDeleteConfirmDialog render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -76,7 +63,7 @@ public class TrashCanDeleteConfirmDialog extends TrashCanPage
      */
     public TrashCanPage clickDeleteOK()
     {
-        drone.find(DELETE_OK_BUTTON).click();
-        return new TrashCanPage(drone);
+        driver.findElement(DELETE_OK_BUTTON).click();
+        return factoryPage.instantiatePage(driver, TrashCanPage.class);
     }
 }

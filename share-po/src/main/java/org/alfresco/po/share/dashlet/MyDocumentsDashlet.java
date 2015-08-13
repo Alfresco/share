@@ -14,23 +14,26 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.dashlet.sitecontent.DetailedViewInformation;
-import org.alfresco.po.share.dashlet.sitecontent.SimpleViewInformation;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.alfresco.po.share.ShareLink;
+import org.alfresco.po.share.dashlet.sitecontent.DetailedViewInformation;
+import org.alfresco.po.share.dashlet.sitecontent.SimpleViewInformation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.my-documents")
 /**
  * My documents dashlet object, holds all element of the HTML page relating to
  * share's my documents dashlet on dashboard page.
@@ -67,17 +70,15 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
 
 
 
-    /**
-     * Constructor.
-     */
-    protected MyDocumentsDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(DASHLET_DIV_CONTAINER_PLACEHOLDER));
-        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected MyDocumentsDashlet()
+//    {
+//        super(By.cssSelector(DASHLET_DIV_CONTAINER_PLACEHOLDER));
+//        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public MyDocumentsDashlet render(RenderTime timer)
     {
         try
@@ -99,7 +100,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus(By.cssSelector(DASHLET_DIV_CONTAINER_PLACEHOLDER));
-                    this.dashlet = drone.find(By.cssSelector(DASHLET_DIV_CONTAINER_PLACEHOLDER));
+                    this.dashlet = driver.findElement(By.cssSelector(DASHLET_DIV_CONTAINER_PLACEHOLDER));
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -121,20 +122,6 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
             throw new NoSuchDashletExpection(this.getClass().getName() + " failed to find Content I'm Editing dashlet", te);
         }
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyDocumentsDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyDocumentsDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
     }
 
     /**
@@ -166,7 +153,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
     public HtmlPage selectFilter(SiteContentFilter filter)
     {
         clickFilterButton();
-        List<WebElement> filterElements = drone.findAll(By.cssSelector(CONTENT_DASHLET_LIST_OF_FILTER_BUTTONS));
+        List<WebElement> filterElements = driver.findElements(By.cssSelector(CONTENT_DASHLET_LIST_OF_FILTER_BUTTONS));
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -177,8 +164,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        waitUntilAlert(1);
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -189,7 +175,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(By.cssSelector(DEFAULT_FILTER_BUTTON)).click();
+            findAndWait(By.cssSelector(DEFAULT_FILTER_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
@@ -205,7 +191,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
      */
     public void clickDetailView()
     {
-        drone.findAndWait(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).click();
+        findAndWait(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).click();
     }
 
     /**
@@ -219,7 +205,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
         List<DetailedViewInformation> informations = null;
         try
         {
-            drone.findAndWait(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).click();
+            findAndWait(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).click();
             List<WebElement> links = this.dashlet.findElements(By.cssSelector(NUMBER_OF_DOCS_TABLE));
             if (links == null || links.isEmpty())
             {
@@ -229,20 +215,20 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
             for (WebElement tr : links)
             {
                 WebElement thumbnailLink = tr.findElement(DETAIL_THUMBNAIL_LINK);
-                ShareLink thumbnail = new ShareLink(thumbnailLink, drone);
+                ShareLink thumbnail = new ShareLink(thumbnailLink, driver, factoryPage);
 
                 WebElement contentLink = tr.findElement(By.cssSelector(".filename>a"));
-                ShareLink contentDetail = new ShareLink(contentLink, drone);
+                ShareLink contentDetail = new ShareLink(contentLink, driver, factoryPage);
 
                 WebElement userLink = tr.findElement(USER_LINK);
-                ShareLink user = new ShareLink(userLink, drone);
+                ShareLink user = new ShareLink(userLink, driver, factoryPage);
 
                 String contentStatus = tr.findElement(DETAIL_CONTENT_STATUTS).getText();
                 WebElement commentLink = tr.findElement(COMMENT_LINK);
-                ShareLink comment = new ShareLink(commentLink, drone);
+                ShareLink comment = new ShareLink(commentLink, driver, factoryPage);
 
                 WebElement likeLink = tr.findElement(LIKE_LINK);
-                ShareLink like = new ShareLink(likeLink, drone);
+                ShareLink like = new ShareLink(likeLink, driver, factoryPage);
                 boolean likeEnabled = false;
 
                 String likeClass = likeLink.getAttribute("class");
@@ -252,7 +238,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
                 }
 
                 WebElement favouriteLink = tr.findElement(FAVOURITE_LINK);
-                ShareLink favourite = new ShareLink(favouriteLink, drone);
+                ShareLink favourite = new ShareLink(favouriteLink, driver, factoryPage);
                 boolean favouriteEnabled = false;
 
                 String favouriteClass = favouriteLink.getAttribute("class");
@@ -265,7 +251,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
                 String fileSize = tr.findElement(FILE_SIZE).getText();
                 String desc = tr.findElement(By.cssSelector(DETAIL_DESC)).getText();
 
-                drone.mouseOver(thumbnailLink);
+                mouseOver(thumbnailLink);
                 WebElement docVersionElement = tr.findElement(DOCUMENT_VERSION);
 
                 double docVersion = 0;
@@ -273,8 +259,8 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
                 {
                     docVersion = Double.parseDouble(docVersionElement.getText());
                 }
-                DetailedViewInformation detailedView = new DetailedViewInformation(drone, thumbnail, contentDetail, user, contentStatus, comment, like,
-                    favourite, likeCount, fileSize, desc, docVersion, favouriteEnabled, likeEnabled);
+                DetailedViewInformation detailedView = new DetailedViewInformation(driver, thumbnail, contentDetail, user, contentStatus, comment, like,
+                    favourite, likeCount, fileSize, desc, docVersion, favouriteEnabled, likeEnabled, factoryPage);
                 informations.add(detailedView);
             }
         }
@@ -290,7 +276,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
      */
     public void clickSimpleView()
     {
-        drone.findAndWait(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).click();
+        findAndWait(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).click();
     }
 
     /**
@@ -304,26 +290,26 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
         List<SimpleViewInformation> informations = null;
         try
         {
-            drone.findAndWait(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).click();
+            findAndWait(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).click();
             List<WebElement> links = this.dashlet.findElements(By.cssSelector(NUMBER_OF_DOCS_TABLE));
             informations = new ArrayList<SimpleViewInformation>(links.size());
             for (WebElement tr : links)
             {
                 WebElement thumbnailLink = tr.findElement(SIMPLE_THUMBNAIL_VIEW);
-                ShareLink thumbnail = new ShareLink(thumbnailLink, drone);
+                ShareLink thumbnail = new ShareLink(thumbnailLink, driver, factoryPage);
 
                 WebElement contentLink = tr.findElement(SIMPLE_FILENAME);
-                ShareLink content = new ShareLink(contentLink, drone);
+                ShareLink content = new ShareLink(contentLink, driver, factoryPage);
 
                 WebElement siteLink = tr.findElement(By.cssSelector(".item-simple>a"));
-                ShareLink site = new ShareLink(siteLink, drone);
+                ShareLink site = new ShareLink(siteLink, driver, factoryPage);
 
                 String contentStatus = tr.findElement(SIMPLE_ITEM).getText();
 
-                drone.mouseOver(thumbnailLink);
-                WebElement docPreview = drone.findAndWait(SIMPLE_PREVIEW_IMAGE);
+                mouseOver(thumbnailLink);
+                WebElement docPreview = findAndWait(SIMPLE_PREVIEW_IMAGE);
 
-                informations.add(new SimpleViewInformation(drone, thumbnail, content, site, contentStatus, docPreview.isDisplayed()));
+                informations.add(new SimpleViewInformation(driver, thumbnail, content, site, contentStatus, docPreview.isDisplayed(), factoryPage));
             }
         }
         catch (NoSuchElementException nse)
@@ -345,7 +331,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).isDisplayed();
+            return driver.findElement(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -366,7 +352,7 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).isDisplayed();
+            return driver.findElement(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).isDisplayed();
 
         }
         catch (NoSuchElementException e)
@@ -377,5 +363,11 @@ public class MyDocumentsDashlet extends AbstractDashlet implements Dashlet
             }
         }
         return false;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyDocumentsDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

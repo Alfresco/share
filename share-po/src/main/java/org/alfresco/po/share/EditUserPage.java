@@ -9,12 +9,11 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,15 +50,6 @@ public class EditUserPage extends SharePage
     private static final String ROW_GROUP_NAME = "td[class*='yui-dt-col-description'] div h3.itemname";
     private static final String GROUP_NAME = "td[class*='yui-dt-col-actions'] div span button";
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public EditUserPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -95,13 +85,6 @@ public class EditUserPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public EditUserPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Verify if admin Console title is present on the page
      * 
@@ -117,7 +100,7 @@ public class EditUserPage extends SharePage
      */
     public void editFirstName(String text)
     {
-        WebElement input = drone.findAndWait(By.cssSelector(FIRSTNAME));
+        WebElement input = findAndWait(By.cssSelector(FIRSTNAME));
         input.clear();
         input.sendKeys(text);
     }
@@ -127,7 +110,7 @@ public class EditUserPage extends SharePage
      */
     public void editLastName(String text)
     {
-        WebElement input = drone.findAndWait(By.cssSelector(LASTNAME));
+        WebElement input = findAndWait(By.cssSelector(LASTNAME));
         input.clear();
         input.sendKeys(text);
     }
@@ -137,7 +120,7 @@ public class EditUserPage extends SharePage
      */
     public void editEmail(String text)
     {
-        WebElement input = drone.findAndWait(By.cssSelector(EMAIL));
+        WebElement input = findAndWait(By.cssSelector(EMAIL));
         input.clear();
         input.sendKeys(text);
     }
@@ -145,11 +128,11 @@ public class EditUserPage extends SharePage
     /**
      * Clicks on the Use Default Button for te User Profile Photo.
      */
-    public EditUserPage selectUseDefault()
+    public HtmlPage selectUseDefault()
     {
-        WebElement button = drone.findAndWait(By.cssSelector(USE_DEFAULT_PHOTO));
+        WebElement button = findAndWait(By.cssSelector(USE_DEFAULT_PHOTO));
         button.click();
-        return new EditUserPage(drone);
+        return getCurrentPage();
 
     }
 
@@ -158,7 +141,7 @@ public class EditUserPage extends SharePage
      */
     public void editPassword(String text)
     {
-        WebElement input = drone.findAndWait(By.cssSelector(PASSWORD));
+        WebElement input = findAndWait(By.cssSelector(PASSWORD));
         input.clear();
         input.sendKeys(text);
     }
@@ -168,7 +151,7 @@ public class EditUserPage extends SharePage
      */
     public void editVerifyPassword(String text)
     {
-        WebElement input = drone.findAndWait(By.cssSelector(VERIFY_PASSWORD));
+        WebElement input = findAndWait(By.cssSelector(VERIFY_PASSWORD));
         input.clear();
         input.sendKeys(text);
     }
@@ -178,7 +161,7 @@ public class EditUserPage extends SharePage
      */
     public void editQuota(String text)
     {
-        WebElement input = drone.findAndWait(By.cssSelector(USER_QUOTA));
+        WebElement input = findAndWait(By.cssSelector(USER_QUOTA));
         input.clear();
         input.sendKeys(text);
     }
@@ -189,15 +172,15 @@ public class EditUserPage extends SharePage
      * @param user String name
      * @return UserSearchPage page response
      */
-    public EditUserPage searchGroup(final String user)
+    public HtmlPage searchGroup(final String user)
     {
         try
         {
-            WebElement input = drone.findAndWait(By.cssSelector(GROUP_FINDER_SEARCH_TEXT));
+            WebElement input = findAndWait(By.cssSelector(GROUP_FINDER_SEARCH_TEXT));
             input.clear();
             input.sendKeys(user);
-            drone.findAndWait(By.cssSelector(GROUP_SEARCH_BUTTON)).click();
-            return new EditUserPage(drone);
+            findAndWait(By.cssSelector(GROUP_SEARCH_BUTTON)).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -215,7 +198,7 @@ public class EditUserPage extends SharePage
         boolean groupsFrameLoaded = false;
         try
         {
-            WebElement element = drone.find(By.cssSelector(GROUP_SEARCH_BUTTON));
+            WebElement element = driver.findElement(By.cssSelector(GROUP_SEARCH_BUTTON));
             groupsFrameLoaded = element.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -240,13 +223,13 @@ public class EditUserPage extends SharePage
      * 
      * @return UserSearchPage
      */
-    public UserSearchPage cancelEditUser()
+    public HtmlPage cancelEditUser()
     {
         try
         {
-            WebElement element = drone.findAndWait(By.cssSelector(CANCEL_EDIT_USER));
+            WebElement element = findAndWait(By.cssSelector(CANCEL_EDIT_USER));
             element.click();
-            return new UserSearchPage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -261,7 +244,7 @@ public class EditUserPage extends SharePage
     {
         try
         {
-            WebElement selectDisableAccount = drone.find(By.cssSelector(DISABLE_ACCOUNT));
+            WebElement selectDisableAccount = driver.findElement(By.cssSelector(DISABLE_ACCOUNT));
             if (!selectDisableAccount.isSelected())
             {
                 selectDisableAccount.click();
@@ -314,12 +297,8 @@ public class EditUserPage extends SharePage
      * @param groupName String
      * @return EditUserPage
      */
-    public EditUserPage addGroup(String groupName)
+    public HtmlPage addGroup(String groupName)
     {
-        if (alfrescoVersion.isCloud())
-        {
-            throw new UnsupportedOperationException("This operation is not supported for CLOUD");
-        }
         if (StringUtils.isEmpty(groupName))
         {
             throw new IllegalArgumentException("Group Name can't be empty or null");
@@ -328,7 +307,7 @@ public class EditUserPage extends SharePage
         {
             if (hasGroups())
             {
-                List<WebElement> webElements = drone.findAndWaitForElements(By.cssSelector(TABLE_GROUP_NAMES));
+                List<WebElement> webElements = findAndWaitForElements(By.cssSelector(TABLE_GROUP_NAMES));
                 boolean isAdded = false;
                 for (WebElement webElement : webElements)
                 {
@@ -344,7 +323,7 @@ public class EditUserPage extends SharePage
                     logger.error("Requested group could not be added");
                     throw new NoSuchElementException("Requested group could not be added");
                 }
-                return new EditUserPage(drone);
+                return factoryPage.instantiatePage(driver, EditUserPage.class);
             }
         }
         catch (NoSuchElementException nse)
@@ -367,7 +346,7 @@ public class EditUserPage extends SharePage
     {
         try
         {
-            WebElement element = drone.find(By.cssSelector(TABLE_GROUP_NAMES));
+            WebElement element = driver.findElement(By.cssSelector(TABLE_GROUP_NAMES));
             String text = element.getText();
             if (text != null)
             {
@@ -390,7 +369,7 @@ public class EditUserPage extends SharePage
     {
         try
         {
-            WebElement selectDisableAccount = drone.find(By.cssSelector(DISABLE_ACCOUNT));
+            WebElement selectDisableAccount = driver.findElement(By.cssSelector(DISABLE_ACCOUNT));
             if (selectDisableAccount.isSelected())
             {
                 selectDisableAccount.click();

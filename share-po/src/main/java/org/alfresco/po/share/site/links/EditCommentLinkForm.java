@@ -18,7 +18,6 @@
  */
 package org.alfresco.po.share.site.links;
 
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 
 /**
@@ -27,11 +26,6 @@ import org.openqa.selenium.By;
 public class EditCommentLinkForm extends AddCommentLinkForm
 {
     private static final By SUBMIT_BTN = By.xpath("//button[text()='Save']");
-
-    public EditCommentLinkForm(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @Override
     protected By getSubmitBtnBy()

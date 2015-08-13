@@ -14,27 +14,26 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.FactorySharePage;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.util.PageUtils;
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.activities")
 /**
  * My activities dashlet object, holds all element of the HTML page relating to
  * share's my activities dashlet on dashboard page.
@@ -42,15 +41,12 @@ import java.util.List;
  * @author Michael Suzuki
  * @since 1.3
  */
-@SuppressWarnings("unused")
 public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
 {
     private final Log logger = LogFactory.getLog(this.getClass());
-    private static final By DIV_CLASS_DASHLET_PLACEHOLDER = By.cssSelector("div[id$='default-activityList']");
     private static final String DASHLET_DIV_PLACEHOLDER = "div.dashlet.activities";
     private static final By MY_ACTIVITIES_BUTTON = By.cssSelector("button[id$='default-user-button']");
     private static final By MY_ACTIVITIES_ITEM = By.cssSelector("div.activities div.visible ul.first-of-type li a");
-    private static final By RSS_FEED_BUTTON = By.cssSelector(".titleBarActionIcon.rss");
     private static final By HISTORY_BUTTON = By.cssSelector("button[id$='default-range-button']");
     private static final By DASHLET_LIST_OF_FILTER = By.cssSelector("div.activities div.visible ul.first-of-type li a");
     private static final By MY_ACTIVITIES_MORE_LINK = By
@@ -63,40 +59,28 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
 
     private List<ActivityShareLink> activity;
 
-    /**
-     * Constructor.
-     */
-    protected MyActivitiesDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(DASHLET_DIV_PLACEHOLDER));
-        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
-    }
+//    /**
+//     * Constructor.
+//     */
+//    protected MyActivitiesDashlet()
+//    {
+//        super(By.cssSelector(DASHLET_DIV_PLACEHOLDER));
+//        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
+//    }
 
-    @SuppressWarnings("unchecked")
-    public MyActivitiesDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyActivitiesDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Populates all the possible links that appear on the dashlet
      * data view, the links are of user, document or site.
      */
-    private synchronized void populateData()
+    private void populateData()
     {
         activity = new ArrayList<ActivityShareLink>();
         ArrayList<ShareLink> shareLinks = new ArrayList<>();
 
         try
         {
-            List<WebElement> linksMore = drone.findAll(MY_ACTIVITIES_MORE_LINK);
+            List<WebElement> linksMore = driver.findElements(MY_ACTIVITIES_MORE_LINK);
             if (!linksMore.isEmpty())
             {
                 for (WebElement link : linksMore)
@@ -105,13 +89,13 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
                 }
             }
 
-            List<WebElement> links = drone.findAll(By.cssSelector("div[id$='default-activityList'] > div.activity div:last-child[class$='content']"));
+            List<WebElement> links = driver.findElements(By.cssSelector("div[id$='default-activityList'] > div.activity div:last-child[class$='content']"));
 
             for (WebElement div : links)
             {
                 WebElement userLink = div.findElement(By.cssSelector("div.content>span.detail>a[class^='theme-color']"));
 
-                ShareLink user = new ShareLink(userLink, drone);
+                ShareLink user = new ShareLink(userLink, driver, factoryPage);
 
                 String description = div.findElement(By.cssSelector("div.content>span.detail")).getText();
 
@@ -128,14 +112,14 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
                         List<WebElement> userLinks = div.findElements(By.cssSelector("div.content>span.detail>a[class^='theme-color']"));
                         for (WebElement element : userLinks)
                         {
-                            shareLinks.add(new ShareLink(element, drone));
+                            shareLinks.add(new ShareLink(element, driver, factoryPage));
                         }
                         activity.add(new ActivityShareLink(shareLinks.get(0), shareLinks.get(1), description));
                     }
                     else
                     {
                         WebElement siteLink = div.findElement(By.cssSelector("div.content>span.detail>a[class^='site-link']"));
-                        ShareLink site = new ShareLink(siteLink, drone);
+                        ShareLink site = new ShareLink(siteLink, driver, factoryPage);
                         activity.add(new ActivityShareLink(user, site, description));
                     }
                 }
@@ -143,10 +127,10 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
                 else if (div.findElements(By.cssSelector("div.content>span.detail>a")).size() > 2)
                 {
                     WebElement siteLink = div.findElement(By.cssSelector("div.content>span.detail>a[class^='site-link']"));
-                    ShareLink site = new ShareLink(siteLink, drone);
+                    ShareLink site = new ShareLink(siteLink, driver, factoryPage);
 
                     WebElement documentLink = div.findElement(By.cssSelector("div.content>span.detail>a[class*='item-link']"));
-                    ShareLink document = new ShareLink(documentLink, drone);
+                    ShareLink document = new ShareLink(documentLink, driver, factoryPage);
                     activity.add(new ActivityShareLink(user, document, site, description));
                 }
 
@@ -157,7 +141,6 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
             throw new PageException("Unable to access dashlet data", nse);
         }
     }
-
     @SuppressWarnings("unchecked")
     public MyActivitiesDashlet render(RenderTime timer)
     {
@@ -319,10 +302,10 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
         }
         try
         {
-            WebElement myActivities = drone.find(MY_ACTIVITIES_BUTTON);
+            WebElement myActivities = driver.findElement(MY_ACTIVITIES_BUTTON);
             myActivities.click();
 
-            List<WebElement> filterElements = drone.findAll(MY_ACTIVITIES_ITEM);
+            List<WebElement> filterElements = driver.findElements(MY_ACTIVITIES_ITEM);
             if (filterElements != null)
             {
                 for (WebElement webElement : filterElements)
@@ -330,7 +313,7 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
                     if (webElement.getText().equals(myActivitiesOption))
                     {
                         webElement.click();
-                        return FactorySharePage.resolvePage(drone);
+                        return getCurrentPage();
                     }
                 }
             }
@@ -353,8 +336,8 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
      */
     public HtmlPage selectOptionFromHistoryFilter(SiteActivitiesHistoryFilter lastDays)
     {
-        drone.findAndWait(HISTORY_BUTTON).click();
-        List<WebElement> filterElements = drone.findDisplayedElements(DASHLET_LIST_OF_FILTER);
+        findAndWait(HISTORY_BUTTON).click();
+        List<WebElement> filterElements = findDisplayedElements(DASHLET_LIST_OF_FILTER);
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -365,7 +348,7 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -376,17 +359,17 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
      * @return RssFeedPage
      * <br/><br/>author Cristina.Axinte
      */
-    public RssFeedPage selectRssFeedPage(String username, String password)
+    public HtmlPage selectRssFeedPage(String username, String password)
     {
         try
         {
-            String currentUrl = drone.getCurrentUrl();
-            String rssUrlPart = (String) drone.executeJavaScript("return activities.link");
+            String currentUrl = driver.getCurrentUrl();
+            String rssUrlPart = (String) executeJavaScript("return activities.link");
             String protocolVar = PageUtils.getProtocol(currentUrl);
             String address = PageUtils.getAddress(currentUrl);
             String rssUrl = String.format("%s%s:%s@%s%s", protocolVar, username, password, address, rssUrlPart);
-            drone.navigateTo(rssUrl);
-            return new RssFeedPage(drone).render();
+            driver.navigate().to(rssUrl);
+            return factoryPage.instantiatePage(driver, RssFeedPage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -411,7 +394,7 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
 
         try
         {
-            WebElement dropdown = drone.findAndWait(MY_ACTIVITIES_BUTTON);
+            WebElement dropdown = findAndWait(MY_ACTIVITIES_BUTTON);
             String actualOption = dropdown.getText();
             actualOption = actualOption.substring(0, actualOption.length() - 2);
             if (actualOption.equals(myActivitiesOption))
@@ -437,7 +420,7 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
 
         try
         {
-            WebElement dropdown = drone.findAndWait(HISTORY_BUTTON);
+            WebElement dropdown = findAndWait(HISTORY_BUTTON);
             String actualOption = dropdown.getText();
             actualOption = actualOption.substring(0, actualOption.length() - 2);
             if (actualOption.equals(lastDays.getDescription()))
@@ -450,5 +433,10 @@ public class MyActivitiesDashlet extends AbstractDashlet implements Dashlet
         }
 
     }
-
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyActivitiesDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
+    }
 }

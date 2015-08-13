@@ -18,12 +18,11 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.share.SharePage;
+import org.openqa.selenium.By;
 
 /**
  * Page object holds the elements of Select Image box
@@ -38,14 +37,6 @@ public class SelectImageFolderBoxPage extends SharePage
     private static final By OK_BUTTON = By.cssSelector("button[id$='default-rulesPicker-ok-button']");
     private static final By CANCEL_BUTTON = By.cssSelector("button[id$='default-rulesPicker-cancel-button']");
     private static final By CLOSE_BUTTON = By.cssSelector(".container-close");
-
-    /**
-     * Constructor.
-     */
-    public SelectImageFolderBoxPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -63,13 +54,6 @@ public class SelectImageFolderBoxPage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public SelectImageFolderBoxPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public SelectImageFolderBoxPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -77,6 +61,6 @@ public class SelectImageFolderBoxPage extends SharePage
 
     public void clickCancel()
     {
-        drone.findAndWait(CANCEL_BUTTON).click();
+        findAndWait(CANCEL_BUTTON).click();
     }
 }

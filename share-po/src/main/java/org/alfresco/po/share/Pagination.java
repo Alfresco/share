@@ -14,8 +14,9 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -27,7 +28,7 @@ import org.openqa.selenium.WebElement;
  * 
  * @author Michael Suzuki
  */
-public class Pagination
+public class Pagination extends PageElement
 {
     private static final String PAGINATOR = "div[id*='paginator']";
 
@@ -35,15 +36,15 @@ public class Pagination
      * Checks for next or previous pagination button.
      * and verify if click able.
      * 
-     * @param drone {@link WebDrone}
+     * @param driver {@link WebDriver}
      * @param css the css to find the button
      * @return true if clickable.
      */
-    public static boolean hasPaginationButton(WebDrone drone, final String css)
+    public static boolean hasPaginationButton(WebDriver driver, final String css)
     {
         try
         {
-            WebElement element = drone.find(By.cssSelector(PAGINATOR));
+            WebElement element = driver.findElement(By.cssSelector(PAGINATOR));
             WebElement nextPage = element.findElement(By.cssSelector(css));
             return nextPage.isDisplayed();
         }
@@ -57,15 +58,15 @@ public class Pagination
      * Selects the next or previous button on the pagination
      * bar based on the action required.
      * 
-     * @param drone {@link WebDrone}
+     * @param driver {@link WebDriver}
      * @param css that identifies which button to select
      * @return Search result page
      */
-    public static HtmlPage selectPaginationButton(WebDrone drone, final String css)
+    public HtmlPage selectPaginationButton(WebDriver driver, final String css)
     {
         try
         {
-            WebElement paginator = drone.find(By.cssSelector(PAGINATOR));
+            WebElement paginator = driver.findElement(By.cssSelector(PAGINATOR));
             WebElement button = paginator.findElement(By.cssSelector(css));
             button.click();
         }
@@ -75,6 +76,6 @@ public class Pagination
         catch (TimeoutException te)
         {
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 }

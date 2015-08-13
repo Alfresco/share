@@ -16,24 +16,22 @@
 package org.alfresco.po.share.site;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * Page object for AddUsersToSitePage
@@ -52,7 +50,7 @@ public class AddUsersToSitePage extends SharePage
      */
 
     // Search for Users input field
-    private static final String SEARCH_USER_INPUT = "div.search-text>input";
+    @FindBy(css ="div.search-text>input") WebElement searchTextBox;
 
     // Search for Users button
     private static final String SEARCH_USER_BUTTON = "button[id*='default-search-button-button']";
@@ -169,30 +167,15 @@ public class AddUsersToSitePage extends SharePage
     // ...Add External Users: Add button
     private static final By EXTERNAL_ADD_BUTTON = By.xpath("//button[contains(@id,'email-button-button')]");
 
-    private final By linkGroups;
-    private final By linkUsers;
-    private final By linkPendingInvites;
-
-    public AddUsersToSitePage(WebDrone drone)
-    {
-        super(drone);
-        linkGroups = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Groups") : By.cssSelector("a[id$='-site-groups-link']");
-        linkUsers = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("People") : By.cssSelector("a[id$='-site-members-link']");
-        linkPendingInvites = AlfrescoVersion.Enterprise41.equals(alfrescoVersion) ? By.linkText("Pending Invites") : By
-                .cssSelector("a[id$='-pending-invites-link']");
-    }
+    private final By linkGroups = By.linkText("Groups");
+    private final By linkUsers= By.linkText("People");
+    private final By linkPendingInvites = By.linkText("Pending Invites");
 
     @SuppressWarnings("unchecked")
     @Override
     public AddUsersToSitePage render()
     {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public AddUsersToSitePage render(RenderTime timer)
-    {
+    	RenderTime timer = new RenderTime(maxPageLoadingTime);
         while (true)
         {
             try
@@ -200,10 +183,9 @@ public class AddUsersToSitePage extends SharePage
                 timer.start();
                 try
                 {
-
-                    drone.find(By.cssSelector(SEARCH_USER_INPUT));
-                    drone.find(By.cssSelector(SEARCH_USER_BUTTON));
-                    drone.find(SET_ALL_ROLES_TO_BUTTON);
+                    searchTextBox.isDisplayed();
+                    driver.findElement(By.cssSelector(SEARCH_USER_BUTTON));
+                    driver.findElement(SET_ALL_ROLES_TO_BUTTON);
                     break;
                 }
                 catch (NoSuchElementException pe)
@@ -219,13 +201,6 @@ public class AddUsersToSitePage extends SharePage
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AddUsersToSitePage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     public AddUsersToSitePage renderWithUserSearchResults(final long time)
     {
         return renderWithUserSearchResults(new RenderTime(time));
@@ -238,8 +213,15 @@ public class AddUsersToSitePage extends SharePage
 
     public AddUsersToSitePage renderWithUserSearchResults(RenderTime timer)
     {
-        elementRender(timer, getVisibleRenderElement(SEARCH_RESULTS_USER_FIRST_LAST));
-        return this;
+    	while(true)
+    	{
+    		timer.start();
+    		if(driver.findElement(SEARCH_RESULTS_USER_FIRST_LAST).isDisplayed())
+    		{
+    			return this;
+    		}
+    		timer.end();
+    	}
     }
 
     /**
@@ -251,8 +233,8 @@ public class AddUsersToSitePage extends SharePage
     {
         try
         {
-            drone.findAndWait(linkUsers).click();
-            return drone.getCurrentPage().render();
+            findAndWait(linkUsers).click();
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
@@ -273,8 +255,8 @@ public class AddUsersToSitePage extends SharePage
     {
         try
         {
-            drone.findAndWait(linkGroups).click();
-            return drone.getCurrentPage().render();
+            findAndWait(linkGroups).click();
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
@@ -291,8 +273,8 @@ public class AddUsersToSitePage extends SharePage
     {
         try
         {
-            drone.findAndWait(linkPendingInvites).click();
-            return drone.getCurrentPage().render();
+            findAndWait(linkPendingInvites).click();
+            return getCurrentPage().render();
         }
         catch (NoSuchElementException nse)
         {
@@ -316,7 +298,7 @@ public class AddUsersToSitePage extends SharePage
     {
         try
         {
-            List<WebElement> userSearchResults = drone.findAll(By.cssSelector(SEARCH_RESULTS_USERS));
+            List<WebElement> userSearchResults = driver.findElements(By.cssSelector(SEARCH_RESULTS_USERS));
             return userSearchResults;
         }
         catch (NoSuchElementException e)
@@ -347,12 +329,11 @@ public class AddUsersToSitePage extends SharePage
 
         try
         {
-            WebElement searchTextBox = drone.findAndWait(By.cssSelector(SEARCH_USER_INPUT));
             searchTextBox.clear();
             searchTextBox.sendKeys(userName);
 
-            drone.findAndWait(By.cssSelector(SEARCH_USER_BUTTON)).click();
-            drone.waitUntilElementDisappears(By.xpath(SEARCH_IS_IN_PROGRESS_BUTTON), 25);
+            findAndWait(By.cssSelector(SEARCH_USER_BUTTON)).click();
+            waitUntilElementDisappears(By.xpath(SEARCH_IS_IN_PROGRESS_BUTTON), 25);
 
             List<WebElement> users = getUserSearchResults();
             if (users != null && !users.isEmpty())
@@ -414,7 +395,7 @@ public class AddUsersToSitePage extends SharePage
             }
         }
 
-        return new AddUsersToSitePage(drone).render();
+        return factoryPage.instantiatePage(driver, AddUsersToSitePage.class);
     }
 
     /**
@@ -437,14 +418,14 @@ public class AddUsersToSitePage extends SharePage
     {
         try
         {
-            drone.findAndWait(INFO_TOOLTIP_BUTTON, maxPageLoadingTime).click();
+            findAndWait(INFO_TOOLTIP_BUTTON, maxPageLoadingTime).click();
 
         }
         catch (TimeoutException te)
         {
             logger.info("Cannot find info tooltip button.", te);
         }        
-        return new AddUsersToSitePage(drone).render();
+        return factoryPage.instantiatePage(driver, AddUsersToSitePage.class);
     }
     
     /**
@@ -456,7 +437,7 @@ public class AddUsersToSitePage extends SharePage
     {
         try
         {
-            return drone.findAndWait(ROLE_INFOTOOLTIP).isDisplayed();
+            return findAndWait(ROLE_INFOTOOLTIP).isDisplayed();
         }
         catch (TimeoutException nse)
         {
@@ -475,7 +456,7 @@ public class AddUsersToSitePage extends SharePage
     {
         try
         {
-            return drone.findAll(By.cssSelector(LIST_OF_SELECTED_USERS));
+            return driver.findElements(By.cssSelector(LIST_OF_SELECTED_USERS));
         }
         catch (NoSuchElementException e)
         {
@@ -499,7 +480,7 @@ public class AddUsersToSitePage extends SharePage
         try
         {
             List<String> selectedUserNames = new ArrayList<String>();
-            List<WebElement> selectedUsers = drone.findAll(By.cssSelector(LIST_OF_SELECTED_USERS_USER_NAMES));
+            List<WebElement> selectedUsers = driver.findElements(By.cssSelector(LIST_OF_SELECTED_USERS_USER_NAMES));
             for (WebElement selectedUser : selectedUsers)
             {
                 selectedUserNames.add(selectedUser.getText());
@@ -532,7 +513,7 @@ public class AddUsersToSitePage extends SharePage
 
         try
         {
-            List<WebElement> roles = drone.findAndWaitForElements(By.cssSelector(SELECT_ROLE_DROP_DOWN_VALUES), maxPageLoadingTime);
+            List<WebElement> roles = findAndWaitForElements(By.cssSelector(SELECT_ROLE_DROP_DOWN_VALUES), maxPageLoadingTime);
             for (WebElement role : roles)
             {
                 if (role.getText().equalsIgnoreCase(roleName.getRoleName()))
@@ -549,7 +530,7 @@ public class AddUsersToSitePage extends SharePage
                 logger.trace("Unable to find roles css.", te);
             }
         }
-        return new AddUsersToSitePage(drone);
+        return factoryPage.instantiatePage(driver, AddUsersToSitePage.class);
     }
 
     /**
@@ -575,7 +556,7 @@ public class AddUsersToSitePage extends SharePage
                 String userName = userNameElement.getText();
                 if (userName != null && userName.indexOf(user) != -1)
                 {
-                    drone.findAndWait(By.xpath(SELECT_ROLE_BUTTONS), maxPageLoadingTime).click();
+                    findAndWait(By.xpath(SELECT_ROLE_BUTTONS), maxPageLoadingTime).click();
                     selectRole(role);
                     break;
                 }
@@ -588,7 +569,7 @@ public class AddUsersToSitePage extends SharePage
                 }
             }
         }
-        return new AddUsersToSitePage(drone);
+        return factoryPage.instantiatePage(driver, AddUsersToSitePage.class);
     }
 
     /**
@@ -598,8 +579,8 @@ public class AddUsersToSitePage extends SharePage
      */
     public void setAllRolesTo(UserRole role)
     {
-        drone.findAndWait(SET_ALL_ROLES_TO_BUTTON).click();
-        drone.findAndWait(By.xpath(String.format("//a[.='%s']", role.getRoleName()))).click();
+        findAndWait(SET_ALL_ROLES_TO_BUTTON).click();
+        findAndWait(By.xpath(String.format("//a[.='%s']", role.getRoleName()))).click();
     }
 
     /**
@@ -610,7 +591,7 @@ public class AddUsersToSitePage extends SharePage
     public void removeSelectedUser(String userName)
     {
         By removeUsers = By.xpath(String.format(REMOVE_SELECTED_USER, userName));
-        drone.findAndWait(removeUsers).click();
+        findAndWait(removeUsers).click();
     }
 
     /**
@@ -630,7 +611,7 @@ public class AddUsersToSitePage extends SharePage
         String totalAddedUsersCount = "";
         try
         {
-            return drone.find(TOTAL_USERS_ADDED_COUNT).getText();
+            return driver.findElement(TOTAL_USERS_ADDED_COUNT).getText();
         }
         catch (NoSuchElementException e)
         {
@@ -650,7 +631,7 @@ public class AddUsersToSitePage extends SharePage
         try
         {
             List<String> addedUserNames = new ArrayList<String>();
-            List<WebElement> addedUsers = drone.findAll(ADDED_USERS_NAMES_LIST);
+            List<WebElement> addedUsers = driver.findElements(ADDED_USERS_NAMES_LIST);
             for (WebElement addedUser : addedUsers)
             {
                 addedUserNames.add(addedUser.getText());
@@ -672,9 +653,9 @@ public class AddUsersToSitePage extends SharePage
      */
     public AddUsersToSitePage clickAddUsersButton()
     {
-        drone.findAndWait(By.cssSelector(ADD_USERS_BUTTON), maxPageLoadingTime).click();
+        findAndWait(By.cssSelector(ADD_USERS_BUTTON), maxPageLoadingTime).click();
         waitUntilAlert();
-        return new AddUsersToSitePage(drone).render();
+        return factoryPage.instantiatePage(driver, AddUsersToSitePage.class);
     }
 
     /**
@@ -688,7 +669,7 @@ public class AddUsersToSitePage extends SharePage
         try
         {
             List<String> addedUserRoles = new ArrayList<String>();
-            List<WebElement> addedRoles = drone.findAll(ADDED_USERS_ROLES_LIST);
+            List<WebElement> addedRoles = driver.findElements(ADDED_USERS_ROLES_LIST);
             for (WebElement addedRole : addedRoles)
             {
                 addedUserRoles.add(addedRole.getText());
@@ -719,7 +700,7 @@ public class AddUsersToSitePage extends SharePage
     public void enterExternalUserFirstName(String firstName)
     {
         checkNotNull(firstName);
-        WebElement inputField = drone.findAndWait(EXTERNAL_FIRST_NAME_INPUT);
+        WebElement inputField = findAndWait(EXTERNAL_FIRST_NAME_INPUT);
         inputField.clear();
         inputField.sendKeys(firstName);
     }
@@ -732,7 +713,7 @@ public class AddUsersToSitePage extends SharePage
     public void enterExternalUserLastName(String lastName)
     {
         checkNotNull(lastName);
-        WebElement inputField = drone.findAndWait(EXTERNAL_LAST_NAME_INPUT);
+        WebElement inputField = findAndWait(EXTERNAL_LAST_NAME_INPUT);
         inputField.clear();
         inputField.sendKeys(lastName);
     }
@@ -745,7 +726,7 @@ public class AddUsersToSitePage extends SharePage
     public void enterExternalUserEmail(String email)
     {
         checkNotNull(email);
-        WebElement inputField = drone.findAndWait(EXTERNAL_EMAIL_INPUT);
+        WebElement inputField = findAndWait(EXTERNAL_EMAIL_INPUT);
         inputField.clear();
         inputField.sendKeys(email);
 
@@ -760,12 +741,12 @@ public class AddUsersToSitePage extends SharePage
     {
         try
         {
-            drone.findAndWait(EXTERNAL_ADD_BUTTON, maxPageLoadingTime).click();
+            findAndWait(EXTERNAL_ADD_BUTTON, maxPageLoadingTime).click();
         }
         catch (TimeoutException te)
         {
             logger.info("Cannot find Select external user button.", te);
         }
-        return new AddUsersToSitePage(drone).render();
+        return factoryPage.instantiatePage(driver, AddUsersToSitePage.class);
     }
 }

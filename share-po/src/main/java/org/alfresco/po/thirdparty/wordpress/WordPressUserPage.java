@@ -1,16 +1,10 @@
 package org.alfresco.po.thirdparty.wordpress;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
-import java.util.concurrent.TimeUnit;
-
-import org.alfresco.webdrone.Page;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import org.alfresco.po.Page;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -28,11 +22,6 @@ public class WordPressUserPage extends Page
     private final static By SEARCH_SUBMIT = By.cssSelector(".searchsubmit");
     private static final int retrySearchCount = 3;
 
-    public WordPressUserPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public WordPressUserPage render(RenderTime timer)
@@ -43,56 +32,26 @@ public class WordPressUserPage extends Page
 
     @SuppressWarnings("unchecked")
     @Override
-    public WordPressUserPage render(long time)
-    {
-        checkArgument(time > 0);
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public WordPressUserPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    //TODO Temporary method. Before elementRender from SharePage didn't moved out to Page.
-    private void elementRender(RenderTime renderTime, RenderElement... elements)
-    {
-        for (RenderElement element : elements)
-        {
-            try
-            {
-                renderTime.start();
-                long waitSeconds = TimeUnit.MILLISECONDS.toSeconds(renderTime.timeLeft());
-                element.render(drone, waitSeconds);
-            }
-            catch (TimeoutException e)
-            {
-                throw new PageRenderTimeException("element not rendered in time.");
-            }
-            finally
-            {
-                renderTime.end(element.getLocator().toString());
-            }
-        }
     }
 
     private WordPressUserPage search(String text)
     {
         try
         {
-            WebElement inputElement = drone.findAndWait(SEARCH_INPUT);
+            WebElement inputElement = findAndWait(SEARCH_INPUT);
             inputElement.clear();
             inputElement.sendKeys(text);
-            drone.findAndWait(SEARCH_SUBMIT).click();
+            findAndWait(SEARCH_SUBMIT).click();
 
         }
         catch (TimeoutException e)
         {
             logger.error("Not able to search ", e);
         }
-        return new WordPressUserPage(drone).render();
+        return  factoryPage.instantiatePage(driver, WordPressUserPage.class).render();
     }
 
     public boolean isPostPresent(String postTitle)
@@ -105,8 +64,7 @@ public class WordPressUserPage extends Page
         while (counter < retrySearchCount)
         {
             search(postTitle);
-            isPresent = drone.isElementDisplayed(thePost);
-            if (isPresent)
+            if (driver.findElement(thePost).isDisplayed())
             {
                 break;
             }
@@ -131,8 +89,8 @@ public class WordPressUserPage extends Page
         boolean isPresent;
         int waitInMilliSeconds = 2000;
         By thePost = By.xpath(String.format("//article//a[text()='%s']", postTitle));
-        isPresent = drone.isElementDisplayed(thePost);
-        if (isPresent)
+        isPresent = driver.findElement(thePost).isDisplayed();
+        if (driver.findElement(thePost).isDisplayed())
             for (int retryCount = 1; retryCount < 3; retryCount++)
             {
                 logger.info("Waiting for " + 3000 / 1000 + " seconds");
@@ -147,10 +105,12 @@ public class WordPressUserPage extends Page
                         throw new PageException("Failed waiting for posts");
                     }
                 }
-                drone.refresh();
-                isPresent = drone.isElementDisplayed(thePost);
+                driver.navigate().refresh();
+                isPresent = driver.findElement(thePost).isDisplayed();
                 if (!isPresent)
+                {
                     break;
+                }
             }
         return !isPresent;
     }

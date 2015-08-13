@@ -14,23 +14,21 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.NoSuchElementException;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.NoSuchElementException;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * @author nshah
@@ -42,11 +40,6 @@ public class EditHtmlDocumentPage extends InlineEditPage
     private static final String IFRAME_ID = "template_x002e_inline-edit_x002e_inline-edit_x0023_default_prop_cm_content_ifr";
     private static final By SUBMIT_BUTTON = By.cssSelector("button[id$='default-form-submit-button']");
 
-    public EditHtmlDocumentPage(WebDrone drone)
-    {
-        super(drone);
-
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -63,13 +56,6 @@ public class EditHtmlDocumentPage extends InlineEditPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public EditHtmlDocumentPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * @return boolean
      */
@@ -77,9 +63,9 @@ public class EditHtmlDocumentPage extends InlineEditPage
     {
         try
         {
-            drone.switchToFrame(IFRAME_ID);
-            boolean isDesiredPage = drone.find(By.cssSelector("#tinymce")).isDisplayed() ? true : false;
-            drone.switchToDefaultContent();
+            driver.switchTo().frame(IFRAME_ID);
+            boolean isDesiredPage = driver.findElement(By.cssSelector("#tinymce")).isDisplayed() ? true : false;
+            driver.switchTo().defaultContent();
             return isDesiredPage;
 
         }
@@ -96,10 +82,10 @@ public class EditHtmlDocumentPage extends InlineEditPage
      */
     public int countOfTxtsFromEditor()
     {
-        drone.waitForElement(By.cssSelector("button[id$='default-form-cancel-button']"), maxPageLoadingTime);
-        drone.switchToFrame(IFRAME_ID);
-        int noOfElements = drone.findAndWaitForElements(By.cssSelector("#tinymce>p")).size();
-        drone.switchToDefaultContent();
+        waitForElement(By.cssSelector("button[id$='default-form-cancel-button']"), maxPageLoadingTime);
+        driver.switchTo().frame(IFRAME_ID);
+        int noOfElements = findAndWaitForElements(By.cssSelector("#tinymce>p")).size();
+        driver.switchTo().defaultContent();
         return noOfElements;
     }
 
@@ -112,11 +98,11 @@ public class EditHtmlDocumentPage extends InlineEditPage
     {
         try
         {
-            drone.switchToFrame(IFRAME_ID);
-            WebElement element = drone.findAndWait(By.cssSelector("#tinymce"));
+            driver.switchTo().frame(IFRAME_ID);
+            WebElement element = findAndWait(By.cssSelector("#tinymce"));
             element.sendKeys(txtLine);
             element.sendKeys(Keys.chord(Keys.ENTER));
-            drone.switchToDefaultContent();
+            driver.switchTo().defaultContent();
         }
         catch (TimeoutException toe)
         {
@@ -133,15 +119,15 @@ public class EditHtmlDocumentPage extends InlineEditPage
     {
         try
         {
-            drone.switchToDefaultContent();
-            TinyMceEditor tinyMceEditor = new TinyMceEditor(drone);
-            tinyMceEditor.setTinyMce(IFRAME_ID);
+            driver.switchTo().defaultContent();
+            TinyMceEditor tinyMceEditor = new TinyMceEditor();
+            tinyMceEditor.setTinyMce();
             String oldText = tinyMceEditor.getContent();
             tinyMceEditor.setText(oldText + txtLine);
-            drone.switchToFrame(IFRAME_ID);
-            WebElement element = drone.findAndWait(By.cssSelector("#tinymce"));
+            driver.switchTo().frame(IFRAME_ID);
+            WebElement element = findAndWait(By.cssSelector("#tinymce"));
             element.sendKeys(Keys.chord(Keys.ENTER));
-            drone.switchToDefaultContent();
+            driver.switchTo().defaultContent();
         }
         catch (TimeoutException toe)
         {
@@ -156,9 +142,9 @@ public class EditHtmlDocumentPage extends InlineEditPage
     {
         try
         {
-            drone.findAndWait(SUBMIT_BUTTON).click();
-            drone.waitUntilElementDisappears(SUBMIT_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(SUBMIT_BUTTON).click();
+            waitUntilElementDisappears(SUBMIT_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (TimeoutException toe)
         {

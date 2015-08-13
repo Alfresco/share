@@ -20,7 +20,7 @@ package org.alfresco.po.share.workflow;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.test.FailedTestListener;
 import org.joda.time.DateTime;

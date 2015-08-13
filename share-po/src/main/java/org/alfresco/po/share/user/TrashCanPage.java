@@ -15,26 +15,24 @@
 
 package org.alfresco.po.share.user;
 
-import org.alfresco.po.share.FactorySharePage;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.NewPagination;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * As part of 42 new features the user can recover or completely delete from the respository using my profile trashcan
@@ -44,7 +42,6 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
  */
 public class TrashCanPage extends SharePage
 {
-    @SuppressWarnings("unused")
     private static Log logger = LogFactory.getLog(TrashCanPage.class);
     protected static final By TRASHCAN_SEARCH_INPUT = By.cssSelector("input[id$='trashcan_x0023_default-search-text']");
     protected static final By TRASHCAN_SEARCH_BUTTON = By.cssSelector("button[id$='default-search-button-button']");
@@ -68,21 +65,10 @@ public class TrashCanPage extends SharePage
     protected static final By TRASHCAN_EMPTY = By.cssSelector("td.yui-dt-empty");
     protected static final By PAGE_LOADING = By.cssSelector("td.yui-dt-loading");
     private static final By HEADER_BAR = By.cssSelector(".header-bar");
-    private boolean deleteInitiator = false;
-
-    /*
-     * Constructor
-     */
-
-    public TrashCanPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /*
      * Render logic
      */
-
     @SuppressWarnings("unchecked")
     public TrashCanPage render(RenderTime timer)
     {
@@ -104,13 +90,6 @@ public class TrashCanPage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public TrashCanPage render(long time)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public TrashCanPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -118,7 +97,7 @@ public class TrashCanPage extends SharePage
 
     public ProfileNavigation getProfileNav()
     {
-        return new ProfileNavigation(drone);
+        return new ProfileNavigation(driver, factoryPage);
     }
 
     /**
@@ -129,12 +108,12 @@ public class TrashCanPage extends SharePage
      */
     public HtmlPage itemSearch(String searchText)
     {
-        WebElement inputField = drone.find(TRASHCAN_SEARCH_INPUT);
+        WebElement inputField = driver.findElement(TRASHCAN_SEARCH_INPUT);
         inputField.clear();
         inputField.sendKeys(searchText);
-        drone.find(TRASHCAN_SEARCH_BUTTON).click();
-        drone.waitUntilElementDisappears(PAGE_LOADING, 1);
-        return drone.getCurrentPage();
+        driver.findElement(TRASHCAN_SEARCH_BUTTON).click();
+        waitUntilElementDisappears(PAGE_LOADING, 1);
+        return getCurrentPage();
     }
 
     /**
@@ -144,8 +123,8 @@ public class TrashCanPage extends SharePage
      */
     public HtmlPage clearSearch()
     {
-        drone.find(TRASHCAN_CLEAR_BUTTON).click();
-        return drone.getCurrentPage();
+        driver.findElement(TRASHCAN_CLEAR_BUTTON).click();
+        return getCurrentPage();
     }
 
     /**
@@ -160,7 +139,7 @@ public class TrashCanPage extends SharePage
         {
             try
             {
-                results = drone.findAll(By.cssSelector("tbody.yui-dt-data tr"));
+                results = driver.findElements(By.cssSelector("tbody.yui-dt-data tr"));
             }
             catch (NoSuchElementException nse)
             {
@@ -180,7 +159,7 @@ public class TrashCanPage extends SharePage
     {
         try
         {
-            WebElement info = drone.find(TRASHCAN_ITEM_LIST);
+            WebElement info = driver.findElement(TRASHCAN_ITEM_LIST);
             String value = info.getText();
             if (value.contentEquals("No items exist"))
             {
@@ -206,7 +185,8 @@ public class TrashCanPage extends SharePage
             List<WebElement> items = getTrashCanItemElements();
             for (WebElement element : items)
             {
-                results.add(new TrashCanItem(element, drone));
+                TrashCanItem item = new TrashCanItem(element, driver, factoryPage);
+                results.add(item);
             }
         }
         return results;
@@ -264,8 +244,9 @@ public class TrashCanPage extends SharePage
      */
     public TrashCanEmptyConfirmationPage selectEmpty()
     {
-        drone.find(TRASHCAN_EMPTY_BUTTON).click();
-        return new TrashCanEmptyConfirmationPage(drone);
+        driver.findElement(TRASHCAN_EMPTY_BUTTON).click();
+        
+        return factoryPage.instantiatePage(driver, TrashCanEmptyConfirmationPage.class);
     }
 
     /**
@@ -277,9 +258,9 @@ public class TrashCanPage extends SharePage
     {
         try
         {
-            drone.find(TRASHCAN_SELECTED_BUTTON).click();
-            drone.findAndWait(TRASHCAN_SELECTED_RECOVER).click();
-            return new TrashCanRecoverConfirmDialog(drone);
+            driver.findElement(TRASHCAN_SELECTED_BUTTON).click();
+            findAndWait(TRASHCAN_SELECTED_RECOVER).click();
+            return factoryPage.instantiatePage(driver, TrashCanRecoverConfirmDialog.class);
         }
         catch (TimeoutException te)
         {
@@ -296,10 +277,9 @@ public class TrashCanPage extends SharePage
     {
         try
         {
-            deleteInitiator = true;
-            drone.find(TRASHCAN_SELECTED_BUTTON).click();
-            drone.findAndWait(TRASHCAN_SELECTED_DELETE).click();
-            return new TrashCanDeleteConfirmationPage(drone, deleteInitiator);
+            driver.findElement(TRASHCAN_SELECTED_BUTTON).click();
+            findAndWait(TRASHCAN_SELECTED_DELETE).click();
+            return factoryPage.instantiatePage(driver, TrashCanDeleteConfirmationPage.class);
         }
         catch (TimeoutException te)
         {
@@ -317,18 +297,18 @@ public class TrashCanPage extends SharePage
     {
         try
         {
-            drone.find(TRASHCAN_SELECT_BUTTON).click();
+            driver.findElement(TRASHCAN_SELECT_BUTTON).click();
             switch (selectAction)
             {
                 case ALL:
-                    drone.findAndWait(TRASHCAN_SELECT_ALL_LINK).click();
-                    return new TrashCanPage(drone);
+                    findAndWait(TRASHCAN_SELECT_ALL_LINK).click();
+                    return factoryPage.instantiatePage(driver, TrashCanPage.class);
                 case INVERT:
-                    drone.findAndWait(TRASHCAN_SELECT_INVERT_LINK).click();
-                    return new TrashCanPage(drone);
+                    findAndWait(TRASHCAN_SELECT_INVERT_LINK).click();
+                    return factoryPage.instantiatePage(driver, TrashCanPage.class);
                 case NONE:
-                    drone.findAndWait(TRASHCAN_SELECT_NONE_LINK).click();
-                    return new TrashCanPage(drone);
+                    findAndWait(TRASHCAN_SELECT_NONE_LINK).click();
+                    return factoryPage.instantiatePage(driver, TrashCanPage.class);
                 default:
                     throw new PageException("Selection does not exist");
             }
@@ -347,7 +327,7 @@ public class TrashCanPage extends SharePage
      */
     public boolean hasNextPage()
     {
-        return NewPagination.hasPaginationButton(drone, TRASHCAN_PAGINATION_MORE_BUTTON);
+        return NewPagination.hasPaginationButton(driver, TRASHCAN_PAGINATION_MORE_BUTTON);
     }
 
     /**
@@ -357,7 +337,7 @@ public class TrashCanPage extends SharePage
      */
     public boolean hasPreviousPage()
     {
-        return NewPagination.hasPaginationButton(drone, TRASHCAN_PAGINATION_LESS_BUTTON);
+        return NewPagination.hasPaginationButton(driver, TRASHCAN_PAGINATION_LESS_BUTTON);
     }
 
     /**
@@ -365,9 +345,9 @@ public class TrashCanPage extends SharePage
      */
     public HtmlPage selectNextPage()
     {
-        NewPagination.selectPaginationButton(drone, TRASHCAN_PAGINATION_MORE_BUTTON);
-        drone.findAndWait(By.xpath(TRASHCAN_PAGINATION_ACTIVE_LESS_BUTTON));
-        return FactorySharePage.resolvePage(drone);
+        new NewPagination().selectPaginationButton(driver, TRASHCAN_PAGINATION_MORE_BUTTON);
+        findAndWait(By.xpath(TRASHCAN_PAGINATION_ACTIVE_LESS_BUTTON));
+        return getCurrentPage();
     }
 
     /**
@@ -375,9 +355,9 @@ public class TrashCanPage extends SharePage
      */
     public HtmlPage selectPreviousPage()
     {
-        NewPagination.selectPaginationButton(drone, TRASHCAN_PAGINATION_LESS_BUTTON);
-        drone.findAndWait(By.xpath(TRASHCAN_PAGINATION_ACTIVE_MORE_BUTTON));
-        return FactorySharePage.resolvePage(drone);
+        new NewPagination().selectPaginationButton(driver, TRASHCAN_PAGINATION_LESS_BUTTON);
+        findAndWait(By.xpath(TRASHCAN_PAGINATION_ACTIVE_MORE_BUTTON));
+        return getCurrentPage();
     }
 
     /**
@@ -387,7 +367,7 @@ public class TrashCanPage extends SharePage
     {
         try
         {
-            WebElement emptyTrashCanMessage = drone.find(TRASHCAN_EMPTY);
+            WebElement emptyTrashCanMessage = driver.findElement(TRASHCAN_EMPTY);
             return (emptyTrashCanMessage.isDisplayed() && emptyTrashCanMessage.getText().equals("No items exist"));
         }
         catch (NoSuchElementException nse)
@@ -406,7 +386,7 @@ public class TrashCanPage extends SharePage
         boolean present = false;
         try
         {
-            present = drone.findAndWait(HEADER_BAR).getText().equals("Deleted Documents and Folders");
+            present = findAndWait(HEADER_BAR).getText().equals("Deleted Documents and Folders");
             return present;
         }
         catch (NoSuchElementException e)
@@ -425,11 +405,11 @@ public class TrashCanPage extends SharePage
         boolean isCorrect = false;
         try
         {
-            isCorrect = drone.isElementDisplayed(TRASHCAN_SEARCH_INPUT) && drone.isElementDisplayed(TRASHCAN_SEARCH_BUTTON)
-                && drone.isElementDisplayed(TRASHCAN_CLEAR_BUTTON) && drone.isElementDisplayed(TRASHCAN_SELECT_BUTTON) && drone
-                .isElementDisplayed(TRASHCAN_EMPTY_BUTTON) && drone.isElementDisplayed(TRASHCAN_SELECTED_BUTTON) && drone
-                .isElementDisplayed(By.cssSelector(TRASHCAN_PAGINATION_MORE_BUTTON)) && drone
-                .isElementDisplayed(By.cssSelector(TRASHCAN_PAGINATION_LESS_BUTTON)) && isHeaderTitlePresent()
+            isCorrect = isElementDisplayed(TRASHCAN_SEARCH_INPUT) && isElementDisplayed(TRASHCAN_SEARCH_BUTTON)
+                && isElementDisplayed(TRASHCAN_CLEAR_BUTTON) && isElementDisplayed(TRASHCAN_SELECT_BUTTON) && 
+                isElementDisplayed(TRASHCAN_EMPTY_BUTTON) && isElementDisplayed(TRASHCAN_SELECTED_BUTTON) && 
+                isElementDisplayed(By.cssSelector(TRASHCAN_PAGINATION_MORE_BUTTON)) && 
+                isElementDisplayed(By.cssSelector(TRASHCAN_PAGINATION_LESS_BUTTON)) && isHeaderTitlePresent()
                 && checkNoItemsMessage();
             return isCorrect;
 

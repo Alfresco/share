@@ -1,18 +1,32 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.search;
-
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.admin.ActionsSet;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class FacetedSearchResult implements SearchResult
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.share.FactoryPage;
+import org.alfresco.po.share.admin.ActionsSet;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class FacetedSearchResult extends PageElement implements SearchResult
 {
     /**
      * Constants.
@@ -26,7 +40,7 @@ public class FacetedSearchResult implements SearchResult
     private static final By IMAGE = By.cssSelector("tbody[id=FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS] td.thumbnailCell img");
     private static final By FOLDER_PATH = By.xpath("//div[@class='pathCell']//span[@class='value']");
 
-    private WebDrone drone;
+    private WebDriver driver;
     private WebElement link;
     private String name;
     private String title;
@@ -42,15 +56,14 @@ public class FacetedSearchResult implements SearchResult
     private String thumbnailUrl;
     private WebElement contentDetails;
     private String thumbnail;
-    private String viewInBrowserLink;
-    private List<String> pathFolders = new LinkedList<String>();    
+    private List<String> pathFolders = new LinkedList<String>();
 
     /**
      * Instantiates a new faceted search result - some items may be null.
      */
-    public FacetedSearchResult(WebDrone drone, WebElement result)
+    public FacetedSearchResult(WebDriver driver, WebElement result, FactoryPage factoryPage)
     {
-        this.drone = drone;
+        this.driver = driver;
         if (result.findElements(NAME).size() > 0)
         {
             link = result.findElement(NAME);
@@ -91,10 +104,9 @@ public class FacetedSearchResult implements SearchResult
                 pathFolders.add(tokens.nextElement().toString());
             }
         }
-
+        this.factoryPage = factoryPage;
         isFolder = checkFolder(result);
-
-        actions = new ActionsSet(drone, result.findElement(ACTIONS));
+        actions = new ActionsSet(driver, result.findElement(ACTIONS), factoryPage);
 
     }
 
@@ -132,7 +144,7 @@ public class FacetedSearchResult implements SearchResult
     public HtmlPage clickLink()
     {
         link.click();
-        return FactorySharePage.resolvePage(this.drone);
+        return factoryPage.getPage(this.driver);
     }
 
     /**
@@ -173,7 +185,7 @@ public class FacetedSearchResult implements SearchResult
     public HtmlPage clickDateLink()
     {
         dateLink.click();
-        return FactorySharePage.resolvePage(this.drone);
+        return factoryPage.getPage(this.driver);
     }
 
     /**
@@ -214,7 +226,7 @@ public class FacetedSearchResult implements SearchResult
     public HtmlPage clickSiteLink()
     {
         siteLink.click();
-        return FactorySharePage.resolvePage(this.drone);
+        return factoryPage.getPage(this.driver);
     }
 
     /**
@@ -246,18 +258,7 @@ public class FacetedSearchResult implements SearchResult
     public PreViewPopUpPage clickImageLink()
     {
         imageLink.click();
-        return new PreViewPopUpPage(drone);
-    }
-
-    /**
-     * click the result imageLink.
-     *
-     * @return the preview pop up window
-     */
-    public PreViewPopUpImagePage clickImageLinkToPicture()
-    {
-        imageLink.click();
-        return new PreViewPopUpImagePage(drone);
+        return factoryPage.instantiatePage(driver, PreViewPopUpPage.class);
     }
 
 
@@ -268,10 +269,10 @@ public class FacetedSearchResult implements SearchResult
     }
 
     @Override
-    public SharePage clickContentPath()
+    public HtmlPage clickContentPath()
     {
         contentDetails.click();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     @Override
@@ -291,11 +292,6 @@ public class FacetedSearchResult implements SearchResult
         return thumbnail;
     }
 
-    @Override
-    public String clickOnViewInBrowserIcon()
-    {
-        return viewInBrowserLink;
-    }
 
     @Override
     public void clickOnDownloadIcon()
@@ -306,7 +302,7 @@ public class FacetedSearchResult implements SearchResult
     @Override
     public HtmlPage clickSiteName()
     {
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**

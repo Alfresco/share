@@ -14,8 +14,11 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.*;
-import org.alfresco.webdrone.exception.PageException;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,8 +26,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * @author Olga Antonik
@@ -41,12 +42,6 @@ public class EditGroupPage extends SharePage
         SAVE, CANCEL;
     }
 
-    protected EditGroupPage(WebDrone drone)
-    {
-        super(drone);
-
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public EditGroupPage render(RenderTime timer)
@@ -58,18 +53,11 @@ public class EditGroupPage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public EditGroupPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public EditGroupPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
+    GroupsPage groupsPage;
     /**
      * Edit group
      * 
@@ -87,22 +75,22 @@ public class EditGroupPage extends SharePage
                 throw new IllegalArgumentException("Group Name is required.");
             }
 
-            WebElement updateField = drone.findAndWait(UPDATE_DISPLAYNAME_INPUT);
+            WebElement updateField = findAndWait(UPDATE_DISPLAYNAME_INPUT);
             updateField.clear();
             updateField.sendKeys(newGroupName);
 
             if (edit)
             {
-                WebElement saveButton = drone.findAndWait(SAVE_CHANGES_BUTTON);
+                WebElement saveButton = findAndWait(SAVE_CHANGES_BUTTON);
                 saveButton.click();
             }
             else
             {
-                WebElement cancel = drone.find(CANCEL_BUTTON);
+                WebElement cancel = driver.findElement(CANCEL_BUTTON);
                 cancel.click();
             }
 
-            return new GroupsPage(drone).render();
+            return groupsPage.render();
         }
 
         catch (TimeoutException e)
@@ -127,11 +115,10 @@ public class EditGroupPage extends SharePage
         {
             throw new PageException("Enter value of DisplayName");
         }
-        WebElement input = drone.findAndWait(UPDATE_DISPLAYNAME_INPUT);
+        WebElement input = findAndWait(UPDATE_DISPLAYNAME_INPUT);
         input.clear();
         input.sendKeys(displayName);
     }
-
     /**
      * Save or cancel action button
      * 
@@ -143,14 +130,14 @@ public class EditGroupPage extends SharePage
         switch (groupButton)
         {
             case SAVE:
-                drone.findAndWait(SAVE_CHANGES_BUTTON).click();
+                findAndWait(SAVE_CHANGES_BUTTON).click();
                 canResume();
-                return new GroupsPage(drone);
+                return groupsPage;
 
             case CANCEL:
-                drone.findAndWait(CANCEL_BUTTON).click();
+                findAndWait(CANCEL_BUTTON).click();
                 canResume();
-                return new EditGroupPage(drone);
+                return this;
 
         }
         throw new PageException("Wrong Page");
@@ -166,7 +153,7 @@ public class EditGroupPage extends SharePage
     {
         try
         {
-            WebElement searchButton = drone.find(SAVE_CHANGES_BUTTON);
+            WebElement searchButton = driver.findElement(SAVE_CHANGES_BUTTON);
             return searchButton.isDisplayed() && searchButton.isEnabled();
         }
         catch (NoSuchElementException e)
@@ -184,7 +171,7 @@ public class EditGroupPage extends SharePage
     {
         try
         {
-            WebElement searchButton = drone.find(UPDATE_DISPLAYNAME_INPUT);
+            WebElement searchButton = driver.findElement(UPDATE_DISPLAYNAME_INPUT);
             return searchButton.isDisplayed();
         }
         catch (NoSuchElementException e)

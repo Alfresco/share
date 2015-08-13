@@ -14,20 +14,28 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.po.share.site.document.UserProfile;
-import org.alfresco.webdrone.*;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.site.document.UserProfile;
+import org.alfresco.po.share.util.PageUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author Charu To get the list of groups and group members this page is used
@@ -56,11 +64,6 @@ public class GroupsPage extends SharePage
     @SuppressWarnings("unused")
     private static final String EDIT_GROUP_ICON = ".groups-update-button";
 
-    public GroupsPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public GroupsPage render(RenderTime timer)
@@ -69,13 +72,6 @@ public class GroupsPage extends SharePage
         elementRender(timer, getVisibleRenderElement(By.cssSelector(BUTTON_BROWSE)), getVisibleRenderElement(By.cssSelector(BUTTON_SEARCH)),
                 getVisibleRenderElement(By.cssSelector(SHOW_ALL_LABEL)), getVisibleRenderElement(By.cssSelector(SHOW_ALL_CHK_BOX)), actionMessage);
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public GroupsPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -90,7 +86,7 @@ public class GroupsPage extends SharePage
      */
     public GroupsPage clickBrowse()
     {
-        drone.findAndWait(By.cssSelector(BUTTON_BROWSE)).click();
+        findAndWait(By.cssSelector(BUTTON_BROWSE)).click();
 
         return this;
     }
@@ -102,8 +98,9 @@ public class GroupsPage extends SharePage
     {
         try
         {
-            drone.findAndWait(By.cssSelector(BUTTON_ADD)).click();
-            return new NewGroupPage(drone);
+            findAndWait(By.cssSelector(BUTTON_ADD)).click();
+            //TODO Fix me by adding to FactorySharePare map.
+            return factoryPage.instantiatePage(driver, NewGroupPage.class);
         }
         catch (StaleElementReferenceException e)
         {
@@ -119,7 +116,7 @@ public class GroupsPage extends SharePage
     public List<String> getGroupList()
     {
         List<String> nameOfGroups = new ArrayList<String>();
-        List<WebElement> groupElements = drone.findAndWaitForElements(By.cssSelector(GROUP_NAMES));
+        List<WebElement> groupElements = findAndWaitForElements(By.cssSelector(GROUP_NAMES));
         for (WebElement webElement : groupElements)
         {
             nameOfGroups.add(webElement.getText());
@@ -135,10 +132,10 @@ public class GroupsPage extends SharePage
      */
     public GroupsPage selectGroup(String groupName)
     {
-        WebDroneUtil.checkMandotaryParam("Group Name", groupName);
+        PageUtils.checkMandotaryParam("Group Name", groupName);
         try
         {
-            for (WebElement name : drone.findAndWaitForElements(By.cssSelector(GROUP_NAMES)))
+            for (WebElement name : findAndWaitForElements(By.cssSelector(GROUP_NAMES)))
             {
                 if (groupName.equalsIgnoreCase(name.getText()))
                 {
@@ -163,10 +160,10 @@ public class GroupsPage extends SharePage
      */
     public boolean isGroupPresent(String GroupName)
     {
-        WebDroneUtil.checkMandotaryParam("Group Name", GroupName);
+        PageUtils.checkMandotaryParam("Group Name", GroupName);
         try
         {
-            List<WebElement> groupList = drone.findAll(By.cssSelector(GROUP_NAMES));
+            List<WebElement> groupList = driver.findElements(By.cssSelector(GROUP_NAMES));
 
             for (WebElement groupName : groupList)
             {
@@ -194,11 +191,11 @@ public class GroupsPage extends SharePage
      */
     public int countGroupPresent(String groupName)
     {
-        WebDroneUtil.checkMandotaryParam("Group Name", groupName);
+        PageUtils.checkMandotaryParam("Group Name", groupName);
         int count = 0;
         try
         {
-            List<WebElement> groupList = drone.findAll(By.cssSelector(GROUP_NAMES));
+            List<WebElement> groupList = driver.findElements(By.cssSelector(GROUP_NAMES));
 
             for (WebElement group : groupList)
             {
@@ -228,7 +225,7 @@ public class GroupsPage extends SharePage
         try
         {
             List<UserProfile> listOfUsers = new ArrayList<UserProfile>();
-            List<WebElement> groupMembers = drone.findAndWaitForElements(By.cssSelector(USER_NAMES));
+            List<WebElement> groupMembers = findAndWaitForElements(By.cssSelector(USER_NAMES));
             for (WebElement webElement : groupMembers)
             {
                 UserProfile profile = new UserProfile();
@@ -278,11 +275,11 @@ public class GroupsPage extends SharePage
      * {
      * try
      * {
-     * WebElement addUserButton = drone.findAndWait(By.cssSelector(BUTTON_ADD_USER));
+     * WebElement addUserButton = findAndWait(By.cssSelector(BUTTON_ADD_USER));
      * if (addUserButton.isDisplayed() && addUserButton.isEnabled())
      * {
      * addUserButton.click();
-     * return new AddUserPage(drone);
+     * return new AddUserPage(driver);
      * }
      * } catch (TimeoutException nse)
      * {
@@ -300,11 +297,11 @@ public class GroupsPage extends SharePage
      * {
      * try
      * {
-     * WebElement addGroupButton = drone.findAndWait(By.cssSelector(BUTTON_ADD_GROUP));
+     * WebElement addGroupButton = findAndWait(By.cssSelector(BUTTON_ADD_GROUP));
      * if (addGroupButton.isDisplayed())
      * {
      * addGroupButton.click();
-     * return new AddGroupPage(drone);
+     * return new AddGroupPage(driver);
      * }
      * } catch (TimeoutException nse)
      * {
@@ -329,12 +326,13 @@ public class GroupsPage extends SharePage
 
         try
         {
-            WebElement element = drone.findAndWait(By.xpath(String.format(".//span[contains(text(),'%s')]/..", userName)));
-            drone.mouseOver(element);
+            WebElement element = findAndWait(By.xpath(String.format(".//span[contains(text(),'%s')]/..", userName)));
+            mouseOver(element);
             element = element.findElement(By.cssSelector("span.yui-columnbrowser-item-buttons>span.users-remove-button"));
-            drone.mouseOver(element);
+            mouseOver(element);
             element.click();
-            return new RemoveUserFromGroupPage(getDrone());
+            //TODO Fix me by adding to FactorySharePare map.
+            return factoryPage.instantiatePage(driver, RemoveUserFromGroupPage.class);
         }
         catch (TimeoutException e)
         {
@@ -357,7 +355,7 @@ public class GroupsPage extends SharePage
 
         try
         {
-            WebElement element = drone.find(By.cssSelector(USER_NAMES));
+            WebElement element = driver.findElement(By.cssSelector(USER_NAMES));
             if (element.isDisplayed())
             {
                 return true;
@@ -433,8 +431,9 @@ public class GroupsPage extends SharePage
     public NewGroupPage navigateToCreateNewSubGroup(String parentGroup)
     {
         selectGroup(parentGroup).render();
-        drone.findAndWait(NEW_SUBGROUP_BUTTON).click();
-        return new NewGroupPage(drone);
+        findAndWait(NEW_SUBGROUP_BUTTON).click();
+        //TODO Fix me by adding to FactorySharePare map.
+        return factoryPage.instantiatePage(driver, NewGroupPage.class);
     }
 
     /**
@@ -445,8 +444,9 @@ public class GroupsPage extends SharePage
     public AddGroupForm navigateToAddGroupForm(String group)
     {
         selectGroup(group).render();
-        drone.findAndWait(ADD_GROUP_BUTTON).click();
-        return new AddGroupForm(drone).render();
+        findAndWait(ADD_GROUP_BUTTON).click();
+        //TODO Fix me by adding to FactorySharePare map.
+        return (AddGroupForm)factoryPage.instantiatePageElement(driver, AddGroupForm.class);
     }
 
     /**
@@ -457,8 +457,9 @@ public class GroupsPage extends SharePage
     public AddUserToGroupForm navigateToAddUserForm(String group)
     {
         selectGroup(group).render();
-        drone.findAndWait(ADD_USER_BUTTON).click();
-        return new AddUserToGroupForm(drone).render();
+        findAndWait(ADD_USER_BUTTON).click();
+        //TODO Fix me by adding to FactorySharePare map.
+        return factoryPage.instantiatePage(driver, AddUserToGroupForm.class);
     }
 
     /**
@@ -470,8 +471,8 @@ public class GroupsPage extends SharePage
     {
         try
         {
-            drone.getCurrentPage().render();
-            WebElement userElem = drone.find(By.xpath(String.format(USER_ADDED, user)));
+            getCurrentPage().render();
+            WebElement userElem = driver.findElement(By.xpath(String.format(USER_ADDED, user)));
             if (userElem.isDisplayed())
             {
                 return true;
@@ -503,12 +504,13 @@ public class GroupsPage extends SharePage
 
         try
         {
-            WebElement element = drone.findAndWait(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName)));
-            drone.mouseOver(element);
+            WebElement element = findAndWait(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName)));
+            mouseOver(element);
             element = element.findElement(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName) + "//span[@class='groups-update-button']"));
-            drone.mouseOver(element);
+            mouseOver(element);
             element.click();
-            return new EditGroupPage(getDrone());
+            //TODO Fix me by adding to FactorySharePare map.
+            return factoryPage.instantiatePage(driver, EditGroupPage.class);
         }
         catch (TimeoutException e)
         {
@@ -542,25 +544,25 @@ public class GroupsPage extends SharePage
 
         try
         {
-            WebElement element = drone.findAndWait(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName)));
-            drone.mouseOver(element);
+            WebElement element = findAndWait(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName)));
+            mouseOver(element);
             element = element.findElement(By.xpath(String.format("//span[contains(text(),'%s')]/..", groupName) + "//span[@class='groups-delete-button']"));
-            drone.mouseOver(element);
+            mouseOver(element);
             element.click();
-            drone.findAndWait(DELETE_GROUP_FORM);
+            findAndWait(DELETE_GROUP_FORM);
             if (delete)
             {
-                WebElement deleteButton = drone.findAndWait(DELETE_GROUP_BUTTON);
+                WebElement deleteButton = findAndWait(DELETE_GROUP_BUTTON);
                 deleteButton.click();
             }
             else
             {
-                WebElement cancelButton = drone.findAndWait(CANCEL_GROUP_BUTTON);
+                WebElement cancelButton = findAndWait(CANCEL_GROUP_BUTTON);
                 cancelButton.click();
 
             }
-
-            return new GroupsPage(getDrone());
+            //TODO Fix me by adding to FactorySharePare map.
+            return factoryPage.instantiatePage(driver, GroupsPage.class);
         }
         catch (TimeoutException e)
         {
@@ -577,14 +579,14 @@ public class GroupsPage extends SharePage
      * 
      * @return AddUserGroupPage
      */
-    public AddUserGroupPage selectAddUser()
+    public HtmlPage selectAddUser()
     {
         try
         {
-            WebElement addUser = drone.findAndWait(By.cssSelector(ADD_USER_ICON));
+            WebElement addUser = findAndWait(By.cssSelector(ADD_USER_ICON));
             addUser.click();
 
-            return new AddUserGroupPage(drone);
+            return factoryPage.instantiatePage(driver, AddUserGroupPage.class);
         }
         catch (TimeoutException e)
         {
@@ -604,7 +606,7 @@ public class GroupsPage extends SharePage
     public List<String> getUserList()
     {
         List<String> nameOfUsers = new ArrayList<String>();
-        List<WebElement> userElements = drone.findAndWaitForElements(By.cssSelector(USER_NAMES));
+        List<WebElement> userElements = findAndWaitForElements(By.cssSelector(USER_NAMES));
         for (WebElement webElement : userElements)
         {
             nameOfUsers.add(webElement.getText());
@@ -622,14 +624,15 @@ public class GroupsPage extends SharePage
     {
         try
         {
-            WebElement first_column_group_locator = drone.findAndWait(By.xpath("//span[contains(@class,'yui-columnbrowser-item-label') and contains(text(),'"
+            WebElement first_column_group_locator = findAndWait(By.xpath("//span[contains(@class,'yui-columnbrowser-item-label') and contains(text(),'"
                     + groupName + "')]"));
             first_column_group_locator.click();
-            drone.mouseOver(first_column_group_locator);
-            WebElement edit_group_button = drone.findAndWait(By.xpath("//span[contains(text(),'" + groupName
+            mouseOver(first_column_group_locator);
+            WebElement edit_group_button = findAndWait(By.xpath("//span[contains(text(),'" + groupName
                     + "')]/parent::*/span/span[contains(@class,'groups-update-button')]"));
             edit_group_button.click();
-            return new EditGroupPage(drone);
+            //TODO Fix me by adding to FactorySharePare map.
+            return factoryPage.instantiatePage(driver, EditGroupPage.class);
         }
         catch (TimeoutException e)
         {
@@ -650,14 +653,15 @@ public class GroupsPage extends SharePage
     {
         try
         {
-            WebElement first_column_group_locator = drone.findAndWait(By.xpath("//span[contains(@class,'yui-columnbrowser-item-label') and contains(text(),'"
+            WebElement first_column_group_locator = findAndWait(By.xpath("//span[contains(@class,'yui-columnbrowser-item-label') and contains(text(),'"
                     + groupName + "')]"));
             first_column_group_locator.click();
-            drone.mouseOver(first_column_group_locator);
-            WebElement delete_group_button = drone.findAndWait(By.xpath("//*[contains(text(),'" + groupName
+            mouseOver(first_column_group_locator);
+            WebElement delete_group_button = findAndWait(By.xpath("//*[contains(text(),'" + groupName
                     + "')]/ancestor::a//span[contains(@class, 'delete')]"));
             delete_group_button.click();
-            return new DeleteGroupFromGroupPage(drone);
+            //TODO Fix me by adding to FactorySharePare map.
+            return factoryPage.instantiatePage(driver, DeleteGroupFromGroupPage.class);
 
         }
         catch (TimeoutException e)
@@ -685,11 +689,12 @@ public class GroupsPage extends SharePage
 
         try
         {
-            WebElement element = drone.findAndWait(By.xpath("//li[2]//span[contains(text(),'" + userName + "')]"));
-            drone.mouseOver(element);
+            WebElement element = findAndWait(By.xpath("//li[2]//span[contains(text(),'" + userName + "')]"));
+            mouseOver(element);
             element = element.findElement(By.xpath("//span[@class='users-remove-button']"));
             element.click();
-            return new RemoveUserFromGroupPage(getDrone());
+            //TODO Fix me by adding to FactorySharePare map.
+            return factoryPage.instantiatePage(driver, RemoveUserFromGroupPage.class);
         }
         catch (TimeoutException e)
         {

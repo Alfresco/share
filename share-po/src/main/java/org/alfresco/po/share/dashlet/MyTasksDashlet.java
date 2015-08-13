@@ -14,14 +14,15 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.MyTasksPage;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.task.EditTaskPage;
-import org.alfresco.po.share.workflow.StartWorkFlowPage;
-import org.alfresco.webdrone.*;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -29,9 +30,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import java.util.List;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.my-tasks")
 /**
  * My tasks dashlet object, holds all element of the HTML page relating to
  * share's my tasks dashlet on dashboard page.
@@ -53,35 +53,23 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     private static final String TASK_VIEW_LINK = "a[@class='view-task']";
     private static final String TASK_EDIT_LINK = "a[@class='edit-task']";
 
-    /**
-     * Constructor.
-     */
-    protected MyTasksDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(DIV_DASHLET_CONTENT_PLACEHOLDER));
-        
-        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
-    }
+//    /**
+//     * Constructor.
+//     */
+//    protected MyTasksDashlet(WebDriver driver)
+//    {
+//        super(driver, By.cssSelector(DIV_DASHLET_CONTENT_PLACEHOLDER));
+//        
+//        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
+//    }
 
-    @SuppressWarnings("unchecked")
-    public MyTasksDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyTasksDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * The collection of tasks displayed on my tasks dashlet.
      * 
      * @return List<ShareLink> links
      */
-    public synchronized List<ShareLink> getTasks()
+    public List<ShareLink> getTasks()
     {
         return getList(DATA_LIST_CSS_LOCATION);
     }
@@ -90,7 +78,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
      * Selects a task that appears on my tasks dashlet by the matching name and
      * clicks on the link.
      */
-    public synchronized ShareLink selectTask(final String title)
+    public ShareLink selectTask(final String title)
     {
         return getLink(DATA_LIST_CSS_LOCATION, title);
     }
@@ -161,13 +149,13 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
 
         try
         {
-            for (WebElement element : drone.findAndWaitForElements(By.cssSelector(LIST_OF_TASKS)))
+            for (WebElement element : findAndWaitForElements(By.cssSelector(LIST_OF_TASKS)))
             {
                 String taskName = element.getText().toLowerCase();
                 if (taskName != null && taskName.contains(task.toLowerCase()))
                 {
                     element.click();
-                    return FactorySharePage.resolvePage(drone);
+                    return getCurrentPage();
                 }
             }
 
@@ -184,13 +172,13 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
      * 
      * @return StartWorkFlowPage
      */
-    public StartWorkFlowPage selectStartWorkFlow()
+    public HtmlPage selectStartWorkFlow()
     {
         try
         {
-            WebElement startWorkFlow = drone.findAndWait(By.linkText("Start Workflow"));
+            WebElement startWorkFlow = findAndWait(By.linkText("Start Workflow"));
             startWorkFlow.click();
-            return new StartWorkFlowPage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -209,14 +197,14 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     *
     * @return MyTasksPage
     */
-    public MyTasksPage selectComplete()
+    public HtmlPage selectComplete()
     {
         if (dashlet == null)
         {
-            dashlet = drone.findAndWait(By.cssSelector(DIV_DASHLET_CONTENT_PLACEHOLDER), 100L);
+            dashlet = findAndWait(By.cssSelector(DIV_DASHLET_CONTENT_PLACEHOLDER), 100L);
         }
         dashlet.findElement(COMPLETE_TASK_BUTTON).click();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -227,7 +215,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(By.cssSelector(DEFAULT_FILTER_BUTTON)).click();
+            findAndWait(By.cssSelector(DEFAULT_FILTER_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
@@ -242,12 +230,12 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
      * Select the given {@link MyTasksFilter} on My Tasks Dashlet.
      *
      * @param filter - The {@link MyTasksFilter} to be selected
-     * @return {@link org.alfresco.webdrone.HtmlPage}
+     * @return {@link org.alfresco.po.HtmlPage}
      */
     public HtmlPage selectTasksFilter(MyTasksFilter filter)
     {
         clickFilterButton();
-        List<WebElement> filterElements = drone.findAndWaitForElements(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS));
+        List<WebElement> filterElements = findAndWaitForElements(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS));
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -258,8 +246,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        waitUntilAlert(1);
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -267,14 +254,14 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
      *
      * @return MyTasksPage
      */
-    public MyTasksPage selectActive()
+    public HtmlPage selectActive()
     {
         if (dashlet == null)
         {
-            dashlet = drone.findAndWait(By.cssSelector(DIV_DASHLET_CONTENT_PLACEHOLDER), 100L);
+            dashlet = findAndWait(By.cssSelector(DIV_DASHLET_CONTENT_PLACEHOLDER), 100L);
         }
         dashlet.findElement(ACTIVE_TASK_BUTTON).click();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -284,7 +271,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
      */
     private WebElement getTaskRow(String taskName)    {
 
-        return drone.findAndWait(By.xpath("//h3/a[text()='" + taskName + "']"));
+        return findAndWait(By.xpath("//h3/a[text()='" + taskName + "']"));
     }
 
     /**
@@ -329,7 +316,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
         {
             try
             {
-                return drone.find(By.xpath("//h3/a[text()='" + taskName + "']/../../../..//"+TASK_VIEW_LINK)).isEnabled();
+                return driver.findElement(By.xpath("//h3/a[text()='" + taskName + "']/../../../..//"+TASK_VIEW_LINK)).isEnabled();
             }
             catch (NoSuchElementException e)
             {
@@ -358,7 +345,7 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
         {
             try
             {
-                return drone.find(By.xpath("//h3/a[text()='" + taskName + "']/../../../..//"+TASK_EDIT_LINK)).isEnabled();
+                return driver.findElement(By.xpath("//h3/a[text()='" + taskName + "']/../../../..//"+TASK_EDIT_LINK)).isEnabled();
             }
             catch (NoSuchElementException e)
             {
@@ -388,15 +375,15 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
         }
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector(LIST_OF_TASKS));
+            List<WebElement> elements = driver.findElements(By.cssSelector(LIST_OF_TASKS));
             for (WebElement webElement : elements)
             {
                 if (webElement.getText().equals(taskName))
                 {
-                    Actions mouseOver = new Actions(((WebDroneImpl) drone).getDriver());
-                    mouseOver.moveToElement(drone.find(By.xpath("//a[text()='" + taskName + "']"))).
-                    moveToElement(drone.find(By.xpath("//h3/a[text()='" + taskName + "']/../../../..//"+TASK_EDIT_LINK))).click().perform();
-                    return FactorySharePage.resolvePage(drone);
+                    Actions mouseOver = new Actions(driver);
+                    mouseOver.moveToElement(driver.findElement(By.xpath("//a[text()='" + taskName + "']"))).
+                    moveToElement(driver.findElement(By.xpath("//h3/a[text()='" + taskName + "']/../../../..//"+TASK_EDIT_LINK))).click().perform();
+                    return getCurrentPage();
                 }
             }
         }
@@ -422,15 +409,15 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
         }
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector(LIST_OF_TASKS));
+            List<WebElement> elements = driver.findElements(By.cssSelector(LIST_OF_TASKS));
             for (WebElement webElement : elements)
             {
                 if (webElement.getText().equals(taskName))
                 {
-                    Actions mouseOver = new Actions(((WebDroneImpl) drone).getDriver());
-                    mouseOver.moveToElement(drone.find(By.xpath("//a[text()='" + taskName + "']"))).
-                        moveToElement(drone.find(By.xpath("//h3/a[text()='" + taskName + "']/../../../..//"+TASK_VIEW_LINK))).click().perform();
-                    return FactorySharePage.resolvePage(drone);
+                    Actions mouseOver = new Actions(driver);
+                    mouseOver.moveToElement(driver.findElement(By.xpath("//a[text()='" + taskName + "']"))).
+                        moveToElement(driver.findElement(By.xpath("//h3/a[text()='" + taskName + "']/../../../..//"+TASK_VIEW_LINK))).click().perform();
+                    return getCurrentPage();
                 }
             }
         }
@@ -439,6 +426,11 @@ public class MyTasksDashlet extends AbstractDashlet implements Dashlet
             logger.error("My Task Dashlet is not present", ex);
         }
         throw new PageException("Task is not found");
-
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyTasksDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

@@ -1,22 +1,36 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.discussions;
 
-import org.alfresco.po.share.dashlet.mydiscussions.TopicDetailsPage;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 /**
  * @author Marina.Nenadovets
  */
-public class TopicDirectoryInfoImpl extends HtmlElement implements TopicDirectoryInfo
+public class TopicDirectoryInfoImpl extends PageElement implements TopicDirectoryInfo
 {
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -30,9 +44,9 @@ public class TopicDirectoryInfoImpl extends HtmlElement implements TopicDirector
     /**
      * Constructor
      */
-    protected TopicDirectoryInfoImpl(WebDrone drone, WebElement webElement)
+    protected TopicDirectoryInfoImpl(WebDriver driver, WebElement webElement)
     {
-        super(webElement, drone);
+        setWrappedElement(webElement);
     }
 
     /**
@@ -55,7 +69,7 @@ public class TopicDirectoryInfoImpl extends HtmlElement implements TopicDirector
         {
             logger.error("The operation has timed out");
         }
-        return new TopicViewPage(drone);
+        return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
     }
 
     /**
@@ -77,7 +91,7 @@ public class TopicDirectoryInfoImpl extends HtmlElement implements TopicDirector
         {
             logger.error("The operation has timed out");
         }
-        return new NewTopicForm(drone);
+        return factoryPage.instantiatePage(driver, NewTopicForm.class).render();
     }
 
     /**
@@ -90,7 +104,7 @@ public class TopicDirectoryInfoImpl extends HtmlElement implements TopicDirector
         try
         {
             findAndWait(DELETE_TOPIC).click();
-            drone.findAndWait(By.xpath("//span[@class='button-group']/span[1]/span/button")).click();
+            findAndWait(By.xpath("//span[@class='button-group']/span[1]/span/button")).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -100,7 +114,8 @@ public class TopicDirectoryInfoImpl extends HtmlElement implements TopicDirector
         {
             logger.error("The operation has timed out");
         }
-        return new DiscussionsPage(drone).waitUntilAlert().render();
+        DiscussionsPage p = factoryPage.instantiatePage(driver, DiscussionsPage.class);
+        return p.waitUntilAlert().render();
     }
 
     /**
@@ -154,10 +169,10 @@ public class TopicDirectoryInfoImpl extends HtmlElement implements TopicDirector
      * @see org.alfresco.po.share.site.discussions.TopicDirectoryInfo
      */
     @Override
-    public TopicDetailsPage clickRead()
+    public HtmlPage clickRead()
     {
         findAndWait(READ_LINK).click();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -166,13 +181,13 @@ public class TopicDirectoryInfoImpl extends HtmlElement implements TopicDirector
     @Override
     public DiscussionsPage clickOnTag(String tagName)
     {
-        List<WebElement> elements = findAllWithWait(TAG_LINKS);
+        List<WebElement> elements = driver.findElements(TAG_LINKS);
         for (WebElement element : elements)
         {
             if (tagName.equals(element.getText()))
             {
                 element.click();
-                return new DiscussionsPage(drone).waitUntilAlert().render();
+                return factoryPage.instantiatePage(driver, DiscussionsPage.class).waitUntilAlert().render();
             }
         }
         throw new PageException(String.format("Tag[%s] don't found.", tagName));

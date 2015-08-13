@@ -20,8 +20,8 @@
 package org.alfresco.po.alfresco;
 
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -42,26 +42,13 @@ public class RepositoryAdminConsolePageTest extends AbstractTest
     public void setup() throws Exception
     {
         loginAs(username, password).render();
-        page = ShareUtil.navigateToRepositoryAdminConsole(drone, username, password).render();
+        page = shareUtil.navigateToRepositoryAdminConsole(driver, username, password).render();
     }
     @Test(groups = "Enterprise-only")
     public void create() throws Exception
     {
-        RepositoryAdminConsolePage p = new RepositoryAdminConsolePage(drone);
+        RepositoryAdminConsolePage p = new RepositoryAdminConsolePage();
         Assert.assertNotNull(p);
     }
-    @Test(expectedExceptions = IllegalArgumentException.class, groups = "Enterprise-only")
-    public void createWithNull() throws Exception
-    {
-        new RepositoryAdminConsolePage(null);
-    }
-//    @Test(groups = "Enterprise-only")
-//    public void createTenant() throws Exception
-//    {
-//        String tenantName = "mike" + System.currentTimeMillis();
-//        String expected = String.format("created tenant: %s", tenantName);
-//        String result = page.getResult();
-//        Assert.assertEquals(result,expected);
-//    }
 
 }

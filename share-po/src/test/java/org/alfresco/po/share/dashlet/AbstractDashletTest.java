@@ -3,7 +3,7 @@ package org.alfresco.po.share.dashlet;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.site.document.AbstractDocumentTest;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.BeforeMethod;
@@ -27,7 +27,7 @@ public class AbstractDashletTest extends AbstractDocumentTest
     @BeforeMethod
     public void startAtDashboard()
     {
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         dashBoard = page.getNav().selectMyDashBoard().render();
     }
     
@@ -35,7 +35,7 @@ public class AbstractDashletTest extends AbstractDocumentTest
     {
         try
         {
-            SiteUtil.deleteSite(drone, siteName);
+            siteUtil.deleteSite(username, password, siteName);
         }
         catch (Exception e)
         {

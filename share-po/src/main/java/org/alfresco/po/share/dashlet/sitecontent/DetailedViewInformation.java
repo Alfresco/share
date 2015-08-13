@@ -14,9 +14,10 @@
  */
 package org.alfresco.po.share.dashlet.sitecontent;
 
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
-import org.alfresco.webdrone.WebDrone;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Hold information about the Detailed View inside site content dashlet.
@@ -35,9 +36,10 @@ public class DetailedViewInformation extends SimpleViewInformation
     private ShareLink favorite;
     private boolean favouriteEnabled;
     private boolean likeEnabled;
-    private WebDrone drone;
-
-    public DetailedViewInformation(WebDrone drone,
+    private WebDriver driver;
+    private FactoryPage factoryPage;
+    
+    public DetailedViewInformation(WebDriver driver,
                                    final ShareLink thumbnail,
                                    final ShareLink contentDetail,
                                    final ShareLink user,
@@ -50,11 +52,12 @@ public class DetailedViewInformation extends SimpleViewInformation
                                    String desc, 
                                    double version,
                                    boolean favouriteEnabled,
-                                   boolean likeEnabled)
+                                   boolean likeEnabled,
+                                   FactoryPage factoryPage)
     {
-        super(drone, thumbnail, contentDetail, user, contentStatus, false);
+        super(driver, thumbnail, contentDetail, user, contentStatus, false, factoryPage);
 
-        if (null == drone)
+        if (null == driver)
         {
             throw new UnsupportedOperationException("Drone is required, It can't be null.");
         }
@@ -74,7 +77,7 @@ public class DetailedViewInformation extends SimpleViewInformation
             throw new UnsupportedOperationException("Favourite link is required");
         }
 
-        this.drone = drone;
+        this.driver = driver;
         this.comment = comment;
         this.like = like;
         this.favorite = favourite;
@@ -84,6 +87,7 @@ public class DetailedViewInformation extends SimpleViewInformation
         this.version = version;
         this.favouriteEnabled = favouriteEnabled;
         this.likeEnabled = likeEnabled;
+        this.factoryPage = factoryPage;
     }
 
     public boolean isLikeEnabled()
@@ -139,7 +143,7 @@ public class DetailedViewInformation extends SimpleViewInformation
     public DocumentDetailsPage clickComment()
     {
         comment.click();
-        return new DocumentDetailsPage(drone);
+        return factoryPage.instantiatePage(driver, DocumentDetailsPage.class);
     }
 
     @Override

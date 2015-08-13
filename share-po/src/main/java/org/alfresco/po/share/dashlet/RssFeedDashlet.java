@@ -18,69 +18,45 @@
  */
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(xpath="//div[count(./div[@class='toolbar'])=0 and contains(@class,'rssfeed')]")
 /**
  * Page object to hold RSS Feed dashlet
  *
  * @author Marina.Nenadovets
  */
-
 public class RssFeedDashlet extends AbstractDashlet implements Dashlet
 {
     private static final By DASHLET_CONTAINER_PLACEHOLDER = By.xpath("//div[count(./div[@class='toolbar'])=0 and contains(@class,'rssfeed')]");
     private static final By titleBarActions = By.cssSelector(".titleBarActions");
 
-    /**
-     * Constructor.
-     */
-    protected RssFeedDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.xpath(".//div[contains(@class, 'yui-resize-handle')]"));
-    }
+//    /**
+//     * Constructor.
+//     */
+//    protected RssFeedDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.xpath(".//div[contains(@class, 'yui-resize-handle')]"));
+//    }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public synchronized RssFeedDashlet render(RenderTime timer)
-    {
-        elementRender(timer, getVisibleRenderElement(DASHLET_CONTAINER_PLACEHOLDER));
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public RssFeedDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public RssFeedDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
 
     /**
      * This method gets the focus by placing mouse over on Site RSS Feed Dashlet.
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     /**
@@ -92,9 +68,9 @@ public class RssFeedDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.mouseOver(drone.find(titleBarActions));
+            mouseOver(driver.findElement(titleBarActions));
             dashlet.findElement(CONFIGURE_DASHLET_ICON).click();
-            return new RssFeedUrlBoxPage(drone).render();
+            return factoryPage.instantiatePage(driver,RssFeedUrlBoxPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -112,10 +88,10 @@ public class RssFeedDashlet extends AbstractDashlet implements Dashlet
         List<ShareLink> rssLinks = new ArrayList<ShareLink>();
         try
         {
-            List<WebElement> links = drone.findAll(By.cssSelector(".headline>h4>a"));
+            List<WebElement> links = driver.findElements(By.cssSelector(".headline>h4>a"));
             for (WebElement div : links)
             {
-                rssLinks.add(new ShareLink(div, drone));
+                rssLinks.add(new ShareLink(div, driver, factoryPage));
             }
         }
         catch (NoSuchElementException nse)
@@ -124,5 +100,18 @@ public class RssFeedDashlet extends AbstractDashlet implements Dashlet
         }
 
         return rssLinks;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public RssFeedDashlet render(RenderTime timer)
+    {
+        return render(timer);
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public RssFeedDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

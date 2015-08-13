@@ -14,35 +14,33 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.po.share.preview.PdfJsPlugin;
-import org.alfresco.po.share.site.UpdateFilePage;
-import org.alfresco.po.share.user.CloudSignInPage;
-import org.alfresco.po.share.util.FileDownloader;
-import org.alfresco.po.share.workflow.DestinationAndAssigneePage;
-import org.alfresco.po.share.workflow.StartWorkFlowPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.share.ShareDialogue;
+import org.alfresco.po.share.preview.PdfJsPlugin;
+import org.alfresco.po.share.site.UpdateFilePage;
+import org.alfresco.po.share.util.FileDownloader;
+import org.alfresco.po.share.workflow.StartWorkFlowPage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * Site document library page object, holds all element of the HTML page
@@ -115,27 +113,10 @@ public class DocumentDetailsPage extends DetailsPage
     public static final String UNZIP_TO = "//span[text()='Unzip to...']";
     private static final String ERROR_EDITING_DOCUMENT = ".//*[@id='message']/div/span";
     private static final String LINK_CANCEL_GOOGLE_DOCS = "#onGoogledocsActionCancel a";
+    private static final String PERMISSION_SETTINsGS_PANEL_CSS = ".document-permissions";
 
-    public synchronized void setPreviousVersion(final String previousVersion)
+    public void setPreviousVersion(final String previousVersion)
     {
-        this.previousVersion = previousVersion;
-    }
-
-    /**
-     * Constructor
-     */
-    public DocumentDetailsPage(WebDrone drone)
-    {
-        this(drone, null);
-        PERMISSION_SETTINGS_PANEL_CSS = ".document-permissions";
-    }
-
-    /**
-     * Constructor.
-     */
-    public DocumentDetailsPage(WebDrone drone, final String previousVersion)
-    {
-        super(drone);
         this.previousVersion = previousVersion;
     }
 
@@ -148,7 +129,7 @@ public class DocumentDetailsPage extends DetailsPage
      */
     @SuppressWarnings("unchecked")
     @Override
-    public synchronized DocumentDetailsPage render(RenderTime timer)
+    public DocumentDetailsPage render(RenderTime timer)
     {
         String docVersionOnScreen;
         while (true)
@@ -167,12 +148,12 @@ public class DocumentDetailsPage extends DetailsPage
             try
             {
                 // If popup is not displayed start render check
-                if (!drone.find(By.cssSelector("div.bd")).isDisplayed())
+                if (!driver.findElement(By.cssSelector("div.bd")).isDisplayed())
                 {
                     // upload dialog should not be displayed.
-                    if (!drone.find(By.cssSelector("div.yui-dt-bd")).isDisplayed())
+                    if (!driver.findElement(By.cssSelector("div.yui-dt-bd")).isDisplayed())
                     {
-                        docVersionOnScreen = drone.findAndWait(By.cssSelector(DOCUMENT_VERSION_PLACEHOLDER)).getText().trim();
+                        docVersionOnScreen = findAndWait(By.cssSelector(DOCUMENT_VERSION_PLACEHOLDER)).getText().trim();
                         // If the text is not what we expect it to be, then repeat
                         if (this.previousVersion != null && docVersionOnScreen.equals(this.previousVersion))
                         {
@@ -230,8 +211,8 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement el = drone.find(By.cssSelector(DELETE_DOCUMENT));
-            boolean isDeleteDocument = drone.find(By.cssSelector(DELETE_DOCUMENT)).isDisplayed();
+            WebElement el = driver.findElement(By.cssSelector(DELETE_DOCUMENT));
+            boolean isDeleteDocument = driver.findElement(By.cssSelector(DELETE_DOCUMENT)).isDisplayed();
             return isDeleteDocument;
         }
         catch (NoSuchElementException nse)
@@ -249,7 +230,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector(UPLOADED_DOCUMENT_NEW_VERSION_PLACEHOLDER)).isDisplayed();
+            return driver.findElement(By.cssSelector(UPLOADED_DOCUMENT_NEW_VERSION_PLACEHOLDER)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -266,7 +247,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            boolean isEditOff = drone.find(By.cssSelector(EDIT_OFFLINE_LINK)).isDisplayed();
+            boolean isEditOff = driver.findElement(By.cssSelector(EDIT_OFFLINE_LINK)).isDisplayed();
             return isEditOff;
         }
         catch (NoSuchElementException nse)
@@ -285,7 +266,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector("span.editing")).isDisplayed();
+            return findAndWait(By.cssSelector("span.editing")).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -303,7 +284,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector("span.lock-owner")).isDisplayed();
+            return driver.findElement(By.cssSelector("span.lock-owner")).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -318,13 +299,6 @@ public class DocumentDetailsPage extends DetailsPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public DocumentDetailsPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Verify if the page viewed is the document details page.
      */
@@ -336,12 +310,13 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Mimics the action of deleting a document detail.
      */
-    public DocumentLibraryPage delete()
+    public HtmlPage delete()
     {
-        WebElement button = drone.findAndWait(By.cssSelector("div.document-delete>a"));
+        By by = By.cssSelector("div.document-delete>a");
+        WebElement button = findAndWait(by);
         button.click();
         confirmDelete();
-        return new DocumentLibraryPage(drone);
+        return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
     }
 
     /**
@@ -351,7 +326,7 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public String getDocumentTitle()
     {
-        WebElement element = drone.findAndWait(By.cssSelector(THIN_DARK_TITLE_ELEMENT));
+        WebElement element = findAndWait(By.cssSelector(THIN_DARK_TITLE_ELEMENT));
         WebElement header = element.findElement(By.tagName("span"));
         return element.getText().replace(header.getText(), "");
     }
@@ -363,28 +338,27 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public HtmlPage selectUploadNewVersion()
     {
-        if (!alfrescoVersion.isFileUploadHtml5())
-        {
-            setSingleMode();
-        }
-        WebElement link = drone.findAndWait(By.cssSelector("div.document-upload-new-version>a"));
+        WebElement link = findAndWait(By.cssSelector("div.document-upload-new-version>a"));
         String version = getDocumentVersion();
         link.click();
 
-        return getFileUpdatePage(drone, version, isEditOfflineLinkDisplayed());
+        return getFileUpdatePage(driver, version, isEditOfflineLinkDisplayed());
     }
 
     /**
      * File upload page pop up object.
      * 
-     * @param drone {@link WebDrone} browser client
+     * @param driver {@link WebDriver} browser client
      * @param version the number of the original document
      * @param editOffLine mode status
      * @return {@link UpdateFilePage} page object response
      */
-    public HtmlPage getFileUpdatePage(WebDrone drone, final String version, final boolean editOffLine)
+    public HtmlPage getFileUpdatePage(WebDriver driver, final String version, final boolean editOffLine)
     {
-        return new UpdateFilePage(drone, version, editOffLine);
+        UpdateFilePage page = factoryPage.instantiatePage(driver, UpdateFilePage.class);
+        page.setDocumentVersion(version);
+        page.setEditOffline(editOffLine);
+        return page;
     }
 
     /**
@@ -394,7 +368,7 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public WebElement getRevisionPanel()
     {
-        return drone.findByKey(REVISON_HISTORY_PANEL);
+        return findByKey(REVISON_HISTORY_PANEL);
     }
 
     /**
@@ -409,7 +383,7 @@ public class DocumentDetailsPage extends DetailsPage
          * child elements to obtain the comments as it has not been given an id
          * or CSS that is unique.
          **/
-        WebElement commentField = drone.findAndWait(By.cssSelector("div[id$='default-latestVersion'] div.version-details-right"));
+        WebElement commentField = findAndWait(By.cssSelector("div[id$='default-latestVersion'] div.version-details-right"));
         String comments = commentField.getText();
         if (!comments.isEmpty())
         {
@@ -428,7 +402,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector(CHECKEDOUT_MESSAGE_PLACEHOLDER)).isDisplayed();
+            return driver.findElement(By.cssSelector(CHECKEDOUT_MESSAGE_PLACEHOLDER)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -445,7 +419,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(CHECKEDOUT_MESSAGE_PLACEHOLDER + ">span")).getText();
+            return findAndWait(By.cssSelector(CHECKEDOUT_MESSAGE_PLACEHOLDER + ">span")).getText();
         }
         catch (TimeoutException e)
         {
@@ -463,12 +437,12 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement link = drone.find(By.cssSelector(EDIT_OFFLINE_LINK));
+            WebElement link = driver.findElement(By.cssSelector(EDIT_OFFLINE_LINK));
             link.click();
             if (file != null)
             {
                 String path = downloadFile(DOWNLOAD_FILE_CSS_LOCATOR, false);
-                FileDownloader downloader = new FileDownloader(drone);
+                FileDownloader downloader = new FileDownloader(driver);
                 try
                 {
                     downloader.download(path, file);
@@ -478,7 +452,7 @@ public class DocumentDetailsPage extends DetailsPage
                     throw new PageException("Edit offline file download error", e);
                 }
             }
-            return new DocumentEditOfflinePage(drone);
+            return factoryPage.instantiatePage(driver,DocumentEditOfflinePage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -495,10 +469,9 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(EDIT_OFFLINE_LINK));
+            WebElement link = findAndWait(By.cssSelector(EDIT_OFFLINE_LINK));
             link.click();
-
-            return new DocumentEditOfflinePage(drone);
+            return factoryPage.instantiatePage(driver,DocumentEditOfflinePage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -515,7 +488,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(INLINE_EDIT_LINK));
+            WebElement link = findAndWait(By.cssSelector(INLINE_EDIT_LINK));
             link.click();
         }
         catch (TimeoutException exception)
@@ -524,7 +497,7 @@ public class DocumentDetailsPage extends DetailsPage
             throw new PageOperationException("Unable to select Inline Edit", exception);
         }
 
-        return new EditTextDocumentPage(drone);
+        return factoryPage.instantiatePage(driver, EditTextDocumentPage.class);
 
     }
 
@@ -539,7 +512,7 @@ public class DocumentDetailsPage extends DetailsPage
         String filePath = "";
         try
         {
-            WebElement link = drone.find(By.cssSelector(selector));
+            WebElement link = driver.findElement(By.cssSelector(selector));
             if (click)
             {
                 link.click();
@@ -574,7 +547,7 @@ public class DocumentDetailsPage extends DetailsPage
         // A file was provided so stream into it
         if (file != null)
         {
-            FileDownloader downloader = new FileDownloader(drone);
+            FileDownloader downloader = new FileDownloader(driver);
             try
             {
                 downloader.download(path, file);
@@ -584,7 +557,7 @@ public class DocumentDetailsPage extends DetailsPage
                 throw new PageException("Unable to download file", e);
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -595,7 +568,7 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public String getDocumentSize()
     {
-        WebElement fileSize = drone.find(By.cssSelector(DOCUMENT_PROPERTIES_DISPLAYED_SIZE));
+        WebElement fileSize = driver.findElement(By.cssSelector(DOCUMENT_PROPERTIES_DISPLAYED_SIZE));
         return fileSize.getText();
     }
 
@@ -609,13 +582,13 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(DOCUMENT_PREVIEW_WITH_FLASH_PLAYER)).isDisplayed();
+            return findAndWait(By.cssSelector(DOCUMENT_PREVIEW_WITH_FLASH_PLAYER)).isDisplayed();
         }
         catch (TimeoutException nse)
         {
             try
             {
-                return drone.find(By.cssSelector(DOCUMENT_PREVIEW_WITHOUT_FLASH_PLAYER)).isDisplayed();
+                return driver.findElement(By.cssSelector(DOCUMENT_PREVIEW_WITHOUT_FLASH_PLAYER)).isDisplayed();
             }
             catch (TimeoutException e)
             {
@@ -634,13 +607,13 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector(DOCUMENT_PREVIEWER)).getAttribute("class");
+            return driver.findElement(By.cssSelector(DOCUMENT_PREVIEWER)).getAttribute("class");
         }
         catch (TimeoutException nse)
         {
             try
             {
-                return drone.find(By.cssSelector(DOCUMENT_PREVIEWER)).getAttribute("class");
+                return driver.findElement(By.cssSelector(DOCUMENT_PREVIEWER)).getAttribute("class");
             }
             catch (TimeoutException e)
             {
@@ -659,7 +632,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement noPreviewElement = drone.findAndWait(By.cssSelector(NO_DOCUMENT_PREVIEW));
+            WebElement noPreviewElement = findAndWait(By.cssSelector(NO_DOCUMENT_PREVIEW));
 
             if (noPreviewElement != null)
             {
@@ -687,7 +660,7 @@ public class DocumentDetailsPage extends DetailsPage
         }
         return false;
     }
-
+    PdfJsPlugin pdfJsPlugin;
     /**
      * Return the PdfJs web preview plugin. If this plugin is not in use then a {@link PageRenderTimeException} exception will be thrown.
      * 
@@ -695,7 +668,7 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public PdfJsPlugin getPdfJsPreview()
     {
-        return new PdfJsPlugin(drone).render();
+        return pdfJsPlugin.render();
     }
 
     /**
@@ -704,12 +677,12 @@ public class DocumentDetailsPage extends DetailsPage
      * 
      * @return {@link DocumentDetailsPage}
      */
-    public DocumentDetailsPage clickOnDownloadLinkForUnsupportedDocument()
+    public HtmlPage clickOnDownloadLinkForUnsupportedDocument()
     {
 
         try
         {
-            WebElement noPreviewElement = drone.findAndWait(By.cssSelector(NO_DOCUMENT_PREVIEW));
+            WebElement noPreviewElement = findAndWait(By.cssSelector(NO_DOCUMENT_PREVIEW));
             noPreviewElement.findElement(By.linkText(CLICK_HERE_TO_DOWNLOAD_LINK)).click();
         }
         catch (Exception exception)
@@ -718,46 +691,9 @@ public class DocumentDetailsPage extends DetailsPage
             throw new PageException("Unable to find option for Download Link", exception);
         }
 
-        return new DocumentDetailsPage(drone);
+        return getCurrentPage();
     }
 
-    /**
-     * Mimics the action of selecting the Sync to Cloud icon on the document
-     * page.
-     * 
-     * @return If Cloud Sync has not been set up yet, returns {@link DocumentDetailsPage} else it returns {@link DestinationAndAssigneePage}
-     */
-    public HtmlPage selectSyncToCloud()
-    {
-        drone.findAndWait(By.cssSelector(SYNC_TO_CLOUD)).click();
-        if (isSignUpDialogVisible())
-        {
-            return new CloudSignInPage(drone);
-        }
-        else
-        {
-            return new DestinationAndAssigneePage(drone);
-        }
-    }
-
-    /**
-     * Mimics the action of selecting the Sync to Cloud icon on the document page.
-     * 
-     * @param isCloudSyncSetUp boolean
-     * @return If Cloud Sync has not been set up yet, returns {@link DocumentDetailsPage} else it returns {@link DestinationAndAssigneePage}
-     */
-    public HtmlPage selectSyncToCloud(boolean isCloudSyncSetUp)
-    {
-        if (isCloudSyncSetUp)
-        {
-            drone.findAndWait(By.cssSelector(SYNC_TO_CLOUD)).click();
-            return new DestinationAndAssigneePage(drone).render();
-        }
-        else
-        {
-            return selectSyncToCloud();
-        }
-    }
 
     /**
      * Gets the No Preview Message on the document page.
@@ -768,7 +704,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector("form.cloud-auth-form"), WAIT_TIME_3000).isDisplayed();
+            return findAndWait(By.cssSelector("form.cloud-auth-form"), getDefaultWaitTime()).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -786,7 +722,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector("div[id$='_default-cloud-folder-dialog']")).isDisplayed();
+            return findAndWait(By.cssSelector("div[id$='_default-cloud-folder-dialog']")).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -800,20 +736,20 @@ public class DocumentDetailsPage extends DetailsPage
      * 
      * @return {@link DocumentDetailsPage}
      */
-    public DocumentDetailsPage selectUnSyncFromCloud()
+    public HtmlPage selectUnSyncFromCloud()
     {
         try
         {
-            drone.findAndWait(By.cssSelector(UNSYNC_FROM_CLOUD)).click();
-            drone.waitForElement(By.cssSelector("div#prompt_h"), maxPageLoadingTime);
-            drone.findAndWait(By.cssSelector("input#requestDeleteRemote")).click();
-            drone.findAndWait(By.cssSelector("span.button-group>span[class$='yui-push-button']")).click();
+            findAndWait(By.cssSelector(UNSYNC_FROM_CLOUD)).click();
+            waitForElement(By.cssSelector("div#prompt_h"), maxPageLoadingTime);
+            findAndWait(By.cssSelector("input#requestDeleteRemote")).click();
+            findAndWait(By.cssSelector("span.button-group>span[class$='yui-push-button']")).click();
         }
         catch (NoSuchElementException nse)
         {
             logger.error("Unable to find element", nse);
         }
-        return new DocumentDetailsPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -825,7 +761,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            drone.findAndWait(By.cssSelector(UNSYNC_FROM_CLOUD)).isDisplayed();
+            findAndWait(By.cssSelector(UNSYNC_FROM_CLOUD)).isDisplayed();
             return true;
         }
         catch (TimeoutException te)
@@ -839,12 +775,12 @@ public class DocumentDetailsPage extends DetailsPage
      * 
      * @return StartWorkFlowPage page response object
      */
-    public StartWorkFlowPage selectStartWorkFlowPage()
+    public HtmlPage selectStartWorkFlowPage()
     {
         try
         {
-            drone.findAndWait(By.cssSelector("div.document-assign-workflow>a")).click();
-            return new StartWorkFlowPage(drone);
+            findAndWait(By.cssSelector("div.document-assign-workflow>a")).click();
+            return getCurrentPage();
         }
         catch (TimeoutException exception)
         {
@@ -862,8 +798,8 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            drone.findAndWait(By.cssSelector("a[name='.onAssignWorkflowClick']")).click();
-            return new StartWorkFlowPage(drone);
+            findAndWait(By.cssSelector("a[name='.onAssignWorkflowClick']")).click();
+            return getCurrentPage();
         }
         catch (TimeoutException exception)
         {
@@ -881,7 +817,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            drone.find(By.cssSelector(SYNC_TO_CLOUD)).isDisplayed();
+            driver.findElement(By.cssSelector(SYNC_TO_CLOUD)).isDisplayed();
             return true;
         }
         catch (NoSuchElementException te)
@@ -890,160 +826,6 @@ public class DocumentDetailsPage extends DetailsPage
         }
     }
 
-    /**
-     * Public method to transfer control based to google docs based on how the
-     * session gets initiated.
-     * 
-     * @return {@link HtmlPage} page response
-     * <br/><br/>author sprasanna
-     */
-    public HtmlPage editInGoogleDocs()
-    {
-        WebElement link = drone.findAndWait(By.cssSelector(LINK_EDIT_IN_GOOGLE_DOCS));
-        link.click();
-        By jsMessage = By.cssSelector("div.bd>span.message");
-        String text = "Editing in Google Docs";
-        try
-        {
-            drone.waitUntilElementPresent(jsMessage, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            drone.waitUntilElementDeletedFromDom(jsMessage, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        }
-        catch (TimeoutException ex)
-        {
-            if (logger.isDebugEnabled())
-            {
-                logger.error("Alert message hide quickly", ex);
-            }
-        }
-        String currUrl = drone.getCurrentUrl();
-        HtmlPage currPage = drone.getCurrentPage();
-        if (!currUrl.contains(GOOGLE_DOCS_URL) && !currUrl.contains("docs.google.com") && !(currPage instanceof DocumentDetailsPage)
-                && !(currPage instanceof DocumentLibraryPage))
-        {
-            return new GoogleDocsAuthorisation(drone, documentVersion, isGoogleCreate);
-        }
-        else
-        {
-            String errorMessage = "";
-            try
-            {
-                errorMessage = drone.find(By.cssSelector("div.bd>span.message")).getText();
-            }
-            catch (NoSuchElementException e)
-            {
-                return new EditInGoogleDocsPage(drone, documentVersion, isGoogleCreate);
-            }
-
-            throw new PageException(errorMessage);
-        }
-    }
-
-    /**
-     * Public method to edit in google docs for old format
-     * 
-     * @return {@link HtmlPage} page response
-     * <br/><br/>author Sergey Kardash
-     */
-    public HtmlPage editInGoogleDocsOldFormat(boolean confirmUpgrade)
-    {
-        WebElement link = drone.findAndWait(By.cssSelector(LINK_EDIT_IN_GOOGLE_DOCS));
-        link.click();
-
-        drone.waitUntilElementPresent(PROMPT_PANEL_ID, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-
-        if (confirmUpgrade)
-        {
-            clickYes();
-
-            By jsMessage = By.cssSelector("div.bd>span.message");
-
-            // TODO Remove try Catch Block Once Cloud version in 31
-            try
-            {
-                String text = "Editing in Google Docs";
-                drone.waitUntilVisible(jsMessage, text, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                drone.waitUntilNotVisibleWithParitalText(jsMessage, text, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            }
-            catch (TimeoutException timeoutException)
-            {
-
-            }
-
-            String currUrl = drone.getCurrentUrl();
-            HtmlPage currPage = drone.getCurrentPage();
-            if (!currUrl.contains(GOOGLE_DOCS_URL) && !currUrl.contains("docs.google.com") && !(currPage instanceof DocumentDetailsPage)
-                    && !(currPage instanceof DocumentLibraryPage))
-            {
-                return new GoogleDocsAuthorisation(drone, documentVersion, isGoogleCreate);
-            }
-            else
-            {
-                String errorMessage = "";
-                try
-                {
-                    errorMessage = drone.find(By.cssSelector("div.bd>span.message")).getText();
-                }
-                catch (NoSuchElementException e)
-                {
-                    return new EditInGoogleDocsPage(drone, documentVersion, isGoogleCreate);
-                }
-
-                throw new PageException(errorMessage);
-            }
-        }
-        else
-        {
-            cancelNo();
-            return drone.getCurrentPage().render();
-        }
-    }
-
-    /**
-     * Public method to transfer control based to google docs based on how the
-     * session gets initiated.
-     * 
-     * @return {@link HtmlPage} page response
-     * <br/><br/>author sprasanna
-     */
-    public HtmlPage resumeEditInGoogleDocs()
-    {
-        WebElement link = drone.findAndWait(By.cssSelector(LINK_RESUME_EDIT_IN_GOOGLE_DOCS));
-        link.click();
-        // drone.waitUntilElementDeletedFromDom(By.cssSelector("span[class='message']"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-
-        By jsMessage = By.cssSelector("div.bd>span.message");
-
-        // TODO Remove try Catch Block Once Cloud version in 31
-        try
-        {
-            String text = "Editing in Google Docs";
-            drone.waitUntilVisible(jsMessage, text, 10);
-            drone.waitUntilNotVisibleWithParitalText(jsMessage, text, 10);
-        }
-        catch (TimeoutException timeoutException)
-        {
-
-        }
-
-        if (!drone.getCurrentUrl().contains(GOOGLE_DOCS_URL))
-        {
-            return new GoogleDocsAuthorisation(drone, documentVersion, isGoogleCreate);
-        }
-        else
-        {
-            String errorMessage = "";
-            try
-            {
-                errorMessage = drone.find(By.cssSelector("div.bd>span.message")).getText();
-            }
-            catch (NoSuchElementException e)
-            {
-                return new EditInGoogleDocsPage(drone, documentVersion, isGoogleCreate);
-            }
-
-            throw new PageException(errorMessage);
-        }
-    }
 
     /**
      * Verify if Link Edit in Google docs is visible.
@@ -1055,7 +837,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector(LINK_EDIT_IN_GOOGLE_DOCS)).isDisplayed();
+            return driver.findElement(By.cssSelector(LINK_EDIT_IN_GOOGLE_DOCS)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1073,7 +855,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector(LINK_RESUME_EDIT_IN_GOOGLE_DOCS)).isDisplayed();
+            return driver.findElement(By.cssSelector(LINK_RESUME_EDIT_IN_GOOGLE_DOCS)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1090,7 +872,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector(INLINE_EDIT_LINK)).isDisplayed();
+            return driver.findElement(By.cssSelector(INLINE_EDIT_LINK)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1108,7 +890,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWaitWithRefresh(By.cssSelector(COMMENT_COUNT), waitTime).isDisplayed();
+            return findAndWaitWithRefresh(By.cssSelector(COMMENT_COUNT), waitTime).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -1135,7 +917,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector("div#onHideRecordAction.rm-hide-record")).isDisplayed();
+            return driver.findElement(By.cssSelector("div#onHideRecordAction.rm-hide-record")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1152,7 +934,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement location = getDrone().findAndWait(By.cssSelector(SYNC_STATUS));
+            WebElement location = findAndWait(By.cssSelector(SYNC_STATUS));
             return location.getText();
         }
         catch (TimeoutException te)
@@ -1174,7 +956,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement location = getDrone().findAndWait(By.cssSelector(LOCATION_IN_CLOUD));
+            WebElement location = findAndWait(By.cssSelector(LOCATION_IN_CLOUD));
             return location.getText().split("\n")[0];
         }
         catch (TimeoutException te)
@@ -1194,18 +976,7 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public boolean isRequestSyncIconDisplayed()
     {
-        try
-        {
-            return getDrone().find(By.cssSelector(REQUEST_SYNC_ICON)).isDisplayed();
-        }
-        catch (NoSuchElementException te)
-        {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Request to Sync icon is not displayed", te);
-            }
-        }
-        return false;
+        return isElementDisplayed(By.cssSelector(REQUEST_SYNC_ICON));
     }
 
     /**
@@ -1226,8 +997,11 @@ public class DocumentDetailsPage extends DetailsPage
         }
         try
         {
-            drone.find(By.cssSelector("a[rel='" + versionNumber + "']")).click();
-            return new RevertToVersionPage(drone, versionNumber, false);
+            driver.findElement(By.cssSelector("a[rel='" + versionNumber + "']")).click();
+            RevertToVersionPage r = factoryPage.instantiatePage(driver, RevertToVersionPage.class);
+            r.setDocumentVersion(versionNumber);
+            r.setEditOffline(false);
+            return r;
         }
         catch (NoSuchElementException nse)
         {
@@ -1248,7 +1022,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            String workFlowInfo = drone.find(WORKFLOW_INFO).getText();
+            String workFlowInfo = driver.findElement(WORKFLOW_INFO).getText();
             if (workFlowInfo.equals("This document is part of the following workflow(s):")
                     || workFlowInfo.equals("This document is part of the following task(s):"))
             {
@@ -1266,14 +1040,14 @@ public class DocumentDetailsPage extends DetailsPage
      * 
      * @return {@link DocumentDetailsPage}
      */
-    public DocumentDetailsPage openCopyThisLinkInNewTab()
+    public HtmlPage openCopyThisLinkInNewTab()
     {
 
         try
         {
-            WebElement copyThisLink = drone.findAndWait(By.cssSelector(COPY_THIS_LINK_TO_SHARE_THE_CURRENT_PAGE));
-            drone.createNewTab();
-            drone.navigateTo(copyThisLink.getAttribute("value"));
+            WebElement copyThisLink = findAndWait(By.cssSelector(COPY_THIS_LINK_TO_SHARE_THE_CURRENT_PAGE));
+            createNewTab();
+            driver.navigate().to(copyThisLink.getAttribute("value"));
         }
         catch (TimeoutException exception)
         {
@@ -1281,7 +1055,7 @@ public class DocumentDetailsPage extends DetailsPage
             throw new PageException("Unable to find  Copy This Link To Share The Current Page ", exception);
         }
 
-        return new DocumentDetailsPage(drone);
+        return getCurrentPage();
     }
 
     public String getExpectedVersion()
@@ -1289,7 +1063,7 @@ public class DocumentDetailsPage extends DetailsPage
         return expectedVersion;
     }
 
-    public synchronized void setExpectedVersion(String expectedVersion)
+    public void setExpectedVersion(String expectedVersion)
     {
         this.expectedVersion = expectedVersion;
     }
@@ -1301,23 +1075,9 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public ChangeTypePage selectChangeType()
     {
-        if (alfrescoVersion.isCloud())
-        {
-            throw new UnsupportedOperationException("Operation available only for Enterprise version");
-        }
-        By changeTypeLink;
-        switch (alfrescoVersion)
-        {
-            case Enterprise41:
-                changeTypeLink = By.cssSelector("div.document-change-type a");
-                break;
-
-            default:
-                changeTypeLink = By.cssSelector("div#onActionChangeType a");
-                break;
-        }
-        drone.findAndWait(changeTypeLink).click();
-        return drone.getCurrentPage().render();
+        By changeTypeLink = By.cssSelector("div#onActionChangeType a");
+        findAndWait(changeTypeLink).click();
+        return factoryPage.instantiatePage(driver, ChangeTypePage.class);
     }
 
     /**
@@ -1327,7 +1087,7 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public boolean isDownloadPreviousVersion(String versionNumber)
     {
-        WebElement downloadButton = drone.findAndWait(By.xpath("//span[contains(text(),'" + versionNumber
+        WebElement downloadButton = findAndWait(By.xpath("//span[contains(text(),'" + versionNumber
                 + "')]//..//..//span[@class='actions']//a[@title='Download']"));
         return downloadButton.isDisplayed();
     }
@@ -1339,7 +1099,7 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public void selectDownloadPreviousVersion(String versionNumber)
     {
-        WebElement downloadButton = drone.findAndWait(By.cssSelector("a[rel='" + versionNumber + "'] + a.download"));
+        WebElement downloadButton = findAndWait(By.cssSelector("a[rel='" + versionNumber + "'] + a.download"));
         downloadButton.click();
         // Assumes driver capability settings to save file in a specific location when
         // //span[contains(text(),'1.1')]//..//..//span[@class='actions']//a[@title='Download']
@@ -1360,8 +1120,8 @@ public class DocumentDetailsPage extends DetailsPage
          */
         try
         {
-            drone.findAndWait(QUICK_SHARE_LINK).click();
-            return new ShareLinkPage(drone);
+            findAndWait(QUICK_SHARE_LINK).click();
+            return factoryPage.instantiatePage(driver, ShareLinkPage.class);
         }
         catch (TimeoutException ex)
         {
@@ -1380,7 +1140,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWait(QUICK_SHARE_LINK_ENABLED).isDisplayed();
+            return findAndWait(QUICK_SHARE_LINK_ENABLED).isDisplayed();
         }
         catch (TimeoutException ex)
         {
@@ -1399,7 +1159,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector("a.edit"));
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector("a.edit"));
             return elements;
         }
         catch (TimeoutException e)
@@ -1418,7 +1178,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector(LINK_VIEW_ON_GOOGLE_MAPS)).isDisplayed();
+            return driver.findElement(By.cssSelector(LINK_VIEW_ON_GOOGLE_MAPS)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1435,7 +1195,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.cssSelector(DOWNLOAD_FILE_CSS_LOCATOR)).isDisplayed();
+            return driver.findElement(By.cssSelector(DOWNLOAD_FILE_CSS_LOCATOR)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -1452,7 +1212,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(EDIT_ONLINE_LINK));
+            WebElement link = findAndWait(By.cssSelector(EDIT_ONLINE_LINK));
             link.click();
         }
         catch (TimeoutException exception)
@@ -1460,9 +1220,7 @@ public class DocumentDetailsPage extends DetailsPage
             logger.error("Not able to find the web element", exception);
             throw new PageOperationException("Unable to select Online Edit", exception);
         }
-
-        return new EditTextDocumentPage(drone);
-
+        return factoryPage.instantiatePage(driver, EditTextDocumentPage.class);
     }
 
     /**
@@ -1484,7 +1242,7 @@ public class DocumentDetailsPage extends DetailsPage
         // A file was provided so stream into it
         if (file != null)
         {
-            FileDownloader downloader = new FileDownloader(drone);
+            FileDownloader downloader = new FileDownloader(driver);
             try
             {
                 downloader.download(path, file);
@@ -1494,7 +1252,7 @@ public class DocumentDetailsPage extends DetailsPage
                 throw new PageException("Unable to download file", e);
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -1506,7 +1264,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWait(VIEW_WORKING_COPY).isDisplayed();
+            return findAndWait(VIEW_WORKING_COPY).isDisplayed();
         }
         catch (NoSuchElementException | TimeoutException e)
         {
@@ -1524,7 +1282,7 @@ public class DocumentDetailsPage extends DetailsPage
         List<String> actionNames = new ArrayList<String>();
         String text = null;
 
-        List<WebElement> actions = drone.findAndWaitForElements(By.xpath("//div[contains(@id, 'default-actionSet')]/div/a/span"));
+        List<WebElement> actions = findAndWaitForElements(By.xpath("//div[contains(@id, 'default-actionSet')]/div/a/span"));
 
         for (WebElement action : actions)
         {
@@ -1547,7 +1305,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(VERSION_HISTORY_PANEL).isDisplayed();
+            return driver.findElement(VERSION_HISTORY_PANEL).isDisplayed();
         }
         catch (NoSuchElementException exce)
         {
@@ -1560,7 +1318,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            List<WebElement> elems = drone.findAndWaitForElements(HISTORY_VERSIONS);
+            List<WebElement> elems = findAndWaitForElements(HISTORY_VERSIONS);
             for (WebElement e : elems)
             {
                 if (e.getText().equals(version))
@@ -1594,12 +1352,12 @@ public class DocumentDetailsPage extends DetailsPage
      * 
      * @return StartWorkFlowPage
      */
-    public StartWorkFlowPage clickStartWorkflowIcon()
+    public HtmlPage clickStartWorkflowIcon()
     {
-        WebElement icon = drone.findAndWait(By.cssSelector(START_WORKFLOW_ICON));
+        WebElement icon = findAndWait(By.cssSelector(START_WORKFLOW_ICON));
         icon.click();
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return new StartWorkFlowPage(drone);
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -1609,15 +1367,11 @@ public class DocumentDetailsPage extends DetailsPage
      */
     public HtmlPage selectUploadNewVersionIcon()
     {
-        if (!alfrescoVersion.isFileUploadHtml5())
-        {
-            setSingleMode();
-        }
-        WebElement link = drone.findAndWait(By.cssSelector("span[class*='twister-actions']>a[class*='document-versions']"));
+        WebElement link = findAndWait(By.cssSelector("span[class*='twister-actions']>a[class*='document-versions']"));
         String version = getDocumentVersion();
         link.click();
 
-        return getFileUpdatePage(drone, version, isEditOfflineLinkDisplayed());
+        return getFileUpdatePage(driver, version, isEditOfflineLinkDisplayed());
     }
 
     /**
@@ -1638,12 +1392,12 @@ public class DocumentDetailsPage extends DetailsPage
         }
         try
         {
-            drone.find(By.cssSelector("a[rel='" + versionNumber + "']~a[class*='historicProperties']")).click();
+            driver.findElement(By.cssSelector("a[rel='" + versionNumber + "']~a[class*='historicProperties']")).click();
 
-            HtmlPage page = FactorySharePage.resolvePage(drone);
+            HtmlPage page = getCurrentPage();
             if (page instanceof ShareDialogue)
             {
-                return FactorySharePage.resolvePage(drone);
+                return getCurrentPage();
             }
             return page;
         }
@@ -1666,7 +1420,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(INLINE_EDIT_LINK));
+            WebElement link = findAndWait(By.cssSelector(INLINE_EDIT_LINK));
             link.click();
         }
         catch (TimeoutException exception)
@@ -1675,7 +1429,7 @@ public class DocumentDetailsPage extends DetailsPage
             throw new PageOperationException("Unable to select Inline Edit", exception);
         }
 
-        return new EditHtmlDocumentPage(drone);
+        return factoryPage.instantiatePage(driver,EditHtmlDocumentPage.class);
     }
 
     /**
@@ -1687,7 +1441,8 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return new VersionDetails(drone, drone.find(By.cssSelector("div[id$='_default-latestVersion']")));
+        	WebElement ele = driver.findElement(By.cssSelector("div[id$='_default-latestVersion']"));
+            return new VersionDetails(driver, ele, factoryPage);
         }
         catch (NoSuchElementException nse)
         {
@@ -1700,10 +1455,10 @@ public class DocumentDetailsPage extends DetailsPage
         List<VersionDetails> versionDetailsList = new ArrayList<>();
         try
         {
-            List<WebElement> olderVersions = drone.findAll(By.cssSelector("div[id$='_default-olderVersions']>table>tbody.yui-dt-data>tr>td>div.yui-dt-liner"));
+            List<WebElement> olderVersions = driver.findElements(By.cssSelector("div[id$='_default-olderVersions']>table>tbody.yui-dt-data>tr>td>div.yui-dt-liner"));
             for (WebElement element : olderVersions)
             {
-                versionDetailsList.add(new VersionDetails(drone, element));
+                versionDetailsList.add(new VersionDetails(driver, element, factoryPage));
             }
             return versionDetailsList;
         }
@@ -1726,7 +1481,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement prompt = drone.findAndWait(PROMPT_PANEL_ID);
+            WebElement prompt = findAndWait(PROMPT_PANEL_ID);
             List<WebElement> elements = prompt.findElements(BUTTON_TAG_NAME);
             WebElement cancelButton = findButton("No", elements);
             cancelButton.click();
@@ -1735,8 +1490,8 @@ public class DocumentDetailsPage extends DetailsPage
         {
             throw new TimeoutException("upgrade prompt was not found", nse);
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return drone.getCurrentPage().render();
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -1746,7 +1501,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement prompt = drone.findAndWait(PROMPT_PANEL_ID);
+            WebElement prompt = findAndWait(PROMPT_PANEL_ID);
             List<WebElement> elements = prompt.findElements(BUTTON_TAG_NAME);
             WebElement okButton = findButton("Yes", elements);
             okButton.click();
@@ -1771,8 +1526,8 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            drone.waitForElement(DOCUMENT_BODY, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return drone.find(DOCUMENT_BODY).getText();
+            waitForElement(DOCUMENT_BODY, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return driver.findElement(DOCUMENT_BODY).getText();
         }
         catch (TimeoutException e)
         {
@@ -1788,7 +1543,7 @@ public class DocumentDetailsPage extends DetailsPage
     public boolean isErrorEditOfflineDocument(String fileName)
     {
 
-        String errorMessage = drone.findAndWait(By.xpath(ERROR_EDITING_DOCUMENT)).getText();
+        String errorMessage = findAndWait(By.xpath(ERROR_EDITING_DOCUMENT)).getText();
         if (errorMessage.equals("You cannot edit '" + fileName + "'."))
         {
             return true;
@@ -1809,7 +1564,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find((VIEW_ORIGINAL_DOCUMENT)).isDisplayed();
+            return driver.findElement((VIEW_ORIGINAL_DOCUMENT)).isDisplayed();
         }
         catch (NoSuchElementException te)
         {
@@ -1827,11 +1582,11 @@ public class DocumentDetailsPage extends DetailsPage
      * 
      * @return new DocumentDetailsPage
      */
-    public DocumentDetailsPage selectViewOriginalDocument()
+    public HtmlPage selectViewOriginalDocument()
     {
         try
         {
-            WebElement link = drone.findAndWait((VIEW_ORIGINAL_DOCUMENT));
+            WebElement link = findAndWait((VIEW_ORIGINAL_DOCUMENT));
             link.click();
         }
         catch (TimeoutException e)
@@ -1839,7 +1594,7 @@ public class DocumentDetailsPage extends DetailsPage
             throw new PageOperationException("Unable to select View Original Document ", e);
         }
 
-        return new DocumentDetailsPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -1851,8 +1606,8 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            drone.waitForElement(SYNC_MESSAGE, SECONDS.convert(drone.getDefaultWaitTime(), MILLISECONDS));
-            WebElement syncMessage = drone.find(SYNC_MESSAGE);
+            waitForElement(SYNC_MESSAGE, SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
+            WebElement syncMessage = driver.findElement(SYNC_MESSAGE);
             if (syncMessage != null)
                 return true;
         }
@@ -1865,25 +1620,6 @@ public class DocumentDetailsPage extends DetailsPage
     }
 
     /**
-     * Method to click Check In Google Doc
-     * 
-     * @return GoogleDocCheckInPage
-     */
-    public GoogleDocCheckInPage clickCheckInGoogleDoc()
-    {
-        try
-        {
-            WebElement link = drone.findAndWait(By.cssSelector(LINK_CHECKIN_GOOGLE_DOCS));
-            link.click();
-        }
-        catch (TimeoutException e)
-        {
-            throw new PageOperationException("Unable to find " + LINK_CHECKIN_GOOGLE_DOCS, e);
-        }
-        return new GoogleDocCheckInPage(drone, null, false).render();
-    }
-
-    /**
      * Method to click Cancel Editing in Google Docs
      * 
      * @return HtmlPage
@@ -1892,14 +1628,14 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            WebElement link = drone.findAndWait(By.cssSelector(LINK_CANCEL_GOOGLE_DOCS));
+            WebElement link = findAndWait(By.cssSelector(LINK_CANCEL_GOOGLE_DOCS));
             link.click();
         }
         catch (TimeoutException e)
         {
             throw new PageOperationException("Unable to find " + LINK_CANCEL_GOOGLE_DOCS, e);
         }
-        return FactorySharePage.resolvePage(drone).render();
+        return getCurrentPage().render();
     }
 
 }

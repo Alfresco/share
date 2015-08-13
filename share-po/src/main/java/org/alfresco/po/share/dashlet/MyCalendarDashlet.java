@@ -1,29 +1,27 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.calendar.CalendarPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-
-import java.util.Collections;
-import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.user-calendar")
 /**
  * Page object to hold My Calendar dashlet
  *
  * @author Bogdan.Bocancea
  */
-
 public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
 {
     private static final By DASHLET_CONTAINER_PLACEHOLDER = By.cssSelector("div.dashlet.user-calendar");
@@ -35,18 +33,16 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
     private final static String EVENT_ON_DASHLET = "//a[contains(text(),'%s')]/parent::h4/following-sibling::div[contains(text(),'%s')]/following-sibling::div/a[text()='%s']";
 
     private static Log logger = LogFactory.getLog(MyCalendarDashlet.class);
-
-    /**
-     * Constructor.
-     */
-    protected MyCalendarDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector("div.dashlet.user-calendar .yui-resize-handle"));
-    }
-
+//
+//    /**
+//     * Constructor.
+//     */
+//    protected MyCalendarDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector("div.dashlet.user-calendar .yui-resize-handle"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public MyCalendarDashlet render(RenderTime timer)
     {
         try
@@ -68,7 +64,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus();
-                    this.dashlet = drone.find(DASHLET_CONTAINER_PLACEHOLDER);
+                    this.dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -92,26 +88,12 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyCalendarDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyCalendarDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
     /**
      * This method gets the focus by placing mouse over on My Calendar Dashlet.
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     private List<WebElement> getEventLinksElem()
@@ -203,7 +185,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
      *
      * @return CalendarPage
      */
-    public CalendarPage clickEvent(String eventName)
+    public HtmlPage clickEvent(String eventName)
     {
         checkNotNull(eventName);
         List<WebElement> eventLinks = getEventLinksElem();
@@ -213,7 +195,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
             if (linkText.equalsIgnoreCase(eventName))
             {
                 eventLink.click();
-                return new CalendarPage(drone);
+                return getCurrentPage();
             }
         }
 
@@ -240,7 +222,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
      *
      * @return SitePage
      */
-    public SiteDashboardPage clickSite(String siteName)
+    public HtmlPage clickSite(String siteName)
     {
         checkNotNull(siteName);
         List<WebElement> eventLinks = getSitesDetailsElem();
@@ -250,7 +232,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
             if (linkText.equalsIgnoreCase(siteName))
             {
                 eventLink.click();
-                return new SiteDashboardPage(drone);
+                return getCurrentPage();
             }
         }
 
@@ -308,7 +290,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(EMPTY_DASHLET_MESSAGE)).getText();
+            return driver.findElement(By.cssSelector(EMPTY_DASHLET_MESSAGE)).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -330,7 +312,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
         checkNotNull(eventName);
         checkNotNull(date);
         checkNotNull(siteName);
-        WebElement webElement = drone.findAndWait(By.xpath(String.format(EVENT_ON_DASHLET, eventName, date, siteName)));
+        WebElement webElement = findAndWait(By.xpath(String.format(EVENT_ON_DASHLET, eventName, date, siteName)));
         return webElement.isDisplayed();
     }
 
@@ -339,11 +321,17 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
      *
      * @return CalendarPage
      */
-    public SiteDashboardPage clickEventSiteName(String eventName, String siteName)
+    public HtmlPage clickEventSiteName(String eventName, String siteName)
     {
-        WebElement webElement = drone.findAndWait(By.xpath(String.format(EVENT_ON_DASHLET, eventName, "", siteName)));
+        WebElement webElement = findAndWait(By.xpath(String.format(EVENT_ON_DASHLET, eventName, "", siteName)));
         webElement.click();
 
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyCalendarDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

@@ -14,13 +14,12 @@
  */
 package org.alfresco.po.share.dashlet;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -47,14 +46,6 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
     @RenderWebElement
     private static final By CLOSE_BUTTON = By.cssSelector("a.container-close");
 
-    /**
-     * Constructor.
-     */
-    public ConfigureSiteNoticeDialogBoxPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public synchronized ConfigureSiteNoticeDialogBoxPage render(RenderTime timer)
@@ -66,18 +57,11 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
 
     @SuppressWarnings("unchecked")
     @Override
-    public ConfigureSiteNoticeDialogBoxPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public ConfigureSiteNoticeDialogBoxPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
+    ConfigureSiteNoticeTinyMceEditor configureSiteNoticeTinyMceEditor;
     /**
      * Get Rich Text Editor to edit the contents of Comments etc.
      *
@@ -85,7 +69,7 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
      */
     public ConfigureSiteNoticeTinyMceEditor getContentTinyMceEditor()
     {
-        return new ConfigureSiteNoticeTinyMceEditor(drone);
+        return configureSiteNoticeTinyMceEditor;
     }
 
     /**
@@ -107,9 +91,9 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
     {
         try
         {
-            drone.findAndWait(OK_BUTTON).click();
+            findAndWait(OK_BUTTON).click();
             waitUntilAlert(1);
-            return new SiteDashboardPage(drone);
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -125,7 +109,7 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
     {
         try
         {
-            drone.findAndWait(CANCEL_BUTTON).click();
+            findAndWait(CANCEL_BUTTON).click();
         }
         catch (TimeoutException te)
         {
@@ -141,7 +125,7 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
     {
         try
         {
-            drone.findAndWait(CLOSE_BUTTON).click();
+            findAndWait(CLOSE_BUTTON).click();
         }
         catch (TimeoutException te)
         {
@@ -164,7 +148,7 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
 
         try
         {
-            WebElement titleBox = drone.findAndWait(TITLE_BOX);
+            WebElement titleBox = findAndWait(TITLE_BOX);
             titleBox.clear();
             titleBox.sendKeys(title);
         }
@@ -180,7 +164,7 @@ public class ConfigureSiteNoticeDialogBoxPage extends ShareDialogue
     {
         try
         {
-            WebElement titleBox = drone.findAndWait(TITLE_BOX);
+            WebElement titleBox = findAndWait(TITLE_BOX);
             return titleBox.getAttribute("value");
         }
         catch (TimeoutException te)

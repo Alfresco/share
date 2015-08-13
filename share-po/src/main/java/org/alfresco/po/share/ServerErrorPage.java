@@ -18,12 +18,10 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.RenderTime;
+import org.openqa.selenium.By;
 
 /**
  * @author Aliaksei Boole
@@ -33,10 +31,6 @@ public class ServerErrorPage extends SharePage
     private static final By RETURN_LINK = By.xpath("//a[@href='/share']");
     private static final By ERROR_MESSAGE = By.xpath("//p[contains (text(),'A server error has occurred.')]");
 
-    public ServerErrorPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -49,13 +43,6 @@ public class ServerErrorPage extends SharePage
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public ServerErrorPage render(long l)
-    {
-        checkArgument(l > 0);
-        return render(new RenderTime(l));
-    }
 
     @SuppressWarnings("unchecked")
     @Override

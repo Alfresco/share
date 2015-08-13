@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.SharePopup;
@@ -35,9 +36,7 @@ import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage.Fields;
-import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageException;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -73,9 +72,9 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     {
         if (site != null)
         {
-            SiteUtil.deleteSite(drone, siteName);
+            siteUtil.deleteSite(username, password, siteName);
         }
-        closeWebDrone();
+        closeWebDriver();
     }
 
     /**
@@ -87,26 +86,26 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     public void prepare() throws Exception
     {
         siteName = "editDocumentSiteTest" + System.currentTimeMillis();
-        file = SiteUtil.prepareFile();
+        file = siteUtil.prepareFile();
         StringTokenizer st = new StringTokenizer(file.getName(), ".");
         fileName = st.nextToken();
         title = "";
         tagName = siteName;
 
-        File file = SiteUtil.prepareFile();
+        File file = siteUtil.prepareFile();
         fileName = file.getName();
         loginAs(username, password);
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         dashBoard = page.getNav().selectMyDashBoard().render();
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
         site = createSite.createNewSite(siteName).render();
-        DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
         // DocumentLibraryPage docPage =
         // getDocumentLibraryPage(siteName).render();
         UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
         docPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
 
-        file2 = SiteUtil.prepareFile("EditProps");
+        file2 = siteUtil.prepareFile("EditProps");
         upLoadPage = docPage.getNavigation().selectFileUpload().render();
         docPage = upLoadPage.uploadFile(file2.getCanonicalPath()).render();
 
@@ -116,7 +115,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     @Test
     public void editPropertiesAndCancel() throws Exception
     {
-        detailsPage = drone.getCurrentPage().render();
+        detailsPage = resolvePage(driver).render();
         EditDocumentPropertiesPage editPage = detailsPage.selectEditProperties().render();
         Assert.assertTrue(editPage.isEditPropertiesVisible());
         Assert.assertEquals(editPage.getName(), fileName);
@@ -131,7 +130,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "editPropertiesAndCancel")
     public void editPropertiesAndSave() throws Exception
     {
-        detailsPage = drone.getCurrentPage().render();
+        detailsPage = resolvePage(driver).render();
         EditDocumentPropertiesPage editPage = detailsPage.selectEditProperties().render();
         Assert.assertTrue(editPage.isEditPropertiesVisible());
         Assert.assertEquals(editPage.getName(), fileName);
@@ -163,7 +162,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "editPropertiesAndSave")
     public void checkInputFieldsHaveUpdatedValues() throws Exception
     {
-        detailsPage = drone.getCurrentPage().render();
+        detailsPage = resolvePage(driver).render();
         EditDocumentPropertiesPage editPage = detailsPage.selectEditProperties().render();
         Assert.assertTrue(editPage.isEditPropertiesVisible());
         Assert.assertEquals(editPage.getName(), "my.txt");
@@ -179,7 +178,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "checkInputFieldsHaveUpdatedValues")
     public void editPropertiesWithValidationAndSave() throws Exception
     {
-        detailsPage = drone.getCurrentPage().render();
+        detailsPage = resolvePage(driver).render();
         EditDocumentPropertiesPage editPage = detailsPage.selectEditProperties().render();
         editPage.setName("");
         editPage = editPage.selectSaveWithValidation().render();
@@ -207,8 +206,8 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "editPropertiesWithValidationAndSave")
     public void editPropertiesOfDublinCoreAspect() throws Exception
     {
-        detailsPage = drone.getCurrentPage().render();
-        docLibPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
+        detailsPage = resolvePage(driver).render();
+        docLibPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
         detailsPage = docLibPage.selectFile(file2.getName()).render();
         List<DocumentAspect> documentAspects = new ArrayList<DocumentAspect>();
         documentAspects.add(DocumentAspect.DUBLIN_CORE);
@@ -281,28 +280,28 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "checkIsTagInputVisible")
     public void checkAllTagsCount()
     {
-        TagPage tagPage = drone.getCurrentPage().render();
+        TagPage tagPage = resolvePage(driver).render();
         assertTrue(tagPage.getAllTagsCount() > 0);
     }
 
     @Test(dependsOnMethods = "checkAllTagsCount")
     public void checkAddedTagsCount()
     {
-        TagPage tagPage = drone.getCurrentPage().render();
+        TagPage tagPage = resolvePage(driver).render();
         assertTrue(tagPage.getAddedTagsCount() == 0);
     }
 
     @Test(dependsOnMethods = "checkAllTagsCount")
     public void checkAllTagsName()
     {
-        TagPage tagPage = drone.getCurrentPage().render();
+        TagPage tagPage = resolvePage(driver).render();
         assertTrue(tagPage.getAllTagsName().size() > 0);
     }
 
     @Test(dependsOnMethods = "checkAllTagsName")
     public void checkRefreshTagList()
     {
-        TagPage tagPage = drone.getCurrentPage().render();
+        TagPage tagPage = resolvePage(driver).render();
         tagPage.refreshTags();
         tagPage.clickCancelButton();
     }
@@ -310,7 +309,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "checkRefreshTagList")
     public void checkEditCustomFieldsNoPropsToEdit()
     {
-        editPropertiesPage = drone.getCurrentPage().render();
+        editPropertiesPage = factoryPage.getPage(driver).render();
         Map<String, Object> properties = new HashMap<String, Object>();
         
         // No Pros
@@ -322,7 +321,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     public void checkEditCustomFieldsEditTextArea()
     {
         
-        DetailsPage detailsPage = drone.getCurrentPage().render();
+        DetailsPage detailsPage = factoryPage.getPage(driver).render();
         editPropertiesPage = detailsPage.selectEditProperties().render();
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("cm_name", "newvalue");
@@ -337,7 +336,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     public void checkEditCustomFieldsEditList()
     {
         
-        DetailsPage detailsPage = drone.getCurrentPage().render();
+        DetailsPage detailsPage = factoryPage.getPage(driver).render();
         editPropertiesPage = detailsPage.selectEditProperties().render();
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("mimetype", "HTML");
@@ -351,7 +350,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     public void checkEditCustomFieldsEditListInvalidOption()
     {
         
-        DetailsPage detailsPage = drone.getCurrentPage().render();
+        DetailsPage detailsPage = factoryPage.getPage(driver).render();
         editPropertiesPage = detailsPage.selectEditProperties().render();
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("mimetype", "----");
@@ -360,11 +359,11 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
         editPropertiesPage.setProperties(properties);
     }
     
-    @Test(dependsOnMethods = "checkEditCustomFieldsEditListInvalidOption", expectedExceptions=PageException.class)
+    @Test(dependsOnMethods = "checkEditCustomFieldsEditListInvalidOption", expectedExceptions= PageException.class)
     public void checkEditCustomFieldsFieldNotFound()
     {
         
-        editPropertiesPage = drone.getCurrentPage().render();
+        editPropertiesPage = factoryPage.getPage(driver).render();
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("cm_notrealfield", "expected exception");
         

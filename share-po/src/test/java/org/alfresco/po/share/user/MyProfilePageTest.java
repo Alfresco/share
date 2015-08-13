@@ -18,17 +18,19 @@
  */
 package org.alfresco.po.share.user;
 
-import org.alfresco.po.share.*;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertTrue;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static org.testng.Assert.assertTrue;
+import javax.imageio.ImageIO;
+
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.share.DashBoardPage;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 /**
  * @author Aliaksei Boole
@@ -43,18 +45,9 @@ public class MyProfilePageTest extends AbstractTest
     public void prepare() throws Exception
     {
         userName = "User_" + System.currentTimeMillis();
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            createEnterpriseUser(userName);
-            ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
-        }
-
-        DashBoardPage dashboardPage = FactorySharePage.resolvePage(drone).render();
+        createEnterpriseUser(userName);
+        shareUtil.loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
+        DashBoardPage dashboardPage = factoryPage.getPage(driver).render();
         myProfilePage = dashboardPage.getNav().selectMyProfile().render();
     }
 
@@ -79,8 +72,7 @@ public class MyProfilePageTest extends AbstractTest
     @Test(groups = { "alfresco-one" })
     public void openEditProfilePage()
     {
-        editProfilePage = myProfilePage.openEditProfilePage();
-        editProfilePage.render();
+        editProfilePage = myProfilePage.openEditProfilePage().render();
     }
 
     @Test(groups = { "alfresco-one" }, dependsOnMethods = "openEditProfilePage")
@@ -94,16 +86,16 @@ public class MyProfilePageTest extends AbstractTest
     @Test(groups = { "alfresco-one" }, dependsOnMethods = "uploadNewAvatar")
     public void closeEditProfilePage()
     {
-        editProfilePage = myProfilePage.openEditProfilePage();
-        myProfilePage = editProfilePage.clickCancel();
+        editProfilePage = myProfilePage.openEditProfilePage().render();
+        myProfilePage = editProfilePage.clickCancel().render();
         myProfilePage.render();
     }
 
     @Test(groups = { "alfresco-one" }, dependsOnMethods = "closeEditProfilePage")
     public void editLastName()
     {
-        editProfilePage = myProfilePage.openEditProfilePage();
-        myProfilePage = editProfilePage.editLastName("edited");
+        editProfilePage = myProfilePage.openEditProfilePage().render();
+        myProfilePage = editProfilePage.editLastName("edited").render();
         assertTrue(myProfilePage.getUserName().endsWith("edited"), "New last name isn't displayed");
     }
 

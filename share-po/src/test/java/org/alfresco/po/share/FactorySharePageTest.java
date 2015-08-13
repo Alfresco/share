@@ -18,6 +18,8 @@
  */
 package org.alfresco.po.share;
 
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.alfresco.RepositoryAdminConsolePage;
 import org.alfresco.po.alfresco.TenantAdminConsolePage;
 import org.alfresco.po.alfresco.WebScriptsPage;
@@ -42,16 +44,12 @@ import org.alfresco.po.share.site.PendingInvitesPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SiteGroupsPage;
-import org.alfresco.po.share.site.blog.BlogPage;
-import org.alfresco.po.share.site.blog.PostViewPage;
-import org.alfresco.po.share.site.datalist.DataListPage;
 import org.alfresco.po.share.site.discussions.DiscussionsPage;
 import org.alfresco.po.share.site.document.CreateHtmlContentPage;
 import org.alfresco.po.share.site.document.CreatePlainTextContentPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
-import org.alfresco.po.share.site.document.EditInGoogleDocsPage;
 import org.alfresco.po.share.site.document.FolderDetailsPage;
 import org.alfresco.po.share.site.document.InlineEditPage;
 import org.alfresco.po.share.site.document.ManagePermissionsPage;
@@ -61,22 +59,19 @@ import org.alfresco.po.share.site.links.LinksPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.po.share.site.wiki.WikiPageList;
 import org.alfresco.po.share.task.EditTaskPage;
-import org.alfresco.po.share.user.CloudSyncPage;
+import org.alfresco.po.share.user.FollowersPage;
+import org.alfresco.po.share.user.FollowingPage;
 import org.alfresco.po.share.user.LanguageSettingsPage;
 import org.alfresco.po.share.user.MyProfilePage;
 import org.alfresco.po.share.user.NotificationPage;
 import org.alfresco.po.share.user.UserContentPage;
 import org.alfresco.po.share.user.UserSitesPage;
-import org.alfresco.po.share.user.FollowersPage;
-import org.alfresco.po.share.user.FollowingPage;
 import org.alfresco.po.share.workflow.MyWorkFlowsPage;
 import org.alfresco.po.share.workflow.StartWorkFlowPage;
 import org.alfresco.po.share.workflow.WorkFlowDetailsPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneImpl;
-import org.alfresco.webdrone.WebDroneProperties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -88,7 +83,7 @@ import org.testng.annotations.Test;
  * @author Michael Suzuki
  * @since 1.0
  */
-public class FactorySharePageTest
+public class FactorySharePageTest extends AbstractTest
 {
     private static Log logger = LogFactory.getLog(FactorySharePageTest.class);
     
@@ -97,7 +92,6 @@ public class FactorySharePageTest
     private final String documentLibrary = baseUrl + "/page/site/test/documentlibrary#filter=path%7C%2Ftest%7C&page=1";
     private final String documentLibrary2 = baseUrl + "%s/page/site/test/documentlibrary";
     private final String siteDashboard = baseUrl + "%/page/site/createcontentpagetest1376912493094/dashboard";
-    private final String dataList = baseUrl + "%/page/site/swsdp/data-lists?list=71824d77-9cd8-44c3-b3e4-dbca7e17dc49";
     private final String myTasks = baseUrl + "%s/-system-/page/my-tasks";
     private final String peopleFinder = baseUrl + "%s/page/people-finder";
     private final String userSearchPage = baseUrl + "%s/page/console/admin-console/users";
@@ -105,7 +99,6 @@ public class FactorySharePageTest
     private final String advanceSearch = baseUrl + "%s/page/advsearch";
     private final String advanceContentSearch = baseUrl + "%s/page/advsearch?st=&stag=&ss=&sa=&sr=true&sq=%7b%22prop_cm_name%22%3a%22%22%2c%22prop_cm_title%22%3a%22%22%2c%22prop_cm_description%22%3a%22%22%2c%22prop_mimetype%22%3A%22%22%2C%22prop_cm_modified-date-range%22%3A%22%22%2C%22prop_cm_modifier%22%3A%22%22%2C%22datatype%22%3a%22cm%3Acontent%22%7d";
     private final String advanceFolderSearch = baseUrl + "%s/page/advsearch?st=&stag=&ss=&sa=&sr=true&sq=%7b%22prop_cm_name%22%3a%22%22%2c%22prop_cm_title%22%3a%22%22%2c%22prop_cm_description%22%3a%22%22%2c%22datatype%22%3a%22cm%3afolder%22%7d";   
-    private final String googleDocs = baseUrl + "%s/page/site/workflow/googledocsEditor?nodeRef=workspace%3A%2F%2FSpacesStore%2Fe9f5955c-8dc7-471d-92e3-5ac1f99d420b&return=site%2Fworkflow%2Fdocumentlibrary";
     private final String searchResult = baseUrl + "%s/page/search?t=ipsum";
     private final String searchResultAllSites = baseUrl + "%s/page/search?t=ipsum&s=&a=true&r=false";
     private final String searchResultRepository = baseUrl + "%s/page/search?t=ipsum&s=&a=true&r=true";
@@ -135,7 +128,6 @@ public class FactorySharePageTest
     private final String foldersDetailsPage = baseUrl + 
             "%s/page/site/site1376665231775/folder-details?nodeRef=workspace://SpacesStore/94d767d5-175a-4a5a-8f59-db855f6159f2";
     private final String startWorkFlowPage = baseUrl + "%s/page/start-workflow?referrer=tasks&myTasksLinkBack=true";
-    private final String cloudSyncPage = baseUrl + "%s/share/page/user/admin/user-cloud-auth";
     private final String workFlowDetailsPage = baseUrl + "%s/share/page/workflow-details?workflowId=activiti$17657&referrer=workflows&myWorkflowsLinkBack=true";
     private final String myWorkFlowsPage = baseUrl + "%s/share/page/my-workflows#filter=workflows|active";
     private final String taskDetailsPage = baseUrl + "%s/share/page/my-workflows#filter=workflows|active";
@@ -156,8 +148,6 @@ public class FactorySharePageTest
     private final String sharedFilesPage= baseUrl+"%s/page/context/shared/sharedfiles";
     private final String notificationPage = baseUrl + "%s/share/page/user/admin/user-notifications";
     private final String userSitesPage = baseUrl + "%s/share/page/user/admin/user-sites";
-    private final String blogPage = baseUrl + "%s/page/site/swsdp/blog-postlist";
-    private final String postView = baseUrl + "%s/page/site/swsdp/blog-postview?postId=post-1400227519808&listViewLinkBack=true";
     private final String links = baseUrl + "%s/page/site/swsdp/links";
     private final String wikiList = baseUrl + "%s/page/site/swsdp/wiki";
     private final String pendingInvites = baseUrl + "%s/page/site/swsdp/pending-invites";
@@ -170,227 +160,211 @@ public class FactorySharePageTest
     @Test(groups={"unit"})
     public void resolveUrls()
     {
-    	WebDroneProperties properties = new ShareProperties(AlfrescoVersion.Enterprise41.toString());
-        WebDrone drone = new WebDroneImpl(new HtmlUnitDriver(), properties);
+        WebDriver driver = new HtmlUnitDriver();
         try
         {
             long start = System.currentTimeMillis();
-            SharePage page = resolvePage(dashboard, "dashboard", drone);
+            HtmlPage page = resolvePage(dashboard, "dashboard", driver);
             Assert.assertTrue(page instanceof DashBoardPage);
 
-            page = resolvePage(documentDetailsPage, "documentDetailsPage", drone);
+            page = resolvePage(documentDetailsPage, "documentDetailsPage", driver);
             Assert.assertTrue(page instanceof DocumentDetailsPage);
 
-            page = resolvePage(documentLibrary, "documentLibrary", drone);
+            page = resolvePage(documentLibrary, "documentLibrary", driver);
             Assert.assertTrue(page instanceof DocumentLibraryPage);
             
-            page = resolvePage(documentLibrary2, "documentLibrary2", drone);
+            page = resolvePage(documentLibrary2, "documentLibrary2", driver);
             Assert.assertTrue(page instanceof DocumentLibraryPage);
 
-            page = resolvePage(siteDashboard, "siteDashboard", drone);
+            page = resolvePage(siteDashboard, "siteDashboard", driver);
             Assert.assertTrue(page instanceof SiteDashboardPage);
-
-            page = resolvePage(dataList, "dataList", drone);
-            Assert.assertTrue(page instanceof DataListPage);
             
-            page = resolvePage(myTasks, "myTasks", drone);
+            page = resolvePage(myTasks, "myTasks", driver);
             Assert.assertTrue(page instanceof MyTasksPage);
             
-            page = resolvePage(peopleFinder, "peopleFinder", drone);
+            page = resolvePage(peopleFinder, "peopleFinder", driver);
             Assert.assertTrue(page instanceof PeopleFinderPage);
 
-            page = resolvePage(myProfile, "myProfile", drone);
+            page = resolvePage(myProfile, "myProfile", driver);
             Assert.assertTrue(page instanceof MyProfilePage);
             
-            page = resolvePage(siteFinder, "siteFinder",  drone);
+            page = resolvePage(siteFinder, "siteFinder",  driver);
             Assert.assertTrue(page instanceof SiteFinderPage);
 
-            page = resolvePage(wiki, "wiki", drone);
+            page = resolvePage(wiki, "wiki", driver);
             Assert.assertTrue(page instanceof WikiPage);
 
-            page = resolvePage(wikiList, "wikiList", drone);
+            page = resolvePage(wikiList, "wikiList", driver);
             Assert.assertTrue(page instanceof WikiPageList);
 
-            page = resolvePage(changePaswword, "changePaswword", drone);
+            page = resolvePage(changePaswword, "changePaswword", driver);
             Assert.assertTrue(page instanceof ChangePasswordPage);
 
-            page = resolvePage(repository, "repository", drone);
+            page = resolvePage(repository, "repository", driver);
             Assert.assertTrue(page instanceof RepositoryPage);
             
-            page = resolvePage(repositoryWithFolder, "repository", drone);
+            page = resolvePage(repositoryWithFolder, "repository", driver);
             Assert.assertTrue(page instanceof RepositoryPage);
 
-            page = resolvePage(managePermission, "managePermission", drone);
+            page = resolvePage(managePermission, "managePermission", driver);
             Assert.assertTrue(page instanceof ManagePermissionsPage);
 
-            page = resolvePage(createPlainText, "createPlainText", drone);
+            page = resolvePage(createPlainText, "createPlainText", driver);
             Assert.assertTrue(page instanceof CreatePlainTextContentPage);
 
-            page = resolvePage(createHtmlText, "createHtmlText", drone);
+            page = resolvePage(createHtmlText, "createHtmlText", driver);
             Assert.assertTrue(page instanceof CreateHtmlContentPage);
 
-            page = resolvePage(createXmlText, "createXmlText", drone);
+            page = resolvePage(createXmlText, "createXmlText", driver);
             Assert.assertTrue(page instanceof CreatePlainTextContentPage);
 
-            page = resolvePage(inlineEdit, "inlineEdit", drone);
+            page = resolvePage(inlineEdit, "inlineEdit", driver);
             Assert.assertTrue(page instanceof InlineEditPage);
             
-            page = resolvePage(editDocumentProperties, "editDocumentProperties", drone);
+            page = resolvePage(editDocumentProperties, "editDocumentProperties", driver);
             Assert.assertTrue(page instanceof EditDocumentPropertiesPage);
             
-            page = resolvePage(siteMembers, "siteMembers", drone);
+            page = resolvePage(siteMembers, "siteMembers", driver);
             Assert.assertTrue(page instanceof org.alfresco.po.share.site.SiteMembersPage);
 
-            page = resolvePage(invite, "invite", drone);
+            page = resolvePage(invite, "invite", driver);
             Assert.assertTrue(page instanceof InviteMembersPage);
             
-            page = resolvePage(newuser, "newuser", drone);
+            page = resolvePage(newuser, "newuser", driver);
             Assert.assertTrue(page instanceof NewUserPage);
             
-            page = resolvePage(customizeSite, "customizeSite", drone);
+            page = resolvePage(customizeSite, "customizeSite", driver);
             Assert.assertTrue(page instanceof CustomizeSitePage);
             
-            page = resolvePage(customizeSiteDashboard, "customizeSiteDashboard", drone);
+            page = resolvePage(customizeSiteDashboard, "customizeSiteDashboard", driver);
             Assert.assertTrue(page instanceof CustomiseSiteDashboardPage);
 
-            page = resolvePage(foldersDetailsPage, "foldersDetailsPage", drone);
+            page = resolvePage(foldersDetailsPage, "foldersDetailsPage", driver);
             Assert.assertTrue(page instanceof FolderDetailsPage);
-
-            page = resolvePage(googleDocs, "editGoogleDocs", drone);
-            Assert.assertTrue(page instanceof EditInGoogleDocsPage);
             
-            page = resolvePage(myFilesPage, "myFilesPage", drone);
+            page = resolvePage(myFilesPage, "myFilesPage", driver);
             Assert.assertTrue(page instanceof MyFilesPage);
             
-            page = resolvePage(sharedFilesPage, "sharedFilesPage", drone);
+            page = resolvePage(sharedFilesPage, "sharedFilesPage", driver);
             Assert.assertTrue(page instanceof SharedFilesPage);
 
-            page = resolvePage(blogPage, "blog-postlist", drone);
-            Assert.assertTrue(page instanceof BlogPage);
-
-            page = resolvePage(postView, "blog-postview", drone);
-            Assert.assertTrue(page instanceof PostViewPage);
-
-            page = resolvePage(links, "links", drone);
+            page = resolvePage(links, "links", driver);
             Assert.assertTrue(page instanceof LinksPage);
 
-            page = resolvePage(pendingInvites, "pending-invites", drone);
+            page = resolvePage(pendingInvites, "pending-invites", driver);
             Assert.assertTrue(page instanceof PendingInvitesPage);
 
-            page = resolvePage(followingPage, "following", drone);
+            page = resolvePage(followingPage, "following", driver);
             Assert.assertTrue(page instanceof FollowingPage);
 
-            page = resolvePage(followersPage, "followers", drone);
+            page = resolvePage(followersPage, "followers", driver);
             Assert.assertTrue(page instanceof FollowersPage);
 
             //---------------search ----------------
-            page = resolvePage(advanceSearch, "advanceSearch", drone);
+            page = resolvePage(advanceSearch, "advanceSearch", driver);
             Assert.assertTrue(page instanceof AdvanceSearchPage);            
             
-            page = resolvePage(advanceContentSearch, "advContent-search", drone);
+            page = resolvePage(advanceContentSearch, "advContent-search", driver);
             Assert.assertTrue(page instanceof AdvanceSearchContentPage);
             
-            page = resolvePage(advanceFolderSearch, "advanceFolderSearch", drone);
+            page = resolvePage(advanceFolderSearch, "advanceFolderSearch", driver);
             Assert.assertTrue(page instanceof AdvanceSearchFolderPage);
             
-            page = resolvePage(searchResult, "searchResult", drone);
+            page = resolvePage(searchResult, "searchResult", driver);
             Assert.assertTrue(page instanceof AllSitesResultsPage);
             
-            page = resolvePage(searchResultAllSites, "searchResultAll", drone);
+            page = resolvePage(searchResultAllSites, "searchResultAll", driver);
             Assert.assertTrue(page instanceof AllSitesResultsPage);
 
-            page = resolvePage(searchResultRepository, "searchResultRepo", drone);
+            page = resolvePage(searchResultRepository, "searchResultRepo", driver);
             Assert.assertTrue(page instanceof RepositoryResultsPage);
             
-            page = resolvePage(siteSarchResult, "siteSearchResult", drone);
+            page = resolvePage(siteSarchResult, "siteSearchResult", driver);
             Assert.assertTrue(page instanceof SiteResultsPage);
 
-            page = resolvePage(userSearchPage, "userSearchPage", drone);
+            page = resolvePage(userSearchPage, "userSearchPage", driver);
             Assert.assertTrue(page instanceof UserSearchPage);
             
-            page = resolvePage(startWorkFlowPage, "start-workflow", drone);
+            page = resolvePage(startWorkFlowPage, "start-workflow", driver);
             Assert.assertTrue(page instanceof StartWorkFlowPage);
-            
-            page = resolvePage(cloudSyncPage, "user-cloud-auth", drone);
-            Assert.assertTrue(page instanceof CloudSyncPage);
 
-            page = resolvePage(workFlowDetailsPage, "workflow-details", drone);
+            page = resolvePage(workFlowDetailsPage, "workflow-details", driver);
             Assert.assertTrue(page instanceof WorkFlowDetailsPage);
 
-            page = resolvePage(myWorkFlowsPage, "my-workflows", drone);
+            page = resolvePage(myWorkFlowsPage, "my-workflows", driver);
             Assert.assertTrue(page instanceof MyWorkFlowsPage);
             
-            page = resolvePage(editTasks, "edit-task", drone);
+            page = resolvePage(editTasks, "edit-task", driver);
             Assert.assertTrue(page instanceof EditTaskPage);
 
-            page = resolvePage(taskDetailsPage, "task-edit", drone);
+            page = resolvePage(taskDetailsPage, "task-edit", driver);
             Assert.assertTrue(page instanceof MyWorkFlowsPage);
 
-            page = resolvePage(editTaskPage, "task-details", drone);
+            page = resolvePage(editTaskPage, "task-details", driver);
             Assert.assertTrue(page instanceof MyWorkFlowsPage);
 
-            page = resolvePage(languageSettingsPage, "change-locale", drone);
+            page = resolvePage(languageSettingsPage, "change-locale", driver);
             Assert.assertTrue(page instanceof LanguageSettingsPage);
             
-            page = resolvePage(groupsPage, "groups", drone);
+            page = resolvePage(groupsPage, "groups", driver);
             Assert.assertTrue(page instanceof GroupsPage);
             
-            page = resolvePage(siteGroupsPage, "site-groups", drone);
+            page = resolvePage(siteGroupsPage, "site-groups", driver);
             Assert.assertTrue(page instanceof SiteGroupsPage);
             
-            page = resolvePage(addGroupsPage, "add-groups", drone);
+            page = resolvePage(addGroupsPage, "add-groups", driver);
             Assert.assertTrue(page instanceof AddGroupsPage);
 
-            page = resolvePage(createNewTopicPage, "discussions-createtopic", drone);
+            page = resolvePage(createNewTopicPage, "discussions-createtopic", driver);
             Assert.assertTrue(page instanceof CreateNewTopicPage);
 
-            page = resolvePage(topicDetailsPage, "discussions-topicview", drone);
+            page = resolvePage(topicDetailsPage, "discussions-topicview", driver);
             Assert.assertTrue(page instanceof TopicDetailsPage);
 
-            page = resolvePage(discussionsPage, "discussions-topiclist", drone);
+            page = resolvePage(discussionsPage, "discussions-topiclist", driver);
             Assert.assertTrue(page instanceof DiscussionsPage);
 
-            page = resolvePage(customiseUserDashboardPage, "customise-user-dashboard", drone);
+            page = resolvePage(customiseUserDashboardPage, "customise-user-dashboard", driver);
             Assert.assertTrue(page instanceof CustomiseUserDashboardPage);
 
-            page = resolvePage(nodeBrowserPage, "node-browser", drone);
+            page = resolvePage(nodeBrowserPage, "node-browser", driver);
             Assert.assertTrue(page instanceof NodeBrowserPage);
 
             //---------------admin console ----------------
-            page = resolvePage(adminConsolePage, "admin-console", drone);
+            page = resolvePage(adminConsolePage, "admin-console", driver);
             Assert.assertTrue(page instanceof AdminConsolePage);
             
-            page = resolvePage(manageSitesPage, "manage-sites", drone);
+            page = resolvePage(manageSitesPage, "manage-sites", driver);
             Assert.assertTrue(page instanceof ManageSitesPage);
             
-            page = resolvePage(notificationPage, "user-notifications", drone);
+            page = resolvePage(notificationPage, "user-notifications", driver);
             Assert.assertTrue(page instanceof NotificationPage);
             
-            page = resolvePage(userSitesPage, "user-sites", drone);
+            page = resolvePage(userSitesPage, "user-sites", driver);
             Assert.assertTrue(page instanceof UserSitesPage);
 
             //---------------faceted search ----------------
-            page = resolvePage(facetedSearchPage, "faceted-search", drone);
+            page = resolvePage(facetedSearchPage, "faceted-search", driver);
             Assert.assertTrue(page instanceof FacetedSearchPage);
 
             //---------------User Content Page ----------------
-            page = resolvePage(userContentPage, "user-content", drone);
+            page = resolvePage(userContentPage, "user-content", driver);
             Assert.assertTrue(page instanceof UserContentPage);
             //---------------Alfresco Admin Pages -------------
-            page = resolvePage("http://localhost:8080/alfresco/service/index","index", drone);
+            page = resolvePage("http://localhost:8080/alfresco/service/index","index", driver);
             Assert.assertTrue(page instanceof WebScriptsPage);
             
-            page = resolvePage("http://localhost:8080/alfresco/s/enterprise/admin/admin-tenantconsole", "admin-tenantconsole", drone);
+            page = resolvePage("http://localhost:8080/alfresco/s/enterprise/admin/admin-tenantconsole", "admin-tenantconsole", driver);
             Assert.assertTrue(page instanceof TenantAdminConsolePage);
             
-            page = resolvePage("http://localhost:8080/alfresco/s/enterprise/admin/admin-repoconsole", "admin-repoconsole", drone);
+            page = resolvePage("http://localhost:8080/alfresco/s/enterprise/admin/admin-repoconsole", "admin-repoconsole", driver);
             Assert.assertTrue(page instanceof RepositoryAdminConsolePage);
             
-            page = resolvePage("http://localhost:8080/share/xxyyzz", "UnknownSharePage", drone);
+            page = resolvePage("http://localhost:8080/share/xxyyzz", "UnknownSharePage", driver);
             Assert.assertTrue(page instanceof SharePage);
             Assert.assertTrue(page instanceof UnknownSharePage);
             
-            page = resolvePage(modelsPage, "ModelsPage", drone);
+            page = resolvePage(modelsPage, "ModelsPage", driver);
             Assert.assertTrue(page instanceof ModelsPage);
             
             long duration = System.currentTimeMillis() - start;
@@ -398,17 +372,18 @@ public class FactorySharePageTest
         }
         finally
         {
-            drone.quit();
+            driver.quit();
         }
     }
     
     /**
      * Wrapper to measure time of operation.
      */
-    private SharePage resolvePage(final String url, final String name, WebDrone drone)
+    private HtmlPage resolvePage(final String url, final String name, WebDriver driver)
     {
         long startProcess = System.currentTimeMillis();
-        SharePage page = FactorySharePage.getPage(url, drone);
+        FactorySharePage fs = (FactorySharePage) factoryPage;
+        HtmlPage page = fs.getPage(url, driver);
         long endProcess = System.currentTimeMillis() - startProcess;
         logger.info(String.format("The page %s returned in %d", name, endProcess));
         return page;

@@ -19,16 +19,18 @@
 package org.alfresco.po.share;
 
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Button;
 
 /**
  * 
@@ -41,7 +43,8 @@ public class HideGetStartedPanel extends SharePage
 {
 
     private static Log logger = LogFactory.getLog(HideGetStartedPanel.class);
-    
+    @RenderWebElement 
+    	@FindBy(id="prompt_h")WebElement hideGetStartedPanelTitle;
     //Hide Get Started Panel Title
     public static final By HIDE_GET_STARTED_PANEL_TITLE = By.cssSelector("#prompt_h");
     
@@ -52,42 +55,9 @@ public class HideGetStartedPanel extends SharePage
     public static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='OK']";
     
     //Hide Get Started Panel popup Cancel button
-    public static final String HIDE_GET_STARTED_CANCEL_BUTTON = "//button[text()='Cancel']";
+    @FindBy(xpath="//button[text()='Cancel']") Button cancel;
     
 
-    /**
-     * Constructor
-     * 
-     * @param drone
-     */
-    public HideGetStartedPanel(WebDrone drone)
-    {
-        super(drone);
-
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public HideGetStartedPanel render(RenderTime timer)
-    {
-        elementRender(timer, RenderElement.getVisibleRenderElement(HIDE_GET_STARTED_PANEL_TITLE));
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public HideGetStartedPanel render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public HideGetStartedPanel render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-    
     /**
      * Get the Hide Get Started Panel title
      * 
@@ -97,7 +67,7 @@ public class HideGetStartedPanel extends SharePage
     {
         try
         {
-            return drone.find(HIDE_GET_STARTED_PANEL_TITLE).getText();
+            return hideGetStartedPanelTitle.getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -116,7 +86,8 @@ public class HideGetStartedPanel extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector(HIDE_GET_STARTED_PANEL_TEXT)).getText();
+        	//FIXME jelena to fix to use correct css and not text.
+            return driver.findElement(By.cssSelector(HIDE_GET_STARTED_PANEL_TEXT)).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -134,7 +105,7 @@ public class HideGetStartedPanel extends SharePage
     {
         try
         {
-            drone.findAndWait(By.xpath(HIDE_GET_STARTED_OK_BUTTON)).click();
+            findAndWait(By.xpath(HIDE_GET_STARTED_OK_BUTTON)).click();
             waitUntilAlert();
         }
         catch (TimeoutException toe)
@@ -145,7 +116,7 @@ public class HideGetStartedPanel extends SharePage
             }
         }
  
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
  
     /**
@@ -157,7 +128,7 @@ public class HideGetStartedPanel extends SharePage
     {
         try
         {
-            drone.findAndWait(By.xpath(HIDE_GET_STARTED_CANCEL_BUTTON)).click();
+            cancel.click();
             waitUntilAlert();
         }
         catch (TimeoutException toe)
@@ -167,7 +138,7 @@ public class HideGetStartedPanel extends SharePage
                 logger.trace("Unable to find OK button on Hide Get Started Panel.", toe);
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
 

@@ -64,7 +64,7 @@ public class SavedSearchDashletTest extends AbstractSiteDashletTest
     @Test
     public void instantiateDashlet()
     {
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();;
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.SAVED_SEARCH, 1).render();
         savedSearchDashlet = siteDashBoard.getDashlet(SAVED_SEARCH).render();

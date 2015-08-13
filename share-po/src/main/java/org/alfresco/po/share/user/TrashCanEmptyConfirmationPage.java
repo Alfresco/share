@@ -19,9 +19,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.List;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -38,11 +38,6 @@ public class TrashCanEmptyConfirmationPage extends TrashCanPage
 {
     protected static final By EMPTY_CONFIRMATION_PROMPT = By.cssSelector("div[id='prompt']");
     protected static final By CONFIRMATION_BUTTON = By.cssSelector("div.ft>span button");
-
-    public TrashCanEmptyConfirmationPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /**
      * Basic Render method
@@ -62,13 +57,6 @@ public class TrashCanEmptyConfirmationPage extends TrashCanPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public TrashCanEmptyConfirmationPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Is confirmation Dialog displayed
      * 
@@ -79,7 +67,7 @@ public class TrashCanEmptyConfirmationPage extends TrashCanPage
         boolean displayed = false;
         try
         {
-            WebElement prompt = drone.findAndWait(EMPTY_CONFIRMATION_PROMPT);
+            WebElement prompt = findAndWait(EMPTY_CONFIRMATION_PROMPT);
             displayed = prompt.isDisplayed();
         }
         catch (TimeoutException e)
@@ -99,13 +87,13 @@ public class TrashCanEmptyConfirmationPage extends TrashCanPage
     {
         try
         {
-            List<WebElement> buttons = drone.findAndWaitForElements(CONFIRMATION_BUTTON);
+            List<WebElement> buttons = findAndWaitForElements(CONFIRMATION_BUTTON);
             for (WebElement buttonElement : buttons)
             {
                 if (buttonElement.getText().equalsIgnoreCase("Cancel"))
                 {
                     buttonElement.click();
-                    return new TrashCanPage(drone);
+                    return factoryPage.instantiatePage(driver, TrashCanPage.class);
                 }
             }
         }
@@ -113,7 +101,7 @@ public class TrashCanEmptyConfirmationPage extends TrashCanPage
         {
             throw new PageOperationException("Cancel button is not visible", te);
         }
-        return new TrashCanPage(drone);
+        return factoryPage.instantiatePage(driver, TrashCanPage.class);
     }
 
     /**
@@ -126,15 +114,15 @@ public class TrashCanEmptyConfirmationPage extends TrashCanPage
     {
         try
         {
-            List<WebElement> buttons = drone.findAndWaitForElements(CONFIRMATION_BUTTON);
+            List<WebElement> buttons = findAndWaitForElements(CONFIRMATION_BUTTON);
             for (WebElement buttonElement : buttons)
             {
                 if (buttonElement.getText().equalsIgnoreCase("OK"))
                 {
                     buttonElement.click();
-                    drone.waitForElement(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                    drone.waitUntilElementDeletedFromDom(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                    return new TrashCanPage(drone);
+                    waitForElement(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                    waitUntilElementDeletedFromDom(By.cssSelector("div.bd>span.message"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                    return factoryPage.instantiatePage(driver, TrashCanPage.class);
                 }
             }
         }
@@ -142,6 +130,6 @@ public class TrashCanEmptyConfirmationPage extends TrashCanPage
         {
             throw new PageOperationException("Ok button is not visible", te);
         }
-        return new TrashCanPage(drone);
+        return factoryPage.instantiatePage(driver, TrashCanPage.class);
     }
 }

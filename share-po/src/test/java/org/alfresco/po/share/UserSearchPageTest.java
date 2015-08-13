@@ -18,6 +18,7 @@
  */
 package org.alfresco.po.share;
 
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.test.FailedTestListener;
@@ -55,7 +56,7 @@ public class UserSearchPageTest extends AbstractTest
         UserSearchPage page = dashBoard.getNav().getUsersPage().render();
         NewUserPage newUser = page.selectNewUser().render();
         newUser.createEnterpriseUser("admin", "admin", "admin", "admin@alfresco.com", "admin");
-        SharePopup errPopup = FactorySharePage.resolvePage(drone).render();
+        SharePopup errPopup = factoryPage.getPage(driver).render();
         errPopup.handleMessage();
         Assert.fail();
     }
@@ -123,7 +124,7 @@ public class UserSearchPageTest extends AbstractTest
             UserSearchPage page = dashBoard.getNav().getUsersPage().render();
             UploadFilePage upload = page.selectUploadUserCSVFile().render();
             upload.cancel();
-            page = drone.getCurrentPage().render();
+            page = resolvePage(driver).render();
             Assert.assertTrue(page.isTitlePresent());
     }
 
@@ -148,28 +149,12 @@ public class UserSearchPageTest extends AbstractTest
         UserSearchPage userPage = dashBoard.getNav().getUsersPage().render();
         NewUserPage newPage = userPage.selectNewUser().render();
         String userinfo = "user" + System.currentTimeMillis() + "@test.com";
-        userPage = newPage.createEnterpriseUser(userinfo, userinfo, userinfo, userinfo, "password").render();
+        userPage = newPage.createEnterpriseUser(userinfo, userinfo, userinfo, userinfo, UNAME_PASSWORD).render();
         userPage.searchFor(userinfo).render();
         Assert.assertTrue(userPage.hasResults());
         UserProfilePage userProfile = userPage.clickOnUser(userinfo).render();
         EditUserPage editUserPage = userProfile.selectEditUser().render();
         editUserPage.cancelEditUser().render();
-    }
-    
-    @Test(groups = "Enterprise-only", expectedExceptions = UnsupportedOperationException.class)
-    public void test109createNullUserMethod() throws Exception
-    {
-        NewUserPage newPage = new NewUserPage(drone);
-        newPage.createEnterpriseUser(null, null, null, null, null);
-        Assert.fail("UnsupportedOperationException Expected");
-    }
-
-    @Test(groups = "Enterprise-only", expectedExceptions = UnsupportedOperationException.class)
-    public void test110searchForNullUserMethod() throws Exception
-    {
-        UserSearchPage userCreated = new UserSearchPage(drone);
-        userCreated.searchFor(null);
-        Assert.fail("UnsupportedOperationException Expected");
     }
 
     @Test(groups = "Enterprise-only")
@@ -195,14 +180,5 @@ public class UserSearchPageTest extends AbstractTest
             userPage.searchFor(userinfo).render();
             Assert.assertTrue(userPage.hasResults());
     }
-
-    @Test(groups = "Enterprise-only", expectedExceptions = UnsupportedOperationException.class)
-    public void test113createEmptyUserMethod() throws Exception
-    {
-        NewUserPage newPage = new NewUserPage(drone);
-        String userinfo = "";
-        newPage.createEnterpriseUser(userinfo, userinfo, userinfo, userinfo, userinfo);
-    }
-    
-   
 }
+

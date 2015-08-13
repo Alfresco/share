@@ -15,9 +15,9 @@
 
 package org.alfresco.po.share.search;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.RenderTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -40,11 +40,6 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
     protected static final By CRM_CASE_NUMBER = By.cssSelector("input[id$='prop_crm_caseNumber']");
     protected static final By CRM_CASE_NAME = By.cssSelector("input[id$='prop_crm_caseName']");
 
-    public AdvanceSearchCRMPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     public AdvanceSearchCRMPage render(RenderTime timer)
     {
@@ -62,13 +57,6 @@ public class AdvanceSearchCRMPage extends AdvanceSearchPage
         }
 
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public AdvanceSearchCRMPage render(long time)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
     }
 
     @SuppressWarnings("unchecked")

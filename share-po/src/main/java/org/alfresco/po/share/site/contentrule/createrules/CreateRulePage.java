@@ -1,23 +1,38 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.contentrule.createrules;
 
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.po.share.site.contentrule.FolderRulesPage;
-import org.alfresco.po.share.site.contentrule.FolderRulesPageWithRules;
-import org.alfresco.po.share.site.contentrule.createrules.selectors.AbstractActionSelector;
-import org.alfresco.po.share.site.contentrule.createrules.selectors.AbstractIfSelector;
-import org.alfresco.po.share.site.contentrule.createrules.selectors.impl.*;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.share.site.contentrule.createrules.selectors.impl.ActionSelectorEnterpImpl;
+import org.alfresco.po.share.site.contentrule.createrules.selectors.impl.IfErrorEnterpImpl;
+import org.alfresco.po.share.site.contentrule.createrules.selectors.impl.IfSelectorEnterpImpl;
+import org.alfresco.po.share.site.contentrule.createrules.selectors.impl.WhenSelectorImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import ru.yandex.qatools.htmlelements.element.Button;
 
 /**
  * CreateRulePage page object, holds all element of the HTML page relating to Create Rule Page
@@ -47,7 +62,6 @@ public class CreateRulePage extends SitePage
     private static final By SET_VALUE_FIELD_DATE = By.cssSelector("span[class*='paramtype_arca_set-property-value'] input[type='text']");
 
     // CheckBoxes
-    private static final By CHECK_BOX_DISABLE = By.cssSelector("div[class='form-field disabled'] input[title='Disable rule']");
     private static final By CHECK_BOX_APPLY_TO_SUBFOLDER = By.cssSelector("div[class='form-field applyToChildren'] input[title='Rule applies to subfolders']");
     private static final By CHECK_BOX_RULE_IN_BACKGROUND = By
             .cssSelector("div[class='form-field executeAsynchronously'] input[title='Run rule in background']");
@@ -58,16 +72,10 @@ public class CreateRulePage extends SitePage
 
     // Buttons
     private static final By CANCEL_BUTTON = By.cssSelector("span[id*='cancel-button'] button[id*='default-cancel-button']");
-    private static final By CREATE_BUTTON = By.cssSelector("span[id*='create-button'] button[id*='default-create-button']");
     private static final By SAVE_BUTTON = By.cssSelector("span[id*='save-button'] button[id*='default-save-button']");
     private static final By CREATE_AND_CREATE_ANOTHER_BUTTON = By.cssSelector("span[id*='createAnother-button'] button[id*='default-createAnother-button']");
 
     private static final By CREATED_ALERT = By.xpath(".//*[@id='message']/div/span");
-
-    public CreateRulePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     public enum Block
     {
@@ -110,54 +118,32 @@ public class CreateRulePage extends SitePage
         return render(new RenderTime(maxPageLoadingTime + 20000));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public CreateRulePage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     public void addOrRemoveOptionsFieldsToBlock(final Block block, final AddRemoveAction operation)
     {
-        WebElement blockElement = drone.findAndWait(block.selector);
+        WebElement blockElement = findAndWait(block.selector);
         List<WebElement> operationButton = blockElement.findElements(operation.actionSelector);
         operationButton.get(operationButton.size() - 1).click();
     }
-
+    WhenSelectorImpl whenSelectorImpl;
     public WhenSelectorImpl getWhenOptionObj()
     {
-        return new WhenSelectorImpl(drone);
+        return whenSelectorImpl;
     }
 
     public IfErrorEnterpImpl getIfErrorObj()
     {
-        return new IfErrorEnterpImpl(drone);
+        return new IfErrorEnterpImpl();
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends AbstractIfSelector> T getIfOptionObj()
+    IfSelectorEnterpImpl ifSelectorEnterpImpl;
+    public IfSelectorEnterpImpl getIfOptionObj()
     {
-        if (alfrescoVersion.isCloud())
-        {
-            return (T) new IfSelectorCloudImpl(drone);
-        }
-        else
-        {
-            return (T) new IfSelectorEnterpImpl(drone);
-        }
+        return ifSelectorEnterpImpl;
     }
-
-    @SuppressWarnings("unchecked")
-    public <T extends AbstractActionSelector> T getActionOptionsObj()
+    ActionSelectorEnterpImpl actionSelectorEnterpImpl;
+    public ActionSelectorEnterpImpl getActionOptionsObj()
     {
-        if (alfrescoVersion.isCloud())
-        {
-            return (T) new ActionSelectorCloudImpl(drone);
-        }
-        else
-        {
-            return (T) new ActionSelectorEnterpImpl(drone);
-        }
+        return actionSelectorEnterpImpl;
     }
 
     public void fillNameField(final String text)
@@ -172,7 +158,7 @@ public class CreateRulePage extends SitePage
 
     private void fillField(By selector, String text)
     {
-        WebElement inputField = drone.findAndWait(selector);
+        WebElement inputField = findAndWait(selector);
         inputField.clear();
         if (text != null)
         {
@@ -190,7 +176,7 @@ public class CreateRulePage extends SitePage
      */
     public void fillSetValueFieldCheckbox()
     {
-        WebElement inputField = drone.findAndWait(SET_VALUE_CHECKBOX);
+        WebElement inputField = findAndWait(SET_VALUE_CHECKBOX);
         inputField.click();
         waitUntilAlert(5);
     }
@@ -209,13 +195,13 @@ public class CreateRulePage extends SitePage
      */
     public void selectApplyToSubfolderCheckbox()
     {
-        WebElement applyToSubfolderCheckBox = drone.findAndWait(CHECK_BOX_APPLY_TO_SUBFOLDER);
+        WebElement applyToSubfolderCheckBox = findAndWait(CHECK_BOX_APPLY_TO_SUBFOLDER);
         applyToSubfolderCheckBox.click();
     }
 
     public void selectRunRuleInBackgroundCheckbox()
     {
-        WebElement runRuleInBackgroundCheckbox = drone.findAndWait(CHECK_BOX_RULE_IN_BACKGROUND);
+        WebElement runRuleInBackgroundCheckbox = findAndWait(CHECK_BOX_RULE_IN_BACKGROUND);
         runRuleInBackgroundCheckbox.click();
     }
 
@@ -231,13 +217,13 @@ public class CreateRulePage extends SitePage
 
     private String getTextFromInput(By selector)
     {
-        return drone.findAndWait(selector).getAttribute("value");
+        return findAndWait(selector).getAttribute("value");
     }
 
-    public <T extends FolderRulesPage> T clickCancelButton()
+    public HtmlPage clickCancelButton()
     {
         click(CANCEL_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     public CreateRulePage clickAnotherCreate()
@@ -247,121 +233,33 @@ public class CreateRulePage extends SitePage
         return this.render();
     }
 
-    public FolderRulesPageWithRules clickCreate()
+    @FindBy(css="button[id$='create-button-button']") Button create;
+    public HtmlPage clickCreate()
     {
-        click(CREATE_BUTTON);
+        create.click();
         waitUntilCreatedAlert();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
-    public FolderRulesPageWithRules clickSave()
+    public HtmlPage clickSave()
     {
         click(SAVE_BUTTON);
         waitUntilCreatedAlert();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     private void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
-    }
-
-    public boolean isNameFieldAndDescriptionEmpty()
-    {
-        WebElement nameFieldText = drone.findAndWait(NAME_FIELD);
-        WebElement descriptionFieldText = drone.findAndWait(DESCRIPTION_FIELD);
-        return (isFieldEmpty(nameFieldText) && isFieldEmpty(descriptionFieldText));
-    }
-
-    public boolean isDefaultSelectsChoiceCorrect()
-    {
-        Select whenSelect = new Select(drone.findAndWait(WHEN_OPTIONS_SELECT));
-        boolean isWhenDefaultTextCorrect = "Items are created or enter this folder".equals(whenSelect.getFirstSelectedOption().getText());
-        Select ifSelect = new Select(drone.findAndWait(IF_OPTIONS_SELECT));
-        boolean isIfDefaultTextCorrect = "All Items".equals(ifSelect.getFirstSelectedOption().getText());
-        Select actionSelect = new Select(drone.findAndWait(ACTION_OPTIONS_SELECT));
-        boolean isActionDefaultTextCorrect;
-        if (alfrescoVersion.isCloud())
-        {
-            isActionDefaultTextCorrect = "Copy".equals(actionSelect.getFirstSelectedOption().getText());
-        }
-        else
-        {
-            isActionDefaultTextCorrect = "Select...".equals(actionSelect.getFirstSelectedOption().getText());
-        }
-        return (isWhenDefaultTextCorrect && isIfDefaultTextCorrect && isActionDefaultTextCorrect);
-    }
-
-    public boolean isCheckBoxesCorrectByDefault()
-    {
-        WebElement disableRuleCheckBox = drone.findAndWait(CHECK_BOX_DISABLE);
-        WebElement applyToSubfolderCheckBox = drone.findAndWait(CHECK_BOX_APPLY_TO_SUBFOLDER);
-        return (!disableRuleCheckBox.isSelected() && !applyToSubfolderCheckBox.isSelected());
-    }
-
-    public boolean isButtonsCorrectByDefault()
-    {
-        boolean isCreateButtonCorrect = false;
-        boolean isCancelButtonCorrect = false;
-        boolean isAnotherCreateButtonCorrect = false;
-
-        WebElement createButton = drone.findAndWait(CREATE_BUTTON);
-        if (alfrescoVersion.isDojoSupported())
-        {
-            if (isElementEnableAndDisplay(createButton))
-            {
-                createButton.submit();
-                isCreateButtonCorrect = isBalloonMessageDisplayed(BALLOON_TEXT_VALUE_NOT_EMPTY);
-            }
-        }
-        else
-        {
-            isCreateButtonCorrect = (createButton.isDisplayed() && !createButton.isEnabled());
-        }
-        WebElement anotherCreateButton = drone.findAndWait(CREATE_AND_CREATE_ANOTHER_BUTTON);
-        if (alfrescoVersion.isDojoSupported())
-        {
-            if (isElementEnableAndDisplay(anotherCreateButton))
-            {
-                anotherCreateButton.submit();
-                isAnotherCreateButtonCorrect = isBalloonMessageDisplayed(BALLOON_TEXT_VALUE_NOT_EMPTY);
-            }
-        }
-        else
-        {
-            isAnotherCreateButtonCorrect = (createButton.isDisplayed() && !createButton.isEnabled());
-        }
-        WebElement cancelButton = drone.findAndWait(CANCEL_BUTTON);
-        isCancelButtonCorrect = isElementEnableAndDisplay(cancelButton);
-
-        return (isAnotherCreateButtonCorrect && isCancelButtonCorrect && isCreateButtonCorrect);
-    }
-
-    public boolean isAllButtonEnableAndDisplay()
-    {
-        WebElement createButton = drone.findAndWait(CREATE_BUTTON);
-        WebElement anotherCreateButton = drone.findAndWait(CREATE_AND_CREATE_ANOTHER_BUTTON);
-        WebElement cancelButton = drone.findAndWait(CANCEL_BUTTON);
-        return (isElementEnableAndDisplay(createButton) && isElementEnableAndDisplay(anotherCreateButton) && isElementEnableAndDisplay(cancelButton));
-    }
-
-    private boolean isElementEnableAndDisplay(WebElement element)
-    {
-        return (element.isDisplayed() && element.isEnabled());
-    }
-
-    private boolean isFieldEmpty(WebElement element)
-    {
-        return "".equals(element.getText());
     }
 
     private void waitUntilCreatedAlert()
     {
         try
         {
-            drone.waitUntilElementPresent(CREATED_ALERT, 5);
-            drone.waitUntilElementDeletedFromDom(CREATED_ALERT, 5);
+            waitUntilElementPresent(CREATED_ALERT, 5);
+            waitUntilElementDeletedFromDom(CREATED_ALERT, 5);
         }
         catch (TimeoutException ex)
         {
@@ -372,14 +270,9 @@ public class CreateRulePage extends SitePage
         }
     }
 
-    public boolean isPageCorrect()
-    {
-        return (isButtonsCorrectByDefault() && isCheckBoxesCorrectByDefault() && isNameFieldAndDescriptionEmpty());
-    }
-
     public boolean isBalloonMessageDisplayed(String text)
     {
-        WebElement balloonAlert = drone.findAndWait(BALLOON_TEXT_MESSAGE);
+        WebElement balloonAlert = findAndWait(BALLOON_TEXT_MESSAGE);
         if (balloonAlert.isDisplayed() && text.equals(balloonAlert.getText().trim()))
         {
             return true;

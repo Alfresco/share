@@ -1,7 +1,6 @@
 package org.alfresco.po.share.bulkimport;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +24,7 @@ public class BulkImportPageTest extends AbstractTest
         try
         {
             loginAs(username, password).render();
-            bulkImportPage = ShareUtil.navigateToBulkImport(drone, false, username, password).render();
+            bulkImportPage = shareUtil.navigateToBulkImport(driver, false, username, password).render();
         }
         catch (Exception e)
         {

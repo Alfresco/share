@@ -17,13 +17,11 @@ package org.alfresco.po.share.site.document;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -48,32 +46,16 @@ public class TakeOwnershipPage extends SharePage
     // Take Ownership popup Cancel button
     public static final String TAKE_OWNERSHIP_CANCEL_BUTTON = "//button[text()='Cancel']";
 
-    public TakeOwnershipPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
-    @Override
-    public TakeOwnershipPage render(RenderTime timer)
+	@Override
+    public TakeOwnershipPage render()
     {
+    	RenderTime timer = new RenderTime(maxPageLoadingTime);
         elementRender(timer, RenderElement.getVisibleRenderElement(TAKE_OWNERSHIP_POPUP_TITLE));
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public TakeOwnershipPage render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public TakeOwnershipPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Get the Take Ownership popup title
@@ -84,7 +66,7 @@ public class TakeOwnershipPage extends SharePage
     {
         try
         {
-            return drone.find(TAKE_OWNERSHIP_POPUP_TITLE).getText();
+            return driver.findElement(TAKE_OWNERSHIP_POPUP_TITLE).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -102,8 +84,8 @@ public class TakeOwnershipPage extends SharePage
     {
         try
         {
-            drone.findAndWait(By.xpath(TAKE_OWNERSHIP_BUTTON)).click();
-            drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            findAndWait(By.xpath(TAKE_OWNERSHIP_BUTTON)).click();
+            waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         }
         catch (TimeoutException toe)
         {
@@ -113,7 +95,7 @@ public class TakeOwnershipPage extends SharePage
             }
         }
 
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -125,8 +107,8 @@ public class TakeOwnershipPage extends SharePage
     {
         try
         {
-            drone.findAndWait(By.xpath(TAKE_OWNERSHIP_CANCEL_BUTTON)).click();
-            drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        	findAndWait(By.xpath(TAKE_OWNERSHIP_CANCEL_BUTTON)).click();
+            waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         }
         catch (TimeoutException toe)
         {
@@ -135,7 +117,7 @@ public class TakeOwnershipPage extends SharePage
                 logger.trace("Unable to find Cancel button on Take Ownership popup.", toe);
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
 }

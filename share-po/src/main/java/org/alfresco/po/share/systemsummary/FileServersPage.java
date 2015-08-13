@@ -1,13 +1,27 @@
+/*
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.systemsummary;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by olga.lokhach on 9/9/2014.
@@ -44,23 +58,12 @@ public class FileServersPage extends AdvancedAdminConsolePage
     @RenderWebElement
     private final static By CIFS_SESSION_TIMEOUT = By.cssSelector("input[name$='cifs.sessionTimeout']");
 
-    public FileServersPage(WebDrone drone)
-    {
-        super(drone);
-    }
     @SuppressWarnings("unchecked")
     @Override
     public synchronized FileServersPage render(RenderTime timer)
     {
         webElementRender(timer);
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public FileServersPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -74,14 +77,14 @@ public class FileServersPage extends AdvancedAdminConsolePage
     private void click(By locator)
     {
         checkNotNull(locator);
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
     }
 
     private void fillField(By selector, String text)
     {
         checkNotNull(text);
-        WebElement inputField = drone.findAndWait(selector);
+        WebElement inputField = findAndWait(selector);
         inputField.clear();
         if (text != null)
         {
@@ -95,11 +98,11 @@ public class FileServersPage extends AdvancedAdminConsolePage
      *
      */
 
-    public FileServersPage configFtpPort(String port)
+    public HtmlPage configFtpPort(String port)
     {
         fillField(FTP_PORT_INPUT, port);
         click(SAVE_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
 
@@ -110,18 +113,18 @@ public class FileServersPage extends AdvancedAdminConsolePage
      */
     public String getPort()
     {
-        return drone.findAndWait(FTP_PORT_INPUT).getAttribute("value");
+        return findAndWait(FTP_PORT_INPUT).getAttribute("value");
     }
 
     /**
      * Method to enable or disable the FTP server
      */
 
-    public FileServersPage selectFtpEnabledCheckbox()
+    public HtmlPage selectFtpEnabledCheckbox()
     {
-        drone.findAndWait(FTP_ENABLED_CHECKBOX).click();
+        findAndWait(FTP_ENABLED_CHECKBOX).click();
         click(SAVE_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -133,7 +136,7 @@ public class FileServersPage extends AdvancedAdminConsolePage
     {
         try
         {
-            return (drone.find(FTP_ENABLED_CHECKBOX).isSelected());
+            return (driver.findElement(FTP_ENABLED_CHECKBOX).isSelected());
         }
         catch (NoSuchElementException nse)
         {

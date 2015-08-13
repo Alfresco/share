@@ -21,11 +21,11 @@ package org.alfresco.po.share.site.document;
 import java.io.File;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -65,16 +65,16 @@ public class DocumentLibraryPageSortTest extends AbstractTest
         fileName1 = "aaaaaa";
         fileName2 = "bbbbbb";
 
-        ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         
-        file1 = SiteUtil.prepareFile(fileName1);
+        file1 = siteUtil.prepareFile(fileName1);
         fileName1 = file1.getName();
-        file2 = SiteUtil.prepareFile(fileName2);
+        file2 = siteUtil.prepareFile(fileName2);
         fileName2 = file2.getName();
 
-        page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
 
         // uploading new files.
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
@@ -86,7 +86,7 @@ public class DocumentLibraryPageSortTest extends AbstractTest
     @AfterClass(groups="alfresco-one")
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test(groups="alfresco-one")

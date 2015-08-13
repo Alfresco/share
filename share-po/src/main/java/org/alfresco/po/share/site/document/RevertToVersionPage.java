@@ -15,7 +15,6 @@
 package org.alfresco.po.share.site.document;
 
 import org.alfresco.po.share.site.UpdateFilePage;
-import org.alfresco.webdrone.WebDrone;
 
 /**
  * When the user clicks on revert to version they will be provided with revert to version page.
@@ -27,16 +26,16 @@ import org.alfresco.webdrone.WebDrone;
 
 public class RevertToVersionPage extends UpdateFilePage
 {
-    /**
-     * Constructor.
-     */
-    public RevertToVersionPage(WebDrone drone, String documentVersion, boolean editOffline)
-    {
-        super(drone, documentVersion, editOffline);
-        setMinorVersionRadioButton("input[id$='minorVersion-radioButton']");
-        setMajorVersionRadioButton("input[id$='majorVersion-radioButton']");
-        setSubmitButton("button#alfresco-revertVersion-instance-ok-button-button");
-        setCancelButton("button#alfresco-revertVersion-instance-cancel-button-button");
-        setTextAreaCssLocation("textarea[id$='-description-textarea']");
-    }
+//    /**
+//     * Constructor.
+//     */
+//    public RevertToVersionPage(WebDriver driver, String documentVersion, boolean editOffline)
+//    {
+//        super(driver, documentVersion, editOffline);
+//        setMinorVersionRadioButton("input[id$='minorVersion-radioButton']");
+//        setMajorVersionRadioButton("input[id$='majorVersion-radioButton']");
+//        setSubmitButton("button#alfresco-revertVersion-instance-ok-button-button");
+//        setCancelButton("button#alfresco-revertVersion-instance-cancel-button-button");
+//        setTextAreaCssLocation("textarea[id$='-description-textarea']");
+//    }
 }

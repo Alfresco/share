@@ -18,19 +18,19 @@
  */
 package org.alfresco.po.share.site.links;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.alfresco.po.PageElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Aliaksei Boole
  */
-public class LinkComment extends HtmlElement
+public class LinkComment extends PageElement
 {
 
     private static Log logger = LogFactory.getLog(LinkComment.class);
@@ -40,14 +40,14 @@ public class LinkComment extends HtmlElement
     private static final By DELETE_BUTTON = By.xpath(".//a[contains(@class,'delete-comment')]");
     private static final By CONFIRM_DELETE_BUTTON = By.xpath("//span[@class='button-group']/span[1]//button");
 
-    public LinkComment(WebElement webElement, WebDrone drone)
+    public LinkComment(WebElement webElement, WebDriver driver)
     {
-        super(webElement, drone);
+        setWrappedElement(webElement);
     }
 
     private void focusOn()
     {
-        drone.mouseOver(getWebElement());
+        mouseOver(getWrappedElement());
     }
 
     public LinksDetailsPage editComment(String newText)
@@ -55,18 +55,18 @@ public class LinkComment extends HtmlElement
         checkNotNull(newText);
         focusOn();
         findAndWait(EDIT_BUTTON).click();
-        EditCommentLinkForm editCommentLinkForm = new EditCommentLinkForm(drone);
+        EditCommentLinkForm editCommentLinkForm = new EditCommentLinkForm();
         editCommentLinkForm.insertText(newText);
         editCommentLinkForm.clickSubmit();
-        return new LinksDetailsPage(drone).waitUntilAlert().render();
+        return factoryPage.instantiatePage(driver,LinksDetailsPage.class).waitUntilAlert().render();
     }
 
     public LinksDetailsPage deleteComment()
     {
         focusOn();
         findAndWait(DELETE_BUTTON).click();
-        drone.findAndWait(CONFIRM_DELETE_BUTTON).click();
-        return new LinksDetailsPage(drone).waitUntilAlert().render();
+        findAndWait(CONFIRM_DELETE_BUTTON).click();
+        return factoryPage.instantiatePage(driver,LinksDetailsPage.class).waitUntilAlert().render();
     }
 
     public String getText()

@@ -14,34 +14,31 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.enums.Encoder;
 import org.alfresco.po.share.enums.TinyMceColourCode;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.owasp.esapi.ESAPI;
 
+@FindBy(css="div.mce-tinymce")
 /**
  * @author nshah
  */
-public class TinyMceEditor extends HtmlElement
+public class TinyMceEditor extends PageElement
 {
     private Log logger = LogFactory.getLog(TinyMceEditor.class);
 
     private static final String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
     // private static final String XPATH_COLOUR_FONT = "//font";
-    private static final String XPATH_COLOUR_FONT2 = ".//*[@id='tinymce']/p/span";
     private static final String CSS_REMOVE_FORMAT = "i.mce-i-removeformat";
-    private static final String CSS_COLOR_ATT = "rich.txt.editor.color.code";
     private static final String CSS_STR_BOLD = "i[class$='mce-i-bold']";
-    public String FRAME_ID = "";
-    public static final String TINYMCE_CONTENT = "body[id$='tinymce']";
+    public static final String TINYMCE_CONTENT = "body[id='tinymce']";
     private static final String CSS_STR_ITALIC = "i[class$='mce-i-italic']";
     private static final String CSS_STR_UNDER_LINED = "i[class$='mce-i-underline']";
     private static final String CSS_STR_BULLETS = "i[class$='mce-i-bullist']";
@@ -87,13 +84,16 @@ public class TinyMceEditor extends HtmlElement
         BOLD_EDIT,
         BACK_GROUND_COLOR;
     }
-
     public String getFrameId()
     {
+        if(frameId == null)
+        {
+            setTinyMce();
+        }
         return frameId;
     }
 
-    private void setFrameId(String frameId)
+    protected void setFrameId(String frameId)
     {
         this.frameId = frameId;
     }
@@ -161,26 +161,26 @@ public class TinyMceEditor extends HtmlElement
         }
     }
 
-    public void setTinyMce(String frameId)
+    @FindBy(tagName="iframe") WebElement frame;
+    public void setTinyMce()
     {
-        setFrameId(frameId);
+        setFrameId(frame.getAttribute("id"));
     }
 
-    /**
-     * Constructor
-     */
-    public TinyMceEditor(WebDrone drone)
-    {
-        super(drone);
-        try
-        {
-            this.FRAME_ID = drone.find(By.cssSelector("iframe[id$='_default-add-content_ifr']")).getAttribute("id");
-            setFrameId(FRAME_ID);
-        }
-        catch (NoSuchElementException nse)
-        {
-        }
-    }
+//    /**
+//     * Constructor
+//     */
+//    public TinyMceEditor(WebDriver driver)
+//    {
+//        try
+//        {
+//            this.FRAME_ID = driver.findElement(By.cssSelector("iframe[id$='_default-add-content_ifr']")).getAttribute("id");
+//            setFrameId(FRAME_ID);
+//        }
+//        catch (NoSuchElementException nse)
+//        {
+//        }
+//    }
 
     /**
      * @param txt
@@ -190,7 +190,7 @@ public class TinyMceEditor extends HtmlElement
         try
         {
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", txt);
-            drone.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
         }
         catch (NoSuchElementException noSuchElementExp)
         {
@@ -214,9 +214,9 @@ public class TinyMceEditor extends HtmlElement
         try
         {
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-            drone.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
             setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
-            drone.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
         }
         catch (NoSuchElementException noSuchElementExp)
         {
@@ -325,36 +325,11 @@ public class TinyMceEditor extends HtmlElement
 
     public String getColourAttribute()
     {
-        if (getDrone().getProperties().getVersion() == AlfrescoVersion.Enterprise5)
-        {
-            drone.switchToFrame(getFrameId());
-            WebElement html5Editor = drone.findAndWait(By.cssSelector("#tinymce>ol>li>span"));
-            String colorAttr = html5Editor.getAttribute("style");
-            drone.switchToDefaultContent();
-            return colorAttr;
-
-
-        }
-        else
-        {
-            try
-            {
-                drone.switchToFrame(getFrameId());
-                WebElement element = drone.findAndWait(By.xpath(XPATH_COLOUR_FONT2));
-                if (!CSS_COLOR_ATT.equals(element.getAttribute("color")) || CSS_COLOR_ATT.equals(element.getAttribute("style")))
-                {
-                    drone.switchToDefaultContent();
-                    return "BLUE";
-                }
-
-            }
-            catch (NoSuchElementException noSuchElementExp)
-            {
-                logger.error("Element :" + XPATH_COLOUR_FONT2 + " does not exist", noSuchElementExp);
-            }
-        }
-
-        return "";
+        driver.switchTo().frame(getFrameId());
+        WebElement html5Editor = driver.findElement(By.cssSelector("#tinymce>ol>li>span"));
+        String colorAttr = html5Editor.getAttribute("style");
+        driver.switchTo().defaultContent();
+        return colorAttr;
     }
 
     /**
@@ -364,7 +339,7 @@ public class TinyMceEditor extends HtmlElement
     {
         try
         {
-            drone.findAndWait(By.cssSelector(CSS_REMOVE_FORMAT)).click();
+            driver.findElement(By.cssSelector(CSS_REMOVE_FORMAT)).click();
         }
         catch (NoSuchElementException noSuchElementExp)
         {
@@ -379,7 +354,7 @@ public class TinyMceEditor extends HtmlElement
          * @author Michael Suzuki Changed to use tinymce directly as its faster to edit with tinymce object instead of using the ui. The script below will
          *         select every thing inside the editing pane.
          */
-        drone.executeJavaScript(TINY_MCE_SELECT_ALL_COMMAND);
+        executeJavaScript(TINY_MCE_SELECT_ALL_COMMAND);
     }
 
     /**
@@ -389,8 +364,8 @@ public class TinyMceEditor extends HtmlElement
     {
         try
         {
-            drone.switchToDefaultContent();
-            drone.findFirstDisplayedElement(By.cssSelector(cssString)).click();
+            driver.switchTo().defaultContent();
+            findFirstDisplayedElement(By.cssSelector(cssString)).click();
 
         }
         catch (NoSuchElementException noSuchElementExp)
@@ -403,9 +378,9 @@ public class TinyMceEditor extends HtmlElement
     {
         try
         {
-            drone.switchToFrame(getFrameId());
-            String text = drone.find(By.cssSelector(TINYMCE_CONTENT)).getText();
-            drone.switchToDefaultContent();
+            driver.switchTo().frame(getFrameId());
+            String text = driver.findElement(By.cssSelector(TINYMCE_CONTENT)).getText();
+            driver.switchTo().defaultContent();
             return text;
         }
         catch (NoSuchElementException noSuchElementExp)
@@ -419,10 +394,10 @@ public class TinyMceEditor extends HtmlElement
     {
         try
         {
-            drone.switchToFrame(getFrameId());
-            WebElement element = drone.findAndWait(By.cssSelector(TINYMCE_CONTENT));
-            String contents = (String) drone.executeJavaScript("return arguments[0].innerHTML;", element);
-            drone.switchToDefaultContent();
+            driver.switchTo().frame(getFrameId());
+            WebElement element = driver.findElement(By.cssSelector(TINYMCE_CONTENT));
+            String contents = (String) executeJavaScript("return arguments[0].innerHTML;", element);
+            driver.switchTo().defaultContent();
             return contents;
         }
         catch (NoSuchElementException noSuchElementExp)
@@ -461,7 +436,7 @@ public class TinyMceEditor extends HtmlElement
         try
         {
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-            drone.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
         }
         catch (NoSuchElementException noSuchElementExp)
         {

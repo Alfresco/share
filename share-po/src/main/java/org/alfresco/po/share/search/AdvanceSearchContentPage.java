@@ -15,8 +15,7 @@
 
 package org.alfresco.po.share.search;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
@@ -29,20 +28,6 @@ import org.openqa.selenium.WebElement;
  */
 public class AdvanceSearchContentPage extends AdvanceSearchPage
 {
-    /**
-     * Constructor.
-     */
-    public AdvanceSearchContentPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public AdvanceSearchContentPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -98,7 +83,7 @@ public class AdvanceSearchContentPage extends AdvanceSearchPage
         Boolean displayed = false;
         try
         {
-            WebElement contentSearchForm = drone.find(CONTENT_SEARCH_FORM_DROPDOWN);
+            WebElement contentSearchForm = driver.findElement(CONTENT_SEARCH_FORM_DROPDOWN);
             if (contentSearchForm != null && contentSearchForm.getText().contains("Content"))
             {
                 displayed = true;

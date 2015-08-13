@@ -15,10 +15,9 @@
 
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.exception.PageException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 /**
  * This enums used to describe the task status.
@@ -33,7 +32,6 @@ public enum ContentType
             .cssSelector("span.spreadsheet-file")), GOOGLEPRESENTATION(By.cssSelector("span.presentation-file"));
 
     private By contentLocator;
-    private boolean isGoogleCreate = true;
 
     public By getContentLocator()
     {
@@ -53,22 +51,16 @@ public enum ContentType
      * @return SitePage
      */
 
-    public HtmlPage getContentCreationPage(WebDrone drone)
+    public Class<?> getContentCreationPage(WebDriver driver)
     {
 
         switch (this)
         {
             case PLAINTEXT:
             case XML:
-                return new CreatePlainTextContentPage(drone);
+                return CreatePlainTextContentPage.class;
             case HTML:
-                return new CreateHtmlContentPage(drone);
-            case GOOGLEDOCS:
-                return new GoogleDocsAuthorisation(drone, null, isGoogleCreate);
-            case GOOGLESPREADSHEET:
-                return new GoogleDocsAuthorisation(drone, null, isGoogleCreate);
-            case GOOGLEPRESENTATION:
-                return new GoogleDocsAuthorisation(drone, null, isGoogleCreate);
+                return CreateHtmlContentPage.class;
             default:
                 break;
         }

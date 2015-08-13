@@ -1,16 +1,34 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.dashlet;
-
-import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.alfresco.po.share.exception.ShareException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.webview")
 /**
  * Page object to hold Web View dashlet
  * 
@@ -24,21 +42,20 @@ public class WebViewDashlet extends AbstractDashlet implements Dashlet
     private static final By DEFAULT_MESSAGE = By.cssSelector("h3[class$='default-body']");
     protected static final By DASHLET_TITLE_WEB = By.cssSelector(".title > a");
 
-    /**
-     * Constructor.
-     */
-    protected WebViewDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector(".yui-resize-handle"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected WebViewDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector(".yui-resize-handle"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public WebViewDashlet render(RenderTime timer)
     {
         try
         {
+            setResizeHandle(By.cssSelector(".yui-resize-handle"));
             while (true)
             {
                 timer.start();
@@ -56,7 +73,7 @@ public class WebViewDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus();
-                    this.dashlet = drone.find(DASHLET_CONTAINER_PLACEHOLDER);
+                    this.dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -80,26 +97,12 @@ public class WebViewDashlet extends AbstractDashlet implements Dashlet
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public WebViewDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public WebViewDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
     /**
      * This method gets the focus by placing mouse over on Site Web View Dashlet.
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     /**
@@ -113,7 +116,7 @@ public class WebViewDashlet extends AbstractDashlet implements Dashlet
         {
             getFocus();
             dashlet.findElement(CONFIGURE_DASHLET_ICON).click();
-            return new ConfigureWebViewDashletBoxPage(drone).render();
+            return factoryPage.instantiatePage(driver, ConfigureWebViewDashletBoxPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -172,8 +175,13 @@ public class WebViewDashlet extends AbstractDashlet implements Dashlet
 
     public String getWebViewDashletTitle()
     {
-        drone.waitUntilElementPresent(DASHLET_TITLE_WEB, 6);
+        waitUntilElementPresent(DASHLET_TITLE_WEB, 6);
         return dashlet.findElement(DASHLET_TITLE_WEB).getText();
     }
-
+    @SuppressWarnings("unchecked")
+    @Override
+    public WebViewDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
+    }
 }

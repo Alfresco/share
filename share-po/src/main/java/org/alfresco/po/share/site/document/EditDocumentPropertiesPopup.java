@@ -14,10 +14,8 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -32,11 +30,6 @@ import org.openqa.selenium.StaleElementReferenceException;
 @Deprecated
 public class EditDocumentPropertiesPopup extends AbstractEditProperties
 {
-    @Deprecated
-    public EditDocumentPropertiesPopup(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -65,13 +58,6 @@ public class EditDocumentPropertiesPopup extends AbstractEditProperties
 
     @SuppressWarnings("unchecked")
     @Override
-    public EditDocumentPropertiesPopup render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public EditDocumentPropertiesPopup render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -87,7 +73,7 @@ public class EditDocumentPropertiesPopup extends AbstractEditProperties
     {
         try
         {
-            return drone.find(By.cssSelector("form.bd")).isDisplayed();
+            return driver.findElement(By.cssSelector("form.bd")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -109,7 +95,7 @@ public class EditDocumentPropertiesPopup extends AbstractEditProperties
     {
         clickSave();
         canResume();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -120,6 +106,6 @@ public class EditDocumentPropertiesPopup extends AbstractEditProperties
     public HtmlPage selectCancel()
     {
         clickOnCancel();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 }

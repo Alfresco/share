@@ -1,18 +1,36 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.wiki;
 
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.WebDriverAwareDecorator;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.openqa.selenium.support.PageFactory;
 
 /**
  * Holds html elements of Wiki List page
@@ -35,13 +53,6 @@ public class WikiPageList extends WikiPage
     private final static String tagName = "//a[contains(text(),'%s')]/../following-sibling::div[@class='pageTags']/a[contains(text(),'%s')]";
     private static final By NO_WIKI_PAGES = By.cssSelector("div[class='noWikiPages']");
 
-    /**
-     * Constructor
-     */
-    public WikiPageList(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -59,13 +70,6 @@ public class WikiPageList extends WikiPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public WikiPageList render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     public WikiPageDirectoryInfo getWikiPageDirectoryInfo(final String title)
     {
         if (title == null || title.isEmpty())
@@ -77,8 +81,8 @@ public class WikiPageList extends WikiPage
 
         try
         {
-            row = drone.findAndWait(By.xpath(String.format("//a[text()='%s']/../..", title)), WAIT_TIME_3000);
-            drone.mouseOver(row);
+            row = findAndWait(By.xpath(String.format("//a[text()='%s']/../..", title)), getDefaultWaitTime());
+            mouseOver(row);
         }
         catch (NoSuchElementException e)
         {
@@ -88,9 +92,11 @@ public class WikiPageList extends WikiPage
         {
             throw new PageException(String.format("File directory info with title %s was not found", title), e);
         }
-        return new WikiPageDirectoryInfo (drone, row);
+        WikiPageDirectoryInfo wiki = new WikiPageDirectoryInfo();
+        PageFactory.initElements(new WebDriverAwareDecorator(driver),wiki);
+        return wiki;
     }
-
+    WikiTreeMenuNavigation wikiTreeMenuNavigation;
     /**
      * Get document library left hand navigation menu trees.
      *
@@ -98,7 +104,7 @@ public class WikiPageList extends WikiPage
      */
     public WikiTreeMenuNavigation getLeftMenus()
     {
-        return new WikiTreeMenuNavigation(drone);
+        return wikiTreeMenuNavigation;
     }
 
     /**
@@ -109,7 +115,8 @@ public class WikiPageList extends WikiPage
      */
     public WikiPage editWikiPage (String title, String txtLines)
     {
-        WikiPage wikiPage = getWikiPageDirectoryInfo(title).clickEdit();
+        getWikiPageDirectoryInfo(title).clickEdit();
+        WikiPage wikiPage = getCurrentPage().render();
         wikiPage.editWikiText(txtLines);
         logger.info("Edited Wiki page");
         return wikiPage.clickSaveButton();
@@ -124,7 +131,8 @@ public class WikiPageList extends WikiPage
      */
     public WikiPage renameWikiPage (String wikiOldTitle, String wikiNewTitle)
     {
-        WikiPage wikiPage = getWikiPageDirectoryInfo(wikiOldTitle).clickDetails();
+        getWikiPageDirectoryInfo(wikiOldTitle).clickDetails();
+        WikiPage wikiPage = getCurrentPage().render(); 
         return wikiPage.renameWikiPage(wikiNewTitle);
     }
 
@@ -137,11 +145,11 @@ public class WikiPageList extends WikiPage
     {
         try
         {
-            if (!drone.isElementDisplayed(WIKI_CONTAINER))
+            if (!isElementDisplayed(WIKI_CONTAINER))
             {
                 return 0;
             }
-            return drone.findAll(WIKI_CONTAINER).size();
+            return driver.findElements(WIKI_CONTAINER).size();
         }
         catch (TimeoutException te)
         {
@@ -159,14 +167,14 @@ public class WikiPageList extends WikiPage
         try
         {
             getWikiPageDirectoryInfo(title).clickDelete();
-            if(!drone.isElementDisplayed(PROMPT_PANEL_ID))
+            if(!isElementDisplayed(PROMPT_PANEL_ID))
             {
                 throw new ShareException("Prompt isn't popped up");
             }
-            drone.findAndWait(CONFIRM_DELETE).click();
+            findAndWait(CONFIRM_DELETE).click();
             waitUntilAlert();
             logger.info("Deleted Wiki page");
-            return new WikiPageList(drone).render();
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
@@ -192,7 +200,7 @@ public class WikiPageList extends WikiPage
         try
         {
             title = title.replace("_", " ");
-            WebElement theItem = drone.find(By.xpath(String.format(WIKI_PAGE_TITLE, title)));
+            WebElement theItem = driver.findElement(By.xpath(String.format(WIKI_PAGE_TITLE, title)));
             isDisplayed = theItem.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -219,7 +227,7 @@ public class WikiPageList extends WikiPage
         try
         {
             title = title.replace("_", " ");
-            theItem = drone.findAndWait(By.xpath(String.format(WIKI_PAGE_TEXT, title)), WAIT_TIME_3000);
+            theItem = findAndWait(By.xpath(String.format(WIKI_PAGE_TEXT, title)), getDefaultWaitTime());
         }
         catch (NoSuchElementException e)
         {
@@ -239,7 +247,7 @@ public class WikiPageList extends WikiPage
      * @param title String
      * @return WikiPage
      */
-    public WikiPage clickWikiPage(String title)
+    public HtmlPage clickWikiPage(String title)
     {
 
         if (title == null || title.isEmpty())
@@ -250,7 +258,7 @@ public class WikiPageList extends WikiPage
         try
         {
             title = title.replace("_", " ");
-            WebElement theItem = drone.findAndWait(By.xpath(String.format(WIKI_PAGE_TITLE, title)), WAIT_TIME_3000);
+            WebElement theItem = findAndWait(By.xpath(String.format(WIKI_PAGE_TITLE, title)), getDefaultWaitTime());
             theItem.click();
         }
         catch (NoSuchElementException nse)
@@ -261,7 +269,7 @@ public class WikiPageList extends WikiPage
             }
             throw new PageOperationException("Unable to locate expected element.");
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -270,7 +278,7 @@ public class WikiPageList extends WikiPage
      * @param title String
      * @return WikiPage
      */
-    public WikiPage clickWikiPageDetails(String title)
+    public HtmlPage clickWikiPageDetails(String title)
     {
 
         if (title == null || title.isEmpty())
@@ -281,8 +289,7 @@ public class WikiPageList extends WikiPage
         try
         {
             title = title.replace("_", " ");
-            WikiPageList wikiPageList;
-            wikiPageList = drone.getCurrentPage().render();
+            WikiPageList wikiPageList = getCurrentPage().render();
             wikiPageList.getWikiPageDirectoryInfo(title.replace("_", " ")).clickDetails();
         }
         catch (NoSuchElementException nse)
@@ -293,7 +300,7 @@ public class WikiPageList extends WikiPage
             }
             throw new PageOperationException("Unable to locate expected element.");
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -302,7 +309,7 @@ public class WikiPageList extends WikiPage
      * @param tags String[]
      * @return WikiPage
      */
-    public WikiPage removeTag (String title, final String[] tags)
+    public HtmlPage removeTag (String title, final String[] tags)
     {
         if (title == null || title.isEmpty())
         {
@@ -312,16 +319,17 @@ public class WikiPageList extends WikiPage
         {
             throw new IllegalArgumentException("Tag is required");
         }
-        WikiPage wikiPage = getWikiPageDirectoryInfo(title).clickEdit();
+        getWikiPageDirectoryInfo(title).clickEdit();
+        WikiPage wikiPage = getCurrentPage().render(); 
         WebElement element;
         for (String tag : tags)
         {
             String tagXpath = String.format(wikiTag, tag);
             try
             {
-                element = drone.findAndWait(By.xpath(tagXpath));
+                element = findAndWait(By.xpath(tagXpath));
                 element.click();
-                drone.waitUntilElementDisappears(By.xpath(tagXpath), 3000);
+                waitUntilElementDisappears(By.xpath(tagXpath), 3000);
             }
             catch (NoSuchElementException e)
             {
@@ -331,7 +339,7 @@ public class WikiPageList extends WikiPage
 
         wikiPage.clickSaveButton();
         logger.info("Removed tags for Wiki page");
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -358,7 +366,7 @@ public class WikiPageList extends WikiPage
             tagXpath = String.format(tagNone, title);
             try
             {
-                element = drone.findAndWait(By.xpath(tagXpath));
+                element = findAndWait(By.xpath(tagXpath));
                 isDisplayed = element.getText().contains("None");
             }
             catch (NoSuchElementException ex)
@@ -377,7 +385,7 @@ public class WikiPageList extends WikiPage
             tagXpath = String.format(tagName, title, tag);
             try
             {
-                element = drone.findAndWait(By.xpath(tagXpath));
+                element = findAndWait(By.xpath(tagXpath));
                 isDisplayed = element.isDisplayed();
             }
             catch (NoSuchElementException te)
@@ -403,7 +411,7 @@ public class WikiPageList extends WikiPage
 
         try
         {
-            WebElement theItem = drone.findAndWait(NO_WIKI_PAGES);
+            WebElement theItem = findAndWait(NO_WIKI_PAGES);
             isDisplayed = theItem.isDisplayed();
         }
         catch (TimeoutException te)

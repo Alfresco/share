@@ -14,13 +14,17 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Share Dialogue page object, holds all the methods relevant to Share Dialogue Page
@@ -35,19 +39,10 @@ public class ShareDialogue extends SharePage
     private static final By SHARE_DIALOGUE_PARENT = By.xpath("//div[@class='hd']/..");
     private static final By CLOSE_BUTTON = By.cssSelector("a.container-close");
     private static final By TITLE_TEXT_UPLOAD_FILE = By.cssSelector("span");
-    private static final By CANCEL_BUTTON = By.cssSelector("button[id*='cancel']");
+    private static final By CANCEL_BUTTON = By.cssSelector("button[id$='form-cancel-button']");
     private static final By SHARE_DIALOGUE_HEADER = By.cssSelector("div.hd");
     // TODO: Fix for localisation
     private static final String cloudSignInDialogueHeader =  "Sign in to Alfresco in the cloud";
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public ShareDialogue(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -76,19 +71,6 @@ public class ShareDialogue extends SharePage
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public ShareDialogue render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ShareDialogue render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Helper method to click on the Close button to return to the original page
@@ -97,7 +79,7 @@ public class ShareDialogue extends SharePage
     {
         try
         {
-            drone.findAndWait(CLOSE_BUTTON).click();
+            findAndWait(CLOSE_BUTTON).click();
         }
         catch (TimeoutException e)
         {
@@ -107,7 +89,7 @@ public class ShareDialogue extends SharePage
         {
             return clickClose();
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -115,9 +97,10 @@ public class ShareDialogue extends SharePage
      */
     public HtmlPage clickCancel()
     {
-        WebElement button = drone.findFirstDisplayedElement(CANCEL_BUTTON);
+        WebElement button = driver.findElement(CANCEL_BUTTON);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
         button.click();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -175,7 +158,7 @@ public class ShareDialogue extends SharePage
     {
         try
         {
-            WebElement shareDialogue = drone.findFirstDisplayedElement(SHARE_DIALOGUE_PARENT);
+            WebElement shareDialogue = driver.findElement(SHARE_DIALOGUE_PARENT);
 
             return shareDialogue;
         }
@@ -248,7 +231,7 @@ public class ShareDialogue extends SharePage
     {
         try
         {
-            WebElement shareDialogueHeader = drone.findFirstDisplayedElement(SHARE_DIALOGUE_HEADER);
+            WebElement shareDialogueHeader = findFirstDisplayedElement(SHARE_DIALOGUE_HEADER);
             return shareDialogueHeader;
         }
         catch (NoSuchElementException nse)

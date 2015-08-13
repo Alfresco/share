@@ -21,7 +21,7 @@ package org.alfresco.po.share.task;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
@@ -61,7 +61,7 @@ public abstract class AbstractTaskTest extends AbstractTest
     protected void createTask(String username, String password) throws Exception, InterruptedException
     {
         loginAs(username, password);
-        myTasksPage = ((DashBoardPage) drone.getCurrentPage()).getNav().selectMyTasks().render();
+        myTasksPage = ((DashBoardPage) resolvePage(driver)).getNav().selectMyTasks().render();
         StartWorkFlowPage startWorkFlowPage = myTasksPage.selectStartWorkflowButton().render();
         NewWorkflowPage newWorkflowPage = ((NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW)).render();
 

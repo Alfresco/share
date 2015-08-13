@@ -14,18 +14,16 @@
  */
 package org.alfresco.po.share.workflow;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Represent elements found on the HTML page relating to the Adhoc Workflow page
@@ -46,18 +44,8 @@ public class NewWorkflowPage extends WorkFlowPage
     private static final By CANCEL_BUTTON = By.cssSelector("button[id$='-form-cancel-button']");
     @RenderWebElement
     private static final By PRIORITY_DROPDOWN = By.cssSelector("select[id$='_bpm_workflowPriority']");
-
     private static final By REQUIRED_APPROVAL = By.cssSelector("input[id$='requiredApprovePercent']");
 
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public NewWorkflowPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -72,13 +60,6 @@ public class NewWorkflowPage extends WorkFlowPage
     public NewWorkflowPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public NewWorkflowPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -101,34 +82,32 @@ public class NewWorkflowPage extends WorkFlowPage
      */
     public HtmlPage submitWorkflow()
     {
-        WebElement saveButton = drone.findAndWait(SUBMIT_BUTTON);
+        WebElement saveButton = findAndWait(SUBMIT_BUTTON);
         String saveButtonId = saveButton.getAttribute("id");
         saveButton.click();
-        drone.waitUntilElementDisappears(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-       // drone.waitUntilElementDeletedFromDom(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        waitUntilElementDisappears(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+       // waitUntilElementDeletedFromDom(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     public HtmlPage doubleClickStartWorkflow()
     {
         try
         {
-            WebElement saveButton = drone.findAndWait(SUBMIT_BUTTON);
-            String id = saveButton.getAttribute("id");
-            drone.mouseOver(saveButton);
-            drone.doubleClickOnElement(saveButton);
-            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            WebElement saveButton = findAndWait(SUBMIT_BUTTON);
+            doubleClickOnElement(saveButton);
+            waitUntilElementDisappears(SUBMIT_BUTTON, 1);
         }
         catch (TimeoutException e)
         {
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     @Override
     protected WebElement getMessageTextareaElement()
     {
-        return drone.findAndWait(MESSAGE_TEXT);
+        return findAndWait(MESSAGE_TEXT);
     }
 
     /**
@@ -139,7 +118,7 @@ public class NewWorkflowPage extends WorkFlowPage
     @Override
     protected WebElement getSelectReviewButton()
     {
-        return drone.findAndWait(By.xpath("//button[text()='Select']"));
+        return findAndWait(By.xpath("//button[text()='Select']"));
     }
 
     /**
@@ -150,13 +129,13 @@ public class NewWorkflowPage extends WorkFlowPage
     @Override
     protected WebElement getStartWorkflowButton()
     {
-        return drone.find(SUBMIT_BUTTON);
+        return driver.findElement(SUBMIT_BUTTON);
     }
 
     @Override
     WebElement getDueDateElement()
     {
-        return drone.find(DUE_DATE);
+        return driver.findElement(DUE_DATE);
     }
 
     /**
@@ -196,7 +175,7 @@ public class NewWorkflowPage extends WorkFlowPage
         }
         if (formDetails.getApprovalPercentage() != 0)
         {
-            WebElement approvalElem = drone.findAndWait(REQUIRED_APPROVAL);
+            WebElement approvalElem = findAndWait(REQUIRED_APPROVAL);
             approvalElem.clear();
             approvalElem.sendKeys(String.valueOf(formDetails.getApprovalPercentage()));
         }
@@ -207,11 +186,11 @@ public class NewWorkflowPage extends WorkFlowPage
      */
     public HtmlPage cancelWorkflow()
     {
-        WebElement cancelButton = drone.findAndWait(CANCEL_BUTTON);
+        WebElement cancelButton = findAndWait(CANCEL_BUTTON);
         String cancelButtonId = cancelButton.getAttribute("id");
         cancelButton.click();
-        drone.waitUntilElementDeletedFromDom(By.id(cancelButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        waitUntilElementDeletedFromDom(By.id(cancelButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
 }

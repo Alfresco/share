@@ -26,7 +26,7 @@
 //import org.alfresco.po.share.site.CreateSitePage;
 //import org.alfresco.po.share.site.SiteDashboardPage;
 //import org.alfresco.po.share.site.UploadFilePage;
-//import org.alfresco.po.share.util.SiteUtil;
+//
 //import org.alfresco.po.util.FailedTestListener;
 //import org.testng.Assert;
 //import org.testng.annotations.AfterClass;
@@ -58,9 +58,9 @@
 //    {
 //        if (site != null)
 //        {
-//            SiteUtil.deleteSite(drone, siteName);
+//            siteUtil.deleteSite(username, password, siteName);
 //        }
-//        closeWebDrone();
+//        closeWebDriver();
 //    }
 //    
 //    /**
@@ -72,15 +72,15 @@
 //    public void prepare()throws Exception
 //    {
 //        siteName = "TagPageTest" + System.currentTimeMillis();
-//        file = SiteUtil.prepareFile();
+//        file = siteUtil.prepareFile();
 //        StringTokenizer st = new StringTokenizer(file.getName(), ".");
 //        fileName = st.nextToken();
 //        tagName1 = siteName;
 //
-//        File file = SiteUtil.prepareFile();
+//        File file = siteUtil.prepareFile();
 //        fileName = file.getName();
 //        loginAs(username, password);
-//        SharePage page = drone.getCurrentPage().render();
+//        SharePage page = resolvePage(driver).render();
 //        dashBoard = page.getNav().selectMyDashBoard().render();
 //        CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
 //        site = createSite.createNewSite(siteName).render();

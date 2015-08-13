@@ -16,15 +16,13 @@ package org.alfresco.po.share.site.document;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -50,11 +48,6 @@ public class CreatePlainTextContentPage extends InlineEditPage
         NAME, TITLE, DESCRIPTION, CONTENT;
     }
 
-    public CreatePlainTextContentPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public CreatePlainTextContentPage render(RenderTime timer)
@@ -71,13 +64,6 @@ public class CreatePlainTextContentPage extends InlineEditPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public CreatePlainTextContentPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Create the content with name, title and description.
      *
@@ -92,11 +78,11 @@ public class CreatePlainTextContentPage extends InlineEditPage
         }
 
         createContent(details);
-        WebElement createButton = drone.findAndWait(SUBMIT_BUTTON);
+        WebElement createButton = findAndWait(SUBMIT_BUTTON);
         String id = createButton.getAttribute("id");
         createButton.click();
-        drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
 
     }
 
@@ -124,11 +110,11 @@ public class CreatePlainTextContentPage extends InlineEditPage
 
         if (!validationPresent)
         {
-            WebElement createButton = drone.findAndWait(SUBMIT_BUTTON);
+            WebElement createButton = findAndWait(SUBMIT_BUTTON);
             createButton.click();
-            drone.waitUntilElementDisappears(SUBMIT_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            waitUntilElementDisappears(SUBMIT_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -136,12 +122,12 @@ public class CreatePlainTextContentPage extends InlineEditPage
      *
      * @return {@link DocumentLibraryPage}
      */
-    public DocumentLibraryPage cancel(ContentDetails details)
+    public HtmlPage cancel(ContentDetails details)
     {
         createContent(details);
-        WebElement cancelButton = drone.findAndWait(CANCEL_BUTTON);
+        WebElement cancelButton = findAndWait(CANCEL_BUTTON);
         cancelButton.click();
-        return new DocumentLibraryPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -151,9 +137,9 @@ public class CreatePlainTextContentPage extends InlineEditPage
      */
     public HtmlPage cancel()
     {
-        WebElement cancelButton = drone.findAndWait(CANCEL_BUTTON);
+        WebElement cancelButton = findAndWait(CANCEL_BUTTON);
         cancelButton.click();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     protected void createContent(ContentDetails details)
@@ -162,21 +148,21 @@ public class CreatePlainTextContentPage extends InlineEditPage
         {
             if (details.getName() != null)
             {
-                WebElement nameElement = drone.find(NAME);
+                WebElement nameElement = driver.findElement(NAME);
                 nameElement.clear();
                 nameElement.sendKeys(details.getName());
             }
 
             if (details.getTitle() != null)
             {
-                WebElement titleElement = drone.find(TITLE);
+                WebElement titleElement = driver.findElement(TITLE);
                 titleElement.clear();
                 titleElement.sendKeys(details.getTitle());
             }
 
             if (details.getDescription() != null)
             {
-                WebElement descriptionElement = drone.find(DESCRIPTION);
+                WebElement descriptionElement = driver.findElement(DESCRIPTION);
                 descriptionElement.clear();
                 descriptionElement.sendKeys(details.getDescription());
             }
@@ -188,7 +174,7 @@ public class CreatePlainTextContentPage extends InlineEditPage
     {
         if (details != null && details.getContent() != null)
         {
-            WebElement contentElement = drone.find(CONTENT);
+            WebElement contentElement = driver.findElement(CONTENT);
             contentElement.clear();
             contentElement.sendKeys(details.getContent());
         }

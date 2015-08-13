@@ -10,11 +10,9 @@ import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.AbstractDocumentTest;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
-import org.apache.commons.lang3.StringUtils;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.testng.annotations.AfterClass;
 
 /**
  * Abstract class with common method used in dashlet
@@ -37,14 +35,14 @@ public class AbstractSiteDashletTest extends AbstractDocumentTest
     {
         try
         {
-             File file = SiteUtil.prepareFile();
+             File file = siteUtil.prepareFile();
              fileName = file.getName();
              loginAs(username, password);
-             SiteUtil.createSite(drone,siteName, 
+             siteUtil.createSite(driver, username, password,siteName, 
                          "description",
                          "Public");
-             SitePage site = drone.getCurrentPage().render();
-             DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+             SitePage site = resolvePage(driver).render();
+             DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
              //DocumentLibraryPage docPage = getDocumentLibraryPage(siteName).render();
              UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
              docPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
@@ -64,11 +62,11 @@ public class AbstractSiteDashletTest extends AbstractDocumentTest
         {
             logger.trace("navigate to " + shareUrl);
         }
-        drone.navigateTo(shareUrl);
-        DashBoardPage boardPage = drone.getCurrentPage().render();
+        driver.navigate().to(shareUrl);
+        DashBoardPage boardPage = resolvePage(driver).render();
         SiteFinderPage finderPage = boardPage.getNav().selectSearchForSites().render();
         finderPage = finderPage.searchForSite(siteName).render();
-        finderPage = SiteUtil.siteSearchRetry(drone, finderPage, siteName);
+        finderPage = siteUtil.siteSearchRetry(driver, finderPage, siteName);
         siteDashBoard = finderPage.selectSite(siteName).render();
     }
     
@@ -78,10 +76,10 @@ public class AbstractSiteDashletTest extends AbstractDocumentTest
     {
         try
         {
-            if(drone != null && !StringUtils.isEmpty(siteName))
+            if(driver != null && !StringUtils.isEmpty(siteName))
             {
-                SiteUtil.deleteSite(drone, siteName);
-                closeWebDrone();
+                siteUtil.deleteSite(username, password, siteName);
+                closeWebDriver();
             }
         }
         catch (Exception e)

@@ -14,9 +14,6 @@
         <suite-file path="ShareSuite.xml" />
         <suite-file path="AdminConsoleSuite.xml" />
         <suite-file path="ContentRulesSuite.xml" />
-        <suite-file path="BlogPageSuite.xml" />
-        <suite-file path="DataListPageSuite.xml" />
-        <suite-file path="DiscussionsPageSuite.xml" />
         <suite-file path="LinksPageSuite.xml" />
         <suite-file path="CalendarPageSuite.xml" />
         <suite-file path="MyProfileSuite.xml" />

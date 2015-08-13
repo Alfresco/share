@@ -1,7 +1,7 @@
 package org.alfresco.po.alfresco.webdav;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -20,7 +20,7 @@ public class AdvancedWebDavPageTest extends AbstractTest
     public void setup() throws Exception
     {
         loginAs(username, password).render();
-        webDavPage = ShareUtil.navigateToWebDav(drone, username, password).render();
+        webDavPage = shareUtil.navigateToWebDav(driver, username, password).render();
 
     }
 

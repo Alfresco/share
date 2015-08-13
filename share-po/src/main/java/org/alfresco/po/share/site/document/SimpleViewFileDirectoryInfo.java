@@ -16,22 +16,13 @@ package org.alfresco.po.share.site.document;
 
 import java.util.List;
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.WebElement;
+import org.alfresco.po.HtmlPage;
 
 /**
  * @author cbairaajoni
  */
 public class SimpleViewFileDirectoryInfo extends SimpleDetailTableView
 {
-
-    public SimpleViewFileDirectoryInfo(String nodeRef, WebElement webElement, WebDrone drone)
-    {
-        super(nodeRef, webElement, drone);
-        rowElementXPath = "../../..";
-        resolveStaleness();
-    }
 
     /*
      * (non-Javadoc)
@@ -43,65 +34,6 @@ public class SimpleViewFileDirectoryInfo extends SimpleDetailTableView
         throw new UnsupportedOperationException("Description is not available in Simple View File Directory Info.");
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#addTag(java.lang.String)
-     */
-    @Override
-    public void addTag(final String tagName)
-    {
-        throw new UnsupportedOperationException("Adding Tag functionality is not available in Simple View File Directory Info.");
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#getTags()
-     */
-    @Override
-    public List<String> getTags()
-    {
-        throw new UnsupportedOperationException("Tags are not available in Simple View File Directory Info.");
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnAddTag()
-     */
-    @Override
-    public void clickOnAddTag()
-    {
-        throw new UnsupportedOperationException("Add Tag icon is not available in Simple View File Directory Info.");
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnTagRemoveButton(java.lang.String)
-     */
-    @Override
-    public void clickOnTagRemoveButton(String tagName)
-    {
-        throw new UnsupportedOperationException("Remove Tag icon is not available in Simple View File Directory Info.");
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnTagSaveButton()
-     */
-    @Override
-    public void clickOnTagSaveButton()
-    {
-        throw new UnsupportedOperationException("Saving Tag functionality is not available in Simple View File Directory Info.");
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnTagCancelButton()
-     */
-    @Override
-    public void clickOnTagCancelButton()
-    {
-        throw new UnsupportedOperationException("Cancelling Tag functionality is not available in Simple View File Directory Info.");
-    }
 
     /*
      * (non-Javadoc)

@@ -1,13 +1,30 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.dashlet;
 
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
-
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.wiki")
 /**
  * Page object to represent site wiki dashlet
  *
@@ -15,26 +32,24 @@ import org.openqa.selenium.*;
  */
 public class WikiDashlet extends AbstractDashlet implements Dashlet
 {
-    @SuppressWarnings("unused")
     private static Log logger = LogFactory.getLog(WikiDashlet.class);
     private static final By DASHLET_CONTAINER_PLACEHOLDER = By.cssSelector("div.dashlet.wiki");
     private static final By TEXT_IN_DASHLET = By.cssSelector("div[class^=body]>div>*");
 
-    /**
-     * Constructor.
-     */
-    protected WikiDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector(".yui-resize-handle"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected WikiDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector(".yui-resize-handle"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public WikiDashlet render(RenderTime timer)
     {
         try
         {
+            setResizeHandle(By.cssSelector(".yui-resize-handle"));
             while (true)
             {
                 timer.start();
@@ -52,7 +67,7 @@ public class WikiDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus();
-                    this.dashlet = drone.find(DASHLET_CONTAINER_PLACEHOLDER);
+                    this.dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -72,26 +87,12 @@ public class WikiDashlet extends AbstractDashlet implements Dashlet
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public WikiDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public WikiDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
     /**
      * This method gets the focus by placing mouse over on Site Wiki Dashlet.
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     /**
@@ -105,7 +106,7 @@ public class WikiDashlet extends AbstractDashlet implements Dashlet
         {
             getFocus();
             dashlet.findElement(CONFIGURE_DASHLET_ICON).click();
-            return new SelectWikiDialogueBoxPage(drone).render();
+            return factoryPage.instantiatePage(driver, SelectWikiDialogueBoxPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -128,5 +129,11 @@ public class WikiDashlet extends AbstractDashlet implements Dashlet
         {
             return getContent();
         }
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public WikiDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

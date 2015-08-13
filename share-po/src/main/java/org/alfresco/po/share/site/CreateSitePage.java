@@ -17,13 +17,12 @@ package org.alfresco.po.share.site;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -39,6 +38,7 @@ import org.openqa.selenium.support.ui.Select;
  * @author Michael Suzuki
  * @since 1.0
  */
+@SuppressWarnings("unchecked")
 public class CreateSitePage extends ShareDialogue
 {
     private static Log logger = LogFactory.getLog(SitePage.class);
@@ -53,16 +53,8 @@ public class CreateSitePage extends ShareDialogue
     protected static final By INPUT_TITLE = By.name("title");
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
     protected static final By CANCEL_BUTTON = By.cssSelector("button[id$='cancel-button-button']");
-    protected static final By CREATE_SITE_FORM = By.cssSelector("form[id$='createSite-instance-form']");
+    protected static final By CREATE_SITE_FORM = By.id("alfresco-createSite-instance-form");
     protected static final By SAVE_BUTTON = By.cssSelector("span.yui-button.yui-submit-button.alf-primary-button");
-
-    /**
-     * Constructor.
-     */
-    public CreateSitePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -70,20 +62,6 @@ public class CreateSitePage extends ShareDialogue
     {
         elementRender(timer, RenderElement.getVisibleRenderElement(CREATE_SITE_FORM), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(SAVE_BUTTON));
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public CreateSitePage render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public CreateSitePage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -97,7 +75,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return drone.find(CREATE_SITE_FORM).isDisplayed();
+            return findAndWait(CREATE_SITE_FORM).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -146,11 +124,11 @@ public class CreateSitePage extends ShareDialogue
         switch (siteType)
         {
             case SiteType.COLLABORATION:
-                WebElement inputSiteName = drone.find(INPUT_TITLE);
+                WebElement inputSiteName = driver.findElement(INPUT_TITLE);
                 inputSiteName.sendKeys(siteName);
                 if (description != null)
                 {
-                    WebElement inputDescription = drone.find(INPUT_DESCRIPTION);
+                    WebElement inputDescription = driver.findElement(INPUT_DESCRIPTION);
                     inputDescription.clear();
                     inputDescription.sendKeys(description);
                 }
@@ -182,15 +160,15 @@ public class CreateSitePage extends ShareDialogue
     {
         if (isPrivate)
         {
-            drone.find(PRIVATE_CHECKBOX).click();
+            driver.findElement(PRIVATE_CHECKBOX).click();
             return;
         }
         else
         {
-            drone.find(PUBLIC_CHECKBOX).click();
+            driver.findElement(PUBLIC_CHECKBOX).click();
             if (isModerated)
             {
-                drone.find(MODERATED_CHECKBOX).click();
+                driver.findElement(MODERATED_CHECKBOX).click();
             }
         }
     }
@@ -269,7 +247,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public void cancel()
     {
-        drone.find(CANCEL_BUTTON).click();
+        driver.findElement(CANCEL_BUTTON).click();
     }
 
     /**
@@ -281,7 +259,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return drone.find(PRIVATE_CHECKBOX).isSelected();
+            return findAndWait(PRIVATE_CHECKBOX).isSelected();
         }
         catch (NoSuchElementException nse)
         {
@@ -297,7 +275,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getPrivateCheckboxHelpText()
     {
-        return drone.find(PRIVATE_CHECKBOX_HELP_TEXT).getText();
+        return driver.findElement(PRIVATE_CHECKBOX_HELP_TEXT).getText();
     }  
     
     /**
@@ -309,7 +287,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            drone.find(PRIVATE_CHECKBOX_HELP_TEXT);
+        	driver.findElement(PRIVATE_CHECKBOX_HELP_TEXT);
             return true;
         } 
         catch (NoSuchElementException nse)
@@ -332,7 +310,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return drone.find(PUBLIC_CHECKBOX).isSelected();
+            return findAndWait(PUBLIC_CHECKBOX).isSelected();
         }
         catch (NoSuchElementException nse)
         {
@@ -348,7 +326,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getPublicCheckboxHelpText()
     {
-        return drone.find(PUBLIC_CHECKBOX_HELP_TEXT).getText();
+        return driver.findElement(PUBLIC_CHECKBOX_HELP_TEXT).getText();
     }
     
     /**
@@ -360,7 +338,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            drone.find(PUBLIC_CHECKBOX_HELP_TEXT);
+        	driver.findElement(PUBLIC_CHECKBOX_HELP_TEXT);
             return true;
         } catch (NoSuchElementException nse)
         {
@@ -382,7 +360,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return drone.find(MODERATED_CHECKBOX).isSelected();
+            return findAndWait(MODERATED_CHECKBOX).isSelected();
         }
         catch (NoSuchElementException nse)
         {
@@ -398,7 +376,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getModeratedCheckboxHelpText()
     {
-            return drone.find(MODERATED_CHECKBOX_HELP_TEXT).getText();
+            return driver.findElement(MODERATED_CHECKBOX_HELP_TEXT).getText();
     }
     
     /**
@@ -410,7 +388,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            drone.find(MODERATED_CHECKBOX_HELP_TEXT);
+            driver.findElement(MODERATED_CHECKBOX_HELP_TEXT);
             return true;
         } catch (NoSuchElementException nse)
         {
@@ -432,7 +410,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public void selectSiteType(String siteType)
     {
-        WebElement dropdown = drone.find(By.tagName("select"));
+        WebElement dropdown = driver.findElement(By.tagName("select"));
         // Check option size if only one in dropdown return.
         List<WebElement> options = dropdown.findElements(By.tagName("option"));
         if (options.isEmpty() || options.size() > 1)
@@ -462,7 +440,7 @@ public class CreateSitePage extends ShareDialogue
         List<String> options = new ArrayList<String>();
         try
         {
-            Select typeOptions = new Select(drone.find(By.tagName("select")));
+            Select typeOptions = new Select(driver.findElement(By.tagName("select")));
             List<WebElement> optionElements = typeOptions.getOptions();
 
             for (WebElement option : optionElements)
@@ -486,7 +464,7 @@ public class CreateSitePage extends ShareDialogue
 
     public void setSiteName(String siteName)
     {
-        WebElement inputSiteName = drone.find(INPUT_TITLE);
+        WebElement inputSiteName = findAndWait(INPUT_TITLE);
         inputSiteName.sendKeys(siteName);
     }
 
@@ -498,7 +476,7 @@ public class CreateSitePage extends ShareDialogue
 
     public void setSiteURL(String siteURL)
     {
-        WebElement inputSiteURL = drone.find(By.name("shortName"));
+        WebElement inputSiteURL = driver.findElement(By.name("shortName"));
 
         inputSiteURL.clear();
         inputSiteURL.sendKeys(siteURL);
@@ -511,7 +489,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getSiteName()
     {
-        return drone.find(By.name("title")).getAttribute("value");
+        return driver.findElement(By.name("title")).getAttribute("value");
     }
 
     /**
@@ -521,7 +499,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getDescription()
     {
-        return drone.find(By.name("description")).getAttribute("value");
+        return driver.findElement(By.name("description")).getAttribute("value");
     }
 
     /**
@@ -531,7 +509,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public String getSiteUrl()
     {
-        return drone.find(By.name("shortName")).getAttribute("value");
+        return driver.findElement(By.name("shortName")).getAttribute("value");
     }
 
     /**
@@ -541,7 +519,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isUrlNameEditingDisaabled()
     {
-        if (drone.find(By.name("shortName")).getAttribute("disabled") != null)
+        if (driver.findElement(By.name("shortName")).getAttribute("disabled") != null)
         {
             return true;
         }
@@ -555,7 +533,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isNameEditingDisaabled()
     {
-        if (drone.find(By.name("title")).getAttribute("disabled") != null)
+        if (driver.findElement(By.name("title")).getAttribute("disabled") != null)
         {
             return true;
         }

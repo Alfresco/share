@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -36,7 +36,7 @@ import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.site.document.MimeType;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -58,7 +58,7 @@ public class AdvanceSearchContentTest extends AbstractTest
     private String fileName;
     DashBoardPage dashBoard;
     SiteDashboardPage site;
-    AdvanceSearchContentPage contentSearchPage;
+    AdvanceSearchPage contentSearchPage;
     private static final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     Date todayDate = new Date();
 
@@ -71,15 +71,15 @@ public class AdvanceSearchContentTest extends AbstractTest
     public void prepare() throws Exception
     {
         siteName = "AdvanceSearchContent" + System.currentTimeMillis();
-        file = SiteUtil.prepareFile();
+        file = siteUtil.prepareFile();
         StringTokenizer st = new StringTokenizer(file.getName(), ".");
         fileName = st.nextToken();
-        File file = SiteUtil.prepareFile();
+        File file = siteUtil.prepareFile();
         fileName = file.getName();
         loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "Public");
-        SitePage site = drone.getCurrentPage().render();
-        DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        siteUtil.createSite(driver, username, password, siteName,"", "Public");
+        SitePage site = resolvePage(driver).render();
+        DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
         UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
         docPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
         DocumentDetailsPage docDetailsPage = docPage.selectFile(fileName).render();
@@ -98,7 +98,7 @@ public class AdvanceSearchContentTest extends AbstractTest
     public void deleteSite()
     {
         dashBoard.getNav().selectMyDashBoard().render();
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     /**
@@ -186,82 +186,6 @@ public class AdvanceSearchContentTest extends AbstractTest
         // Assert.assertEquals("XHTML",contentSearchPage.getMimeType());
     }
 
-    /**
-     * This Test is to check when I pass Null value to the keyword field and
-     * exception is thrown as excepted.
-     */
-    @Test(expectedExceptions = UnsupportedOperationException.class, groups="Enterprise-only")
-    public void keywordNullCheckTest()
-    {
-        AdvanceSearchContentPage searchpage = new AdvanceSearchContentPage(drone);
-        searchpage.inputKeyword(null);
-    }
-
-    /**
-     * This Test is to check when I pass Null value to the name field and
-     * exception is thrown as excepted.
-     */
-    @Test(expectedExceptions = UnsupportedOperationException.class, groups="Enterprise-only")
-    public void nameNullCheckTest()
-    {
-        AdvanceSearchContentPage searchpage = new AdvanceSearchContentPage(drone);
-        searchpage.inputName(null);
-    }
-
-    /**
-     * This Test is to check when I pass Null value to the title field and
-     * exception is thrown as excepted.
-     */
-    @Test(expectedExceptions = UnsupportedOperationException.class, groups="Enterprise-only")
-    public void titleNullCheckTest()
-    {
-        AdvanceSearchContentPage searchpage = new AdvanceSearchContentPage(drone);
-        searchpage.inputTitle(null);
-    }
-
-    /**
-     * This Test is to check when I pass Null value to the description field and
-     * exception is thrown as excepted.
-     */
-    @Test(expectedExceptions = UnsupportedOperationException.class, groups="Enterprise-only")
-    public void descriptionNullCheckTest()
-    {
-        AdvanceSearchContentPage searchpage = new AdvanceSearchContentPage(drone);
-        searchpage.inputDescription(null);
-    }
-
-    /**
-     * This Test is to check when I pass Null value to the modifier field and
-     * exception is thrown as excepted.
-     */
-    @Test(expectedExceptions = UnsupportedOperationException.class, groups="Enterprise-only")
-    public void modifierNullCheckTest()
-    {
-        AdvanceSearchContentPage searchpage = new AdvanceSearchContentPage(drone);
-        searchpage.inputModifier(null);
-    }
-
-    /**
-     * This Test is to check when I pass Null value to the from Date field and
-     * exception is thrown as excepted.
-     */
-    @Test(expectedExceptions = UnsupportedOperationException.class, groups="Enterprise-only")
-    public void fromDateNullCheckTest()
-    {
-        AdvanceSearchContentPage searchpage = new AdvanceSearchContentPage(drone);
-        searchpage.inputFromDate(null);
-    }
-
-    /**
-     * This Test is to check when I pass Null value to the To date field and
-     * exception is thrown as excepted.
-     */
-    @Test(expectedExceptions = UnsupportedOperationException.class, groups="Enterprise-only")
-    public void toDateNullCheckTest()
-    {
-        AdvanceSearchContentPage searchPage = new AdvanceSearchContentPage(drone);
-        searchPage.inputToDate(null);
-    }
     
     /**
      * Test to validate modified from date.
@@ -290,7 +214,7 @@ public class AdvanceSearchContentTest extends AbstractTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "toDateNullCheckTest",groups = {"Enterprise-only","TestBug"})
+    @Test(dependsOnMethods = "validateInvalidFromDateTest",groups = {"Enterprise-only","TestBug"})
     public void testIsFolder() throws Exception
     {
         contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();
@@ -314,17 +238,13 @@ public class AdvanceSearchContentTest extends AbstractTest
         contentSearchPage.inputName("my.txt");
         SearchResultPage searchResults = contentSearchPage.clickSearch().render();
         Assert.assertTrue(searchResults.hasResults());
-        SearchResultItem searchResultItem = (SearchResultItem) searchResults.getResults().get(0);
+        FacetedSearchResult searchResultItem = (FacetedSearchResult) searchResults.getResults().get(0);
         searchResultItem.clickOnDownloadIcon();
         
         contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();
         contentSearchPage.inputName("my.txt");
         searchResults = contentSearchPage.clickSearch().render();
         Assert.assertTrue(searchResults.hasResults());
-        searchResultItem = (SearchResultItem) searchResults.getResults().get(0);
-        String url = searchResultItem.clickOnViewInBrowserIcon();
-        Assert.assertNotNull(url);
-        Assert.assertTrue(url.contains("my.txt"));
     }
     
     /**
@@ -335,11 +255,11 @@ public class AdvanceSearchContentTest extends AbstractTest
     @Test(dependsOnMethods="testIsFolder", groups={"Enterprise-only","TestBug"})
     public void testGetFolderNamesFromPath() throws Exception
     {
-        File newFile = SiteUtil.prepareFile("folderPath");
+        File newFile = siteUtil.prepareFile("folderPath");
         String fileName =  newFile.getName();
 
-        drone.navigateTo(shareUrl + String.format("/page/site/%s/documentlibrary", siteName));
-        DocumentLibraryPage docPage = drone.getCurrentPage().render();
+        driver.navigate().to(shareUrl + String.format("/page/site/%s/documentlibrary", siteName));
+        DocumentLibraryPage docPage = resolvePage(driver).render();
         NewFolderPage folderPage = docPage.getNavigation().selectCreateNewFolder().render();
         folderPage.createNewFolder("Attachments", "testFolder Description").render();
         docPage.selectFolder("Attachments").render();

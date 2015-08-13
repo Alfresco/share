@@ -1,17 +1,35 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.discussions;
 
-import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.exception.ShareException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Topic View page object
@@ -34,16 +52,6 @@ public class TopicViewPage extends DiscussionsPage
     private static final By TOPIC_TAGS = By.xpath("//span[@class='tag']/a");
     private static final By TOPIC_REPLIES = By.xpath("//div/div[@class='reply']//p");
 
-    /**
-     * Constructor
-     *
-     * @param drone WebDrone
-     */
-    public TopicViewPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public TopicViewPage render(RenderTime timer)
@@ -59,13 +67,6 @@ public class TopicViewPage extends DiscussionsPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public TopicViewPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method for clicking Back button from Topic View page
      *
@@ -75,7 +76,7 @@ public class TopicViewPage extends DiscussionsPage
     {
         try
         {
-            drone.findAndWait(BACK_LINK).click();
+            findAndWait(BACK_LINK).click();
             waitUntilAlert();
         }
         catch (NoSuchElementException e)
@@ -86,7 +87,7 @@ public class TopicViewPage extends DiscussionsPage
         {
             logger.error("The operation has timed out");
         }
-        return new DiscussionsPage(drone);
+        return factoryPage.instantiatePage(driver, DiscussionsPage.class);
     }
 
     /**
@@ -98,13 +99,15 @@ public class TopicViewPage extends DiscussionsPage
     {
         try
         {
-            drone.findAndWait(REPLY_LINK).click();
+            findAndWait(REPLY_LINK).click();
         }
         catch (TimeoutException te)
         {
             logger.error("The operation has timed out");
         }
-        return new AddReplyForm(drone);
+        AddReplyForm addReplyForm = new AddReplyForm();
+        addReplyForm.setWebDriver(driver);
+        return addReplyForm;
     }
 
     /**
@@ -119,12 +122,13 @@ public class TopicViewPage extends DiscussionsPage
         {
             clickReply();
             waitUntilAlert();
-            AddReplyForm addReplyForm = new AddReplyForm(drone);
+            AddReplyForm addReplyForm = new AddReplyForm();
+            addReplyForm.setWebDriver(driver);
             addReplyForm.insertText(replyText);
             addReplyForm.clickSubmit().render();
             waitUntilAlert();
             logger.info("Created a reply " + "'" + replyText + "'");
-            return new TopicViewPage(drone).render();
+            return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -141,7 +145,7 @@ public class TopicViewPage extends DiscussionsPage
     {
         try
         {
-            return drone.findAndWait(REPLY_LINK, 2000).isDisplayed();
+            return findAndWait(REPLY_LINK, 2000).isDisplayed();
         }
         catch (TimeoutException nse)
         {
@@ -166,13 +170,13 @@ public class TopicViewPage extends DiscussionsPage
 
         try
         {
-            row = drone.findAndWait(By.xpath(String.format("//div[@class='nodeContent']/div[2]/p[text()='%s']/../../..", title)), WAIT_TIME_3000);
+            row = findAndWait(By.xpath(String.format("//div[@class='nodeContent']/div[2]/p[text()='%s']/../../..", title)), getDefaultWaitTime());
         }
         catch (TimeoutException te)
         {
             throw new ShareException(String.format("File directory info with title %s was not found", title), te);
         }
-        return new ReplyDirectoryInfo(drone, row);
+        return new ReplyDirectoryInfo(driver, row);
     }
 
     /**
@@ -185,18 +189,19 @@ public class TopicViewPage extends DiscussionsPage
     public TopicViewPage editReply(String title, String replyText)
     {
         getReplyDirectoryInfo(title).clickEdit();
-        AddReplyForm addReplyForm = new AddReplyForm(drone);
+        AddReplyForm addReplyForm = new AddReplyForm();
+        addReplyForm.setWebDriver(driver);
         addReplyForm.insertText(replyText);
         addReplyForm.clickSubmit().render();
         logger.info("Reply was edited");
-        return new TopicViewPage(drone).render();
+        return factoryPage.instantiatePage(driver, TopicViewPage.class).render().render();
     }
 
     public TopicViewPage deleteReply(String title)
     {
         getReplyDirectoryInfo(title).clickDelete();
         logger.info("Reply was deleted");
-        return drone.getCurrentPage().render();
+        return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
     }
 
     /**
@@ -208,11 +213,11 @@ public class TopicViewPage extends DiscussionsPage
     {
         try
         {
-            if (!drone.isElementDisplayed(REPLY_CONTAINER))
+            if (!isElementDisplayed(REPLY_CONTAINER))
             {
                 return 0;
             }
-            return drone.findAll(REPLY_CONTAINER).size();
+            return driver.findElements(REPLY_CONTAINER).size();
         }
         catch (TimeoutException te)
         {
@@ -241,9 +246,9 @@ public class TopicViewPage extends DiscussionsPage
     {
         try
         {
-            if (!drone.isElementDisplayed(TAG_NONE))
+            if (!isElementDisplayed(TAG_NONE))
             {
-                String tagName = drone.findAndWait(TAG).getText();
+                String tagName = findAndWait(TAG).getText();
                 if (!tagName.isEmpty())
                     return tagName;
                 else
@@ -251,7 +256,7 @@ public class TopicViewPage extends DiscussionsPage
 
             }
             else
-                return drone.find(TAG_NONE).getText();
+                return driver.findElement(TAG_NONE).getText();
         }
         catch (TimeoutException te)
         {
@@ -266,7 +271,7 @@ public class TopicViewPage extends DiscussionsPage
      */
     public String getTopicTitle()
     {
-        return drone.findAndWait(TOPIC_TITLE).getText();
+        return findAndWait(TOPIC_TITLE).getText();
     }
 
     /**
@@ -276,7 +281,7 @@ public class TopicViewPage extends DiscussionsPage
      */
     public String getTopicText()
     {
-        return drone.findAndWait(TOPIC_TEXT).getText();
+        return findAndWait(TOPIC_TEXT).getText();
     }
 
     /**
@@ -285,10 +290,10 @@ public class TopicViewPage extends DiscussionsPage
      * @param tagName String
      * @return discussionsPage
      */
-    public DiscussionsPage clickOnTag(String tagName)
+    public HtmlPage clickOnTag(String tagName)
     {
         getElementWithText(TOPIC_TAGS, tagName).click();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -315,7 +320,7 @@ public class TopicViewPage extends DiscussionsPage
         checkNotNull(selector);
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(selector);
+            List<WebElement> elements = findAndWaitForElements(selector);
             for (WebElement element : elements)
             {
                 if (element.getText().contains(text))

@@ -16,12 +16,12 @@ package org.alfresco.po.share.user;
 
 import java.util.concurrent.TimeUnit;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.InviteToAlfrescoPage;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -40,15 +40,6 @@ public class AccountSettingsPage extends SharePage
     private static final By SUB_TITLE = By.cssSelector("div[class$='first cloud-manage-users-header-title']>h1");
     private static final By INVITE_BUTTON = By.cssSelector("button[id$='cloud-console_x0023_default-newUser-button']");
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public AccountSettingsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -65,26 +56,19 @@ public class AccountSettingsPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AccountSettingsPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Clicks on Manage Users link.
      *
      * @return {@link MyTasksPage}
      */
-    public AccountSettingsPage selectManageUsers()
+    public HtmlPage selectManageUsers()
     {
         try
         {
             logger.info("Select Manage Users");
-            drone.findAndWait(MANAGEUSERS_LINK).click();
-            drone.waitForElement(SUB_TITLE, TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-            return new AccountSettingsPage(drone).render();
+            findAndWait(MANAGEUSERS_LINK).click();
+            waitForElement(SUB_TITLE, TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException te)
         {
@@ -103,9 +87,9 @@ public class AccountSettingsPage extends SharePage
         try
         {
             logger.info("Click Invite People button");
-            WebElement newUserButton = drone.findAndWait(INVITE_BUTTON);
+            WebElement newUserButton = findAndWait(INVITE_BUTTON);
             newUserButton.click();
-            return new InviteToAlfrescoPage(drone);
+            return factoryPage.instantiatePage(driver,InviteToAlfrescoPage.class);
         }
         catch (NoSuchElementException te)
         {

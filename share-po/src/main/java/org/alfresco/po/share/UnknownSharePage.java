@@ -14,9 +14,9 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.openqa.selenium.WebDriver;
 
 /**
  * An unknown page that will, at time of {@link #render()} produce a strongly-typed page.
@@ -29,31 +29,24 @@ import org.alfresco.webdrone.WebDrone;
  *             ...
  *             item.click();
  *             ...
- *         return FactorySharePage.getUnknownPage(drone);
+ *         return FactorySharePage.getUnknownPage(driver);
  *     }
  * </pre>
  * 
  * @author Derek Hulley
  * @since 1.8.0
- * @see FactorySharePage#getUnknownPage(WebDrone)
+ * @see FactorySharePage#getUnknownPage(WebDriver)
  */
 public class UnknownSharePage extends SharePage
 {
-    /**
-     * Constructor.
-     */
-    public UnknownSharePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /**
-     * @see FactorySharePage#resolvePage(WebDrone)
+     * @see factoryPage.getPage(WebDriver)
      * @return the real page based on what is on the browser
      */
     private HtmlPage getActualPage()
     {
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     @SuppressWarnings("unchecked")
@@ -62,14 +55,6 @@ public class UnknownSharePage extends SharePage
     {
         HtmlPage actualPage = getActualPage();
         return (T) actualPage.render();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends HtmlPage> T render(final long time)
-    {
-        HtmlPage actualPage = getActualPage();
-        return (T) actualPage.render(time);
     }
 
     @SuppressWarnings("unchecked")

@@ -1,13 +1,11 @@
 package org.alfresco.po.share;
 
-import org.alfresco.po.share.user.AccountSettingsPage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.user.MyProfilePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -39,16 +37,6 @@ public class UserPage extends SharePage
     
     private Log logger = LogFactory.getLog(this.getClass());
 
-    /**
-     * Constructor.
-     * 
-     * @param drone
-     *            WebDriver to access page
-     */
-    public UserPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -66,13 +54,6 @@ public class UserPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public UserPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * verifies whether form is present.
      * 
@@ -82,7 +63,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.findAndWaitById(CHANGE_PASSWORD_FORM_ID).isDisplayed();
+            return findAndWaitById(CHANGE_PASSWORD_FORM_ID).isDisplayed();
         }
         catch (TimeoutException ex)
         {
@@ -99,7 +80,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.find(MY_PROFILE_CSS).isDisplayed();
+            return driver.findElement(MY_PROFILE_CSS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -116,7 +97,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.find(HELP_CSS).isDisplayed();
+            return driver.findElement(HELP_CSS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -133,7 +114,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.find(STATUS_LINK_CSS).isDisplayed();
+            return driver.findElement(STATUS_LINK_CSS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -150,7 +131,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.find(CHANGE_PASSWORD_CSS).isDisplayed();
+            return driver.findElement(CHANGE_PASSWORD_CSS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -167,7 +148,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.find(LOGOUT_CSS).isDisplayed();
+            return driver.findElement(LOGOUT_CSS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -184,7 +165,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.find(ACCOUNT_SETTINGS).isDisplayed();
+            return driver.findElement(ACCOUNT_SETTINGS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -201,7 +182,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.find(USE_CURRENT_PAGE_LINK).isDisplayed();
+            return driver.findElement(USE_CURRENT_PAGE_LINK).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -218,7 +199,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return drone.find(USE_MY_DASHBOARD_LINK).isDisplayed();
+            return driver.findElement(USE_MY_DASHBOARD_LINK).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -232,10 +213,10 @@ public class UserPage extends SharePage
      * 
      * @return {@link MyProfilePage}
      */
-    public MyProfilePage selectMyProfile()
+    public HtmlPage selectMyProfile()
     {
-        drone.findAndWait(MY_PROFILE_CSS).click();
-        return new MyProfilePage(drone);
+        findAndWait(MY_PROFILE_CSS).click();
+        return getCurrentPage();
     }
 
     /**
@@ -244,13 +225,12 @@ public class UserPage extends SharePage
      * 
      * @return {@link LoginPage} page response
      */
-    public LoginPage logout()
+    public HtmlPage logout()
     {
         try
         {
-            drone.findAndWait(LOGOUT_CSS).click();
-            return new LoginPage(drone);
-
+            findAndWait(LOGOUT_CSS).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -264,16 +244,12 @@ public class UserPage extends SharePage
      * 
      * @return {AccountSettingsPage}
      */
-    public AccountSettingsPage selectAccountSettingsPage()
+    public HtmlPage selectAccountSettingsPage()
     {
-        if (!alfrescoVersion.isCloud())
-        {
-            throw new UnsupportedOperationException("This option is in cloud only, not available for Enterprise");
-        }
         try
         {
-            drone.findAndWait(ACCOUNT_SETTINGS).click();
-            return new AccountSettingsPage(drone);
+            findAndWait(ACCOUNT_SETTINGS).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
@@ -292,16 +268,15 @@ public class UserPage extends SharePage
     {
         try
         {
-            drone.findAndWait(CHANGE_PASSWORD_CSS).click();
-            return new ChangePasswordPage(drone);
-        }
+            findAndWait(CHANGE_PASSWORD_CSS).click();
+            return getCurrentPage().render(); 
+        }       
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find css.", e);
         }
         throw new PageOperationException("Not able to find the ChangePassword link");
     }
-    
     
     /**
      * Mimics the action of selecting User Dashboard link.
@@ -311,8 +286,8 @@ public class UserPage extends SharePage
     {
         try
         {
-            drone.findAndWait(USER_DASHBOARD_LINK).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(USER_DASHBOARD_LINK).click();
+            return getCurrentPage();
         }       
         catch (TimeoutException e)
         {
@@ -331,8 +306,8 @@ public class UserPage extends SharePage
     {
         try
         {
-            drone.findAndWait(USE_CURRENT_PAGE_LINK).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(USE_CURRENT_PAGE_LINK).click();
+            return getCurrentPage();
         }       
         catch (TimeoutException e)
         {
@@ -349,8 +324,8 @@ public class UserPage extends SharePage
     {
         try
         {
-            drone.findAndWait(USE_MY_DASHBOARD_LINK).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(USE_MY_DASHBOARD_LINK).click();
+            return getCurrentPage();
         }       
         catch (TimeoutException e)
         {
@@ -366,7 +341,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            drone.findAndWait(HELP_CSS).click();
+            findAndWait(HELP_CSS).click();
         }
         catch (NoSuchElementException ex)
         {
@@ -376,7 +351,7 @@ public class UserPage extends SharePage
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find Help link.", e);
-            throw new PageOperationException("Not able to find the Help link");
+            throw new PageOperationException("Not able to find the Help link", e);
         }
     }
 

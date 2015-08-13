@@ -24,7 +24,7 @@ import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.dashlet.AbstractSiteDashletTest;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.po.share.site.wiki.WikiPageList;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -59,20 +59,21 @@ public class WikiPageListTest extends AbstractSiteDashletTest
     {
         dashBoard = loginAs(username, password);
         siteName = "wikiList" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
-        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite();
+        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
         List<SitePageType> addPageTypes = new ArrayList<>();
         addPageTypes.add(SitePageType.WIKI);
         customizeSitePage.addPages(addPageTypes);
-        wikiPageList = siteDashBoard.getSiteNav().selectWikiPage().clickWikiPageListBtn();
+        WikiPage wikiPage = siteDashBoard.getSiteNav().selectWikiPage().render();
+        wikiPageList = wikiPage.clickWikiPageListBtn();
 
     }
 
     @AfterClass
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test
@@ -132,7 +133,7 @@ public class WikiPageListTest extends AbstractSiteDashletTest
     {
         wikiPageList = wikiPage.clickWikiPageListBtn().render();
         String[] removeTags = { tagName };
-        wikiPage = wikiPageList.removeTag(editedTitle, removeTags);
+        wikiPage = wikiPageList.removeTag(editedTitle, removeTags).render();
         wikiPageList = wikiPage.clickWikiPageListBtn().render();
         Assert.assertTrue(wikiPageList.checkTags(editedTitle, null));
     }
@@ -141,7 +142,7 @@ public class WikiPageListTest extends AbstractSiteDashletTest
     public void clickWikiPage()
     {
         Assert.assertTrue(wikiPageList.isWikiPagePresent(editedTitle));
-        wikiPage = wikiPageList.clickWikiPage(editedTitle);
+        wikiPage = wikiPageList.clickWikiPage(editedTitle).render();
         assertNotNull(wikiPage);
         assertEquals(wikiPage.getWikiText(), wikiPageText);
     }
@@ -151,7 +152,7 @@ public class WikiPageListTest extends AbstractSiteDashletTest
     {
         wikiPageList = wikiPage.clickWikiPageListBtn().render();
         Assert.assertTrue(wikiPageList.isWikiPagePresent(editedTitle));
-        wikiPage = wikiPageList.clickWikiPageDetails(editedTitle);
+        wikiPage = wikiPageList.clickWikiPageDetails(editedTitle).render();
         assertEquals(wikiPage.getWikiText(), wikiPageText);
     }
 

@@ -18,9 +18,8 @@
  */
 package org.alfresco.po.share.search;
 
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.admin.ActionsSet;
-import org.alfresco.webdrone.HtmlPage;
 
 /**
  * Interface that represent search result row.
@@ -70,7 +69,7 @@ public interface SearchResult
       * @return String Site
       */
      
-     String getSite();     
+     String getSite();
      
      /**
       * Select the site link of the search result item.
@@ -99,7 +98,7 @@ public interface SearchResult
      *
      * @return SharePage
      */
-    public SharePage clickContentPath();
+    public HtmlPage clickContentPath();
 
     /**
      * Method to get thumbnail url
@@ -123,13 +122,6 @@ public interface SearchResult
     public String getThumbnail();
 
     /**
-     * Method to click on View in Browser icon for the element
-     *
-     * @return String url
-     */
-    public String clickOnViewInBrowserIcon();
-
-    /**
      * Method to click on Download icon for the element
      */
     public void clickOnDownloadIcon();
@@ -147,7 +139,4 @@ public interface SearchResult
      * @return PreViewPopUpPage if link found and selected
      */
 	PreViewPopUpPage clickImageLink();
-
-    PreViewPopUpImagePage clickImageLinkToPicture();
-
 }

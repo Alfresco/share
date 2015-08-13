@@ -14,12 +14,15 @@
  */
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.*;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.share.SharePage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * Abstract site navigation for the different types
@@ -28,27 +31,23 @@ import org.openqa.selenium.*;
  * @author Michael Suzuki
  * @version 1.7.1
  */
-public abstract class AbstractSiteNavigation extends HtmlElement
+public abstract class AbstractSiteNavigation extends SharePage
 {
     protected static final By CUSTOMISE_DASHBOARD_BTN = By.cssSelector("div[class^='page-title']>div>span>span>a[href$='customise-site-dashboard']");
     protected static final By CUSTOMIZE_SITE_DASHBOARD = By.cssSelector("#HEADER_CUSTOMIZE_SITE_DASHBOARD_text");
     protected static final By EDIT_SITE_DETAILS = By.cssSelector("#HEADER_EDIT_SITE_DETAILS_text");
-    protected static final By CONFIGURATION_DROPDOWN = By.id("HEADER_SITE_CONFIGURATION_DROPDOWN");
-    protected static final By CONFIGURE_ICON = By.id("HEADER_SITE_CONFIGURATION_DROPDOWN");
-    protected static final By CUSTOMIZE_SITE = By.cssSelector("#HEADER_CUSTOMIZE_SITE_text");
+    
+    
     protected static final By LEAVE_SITE = By.cssSelector("#HEADER_LEAVE_SITE_text");
     protected static final By MORE_BUTTON_LINK = By.cssSelector(".links>div>div>ul>li>a");
     protected static final String SITE_DASHBOARD = "Site Dashboard";
     protected static final String DASHBOARD = "Dashboard";
     protected static final String PROJECT_LIBRARY = "Project Library";
-    protected static final String DOCUMENT_LIBRARY = "Document Library";
     protected static final String INVITE_BUTTON = "a[href$='invite']";
     protected static final String CUSTOMIZE_LINK_TEXT = "Customize Site";
     protected static final String WIKI = "Wiki";
     protected static final String CALENDAR = "Calendar";
-    protected static final By WIKI_LINK = By.cssSelector("#HEADER_SITE_WIKI-PAGE_text");
     protected static final By CALENDAR_LINK = By.cssSelector("#HEADER_SITE_CALENDAR_text");
-    protected static final By DISCUSSIONS_LINK = By.cssSelector("#HEADER_SITE_DISCUSSIONS-TOPICLIST_text");
     protected static final By BLOG_LINK = By.cssSelector("#HEADER_SITE_BLOG-POSTLIST_text");
     protected static final By LINKS_LINK = By.cssSelector("#HEADER_SITE_LINKS_text");
     protected static final By DATA_LISTS_LINK = By.cssSelector("#HEADER_SITE_DATA-LISTS_text");
@@ -58,20 +57,6 @@ public abstract class AbstractSiteNavigation extends HtmlElement
     protected static final By SITE_MORE_PAGES = By.cssSelector("span#HEADER_SITE_MORE_PAGES_text");
     protected static final String SITE_LINK_NAV_PLACEHOLER = "div.site-navigation > span:nth-of-type(%d) > a";
     public static final String LABEL_DOCUMENTLIBRARY_TEXT = "span#HEADER_SITE_DOCUMENTLIBRARY_text";
-    public static final String LABEL_DOCUMENTLIBRARY_PLACEHOLDER = "div#HEADER_SITE_DOCUMENTLIBRARY";
-    protected static final String SITE_CONFIG_MORE = "#HEADER_SITE_CONFIGURATION_DROPDOWN";
-    private final String siteNavPlaceHolder;
-    private final String dashboardLink;
-    protected AlfrescoVersion alfrescoVersion;
-
-    public AbstractSiteNavigation(WebDrone drone)
-    {
-        super(drone);
-        alfrescoVersion = drone.getProperties().getVersion();
-        siteNavPlaceHolder = "div#alf-hd";
-        setWebElement(drone.findAndWait(By.cssSelector(siteNavPlaceHolder)));
-        dashboardLink = alfrescoVersion.isDojoSupported() ? "div#HEADER_SITE_DASHBOARD" : String.format(SITE_LINK_NAV_PLACEHOLER, 1);
-    }
 
     /**
      * Check if the site navigation link is highlighted.
@@ -79,24 +64,16 @@ public abstract class AbstractSiteNavigation extends HtmlElement
      * @param by selector of site nav link
      * @return if link is highlighted
      */
-    public boolean isLinkActive(By by)
+    public boolean isLinkActive(Link element)
     {
-        if (by == null)
+        if (element == null)
         {
-            throw new UnsupportedOperationException("By selector is required");
+            throw new IllegalArgumentException("By selector is required");
         }
-        try
-        {            
-            WebElement element = getDrone().findAndWait(by);
-   
-            String value = element.getAttribute("class");
-            if (value != null && !value.isEmpty())
-            {
-                return value.contains(drone.getValue("web.element.highlighted"));
-            }
-        }
-        catch (TimeoutException e)
+        String value = element.getWrappedElement().getAttribute("class");
+        if (value != null && !value.isEmpty())
         {
+            return value.contains(getValue("web.element.highlighted"));
         }
         return false;
     }
@@ -108,29 +85,28 @@ public abstract class AbstractSiteNavigation extends HtmlElement
      */
     public boolean isDashboardActive()
     {
-        return isLinkActive(By.cssSelector(dashboardLink));
+        return isLinkActive(dashboard);
     }
 
     /**
      * Action of selecting on Site Dash board link.
      */
-    public SiteDashboardPage selectSiteDashBoard()
+    public HtmlPage selectSiteDashBoard()
     {
         //bottleneck. Simple click() sometimes not work.
         try
         {
-            By dashboardSelector = By.cssSelector(dashboardLink);
-            WebElement dashBoarLink = drone.findAndWait(dashboardSelector);
-            drone.mouseOver(dashBoarLink);
-            dashBoarLink.click();
+            mouseOver(dashboard.getWrappedElement());
+            dashboard.click();
         }
         catch (StaleElementReferenceException e)
         {
             selectSiteDashBoard();
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
+    @FindBy(id="HEADER_SITE_DASHBOARD") Link dashboard;
     /**
      * Checks if dash board link is displayed.
      *
@@ -138,7 +114,7 @@ public abstract class AbstractSiteNavigation extends HtmlElement
      */
     public boolean isDashboardDisplayed()
     {
-        return isLinkDisplayed(By.cssSelector(dashboardLink));
+        return dashboard.isDisplayed();
     }
     
     /**
@@ -159,9 +135,9 @@ public abstract class AbstractSiteNavigation extends HtmlElement
      */
     protected HtmlPage select(final String title)
     {
-        WebElement link = findElement(By.linkText(title));
+        WebElement link = driver.findElement(By.linkText(title));
         link.click();
-        return FactorySharePage.resolvePage(getDrone());
+        return getCurrentPage();
     }
 
     /**
@@ -171,7 +147,7 @@ public abstract class AbstractSiteNavigation extends HtmlElement
      */
     protected void select(final By by)
     {
-        WebElement link = drone.find(by);
+        WebElement link = driver.findElement(by);
         link.click();
     }
 
@@ -186,17 +162,12 @@ public abstract class AbstractSiteNavigation extends HtmlElement
         {
             try
             {
-                return drone.find(by).isDisplayed();
+                return driver.findElement(by).isDisplayed();
             }
             catch (NoSuchElementException nse)
             {
             }
         }
         return false;
-    }
-
-    protected AlfrescoVersion getAlfrescoVersion()
-    {
-        return alfrescoVersion;
     }
 }

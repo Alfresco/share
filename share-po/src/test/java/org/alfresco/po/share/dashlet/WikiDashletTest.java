@@ -30,8 +30,9 @@ import java.util.List;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.CustomizeSitePage;
+import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.po.share.site.wiki.WikiPageList;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -63,11 +64,12 @@ public class WikiDashletTest extends AbstractSiteDashletTest
     {
         loginAs("admin", "admin");
         siteName = "wikiDashletTest" + System.currentTimeMillis();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
-        CustomizeSitePage customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite();
+        CustomizeSitePage customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
         customizeSitePage.addPages(Arrays.asList(WIKI));
-        WikiPageList wikiPageList = siteDashBoard.getSiteNav().selectWikiPage().clickWikiPageListBtn();
+        WikiPage wikiPage = siteDashBoard.getSiteNav().selectWikiPage().render();
+        WikiPageList wikiPageList = wikiPage.clickWikiPageListBtn().render();
         wikiPageList.createWikiPage(wikiTitle, textLines);
     }
 
@@ -75,7 +77,7 @@ public class WikiDashletTest extends AbstractSiteDashletTest
     public void instantiateDashlet()
     {
         navigateToSiteDashboard();
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();;
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.WIKI, 1).render();
         wikiDashlet = siteDashBoard.getDashlet(WIKI_DASHLET).render();

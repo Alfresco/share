@@ -8,7 +8,6 @@
 package org.alfresco.po.share.site.document;
 
 import org.alfresco.po.share.enums.UserRole;
-
 /**
  * Bean to hold the details of user.
  * 
@@ -17,15 +16,10 @@ import org.alfresco.po.share.enums.UserRole;
  */
 public class UserProfile
 {
-
     private String fName;
-
     private String lName;
-
     private String username;
-
     private String password;
-
     private String emailId;
 
     private String groupName;

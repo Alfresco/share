@@ -5,10 +5,8 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.alfresco.po.share.enums.Dashlets;
@@ -17,7 +15,7 @@ import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.InformationEventForm;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -48,14 +46,14 @@ public class SiteCalendarDashletTest extends AbstractSiteDashletTest
         calendar = Calendar.getInstance();
         siteName = "siteCalendarDashletTest" + System.currentTimeMillis();
         loginAs("admin", "admin");
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
 
     @Test
     public void instantiateDashlet()
     {
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.SITE_CALENDAR, 2).render();
         siteCalendarDashlet = siteDashBoard.getDashlet(SITE_CALENDAR_DASHLET).render();
@@ -98,14 +96,14 @@ public class SiteCalendarDashletTest extends AbstractSiteDashletTest
         navigateToSiteDashboard();
 
         // customize site
-        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite();
+        customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
         List<SitePageType> addPageTypes = new ArrayList<>();
         // add site calendar dashlet
         addPageTypes.add(SitePageType.CALENDER);
         customizeSitePage.addPages(addPageTypes);
 
         // navigate to calendar page
-        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage();
+        calendarPage = siteDashBoard.getSiteNav().selectCalendarPage().render();
 
         int lastDate = calendar.getActualMaximum(Calendar.DATE);
         int todayDate = calendar.get(Calendar.DATE);
@@ -116,13 +114,13 @@ public class SiteCalendarDashletTest extends AbstractSiteDashletTest
         {
             anotherDate = todayDate - 3;
             calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.MONTH_TAB, event_dashlet, event_dashlet, event_dashlet,
-                    String.valueOf(anotherDate), "7:00 AM", String.valueOf(todayDate), "9:00 AM", null, false);
+                    String.valueOf(anotherDate), "7:00 AM", String.valueOf(todayDate), "9:00 AM", null, false).render();
         }
         else
         {
             anotherDate = todayDate + 3;
             calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.MONTH_TAB, event_dashlet, event_dashlet, event_dashlet,
-                    String.valueOf(todayDate), "7:00 AM", String.valueOf(anotherDate), "9:00 AM", null, false);
+                    String.valueOf(todayDate), "7:00 AM", String.valueOf(anotherDate), "9:00 AM", null, false).render();
         }
 
         // verify the event is present
@@ -155,16 +153,6 @@ public class SiteCalendarDashletTest extends AbstractSiteDashletTest
     public void verifyIsEventsWithHeaderDisplayedNeg()
     {
         assertFalse(siteCalendarDashlet.isEventsWithHeaderDisplayed("test-negative"));
-    }
-
-    @Test(dependsOnMethods = "verifyEventCreated", groups = "Bug")
-    public void verifyIsEventsWithHeaderDisplayed()
-    {
-        Date today = calendar.getTime();
-        SimpleDateFormat newDateFormat = new SimpleDateFormat("EEEE, d MMMM, yyyy");
-        String eventHeader = newDateFormat.format(today);
-
-        assertTrue(siteCalendarDashlet.isEventsWithHeaderDisplayed(eventHeader));
     }
 
 }

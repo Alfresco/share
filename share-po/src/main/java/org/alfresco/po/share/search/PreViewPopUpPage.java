@@ -1,19 +1,28 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.search;
 
-
-
-import java.util.List;
-
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 /**
  * PreView pop up page object 
@@ -23,46 +32,17 @@ import org.openqa.selenium.WebElement;
 @SuppressWarnings("unchecked")
 public class PreViewPopUpPage extends SharePage
 {
-	//Constants
-	
-	private static final By PREVIEW_POPUP = By.cssSelector(".alfresco-dialog-AlfDialog.dijitDialog");	
-	private static final By IMG_ON_POPUP = By.cssSelector("div[class$='previewer Image']");	
-	private static final By PREVIEW_TEXT = By.cssSelector(".textLayer>div");
-	
-	@RenderWebElement	
-	private static final By PREVIEW_TITLE = By.cssSelector("div[class$='dijitDialogTitleBar']>span[class$=dijitDialogTitle]");	
-	private static final By PREVIEW_CLOSE_BUTTON = By.cssSelector("div[class='footer']>span>span>span>span[class='dijitReset dijitInline dijitButtonText']");
-	private static final Log logger = LogFactory.getLog(PreViewPopUpPage.class);	
-	
-	private WebElement closeButton;
-	private WebElement previewTitle;
-	private WebElement imgOnPopUp;
-	private WebElement previewText;	
-	
-    public PreViewPopUpPage(WebDrone drone)
-    {
-        super(drone);
-    }
+    private static final By PREVIEW_POPUP = By.cssSelector(".alfresco-dialog-AlfDialog.dijitDialog");
+    private static final By IMG_ON_POPUP = By.cssSelector("div[class$='previewer Image']");
+    private static final By PREVIEW_TEXT = By.cssSelector(".textLayer>div");
+    @RenderWebElement
+    private static final By PREVIEW_TITLE = By.cssSelector("span.dijitDialogTitle");
+    private static final By PREVIEW_CLOSE_BUTTON = By.cssSelector("span.dijitDialogCloseIcon");
+    private WebElement closeButton;
+    private WebElement previewTitle;
+    private WebElement imgOnPopUp;
+    private WebElement previewText;	
 
-    public PreViewPopUpPage render(RenderTime timer)
-    {
-    	webElementRender(timer);
-    	List<WebElement> elements = drone.findAll(PREVIEW_TITLE);
-    	for (WebElement webElement : elements) 
-    	{
-			System.out.println(webElement.isDisplayed());
-		}
-        return this;
-    }      
-
-    
-    @Override
-    public PreViewPopUpPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    
     @Override
     public PreViewPopUpPage render()
     {
@@ -78,7 +58,7 @@ public class PreViewPopUpPage extends SharePage
     {        
     	try
         {
-            return drone.findFirstDisplayedElement(PREVIEW_POPUP).isDisplayed();
+            return findFirstDisplayedElement(PREVIEW_POPUP).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -97,12 +77,12 @@ public class PreViewPopUpPage extends SharePage
     {
         try
         {
-        	previewTitle = drone.findFirstDisplayedElement(PREVIEW_TITLE);
-        	if(previewTitle.isDisplayed())
-        	{
-        		if(previewTitle.getText().equals(name));
-        		return true;        		       		 
-        	}
+            previewTitle = findFirstDisplayedElement(PREVIEW_TITLE);
+            if(previewTitle.isDisplayed())
+            {
+                if(previewTitle.getText().equals(name));
+                return true;
+            }
         }
         catch (NoSuchElementException nse)
         {
@@ -124,11 +104,11 @@ public class PreViewPopUpPage extends SharePage
     {
         try
         {
-        	imgOnPopUp = drone.findFirstDisplayedElement(IMG_ON_POPUP);
-        	if(imgOnPopUp.isDisplayed())
-        	{        		
-        		return true;        		       		 
-        	}
+            imgOnPopUp = findFirstDisplayedElement(IMG_ON_POPUP);
+            if(imgOnPopUp.isDisplayed())
+            {
+                return true;
+            }
         }
         catch (NoSuchElementException nse)
         {
@@ -138,7 +118,7 @@ public class PreViewPopUpPage extends SharePage
         {
             return false;
         }
-		return false;        
+        return false;
     }
     
     /**
@@ -148,11 +128,11 @@ public class PreViewPopUpPage extends SharePage
     {
         try
         {
-        	previewText = drone.findAndWait(PREVIEW_TEXT);
-        	if(previewText.isDisplayed())
-        	{        		
-        		return true;        		       		 
-        	}
+            previewText = findAndWait(PREVIEW_TEXT);
+            if(previewText.isDisplayed())
+            {
+                return true;
+            }
         }
         catch (NoSuchElementException nse)
         {
@@ -162,7 +142,7 @@ public class PreViewPopUpPage extends SharePage
         {
             return false;
         }
-		return false;        
+        return false;
     }
     
     /**
@@ -170,29 +150,14 @@ public class PreViewPopUpPage extends SharePage
      * 
      * @return {@link FacetedSearchPage} page response
      */
-    public FacetedSearchPage selectClose()
+    public HtmlPage selectClose()
     {
-       	try 
-        {
-        	closeButton = drone.findFirstDisplayedElement(PREVIEW_CLOSE_BUTTON);
-        	if(closeButton.isDisplayed())
-        	closeButton.click();
-			
-		}
-        catch (NoSuchElementException nse)
-        {
-        	if (logger.isTraceEnabled())
-            {
-                logger.trace("Unable to find close button");
-            }
-        }
-        catch (StaleElementReferenceException e ) 
-		{
-		    e.printStackTrace();
-		}
-        
-        return new FacetedSearchPage(drone);
-    }  
-    
-    
+        closeButton = driver.findElement(PREVIEW_CLOSE_BUTTON);
+        Actions a = new Actions(driver);
+        a.moveToElement(closeButton);
+        a.click();
+        a.perform();
+        driver.findElements(PREVIEW_CLOSE_BUTTON);
+        return factoryPage.instantiatePage(driver, FacetedSearchPage.class);
+    }
 }

@@ -1,18 +1,35 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneUtil;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collections;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.alfresco.po.share.util.PageUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.calendar")
 /**
  * Page object to hold Site Calendar dashlet
  * 
@@ -26,21 +43,20 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
     private static final By EVENTS_HEADER = By.cssSelector("div[class='details2']>h4");
     private Log logger = LogFactory.getLog(this.getClass());
 
-    /**
-     * Constructor.
-     */
-    protected SiteCalendarDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector("div.dashlet.calendar .yui-resize-handle"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected SiteCalendarDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector("div.dashlet.calendar .yui-resize-handle"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public SiteCalendarDashlet render(RenderTime timer)
     {
         try
         {
+            setResizeHandle(By.cssSelector("div.dashlet.calendar .yui-resize-handle"));
             while (true)
             {
                 timer.start();
@@ -58,7 +74,7 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
                 {
                     scrollDownToDashlet();
                     getFocus();
-                    this.dashlet = drone.find(DASHLET_CONTAINER_PLACEHOLDER);
+                    this.dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -82,26 +98,12 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteCalendarDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteCalendarDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
     /**
      * This method gets the focus by placing mouse over on Site Calendar Dashlet.
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     private List<WebElement> getEventLinksElem()
@@ -198,9 +200,9 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
      */
     public boolean isEventsWithDetailDisplayed(String eventName, String startTime, String endTime)
     {
-        WebDroneUtil.checkMandotaryParam("Event Name", eventName);
-        WebDroneUtil.checkMandotaryParam("Start Time", startTime);;
-        WebDroneUtil.checkMandotaryParam("End Time", endTime);;
+        PageUtils.checkMandotaryParam("Event Name", eventName);
+        PageUtils.checkMandotaryParam("Start Time", startTime);;
+        PageUtils.checkMandotaryParam("End Time", endTime);;
         List<WebElement> eventLinks = dashlet.findElements(EVENTS_DETAILS);
         for (WebElement eventLink : eventLinks)
         {
@@ -233,5 +235,11 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
         }
 
         return false;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteCalendarDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

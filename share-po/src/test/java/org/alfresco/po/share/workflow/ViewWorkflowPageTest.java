@@ -30,7 +30,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.task.EditTaskPage;
@@ -55,7 +55,7 @@ public class ViewWorkflowPageTest extends AbstractTest
         siteName = "AdhocReassign" + System.currentTimeMillis();
         message = siteName;
         loginAs(username, password);
-        MyTasksPage myTasksPage = ((DashBoardPage) drone.getCurrentPage()).getNav().selectMyTasks().render();
+        MyTasksPage myTasksPage = ((DashBoardPage) resolvePage(driver)).getNav().selectMyTasks().render();
         StartWorkFlowPage startWorkFlowPage = myTasksPage.selectStartWorkflowButton().render();
         NewWorkflowPage newWorkflowPage = ((NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW)).render();
 
@@ -63,7 +63,7 @@ public class ViewWorkflowPageTest extends AbstractTest
         reviewers.add(username);
         WorkFlowFormDetails formDetails = new WorkFlowFormDetails(siteName, message, reviewers);
         myTasksPage = newWorkflowPage.startWorkflow(formDetails).render();
-        myTasksPage.render(10000);
+        myTasksPage.render();
         
         TaskDetails taskLabels = myTasksPage.getTaskLabels(message);
         List<String> labels = taskLabels.getTaskLabels();

@@ -7,8 +7,9 @@
  */
 package org.alfresco.po.share;
 
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -34,27 +35,22 @@ public class EditUserPageTest extends AbstractTest
 
     private void createUser() throws Exception
     {
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (!version.isCloud())
-        {
-            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-            NewUserPage newPage = page.selectNewUser().render();
-            newPage.inputFirstName(userinfo);
-            newPage.inputLastName(userinfo);
-            newPage.inputEmail(userinfo);
-            newPage.inputUsername(userinfo);
-            newPage.inputPassword(userinfo);
-            newPage.inputVerifyPassword(userinfo);
-            newPage.selectCreateUser().render();
-
-        }
+        UserSearchPage page = dashBoard.getNav().getUsersPage().render();
+        NewUserPage newPage = page.selectNewUser().render();
+        newPage.inputFirstName(userinfo);
+        newPage.inputLastName(userinfo);
+        newPage.inputEmail(userinfo);
+        newPage.inputUsername(userinfo);
+        newPage.inputPassword(userinfo);
+        newPage.inputVerifyPassword(userinfo);
+        newPage.selectCreateUser().render();
     }
 
     private EditUserPage navigateToEditUser()
     {
         try
         {
-            SharePage sharePage = drone.getCurrentPage().render();
+            SharePage sharePage = resolvePage(driver).render();
             UserSearchPage userPage = sharePage.getNav().getUsersPage().render();
 
             userPage = userPage.searchFor(userinfo).render();
@@ -66,12 +62,6 @@ public class EditUserPageTest extends AbstractTest
         {
             throw new UnsupportedOperationException("Can not navigate to Edit User Page");
         }
-    }
-
-    @Test(groups = "Cloud-only", expectedExceptions = UnsupportedOperationException.class)
-    public void test100navigateToEditUsersOnCloud() throws Exception
-    {
-        navigateToEditUser();
     }
 
     @Test(groups = "Enterprise-only")

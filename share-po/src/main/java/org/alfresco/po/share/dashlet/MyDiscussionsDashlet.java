@@ -14,14 +14,16 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.FactorySharePage;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.dashlet.mydiscussions.CreateNewTopicPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,12 +31,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.forumsummary")
 /**
  * My Discussions dashlet object, holds all element of the HTML relating to My Discussions dashlet
  *
@@ -79,30 +77,11 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         User, Topic;
     }
 
-    /**
-     * Constructor
-     *
-     * @param drone WebDrone
-     */
-    protected MyDiscussionsDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
-        setResizeHandle(By.cssSelector("div.dashlet.forumsummary .yui-resize-handle"));
-    }
-
     @SuppressWarnings("unchecked")
     public MyDiscussionsDashlet render()
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyDiscussionsDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     @SuppressWarnings("unchecked")
     public MyDiscussionsDashlet render(RenderTime timer)
     {
@@ -118,7 +97,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(EMPTY_DASHLET_MESSAGE)).getText();
+            return driver.findElement(By.cssSelector(EMPTY_DASHLET_MESSAGE)).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -139,7 +118,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            return drone.findAndWait(By.cssSelector(DASHLET_HELP_BUTTON)).isDisplayed();
+            return findAndWait(By.cssSelector(DASHLET_HELP_BUTTON)).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -163,7 +142,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         try
         {
             getFocus();
-            return drone.findAndWait(NEW_TOPIC).isDisplayed();
+            return findAndWait(NEW_TOPIC).isDisplayed();
         }
         catch (NoSuchElementException te)
         {
@@ -182,7 +161,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.find(By.cssSelector(DASHLET_HELP_BUTTON)).click();
+            driver.findElement(By.cssSelector(DASHLET_HELP_BUTTON)).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -194,12 +173,12 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     /**
      * Clicks on New Topic button
      */
-    public CreateNewTopicPage clickNewTopicButton()
+    public HtmlPage clickNewTopicButton()
     {
         try
         {
-            drone.find(NEW_TOPIC).click();
-            return drone.getCurrentPage().render();
+            driver.findElement(NEW_TOPIC).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -218,7 +197,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(DASHLET_HELP_BALLOON)).isDisplayed();
+            return driver.findElement(By.cssSelector(DASHLET_HELP_BALLOON)).isDisplayed();
         }
         catch (NoSuchElementException elementException)
         {
@@ -254,7 +233,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         {
             throw new UnsupportedOperationException("Input cssLocator identifier is required");
         }
-        List<WebElement> links = drone.findAll(By.cssSelector(cssLocator));
+        List<WebElement> links = driver.findElements(By.cssSelector(cssLocator));
         if (links == null)
         {
             throw new UnsupportedOperationException("Not able to find the css location");
@@ -275,8 +254,8 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.find(By.cssSelector(DASHLET_HELP_BALLOON_CLOSE_BUTTON)).click();
-            drone.waitUntilElementDisappears(By.cssSelector(DASHLET_HELP_BALLOON_CLOSE_BUTTON), 1);
+            driver.findElement(By.cssSelector(DASHLET_HELP_BALLOON_CLOSE_BUTTON)).click();
+            waitUntilElementDisappears(By.cssSelector(DASHLET_HELP_BALLOON_CLOSE_BUTTON), 1);
             return this;
         }
         catch (NoSuchElementException elementException)
@@ -298,7 +277,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            drone.findAndWait(By.cssSelector(DEFAULT_TOPICS_BUTTON)).click();
+            findAndWait(By.cssSelector(DEFAULT_TOPICS_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
@@ -318,7 +297,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         {
             scrollDownToDashlet();
             getFocus();
-            drone.findAndWait(By.cssSelector(DEFAULT_HISTORY_BUTTON)).click();
+            findAndWait(By.cssSelector(DEFAULT_HISTORY_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
@@ -339,7 +318,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         List<MyDiscussionsTopicsFilter> list = new ArrayList<MyDiscussionsTopicsFilter>();
         try
         {
-            for (WebElement element : drone.findAll(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS)))
+            for (WebElement element : driver.findElements(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS)))
             {
                 String text = element.getText();
                 if (text != null)
@@ -366,7 +345,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         List<MyDiscussionsHistoryFilter> list = new ArrayList<MyDiscussionsHistoryFilter>();
         try
         {
-            for (WebElement element : drone.findAll(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS)))
+            for (WebElement element : driver.findElements(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS)))
             {
                 String text = element.getText();
                 if (text != null)
@@ -387,12 +366,12 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
      * Select the given {@link MyDiscussionsTopicsFilter} on My Discussion Dashlet.
      *
      * @param filter - The {@link MyDiscussionsTopicsFilter} to be selected
-     * @return {@link org.alfresco.webdrone.HtmlPage}
+     * @return {@link org.alfresco.po.HtmlPage}
      */
     public HtmlPage selectTopicsFilter(MyDiscussionsTopicsFilter filter)
     {
         clickTopicsButtton();
-        List<WebElement> filterElements = drone.findAndWaitForElements(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS));
+        List<WebElement> filterElements = findAndWaitForElements(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS));
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -403,8 +382,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        waitUntilAlert(1);
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -416,7 +394,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return MyDiscussionsTopicsFilter.getFilter(drone.find(By.cssSelector(DEFAULT_TOPICS_BUTTON)).getText());
+            return MyDiscussionsTopicsFilter.getFilter(driver.findElement(By.cssSelector(DEFAULT_TOPICS_BUTTON)).getText());
         }
         catch (NoSuchElementException e)
         {
@@ -433,7 +411,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return MyDiscussionsHistoryFilter.getFilter(drone.find(By.cssSelector(DEFAULT_HISTORY_BUTTON)).getText());
+            return MyDiscussionsHistoryFilter.getFilter(driver.findElement(By.cssSelector(DEFAULT_HISTORY_BUTTON)).getText());
         }
         catch (NoSuchElementException e)
         {
@@ -445,12 +423,12 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
      * Select the given {@link MyDiscussionsTopicsFilter} on My Discussion Dashlet.
      *
      * @param lastDayTopics - The {@link MyDiscussionsTopicsFilter} to be selected
-     * @return {@link org.alfresco.webdrone.HtmlPage}
+     * @return {@link org.alfresco.po.HtmlPage}
      */
     public HtmlPage selectTopicsHistoryFilter(MyDiscussionsHistoryFilter lastDayTopics)
     {
         clickHistoryButtton();
-        List<WebElement> filterElements = drone.findAll(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS));
+        List<WebElement> filterElements = driver.findElements(By.cssSelector(DASHLET_LIST_OF_FILTER_BUTTONS));
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -461,7 +439,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -567,14 +545,14 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
             userLinks = new ArrayList<ShareLink>();
             topicTitlesLinks = new ArrayList<ShareLink>();
 
-            for (WebElement topicTitleLink : drone
-                    .findAll(By.cssSelector("div[id$='_default-filtered-topics'] div.node.topic span.nodeTitle a:nth-of-type(1)")))
+            for (WebElement topicTitleLink : driver
+                    .findElements(By.cssSelector("div[id$='_default-filtered-topics'] div.node.topic span.nodeTitle a:nth-of-type(1)")))
             {
-                topicTitlesLinks.add(new ShareLink(topicTitleLink, drone));
+                topicTitlesLinks.add(new ShareLink(topicTitleLink, driver, factoryPage));
             }
-            for (WebElement topicUserLink : drone.findAll(By.cssSelector("div[id$='_default-filtered-topics'] div.node.topic div.published a:nth-of-type(1)")))
+            for (WebElement topicUserLink : driver.findElements(By.cssSelector("div[id$='_default-filtered-topics'] div.node.topic div.published a:nth-of-type(1)")))
             {
-                userLinks.add(new ShareLink(topicUserLink, drone));
+                userLinks.add(new ShareLink(topicUserLink, driver, factoryPage));
             }
 
         }
@@ -593,7 +571,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
         {
             topicStatusDetails = new ArrayList<TopicStatusDetails>();
 
-            List<WebElement> links = drone.findAll(By.cssSelector("div[id$='_default-filtered-topics'] div.node.topic"));
+            List<WebElement> links = driver.findElements(By.cssSelector("div[id$='_default-filtered-topics'] div.node.topic"));
             for (WebElement link : links)
             {
                 WebElement updated = link.findElement(By.cssSelector("span.nodeTitle span:nth-of-type(1)"));
@@ -658,7 +636,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            WebElement content = drone.findAndWaitWithRefresh(By.xpath((String.format(TOPIC_TITLE, topicTitle))));
+            WebElement content = findAndWaitWithRefresh(By.xpath((String.format(TOPIC_TITLE, topicTitle))), getDefaultWaitTime());
             return content.isDisplayed();
         }
         catch (NoSuchElementException e)
@@ -672,7 +650,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER)));
+        mouseOver(findAndWait(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER)));
     }
 
     public void resizeDashlet(int x, int y)
@@ -682,7 +660,7 @@ public class MyDiscussionsDashlet extends AbstractDashlet implements Dashlet
             scrollDownToDashlet();
             getFocus();
             WebElement resizeHandleElement = dashlet.findElement(getResizeHandle());
-            drone.dragAndDrop(resizeHandleElement, x, y);
+            dragAndDrop(resizeHandleElement, x, y);
         }
         catch (TimeoutException e)
         {

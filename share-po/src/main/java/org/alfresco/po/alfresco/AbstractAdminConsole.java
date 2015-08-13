@@ -20,7 +20,6 @@
 package org.alfresco.po.alfresco;
 
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 
 /**
@@ -32,23 +31,18 @@ public abstract class AbstractAdminConsole extends SharePage
 {
     protected final static By SUBMIT_BUTTON = By.cssSelector("input.inline"); 
     private final By CLOSE_BUTTON = By.cssSelector("input[id$='Admin-console-title:_idJsp1']");
-    
-    public AbstractAdminConsole(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /**
      * Method for click Close Button
      */
     public void clickClose()
     {
-        drone.findAndWait(CLOSE_BUTTON).click();
+        findAndWait(CLOSE_BUTTON).click();
     }
 
     public String getResult()
     {
-        return drone.findAndWait(By.tagName("pre")).getText();
+        return findAndWait(By.tagName("pre")).getText();
     }
 
 }

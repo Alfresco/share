@@ -26,14 +26,11 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
+import org.springframework.social.alfresco.connect.exception.AlfrescoException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -51,7 +48,7 @@ public class UserSitesPageTest extends AbstractTest
     private String siteName1;
     private String siteName2;
     private String userName;
-    private AlfrescoVersion version;
+    
 
     private DashBoardPage dashboardPage;
     private MyProfilePage myprofile;
@@ -69,20 +66,9 @@ public class UserSitesPageTest extends AbstractTest
         siteName1 = "UserSitesPage-1" + System.currentTimeMillis();
         siteName2 = "UserSitesPage-2" + System.currentTimeMillis();
         userName = "UserSitesPage" + System.currentTimeMillis();
-
-        version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            createEnterpriseUser(userName);
-
-            ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
-        }
-
-        dashboardPage = FactorySharePage.resolvePage(drone).render();
+        createEnterpriseUser(userName);
+        shareUtil.loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
+        dashboardPage = factoryPage.getPage(driver).render();
         myprofile = dashboardPage.getNav().selectMyProfile().render();
         userSitesPage = myprofile.getProfileNav().selectSites().render();
     }
@@ -90,8 +76,15 @@ public class UserSitesPageTest extends AbstractTest
     @AfterClass(groups = { "alfresco-one" })
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName1);
-        SiteUtil.deleteSite(drone, siteName2);
+    	try
+    	{
+    		siteUtil.deleteSite(userName, UNAME_PASSWORD, siteName1);
+    		siteUtil.deleteSite(userName, UNAME_PASSWORD, siteName2);
+    	}
+    	catch(AlfrescoException e)
+    	{
+    		//Site not present therefore no need to delete.
+    	}
     }
 
     @Test(groups = { "alfresco-one" })
@@ -99,20 +92,16 @@ public class UserSitesPageTest extends AbstractTest
     {
         //This test must be run before any sites are created in getSites() test however it cannot
         //be run in cloud since a new user is not created so cannot guarantee no sites.
-        if (!version.isCloud())
-        {
-            assertTrue(userSitesPage.getSites().isEmpty());
-            assertTrue(userSitesPage.isNoSiteMessagePresent());
-        }
+        assertTrue(userSitesPage.getSites().isEmpty());
+        assertTrue(userSitesPage.isNoSiteMessagePresent());
     }
 
     @Test(dependsOnMethods = "getSitesNoSite", groups = { "alfresco-one" })
     public void getSites()
     {
-        SiteUtil.createSite(drone, siteName1, "description", "Public");
-        SiteUtil.createSite(drone, siteName2, "description", "Public");
-
-        SiteDashboardPage siteDashboardPage = FactorySharePage.resolvePage(drone).render();
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName1, "description", "Public");
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName2, "description", "Public");
+        SiteDashboardPage siteDashboardPage = factoryPage.getPage(driver).render();
         myprofile = siteDashboardPage.getNav().selectMyProfile().render();
         userSitesPage = myprofile.getProfileNav().selectSites().render();
 
@@ -139,17 +128,17 @@ public class UserSitesPageTest extends AbstractTest
     @Test(dependsOnMethods = "getSiteName", groups = { "alfresco-one" })
     public void toggleActivityFeed()
     {
-        userSitesPage = userSiteItem.toggleActivityFeed(true).render();
+        userSiteItem.toggleActivityFeed(true);
         userSiteItem = userSitesPage.getSite(siteName1);
 
         assertTrue(userSiteItem.isActivityFeedEnabled());
-        assertEquals(userSiteItem.getActivityFeedButtonLabel(), drone.getValue("user.profile.sites.disable.activity.feeds"));
+        assertEquals(userSiteItem.getActivityFeedButtonLabel(), factoryPage.getValue("user.profile.sites.disable.activity.feeds"));
 
-        userSitesPage = userSiteItem.toggleActivityFeed(false).render();
+        userSiteItem.toggleActivityFeed(false);
         userSiteItem = userSitesPage.getSite(siteName1);
 
         assertFalse(userSiteItem.isActivityFeedEnabled());
-        assertEquals(userSiteItem.getActivityFeedButtonLabel(), drone.getValue("user.profile.sites.enable.activity.feeds"));
+        assertEquals(userSiteItem.getActivityFeedButtonLabel(), factoryPage.getValue("user.profile.sites.enable.activity.feeds"));
     }
 
     @Test(dependsOnMethods = "toggleActivityFeed", groups = { "alfresco-one" })

@@ -14,22 +14,25 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.SiteMember;
-import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.site.SiteMembersPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
-
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.alfresco.po.share.ShareLink;
+import org.alfresco.po.share.SiteMember;
+import org.alfresco.po.share.enums.UserRole;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.colleagues")
 /**
  * Site members dashlet object, holds all element of the HTML relating to share's site members dashlet.
  *
@@ -44,36 +47,23 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
     private static final By ALL_MEMBERS_LINK = By.cssSelector("div.dashlet.colleagues>div.toolbar>div>span>span>[href$='site-members']");
     private static final By USER_LINK = By.cssSelector("h3>.theme-color-1");
     private static Log logger = LogFactory.getLog(SiteMembersDashlet.class);
-    private WebElement dashlet;
 
-    /**
-     * Constructor.
-     */
-    protected SiteMembersDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector(".yui-resize-handle"));
-    }
+//    /**
+//     * Constructor.
+//     */
+//    protected SiteMembersDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector(".yui-resize-handle"));
+//    }
 
-    @SuppressWarnings("unchecked")
-    public SiteMembersDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteMembersDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * The member of the site that is displayed on site members dashlet.
      *
      * @return List<ShareLink> site links
      */
-    public synchronized List<ShareLink> getMembers()
+    public  List<ShareLink> getMembers()
     {
         return getList(DATA_LIST_CSS_LOCATION);
     }
@@ -83,10 +73,11 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
+            setResizeHandle(By.cssSelector(".yui-resize-handle"));
             while (true)
             {
                 timer.start();
-                synchronized (this)
+                synchronized(this)
                 {
                     try
                     {
@@ -99,7 +90,7 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
                 try
                 {
                     getFocus(DASHLET_CONTAINER_PLACEHOLDER);
-                    this.dashlet = drone.find(DASHLET_CONTAINER_PLACEHOLDER);
+                    this.dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
                     break;
                 }
 
@@ -130,7 +121,7 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     /**
@@ -139,7 +130,7 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
      * @param emailId identifier
      * @return {@link SiteMember} that matches members name
      */
-    public synchronized SiteMember selectMember(String emailId)
+    public  SiteMember selectMember(String emailId)
     {
         if (emailId == null)
         {
@@ -155,7 +146,7 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
                 WebElement link = userRow.findElement(By.cssSelector("h3>a"));
                 if (link.getText().contains(emailId) || ("admin".equals(emailId) && link.getText().equals("Administrator")))
                 {
-                    siteMember.setShareLink(new ShareLink(link, drone));
+                    siteMember.setShareLink(new ShareLink(link, driver, factoryPage));
                     siteMember.setRole(UserRole.getUserRoleforName(userRow.findElement(By.cssSelector("div")).getText()));
                     return siteMember;
                 }
@@ -179,7 +170,7 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
         try
         {
             getFocus();
-            return drone.find(INVITE_LINK).isDisplayed();
+            return driver.findElement(INVITE_LINK).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -201,7 +192,7 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
         try
         {
             getFocus();
-            return drone.findAndWait(ALL_MEMBERS_LINK).isDisplayed();
+            return findAndWait(ALL_MEMBERS_LINK).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -214,10 +205,10 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
      *
      * @return SiteMembersPage
      */
-    public SiteMembersPage clickAllMembers()
+    public HtmlPage clickAllMembers()
     {
-        drone.findAndWait(ALL_MEMBERS_LINK).click();
-        return drone.getCurrentPage().render();
+        findAndWait(ALL_MEMBERS_LINK).click();
+        return getCurrentPage();
     }
 
     /**
@@ -226,7 +217,7 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
      * @param userName String
      * @return SharePage
      */
-    public SharePage clickOnUser(String userName)
+    public HtmlPage clickOnUser(String userName)
     {
         List<WebElement> userLinks = dashlet.findElements(USER_LINK);
         for (WebElement userLink : userLinks)
@@ -234,9 +225,15 @@ public class SiteMembersDashlet extends AbstractDashlet implements Dashlet
             if (userLink.getText().contains(userName))
             {
                 userLink.click();
-                return drone.getCurrentPage().render();
+                return getCurrentPage();
             }
         }
         throw new PageOperationException(String.format("User[%s] didn't find in dashlet", userName));
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteMembersDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

@@ -8,7 +8,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.links.LinksDetailsPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -34,14 +34,14 @@ public class SiteLinksDashletTest extends AbstractSiteDashletTest
     {
         siteName = "siteLinksDashletTest" + System.currentTimeMillis();
         loginAs("admin", "admin");
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
     }
 
     @Test
     public void instantiateDashlet()
     {
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();;
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.SITE_LINKS, 1).render();
         siteLinksDashlet = siteDashBoard.getDashlet(SITE_LINKS_DASHLET).render();
@@ -74,7 +74,7 @@ public class SiteLinksDashletTest extends AbstractSiteDashletTest
     @Test(dependsOnMethods = "verifyIsLinkDisplayed")
     public void createLinkFromDashlet()
     {
-        linksDetailsPage = siteLinksDashlet.createLink("name", "google.com");
+        linksDetailsPage = siteLinksDashlet.createLink("name", "google.com").render();
         assertNotNull(linksDetailsPage);
     }
 

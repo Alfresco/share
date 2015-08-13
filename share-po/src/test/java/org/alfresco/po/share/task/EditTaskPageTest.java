@@ -32,13 +32,13 @@ import java.util.List;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
+
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -78,24 +78,24 @@ public class EditTaskPageTest extends AbstractTaskTest
         createEnterpriseUser(otherUser);
 
         // add site with item for selectItem test
-        loginAs(testUserName, "password");
-        File file = SiteUtil.prepareFile();
+        loginAs(testUserName, UNAME_PASSWORD);
+        File file = siteUtil.prepareFile();
         fileName = file.getName();
-        SiteUtil.createSite(drone, itemSiteName, "Moderated");
-        SitePage site = drone.getCurrentPage().render();
-        DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        siteUtil.createSite(driver, testUserName, UNAME_PASSWORD, itemSiteName, "", "Moderated");
+        SitePage site = resolvePage(driver).render();
+        DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
         UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
         upLoadPage.uploadFile(file.getCanonicalPath()).render();
-        logout(drone);
+        logout(driver);
 
-        createTask(testUserName, "password");
+        createTask(testUserName, UNAME_PASSWORD);
         pageUnderTest = myTasksPage.navigateToEditTaskPage(taskName, testUserName).render();
     }
 
     @AfterClass(groups = "Enterprise4.2")
     public void deleteSite()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(testUserName, UNAME_PASSWORD, itemSiteName);
     }
     
     @Test(groups = "Enterprise4.2")
@@ -132,7 +132,7 @@ public class EditTaskPageTest extends AbstractTaskTest
     public void selectItem()
     {
         pageUnderTest.selectItem(fileName, itemSiteName);
-        pageUnderTest = drone.getCurrentPage().render();
+        pageUnderTest = resolvePage(driver).render();
         assertTrue(pageUnderTest.getTaskItems().get(0).getItemName().equals(fileName), "The expected item isn't added");
     }
 
@@ -141,14 +141,14 @@ public class EditTaskPageTest extends AbstractTaskTest
     {
         myTasksPage = pageUnderTest.selectReassign(otherUser).render();
         assertFalse(myTasksPage.isTaskPresent(taskName), "Task isn't reassigned on the user '" + otherUser + "'");
-        ShareUtil.logout(drone);
-        DashBoardPage dash = loginAs(otherUser, "password");
+        shareUtil.logout(driver);
+        DashBoardPage dash = loginAs(otherUser, UNAME_PASSWORD);
         myTasksPage = dash.getNav().selectMyTasks().render();
         assertTrue(myTasksPage.isTaskPresent(taskName), "Task isn't reassigned on the user '" + otherUser + "'");
         pageUnderTest = myTasksPage.navigateToEditTaskPage(taskName).render();
         myTasksPage = pageUnderTest.selectReassign(testUserName).render();
-        ShareUtil.logout(drone);
-        dash = loginAs(testUserName, "password");
+        shareUtil.logout(driver);
+        dash = loginAs(testUserName, UNAME_PASSWORD);
         myTasksPage = dash.getNav().selectMyTasks().render();
         assertTrue(myTasksPage.isTaskPresent(taskName), "Task isn't reassigned on the user '" + testUserName + "'");
         pageUnderTest = myTasksPage.navigateToEditTaskPage(taskName).render();
@@ -165,39 +165,39 @@ public class EditTaskPageTest extends AbstractTaskTest
     @Test(groups = "Enterprise4.2", dependsOnMethods = "selectTaskDoneButtonTest")
     public void selectRejectButtonTest() throws Exception
     {
-        SiteUtil.createSite(drone, modSiteName, "Moderated");
-        SiteDashboardPage sitePage = drone.getCurrentPage().render();
+        siteUtil.createSite(driver,testUserName, UNAME_PASSWORD, modSiteName, "", "Moderated");
+        SiteDashboardPage sitePage = resolvePage(driver).render();
         assertTrue(sitePage.isSiteTitle(modSiteName), "Site Dashboad page should be opened for - " + modSiteName);
-        ShareUtil.logout(drone);
+        shareUtil.logout(driver);
 
-        DashBoardPage dash = loginAs(otherUser, "password");
+        DashBoardPage dash = loginAs(otherUser, UNAME_PASSWORD);
         siteFinder = dash.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(modSiteName).render();
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, modSiteName);
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, modSiteName);
         siteFinder.requestToJoinSite(modSiteName).render();
-        ShareUtil.logout(drone);
+        shareUtil.logout(driver);
         // Rejecting the request to join
-        dash = loginAs(testUserName, "password");
+        dash = loginAs(testUserName, UNAME_PASSWORD);
         myTasksPage = dash.getNav().selectMyTasks().render();
         pageUnderTest = myTasksPage.navigateToEditTaskPage("Request to join "+modSiteName+" site").render();
         returnedPage = pageUnderTest.selectRejectButton().render();
         assertTrue(returnedPage instanceof MyTasksPage, "The return page should be an instance of MyTasksPage page");
-        ShareUtil.logout(drone);
+        shareUtil.logout(driver);
     }
 
     @Test(groups = "Enterprise4.2", dependsOnMethods = "selectRejectButtonTest")
     public void selectApproveButtonTest() throws Exception
     {
 
-        DashBoardPage dash = loginAs(otherUser, "password");
+        DashBoardPage dash = loginAs(otherUser, UNAME_PASSWORD);
         siteFinder = dash.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(modSiteName).render();
         siteFinder.requestToJoinSite(modSiteName).render();
-        ShareUtil.logout(drone);
+        shareUtil.logout(driver);
 
         // Approving request to join.
-        dash = loginAs(testUserName, "password");
-        myTasksPage = dash.getNav().selectMyTasks();
+        dash = loginAs(testUserName, UNAME_PASSWORD);
+        myTasksPage = dash.getNav().selectMyTasks().render();
         pageUnderTest = myTasksPage.navigateToEditTaskPage("Request to join "+modSiteName+" site").render();
         returnedPage = pageUnderTest.selectApproveButton().render();
         assertTrue(returnedPage instanceof MyTasksPage, "The return page should be an instance of MyTasksPage page");

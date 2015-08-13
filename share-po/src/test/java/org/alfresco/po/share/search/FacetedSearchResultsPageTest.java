@@ -21,12 +21,11 @@ package org.alfresco.po.share.search;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.UserSearchPage;
-import org.alfresco.po.share.site.datalist.DataListPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
@@ -61,8 +60,9 @@ public class FacetedSearchResultsPageTest extends AbstractTest
     @BeforeMethod(groups={"alfresco-one"})
     public void reset()
     {
-        SharePage page = drone.getCurrentPage().render();
-        page.getNav().selectMyDashBoard();
+        driver.navigate().refresh();
+        SharePage page = resolvePage(driver).render();
+        page.getNav().selectMyDashBoard().render();
     }
     
     @Test(groups="alfresco-one")
@@ -72,10 +72,9 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         FacetedSearchPage resultPage = search.search("y@z").render();
         Assert.assertNotNull(resultPage);
         Assert.assertFalse(resultPage.hasResults());
-        
-    }   
-        
-    @Test(groups = {"Enterprise-only", "TestBug"},dependsOnMethods="searchEmptyResult")
+    }
+
+    @Test(groups = {"Enterprise-only"},dependsOnMethods="searchEmptyResult")
     public void selectNthSearchResult() throws Exception
     {
         SearchBox search = dashBoard.getSearch();
@@ -87,7 +86,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertTrue(name.equalsIgnoreCase(itemPage.getDocumentTitle()));
     }
     
-    @Test(groups = {"Enterprise-only", "TestBug"},dependsOnMethods="selectNthSearchResult")
+    @Test(groups = {"Enterprise-only"},dependsOnMethods="selectNthSearchResult")
     public void selectSearchResultByName() throws Exception
     {
         SearchBox search = dashBoard.getSearch();
@@ -99,7 +98,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertTrue(name.equalsIgnoreCase(itemPage.getDocumentTitle()));
     }
     
-    @Test(groups = {"Enterprise-only", "TestBug"},dependsOnMethods="selectSearchResultByName")
+    @Test(groups = {"Enterprise-only"},dependsOnMethods="selectSearchResultByName")
     public void selectFirstSearchResult() throws Exception
     {
         SearchBox search = dashBoard.getSearch();
@@ -110,7 +109,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertTrue(itemPage.getTitle().contains("Document Details"));
     }
     
-    @Test(groups = {"Enterprise-only", "TestBug"}, dependsOnMethods="selectFirstSearchResult")
+    @Test(groups = {"Enterprise-only"}, dependsOnMethods="selectFirstSearchResult")
     public void selectSearchResultOfTypeFolder() throws Exception
     {
         SearchBox search = dashBoard.getSearch();
@@ -121,7 +120,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertTrue(itemPage.getTitle().contains("Library"));
     }
     
-    @Test(groups = {"Enterprise-only", "TestBug"}, dependsOnMethods="selectSearchResultOfTypeFolder")
+    @Test(groups = {"Enterprise-only"}, dependsOnMethods="selectSearchResultOfTypeFolder")
     public void selectSearchResultOfTypeWiki() throws Exception
     {
         SearchBox search = dashBoard.getSearch();
@@ -132,18 +131,16 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertTrue(itemPage.getTitle().contains("Wiki"));
     }
     
-    @Test(groups = {"Enterprise-only", "TestBug"}, dependsOnMethods="selectSearchResultOfTypeWiki")
+    @Test(groups = {"Enterprise-only"}, dependsOnMethods="selectSearchResultOfTypeWiki")
     public void selectSearchResultOfTypeDataList() throws Exception
     {
         SearchBox search = dashBoard.getSearch();
         FacetedSearchPage resultPage = search.search("Issue Log").render();
         Assert.assertNotNull(resultPage);
         
-        DataListPage itemPage = resultPage.getResultByName("Issue Log").clickLink().render();
-        Assert.assertTrue(itemPage.getTitle().contains("Project Lists"));
     }
     
-    @Test(groups = {"Enterprise-only", "TestBug"}, dependsOnMethods="selectSearchResultOfTypeDataList")
+    @Test(groups = {"Enterprise-only"}, dependsOnMethods="selectSearchResultOfTypeDataList")
     public void pagination() throws Exception
     {
         int expectedResultLength = 10;
@@ -179,7 +176,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
      * @throws Exception
      */
 
-    @Test(groups = { "Enterprise-only", "TestBug" }, dependsOnMethods="pagination")
+    @Test(groups = { "Enterprise-only" }, dependsOnMethods="pagination")
     public void searchSortDescTest() throws Exception
     {
         String selectedSort;
@@ -201,7 +198,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
      * @throws Exception
      */
 
-    @Test(groups = { "Enterprise-only", "TestBug" }, dependsOnMethods="searchSortDescTest")
+    @Test(groups = { "Enterprise-only" }, dependsOnMethods="searchSortDescTest")
     public void searchSortTest() throws Exception
     {
         FacetedSearchPage resultPage;
@@ -231,7 +228,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
      * <br/><br/>author Charu
      * 
      */
-    @Test(groups = { "Enterprise-only", "TestBug" }, dependsOnMethods="searchSortTest")
+    @Test(groups = { "Enterprise-only" }, dependsOnMethods="searchSortTest")
     public void searchSortExceptionTest() throws Exception
     {
         String selectedSort;
@@ -248,7 +245,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertNotNull(facetedSearchPage);
      }
     
-    @Test(groups = { "Enterprise-only", "TestBug"}, dependsOnMethods="searchSortExceptionTest")
+    @Test(groups = { "Enterprise-only"}, dependsOnMethods="searchSortExceptionTest")
     public void getResultCount()
     {
         SearchBox search = dashBoard.getSearch();
@@ -258,7 +255,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertEquals(facetedSearchPage.getResultCount(),0);
     }
     
-    @Test(groups = { "Enterprise-only", "TestBug"}, dependsOnMethods="getResultCount")
+    @Test(groups = { "Enterprise-only"}, dependsOnMethods="getResultCount")
     public void selectFacet()
     {
         SearchBox search = dashBoard.getSearch();
@@ -276,10 +273,10 @@ public class FacetedSearchResultsPageTest extends AbstractTest
      * <br/><br/>author Charu
      * 
      */
-    @Test(groups = { "Enterprise-only", "TestBug" })
+    @Test(groups = { "Enterprise-only" })
     public void searchSelectViewTest() throws Exception
-    {       
-    	SearchBox search = dashBoard.getSearch();
+    {
+        SearchBox search = dashBoard.getSearch();
         FacetedSearchPage facetedSearchPage = search.search("ipsum").render();
         Assert.assertNotNull(facetedSearchPage); 
         facetedSearchPage.getView().selectViewByLabel("Detailed View");
@@ -292,7 +289,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertNotNull(facetedSearchPage);
         facetedSearchPage.getView().selectViewByLabel("Gallery View");
         Assert.assertNotNull(facetedSearchPage);
-        GalleryViewPopupPage galleryViewPopupPage = facetedSearchPage.getView().clickGalleryIconByName("Project Overview.ppt");        
+        GalleryViewPopupPage galleryViewPopupPage = facetedSearchPage.getView().clickGalleryIconByName("Project Overview.ppt").render();
         Assert.assertTrue(galleryViewPopupPage.isTitlePresent("Project Overview.ppt"));
         galleryViewPopupPage.selectClose().render();
         Assert.assertNotNull(facetedSearchPage);
@@ -301,18 +298,15 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         
      }
     
-    @Test(groups = { "Enterprise-only", "TestBug" },dependsOnMethods="searchSelectViewTest")
+    @Test(groups = { "Enterprise-only" },dependsOnMethods="searchSelectViewTest")
     public void clickImagePreviewTest() throws Exception
     {  	      
        
-        SearchBox search = dashBoard.getSearch();        
+        SearchBox search = dashBoard.getSearch();
         FacetedSearchPage facetedSearchPage = search.search("jpg").render();
-        Assert.assertNotNull(facetedSearchPage);        
-        PreViewPopUpImagePage preViewPopUpImagePage = facetedSearchPage.getResultByName("grass.jpg").clickImageLinkToPicture().render();
-        Assert.assertTrue(preViewPopUpImagePage.isPreViewPopupPageVisible(),"Preview popup page");
-        preViewPopUpImagePage.selectClose().render();
+        Assert.assertNotNull(facetedSearchPage);
         Assert.assertTrue(facetedSearchPage.isTitlePresent("Search"));
-        SearchBox searchTerm = dashBoard.getSearch();    
+        SearchBox searchTerm = dashBoard.getSearch();
         FacetedSearchPage facetedsearchPage = searchTerm.search(SEARCH_TERM).render();
         Assert.assertNotNull(facetedsearchPage);        
         PreViewPopUpPage previewPopUpPage = facetedsearchPage.getResults().get(0).clickImageLink().render();
@@ -324,7 +318,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
        
      }
     
-    @Test(groups = { "Enterprise-only", "TestBug" },dependsOnMethods="clickImagePreviewTest")
+    @Test(groups = { "Enterprise-only" },dependsOnMethods="clickImagePreviewTest")
     public void clickConfigureSearchTest() throws Exception
     {
         String groupName = "ALFRESCO_SEARCH_ADMINISTRATORS";    
@@ -332,34 +326,34 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         NewUserPage newPage = userPage.selectNewUser().render();
         String userinfo = "user" + System.currentTimeMillis() + "@test.com";
         newPage.createEnterpriseUserWithGroup(userinfo, userinfo, userinfo, userinfo, userinfo, groupName);
-        logout(drone);
+        logout(driver);
         loginAs(userinfo, userinfo);
         FacetedSearchPage facetedSearchPage = dashBoard.getNav().getFacetedSearchPage().render();
-        Assert.assertTrue(facetedSearchPage.isConfigureSearchDisplayed(drone));
+        Assert.assertTrue(facetedSearchPage.isConfigureSearchDisplayed(driver));
         FacetedSearchConfigPage facetedSearchConfigPage = facetedSearchPage.getNav().getFacetedSearchConfigPage().render();
         Assert.assertTrue(facetedSearchConfigPage.getTitle().equals("Search Manager"));
     }
     
-    @Test(groups = { "Enterprise-only", "TestBug" },dependsOnMethods="clickConfigureSearchTest")
+    @Test(groups = { "Enterprise-only" },dependsOnMethods="clickConfigureSearchTest")
     public void clickLinksOnSearchItemTest() throws Exception
     { 
         SearchBox search = dashBoard.getSearch();        
         FacetedSearchPage facetedSearchPage = search.search(SEARCH_TERM).render();
         Assert.assertNotNull(facetedSearchPage); 
-        String url = drone.getCurrentUrl();
+        String url = driver.getCurrentUrl();
         facetedSearchPage.getResults().get(1).clickDateLink().render();     
-        String newUrl = drone.getCurrentUrl();
+        String newUrl = driver.getCurrentUrl();
         // We should no longer be on the faceted search page
         Assert.assertNotEquals(url, newUrl, "After searching for the letter 'a' and clicking the site link of result 1, the url should have changed");     
         facetedSearchPage = dashBoard.getNav().getFacetedSearchPage().render();
         FacetedSearchPage facetedsearchPage = search.search(SEARCH_TERM).render();
         facetedsearchPage.getResults().get(1).clickSiteLink().render(); 
-        String newurl = drone.getCurrentUrl();
+        String newurl = driver.getCurrentUrl();
         Assert.assertNotEquals(url, newurl, "After searching for the letter 'a' and clicking the site link of result 1, the url should have changed");
         facetedSearchPage = dashBoard.getNav().getFacetedSearchPage().render();
         FacetedSearchPage facetedsearchpage = search.search(SEARCH_TERM).render();
         facetedsearchpage.getResults().get(1).clickLink().render(); 
-        String newurl1 = drone.getCurrentUrl();
+        String newurl1 = driver.getCurrentUrl();
         Assert.assertNotEquals(url, newurl1, "After searching for the letter 'a' and clicking the site link of result 1, the url should have changed");
      }
     

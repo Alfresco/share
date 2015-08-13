@@ -18,14 +18,16 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.ShareUtil;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.po.share.enums.TinyMceColourCode;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.document.TinyMceEditor.FormatType;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,9 +36,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import java.util.List;
-import java.util.regex.Pattern;
 
 @Listeners(FailedTestListener.class)
 public class ContentFormatPageTest extends AbstractTest
@@ -49,7 +48,6 @@ public class ContentFormatPageTest extends AbstractTest
     private FolderDetailsPage folderDetailsPage;
     private TinyMceEditor textEditor;
     private String commentText;
-    private String fontAttForCloud = "<font data-mce-style=\"color: #0000ff;\" style=\"color: rgb(0, 0, 255);\">";
     String fontAtt = "<font color=\"#0000FF\">";
      
     /**
@@ -65,14 +63,14 @@ public class ContentFormatPageTest extends AbstractTest
         siteName = "site" + System.currentTimeMillis();
         folderName = "The first folder";
         folderDescription = String.format("Description of %s", folderName);
-        ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
     }
 
     @AfterClass(groups="alfresco-one")
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     /**
@@ -84,8 +82,8 @@ public class ContentFormatPageTest extends AbstractTest
     public void createData() throws Exception
     {
         if (logger.isTraceEnabled()) logger.trace("====createData====");
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(folderName, folderDescription).render();
         FileDirectoryInfo content = getFolder();
@@ -93,8 +91,8 @@ public class ContentFormatPageTest extends AbstractTest
         folderDetailsPage = thisRow.selectViewFolderDetails().render();
         folderDetailsPage.addComment(commentText);  
         textEditor = folderDetailsPage.getContentPage();
-        textEditor.setTinyMce(textEditor.FRAME_ID);
-        textEditor.addContent(commentText);        
+        textEditor.setTinyMce();
+        textEditor.addContent(commentText);
     }
 
     // 1) Enter text in the Rich Text Editor
@@ -172,11 +170,6 @@ public class ContentFormatPageTest extends AbstractTest
             logger.trace("====testColourCodeInsertionInRichTextFormatter====");
         textEditor.clickColorCode(TinyMceColourCode.BLUE);
         Assert.assertEquals(commentText, textEditor.getText());
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (AlfrescoVersion.Cloud.equals(version))
-        {
-            fontAtt = fontAttForCloud ;
-        }
         Assert.assertTrue(textEditor.getContent().contains("<span data-mce-style=\"color: #0000ff;\" style=\"color: rgb(0, 0, 255);\">"+commentText+"</span>"));
         textEditor.removeFormatting();
         
@@ -193,11 +186,6 @@ public class ContentFormatPageTest extends AbstractTest
             logger.trace("====testUndoAndRedoButtonOfRichTextFormatter====");
         textEditor.clickColorCode(TinyMceColourCode.BLUE);
         Assert.assertEquals(commentText, textEditor.getText());       
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (AlfrescoVersion.Cloud.equals(version))
-        {
-            fontAtt = fontAttForCloud;
-        }
         Assert.assertTrue(textEditor.getContent().contains("<span data-mce-style=\"color: #0000ff;\" style=\"color: rgb(0, 0, 255);\">"+commentText+"</span>"));
 
         textEditor.clickUndo();
@@ -217,19 +205,10 @@ public class ContentFormatPageTest extends AbstractTest
       
         textEditor.clickColorCode(TinyMceColourCode.BLUE);
         Assert.assertEquals(commentText, textEditor.getText());  
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (AlfrescoVersion.Cloud.equals(version))
-        {
-            fontAtt = fontAttForCloud;
-        }
         Assert.assertTrue(textEditor.getContent().contains("<span data-mce-style=\"color: #0000ff;\" style=\"color: rgb(0, 0, 255);\">"+commentText+"</span>"));
         textEditor.clickUndo();        
         Assert.assertTrue(textEditor.getContent().contains("<p>"+commentText+"</p>"));
         textEditor.clickRedo();       
-        if (AlfrescoVersion.Cloud.equals(version))
-        {
-            fontAtt = fontAttForCloud;
-        }
         Assert.assertTrue(textEditor.getContent().contains("<span data-mce-style=\"color: #0000ff;\" style=\"color: rgb(0, 0, 255);\">"+commentText+"</span>"));
         textEditor.removeFormatting();
     }
@@ -246,7 +225,7 @@ public class ContentFormatPageTest extends AbstractTest
     {
         if (logger.isTraceEnabled())
             logger.trace("====getFolder====");
-        documentLibPage = drone.getCurrentPage().render();
+        documentLibPage = resolvePage(driver).render();
         List<FileDirectoryInfo> results = documentLibPage.getFiles();
         if (results.isEmpty())
         {

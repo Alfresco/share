@@ -14,13 +14,13 @@
  */
 package org.alfresco.po.share.systemsummary;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.po.share.systemsummary.directorymanagement.AuthType;
 import org.alfresco.po.share.systemsummary.directorymanagement.DirectoryInfoRow;
 import org.alfresco.po.share.systemsummary.directorymanagement.DirectoryManagementPage;
 import org.alfresco.po.share.systemsummary.directorymanagement.EditLdapFrame;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.exception.PageOperationException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -62,7 +62,7 @@ public class DirectoryManagementPageTest extends AbstractTest
     @Test
     public void checkOpenPage()
     {
-        SystemSummaryPage sysSummaryPage = (SystemSummaryPage) ShareUtil.navigateToSystemSummary(drone, shareUrl, username, password);
+        SystemSummaryPage sysSummaryPage = (SystemSummaryPage) shareUtil.navigateToSystemSummary(driver, shareUrl, username, password);
         directoryManagementPage = sysSummaryPage.openConsolePage(AdminConsoleLink.DirectoryManagement).render();
         assertNotNull(directoryManagementPage);
     }
@@ -70,14 +70,14 @@ public class DirectoryManagementPageTest extends AbstractTest
     @Test(dependsOnMethods = "checkOpenPage")
     public void checkDroneReturnManagementPagePO()
     {
-        directoryManagementPage = drone.getCurrentPage().render();
+        directoryManagementPage = resolvePage(driver).render();
         assertNotNull(directoryManagementPage);
     }
 
     @Test(dependsOnMethods = "checkDroneReturnManagementPagePO")
     public void checkAddAuthChain()
     {
-        directoryManagementPage = drone.getCurrentPage().render();
+        directoryManagementPage = resolvePage(driver).render();
         directoryManagementPage.addAuthChain(AuthType.OPEN_LDAP, AUTH_CHAIN_NAME);
         assertNotNull(directoryManagementPage.getDirectoryInfoRowBy(AUTH_CHAIN_NAME));
     }
@@ -85,7 +85,7 @@ public class DirectoryManagementPageTest extends AbstractTest
     @Test(dependsOnMethods = "checkAddAuthChain")
     public void checkInfoRow()
     {
-        directoryManagementPage = drone.getCurrentPage().render();
+        directoryManagementPage = resolvePage(driver).render();
         DirectoryInfoRow directoryInfoRow = directoryManagementPage.getDirectoryInfoRowBy(AUTH_CHAIN_NAME);
         assertEquals(directoryInfoRow.getSyncStatus(), "True");
         assertEquals(directoryInfoRow.getEnabled(), "True");
@@ -95,16 +95,16 @@ public class DirectoryManagementPageTest extends AbstractTest
     @Test(dependsOnMethods = "checkInfoRow")
     public void checkEditAuthChain()
     {
-        directoryManagementPage = drone.getCurrentPage().render();
+        directoryManagementPage = resolvePage(driver).render();
         DirectoryInfoRow directoryInfoRow = directoryManagementPage.getDirectoryInfoRowBy(AUTH_CHAIN_NAME);
         EditLdapFrame editLdapFrame = directoryInfoRow.clickEdit().render();
-        directoryManagementPage = editLdapFrame.clickClose();
+        directoryManagementPage = editLdapFrame.clickClose().render();
     }
 
     @Test(dependsOnMethods = "checkEditAuthChain")
     public void editAuthChain()
     {
-        directoryManagementPage = drone.getCurrentPage().render();
+        directoryManagementPage = resolvePage(driver).render();
         DirectoryInfoRow directoryInfoRow = directoryManagementPage.getDirectoryInfoRowBy(AUTH_CHAIN_NAME);
         EditLdapFrame editLdapFrame = directoryInfoRow.clickEdit().render();
         editLdapFrame.fillLdapUrl(LDAP_OPEN_URL);
@@ -132,7 +132,7 @@ public class DirectoryManagementPageTest extends AbstractTest
     @Test(dependsOnMethods = "editAuthChain")
     public void runTestSync()
     {
-        directoryManagementPage = drone.getCurrentPage().render();
+        directoryManagementPage = resolvePage(driver).render();
         String testResult = directoryManagementPage.runTestSyncFor(AUTH_CHAIN_NAME);
         assertEquals(testResult, "Test Passed");
     }
@@ -140,8 +140,8 @@ public class DirectoryManagementPageTest extends AbstractTest
     @Test(dependsOnMethods = "runTestSync")
     public void removeAuthChain()
     {
-        drone.refresh();
-        directoryManagementPage = drone.getCurrentPage().render();
+        driver.navigate().refresh();
+        directoryManagementPage = resolvePage(driver).render();
         directoryManagementPage.removeAuthChain(AUTH_CHAIN_NAME);
         try
         {
@@ -158,9 +158,9 @@ public class DirectoryManagementPageTest extends AbstractTest
     @Test(dependsOnMethods = "removeAuthChain")
     public void testSaveAndVerifyIfStatusIsDisplayed()
     {
-        drone.refresh();
-        directoryManagementPage = drone.getCurrentPage().render();
-        directoryManagementPage = directoryManagementPage.clickSave();
+        driver.navigate().refresh();
+        directoryManagementPage = resolvePage(driver).render();
+        directoryManagementPage = directoryManagementPage.clickSave().render();
         Assert.assertFalse(directoryManagementPage.isSyncStatusDisplayed());
     }
 

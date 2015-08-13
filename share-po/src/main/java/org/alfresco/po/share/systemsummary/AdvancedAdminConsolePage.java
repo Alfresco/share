@@ -1,19 +1,13 @@
 package org.alfresco.po.share.systemsummary;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.site.contentrule.FolderRulesPage;
-import org.alfresco.po.share.user.UserSiteItem;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -25,11 +19,6 @@ public abstract class AdvancedAdminConsolePage extends SharePage
     // private Log logger = LogFactory.getLog(this.getClass());
     private final String CHECKBOX = "//span[@class='value']//img";
     private final String VALUE = "//span[@class='value']";
-
-    public AdvancedAdminConsolePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -46,17 +35,10 @@ public abstract class AdvancedAdminConsolePage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AdvancedAdminConsolePage render(final long time)
+    public HtmlPage openConsolePage(AdminConsoleLink adminConsoleLink)
     {
-        return render(new RenderTime(time));
-    }
-
-    public SharePage openConsolePage(AdminConsoleLink adminConsoleLink)
-    {
-        drone.findAndWait(adminConsoleLink.contentLocator).click();
-        return drone.getCurrentPage().render();
+        findAndWait(adminConsoleLink.contentLocator).click();
+        return getCurrentPage();
     }
 
     /**
@@ -68,7 +50,7 @@ public abstract class AdvancedAdminConsolePage extends SharePage
     {
           try
           {
-              return drone.findAndWait(adminConsoleLink.contentLocator).isDisplayed();
+              return findAndWait(adminConsoleLink.contentLocator).isDisplayed();
           }
           catch (NoSuchElementException nse)
           {
@@ -81,11 +63,11 @@ public abstract class AdvancedAdminConsolePage extends SharePage
      *
      * @return true if any value present
      */
-    public String getValue(String element)
+    public String getValueOfElement(String element)
     {
         try
         {
-            WebElement getV = drone.findAndWait(By.xpath(element + VALUE));
+            WebElement getV = findAndWait(By.xpath(element + VALUE));
             return getV.getText();
         }
         catch (TimeoutException toe)
@@ -104,7 +86,7 @@ public abstract class AdvancedAdminConsolePage extends SharePage
     {
         try
         {
-            WebElement data = drone.findAndWait(By.xpath(element));
+            WebElement data = findAndWait(By.xpath(element));
             return data.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -118,11 +100,15 @@ public abstract class AdvancedAdminConsolePage extends SharePage
      *
      * @return true if the ratio button is present
      */
-    public boolean isRadioButtonPresent(String element) {
-        try {
-            WebElement button = drone.find(By.xpath(element + CHECKBOX));
+    public boolean isRadioButtonPresent(String element)
+    {
+        try
+        {
+            WebElement button = findAndWait(By.xpath(element + CHECKBOX));
             return button.isDisplayed();
-        } catch (NoSuchElementException te) {
+        } 
+        catch (NoSuchElementException te)
+        {
             return false;
         }
     }

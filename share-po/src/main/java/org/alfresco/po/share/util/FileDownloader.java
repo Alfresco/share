@@ -23,8 +23,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Set;
 
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,9 +38,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.protocol.BasicHttpContext;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
 
 /**
- * Downloads file from given url using {@link WebDrone}'s session details
+ * Downloads file from given url using {@link WebDriver}'s session details
  * extracted from a cookie.
  * 
  * @author Michael Suzuki
@@ -52,12 +51,12 @@ public class FileDownloader
 {
 
     private static Log logger = LogFactory.getLog(FileDownloader.class);
-    private WebDrone drone;
+    private WebDriver driver;
     private String localDownloadPath = System.getProperty("java.io.tmpdir");
 
-    public FileDownloader(WebDrone drone)
+    public FileDownloader(WebDriver driver)
     {
-        this.drone = drone;
+        this.driver = driver;
     }
 
     public String getLocalDownloadPath()
@@ -71,14 +70,14 @@ public class FileDownloader
     }
 
     /**
-     * Loads the cookies from WebDrone to mimic the browser cookie state
+     * Loads the cookies from WebDriver to mimic the browser cookie state
      * @return {@link BasicCookieStore} current state
      */
     private BasicCookieStore getCookies()
     {
 
         BasicCookieStore mimicWebDriverCookie = new BasicCookieStore();
-        Set<Cookie> cookies = ((WebDroneImpl) drone).getCookies();
+        Set<Cookie> cookies = driver.manage().getCookies();
 
         for (Cookie seleniumCookie : cookies)
         {
@@ -94,7 +93,7 @@ public class FileDownloader
 
     /**
      * Main method that performs the download operation
-     * using HttpClient with WebDrone's cookies.
+     * using HttpClient with WebDriver's cookies.
      * 
      * @param path url path to file
      * @throws Exception if error

@@ -14,20 +14,24 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.sitesearch")
 /**
  * Site Search dashlet object, holds all element of the HTML relating to site Notice dashlet.
  * 
@@ -50,22 +54,20 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     private static final By SEARCH_BUTTON = By.cssSelector("button[id$='default-search-button']");
     private static final By LOADING_MESSAGE = By.cssSelector("table>tbody>tr>td.yui-dt-loading>div");
     public static Integer retrySearchCount = 3;
-
-    /**
-     * Constructor.
-     */
-    protected SiteSearchDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.cssSelector(".yui-resize-handle"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected SiteSearchDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.cssSelector(".yui-resize-handle"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
     public SiteSearchDashlet render(RenderTime timer)
     {
         try
         {
+            setResizeHandle(By.cssSelector(".yui-resize-handle"));
             while (true)
             {
                 synchronized (this)
@@ -82,11 +84,11 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
                 try
                 {
                     getFocus();
-                    drone.find(DASHLET_CONTAINER_PLACEHOLDER);
-                    drone.find(HELP_ICON);
-                    drone.find(DASHLET_TITLE);
-                    drone.find(SEARCH_BUTTON);
-                    drone.find(INPUT_BOX);
+                    driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
+                    driver.findElement(HELP_ICON);
+                    driver.findElement(DASHLET_TITLE);
+                    driver.findElement(SEARCH_BUTTON);
+                    driver.findElement(INPUT_BOX);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -110,20 +112,6 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteSearchDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteSearchDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
     /**
      * The following items are displayed:Search field with the "Search" button;
      */
@@ -131,7 +119,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(INPUT_BOX).isDisplayed();
+            return findAndWait(INPUT_BOX).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -144,7 +132,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(RESULT_SIZE_BUTTON).isDisplayed();
+            return findAndWait(RESULT_SIZE_BUTTON).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -159,7 +147,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(RESULT_SIZE_BUTTON).isDisplayed();
+            return findAndWait(RESULT_SIZE_BUTTON).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -177,7 +165,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
         try
         {
             scrollDownToDashlet();
-            return drone.findAndWait(HELP_ICON).isDisplayed();
+            return findAndWait(HELP_ICON).isDisplayed();
         }
         catch (TimeoutException te)
         {
@@ -197,7 +185,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(HELP_ICON).click();
+            findAndWait(HELP_ICON).click();
         }
         catch (TimeoutException te)
         {
@@ -215,7 +203,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
+            return findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -232,7 +220,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
+            return findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
         }
         catch (TimeoutException elementException)
         {
@@ -248,8 +236,8 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
-            drone.waitUntilElementDisappears(DASHLET_HELP_BALLOON, TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+            findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
+            waitUntilElementDisappears(DASHLET_HELP_BALLOON, TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
             return this;
         }
         catch (TimeoutException elementException)
@@ -267,7 +255,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(DASHLET_TITLE).getText();
+            return findAndWait(DASHLET_TITLE).getText();
         }
         catch (TimeoutException te)
         {
@@ -284,7 +272,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(SEARCH_RESULTS).getText();
+            return findAndWait(SEARCH_RESULTS).getText();
         }
         catch (TimeoutException te)
         {
@@ -301,14 +289,14 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            List<WebElement> resultItems = drone.findAndWaitForElements(By.cssSelector("div[id$='default-search-results'] .yui-dt-data>tr"));
+            List<WebElement> resultItems = findAndWaitForElements(By.cssSelector("div[id$='default-search-results'] .yui-dt-data>tr"));
             List<SiteSearchItem> searchItems = Collections.emptyList();
             if (resultItems != null && resultItems.size() > 0)
             {
                 searchItems = new ArrayList<SiteSearchItem>(resultItems.size());
                 for (WebElement webElement : resultItems)
                 {
-                    searchItems.add(new SiteSearchItem(webElement, drone));
+                    searchItems.add(new SiteSearchItem(webElement, driver, factoryPage));
                 }
             }
             return searchItems;
@@ -340,11 +328,11 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            WebElement inputElement = drone.findAndWait(INPUT_BOX);
+            WebElement inputElement = findAndWait(INPUT_BOX);
             inputElement.clear();
             inputElement.sendKeys(text);
-            drone.findAndWait(SEARCH_BUTTON).click();
-            drone.waitUntilElementDisappears(LOADING_MESSAGE, TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+            findAndWait(SEARCH_BUTTON).click();
+            waitUntilElementDisappears(LOADING_MESSAGE, TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
         }
         catch (TimeoutException e)
         {
@@ -404,13 +392,13 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         scrollDownToDashlet();
         List<String> resultSizeList = new ArrayList<String>();
-        drone.findAndWait(RESULT_SIZE_BUTTON).click();
-        List<WebElement> resultSizeElements = drone.findAndWaitForElements(RESULT_SIZES);
+        findAndWait(RESULT_SIZE_BUTTON).click();
+        List<WebElement> resultSizeElements = findAndWaitForElements(RESULT_SIZES);
         for (WebElement webElement : resultSizeElements)
         {
             resultSizeList.add(webElement.getText());
         }
-        drone.findAndWait(RESULT_SIZE_BUTTON).click();
+        findAndWait(RESULT_SIZE_BUTTON).click();
         return resultSizeList;
     }
 
@@ -422,7 +410,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(INPUT_BOX).getAttribute("value");
+            return findAndWait(INPUT_BOX).getAttribute("value");
         }
         catch (TimeoutException e)
         {
@@ -435,7 +423,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
      */
     protected void getFocus()
     {
-        drone.mouseOver(drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(findAndWait(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
 
@@ -453,8 +441,8 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
         scrollDownToDashlet();
         try
         {
-            drone.findAndWait(RESULT_SIZE_BUTTON).click();
-            List<WebElement> resultSizeElements = drone.findAndWaitForElements(RESULT_SIZES);
+            findAndWait(RESULT_SIZE_BUTTON).click();
+            List<WebElement> resultSizeElements = findAndWaitForElements(RESULT_SIZES);
 
             for (WebElement webElement : resultSizeElements)
             {
@@ -491,7 +479,7 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return SearchLimit.getSearchLimit(Integer.parseInt(drone.find(RESULT_SIZE_BUTTON).getText().substring(0, 3).trim()));
+            return SearchLimit.getSearchLimit(Integer.parseInt(driver.findElement(RESULT_SIZE_BUTTON).getText().substring(0, 3).trim()));
         }
         catch (NoSuchElementException nse)
         {
@@ -501,5 +489,11 @@ public class SiteSearchDashlet extends AbstractDashlet implements Dashlet
             }
             throw new PageOperationException("Unable to locate Result Size");
         }
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteSearchDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

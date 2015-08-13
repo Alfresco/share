@@ -1,23 +1,37 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.discussions;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.dashlet.mydiscussions.TopicsListPage;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * Site Discussions Page object
@@ -39,12 +53,6 @@ public class DiscussionsPage extends TopicsListPage
             + "/following-sibling::div[@class='nodeFooter']/span[@class='tag']/a[text()='%s']";
     private static final By NO_TOPICS = By.cssSelector("td[class='yui-dt-empty']>div");
 
-
-    public DiscussionsPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public DiscussionsPage render(RenderTime timer)
@@ -60,13 +68,6 @@ public class DiscussionsPage extends TopicsListPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public DiscussionsPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to click New Topic button
      * 
@@ -76,7 +77,7 @@ public class DiscussionsPage extends TopicsListPage
     {
         try
         {
-            drone.findAndWait(NEW_TOPIC_BTN).click();
+            findAndWait(NEW_TOPIC_BTN).click();
         }
         catch (NoSuchElementException e)
         {
@@ -86,7 +87,7 @@ public class DiscussionsPage extends TopicsListPage
         {
             logger.debug("The operation has timed out");
         }
-        return new NewTopicForm(drone);
+        return factoryPage.instantiatePage(driver, NewTopicForm.class).render();
     }
 
     /**
@@ -101,7 +102,8 @@ public class DiscussionsPage extends TopicsListPage
     {
         try
         {
-            DiscussionsPage discussionsPage = new DiscussionsPage(drone);
+            DiscussionsPage discussionsPage = 
+                    factoryPage.instantiatePage(driver,DiscussionsPage.class).render();
             NewTopicForm newTopicForm = discussionsPage.clickNewTopic();
 
             newTopicForm.setTitleField(titleField);
@@ -124,7 +126,7 @@ public class DiscussionsPage extends TopicsListPage
         {
             logger.debug("Unable to find the elements");
         }
-        return new TopicViewPage(drone).render();
+        return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
     }
 
     /**
@@ -138,7 +140,7 @@ public class DiscussionsPage extends TopicsListPage
     {
         try
         {
-            DiscussionsPage discussionsPage = new DiscussionsPage(drone);
+            DiscussionsPage discussionsPage = factoryPage.instantiatePage(driver,DiscussionsPage.class).render();
             NewTopicForm newTopicForm = discussionsPage.clickNewTopic();
 
             newTopicForm.setTitleField(titleField);
@@ -153,7 +155,7 @@ public class DiscussionsPage extends TopicsListPage
         {
             logger.debug("Unable to find the elements");
         }
-        return new TopicViewPage(drone).render();
+        return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
     }
 
     /**
@@ -169,7 +171,7 @@ public class DiscussionsPage extends TopicsListPage
     {
         try
         {
-            DiscussionsPage discussionsPage = new DiscussionsPage(drone);
+            DiscussionsPage discussionsPage = factoryPage.instantiatePage(driver,DiscussionsPage.class).render();
             NewTopicForm newTopicForm = discussionsPage.clickNewTopic();
 
             newTopicForm.setTitleField(titleField);
@@ -194,7 +196,7 @@ public class DiscussionsPage extends TopicsListPage
         {
             logger.debug("Unable to find the elements");
         }
-        return new TopicViewPage(drone).render();
+        return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
     }
 
     public TopicDirectoryInfo getTopicDirectoryInfo(final String title)
@@ -208,8 +210,8 @@ public class DiscussionsPage extends TopicsListPage
 
         try
         {
-            row = drone.findAndWait(By.xpath(String.format("//a[text()='%s']/../../../..", title)), WAIT_TIME_3000);
-            drone.mouseOver(row);
+            row = findAndWait(By.xpath(String.format("//a[text()='%s']/../../../..", title)), getDefaultWaitTime());
+            mouseOver(row);
         }
         catch (NoSuchElementException e)
         {
@@ -219,7 +221,7 @@ public class DiscussionsPage extends TopicsListPage
         {
             throw new PageException(String.format("File directory info with title %s was not found", title), e);
         }
-        return new TopicDirectoryInfoImpl(drone, row);
+        return new TopicDirectoryInfoImpl(driver, row);
     }
 
     /**
@@ -231,7 +233,7 @@ public class DiscussionsPage extends TopicsListPage
     {
         try
         {
-            return drone.findAndWait(NEW_TOPIC_BTN).isEnabled();
+            return findAndWait(NEW_TOPIC_BTN).isEnabled();
         }
         catch (TimeoutException nse)
         {
@@ -249,7 +251,7 @@ public class DiscussionsPage extends TopicsListPage
         try
         {
             getTopicDirectoryInfo(title).viewTopic();
-            return new TopicViewPage(drone).render();
+            return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -265,17 +267,17 @@ public class DiscussionsPage extends TopicsListPage
      * @param txtLines String
      * @return TopicViewPage
      */
-    public TopicViewPage editTopic(String oldTitle, String newTitle, String txtLines)
+    public HtmlPage editTopic(String oldTitle, String newTitle, String txtLines)
     {
         try
         {
-            NewTopicForm newTopicForm = getTopicDirectoryInfo(oldTitle).editTopic();
+            NewTopicForm newTopicForm = getTopicDirectoryInfo(oldTitle).editTopic().render();
             newTopicForm.setTitleField(newTitle);
             newTopicForm.insertText(txtLines);
             newTopicForm.clickSave();
             waitUntilAlert();
             logger.info("Edited topic " + oldTitle);
-            return new TopicViewPage(drone).render();
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -311,7 +313,7 @@ public class DiscussionsPage extends TopicsListPage
     {
         try
         {
-            NewTopicForm newTopicForm = getTopicDirectoryInfo(oldTitle).editTopic();
+            NewTopicForm newTopicForm = getTopicDirectoryInfo(oldTitle).editTopic().render();
             newTopicForm.setTitleField(newTitle);
             newTopicForm.insertText(txtLines);
             if (!removeTag) {
@@ -322,7 +324,7 @@ public class DiscussionsPage extends TopicsListPage
             newTopicForm.clickSave();
             waitUntilAlert();
             logger.info("Edited topic " + oldTitle);
-            return new TopicViewPage(drone).render();
+            return factoryPage.instantiatePage(driver, TopicViewPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -342,7 +344,7 @@ public class DiscussionsPage extends TopicsListPage
         {
             getTopicDirectoryInfo(title).deleteTopic();
             logger.info("Topic " + title + "was deleted");
-            return new DiscussionsPage(drone).render();
+            return factoryPage.instantiatePage(driver,DiscussionsPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -359,11 +361,11 @@ public class DiscussionsPage extends TopicsListPage
     {
         try
         {
-            if (!drone.isElementDisplayed(TOPIC_CONTAINER))
+            if (!isElementDisplayed(TOPIC_CONTAINER))
             {
                 return 0;
             }
-            return drone.findAll(TOPIC_CONTAINER).size();
+            return driver.findElements(TOPIC_CONTAINER).size();
         }
         catch (TimeoutException te)
         {
@@ -400,7 +402,7 @@ public class DiscussionsPage extends TopicsListPage
      */
     public TopicsListFilter getTopicsListFilter()
     {
-        return new TopicsListFilter(drone);
+        return new TopicsListFilter(driver);
     }
 
     /**
@@ -411,7 +413,7 @@ public class DiscussionsPage extends TopicsListPage
     public List<String> getTopicTitles()
     {
         List<String> topicTitles = new ArrayList<String>();
-        List<WebElement> elements = drone.findAndWaitForElements(TOPIC_TITLE);
+        List<WebElement> elements = findAndWaitForElements(TOPIC_TITLE);
         for (WebElement element : elements)
         {
             topicTitles.add(element.getText());
@@ -436,7 +438,7 @@ public class DiscussionsPage extends TopicsListPage
 
         try
         {
-            WebElement theItem = drone.find(By.xpath(String.format(DISCUSSION_TOPIC_TITLE, title)));
+            WebElement theItem = driver.findElement(By.xpath(String.format(DISCUSSION_TOPIC_TITLE, title)));
             isDisplayed = theItem.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -474,7 +476,7 @@ public class DiscussionsPage extends TopicsListPage
             tagXpath = String.format(TAG_NONE, title);
             try
             {
-                element = drone.findAndWait(By.xpath(tagXpath));
+                element = findAndWait(By.xpath(tagXpath));
                 isDisplayed = element.getText().contains("None");
             }
             catch (NoSuchElementException ex)
@@ -493,7 +495,7 @@ public class DiscussionsPage extends TopicsListPage
             tagXpath = String.format(TAG_NAME, title, tag);
             try
             {
-                element = drone.findAndWait(By.xpath(tagXpath));
+                element = findAndWait(By.xpath(tagXpath));
                 isDisplayed = element.isDisplayed();
             }
             catch (NoSuchElementException te)
@@ -519,7 +521,7 @@ public class DiscussionsPage extends TopicsListPage
 
         try
         {
-            WebElement theItem = drone.findAndWait(NO_TOPICS);
+            WebElement theItem = findAndWait(NO_TOPICS);
             isDisplayed = theItem.isDisplayed();
         }
         catch (TimeoutException te)

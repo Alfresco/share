@@ -42,11 +42,6 @@
             <class name="org.alfresco.po.share.site.document.DocumentAspectTest"/>
         </classes>
     </test>
-    <test name="DocumentDetailsPageCloudSyncTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.DocumentDetailsPageCloudSyncTest"/>
-        </classes>
-    </test>
     <test name="DocumentDetailsPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.DocumentDetailsPageTest"/>
@@ -57,28 +52,11 @@
             <class name="org.alfresco.po.share.site.document.DocumentDetailsPagePreviewTest"/>
         </classes>
     </test>
-    <test name="DocumentLibraryPageFilmStripTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.DocumentLibraryPageFilmstripTest"/>
-        </classes>
-    </test>
-    <test name="DocumentLibraryPageTagTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.DocumentLibraryPageTagTest"/>
-        </classes>
-    </test>
     <test name="DocumentLibraryPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.DocumentLibraryPageTest"/>
         </classes>
     </test>
-    <test name="DocumentLibraryPageWithLotsOfFilesTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.DocumentLibraryPageWithLotsOfFilesTest"/>
-        </classes>
-    </test>
-    <!-- <test name="DocumentLibraryPaginationTest"> <classes> <class name="org.alfresco.po.share.site.document.DocumentLibraryPaginationTest" 
-        /> </classes> </test> -->
     <test name="EditDocumentPropertiesPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.EditDocumentPropertiesPageTest"/>
@@ -91,16 +69,6 @@
     <test name="EditOfflineTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.EditOfflineTest"/>
-        </classes>
-    </test>
-    <test name="FileDirectoryInfoFilmstripViewTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.FileDirectoryInfoFilmstripViewTest"/>
-        </classes>
-    </test>
-    <test name="FileDirectoryInfoGalleryViewTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.FileDirectoryInfoGalleryViewTest"/>
         </classes>
     </test>
     <test name="FileDirectoryInfoMoreTest">
@@ -138,24 +106,9 @@
     <!--             <class name="org.alfresco.po.share.site.document.RevertToVersionPageTest" /> -->
     <!--         </classes> -->
     <!--     </test> -->
-    <test name="SelectSyncToCloudTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.SelectSyncToCloudTest"/>
-        </classes>
-    </test>
     <test name="ShareLinkTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.ShareLinkTest"/>
-        </classes>
-    </test>
-    <test name="SyncInfoPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.SyncInfoPageTest"/>
-        </classes>
-    </test>
-    <test name="TableViewFileDirectoryInfoTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.TableViewFileDirectoryInfoTest"/>
         </classes>
     </test>
     <test name="ContentDetailsTest">

@@ -21,7 +21,7 @@ package org.alfresco.po.share.dashlet.sitecontent;
 import static org.testng.Assert.assertEquals;
 
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.WebDrone;
+import org.openqa.selenium.WebDriver;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
@@ -37,7 +37,7 @@ public class SimpleViewInformationTest
 {
 
     WebElement element;
-    WebDrone drone;
+    WebDriver driver;
     
     @BeforeClass
     public void setup()
@@ -45,31 +45,31 @@ public class SimpleViewInformationTest
         element = Mockito.mock(WebElement.class);
         Mockito.when(element.getText()).thenReturn("");
         Mockito.when(element.getAttribute("href")).thenReturn("");
-        drone = Mockito.mock(WebDrone.class);
+        driver = Mockito.mock(WebDriver.class);
     }
 
     @Test(expectedExceptions=UnsupportedOperationException.class)
     public void withNullThumnail()
     {
-       new SimpleViewInformation(drone, null, new ShareLink(element, null), new ShareLink(element, null), "", false);
+       new SimpleViewInformation(driver, null, new ShareLink(element, null, null), new ShareLink(element, null, null), "", false, null);
     }
 
     @Test(dependsOnMethods="withNullThumnail", expectedExceptions=UnsupportedOperationException.class)
     public void withNullContentDetaill()
     {
-        new SimpleViewInformation(drone, new ShareLink(element, null), null, new ShareLink(element, null), "", false);
+        new SimpleViewInformation(driver, new ShareLink(element, null, null), null, new ShareLink(element, null, null), "", false, null);
     }
 
     @Test(dependsOnMethods="withNullContentDetaill", expectedExceptions=UnsupportedOperationException.class)
     public void withNullUser()
     {
-        new SimpleViewInformation(drone, new ShareLink(element, null), new ShareLink(element, null), null,"", false);
+        new SimpleViewInformation(driver, new ShareLink(element, null, null), new ShareLink(element, null, null), null,"", false, null);
     }
 
     @Test(dependsOnMethods="withNullUser")
     public void toStringTest()
     {
-        SimpleViewInformation information = new SimpleViewInformation(drone, new ShareLink(element, null), new ShareLink(element, null), new ShareLink(element, null),"", false);
+        SimpleViewInformation information = new SimpleViewInformation(driver, new ShareLink(element, null, null), new ShareLink(element, null, null), new ShareLink(element, null, null),"", false, null);
         assertEquals("SimpleViewInformation [thumbnail=ShareLink [description=, href=], contentDetail=ShareLink [description=, href=], contentStatus=, user=ShareLink [description=, href=], previewDisplayed=false]", information.toString());
     }
 }

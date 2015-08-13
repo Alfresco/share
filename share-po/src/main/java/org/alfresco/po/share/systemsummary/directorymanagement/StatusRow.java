@@ -18,10 +18,10 @@
  */
 package org.alfresco.po.share.systemsummary.directorymanagement;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.PageElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -30,16 +30,16 @@ import org.openqa.selenium.WebElement;
  *
  * @author Aliaksei Boole
  */
-public class StatusRow extends HtmlElement
+public class StatusRow extends PageElement
 {
     private final static By BEAN_NAME = By.xpath("./td[1]");
     private final static By SYNC_TIME = By.xpath("./td[2]");
     private final static By STATUS_COUNT = By.xpath("./td[3]");
     private final static By TOTAL_COUNT = By.xpath("./td[4]");
 
-    public StatusRow(WebElement webElement, WebDrone drone)
+    public StatusRow(WebElement webElement, WebDriver driver)
     {
-        super(webElement, drone);
+        setWrappedElement(webElement);
     }
 
 

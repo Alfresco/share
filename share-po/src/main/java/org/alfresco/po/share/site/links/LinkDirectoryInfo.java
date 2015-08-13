@@ -1,35 +1,28 @@
 package org.alfresco.po.share.site.links;
 
-import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * @author Marina.Nenadovets
  */
-public class LinkDirectoryInfo extends HtmlElement
+public class LinkDirectoryInfo extends PageElement
 {
     private static final By EDIT_LINK = By.cssSelector(".edit-link>a");
-    private static final By DELETE_LINK = By.cssSelector(".delete-link>a");
     private final static By TAGS_LINK = By.xpath(".//span[@class='tag-item']/span[@class='tag']/a");
     private final static By SELECT = By.xpath(".//input[@type='checkbox']");
 
-    /**
-     * Constructor
-     */
-    protected LinkDirectoryInfo(WebDrone drone, WebElement webElement)
-    {
-        super(webElement, drone);
-    }
-
+    AddLinkForm addLinkForm;
+    @FindBy(css=".edit-link>a")Link edit;
     /**
      * Method to click Edit
      *
@@ -37,23 +30,17 @@ public class LinkDirectoryInfo extends HtmlElement
      */
     public AddLinkForm clickEdit()
     {
-        findAndWait(EDIT_LINK).click();
-        return new AddLinkForm(drone).render();
+        edit.click();
+        return addLinkForm;
     }
 
+    @FindBy(css=".delete-link>a") Link delete;
     /**
      * Method to click Delete
      */
     public void clickDelete()
     {
-        try
-        {
-            findAndWait(DELETE_LINK).click();
-        }
-        catch (TimeoutException te)
-        {
-            throw new ShareException("Unable to find " + DELETE_LINK);
-        }
+        delete.click();
     }
 
     /**
@@ -73,7 +60,7 @@ public class LinkDirectoryInfo extends HtmlElement
      */
     public boolean isDeleteDisplayed()
     {
-        return findElement(DELETE_LINK).isDisplayed();
+        return delete.isDisplayed();
     }
 
     /**
@@ -84,13 +71,13 @@ public class LinkDirectoryInfo extends HtmlElement
     public LinksPage clickOnTag(String tagName)
     {
         checkNotNull(tagName);
-        List<WebElement> tagElements = findAllWithWait(TAGS_LINK);
+        List<WebElement> tagElements = driver.findElements(TAGS_LINK);
         for (WebElement tagElement : tagElements)
         {
             if (tagName.equals(tagElement.getText()))
             {
                 tagElement.click();
-                return new LinksPage(drone).waitUntilAlert().render();
+                return factoryPage.instantiatePage(driver,LinksDetailsPage.class).waitUntilAlert().render();
             }
         }
         throw new PageException(String.format("Tag with name[%s] don't found.", tagName));

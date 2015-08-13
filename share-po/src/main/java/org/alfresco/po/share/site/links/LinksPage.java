@@ -1,17 +1,34 @@
+/*
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.links;
 
+import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.util.PageUtils;
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.WebDriverAwareDecorator;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -72,14 +89,6 @@ public class LinksPage extends SharePage
         public final By BY;
     }
 
-    /**
-     * Constructor
-     */
-    public LinksPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public LinksPage render(RenderTime timer)
@@ -94,19 +103,13 @@ public class LinksPage extends SharePage
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public LinksPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
+    
+    AddLinkForm addLinkForm;
     public AddLinkForm clickNewLink()
     {
         try
         {
-            drone.findAndWait(NEW_LINK_BTN).click();
+            driver.findElement(NEW_LINK_BTN).click();
             waitUntilAlert();
         }
         catch (NoSuchElementException e)
@@ -117,7 +120,7 @@ public class LinksPage extends SharePage
         {
             logger.debug("The operation has timed out");
         }
-        return new AddLinkForm(drone);
+        return addLinkForm;
     }
 
     /**
@@ -131,13 +134,12 @@ public class LinksPage extends SharePage
     {
         try
         {
-            drone.findAndWait(NEW_LINK_BTN).click();
-            AddLinkForm addLinkForm = new AddLinkForm(drone);
+            driver.findElement(NEW_LINK_BTN).click();
             addLinkForm.setTitleField(name);
             addLinkForm.setUrlField(url);
             addLinkForm.clickSaveBtn();
             waitUntilAlert();
-            return new LinksDetailsPage(drone).render();
+            return getCurrentPage().render();
         }
         catch (NoSuchElementException nse)
         {
@@ -157,14 +159,13 @@ public class LinksPage extends SharePage
     {
         try
         {
-            drone.findAndWait(NEW_LINK_BTN).click();
-            AddLinkForm addLinkForm = new AddLinkForm(drone);
+            driver.findElement(NEW_LINK_BTN).click();
             addLinkForm.setTitleField(name);
             addLinkForm.setUrlField(url);
             addLinkForm.addTag(tagName);
             addLinkForm.clickSaveBtn();
             waitUntilAlert();
-            return new LinksDetailsPage(drone);
+            return getCurrentPage().render();
         }
         catch (NoSuchElementException nse)
         {
@@ -185,8 +186,7 @@ public class LinksPage extends SharePage
     {
         try
         {
-            drone.findAndWait(NEW_LINK_BTN).click();
-            AddLinkForm addLinkForm = new AddLinkForm(drone);
+            driver.findElement(NEW_LINK_BTN).click();
             addLinkForm.setTitleField(name);
             addLinkForm.setUrlField(url);
             addLinkForm.setDescriptionField(description);
@@ -196,7 +196,7 @@ public class LinksPage extends SharePage
             }
             addLinkForm.clickSaveBtn();
             waitUntilAlert();
-            return new LinksDetailsPage(drone);
+            return getCurrentPage().render();
         }
         catch (NoSuchElementException nse)
         {
@@ -211,7 +211,7 @@ public class LinksPage extends SharePage
      */
     public boolean isCreateLinkEnabled()
     {
-        return drone.find(NEW_LINK_BTN).isEnabled();
+        return driver.findElement(NEW_LINK_BTN).isEnabled();
     }
 
     /**
@@ -231,8 +231,8 @@ public class LinksPage extends SharePage
 
         try
         {
-            row = drone.findAndWait(By.xpath(String.format("//a[text()='%s']/../../../..", title)), WAIT_TIME_3000);
-            drone.mouseOver(row);
+            row = driver.findElement(By.xpath(String.format("//a[text()='%s']/../../../..", title)));
+            mouseOver(row);
         }
         catch (NoSuchElementException e)
         {
@@ -242,7 +242,9 @@ public class LinksPage extends SharePage
         {
             throw new PageException(String.format("File directory info with title %s was not found", title), e);
         }
-        return new LinkDirectoryInfo(drone, row);
+        LinkDirectoryInfo link = new LinkDirectoryInfo();
+        PageFactory.initElements(new WebDriverAwareDecorator(driver),link);
+        return link;
     }
 
     /**
@@ -257,7 +259,7 @@ public class LinksPage extends SharePage
      */
     public LinksDetailsPage editLink(String linkTitle, String linkNewTitle, String url, String desc, boolean internalChkBox)
     {
-        AddLinkForm addLinkForm = getLinkDirectoryInfo(linkTitle).clickEdit().render();
+        AddLinkForm addLinkForm = getLinkDirectoryInfo(linkTitle).clickEdit();
         addLinkForm.setTitleField(linkNewTitle);
         addLinkForm.setDescriptionField(desc);
         addLinkForm.setUrlField(url);
@@ -267,7 +269,7 @@ public class LinksPage extends SharePage
         }
         addLinkForm.clickSaveBtn();
         waitUntilAlert();
-        return new LinksDetailsPage(drone);
+        return getCurrentPage().render();
     }
 
     /**
@@ -280,13 +282,13 @@ public class LinksPage extends SharePage
     {
         LinkDirectoryInfo theItem = getLinkDirectoryInfo(title);
         theItem.clickDelete();
-        if (!drone.isElementDisplayed(PROMPT_PANEL_ID))
+        if (!isElementDisplayed(PROMPT_PANEL_ID))
         {
             throw new ShareException("The prompt isn't popped up");
         }
-        drone.findAndWait(CONFIRM_DELETE).click();
+        driver.findElement(CONFIRM_DELETE).click();
         waitUntilAlert();
-        return new LinksPage(drone).render();
+        return getCurrentPage().render();
     }
 
     /**
@@ -298,11 +300,11 @@ public class LinksPage extends SharePage
     {
         try
         {
-            if (!drone.isElementDisplayed(LINKS_CONTAINER))
+            if (!isElementDisplayed(LINKS_CONTAINER))
             {
                 return 0;
             }
-            return drone.findAndWaitForElements(LINKS_CONTAINER).size();
+            return driver.findElements(LINKS_CONTAINER).size();
         }
         catch (TimeoutException te)
         {
@@ -342,9 +344,9 @@ public class LinksPage extends SharePage
     {
         try
         {
-            WebElement link = drone.findAndWait(By.xpath("//a[text()='" + linkTitle + "']"));
+            WebElement link = driver.findElement(By.xpath("//a[text()='" + linkTitle + "']"));
             link.click();
-            return new LinksDetailsPage(drone);
+            return getCurrentPage().render();
         }
         catch (TimeoutException te)
         {
@@ -363,13 +365,13 @@ public class LinksPage extends SharePage
         checkNotNull(password);
         try
         {
-            String currentUrl = drone.getCurrentUrl();
-            String rssUrl = drone.findAndWait(RSS_LINK).getAttribute("href");
+            String currentUrl = driver.getCurrentUrl();
+            String rssUrl = driver.findElement(RSS_LINK).getAttribute("href");
             String protocolVar = PageUtils.getProtocol(currentUrl);
             rssUrl = rssUrl.replace(protocolVar,
                     String.format("%s%s:%s@", protocolVar, URLEncoder.encode(username, "UTF-8"), URLEncoder.encode(password, "UTF-8")));
-            drone.navigateTo(rssUrl);
-            return new RssFeedPage(drone).render();
+            driver.navigate().to(rssUrl);
+            return factoryPage.instantiatePage(driver,RssFeedPage.class).render();
         }
         catch (NoSuchElementException nse)
         {
@@ -393,7 +395,7 @@ public class LinksPage extends SharePage
      */
     public LinksListFilter getLinkListFilter()
     {
-        return new LinksListFilter(drone);
+        return new LinksListFilter(driver);
     }
 
     /**
@@ -404,8 +406,8 @@ public class LinksPage extends SharePage
     public void selectAction(CheckBoxAction checkBoxAction)
     {
         checkNotNull(checkBoxAction);
-        drone.findAndWait(SELECT_BUTTON).click();
-        drone.findAndWait(checkBoxAction.BY).click();
+        driver.findElement(SELECT_BUTTON).click();
+        driver.findElement(checkBoxAction.BY).click();
         waitUntilAlert();
     }
 
@@ -417,11 +419,11 @@ public class LinksPage extends SharePage
     public void selectedItemsAction(SelectedAction selectedAction)
     {
         checkNotNull(selectedAction);
-        drone.findAndWait(SELECTED_ITEMS_ACTION_BUTTON).click();
-        drone.findAndWait(selectedAction.BY).click();
+        driver.findElement(SELECTED_ITEMS_ACTION_BUTTON).click();
+        driver.findElement(selectedAction.BY).click();
         if (selectedAction.equals(DELETE))
         {
-            drone.findAndWait(POP_UP_DELETE_BUTTON).click();
+            driver.findElement(POP_UP_DELETE_BUTTON).click();
             waitUntilAlert();
         }
 
@@ -444,7 +446,7 @@ public class LinksPage extends SharePage
 
         try
         {
-            WebElement theItem = drone.find(By.xpath(String.format(LINK_TITLE, title)));
+            WebElement theItem = driver.findElement(By.xpath(String.format(LINK_TITLE, title)));
             isDisplayed = theItem.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -482,7 +484,7 @@ public class LinksPage extends SharePage
             tagXpath = String.format(TAG_NONE, title);
             try
             {
-                element = drone.findAndWait(By.xpath(tagXpath));
+                element = driver.findElement(By.xpath(tagXpath));
                 isDisplayed = element.getText().contains("None");
             }
             catch (NoSuchElementException ex)
@@ -501,7 +503,7 @@ public class LinksPage extends SharePage
             tagXpath = String.format(TAG_NAME, title, tag);
             try
             {
-                element = drone.findAndWait(By.xpath(tagXpath));
+                element = driver.findElement(By.xpath(tagXpath));
                 isDisplayed = element.isDisplayed();
             }
             catch (NoSuchElementException te)
@@ -527,7 +529,7 @@ public class LinksPage extends SharePage
 
         try
         {
-            WebElement theItem = drone.findAndWait(NO_LINKS);
+            WebElement theItem = driver.findElement(NO_LINKS);
             isDisplayed = theItem.isDisplayed();
         }
         catch (TimeoutException te)

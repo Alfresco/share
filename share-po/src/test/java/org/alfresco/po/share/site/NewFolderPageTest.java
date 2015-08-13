@@ -14,10 +14,10 @@
  */
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,18 +57,18 @@ public class NewFolderPageTest extends AbstractTest
         siteName = "site" + System.currentTimeMillis();
 
 
-        ShareUtil.loginAs(drone, shareUrl, username, password).render();
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
         
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
     }
 
     @AfterClass(groups = { "alfresco-one" })
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test(groups = { "alfresco-one" })
@@ -88,22 +88,5 @@ public class NewFolderPageTest extends AbstractTest
         newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
         documentLibPage = newFolderPage.createNewFolderWithValidation(folderName + "-1").render();
         Assert.assertNotNull(documentLibPage);
-    }
-
-    @Test(groups = { "alfresco-one" }, enabled = false)
-    public void getNotificationMessageTest() throws Exception
-    {
-        String folderName = "New Folder" + 1;
-
-        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
-        newFolderPage.type(folderName);
-        documentLibPage = newFolderPage.selectSubmitButton().render();
-        Assert.assertNotNull(documentLibPage);
-
-        newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
-        newFolderPage.type(folderName);
-        newFolderPage.selectSubmitButton().render();
-        Assert.assertNotEquals(newFolderPage.getNotificationMessage(), "");
-
     }
 }

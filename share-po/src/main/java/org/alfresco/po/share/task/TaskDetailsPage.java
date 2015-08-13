@@ -14,19 +14,19 @@
  */
 package org.alfresco.po.share.task;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.workflow.TaskHistoryPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,19 +49,11 @@ public class TaskDetailsPage extends SharePage
     private RenderElement menuTitle = getVisibleRenderElement(MENU_TITLE);
     private RenderElement workflowDetails = getVisibleRenderElement(WORKFLOW_DETAILS);
     private static final By ALL_FIELD_LABELS = By.cssSelector("span[class$='viewmode-label']");
-
     private final Log logger = LogFactory.getLog(this.getClass());
-
     private static final By ITEM_ROW = By.cssSelector("div[id$='assoc_packageItems-cntrl'] table>tbody.yui-dt-data>tr");
-
     private static final By EDIT_BUTTON = By.cssSelector("button[id$='_default-edit-button']");
-
     private static final boolean isViewMoreActionDisplayed = false;
 
-    public TaskDetailsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -73,16 +65,9 @@ public class TaskDetailsPage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public TaskDetailsPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public TaskDetailsPage render()
     {
-        return render(maxPageLoadingTime);
+        return render(new RenderTime(maxPageLoadingTime));
     }
 
     /**
@@ -130,12 +115,12 @@ public class TaskDetailsPage extends SharePage
      * 
      * @return {@link MyTasksPage}
      */
-    public MyTasksPage clickMyTasksList()
+    public HtmlPage clickMyTasksList()
     {
         try
         {
-            drone.find(MY_TASK_DETAILS).click();
-            return new MyTasksPage(drone);
+            driver.findElement(MY_TASK_DETAILS).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -182,7 +167,7 @@ public class TaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.findAll(ITEM_ROW);
+            return driver.findElements(ITEM_ROW);
         }
         catch (NoSuchElementException nse)
         {
@@ -204,7 +189,7 @@ public class TaskDetailsPage extends SharePage
 
             for (WebElement item : itemsRows)
             {
-                taskItems.add(new TaskItem(item, drone, isViewMoreActionDisplayed));
+                taskItems.add(new TaskItem(item, driver, isViewMoreActionDisplayed, factoryPage));
             }
             return taskItems;
         }
@@ -237,7 +222,7 @@ public class TaskDetailsPage extends SharePage
             {
                 if (item.findElement(By.cssSelector("h3.name")).getText().equals(fileName))
                 {
-                    taskItems.add(new TaskItem(item, drone, isViewMoreActionDisplayed));
+                    taskItems.add(new TaskItem(item, driver, isViewMoreActionDisplayed, factoryPage));
                 }
             }
             return taskItems;
@@ -253,12 +238,12 @@ public class TaskDetailsPage extends SharePage
      * 
      * @return {@link EditTaskPage}
      */
-    public EditTaskPage selectEditButton()
+    public HtmlPage selectEditButton()
     {
         try
         {
-            drone.find(EDIT_BUTTON).click();
-            return new EditTaskPage(drone);
+            driver.findElement(EDIT_BUTTON).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -275,7 +260,7 @@ public class TaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.find(EDIT_BUTTON).isDisplayed();
+            return driver.findElement(EDIT_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -292,8 +277,8 @@ public class TaskDetailsPage extends SharePage
     {
         try
         {
-            drone.find(By.linkText(drone.getValue("task.history.link.text"))).click();
-            return new TaskHistoryPage(drone);
+            driver.findElement(By.linkText(getValue("task.history.link.text"))).click();
+            return factoryPage.instantiatePage(driver, TaskHistoryPage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -311,7 +296,7 @@ public class TaskDetailsPage extends SharePage
         List<String> labels = new ArrayList<String>();
         try
         {
-            List<WebElement> webElements = drone.findAll(ALL_FIELD_LABELS);
+            List<WebElement> webElements = driver.findElements(ALL_FIELD_LABELS);
             for (WebElement label : webElements)
             {
                 labels.add(label.getText());

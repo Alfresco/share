@@ -16,7 +16,7 @@ import org.alfresco.po.share.dashlet.AbstractSiteDashletTest;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.po.share.site.wiki.WikiPageList;
 import org.alfresco.po.share.site.wiki.WikiTreeMenuNavigation;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -46,15 +46,14 @@ public class WikiTreeMenuNavigationTest extends AbstractSiteDashletTest
     @BeforeClass
     public void prepare() throws Exception
     {
-        testName = getClass().getSimpleName();
         siteName = "wikiTree" + System.currentTimeMillis();
         tagName1 = "tag1";
         tagName2 = "tag2";
-        textLines.add(testName);
+        textLines.add("WikiTreeMenuNavigationTest");
         tagsToAdd.add(tagName1);
 
         loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
         navigateToSiteDashboard();
         customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
         List<SitePageType> addPageTypes = new ArrayList<>();
@@ -84,19 +83,15 @@ public class WikiTreeMenuNavigationTest extends AbstractSiteDashletTest
 
         treeMenuNav.selectPageNode(ALL);
         assertTrue(wikiPageList.isWikiPagePresent(wikiTitle1));
-        drone.getCurrentPage().toString().endsWith("all");
 
         treeMenuNav.selectPageNode(RECENTLY_ADDED);
         assertTrue(wikiPageList.isWikiPagePresent(wikiTitle1));
-        drone.getCurrentPage().toString().endsWith("recentlyAdded");
 
         treeMenuNav.selectPageNode(RECENTLY_MODIFIED);
         assertTrue(wikiPageList.isWikiPagePresent(wikiTitle1));
-        drone.getCurrentPage().toString().endsWith("recentlyModified");
 
         treeMenuNav.selectPageNode(MY_PAGES);
         assertTrue(wikiPageList.isWikiPagePresent(wikiTitle1));
-        drone.getCurrentPage().toString().endsWith("myPages");
     }
 
     @Test(dependsOnMethods = "selectPageNode")
@@ -125,6 +120,6 @@ public class WikiTreeMenuNavigationTest extends AbstractSiteDashletTest
     @AfterClass
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 }

@@ -14,20 +14,19 @@
  */
 package org.alfresco.po.share;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Share Error popup page object, holds all the methods relevant to Share Error popup
@@ -42,16 +41,6 @@ public class SharePopup extends SharePage
     private static final String ERROR_BODY = "div.bd";
     private static final By BUTTON_TAG_NAME = By.tagName("button");
     private By CLOSE_BUTTON = By.cssSelector("span.dijitDialogCloseIcon");
-
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public SharePopup(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -87,13 +76,6 @@ public class SharePopup extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public SharePopup render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Helper method to handle the error popup displayed in Share
      * Clicks on the OK button to return to the original page
@@ -110,7 +92,7 @@ public class SharePopup extends SharePage
             throw new ShareException(message);
         }
 
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -120,7 +102,7 @@ public class SharePopup extends SharePage
     {
         WebElement popupMessage = getErrorPromptElement();
         popupMessage.findElement(By.cssSelector(DEFAULT_BUTTON)).click();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -171,8 +153,7 @@ public class SharePopup extends SharePage
     {
         try
         {
-            WebElement errorMessage = drone.find(By.cssSelector(FAILURE_PROMPT));
-
+            WebElement errorMessage = driver.findElement(By.cssSelector(FAILURE_PROMPT));
             return errorMessage;
         }
         catch (NoSuchElementException nse)
@@ -190,7 +171,7 @@ public class SharePopup extends SharePage
     {
         try
         {
-            WebElement prompt = drone.findAndWait(PROMPT_PANEL_ID);
+            WebElement prompt = findAndWait(PROMPT_PANEL_ID);
             List<WebElement> elements = prompt.findElements(BUTTON_TAG_NAME);
             WebElement cancelButton = findButton("No", elements);
             cancelButton.click();
@@ -199,8 +180,8 @@ public class SharePopup extends SharePage
         {
             throw new TimeoutException("upgrade prompt was not found", nse);
         }
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return drone.getCurrentPage().render();
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -211,7 +192,7 @@ public class SharePopup extends SharePage
     {
         try
         {
-            WebElement prompt = drone.findAndWait(PROMPT_PANEL_ID);
+            WebElement prompt = findAndWait(PROMPT_PANEL_ID);
             List<WebElement> elements = prompt.findElements(BUTTON_TAG_NAME);
             WebElement okButton = findButton("Yes", elements);
             okButton.click();
@@ -234,7 +215,7 @@ public class SharePopup extends SharePage
     {
         try
         {
-            WebElement closeButton = drone.findFirstDisplayedElement(CLOSE_BUTTON);
+            WebElement closeButton = findFirstDisplayedElement(CLOSE_BUTTON);
             closeButton.click();
         }
         catch(TimeoutException te)

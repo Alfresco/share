@@ -26,13 +26,12 @@ import static org.testng.Assert.fail;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -50,7 +49,7 @@ public class FollowingPageTest extends AbstractTest
     private PeopleFinderPage peopleFinderPage;
     private MyProfilePage myProfilePage;
     private FollowingPage followingPage;
-    private AlfrescoVersion version;
+    
     private String userName = "Mike";
     private String userName1;
 
@@ -58,18 +57,10 @@ public class FollowingPageTest extends AbstractTest
     public void setup() throws Exception
     {
         userName1 = "User_" + System.currentTimeMillis();
-        version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            createEnterpriseUser(userName1);
-            ShareUtil.loginAs(drone, shareUrl, userName1, UNAME_PASSWORD).render();
-        }
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        createEnterpriseUser(userName1);
+        shareUtil.loginAs(driver, shareUrl, userName1, UNAME_PASSWORD).render();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         peopleFinderPage = dashBoard.getNav().selectPeople().render();
         peopleFinderPage = peopleFinderPage.searchFor(userName).render();
         List<ShareLink> searchLinks = peopleFinderPage.getResults();
@@ -93,8 +84,8 @@ public class FollowingPageTest extends AbstractTest
     @Test(groups = { "alfresco-one" })
     public void openFollowingPage()
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followingPage = myProfilePage.getProfileNav().selectFollowing().render();
         assertNotNull(followingPage);
@@ -103,8 +94,8 @@ public class FollowingPageTest extends AbstractTest
     @Test(groups="alfresco-one", dependsOnMethods = "openFollowingPage")
     public void isHeaderTitlePresent() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followingPage = myProfilePage.getProfileNav().selectFollowing().render();
         assertTrue(followingPage.isTitlePresent("Following"), "Title is incorrect");
@@ -113,8 +104,8 @@ public class FollowingPageTest extends AbstractTest
     @Test(groups="alfresco-one", dependsOnMethods = "isHeaderTitlePresent")
     public void isUserLinkPresent() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followingPage = myProfilePage.getProfileNav().selectFollowing().render();
         assertTrue(followingPage.isUserLinkPresent(userName), "Can't find " + userName1);
@@ -124,8 +115,8 @@ public class FollowingPageTest extends AbstractTest
     @Test(groups="alfresco-one", dependsOnMethods = "isUserLinkPresent")
     public void togglePrivate() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followingPage = myProfilePage.getProfileNav().selectFollowing().render();
         followingPage.togglePrivate(true);
@@ -135,8 +126,8 @@ public class FollowingPageTest extends AbstractTest
     @Test(groups="alfresco-one", dependsOnMethods = "togglePrivate")
     public void selectUnfollowForUser() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         myProfilePage = dashBoard.getNav().selectMyProfile().render();
         followingPage = myProfilePage.getProfileNav().selectFollowing().render();
         followingPage.selectUnfollowForUser(userName);

@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.site.CreateSitePage;
@@ -34,7 +34,7 @@ import org.alfresco.po.share.site.document.ContentType;
 import org.alfresco.po.share.site.document.CreatePlainTextContentPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.collections.CollectionUtils;
 import org.testng.Assert;
@@ -66,7 +66,7 @@ public class SelectContentPageTest extends AbstractTest
         CreateSitePage createSite = dashBoardPage.getNav().selectCreateSite().render();
         SiteDashboardPage site = (SiteDashboardPage) createSite.createNewSite(siteName);
         site.render();
-        DocumentLibraryPage libraryPage = (DocumentLibraryPage) site.getSiteNav().selectSiteDocumentLibrary();
+        DocumentLibraryPage libraryPage = (DocumentLibraryPage) site.getSiteNav().selectDocumentLibrary();
         libraryPage.render();
         CreatePlainTextContentPage contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
         contentPage.render();
@@ -74,7 +74,7 @@ public class SelectContentPageTest extends AbstractTest
         contentDetails.setName("Doc3");
         DocumentDetailsPage detailsPage = contentPage.create(contentDetails).render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectSiteDocumentLibrary();
+        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
         libraryPage.render();
         contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
         contentPage.render();
@@ -82,7 +82,7 @@ public class SelectContentPageTest extends AbstractTest
         contentDetails.setName("Doc1");
         detailsPage = contentPage.create(contentDetails).render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectSiteDocumentLibrary();
+        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
         libraryPage.render();
         contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
         contentPage.render();
@@ -90,7 +90,7 @@ public class SelectContentPageTest extends AbstractTest
         contentDetails.setName("Doc2");
         detailsPage = contentPage.create(contentDetails).render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectSiteDocumentLibrary();
+        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
         libraryPage.render();
         NewFolderPage folderPage = libraryPage.getNavigation().selectCreateNewFolder();
         folderPage.render();
@@ -104,10 +104,10 @@ public class SelectContentPageTest extends AbstractTest
         contentDetails.setName("F1Doc1");
         detailsPage = contentPage.create(contentDetails).render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectSiteDocumentLibrary();
+        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
         libraryPage.render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectSiteDocumentLibrary();
+        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
         libraryPage.render();
         folderPage = libraryPage.getNavigation().selectCreateNewFolder();
         folderPage.render();
@@ -143,7 +143,7 @@ public class SelectContentPageTest extends AbstractTest
     @AfterClass(groups = "Enterprise4.2")
     public void teardown() throws Exception
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
     
     @Test(groups="Enterprise4.2")

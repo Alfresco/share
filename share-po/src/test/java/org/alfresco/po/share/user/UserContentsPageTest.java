@@ -10,11 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
@@ -22,8 +20,7 @@ import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -41,7 +38,7 @@ public class UserContentsPageTest extends AbstractTest
 
     private String siteName1;
     private String userName;
-    private AlfrescoVersion version;
+    
 
     private DashBoardPage dashboardPage;
     private MyProfilePage myprofile;
@@ -63,19 +60,9 @@ public class UserContentsPageTest extends AbstractTest
     {
         siteName1 = "UserContentPage" + System.currentTimeMillis();
         userName = "UserContentPage" + System.currentTimeMillis();
-
-        version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            createEnterpriseUser(userName);
-            ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
-        }
-
-        dashboardPage = FactorySharePage.resolvePage(drone).render();
+        createEnterpriseUser(userName);
+        shareUtil.loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
+        dashboardPage = factoryPage.getPage(driver).render();
         myprofile = dashboardPage.getNav().selectMyProfile().render();
         userContentPage = myprofile.getProfileNav().selectContent();
     }
@@ -83,9 +70,8 @@ public class UserContentsPageTest extends AbstractTest
     @AfterClass(groups = { "alfresco-one" })
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName1);
+        siteUtil.deleteSite(username, password, siteName1);
     }
-
     @Test(groups = { "alfresco-one" })
     public void getContentNoContent()
     {
@@ -96,15 +82,15 @@ public class UserContentsPageTest extends AbstractTest
     @Test(dependsOnMethods = "getContentNoContent", groups = { "alfresco-one", "TestBug" })
     public void getContents() throws IOException
     {
-        SiteUtil.createSite(drone, siteName1, "description", "Public");
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName1, "description", "Public");
 
-        testFile = SiteUtil.prepareFile();
+        testFile = siteUtil.prepareFile();
         StringTokenizer st = new StringTokenizer(testFile.getName(), ".");
         fileName = st.nextToken();
-        File file = SiteUtil.prepareFile();
+        File file = siteUtil.prepareFile();
         fileName = file.getName();
-        SitePage site = drone.getCurrentPage().render();
-        documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage site = resolvePage(driver).render();
+        documentLibPage = site.getSiteNav().selectDocumentLibrary().render();
 
         UploadFilePage upLoadPage = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
@@ -122,7 +108,7 @@ public class UserContentsPageTest extends AbstractTest
         myprofile = dashboardPage.getNav().selectMyProfile().render();
         userContentPage = myprofile.getProfileNav().selectContent().render();
 
-        userContentPage = contentRefreshRetry(drone, userContentPage, fileName);
+        userContentPage = contentRefreshRetry(driver, userContentPage, fileName);
 
         // verify if the Added Content is present
         List<UserContentItems> userContentsAdded = userContentPage.getContentAdded();
@@ -204,7 +190,7 @@ public class UserContentsPageTest extends AbstractTest
      * @param contentName String
      * @return contentPage
      */
-    public static UserContentPage contentRefreshRetry(WebDrone drone, UserContentPage contentPage, String contentName)
+    public UserContentPage contentRefreshRetry(WebDriver driver, UserContentPage contentPage, String contentName)
     {
         int counter = 0;
         int waitInMilliSeconds = 2000;
@@ -220,8 +206,8 @@ public class UserContentsPageTest extends AbstractTest
                 }
             }
             counter++;
-            drone.refresh();
-            contentPage = drone.getCurrentPage().render();
+            driver.navigate().refresh();
+            contentPage = resolvePage(driver).render();
             // double wait time to not over do solr search
             waitInMilliSeconds = (waitInMilliSeconds * 2);
             synchronized (SiteUtil.class)

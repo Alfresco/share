@@ -14,22 +14,12 @@
  */
 package org.alfresco.po.share.site;
 
-import static org.alfresco.po.share.AlfrescoVersion.Enterprise41;
-
 import java.util.List;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.site.blog.BlogPage;
-import org.alfresco.po.share.site.calendar.CalendarPage;
-import org.alfresco.po.share.site.discussions.DiscussionsPage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.site.links.LinksPage;
-import org.alfresco.po.share.site.wiki.WikiPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -37,6 +27,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * Represent elements found on the html page relating to the
@@ -50,20 +43,7 @@ public class SiteNavigation extends AbstractSiteNavigation
 {
     private Log logger = LogFactory.getLog(SiteNavigation.class);
 
-    protected final String siteMembersCSS = "#HEADER_SITE_MEMBERS_text";
-    private final String documentLibLink;
-    private final By customizeDashboardLink;
-
-    /**
-     * Constructor.
-     */
-    protected SiteNavigation(WebDrone drone)
-    {
-        super(drone);
-        documentLibLink = getAlfrescoVersion().isDojoSupported() ? LABEL_DOCUMENTLIBRARY_PLACEHOLDER : String.format(SITE_LINK_NAV_PLACEHOLER, 3);
-        customizeDashboardLink = getAlfrescoVersion().isDojoSupported() ? By.id("HEADER_CUSTOMIZE_SITE_DASHBOARD") : CUSTOMISE_DASHBOARD_BTN;
-    }
-
+    
     /**
      * Mimics the action of selecting the site
      * project library link.
@@ -72,182 +52,94 @@ public class SiteNavigation extends AbstractSiteNavigation
      */
     public HtmlPage selectSiteProjectLibrary()
     {
-        if (getAlfrescoVersion().isDojoSupported())
-        {
-            extractLink(PROJECT_LIBRARY).click();
-            return new DocumentLibraryPage(getDrone());
-        }
-        return select(PROJECT_LIBRARY);
+        extractLink(PROJECT_LIBRARY).click();
+        return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
     }
     
     /**
-     * Mimics the action of selecting the site document library irrespective of the link name
-     * 
-     * @return HtmlPage site document library page object
-     */
-    public HtmlPage selectSiteContentLibrary()
-    {
-        if (getAlfrescoVersion().isDojoSupported())
-        {
-            findElement(By.cssSelector("#HEADER_SITE_DOCUMENTLIBRARY_text>a")).click();
-            return drone.getCurrentPage().render();
-        }
-        return selectSiteDocumentLibrary();
-    }
-
-    /**
      * Mimics the action of selecting the site
      * document library link.
      * 
      * @return HtmlPage site document lib page object
      */
-    public DocumentLibraryPage selectSiteDocumentLibrary()
+    public HtmlPage selectDocumentLibrary()
     {
-        if (getAlfrescoVersion().isDojoSupported())
-        {
-            // extractLink(drone.getLanguageValue("document.library")).click();
-
-            if (drone.find(DOCLIB_LINK).isDisplayed())
-            {
-                extractLink(DOCUMENT_LIBRARY).click();
-                return new DocumentLibraryPage(drone).render();
-            }
-            else
-            {
-                drone.findAndWait(SITE_MORE_PAGES).click();
-                drone.findAndWait(DOCLIB_LINK).click();
-                return new DocumentLibraryPage(drone).render();
-            }
-
-        }
-        // return drone.getLanguageValue("document.library");
-        return select(DOCUMENT_LIBRARY).render();
+        documentLibrary.click();
+        return getCurrentPage();
     }
 
-    /**
-     * Mimics the action of selecting the site
-     * document library link.
-     * 
-     * @return HtmlPage site document lib page object
-     */
-    public HtmlPage selectSiteWikiPage()
-    {
-        if (getAlfrescoVersion().isDojoSupported())
-        {
-            extractLink(WIKI).click();
-            return new WikiPage(getDrone());
-        }
-        return select(WIKI);
-    }
+//    /**
+//     * Mimics the action of selecting the site
+//     * document library link.
+//     * 
+//     * @return HtmlPage site document lib page object
+//     */
+//    public HtmlPage selectSiteWikiPage()
+//    {
+//        extractLink(WIKI).click();
+//        return new WikiPage(driver);
+//    }
+//
+//    /**
+//     * Mimics the action of selecting the site
+//     * calendar link.
+//     * 
+//     * @return HtmlPage site calendar page object
+//     */
+//    public HtmlPage selectSiteCalendarPage()
+//    {
+//        extractLink(CALENDAR).click();
+//        return new CalendarPage(driver);
+//    }
 
-    /**
-     * Mimics the action of selecting the site
-     * calendar link.
-     * 
-     * @return HtmlPage site calendar page object
-     */
-    public HtmlPage selectSiteCalendarPage()
-    {
-        if (getAlfrescoVersion().isDojoSupported())
-        {
-            extractLink(CALENDAR).click();
-            return new CalendarPage(getDrone());
-        }
-        return select(CALENDAR);
-    }
-
-    /**
-     * Mimcs the action of selecting on the configuration
-     * drop down that has been introduced in Alfresco Enterprise 4.2
-     */
-    private void selectConfigurationDropdown()
-    {
-        findElement(CONFIGURATION_DROPDOWN).click();
-    }
-
+    @FindBy(id="HEADER_SITE_CONFIGURATION_DROPDOWN") Link config;
     /**
      * Mimics the action clicking the configure button.
      * This Features available only in the Enterprise 4.2 and Cloud 2.
      */
     public void selectConfigure()
     {
-        if (AlfrescoVersion.Enterprise41.equals(getAlfrescoVersion()))
-        {
-            throw new UnsupportedOperationException("It is not supported for this version of Alfresco : " + getAlfrescoVersion());
-        }
-        findAndWait(CONFIGURE_ICON).click();
+        config.click();
     }
 
+    @FindBy(id="HEADER_SITE_CONFIGURATION_DROPDOWN") Link configMore;
     /**
      * Mimics the action of clicking more button.
      */
     public void selectSiteConfigMore()
     {
-        findElement(By.cssSelector(SITE_CONFIG_MORE)).click();
+        configMore.click();
     }
 
+    @FindBy(id="HEADER_CUSTOMIZE_SITE_text") Link customizeSite;
     /**
      * Mimics the action of clicking the Customize Site.
      * This features is not available in the cloud.
      * 
      * @return {@link CustomizeSitePage}
      */
-    public CustomizeSitePage selectCustomizeSite()
+    public HtmlPage selectCustomizeSite()
     {
-        try
-        {
-            if (Enterprise41.equals(getAlfrescoVersion()))
-            {
-                selectSiteConfigMore();
-                List<WebElement> elements = findAllWithWait(MORE_BUTTON_LINK);
-                for (WebElement webElement : elements)
-                {
-                    ShareLink link = new ShareLink(webElement, getDrone());
-                    if (CUSTOMIZE_LINK_TEXT.equalsIgnoreCase(link.getDescription()))
-                    {
-                        link.click();
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                selectConfigure();
-                drone.find(CUSTOMIZE_SITE).click();
-            }
-            return new CustomizeSitePage(getDrone());
-        }
-        catch (TimeoutException te)
-        {
-        }
-        throw new PageException("Not able to find Customize Site Link.");
+        selectConfigure();
+        customizeSite.click();
+        return factoryPage.instantiatePage(driver, CustomizeSitePage.class);
     }
-
+    
+    
+    @FindBy(id="HEADER_CUSTOMIZE_SITE_DASHBOARD") private Link customizeDashboard;
     /**
      * @return {@link CustomiseSiteDashboardPage}
      */
-    public CustomiseSiteDashboardPage selectCustomizeDashboard()
+    public HtmlPage selectCustomizeDashboard()
     {
-        if (getAlfrescoVersion().isDojoSupported())
-        {
-            selectConfigurationDropdown();
-        }
-        drone.findAndWait(customizeDashboardLink).click();
-        return new CustomiseSiteDashboardPage(getDrone());
-
+        selectConfigure();
+        customizeDashboard.click();
+        return factoryPage.instantiatePage(driver, CustomiseSiteDashboardPage.class);
     }
 
     private WebElement extractLink(final String title)
     {
-        List<WebElement> list;
-        if (alfrescoVersion.isCloud())
-        {
-            list = findElements(By.cssSelector("span"));
-        }
-        else
-        {
-            list = findElements(By.cssSelector("span.alf-menu-bar-label-node"));
-        }
+        List<WebElement> list = driver.findElements(By.cssSelector("span.alf-menu-bar-label-node"));
         for (WebElement element : list)
         {
             String name = element.getText();
@@ -259,91 +151,53 @@ public class SiteNavigation extends AbstractSiteNavigation
         throw new PageException("Unable to find " + title);
     }
 
+    @FindBy(id="HEADER_EDIT_SITE_DETAILS_text") Link editSiteDetails;
     /**
      * Selects on edit site details link.
      * 
      * @return {@link HtmlPage} page response
      */
-    public EditSitePage selectEditSite()
+    public HtmlPage selectEditSite()
     {
-        if (getAlfrescoVersion().isDojoSupported())
-        {
-            selectConfigurationDropdown();
-            drone.find(By.id("HEADER_EDIT_SITE_DETAILS_text")).click();
-        }
-        else
-        {
-            WebElement more = findElement(By.cssSelector("button[id$='_default-more-button']"));
-            more.click();
-            WebElement nav = findElement(By.cssSelector("div.links.title-button"));
-            nav.findElement(By.cssSelector("ul.first-of-type>li>a.yuimenuitemlabel")).click();
-        }
-        return new EditSitePage(getDrone());
+        selectConfigure();
+        editSiteDetails.click();
+        return factoryPage.instantiatePage(driver, EditSitePage.class);
     }
 
+    @FindBy(id="HEADER_SITE_MEMBERS_text") Link siteMembers;
     /**
      * This method is used to select the site Members link.
      * 
      * @return SiteMembersPage site Members page object
      */
-    public SiteMembersPage selectMembers()
+    public HtmlPage selectMembers()
     {
-        try
-        {
-            findElement(By.cssSelector(siteMembersCSS)).click();
-            return new SiteMembersPage(getDrone()).render();
-        }
-        catch (NoSuchElementException e)
-        {
-            throw new PageException("Unable to find the InviteMembersPage.", e);
-        }
+        siteMembers.click();
+        return factoryPage.instantiatePage(driver, SiteMembersPage.class);
     }
     
+    @FindBy(id="HEADER_SITE_INVITE")Link invite;
     /**
      * Clicks on invite users button
      * 
      */
-    private void clickOnInviteButton()
+    public HtmlPage selectInvite()
     {
-        try
-        {
-            if (Enterprise41 == getAlfrescoVersion())
-            {
-                findElement(By.cssSelector(INVITE_BUTTON)).click();
-            }
-            else
-            {
-                drone.findAndWait(By.cssSelector(".alf-user-icon")).click();
-            }
-        }
-        catch (TimeoutException e)
-        {
-            throw new PageException("Unable to find the Add User Button.", e);
-        }        
-    }
-
-    /**
-     * This method returns the InviteMembersPage object.
-     * 
-     * @return {@link InviteMembersPage}
-     */
-    
-    public InviteMembersPage selectInvite()
-    {
-        clickOnInviteButton();
-        return new InviteMembersPage(getDrone());
+        invite.click();
+        return factoryPage.instantiatePage(driver, InviteMembersPage.class);
     }
     
 
+    @FindBy(id="HEADER_SITE_DOCUMENTLIBRARY") Link documentLibrary;
     /**
      * Clicks on add user to site button
      * 
      * @return {@link AddUsersToSitePage}
      */
-    public AddUsersToSitePage selectAddUser()
+    public HtmlPage selectAddUser()
     {
-        clickOnInviteButton();
-        return new AddUsersToSitePage(getDrone());
+    	selectInvite();
+        return getCurrentPage();
     }
 
     /**
@@ -353,35 +207,9 @@ public class SiteNavigation extends AbstractSiteNavigation
      */
     public boolean isDocumentLibraryActive()
     {
-        try
-        {
-            // This code needs to be removed when this cloud issue is fixed as
-            // part of release-31
-            // https://issues.alfresco.com/jira/browse/CLOUD-2092
-            if (!alfrescoVersion.isCloud())
-            {
-                return isLinkActive(By.cssSelector(documentLibLink));
-            }
-            else
-            {
-                String active = "Hover";
-                WebElement element = getDrone().findAndWait(By.cssSelector(documentLibLink));
-                String value = element.getAttribute("class");
-                if (value != null && !value.isEmpty())
-                {
-                    return value.contains(active);
-                }
-            }
-        }
-        catch (TimeoutException e)
-        {
-        }
-        return false;
+        boolean val = isLinkActive(documentLibrary);
+        return val;
     }
-
-    // this code is commented due to
-    // https://issues.alfresco.com/jira/browse/CLOUD-2092
-    // return isLinkActive(By.cssSelector(documentLibLink));
 
     /**
      * Mimics the action of selecting the site
@@ -389,11 +217,11 @@ public class SiteNavigation extends AbstractSiteNavigation
      * 
      * @return HtmlPage site calendar page object
      */
-    public CalendarPage selectCalendarPage()
+    public HtmlPage selectCalendarPage()
     {
         clickMoreIfExist();
-        drone.findAndWait(CALENDAR_LINK).click();
-        return drone.getCurrentPage().render();
+        driver.findElement(CALENDAR_LINK).click();
+        return getCurrentPage();
     }
 
     /**
@@ -402,37 +230,39 @@ public class SiteNavigation extends AbstractSiteNavigation
      * 
      * @return HtmlPage site members page object
      */
-    public SiteMembersPage selectMembersPage()
+    public HtmlPage selectMembersPage()
     {
         clickMoreIfExist();
-        drone.findAndWait(MEMBERS_LINK).click();
-        return drone.getCurrentPage().render();
+        driver.findElement(MEMBERS_LINK).click();
+        return getCurrentPage();
     }
 
+    @FindBy(id="HEADER_SITE_WIKI-PAGE_text")Link wiki;
     /**
      * Mimics the action of selecting the site
      * members link.
      * 
      * @return HtmlPage site members page object
      */
-    public WikiPage selectWikiPage()
+    public HtmlPage selectWikiPage()
     {
         clickMoreIfExist();
-        drone.findAndWait(WIKI_LINK).click();
-        return drone.getCurrentPage().render();
+        wiki.click();
+        return getCurrentPage();
     }
 
+    @FindBy(id="HEADER_SITE_DISCUSSIONS-TOPICLIST_text")Link disscussion;
     /**
      * Mimics the action of selecting the site
      * discussions link.
      * 
      * @return HtmlPage site members page object
      */
-    public DiscussionsPage selectDiscussionsPage()
+    public HtmlPage selectDiscussionsPage()
     {
         clickMoreIfExist();
-        drone.findAndWait(DISCUSSIONS_LINK).click();
-        return drone.getCurrentPage().render();
+        disscussion.click();
+        return getCurrentPage();
     }
 
     /**
@@ -441,11 +271,11 @@ public class SiteNavigation extends AbstractSiteNavigation
      * 
      * @return HtmlPage site members page object
      */
-    public BlogPage selectBlogPage()
+    public HtmlPage selectBlogPage()
     {
         clickMoreIfExist();
-        drone.findAndWait(BLOG_LINK).click();
-        return drone.getCurrentPage().render();
+        driver.findElement(BLOG_LINK).click();
+        return getCurrentPage();
     }
 
     /**
@@ -454,11 +284,11 @@ public class SiteNavigation extends AbstractSiteNavigation
      * 
      * @return HtmlPage site members page object
      */
-    public LinksPage selectLinksPage()
+    public HtmlPage selectLinksPage()
     {
         clickMoreIfExist();
-        drone.findAndWait(LINKS_LINK).click();
-        return drone.getCurrentPage().render();
+        driver.findElement(LINKS_LINK).click();
+        return getCurrentPage();
     }
 
     /**
@@ -467,11 +297,11 @@ public class SiteNavigation extends AbstractSiteNavigation
      * 
      * @return HtmlPage site members page object
      */
-    public SharePage selectDataListPage()
+    public HtmlPage selectDataListPage()
     {
         clickMoreIfExist();
-        drone.findAndWait(DATA_LISTS_LINK).click();
-        return drone.getCurrentPage().render();
+        driver.findElement(DATA_LISTS_LINK).click();
+        return getCurrentPage();
     }
 
     /**
@@ -483,18 +313,10 @@ public class SiteNavigation extends AbstractSiteNavigation
     {
         try
         {
-            if (Enterprise41.equals(getAlfrescoVersion()))
-            {
-                selectSiteConfigMore();
-                drone.findAndWait(LEAVE_SITE).click();
-            }
-            else
-            {
-                selectConfigure();
-                drone.find(LEAVE_SITE).click();
-            }
-            drone.findAndWait(By.xpath("//span[text()='OK']")).click();
-            return drone.getCurrentPage().render();
+            selectConfigure();
+            driver.findElement(LEAVE_SITE).click();
+            driver.findElement(By.xpath("//span[text()='OK']")).click();
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {
@@ -518,7 +340,7 @@ public class SiteNavigation extends AbstractSiteNavigation
         {
             if(isMoreDisplayed())
             {
-                WebElement element = drone.find(SITE_MORE_PAGES);
+                WebElement element = driver.findElement(SITE_MORE_PAGES);
                 element.click();
             }
         }
@@ -533,6 +355,14 @@ public class SiteNavigation extends AbstractSiteNavigation
                 logger.debug("More button is not found.", e);
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteNavigation render(RenderTime timer)
+    {
+        
+        return this;
     }
 
 }

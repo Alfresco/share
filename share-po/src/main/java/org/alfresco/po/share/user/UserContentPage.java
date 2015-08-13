@@ -3,11 +3,10 @@ package org.alfresco.po.share.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -33,15 +32,6 @@ public class UserContentPage extends SharePage
 
     private final Log logger = LogFactory.getLog(UserContentPage.class);
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public UserContentPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -59,12 +49,6 @@ public class UserContentPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public UserContentPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Get the navigation bar.
@@ -73,7 +57,7 @@ public class UserContentPage extends SharePage
      */
     public ProfileNavigation getProfileNav()
     {
-        return new ProfileNavigation(drone);
+        return new ProfileNavigation(driver, factoryPage);
     }
 
     /**
@@ -86,7 +70,7 @@ public class UserContentPage extends SharePage
         boolean present = false;
         try
         {
-            present = drone.findAndWait(NO_ADDED_CONTENT).getText().equals(drone.getValue("user.profile.content.noaddedcontent"));
+            present = findAndWait(NO_ADDED_CONTENT).getText().equals(getValue("user.profile.content.noaddedcontent"));
             return present;
         }
         catch (NoSuchElementException e)
@@ -106,7 +90,7 @@ public class UserContentPage extends SharePage
         boolean present = false;
         try
         {
-            present = drone.findAndWait(NO_MODIFIED_CONTENT).getText().equals(drone.getValue("user.profile.content.nomodifiedcontent"));
+            present = findAndWait(NO_MODIFIED_CONTENT).getText().equals(getValue("user.profile.content.nomodifiedcontent"));
             return present;
         }
         catch (NoSuchElementException e)
@@ -147,11 +131,12 @@ public class UserContentPage extends SharePage
         List<UserContentItems> contentsModified = new ArrayList<>();
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(by);
+            List<WebElement> elements = findAndWaitForElements(by);
 
             for (WebElement el : elements)
             {
-                UserContentItems contentModified = new UserContentItems(el, drone);
+                UserContentItems contentModified = new UserContentItems(el, driver, factoryPage);
+                contentModified.setWebDriver(driver);
                 contentsModified.add(contentModified);
             }
         }

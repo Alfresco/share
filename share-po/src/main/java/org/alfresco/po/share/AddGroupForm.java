@@ -1,16 +1,15 @@
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * @author Olga Antonik
@@ -24,19 +23,9 @@ public class AddGroupForm extends SharePage
     private static final String ADD_BUTTON = "//tbody[@class='yui-dt-data']/tr//h3[text()='%s']/../../..//button";
 
     /**
-     * Instantiates a Add Group form.
-     * 
-     * @param drone WebDriver browser client
-     */
-    protected AddGroupForm(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    /**
      * (non-Javadoc)
      * 
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -49,19 +38,7 @@ public class AddGroupForm extends SharePage
     /**
      * (non-Javadoc)
      * 
-     * @see org.alfresco.webdrone.Render#render()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public AddGroupForm render(long maxPageLoadingTime)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -79,7 +56,7 @@ public class AddGroupForm extends SharePage
     {
         try
         {
-            return drone.find(ADD_GROUP_FORM).isDisplayed();
+            return driver.findElement(ADD_GROUP_FORM).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -94,15 +71,17 @@ public class AddGroupForm extends SharePage
      * @param group String
      * @return AddGroupForm
      */
+    
+    AddGroupForm addGroupForm;
     private AddGroupForm searchGroup(String group)
     {
-        WebElement searchField = drone.findAndWait(GROUP_FINDER_INPUT);
+        WebElement searchField = findAndWait(GROUP_FINDER_INPUT);
         searchField.sendKeys(group);
-        drone.findAndWait(GROUP_SEARCH_BUTTON).click();
+        findAndWait(GROUP_SEARCH_BUTTON).click();
 
-        return new AddGroupForm(drone).render();
+        return addGroupForm.render();
     }
-
+    GroupsPage groupsPage;
     /**
      * Click to the Add button
      * 
@@ -114,7 +93,7 @@ public class AddGroupForm extends SharePage
 
         try
         {
-            WebElement addButton = drone.findAndWait(By.xpath(String.format(ADD_BUTTON, groupName)));
+            WebElement addButton = findAndWait(By.xpath(String.format(ADD_BUTTON, groupName)));
             addButton.click();
 
         }
@@ -123,7 +102,7 @@ public class AddGroupForm extends SharePage
             throw new PageException("Not found Element: Add Group", e);
         }
 
-        return new GroupsPage(drone).render();
+        return groupsPage.render();
     }
 
     /**
@@ -142,7 +121,7 @@ public class AddGroupForm extends SharePage
 
         }
         else
-            return new GroupsPage(drone).render();
+            return groupsPage.render();
     }
 
 }

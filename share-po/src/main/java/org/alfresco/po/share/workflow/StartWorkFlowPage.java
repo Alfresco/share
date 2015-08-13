@@ -18,16 +18,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.user.Language;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -50,17 +49,6 @@ public class StartWorkFlowPage extends SharePage
     private static final By ADD_BUTTON = By.cssSelector("div[id$='packageItems-cntrl-itemGroupActions'] span:nth-child(1) span button");
     private static final By SELECT_BUTTON = By.cssSelector("div[id$='assoc_bpm_assignee-cntrl-itemGroupActions'] button");
 
-    /**
-     * Constructor.
-     * 
-     * @param drone
-     *            WebDriver to access page
-     */
-    public StartWorkFlowPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public StartWorkFlowPage render(RenderTime timer)
@@ -79,7 +67,7 @@ public class StartWorkFlowPage extends SharePage
                 }
                 try
                 {
-                    drone.find(WORKFLOW_DROP_DOWN_BUTTON);
+                    driver.findElement(WORKFLOW_DROP_DOWN_BUTTON);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -92,13 +80,6 @@ public class StartWorkFlowPage extends SharePage
             }
         }
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public StartWorkFlowPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -132,7 +113,7 @@ public class StartWorkFlowPage extends SharePage
 
         try
         {
-            workflowText = drone.findAndWait(selector).getText().trim();
+            workflowText = findAndWait(selector).getText().trim();
         }
         catch (TimeoutException e)
         {
@@ -160,17 +141,11 @@ public class StartWorkFlowPage extends SharePage
         {
             throw new IllegalArgumentException("Workflow Type can't be null");
         }
-        drone.findAndWait(WORKFLOW_BUTTON).click();
-        workFlowType.getTaskTypeElement(drone).click();
-        return FactoryShareWorkFlow.getPage(drone, workFlowType);
+        findAndWait(WORKFLOW_BUTTON).click();
+        workFlowType.getTaskTypeElement(driver).click();
+        return factoryPage.instantiatePage(driver, NewWorkflowPage.class);
     }
 
-    public <T extends WorkFlowPage> T getCurrentPage()
-    {
-        WebElement dropdownBtn = drone.findAndWait(WORKFLOW_DROP_DOWN_BUTTON);
-        String workFlowTypeString = dropdownBtn.getText();
-        return FactoryShareWorkFlow.getPage(drone, WorkFlowType.getWorkflowType(workFlowTypeString));
-    }
 
     /**
      * Method to get workflow types exists in select workflow dropdown
@@ -182,12 +157,12 @@ public class StartWorkFlowPage extends SharePage
         List<WorkFlowType> workFlowTypes = Collections.emptyList();
         try
         {
-            drone.find(WORKFLOW_BUTTON).click();
+            driver.findElement(WORKFLOW_BUTTON).click();
             if (logger.isInfoEnabled())
             {
                 logger.info("Clicked on WORKFLOW_BUTTON");
             }
-            List<WebElement> workflowElements = drone.findAll(WORKFLOW_TITLE_LIST);
+            List<WebElement> workflowElements = driver.findElements(WORKFLOW_TITLE_LIST);
             workFlowTypes = new ArrayList<WorkFlowType>(workflowElements.size());
 
             for (WebElement workFlow : workflowElements)
@@ -202,9 +177,9 @@ public class StartWorkFlowPage extends SharePage
         {
         }
         // Click on WorkFlow button to close the drop down
-        if (drone.find(WORKFLOW_TITLE_LIST).isDisplayed())
+        if (driver.findElement(WORKFLOW_TITLE_LIST).isDisplayed())
         {
-            drone.find(WORKFLOW_BUTTON).click();
+            driver.findElement(WORKFLOW_BUTTON).click();
         }
         return workFlowTypes;
     }
@@ -224,26 +199,28 @@ public class StartWorkFlowPage extends SharePage
         return getWorkflowTypes().contains(workFlowType);
     }
 
-    public static HtmlPage startTaskWorkflow(WebDrone drone, String taskName, String assigneeUser, String fileName, String siteName)
+    public HtmlPage startTaskWorkflow(WebDriver driver, String taskName, String assigneeUser, String fileName, String siteName)
     {
         HtmlPage htmlPage = null;
-        drone.findAndWait(WORKFLOW_DROP_DOWN_BUTTON).click();
-        List<WebElement> liElements = drone.findAndWaitForElements(WORKFLOW_DROP_DOWN);
+        findAndWait(WORKFLOW_DROP_DOWN_BUTTON).click();
+        List<WebElement> liElements = findAndWaitForElements(WORKFLOW_DROP_DOWN);
         liElements.get(0).click();
-        NewWorkflowPage newTaskPage = new NewWorkflowPage(drone);
+        NewWorkflowPage newTaskPage = factoryPage.instantiatePage(driver, NewWorkflowPage.class);
         newTaskPage.render();
 
         newTaskPage.enterMessageText(taskName);
 
-        drone.findAndWait(SELECT_BUTTON).click();
-        AssignmentPage assignmentPage = new AssignmentPage(drone);
+        findAndWait(SELECT_BUTTON).click();
+        AssignmentPage assignmentPage = 
+                factoryPage.instantiatePage(driver, AssignmentPage.class);
         assignmentPage.render();
         List<String> reviewersList = new ArrayList<String>();
         reviewersList.add(assigneeUser);
         assignmentPage.selectReviewers(reviewersList).render();
 
-        drone.findAndWait(ADD_BUTTON).click();
-        SelectContentPage selectContentPage = new SelectContentPage(drone);
+        findAndWait(ADD_BUTTON).click();
+        SelectContentPage selectContentPage = 
+                factoryPage.instantiatePage(driver, SelectContentPage.class);
         selectContentPage.render();
         selectContentPage.addItemFromSite(fileName, siteName);
         selectContentPage.selectOKButton().render();
@@ -251,71 +228,5 @@ public class StartWorkFlowPage extends SharePage
         htmlPage = newTaskPage.submitWorkflow();
 
         return htmlPage;
-    }
-
-    /**
-     * Method to get the Cloud Task or Review page for different languages
-     * StartWorkFlow page is returned in common,for any of its subclass.
-     * 
-     * @param language Language
-     * @return CloudTaskOrReviewPage page
-     * <br/><br/>author Bogdan
-     */
-    public CloudTaskOrReviewPage getCloudTaskOrReviewPageInLanguage(Language language)
-    {
-        if (language == null)
-        {
-            throw new IllegalArgumentException("language can't be null");
-        }
-
-        drone.findAndWait(WORKFLOW_BUTTON).click();
-
-        String label = "";
-
-        switch (language)
-        {
-            case FRENCH:
-            {
-                label = "Tâche ou révision cloud";
-                break;
-            }
-            case DEUTSCHE:
-            {
-                label = "Aufgabe oder Überprüfung in der Cloud";
-                break;
-            }
-            case ITALIAN:
-            {
-                label = "Compito di revisione su cloud";
-                break;
-            }
-            case JAPANESE:
-            {
-                label = "Cloudでのタスクまたはレビュー";
-                break;
-            }
-            case SPANISH:
-            {
-                label = "Tarea o revisión en la nube";
-                break;
-            }
-            default:
-            {
-                label = "Cloud Task or Review";
-            }
-        }
-
-        By dropDown = By.cssSelector("div[id$='default-workflow-definition-menu'] li span.title");
-        List<WebElement> liElements = drone.findAndWaitForElements(dropDown);
-        for (WebElement liElement : liElements)
-        {
-            String elementText = liElement.getText().trim();
-            if (elementText.equalsIgnoreCase(label))
-            {
-                liElement.click();
-            }
-        }
-
-        return new CloudTaskOrReviewPage(drone);
     }
 }

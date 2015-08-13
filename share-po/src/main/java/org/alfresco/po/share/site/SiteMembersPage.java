@@ -14,13 +14,18 @@
  */
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.AlfrescoVersion;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,12 +33,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * The class represents the Site Members page and handles the site members page
@@ -64,15 +63,6 @@ public class SiteMembersPage extends SharePage
 
     private static final String USER_ROLE_XPATH = "//a[contains(text(),'%s')]/../../../..//td[contains(@class,'col-role')]/div/*";
 
-
-    /**
-     * Constructor.
-     */
-    public SiteMembersPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public SiteMembersPage render(RenderTime timer)
@@ -87,13 +77,6 @@ public class SiteMembersPage extends SharePage
     public SiteMembersPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteMembersPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     public SiteMembersPage renderWithUserSearchResults(final long time)
@@ -130,13 +113,13 @@ public class SiteMembersPage extends SharePage
         }
         try
         {
-            WebElement userRoleSearchTextBox = drone.find(SEARCH_USER_ROLE_TEXT);
+            WebElement userRoleSearchTextBox = driver.findElement(SEARCH_USER_ROLE_TEXT);
             userRoleSearchTextBox.clear();
             userRoleSearchTextBox.sendKeys(userName);
 
-            WebElement searchButton = drone.find(SEARCH_USER_ROLE_BUTTON);
+            WebElement searchButton = driver.findElement(SEARCH_USER_ROLE_BUTTON);
             searchButton.click();
-            List<WebElement> list = drone.findAndWaitForElements(LIST_OF_USERS, WAIT_TIME_3000);
+            List<WebElement> list = findAndWaitForElements(LIST_OF_USERS, getDefaultWaitTime());
             List<String> userNamesList = new ArrayList<String>();
             for (WebElement user : list)
             {
@@ -180,17 +163,10 @@ public class SiteMembersPage extends SharePage
 
         List<WebElement> listOfRoles = new ArrayList<WebElement>();
         String name = userName.trim();
-
-        // The below lowercase conversion will be resolved once Cloud-1847 task is finished.
-        if (alfrescoVersion.isCloud())
-        {
-            name = name.toLowerCase();
-        }
-
         try
         {
-            drone.findAndWait(By.cssSelector(ROLES_DROP_DOWN_BUTTON_CSS_PART_1 + name + ROLES_DROP_DOWN_BUTTON_CSS_PART_2)).click();
-            listOfRoles = drone.findAndWaitForElements(By.cssSelector(ROLES_DROP_DOWN_VALUES_CSS_PART_1 + name + ROLES_DROP_DOWN_VALUES_CSS_PART_2));
+            findAndWait(By.cssSelector(ROLES_DROP_DOWN_BUTTON_CSS_PART_1 + name + ROLES_DROP_DOWN_BUTTON_CSS_PART_2)).click();
+            listOfRoles = findAndWaitForElements(By.cssSelector(ROLES_DROP_DOWN_VALUES_CSS_PART_1 + name + ROLES_DROP_DOWN_VALUES_CSS_PART_2));
         }
         catch (TimeoutException e)
         {
@@ -232,7 +208,7 @@ public class SiteMembersPage extends SharePage
             if (roleText != null && userRole.getRoleName().equalsIgnoreCase(roleText))
             {
                 role.click();
-                return new SiteMembersPage(drone);
+                return getCurrentPage().render();
             }
         }
         throw new PageException("Unable to find the rolename.");
@@ -249,19 +225,13 @@ public class SiteMembersPage extends SharePage
         {
             throw new IllegalArgumentException("User Name is required.");
         }
-
-        if (alfrescoVersion.isCloud())
-        {
-            userName = userName.toLowerCase();
-        }
-
         try
         {
-            WebElement element = drone.findAndWait(By.cssSelector("span[id$='_default-button-" + userName + "']>span>span>button"));
+            WebElement element = findAndWait(By.cssSelector("span[id$='_default-button-" + userName + "']>span>span>button"));
             String id = element.getAttribute("id");
             element.click();
-            drone.waitUntilElementDeletedFromDom(By.id(id), maxPageLoadingTime);
-            return new SiteMembersPage(getDrone());
+            waitUntilElementDeletedFromDom(By.id(id), maxPageLoadingTime);
+            return getCurrentPage().render();
         }
         catch (TimeoutException e)
         {
@@ -285,12 +255,12 @@ public class SiteMembersPage extends SharePage
         boolean isMessageOk = true;
         try
         {
-            drone.findAndWait(By.cssSelector("span[id$='_default-button-" + userName + "']>span>span>button")).click();
+            findAndWait(By.cssSelector("span[id$='_default-button-" + userName + "']>span>span>button")).click();
             if (isDisplayed(PROMPT_PANEL_ID))
             {
                 try
                 {
-                    isMessageOk = drone.findAndWait(By.cssSelector("#prompt>.bd")).getText().equals
+                    isMessageOk = findAndWait(By.cssSelector("#prompt>.bd")).getText().equals
                         (String.format("Failed to remove user %s from site %s. A site must have at least one Manager.", userName, siteName.toLowerCase()));
                 }
                 catch (NoSuchElementException nse)
@@ -312,24 +282,17 @@ public class SiteMembersPage extends SharePage
      *
      * @return {@link InviteMembersPage} page response.
      */
-    public InviteMembersPage selectInvitePeople()
+    public HtmlPage selectInvitePeople()
     {
         try
         {
-            if (AlfrescoVersion.Enterprise41 == alfrescoVersion)
-            {
-                drone.find(By.cssSelector("a[href$='invite']")).click();
-            }
-            else
-            {
-                drone.find(By.cssSelector("span.alf-user-icon")).click();
-            }
+            driver.findElement(By.cssSelector("span.alf-user-icon")).click();
         }
         catch (TimeoutException e)
         {
             throw new PageException("Unable to find the InviteMembersPage.", e);
         }
-        return new InviteMembersPage(getDrone());
+        return factoryPage.instantiatePage(driver, InviteMembersPage.class);
 
     }
 
@@ -337,7 +300,7 @@ public class SiteMembersPage extends SharePage
     {
         try
         {
-            List<WebElement> usersList = drone.findAll(USER_NAME_FROM_LIST);
+            List<WebElement> usersList = driver.findElements(USER_NAME_FROM_LIST);
 
             for (WebElement user : usersList)
             {
@@ -363,28 +326,16 @@ public class SiteMembersPage extends SharePage
      * @return Html page
      */
 
-    public PendingInvitesPage navigateToPendingInvites()
+    public HtmlPage navigateToPendingInvites()
     {
         try
         {
-            drone.findAndWait(PENDING_INVITES).click();
-            return new PendingInvitesPage(drone);
+            findAndWait(PENDING_INVITES).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
             throw new PageException("Not found Element:" + PENDING_INVITES, nse);
-        }
-    }
-
-    private boolean isDisplayed(By locator)
-    {
-        try
-        {
-            return drone.findAndWait(locator, 2000).isDisplayed();
-        }
-        catch (TimeoutException exc)
-        {
-            return false;
         }
     }
 
@@ -427,13 +378,9 @@ public class SiteMembersPage extends SharePage
     public boolean isRemoveButtonPresent(String userName)
     {
         String name = userName.trim();
-        if (alfrescoVersion.isCloud())
-        {
-            name = name.toLowerCase();
-        }
         try
         {
-            return drone.isElementDisplayed(By.cssSelector(String.format("span[id$='button-%s']>span>span>button", name)));
+            return isElementDisplayed(By.cssSelector(String.format("span[id$='button-%s']>span>span>button", name)));
         }
         catch (TimeoutException te)
         {
@@ -450,8 +397,8 @@ public class SiteMembersPage extends SharePage
     {
         try
         {
-            drone.findAndWait(GROUPS_LINK).click();
-            return new SiteGroupsPage(drone);
+            findAndWait(GROUPS_LINK).click();
+            return factoryPage.instantiatePage(driver, SiteGroupsPage.class);
         }
         catch (TimeoutException te)
         {
@@ -468,14 +415,9 @@ public class SiteMembersPage extends SharePage
     public boolean isAssignRolePresent(String userName)
     {
         String name = userName.trim();
-
-        if (alfrescoVersion.isCloud())
-        {
-            name = name.toLowerCase();
-        }
         try
         {
-            return drone.isElementDisplayed(By.cssSelector(ROLES_DROP_DOWN_BUTTON_CSS_PART_1 + name + ROLES_DROP_DOWN_BUTTON_CSS_PART_2));
+            return isElementDisplayed(By.cssSelector(ROLES_DROP_DOWN_BUTTON_CSS_PART_1 + name + ROLES_DROP_DOWN_BUTTON_CSS_PART_2));
         }
         catch (TimeoutException te)
         {
@@ -495,7 +437,7 @@ public class SiteMembersPage extends SharePage
         By smthElement = By.xpath(String.format(USER_ROLE_XPATH, userName));
         try
         {
-            WebElement element = drone.findAndWait(smthElement, 1000);
+            WebElement element = findAndWait(smthElement, 1000);
             return element.getText().contains(userRole.getRoleName());
         }
         catch (TimeoutException e)

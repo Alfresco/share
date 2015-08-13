@@ -12,10 +12,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.alfresco.po.share.workflow;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,17 +22,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -64,7 +59,6 @@ public class SelectContentPage extends SharePage
     private final String sitesString = "Sites";
     private final String documentLibrary = "documentLibrary";
     private final By header = By.cssSelector("div[style*='visibility: visible'] div[id$='cntrl-picker-head']");
-    private final String dashletEmptyPlaceholder = "div[style*='visibility: visible'] table>tbody>tr>td.yui-dt-empty>div";
     private final By okButton = By.cssSelector("div[style*='visibility: visible'] button[id*='cntrl-ok-button']");
     private final By cancelButton = By.cssSelector("div[style*='visibility: visible'] button[id*='cntrl-cancel-button']");
     private final By closeButton = By.cssSelector("div[style*='visibility: visible'] div[id$='cntrl-picker']>a.container-close");
@@ -74,15 +68,6 @@ public class SelectContentPage extends SharePage
     //private static final String REPO = "Repository";
     //private static final String SLASH = File.separator;
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public SelectContentPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -90,11 +75,12 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            elementRender(timer, getVisibleRenderElement(header), getVisibleRenderElement(folderUpButton), getVisibleRenderElement(navigatorButton),
+            elementRender(timer, getVisibleRenderElement(header), getVisibleRenderElement(folderUpButton),
+                    getVisibleRenderElement(navigatorButton),
                     getVisibleRenderElement(By.cssSelector("div[style*='visibility: visible'] div[id$='cntrl-picker-left']")),
                     getVisibleRenderElement(By.cssSelector("div[style*='visibility: visible'] div[id$='cntrl-picker-right']")),
-                    getVisibleRenderElement(okButton), getVisibleRenderElement(cancelButton), new RenderElement(By.cssSelector(dashletEmptyPlaceholder),
-                            ElementState.INVISIBLE_WITH_TEXT, "Loading..."));
+                    getVisibleRenderElement(okButton),
+                    getVisibleRenderElement(cancelButton));
         }
         catch (PageRenderTimeException te)
         {
@@ -108,13 +94,6 @@ public class SelectContentPage extends SharePage
     public SelectContentPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SelectContentPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -180,12 +159,12 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            drone.find(By.cssSelector("button[id$='cntrl-picker-folderUp-button']")).click();
+            driver.findElement(By.cssSelector("button[id$='cntrl-picker-folderUp-button']")).click();
             // waitUntilAlert();
         }
         catch (ElementNotVisibleException env)
         {
-            drone.findAll(By.cssSelector("button[id$='cntrl-picker-folderUp-button']")).get(1).click();
+            driver.findElements(By.cssSelector("button[id$='cntrl-picker-folderUp-button']")).get(1).click();
             // waitUntilAlert();
         }
     }
@@ -196,7 +175,7 @@ public class SelectContentPage extends SharePage
         {
             throw new IllegalArgumentException("Text can't be empty or null");
         }
-        List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector("div[style*='visibility: visible'] .panel-left table tr h3 a"));
+        List<WebElement> elements = findAndWaitForElements(By.cssSelector("div[style*='visibility: visible'] .panel-left table tr h3 a"));
 
         for (WebElement webElement : elements)
         {
@@ -226,7 +205,7 @@ public class SelectContentPage extends SharePage
         List<String> users = new ArrayList<String>();
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector("div[style*='visibility: visible'] .panel-left table tr h3 a"));
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector("div[style*='visibility: visible'] .panel-left table tr h3 a"));
             for (WebElement user : elements)
             {
                 users.add(user.getText());
@@ -249,7 +228,7 @@ public class SelectContentPage extends SharePage
         {
             throw new IllegalArgumentException("Name can't be empty or null");
         }
-        List<WebElement> elements = drone.findAndWaitForElements(By
+        List<WebElement> elements = findAndWaitForElements(By
                 .cssSelector("div[style*='visibility: visible'] div[id*='cntrl-picker-left'] .yui-dt-data tr"));
 
         for (WebElement webElement : elements)
@@ -270,7 +249,7 @@ public class SelectContentPage extends SharePage
     public List<String> getAddedItems()
     {
         List<String> items = new ArrayList<String>();
-        List<WebElement> elements = drone.findAll(addedContents);
+        List<WebElement> elements = driver.findElements(addedContents);
         if (elements != null)
         {
             for (WebElement webElement : elements)
@@ -302,7 +281,7 @@ public class SelectContentPage extends SharePage
             timer.start();
             try
             {
-                List<WebElement> elements = drone.findAll(By.cssSelector("div[style*='visibility: visible'] div[id$='cntrl-picker-left'] .item-name a"));
+                List<WebElement> elements = driver.findElements(By.cssSelector("div[style*='visibility: visible'] div[id$='cntrl-picker-left'] .item-name a"));
                 if (elements != null)
                 {
 
@@ -345,7 +324,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            drone.find(okButton).click();
+            driver.findElement(okButton).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -356,9 +335,9 @@ public class SelectContentPage extends SharePage
         }
         catch (ElementNotVisibleException env)
         {
-            drone.findAll(okButton).get(1).click();
+            driver.findElements(okButton).get(1).click();
         }
-        return FactorySharePage.resolvePage(drone).render();
+        return getCurrentPage().render();
     }
 
     /**
@@ -373,7 +352,7 @@ public class SelectContentPage extends SharePage
             List<String> elements = getDirectoriesLeftPanel();
             if (!elements.isEmpty());              
             {
-                WebElement webElement = drone.findAndWait(folderUpButton);
+                WebElement webElement = findAndWait(folderUpButton);
                 boolean isUp = webElement.isEnabled();
                 return isUp;
             }
@@ -430,7 +409,7 @@ public class SelectContentPage extends SharePage
         {
             throw new IllegalArgumentException("FileName cannot be null");
         }
-        List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector("div[id$='assoc_packageItems-cntrl-picker-left'] .yui-dt-data tr"));
+        List<WebElement> elements = findAndWaitForElements(By.cssSelector("div[id$='assoc_packageItems-cntrl-picker-left'] .yui-dt-data tr"));
         if (elements.size() == 0)
         {
             throw new PageOperationException("File Name doesn't exists in the list");
@@ -456,7 +435,7 @@ public class SelectContentPage extends SharePage
         {
             throw new IllegalArgumentException("File Name cannot be empty");
         }
-        List<WebElement> selectedFiles = drone.findAll(addedContentsElements);
+        List<WebElement> selectedFiles = driver.findElements(addedContentsElements);
         if (selectedFiles.size() < 1)
         {
             throw new PageOperationException("File is not selected.");
@@ -465,7 +444,7 @@ public class SelectContentPage extends SharePage
         {
             if (file.findElement(By.cssSelector("h3.name")).getText().contains(fileName))
             {
-                drone.mouseOver(file.findElement(By.cssSelector("a.remove-item")));
+                mouseOver(file.findElement(By.cssSelector("a.remove-item")));
                 file.findElement(By.cssSelector("a.remove-item")).click();
                 break;
             }
@@ -484,7 +463,7 @@ public class SelectContentPage extends SharePage
         {
             throw new IllegalArgumentException("FileName cannot be null");
         }
-        List<WebElement> selectedFiles = drone.findAll(addedContentsElements);
+        List<WebElement> selectedFiles = driver.findElements(addedContentsElements);
         if (selectedFiles.size() == 0)
         {
             throw new PageOperationException("File Name doesn't exists in the list");
@@ -493,7 +472,7 @@ public class SelectContentPage extends SharePage
         {
             if (file.findElement(By.cssSelector("h3.name")).getText().contains(fileName))
             {
-                drone.mouseOver(file.findElement(By.cssSelector("a.remove-item")));
+                mouseOver(file.findElement(By.cssSelector("a.remove-item")));
                 found = file.findElement(By.cssSelector("a.remove-item")).isDisplayed();
                 return found;
 
@@ -509,7 +488,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            drone.find(closeButton).click();
+            driver.findElement(closeButton).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -524,7 +503,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            drone.findAndWait(cancelButton).click();
+            findAndWait(cancelButton).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -536,9 +515,9 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            drone.findAndWait(navigatorButton).click();
-            //drone.waitUntilElementClickable(navigateCompanyHome, 5);
-            drone.findAndWait(navigateCompanyHome).click();
+            findAndWait(navigatorButton).click();
+            //driver.waitUntilElementClickable(navigateCompanyHome, 5);
+            findAndWait(navigateCompanyHome).click();
             // waitUntilAlert();
         }
         catch (TimeoutException te)
@@ -554,7 +533,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            String message = drone.findAndWait(noItemsSelected).getText();
+            String message = findAndWait(noItemsSelected).getText();
             return message;
         }
         catch (TimeoutException toe)
@@ -573,7 +552,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            return drone.find(cancelButton).isDisplayed();
+            return driver.findElement(cancelButton).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -590,7 +569,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            return drone.find(okButton).isDisplayed();
+            return driver.findElement(okButton).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -607,7 +586,7 @@ public class SelectContentPage extends SharePage
     {
         try
         {
-            return drone.find(navigatorButton).isDisplayed();
+            return driver.findElement(navigatorButton).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {

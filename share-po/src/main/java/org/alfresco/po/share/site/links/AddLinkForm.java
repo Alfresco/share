@@ -1,11 +1,24 @@
+/*
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.links;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import ru.yandex.qatools.htmlelements.element.Button;
 
+@FindBy(tagName="form")
 /**
  * Page object to represent Add Link Form
  *
@@ -13,48 +26,15 @@ import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
  */
 public class AddLinkForm extends AbstractLinkForm
 {
-    private static final By SAVE_BTN = By.cssSelector("button[id$='default-ok-button']");
 
-    /**
-     * Constructor
-     *
-     * @param drone WebDrone
-     */
-    public AddLinkForm(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    @SuppressWarnings("unchecked")
-    public AddLinkForm render(RenderTime timer)
-    {
-        elementRender(timer,
-                getVisibleRenderElement(SAVE_BTN),
-                getVisibleRenderElement(CANCEL_BTN));
-
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public AddLinkForm render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    public AddLinkForm render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
+    @FindBy(css="button[id$='default-ok-button']") Button save;
     /**
      * Method for clicking Save button on Add Link form
      *
      * @return LinksDetailsPage
      */
-    public LinksDetailsPage clickSaveBtn()
+    public void clickSaveBtn()
     {
-        drone.findAndWait(SAVE_BTN).click();
-        return new LinksDetailsPage(drone).waitUntilAlert().render();
+        save.click();
     }
 }

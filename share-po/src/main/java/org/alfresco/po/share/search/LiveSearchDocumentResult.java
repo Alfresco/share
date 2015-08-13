@@ -20,17 +20,18 @@
 package org.alfresco.po.share.search;
 
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -38,7 +39,7 @@ import org.openqa.selenium.WebElement;
  * @author jcule
  *
  */
-public class LiveSearchDocumentResult
+public class LiveSearchDocumentResult extends PageElement
 {
     private static Log logger = LogFactory.getLog(LiveSearchDocumentResult.class);
     
@@ -46,7 +47,6 @@ public class LiveSearchDocumentResult
     private static final String DOCUMENT_RESULT_SITE_NAME = "span a[href*='documentlibrary']";
     private static final String DOCUMENT_RESULT_USER_NAME = "span a[href*='profile']";
     
-    private WebDrone drone ;
     private WebElement webElement;
     private ShareLink title;
     private ShareLink siteName;
@@ -56,12 +56,17 @@ public class LiveSearchDocumentResult
     /**
      * Constructor
      * @param element {@link WebElement} 
+<<<<<<< .working
+     * @param driver 
+=======
      * @param drone WebDrone
+>>>>>>> .merge-right.r109852
      */
-    public LiveSearchDocumentResult(WebElement element, WebDrone drone)
+    public LiveSearchDocumentResult(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
         webElement = element;
-        this.drone = drone;
+        this.driver = driver;
+        this.factoryPage = factoryPage;
     }
 
     /**
@@ -75,7 +80,7 @@ public class LiveSearchDocumentResult
             try
             {
                 WebElement titleElement = webElement.findElement(By.cssSelector(DOCUMENT_RESULT_TITLE));
-                title = new ShareLink(titleElement, drone);
+                title = new ShareLink(titleElement, driver, factoryPage);
             }
             catch (NoSuchElementException e)
             {
@@ -96,7 +101,7 @@ public class LiveSearchDocumentResult
             try
             {
                 WebElement siteElement = webElement.findElement(By.cssSelector(DOCUMENT_RESULT_SITE_NAME));
-                siteName = new ShareLink(siteElement, drone);
+                siteName = new ShareLink(siteElement, driver, factoryPage);
             }
             catch (NoSuchElementException e)
             {
@@ -117,7 +122,7 @@ public class LiveSearchDocumentResult
             try
             {
                 WebElement userElement = webElement.findElement(By.cssSelector(DOCUMENT_RESULT_USER_NAME));
-                userName = new ShareLink(userElement, drone);
+                userName = new ShareLink(userElement, driver, factoryPage);
             }
             catch (NoSuchElementException e)
             {
@@ -135,7 +140,7 @@ public class LiveSearchDocumentResult
         try
         {
             webElement.findElement(By.cssSelector(DOCUMENT_RESULT_TITLE)).click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
          
         }
         catch (NoSuchElementException nse)
@@ -157,7 +162,7 @@ public class LiveSearchDocumentResult
         try
         {
             webElement.findElement(By.cssSelector(DOCUMENT_RESULT_SITE_NAME)).click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
          
         }
         catch (NoSuchElementException nse)
@@ -179,7 +184,7 @@ public class LiveSearchDocumentResult
         try
         {
             webElement.findElement(By.cssSelector(DOCUMENT_RESULT_USER_NAME)).click();
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
          
         }
         catch (NoSuchElementException nse)

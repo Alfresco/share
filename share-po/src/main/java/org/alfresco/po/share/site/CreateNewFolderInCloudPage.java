@@ -17,12 +17,11 @@ package org.alfresco.po.share.site;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import org.alfresco.po.ElementState;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.workflow.DestinationAndAssigneePage;
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -47,14 +46,6 @@ public class CreateNewFolderInCloudPage extends SharePage
     private final By DESCRIPTION_LABEL = By.cssSelector("div>label[for$='folder-createFolderInTheCloud_prop_cm_description']");
     private static final By SAVE_BUTTON = By.cssSelector("button[id$='_default-cloud-folder-createFolderInTheCloud-form-submit-button']");
 
-    /**
-     * Constructor.
-     */
-    public CreateNewFolderInCloudPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public CreateNewFolderInCloudPage render(RenderTime timer)
@@ -68,13 +59,6 @@ public class CreateNewFolderInCloudPage extends SharePage
     public CreateNewFolderInCloudPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public CreateNewFolderInCloudPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -100,11 +84,11 @@ public class CreateNewFolderInCloudPage extends SharePage
         }
         try
         {
-            WebElement inputFolderName = drone.findAndWait(NAME);
+            WebElement inputFolderName = findAndWait(NAME);
             inputFolderName.sendKeys(folderName);
             if (description != null)
             {
-                WebElement inputDescription = drone.find(DESCRIPTION);
+                WebElement inputDescription = driver.findElement(DESCRIPTION);
                 inputDescription.sendKeys(description);
             }
             submit(SAVE_BUTTON, ElementState.INVISIBLE);
@@ -112,13 +96,12 @@ public class CreateNewFolderInCloudPage extends SharePage
             // canResume();
             try
             {
-                drone.waitForElement(By.id("AlfrescoWebdronez1"), SECONDS.convert(WAIT_TIME_3000, MILLISECONDS));
+                waitForElement(By.id("AlfrescoWebdriverz1"), SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
             }
             catch (TimeoutException e)
             {
             }
-            // drone.waitFor(WAIT_TIME_3000);
-            return new DestinationAndAssigneePage(drone);
+            return factoryPage.instantiatePage(driver, DestinationAndAssigneePage.class);
         }
         catch (TimeoutException te)
         {
@@ -154,7 +137,7 @@ public class CreateNewFolderInCloudPage extends SharePage
 
         if (folderTitle != null && !folderTitle.isEmpty())
         {
-            WebElement inputFolderName = drone.findAndWait(TITLE);
+            WebElement inputFolderName = findAndWait(TITLE);
             inputFolderName.sendKeys(folderTitle);
         }
 
@@ -165,7 +148,7 @@ public class CreateNewFolderInCloudPage extends SharePage
     {
         try
         {
-            drone.find(NAME_LABEL);
+            driver.findElement(NAME_LABEL);
             return true;
         }
         catch (TimeoutException te)
@@ -178,7 +161,7 @@ public class CreateNewFolderInCloudPage extends SharePage
     {
         try
         {
-            drone.find(DESCRIPTION_LABEL);
+            driver.findElement(DESCRIPTION_LABEL);
             return true;
         }
         catch (TimeoutException te)

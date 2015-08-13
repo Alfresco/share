@@ -7,24 +7,22 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.FactorySharePage;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.site.CreateSitePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.my-sites")
 /**
  * My site dashlet object, holds all element of the HTML page relating to share's my site dashlet on dashboard page.
  * 
@@ -47,33 +45,18 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     private static final By CREATE_SITE = By.cssSelector("div[class*='my-sites'] div span span a");
     private static final String FAVORITE_SYMB_IN_ROW = "a[class*='favourite-action']";
 
-    /**
-     * Constructor.
-     */
-    protected MySitesDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
-        
-        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected MySitesDashlet()
+//    {
+//        super(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
+//        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
+//    }
     @SuppressWarnings("unchecked")
-    public MySitesDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public MySitesDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Implemented a new render method with optionally waiting for 'Loading...' message to go away
      */
-    @SuppressWarnings("unchecked")
     public MySitesDashlet render(RenderTime timer)
     {
         return render(timer, true);
@@ -84,7 +67,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
      * 
      * @return List<ShareLink> site links
      */
-    public synchronized List<ShareLink> getSites()
+    public List<ShareLink> getSites()
     {
         return getList(DATA_LIST_CSS_LOCATION);
     }
@@ -95,7 +78,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
      * @param name identifier
      * @return {@link ShareLink} that matches siteName
      */
-    public synchronized ShareLink selectSite(final String name)
+    public ShareLink selectSite(final String name)
     {
         if (name == null)
         {
@@ -123,15 +106,16 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
+            setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
             while (true)
             {
                 try
                 {
                     timer.start();
-                    WebElement dashlet = drone.find(By.cssSelector(DASHLET_CONTENT_DIV_ID_PLACEHOLDER));
+                    WebElement dashlet = driver.findElement(By.cssSelector(DASHLET_CONTENT_DIV_ID_PLACEHOLDER));
                     if (dashlet.isDisplayed())
                     {
-                        this.dashlet = drone.find(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
+                        this.dashlet = driver.findElement(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
                         if (waitForLoading)
                         {
                             if (!isLoading(dashlet))
@@ -246,12 +230,12 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
         }
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector(ROW_OF_SITE));
+            List<WebElement> elements = driver.findElements(By.cssSelector(ROW_OF_SITE));
             for (WebElement webElement : elements)
             {
                 if (webElement.findElement(By.cssSelector(SITE_NAME_IN_ROW)).getText().equals(siteName))
                 {
-                    drone.mouseOver(webElement);
+                    mouseOver(webElement);
                     webElement.findElement(By.cssSelector(DELETE_SYMB_IN_ROW)).click();
                     return confirmDelete();
                 }
@@ -272,8 +256,8 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector(DELETE_CONFIRM));
-            WebElement delete = findButton("Delete", elements);
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector(DELETE_CONFIRM));
+            WebElement delete = elements.get(0);
             delete.click();
         }
         catch (NoSuchElementException nse)
@@ -291,23 +275,15 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector(DELETE_CONFIRM));
-            WebElement button = findButton("Yes", elements);
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector(DELETE_CONFIRM));
+            WebElement button = elements.get(0);
             button.click();
         }
         catch (NoSuchElementException nse)
         {
             logger.error("Delete dialouge not present");
         }
-        if (canResume())
-        {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Site message indicating site deleted has been displayed");
-            }
-        }
-
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -324,15 +300,15 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
         }
         try
         {
-            WebElement myFavourties = drone.find(By.cssSelector(MY_SITES_BUTTON));
+            WebElement myFavourties = driver.findElement(By.cssSelector(MY_SITES_BUTTON));
             myFavourties.click();
-            List<WebElement> types = drone.findAll(By.cssSelector(SITES_TYPE));
+            List<WebElement> types = driver.findElements(By.cssSelector(SITES_TYPE));
             for (WebElement typeFav : types)
             {
                 if (type.toString().equalsIgnoreCase(typeFav.getText()))
                 {
                     typeFav.click();
-                    return FactorySharePage.resolvePage(drone);
+                    return getCurrentPage();
                 }
             }
         }
@@ -356,12 +332,12 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
         }
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector(ROW_OF_SITE));
+            List<WebElement> elements = driver.findElements(By.cssSelector(ROW_OF_SITE));
             for (WebElement webElement : elements)
             {
                 if (webElement.findElement(By.cssSelector(SITE_NAME_IN_ROW)).getText().equals(siteName))
                 {
-                    drone.mouseOver(webElement);
+                    mouseOver(webElement);
                     webElement.findElement(By.cssSelector(FAVORITE_SYMB_IN_ROW)).click();
                     break;
                 }
@@ -380,7 +356,7 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.findAndWait(CREATE_SITE).isDisplayed();
+            return findAndWait(CREATE_SITE).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -392,13 +368,12 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
     /**
      * Click on Create Site button
      */
-    public CreateSitePage clickCreateSiteButton()
+    public HtmlPage clickCreateSiteButton()
     {
         try
         {
-            drone.find(CREATE_SITE).click();
-//            return drone.getCurrentPage().render();
-            return new CreateSitePage(drone).render();
+            driver.findElement(CREATE_SITE).click();
+            return getCurrentPage();
 
         }
         catch (NoSuchElementException nse)
@@ -435,5 +410,10 @@ public class MySitesDashlet extends AbstractDashlet implements Dashlet
         }
         return false;
     }
-
+    @SuppressWarnings("unchecked")
+    @Override
+    public MySitesDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
+    }
 }

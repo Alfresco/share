@@ -10,11 +10,11 @@ package org.alfresco.po.share.site;
 import java.io.IOException;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
+
 import org.alfresco.po.share.site.SiteFinderPage.ButtonType;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -49,11 +49,11 @@ public class SiteFinderPageTest extends AbstractTest
         siteNameModerated = siteName + "mod";
         siteNamePrivate = siteName + "private";
 
-        ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        SiteUtil.createSite(drone, siteNamePublic, "description", "Public");
-        SiteUtil.createSite(drone, siteNameModerated, "description", "Moderated");
-        SiteUtil.createSite(drone, siteNamePrivate, "description", "Private");
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteNamePublic, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteNameModerated, "description", "Moderated");
+        siteUtil.createSite(driver, username, password, siteNamePrivate, "description", "Private");
     }
     
     @BeforeMethod
@@ -65,15 +65,15 @@ public class SiteFinderPageTest extends AbstractTest
     @AfterClass(groups="alfresco-one")
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteNamePublic);
-        SiteUtil.deleteSite(drone, siteNameModerated);
-        SiteUtil.deleteSite(drone, siteNamePrivate);
+        siteUtil.deleteSite(username, password, siteNamePublic);
+        siteUtil.deleteSite(username, password, siteNameModerated);
+        siteUtil.deleteSite(username, password, siteNamePrivate);
     }
     
     private SiteFinderPage getSiteFinderPage()
     {
         // Navigate to Search For Site
-        SharePage page = drone.getCurrentPage().render(); 
+        SharePage page = resolvePage(driver).render(); 
         siteFinder = page.getNav().selectSearchForSites().render(); 
         return siteFinder;        
     }
@@ -91,7 +91,7 @@ public class SiteFinderPageTest extends AbstractTest
     @Test(priority=2)
     public void test101nonZeroResults()
     {
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteName).render();
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteName);
         Assert.assertEquals(siteFinder.hasResults(), true); 
         Assert.assertTrue(siteFinder.getSiteList().size() >= 1);
         Assert.assertTrue(siteFinder.isButtonForSitePresent(siteName, ButtonType.Leave));
@@ -121,14 +121,14 @@ public class SiteFinderPageTest extends AbstractTest
     @Test(priority=6)
     public void test104SearchForSitesModerated()
     {
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteNameModerated).render(); 
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteNameModerated); 
         Assert.assertEquals(siteFinder.getSiteList().size(), 1);
     }
     
     @Test(priority=7)
     public void test105SearchForSitesPrivate()
     {
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteNamePrivate).render();
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteNamePrivate);
         Assert.assertEquals(siteFinder.getSiteList().size(), 1);
         Assert.assertEquals(siteFinder.getSiteList().get(0), siteNamePrivate);
     }
@@ -143,8 +143,8 @@ public class SiteFinderPageTest extends AbstractTest
     @Test(priority=9)
     public void test107SelectSiteModerated()
     {
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteNameModerated).render();
-        SiteDashboardPage siteDash = siteFinder.selectSite(siteNameModerated);
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteNameModerated);
+        SiteDashboardPage siteDash = siteFinder.selectSite(siteNameModerated).render();
         Assert.assertEquals(siteDash.render().isSite(siteNameModerated), true);
     }    
     
@@ -152,23 +152,23 @@ public class SiteFinderPageTest extends AbstractTest
     public void test108SelectSitePrivate()
     {
         siteFinder = siteFinder.searchForSite(siteNamePrivate).render();
-        SiteDashboardPage siteDash = siteFinder.selectSite(siteNamePrivate);
+        SiteDashboardPage siteDash = siteFinder.selectSite(siteNamePrivate).render();
         Assert.assertEquals(siteDash.render().isSite(siteNamePrivate), true);
     }
     
     @Test(priority=11)
     public void test109SelectSitePublic()
     {
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteName).render();
-        SiteDashboardPage siteDash = siteFinder.selectSite(siteNamePublic);
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteName);
+        SiteDashboardPage siteDash = siteFinder.selectSite(siteNamePublic).render();
         Assert.assertEquals(siteDash.render().isSite(siteNamePublic), true);
     }
     
     @Test(priority=12)
     public void test110SelectSiteByIndex()
     {
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteName).render();
-        SiteDashboardPage siteDash = siteFinder.selectSiteByIndex(0);
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteName);
+        SiteDashboardPage siteDash = siteFinder.selectSiteByIndex(0).render();
         Assert.assertEquals(siteDash.render().isSite(siteName), true);
     }
     
@@ -176,14 +176,14 @@ public class SiteFinderPageTest extends AbstractTest
     public void test111SelectSiteNull()
     {
         siteFinder = siteFinder.searchForSite(siteName).render();
-        SiteDashboardPage siteDash = siteFinder.selectSite(null);
+        SiteDashboardPage siteDash = siteFinder.selectSite(null).render();
         Assert.assertEquals(siteDash.render().isSite(siteName), true);
     }
     
     @Test(priority=14)
     public void test112DeleteSite()
     {
-        siteFinder = SiteUtil.siteSearchRetry(drone, siteFinder, siteName).render();
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, siteName);
         List<String> sitesFound = siteFinder.getSiteList(); 
         siteFinder.deleteSite(siteName);
         

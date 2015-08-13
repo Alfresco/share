@@ -17,8 +17,7 @@ package org.alfresco.po.share;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -33,23 +32,13 @@ import org.openqa.selenium.WebElement;
  * @author Michael Suzuki
  * @since 1.0
  */
+@SuppressWarnings("unchecked")
 public class PeopleFinderResultPage extends PeopleFinderPage
 {
     private static Log logger = LogFactory.getLog(PeopleFinderPage.class);
 
     private List<ShareLink> shareLinks;
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public PeopleFinderResultPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    @Override
     public PeopleFinderResultPage render(RenderTime timer)
     {
         while (true)
@@ -79,18 +68,6 @@ public class PeopleFinderResultPage extends PeopleFinderPage
         return this;
     }
 
-    @Override
-    public PeopleFinderResultPage render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @Override
-    public PeopleFinderResultPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Checks if results table is displayed
      * 
@@ -100,7 +77,7 @@ public class PeopleFinderResultPage extends PeopleFinderPage
     {
         try
         {
-            return drone.find(By.cssSelector("tbody.yui-dt-data > tr")).isDisplayed();
+            return driver.findElement(By.cssSelector("tbody.yui-dt-data > tr")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -119,7 +96,7 @@ public class PeopleFinderResultPage extends PeopleFinderPage
         try
         {
             // Search for no data message
-            WebElement message = drone.find(By.cssSelector("tbody.yui-dt-message"));
+            WebElement message = driver.findElement(By.cssSelector("tbody.yui-dt-message"));
             noResults = message.isDisplayed();
         }
         catch (NoSuchElementException te)
@@ -148,7 +125,7 @@ public class PeopleFinderResultPage extends PeopleFinderPage
         shareLinks = new ArrayList<ShareLink>();
         try
         {
-            List<WebElement> elements = drone.findAll(By.cssSelector("tbody.yui-dt-data > tr"));
+            List<WebElement> elements = driver.findElements(By.cssSelector("tbody.yui-dt-data > tr"));
             if (logger.isTraceEnabled())
             {
                 logger.trace(String.format("Search results has yeilded %d results", elements.size()));
@@ -156,7 +133,7 @@ public class PeopleFinderResultPage extends PeopleFinderPage
             for (WebElement element : elements)
             {
                 WebElement result = element.findElement(By.tagName("a"));
-                shareLinks.add(new ShareLink(result, drone));
+                shareLinks.add(new ShareLink(result, driver, factoryPage));
             }
         }
         catch (TimeoutException nse)

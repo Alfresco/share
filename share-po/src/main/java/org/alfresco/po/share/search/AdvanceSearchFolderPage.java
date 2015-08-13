@@ -15,8 +15,7 @@
 
 package org.alfresco.po.share.search;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -34,23 +33,6 @@ public class AdvanceSearchFolderPage extends AdvanceSearchPage
 {
     protected static final By FOLDER_SEARCH_FORM = By.cssSelector("button[id$='selected-form-button-button']");
 
-    /**
-     * Constructor.
-     */
-    public AdvanceSearchFolderPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    /**
-     * Page rendering.
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public AdvanceSearchFolderPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -106,7 +88,7 @@ public class AdvanceSearchFolderPage extends AdvanceSearchPage
         Boolean displayed = false;
         try
         {
-            WebElement folderSearchForm = drone.find(FOLDER_SEARCH_FORM);
+            WebElement folderSearchForm = driver.findElement(FOLDER_SEARCH_FORM);
             if (folderSearchForm != null && folderSearchForm.getText().contains("Folders"))
             {
                 displayed = true;

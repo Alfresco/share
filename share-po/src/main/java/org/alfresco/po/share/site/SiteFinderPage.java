@@ -21,11 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,7 +42,7 @@ import org.openqa.selenium.WebElement;
 public class SiteFinderPage extends SharePage
 {
     private final Log logger = LogFactory.getLog(this.getClass());
-    private static final String PROMPT_PANEL_ID = "prompt.panel.id";
+    private static final String PROMPT_PANEL_ID = "prompt";
     private static final By SEARCH_SUBMIT = By.cssSelector("button[id$='default-button-button']");
 
     public enum ButtonType
@@ -66,14 +65,6 @@ public class SiteFinderPage extends SharePage
         }
     };
 
-    /**
-     * Constructor.
-     */
-    public SiteFinderPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public synchronized SiteFinderPage render(RenderTime timer)
@@ -84,7 +75,7 @@ public class SiteFinderPage extends SharePage
             timer.start();
             try
             {
-                if (drone.find(SEARCH_SUBMIT).isEnabled())
+                if (driver.findElement(SEARCH_SUBMIT).isEnabled())
                 {
                     synchronized (this)
                     {
@@ -127,7 +118,7 @@ public class SiteFinderPage extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector("tbody.yui-dt-message")).isDisplayed();
+            return driver.findElement(By.cssSelector("tbody.yui-dt-message")).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -137,16 +128,9 @@ public class SiteFinderPage extends SharePage
 
     @SuppressWarnings("unchecked")
     @Override
-    public SiteFinderPage render()
+    public HtmlPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteFinderPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -155,20 +139,20 @@ public class SiteFinderPage extends SharePage
      * @param title String name of site
      * @return HtmlPage page object response
      */
-    public SiteFinderPage searchForSite(final String title)
+    public HtmlPage searchForSite(final String title)
     {
         if (title == null)
         {
             throw new IllegalArgumentException("Title can't be null.");
         }
-        WebElement input = drone.findAndWait(By.cssSelector("input[id$='site-finder_x0023_default-term']"));
+        WebElement input = driver.findElement(By.cssSelector("input[id$='site-finder_x0023_default-term']"));
         input.clear();
         input.sendKeys(title);
-        WebElement searchSiteButton = drone.findAndWait(SEARCH_SUBMIT);
+        WebElement searchSiteButton = driver.findElement(SEARCH_SUBMIT);
         searchSiteButton.click();
         searchActioned();
 
-        return new SiteFinderPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -178,7 +162,7 @@ public class SiteFinderPage extends SharePage
      */
     private void searchActioned()
     {
-        RenderTime timer = new RenderTime(drone.getDefaultWaitTime());
+        RenderTime timer = new RenderTime(getDefaultWaitTime());
         while (true)
         {
             try
@@ -190,7 +174,7 @@ public class SiteFinderPage extends SharePage
                 }
                 if (isMessageScreenDisplayed())
                 {
-                    String msg = drone.find(By.cssSelector("tbody.yui-dt-message")).getText();
+                    String msg = driver.findElement(By.cssSelector("tbody.yui-dt-message")).getText();
                     if ("No sites found".equalsIgnoreCase(msg.trim()))
                     {
                         break;
@@ -214,7 +198,7 @@ public class SiteFinderPage extends SharePage
         boolean hasResult = true;
         try
         {
-            WebElement resultDiv = drone.find(By.cssSelector("div[id$='default-sites'].results.yui-dt table tbody.yui-dt-message"));
+            WebElement resultDiv = driver.findElement(By.cssSelector("div[id$='default-sites'].results.yui-dt table tbody.yui-dt-message"));
             if (logger.isTraceEnabled())
             {
                 logger.trace("no results element shown " + resultDiv.isDisplayed());
@@ -256,7 +240,7 @@ public class SiteFinderPage extends SharePage
     {
         try
         {
-            List<WebElement> siteRows = drone.findAll(By.cssSelector("tbody.yui-dt-data tr"));
+            List<WebElement> siteRows = driver.findElements(By.cssSelector("tbody.yui-dt-data tr"));
             return siteRows;
         }
         catch (NoSuchElementException nse)
@@ -290,8 +274,8 @@ public class SiteFinderPage extends SharePage
         {
             throw new PageException("Unable to find site to delete", pe);
         }
-        drone.waitUntilNotVisible(By.cssSelector(".message"), "Site was deleted", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return new SiteFinderPage(drone);
+        waitUntilNotVisible(By.cssSelector(".message"), "Site was deleted", SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -314,7 +298,7 @@ public class SiteFinderPage extends SharePage
      */
     private HtmlPage confirmDelete()
     {
-        WebElement prompt = drone.findAndWaitById(PROMPT_PANEL_ID);
+        WebElement prompt = findAndWaitById(PROMPT_PANEL_ID);
         List<WebElement> elements = prompt.findElements(By.tagName("button"));
         // Find the delete button in the prompt
         WebElement delete = findButton("Delete", elements);
@@ -331,7 +315,7 @@ public class SiteFinderPage extends SharePage
      */
     private HtmlPage finalConfimration()
     {
-        WebElement prompt = drone.findAndWaitById(PROMPT_PANEL_ID);
+        WebElement prompt = findAndWaitById(PROMPT_PANEL_ID);
         List<WebElement> elements = prompt.findElements(By.tagName("button"));
         // Find the delete button in the prompt
         WebElement button = findButton("Yes", elements);
@@ -348,7 +332,7 @@ public class SiteFinderPage extends SharePage
                 logger.trace("Site message indicating site deleted has been displayed");
             }
         }
-        return new SiteFinderPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -357,14 +341,14 @@ public class SiteFinderPage extends SharePage
      * @param siteName String site name
      * @return {@link SiteFinderPage} page response object
      */
-    public SiteFinderPage joinSite(final String siteName)
+    public HtmlPage joinSite(final String siteName)
     {
         if (StringUtils.isEmpty(siteName))
         {
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
         findButtonForSite(siteName, "Join").click();
-        return new SiteFinderPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -373,14 +357,14 @@ public class SiteFinderPage extends SharePage
      * @param siteName String site name
      * @return {@link SiteFinderPage} page response object
      */
-    public SiteFinderPage requestToJoinSite(final String siteName)
+    public HtmlPage requestToJoinSite(final String siteName)
     {
         if (StringUtils.isEmpty(siteName))
         {
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
         findButtonForSite(siteName, "Request to Join").click();
-        return new SiteFinderPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -389,14 +373,14 @@ public class SiteFinderPage extends SharePage
      * @param siteName String site name
      * @return {@link SiteFinderPage} page response object
      */
-    public SiteFinderPage leaveSite(final String siteName)
+    public HtmlPage leaveSite(final String siteName)
     {
         if (StringUtils.isEmpty(siteName))
         {
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
         findButtonForSite(siteName, "Leave").click();
-        return new SiteFinderPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -456,14 +440,14 @@ public class SiteFinderPage extends SharePage
      * @param siteName String site name
      * @return {@link SiteDashboardPage} page response object
      */
-    public SiteDashboardPage selectSite(final String siteName)
+    public HtmlPage selectSite(final String siteName)
     {
         if (StringUtils.isEmpty(siteName))
         {
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
 
-        List<WebElement> siteRows = drone.findAll(By.cssSelector("h3>a"));
+        List<WebElement> siteRows = driver.findElements(By.cssSelector("h3>a"));
 
         // Check if site appears else throw exception
         if (siteRows.size() > 0)
@@ -477,7 +461,7 @@ public class SiteFinderPage extends SharePage
                         logger.info("Site Name: " + site.getText());
                     }
                     site.click();
-                    return new SiteDashboardPage(drone);
+                    return getCurrentPage();
                 }
             }
             if (logger.isTraceEnabled())
@@ -503,15 +487,15 @@ public class SiteFinderPage extends SharePage
      * @param index int
      * @return {@link SiteDashboardPage} page response object
      */
-    public SiteDashboardPage selectSiteByIndex(final int index)
+    public HtmlPage selectSiteByIndex(final int index)
     {
         try
         {
-            List<WebElement> siteRows = drone.findAll(By.cssSelector("h3>a"));
+            List<WebElement> siteRows = driver.findElements(By.cssSelector("h3>a"));
             WebElement site = siteRows.get(index);
 
             site.click();
-            return new SiteDashboardPage(drone);
+            return getCurrentPage();
         }
         catch (PageException e)
         {
@@ -550,7 +534,7 @@ public class SiteFinderPage extends SharePage
     {
         WebElement deleteButton = findButtonForSite(siteName, "Delete");
         deleteButton.click();
-        return new DeleteSitePage(drone);
+        return factoryPage.instantiatePage(driver, DeleteSitePage.class);
     }
 
 }

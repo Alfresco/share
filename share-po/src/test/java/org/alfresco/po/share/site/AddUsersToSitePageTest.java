@@ -17,7 +17,8 @@ package org.alfresco.po.share.site;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.SharePage;
@@ -26,7 +27,6 @@ import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.po.share.user.UserSitesPage;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
@@ -59,7 +59,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         dashBoard = loginAs(username, password);
         CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
         createSitePage.createNewSite(siteName).render();
-        ShareUtil.logout(drone);
+        logout(driver);
     }
 
     /**
@@ -72,67 +72,47 @@ public class AddUsersToSitePageTest extends AbstractTest
     private void addUserToSite(String userName, UserRole role) throws Exception
     {
         dashBoard = loginAs(username, password);
-        if (!alfrescoVersion.isCloud())
-        {
-            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-            NewUserPage newPage = page.selectNewUser().render();
-            newPage.inputFirstName(userName);
-            newPage.inputLastName(userName);
-            newPage.inputEmail(userName);
-            newPage.inputUsername(userName);
-            newPage.inputPassword(userName);
-            newPage.inputVerifyPassword(userName);
-            UserSearchPage userCreated = newPage.selectCreateUser().render();
-            userCreated.searchFor(userName).render();
-        }
-        else
-        {
-            // TODO: Cloud user creation needs to be implemented
-            // Assert.assertTrue(UserUtil.createUser(userName, userName,
-            // userName, userName, userName, alfrescoVersion.isCloud(),
-            // shareUrl));
-        }
-        SharePage page = drone.getCurrentPage().render();
+        SharePage page = resolvePage(driver).render();
         userSitesPage = page.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-        if (!alfrescoVersion.isCloud())
-        {
-            List<String> searchUsers = null;
-            addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-            for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
-            {
-                searchUsers = addUsersToSitePage.searchUser(userName);
-                try
-                {
-                    if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(userName) != -1))
-                    {
-                        addUsersToSitePage.clickSelectUser(userName);
-                        addUsersToSitePage.setUserRoles(userName, role);
-
-                        addUsersToSitePage.clickAddUsersButton();
-                        break;
-                    }
-                }
-                catch (Exception e)
-                {
-                    saveScreenShot("SiteTest.instantiateMembers-error");
-                    throw new Exception("Waiting for object to load", e);
-                }
-                try
-                {
-                    addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-                }
-                catch (PageRenderTimeException exception)
-                {
-                }
-            }
-
-        }
-        else
-        {
-            // TODO: In Cloud environemnt, need to implement the inviting and
-            // accepting the invitation to join on another user site page.
-        }
+//        if (!alfrescoVersion.isCloud())
+//        {
+//            List<String> searchUsers = null;
+//            addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
+//            for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
+//            {
+//                searchUsers = addUsersToSitePage.searchUser(userName);
+//                try
+//                {
+//                    if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(userName) != -1))
+//                    {
+//                        addUsersToSitePage.clickSelectUser(userName);
+//                        addUsersToSitePage.setUserRoles(userName, role);
+//
+//                        addUsersToSitePage.clickAddUsersButton();
+//                        break;
+//                    }
+//                }
+//                catch (Exception e)
+//                {
+//                    saveScreenShot("SiteTest.instantiateMembers-error");
+//                    throw new Exception("Waiting for object to load", e);
+//                }
+//                try
+//                {
+//                    addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
+//                }
+//                catch (PageRenderTimeException exception)
+//                {
+//                }
+//            }
+//
+//        }
+//        else
+//        {
+//            // TODO: In Cloud environemnt, need to implement the inviting and
+//            // accepting the invitation to join on another user site page.
+//        }
     }
 
     /**
@@ -150,7 +130,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             try
             {
                 siteMembers = addUsersToSitePage.searchUser(userName);
-                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
+                addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
             }
             catch (PageRenderTimeException exception)
             {
@@ -196,7 +176,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             Assert.assertTrue(siteMember.indexOf(siteManagerUserName) != -1);
         }
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -233,7 +213,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             Assert.assertTrue(siteMember.indexOf(siteCollaboratorUserName) != -1);
         }
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -270,7 +250,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             Assert.assertTrue(siteMember.indexOf(siteContributorUserName) != -1);
         }
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -308,7 +288,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             Assert.assertTrue(siteMember.indexOf(siteConsumerUserName) != -1);
         }
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -323,7 +303,7 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         addUserToSite(userNavigateToSiteDashboard, UserRole.CONSUMER);
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
         dashBoard = loginAs(userNavigateToSiteDashboard, userNavigateToSiteDashboard);
         userSitesPage = dashBoard.getNav().selectMySites().render();
@@ -331,7 +311,7 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         Assert.assertEquals(siteDashBoard.getPageTitle(), siteName);
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -440,7 +420,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         List<String> siteMembers4 = siteMembersPage.searchUser(userMultiple4);
         Assert.assertTrue(siteMembers4.get(0).indexOf(userMultiple4) != -1);
         
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -492,7 +472,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             Assert.assertTrue(siteMember.indexOf(userExternalUserName) != -1);
         }
 
-        ShareUtil.logout(drone);
+        logout(driver);
     }
     **/
 
@@ -519,7 +499,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         List<String> selectedUserNames = addUsersToSitePage.getSelectedUserNames();
         Assert.assertFalse(selectedUserNames.contains(userRemoveUserName));
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -533,9 +513,9 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         addUsersToSitePage.navigateToPendingInvitesPage();
-        Assert.assertTrue(drone.getCurrentPage().render() instanceof PendingInvitesPage);
+        Assert.assertTrue(resolvePage(driver).render() instanceof PendingInvitesPage);
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -549,9 +529,9 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         addUsersToSitePage.navigateToSiteGroupsPage();
-        Assert.assertTrue(drone.getCurrentPage().render() instanceof SiteGroupsPage);
+        Assert.assertTrue(resolvePage(driver).render() instanceof SiteGroupsPage);
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -565,9 +545,9 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         addUsersToSitePage.navigateToMembersSitePage();
-        Assert.assertTrue(drone.getCurrentPage().render() instanceof SiteMembersPage);
+        Assert.assertTrue(resolvePage(driver).render() instanceof SiteMembersPage);
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 
@@ -584,7 +564,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage =  addUsersToSitePage.clickOnInfoTooltip().render();
         Assert.assertTrue(addUsersToSitePage.isRoleInfoTooltipDisplayed());
 
-        ShareUtil.logout(drone);
+        logout(driver);
 
     }
 

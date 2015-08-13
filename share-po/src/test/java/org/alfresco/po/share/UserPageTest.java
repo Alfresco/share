@@ -1,11 +1,12 @@
 package org.alfresco.po.share;
 
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
+import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.user.AccountSettingsPage;
 import org.alfresco.po.share.user.MyProfilePage;
-import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
@@ -26,9 +27,9 @@ public class UserPageTest extends AbstractTest
     @Test(groups = "alfresco-one")
     public void userPageLinks() throws Exception
     {
-        drone.navigateTo(shareUrl);
+        driver.navigate().to(shareUrl);
         DashBoardPage dashBoard = loginAs(username, password);
-        userpage = dashBoard.getNav().selectUserDropdown().render();
+        dashBoard.getNav().selectUserDropdown();
         Assert.assertTrue(userpage.isSetStausLinkPresent());
         Assert.assertTrue(userpage.isHelpLinkPresent());
         Assert.assertTrue(userpage.isLogoutLinkPresent());
@@ -41,9 +42,9 @@ public class UserPageTest extends AbstractTest
     public void userProfilePageTitleCheck()
     {
         Assert.assertTrue(userpage.isMyProfileLinkPresent());
-        MyProfilePage myprofilepage = userpage.selectMyProfile();
+        MyProfilePage myprofilepage = userpage.selectMyProfile().render();
         Assert.assertTrue(myprofilepage.titlePresent());
-        userpage = myprofilepage.getNav().selectUserDropdown().render();
+        myprofilepage.getNav().selectUserDropdown();
     }
 
     /**
@@ -53,10 +54,10 @@ public class UserPageTest extends AbstractTest
     public void selectAccountSettingsPageCheck()
     {
         Assert.assertTrue(userpage.isAccountSettingsLinkPresent());
-        AccountSettingsPage accountSettingsPage = userpage.selectAccountSettingsPage();
+        AccountSettingsPage accountSettingsPage = userpage.selectAccountSettingsPage().render();
         String title = "Account Settings";
         Assert.assertTrue(accountSettingsPage.isTitlePresent(title));
-        userpage = accountSettingsPage.getNav().selectUserDropdown().render();
+        accountSettingsPage.getNav().selectUserDropdown();
     }
     
     /**
@@ -86,9 +87,9 @@ public class UserPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", dependsOnMethods = "changePassWordPageCheck")
     public void useCurrentPageAsHomePageCheck() throws Exception
     {
-        SiteUtil.createSite(drone, setHomePageUserSiteName, "description", "Public");
-        SiteDashboardPage siteDashBoard = drone.getCurrentPage().render();
-        DocumentLibraryPage documentLibPage = siteDashBoard.getSiteNav().selectSiteDocumentLibrary().render();
+        siteUtil.createSite(driver, "admin","admin", setHomePageUserSiteName, "","Public");
+        SiteDashboardPage siteDashBoard = resolvePage(driver).render();
+        DocumentLibraryPage documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
         
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(setHomePageFolder, setHomePageFolder).render();
@@ -96,25 +97,24 @@ public class UserPageTest extends AbstractTest
         documentLibPage.selectFolder(setHomePageFolder);
 
         //select folder page as a homepage
-        userpage = documentLibPage.getNav().selectUserDropdown();
+        documentLibPage.getNav().selectUserDropdown();
         documentLibPage = userpage.selectUseCurrentPage().render();
 
         //check that folder page is homepage
         documentLibPage.getNav().selectHome().render();
         Assert.assertEquals(setHomePageUserSiteName, documentLibPage.getPageTitle());
-        Assert.assertTrue(drone.getCurrentUrl().indexOf(setHomePageFolder) != -1);
+        Assert.assertTrue(driver.getCurrentUrl().indexOf(setHomePageFolder) != -1);
         
         //go to site dashboard
         SiteDashboardPage siteDashboardPage = documentLibPage.getSiteNav().selectSiteDashBoard().render();
        
         //set the dashboard as a homepage
-        userpage = siteDashboardPage.getNav().selectUserDropdown().render();
+        siteDashboardPage.getNav().selectUserDropdown();
         siteDashboardPage = userpage.selectUseCurrentPage().render();
         
         //delete site
-        SiteUtil.deleteSite(drone, setHomePageUserSiteName);
-        SiteFinderPage siteFinderPage = drone.getCurrentPage().render();
- 
+        siteUtil.deleteSite("admin","admin", setHomePageUserSiteName);
+        SiteFinderPage siteFinderPage = resolvePage(driver).render();
         String dashboardUrl = shareUrl + "/page/user/admin/dashboard";
         
         //click on Home
@@ -123,9 +123,9 @@ public class UserPageTest extends AbstractTest
         //check that error page is displayed
         Assert.assertTrue(siteDashboardPage.getTitle().indexOf("System Error") != -1);
 
-        drone.navigateTo(dashboardUrl);
-        DashBoardPage dashBoard = drone.getCurrentPage().render();        
-        userpage = dashBoard.getNav().selectUserDropdown().render();
+        driver.navigate().to(dashboardUrl);
+        DashBoardPage dashBoard = resolvePage(driver).render();
+        dashBoard.getNav().selectUserDropdown();
     }
     
     /**
@@ -142,7 +142,6 @@ public class UserPageTest extends AbstractTest
         //check that page is set as a home page
         dashBoard.getNav().selectHome().render();
         Assert.assertEquals("Administrator Dashboard", dashBoard.getPageTitle());
-        userpage = dashBoard.getNav().selectUserDropdown().render();
     }
     
     
@@ -154,23 +153,6 @@ public class UserPageTest extends AbstractTest
     {
         DashBoardPage dashBoard = userpage.selectUserDashboard().render();
         Assert.assertEquals("Administrator Dashboard", dashBoard.getPageTitle());
-        userpage = dashBoard.getNav().selectUserDropdown().render();
     }
     
-    
-    
-    /**
-     * To verify the right page is opened when selecting Help
-     */
-    //@Test(groups = "Enterprise-only", dependsOnMethods = "changePassWordPageCheck")
-    @Test(groups = "Enterprise-only", dependsOnMethods = "userDashboardCheck")
-    public void selectHelp()
-    {
-        String mainWindow = drone.getWindowHandle();
-        userpage.clickHelp();
-        waitInSeconds(3);
-        Assert.assertTrue(isWindowOpened("Using Alfresco One"));
-        drone.closeWindow();
-        drone.switchToWindow(mainWindow);
-    }
 }

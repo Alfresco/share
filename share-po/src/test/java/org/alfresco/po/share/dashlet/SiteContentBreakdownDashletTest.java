@@ -26,7 +26,7 @@ import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -75,9 +75,9 @@ public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
     public void loadFiles() throws Exception
     {
         dashBoard = loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        SitePage site = drone.getCurrentPage().render();
-        DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        SitePage site = resolvePage(driver).render();
+        DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
         uploadFiles(docPage, numberOfTxtFiles, ".txt");
         uploadFiles(docPage, numberOfDocxFiles, ".docx");
         uploadFiles(docPage, numberOfJpgFiles, ".jpg");
@@ -92,7 +92,7 @@ public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
     @AfterClass
     public void deleteSite()
     {
-      SiteUtil.deleteSite(drone, siteName);
+      siteUtil.deleteSite(username, password, siteName);
     }
 
 
@@ -110,7 +110,7 @@ public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
         for (int i = 0; i < numberofFiles; i++)
         {
             String random = UUID.randomUUID().toString();
-            File file = SiteUtil.prepareFile(random, random, extension);
+            File file = siteUtil.prepareFile(random, random, extension);
             UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
             docPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
 
@@ -124,7 +124,7 @@ public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
     @Test
     public void instantiateDashlet()
     {
-        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard();
+        customiseSiteDashBoard = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();;
         customiseSiteDashBoard.render();
         siteDashBoard = customiseSiteDashBoard.addDashlet(Dashlets.SITE_CONTENT_REPORT, 2).render();
         siteContentBreakdownDashlet = siteDashBoard.getDashlet(SITE_CONTENT_REPORT).render();

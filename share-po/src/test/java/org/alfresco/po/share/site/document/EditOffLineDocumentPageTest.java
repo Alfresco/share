@@ -24,7 +24,7 @@
 //import org.alfresco.po.share.site.SitePage;
 //import org.alfresco.po.share.site.UpdateFilePage;
 //import org.alfresco.po.share.site.UploadFilePage;
-//import org.alfresco.po.share.util.SiteUtil;
+//
 //import org.alfresco.po.util.FailedTestListener;
 //import org.testng.Assert;
 //import org.testng.annotations.AfterClass;
@@ -33,7 +33,7 @@
 //import org.testng.annotations.Test;
 //
 ///**
-// * Integration test to verify that  webdrone is able to 
+// * Integration test to verify that  webdriver is able to 
 // * manage the edit off line document details page. 
 // * 
 // * @author Michael Suzuki
@@ -55,16 +55,16 @@
 //    @BeforeClass
 //    public void setup() throws Exception
 //    {
-//        // getWebDrone();
+//        // getWebDriver();
 //        siteName = "editDocumentSiteTest" + System.currentTimeMillis();
 //        loginAs(username, password);
-//        SiteUtil.createSite(drone, siteName, "description", "Public");
-//        file = SiteUtil.prepareFile();
+//        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+//        file = siteUtil.prepareFile();
 //        StringTokenizer st = new StringTokenizer(file.getName(), ".");
 //        fileName = st.nextToken();
-//        File file = SiteUtil.prepareFile();
+//        File file = siteUtil.prepareFile();
 //        fileName = file.getName();
-//        SitePage site = drone.getCurrentPage().render();
+//        SitePage site = resolvePage(driver).render();
 //        DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
 //        // DocumentLibraryPage docPage =
 //        // getDocumentLibraryPage(siteName).render();
@@ -76,8 +76,8 @@
 //    @AfterClass
 //    public void teardown()
 //    {
-//         SiteUtil.deleteSite(drone,siteName);
-//         closeWebDrone();
+//         siteUtil.deleteSite(username, password,siteName);
+//         closeWebDriver();
 //    }
 //    
 //   
@@ -87,7 +87,7 @@
 //        try
 //        {
 //            //Check if edit off line has checked out the file
-//            DocumentDetailsPage docDetailsPage = drone.getCurrentPage().render();
+//            DocumentDetailsPage docDetailsPage = resolvePage(driver).render();
 //            Assert.assertFalse(docDetailsPage.isCheckedOut());
 //            Assert.assertTrue(docDetailsPage.isEditOfflineLinkDisplayed());
 //            
@@ -110,7 +110,7 @@
 //            saveScreenShot("DocumentDetailsPageTest.documentEditOffLineAndCancel");
 //            try
 //            {
-//                DocumentEditOfflinePage editOfflinePage = drone.getCurrentPage().render();
+//                DocumentEditOfflinePage editOfflinePage = resolvePage(driver).render();
 //                editOfflinePage.selectCancelEditing().render();
 //            }
 //            catch (Exception ex) 
@@ -126,7 +126,7 @@
 //    @Test(dependsOnMethods = "documentEditOffLineAndCancel")
 //    public void editOffLine() throws Exception  
 //    {
-//        DocumentDetailsPage docDetailsPage = drone.getCurrentPage().render();
+//        DocumentDetailsPage docDetailsPage = resolvePage(driver).render();
 //        DocumentEditOfflinePage editOfflinePage = docDetailsPage.selectEditOffLine(null).render();
 //        // TODO remove below hack to wait for file to download as webdriver is
 //        // not able to determine os function
@@ -154,7 +154,7 @@
 //    @Test(dependsOnMethods = "editOffLine")
 //    public void testClickOnViewOriginalDocument() throws Exception
 //    {
-//    	DocumentDetailsPage docDetailsPage = drone.getCurrentPage().render();
+//    	DocumentDetailsPage docDetailsPage = resolvePage(driver).render();
 //        DocumentEditOfflinePage editOfflinePage = docDetailsPage.selectEditOffLine(null).render();
 //        Assert.assertTrue(editOfflinePage.isCheckedOut());
 //        //Assert.assertTrue(docDetailsPage.isEditOfflineLinkDisplayed());

@@ -14,20 +14,23 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.site.contentrule.FolderRulesPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.site.contentrule.FolderRulesPage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * This class supports the Folder Details page and extends the
@@ -48,37 +51,12 @@ public class FolderDetailsPage extends DetailsPage
     private static final String FOLDER_ACTION_SECTION = "div[class='folder-actions folder-details-panel']";
     private static final String PROPERTIES_INFO = "//div[contains(@class, 'metadata-header')]/descendant::div[@class='viewmode-field']/span[@class='viewmode-label']";
 
-    private final By changeTypeLink;
+    private final By changeTypeLink = By.cssSelector("div#onActionChangeType a");
 
-    /**
-     * Constructor
-     */
-    public FolderDetailsPage(WebDrone drone)
-    {
-        super(drone);
-        switch (alfrescoVersion)
-        {
-            case Enterprise41:
-                changeTypeLink = By.cssSelector("div.document-change-type a");
-                break;
-
-            default:
-                changeTypeLink = By.cssSelector("div#onActionChangeType a");
-                break;
-        }
-        PERMISSION_SETTINGS_PANEL_CSS = ".folder-permissions";
-    }
 
     @SuppressWarnings("unchecked")
     @Override
     public synchronized FolderDetailsPage render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public synchronized FolderDetailsPage render(long time)
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
@@ -110,7 +88,7 @@ public class FolderDetailsPage extends DetailsPage
         boolean isPathCorrect = true;
         try
         {
-            WebElement pathElement = drone.findAndWait(By.cssSelector(NODE_PATH));
+            WebElement pathElement = findAndWait(By.cssSelector(NODE_PATH));
             String pathToBeVerify = "Documents" + " > " + folderName;
             if (!pathToBeVerify.equals(pathElement.getText()))
             {
@@ -135,8 +113,8 @@ public class FolderDetailsPage extends DetailsPage
         String tagValue;
         try
         {
-            tagText = drone.findAndWait(By.cssSelector(FOLDER_TAGS)).getText();
-            tagValue = drone.findAndWait(By.cssSelector(CSS_PANEL)).getText();
+            tagText = findAndWait(By.cssSelector(FOLDER_TAGS)).getText();
+            tagValue = findAndWait(By.cssSelector(CSS_PANEL)).getText();
             if (tagText.contains("Tags") && !tagValue.isEmpty())
             {
                 return true;
@@ -159,7 +137,7 @@ public class FolderDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector(FOLDER_ACTION_SECTION)).isDisplayed();
+            return findAndWait(By.cssSelector(FOLDER_ACTION_SECTION)).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -176,18 +154,14 @@ public class FolderDetailsPage extends DetailsPage
      */
     public FolderDetailsPage selectDownloadFolderAsZip(String type)
     {
-        if (AlfrescoVersion.Enterprise41.equals(alfrescoVersion) || alfrescoVersion.isCloud())
-        {
-            throw new UnsupportedOperationException("Option Download Folder as Zip is not available for this version of Alfresco");
-        }
         try
         {
-            WebElement menuOption = drone.findAndWait(By.cssSelector("div." + type + "-download>a"));
+            WebElement menuOption = findAndWait(By.cssSelector("div." + type + "-download>a"));
             menuOption.click();
             // Assumes driver capability settings to save file in a specific
             // location when
             // <Download> option is selected via Browser
-            return new FolderDetailsPage(drone);
+            return factoryPage.instantiatePage(driver, FolderDetailsPage.class);
         }
         catch (TimeoutException toe)
         {
@@ -203,12 +177,8 @@ public class FolderDetailsPage extends DetailsPage
      */
     public ChangeTypePage selectChangeType()
     {
-        if (alfrescoVersion.isCloud())
-        {
-            throw new UnsupportedOperationException("Operation available only for Enterprise version");
-        }
-        drone.findAndWait(changeTypeLink).click();
-        return drone.getCurrentPage().render();
+        findAndWait(changeTypeLink).click();
+        return factoryPage.instantiatePage(driver,ChangeTypePage.class);
     }
 
     /**
@@ -236,7 +206,7 @@ public class FolderDetailsPage extends DetailsPage
     {
         try
         {
-            String value = drone.findAndWaitForElements(By.cssSelector(".action-link")).get(0).getAttribute("title");
+            String value = findAndWaitForElements(By.cssSelector(".action-link")).get(0).getAttribute("title");
             if (DOWNLOAD_TITLE.equals(value))
             {
                 return true;
@@ -258,7 +228,7 @@ public class FolderDetailsPage extends DetailsPage
         List<String> actionNames = new ArrayList<String>();
         String text = null;
 
-        List<WebElement> actions = drone.findAndWaitForElements(By.xpath("//div[contains(@id, 'default-actionSet')]/div/a/span"));
+        List<WebElement> actions = findAndWaitForElements(By.xpath("//div[contains(@id, 'default-actionSet')]/div/a/span"));
 
         for (WebElement action : actions)
         {
@@ -276,7 +246,7 @@ public class FolderDetailsPage extends DetailsPage
     {
         try
         {
-            return drone.find(By.xpath(VIEW_ON_GOOGLE_MAPS)).isDisplayed();
+            return driver.findElement(By.xpath(VIEW_ON_GOOGLE_MAPS)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -294,7 +264,7 @@ public class FolderDetailsPage extends DetailsPage
     {
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector("a.edit"));
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector("a.edit"));
             return elements;
         }
         catch (TimeoutException e)
@@ -305,31 +275,31 @@ public class FolderDetailsPage extends DetailsPage
 
     /**
      *  Method checks if the author of the folder modifying is displayed at a Folder details page
-     * @param drone  Webcrone instance
+     * @param driver  Webcrone instance
      * @param userName string name of the modifier
      * @return boolean
      */
-    public static boolean IsModifierDisplayed(WebDrone drone, String userName)
+    boolean isModifierDisplayed(WebDriver driver, String userName)
     {
 
         try
         {
-            WebElement modifiedBy = drone.findAndWait(By.xpath("//span[contains(@class,'item-modifier')]"));
+            WebElement modifiedBy = findAndWait(By.xpath("//span[contains(@class,'item-modifier')]"));
             return modifiedBy.isDisplayed() && modifiedBy.getText().contains(userName);
         }
         catch (NoSuchElementException nse)
         {
             return false;
         }
-
     }
 
     public FolderRulesPage selectManageRules()
     {
         try
         {
-            drone.findAndWait(By.cssSelector(".folder-manage-rules>a")).click();
-            return new FolderRulesPage(drone);
+            findAndWait(By.cssSelector(".folder-manage-rules>a")).click();
+            
+            return factoryPage.instantiatePage(driver, FolderRulesPage.class);
         }
         catch(TimeoutException te)
         {
@@ -347,7 +317,7 @@ public class FolderDetailsPage extends DetailsPage
         boolean present = false;
         try
         {
-            List<WebElement> labels = drone.findAll(By.xpath(PROPERTIES_INFO));
+            List<WebElement> labels = driver.findElements(By.xpath(PROPERTIES_INFO));
 
             if(labels.size() != 3)
                 throw new Exception("Properties section doesn't contain full information");

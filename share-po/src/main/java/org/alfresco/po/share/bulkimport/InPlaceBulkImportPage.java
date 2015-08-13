@@ -1,16 +1,30 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.bulkimport;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.Calendar;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
-
-import java.util.Calendar;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * @author Sergey Kardash
@@ -21,11 +35,6 @@ public class InPlaceBulkImportPage extends AdvancedBulkImportPage
 
     // Input fields
     private static final By CONTENT_STORE = By.cssSelector("input[name$='contentStore']");
-
-    public InPlaceBulkImportPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -42,13 +51,6 @@ public class InPlaceBulkImportPage extends AdvancedBulkImportPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public InPlaceBulkImportPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to set import directory field
      * 
@@ -56,7 +58,7 @@ public class InPlaceBulkImportPage extends AdvancedBulkImportPage
      */
     public void setContentStoreField(final String contentStore)
     {
-        setInput(drone.findAndWait(CONTENT_STORE), contentStore);
+        setInput(findAndWait(CONTENT_STORE), contentStore);
     }
 
     /**
@@ -68,7 +70,7 @@ public class InPlaceBulkImportPage extends AdvancedBulkImportPage
      * @param disableRules boolean
      * @return StatusBulkImportPage
      */
-    public StatusBulkImportPage createImportInPlace(String importDirectory, String contentStore, String path, boolean disableRules)
+    public HtmlPage createImportInPlace(String importDirectory, String contentStore, String path, boolean disableRules)
     {
         logger.info("Create import");
         try
@@ -109,9 +111,9 @@ public class InPlaceBulkImportPage extends AdvancedBulkImportPage
             logger.debug("Unable to find the elements");
         }
 
-        drone.waitUntilElementDeletedFromDom(INITIATE_BULK_IMPORT_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        drone.waitUntilElementPresent(IN_PROGRESS_CURRENT_STATUS, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        drone.waitUntilElementPresent(IDLE_CURRENT_STATUS, (SECONDS.convert(maxPageLoadingTime, MILLISECONDS))*2);
-        return drone.getCurrentPage().render();
+        waitUntilElementDeletedFromDom(INITIATE_BULK_IMPORT_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitUntilElementPresent(IN_PROGRESS_CURRENT_STATUS, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitUntilElementPresent(IDLE_CURRENT_STATUS, (SECONDS.convert(maxPageLoadingTime, MILLISECONDS))*2);
+        return getCurrentPage();
     }
 }

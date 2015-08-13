@@ -1,17 +1,31 @@
+/*
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.systemsummary;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -61,36 +75,29 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
     private static Log logger = LogFactory.getLog(RepositoryServerClusteringPage.class);
 
-
-    public RepositoryServerClusteringPage(WebDrone drone) {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
-    public RepositoryServerClusteringPage render(RenderTime timer) {
+    public RepositoryServerClusteringPage render(RenderTime timer)
+    {
         basicRender(timer);
         return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public RepositoryServerClusteringPage render() {
+    public RepositoryServerClusteringPage render()
+    {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public RepositoryServerClusteringPage render(final long time) {
-        return render(new RenderTime(time));
     }
 
     /**
      * @return true if cluster enabled, return false if cluster disabled
      */
-    public boolean isClusterEnabled() {
-        try {
-            WebElement clusterEnabled = drone.find(CLUSTER_ENABLED);
+    public boolean isClusterEnabled()
+    {
+        try
+        {
+            WebElement clusterEnabled = driver.findElement(CLUSTER_ENABLED);
             return clusterEnabled.isDisplayed();
         } catch (NoSuchElementException te) {
             return false;
@@ -102,7 +109,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
      */
     public int getClusterMembersNumber() {
         try {
-            WebElement clusterMembersNumber = drone.findAndWait(CLUSTER_MEMBERS_NUMBER);
+            WebElement clusterMembersNumber = findAndWait(CLUSTER_MEMBERS_NUMBER);
             return Integer.parseInt(clusterMembersNumber.getText());
         } catch (NumberFormatException e) {
             throw new PageOperationException("Unable to parse Cluster members number");
@@ -116,7 +123,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> clusterMembers = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(CLUSTER_MEMBERS_IP);
+            List<WebElement> elements = findAndWaitForElements(CLUSTER_MEMBERS_IP);
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
                     clusterMembers.add(webElement.getText());
@@ -136,7 +143,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
      */
     public boolean isServerNamePresent() {
         try {
-            WebElement serverName = drone.find(CLUSTER_SERVER_NAME);
+            WebElement serverName = driver.findElement(CLUSTER_SERVER_NAME);
             return serverName.isDisplayed();
         } catch (NoSuchElementException te) {
             return false;
@@ -150,7 +157,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
      */
     public boolean isIpAddressPresent() {
         try {
-            WebElement ipAddress = drone.find(CLUSTER_IP_ADDRESS);
+            WebElement ipAddress = driver.findElement(CLUSTER_IP_ADDRESS);
             return ipAddress.isDisplayed();
         } catch (NoSuchElementException te) {
             return false;
@@ -164,7 +171,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
      */
     public boolean isClusterIdPresent() {
         try {
-            WebElement clusterId = drone.find(CLUSTER_ID);
+            WebElement clusterId = driver.findElement(CLUSTER_ID);
             return clusterId.isDisplayed();
         } catch (NoSuchElementException te) {
             return false;
@@ -180,7 +187,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> serverNames = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(SERVER);
+            List<WebElement> elements = findAndWaitForElements(SERVER);
 
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
@@ -203,7 +210,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> clusterPorts = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(PORT);
+            List<WebElement> elements = findAndWaitForElements(PORT);
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
                     clusterPorts.add(webElement.getText());
@@ -225,7 +232,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> clusterRegs = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(LAST_REGISTERED);
+            List<WebElement> elements = findAndWaitForElements(LAST_REGISTERED);
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
                     clusterRegs.add(webElement.getText());
@@ -247,7 +254,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> serverNames = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(SERVER_OFF);
+            List<WebElement> elements = findAndWaitForElements(SERVER_OFF);
 
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
@@ -270,7 +277,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> clusterOffIps = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(MEMBERS_IP_OFF);
+            List<WebElement> elements = findAndWaitForElements(MEMBERS_IP_OFF);
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
                     clusterOffIps.add(webElement.getText());
@@ -292,7 +299,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> clusterPorts = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(PORT_OFF);
+            List<WebElement> elements = findAndWaitForElements(PORT_OFF);
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
                     clusterPorts.add(webElement.getText());
@@ -314,7 +321,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> clusterRegs = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(LAST_REGISTERED_OFF);
+            List<WebElement> elements = findAndWaitForElements(LAST_REGISTERED_OFF);
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
                     clusterRegs.add(webElement.getText());
@@ -336,7 +343,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> serverNames = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(SERVER_NON);
+            List<WebElement> elements = findAndWaitForElements(SERVER_NON);
 
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
@@ -359,7 +366,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
 
         try {
             List<String> clusterOffIps = new ArrayList<>();
-            List<WebElement> elements = drone.findAndWaitForElements(MEMBERS_IP_NON);
+            List<WebElement> elements = findAndWaitForElements(MEMBERS_IP_NON);
             for (WebElement webElement : elements) {
                 if (webElement.isDisplayed()) {
                     clusterOffIps.add(webElement.getText());
@@ -379,7 +386,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
      */
     public boolean isValidateButtonPresent() {
         try {
-            WebElement validateButton = drone.find(VALIDATE_CLUSTER);
+            WebElement validateButton = driver.findElement(VALIDATE_CLUSTER);
             return validateButton.isDisplayed();
         } catch (NoSuchElementException te) {
             return false;
@@ -393,7 +400,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
      */
     public boolean isAdditionalDescriptionLinkPresent() {
         try {
-            WebElement addLink = drone.find(ADDITIONAL_DESCRIPTION);
+            WebElement addLink = driver.findElement(ADDITIONAL_DESCRIPTION);
             return addLink.isDisplayed();
         } catch (NoSuchElementException te) {
             return false;
@@ -408,7 +415,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     public String getDescriptionText() {
         WebElement descrInfo;
         try {
-            descrInfo = drone.find(DESCRIPTION_INFO);
+            descrInfo = driver.findElement(DESCRIPTION_INFO);
         } catch (NoSuchElementException nse) {
             throw new PageException(String.format("Unable to locate element: " + DESCRIPTION_INFO), nse);
         }
@@ -424,7 +431,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     public String getServerDescriptionText() {
         WebElement descrInfo;
         try {
-            descrInfo = drone.find(SERVER_DESCRIPTION);
+            descrInfo = driver.findElement(SERVER_DESCRIPTION);
         } catch (NoSuchElementException nse) {
             throw new PageException(String.format("Unable to locate element: " + SERVER_DESCRIPTION), nse);
         }
@@ -440,7 +447,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     public String getIpDescriptionText() {
         WebElement descrInfo;
         try {
-            descrInfo = drone.find(IP_ADDRESS_DESCRIPTION);
+            descrInfo = driver.findElement(IP_ADDRESS_DESCRIPTION);
         } catch (NoSuchElementException nse) {
             throw new PageException(String.format("Unable to locate element: " + IP_ADDRESS_DESCRIPTION), nse);
         }
@@ -456,7 +463,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     public String getServerNameText() {
         WebElement serverName;
         try {
-            serverName = drone.find(SERVER_NAME_VALUE);
+            serverName = driver.findElement(SERVER_NAME_VALUE);
         } catch (NoSuchElementException nse) {
             throw new PageException(String.format("Unable to locate element: " + SERVER_NAME_VALUE), nse);
         }
@@ -472,7 +479,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     public String getIpAddressText() {
         WebElement ipAddress;
         try {
-            ipAddress = drone.find(IP_ADDRESS_VALUE);
+            ipAddress = driver.findElement(IP_ADDRESS_VALUE);
         } catch (NoSuchElementException nse) {
             throw new PageException(String.format("Unable to locate element: " + IP_ADDRESS_VALUE), nse);
         }
@@ -488,7 +495,7 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     public String getClusterIdText() {
         WebElement clusterId;
         try {
-            clusterId = drone.find(CLUSTER_ID_VALUE);
+            clusterId = driver.findElement(CLUSTER_ID_VALUE);
         } catch (NoSuchElementException nse) {
             throw new PageException(String.format("Unable to locate element: " + CLUSTER_ID_VALUE), nse);
         }
@@ -499,29 +506,36 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Opens Validate Cluster page
      *
+<<<<<<< .working
+     * @param driver
+     * @return
+=======
      * @param drone WebDrone
      * @return ClusterValidationPage
+>>>>>>> .merge-right.r109852
      */
-    public ClusterValidationPage getValidationPage(WebDrone drone) {
-
-        try {
-            WebElement validateCluster = drone.find(VALIDATE_CLUSTER);
+    public ClusterValidationPage getValidationPage(WebDriver driver) 
+    {
+        try 
+        {
+            WebElement validateCluster = driver.findElement(VALIDATE_CLUSTER);
             validateCluster.click();
-            return new ClusterValidationPage(drone);
-        } catch (NoSuchElementException nse) {
-            if (logger.isTraceEnabled()) {
+            return factoryPage.instantiatePage(driver, ClusterValidationPage.class);
+        }
+        catch (NoSuchElementException nse) 
+        {
+            if (logger.isTraceEnabled()) 
+            {
                 logger.trace("Button " + VALIDATE_CLUSTER + " isn't found", nse);
             }
         }
         throw new PageOperationException("Page isn't opened");
     }
 
-    public void clickRemove(WebDrone drone) {
-
-
-            WebElement remove = drone.findAndWait(REMOVE_FROM_LIST);
-            remove.click();
-
+    public void clickRemove(WebDriver driver) 
+    {
+        WebElement remove = findAndWait(REMOVE_FROM_LIST);
+        remove.click();
     }
 
 }

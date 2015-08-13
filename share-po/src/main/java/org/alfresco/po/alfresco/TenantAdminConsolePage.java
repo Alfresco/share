@@ -14,10 +14,9 @@
  */
 package org.alfresco.po.alfresco;
 
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneUtil;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -31,10 +30,6 @@ public class TenantAdminConsolePage extends AbstractAdminConsole
 {
 
     private final static By INPUT_FIELD = By.name("tenant-cmd"); 
-    public TenantAdminConsolePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -46,7 +41,7 @@ public class TenantAdminConsolePage extends AbstractAdminConsole
             timer.start();
             try
             {
-                if (drone.find(INPUT_FIELD).isDisplayed() && drone.find(SUBMIT_BUTTON).isDisplayed())
+                if (driver.findElement(INPUT_FIELD).isDisplayed() && driver.findElement(SUBMIT_BUTTON).isDisplayed())
                 {
                     break;
                 }
@@ -61,15 +56,9 @@ public class TenantAdminConsolePage extends AbstractAdminConsole
     }
     @SuppressWarnings("unchecked")
     @Override
-    public TenantAdminConsolePage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-    @SuppressWarnings("unchecked")
-    @Override
     public TenantAdminConsolePage render()
     {
-        return render(maxPageLoadingTime);
+        return render(new RenderTime(maxPageLoadingTime));
     }
     /**
      * Populates the input with the create tenant command and
@@ -79,10 +68,10 @@ public class TenantAdminConsolePage extends AbstractAdminConsole
      */
     public HtmlPage createTenant(String tenantName, String password)
     {
-        WebElement input = drone.find(INPUT_FIELD);
+        WebElement input = driver.findElement(INPUT_FIELD);
         input.clear();
         input.sendKeys(String.format("create %s %s", tenantName, password));
-        drone.find(SUBMIT_BUTTON).click();
+        driver.findElement(SUBMIT_BUTTON).click();
         return this;
     }
     /**
@@ -92,10 +81,13 @@ public class TenantAdminConsolePage extends AbstractAdminConsole
      */
     public void sendCommands(final String command)
     {
-        WebDroneUtil.checkMandotaryParam("command input", command);
-        WebElement input = drone.find(INPUT_FIELD);
+        if(StringUtils.isEmpty(command))
+        {
+            throw new IllegalArgumentException("Command value is required");
+        }
+        WebElement input = driver.findElement(INPUT_FIELD);
         input.clear();
         input.sendKeys(String.format("%s", command));
-        drone.find(SUBMIT_BUTTON).click();
+        driver.findElement(SUBMIT_BUTTON).click();
     }
 }

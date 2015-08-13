@@ -8,13 +8,10 @@
 package org.alfresco.po.share.site.document;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -32,7 +29,6 @@ public class FileDirectoryInfoGeoLocationTest extends AbstractDocumentTest
 
     private static String siteName;
     private static DocumentLibraryPage documentLibPage;
-    private static DocumentDetailsPage detailsPage;
     private File testFile;
 
     /**
@@ -46,8 +42,8 @@ public class FileDirectoryInfoGeoLocationTest extends AbstractDocumentTest
         siteName = "site" + System.currentTimeMillis();
         loginAs(username, password);
 
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        testFile = SiteUtil.prepareFile("testFile");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        testFile = siteUtil.prepareFile("testFile");
     }
 
 
@@ -55,7 +51,7 @@ public class FileDirectoryInfoGeoLocationTest extends AbstractDocumentTest
     @AfterClass(groups="Enterprise4.2")
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
     /**
      * Test updating an existing file with a new uploaded file. The test covers major and minor version changes
@@ -65,76 +61,8 @@ public class FileDirectoryInfoGeoLocationTest extends AbstractDocumentTest
     @Test(groups="Enterprise4.2")
     public void createData() throws Exception
     {
-        documentLibPage = openSiteDocumentLibraryFromSearch(drone, siteName);
+        documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(testFile.getCanonicalPath()).render();
-    }
-
-
-
-    @Test(dependsOnMethods = "createData", groups = { "Enterprise4.2" })
-    public void isIconDisplayedFalse()
-    {
-        documentLibPage = documentLibPage.getSiteNav().selectSiteDocumentLibrary().render();
-        
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectSimpleView().render();
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectGalleryView().render();
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectFilmstripView().render();
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectTableView().render();
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertFalse(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectDetailedView().render();
-
-    }
-
-    @Test(dependsOnMethods = "isIconDisplayedFalse", groups = { "Enterprise4.2" })
-    public void isIconDisplayedTrue()
-    {
-        detailsPage = documentLibPage.selectFile(testFile.getName()).render();
-
-        SelectAspectsPage selectAspectsPage = detailsPage.selectManageAspects().render();
-
-        List<DocumentAspect> aspectsToAdd = new ArrayList<>();
-        aspectsToAdd.add(DocumentAspect.GEOGRAPHIC);
-        aspectsToAdd.add(DocumentAspect.EXIF);
-
-        selectAspectsPage = selectAspectsPage.add(aspectsToAdd).render();
-        detailsPage = selectAspectsPage.clickApplyChanges().render();
-
-        documentLibPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
-
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectSimpleView().render();
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectGalleryView().render();
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectFilmstripView().render();
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectTableView().render();
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isGeoLocationIconDisplayed());
-        Assert.assertTrue(documentLibPage.getFileDirectoryInfo(testFile.getName()).isEXIFIconDisplayed());
-
-        documentLibPage = documentLibPage.getNavigation().selectDetailedView().render();
     }
 }

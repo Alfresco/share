@@ -9,9 +9,9 @@
 //
 //import java.io.File;
 //
-//import org.alfresco.po.share.ShareUtil;
+//
 //import org.alfresco.po.share.site.UploadFilePage;
-//import org.alfresco.po.share.util.SiteUtil;
+//
 //import org.alfresco.po.util.FailedTestListener;
 //import org.testng.Assert;
 //import org.testng.annotations.AfterClass;
@@ -45,9 +45,9 @@
 //    private void prepare() throws Exception
 //    {
 //        siteName = "site" + System.currentTimeMillis();
-//        ShareUtil.loginAs(drone, shareUrl, username, password).render();
-//        SiteUtil.createSite(drone, siteName, "description", "Public");
-//        file1 = SiteUtil.prepareFile("File1");
+//        shareUtil.loginAs(driver, shareUrl, username, password).render();
+//        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+//        file1 = siteUtil.prepareFile("File1");
 //    }
 //
 //
@@ -55,7 +55,7 @@
 //    @AfterClass
 //    public void teardown()
 //    {
-//        SiteUtil.deleteSite(drone, siteName);
+//        siteUtil.deleteSite(username, password, siteName);
 //    }
 //    /**
 //     * Test Reverting a file to previous version
@@ -65,7 +65,7 @@
 //    @Test
 //    public void createData() throws Exception
 //    {
-//        documentLibPage = openSiteDocumentLibraryFromSearch(drone, siteName);
+//        documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);
 //        UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
 //        documentLibPage = uploadForm.uploadFile(file1.getCanonicalPath()).render();
 //    }

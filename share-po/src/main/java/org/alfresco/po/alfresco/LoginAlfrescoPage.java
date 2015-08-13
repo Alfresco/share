@@ -19,15 +19,15 @@
 
 package org.alfresco.po.alfresco;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.util.PageUtils;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.util.PageUtils;
+import org.openqa.selenium.By;
 
 /**
  * Created by ivan.kornilov on 22.04.2014.
@@ -37,11 +37,6 @@ public class LoginAlfrescoPage extends SharePage
     private final By userName = By.xpath("//input[@id='loginForm:user-name']");
     private final By password = By.xpath("//input[@id='loginForm:user-password']");
     private final By loginButton = By.xpath("//input[@id='loginForm:submit']");
-
-    public LoginAlfrescoPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -59,13 +54,6 @@ public class LoginAlfrescoPage extends SharePage
     public LoginAlfrescoPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public LoginAlfrescoPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -87,8 +75,8 @@ public class LoginAlfrescoPage extends SharePage
      */
     public void inputUserName(String userName)
     {
-        drone.findAndWait(this.userName).clear();
-        drone.findAndWait(this.userName, SECONDS.convert(maxPageLoadingTime, MILLISECONDS)).sendKeys(userName);
+        findAndWait(this.userName).clear();
+        findAndWait(this.userName, SECONDS.convert(maxPageLoadingTime, MILLISECONDS)).sendKeys(userName);
     }
 
     /**
@@ -98,8 +86,8 @@ public class LoginAlfrescoPage extends SharePage
      */
     public void inputPassword(String password)
     {
-        drone.findAndWait(this.password).clear();
-        drone.findAndWait(this.password, SECONDS.convert(maxPageLoadingTime, MILLISECONDS)).sendKeys(password);
+        findAndWait(this.password).clear();
+        findAndWait(this.password, SECONDS.convert(maxPageLoadingTime, MILLISECONDS)).sendKeys(password);
     }
 
     /**
@@ -108,7 +96,7 @@ public class LoginAlfrescoPage extends SharePage
 
     public void clickLoginButton()
     {
-        drone.findAndWait(loginButton, SECONDS.convert(maxPageLoadingTime, MILLISECONDS)).click();
+        findAndWait(loginButton, SECONDS.convert(maxPageLoadingTime, MILLISECONDS)).click();
     }
 
     /**
@@ -118,14 +106,14 @@ public class LoginAlfrescoPage extends SharePage
      * @param password String
      * @return My Alfresco Page
      */
-    public MyAlfrescoPage login(String userName, String password)
+    public HtmlPage login(String userName, String password)
     {
         try
         {
             inputUserName(userName);
             inputPassword(password);
             clickLoginButton();
-            return new MyAlfrescoPage(drone);
+            return factoryPage.instantiatePage(driver, MyAlfrescoPage.class);
 
         }
         catch (UnsupportedOperationException uso)
@@ -141,7 +129,7 @@ public class LoginAlfrescoPage extends SharePage
      */
     public boolean isOpened()
     {
-        return drone.findAndWait(By.xpath("//span[@class='mainSubTitle' and text()='Enter Login details:']")).isDisplayed();
+        return findAndWait(By.xpath("//span[@class='mainSubTitle' and text()='Enter Login details:']")).isDisplayed();
     }
 
     @Override

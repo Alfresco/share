@@ -25,16 +25,15 @@ import static org.testng.Assert.assertTrue;
 import java.io.File;
 import java.util.List;
 
-import org.alfresco.po.share.AlfrescoVersion;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.exception.PageRenderTimeException;
+
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.TreeMenuNavigation.DocumentsMenu;
 import org.alfresco.po.share.site.document.TreeMenuNavigation.TreeMenu;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -58,7 +57,6 @@ public class TreeMenuNavigationTest extends AbstractDocumentTest
     private String folderName1 = "folder1";
     private String folderName2 = "folder2";
     private String userName;
-    private String tagName;
 
     /**
      * Pre test setup of a dummy file to upload.
@@ -70,26 +68,15 @@ public class TreeMenuNavigationTest extends AbstractDocumentTest
     {
         siteName = "TreeMenuNavigation" + System.currentTimeMillis();
         userName = siteName;
-        tagName = "tag" + System.currentTimeMillis();
+        createEnterpriseUser(userName);
+        shareUtil.loginAs(driver, shareUrl, userName, UNAME_PASSWORD).render();
 
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        }
-        else
-        {
-            createEnterpriseUser(userName);
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName, "description", "Public");
+        file1 = siteUtil.prepareFile();
+        file2 = siteUtil.prepareFile();
 
-            ShareUtil.loginAs(drone, shareUrl, userName, UNAME_PASSWORD).render();
-        }
-
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        file1 = SiteUtil.prepareFile();
-        file2 = SiteUtil.prepareFile();
-
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
         documentLibPage = documentLibPage.getNavigation().selectDetailedView().render();
 
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
@@ -108,13 +95,12 @@ public class TreeMenuNavigationTest extends AbstractDocumentTest
         documentLibPage = uploadForm.uploadFile(file2.getCanonicalPath()).render();
 
         documentLibPage.getFileDirectoryInfo(file1.getName()).selectFavourite();
-        documentLibPage.getFileDirectoryInfo(file2.getName()).addTag(tagName);
     }
 
     @AfterClass(groups = "alfresco-one")
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test(groups = "alfresco-one")
@@ -125,14 +111,7 @@ public class TreeMenuNavigationTest extends AbstractDocumentTest
         assertTrue(treeMenuNav.isMenuTreeVisible(TreeMenu.DOCUMENTS));
         assertTrue(treeMenuNav.isMenuTreeVisible(TreeMenu.LIBRARY));
         assertTrue(treeMenuNav.isMenuTreeVisible(TreeMenu.TAGS));
-        
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        
-        if(!version.isCloud())
-        {
-            assertTrue(treeMenuNav.isMenuTreeVisible(TreeMenu.CATEGORIES));
-        }
-        
+        assertTrue(treeMenuNav.isMenuTreeVisible(TreeMenu.CATEGORIES));
     }
 
     @Test(dependsOnMethods = "isMenuTreeVisible", groups = "alfresco-one")
@@ -196,26 +175,4 @@ public class TreeMenuNavigationTest extends AbstractDocumentTest
         assertTrue(children.contains("Indian English"));
     }
 
-    @Test(dependsOnMethods = "selectNode", groups = "alfresco-one", priority = 2)
-    public void selectTagNode() throws Exception
-    {
-        TreeMenuNavigation treeMenuNav = documentLibPage.getLeftMenus();
-
-        documentLibPage = treeMenuNav.selectTagNode(tagName).render();
-        
-        List<FileDirectoryInfo> files = documentLibPage.getFiles();
-
-        assertTrue(files.size() == 1);
-        assertEquals(files.get(0).getName(), file2.getName());
-    }
-
-    @Test(dependsOnMethods = "selectTagNode", groups = "alfresco-one")
-    public void getTagCount() throws Exception
-    {
-        TreeMenuNavigation treeMenuNav = documentLibPage.getLeftMenus();
-
-        int tagCount = treeMenuNav.getTagCount(tagName);
-
-        assertEquals(tagCount, 1);
-    }
 }

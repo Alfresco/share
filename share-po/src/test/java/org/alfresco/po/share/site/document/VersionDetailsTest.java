@@ -17,12 +17,12 @@ package org.alfresco.po.share.site.document;
 import java.io.File;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -67,18 +67,18 @@ public class VersionDetailsTest extends AbstractTest
                 }
 
                 siteName = "site" + System.currentTimeMillis();
-                file = SiteUtil.prepareFile();
-                file1 = SiteUtil.prepareFile();
-                file2 = SiteUtil.prepareFile();
+                file = siteUtil.prepareFile();
+                file1 = siteUtil.prepareFile();
+                file2 = siteUtil.prepareFile();
                 comment1 = String.valueOf(System.currentTimeMillis()) + "-1";
                 comment2 = String.valueOf(System.currentTimeMillis()) + "-2";
 
-                ShareUtil.loginAs(drone, shareUrl, username, password).render();
+                shareUtil.loginAs(driver, shareUrl, username, password).render();
 
-                SiteUtil.createSite(drone, siteName, "description", "Public");
+                siteUtil.createSite(driver, username, password, siteName, "description", "Public");
 
-                SitePage page = drone.getCurrentPage().render();
-                documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+                SitePage page = resolvePage(driver).render();
+                documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
                 UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
                 documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
                 detailsPage = documentLibPage.selectFile(file.getName()).render();
@@ -87,7 +87,7 @@ public class VersionDetailsTest extends AbstractTest
         @AfterClass(groups = { "alfresco-one" })
         public void teardown()
         {
-                //        SiteUtil.deleteSite(drone, siteName);
+                //        siteUtil.deleteSite(username, password, siteName);
         }
 
         @Test(groups = { "alfresco-one" })
@@ -110,7 +110,7 @@ public class VersionDetailsTest extends AbstractTest
                 updatePage.selectMinorVersionChange();
                 updatePage.setComment(comment1);
                 updatePage.uploadFile(file1.getCanonicalPath());
-                detailsPage = updatePage.submit().render();
+                detailsPage = updatePage.submitUpload().render();
 
                 updatePage = detailsPage.selectUploadNewVersion().render();
                 if (logger.isTraceEnabled())
@@ -118,7 +118,7 @@ public class VersionDetailsTest extends AbstractTest
                 updatePage.selectMajorVersionChange();
                 updatePage.setComment(comment2);
                 updatePage.uploadFile(file2.getCanonicalPath());
-                detailsPage = updatePage.submit().render();
+                detailsPage = updatePage.submitUpload().render();
 
                 versionDetails = detailsPage.getCurrentVersionDetails();
                 Assert.assertEquals(versionDetails.getVersionNumber(), "2.0", "Verifying Version Number");

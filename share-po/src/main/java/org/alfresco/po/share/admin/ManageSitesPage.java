@@ -1,12 +1,25 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.admin;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.DocListPaginator;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -29,19 +42,9 @@ public class ManageSitesPage extends SharePage
     private List<ManagedSiteRow> managedSiteRows;
     private DocListPaginator docListPaginator;
 
-    /**
-     * Instantiates a new manage sites page.
-     * 
-     * @param drone WebDriver browser client
-     */
-    public ManageSitesPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     /*
      * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render()
+     * @see org.alfresco.po.Render#render()
      */
     @Override
     public ManageSitesPage render()
@@ -51,17 +54,7 @@ public class ManageSitesPage extends SharePage
 
     /*
      * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render(long)
-     */
-    @Override
-    public ManageSitesPage render(long maxPageLoadingTime)
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.alfresco.webdrone.Render#render(org.alfresco.webdrone.RenderTime)
+     * @see org.alfresco.po.Render#render(org.alfresco.po.RenderTime)
      */
     @Override
     public ManageSitesPage render(RenderTime maxPageLoadingTime)
@@ -141,30 +134,28 @@ public class ManageSitesPage extends SharePage
      */
     public void loadElements()
     {
-
-        if (alfrescoVersion.isCloud())
-        { 
-            SITE_ROWS = SITE_ROWS.replace("lists", "documentlibrary");
-            SITE_ROW_NAME = SITE_ROW_NAME.replace("lists", "documentlibrary");
-            SITE_ROW_DESCRIPTION = SITE_ROW_DESCRIPTION.replace("lists", "documentlibrary");
-            SITE_ROW_VISIBILITY = SITE_ROW_VISIBILITY.replace("lists", "documentlibrary");
-            SITE_ROW_ACTIONS = SITE_ROW_ACTIONS.replace("lists", "documentlibrary");
-        }
+// TODO Cloud
+//        if (alfrescoVersion.isCloud())
+//        { 
+//            SITE_ROWS = SITE_ROWS.replace("lists", "documentlibrary");
+//            SITE_ROW_NAME = SITE_ROW_NAME.replace("lists", "documentlibrary");
+//            SITE_ROW_DESCRIPTION = SITE_ROW_DESCRIPTION.replace("lists", "documentlibrary");
+//            SITE_ROW_VISIBILITY = SITE_ROW_VISIBILITY.replace("lists", "documentlibrary");
+//            SITE_ROW_ACTIONS = SITE_ROW_ACTIONS.replace("lists", "documentlibrary");
+//        }
 
         // Initialise the available site rows
-        List<WebElement> siteRows = drone.findAndWaitForElements(By.cssSelector(SITE_ROWS));
+        List<WebElement> siteRows = findAndWaitForElements(By.cssSelector(SITE_ROWS));
         this.managedSiteRows = new ArrayList<ManagedSiteRow>();
         for (WebElement siteRow : siteRows)
         {
             ManagedSiteRow manageSiteRow = new ManagedSiteRow();
             manageSiteRow.setSiteName(siteRow.findElement(By.cssSelector(SITE_ROW_NAME)).getText());
             manageSiteRow.setSiteDescription(siteRow.findElement(By.cssSelector(SITE_ROW_DESCRIPTION)).getText());
-            manageSiteRow.setVisibility(new VisibilityDropDown(drone, siteRow.findElement(By.cssSelector(SITE_ROW_VISIBILITY))));
-            manageSiteRow.setActions(new ActionsSet(drone, siteRow.findElement(By.cssSelector(SITE_ROW_ACTIONS))));
+            manageSiteRow.setVisibility(new VisibilityDropDown(driver, siteRow.findElement(By.cssSelector(SITE_ROW_VISIBILITY))));
+            manageSiteRow.setActions(new ActionsSet(driver, siteRow.findElement(By.cssSelector(SITE_ROW_ACTIONS)), factoryPage));
             this.managedSiteRows.add(manageSiteRow);
         }
 
-        // Initialise the doc list paginator
-        this.docListPaginator = new DocListPaginator(drone);
     }
 }

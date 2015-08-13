@@ -19,8 +19,7 @@
 
 package org.alfresco.po.alfresco;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
 import org.openqa.selenium.By;
 
 /**
@@ -28,11 +27,6 @@ import org.openqa.selenium.By;
  */
 public class WebScriptsMaintenancePage extends WebScriptsPage
 {
-
-    public WebScriptsMaintenancePage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -49,13 +43,6 @@ public class WebScriptsMaintenancePage extends WebScriptsPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public WebScriptsPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to verify console is opened
      *
@@ -64,7 +51,7 @@ public class WebScriptsMaintenancePage extends WebScriptsPage
 
     public boolean isOpened()
     {
-        return drone.findAndWait(By.xpath("*//b[contains(text(), 'Maintenance Completed')]")).isDisplayed();
+        return findAndWait(By.xpath("*//b[contains(text(), 'Maintenance Completed')]")).isDisplayed();
     }
 
 }

@@ -15,11 +15,8 @@
 
 package org.alfresco.po.share.repository;
 
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.RepositoryPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Model's page object, holds all element of the HTML page relating to share's repository > Models page.
@@ -30,40 +27,9 @@ import org.apache.commons.logging.LogFactory;
 
 public class ModelsPage extends RepositoryPage
 {
-    private final Log logger = LogFactory.getLog(this.getClass());
-    
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public ModelsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     * @param subfolderName a subfolder name when drilling down
-     */
-    public ModelsPage(WebDrone drone, final String subfolderName)
-    {
-        super(drone, subfolderName);
-    }
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     * @param shouldHaveFiles a subfolder name when drilling down
-     */
-    public ModelsPage(WebDrone drone, final boolean shouldHaveFiles)
-    {
-        super(drone);
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public ModelsPage render(RenderTime timer)
     {
@@ -71,16 +37,11 @@ public class ModelsPage extends RepositoryPage
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public ModelsPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @Override
-    public ModelsPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**

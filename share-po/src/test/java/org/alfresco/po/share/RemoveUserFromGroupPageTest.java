@@ -20,6 +20,7 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.RemoveUserFromGroupPage.Action;
 import org.alfresco.po.share.site.document.UserProfile;
 import org.alfresco.test.FailedTestListener;
@@ -36,12 +37,12 @@ import org.testng.annotations.Test;
 public class RemoveUserFromGroupPageTest extends AbstractTest
 {
     private DashBoardPage dashBoard; 
-    private String groupName = "SITE_ADMINISTRATORS";    
+    private String groupName = "SITE_ADMINISTRATORS";
 
     @BeforeClass(groups = "Enterprise-only")
     public void setup() throws Exception
     {
-        dashBoard = loginAs("admin","admin");     
+        dashBoard = loginAs("admin","admin");
         
     }
     
@@ -52,7 +53,7 @@ public class RemoveUserFromGroupPageTest extends AbstractTest
         NewUserPage newPage = userPage.selectNewUser().render();
         String userinfo = "user" + System.currentTimeMillis() + "@test.com";
         newPage.createEnterpriseUserWithGroup(userinfo, userinfo, userinfo, userinfo, userinfo, groupName);
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         GroupsPage groupspage = page.selectGroup(groupName).render();
         RemoveUserFromGroupPage removeUserFromGroupPage = groupspage.removeUser(userinfo).render();
@@ -91,7 +92,7 @@ public class RemoveUserFromGroupPageTest extends AbstractTest
         NewUserPage newPage = userPage.selectNewUser().render();
         String userinfo = "user" + System.currentTimeMillis() + "@test.com";
         newPage.createEnterpriseUserWithGroup(userinfo, userinfo, userinfo, userinfo, userinfo, groupName);
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         GroupsPage groupspage = page.selectGroup(groupName).render();
         RemoveUserFromGroupPage removeUserFromGroupPage = groupspage.removeUser(userinfo).render();

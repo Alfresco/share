@@ -15,15 +15,22 @@
 
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.site.document.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,16 +38,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Page object for Manage Permissions at granular level.
@@ -77,42 +76,19 @@ public class ManagePermissionsPage extends SharePage
         Yes, No;
     }
 
-    /**
-     * Default constructor is not provided as the client should pass the while creating ManagePermissionsPage.
-     *
-     * @param drone WebDrone
-     */
-    public ManagePermissionsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     private final Log logger = LogFactory.getLog(ManagePermissionsPage.class);
 
     @SuppressWarnings("unchecked")
-    @Override
     public ManagePermissionsPage render()
     {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ManagePermissionsPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ManagePermissionsPage render(RenderTime timer)
-    {
+        RenderTime timer = new RenderTime(maxPageLoadingTime);
         try
         {
             elementRender(timer, RenderElement.getVisibleRenderElement(addUserButton));
             elementRender(timer, RenderElement.getVisibleRenderElement(saveButtonLocator));
             elementRender(timer, RenderElement.getVisibleRenderElement(cancelButton));
-            if (drone.find(inheritPermissionButton).getAttribute("class").contains("on"))
+            if (driver.findElement(inheritPermissionButton).getAttribute("class").contains("on"))
             {
                 elementRender(timer, RenderElement.getVisibleRenderElement(lastRowPermissions));
             }
@@ -134,8 +110,8 @@ public class ManagePermissionsPage extends SharePage
         {
             logger.trace(" - Trying to click Add User button - ");
         }
-        drone.find(addUserButton).click();
-        return this.new UserSearchPage(drone);
+        driver.findElement(addUserButton).click();
+        return factoryPage.instantiatePage(driver, UserSearchPage.class);
     }
 
     /**
@@ -143,7 +119,7 @@ public class ManagePermissionsPage extends SharePage
      */
     private void clickAreYouSureDialogue(ButtonType areYouSure)
     {
-        for (WebElement button : drone.findAll(areYouSureButtonGroup))
+        for (WebElement button : driver.findElements(areYouSureButtonGroup))
         {
             if (areYouSure.toString().equals(button.getText()))
             {
@@ -164,7 +140,7 @@ public class ManagePermissionsPage extends SharePage
             logger.trace(" - Trying to click Inherit permissions button - ");
         }
         boolean buttonStatusOn = getInheritButtonStatus();
-        WebElement inheritButton = drone.find(inheritPermissionButton);
+        WebElement inheritButton = driver.findElement(inheritPermissionButton);
 
         // click the button iff (turnOn = true and inherited permissions is off)
         if (turnOn && !buttonStatusOn)
@@ -186,7 +162,7 @@ public class ManagePermissionsPage extends SharePage
                 // ignore. this confirm box does not appear everytime.
             }
         }
-        return new ManagePermissionsPage(drone);
+        return getCurrentPage().render();
     }
 
     /**
@@ -198,7 +174,7 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            drone.findAndWait(By.cssSelector("div[class$='inherited-on']"), WAIT_TIME_3000);
+            findAndWait(By.cssSelector("div[class$='inherited-on']"), getDefaultWaitTime());
             return true;
         }
         catch (TimeoutException e)
@@ -216,7 +192,7 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(inheritPermissionTable, 500).isDisplayed();
+            return findAndWait(inheritPermissionTable, 500).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -231,7 +207,7 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(locallyPermissionTable, 500).isDisplayed();
+            return findAndWait(locallyPermissionTable, 500).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -246,17 +222,17 @@ public class ManagePermissionsPage extends SharePage
      */
     public HtmlPage selectSave()
     {
-        WebElement saveButton = drone.findAndWait(saveButtonLocator);
+        WebElement saveButton = findAndWait(saveButtonLocator);
         String saveButtonId = saveButton.getAttribute("id");
         saveButton.click();
         try
         {
-            drone.waitUntilElementDeletedFromDom(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            waitUntilElementDeletedFromDom(By.id(saveButtonId), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         }
         catch (TimeoutException e)
         {
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -267,9 +243,9 @@ public class ManagePermissionsPage extends SharePage
      */
     public HtmlPage selectCancel()
     {
-        drone.findAndWait(cancelButton).click();
-        drone.waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        findAndWait(cancelButton).click();
+        waitForPageLoad(SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -286,8 +262,8 @@ public class ManagePermissionsPage extends SharePage
             logger.info("Access type was null. Should be set to some level.");
             throw new UnsupportedOperationException("Access type cannot be null");
         }
-        drone.findAndWait(accessTypeButton).click();
-        getRoleOption(drone, userRole).click();
+        findAndWait(accessTypeButton).click();
+        getRoleOption(driver, userRole).click();
     }
 
     /**
@@ -331,14 +307,14 @@ public class ManagePermissionsPage extends SharePage
         By accessButtonSpecific = By.xpath(userSpecificAccess);
         try
         {
-            drone.findAndWait(accessButtonSpecific).click();
+            findAndWait(accessButtonSpecific).click();
         }
         catch (TimeoutException te)
         {
             throw new PageOperationException("Unable to find Access Specific Button", te);
         }
 
-        getRoleOption(drone, userRole).click();
+        getRoleOption(driver, userRole).click();
     }
 
     /**
@@ -352,7 +328,7 @@ public class ManagePermissionsPage extends SharePage
         boolean isExist = false;
         try
         {
-            List<WebElement> userList = drone.findAndWaitForElements(userListLocator, 10000);
+            List<WebElement> userList = findAndWaitForElements(userListLocator, 10000);
             for (WebElement webElement : userList)
             {
                 if (webElement.findElement(userNameLocator).getText().contains(name))
@@ -379,7 +355,7 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            List<WebElement> userList = drone.findAndWaitForElements(userListInhrtPerm);
+            List<WebElement> userList = findAndWaitForElements(userListInhrtPerm);
             for (WebElement webElement : userList)
             {
                 if (webElement.findElement(userNameLocator).getText().contains(name))
@@ -410,7 +386,7 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            List<WebElement> userList = drone.findAndWaitForElements(userListLocator);
+            List<WebElement> userList = findAndWaitForElements(userListLocator);
             for (WebElement webElement : userList)
             {
                 if (webElement.findElement(userNameLocator).getText().contains(name))
@@ -438,7 +414,7 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(userListLocator, WAIT_TIME_3000);
+            List<WebElement> elements = findAndWaitForElements(userListLocator, getDefaultWaitTime());
             for (WebElement webElement : elements)
             {
                 if (webElement.findElement(userNameLocator).getText().contains(userName))
@@ -473,16 +449,16 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            List<WebElement> userList = drone.findAndWaitForElements(userListLocator);
+            List<WebElement> userList = findAndWaitForElements(userListLocator);
             for (WebElement webElement : userList)
             {
                 if (webElement.findElement(userNameLocator).getText().contains(name))
                 {
                     if (role.getRoleName().equalsIgnoreCase(webElement.findElement(userRoleLocator).findElement(accessTypeButton).getText()))
                     {
-                        drone.mouseOver(webElement.findElement(By.xpath("//td[contains(@class, 'yui-dt-col-actions')]/div")));
+                        mouseOver(webElement.findElement(By.xpath("//td[contains(@class, 'yui-dt-col-actions')]/div")));
                         WebElement deleteDivElement = webElement.findElement(deleteAction);
-                        drone.find(By.id(deleteDivElement.getAttribute("id"))).findElement(By.cssSelector("a")).click();
+                        driver.findElement(By.id(deleteDivElement.getAttribute("id"))).findElement(By.cssSelector("a")).click();
                         selectSave();
                         return true;
                     }
@@ -503,7 +479,7 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            List<WebElement> elements = drone.findAll(listUserRole);
+            List<WebElement> elements = driver.findElements(listUserRole);
             for (WebElement webElement : elements)
             {
                 if (userRole.getRoleName().equals(webElement.getText()))
@@ -525,7 +501,7 @@ public class ManagePermissionsPage extends SharePage
         List<String> userRoleStrings = new ArrayList<String>();
         try
         {
-            List<WebElement> elements = drone.findAll(listUserRole);
+            List<WebElement> elements = driver.findElements(listUserRole);
             for (WebElement webElement : elements)
             {
                 userRoleStrings.add(webElement.getText());
@@ -551,7 +527,7 @@ public class ManagePermissionsPage extends SharePage
         List<String> allRoles = new ArrayList<String>();
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(userListLocator, WAIT_TIME_3000);
+            List<WebElement> elements = findAndWaitForElements(userListLocator, getDefaultWaitTime());
             for (WebElement webElement : elements)
             {
                 if (webElement.findElement(userNameLocator).getText().contains(userName))
@@ -582,8 +558,8 @@ public class ManagePermissionsPage extends SharePage
      */
     public UserRole getAccessType()
     {
-        String role = drone.findAndWait(accessTypeButton).getText().toUpperCase();
-        return UserRole.valueOf(role);
+        String role = findAndWait(accessTypeButton).getText();
+        return UserRole.getUserRoleforName(role);
     }
 
     /**
@@ -597,7 +573,7 @@ public class ManagePermissionsPage extends SharePage
         List<WebElement> userPermissionRows = null;
         try
         {
-            userPermissionRows = drone.findAll(By.cssSelector("div[id$='default-directPermissions'] tbody.yui-dt-data tr"));
+            userPermissionRows = driver.findElements(By.cssSelector("div[id$='default-directPermissions'] tbody.yui-dt-data tr"));
         }
         catch (Exception e)
         {
@@ -615,345 +591,23 @@ public class ManagePermissionsPage extends SharePage
         return false;
     }
 
-    /**
-     * Page object for searching user and selecting user. Ideally should not live w/o
-     * ManagePersmissions instance. Hence its an inner class with private constructor.
-     *
-     * @author Abhijeet Bharade
-     * @since 1.7.0
-     */
-    public class UserSearchPage extends SharePage
-    {
-        private static final int SEARCH_TEXT_MIN_LEN = 3;
-        private final By SEARCH_USER_INPUT = By.cssSelector("div.search-text input");
-        private final By SEARCH_USER_BUTTON = By.cssSelector("div.authority-search-button button");
-
-        private final WebElement searchContainerDiv;
-
-        private UserSearchPage(WebDrone drone)
-        {
-            super(drone);
-            searchContainerDiv = drone.findAndWait(By.cssSelector("div.finder-wrapper"));
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public UserSearchPage render()
-        {
-            return render(new RenderTime(maxPageLoadingTime));
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public UserSearchPage render(long time)
-        {
-            return render(new RenderTime(time));
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public UserSearchPage render(RenderTime timer)
-        {
-            while (true)
-            {
-                timer.start();
-                try
-                {
-                    WebElement message = searchContainerDiv.findElement(By.cssSelector("tbody.yui-dt-message div"));
-                    if (message.isDisplayed() && message.getText().contains("Searching..."))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                catch (Exception e)
-                {
-                }
-                finally
-                {
-                    timer.end();
-                }
-            }
-            elementRender(timer, RenderElement.getVisibleRenderElement(SEARCH_USER_BUTTON), RenderElement.getVisibleRenderElement(SEARCH_USER_INPUT));
-            return this;
-        }
-
-        /**
-         * @param userProfile UserProfile
-         * @return HtmlPage
-         */
-        public HtmlPage searchAndSelectUser(UserProfile userProfile)
-        {
-            return searchAndSelect("", userProfile);
-        }
-
-        /**
-         * @param groupName String
-         * @return HtmlPage
-         */
-        public HtmlPage searchAndSelectGroup(String groupName)
-        {
-            return searchAndSelect(groupName, null);
-        }
-
-        /**
-         * Returns if "EVERYONE" is available in search result.
-         *
-         * @param searchText String
-         * @return boolean
-         */
-        public boolean isEveryOneDisplayed(String searchText)
-        {
-            try
-            {
-                // By USERNAME_SPAN = By.cssSelector("h3>span");
-
-                for (UserSearchRow element : searchUserAndGroup(searchText))
-                {
-                    if (element.getUserName().contains("EVERYONE"))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (NoSuchElementException nse)
-            {
-                throw new PageException("User with username containing - '" + searchText + "' not found", nse);
-            }
-            return false;
-        }
-
-        /**
-         * @param groupName String
-         * @param userProfile UserProfile
-         * @return HtmlPage
-         */
-        private HtmlPage searchAndSelect(String groupName, UserProfile userProfile)
-        {
-            String searchText = "";
-            boolean isGroupSearch = false;
-            if (!StringUtils.isEmpty(groupName))
-            {
-                searchText = groupName;
-                isGroupSearch = true;
-            }
-            else if (!StringUtils.isEmpty(userProfile.getUsername()))
-            {
-                searchText = userProfile.getUsername();
-            }
-            else
-            {
-                throw new UnsupportedOperationException(" Name search text cannot be blank - min three characters required");
-            }
-            return selectUserOrGroup(searchUserAndGroup(searchText), searchText, isGroupSearch, userProfile);
-
-        }
-
-        /**
-         * @param searchText String
-         * @return List<UserSearchRow>
-         */
-        public List<UserSearchRow> searchUserAndGroup(String searchText) throws UnsupportedOperationException
-        {
-            List<UserSearchRow> searchRows = new ArrayList<UserSearchRow>();
-            try
-            {
-                drone.find(SEARCH_USER_INPUT).clear();
-                drone.find(SEARCH_USER_INPUT).sendKeys(searchText);
-                drone.find(SEARCH_USER_BUTTON).click();
-                if (searchText.length() < SEARCH_TEXT_MIN_LEN)
-                {
-                    WebElement element = drone.find(By.cssSelector(".message"));
-                    throw new UnsupportedOperationException(element.getText());
-                }
-                else
-                {
-
-                    drone.waitForElement(SEARCH_USER_INPUT, maxPageLoadingTime);
-                    drone.waitForElement(SEARCH_USER_BUTTON, maxPageLoadingTime);
-                    drone.waitForElement(cancelButton, maxPageLoadingTime);
-                    drone.waitForElement(saveButtonLocator, maxPageLoadingTime);
-                    Thread.sleep(3000);
-                    List<WebElement> elems = drone.findAll(By.xpath("//tbody/tr/td[contains(@class, 'empty')]/div"));
-                    for (WebElement elem : elems)
-                        if (elem.isDisplayed())
-                        {
-                            if (elem.getText().equals("No results"))
-                                return null;
-                        }
-
-                    this.render();
-                    By DATA_ROWS = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
-                    for (WebElement element : drone.findAndWaitForElements(DATA_ROWS, maxPageLoadingTime))
-                    {
-                        searchRows.add(new UserSearchRow(drone, element));
-                    }
-                }
-            }
-            catch (NoSuchElementException nse)
-            {
-                throw new PageOperationException("element not found", nse);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-
-            return searchRows;
-        }
-
-        /**
-         * @param searchRows List<UserSearchRow>
-         * @param searchText String
-         * @param isGroupSearch boolean
-         * @param userProfile UserProfile
-         * @return HtmlPage
-         */
-        public HtmlPage selectUserOrGroup(List<UserSearchRow> searchRows, String searchText, boolean isGroupSearch, UserProfile userProfile)
-        {
-            if (StringUtils.isEmpty(searchText))
-            {
-                throw new IllegalArgumentException("Search value is null");
-            }
-            for (UserSearchRow searchRow : searchRows)
-            {
-                if (isGroupSearch)
-                {
-                    if (searchRow.getUserName().contains(searchText))
-                    {
-                        searchRow.clickAdd();
-                        return new ManagePermissionsPage(drone);
-                    }
-
-                }
-                else
-                {
-                    if (null == userProfile)
-                    {
-                        throw new IllegalArgumentException("User profile is null");
-                    }
-                    else if (searchRow.getUserName().contains(searchText))
-                    {
-                        String fullName = searchRow.getUserName();
-                        String[] name = fullName.split(" ");
-                        userProfile.setfName(name[0]);
-
-                        if (name.length > 1)
-                            userProfile.setlName(name[1]);
-                        else
-                            userProfile.setlName("");
-
-                        return searchRow.clickAdd();
-                    }
-
-                }
-            }
-            throw new PageException("User with username containing - '" + searchText + "' not found");
-        }
-
-        /**
-         * Verify if user or group exist in the search list.
-         *
-         * @param searchText String
-         * @return boolean
-         */
-        public boolean isUserOrGroupPresentInSearchList(String searchText)
-        {
-            try
-            {
-                // By USERNAME_SPAN = By.cssSelector("h3>span");
-
-                for (UserSearchRow element : searchUserAndGroup(searchText))
-                {
-                    if (element.getUserName().contains(searchText))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (NoSuchElementException nse)
-            {
-                throw new PageException("User with username containing - '" + searchText + "' not found", nse);
-            }
-            return false;
-        }
-
-        /**
-         * Returns the error message if there is one when searching for a user or group.
-         *
-         * @param searchText String
-         * @return The error message.  Empty if there is no message.
-         */
-        public String getSearchErrorMessage(String searchText) throws UnsupportedOperationException
-        {
-            String message = "";
-            try
-            {
-                drone.find(SEARCH_USER_INPUT).clear();
-                drone.find(SEARCH_USER_INPUT).sendKeys(searchText);
-                drone.find(SEARCH_USER_BUTTON).click();
-                WebElement element = drone.find(By.cssSelector(".message"));
-                if (element != null)
-                {
-                    message = element.getText();
-                }
-
-            }
-            catch (NoSuchElementException nse)
-            {
-                throw new PageOperationException("element not found", nse);
-            }
-            return message;
-        }
-
-        /**
-         * Returns true if all the userNames are in the search results.
-         *
-         * @param searchText String
-         * @param userNames String...
-         * @return boolean
-         */
-        public boolean usersExistInSearchResults(String searchText, String... userNames)
-        {
-            boolean matchNames = false;
-            List<UserSearchRow> results = searchUserAndGroup(searchText);
-            List<String> resultNames = new ArrayList<>();
-
-            for (UserSearchRow userSearchRow : results)
-            {
-                String name = userSearchRow.getUserName();
-
-                name = name.substring(name.indexOf('(') + 1, name.indexOf(')'));
-
-                if (name.startsWith("GROUP_"))
-                {
-                    name = name.substring(6);
-                }
-
-                resultNames.add(name);
-            }
-
-            List<String> names = Arrays.asList(userNames);
-
-            matchNames = resultNames.containsAll(names);
-
-            return matchNames;
-        }
-    }
 
     /**
      * Finds the CSS for user role and clicks it option.
      *
+<<<<<<< .working
+     * @param driver
+     * @param userRole
+     * @return
+=======
      * @param drone WebDrone
      * @param userRole UserRole
      * @return WebElement
+>>>>>>> .merge-right.r109852
      */
-    private WebElement getRoleOption(WebDrone drone, UserRole userRole)
+    private WebElement getRoleOption(WebDriver driver, UserRole userRole)
     {
-        List<WebElement> options = drone.findAndWaitForElements(By.cssSelector("div.bd li"));
+        List<WebElement> options = findAndWaitForElements(By.cssSelector("div.bd li"));
         for (WebElement role : options)
         {
             if (userRole.getRoleName().equalsIgnoreCase(role.getText()))
@@ -974,7 +628,7 @@ public class ManagePermissionsPage extends SharePage
         try
         {
             Map<String, String> usersAndPermissions = new HashMap<String, String>();
-            List<WebElement> rowsOfInheritedPermission = drone.findAndWaitForElements(listRolesWithSites);
+            List<WebElement> rowsOfInheritedPermission = findAndWaitForElements(listRolesWithSites);
             for (WebElement webElement : rowsOfInheritedPermission)
             {
                 usersAndPermissions.put(webElement.findElement(listUsersGroups).getText(), webElement.findElement(listRoleLocator).getText());
@@ -1001,7 +655,7 @@ public class ManagePermissionsPage extends SharePage
         boolean isExist = false;
         try
         {
-            List<WebElement> userList = drone.findAndWaitForElements(userListLocator);
+            List<WebElement> userList = findAndWaitForElements(userListLocator);
             for (WebElement webElement : userList)
             {
                 if (webElement.findElement(userNameLocator).getText().contains(name))
@@ -1030,14 +684,14 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            List<WebElement> userList = drone.findAndWaitForElements(userListLocator);
+            List<WebElement> userList = findAndWaitForElements(userListLocator);
             for (WebElement webElement : userList)
                 if (webElement.findElement(userNameLocator).getText().contains(name))
                 {
                     String currentRole = StringUtils.replace(webElement.findElement(userRoleLocator).getText().toUpperCase(), " ", "");
                     if (role.equals(UserRole.valueOf(currentRole)))
                     {
-                        drone.mouseOver(webElement);
+                        mouseOver(webElement);
                         return webElement.findElement(userPermissionDeleteAction);
                     }
                 }
@@ -1075,7 +729,7 @@ public class ManagePermissionsPage extends SharePage
      * @param role UserRole
      * @return ManagePermissionsPage
      */
-    public ManagePermissionsPage deleteUserWithPermission(String name, UserRole role)
+    public HtmlPage deleteUserWithPermission(String name, UserRole role)
     {
         try
         {
@@ -1094,7 +748,7 @@ public class ManagePermissionsPage extends SharePage
                 throw new PageOperationException("Not able to locate delete button", e);
             }
         }
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -1107,7 +761,7 @@ public class ManagePermissionsPage extends SharePage
     {
         try
         {
-            WebElement userRow = drone.findAndWait(By.xpath(String.format(userRowLocator, userName)));
+            WebElement userRow = findAndWait(By.xpath(String.format(userRowLocator, userName)));
             String theRole = userRow.findElement(By.xpath("//td[contains(@class, 'role')]//button")).getText();
             for (UserRole allTheRoles : UserRole.values())
             {

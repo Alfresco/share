@@ -1,5 +1,5 @@
 /*
- * \ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
  * This file is part of Alfresco
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,17 +14,30 @@
  */
 package org.alfresco.po.share.task;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.po.share.MyTasksPage;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.share.task.EditTaskPage.Button.APPROVE;
+import static org.alfresco.po.share.task.EditTaskPage.Button.CANCEL;
+import static org.alfresco.po.share.task.EditTaskPage.Button.CLAIM;
+import static org.alfresco.po.share.task.EditTaskPage.Button.REASSIGN;
+import static org.alfresco.po.share.task.EditTaskPage.Button.REJECT;
+import static org.alfresco.po.share.task.EditTaskPage.Button.SAVE_AND_CLOSE;
+import static org.alfresco.po.share.task.EditTaskPage.Button.TASK_DONE;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.workflow.ReassignPage;
 import org.alfresco.po.share.workflow.SelectContentPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,16 +46,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.po.share.task.EditTaskPage.Button.*;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * This class represents the Edit task page which can be navigated from My Tasks
@@ -90,17 +93,9 @@ public class EditTaskPage extends SharePage
     }
 
     /**
-     * @param drone WebDrone
-     */
-    public EditTaskPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    /**
      * (non-Javadoc)
      * 
-     * @see org.alfresco.webdrone.HtmlPage#render(org.alfresco.webdrone.RenderTime)
+     * @see org.alfresco.po.HtmlPage#render(org.alfresco.po.RenderTime)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -117,19 +112,12 @@ public class EditTaskPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public EditTaskPage render(final long time) throws PageException
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Selects the Status drop down list.
      */
     public HtmlPage selectStatusDropDown(TaskStatus status)
     {
-        Select statusSelect = new Select(drone.findAndWait(By.cssSelector(TASK_STATUS)));
+        Select statusSelect = new Select(findAndWait(By.cssSelector(TASK_STATUS)));
         statusSelect.selectByValue(status.getTaskName());
         return this;
     }
@@ -141,7 +129,7 @@ public class EditTaskPage extends SharePage
      */
     public TaskStatus getSelectedStatusFromDropDown()
     {
-        Select comboBox = new Select(drone.findAndWait(By.cssSelector(TASK_STATUS)));
+        Select comboBox = new Select(findAndWait(By.cssSelector(TASK_STATUS)));
         String selectedTask = comboBox.getFirstSelectedOption().getText();
         return TaskStatus.getTaskFromString(selectedTask);
     }
@@ -153,11 +141,11 @@ public class EditTaskPage extends SharePage
      */
     public HtmlPage selectTaskDoneButton()
     {
-        WebElement taskDoneButton = drone.findAndWait(TASK_DONE.by);
+        WebElement taskDoneButton = findAndWait(TASK_DONE.by);
         String id = taskDoneButton.getAttribute("id");
         taskDoneButton.click();
-        drone.waitUntilElementDeletedFromDom(By.id(id), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        waitUntilElementDeletedFromDom(By.id(id), TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -169,12 +157,12 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            WebElement rejectButton = drone.findAndWait(REJECT.by);
+            WebElement rejectButton = findAndWait(REJECT.by);
             String id = rejectButton.getAttribute("id");
-            drone.mouseOver(rejectButton);
+            mouseOver(rejectButton);
             rejectButton.click();
-            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -191,12 +179,12 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            WebElement approveButton = drone.findAndWait(APPROVE.by);
+            WebElement approveButton = findAndWait(APPROVE.by);
             String id = approveButton.getAttribute("id");
-            drone.mouseOver(approveButton);
+            mouseOver(approveButton);
             approveButton.click();
-            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -213,12 +201,12 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            WebElement saveButton = drone.find(SAVE_AND_CLOSE.by);
+            WebElement saveButton = driver.findElement(SAVE_AND_CLOSE.by);
             String id = saveButton.getAttribute("id");
-            drone.mouseOver(saveButton);
+            mouseOver(saveButton);
             saveButton.click();
-            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -235,7 +223,7 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            WebElement commentBox = drone.find(By.cssSelector(COMMENT_TEXTAREA));
+            WebElement commentBox = driver.findElement(By.cssSelector(COMMENT_TEXTAREA));
             commentBox.clear();
             commentBox.sendKeys(comment);
         }
@@ -251,12 +239,12 @@ public class EditTaskPage extends SharePage
      * public void enterComment(String comment) { if (dojoSupport) { throw new
      * UnsupportedOperationException
      * ("Operation invalid for enterprise versions 4.2."); } WebElement
-     * commentBox = drone.find(By.cssSelector(COMMENT_BOX));
+     * commentBox = driver.findElement(By.cssSelector(COMMENT_BOX));
      * commentBox.sendKeys(comment); }
      * public String readCommentFromCommentBox() { if (dojoSupport) { throw new
      * UnsupportedOperationException
      * ("Operation invalid for enterprise versions 4.2."); } WebElement
-     * commentBox = drone.find(By.cssSelector(COMMENT_BOX)); return
+     * commentBox = driver.findElement(By.cssSelector(COMMENT_BOX)); return
      * commentBox.getText(); }
      */
 
@@ -288,7 +276,7 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            return drone.findAll(ITEM_ROW);
+            return driver.findElements(ITEM_ROW);
         }
         catch (NoSuchElementException nse)
         {
@@ -310,7 +298,7 @@ public class EditTaskPage extends SharePage
 
             for (WebElement item : itemsRows)
             {
-                taskItems.add(new TaskItem(item, drone, isViewMoreActionDisplayed));
+                taskItems.add(new TaskItem(item, driver, isViewMoreActionDisplayed, factoryPage));
             }
             return taskItems;
         }
@@ -343,7 +331,7 @@ public class EditTaskPage extends SharePage
             {
                 if (item.findElement(By.cssSelector("h3.name")).getText().equals(fileName))
                 {
-                    taskItems.add(new TaskItem(item, drone, isViewMoreActionDisplayed));
+                    taskItems.add(new TaskItem(item, driver, isViewMoreActionDisplayed, factoryPage));
                 }
             }
             return taskItems;
@@ -364,7 +352,7 @@ public class EditTaskPage extends SharePage
         List<TaskStatus> taskStatusList = new ArrayList<TaskStatus>();
         try
         {
-            Select statusOptions = new Select(drone.find(By.cssSelector(TASK_STATUS)));
+            Select statusOptions = new Select(driver.findElement(By.cssSelector(TASK_STATUS)));
             List<WebElement> optionElements = statusOptions.getOptions();
             for (WebElement option : optionElements)
             {
@@ -387,12 +375,12 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            WebElement cancelButton = drone.find(CANCEL.by);
-            drone.mouseOver(cancelButton);
+            WebElement cancelButton = driver.findElement(CANCEL.by);
+            mouseOver(cancelButton);
             String id = cancelButton.getAttribute("id");
             cancelButton.click();
-            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -409,7 +397,7 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            return drone.find(REASSIGN.by).isDisplayed();
+            return driver.findElement(REASSIGN.by).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -426,12 +414,12 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            WebElement approveButton = drone.find(By.cssSelector(ACCEPT_BUTTON));
+            WebElement approveButton = driver.findElement(By.cssSelector(ACCEPT_BUTTON));
             String id = approveButton.getAttribute("id");
-            drone.mouseOver(approveButton);
+            mouseOver(approveButton);
             approveButton.click();
-            drone.waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return FactorySharePage.resolvePage(drone);
+            waitUntilElementDisappears(By.id(id), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -448,7 +436,7 @@ public class EditTaskPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(button.by, 3000).isDisplayed();
+            return findAndWait(button.by, 3000).isDisplayed();
         }
         catch (TimeoutException e)
         {
@@ -485,7 +473,7 @@ public class EditTaskPage extends SharePage
     public SelectContentPage clickAddItems()
     {
         clickUnamedButton("Add");
-        return new SelectContentPage(drone);
+        return factoryPage.instantiatePage(driver, SelectContentPage.class);
     }
 
     private void clickUnamedButton(String name)
@@ -494,7 +482,7 @@ public class EditTaskPage extends SharePage
         {
             throw new IllegalArgumentException("Name cannot be Empty or null");
         }
-        List<WebElement> elements = drone.findAll(By.cssSelector("button[type='button']"));
+        List<WebElement> elements = driver.findElements(By.cssSelector("button[type='button']"));
         for (WebElement webElement : elements)
         {
             if (name.equals(webElement.getText()))
@@ -512,8 +500,8 @@ public class EditTaskPage extends SharePage
      */
     public ReassignPage clickReassign()
     {
-        drone.find(REASSIGN.by).click();
-        return new ReassignPage(drone).render();
+        driver.findElement(REASSIGN.by).click();
+        return factoryPage.instantiatePage(driver, ReassignPage .class);
     }
 
     /**
@@ -522,7 +510,7 @@ public class EditTaskPage extends SharePage
      * 
      * @param userName String
      */
-    public MyTasksPage selectReassign(String userName)
+    public HtmlPage selectReassign(String userName)
     {
         if (StringUtils.isEmpty(userName))
         {
@@ -530,7 +518,7 @@ public class EditTaskPage extends SharePage
         }
         ReassignPage reassignPage = clickReassign();
         reassignPage.selectUser(userName).render();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -540,7 +528,7 @@ public class EditTaskPage extends SharePage
      */
     public EditTaskPage selectClaim()
     {
-        drone.findAndWait(CLAIM.by).click();
+        findAndWait(CLAIM.by).click();
         waitUntilAlert();
         return this.render();
     }
@@ -552,8 +540,7 @@ public class EditTaskPage extends SharePage
      */
     public boolean isCommentTextAreaDisplayed()
     {
-        return drone.isElementDisplayed(By.cssSelector(COMMENT_TEXTAREA));
-
+        return driver.findElement(By.cssSelector(COMMENT_TEXTAREA)).isDisplayed();
     }
 
     /**
@@ -564,7 +551,7 @@ public class EditTaskPage extends SharePage
     public String readCommentFromCommentTextArea()
     {
 
-        WebElement commentBox = drone.find(By.cssSelector(COMMENT_TEXTAREA));
+        WebElement commentBox = driver.findElement(By.cssSelector(COMMENT_TEXTAREA));
         return commentBox.getAttribute("value");
 
     }
@@ -579,7 +566,7 @@ public class EditTaskPage extends SharePage
         List<String> labels = new ArrayList<String>();
         try
         {
-            List<WebElement> webElements = drone.findAll(ALL_FIELD_LABELS);
+            List<WebElement> webElements = driver.findElements(ALL_FIELD_LABELS);
             for (WebElement label : webElements)
             {
                 labels.add(label.getText());

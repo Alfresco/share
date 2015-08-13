@@ -14,17 +14,20 @@
  */
 package org.alfresco.po.share;
 
+import org.alfresco.po.RenderWebElement;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.FactoryShareDashlet;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
+import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
+import org.alfresco.po.share.dashlet.MySitesDashlet;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Dashboard page object, holds all element of the HTML page relating to share's
@@ -34,8 +37,14 @@ import org.openqa.selenium.TimeoutException;
  */
 public class DashBoardPage extends SharePage implements Dashboard
 {
-
-    private final Log logger = LogFactory.getLog(DashBoardPage.class);
+	@Autowired FactoryShareDashlet factoryDashlet;
+	private final Log logger = LogFactory.getLog(DashBoardPage.class);
+    @RenderWebElement
+    MySitesDashlet mySitesDashlet;
+    @RenderWebElement
+    MyDocumentsDashlet myDocumentsDashlet;
+    @RenderWebElement
+    MyActivitiesDashlet myActivitiesDashlet;
     
     //Get Started Panel
     
@@ -51,47 +60,6 @@ public class DashBoardPage extends SharePage implements Dashboard
     //Get Started Panel Hide Button
     public static final By HIDE_GET_STARTED_PANEL_BUTTON = By.xpath("//button[text()='Hide']");
  
-
-    /**
-     * Constructor.
-     */
-    public DashBoardPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DashBoardPage render(RenderTime timer)
-    {
-        basicRender(timer);
-        // We don't know if the dashlets will appear so do the basic rendering
-        try
-        {
-            getDashlet("my-sites").render(timer);
-            getDashlet("my-documents").render(timer);
-            getDashlet("activities").render(timer);
-        }
-        catch (PageException pe)
-        {
-            throw new PageException(this.getClass().getName() + " failed to render in time", pe);
-        }
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DashBoardPage render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DashBoardPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Verify if home page banner web element is present
@@ -120,7 +88,7 @@ public class DashBoardPage extends SharePage implements Dashboard
     {
         try
         {
-            drone.findAndWait(HIDE_GET_STARTED_PANEL_BUTTON, maxPageLoadingTime).click();
+            findAndWait(HIDE_GET_STARTED_PANEL_BUTTON, maxPageLoadingTime).click();
             waitUntilAlert();
             
         }
@@ -128,7 +96,7 @@ public class DashBoardPage extends SharePage implements Dashboard
         {
             logger.error(toe);
         }
-        return new HideGetStartedPanel(drone).render();
+        return factoryPage.instantiatePage(driver, HideGetStartedPanel.class).render();
     }
     
    
@@ -140,7 +108,7 @@ public class DashBoardPage extends SharePage implements Dashboard
      */
     public Dashlet getDashlet(final String name)
     {
-        return FactoryShareDashlet.getPage(drone, name);
+        return factoryDashlet.getPage(driver, name);
     }
     
     /**
@@ -160,7 +128,7 @@ public class DashBoardPage extends SharePage implements Dashboard
     {
         try
         {
-            drone.findAndWait(By.xpath("//h1[text()='GET STARTED']")).click();
+            findAndWait(By.xpath("//h1[text()='GET STARTED']")).click();
         }
         catch (NoSuchElementException ex)
         {

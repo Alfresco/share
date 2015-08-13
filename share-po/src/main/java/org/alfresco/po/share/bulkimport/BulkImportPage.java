@@ -1,11 +1,26 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.bulkimport;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.FactorySharePage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -31,11 +46,6 @@ public class BulkImportPage extends AdvancedBulkImportPage
     // Button
     private static final By INITIATE_BULK_IMPORT_BUTTON = By.cssSelector("input[type='submit']");
 
-    public BulkImportPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public BulkImportPage render(RenderTime timer)
@@ -51,12 +61,6 @@ public class BulkImportPage extends AdvancedBulkImportPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public BulkImportPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Method to set target space path field
@@ -65,7 +69,7 @@ public class BulkImportPage extends AdvancedBulkImportPage
      */
     public void setNodeRefField(final String nodeRef)
     {
-        setInput(drone.findAndWait(TARGET_SPACE_NODEREF), nodeRef);
+        setInput(findAndWait(TARGET_SPACE_NODEREF), nodeRef);
     }
 
     /**
@@ -75,7 +79,7 @@ public class BulkImportPage extends AdvancedBulkImportPage
     {
         try
         {
-            drone.find(CHECK_BOX_REPLACE_EXISTING).click();
+            driver.findElement(CHECK_BOX_REPLACE_EXISTING).click();
         }
         catch (NoSuchElementException e)
         {
@@ -93,7 +97,7 @@ public class BulkImportPage extends AdvancedBulkImportPage
      * @param replaceExistingFiles boolean
      * @return StatusBulkImportPage
      */
-    public StatusBulkImportPage createImport(String importDirectory, String path, String nodeRef, boolean disableRules, boolean replaceExistingFiles)
+    public HtmlPage createImport(String importDirectory, String path, String nodeRef, boolean disableRules, boolean replaceExistingFiles)
     {
         logger.info("Create import");
         try
@@ -130,8 +134,8 @@ public class BulkImportPage extends AdvancedBulkImportPage
             logger.debug("Unable to find the elements");
         }
 
-        drone.waitUntilElementDeletedFromDom(INITIATE_BULK_IMPORT_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        drone.waitUntilElementPresent(IDLE_CURRENT_STATUS, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-        return drone.getCurrentPage().render();
+        waitUntilElementDeletedFromDom(INITIATE_BULK_IMPORT_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        waitUntilElementPresent(IDLE_CURRENT_STATUS, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return getCurrentPage();
     }
 }

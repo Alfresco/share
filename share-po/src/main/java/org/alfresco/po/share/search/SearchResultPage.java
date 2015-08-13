@@ -20,7 +20,7 @@ package org.alfresco.po.share.search;
 
 import java.util.List;
 
-import org.alfresco.webdrone.HtmlPage;
+import org.alfresco.po.HtmlPage;
 
 /**
  * Interface for search result based pages in Alfresco Share.

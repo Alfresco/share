@@ -15,20 +15,18 @@
 
 package org.alfresco.po.share.dashlet.mydiscussions;
 
-import org.alfresco.po.share.FactorySharePage;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.site.document.TinyMceEditor;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * CreateNewTopicPage page object, holds all element of the HTML page relating to Create New Topic Page
@@ -46,9 +44,6 @@ public class CreateNewTopicPage extends SharePage
     // topic title
     private static final String CREATE_NEW_TOPIC_TITLE = "input[id$='_discussions-createtopic_x0023_default-title']";
 
-    // topic text
-    private static final String CREATE_NEW_TOPIC_FORMAT_IFRAME = "template_x002e_createtopic_x002e_discussions-createtopic_x0023_default-content_ifr";
-
     // topic tags
     private static final String TOPIC_TAG_INPUT = "input[id$='_discussions-createtopic_x0023_default-tag-input-field']";
 
@@ -61,12 +56,7 @@ public class CreateNewTopicPage extends SharePage
     // cancel button
     private static final String CANCEL_TOPIC_BUTTON = "button[id$='_discussions-createtopic_x0023_default-cancel-button']";
 
-    TinyMceEditor tinyMCEEditor = new TinyMceEditor(drone);
-
-    public CreateNewTopicPage(WebDrone drone)
-    {
-        super(drone);
-    }
+    TinyMceEditor tinyMCEEditor;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -82,12 +72,6 @@ public class CreateNewTopicPage extends SharePage
 
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public CreateNewTopicPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -104,7 +88,7 @@ public class CreateNewTopicPage extends SharePage
      */
     public TinyMceEditor getTinyMCEEditor()
     {
-        tinyMCEEditor.setTinyMce(CREATE_NEW_TOPIC_FORMAT_IFRAME);
+        tinyMCEEditor.setTinyMce();
         return tinyMCEEditor;
     }
 
@@ -115,7 +99,7 @@ public class CreateNewTopicPage extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector(CREATE_NEW_TOPIC_HEADER)).getText();
+            return driver.findElement(By.cssSelector(CREATE_NEW_TOPIC_HEADER)).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -128,7 +112,7 @@ public class CreateNewTopicPage extends SharePage
     {
         try
         {
-            WebElement inputField = drone.find(By.cssSelector(CREATE_NEW_TOPIC_TITLE));
+            WebElement inputField = driver.findElement(By.cssSelector(CREATE_NEW_TOPIC_TITLE));
             inputField.clear();
             inputField.sendKeys(title);
             return this;
@@ -150,7 +134,7 @@ public class CreateNewTopicPage extends SharePage
     {
         try
         {
-            WebElement inputField = drone.find(By.cssSelector(TOPIC_TAG_INPUT));
+            WebElement inputField = driver.findElement(By.cssSelector(TOPIC_TAG_INPUT));
             inputField.clear();
             inputField.sendKeys(tag);
             return this;
@@ -169,7 +153,7 @@ public class CreateNewTopicPage extends SharePage
     {
         try
         {
-            drone.find(By.cssSelector(ADD_TOPIC_TAG_BUTTON)).click();
+            driver.findElement(By.cssSelector(ADD_TOPIC_TAG_BUTTON)).click();
             return this;
         }
         catch (NoSuchElementException nse)
@@ -182,13 +166,13 @@ public class CreateNewTopicPage extends SharePage
     /**
      * Clicks on Save button
      */
-    public TopicDetailsPage saveTopic()
+    public HtmlPage saveTopic()
     {
         try
         {
-            drone.findAndWait(By.cssSelector(SAVE_TOPIC_BUTTON)).click();
+            findAndWait(By.cssSelector(SAVE_TOPIC_BUTTON)).click();
             waitUntilAlert();
-            return new TopicDetailsPage(drone).render();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
@@ -205,8 +189,8 @@ public class CreateNewTopicPage extends SharePage
     {
         try
         {
-            drone.find(By.cssSelector(CANCEL_TOPIC_BUTTON)).click();
-            return FactorySharePage.resolvePage(drone);
+            driver.findElement(By.cssSelector(CANCEL_TOPIC_BUTTON)).click();
+            return getCurrentPage();
 
         }
         catch (NoSuchElementException nse)

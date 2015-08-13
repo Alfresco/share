@@ -1,11 +1,34 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ *
+ * This file is part of Alfresco
+ *
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.workflow;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,12 +36,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * @author Sergey Kardash
@@ -35,15 +52,6 @@ public class ReassignPage extends SharePage
     private static final By LIST_REASSIGN = (By.cssSelector("table>tbody.yui-dt-data>tr"));
     private static final By SELECT_REASSIGN = By.cssSelector("td[class$='actions yui-dt-last']>div>span>span>span>button");
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public ReassignPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -65,13 +73,6 @@ public class ReassignPage extends SharePage
     public ReassignPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ReassignPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -96,13 +97,13 @@ public class ReassignPage extends SharePage
 
             if (webElement.findElement(By.cssSelector(".itemname>a")).getText().toLowerCase().contains(userName))
             {
-                drone.mouseOver(webElement.findElement(SELECT_REASSIGN));
+                mouseOver(webElement.findElement(SELECT_REASSIGN));
                 webElement.findElement(SELECT_REASSIGN).click();
                 break;
             }
         }
         waitUntilAlert();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -119,9 +120,9 @@ public class ReassignPage extends SharePage
         try
         {
             searchForUser(userName);
-            //drone.waitForElement(LIST_REASSIGN, SECONDS.convert(drone.getDefaultWaitTime(), MILLISECONDS));
-//            drone.waitForElement(LIST_REASSIGN, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            return drone.findDisplayedElements(LIST_REASSIGN);
+            //waitForElement(LIST_REASSIGN, SECONDS.convert(driver.getDefaultWaitTime(), MILLISECONDS));
+//            waitForElement(LIST_REASSIGN, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            return findDisplayedElements(LIST_REASSIGN);
         }
         catch (TimeoutException toe)
         {
@@ -148,13 +149,13 @@ public class ReassignPage extends SharePage
             selectSearchButton();
             try
             {
-                drone.waitForElement(LIST_REASSIGN, SECONDS.convert(WAIT_TIME_3000, MILLISECONDS));
+                waitForElement(LIST_REASSIGN, SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
                 waitUntilAlert(5);
             }
             catch (TimeoutException toe)
             {
             }
-            // drone.waitFor(LOADING_WAIT_TIME);
+            // driver.waitFor(LOADING_WAIT_TIME);
         }
         catch (NoSuchElementException nse)
         {
@@ -173,7 +174,7 @@ public class ReassignPage extends SharePage
     {
         try
         {
-            drone.findFirstDisplayedElement(SEARCH_PEOPLE).clear();
+            findFirstDisplayedElement(SEARCH_PEOPLE).clear();
         }
         catch (NoSuchElementException nse)
         {

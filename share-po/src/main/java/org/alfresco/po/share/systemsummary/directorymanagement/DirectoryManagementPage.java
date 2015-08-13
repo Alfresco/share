@@ -14,21 +14,21 @@
  */
 package org.alfresco.po.share.systemsummary.directorymanagement;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.systemsummary.AdvancedAdminConsolePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Class associated with page in admin console system summary page 'Directory Manage'
@@ -59,24 +59,12 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     private final static By RUN_TEST_SYNC = By.xpath("//input[contains(@onclick,'testSync()')]");
     private final static By TEST_STATUS = By.xpath("//p[@id='test-auth-passed']");
 
-    public DirectoryManagementPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
-    public synchronized DirectoryManagementPage render(RenderTime timer)
+    public DirectoryManagementPage render(RenderTime timer)
     {
         webElementRender(timer);
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DirectoryManagementPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -92,19 +80,19 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
      * @param authType AuthType
      * @param authName String
      */
-    public DirectoryManagementPage addAuthChain(AuthType authType, String authName)
+    public HtmlPage addAuthChain(AuthType authType, String authName)
     {
         fillField(COMPANY_DIRECTORY_NAME_INPUT, authName);
         selectAuthChainType(authType);
         click(ADD_DIRECTORY_BUTTON);
         click(SAVE_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     private void selectAuthChainType(AuthType authType)
     {
         checkNotNull(authType);
-        WebElement selectAuthElem = drone.findAndWait(SELECT_DIRECTORY_TYPE);
+        WebElement selectAuthElem = findAndWait(SELECT_DIRECTORY_TYPE);
         Select authSelect = new Select(selectAuthElem);
         authSelect.selectByValue(authType.value);
         waitUntilAlert();
@@ -119,11 +107,11 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     {
         try
         {
-            List<WebElement> elemList = drone.findAndWaitForElements(DIRECTORY_INFO_ROW);
+            List<WebElement> elemList = findAndWaitForElements(DIRECTORY_INFO_ROW);
             List<DirectoryInfoRow> directoryInfoRowList = new ArrayList<>();
             for (WebElement webElement : elemList)
             {
-                directoryInfoRowList.add(new DirectoryInfoRow(webElement, drone));
+                directoryInfoRowList.add(new DirectoryInfoRow(webElement, driver));
             }
             return directoryInfoRowList;
         }
@@ -159,12 +147,12 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
      * @param name String
      * @return DirectoryManagementPage
      */
-    public DirectoryManagementPage removeAuthChain(String name)
+    public HtmlPage removeAuthChain(String name)
     {
         DirectoryInfoRow directoryInfoRow = getDirectoryInfoRowBy(name);
         directoryInfoRow.clickRemove();
         click(SAVE_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -174,7 +162,7 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
      */
     public String getSyncStatus()
     {
-        return drone.findAndWait(SYNC_STATUS).getText();
+        return findAndWait(SYNC_STATUS).getText();
     }
     
     /**
@@ -186,7 +174,7 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     {
         try
         {
-            return drone.find(SYNC_STATUS).isDisplayed();
+            return driver.findElement(SYNC_STATUS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -201,9 +189,9 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
     public void runSync()
     {
         click(RUN_SYNC_BUTTON);
-        drone.switchToFrame("admin-dialog");
+        driver.switchTo().frame("admin-dialog");
         click(By.xpath("//input[@value='Sync']"));
-        drone.switchToDefaultContent();
+        driver.switchTo().defaultContent();
     }
 
     /**
@@ -217,24 +205,24 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
         checkNotNull(name);
         DirectoryInfoRow directoryInfoRow = getDirectoryInfoRowBy(name);
         directoryInfoRow.clickTestSync();
-        drone.switchToFrame("admin-dialog");
+        driver.switchTo().frame("admin-dialog");
         click(RUN_TEST_SYNC);
-        String testStatus = drone.findAndWait(TEST_STATUS).getText();
-        drone.switchToDefaultContent();
+        String testStatus = findAndWait(TEST_STATUS).getText();
+        driver.switchTo().defaultContent();
         return testStatus;
     }
 
     private void click(By locator)
     {
-        drone.waitUntilElementPresent(locator, 5);
-        WebElement element = drone.findAndWait(locator);
-        drone.executeJavaScript("arguments[0].click();", element);
+        waitUntilElementPresent(locator, 5);
+        WebElement element = findAndWait(locator);
+        executeJavaScript("arguments[0].click();", element);
     }
 
     private void fillField(By selector, String text)
     {
         checkNotNull(text);
-        WebElement inputField = drone.findAndWait(selector);
+        WebElement inputField = findAndWait(selector);
         inputField.clear();
         if (text != null)
         {
@@ -242,10 +230,10 @@ public class DirectoryManagementPage extends AdvancedAdminConsolePage
         }
     }
 
-    public DirectoryManagementPage clickSave()
+    public HtmlPage clickSave()
     {
         click(SAVE_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
     
 

@@ -1,16 +1,27 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.contentrule.createrules.selectors.impl;
-
-import org.alfresco.po.share.site.contentrule.createrules.SetPropertyValuePage;
-import org.alfresco.po.share.site.contentrule.createrules.EmailMessageForm;
-import org.alfresco.po.share.site.contentrule.createrules.selectors.AbstractActionSelector;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.alfresco.po.share.site.contentrule.createrules.SetPropertyValuePage;
+import org.alfresco.po.share.site.contentrule.createrules.selectors.AbstractActionSelector;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * User: aliaksei.bul
@@ -23,7 +34,6 @@ public class ActionSelectorEnterpImpl extends AbstractActionSelector
     private static final By LINK_TO_CATEGORY_SELECT_BUTTON = By.cssSelector("span[class*='category'] button");
     private static final By ASPECT_SELECT = By.cssSelector("select[title='aspect-name']");
     private static final By APPROVE_BUTTON = By.cssSelector("span[class*='simple-workflow'] button:not([disabled])");
-    private static final By MESSAGE_BUTTON = By.cssSelector("span[class*='email-dialog'] button");
     private static final By TYPE_SELECTOR = By.cssSelector("span[class*='specialise'] select[param='type-name']");
 
     private enum PerformActions
@@ -54,10 +64,6 @@ public class ActionSelectorEnterpImpl extends AbstractActionSelector
         }
     }
 
-    public ActionSelectorEnterpImpl(WebDrone drone)
-    {
-        super(drone);
-    }
 
     public void selectExecuteScript(String visibleName)
     {
@@ -82,7 +88,7 @@ public class ActionSelectorEnterpImpl extends AbstractActionSelector
     public void selectCheckIn()
     {
         super.selectAction(PerformActions.CHECK_IN.numberPosition);
-        List<WebElement> checkInButtons = getDrone().findAndWaitForElements(CHECK_IN_OPTIONS_BUTTON);
+        List<WebElement> checkInButtons = findAndWaitForElements(CHECK_IN_OPTIONS_BUTTON);
         checkInButtons.get(checkInButtons.size() - 1).click();
         // todo added logic for work with popUp menu.
     }
@@ -97,7 +103,7 @@ public class ActionSelectorEnterpImpl extends AbstractActionSelector
     public void selectLinkToCategory()
     {
         super.selectAction(PerformActions.LINK_TO_CATEGORY.numberPosition);
-        List<WebElement> selectButtons = getDrone().findAndWaitForElements(LINK_TO_CATEGORY_SELECT_BUTTON);
+        List<WebElement> selectButtons = findAndWaitForElements(LINK_TO_CATEGORY_SELECT_BUTTON);
         selectButtons.get(selectButtons.size() - 1).click();
         // todo added logic for work with popUp menu.
     }
@@ -116,7 +122,7 @@ public class ActionSelectorEnterpImpl extends AbstractActionSelector
 
     private void selectAspectType(String visibleAspectName)
     {
-        List<WebElement> aspectElements = getDrone().findAndWaitForElements(ASPECT_SELECT);
+        List<WebElement> aspectElements = findAndWaitForElements(ASPECT_SELECT);
         List<Select> aspectSelects = new ArrayList<Select>();
         for (WebElement aspectElement : aspectElements)
         {
@@ -143,26 +149,9 @@ public class ActionSelectorEnterpImpl extends AbstractActionSelector
     public void selectSimpleWorkFlow()
     {
         super.selectAction(PerformActions.ADD_SIMPLE_WORKFLOW.numberPosition);
-        List<WebElement> approveButtons = getDrone().findAndWaitForElements(APPROVE_BUTTON);
+        List<WebElement> approveButtons = findAndWaitForElements(APPROVE_BUTTON);
         approveButtons.get(approveButtons.size() - 1).click();
         // todo add logic for work with PopUp menu.
-    }
-
-    public EmailMessageForm selectSendEmail()
-    {
-        super.selectAction(PerformActions.SEND_MAIL.numberPosition);
-        List<WebElement> messageButtons = getDrone().findAndWaitForElements(MESSAGE_BUTTON);
-        messageButtons.get(messageButtons.size() - 1).click();
-        EmailMessageForm emailMessageForm = new EmailMessageForm(getDrone());
-        if (emailMessageForm.isDisplay())
-        {
-            return emailMessageForm;
-        }
-        else
-        {
-            throw new PageOperationException("Email Form didn't open.");
-        }
-
     }
 
     public void selectExtractMetadata()
@@ -179,7 +168,7 @@ public class ActionSelectorEnterpImpl extends AbstractActionSelector
     public void selectSpecialiseType(String visibleTypeText)
     {
         super.selectAction(PerformActions.SPECIALISE_TYPE.numberPosition);
-        List<WebElement> typeElements = getDrone().findAndWaitForElements(TYPE_SELECTOR);
+        List<WebElement> typeElements = findAndWaitForElements(TYPE_SELECTOR);
         List<Select> typeSelects = new ArrayList<Select>();
         for (WebElement typeElement : typeElements)
         {
@@ -202,10 +191,9 @@ public class ActionSelectorEnterpImpl extends AbstractActionSelector
 
     public void selectSetPropertyValue(String folderName,String value)
     {
-//        super.selectAction(PerformActions.SET_PROPERTY_VALUE.numberPosition);
         selectSetPropertyValue();
         super.selectPropertyValue(folderName, value);
-        SetPropertyValuePage selectValuePage = new SetPropertyValuePage(getDrone());
+        SetPropertyValuePage selectValuePage = factoryPage.instantiatePage(driver, SetPropertyValuePage.class).render();
         selectValuePage.selectOkButton();
 
     }

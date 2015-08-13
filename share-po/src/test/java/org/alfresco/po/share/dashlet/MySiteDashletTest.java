@@ -23,7 +23,8 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
@@ -31,9 +32,8 @@ import org.alfresco.po.share.dashlet.MySitesDashlet.FavouriteType;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
@@ -64,7 +64,7 @@ public class MySiteDashletTest extends AbstractTest
         siteName = "MySiteTests" + System.currentTimeMillis();
         newSiteName = "NewSiteTests" + System.currentTimeMillis();
         dashBoard = loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
     }
 
     @AfterClass(groups={"alfresco-one"})
@@ -72,7 +72,7 @@ public class MySiteDashletTest extends AbstractTest
     {
         try
         {
-            SiteUtil.deleteSite(drone , siteName);
+            siteUtil.deleteSite(username, password, siteName);
         }
         catch(Exception e)
         {
@@ -84,16 +84,16 @@ public class MySiteDashletTest extends AbstractTest
     @Test
     public void instantiateMySiteDashlet()
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
-        MySitesDashlet dashlet = new MySitesDashlet(drone);
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
+        MySitesDashlet dashlet = dashletFactory.getDashlet(driver, MySitesDashlet.class).render();
         Assert.assertNotNull(dashlet);
     }
     
     @Test(dependsOnMethods="instantiateMySiteDashlet")
     public void getSites() throws Exception
     {
-        MySitesDashlet dashlet = new MySitesDashlet(drone).render();
+        MySitesDashlet dashlet = dashletFactory.getDashlet(driver, MySitesDashlet.class).render();
         if (dashlet.getSites().isEmpty()) saveScreenShot("MySiteDashletTest.getSites.empty");
         List<ShareLink> sites = dashlet.getSites();
         Assert.assertNotNull(sites);
@@ -116,8 +116,8 @@ public class MySiteDashletTest extends AbstractTest
     @Test(dependsOnMethods="selectFakeSite")
     public void selectSite() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MySitesDashlet dashlet = dashBoard.getDashlet("my-sites").render();
         ShareLink link = dashlet.selectSite(siteName);
         SitePage sitePage = link.click().render();
@@ -139,20 +139,21 @@ public class MySiteDashletTest extends AbstractTest
     @Test(dependsOnMethods = "selectSite")
     public void isSiteFavouriteTest()
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MySitesDashlet dashlet = dashBoard.getDashlet("my-sites").render();
-        Assert.assertTrue(dashlet.isSiteFavourite(siteName));
-        dashlet.selectFavorite(siteName);
+        //Site created by api is not a favorite by default.
         Assert.assertFalse(dashlet.isSiteFavourite(siteName));
+        dashlet.selectFavorite(siteName);
+        Assert.assertTrue(dashlet.isSiteFavourite(siteName));
         Assert.assertFalse(dashlet.isSiteFavourite(sampleSiteFullName));
     }
     
     @Test(dependsOnMethods = "isSiteFavouriteTest")
     public void selectMyFavouriteSite()
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MySitesDashlet dashlet = dashBoard.getDashlet("my-sites").render();
         dashBoard = dashlet.selectMyFavourites(FavouriteType.ALL).render();
         dashlet = dashBoard.getDashlet("my-sites").render();
@@ -162,8 +163,8 @@ public class MySiteDashletTest extends AbstractTest
     @Test(dependsOnMethods = "selectMyFavouriteSite")
     public void createSiteFromSiteDashlet() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MySitesDashlet dashlet = dashBoard.getDashlet("my-sites").render();
         Assert.assertTrue(dashlet.isCreateSiteButtonDisplayed(), "Create Site button isn't displayed");
         CreateSitePage createSitePage = dashlet.clickCreateSiteButton().render();
@@ -174,8 +175,8 @@ public class MySiteDashletTest extends AbstractTest
     @Test(dependsOnMethods = "createSiteFromSiteDashlet")
     public void deleteSiteFromSiteDashlet() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MySitesDashlet dashlet = dashBoard.getDashlet("my-sites").render();
         dashlet.deleteSite(newSiteName).render();
         dashlet = dashBoard.getDashlet("my-sites").render();

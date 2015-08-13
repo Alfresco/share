@@ -1,9 +1,23 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.calendar;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -31,11 +45,6 @@ public class InformationEventForm extends AbstractEventForm
     private final static By END_DATE_TIME = By.cssSelector("div[id$='_defaultContainer-enddate']");
     private final static By RECURRENCE_DETAIL = By.xpath("//div[contains(text(),'Recurrence:')]/following-sibling::div");
 
-    public InformationEventForm(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public InformationEventForm render(RenderTime timer)
@@ -53,12 +62,6 @@ public class InformationEventForm extends AbstractEventForm
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public InformationEventForm render(long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Method for click on 'Edit' on information event form
@@ -68,12 +71,12 @@ public class InformationEventForm extends AbstractEventForm
     public EditEventForm clickOnEditEvent()
     {
 
-        drone.findAndWait(EDIT_BUTTON).click();
+        findAndWait(EDIT_BUTTON).click();
         if (logger.isDebugEnabled())
         {
             logger.info("Click edit event button");
         }
-        return new EditEventForm(drone);
+        return factoryPage.instantiatePage(driver, EditEventForm.class);
     }
 
     /**
@@ -83,12 +86,12 @@ public class InformationEventForm extends AbstractEventForm
      */
     public DeleteEventForm clickOnDeleteEvent()
     {
-        drone.findAndWait(DELETE_BUTTON).click();
+        findAndWait(DELETE_BUTTON).click();
         if (logger.isDebugEnabled())
         {
             logger.info("Click delete event button");
         }
-        return new DeleteEventForm(drone);
+        return factoryPage.instantiatePage(driver, DeleteEventForm.class);
 
     }
 
@@ -99,7 +102,7 @@ public class InformationEventForm extends AbstractEventForm
      */
     public boolean isEditButtonPresent()
     {
-        return drone.isElementDisplayed(EDIT_BUTTON);
+        return isElementDisplayed(EDIT_BUTTON);
 
     }
 
@@ -111,7 +114,7 @@ public class InformationEventForm extends AbstractEventForm
     public boolean isDeleteButtonPresent()
     {
         boolean isPresent;
-        isPresent = drone.isElementDisplayed(DELETE_BUTTON);
+        isPresent = isElementDisplayed(DELETE_BUTTON);
         return isPresent;
     }
 
@@ -124,7 +127,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            String tagName = drone.findAndWait(TAG).getText();
+            String tagName = findAndWait(TAG).getText();
             if (!tagName.isEmpty())
                 return tagName;
             else
@@ -145,7 +148,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            String whatDetail = drone.findAndWait(WHAT_DETAIL).getText();
+            String whatDetail = findAndWait(WHAT_DETAIL).getText();
             if (!whatDetail.isEmpty())
                 return whatDetail;
             else
@@ -166,7 +169,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            String whatDetail = drone.findAndWait(WHERE_DETAIL).getText();
+            String whatDetail = findAndWait(WHERE_DETAIL).getText();
             if (!whatDetail.isEmpty())
                 return whatDetail;
             else
@@ -187,7 +190,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            String whatDetail = drone.findAndWait(DESCRIPTION_DETAIL).getText();
+            String whatDetail = findAndWait(DESCRIPTION_DETAIL).getText();
             return whatDetail;
         }
         catch (TimeoutException te)
@@ -201,15 +204,15 @@ public class InformationEventForm extends AbstractEventForm
      *
      * @return CalendarPage
      */
-    public CalendarPage closeInformationForm()
+    public HtmlPage closeInformationForm()
     {
-        drone.findAndWait(OK_BUTTON).click();
+        findAndWait(OK_BUTTON).click();
         if (logger.isDebugEnabled())
         {
             logger.info("Click ok event button");
         }
 
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -222,7 +225,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            String whatDetail = drone.findAndWait(START_DATE_TIME).getText();
+            String whatDetail = findAndWait(START_DATE_TIME).getText();
             if (!whatDetail.isEmpty())
                 return whatDetail;
             else
@@ -244,7 +247,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            String whatDetail = drone.findAndWait(END_DATE_TIME).getText();
+            String whatDetail = findAndWait(END_DATE_TIME).getText();
             if (!whatDetail.isEmpty())
                 return whatDetail;
             else
@@ -265,7 +268,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            return drone.find(DELETE_BUTTON).isEnabled();
+            return driver.findElement(DELETE_BUTTON).isEnabled();
         }
         catch (NoSuchElementException te)
         {
@@ -282,7 +285,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            return drone.find(OK_BUTTON).isEnabled();
+            return driver.findElement(OK_BUTTON).isEnabled();
         }
         catch (NoSuchElementException te)
         {
@@ -299,7 +302,7 @@ public class InformationEventForm extends AbstractEventForm
     {
         try
         {
-            return drone.find(RECURRENCE_DETAIL).isEnabled();
+            return driver.findElement(RECURRENCE_DETAIL).isEnabled();
         }
         catch (NoSuchElementException te)
         {
@@ -318,7 +321,7 @@ public class InformationEventForm extends AbstractEventForm
         {
             try
             {
-                String recurrenceDetail = drone.findAndWait(RECURRENCE_DETAIL).getText();
+                String recurrenceDetail = findAndWait(RECURRENCE_DETAIL).getText();
                 return recurrenceDetail;
             }
             catch (TimeoutException te)

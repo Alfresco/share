@@ -16,8 +16,8 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
+import org.alfresco.po.AbstractTest;
 import org.alfresco.test.FailedTestListener;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -31,7 +31,6 @@ public class AddUserGroupPageTest extends AbstractTest
 {
     private DashBoardPage dashBoard;
     private String groupName = "Add_Group";
-    private String ADD_BUTTON = "td[class*='yui-dt-col-actions'] button";
     private String user = "user" + System.currentTimeMillis() + "@test.com";
 
     @BeforeClass(groups = "Enterprise-only")
@@ -47,15 +46,15 @@ public class AddUserGroupPageTest extends AbstractTest
     @Test(groups = "Enterprise-only")
     public void testsSearchUser() throws Exception
     {
-        GroupsPage groupsPage = dashBoard.getNav().getGroupsPage();
+        GroupsPage groupsPage = dashBoard.getNav().getGroupsPage().render();
         groupsPage = groupsPage.clickBrowse().render();
         NewGroupPage newGroupPage = groupsPage.navigateToNewGroupPage().render();
         newGroupPage.createGroup(groupName, groupName, NewGroupPage.ActionButton.CREATE_GROUP).render();
-        groupsPage = drone.getCurrentPage().render();
+        groupsPage = resolvePage(driver).render();
         groupsPage.selectGroup(groupName);
-        AddUserGroupPage addUser = groupsPage.selectAddUser();
-        addUser.searchUser(user).render(3000);
-        Assert.assertTrue(drone.isElementDisplayed(By.cssSelector(ADD_BUTTON)));
+        AddUserGroupPage addUser = groupsPage.selectAddUser().render();
+        addUser.searchUser(user).render();
+        Assert.assertTrue(addUser.isAddButtonDisplayed());
         addUser.clickClose();
 
     }
@@ -63,17 +62,17 @@ public class AddUserGroupPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", dependsOnMethods = "testsSearchUser")
     public void testClickAddUserButton() throws Exception
     {
-        GroupsPage groupsPage = dashBoard.getNav().getGroupsPage();
+        GroupsPage groupsPage = dashBoard.getNav().getGroupsPage().render();
         groupsPage.clickBrowse();
-        drone.getCurrentPage().render();
+        resolvePage(driver).render();
         groupsPage.selectGroup(groupName);
         AddUserGroupPage addUser = groupsPage.selectAddUser().render();
         addUser.searchUser(user);
         addUser.clickAddUserButton();
-        groupsPage = drone.getCurrentPage().render();
+        groupsPage = resolvePage(driver).render();
         groupsPage.clickBrowse();
         groupsPage.selectGroup(groupName).render();
-        drone.getCurrentPage().render();
+        resolvePage(driver).render();
         List<String> users = groupsPage.getUserList();
         Assert.assertTrue(users.contains(user + " " + user + " (" + user + ")"), "Added user isn't displayed in a group");
 

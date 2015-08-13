@@ -10,12 +10,12 @@ package org.alfresco.po.share.site.document;
 import java.io.File;
 import java.io.IOException;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
@@ -49,14 +49,14 @@ public class DocumentDetailsPagePreviewTest extends AbstractDocumentTest
     {
         siteName = "Site-1" + System.currentTimeMillis();
         loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "Public");
-        site = drone.getCurrentPage().render();
+        siteUtil.createSite(driver, username, password, siteName, "", "Public");
+        site = resolvePage(driver).render();
     }
 
     @AfterClass
     public void deleteSite()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     /**
@@ -67,8 +67,8 @@ public class DocumentDetailsPagePreviewTest extends AbstractDocumentTest
     @Test
     public void testPdfPreview() throws Exception
     {
-        File file1 = SiteUtil.prepareFile("File-1"+System.currentTimeMillis(), "This is a sample file", ".pdf");
-        DocumentLibraryPage documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        File file1 = siteUtil.prepareFile("File-1"+System.currentTimeMillis(), "This is a sample file", ".pdf");
+        DocumentLibraryPage documentLibPage = site.getSiteNav().selectDocumentLibrary().render();
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file1.getCanonicalPath()).render();
         documentLibPage.render();

@@ -16,20 +16,19 @@ package org.alfresco.po.share.workflow;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -65,11 +64,6 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     private final RenderElement workflowDetailsHeader = getVisibleRenderElement(WORKFLOW_DETAILS_HEADER);
     private final RenderElement formFieldsElements = getVisibleRenderElement(By.cssSelector("div[id$='-form-fields']"));
 
-    public AbstractWorkFlowTaskDetailsPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public HtmlPage render(RenderTime timer)
@@ -78,18 +72,12 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public HtmlPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     @SuppressWarnings("unchecked")
     @Override
     public HtmlPage render()
     {
-        return render(maxPageLoadingTime);
+        return render(new RenderTime(maxPageLoadingTime));
     }
 
     /**
@@ -111,7 +99,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.find(WORKFLOW_DETAILS_HEADER).getText();
+            return driver.findElement(WORKFLOW_DETAILS_HEADER).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -128,7 +116,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(By.cssSelector("span[id$='_default-status']")).getText();
+            return findAndWait(By.cssSelector("span[id$='_default-status']")).getText();
         }
         catch (TimeoutException nse)
         {
@@ -146,11 +134,11 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            WebElement cancelButton = drone.find(CANCEL_BUTTON);
-            drone.mouseOver(cancelButton);
+            WebElement cancelButton = driver.findElement(CANCEL_BUTTON);
+            mouseOver(cancelButton);
             cancelButton.click();
-            drone.waitForElement(By.cssSelector("#prompt"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-            List<WebElement> buttons = drone.findAll(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));
+            waitForElement(By.cssSelector("#prompt"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+            List<WebElement> buttons = driver.findElements(By.cssSelector("div#prompt>div.ft>span.button-group>span.yui-button>span.first-child>button"));
             for (WebElement button : buttons)
             {
                 if (button.getText().equals("Yes"))
@@ -159,7 +147,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
                     break;
                 }
             }
-            return new MyTasksPage(drone);
+            return getCurrentPage().render();
         }
         catch (NoSuchElementException nse)
         {
@@ -180,7 +168,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.findAndWait(ASSIGNEE).getText();
+            return findAndWait(ASSIGNEE).getText();
         }
         catch (TimeoutException toe)
         {
@@ -199,7 +187,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
         WorkFlowDetailsGeneralInfo generalInfo = new WorkFlowDetailsGeneralInfo();
         try
         {
-            WebElement infoElement = drone.find(GENERAL_INFO);
+            WebElement infoElement = driver.findElement(GENERAL_INFO);
             generalInfo.setTitle(infoElement.findElement(By.cssSelector("span[id$='_default-title']")).getText());
             generalInfo.setDescription(infoElement.findElement(By.cssSelector("span[id$='_default-description']")).getText());
             generalInfo.setStartedBy(infoElement.findElement(By.cssSelector("span[id$='_default-startedBy']")).getText());
@@ -229,14 +217,14 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
         WorkFlowDetailsMoreInfo moreInfo = new WorkFlowDetailsMoreInfo();
         try
         {
-            if (isBrowserTitle(drone.getValue("workflow.details.page.title")))
+            if (isBrowserTitle(getValue("workflow.details.page.title")))
             {
                 moreInfo.setType(getElementText(By.xpath("//span[@class='viewmode-label' and contains(text(), 'Type:')]/../span[@class='viewmode-value']")));
                 moreInfo.setDestination(getElementText(By.xpath("//span[@class='viewmode-label' and contains(text(), 'Destination:')]/../span[@class='viewmode-value']")));
                 moreInfo.setAfterCompletion(getElementText(By.xpath("//span[@class='viewmode-label' and contains(text(), 'After completion:')]/../span[@class='viewmode-value']")));
                 moreInfo.setLockOnPremise(getElementText(By.xpath("//span[@class='viewmode-label' and contains(text(), 'Lock on-premise content:')]/../span[@class='viewmode-value']")));
 
-                List<WebElement> assignmentElementList = drone.findAndWaitForElements(By.cssSelector("span[id$='hwf_assignment-cntrl-currentValueDisplay']>div"), WAIT_TIME_3000);
+                List<WebElement> assignmentElementList = findAndWaitForElements(By.cssSelector("span[id$='hwf_assignment-cntrl-currentValueDisplay']>div"), getDefaultWaitTime());
                 List<String> assignmentList = new ArrayList<String>();
                 for (WebElement assignment : assignmentElementList)
                 {
@@ -245,7 +233,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
 
                 moreInfo.setAssignmentList(assignmentList);
             }
-            else if (isBrowserTitle(drone.getValue("task.history.page.title")))
+            else if (isBrowserTitle(getValue("task.history.page.title")))
             {
                 moreInfo.setNotification(getElementText(By.xpath("//span[@class='viewmode-label' and contains(text(), 'Send Email Notifications:')]/../span[@class='viewmode-value']")));
             }
@@ -261,7 +249,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.findAll(ITEM_ROW);
+            return driver.findElements(ITEM_ROW);
         }
         catch (NoSuchElementException nse)
         {
@@ -282,7 +270,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
             List<WebElement> itemsRows = getWorkFlowItemElements();
             for (WebElement item : itemsRows)
             {
-                workFlowDetailsItems.add(new WorkFlowDetailsItem(item, drone));
+                workFlowDetailsItems.add(new WorkFlowDetailsItem(item, driver, factoryPage));
             }
             return workFlowDetailsItems;
         }
@@ -313,7 +301,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
         {
             if (item.findElement(By.cssSelector("h3.name")).getText().equals(fileName))
             {
-                workFlowItems.add(new WorkFlowDetailsItem(item, drone));
+                workFlowItems.add(new WorkFlowDetailsItem(item, driver, factoryPage));
             }
         }
         return workFlowItems;
@@ -328,7 +316,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.find(NO_TASKS_MESSAGE).isDisplayed() && getElementText(NO_TASKS_MESSAGE).equals("No tasks");
+            return driver.findElement(NO_TASKS_MESSAGE).isDisplayed() && getElementText(NO_TASKS_MESSAGE).equals("No tasks");
         }
         catch (NoSuchElementException nse)
         {
@@ -340,7 +328,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.findAll(CURRENT_TASKS_LIST);
+            return driver.findElements(CURRENT_TASKS_LIST);
         }
         catch (NoSuchElementException nse)
         {
@@ -361,7 +349,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
             List<WorkFlowDetailsCurrentTask> tasks = new ArrayList<WorkFlowDetailsCurrentTask>();
             for (WebElement item : currentTaskElements)
             {
-                tasks.add(new WorkFlowDetailsCurrentTask(item, drone));
+                tasks.add(new WorkFlowDetailsCurrentTask(item, driver, factoryPage));
             }
             return tasks;
         }
@@ -378,7 +366,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.findAll(HISTORY_LIST);
+            return driver.findElements(HISTORY_LIST);
         }
         catch (NoSuchElementException nse)
         {
@@ -421,7 +409,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.find(CANCEL_BUTTON).isDisplayed();
+            return driver.findElement(CANCEL_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -439,7 +427,7 @@ public abstract class AbstractWorkFlowTaskDetailsPage extends SharePage
     {
         try
         {
-            return drone.find(DELETE_BUTTON).isDisplayed();
+            return driver.findElement(DELETE_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {

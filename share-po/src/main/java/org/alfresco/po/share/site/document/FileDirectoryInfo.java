@@ -1,13 +1,12 @@
 package org.alfresco.po.share.site.document;
 
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.UserProfilePage;
 import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.user.MyProfilePage;
-import org.alfresco.po.share.workflow.DestinationAndAssigneePage;
 import org.alfresco.po.share.workflow.StartWorkFlowPage;
-import org.alfresco.webdrone.HtmlPage;
-
-import java.util.List;
 
 public interface FileDirectoryInfo
 {
@@ -34,8 +33,6 @@ public interface FileDirectoryInfo
      * @return true if folder
      */
     boolean isTypeFolder();
-    boolean isFolderType();
-
 
     /**
      * Gets the description of the file or directory, if none then empty string
@@ -53,21 +50,6 @@ public interface FileDirectoryInfo
      */
     String getContentEditInfo();
 
-    /**
-     * Gets the Tag Information of the file or directory, if none then 'No Tags'
-     * string is returned.
-     *
-     * @return List<String> List of tags added to the content
-     */
-    List<String> getTags();
-
-    /**
-     * Cets the list of inline tags after clicking on tag info icon
-     * string is returned.
-     *
-     * @return List<String> List of inline tags
-     */
-    List<String> getInlineTagsList();
 
     /**
      * Get the {@link List} of added {@link Categories}.
@@ -75,7 +57,6 @@ public interface FileDirectoryInfo
      *
      * @return {@link List} of {@link Categories}
      */
-    @Deprecated
     List<Categories> getCategories();
 
     /**
@@ -140,19 +121,6 @@ public interface FileDirectoryInfo
      */
     String getLikeCount();
 
-    /**
-     * Check if tags are attached to the selected content.
-     *
-     * @return boolean <tt>true</tt> if content has one or more Tags
-     */
-    boolean hasTags();
-
-    /**
-     * Adds the specified Tag to the file or directory.
-     *
-     * @param tagName String tag to be added
-     */
-    void addTag(String tagName);
 
     /**
      * Get NodeRef for the content on the selected data row on DocumentLibrary
@@ -169,36 +137,6 @@ public interface FileDirectoryInfo
      * @return String Content description
      */
     String getTitle();
-
-    /**
-     * Mimics the action of hovering over a tag until edit tag icon appears.
-     */
-    void clickOnAddTag();
-
-    /**
-     * This method gets the status whether given tagname remove button
-     * has found or not.
-     *
-     * @return boolean if icon is displayed
-     */
-    boolean removeTagButtonIsDisplayed(String tagName);
-
-    /**
-     * This method clicks on given tag name remove button.
-     *
-     * @param tagName String tag name
-     */
-    void clickOnTagRemoveButton(String tagName);
-
-    /**
-     * This method is used to click on save button when editing a tag.
-     */
-    void clickOnTagSaveButton();
-
-    /**
-     * This method is used to click on cancel button when editing a tag.
-     */
-    void clickOnTagCancelButton();
 
     /**
      * Selects checkbox next to the contentRow.
@@ -226,13 +164,6 @@ public interface FileDirectoryInfo
      * @return {boolean} <tt>true</tt> if the content is of type folder.
      */
     boolean isFolder();
-
-    /**
-     * Returns whether the file / dir is cloud synced.
-     *
-     * @return boolean
-     */
-    boolean isCloudSynced();
 
     /**
      * Returns whether the file / dir is part of workflow.
@@ -267,28 +198,6 @@ public interface FileDirectoryInfo
      */
     FolderDetailsPage selectViewFolderDetails();
 
-    /**
-     * This method clicks on tag Name link.
-     *
-     * @param tagName String
-     * @return {@link DocumentLibraryPage}
-     */
-    HtmlPage clickOnTagNameLink(String tagName);
-
-    /**
-     * Selects the "Sync to Cloud" link on the select data row on
-     * DocumentLibrary Page.
-     *
-     * @return {@link DestinationAndAssigneePage} response
-     */
-    HtmlPage selectSyncToCloud();
-
-    /**
-     * Selects the edit in google docs link
-     * 
-     * @return {@link DestinationAndAssigneePage} response
-     */
-    HtmlPage selectEditInGoogleDocs();
 
     /**
      * Returns true if Sign In To Alfresco Cloud popup opens (User haven't set up CloudSync)
@@ -298,70 +207,12 @@ public interface FileDirectoryInfo
     boolean isSignUpDialogVisible();
 
     /**
-     * Selects the "unSync to Cloud" link on the select data row on
-     * DocumentLibrary Page.
-     *
-     * @return {@link DestinationAndAssigneePage} response
-     */
-    DocumentLibraryPage selectUnSyncAndRemoveContentFromCloud(boolean doRemoveContentOnCloud);
-
-    /**
-     * Selects the "Sync to Cloud" link on the select data row on
-     * DocumentLibrary Page.
-     *
-     */
-    void selectUnSyncFromCloud();
-
-    /**
-     * Selects the "Force UnSync" link on the selected data row on
-     * DocumentLibrary Page. Only applicable for Cloud environment
-     *
-     * @return DocumentLibraryPage
-     */
-    DocumentLibraryPage selectForceUnSyncInCloud();
-
-    /**
-     * This method verifies the viewCloudSyncInfo link is present or not.
-     *
-     * @return boolean
-     */
-    boolean isViewCloudSyncInfoLinkPresent();
-
-    /**
-     * This method clicks on the viewCloudSyncInfo link.
-     *
-     * @return SyncInfoPage
-     */
-    SyncInfoPage clickOnViewCloudSyncInfo();
-    
-    /**
-     * This method verifies if cloud info button is displayed
-     *
-     * @return SyncInfoPage
-     */
-    boolean isViewCloudSyncInfoDisplayed();
-    
-    /**
-     * This method verifies if cloud info button is displayed with failed
-     *
-     * @return SyncInfoPage
-     */
-    boolean isCloudSyncFailed();
-
-    /**
      * Selects the "Inline Edit" link on the select data row on
      * DocumentLibrary Page.
      *
      * @return {@link InlineEditPage} response
      */
     HtmlPage selectInlineEdit();
-
-    /**
-     * This method clicks on the viewCloudSyncInfo link.
-     *
-     * @return SyncInfoPage
-     */
-    String getCloudSyncType();
 
     /**
      * Retrieve content info (This document is locked by you., This document is locked by you for offline editing., Last sync failed.)
@@ -392,13 +243,6 @@ public interface FileDirectoryInfo
     boolean isEditOfflineLinkPresent();
 
     /**
-     * This method verifies the editInGoogleDocs link is present or not.
-     * 
-     * @return boolean
-     */
-    boolean isEditInGoogleDocsPresent();
-
-    /**
      * This method verifies the delete link is present or not.
      *
      * @return boolean
@@ -411,22 +255,6 @@ public interface FileDirectoryInfo
      */
     HtmlPage selectManageRules();
 
-    /**
-     * Check "UnSync to Cloud" link on the select data row.
-     * DocumentLibrary Page.
-     *
-     * @return {@link DestinationAndAssigneePage} response
-     * <br/><br/>author nshah
-     */
-    boolean isUnSyncFromCloudLinkPresent();
-
-    /**
-     * Verify if the Sync failed icon is displayed or not
-     *
-     * @param waitTime long
-     * @return boolean
-     */
-    boolean isSyncFailedIconPresent(long waitTime);
 
     /**
      * Verify if the Rule icon is displayed or not
@@ -435,27 +263,6 @@ public interface FileDirectoryInfo
      * @return boolean
      */
     boolean isRuleIconPresent(long waitTime);
-
-    /**
-     * Select the link Request Sync from
-     * the actions drop down.
-     */
-    DocumentLibraryPage selectRequestSync();
-
-    /**
-     * Request to sync is present or not.
-     * the actions drop down.
-     */
-    boolean isRequestToSyncLinkPresent();
-
-    /**
-     * Check "Sync to Cloud" link on the select data row.
-     * DocumentLibrary Page.
-     *
-     * @return boolean
-     * <br/><br/>author rmanyam
-     */
-    boolean isSyncToCloudLinkPresent();
 
     /**
      * select Manage permission link from more option of document library.
@@ -581,33 +388,7 @@ public interface FileDirectoryInfo
      */
     boolean isViewInBrowserVisible();
 
-    /**
-     * Sends the keys that needs to be entered for new tag.
-     *
-     * @param tagName String
-     */
-    void enterTagString(final String tagName);
 
-    /**
-     * Sends the keys that needs to be entered in inlineTagEdit input
-     *
-     * @param keysToSend CharSequence...
-     */
-    void sendKeysToTagInput(CharSequence... keysToSend);
-
-    /**
-     * Checks if tag is highlighted in inlineTagEdit input
-     *
-     * @param tagName String
-     */
-    boolean isTagHighlightedOnEdit(final String tagName);
-
-    /**
-     * Click on tag in inlineTagEdit input
-     *
-     * @param tagName String
-     */
-    void clickTagOnEdit(final String tagName);
 
     /**
      * Hovers over the edit icon and clicks the edit button.
@@ -824,39 +605,19 @@ public interface FileDirectoryInfo
      *
      * @return {@link DocumentLibraryPage}
      */
-    DocumentDetailsPage selectViewOriginalDocument();
+    HtmlPage selectViewOriginalDocument();
       
     /**
      * Return the URL of the thumbnail
      * @return String
      */
     public String getThumbnailURL();
-
     public void declareRecord();
     public boolean isTypeRecord();
-
-    /**
-     * This method verifies the Geolocation Metadata icon is present or not.
-     *
-     * @return boolean
-     */
-    public boolean isGeoLocationIconDisplayed();
-
-    /**
-     * This method verifies the EXIF icon is present or not.
-     *
-     * @return boolean
-     */
-    public boolean isEXIFIconDisplayed();
-
     boolean isDownloadPresent();
-
     boolean isMoreMenuButtonPresent();
-
     boolean isTagsFieldPresent();
-
     List<String> getDescriptionList();
-
     String getDescriptionFromInfo();
 
     /***
@@ -864,31 +625,9 @@ public interface FileDirectoryInfo
      * This method clicks on Preview Web Asset for the selected document
      */
     public void selectPreviewWebAsset();
-
-    public boolean isIndirectlySyncedIconPresent();
-    
-    public String getSyncInfoToolTip();
-
-    /**
-     * @deprecated google docs has been discontinued.
-     * @return
-     */
-    public GoogleDocCheckInPage selectCheckInGoogleDoc();
-
-    /**
-     * @deprecated google docs has been discontinued.
-     * @return
-     */
-    public DocumentLibraryPage selectCancelEditingInGoogleDocs();
-
     boolean isModelInfoPresent();
-    
     boolean isModelActive();
-    
     public String getModelName();
-    
     public String getModelDesription();
-    
-    public CopyOrMoveContentPage selectCopyToOnFolderCloud();
-
+//    public CopyOrMoveContentPage selectCopyToOnFolderCloud();
 }

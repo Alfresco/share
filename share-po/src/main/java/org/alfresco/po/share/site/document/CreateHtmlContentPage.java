@@ -18,9 +18,8 @@
  */
 package org.alfresco.po.share.site.document;
 
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.enums.Encoder;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 
 /**
@@ -31,11 +30,8 @@ import org.openqa.selenium.By;
  */
 public class CreateHtmlContentPage extends CreatePlainTextContentPage
 {
-    private static final String TINYMCE_CONTENT = "template_x002e_create-content_x002e_create-content_x0023_default_prop_cm_content_ifr";
-
-    public CreateHtmlContentPage(WebDrone drone)
+    public CreateHtmlContentPage()
     {
-        super(drone);
         CONTENT = By.cssSelector("iframe[id$='default_prop_cm_content_ifr']");
     }
 
@@ -53,22 +49,13 @@ public class CreateHtmlContentPage extends CreatePlainTextContentPage
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public CreateHtmlContentPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
+    TinyMceEditor tinyMCEEditor;
     @Override
     protected void createContentField(ContentDetails details)
     {
         if (details != null && details.getContent() != null)
         {
-            TinyMceEditor tinyMCEEditor = new TinyMceEditor(drone);
-            tinyMCEEditor.setTinyMce(TINYMCE_CONTENT);
-
+            tinyMCEEditor.setTinyMce();
             tinyMCEEditor.setText(details.getContent(), Encoder.ENCODER_HTML);
         }
     }

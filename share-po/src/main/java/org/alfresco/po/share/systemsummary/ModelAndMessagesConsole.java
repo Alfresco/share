@@ -1,8 +1,21 @@
+/*
+ * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.systemsummary;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.openqa.selenium.By;
 
 /**
@@ -14,11 +27,6 @@ public class ModelAndMessagesConsole  extends TenantConsole
     private final static By REPO_FIELD = By.cssSelector("input[name='repo-cmd']");
     @RenderWebElement
     private final static By EXECUTE_BUTTON = By.cssSelector("input[value='Execute']");
-
-    public ModelAndMessagesConsole(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -34,13 +42,6 @@ public class ModelAndMessagesConsole  extends TenantConsole
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ModelAndMessagesConsole render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
     /**
      * Method for send commands
      *
@@ -48,8 +49,8 @@ public class ModelAndMessagesConsole  extends TenantConsole
      */
     public void sendCommand(String request)
     {
-        drone.findAndWait(REPO_FIELD, 60000).clear();
-        drone.findAndWait(REPO_FIELD).sendKeys(String.format("%s", request));
-        drone.findAndWait(EXECUTE_BUTTON).click();
+        findAndWait(REPO_FIELD, 60000).clear();
+        findAndWait(REPO_FIELD).sendKeys(String.format("%s", request));
+        findAndWait(EXECUTE_BUTTON).click();
     }
 }

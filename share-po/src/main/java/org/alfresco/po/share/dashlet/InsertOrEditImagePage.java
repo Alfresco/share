@@ -18,10 +18,10 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,9 +54,9 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
      * @param drone WebDrone
      * @param element WebElement
      */
-    public InsertOrEditImagePage(WebDrone drone, WebElement element)
+    public InsertOrEditImagePage(WebDriver driver, WebElement element)
     {
-        super(drone, element);
+        super(driver, element);
     }
 
     /**
@@ -97,13 +97,6 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
 
     @SuppressWarnings("unchecked")
     @Override
-    public InsertOrEditImagePage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public InsertOrEditImagePage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
@@ -123,7 +116,7 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
 
         try
         {
-            WebElement imageUrlField = drone.findAndWait(IMAGE_URL_CSS);
+            WebElement imageUrlField = findAndWait(IMAGE_URL_CSS);
             imageUrlField.clear();
             imageUrlField.sendKeys(url);
         }
@@ -148,7 +141,7 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
 
         try
         {
-            WebElement descriptionField = drone.findAndWait(IMAGE_DESC_CSS);
+            WebElement descriptionField = findAndWait(IMAGE_DESC_CSS);
             descriptionField.clear();
             descriptionField.sendKeys(desc);
         }
@@ -197,10 +190,10 @@ public class InsertOrEditImagePage extends BaseAdvancedTinyMceOptionsPage
 
         try
         {
-            WebElement widthElement = drone.findAndWait(DIMENSIONS_WIDTH_CSS1);
+            WebElement widthElement = findAndWait(DIMENSIONS_WIDTH_CSS1);
             widthElement.clear();
             widthElement.sendKeys(Long.valueOf(width).toString());
-            WebElement heightElement = drone.findAndWait(DIMENSIONS_HEIGHT_CSS2);
+            WebElement heightElement = findAndWait(DIMENSIONS_HEIGHT_CSS2);
             heightElement.clear();
             heightElement.sendKeys(Long.valueOf(height).toString());
         }

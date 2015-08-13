@@ -14,9 +14,8 @@
  */
 package org.alfresco.po.share;
 
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 
 /**
  * Repository page object, holds all element of the HTML page relating to
@@ -26,57 +25,15 @@ import org.alfresco.webdrone.WebDrone;
  * @author Shan Nagarajan
  * @since 1.0
  */
+@SuppressWarnings("unchecked")
 public class RepositoryPage extends DocumentLibraryPage
 {
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public RepositoryPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     * @param subfolderName a subfolder name when drilling down
-     */
-    public RepositoryPage(WebDrone drone, final String subfolderName)
-    {
-        super(drone, subfolderName);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     * @param shouldHaveFiles a subfolder name when drilling down
-     */
-    public RepositoryPage(WebDrone drone, final boolean shouldHaveFiles)
-    {
-        super(drone);
-    }
 
     @Override
     public RepositoryPage render(RenderTime timer)
     {
         super.render(timer);
         return this;
-    }
-
-    @Override
-    public RepositoryPage render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @Override
-    public RepositoryPage render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**

@@ -3,7 +3,7 @@ package org.alfresco.po.share.site;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.po.share.site.wiki.WikiPage.Mode;
@@ -31,8 +31,8 @@ public class WikiPageLibraryTest extends AbstractTest
     public void searchSite() throws Exception
     {
         dashBoard = loginAs(username, password);
-        drone.navigateTo(shareUrl + "/page/site/swsdp/wiki-page?title=Main_Page");
-        wikiPage = drone.getCurrentPage().render();
+        driver.navigate().to(shareUrl + "/page/site/swsdp/wiki-page?title=Main_Page");
+        wikiPage = resolvePage(driver).render();
     }
     
     @Test
@@ -54,6 +54,6 @@ public class WikiPageLibraryTest extends AbstractTest
     public void  deleteWikiPageAndLogOut()
     {
         wikiPage.deleteWiki();
-        logout(drone);
+        logout(driver);
     }
 }

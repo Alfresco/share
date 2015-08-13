@@ -17,13 +17,12 @@ package org.alfresco.po.share.site;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -45,48 +44,21 @@ public class UpdateFilePage extends SharePage
     private static final String MAJOR_BTN_CSS = "div[id*='%s'] input[id$='majorVersion-radioButton']";
     private static final String MINOR_BTN_CSS = "div[id*='%s'] input[id$='minorVersion-radioButton']";
     private static final String TEXT_AREA_CSS = "div[id*='%s'] textarea[id$='-description-textarea']";
-    private static final String PLANIN_HTML_IDENTIFIER = "html-upload";
     private static final String HTML5_IDENTIFIER = "dnd-upload";
-    private static final String NON_HTML5_INPUT_FILE_FIELD = "input[id$='default-filedata-file']";
     private static final String INPUT_DND_FILE_SELECTION_BUTTON = "input.dnd-file-selection-button";
-    private String textAreaCssLocation;
-    private String minorVersionRadioButton;
-    private String majorVersionRadioButton;
-    private String submitButton;
-    private String cancelButton;
+    // Check if supports HTML5 form input as cloud supports and enterprise doesnt.
+    
+    private String textAreaCssLocation = String.format(TEXT_AREA_CSS, HTML5_IDENTIFIER);
+    private String minorVersionRadioButton = String.format(MINOR_BTN_CSS, HTML5_IDENTIFIER);
+    private String majorVersionRadioButton = String.format(MAJOR_BTN_CSS, HTML5_IDENTIFIER);
+    private String submitButton = String.format(SUBMIT_BTN_CSS, HTML5_IDENTIFIER);
+    private String cancelButton = String.format(CANCEL_BTN_CSS, HTML5_IDENTIFIER);
     private String documentVersion;
-    @SuppressWarnings("unused")
-    private final boolean isEditOffLine;
-
-    /**
-     * Constructor.
-     */
-    public UpdateFilePage(WebDrone drone, final String documentVersion)
-    {
-        this(drone, documentVersion, false);
-    }
-
-    /**
-     * Constructor.
-     */
-    public UpdateFilePage(WebDrone drone, final String documentVersion, final boolean editOffline)
-    {
-        super(drone);
-        this.documentVersion = documentVersion;
-        this.isEditOffLine = editOffline;
-
-        // Check if supports HTML5 form input as cloud supports and enterprise doesnt.
-        String prefix = alfrescoVersion.isFileUploadHtml5() ? HTML5_IDENTIFIER : PLANIN_HTML_IDENTIFIER;
-        textAreaCssLocation = String.format(TEXT_AREA_CSS, prefix);
-        minorVersionRadioButton = String.format(MINOR_BTN_CSS, prefix);
-        majorVersionRadioButton = String.format(MAJOR_BTN_CSS, prefix);
-        submitButton = String.format(SUBMIT_BTN_CSS, prefix);
-        cancelButton = String.format(CANCEL_BTN_CSS, prefix);
-    }
+    private  boolean isEditOffLine;
 
     @SuppressWarnings("unchecked")
     @Override
-    public synchronized UpdateFilePage render(RenderTime timer)
+    public UpdateFilePage render(RenderTime timer)
     {
         RenderElement textArea = RenderElement.getVisibleRenderElement(By.cssSelector(textAreaCssLocation));
         RenderElement minorRadioButton = RenderElement.getVisibleRenderElement(By.cssSelector(minorVersionRadioButton));
@@ -102,19 +74,13 @@ public class UpdateFilePage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public UpdateFilePage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Select the minor version tick box.
      */
     public void selectMinorVersionChange()
     {
-        drone.findAndWait(By.cssSelector(minorVersionRadioButton)).click();
+        findAndWait(By.cssSelector(minorVersionRadioButton)).click();
     }
 
     /**
@@ -122,22 +88,24 @@ public class UpdateFilePage extends SharePage
      */
     public void selectMajorVersionChange()
     {
-        drone.findAndWait(By.cssSelector(majorVersionRadioButton)).click();
+        findAndWait(By.cssSelector(majorVersionRadioButton)).click();
     }
 
     /**
      * Clicks on the submit upload button.
      */
-    public HtmlPage submit()
+    public HtmlPage submitUpload()
     {
         // Get the expected version number
-        String previousVersion = (String) drone.executeJavaScript("Alfresco.getFileUploadInstance(this).showConfig.updateVersion;");
-        drone.findAndWait(By.cssSelector(submitButton)).click();
-        drone.waitUntilNotVisible(By.cssSelector("div[style*='visible'] div.hd span"), "Update File", SECONDS.convert(drone.getDefaultWaitTime(), MILLISECONDS));
-        HtmlPage page = drone.getCurrentPage();
+        String previousVersion = (String) executeJavaScript("Alfresco.getFileUploadInstance(this).showConfig.updateVersion;");
+        findAndWait(By.cssSelector(submitButton)).click();
+        waitUntilNotVisible(By.cssSelector("div[style*='visible'] div.hd span"), "Update File", SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
+        HtmlPage page = getCurrentPage();
         if (page instanceof DocumentDetailsPage)
         {
-            return new DocumentDetailsPage(drone, previousVersion);
+            DocumentDetailsPage ddp = factoryPage.instantiatePage(driver,DocumentDetailsPage.class);
+            ddp.setPreviousVersion(previousVersion);
+            return ddp;
         }
         return page;
     }
@@ -150,15 +118,7 @@ public class UpdateFilePage extends SharePage
      */
     public void uploadFile(final String filePath)
     {
-        WebElement input;
-        if (alfrescoVersion.isFileUploadHtml5())
-        {
-            input = drone.find(By.cssSelector(INPUT_DND_FILE_SELECTION_BUTTON));
-        }
-        else
-        {
-            input = drone.find(By.cssSelector(NON_HTML5_INPUT_FILE_FIELD));
-        }
+        WebElement input = driver.findElement(By.cssSelector(INPUT_DND_FILE_SELECTION_BUTTON));
         input.sendKeys(filePath);
     }
 
@@ -169,7 +129,7 @@ public class UpdateFilePage extends SharePage
      */
     public void setComment(final String comment)
     {
-        WebElement commentBox = drone.find(By.cssSelector(textAreaCssLocation));
+        WebElement commentBox = driver.findElement(By.cssSelector(textAreaCssLocation));
         commentBox.click();
         commentBox.sendKeys(comment);
     }
@@ -181,7 +141,7 @@ public class UpdateFilePage extends SharePage
     {
         try
         {
-            drone.findAndWait(By.cssSelector(cancelButton)).click();
+            findAndWait(By.cssSelector(cancelButton)).click();
         }
         catch (TimeoutException e)
         {
@@ -233,6 +193,20 @@ public class UpdateFilePage extends SharePage
     protected String getDocumentVersion()
     {
         return documentVersion;
+    }
+
+    public boolean isEditOffLine()
+    {
+        return isEditOffLine;
+    }
+
+    public void setDocumentVersion(String documentVersion)
+    {
+        this.documentVersion = documentVersion;
+    }
+    public void setEditOffline(boolean isEditOffline)
+    {
+        this.isEditOffLine = isEditOffline;
     }
 
 }

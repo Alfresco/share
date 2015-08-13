@@ -14,11 +14,9 @@
  */
 package org.alfresco.po.share.search;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.SharePage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -34,18 +32,10 @@ import org.openqa.selenium.WebElement;
  * @author Shan Nagarajan
  * @since 1.1
  */
-public class SearchBox extends HtmlElement
+public class SearchBox extends SharePage
 {
     private final Log logger = LogFactory.getLog(SearchBox.class);
-    private final By selector = By.id("HEADER_SEARCHBOX_FORM_FIELD");
-
-    /**
-     * Constructor.
-     */
-    public SearchBox(WebDrone drone, boolean isDojoSupport)
-    {
-        super(drone);
-    }
+    private final By selector = By.cssSelector("input[id='HEADER_SEARCHBOX_FORM_FIELD']");
 
     /**
      * Performs the search by entering the term into search field
@@ -62,8 +52,7 @@ public class SearchBox extends HtmlElement
         }
         try
         {
-
-            WebElement input = drone.findAndWait(selector);
+            WebElement input = driver.findElement(selector);
             input.clear();
             input.sendKeys(term + "\n");
             if (logger.isTraceEnabled())
@@ -75,7 +64,7 @@ public class SearchBox extends HtmlElement
         catch (NoSuchElementException nse)
         {
         }
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -84,7 +73,7 @@ public class SearchBox extends HtmlElement
      * @param term String term to search
      * @return true when actioned
      */
-    public LiveSearchDropdown liveSearch(final String term)
+    public HtmlPage liveSearch(final String term)
     {
         if (term == null || term.isEmpty())
         {
@@ -93,7 +82,7 @@ public class SearchBox extends HtmlElement
         try
         {
 
-            WebElement input = drone.findAndWait(selector);
+            WebElement input = findAndWait(selector);
             input.clear();
             input.sendKeys(term);
             input.click();
@@ -101,12 +90,11 @@ public class SearchBox extends HtmlElement
             {
                 logger.trace("Apply live search on the keyword: " + term);
             }
-            return new LiveSearchDropdown(drone);
+            return factoryPage.instantiatePage(driver, LiveSearchDropdown.class);
         }
         catch (TimeoutException nse)
         {
             throw new PageException("Live search not displayed.");
         }
     }
-
 }

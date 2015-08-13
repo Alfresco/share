@@ -14,12 +14,18 @@
  */
 package org.alfresco.po.share.workflow;
 
-import org.alfresco.po.share.FactorySharePage;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,14 +36,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Abstract of Workflowpage.
@@ -67,16 +65,6 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     protected static final By WORKFLOW_DESCRIPTION_HELP_ICON = By.cssSelector("img[id$='_prop_bpm_workflowDescription-help-icon']");
     protected static final By WORKFLOW_DESCRIPTION_HELP_MESSAGE = By.cssSelector("div[id$='_prop_bpm_workflowDescription-help']");
 
-    /**
-     * Constructor.
-     * 
-     * @param drone
-     *            WebDriver to access page
-     */
-    public WorkFlowPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /**
      * @param messageString
@@ -89,7 +77,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
         {
             //throw new IllegalArgumentException("Message cannot be Empty or null");
         }
-        WebElement workFlowDescription = getMessageTextareaElement();// drone.findAndWait(MESSAGE_TEXT);
+        WebElement workFlowDescription = getMessageTextareaElement();// findAndWait(MESSAGE_TEXT);
         workFlowDescription.sendKeys(messageString);
     }
 
@@ -116,7 +104,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     public AssignmentPage selectReviewer()
     {
         getSelectReviewButton().click();
-        return new AssignmentPage(drone);
+        return factoryPage.instantiatePage(driver, AssignmentPage.class);
     }
 
     /**
@@ -129,9 +117,9 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
      */
     public HtmlPage selectStartWorkflow()
     {
-        drone.find(SUBMIT_BUTTON).click();
-        drone.waitUntilElementDeletedFromDom(SUBMIT_BUTTON, TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
-        return FactorySharePage.resolvePage(drone);
+        driver.findElement(SUBMIT_BUTTON).click();
+        waitUntilElementDeletedFromDom(SUBMIT_BUTTON, TimeUnit.SECONDS.convert(maxPageLoadingTime, TimeUnit.MILLISECONDS));
+        return getCurrentPage();
     }
 
     /**
@@ -170,7 +158,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     public SelectContentPage clickAddItems()
     {
         clickUnamedButton("Add");
-        return new SelectContentPage(drone);
+        return factoryPage.instantiatePage(driver, SelectContentPage.class);
     }
 
     private void clickUnamedButton(String name)
@@ -179,7 +167,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
         {
             throw new IllegalArgumentException("Name cannot be Empty or null");
         }
-        List<WebElement> elements = drone.findAll(By.cssSelector("button[type='button']"));
+        List<WebElement> elements = driver.findElements(By.cssSelector("button[type='button']"));
         for (WebElement webElement : elements)
         {
             if (name.equals(webElement.getText()))
@@ -227,7 +215,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            return drone.find(NO_ITEM_SELECTED_MESSAGE).isDisplayed() && drone.findAndWait(NO_ITEM_SELECTED_MESSAGE).getText().equals("No items selected");
+            return driver.findElement(NO_ITEM_SELECTED_MESSAGE).isDisplayed() && findAndWait(NO_ITEM_SELECTED_MESSAGE).getText().equals("No items selected");
         }
         catch (NoSuchElementException nse)
         {
@@ -244,7 +232,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            return drone.find(REMOVE_ALL_BUTTON).isEnabled();
+            return driver.findElement(REMOVE_ALL_BUTTON).isEnabled();
         }
         catch (NoSuchElementException nse)
         {
@@ -256,7 +244,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            return drone.findAll(ITEM_ROW);
+            return driver.findElements(ITEM_ROW);
         }
         catch (NoSuchElementException nse)
         {
@@ -278,7 +266,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
 
             for (WebElement item : itemsRows)
             {
-                selectedWorkFlowItems.add(new SelectedWorkFlowItem(item, drone));
+                selectedWorkFlowItems.add(new SelectedWorkFlowItem(item, driver, factoryPage));
             }
             return selectedWorkFlowItems;
         }
@@ -309,7 +297,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
         {
             if (fileName.equals(item.findElement(ITEM_NAME).getText()))
             {
-                selectedWorkFlowItems.add(new SelectedWorkFlowItem(item, drone));
+                selectedWorkFlowItems.add(new SelectedWorkFlowItem(item, driver, factoryPage));
             }
         }
         return selectedWorkFlowItems;
@@ -350,7 +338,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            drone.find(REMOVE_ALL_BUTTON).click();
+            driver.findElement(REMOVE_ALL_BUTTON).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -363,7 +351,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
         try
         {
 
-            return drone.find(ERROR_MESSAGE).isDisplayed();
+            return driver.findElement(ERROR_MESSAGE).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -379,7 +367,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            return drone.find(ERROR_MESSAGE).getText();
+            return driver.findElement(ERROR_MESSAGE).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -391,7 +379,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            return drone.findAndWait(WORKFLOW_COULD_NOT_BE_STARTED_PROMPT_HEADER).getText();
+            return findAndWait(WORKFLOW_COULD_NOT_BE_STARTED_PROMPT_HEADER).getText();
         }
         catch (TimeoutException te)
         {
@@ -403,7 +391,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            return drone.findAndWait(WORKFLOW_COULD_NOT_BE_STARTED_MESSAGE).getText();
+            return findAndWait(WORKFLOW_COULD_NOT_BE_STARTED_MESSAGE).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -418,7 +406,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            drone.find(WORKFLOW_DESCRIPTION_HELP_ICON).click();
+            driver.findElement(WORKFLOW_DESCRIPTION_HELP_ICON).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -435,7 +423,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            return drone.find(WORKFLOW_DESCRIPTION_HELP_MESSAGE).getText();
+            return driver.findElement(WORKFLOW_DESCRIPTION_HELP_MESSAGE).getText();
         }
         catch (NoSuchElementException nse)
         {
@@ -471,8 +459,8 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
         {
             DateTime today = new DateTime();
 
-            drone.waitForElement(DUE_DATED_PICKER, maxPageLoadingTime);
-            drone.find(DUE_DATED_PICKER).click();
+            waitForElement(DUE_DATED_PICKER, maxPageLoadingTime);
+            driver.findElement(DUE_DATED_PICKER).click();
 
             if (dueDate.isBeforeNow()
                     && !dueDate.toLocalDate().toString(DateTimeFormat.forPattern("dd-MM-yyyy"))
@@ -483,13 +471,13 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
             else
             {
 
-                WebElement calenderElement = drone.findAndWait(By.cssSelector("table[id$='_workflowDueDate-cntrl']"));
-                drone.waitForElement(By.cssSelector("a.calnav"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                WebElement calenderElement = findAndWait(By.cssSelector("table[id$='_workflowDueDate-cntrl']"));
+                waitForElement(By.cssSelector("a.calnav"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                 calenderElement.findElement(By.cssSelector("a.calnav")).click();
 
-                WebElement monthAndYearSelector = drone.findAndWait(By.cssSelector("div.yui-cal-nav"));
+                WebElement monthAndYearSelector = findAndWait(By.cssSelector("div.yui-cal-nav"));
 
-                Select monthSelector = new Select(drone.find(By.cssSelector("select[id$='_workflowDueDate-cntrl_nav_month']")));
+                Select monthSelector = new Select(driver.findElement(By.cssSelector("select[id$='_workflowDueDate-cntrl_nav_month']")));
                 monthSelector.selectByValue(String.valueOf(dueDate.getMonthOfYear() - 1));
 
                 monthAndYearSelector.findElement(By.cssSelector("input[id$='_workflowDueDate-cntrl_nav_year']")).clear();
@@ -498,10 +486,9 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
                 monthAndYearSelector.findElement(By.cssSelector("button[id$='_workflowDueDate-cntrl_nav_submit']")).click();
 
                 // Wait for the title to show the month
-                drone.waitUntilVisible(By.cssSelector("a.calnav"), dueDate.toString(DateTimeFormat.forPattern("MMMM yyyy")),
+                waitUntilVisible(By.cssSelector("a.calnav"), dueDate.toString(DateTimeFormat.forPattern("MMMM yyyy")),
                         SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
-                Thread.sleep(1000);
-                calenderElement = drone.findAndWait(By.cssSelector("table[id$='_workflowDueDate-cntrl']>tbody"));
+                calenderElement = findAndWait(By.cssSelector("table[id$='_workflowDueDate-cntrl']>tbody"));
 
 
                 List<WebElement> allDays = calenderElement.findElements(By.cssSelector("a.selector"));
@@ -534,7 +521,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            drone.find(By.cssSelector("div[id$='_workflowDueDate-cntrl'] span.close-icon.calclose")).click();
+            driver.findElement(By.cssSelector("div[id$='_workflowDueDate-cntrl'] span.close-icon.calclose")).click();
         }
         catch (NoSuchElementException nse)
         {
@@ -555,7 +542,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            String due = drone.find(By.cssSelector("input[id$='_workflowDueDate']")).getAttribute("value").substring(0, 10);
+            String due = driver.findElement(By.cssSelector("input[id$='_workflowDueDate']")).getAttribute("value").substring(0, 10);
 
             return (DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(due)).toString(DateTimeFormat.forPattern("dd/MM/yyyy"));
         }
@@ -586,7 +573,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
         List<String> options = new ArrayList<String>();
         try
         {
-            Select priorityOptions = new Select(drone.find(PRIORITY_DROPDOWN));
+            Select priorityOptions = new Select(driver.findElement(PRIORITY_DROPDOWN));
             List<WebElement> optionElements = priorityOptions.getOptions();
 
             for (WebElement option : optionElements)
@@ -610,7 +597,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            Select priorityOptions = new Select(drone.find(PRIORITY_DROPDOWN));
+            Select priorityOptions = new Select(driver.findElement(PRIORITY_DROPDOWN));
             return Priority.getPriority(priorityOptions.getFirstSelectedOption().getText());
         }
         catch (NoSuchElementException nse)
@@ -628,7 +615,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
         {
             throw new IllegalArgumentException("Priority can't be empty.");
         }
-        Select priorityDropDown = new Select(drone.findAndWait(PRIORITY_DROPDOWN));
+        Select priorityDropDown = new Select(findAndWait(PRIORITY_DROPDOWN));
         priorityDropDown.selectByValue(priority.getValue());
     }
 
@@ -641,7 +628,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            return drone.find(REMOVE_ALL_BUTTON).isDisplayed();
+            return driver.findElement(REMOVE_ALL_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -656,7 +643,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
     {
         try
         {
-            drone.findAndWait(SUBMIT_BUTTON).click();
+            findAndWait(SUBMIT_BUTTON).click();
         }
         catch (NoSuchElementException nse)
         {

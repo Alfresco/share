@@ -7,7 +7,7 @@
  */
 package org.alfresco.po.share.site.document.download;
 
-import org.alfresco.po.share.ShareUtil;
+
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.document.AbstractDocumentTest;
@@ -17,7 +17,7 @@ import org.alfresco.po.share.site.document.CreatePlainTextContentPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.FileDirectoryInfo;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -50,10 +50,10 @@ public class DownloadFileAndFolderTest extends AbstractDocumentTest
         siteName = "site" + System.currentTimeMillis();
         folderName = "The first folder";
         folderDescription = String.format("Description of %s", folderName);
-        ShareUtil.loginAs(drone, shareUrl, username, password).render();
-        SiteUtil.createSite(drone, siteName, "description", "Public");
-        SitePage page = drone.getCurrentPage().render();
-        documentLibraryPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        shareUtil.loginAs(driver, shareUrl, username, password).render();
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        SitePage page = resolvePage(driver).render();
+        documentLibraryPage = page.getSiteNav().selectDocumentLibrary().render();
         NewFolderPage newFolderPage = documentLibraryPage.getNavigation().selectCreateNewFolder();
         documentLibraryPage = newFolderPage.createNewFolder(folderName, folderDescription).render();
     }
@@ -61,7 +61,7 @@ public class DownloadFileAndFolderTest extends AbstractDocumentTest
     @AfterClass
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
     
     @Test
@@ -71,7 +71,7 @@ public class DownloadFileAndFolderTest extends AbstractDocumentTest
         ContentDetails details = new ContentDetails();
         details.setName("TextFile");
         DocumentDetailsPage detailsPage = contentPage.create(details).render();
-        documentLibraryPage = detailsPage.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibraryPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
         FileDirectoryInfo row = documentLibraryPage.getFileDirectoryInfo("TextFile");
         row.selectDownload();
         documentLibraryPage.waitForFile(downloadDirectory + "TextFile");

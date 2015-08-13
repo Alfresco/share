@@ -1,15 +1,28 @@
+/*
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.search;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -32,7 +45,7 @@ public class FacetedSearchFacetGroup
      *
      * @param facetGroup the facet group
      */
-    public FacetedSearchFacetGroup(WebDrone drone, WebElement facetGroup)
+    public FacetedSearchFacetGroup(WebDriver driver, WebElement facetGroup)
     {
         this.groupLabel = facetGroup.findElement(GROUP_LABEL).getText();
         List<WebElement> facetFilters = facetGroup.findElements(FACET_FILTER);
@@ -44,7 +57,7 @@ public class FacetedSearchFacetGroup
             int hits = Integer.parseInt(StringUtils.trim(facetFilter.findElement(FACET_FILTER_HITS).getText()));
             if(StringUtils.isNotEmpty(label))
             {
-                this.facets.add(new FacetedSearchFacet(drone, link, label, hits));
+                this.facets.add(new FacetedSearchFacet(driver, link, label, hits));
             }
         }
     }
@@ -74,14 +87,7 @@ public class FacetedSearchFacetGroup
      */
     public class FacetedSearchFacet extends SharePage
     {
-
-        protected FacetedSearchFacet(WebDrone drone)
-        {
-            super(drone);
-            // TODO Auto-generated constructor stub
-        }
-
-        private WebDrone drone;
+        private WebDriver driver;
         private WebElement link;
         private String label;
         private int hits;
@@ -89,15 +95,14 @@ public class FacetedSearchFacetGroup
         /**
          * Instantiates a new faceted search facet.
          *
-         * @param drone the drone
+         * @param driver the driver
          * @param link the link
          * @param label the label
          * @param hits the hits
          */
-        public FacetedSearchFacet(WebDrone drone, WebElement link, String label, int hits)
+        public FacetedSearchFacet(WebDriver driver, WebElement link, String label, int hits)
         {
-            super(drone);
-            this.drone = drone;
+            this.driver = driver;
             this.link = link;
             this.label = label;
             this.hits = hits;
@@ -141,7 +146,7 @@ public class FacetedSearchFacetGroup
         public HtmlPage clickLink()
         {
             this.link.click();
-            return FactorySharePage.resolvePage(this.drone);
+            return factoryPage.getPage(this.driver);
         }
 
         @Override
@@ -151,12 +156,6 @@ public class FacetedSearchFacetGroup
             return null;
         }
 
-        @Override
-        public <T extends HtmlPage> T render(long time)
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
 
         @Override
         public <T extends HtmlPage> T render()

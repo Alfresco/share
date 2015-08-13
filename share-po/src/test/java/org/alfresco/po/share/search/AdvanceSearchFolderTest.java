@@ -19,7 +19,7 @@
 
 package org.alfresco.po.share.search;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.test.FailedTestListener;

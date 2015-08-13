@@ -1,12 +1,27 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.search;
 
 import java.util.List;
 
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.PageElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -14,7 +29,7 @@ import org.openqa.selenium.WebElement;
  * 
  * @author Richard Smith
  */
-public class FacetedSearchConfigFilter
+public class FacetedSearchConfigFilter extends PageElement
 {
     /** Constants. */
     private static final By FILTER_ID = By.cssSelector("td:nth-of-type(2)");
@@ -39,7 +54,7 @@ public class FacetedSearchConfigFilter
     private static Log logger = LogFactory.getLog(FacetedSearchConfigFilter.class);
     // private static final By I_EDIT_CANCEL = By.cssSelector("span.action.cancel");
 
-    private WebDrone drone;
+    private WebDriver driver;
 
     private WebElement filterId;
     private String filterId_text;
@@ -66,14 +81,11 @@ public class FacetedSearchConfigFilter
     /**
      * Instantiates a new faceted search result - some items may be null.
      * 
-     * @param drone the drone
+     * @param driver the driver
      * @param filter the filter
      */
-    public FacetedSearchConfigFilter(WebDrone drone, WebElement filter)
+    public FacetedSearchConfigFilter(WebDriver driver, WebElement filter)
     {
-
-        this.drone = drone;
-
         if (filter.findElements(FILTER_ID).size() > 0)
         {
             filterId = filter.findElement(FILTER_ID);
@@ -287,7 +299,7 @@ public class FacetedSearchConfigFilter
         selectControl.click();
 
         // Find the pop up menu
-        WebElement popupMenu = drone.find(By.id(popupMenuId));
+        WebElement popupMenu = driver.findElement(By.id(popupMenuId));
 
         // Get the pop up menu items
         List<WebElement> menuItems = popupMenu.findElements(I_EDIT_DD_POPUPMENU_ITEM);
@@ -325,7 +337,7 @@ public class FacetedSearchConfigFilter
             if (filterdelete.isDisplayed())
             {
                 filterdelete.click();
-                List<WebElement> buttonNames = drone.findAndWaitForElements(CONFIRM_DELETE);
+                List<WebElement> buttonNames = driver.findElements(CONFIRM_DELETE);
 
                 String buttonName = "Yes";
                 if (!selectYes)
@@ -338,8 +350,8 @@ public class FacetedSearchConfigFilter
                     if (button.getText().equalsIgnoreCase(buttonName) && (button.isDisplayed()))
                     {
                         button.click();
-                        drone.waitUntilVisible(By.cssSelector("div.bd"), "Successfully deleted", 10);
-                        drone.waitUntilNotVisibleWithParitalText(By.cssSelector("div.bd"), "Successfully deleted", 10);
+                        waitUntilVisible(By.cssSelector("div.bd"), "Successfully deleted", 10);
+                        waitUntilNotVisibleWithParitalText(By.cssSelector("div.bd"), "Successfully deleted", 10);
                         break;
                     }
                 }

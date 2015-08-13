@@ -1,17 +1,31 @@
+/*
+ * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * This file is part of Alfresco
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.alfresco.po.share.site.document;
-
-import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.po.share.workflow.SelectContentPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.ShareDialogue;
+import org.alfresco.po.share.workflow.SelectContentPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.TextInput;
 
 /**
  * Abstract of edit properties
@@ -22,12 +36,6 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public abstract class AbstractEditProperties extends ShareDialogue
 {
-    protected AbstractEditProperties(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    private Log logger = LogFactory.getLog(this.getClass());
 
     protected static final By INPUT_NAME_SELECTOR = By.cssSelector("input[id$='prop_cm_name']");
     protected static final By INPUT_TITLE_SELECTOR = By.cssSelector("input[id$='prop_cm_title']");
@@ -53,8 +61,6 @@ public abstract class AbstractEditProperties extends ShareDialogue
     protected static final By INPUT_ENDPOINT_PORT_SELECTOR = By.cssSelector("input[id$='endpointport']");
     protected static final By SELECT_BTN = By.cssSelector(".show-picker button");
     protected static final By TRANSFER_ENABLED = By.cssSelector("input[id$='enabled-entry']");
-    protected static final By USER_NAME = By.cssSelector("input[id$='username']");
-    protected static final By PASSWORD = By.cssSelector("input[id$='password']");
     protected static final By INPUT_SITE_CONFIGURATION_SELECTOR = By.cssSelector("textarea[id$='siteConfig']");
     protected static final By INPUT_SITE_HOSTNAME_SELECTOR = By.cssSelector("input[id$='hostName']");
     protected static final By WEB_ASSETS_LIST = By.cssSelector("div[id$='webassets-cntrl-currentValueDisplay']");
@@ -81,7 +87,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     protected String getValue(By by)
     {
-        return drone.findAndWait(by).getAttribute("value");
+        return findAndWait(by).getAttribute("value");
     }
 
     /**
@@ -99,7 +105,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public void setName(final String name)
     {
-        setInput(drone.findAndWait(INPUT_NAME_SELECTOR), name);
+        setInput(findAndWait(INPUT_NAME_SELECTOR), name);
     }
 
     /**
@@ -117,7 +123,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public void setDocumentTitle(final String title)
     {
-        setInput(drone.findAndWait(INPUT_TITLE_SELECTOR), title);
+        setInput(findAndWait(INPUT_TITLE_SELECTOR), title);
     }
 
     /**
@@ -135,7 +141,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public void setDescription(final String description)
     {
-        setInput(drone.findAndWait(INPUT_DESCRIPTION_SELECTOR), description);
+        setInput(findAndWait(INPUT_DESCRIPTION_SELECTOR), description);
     }
 
     /**
@@ -145,9 +151,9 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public TagPage getTag()
     {
-        WebElement tagElement = drone.findAndWait(BUTTON_SELECT_TAG);
+        WebElement tagElement = findAndWait(BUTTON_SELECT_TAG);
         tagElement.findElement(By.tagName("button")).click();
-        return new TagPage(drone);
+        return factoryPage.instantiatePage(driver, TagPage.class);
     }
 
     /**
@@ -157,9 +163,9 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public CategoryPage getCategory()
     {
-        WebElement tagElement = drone.findAndWait(CATEGORY_BUTTON_SELECT_TAG);
+        WebElement tagElement = findAndWait(CATEGORY_BUTTON_SELECT_TAG);
         tagElement.findElement(By.tagName("button")).click();
-        return new CategoryPage(drone);
+        return factoryPage.instantiatePage(driver, CategoryPage.class);
     }
 
     /**
@@ -174,7 +180,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
         List<Categories> categories = new ArrayList<Categories>();
         try
         {
-            List<WebElement> categoryElements = drone.findAndWaitForElements(By.cssSelector("div[class='itemtype-cm:category']"));
+            List<WebElement> categoryElements = findAndWaitForElements(By.cssSelector("div[class='itemtype-cm:category']"));
             for (WebElement webElement : categoryElements)
             {
                 categories.add(Categories.getCategory(webElement.getText()));
@@ -197,7 +203,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
         List<String> categories = new ArrayList<>();
         try
         {
-            List<WebElement> categoryElements = drone.findAndWaitForElements(By.cssSelector("div[class='itemtype-cm:category']"));
+            List<WebElement> categoryElements = findAndWaitForElements(By.cssSelector("div[class='itemtype-cm:category']"));
             for (WebElement webElement : categoryElements)
             {
                 categories.add(webElement.getText());
@@ -215,7 +221,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public void clickOnCancel()
     {
-        drone.findAndWait(By.cssSelector("button[id$='form-cancel-button']")).click();
+        findAndWait(By.cssSelector("button[id$='form-cancel-button']")).click();
     }
 
     /**
@@ -223,10 +229,9 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public void clickSave()
     {
-        WebElement saveButton = drone.findAndWait(By.cssSelector("button[id$='form-submit-button']"));
+        WebElement saveButton = findAndWait(By.cssSelector("button[id$='form-submit-button']"));
         if (saveButton.isDisplayed())
         {
-            String id = saveButton.getAttribute("id");
             saveButton.click();
             waitUntilAlert();
         }
@@ -237,7 +242,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public void clickAllProperties()
     {
-        drone.findAndWait(BUTTON_ALL_PROPERTIES).click();
+        findAndWait(BUTTON_ALL_PROPERTIES).click();
     }
 
     /**
@@ -246,7 +251,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
 
     public void setModelActive()
     {
-        drone.findAndWait(CHECK_BOX_MODEL_ACTIVE).click();
+        findAndWait(CHECK_BOX_MODEL_ACTIVE).click();
 
     }
     
@@ -258,7 +263,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
     {
         try
         {
-            return drone.find(CHECK_BOX_MODEL_ACTIVE).isSelected();
+            return driver.findElement(CHECK_BOX_MODEL_ACTIVE).isSelected();
         }
         catch (TimeoutException te)
         {
@@ -273,40 +278,42 @@ public abstract class AbstractEditProperties extends ShareDialogue
 
     public void setWorkflowDeployed()
     {
-        drone.findAndWait(CHECK_BOX_WORKFLOW_DEPLOYED).click();
+        findAndWait(CHECK_BOX_WORKFLOW_DEPLOYED).click();
 
     }
 
     public void setEndpointHost(String endpointHost)
     {
-        setInput(drone.findAndWait(INPUT_ENDPOINT_HOST_SELECTOR), endpointHost);
+        setInput(findAndWait(INPUT_ENDPOINT_HOST_SELECTOR), endpointHost);
     }
 
     public void setEndpointPort(String endpointPort)
     {
-        setInput(drone.findAndWait(INPUT_ENDPOINT_PORT_SELECTOR), endpointPort);
+        setInput(findAndWait(INPUT_ENDPOINT_PORT_SELECTOR), endpointPort);
     }
 
+    @FindBy(css="input[id$='username']") TextInput usernameInput;
     public void setUserName(String username)
     {
-        drone.clearAndType(USER_NAME, username);
+        usernameInput.sendKeys(username);
     }
 
+    @FindBy(css="input[id$='password']") TextInput passwordInput;
     public void setPassword(String password)
     {
-        drone.clearAndType(PASSWORD, password);
+        passwordInput.sendKeys(password);
     }
 
     public SelectContentPage clickSelect()
     {
-        WebElement selectBtn = drone.findAndWait(SELECT_BTN);
+        WebElement selectBtn = findAndWait(SELECT_BTN);
         selectBtn.click();
-        return new SelectContentPage(drone);
+        return factoryPage.instantiatePage(driver, SelectContentPage.class);
     }
 
     public void selectTransferEnabled()
     {
-        drone.findAndWait(TRANSFER_ENABLED).click();
+        findAndWait(TRANSFER_ENABLED).click();
     }
     
     /**
@@ -316,7 +323,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public void setLocation(final String location)
     {
-        setInput(drone.findAndWait(INPUT_RECORD_LOCATION), location);
+        setInput(findAndWait(INPUT_RECORD_LOCATION), location);
     }
 
     /**
@@ -326,7 +333,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
      */
     public void setEmailAlias(String alias)
     {
-        setInput(drone.findAndWait(INPUT_EMAIL_ALIAS), alias);
+        setInput(findAndWait(INPUT_EMAIL_ALIAS), alias);
     }
 
 }

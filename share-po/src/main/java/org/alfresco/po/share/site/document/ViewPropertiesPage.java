@@ -14,12 +14,10 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.ShareDialogue;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -43,16 +41,6 @@ public class ViewPropertiesPage extends ShareDialogue
     protected static final String VERSION_BUTTON = "button[id*='versionNav-button']";
     protected static final By VIEW_PROPERTIES_FORM = By.cssSelector("div[id*='PropertiesViewer'] div[class='form-container']");
 
-
-
-    /**
-     * Constructor.
-     */
-    public ViewPropertiesPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public ViewPropertiesPage render(RenderTime timer)
@@ -68,13 +56,6 @@ public class ViewPropertiesPage extends ShareDialogue
     return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public ViewPropertiesPage render(final long time)
-    {
-    return render(new RenderTime(time));
-    }
-
     /**
      * Verify if view properties element,
      * that contains the form is visible.
@@ -87,7 +68,7 @@ public class ViewPropertiesPage extends ShareDialogue
         {
             if (!isShareDialogueDisplayed())
             {
-                return drone.find(VIEW_PROPERTIES_FORM).isDisplayed();
+                return driver.findElement(VIEW_PROPERTIES_FORM).isDisplayed();
             }
             else
             {
@@ -112,11 +93,11 @@ public class ViewPropertiesPage extends ShareDialogue
         {
             if (forward)
             {
-                drone.findAndWait(By.cssSelector(NEXT_BUTTON)).click();
+                findAndWait(By.cssSelector(NEXT_BUTTON)).click();
             }
             else
             {
-                drone.findAndWait(By.cssSelector(PREVIOUS_BUTTON)).click();
+                findAndWait(By.cssSelector(PREVIOUS_BUTTON)).click();
             }
         }
         catch (TimeoutException exception)
@@ -132,7 +113,7 @@ public class ViewPropertiesPage extends ShareDialogue
     HtmlPage closeDialogue()
     {
         clickClose();
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -175,7 +156,7 @@ public class ViewPropertiesPage extends ShareDialogue
     {
         try
         {
-            WebElement versionButton = drone.findAndWait(By.cssSelector(VERSION_BUTTON));
+            WebElement versionButton = findAndWait(By.cssSelector(VERSION_BUTTON));
             return versionButton;
         }
         catch (NoSuchElementException nse)

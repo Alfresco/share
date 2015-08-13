@@ -15,24 +15,23 @@
 
 package org.alfresco.po.share.user;
 
-import org.alfresco.po.share.FactorySharePage;
+import java.util.List;
+
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePopup;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneImpl;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 /**
  * As part of 42 new features the user can recover or completely delete from the
@@ -43,7 +42,7 @@ import java.util.List;
  * @author Subashni Prasanna
  * @since 1.7.0
  */
-public class TrashCanItem extends HtmlElement
+public class TrashCanItem extends PageElement
 {
     private WebElement webElement;
     private static final By TRASHCAN_ITEM_NAME = By.cssSelector("div.name");
@@ -53,19 +52,24 @@ public class TrashCanItem extends HtmlElement
     private static final By TRASHCAN_ITEM_FOLDER = By.cssSelector("img[src*='-folder']");
     private static final By TRASHCAN_TIEM_SITE = By.cssSelector("img[src*='-site']");
     protected static final By TRASHCAN_SELECT_ITEM_CHECKBOX = By.cssSelector("input[id^='checkbox']");
-    protected static final By TRASHCAN_BUTTON = By.cssSelector("td[class$='yui-dt-col-actions yui-dt-last'] button");
+    protected static final By TRASHCAN_BUTTON = By.cssSelector("button[id$='button']");
     private boolean deleteInitiator = false;
 
     /**
      * Constructor
      * 
      * @param element {@link WebElement}
+<<<<<<< .working
+     * @param driver
+=======
      * @param drone WebDrone
+>>>>>>> .merge-right.r109852
      */
-    public TrashCanItem(WebElement element, WebDrone drone)
+    public TrashCanItem(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
-        super(drone);
         webElement = element;
+        this.driver = driver;
+        this.factoryPage = factoryPage;
     }
 
     /**
@@ -230,7 +234,7 @@ public class TrashCanItem extends HtmlElement
         {
             throw new PageOperationException("The trashcan list is empty or cannot select an item for the given filename and folder name", nse);
         }
-        return new TrashCanPage(drone);
+        return getCurrentPage().render();
     }
 
     /**
@@ -282,9 +286,9 @@ public class TrashCanItem extends HtmlElement
                             break;
                         }
                     }
-                    if (drone.isElementDisplayed(By.cssSelector("div.bd>span.message")))
+                    if (isDisplayed(By.cssSelector("div.bd>span.message")))
                     {
-                        String text = drone.find(By.cssSelector("div.bd>span.message")).getText();
+                        String text = driver.findElement(By.cssSelector("div.bd>span.message")).getText();
                         if (text.contains("Failed to recover"))
                         {
                             throw new ShareException("Failed to recover");
@@ -296,7 +300,9 @@ public class TrashCanItem extends HtmlElement
             }
             if (trashCanActionType.equals(TrashCanValues.DELETE))
             {
-                return new TrashCanDeleteConfirmationPage(drone, deleteInitiator);
+                TrashCanDeleteConfirmationPage p = factoryPage.instantiatePage(driver, TrashCanDeleteConfirmationPage.class);
+                p.setDeleteInitiator(deleteInitiator);
+                return p;
             }
             return returnPage;
         }
@@ -318,13 +324,13 @@ public class TrashCanItem extends HtmlElement
     {
         try
         {
-            WebElement button = drone.find(locator);
+            WebElement button = driver.findElement(locator);
             String id = button.getAttribute("id");
             button.click();
             By locatorById = By.id(id);
-            long elementWaitInSeconds = ((WebDroneImpl) drone).getDefaultWaitTime() / 1000;
-            long popupRendertime = ((WebDroneImpl) drone).getDefaultWaitTime() / 1000;
-            RenderTime time = new RenderTime(maxTime);
+            long elementWaitInSeconds = getDefaultWaitTime() / 1000;
+            long popupRendertime = getDefaultWaitTime() / 1000;
+            RenderTime time = new RenderTime(getDefaultWaitTime());
             time.start();
             while (true)
             {
@@ -333,13 +339,13 @@ public class TrashCanItem extends HtmlElement
                     switch (elementState)
                     {
                         case INVISIBLE:
-                            drone.waitUntilElementDisappears(locatorById, elementWaitInSeconds);
+                            waitUntilElementDisappears(locatorById, elementWaitInSeconds);
                             break;
                         case DELETE_FROM_DOM:
-                            drone.waitUntilElementDeletedFromDom(locatorById, elementWaitInSeconds);
+                            waitUntilElementDeletedFromDom(locatorById, elementWaitInSeconds);
                             break;
                         case VISIBLE:
-                            drone.waitUntilElementPresent(By.cssSelector("div.ft>span button"), elementWaitInSeconds);
+                            waitUntilElementPresent(By.cssSelector("div.ft>span button"), elementWaitInSeconds);
                             break;
                         default:
                             throw new UnsupportedOperationException(elementState + "is not currently supported by submit.");
@@ -347,7 +353,7 @@ public class TrashCanItem extends HtmlElement
                 }
                 catch (TimeoutException e)
                 {
-                    SharePopup errorPopup = new SharePopup(drone);
+                    SharePopup errorPopup = getCurrentPage().render();
                     try
                     {
                         errorPopup.render(new RenderTime(popupRendertime));
@@ -364,7 +370,7 @@ public class TrashCanItem extends HtmlElement
                 }
                 break;
             }
-            return FactorySharePage.resolvePage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException te)
         {

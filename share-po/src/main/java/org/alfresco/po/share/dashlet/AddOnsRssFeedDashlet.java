@@ -14,17 +14,21 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
-import org.openqa.selenium.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageRenderTimeException;
+import org.alfresco.po.share.ShareLink;
+import org.alfresco.po.share.exception.ShareException;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+@FindBy(xpath="//div[count(./div[@class='toolbar'])=1 and contains(@class,'rssfeed')]")
 /**
  * @author Aliaksei Boole
  */
@@ -36,18 +40,16 @@ public class AddOnsRssFeedDashlet extends AbstractDashlet implements Dashlet
     protected static final By LOADING_ITEMS = By.cssSelector(".title");
     protected static String HEADER_INFO = "div[class$='dashlet rssfeed resizable yui-resize'] > div[class$='toolbar'] > div";
 
-    /**
-     * Constructor.
-     */
-    protected AddOnsRssFeedDashlet(WebDrone drone)
-    {
-        super(drone, DASHLET_CONTAINER_PLACEHOLDER);
-        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
-    }
-
+//    /**
+//     * Constructor.
+//     */
+//    protected AddOnsRssFeedDashlet(WebDriver driver)
+//    {
+//        super(driver, DASHLET_CONTAINER_PLACEHOLDER);
+//        setResizeHandle(By.xpath(".//div[contains (@class, 'yui-resize-handle')]"));
+//    }
     @SuppressWarnings("unchecked")
-    @Override
-    public synchronized AddOnsRssFeedDashlet render(RenderTime timer)
+    public  AddOnsRssFeedDashlet render(RenderTime timer)
     {
         try
         {
@@ -66,7 +68,7 @@ public class AddOnsRssFeedDashlet extends AbstractDashlet implements Dashlet
                 }
                 try
                 {
-                    this.dashlet = drone.findAndWait((DASHLET_CONTAINER_PLACEHOLDER), 100L, 10L);
+                    this.dashlet = findAndWait((DASHLET_CONTAINER_PLACEHOLDER), 100L, 10L);
                     break;
                 }
                 catch (NoSuchElementException e)
@@ -90,26 +92,12 @@ public class AddOnsRssFeedDashlet extends AbstractDashlet implements Dashlet
         }
         return this;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public AddOnsRssFeedDashlet render(long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public AddOnsRssFeedDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
     /**
      * This method gets the focus by placing mouse over on Site RSS Feed Dashlet.
      */
     protected void getFocus()
     {
-        drone.mouseOver(dashlet.findElement(DASHLET_CONTAINER_PLACEHOLDER));
+        mouseOver(dashlet.findElement(DASHLET_CONTAINER_PLACEHOLDER));
     }
 
     /**
@@ -121,9 +109,9 @@ public class AddOnsRssFeedDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.mouseOver(drone.find(titleBarActions));
+            mouseOver(driver.findElement(titleBarActions));
             dashlet.findElement(CONFIGURE_DASHLET_ICON).click();
-            return new RssFeedUrlBoxPage(drone).render();
+            return factoryPage.instantiatePage(driver, RssFeedUrlBoxPage.class).render();
         }
         catch (TimeoutException te)
         {
@@ -161,7 +149,7 @@ public class AddOnsRssFeedDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.mouseOver(drone.find(titleBarActions));
+            mouseOver(driver.findElement(titleBarActions));
             return dashlet.findElement(CONFIGURE_DASHLET_ICON).isDisplayed();
         }
         catch (TimeoutException te)
@@ -180,10 +168,10 @@ public class AddOnsRssFeedDashlet extends AbstractDashlet implements Dashlet
         List<ShareLink> rssLinks = new ArrayList<ShareLink>();
         try
         {
-            List<WebElement> links = drone.findAll(By.cssSelector(".headline>h4>a"));
+            List<WebElement> links = driver.findElements(By.cssSelector(".headline>h4>a"));
             for (WebElement div : links)
             {
-                rssLinks.add(new ShareLink(div, drone));
+                rssLinks.add(new ShareLink(div, driver, factoryPage));
             }
         }
         catch (NoSuchElementException nse)
@@ -196,7 +184,13 @@ public class AddOnsRssFeedDashlet extends AbstractDashlet implements Dashlet
     
     public void waitUntilLoadingDisappears()
     {
-        drone.waitUntilElementDisappears(By.cssSelector("div[class$='dashlet-padding'] > h3"), 30);
+        waitUntilElementDisappears(By.cssSelector("div[class$='dashlet-padding'] > h3"), 30);
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public AddOnsRssFeedDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 
 }

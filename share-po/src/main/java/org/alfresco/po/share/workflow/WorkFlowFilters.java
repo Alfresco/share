@@ -18,61 +18,56 @@
  */
 package org.alfresco.po.share.workflow;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.PageElement;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * @author Aliaksei Boole
  */
-public class WorkFlowFilters extends HtmlElement
+public class WorkFlowFilters extends PageElement
 {
     private static final Logger logger = Logger.getLogger(WorkFlowFilters.class);
     private final static String PRIORITY_XPATH_TEMPLATE = "//a[@rel='%s']";
     private final static String WORKFLOW_TYPE_TEMPLATE = "//a[text()='%s']";
 
-    public WorkFlowFilters(WebDrone drone)
-    {
-        super(drone);
-    }
 
     public HtmlPage select(StartedFilter startedFilter)
     {
         checkNotNull(startedFilter);
-        drone.findAndWait(startedFilter.by).click();
+        driver.findElement(startedFilter.by).click();
         waitUntilAlert();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     public HtmlPage select(DueFilters dueFilters)
     {
         checkNotNull(dueFilters);
-        drone.findAndWait(dueFilters.by).click();
+        driver.findElement(dueFilters.by).click();
         waitUntilAlert();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     public HtmlPage select(Priority priority)
     {
         checkNotNull(priority);
         By xpath = By.xpath(String.format(PRIORITY_XPATH_TEMPLATE, priority.getValue()));
-        drone.findAndWait(xpath).click();
+        driver.findElement(xpath).click();
         waitUntilAlert();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     public HtmlPage select(WorkFlowType workFlowType)
     {
         checkNotNull(workFlowType);
         By xpath = By.xpath(String.format(WORKFLOW_TYPE_TEMPLATE, workFlowType.getTitle()));
-        drone.findAndWait(xpath).click();
+        driver.findElement(xpath).click();
         waitUntilAlert();
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     protected void waitUntilAlert()
@@ -81,8 +76,8 @@ public class WorkFlowFilters extends HtmlElement
         try
         {
             By AlertMessage = By.xpath(".//*[@id='message']/div/span");
-            drone.waitUntilElementPresent(AlertMessage, WAIT_ALERT_PRESENT);
-            drone.waitUntilElementDeletedFromDom(AlertMessage, 3);
+            waitUntilElementPresent(AlertMessage, WAIT_ALERT_PRESENT);
+            waitUntilElementDeletedFromDom(AlertMessage, 3);
         }
         catch (TimeoutException ex)
         {

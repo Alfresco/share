@@ -18,22 +18,30 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.*;
-import org.alfresco.po.share.task.EditTaskPage;
-import org.alfresco.po.share.task.TaskDetailsPage;
-import org.alfresco.po.share.workflow.*;
-import org.alfresco.webdrone.exception.PageException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.testng.Assert.*;
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.DashBoardPage;
+import org.alfresco.po.share.MyTasksPage;
+import org.alfresco.po.share.ShareLink;
+import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.task.EditTaskPage;
+import org.alfresco.po.share.task.TaskDetailsPage;
+import org.alfresco.po.share.workflow.NewWorkflowPage;
+import org.alfresco.po.share.workflow.Priority;
+import org.alfresco.po.share.workflow.StartWorkFlowPage;
+import org.alfresco.po.share.workflow.WorkFlowFormDetails;
+import org.alfresco.po.share.workflow.WorkFlowType;
+import org.joda.time.DateTime;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 /**
  * Integration test my activities dashlet page elements.
@@ -43,7 +51,6 @@ import static org.testng.Assert.*;
  */
 public class MyTasksDashletTest extends AbstractTest
 {
-    private static Log logger = LogFactory.getLog(MyTasksDashletTest.class);
     private DashBoardPage dashBoard;
     private MyTasksPage myTasksPage;
     private String taskName = "myTask";
@@ -64,7 +71,7 @@ public class MyTasksDashletTest extends AbstractTest
     @Test(groups = { "alfresco-one" })
     public void instantiateMyTasksDashlet()
     {
-        MyTasksDashlet dashlet = new MyTasksDashlet(drone);
+        MyTasksDashlet dashlet = factoryPage.instantiatePage(driver, MyTasksDashlet.class);
         assertNotNull(dashlet);
     }
 
@@ -74,7 +81,7 @@ public class MyTasksDashletTest extends AbstractTest
     @Test(dependsOnMethods = "selectMyTasksDashlet", groups = { "alfresco-one" })
     public void getTasksShouldBeEmpty()
     {
-        MyTasksDashlet dashlet = new MyTasksDashlet(drone).render();
+        MyTasksDashlet dashlet = factoryPage.instantiatePage(driver, MyTasksDashlet.class);
         List<ShareLink> tasks = dashlet.getTasks();
 
         assertNotNull(tasks);
@@ -119,9 +126,9 @@ public class MyTasksDashletTest extends AbstractTest
 
         for (int i = 1; i < 3; i++)
         {
-            SharePage page = drone.getCurrentPage().render();
-            myTasksPage = page.getNav().selectMyTasks();
-            StartWorkFlowPage startWorkFlowPage = myTasksPage.selectStartWorkflowButton();
+            SharePage page = resolvePage(driver).render();
+            myTasksPage = page.getNav().selectMyTasks().render();
+            StartWorkFlowPage startWorkFlowPage = myTasksPage.selectStartWorkflowButton().render();
             NewWorkflowPage workFlow = (NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW).render();
             WorkFlowFormDetails formDetails = new WorkFlowFormDetails();
             formDetails.setMessage(taskName + i);
@@ -130,13 +137,13 @@ public class MyTasksDashletTest extends AbstractTest
             formDetails.setTaskPriority(Priority.MEDIUM);
             workFlow.startWorkflow(formDetails).render();
         }
-        SharePage page = drone.getCurrentPage().render();
-        myTasksPage = page.getNav().selectMyTasks();
-        EditTaskPage editTaskPage = myTasksPage.navigateToEditTaskPage(taskName + "2");
+        SharePage page = resolvePage(driver).render();
+        myTasksPage = page.getNav().selectMyTasks().render();
+        EditTaskPage editTaskPage = myTasksPage.navigateToEditTaskPage(taskName + "2").render();
         editTaskPage.selectTaskDoneButton().render();
 
-        page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MyTasksDashlet dashlet = dashBoard.getDashlet("tasks").render();
         dashlet.selectTasksFilter(MyTasksFilter.ACTIVE_TASKS).render();
         assertTrue(dashlet.isTaskPresent(taskName + "1"), taskName + "1 is not found");
@@ -147,8 +154,8 @@ public class MyTasksDashletTest extends AbstractTest
     @Test(dependsOnMethods = "isTaskPresent", groups = { "Enterprise-only" })
     public void selectEditTask() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MyTasksDashlet dashlet = dashBoard.getDashlet("tasks").render();
         dashlet.selectTasksFilter(MyTasksFilter.ACTIVE_TASKS).render();
         assertTrue(dashlet.isTaskEditButtonEnabled(taskName + "1"), "Edit Task button is disabled");
@@ -159,8 +166,8 @@ public class MyTasksDashletTest extends AbstractTest
     @Test(dependsOnMethods = "selectEditTask", groups = { "Enterprise-only" })
     public void selectViewTask() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MyTasksDashlet dashlet = dashBoard.getDashlet("tasks").render();
         dashlet.selectTasksFilter(MyTasksFilter.ACTIVE_TASKS).render();
         assertTrue (dashlet.isTaskViewButtonEnabled(taskName + "1"), "View Task button is disabled");
@@ -171,18 +178,18 @@ public class MyTasksDashletTest extends AbstractTest
     @Test(dependsOnMethods = "selectViewTask", groups = { "Enterprise-only" })
     public void selectComplete() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MyTasksDashlet dashlet = dashBoard.getDashlet("tasks").render();
-        myTasksPage = dashlet.selectComplete();
+        myTasksPage = dashlet.selectComplete().render();
         assertTrue(myTasksPage.isFilterTitle("Completed Tasks"), "Completed Tasks page don't open");
     }
 
     @Test(dependsOnMethods = "selectComplete", groups = { "Enterprise-only" })
     public void selectActive() throws Exception
     {
-        SharePage page = drone.getCurrentPage().render();
-        dashBoard = page.getNav().selectMyDashBoard();
+        SharePage page = resolvePage(driver).render();
+        dashBoard = page.getNav().selectMyDashBoard().render();
         MyTasksDashlet dashlet = dashBoard.getDashlet("tasks").render();
         MyTasksPage myTasksPage = dashlet.selectActive().render();
         assertTrue (myTasksPage.isFilterTitle("Active Tasks"), "Active tasks page don't open");

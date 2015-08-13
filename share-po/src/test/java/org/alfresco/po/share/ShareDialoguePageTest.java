@@ -16,6 +16,8 @@ package org.alfresco.po.share;
 
 import java.io.File;
 
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
@@ -24,9 +26,8 @@ import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.site.document.TagPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.HtmlPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
@@ -68,35 +69,35 @@ public class ShareDialoguePageTest extends AbstractTest
         dashBoard = loginAs(username, password);
         dashBoard = dashBoard.getNav().selectMyDashBoard().render();
         
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
 
         // Select DocLib
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
 
         // Create Folder
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(folderName, folderDescription).render();
 
         // Upload File
-        File file = SiteUtil.prepareFile(fileName);
+        File file = siteUtil.prepareFile(fileName);
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
         fileName = file.getName();
         
         // Back to DashBoardPage
-        documentLibPage = drone.getCurrentPage().render();        
+        documentLibPage = resolvePage(driver).render();        
     }
 
     @Test
     public void resolveCreateSiteDialogue() throws Exception
     {
         documentLibPage.getNav().selectCreateSite().render();
-        dialogue = FactorySharePage.resolvePage(drone).render();
+        dialogue = factoryPage.getPage(driver).render();
         Assert.assertTrue(dialogue.isShareDialogueDisplayed());
         
         dialogue.getShareDialoguePageName();
-        CreateSitePage page = FactorySharePage.resolvePage(drone).render();
+        CreateSitePage page = factoryPage.getPage(driver).render();
         Assert.assertNotNull(page);
 
         logger.info("Title: " + dialogue.getDialogueTitle());
@@ -113,18 +114,18 @@ public class ShareDialoguePageTest extends AbstractTest
     public void resolveCreateFolderDialogue() throws Exception
     {        
         // Select DocLib
-        site = drone.getCurrentPage().render();
-        documentLibPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        site = resolvePage(driver).render();
+        documentLibPage = site.getSiteNav().selectDocumentLibrary().render();
 
         // Create Folder
         documentLibPage.getNavigation().selectCreateNewFolder();
 
-        dialogue = FactorySharePage.resolvePage(drone).render();
+        dialogue = factoryPage.getPage(driver).render();
         Assert.assertTrue(dialogue.isShareDialogueDisplayed());
         
         dialogue.getShareDialoguePageName();
         
-        NewFolderPage page = FactorySharePage.resolvePage(drone).render();
+        NewFolderPage page = factoryPage.getPage(driver).render();
         Assert.assertNotNull(page);
         
         logger.info("Title: " + dialogue.getDialogueTitle());    
@@ -143,12 +144,12 @@ public class ShareDialoguePageTest extends AbstractTest
         // Select Upload File
         documentLibPage.getNavigation().selectFileUpload().render();
 
-        dialogue = FactorySharePage.resolvePage(drone).render();
+        dialogue = factoryPage.getPage(driver).render();
         Assert.assertTrue(dialogue.isShareDialogueDisplayed());
         
         dialogue.getShareDialoguePageName();
         
-        UploadFilePage page = FactorySharePage.resolvePage(drone).render();
+        UploadFilePage page = factoryPage.getPage(driver).render();
         Assert.assertNotNull(page);
 
         logger.info("Title: " + dialogue.getDialogueTitle());
@@ -167,12 +168,12 @@ public class ShareDialoguePageTest extends AbstractTest
         // Edit Properties
         documentLibPage.getFileDirectoryInfo(fileName).selectEditProperties().render();      
         
-        dialogue = FactorySharePage.resolvePage(drone).render();
+        dialogue = factoryPage.getPage(driver).render();
         Assert.assertTrue(dialogue.isShareDialogueDisplayed());
         
         dialogue.getShareDialoguePageName();
         
-        EditDocumentPropertiesPage page = FactorySharePage.resolvePage(drone).render();
+        EditDocumentPropertiesPage page = factoryPage.getPage(driver).render();
         Assert.assertNotNull(page);
 
         logger.info("Title: " + dialogue.getDialogueTitle());
@@ -193,12 +194,12 @@ public class ShareDialoguePageTest extends AbstractTest
         editPropPage = docDetailsPage.selectEditProperties().render();
         editPropPage.getTag().render();        
         
-        dialogue = FactorySharePage.resolvePage(drone).render();
+        dialogue = factoryPage.getPage(driver).render();
         Assert.assertTrue(dialogue.isShareDialogueDisplayed());
         
         dialogue.getShareDialoguePageName();
         
-        TagPage page = FactorySharePage.resolvePage(drone).render();
+        TagPage page = factoryPage.getPage(driver).render();
         Assert.assertNotNull(page);
 
         logger.info("Title: " + dialogue.getDialogueTitle());
@@ -252,7 +253,7 @@ public class ShareDialoguePageTest extends AbstractTest
 */
 public HtmlPage closeDialogue() throws Exception
 {
-    ShareDialogue dialogue = FactorySharePage.resolvePage(drone).render();
+    ShareDialogue dialogue = factoryPage.getPage(driver).render();
     HtmlPage sharePage = dialogue.clickClose().render();
     
     Assert.assertNotNull(sharePage);

@@ -14,15 +14,14 @@
  */
 package org.alfresco.po.share.user;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import org.openqa.selenium.NoSuchElementException;
 
 /**
  * My profile page object, holds all element of the html page relating to
@@ -40,16 +39,6 @@ public class MyProfilePage extends SharePage
     private static final By TRASHCAN_LINK = By.cssSelector("div>a[href='user-trashcan']");
     private static final By FOLLOWING_LINK = By.cssSelector("div>a[href='following']");
 
-    /**
-     * Constructor.
-     *
-     * @param drone WebDriver to access page
-     */
-    public MyProfilePage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public MyProfilePage render(RenderTime timer)
@@ -65,12 +54,6 @@ public class MyProfilePage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public MyProfilePage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     /**
      * Verify if home page banner web element is present
@@ -87,7 +70,7 @@ public class MyProfilePage extends SharePage
 
     public ProfileNavigation getProfileNav()
     {
-        return new ProfileNavigation(drone);
+        return new ProfileNavigation(driver, factoryPage);
     }
 
     /**
@@ -120,7 +103,7 @@ public class MyProfilePage extends SharePage
     {
         try
         {
-            WebElement trashcanLink = drone.findAndWait(TRASHCAN_LINK);
+            WebElement trashcanLink = findAndWait(TRASHCAN_LINK);
             return trashcanLink.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -143,7 +126,7 @@ public class MyProfilePage extends SharePage
     {
         try
         {
-            WebElement followingLink = drone.findAndWait(FOLLOWING_LINK);
+            WebElement followingLink = findAndWait(FOLLOWING_LINK);
             return followingLink.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -156,9 +139,9 @@ public class MyProfilePage extends SharePage
         }
     }
 
-    public EditProfilePage openEditProfilePage()
+    public HtmlPage openEditProfilePage()
     {
-        drone.findAndWait(editProfileButton).click();
-        return new EditProfilePage(drone);
+        findAndWait(editProfileButton).click();
+        return factoryPage.instantiatePage(driver, EditProfilePage.class);
     }
 }

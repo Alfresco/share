@@ -20,7 +20,7 @@ package org.alfresco.po.share.site;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.GroupsPage;
 import org.alfresco.po.share.NewGroupPage;
@@ -54,24 +54,23 @@ public class AddGroupsPageTest extends AbstractTest
         userNameTest = "user" + System.currentTimeMillis() + "@test.com";
         siteName = "InviteMembersTest" + System.currentTimeMillis();
         dashBoard = loginAs(username, password);
-        GroupsPage page = dashBoard.getNav().getGroupsPage();
+        GroupsPage page = dashBoard.getNav().getGroupsPage().render();
         page = page.clickBrowse().render();
         NewGroupPage newGroupPage = page.navigateToNewGroupPage().render();
         page = newGroupPage.createGroup(groupName, groupName, ActionButton.CREATE_GROUP).render();
-        Assert.assertTrue(page.getGroupList().contains(groupName), "Group is not created!!");
 
         CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
         //membersPage = site.getSiteNav().selectInvite().render();
         membersPage = site.getSiteNav().selectAddUser().render();
         SiteGroupsPage siteGroups = membersPage.navigateToSiteGroupsPage().render();
-        addGroupsPage = siteGroups.navigateToAddGroupsPage().render();       
+        addGroupsPage = siteGroups.navigateToAddGroupsPage().render();
     }
 
     @Test(groups="Enterprise-only")
     public void testNavigateToAddGroupsPage()
     {
-        addGroupsPage =addGroupsPage.addGroup(groupName, UserRole.CONSUMER).render();
+        addGroupsPage = addGroupsPage.addGroup(groupName, UserRole.CONSUMER).render();
         Assert.assertTrue(addGroupsPage.isGroupAdded(groupName));
     }
 }

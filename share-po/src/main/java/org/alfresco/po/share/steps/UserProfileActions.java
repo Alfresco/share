@@ -23,6 +23,7 @@ package org.alfresco.po.share.steps;
 
 import java.util.List;
 
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
@@ -33,12 +34,12 @@ import org.alfresco.po.share.user.TrashCanItem;
 import org.alfresco.po.share.user.TrashCanPage;
 import org.alfresco.po.share.user.TrashCanRecoverConfirmDialog;
 import org.alfresco.po.share.user.TrashCanValues;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneUtil;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Component;
+@Component
 public class UserProfileActions extends CommonActions
 {
     private static Log logger = LogFactory.getLog(DashBoardActions.class);
@@ -48,7 +49,7 @@ public class UserProfileActions extends CommonActions
      * @param driver WebDriver Instance
      * @return {@link MyProfilePage}
      */
-    public MyProfilePage navigateToMyProfile(WebDrone driver)
+    public MyProfilePage navigateToMyProfile(WebDriver driver)
     {
         try
         {
@@ -68,7 +69,7 @@ public class UserProfileActions extends CommonActions
      * @param driver WebDriver Instance
      * @return {@link TrashCanPage}
      */
-    public TrashCanPage navigateToTrashCan(WebDrone driver)
+    public TrashCanPage navigateToTrashCan(WebDriver driver)
     {
         MyProfilePage myprofile = navigateToMyProfile(driver);
         TrashCanPage trashCan = myprofile.getProfileNav().selectTrashCan().render();
@@ -83,11 +84,11 @@ public class UserProfileActions extends CommonActions
      * @param path String
      * @return {@link TrashCanPage}
      */
-    public TrashCanPage deleteFromTrashCan(WebDrone driver, TrashCanValues contentType, String contentName, String path)
+    public TrashCanPage deleteFromTrashCan(WebDriver driver, TrashCanValues contentType, String contentName, String path)
     {
-        WebDroneUtil.checkMandotaryParam("Content Type must be specified", contentType);
-        WebDroneUtil.checkMandotaryParam("Content Name must be specified", contentName);
-        WebDroneUtil.checkMandotaryParam("Appropriate path for the content must be specified", path);
+        PageUtils.checkMandotaryParam("Content Type must be specified", contentType);
+        PageUtils.checkMandotaryParam("Content Name must be specified", contentName);
+        PageUtils.checkMandotaryParam("Appropriate path for the content must be specified", path);
         
         TrashCanPage trashCan = getSharePage(driver).render();
 
@@ -119,11 +120,11 @@ public class UserProfileActions extends CommonActions
      * @param path String
      * @return {@link TrashCanPage}
      */
-    public TrashCanPage recoverFromTrashCan(WebDrone driver, TrashCanValues contentType, String contentName, String path)
+    public TrashCanPage recoverFromTrashCan(WebDriver driver, TrashCanValues contentType, String contentName, String path)
     {
-        WebDroneUtil.checkMandotaryParam("Content Type must be specified", contentType);
-        WebDroneUtil.checkMandotaryParam("Content Name must be specified", contentName);
-        WebDroneUtil.checkMandotaryParam("Appropriate path for the content must be specified", path);
+        PageUtils.checkMandotaryParam("Content Type must be specified", contentType);
+        PageUtils.checkMandotaryParam("Content Name must be specified", contentName);
+        PageUtils.checkMandotaryParam("Appropriate path for the content must be specified", path);
         
         TrashCanPage trashCan = getSharePage(driver).render();
 

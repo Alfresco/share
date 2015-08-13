@@ -14,10 +14,10 @@
 
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.exception.PageException;
 
 /**
- * Thrown by {@link org.alfresco.webdrone.WebDrone} when Dashlet has not rendered in the set time.
+ * Thrown by {@link org.alfresco.po.WebDriver} when Dashlet has not rendered in the set time.
  * 
  * @author Shan Nagarajan
  * @since 1.6

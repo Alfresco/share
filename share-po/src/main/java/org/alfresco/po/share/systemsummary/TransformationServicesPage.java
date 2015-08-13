@@ -19,14 +19,14 @@
 
 package org.alfresco.po.share.systemsummary;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by olga.lokhach
@@ -43,11 +43,6 @@ public class TransformationServicesPage extends AdvancedAdminConsolePage
     private final static By JODCONVERTER_ENABLED_CHECKBOX = By.cssSelector("input[onchange*='jodconverter.enabled']");
     @RenderWebElement
     private final static By JODCONVERTER_PORT_INPUT = By.cssSelector("input[name$='jodconverter.portNumbers']");
-
-    public TransformationServicesPage (WebDrone drone)
-    {
-        super(drone);
-    }
     @SuppressWarnings("unchecked")
     @Override
     public synchronized TransformationServicesPage render(RenderTime timer)
@@ -56,12 +51,6 @@ public class TransformationServicesPage extends AdvancedAdminConsolePage
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public TransformationServicesPage render(long time)
-    {
-        return render(new RenderTime(time));
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -73,29 +62,18 @@ public class TransformationServicesPage extends AdvancedAdminConsolePage
     private void click(By locator)
     {
         checkNotNull(locator);
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = findAndWait(locator);
         element.click();
-    }
-
-    private void fillField(By selector, String text)
-    {
-        checkNotNull(text);
-        WebElement inputField = drone.findAndWait(selector);
-        inputField.clear();
-        if (text != null)
-        {
-            inputField.sendKeys(text);
-        }
     }
     /**
      * Method to enable or disable the FTP server
      */
 
-    public TransformationServicesPage selectJODConverterEnabledCheckbox()
+    public HtmlPage selectJODConverterEnabledCheckbox()
     {
-        drone.findAndWait(JODCONVERTER_ENABLED_CHECKBOX).click();
+        findAndWait(JODCONVERTER_ENABLED_CHECKBOX).click();
         click(SAVE_BUTTON);
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
     }
 
     /**
@@ -107,7 +85,7 @@ public class TransformationServicesPage extends AdvancedAdminConsolePage
     {
         try
         {
-            return (drone.find(JODCONVERTER_ENABLED_CHECKBOX).isSelected());
+            return (driver.findElement(JODCONVERTER_ENABLED_CHECKBOX).isSelected());
         }
         catch (NoSuchElementException nse)
         {

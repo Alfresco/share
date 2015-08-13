@@ -18,10 +18,10 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.openqa.selenium.WebDriver;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -47,9 +47,9 @@ public class InsertOrEditAnchorPage extends BaseAdvancedTinyMceOptionsPage
      * @param drone WebDrone
      * @param element WebElement
      */
-    public InsertOrEditAnchorPage(WebDrone drone, WebElement element)
+    public InsertOrEditAnchorPage(WebDriver driver, WebElement element)
     {
-        super(drone, element);
+        super(driver, element);
     }
 
     @SuppressWarnings("unchecked")
@@ -57,12 +57,6 @@ public class InsertOrEditAnchorPage extends BaseAdvancedTinyMceOptionsPage
     {
         webElementRender(timer);
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public InsertOrEditAnchorPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -85,7 +79,7 @@ public class InsertOrEditAnchorPage extends BaseAdvancedTinyMceOptionsPage
 
         try
         {
-            drone.findAndWait(NAME_CSS).sendKeys(text);
+            findAndWait(NAME_CSS).sendKeys(text);
         }
         catch (TimeoutException te)
         {

@@ -15,19 +15,17 @@
 
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
+import org.alfresco.po.RenderTime;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div[id*='DASHLET']")
 /**
  * SiteContentBreakdownDashlet page object for site content breakdown report dashlet
  * 
@@ -38,40 +36,9 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
 
     private static Log logger = LogFactory.getLog(SiteContentBreakdownDashlet.class);
 
-    private static final String SITE_CONTENT_REPORT_DASHLET = "div[id*='DASHLET']";
     private static final String PIE_CHART_SLICES = "path[transform]";
     private static final String TOOLTIP_DATA = "div[id^='tipsyPvBehavior']";
     private static final String ORIGINAL_TITLE_ATTRIBUTE = "original-title";
-    
-    /**
-     * Constructor
-     * 
-     * @param drone WebDrone
-     */
-    protected SiteContentBreakdownDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(SITE_CONTENT_REPORT_DASHLET));
-    }
-
-    @SuppressWarnings("unchecked")
-    public SiteContentBreakdownDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SiteContentBreakdownDashlet render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
-    @SuppressWarnings("unchecked")
-    public SiteContentBreakdownDashlet render(RenderTime timer)
-    {
-        elementRender(timer, getVisibleRenderElement(By.cssSelector(SITE_CONTENT_REPORT_DASHLET)));
-        return this;
-    }
 
     /**
      * Gets the list of files data appearing in tooltips (file type-count) 
@@ -83,8 +50,8 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
         List<String> toolTipData = new ArrayList<String>();
         for (WebElement pieChartSlice : pieChartSlices)
         {
-            drone.mouseOver(pieChartSlice);
-            WebElement tooltipElement = drone.findAndWait(By.cssSelector(TOOLTIP_DATA));
+            mouseOver(pieChartSlice);
+            WebElement tooltipElement = findAndWait(By.cssSelector(TOOLTIP_DATA));
             String fileType = getElement(tooltipElement.getAttribute(ORIGINAL_TITLE_ATTRIBUTE), "/div/strong");
             String items = getElement(tooltipElement.getAttribute(ORIGINAL_TITLE_ATTRIBUTE), "/div/text()[preceding-sibling::br]");
             String [] counts = items.split(" ");
@@ -107,8 +74,8 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
         List<String> toolTipFileTypes = new ArrayList<String>();
         for (WebElement pieChartSlice : pieChartSlices)
         {
-            drone.mouseOver(pieChartSlice);
-            WebElement tooltipElement = drone.findAndWait(By.cssSelector(TOOLTIP_DATA));
+            mouseOver(pieChartSlice);
+            WebElement tooltipElement = findAndWait(By.cssSelector(TOOLTIP_DATA));
             String fileType = getElement(tooltipElement.getAttribute(ORIGINAL_TITLE_ATTRIBUTE), "/div/strong");
             toolTipFileTypes.add(fileType);
         }   
@@ -125,7 +92,7 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
         List<WebElement> pieChartSlices = new ArrayList<WebElement>();
         try
         {
-            pieChartSlices = drone.findAll(By.cssSelector(PIE_CHART_SLICES));
+            pieChartSlices = driver.findElements(By.cssSelector(PIE_CHART_SLICES));
 
         }
         catch (NoSuchElementException nse)
@@ -135,4 +102,17 @@ public class SiteContentBreakdownDashlet extends AbstractDashlet implements Dash
         return pieChartSlices;
     }
 
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public SiteContentBreakdownDashlet render(RenderTime timer)
+    {
+        return this;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteContentBreakdownDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
+    }
 }

@@ -14,25 +14,27 @@
  */
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.dashlet.sitecontent.DetailedViewInformation;
 import org.alfresco.po.share.dashlet.sitecontent.SimpleViewInformation;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.support.FindBy;
+@FindBy(css="div.dashlet.docsummary")
 /**
  * Site content dashlet object, holds all element of the HTML relating to site
  * content dashlet.
@@ -75,24 +77,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     private static final By DETAIL_CONTENT_STATUTS = By.cssSelector("td>div>div:nth-of-type(1)>span[class='item']:nth-of-type(1)");
     private static final By DETAIL_THUMBNAIL_LINK = By.cssSelector(".thumbnail>a");
 
-    private WebElement dashlet;
 
-    /**
-     * Constructor.
-     */
-    protected SiteContentDashlet(WebDrone drone)
-    {
-        super(drone, By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
-    }
-
-    @SuppressWarnings("unchecked")
-    public SiteContentDashlet render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public SiteContentDashlet render(final long time)
     {
         return render(new RenderTime(time));
@@ -103,7 +88,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
      * 
      * @return List<ShareLink> site links
      */
-    public synchronized List<ShareLink> getSiteContents()
+    public  List<ShareLink> getSiteContents()
     {
         return getList(DATA_LIST_CSS_LOCATION);
     }
@@ -115,7 +100,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
      *            identifier
      * @return {@link ShareLink} that matches members name
      */
-    public synchronized ShareLink select(final String name)
+    public  ShareLink select(final String name)
     {
         if (name == null)
         {
@@ -135,32 +120,33 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
         }
         throw new PageException("Link can not be found on the dashlet");
     }
-
     @SuppressWarnings("unchecked")
-    public synchronized SiteContentDashlet render(RenderTime timer)
+    public  SiteContentDashlet render(RenderTime timer)
     {
+        setResizeHandle(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
+        dashlet = driver.findElement(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
         elementRender(timer, getVisibleRenderElement(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER)),
                 getVisibleRenderElement(By.cssSelector(DEFAULT_FILTER_BUTTON)));
         return this;
     }
 
-    public synchronized SiteContentDashlet renderSimpleViewWithContent()
+    public  SiteContentDashlet renderSimpleViewWithContent()
     {
         return renderSimpleViewWithContent(new RenderTime(maxPageLoadingTime));
     }
 
-    public synchronized SiteContentDashlet renderSimpleViewWithContent(RenderTime timer)
+    public  SiteContentDashlet renderSimpleViewWithContent(RenderTime timer)
     {
         elementRender(timer, getVisibleRenderElement(SIMPLE_FILENAME), getVisibleRenderElement(SIMPLE_ITEM), getVisibleRenderElement(SIMPLE_THUMBNAIL_VIEW));
         return this;
     }
 
-    public synchronized SiteContentDashlet renderDetailViewWithContent()
+    public  SiteContentDashlet renderDetailViewWithContent()
     {
         return renderDetailViewWithContent(new RenderTime(maxPageLoadingTime));
     }
 
-    public synchronized SiteContentDashlet renderDetailViewWithContent(RenderTime timer)
+    public  SiteContentDashlet renderDetailViewWithContent(RenderTime timer)
     {
         elementRender(timer, getVisibleRenderElement(DETAIL_THUMBNAIL_LINK), getVisibleRenderElement(DETAIL_CONTENT_STATUTS),
                 getVisibleRenderElement(COMMENT_LINK), getVisibleRenderElement(FAVOURITE_LINK), getVisibleRenderElement(LIKE_LINK),
@@ -177,7 +163,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).isDisplayed();
+            return driver.findElement(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -198,7 +184,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).isDisplayed();
+            return driver.findElement(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).isDisplayed();
 
         }
         catch (NoSuchElementException e)
@@ -219,7 +205,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.find(By.cssSelector(DASHLET_HELP_BUTTON)).click();
+            driver.findElement(By.cssSelector(DASHLET_HELP_BUTTON)).click();
         }
         catch (NoSuchElementException exception)
         {
@@ -240,7 +226,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(DASHLET_HELP_BUTTON)).isDisplayed();
+            return driver.findElement(By.cssSelector(DASHLET_HELP_BUTTON)).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -255,7 +241,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     public void clickHelpButton()
     {
 
-        drone.find(By.cssSelector(DASHLET_HELP_BUTTON)).click();
+        driver.findElement(By.cssSelector(DASHLET_HELP_BUTTON)).click();
 
     }
 
@@ -268,7 +254,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(DASHLET_HELP_BALLOON)).isDisplayed();
+            return driver.findElement(By.cssSelector(DASHLET_HELP_BALLOON)).isDisplayed();
         }
         catch (NoSuchElementException elementException)
         {
@@ -305,7 +291,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
         {
             throw new UnsupportedOperationException("Input cssLocator identifier is required");
         }
-        List<WebElement> links = drone.findAll(By.cssSelector(cssLocator));
+        List<WebElement> links = driver.findElements(By.cssSelector(cssLocator));
         if (links == null)
         {
             throw new UnsupportedOperationException("Not able to find the css location");
@@ -325,8 +311,8 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
      */
     public SiteContentDashlet closeHelpBallon()
     {
-        drone.find(By.cssSelector(DASHLET_HELP_BALLOON_CLOSE_BUTTON)).click();
-        drone.waitUntilElementDisappears(By.cssSelector(DASHLET_HELP_BALLOON_CLOSE_BUTTON), 1);
+        driver.findElement(By.cssSelector(DASHLET_HELP_BALLOON_CLOSE_BUTTON)).click();
+        waitUntilElementDisappears(By.cssSelector(DASHLET_HELP_BALLOON_CLOSE_BUTTON), 1);
         return this;
     }
 
@@ -338,7 +324,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            drone.findAndWait(By.cssSelector(DEFAULT_FILTER_BUTTON)).click();
+            findAndWait(By.cssSelector(DEFAULT_FILTER_BUTTON)).click();
         }
         catch (TimeoutException e)
         {
@@ -356,10 +342,10 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
      *            - The {@link SiteContentFilter} to be selected
      * @return {@link SiteDashboardPage}
      */
-    public SiteDashboardPage selectFilter(SiteContentFilter filter)
+    public HtmlPage selectFilter(SiteContentFilter filter)
     {
         clickFilterButtton();
-        List<WebElement> filterElements = drone.findAll(By.cssSelector(CONTENT_DASHLET_LIST_OF_FILTER_BUTTONS));
+        List<WebElement> filterElements = driver.findElements(By.cssSelector(CONTENT_DASHLET_LIST_OF_FILTER_BUTTONS));
         if (filterElements != null)
         {
             for (WebElement webElement : filterElements)
@@ -370,7 +356,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
                 }
             }
         }
-        return new SiteDashboardPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -382,7 +368,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return SiteContentFilter.getFilter(drone.find(By.cssSelector(DEFAULT_FILTER_BUTTON)).getText());
+            return SiteContentFilter.getFilter(driver.findElement(By.cssSelector(DEFAULT_FILTER_BUTTON)).getText());
         }
         catch (NoSuchElementException e)
         {
@@ -399,7 +385,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return drone.find(By.cssSelector(EMPTY_CONTENT_HEADING)).getText();
+            return driver.findElement(By.cssSelector(EMPTY_CONTENT_HEADING)).getText();
         }
         catch (NoSuchElementException elementException)
         {
@@ -416,7 +402,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
     public List<String> getContentsDetails()
     {
         List<String> details = null;
-        List<WebElement> contentsDetails = drone.findAndWaitForElements(By.cssSelector(CONTENT_DETAILS));
+        List<WebElement> contentsDetails = findAndWaitForElements(By.cssSelector(CONTENT_DETAILS));
         if (contentsDetails != null && !contentsDetails.isEmpty())
         {
             details = new ArrayList<String>();
@@ -433,7 +419,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
      */
     public void clickSimpleView()
     {
-        drone.findAndWait(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).click();
+        findAndWait(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).click();
     }
 
     /**
@@ -447,26 +433,26 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
         List<SimpleViewInformation> informations = null;
         try
         {
-            drone.findAndWait(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).click();
-            List<WebElement> links = drone.findAndWaitForElements(By.xpath(NUMBER_OF_DOCS_TABLE));
+            findAndWait(By.cssSelector(DASHLET_SIMPLE_VIEW_BUTTON)).click();
+            List<WebElement> links = findAndWaitForElements(By.xpath(NUMBER_OF_DOCS_TABLE));
             informations = new ArrayList<SimpleViewInformation>(links.size());
             for (WebElement tr : links)
             {
                 WebElement thumbnailLink = tr.findElement(SIMPLE_THUMBNAIL_VIEW);
-                ShareLink thumbnail = new ShareLink(thumbnailLink, drone);
+                ShareLink thumbnail = new ShareLink(thumbnailLink, driver, factoryPage);
 
                 WebElement contentLink = tr.findElement(SIMPLE_FILENAME);
-                ShareLink content = new ShareLink(contentLink, drone);
+                ShareLink content = new ShareLink(contentLink, driver, factoryPage);
 
                 WebElement userLink = tr.findElement(By.cssSelector(".item-simple" + ">a"));
-                ShareLink user = new ShareLink(userLink, drone);
+                ShareLink user = new ShareLink(userLink, driver, factoryPage);
 
                 String contentStatus = tr.findElement(SIMPLE_ITEM).getText();
 
-                drone.mouseOver(thumbnailLink);
-                WebElement docPreview = drone.findAndWait(SIMPLE_PREVIEW_IMAGE);
+                mouseOver(thumbnailLink);
+                WebElement docPreview = findAndWait(SIMPLE_PREVIEW_IMAGE);
 
-                informations.add(new SimpleViewInformation(drone, thumbnail, content, user, contentStatus, docPreview.isDisplayed()));
+                informations.add(new SimpleViewInformation(driver, thumbnail, content, user, contentStatus, docPreview.isDisplayed(), factoryPage));
             }
         }
         catch (NoSuchElementException nse)
@@ -484,7 +470,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
      */
     public void clickDetailView()
     {
-        drone.findAndWait(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).click();
+        findAndWait(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).click();
     }
 
     /**
@@ -498,9 +484,9 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
         List<DetailedViewInformation> informations = null;
         try
         {
-            drone.findAndWait(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).click();
-            // drone.findAndWait(By.cssSelector(NUMBER_OF_DOCS_TABLE + ">" + DETAIL_DESC));
-            List<WebElement> links = drone.findAndWaitForElements(By.xpath(NUMBER_OF_DOCS_TABLE));
+            findAndWait(By.cssSelector(DASHLET_DETAILED_VIEW_BUTTON)).click();
+            // findAndWait(By.cssSelector(NUMBER_OF_DOCS_TABLE + ">" + DETAIL_DESC));
+            List<WebElement> links = findAndWaitForElements(By.xpath(NUMBER_OF_DOCS_TABLE));
             if (links == null || links.isEmpty())
             {
                 return Collections.emptyList();
@@ -509,20 +495,20 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
             for (WebElement tr : links)
             {
                 WebElement thumbnailLink = tr.findElement(DETAIL_THUMBNAIL_LINK);
-                ShareLink thumbnail = new ShareLink(thumbnailLink, drone);
+                ShareLink thumbnail = new ShareLink(thumbnailLink, driver, factoryPage);
 
                 WebElement contentLink = tr.findElement(By.cssSelector(".filename>a"));
-                ShareLink contentDetail = new ShareLink(contentLink, drone);
+                ShareLink contentDetail = new ShareLink(contentLink, driver, factoryPage);
 
                 WebElement userLink = tr.findElement(USER_LINK);
-                ShareLink user = new ShareLink(userLink, drone);
+                ShareLink user = new ShareLink(userLink, driver, factoryPage);
 
                 String contentStatus = tr.findElement(DETAIL_CONTENT_STATUTS).getText();
                 WebElement commentLink = tr.findElement(COMMENT_LINK);
-                ShareLink comment = new ShareLink(commentLink, drone);
+                ShareLink comment = new ShareLink(commentLink, driver, factoryPage);
 
                 WebElement likeLink = tr.findElement(LIKE_LINK);
-                ShareLink like = new ShareLink(likeLink, drone);
+                ShareLink like = new ShareLink(likeLink, driver, factoryPage);
                 boolean likeEnabled = false;
 
                 String likeClass = likeLink.getAttribute("class");
@@ -532,7 +518,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
                 }
 
                 WebElement favouriteLink = tr.findElement(FAVOURITE_LINK);
-                ShareLink favourite = new ShareLink(favouriteLink, drone);
+                ShareLink favourite = new ShareLink(favouriteLink, driver, factoryPage);
                 boolean favouriteEnabled = false;
 
                 String favouriteClass = favouriteLink.getAttribute("class");
@@ -545,7 +531,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
                 String fileSize = tr.findElement(FILE_SIZE).getText();
                 String desc = tr.findElement(By.cssSelector(DETAIL_DESC)).getText();
 
-                drone.mouseOver(thumbnailLink);
+                mouseOver(thumbnailLink);
                 WebElement docVersionElement = tr.findElement(DOCUMENT_VERSION);
 
                 double docVersion = 0;
@@ -553,8 +539,8 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
                 {
                     docVersion = Double.parseDouble(docVersionElement.getText());
                 }
-                DetailedViewInformation detailedView = new DetailedViewInformation(drone, thumbnail, contentDetail, user, contentStatus, comment, like,
-                        favourite, likeCount, fileSize, desc, docVersion, favouriteEnabled, likeEnabled);
+                DetailedViewInformation detailedView = new DetailedViewInformation(driver, thumbnail, contentDetail, user, contentStatus, comment, like,
+                        favourite, likeCount, fileSize, desc, docVersion, favouriteEnabled, likeEnabled, factoryPage);
                 informations.add(detailedView);
             }
         }
@@ -575,7 +561,7 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
         List<SiteContentFilter> list = new ArrayList<SiteContentFilter>();
         try
         {
-            for (WebElement element : drone.findAll(By.cssSelector(CONTENT_DASHLET_LIST_OF_FILTER_BUTTONS)))
+            for (WebElement element : driver.findElements(By.cssSelector(CONTENT_DASHLET_LIST_OF_FILTER_BUTTONS)))
             {
                 String text = element.getText();
                 if (text != null)
@@ -590,5 +576,11 @@ public class SiteContentDashlet extends AbstractDashlet implements Dashlet
         }
 
         return list;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public SiteContentDashlet render()
+    {
+        return render(new RenderTime(maxPageLoadingTime));
     }
 }

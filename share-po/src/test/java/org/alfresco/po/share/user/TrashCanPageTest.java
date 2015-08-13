@@ -25,14 +25,14 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -76,27 +76,27 @@ public class TrashCanPageTest extends AbstractTest
         siteName = "TrashCanTest" + System.currentTimeMillis();
         siteName1 = "DeleteTrashCanSite" + System.currentTimeMillis();
         folderName = "folder1" + System.currentTimeMillis();;
-        File file0 = SiteUtil.prepareFile("file1.txt");
+        File file0 = siteUtil.prepareFile("file1.txt");
         fileName1 = file0.getName();
-        File file1 = SiteUtil.prepareFile("file2.txt");
+        File file1 = siteUtil.prepareFile("file2.txt");
         fileName2 = file1.getName();
-        File file2 = SiteUtil.prepareFile("file3.txt");
+        File file2 = siteUtil.prepareFile("file3.txt");
         fileName3 = file2.getName();
-        File file3 = SiteUtil.prepareFile("file4.txt");
+        File file3 = siteUtil.prepareFile("file4.txt");
         fileName4 = file3.getName();
-        File file4 = SiteUtil.prepareFile("file5.txt");
+        File file4 = siteUtil.prepareFile("file5.txt");
         fileName5 = file4.getName();
         userName = "user" + System.currentTimeMillis();
-        userFullName = userName + "@test.com " + userName + "@test.com";
+        userFullName = userName + " " + userName;
         createEnterpriseUser(userName);
-        loginAs(userName, "password");
-        SiteUtil.createSite(drone, siteName, "Public");
-        SiteUtil.createSite(drone, siteName1, "Public");
-        SiteUtil.deleteSite(drone, siteName1);
-        SiteFinderPage siteFinderPage = drone.getCurrentPage().render();
-        siteFinderPage = SiteUtil.siteSearchRetry(drone, siteFinderPage, siteName).render();
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName, "", "Public");
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName1, "", "Public");
+        siteUtil.deleteSite(userName, UNAME_PASSWORD, siteName1);
+        loginAs(userName, UNAME_PASSWORD).getNav().selectSearchForSites();
+        SiteFinderPage siteFinderPage = resolvePage(driver).render();
+        siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, siteName);
         SiteDashboardPage site = siteFinderPage.selectSite(siteName).render();
-        docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        docPage = site.getSiteNav().selectDocumentLibrary().render();
         NewFolderPage folder = docPage.getNavigation().selectCreateNewFolder().render();
         docPage = folder.createNewFolder(folderName).render();
         UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
@@ -109,7 +109,7 @@ public class TrashCanPageTest extends AbstractTest
         upLoadPage.uploadFile(file3.getCanonicalPath()).render();
         upLoadPage = docPage.getNavigation().selectFileUpload().render();
         upLoadPage.uploadFile(file4.getCanonicalPath()).render();
-        docPage = drone.getCurrentPage().render();
+        docPage = resolvePage(driver).render();
 
         docPage = docPage.deleteItem(fileName1).render();
         docPage = docPage.deleteItem(fileName2).render();
@@ -123,7 +123,7 @@ public class TrashCanPageTest extends AbstractTest
     public void deleteSite()
     {
         trashCan.selectEmpty().render();
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
     
     public TrashCanPage getTrashCan()
@@ -351,7 +351,7 @@ public class TrashCanPageTest extends AbstractTest
         }
         TrashCanDeleteConfirmationPage trashCanDeleteConfirmation = trashCan.selectedDelete().render();
         assertEquals (trashCanDeleteConfirmation.getNotificationMessage(),"This will permanently delete the item(s). Are you sure?");
-        TrashCanDeleteConfirmDialog trashCanConfrimDialog = (TrashCanDeleteConfirmDialog) trashCanDeleteConfirmation.clickOkButton().render();
+        TrashCanDeleteConfirmDialog trashCanConfrimDialog = trashCanDeleteConfirmation.clickOkButton().render();
         trashCan = trashCanConfrimDialog.clickDeleteOK().render();
         List<TrashCanItem> trashCanItemResults = trashCan.getTrashCanItems();
         for (TrashCanItem itemTerm : trashCanItemResults)

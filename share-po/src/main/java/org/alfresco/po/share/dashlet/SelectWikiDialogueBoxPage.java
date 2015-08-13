@@ -18,15 +18,14 @@
  */
 package org.alfresco.po.share.dashlet;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * Page object holds the elements of Select Wiki box page
@@ -41,14 +40,6 @@ public class SelectWikiDialogueBoxPage extends SharePage
     private static final By CANCEL_BUTTON = By.cssSelector("button[id$='configDialog-cancel-button']");
     private static final By CLOSE_BUTTON = By.cssSelector(".container-close");
 
-    /**
-     * Constructor.
-     */
-    protected SelectWikiDialogueBoxPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public SelectWikiDialogueBoxPage render(RenderTime timer)
@@ -57,13 +48,6 @@ public class SelectWikiDialogueBoxPage extends SharePage
                 getVisibleRenderElement(CLOSE_BUTTON));
         return this;
 
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public SelectWikiDialogueBoxPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")
@@ -80,10 +64,10 @@ public class SelectWikiDialogueBoxPage extends SharePage
     public void selectWikiPageBy(String visibleText)
     {
         checkNotNull(visibleText);
-        WebElement element = drone.findAndWait(SELECT_DROP_DOWN);
+        WebElement element = findAndWait(SELECT_DROP_DOWN);
         Select select = new Select(element);
         select.selectByVisibleText(visibleText);
-        drone.findAndWait(OK_BUTTON).click();
+        findAndWait(OK_BUTTON).click();
         waitUntilAlert();
     }
 }

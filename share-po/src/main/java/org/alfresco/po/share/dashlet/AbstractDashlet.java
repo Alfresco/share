@@ -14,6 +14,8 @@
  */
 package org.alfresco.po.share.dashlet;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,13 +27,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareLink;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -39,9 +38,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.xml.sax.InputSource;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Abstract of an Alfresco Share dashlet web element.
@@ -49,7 +47,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Michael Suzuki
  * @since 1.0
  */
-public abstract class AbstractDashlet extends SharePage
+public abstract class AbstractDashlet extends PageElement
 {
     private static Log logger = LogFactory.getLog(AbstractDashlet.class);
     protected WebElement dashlet;
@@ -65,30 +63,13 @@ public abstract class AbstractDashlet extends SharePage
 
 
     private By resizeHandle;
-    
-
-    /**
-     * Constructor.
-     */
-    protected AbstractDashlet(WebDrone drone, By by)
-    {
-        super(drone);
-        try
-        {
-            this.dashlet = drone.findAndWait(by, 100L);
-        }
-        catch (Exception e)
-        {
-            // We treat this as an empty dashlet (it might not be present)
-        }
-    }
 
     /**
      * Gets the title on the dashlet panel.
      *
      * @return String dashlet title
      */
-    public synchronized String getDashletTitle()
+    public String getDashletTitle()
     {
         checkNotNull(dashlet, "dashlet doesn't exist");
         return dashlet.findElement(By.cssSelector("div.title")).getText();
@@ -101,7 +82,7 @@ public abstract class AbstractDashlet extends SharePage
      * @param css locator
      * @return true if empty
      */
-    protected synchronized boolean isEmpty(final String css)
+    protected boolean isEmpty(final String css)
     {
         if (dashlet == null)
         {
@@ -110,7 +91,7 @@ public abstract class AbstractDashlet extends SharePage
         try
         {
             String selector = css + " div.empty";
-            boolean empty = drone.find(By.cssSelector(selector)).isDisplayed();
+            boolean empty = driver.findElement(By.cssSelector(selector)).isDisplayed();
             return empty;
         }
         catch (NoSuchElementException te)
@@ -124,7 +105,7 @@ public abstract class AbstractDashlet extends SharePage
      *
      * @return true when results are displayed
      */
-    protected synchronized boolean isVisibleResults()
+    protected boolean isVisibleResults()
     {
         if (dashlet == null)
         {
@@ -132,7 +113,7 @@ public abstract class AbstractDashlet extends SharePage
         }
         try
         {
-            return drone.find(By.cssSelector("tbody.yui-dt-data tr")).isDisplayed();
+            return driver.findElement(By.cssSelector("tbody.yui-dt-data tr")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -143,7 +124,7 @@ public abstract class AbstractDashlet extends SharePage
     /**
      * Populates the data seen in dashlet.
      */
-    protected synchronized List<ShareLink> getList(final String csslocator)
+    protected List<ShareLink> getList(final String csslocator)
     {
         try
         {
@@ -161,7 +142,7 @@ public abstract class AbstractDashlet extends SharePage
             List<ShareLink> shareLinks = new ArrayList<ShareLink>();
             for (WebElement site : links)
             {
-                shareLinks.add(new ShareLink(site, drone));
+                shareLinks.add(new ShareLink(site, driver, factoryPage));
             }
             return shareLinks;
         }
@@ -171,44 +152,6 @@ public abstract class AbstractDashlet extends SharePage
         }
     }
 
-    protected synchronized boolean renderBasic(RenderTime timer, final String css)
-    {
-        try
-        {
-            while (true)
-            {
-                timer.start();
-                synchronized (this)
-                {
-                    try
-                    {
-                        this.wait(50L);
-                    }
-                    catch (InterruptedException e)
-                    {
-                    }
-                }
-                try
-                {
-                    this.dashlet = drone.find(By.cssSelector(css));
-                    break;
-                }
-                catch (Exception e)
-                {
-                }
-                finally
-                {
-                    timer.end();
-                }
-            }
-        }
-        catch (PageRenderTimeException te)
-        {
-            throw new PageException(this.getClass().getName() + " failed to render in time", te);
-        }
-        return true;
-    }
-
     /**
      * Retries the {@link ShareLink} object that matches the title.
      *
@@ -216,7 +159,7 @@ public abstract class AbstractDashlet extends SharePage
      * @param title       String identifier to match
      * @return {@link ShareLink} link that matches the title
      */
-    protected synchronized ShareLink getLink(final String cssLocation, final String title)
+    protected ShareLink getLink(final String cssLocation, final String title)
     {
         if (null == cssLocation || cssLocation.isEmpty())
         {
@@ -242,8 +185,10 @@ public abstract class AbstractDashlet extends SharePage
      */
     protected void scrollDownToDashlet()
     {
-        dashlet.findElement(resizeHandle).click();
-
+        ;
+        Actions a = new Actions(driver);
+        a.moveToElement(driver.findElement(resizeHandle));
+        a.perform();
     }
 
     protected void setResizeHandle(By resizeHandle)
@@ -306,7 +251,7 @@ public abstract class AbstractDashlet extends SharePage
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
+            return findAndWait(DASHLET_HELP_BALLOON).isDisplayed();
         }
         catch (TimeoutException elementException)
         {
@@ -324,7 +269,7 @@ public abstract class AbstractDashlet extends SharePage
     {
         try
         {
-            return drone.findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
+            return findAndWait(DASHLET_HELP_BALLOON_TEXT).getText();
         }
         catch (TimeoutException elementException)
         {
@@ -357,8 +302,8 @@ public abstract class AbstractDashlet extends SharePage
     {
         try
         {
-            drone.findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
-            drone.waitUntilElementDisappears(DASHLET_HELP_BALLOON, TimeUnit.SECONDS.convert(WAIT_TIME_3000, TimeUnit.MILLISECONDS));
+            findAndWait(DASHLET_HELP_BALLOON_CLOSE_BUTTON).click();
+            waitUntilElementDisappears(DASHLET_HELP_BALLOON, TimeUnit.SECONDS.convert(getDefaultWaitTime(), TimeUnit.MILLISECONDS));
             return this;
         }
         catch (TimeoutException elementException)
@@ -429,7 +374,7 @@ public abstract class AbstractDashlet extends SharePage
     {
         try
         {
-            drone.findAndWait(By.cssSelector(CHART_NODE)).click();
+            findAndWait(By.cssSelector(CHART_NODE)).click();
         }
         catch (TimeoutException e)
         {
@@ -449,7 +394,7 @@ public abstract class AbstractDashlet extends SharePage
     {
         try
         {
-            WebElement noDataFound = drone.find(By.cssSelector(NO_DATA_FOUND));
+            WebElement noDataFound = driver.findElement(By.cssSelector(NO_DATA_FOUND));
             return noDataFound.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -464,6 +409,6 @@ public abstract class AbstractDashlet extends SharePage
      */
     protected void getFocus(By dashletPlaceholder)
     {
-        drone.mouseOver(drone.findAndWait(dashletPlaceholder));
+        mouseOver(driver.findElement(dashletPlaceholder));
     }
 }

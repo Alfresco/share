@@ -14,24 +14,35 @@
  */
 package org.alfresco.po.share;
 
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.Page;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.WebDriverAwareDecorator;
 import org.alfresco.po.alfresco.AlfrescoTransformationServerHistoryPage;
 import org.alfresco.po.alfresco.AlfrescoTransformationServerStatusPage;
 import org.alfresco.po.alfresco.RepositoryAdminConsolePage;
 import org.alfresco.po.alfresco.TenantAdminConsolePage;
 import org.alfresco.po.alfresco.WebScriptsPage;
 import org.alfresco.po.alfresco.webdav.WebDavPage;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.admin.AdminConsolePage;
 import org.alfresco.po.share.admin.ManageSitesPage;
 import org.alfresco.po.share.adminconsole.CategoryManagerPage;
 import org.alfresco.po.share.adminconsole.NodeBrowserPage;
+import org.alfresco.po.share.adminconsole.ReplicationJobPage;
 import org.alfresco.po.share.adminconsole.TagManagerPage;
-import org.alfresco.po.share.adminconsole.replicationjobs.NewReplicationJobPage;
-import org.alfresco.po.share.adminconsole.replicationjobs.ReplicationJobsPage;
 import org.alfresco.po.share.bulkimport.BulkImportPage;
 import org.alfresco.po.share.bulkimport.InPlaceBulkImportPage;
 import org.alfresco.po.share.bulkimport.StatusBulkImportPage;
 import org.alfresco.po.share.dashlet.ConfigureSiteNoticeDialogBoxPage;
 import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.share.dashlet.FactoryShareDashlet;
 import org.alfresco.po.share.dashlet.InsertOrEditLinkPage;
 import org.alfresco.po.share.dashlet.mydiscussions.CreateNewTopicPage;
 import org.alfresco.po.share.dashlet.mydiscussions.TopicDetailsPage;
@@ -60,13 +71,9 @@ import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SiteGroupsPage;
 import org.alfresco.po.share.site.SiteMembersPage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.site.blog.BlogPage;
-import org.alfresco.po.share.site.blog.PostViewPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.contentrule.FolderRulesPreRender;
 import org.alfresco.po.share.site.contentrule.createrules.CreateRulePage;
-import org.alfresco.po.share.site.datalist.DataListPage;
-import org.alfresco.po.share.site.datalist.NewListForm;
 import org.alfresco.po.share.site.discussions.DiscussionsPage;
 import org.alfresco.po.share.site.document.ChangeTypePage;
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
@@ -75,7 +82,6 @@ import org.alfresco.po.share.site.document.CreatePlainTextContentPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
-import org.alfresco.po.share.site.document.EditInGoogleDocsPage;
 import org.alfresco.po.share.site.document.FolderDetailsPage;
 import org.alfresco.po.share.site.document.InlineEditPage;
 import org.alfresco.po.share.site.document.ManagePermissionsPage;
@@ -98,36 +104,32 @@ import org.alfresco.po.share.systemsummary.directorymanagement.DirectoryManageme
 import org.alfresco.po.share.task.EditTaskPage;
 import org.alfresco.po.share.task.TaskDetailsPage;
 import org.alfresco.po.share.user.AccountSettingsPage;
-import org.alfresco.po.share.user.CloudSignInPage;
-import org.alfresco.po.share.user.CloudSyncPage;
 import org.alfresco.po.share.user.EditProfilePage;
+import org.alfresco.po.share.user.FollowersPage;
+import org.alfresco.po.share.user.FollowingPage;
 import org.alfresco.po.share.user.LanguageSettingsPage;
 import org.alfresco.po.share.user.MyProfilePage;
 import org.alfresco.po.share.user.NotificationPage;
 import org.alfresco.po.share.user.TrashCanPage;
 import org.alfresco.po.share.user.UserContentPage;
 import org.alfresco.po.share.user.UserSitesPage;
-import org.alfresco.po.share.user.FollowingPage;
-import org.alfresco.po.share.user.FollowersPage;
 import org.alfresco.po.share.workflow.DestinationAndAssigneePage;
 import org.alfresco.po.share.workflow.MyWorkFlowsPage;
 import org.alfresco.po.share.workflow.StartWorkFlowPage;
 import org.alfresco.po.share.workflow.WorkFlowDetailsPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.PageFactory;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.StringTokenizer;
-import java.util.concurrent.ConcurrentHashMap;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.FieldDecorator;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 /**
  * Alfresco Share factory, creates the appropriate page object that corresponds
@@ -136,26 +138,27 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Michael Suzuki
  * @version 1.7.1
  */
-public class FactorySharePage implements PageFactory
+@Component
+@PropertySource("classpath:sharepo.properties")
+public class FactorySharePage implements FactoryPage 
 {
+    private static Log logger = LogFactory.getLog(FactorySharePage.class);
+    @Autowired private ApplicationContext ac;
+    @Autowired FactoryShareDashlet dashletFactory;
     private static final By COPY_MOVE_DIALOGUE_SELECTOR = By.cssSelector(".dijitDialogTitleBar");
-	private static Log logger = LogFactory.getLog(FactorySharePage.class);
     private static final String CREATE_PAGE_ERROR_MSG = "Unabel to instantiate the page";
+    protected static final String FAILURE_PROMPT = "div[id='prompt']";
     protected static final String NODE_REF_IDENTIFIER = "?nodeRef";
+    protected static final String SHARE_DIALOGUE = "div.hd, .dijitDialogTitleBar";
+    protected static ConcurrentHashMap<String, Class<? extends Page>> pages;
+    protected static final By SHARE_DIALOGUE_HEADER = By.cssSelector("div.hd");
+    private static Properties poProperties;
     public static final String DOCUMENTLIBRARY = "documentlibrary";
     public static final String NODE_REFRESH_META_DATA_IDENTIFIER = "?refreshMetadata";
-    protected static final String FAILURE_PROMPT = "div[id='prompt']";
-    protected static final String SHARE_DIALOGUE = "div.hd, .dijitDialogTitleBar";
-    protected static ConcurrentHashMap<String, Class<? extends SharePage>> pages;
-    protected static ConcurrentHashMap<String, Class<? extends Dashlet>> dashletPages;
-    protected static final By SHARE_DIALOGUE_HEADER = By.cssSelector("div.hd");
-    private static final String cloudSignInDialogueHeader = "Sign in to Alfresco in the cloud";
 
     static
     {
-        dashletPages = new ConcurrentHashMap<String, Class<? extends Dashlet>>();
-
-        pages = new ConcurrentHashMap<String, Class<? extends SharePage>>();
+        pages = new ConcurrentHashMap<String, Class<? extends Page>>();
         pages.put("dashboard", DashBoardPage.class);
         pages.put("site-dashboard", SiteDashboardPage.class);
         pages.put("document-details", DocumentDetailsPage.class);
@@ -192,7 +195,6 @@ public class FactorySharePage implements PageFactory
         pages.put("advcontent-search", AdvanceSearchContentPage.class);
         pages.put("advfolder-search", AdvanceSearchFolderPage.class);
         pages.put("advCRM-search", AdvanceSearchCRMPage.class);
-        pages.put("googledocsEditor", EditInGoogleDocsPage.class);
         pages.put("siteResultsPage", SiteResultsPage.class);
         pages.put("repositoryResultsPage", RepositoryResultsPage.class);
         pages.put("allSitesResultsPage", AllSitesResultsPage.class);
@@ -209,7 +211,6 @@ public class FactorySharePage implements PageFactory
         pages.put("discussions-topiclist", DiscussionsPage.class);
         pages.put("search", SiteResultsPage.class);
         pages.put("start-workflow", StartWorkFlowPage.class);
-        pages.put("user-cloud-auth", CloudSyncPage.class);
         pages.put("node-browser", NodeBrowserPage.class);
         pages.put("category-manager", CategoryManagerPage.class);
         pages.put("admin-console", AdminConsolePage.class);
@@ -226,9 +227,6 @@ public class FactorySharePage implements PageFactory
         pages.put("admin-fileservers", FileServersPage.class);
         pages.put("admin-transformations", TransformationServicesPage.class);
         pages.put("calendar", CalendarPage.class);
-        pages.put("blog-postlist", BlogPage.class);
-        pages.put("blog-postview", PostViewPage.class);
-        pages.put("data-lists", DataListPage.class);
         pages.put("links-view", LinksDetailsPage.class);
         pages.put("links", LinksPage.class);
         pages.put("pending-invites", PendingInvitesPage.class);
@@ -249,58 +247,47 @@ public class FactorySharePage implements PageFactory
         pages.put("user-content", UserContentPage.class);
         pages.put("following", FollowingPage.class);
         pages.put("followers", FollowersPage.class);
-        pages.put("replication-jobs", ReplicationJobsPage.class);
-        pages.put("replication-job", NewReplicationJobPage.class);
+        pages.put("replication-jobs", ReplicationJobPage.class);
         pages.put("manage-users", AccountSettingsPage.class);
         pages.put("transformations", AlfrescoTransformationServerHistoryPage.class);
         pages.put("transformation-server", AlfrescoTransformationServerStatusPage.class);
         pages.put("models", ModelsPage.class);
     }
 
-    public HtmlPage getPage(WebDrone drone)
+    public HtmlPage getPage(WebDriver driver)
     {
-        return resolvePage(drone);
+        return resolvePage(driver);
     }
 
-    public Dashlet getDashletPage(WebDrone drone, String name)
+    public Dashlet getDashlet(WebDriver driver, String name)
     {
-        return resolveDashletPage(drone, name);
+        return dashletFactory.getPage(driver, name);
     }
-    
-    public static Dashlet resolveDashletPage(final WebDrone drone, final String name)
-    {
-         
-        return instantiateDashletPage(drone, dashletPages.get(name));
-   
-    }
-    
-    
-    
 
     /**
-     * Creates the appropriate page object based on the current page the {@link WebDrone} is on.
+     * Creates the appropriate page object based on the current page the {@link WebDriver} is on.
      *
-     * @param drone WebDrone Alfresco unmanned web browser client
+     * @param driver WebDriver Alfresco unmanned web browser client
      * @return SharePage the page object response
      * @throws PageException
      */
-    public static HtmlPage resolvePage(final WebDrone drone) throws PageException
+    public HtmlPage resolvePage(final WebDriver driver) throws PageException
     {
         // Determine if user is logged in if not return login page
-        // if (drone.getTitle().toLowerCase().contains(drone.getLanguageValue("login.title")))
-        if (drone.getTitle().toLowerCase().contains("login"))
+        // if (driver.getTitle().toLowerCase().contains(driver.getLanguageValue("login.title")))
+        if (driver.getTitle().toLowerCase().contains("login"))
         {
-            return new LoginPage(drone);
+            return instantiatePage(driver,LoginPage.class);
         }
         else
         {
             // Share Error PopUp
             try
             {
-                WebElement errorPrompt = drone.find(By.cssSelector(FAILURE_PROMPT));
+                WebElement errorPrompt = driver.findElement(By.cssSelector(FAILURE_PROMPT));
                 if (errorPrompt.isDisplayed())
                 {
-                    return new SharePopup(drone);
+                    return instantiatePage(driver,SharePopup.class);
                 }
             }
             catch (NoSuchElementException nse)
@@ -310,103 +297,139 @@ public class FactorySharePage implements PageFactory
             // Check for Share Dialogue
             try
             {
-                WebElement shareDialogue = drone.findFirstDisplayedElement(By.cssSelector(SHARE_DIALOGUE));
-                if (shareDialogue.isDisplayed() || drone.findFirstDisplayedElement(COPY_MOVE_DIALOGUE_SELECTOR).isDisplayed())
+                WebElement shareDialogue = driver.findElement(By.cssSelector(SHARE_DIALOGUE));
+                if (shareDialogue.isDisplayed() || !driver.findElements(COPY_MOVE_DIALOGUE_SELECTOR).isEmpty())
                 {
-                    return resolveShareDialoguePage(drone);
+                    HtmlPage response = resolveShareDialoguePage(driver);
+                    if(response != null)
+                    {
+                        return response;
+                    }
                 }
             }
-            catch (NoSuchElementException nse)
-            {
+            catch(NoSuchElementException n){}
 
-            }
-            catch (StaleElementReferenceException ste)
-            {
-
-            }
             // Determine what page we're on based on url
-            return getPage(drone.getCurrentUrl(), drone);
+            return getPage(driver.getCurrentUrl(), driver);
         }
     }
 
     /**
      * Factory method to produce a page that defers all work until render time.
      *
-     * @param drone browser driver
+     * @param driver browser driver
      * @return a page that is meaningless until {@link SharePage#render()} is called
      */
-    public static SharePage getUnknownPage(final WebDrone drone)
+    public HtmlPage getUnknownPage(final WebDriver driver)
     {
-        return new UnknownSharePage(drone);
+        return instantiatePage(driver,UnknownSharePage.class);
     }
 
+    @SuppressWarnings("unchecked")
     /**
      * Instantiates the page object matching the argument.
+     * @param <T>
      *
-     * @param drone            {@link WebDrone}
+     * @param z            {@link WebDriver}
      * @param pageClassToProxy expected Page object
      * @return {@link SharePage} page response
+     * @throws Exception 
      */
-    
-    protected static <T extends HtmlPage> T instantiatePage(WebDrone drone, Class<T> pageClassToProxy)
+    public <T> T instantiatePage(WebDriver driver,Class<T> pageClassToProxy) throws PageException
     {
-        if (drone == null)
+        if (driver == null)
         {
-            throw new IllegalArgumentException("WebDrone is required");
+            throw new IllegalArgumentException("WebDriver is required");
         }
         if (pageClassToProxy == null)
         {
-            throw new IllegalArgumentException("Page object is required for url: " + drone.getCurrentUrl());
+            throw new IllegalArgumentException("Page object is required for url: " + driver.getCurrentUrl());
         }
         try
         {
-            try
-            {
-                Constructor<T> constructor = pageClassToProxy.getConstructor(WebDrone.class);
-                return constructor.newInstance(drone);
-            }
-            catch (NoSuchMethodException e)
-            {
-                return pageClassToProxy.newInstance();
-            }
+          //We first create the page object.
+            Page page = (Page) pageClassToProxy.newInstance();
+            page.setWebDriver(driver);
+            //Wrap it with a decorator to provide htmlelements with webdriver power.
+            WebDriverAwareDecorator decorator = new WebDriverAwareDecorator(driver);
+            //Init HtmlElements with webdriver power.
+            initElements(decorator, page);
+            //Wire spring into page.
+            ac.getAutowireCapableBeanFactory().autowireBean(page);
+            return (T)page;
         }
-        catch (InstantiationException e)
-        {
-            throw new PageException(CREATE_PAGE_ERROR_MSG, e);
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new PageException(CREATE_PAGE_ERROR_MSG, e);
-        }
-        catch (InvocationTargetException e)
+        catch (Exception e)
         {
             throw new PageException(CREATE_PAGE_ERROR_MSG, e);
         }
     }
+    /**
+     * Creates elements nested in page object.
+     * @param decorator 
+     * @param page
+     */
+    private void initElements(FieldDecorator decorator, Object page)
+    {
+        Class<?> proxyIn = page.getClass();
+        while (proxyIn != Object.class) 
+        {
+          proxyFields(decorator, page, proxyIn);
+          proxyIn = proxyIn.getSuperclass();
+        }
+    }
+    /**
+     * Applies proxy and injects spring awareness to fields.
+     * @param decorator
+     * @param page
+     * @param proxyIn
+     */
+    private void proxyFields(FieldDecorator decorator, Object page, Class<?> proxyIn)
+    {
+        Field[] fields = proxyIn.getDeclaredFields();
+        for (Field field : fields)
+        {
+            Object value = decorator.decorate(page.getClass().getClassLoader(), field);
+            if (value != null)
+            {
+                try 
+                {
+                    field.setAccessible(true);
+                	if (value instanceof PageElement)
+                	{
+                        //Wire spring 
+                        ac.getAutowireCapableBeanFactory().autowireBean(value);
+                	}
+                    field.set(page, value);
+                }
+                catch (IllegalAccessException e) 
+                {
+           	      throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+    
+    
+    public PageElement instantiatePageElement(WebDriver driver, Class<?> pageClassToProxy)
+    {
+        if (driver == null)
+        {
+            throw new IllegalArgumentException("WebDriver is required");
+        }
+        if (pageClassToProxy == null)
+        {
+            throw new IllegalArgumentException("Page object is required for url: " + driver.getCurrentUrl());
+        }
+        try
+        {
+            WebDriverAwareDecorator decorator = new WebDriverAwareDecorator(driver);
+            PageElement pageElement = (PageElement) pageClassToProxy.newInstance();
+            pageElement.setWebDriver(driver);
+            PageFactory.initElements(decorator, pageElement);
+            //Wire spring into page elements.
+            ac.getAutowireCapableBeanFactory().autowireBean(pageElement);
+            return pageElement;
 
-    
-    
-    protected static <T extends Dashlet> T instantiateDashletPage(WebDrone drone, Class<T> pageClassToProxy)
-    {
-        if (drone == null)
-        {
-            throw new IllegalArgumentException("WebDrone is required");
-        }
-        if (pageClassToProxy == null)
-        {
-            throw new IllegalArgumentException("Page object is required for url: " + drone.getCurrentUrl());
-        }
-        try
-        {
-            try
-            {
-                Constructor<T> constructor = pageClassToProxy.getConstructor(WebDrone.class);
-                return constructor.newInstance(drone);
-            }
-            catch (NoSuchMethodException e)
-            {
-                return pageClassToProxy.newInstance();
-            }
         }
         catch (InstantiationException e)
         {
@@ -416,23 +439,17 @@ public class FactorySharePage implements PageFactory
         {
             throw new PageException(CREATE_PAGE_ERROR_MSG, e);
         }
-        catch (InvocationTargetException e)
-        {
-            throw new PageException(CREATE_PAGE_ERROR_MSG, e);
-        }
     }
-    
-    
     /**
      * Resolves the required page based on the URL containing a keyword
-     * that identify's the page the drone is currently on. Once a the name
+     * that identify's the page the driver is currently on. Once a the name
      * is extracted it is used to get the class from the map which is
      * then instantiated.
      *
-     * @param drone WebDriver browser client
+     * @param driver WebDriver browser client
      * @return SharePage page object
      */
-    public static SharePage getPage(final String url, WebDrone drone)
+    public HtmlPage getPage(final String url, WebDriver driver)
     {
         String pageName = resolvePage(url);
         if (logger.isTraceEnabled())
@@ -441,9 +458,9 @@ public class FactorySharePage implements PageFactory
         }
         if (pages.get(pageName) == null)
         {
-            return instantiatePage(drone, UnknownSharePage.class);
+            return instantiatePage(driver, UnknownSharePage.class);
         }            
-        return instantiatePage(drone, pages.get(pageName));
+        return instantiatePage(driver, pages.get(pageName));
     }
 
     /**
@@ -581,18 +598,27 @@ public class FactorySharePage implements PageFactory
      *
      * @return HtmlPage
      */
-    private static HtmlPage resolveShareDialoguePage(WebDrone drone)
+    private HtmlPage resolveShareDialoguePage(WebDriver driver)
     {
-        SharePage sharePage = null;
+        HtmlPage sharePage = null;
         try
         {
-            WebElement dialogue = drone.findFirstDisplayedElement(By.cssSelector(SHARE_DIALOGUE));
+            List<WebElement> dialogues = driver.findElements(By.cssSelector(SHARE_DIALOGUE));
+            WebElement dialogue = null;
+            for(WebElement e : dialogues)
+            {
+                if(e.isDisplayed())
+                {
+                    dialogue = e;
+                    break;
+                }
+            }
             WebElement copyMoveDialogue = null;
             try
             {
-                copyMoveDialogue = drone.findFirstDisplayedElement(COPY_MOVE_DIALOGUE_SELECTOR);
+                copyMoveDialogue = driver.findElements(COPY_MOVE_DIALOGUE_SELECTOR).get(0);
             }
-            catch (NoSuchElementException e)
+            catch (Exception e)
             {
             }
             if (dialogue != null && dialogue.isDisplayed())
@@ -600,81 +626,84 @@ public class FactorySharePage implements PageFactory
                 String dialogueID = dialogue.getAttribute("id");
                 if (dialogueID.contains("createSite"))
                 {
-                    sharePage = new CreateSitePage(drone);
-
+                    sharePage = instantiatePage(driver, CreateSitePage.class);
                 }
                 else if (dialogueID.contains("createFolder"))
                 {
-                    sharePage = new NewFolderPage(drone);
+                    sharePage = instantiatePage(driver, NewFolderPage.class);
                 }
                 else if (dialogueID.contains("upload"))
                 {
-                    sharePage = new UploadFilePage(drone);
+                    sharePage = instantiatePage(driver, UploadFilePage.class);
                 }
                 else if (dialogueID.contains("taggable-cntrl-picker"))
                 {
-                    sharePage = new TagPage(drone);
+                    sharePage = instantiatePage(driver, TagPage.class);
                 }
-                else if (dialogueID.contains("editDetails"))
+                else if (dialogueID.contains("editDetails") || dialogueID.contains("edit-metadata"))
                 {
-                    sharePage = new EditDocumentPropertiesPage(drone);
+                    sharePage = instantiatePage(driver, EditDocumentPropertiesPage.class);
                 }
 
                 else if (dialogueID.contains("copyMoveTo"))
                 {
-                    sharePage = new CopyOrMoveContentPage(drone);
+                    sharePage = instantiatePage(driver,CopyOrMoveContentPage.class);
                 }
 
                 else if (dialogueID.contains("historicPropertiesViewer"))
                 {
-                    sharePage = new ViewPropertiesPage(drone);
+                    sharePage = instantiatePage(driver, ViewPropertiesPage.class);
                 }
 
                 // The below dialogeId will be changed once this ACE-1047 issue is fixed.
                 else if (dialogueID.contains("configDialog-configDialog_h"))
                 {
-                    sharePage = new ConfigureSiteNoticeDialogBoxPage(drone);
-                }
-                //                else if(dialogueID.contains("simple-dialog"))
-                //                {
-                //                    sharePage = new ConfirmDeletePage(drone);
-                //                }
-
-                else if (cloudSignInDialogueHeader.equals(dialogue.getText()))
-                {
-                    sharePage = new CloudSignInPage(drone);
-                }
-                else if (dialogueID.contains("newList"))
-                {
-                    sharePage = new NewListForm(drone);
+                    sharePage = instantiatePage(driver,ConfigureSiteNoticeDialogBoxPage.class);
                 }
                 else if(copyMoveDialogue != null && (copyMoveDialogue.getText().startsWith("Copy") || copyMoveDialogue.getText().startsWith("Move")))
                 {
-                	sharePage = new CopyAndMoveContentFromSearchPage(drone);
+                    sharePage =instantiatePage(driver,CopyAndMoveContentFromSearchPage.class);
                 }
                 else if(dialogueID.contains("Create New Filter"))
                 {
-                        sharePage = new CreateNewFilterPopUpPage(drone);
+                        sharePage = instantiatePage(driver,CreateNewFilterPopUpPage.class);
                 }
                 else if(dialogueID.contains("cloud-folder-title"))
                 {
-                    sharePage = new DestinationAndAssigneePage(drone);
+                    sharePage = instantiatePage(driver,DestinationAndAssigneePage.class);
                 }
                 else if(dialogueID.contains("changeType"))
                 {
-                    sharePage = new ChangeTypePage(drone);
+                    sharePage = instantiatePage(driver,ChangeTypePage.class);
                 }
                 if(dialogueID.contains("default-aspects"))
                 {
-                    sharePage = new SelectAspectsPage(drone);
+                    sharePage = instantiatePage(driver,SelectAspectsPage.class);
                 }
             }
         }
-        catch (NoSuchElementException nse)
-        {
-        }
+        catch (NoSuchElementException nse){}
 
         return sharePage;
     }
-
+    
+    public String getValue(String key)
+    {
+        if(key == null || key.isEmpty())
+        {
+            throw new IllegalArgumentException("Key is required to find value");
+        }
+        
+        return poProperties.getProperty(key);
+    }
+    
+    public static void setPoProperties(Properties poProperties)
+    {
+        FactorySharePage.poProperties = poProperties;
+    }
+    
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    {
+        this.ac = applicationContext;
+    }
 }

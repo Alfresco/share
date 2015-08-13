@@ -23,7 +23,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.UserSearchPage;
@@ -31,13 +34,9 @@ import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
@@ -62,12 +61,6 @@ public class MyActivitiesDashletTest extends AbstractDashletTest
     {
         siteName = "MyActDashletTests" + System.currentTimeMillis();
         uploadDocument();
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (version.isCloud())
-        {
-            firstName = anotherUser.getfName();
-            lastName = anotherUser.getlName();
-        }
     }
 
     @AfterClass(groups = "alfresco-one")
@@ -75,7 +68,7 @@ public class MyActivitiesDashletTest extends AbstractDashletTest
     {
         try
         {
-            SiteUtil.deleteSite(drone, siteName);
+            siteUtil.deleteSite(username, password, siteName);
         }
         catch (Exception e)
         {
@@ -87,7 +80,7 @@ public class MyActivitiesDashletTest extends AbstractDashletTest
     @Test(groups = "alfresco-one")
     public void instantiateMyActivitiesDashlet()
     {
-        MyActivitiesDashlet dashlet = new MyActivitiesDashlet(drone);
+        MyActivitiesDashlet dashlet = new MyActivitiesDashlet();
         Assert.assertNotNull(dashlet);
     }
 
@@ -130,7 +123,7 @@ public class MyActivitiesDashletTest extends AbstractDashletTest
             timer.start();
             try
             {
-                drone.refresh();
+                driver.navigate().refresh();
                 MyActivitiesDashlet dashlet = dashBoard.getDashlet("activities").render();
                 active = dashlet.selectLink(fileName);
                 break;
@@ -152,15 +145,15 @@ public class MyActivitiesDashletTest extends AbstractDashletTest
     public void getActivities() throws IOException
     {
         List<ActivityShareLink> activities;
-        drone.navigateTo(shareUrl);
-        dashBoard = drone.getCurrentPage().render();
+        driver.navigate().to(shareUrl);
+        dashBoard = resolvePage(driver).render();
         RenderTime timer = new RenderTime(60000);
         while (true)
         {
             timer.start();
             try
             {
-                drone.refresh();
+                driver.navigate().refresh();
                 MyActivitiesDashlet dashlet = dashBoard.getDashlet("activities").render();
                 activities = dashlet.getActivities();
                 if (!activities.isEmpty())
@@ -185,7 +178,7 @@ public class MyActivitiesDashletTest extends AbstractDashletTest
     @Test(groups = "alfresco-one", dependsOnMethods = "getActivities")
     public void selectAndDisplayActivity()
     {
-        dashBoard = dashBoard.getNav().selectMyDashBoard();
+        dashBoard = dashBoard.getNav().selectMyDashBoard().render();
         dashBoard.render();
         MyActivitiesDashlet dashlet = dashBoard.getDashlet("activities").render();
         List<ActivityShareLink> activityShareLinks = dashlet.getActivities();
@@ -200,34 +193,28 @@ public class MyActivitiesDashletTest extends AbstractDashletTest
     {
         try
         {
-            File file = SiteUtil.prepareFile();
+            File file = siteUtil.prepareFile();
             fileName = file.getName();
+            dashBoard = loginAs(username, password);
+            // Creating new user.
 
-            if (!alfrescoVersion.isCloud())
-            {
-                dashBoard = loginAs(username, password);
-                // Creating new user.
+            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
+            NewUserPage newPage = page.selectNewUser().render();
+            newPage.inputFirstName(firstName);
+            newPage.inputLastName(lastName);
+            newPage.inputEmail(userName);
+            newPage.inputUsername(userName);
+            newPage.inputPassword(userName);
+            newPage.inputVerifyPassword(userName);
+            UserSearchPage userCreated = newPage.selectCreateUser().render();
+            userCreated.searchFor(userName).render();
+            Assert.assertTrue(userCreated.hasResults());
+            logout(driver);
+            loginAs(userName, userName);
 
-                UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-                NewUserPage newPage = page.selectNewUser().render();
-                newPage.inputFirstName(firstName);
-                newPage.inputLastName(lastName);
-                newPage.inputEmail(userName);
-                newPage.inputUsername(userName);
-                newPage.inputPassword(userName);
-                newPage.inputVerifyPassword(userName);
-                UserSearchPage userCreated = newPage.selectCreateUser().render();
-                userCreated.searchFor(userName).render();
-                Assert.assertTrue(userCreated.hasResults());
-                logout(drone);
-                loginAs(userName, userName);
-            }
-            else
-                loginAs(username, password);
-
-            SiteUtil.createSite(drone, siteName, "description", "Public");
-            SitePage site = drone.getCurrentPage().render();
-            DocumentLibraryPage docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+            siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+            SitePage site = resolvePage(driver).render();
+            DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
             UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
             docPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
             DocumentDetailsPage detailsPage = docPage.selectFile(fileName).render();
@@ -261,11 +248,11 @@ public class MyActivitiesDashletTest extends AbstractDashletTest
     @Test(dependsOnMethods = "instantiateMyActivitiesDashlet", groups = "alfresco-one")
     public void selectRssFeedPagePositiveTest()
     {
-        String currentUrl = drone.getCurrentUrl();
+        String currentUrl = driver.getCurrentUrl();
         MyActivitiesDashlet activitiesDashlet = dashBoard.getDashlet("activities").render();
-        RssFeedPage rssFeedPage = activitiesDashlet.selectRssFeedPage(username, password);
+        RssFeedPage rssFeedPage = activitiesDashlet.selectRssFeedPage(username, password).render();
         assertTrue(rssFeedPage.isSubscribePanelDisplay());
-        drone.navigateTo(currentUrl);
+        driver.navigate().to(currentUrl);
     }
 
     @Test(dependsOnMethods = "instantiateMyActivitiesDashlet", groups = "alfresco-one")

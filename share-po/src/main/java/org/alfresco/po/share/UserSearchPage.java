@@ -14,11 +14,12 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,9 +28,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User Search page object, holds all element of the html page relating to
@@ -53,16 +51,6 @@ public class UserSearchPage extends SharePage
     private static final By CSV_UPLOADED_USERNAMES = By.cssSelector("td[class*='username']>div");
     private static final By CSV_NO_RECORDS_FOUND = By.xpath("//td[contains(@class, 'empty')]/div[text()='No records found.']");
     private static final By CSV_GO_BACK_BUTTON = By.cssSelector("button[id*='csv-goback-button-button']");
-
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public UserSearchPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -103,13 +91,6 @@ public class UserSearchPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public UserSearchPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Verify if Admin Console title is present on the page
      * 
@@ -127,7 +108,7 @@ public class UserSearchPage extends SharePage
      * @param user String name
      * @return UserSearchPage page response
      */
-    public UserSearchPage searchFor(final String user)
+    public HtmlPage searchFor(final String user)
     {
         // Null check
         if (user == null)
@@ -135,12 +116,12 @@ public class UserSearchPage extends SharePage
             throw new UnsupportedOperationException("user name is required");
         }
 
-        WebElement input = drone.findAndWait(By.cssSelector(USER_SEARCH_BOX));
+        WebElement input = findAndWait(By.cssSelector(USER_SEARCH_BOX));
         input.clear();
         input.sendKeys(user);
-        WebElement button = drone.findAndWait(By.cssSelector(USER_SEARCH_BUTTON));
+        WebElement button = findAndWait(By.cssSelector(USER_SEARCH_BUTTON));
         button.click();
-        return new UserSearchPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -153,7 +134,7 @@ public class UserSearchPage extends SharePage
         boolean searchComplete = false;
         try
         {
-            WebElement element = drone.find(By.cssSelector(USER_SEARCH_RESULTS_STATUS));
+            WebElement element = driver.findElement(By.cssSelector(USER_SEARCH_RESULTS_STATUS));
             searchComplete = !element.getText().contains("Searching for");
         }
         catch (NoSuchElementException te)
@@ -171,7 +152,7 @@ public class UserSearchPage extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector(USER_SEARCH_RESULTS_ROW)).isDisplayed();
+            return driver.findElement(By.cssSelector(USER_SEARCH_RESULTS_ROW)).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -189,7 +170,7 @@ public class UserSearchPage extends SharePage
         String message = "";
         try
         {
-            WebElement resultStatus = drone.find(By.cssSelector(USER_SEARCH_RESULTS_STATUS));
+            WebElement resultStatus = driver.findElement(By.cssSelector(USER_SEARCH_RESULTS_STATUS));
             message = resultStatus.getText();
         }
         catch (NoSuchElementException te)
@@ -234,9 +215,9 @@ public class UserSearchPage extends SharePage
     {
         try
         {
-            WebElement newUserButton = drone.find(By.cssSelector(NEW_USER_BUTTON));
+            WebElement newUserButton = driver.findElement(By.cssSelector(NEW_USER_BUTTON));
             newUserButton.click();
-            return new NewUserPage(drone);
+            return getCurrentPage();
         }
         catch (NoSuchElementException te)
         {
@@ -249,17 +230,17 @@ public class UserSearchPage extends SharePage
      * 
      * @return NewUserPage
      */
-    public UploadFilePage selectUploadUserCSVFile()
+    public HtmlPage selectUploadUserCSVFile()
     {
         try
         {
-            WebElement button = drone.find(By.cssSelector(UPLOAD_USER_CSV_BUTTON));
+            WebElement button = driver.findElement(By.cssSelector(UPLOAD_USER_CSV_BUTTON));
             button.click();
         }
         catch (NoSuchElementException te)
         {
         }
-        return new UploadFilePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -267,18 +248,18 @@ public class UserSearchPage extends SharePage
      * 
      * @return UserSearchPage
      */
-    public UserSearchPage openUploadUserCSVFile()
+    public HtmlPage openUploadUserCSVFile()
     {
         try
         {
-            WebElement button = drone.find(By.cssSelector(UPLOAD_USER_CSV_BUTTON));
+            WebElement button = driver.findElement(By.cssSelector(UPLOAD_USER_CSV_BUTTON));
             button.click();
 
         }
         catch (NoSuchElementException te)
         {
         }
-        return new UserSearchPage(drone).render();
+        return getCurrentPage();
     }
 
     /**
@@ -290,13 +271,13 @@ public class UserSearchPage extends SharePage
     public HtmlPage uploadCVSFile(String filePath)
     {
         openUploadUserCSVFile();
-        WebElement upload = drone.findAndWait(CSV_UPLOAD_FILE);
+        WebElement upload = findAndWait(CSV_UPLOAD_FILE);
         upload.sendKeys(filePath);//"file:///" +
 
-        WebElement uploadButton = drone.findAndWait(CSV_CONFIRM_UPLOAD_BUTTON);
+        WebElement uploadButton = findAndWait(CSV_CONFIRM_UPLOAD_BUTTON);
         uploadButton.click();
 
-        return drone.getCurrentPage().render();
+        return getCurrentPage();
 
     }
 
@@ -311,7 +292,7 @@ public class UserSearchPage extends SharePage
         List<String> usernames = new ArrayList<>();
         if (isCSVResults())
         {
-            List<WebElement> csvUsers = drone.findAndWaitForElements(CSV_UPLOADED_USERNAMES);
+            List<WebElement> csvUsers = findAndWaitForElements(CSV_UPLOADED_USERNAMES);
             for (WebElement csvUser : csvUsers)
             {
                 usernames.add(csvUser.getText());
@@ -329,12 +310,15 @@ public class UserSearchPage extends SharePage
     {
         try
         {
-            drone.findAndWait(CSV_GO_BACK_BUTTON);
-            if (drone.isElementDisplayed(CSV_NO_RECORDS_FOUND))
+            findAndWait(CSV_GO_BACK_BUTTON);
+            if (driver.findElement(CSV_NO_RECORDS_FOUND).isDisplayed())
+            {
                 return false;
-            else if (drone.isElementDisplayed(CSV_UPLOADED_USERNAMES))
+            }
+            else if (driver.findElement(CSV_UPLOADED_USERNAMES).isDisplayed())
+            {
                 return true;
-
+            }
         }
         catch (TimeoutException ex)
         {
@@ -348,11 +332,11 @@ public class UserSearchPage extends SharePage
      * 
      * @return UserSearchPage
      */
-    public UserSearchPage clickGoBack()
+    public HtmlPage clickGoBack()
     {
         try
         {
-            WebElement goBack = drone.find(CSV_GO_BACK_BUTTON);
+            WebElement goBack = driver.findElement(CSV_GO_BACK_BUTTON);
             goBack.click();
 
         }
@@ -360,7 +344,7 @@ public class UserSearchPage extends SharePage
         {
             logger.error("Go Back button is not present on the page");
         }
-        return new UserSearchPage(drone).render();
+        return getCurrentPage();
     }
 
     /**
@@ -372,7 +356,7 @@ public class UserSearchPage extends SharePage
     {
         try
         {
-            return drone.find(By.cssSelector("span.message")).isDisplayed();
+            return driver.findElement(By.cssSelector("span.message")).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -380,7 +364,7 @@ public class UserSearchPage extends SharePage
         }
         catch (StaleElementReferenceException ser)
         {
-            drone.refresh();
+            driver.navigate().refresh();
             return isMessageDisplayed();
         }
     }
@@ -394,12 +378,12 @@ public class UserSearchPage extends SharePage
     {
         try
         {
-            WebElement errMessage = drone.findAndWait(ERROR_MESSAGE);
+            WebElement errMessage = findAndWait(ERROR_MESSAGE);
 
             if (errMessage != null && errMessage.isDisplayed())
             {
                 errMessage.getText().equals("Enter at least 1 character(s)");
-                drone.waitUntilElementDisappears(ERROR_MESSAGE, (WAIT_TIME_3000) / 1000);
+                waitUntilElementDisappears(ERROR_MESSAGE, (getDefaultWaitTime()) / 1000);
                 return true;
             }
         }
@@ -415,22 +399,17 @@ public class UserSearchPage extends SharePage
      * 
      * @return UserProfilePage
      */
-    public UserProfilePage clickOnUser(String userName)
+    public HtmlPage clickOnUser(String userName)
     {
         if (StringUtils.isEmpty(userName))
         {
             throw new IllegalArgumentException("user name is required");
         }
-
-        try
-        {
-            drone.findAndWait(By.partialLinkText(userName)).click();
-            return new UserProfilePage(drone);
-        }
-        catch (TimeoutException te)
-        {
-        }
-        throw new PageException("Unable to find the userName to open the userProfie Page for : " + userName);
+        By link = By.partialLinkText(userName);
+        driver.findElement(link).click();
+        //check link has gone
+        driver.findElements(link);
+        return factoryPage.instantiatePage(driver, UserProfilePage.class);
     }
 
     /**
@@ -444,7 +423,7 @@ public class UserSearchPage extends SharePage
 
         try
         {
-            List<WebElement> usersList = drone.findAndWaitForElements(By.cssSelector("tr>td>div.yui-dt-liner>a"));
+            List<WebElement> usersList = findAndWaitForElements(By.cssSelector("tr>td>div.yui-dt-liner>a"));
 
             for (WebElement user : usersList)
             {

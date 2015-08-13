@@ -24,7 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashBoardPage;
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
@@ -48,14 +52,12 @@ import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.site.document.FileDirectoryInfo;
 import org.alfresco.po.share.site.document.SelectAspectsPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.WebDroneUtil;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Component;
 
 /**
  * Share actions - All the common steps of site action
@@ -63,7 +65,7 @@ import org.openqa.selenium.NoSuchElementException;
  * @author sprasanna
  * @author mbhave
  */
-
+@Component
 public class SiteActions extends CommonActions
 {
     private static Log logger = LogFactory.getLog(SiteActions.class);
@@ -78,7 +80,7 @@ public class SiteActions extends CommonActions
     /**
      * Create site
      */
-    public boolean createSite(WebDrone drone, final String siteName, String desc, String siteVisibility)
+    public boolean createSite(WebDriver driver, final String siteName, String desc, String siteVisibility)
     {
         if (siteName == null || siteName.isEmpty())
         {
@@ -89,7 +91,7 @@ public class SiteActions extends CommonActions
         SiteDashboardPage site = null;
         try
         {
-            SharePage page = drone.getCurrentPage().render();
+            SharePage page = factoryPage.getPage(driver).render();
             dashBoard = page.getNav().selectMyDashBoard().render();
             CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
             if (siteVisibility == null)
@@ -133,18 +135,18 @@ public class SiteActions extends CommonActions
      * Creates a new folder at the Path specified, Starting from the Document Library Page.
      * Assumes User is logged in and a specific Site is open.
      * 
-     * @param drone WebDrone Instance
+     * @param driver WebDriver Instance
      * @param folderName String Name of the folder to be created
      * @param folderTitle String Title of the folder to be created
      * @param folderDesc String Description of the folder to be created
      * @return DocumentLibraryPage
      */
-    public DocumentLibraryPage createFolder(WebDrone drone, String folderName, String folderTitle, String folderDesc)
+    public DocumentLibraryPage createFolder(WebDriver driver, String folderName, String folderTitle, String folderDesc)
     {
         DocumentLibraryPage docPage = null;
 
         // Open Document Library
-        SharePage thisPage = getSharePage(drone);
+        SharePage thisPage = getSharePage(driver);
 
         if (!(thisPage instanceof DocumentLibraryPage))
         {
@@ -166,21 +168,21 @@ public class SiteActions extends CommonActions
      * Open document Library: Top Level Assumes User is logged in and a Specific
      * Site is open.
      *
-     * @param drone WebDrone Instance
+     * @param driver WebDriver Instance
      * @return DocumentLibraryPage
      */
-    public DocumentLibraryPage openDocumentLibrary(WebDrone drone)
+    public DocumentLibraryPage openDocumentLibrary(WebDriver driver)
     {
         // Assumes User is logged in
         /*
-         * SharePage page = getSharePage(drone); if (page instanceof
+         * SharePage page = getSharePage(driver); if (page instanceof
          * DocumentLibraryPage) { return (DocumentLibraryPage) page; }
          */
 
         // Open DocumentLibrary Page from Site Page
-        SitePage site = drone.getCurrentPage().render();
+        SitePage site = factoryPage.getPage(driver).render();
 
-        DocumentLibraryPage docPage = site.getSiteNav().selectSiteContentLibrary().render();
+        DocumentLibraryPage docPage = site.getSiteNav().selectDocumentLibrary().render();
         logger.info("Opened Document Library");
         return docPage;
     }
@@ -188,11 +190,11 @@ public class SiteActions extends CommonActions
     /**
      * Assumes a specific Site is open Opens the Document Library Page and navigates to the Path specified.
      * 
-     * @param drone WebDrone Instance
+     * @param driver WebDriver Instance
      * @param folderPath  String folder path relative to DocumentLibrary e.g. DOCLIB + file.seperator + folderName1
      * @throws ShareException if error in this API
      */
-    public DocumentLibraryPage navigateToFolder(WebDrone drone, String folderPath) throws ShareException
+    public DocumentLibraryPage navigateToFolder(WebDriver driver, String folderPath) throws ShareException
     {
         DocumentLibraryPage docPage;
 
@@ -204,7 +206,7 @@ public class SiteActions extends CommonActions
             }
 
             // check whether we are in the document libary page
-            SharePage thisPage = getSharePage(drone);
+            SharePage thisPage = getSharePage(driver);
 
             if (!(thisPage instanceof DocumentLibraryPage))
             {
@@ -237,7 +239,7 @@ public class SiteActions extends CommonActions
                     else
                     {
                         logger.info("Navigating to Folder: " + path[i]);
-                        docPage = selectContent(drone, path[i]).render();
+                        docPage = selectContent(driver, path[i]).render();
                     }
                 }
             }
@@ -254,47 +256,27 @@ public class SiteActions extends CommonActions
     /**
      * Util traverses through all the pages of the doclib to find the content within the folder and clicks on the contentTile
      * 
-     * @param drone WebDrone
-     * @param contentName String
-     * @return HtmlPage
+     * @param driver
+     * @param contentName
+     * @return
      */
-    public HtmlPage selectContent(WebDrone drone, String contentName)
+    public HtmlPage selectContent(WebDriver driver, String contentName)
     {
-        return getFileDirectoryInfo(drone, contentName).clickOnTitle().render();
+        return getFileDirectoryInfo(driver, contentName).clickOnTitle().render();
     }
     
     /**
      * Util returns the DetailsPage for the selected content
      * 
-     * @param drone
+     * @param driver
      * @param contentName
      * @return DetailsPage
      */
-    public HtmlPage viewDetails(WebDrone drone, String contentName)
-    {
-        FileDirectoryInfo node = getFileDirectoryInfo(drone, contentName);
-        if(node.isFolder())
-        {
-            return node.selectViewFolderDetails().render();
-        }
-        else
-        {
-            return node.clickOnTitle().render();
-        }
-    }
-
-    /**
-     * Util traverses through all the pages of the doclib to find the content within the folder
-     * 
-     * @param drone WebDrone
-     * @param contentName String
-     * @return FileDirectoryInfo
-     */
-    public FileDirectoryInfo getFileDirectoryInfo(WebDrone drone, String contentName)
+    public FileDirectoryInfo getFileDirectoryInfo(WebDriver driver, String contentName)
     {
         Boolean moreResultPages = true;
         FileDirectoryInfo contentRow = null;
-        DocumentLibraryPage docLibPage = getSharePage(drone).render();
+        DocumentLibraryPage docLibPage = getSharePage(driver).render();
 
         // Start from first page
         while (docLibPage.hasPreviousPage())
@@ -335,7 +317,7 @@ public class SiteActions extends CommonActions
      * Creates a new folder at the Path specified, Starting from the Document
      * Library Page. Assumes User is logged in and a specific Site is open.
      *
-     * @param drone WebDrone Instance
+     * @param driver WebDriver Instance
      * @param folderName String Name of the folder to be created
      * @param folderDesc String Description of the folder to be created
      * @param parentFolderPath String Path for the folder to be created, under
@@ -343,7 +325,7 @@ public class SiteActions extends CommonActions
      *            parentFolderName1 + file.seperator + parentFolderName2
      * @throws Exception
      */
-    public DocumentLibraryPage createFolderInFolder(WebDrone drone, String folderName, String folderDesc, String folderTitle, String parentFolderPath)
+    public DocumentLibraryPage createFolderInFolder(WebDriver driver, String folderName, String folderDesc, String folderTitle, String parentFolderPath)
             throws Exception
     {
         try
@@ -352,10 +334,10 @@ public class SiteActions extends CommonActions
 
             // Using Share UI
             // Navigate to the parent Folder where the file needs to be uploaded
-            navigateToFolder(drone, parentFolderPath);
+            navigateToFolder(driver, parentFolderPath);
 
             // Create Folder
-            return createFolder(drone, folderName, folderTitle, folderDesc);
+            return createFolder(driver, folderName, folderTitle, folderDesc);
         }
         catch (Exception ex)
         {
@@ -369,13 +351,13 @@ public class SiteActions extends CommonActions
      * @param file File Object for the file in reference
      * @return DocumentLibraryPage
      */
-    public HtmlPage uploadFile(WebDrone drone, File file)
+    public HtmlPage uploadFile(WebDriver driver, File file)
     {
         DocumentLibraryPage docPage;
         try
         {
-            checkIfDriverIsNull(drone);
-            docPage = drone.getCurrentPage().render(refreshDuration);
+            checkIfDriverIsNull(driver);
+            docPage = factoryPage.getPage(driver).render();
             // Upload File
             UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
             docPage = upLoadPage.uploadFile(file.getCanonicalPath()).render();
@@ -394,23 +376,23 @@ public class SiteActions extends CommonActions
      * This method is used to create content with name, title and description.
      * User should be logged in and present on site page.
      *
-     * @param drone WebDrone
-     * @param contentDetails ContentDetails
-     * @param contentType ContentType
+     * @param driver
+     * @param contentDetails
+     * @param contentType
      * @return {@link DocumentLibraryPage}
      * @throws Exception
      */
-    public DocumentLibraryPage createContent(WebDrone drone, ContentDetails contentDetails, ContentType contentType) throws Exception
+    public DocumentLibraryPage createContent(WebDriver driver, ContentDetails contentDetails, ContentType contentType) throws Exception
     {
         // Open Document Library
-        DocumentLibraryPage documentLibPage = drone.getCurrentPage().render();
+        DocumentLibraryPage documentLibPage = factoryPage.getPage(driver).render();
         DocumentDetailsPage detailsPage = null;
 
         try
         {
             CreatePlainTextContentPage contentPage = documentLibPage.getNavigation().selectCreateContent(contentType).render();
             detailsPage = contentPage.create(contentDetails).render();
-            documentLibPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectSiteDocumentLibrary();
+            documentLibPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
             documentLibPage.render();
         }
         catch (Exception e)
@@ -425,15 +407,15 @@ public class SiteActions extends CommonActions
     /**
      * isFileVisible is to check whether file or folder visible..
      * 
-     * @param drone WebDrone
-     * @param contentName String
-     * @return boolean
+     * @param driver
+     * @param contentName
+     * @return
      */
-    public boolean isFileVisible(WebDrone drone, String contentName)
+    public boolean isFileVisible(WebDriver driver, String contentName)
     {
         try
         {
-            getFileDirectoryInfo(drone, contentName);
+            getFileDirectoryInfo(driver, contentName);
             return true;
         }
         catch (Exception e)
@@ -446,11 +428,11 @@ public class SiteActions extends CommonActions
      * Open Site and then Open Document Library Assumes User is logged in and a
      * Specific Site Dashboard is open.
      *
-     * @param driver WebDrone Instance
+     * @param driver WebDriver Instance
      * @param siteName String Name of the Site
      * @return DocumentLibraryPage
      */
-    public DocumentLibraryPage openSitesDocumentLibrary(WebDrone driver, String siteName)
+    public DocumentLibraryPage openSitesDocumentLibrary(WebDriver driver, String siteName)
     {
         // Assumes User is logged in
 
@@ -479,12 +461,12 @@ public class SiteActions extends CommonActions
      * From the User DashBoard, navigate to the Site DashBoard and waits for the
      * page render to complete. Assumes User is logged in.
      *
-     * @param driver WebDrone Instance
+     * @param driver WebDriver Instance
      * @param siteName String Name of the site to be opened
      * @return SiteDashboardPage
      * @throws PageException
      */
-    public SiteDashboardPage openSiteDashboard(WebDrone driver, String siteName) throws PageException
+    public SiteDashboardPage openSiteDashboard(WebDriver driver, String siteName) throws PageException
     {
         // Assumes User is logged in
         HtmlPage page = getSharePage(driver).render();
@@ -514,16 +496,16 @@ public class SiteActions extends CommonActions
      * Method to navigate to site dashboard url, based on siteshorturl, rather than sitename
      * This is to be used to navigate only as a util, not to test getting to the site dashboard
      * 
-     * @param drone WebDrone
-     * @param siteShortURL String
+     * @param driver
+     * @param siteShortURL
      * @return {@link org.alfresco.po.share.site.SiteDashboardPage}
      */
-    public SiteDashboardPage openSiteURL(WebDrone drone, String siteShortURL)
+    public SiteDashboardPage openSiteURL(WebDriver driver, String siteShortURL)
     {
-        String url = drone.getCurrentUrl();
+        String url = driver.getCurrentUrl();
         String target = url.substring(0, url.indexOf("/page/")) + SITE_DASH_LOCATION_SUFFIX + getSiteShortname(siteShortURL) + "/dashboard";
-        drone.navigateTo(target);
-        SiteDashboardPage siteDashboardPage = getSharePage(drone).render();
+        driver.navigate().to(target);
+        SiteDashboardPage siteDashboardPage = getSharePage(driver).render();
 
         return siteDashboardPage.render();
     }
@@ -592,21 +574,21 @@ public class SiteActions extends CommonActions
      * Util to download a file in a particular path
      */
 
-    public void shareDownloadFileFromDocLib(WebDrone drone, String FileName, String path)
+    public void shareDownloadFileFromDocLib(WebDriver driver, String FileName, String path)
     {
-        FileDirectoryInfo fileInfo = getFileDirectoryInfo(drone, FileName);
+        FileDirectoryInfo fileInfo = getFileDirectoryInfo(driver, FileName);
         fileInfo.selectDownload();
-        DocumentLibraryPage docLib = drone.getCurrentPage().render();
+        DocumentLibraryPage docLib = factoryPage.getPage(driver).render();
         docLib.waitForFile(path);
     }
 
     /**
      * Delete content in share
      */
-    public void deleteContentInDocLib(WebDrone drone, String contentName)
+    public void deleteContentInDocLib(WebDriver driver, String contentName)
     {
-        selectContentCheckBox(drone, contentName);
-        DocumentLibraryPage doclib = deleteDocLibContents(drone);
+        selectContentCheckBox(driver, contentName);
+        DocumentLibraryPage doclib = deleteDocLibContents(driver);
         doclib.render();
 
     }
@@ -614,16 +596,14 @@ public class SiteActions extends CommonActions
     /**
      * Checks the checkbox for a content if not selected on the document library
      * page.
-     *  Note: Expects the user is logged in and document library page within
-     *      the selected site is open.
-     *
-     * @param drone WebDrone
-     * @param contentName String
+     * 
+     * @param driver
+     * @param contentName
      * @return DocumentLibraryPage
      */
-    private DocumentLibraryPage selectContentCheckBox(WebDrone drone, String contentName)
+    private DocumentLibraryPage selectContentCheckBox(WebDriver driver, String contentName)
     {
-        DocumentLibraryPage docLibPage = drone.getCurrentPage().render();
+        DocumentLibraryPage docLibPage = factoryPage.getPage(driver).render();
         if (!docLibPage.getFileDirectoryInfo(contentName).isCheckboxSelected())
         {
             docLibPage.getFileDirectoryInfo(contentName).selectCheckbox();
@@ -634,12 +614,12 @@ public class SiteActions extends CommonActions
     /**
      * Delete doc lib contents.
      * 
-     * @param drone WebDrone
-     * @return DocumentLibraryPage
+     * @param driver
+     * @return
      */
-    private DocumentLibraryPage deleteDocLibContents(WebDrone drone)
+    private DocumentLibraryPage deleteDocLibContents(WebDriver driver)
     {
-        ConfirmDeletePage deletePage = ((DocumentLibraryPage) getSharePage(drone)).getNavigation().render().selectDelete();
+        ConfirmDeletePage deletePage = ((DocumentLibraryPage) getSharePage(driver)).getNavigation().selectDelete();
         return deletePage.selectAction(Action.Delete).render();
     }
 
@@ -647,32 +627,31 @@ public class SiteActions extends CommonActions
      * This method uploads the new version for the document with the given file
      * from data folder. User should be on Document details page.
      * 
-     * @param drone WebDrone
-     * @param title String
-     * @param fileName String
-     * @param comments String
+     * @param fileName
+     * @param driver
+     * @return DocumentDetailsPage
      * @throws IOException
      */
-    public void uploadNewVersionOfDocument(WebDrone drone, String title, String fileName, String comments) throws IOException
+    public void uploadNewVersionOfDocument(WebDriver driver, String title, String fileName, String comments) throws IOException
     {
         String fileContents = "New File being created via newFile:" + fileName;
         File newFileName = newFile(fileName, fileContents);
-        DocumentLibraryPage doclib = (DocumentLibraryPage) drone.getCurrentPage();
+        DocumentLibraryPage doclib = (DocumentLibraryPage) factoryPage.getPage(driver);
         DocumentDetailsPage detailsPage = doclib.selectFile(title).render();
         UpdateFilePage updatePage = detailsPage.selectUploadNewVersion().render();
         updatePage.selectMajorVersionChange();
         updatePage.uploadFile(newFileName.getCanonicalPath());
         updatePage.setComment(comments);
-        detailsPage = updatePage.submit().render();
+        detailsPage = updatePage.submitUpload().render();
         detailsPage.selectDownload(null);
     }
 
     /**
      * Just get version number of the file
      */
-    public String getVersionNumber(WebDrone drone, String title)
+    public String getVersionNumber(WebDriver driver, String title)
     {
-        DocumentLibraryPage doclib = (DocumentLibraryPage) drone.getCurrentPage().render();
+        DocumentLibraryPage doclib = (DocumentLibraryPage) factoryPage.getPage(driver).render();
         DocumentDetailsPage detailsPage = doclib.selectFile(title).render();
         return detailsPage.getDocumentVersion();
     }
@@ -680,36 +659,34 @@ public class SiteActions extends CommonActions
     /**
      * Get Version info from Document Library
      */
-    public String getDocLibVersionInfo(WebDrone drone, String contentName)
+    public String getDocLibVersionInfo(WebDriver driver, String contentName)
     {
-        FileDirectoryInfo fileInfo = getFileDirectoryInfo(drone, contentName);
+        FileDirectoryInfo fileInfo = getFileDirectoryInfo(driver, contentName);
         return fileInfo.getVersionInfo();
     }
 
     /**
      * Navigate to Document library
      */
-    public void navigateToDocuemntLibrary(WebDrone drone, String siteName)
+    public void navigateToDocuemntLibrary(WebDriver driver, String siteName)
     {
-        openSiteURL(drone, siteName);
-        openDocumentLibrary(drone);
+        openSiteURL(driver, siteName);
+        openDocumentLibrary(driver);
 
     }
 
     /**
      * Copy or Move to File or folder from document library.
      * 
-     * @param drone WebDrone
-     * @param destination String
-     * @param siteName String
-     * @param fileName String
-     * @return HtmlPage
-     * @deprecated This will be removed in the future releases, please use {@link SiteActions#copyOrMoveArtifact(WebDrone, org.alfresco.po.share.site.document.CopyOrMoveContentPage.DESTINATION, String, String, ACTION, String...)}
+     * @param driver
+     * @param destination
+     * @param siteName
+     * @param fileName
+     * @return
      */
-    @Deprecated
-    public HtmlPage copyOrMoveArtifact(WebDrone drone, String destination, String siteName,  String fileName, String type, String... moveFolderName)
+    public HtmlPage copyOrMoveArtifact(WebDriver driver, String destination, String siteName,  String fileName, String type, String... moveFolderName)
     {
-        DocumentLibraryPage docPage =drone.getCurrentPage().render();
+        DocumentLibraryPage docPage =factoryPage.getPage(driver).render();
         CopyOrMoveContentPage copyOrMoveToPage;
 
         if (type.equals("Copy"))
@@ -725,16 +702,24 @@ public class SiteActions extends CommonActions
         copyOrMoveToPage.selectSite(siteName).render();
         if (moveFolderName != null)
         {
-            copyOrMoveToPage.selectPath(moveFolderName).render();
+        	try
+        	{
+        		copyOrMoveToPage.selectPath(moveFolderName).render();
+        	}
+        	catch(Exception e)
+        	{
+        		//retry one last time.
+        		copyOrMoveToPage.selectPath(moveFolderName).render();
+        	}
         }
         copyOrMoveToPage.selectOkButton().render();
-        return getSharePage(drone);
+        return getSharePage(driver);
     }
     
     /**
      * Copy or Move to File or folder from document library.
      * 
-     * @param drone WebDrone
+     * @param drone WebDriver
      * @param destination String (options: Recent Sites, Favorite Sites, All Sites, Repository, Shared Files, My File)
      * @param siteName String - the siteName that exists in <destination>
      * @param siteDescription String - the siteDescription - IF THIS VALUE IS SET, THEN WE WILL SELECT THE SITE BY DESCRIPTION NOT BY <siteName>
@@ -742,9 +727,9 @@ public class SiteActions extends CommonActions
      * @return HtmlPage
      * @author pbrodner
      */
-    public HtmlPage copyOrMoveArtifact(WebDrone drone, CopyOrMoveContentPage.DESTINATION destination, String siteName, String siteDescription, String fileName, CopyOrMoveContentPage.ACTION action, String... moveFolderName)
+    public HtmlPage copyOrMoveArtifact(WebDriver driver, FactoryPage factory, CopyOrMoveContentPage.DESTINATION destination, String siteName, String siteDescription, String fileName, CopyOrMoveContentPage.ACTION action, String... moveFolderName)
     {
-        DocumentLibraryPage docPage =drone.getCurrentPage().render();
+        DocumentLibraryPage docPage = factory.getPage(driver).render();
         CopyOrMoveContentPage copyOrMoveToPage;
 
         if (action==ACTION.COPY) {
@@ -772,22 +757,22 @@ public class SiteActions extends CommonActions
             copyOrMoveToPage.selectPath(moveFolderName).render();
         }
         copyOrMoveToPage.selectOkButton().render();
-        return getSharePage(drone);
+        return getSharePage(driver);
     }
 
     /**
      * Uses the in-line rename function to rename content
      * Assumes User is logged in and a DocumentLibraryPage of the selected site is open
      * 
-     * @param drone WebDrone
-     * @param contentName String
-     * @param newName String
+     * @param driver
+     * @param contentName
+     * @param newName
      * @param saveChanges <code>true</code> saves the changes, <code>false</code> cancels without saving.
      * @return DocumentLibraryPage
      */
-    public DocumentLibraryPage editContentNameInline(WebDrone drone, String contentName, String newName, boolean saveChanges)
+    public DocumentLibraryPage editContentNameInline(WebDriver driver, String contentName, String newName, boolean saveChanges)
     {
-        FileDirectoryInfo fileDirInfo = getFileDirectoryInfo(drone, contentName);
+        FileDirectoryInfo fileDirInfo = getFileDirectoryInfo(driver, contentName);
 
         fileDirInfo.contentNameEnableEdit();
         fileDirInfo.contentNameEnter(newName);
@@ -800,23 +785,23 @@ public class SiteActions extends CommonActions
             fileDirInfo.contentNameClickCancel();
         }
 
-        return getSharePage(drone).render();
+        return getSharePage(driver).render();
     }
     
     /**
      * In the document library page select edit properties to set a new title , description or name for the content
      * Assume the user is logged in and a documentLibraryPage of the selected site is open
      * 
-     * <br/><br/>author sprasanna
-     * @param drone Webdrone
-     * @param contentName String
-     * @param newContentName String
-     * @param title String
-     * @param description String
+     * @author sprasanna
+     * @param - Webdriver
+     * @param - String contentName
+     * @param - String newContentName
+     * @param - String title
+     * @param - String descirption
      */
-    public DocumentLibraryPage editProperties(WebDrone drone, String contentName, String newContentName, String title, String description)
+    public DocumentLibraryPage editProperties(WebDriver driver, String contentName, String newContentName, String title, String description)
     {
-        DocumentLibraryPage documentLibraryPage = drone.getCurrentPage().render();
+        DocumentLibraryPage documentLibraryPage = factoryPage.getPage(driver).render();
         EditDocumentPropertiesPage editProp = documentLibraryPage.getFileDirectoryInfo(contentName).selectEditProperties().render();
         // Check the newContent is present
         if (newContentName != null)
@@ -844,9 +829,9 @@ public class SiteActions extends CommonActions
      * @param contentName
      * @return HtmlPage
      */
-    public HtmlPage getEditPropertiesPage(WebDrone driver, String contentName)
+    public HtmlPage getEditPropertiesPage(WebDriver driver, String contentName)
     {
-        WebDroneUtil.checkMandotaryParam("Expected ContentName", contentName);
+        PageUtils.checkMandotaryParam("Expected ContentName", contentName);
 
         try
         {
@@ -878,7 +863,7 @@ public class SiteActions extends CommonActions
      * Util to change the type of the selected folder / content to the specified type 
      * Expects Document / Folder Details Page is already open
      */
-    public DetailsPage changeType(WebDrone driver, String typeToBeSelected)
+    public DetailsPage changeType(WebDriver driver, String typeToBeSelected)
     {
         try
         {
@@ -895,7 +880,7 @@ public class SiteActions extends CommonActions
      * Util to check if the type is available for selection in the <Change Type> drop down 
      * Expects Document / Folder Details Page is already open
      */
-    public boolean isTypeAvailable(WebDrone driver, String typeToBeSelected)
+    public boolean isTypeAvailable(WebDriver driver, String typeToBeSelected)
     {
         boolean isType = false;
         try
@@ -917,7 +902,7 @@ public class SiteActions extends CommonActions
      * Util to check if the specified Aspect is added to the selected node 
      * Expects Document / Folder Details Page is already open
      */
-    public boolean isAspectAdded(WebDrone driver, String aspectName)
+    public boolean isAspectAdded(WebDriver driver, String aspectName)
     {
     
         boolean aspectAdded = false;
@@ -942,12 +927,11 @@ public class SiteActions extends CommonActions
      * @param aspectsToBeAdded
      * @return DetailsPage
      */
-    public DetailsPage addAspects(WebDrone driver, List<String> aspectsToBeAdded)
+    public DetailsPage addAspects(WebDriver driver, List<String> aspectsToBeAdded)
     {
         try
         {           
             SelectAspectsPage aspectsPage = getAspectsPage(driver);
-            
             aspectsPage = aspectsPage.addDynamicAspects(aspectsToBeAdded).render(); 
             return aspectsPage.clickApplyChanges().render();
         }
@@ -963,12 +947,11 @@ public class SiteActions extends CommonActions
      * @param aspectsToBeRemoved
      * @return DetailsPage
      */
-    public DetailsPage removeAspects(WebDrone driver, List<String> aspectsToBeRemoved)
+    public DetailsPage removeAspects(WebDriver driver, List<String> aspectsToBeRemoved)
     {
         try
         {           
             SelectAspectsPage aspectsPage = getAspectsPage(driver);
-            
             aspectsPage = aspectsPage.removeDynamicAspects(aspectsToBeRemoved).render(); 
             return aspectsPage.clickApplyChanges().render();
         }
@@ -983,12 +966,11 @@ public class SiteActions extends CommonActions
      * @param driver
      * @return SelectAspectsPage
      */
-    public SelectAspectsPage getAspectsPage(WebDrone driver)
+    public SelectAspectsPage getAspectsPage(WebDriver driver)
     {
         try
         {
             DetailsPage detailsPage = getSharePage(driver).render();
-            
             return detailsPage.selectManageAspects().render();     
         }
         catch(ClassCastException ce)
@@ -1009,9 +991,9 @@ public class SiteActions extends CommonActions
      * @param contentName
      * @return HtmlPage
      */
-    public HtmlPage editNodeProperties(WebDrone driver, boolean saveProperties, Map<String, Object> properties)
+    public HtmlPage editNodeProperties(WebDriver driver, boolean saveProperties, Map<String, Object> properties)
     {
-        WebDroneUtil.checkMandotaryParam("Expected Properties Map", properties);
+        PageUtils.checkMandotaryParam("Expected Properties Map", properties);
 
         try
         {
@@ -1034,5 +1016,11 @@ public class SiteActions extends CommonActions
         {
             throw new UnexpectedSharePageException("Expected EditDocumentPropertiesPage Page", ce);
         }
+    }
+
+    public HtmlPage viewDetails(WebDriver driver, String name)
+    {
+        DocumentLibraryPage doclib = (DocumentLibraryPage) factoryPage.getPage(driver).render();
+        return doclib.selectFile(name).render();
     }
 }

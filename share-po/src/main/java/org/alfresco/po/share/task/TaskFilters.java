@@ -18,24 +18,19 @@
  */
 package org.alfresco.po.share.task;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.workflow.StartedFilter;
 import org.alfresco.po.share.workflow.WorkFlowFilters;
 import org.alfresco.po.share.workflow.WorkFlowType;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Aliaksei Boole
  */
 public class TaskFilters extends WorkFlowFilters
 {
-    public TaskFilters(WebDrone drone)
-    {
-        super(drone);
-    }
 
     public HtmlPage select(WorkFlowType workFlowType)
     {
@@ -50,8 +45,8 @@ public class TaskFilters extends WorkFlowFilters
     public HtmlPage select(AssignFilter assignFilter)
     {
         checkNotNull(assignFilter);
-        drone.findAndWait(assignFilter.by).click();
+        findAndWait(assignFilter.by).click();
         waitUntilAlert();
-        return drone.getCurrentPage();
+        return getCurrentPage();
     }
 }

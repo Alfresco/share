@@ -79,11 +79,6 @@
             <class name="org.alfresco.po.share.dashlet.SiteContentDashletTest" />
         </classes>
     </test>
-    <test name="SiteDataListsDashletTest">
-        <classes>
-            <class name="org.alfresco.po.share.dashlet.SiteDataListsDashletTest" />
-        </classes>
-    </test>
     <test name="SiteLinksDashletTest">
         <classes>
             <class name="org.alfresco.po.share.dashlet.SiteLinksDashletTest" />

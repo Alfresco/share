@@ -21,6 +21,7 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
+import org.alfresco.po.AbstractTest;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;

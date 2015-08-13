@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.site.UploadFilePage;
@@ -39,10 +39,10 @@ import org.alfresco.po.share.task.TaskDetailsPage;
 import org.alfresco.po.share.task.TaskInfo;
 import org.alfresco.po.share.task.TaskItem;
 import org.alfresco.po.share.task.TaskStatus;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.exception.PageOperationException;
 import org.joda.time.DateTime;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -80,14 +80,13 @@ public class NewWorkflowPageTest extends AbstractTest
     @BeforeClass(groups = "Enterprise4.2")
     public void prepare() throws Exception
     {
-        // assertTrue(WebDroneUtilTest.checkAlfrescoVersionBeforeClassRun(drone));
+        // assertTrue(PageUtilsTest.checkAlfrescoVersionBeforeClassRun(driver));
         siteName = "AdhocReassign" + System.currentTimeMillis();
         taskComment = "Comment" + System.currentTimeMillis();
-        uniqueWorkflow = "Unique " + System.currentTimeMillis();
-        fileForWorkflow = SiteUtil.prepareFile("WF-File");
+        fileForWorkflow = siteUtil.prepareFile("WF-File");
         loginAs(username, password);
-        SiteUtil.createSite(drone, siteName, "Public");
-        documentLibPage = openSiteDocumentLibraryFromSearch(drone, siteName);
+        siteUtil.createSite(driver, username, password, siteName, "", "Public");
+        documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(fileForWorkflow.getCanonicalPath()).render();
         documentDetailsPage = documentLibPage.selectFile(fileForWorkflow.getName()).render();
@@ -97,8 +96,7 @@ public class NewWorkflowPageTest extends AbstractTest
     public void afterClass()
     {
         cancelWorkFlow(siteName);
-        cancelWorkFlow(uniqueWorkflow);
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test(groups = "Enterprise4.2")
@@ -125,7 +123,7 @@ public class NewWorkflowPageTest extends AbstractTest
         reviewers.add(username);
         WorkFlowFormDetails formDetails = new WorkFlowFormDetails(siteName, siteName, reviewers);
         newWorkflowPage.cancelCreateWorkflow(formDetails).render();
-        openSiteDocumentLibraryFromSearch(drone, siteName);
+        openSiteDocumentLibraryFromSearch(driver, siteName);
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(fileForWorkflow.getName());
         assertFalse(thisRow.isPartOfWorkflow(), "Document should not be part of workflow.");
         documentDetailsPage = documentLibPage.selectFile(fileForWorkflow.getName()).render();
@@ -148,7 +146,7 @@ public class NewWorkflowPageTest extends AbstractTest
         reviewers.add(username);
         WorkFlowFormDetails formDetails = new WorkFlowFormDetails(siteName, siteName, reviewers);
         newWorkflowPage.startWorkflow(formDetails).render();
-        openSiteDocumentLibraryFromSearch(drone, siteName);
+        openSiteDocumentLibraryFromSearch(driver, siteName);
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(fileForWorkflow.getName());
         assertTrue(thisRow.isPartOfWorkflow(), "Document should be part of workflow.");
         documentDetailsPage = documentLibPage.selectFile(fileForWorkflow.getName()).render();

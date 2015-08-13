@@ -1,13 +1,13 @@
 package org.alfresco.po.alfresco;
 
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Class containing page objects for Alfresco Transformation Server page
@@ -21,11 +21,6 @@ public class AlfrescoTransformationServerStatusPage extends SharePage
     protected final By SERVER_HISTORY = By.cssSelector("a[href='/transformation-server/transformations']");
     protected final By SERVER_STATS = By.cssSelector("a[href='/transformation-server/stats']");
     protected final By SERVER_SETTINGS = By.cssSelector("a[href='/transformation-server/settings']");
-
-    public AlfrescoTransformationServerStatusPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -46,22 +41,15 @@ public class AlfrescoTransformationServerStatusPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AlfrescoTransformationServerStatusPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Method to navigate to server history page
      *
-     * @param driver WebDrone instance
+     * @param driver WebDriver instance
      * @return AlfrescoTransformationServerHistoryPage
      */
-    public AlfrescoTransformationServerHistoryPage openServerHistoryPage(WebDrone driver)
+    public AlfrescoTransformationServerHistoryPage openServerHistoryPage(WebDriver driver)
     {
-        driver.findAndWait(SERVER_HISTORY).click();
-        return new AlfrescoTransformationServerHistoryPage(driver).render();
+        findAndWait(SERVER_HISTORY).click();
+        return factoryPage.instantiatePage(driver, AlfrescoTransformationServerHistoryPage.class).render();
     }
 }

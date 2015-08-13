@@ -21,7 +21,6 @@ package org.alfresco.po.share.dashlet;
 import static org.alfresco.po.share.dashlet.SiteContentFilter.I_AM_EDITING;
 import static org.alfresco.po.share.dashlet.SiteContentFilter.I_HAVE_RECENTLY_MODIFIED;
 import static org.alfresco.po.share.dashlet.SiteContentFilter.MY_FAVOURITES;
-import static org.alfresco.po.share.dashlet.SiteContentFilter.SYNCED_CONTENT;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -30,16 +29,15 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.AlfrescoVersion;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.dashlet.sitecontent.DetailedViewInformation;
 import org.alfresco.po.share.dashlet.sitecontent.SimpleViewInformation;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
 import org.openqa.selenium.TimeoutException;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -77,13 +75,13 @@ public class SiteContentDashletTest extends AbstractSiteDashletTest
     @AfterClass
     public void deleteSite()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
     
     @Test
     public void instantiateDashlet()
     {
-    	SiteContentDashlet dashlet = new SiteContentDashlet(drone);
+        SiteContentDashlet dashlet = dashletFactory.getDashlet(driver, SiteContentDashlet.class).render();
         Assert.assertNotNull(dashlet);
     }
 
@@ -127,7 +125,7 @@ public class SiteContentDashletTest extends AbstractSiteDashletTest
             timer.start();
             try
             {
-                drone.refresh();
+                driver.navigate().refresh();
                 dashlet = siteDashBoard.getDashlet(SITE_CONTENT).render();
                 if (!dashlet.getSiteContents().isEmpty()) break;
             }
@@ -189,25 +187,17 @@ public class SiteContentDashletTest extends AbstractSiteDashletTest
     public void selectAllFilters() throws Exception
     {
         SiteContentDashlet dashlet = siteDashBoard.getDashlet(SITE_CONTENT).render();
-        siteDashBoard = dashlet.selectFilter(MY_FAVOURITES);
+        siteDashBoard = dashlet.selectFilter(MY_FAVOURITES).render();
         dashlet = siteDashBoard.getDashlet(SITE_CONTENT).render();
         assertEquals(dashlet.getCurrentFilter(), MY_FAVOURITES);
 
-        siteDashBoard = dashlet.selectFilter(I_HAVE_RECENTLY_MODIFIED);
+        siteDashBoard = dashlet.selectFilter(I_HAVE_RECENTLY_MODIFIED).render();
         dashlet = siteDashBoard.getDashlet(SITE_CONTENT).render();
         assertEquals(dashlet.getCurrentFilter(), I_HAVE_RECENTLY_MODIFIED);
 
-        siteDashBoard = dashlet.selectFilter(I_AM_EDITING);
+        siteDashBoard = dashlet.selectFilter(I_AM_EDITING).render();
         dashlet = siteDashBoard.getDashlet(SITE_CONTENT).render();
         assertEquals(dashlet.getCurrentFilter(), I_AM_EDITING);
-
-        AlfrescoVersion version = drone.getProperties().getVersion();
-        if (version.equals(AlfrescoVersion.Cloud))
-        {
-            siteDashBoard = dashlet.selectFilter(SYNCED_CONTENT);
-            dashlet = siteDashBoard.getDashlet(SITE_CONTENT).render();
-            assertEquals(dashlet.getCurrentFilter(), SYNCED_CONTENT);
-        }
     }
     
     @Test(dependsOnMethods="selectAllFilters")

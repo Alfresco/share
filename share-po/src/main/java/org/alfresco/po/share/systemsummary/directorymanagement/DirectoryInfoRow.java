@@ -18,26 +18,29 @@
  */
 package org.alfresco.po.share.systemsummary.directorymanagement;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import static org.alfresco.po.share.systemsummary.directorymanagement.AuthType.AD_LDAP;
+import static org.alfresco.po.share.systemsummary.directorymanagement.AuthType.OPEN_LDAP;
+import static org.alfresco.po.share.systemsummary.directorymanagement.DirectoryInfoRow.Action.EDIT;
+import static org.alfresco.po.share.systemsummary.directorymanagement.DirectoryInfoRow.Action.REMOVE;
+import static org.alfresco.po.share.systemsummary.directorymanagement.DirectoryInfoRow.Action.STATUS;
+import static org.alfresco.po.share.systemsummary.directorymanagement.DirectoryInfoRow.Action.TEST_SYNC;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.alfresco.po.share.systemsummary.directorymanagement.AuthType.AD_LDAP;
-import static org.alfresco.po.share.systemsummary.directorymanagement.AuthType.OPEN_LDAP;
-import static org.alfresco.po.share.systemsummary.directorymanagement.DirectoryInfoRow.Action.*;
+import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.SharePage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * Object associated with AuthChain row in 'Authentication Chain' table.
  *
  * @author Aliaksei Boole
  */
-public class DirectoryInfoRow extends HtmlElement
+public class DirectoryInfoRow extends PageElement
 {
     private final static By NAME_BY = By.xpath("./td[2]");
     private final static By TYPE_BY = By.xpath("./td[3]");
@@ -64,9 +67,9 @@ public class DirectoryInfoRow extends HtmlElement
         public final int index;
     }
 
-    public DirectoryInfoRow(WebElement webElement, WebDrone drone)
+    public DirectoryInfoRow(WebElement webElement, WebDriver driver)
     {
-        super(webElement, drone);
+        setWrappedElement(webElement);
     }
 
     /**
@@ -117,12 +120,12 @@ public class DirectoryInfoRow extends HtmlElement
     public SharePage clickEdit()
     {
         String typeText = getType();
-        List<WebElement> actionsElem = findAllWithWait(ACTIONS_BY);
+        List<WebElement> actionsElem = driver.findElements(ACTIONS_BY);
         actionsElem.get(EDIT.index).click();
-        drone.switchToFrame("admin-dialog");
+        driver.switchTo().frame("admin-dialog");
         if (typeText.equals(OPEN_LDAP.text) || typeText.equals(AD_LDAP.text))
         {
-            return new EditLdapFrame(drone);
+            return factoryPage.instantiatePage(driver, EditLdapFrame.class);
         }
         throw new PageOperationException("It is impossible to create an object-frame for this type. Please, add this variant.");
     }
@@ -134,7 +137,7 @@ public class DirectoryInfoRow extends HtmlElement
      */
     public List<StatusRow> clickStatus()
     {
-        List<WebElement> actionsElem = findAllWithWait(ACTIONS_BY);
+        List<WebElement> actionsElem = driver.findElements(ACTIONS_BY);
         actionsElem.get(STATUS.index).click();
         return getStatusRows();
     }
@@ -146,11 +149,11 @@ public class DirectoryInfoRow extends HtmlElement
      */
     public List<StatusRow> getStatusRows()
     {
-        List<WebElement> rowElements = findAllWithWait(STATUS_ROW);
+        List<WebElement> rowElements = driver.findElements(STATUS_ROW);
         List<StatusRow> statusRows = new ArrayList<StatusRow>(6);
         for (WebElement rowElem : rowElements)
         {
-            statusRows.add(new StatusRow(rowElem, drone));
+            statusRows.add(new StatusRow(rowElem, driver));
         }
         return statusRows;
     }
@@ -160,7 +163,7 @@ public class DirectoryInfoRow extends HtmlElement
      */
     public void clickRemove()
     {
-        List<WebElement> actionsElem = findAllWithWait(ACTIONS_BY);
+        List<WebElement> actionsElem = driver.findElements(ACTIONS_BY);
         actionsElem.get(REMOVE.index).click();
     }
 
@@ -169,7 +172,7 @@ public class DirectoryInfoRow extends HtmlElement
      */
     public void clickTestSync()
     {
-        List<WebElement> actionsElem = findAllWithWait(ACTIONS_BY);
+        List<WebElement> actionsElem = driver.findElements(ACTIONS_BY);
         actionsElem.get(TEST_SYNC.index).click();
     }
 }

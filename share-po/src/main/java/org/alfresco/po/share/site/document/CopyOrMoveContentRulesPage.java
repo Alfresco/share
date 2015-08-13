@@ -1,9 +1,7 @@
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.TimeoutException;
@@ -11,11 +9,6 @@ import org.openqa.selenium.TimeoutException;
 public class CopyOrMoveContentRulesPage extends CopyOrMoveContentPage
 {
     private static Log logger = LogFactory.getLog(CopyOrMoveContentRulesPage.class);
-
-    public CopyOrMoveContentRulesPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /**
      * This method finds the clicks on copy/move button.
@@ -26,8 +19,8 @@ public class CopyOrMoveContentRulesPage extends CopyOrMoveContentPage
     {
         try
         {
-            drone.findAndWait(getCopyMoveOkButtonCss()).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(getCopyMoveOkButtonCss()).click();
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {

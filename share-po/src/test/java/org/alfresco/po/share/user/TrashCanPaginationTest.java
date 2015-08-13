@@ -20,7 +20,7 @@ package org.alfresco.po.share.user;
 
 import java.io.File;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.UserSearchPage;
@@ -32,7 +32,7 @@ import org.alfresco.po.share.site.document.ConfirmDeletePage.Action;
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
 import org.alfresco.po.share.site.document.DocumentLibraryNavigation;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -66,60 +66,54 @@ public class TrashCanPaginationTest extends AbstractTest
     @BeforeClass(groups = { "Enterprise4.2" })
     public void setup() throws Exception
     {
-        if (!alfrescoVersion.isCloud())
-        {
-            dashBoard = loginAs(username, password);
-            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-            NewUserPage newPage = page.selectNewUser().render();
-            newPage.inputFirstName(firstName);
-            newPage.inputLastName(lastName);
-            newPage.inputEmail(userName);
-            newPage.inputUsername(userName);
-            newPage.inputPassword(userName);
-            newPage.inputVerifyPassword(userName);
-            UserSearchPage userCreated = newPage.selectCreateUser().render();
-            userCreated.searchFor(userName).render();
-            Assert.assertTrue(userCreated.hasResults());
-            logout(drone);
-            loginAs(userName, userName);
-        }
-        else
-            loginAs(username, password);
-       
+        dashBoard = loginAs(username, password);
+        UserSearchPage page = dashBoard.getNav().getUsersPage().render();
+        NewUserPage newPage = page.selectNewUser().render();
+        newPage.inputFirstName(firstName);
+        newPage.inputLastName(lastName);
+        newPage.inputEmail(userName);
+        newPage.inputUsername(userName);
+        newPage.inputPassword(userName);
+        newPage.inputVerifyPassword(userName);
+        UserSearchPage userCreated = newPage.selectCreateUser().render();
+        userCreated.searchFor(userName).render();
+        Assert.assertTrue(userCreated.hasResults());
+        logout(driver);
+        loginAs(userName, userName);
     }
     
     private void prepare() throws Exception
     {
-        SiteUtil.createSite(drone, siteName, "Public");
-        SitePage site = drone.getCurrentPage().render();
-        docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+        siteUtil.createSite(driver, username, password, siteName, "", "Public");
+        SitePage site = resolvePage(driver).render();
+        docPage = site.getSiteNav().selectDocumentLibrary().render();
         for (int i = 0; i < 4; i++)
         {
             folderName = "folder" + i + System.currentTimeMillis();
             fileName = "file" + i + System.currentTimeMillis();
-            File file = SiteUtil.prepareFile(fileName);
-            docPage = site.getSiteNav().selectSiteDocumentLibrary().render();
+            File file = siteUtil.prepareFile(fileName);
+            docPage = site.getSiteNav().selectDocumentLibrary().render();
             NewFolderPage folder = docPage.getNavigation().selectCreateNewFolder().render();
             docPage = folder.createNewFolder(folderName).render();
             UploadFilePage upLoadPage = docPage.getNavigation().selectFileUpload().render();
             upLoadPage.uploadFile(file.getCanonicalPath()).render();
         }
-        docPage = drone.getCurrentPage().render();
+        docPage = resolvePage(driver).render();
         for (int i = 0; i < 3; i++)
         {
             docPage = docPage.getNavigation().selectAll().render();
             CopyOrMoveContentPage copyContent = docPage.getNavigation().selectCopyTo().render();
             docPage = copyContent.selectOkButton().render();
-            docPage = drone.getCurrentPage().render();
+            docPage = resolvePage(driver).render();
         }
-        docPage = drone.getCurrentPage().render();
+        docPage = resolvePage(driver).render();
         do
         {
             docPage = docPage.getNavigation().selectAll().render();
-            DocumentLibraryNavigation docLibNavOption = docPage.getNavigation().render();
+            DocumentLibraryNavigation docLibNavOption = docPage.getNavigation();
             ConfirmDeletePage deletePage = docLibNavOption.selectDelete().render();
             deletePage.selectAction(Action.Delete);
-            docPage = drone.getCurrentPage().render();
+            docPage = resolvePage(driver).render();
         } while (docPage.hasFiles());
     }
         
@@ -127,7 +121,7 @@ public class TrashCanPaginationTest extends AbstractTest
     public void deleteSite()
     {
       trashCan.selectEmpty().render();
-      SiteUtil.deleteSite(drone, siteName);
+      siteUtil.deleteSite(username, password, siteName);
     }
     
     private TrashCanPage getTrashCan()
@@ -141,7 +135,7 @@ public class TrashCanPaginationTest extends AbstractTest
     @Test (groups = { "Enterprise4.2" })
     public void trashCanEmptyPagination()
     {
-     dashBoard = drone.getCurrentPage().render();
+     dashBoard = resolvePage(driver).render();
      myprofile = dashBoard.getNav().selectMyProfile().render();
      trashCan = myprofile.getProfileNav().selectTrashCan().render();
      Assert.assertFalse(trashCan.hasNextPage());

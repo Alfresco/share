@@ -14,20 +14,19 @@
  */
 package org.alfresco.po.share.adminconsole;
 
-import org.alfresco.webdrone.HtmlElement;
-import org.alfresco.webdrone.WebDrone;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.alfresco.po.PageElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Part of Category Manager page. Showing when you add new category to Page.
  *
  * @author Aliaksei Boole
  */
-public class AddCategoryForm extends HtmlElement
+public class AddCategoryForm extends PageElement
 {
     private static By FORM = By.cssSelector("#userInput");
     @SuppressWarnings("unused")
@@ -37,16 +36,6 @@ public class AddCategoryForm extends HtmlElement
     private static By CANCEL = By.xpath("//span[@class='button-group']/span[2]/span/button");
 
     /**
-     * Basic constructor
-     *
-     * @param drone WebDrone
-     */
-    public AddCategoryForm(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    /**
      * Fill field with name new category.
      *
      * @param text new categoryName
@@ -54,7 +43,7 @@ public class AddCategoryForm extends HtmlElement
     public void fillNameField(String text)
     {
         checkNotNull(text);
-        WebElement inputField = drone.findAndWait(NAME_INPUT);
+        WebElement inputField = driver.findElement(NAME_INPUT);
         inputField.clear();
         if (text != null)
         {
@@ -80,7 +69,7 @@ public class AddCategoryForm extends HtmlElement
 
     private void click(By locator)
     {
-        WebElement element = drone.findAndWait(locator);
+        WebElement element = driver.findElement(locator);
         element.click();
     }
 
@@ -93,11 +82,9 @@ public class AddCategoryForm extends HtmlElement
     {
         try
         {
-            return drone.findAndWait(FORM, 2000).isDisplayed();
+            return findElement(FORM).isDisplayed();
         }
-        catch (TimeoutException e)
-        {
-            return false;
-        }
+        catch (NoSuchElementException e) {}
+        return false;
     }
 }

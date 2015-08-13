@@ -14,7 +14,7 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.webdrone.Version;
+import org.alfresco.po.Version;
 
 /**
  * The Alfresco site type and version enum.
@@ -31,6 +31,7 @@ public enum AlfrescoVersion implements Version
     Enterprise42(Enterprise, 4.2, true, false),
     Enterprise43(Enterprise, 4.3, true, false),
     Enterprise5(Enterprise, 5.0, true, true),
+    Enterprise51(Enterprise, 5.1, true, true),
     Cloud(null, 2.0, true, true),
     CloudNonFacetSearch(Cloud, 2.0, true,false),
     MyAlfresco(Cloud, 2.1, true, true);

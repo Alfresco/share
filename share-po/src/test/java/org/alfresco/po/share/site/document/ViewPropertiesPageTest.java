@@ -2,15 +2,14 @@ package org.alfresco.po.share.site.document;
 
 import java.io.File;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.site.UploadFilePage;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.HtmlPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
@@ -47,14 +46,14 @@ public class ViewPropertiesPageTest extends AbstractTest
         dashBoard = loginAs(username, password);
         dashBoard = dashBoard.getNav().selectMyDashBoard().render();
 
-        SiteUtil.createSite(drone, siteName, "description", "Public");
+        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
 
         // Select DocLib
-        SitePage page = drone.getCurrentPage().render();
-        documentLibPage = page.getSiteNav().selectSiteDocumentLibrary().render();
+        SitePage page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
 
         // Upload File
-        File file = SiteUtil.prepareFile(fileName);
+        File file = siteUtil.prepareFile(fileName);
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
         fileName = file.getName();
@@ -67,25 +66,25 @@ public class ViewPropertiesPageTest extends AbstractTest
 
         updateFilePage.selectMajorVersionChange();
         updateFilePage.uploadFile(file.getCanonicalPath());
-        docDetailsPage = updateFilePage.submit().render();
+        docDetailsPage = updateFilePage.submitUpload().render();
 
     }
 
     @AfterClass
     public void tearDown()
     {
-        SiteUtil.deleteSite(drone, siteName);
+        siteUtil.deleteSite(username, password, siteName);
     }
 
     @Test
     public void resolveViewPropDialogue() throws Exception
     {
         docDetailsPage.selectViewProperties(v).render();
-        viewPropPage = FactorySharePage.resolvePage(drone).render();
+        viewPropPage = factoryPage.getPage(driver).render();
         Assert.assertTrue(viewPropPage.isVersionButtonDisplayed());
 
         String title = viewPropPage.getVersionButtonTitle();
-        viewPropPage = FactorySharePage.resolvePage(drone).render();
+        viewPropPage = factoryPage.getPage(driver).render();
         Assert.assertNotNull(viewPropPage);
 
         logger.info("Version button title: " + title);
@@ -98,7 +97,7 @@ public class ViewPropertiesPageTest extends AbstractTest
         String versionTitle = viewPropPage.getVersionButtonTitle();
         viewPropPage.selectOtherVersion(false);
         String otherVersionTitle = viewPropPage.getVersionButtonTitle();
-        viewPropPage = FactorySharePage.resolvePage(drone).render();
+        viewPropPage = factoryPage.getPage(driver).render();
         Assert.assertNotNull(viewPropPage);
         Assert.assertNotSame(versionTitle, otherVersionTitle);
 
@@ -113,7 +112,7 @@ public class ViewPropertiesPageTest extends AbstractTest
 
     public HtmlPage closeDialogue() throws Exception
     {
-        ViewPropertiesPage dialogue = FactorySharePage.resolvePage(drone).render();
+        ViewPropertiesPage dialogue = factoryPage.getPage(driver).render();
         HtmlPage sharePage = dialogue.closeDialogue().render();
 
         Assert.assertNotNull(sharePage);

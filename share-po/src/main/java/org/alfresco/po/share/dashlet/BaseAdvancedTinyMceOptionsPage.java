@@ -18,14 +18,15 @@
  */
 package org.alfresco.po.share.dashlet;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.RenderWebElement;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -44,12 +45,15 @@ public abstract class BaseAdvancedTinyMceOptionsPage extends SharePage
     
     /**
      * Constructor.
+<<<<<<< .working
+     * @param driver
+=======
      * @param drone WebDrone
      * @param element WebElement
+>>>>>>> .merge-right.r109852
      */
-    public BaseAdvancedTinyMceOptionsPage(WebDrone drone, WebElement element)
+    public BaseAdvancedTinyMceOptionsPage(WebDriver driver, WebElement element)
     {
-        super(drone);
         this.dialogElement = element;
     }
 
@@ -62,9 +66,9 @@ public abstract class BaseAdvancedTinyMceOptionsPage extends SharePage
 //    {
 //        try
 //        {
-//            drone.findAndWait(INSERT_BUTTON).click();
-//            drone.switchToWindow(mainWindow);
-//            return FactorySharePage.resolvePage(drone);
+//            findAndWait(INSERT_BUTTON).click();
+//            driver.switchToWindow(mainWindow);
+//            return getCurrentPage();
 //        }
 //        catch (TimeoutException te)
 //        {
@@ -82,9 +86,9 @@ public abstract class BaseAdvancedTinyMceOptionsPage extends SharePage
 //    {
 //        try
 //        {
-//            drone.findAndWait(INSERT_BUTTON).click();
-//            drone.switchToWindow(mainWindow);
-//            return FactorySharePage.resolvePage(drone);
+//            findAndWait(INSERT_BUTTON).click();
+//            driver.switchToWindow(mainWindow);
+//            return getCurrentPage();
 //        }
 //        catch (TimeoutException te)
 //        {
@@ -100,9 +104,9 @@ public abstract class BaseAdvancedTinyMceOptionsPage extends SharePage
 //    {
 //        try
 //        {
-//            drone.findAndWait(CANCEL_BUTTON).click();
-//            drone.switchToWindow(mainWindow);
-//            return FactorySharePage.resolvePage(drone);
+//            findAndWait(CANCEL_BUTTON).click();
+//            driver.switchToWindow(mainWindow);
+//            return getCurrentPage();
 //        }
 //        catch (TimeoutException te)
 //        {
@@ -111,12 +115,12 @@ public abstract class BaseAdvancedTinyMceOptionsPage extends SharePage
 //        }
 //    }
 
-    public ConfigureSiteNoticeDialogBoxPage clickOKButton()
+    public HtmlPage clickOKButton()
     {
         try
         {
             dialogElement.findElement(OK_BUTTON).click();
-            return new ConfigureSiteNoticeDialogBoxPage(drone);
+            return factoryPage.instantiatePage(driver, ConfigureSiteNoticeDialogBoxPage.class);
         }
         catch (NoSuchElementException nse)
         {
@@ -125,12 +129,12 @@ public abstract class BaseAdvancedTinyMceOptionsPage extends SharePage
         }
     }
 
-    public ConfigureSiteNoticeDialogBoxPage clickCancelButton()
+    public HtmlPage clickCancelButton()
     {
         try
         {
             dialogElement.findElement(CANCEL_BUTTON).click();
-            return new ConfigureSiteNoticeDialogBoxPage(drone);
+            return factoryPage.instantiatePage(driver, ConfigureSiteNoticeDialogBoxPage.class);
         }
         catch (NoSuchElementException nse)
         {

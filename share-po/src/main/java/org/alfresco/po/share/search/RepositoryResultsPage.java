@@ -14,9 +14,9 @@
  */
 package org.alfresco.po.share.search;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.exception.ShareException;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -32,13 +32,6 @@ import org.openqa.selenium.WebElement;
 public class RepositoryResultsPage extends SearchResultsPage
 {
     private static final By Go_TO_ADV_SEARCH = By.cssSelector("#HEADER_ADVANCED_SEARCH_text");
-    /**
-     * Constructor.
-     */
-    public RepositoryResultsPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -55,13 +48,6 @@ public class RepositoryResultsPage extends SearchResultsPage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public RepositoryResultsPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Performs the search by entering the term into search field
      * and submitting the search.
@@ -69,10 +55,10 @@ public class RepositoryResultsPage extends SearchResultsPage
      * @param term String term to search
      * @return {@link RepositoryResultsPage} page response
      */
-    public RepositoryResultsPage search(final String term)
+    public HtmlPage search(final String term)
     {
         searchFor(term);
-        return new RepositoryResultsPage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -85,7 +71,7 @@ public class RepositoryResultsPage extends SearchResultsPage
     {
         try
         {
-            String val = drone.find(By.cssSelector("div[id$='_default-search-info']>b")).getText();
+            String val = driver.findElement(By.cssSelector("div[id$='_default-search-info']>b")).getText();
             return Integer.parseInt(val);
         }
         catch (Exception e)
@@ -94,13 +80,13 @@ public class RepositoryResultsPage extends SearchResultsPage
         }
     }
 
-    public AdvanceSearchPage goToAdvancedSearch()
+    public HtmlPage goToAdvancedSearch()
     {
         try
         {
-            WebElement backBtn = drone.findAndWait(Go_TO_ADV_SEARCH);
+            WebElement backBtn = findAndWait(Go_TO_ADV_SEARCH);
             backBtn.click();
-            return drone.getCurrentPage().render();
+            return getCurrentPage();
         }
         catch (TimeoutException te)
         {

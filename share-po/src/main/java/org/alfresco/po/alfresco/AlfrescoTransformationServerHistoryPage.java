@@ -1,15 +1,14 @@
 package org.alfresco.po.alfresco;
 
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
 
 /**
  * Class containing page objects of Alfresco Transformation Server History page
@@ -24,11 +23,6 @@ public class AlfrescoTransformationServerHistoryPage extends AlfrescoTransformat
     private static final String STATUS_OK_IMG = "/transformation-server/res/images/icons/yes_approve_tick_ok_confirm_accept.png";
     private static final String STATUS_FAIL_IMG = "/transformation-server/res/images/icons/error_delete.png";
     private int retryCount = 0;
-
-    public AlfrescoTransformationServerHistoryPage(WebDrone drone)
-    {
-        super(drone);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -50,24 +44,17 @@ public class AlfrescoTransformationServerHistoryPage extends AlfrescoTransformat
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public AlfrescoTransformationServerHistoryPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     private WebElement getFileInTheTable(String fileName)
     {
         try
         {
             selectRowsPerPage(50);
-            return drone.find(By.xpath(String.format(FILENAME_CELL, fileName)));
+            return driver.findElement(By.xpath(String.format(FILENAME_CELL, fileName)));
         }
         catch (NoSuchElementException nse)
         {
             retryCount++;
-            openServerHistoryPage(drone).render();
+            openServerHistoryPage(driver).render();
             if (retryCount == 3)
             {
                 throw new PageOperationException("The " + fileName + " doesn't exist");
@@ -109,7 +96,7 @@ public class AlfrescoTransformationServerHistoryPage extends AlfrescoTransformat
     {
         try
         {
-            return drone.findAndWait(By.xpath("//img[@src='" + STATUS_FAIL_IMG + "']")).findElement(By.xpath("./../../../td[4]/div")).getText();
+            return findAndWait(By.xpath("//img[@src='" + STATUS_FAIL_IMG + "']")).findElement(By.xpath("./../../../td[4]/div")).getText();
         }
         catch (TimeoutException e)
         {
@@ -129,7 +116,7 @@ public class AlfrescoTransformationServerHistoryPage extends AlfrescoTransformat
 
     public AlfrescoTransformationServerHistoryPage selectRowsPerPage(int value)
     {
-        WebElement selectMenu = drone.find(By.id("rowsPerPage-button"));
+        WebElement selectMenu = driver.findElement(By.id("rowsPerPage-button"));
         selectMenu.click();
         selectMenu.findElement(By.xpath(String.format("//a[text()='%s']", Integer.toString(value)))).click();
         waitUntilAlert();

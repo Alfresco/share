@@ -15,14 +15,13 @@
 
 package org.alfresco.po.share.user;
 
-import static org.alfresco.webdrone.RenderElement.getVisibleRenderElement;
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.ElementState;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.ElementState;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -43,16 +42,6 @@ public class NotificationPage extends SharePage
 
     private final Log logger = LogFactory.getLog(NotificationPage.class);
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public NotificationPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public NotificationPage render(RenderTime timer)
@@ -68,13 +57,6 @@ public class NotificationPage extends SharePage
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public NotificationPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Get the navigation bar.
      * 
@@ -82,7 +64,7 @@ public class NotificationPage extends SharePage
      */
     public ProfileNavigation getProfileNav()
     {
-        return new ProfileNavigation(drone);
+        return new ProfileNavigation(driver, factoryPage);
     }
 
     /**
@@ -94,7 +76,7 @@ public class NotificationPage extends SharePage
     {
         try
         {
-            return drone.find(OK_BUTTON).isDisplayed();
+            return driver.findElement(OK_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -115,7 +97,7 @@ public class NotificationPage extends SharePage
     {
         try
         {
-            return drone.find(CANCEL_BUTTON).isDisplayed();
+            return driver.findElement(CANCEL_BUTTON).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -136,7 +118,7 @@ public class NotificationPage extends SharePage
     {
         try
         {
-            return drone.find(NOTIFICATION_CHECKBOX).isSelected();
+            return driver.findElement(NOTIFICATION_CHECKBOX).isSelected();
         }
         catch (NoSuchElementException e)
         {
@@ -159,7 +141,7 @@ public class NotificationPage extends SharePage
         {
             if (enabled != isNotificationFeedChecked())
             {
-                drone.findAndWait(NOTIFICATION_CHECKBOX).click();
+                findAndWait(NOTIFICATION_CHECKBOX).click();
             }
         }
         catch (TimeoutException e)

@@ -18,13 +18,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderElement;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageOperationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -51,10 +49,6 @@ public class FilmstripActions extends SharePage
 
     private Log logger = LogFactory.getLog(this.getClass());
 
-    protected FilmstripActions(WebDrone drone)
-    {
-        super(drone);
-    }
 
     /**
      * Checks whether the tape with file names is open or closed.
@@ -63,11 +57,11 @@ public class FilmstripActions extends SharePage
     {
         try
         {
-            WebElement element = drone.find(FILMSTRIP_MAIN_DIV);
+            WebElement element = driver.findElement(FILMSTRIP_MAIN_DIV);
             if (element.isDisplayed())
             {
 
-                element = drone.find(By.cssSelector("div[id$='_default-filmstrip']"));
+                element = driver.findElement(By.cssSelector("div[id$='_default-filmstrip']"));
 
                 return !element.getAttribute("class").contains("alf-filmstrip-content-only");
             }
@@ -92,7 +86,7 @@ public class FilmstripActions extends SharePage
     {
         try
         {
-            return drone.find(FILMSTRIP_MAIN_DIV).isDisplayed();
+            return driver.findElement(FILMSTRIP_MAIN_DIV).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -111,11 +105,11 @@ public class FilmstripActions extends SharePage
         {
             try
             {
-                WebElement element = drone.find(FILMSTRIP_MAIN_DIV).findElement(locator);
+                WebElement element = driver.findElement(FILMSTRIP_MAIN_DIV).findElement(locator);
                 if (element.isEnabled())
                 {
                     element.click();
-                    return FactorySharePage.resolvePage(drone);
+                    return getCurrentPage();
                 }
                 else
                 {
@@ -162,7 +156,7 @@ public class FilmstripActions extends SharePage
         HtmlPage page = clickFilmStripViewElement(FILMSTRIP_TAPE_NEXT, "Next Tape Arrow");
         try
         {
-            drone.findAndWait(FILMSTRIP_TAPE_PREVIOUS, 3000);
+            findAndWait(FILMSTRIP_TAPE_PREVIOUS, 3000);
         }
         catch (TimeoutException e)
         {
@@ -178,7 +172,7 @@ public class FilmstripActions extends SharePage
         HtmlPage page = clickFilmStripViewElement(FILMSTRIP_TAPE_PREVIOUS, "Previous Tape Arrow");
         try
         {
-            drone.findAndWait(FILMSTRIP_TAPE_NEXT, 3000);
+            findAndWait(FILMSTRIP_TAPE_NEXT, 3000);
         }
         catch (TimeoutException e)
         {
@@ -194,8 +188,8 @@ public class FilmstripActions extends SharePage
         HtmlPage page = clickFilmStripViewElement(FILMSTRIP_NAV_HANDLE, "Toggle Nav Handler");
         try
         {
-            drone.findAndWait(By.cssSelector("div.alf-filmstrip.alf-gallery.documents.alf-filmstrip-content-only"), 2000);
-            drone.findAndWait(By.cssSelector("div[id$='_default-filmstrip-nav-carousel']"), 2000);
+            findAndWait(By.cssSelector("div.alf-filmstrip.alf-gallery.documents.alf-filmstrip-content-only"), 2000);
+            findAndWait(By.cssSelector("div[id$='_default-filmstrip-nav-carousel']"), 2000);
         }
         catch (TimeoutException e)
         {
@@ -239,7 +233,7 @@ public class FilmstripActions extends SharePage
     {
         try
         {
-            WebElement element = drone.find(byElement);
+            WebElement element = driver.findElement(byElement);
             return element.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -259,7 +253,7 @@ public class FilmstripActions extends SharePage
     {
         try
         {
-            return drone.findAndWait(FILMSTRIP_ITEM_DISLAYED).getText();
+            return findAndWait(FILMSTRIP_ITEM_DISLAYED).getText();
         }
         catch (TimeoutException nse)
         {
@@ -278,11 +272,11 @@ public class FilmstripActions extends SharePage
         {
             try
             {
-                WebElement element = drone.find(By.cssSelector("div.alf-gallery-item-thumbnail"));
+                WebElement element = driver.findElement(By.cssSelector("div.alf-gallery-item-thumbnail"));
                 if (element.isDisplayed())
                 {
                     inputFromKeyborad(keysToSend);
-                    return FactorySharePage.resolvePage(drone);
+                    return getCurrentPage();
                 }
                 else
                 {
@@ -344,7 +338,7 @@ public class FilmstripActions extends SharePage
     {
         try
         {
-            List<WebElement> selectedDivs = drone.findAll(By.cssSelector("div.alf-filmstrip-nav-item.alf-selected div.alf-label"));
+            List<WebElement> selectedDivs = driver.findElements(By.cssSelector("div.alf-filmstrip-nav-item.alf-selected div.alf-label"));
             List<String> selectedFiles = new ArrayList<String>();
             for (WebElement webElement : selectedDivs)
             {
@@ -367,13 +361,6 @@ public class FilmstripActions extends SharePage
     public FilmstripActions render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public FilmstripActions render(final long time)
-    {
-        return render(new RenderTime(time));
     }
 
     @SuppressWarnings("unchecked")

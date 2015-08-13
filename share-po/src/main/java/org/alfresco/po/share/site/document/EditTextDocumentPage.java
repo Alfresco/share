@@ -14,12 +14,10 @@
  */
 package org.alfresco.po.share.site.document;
 
-import org.alfresco.po.share.FactorySharePage;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -36,11 +34,6 @@ public class EditTextDocumentPage extends CreatePlainTextContentPage
 {
     private static final Log logger = LogFactory.getLog(EditTextDocumentPage.class);
 
-    public EditTextDocumentPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public EditTextDocumentPage render(RenderTime timer)
@@ -54,13 +47,6 @@ public class EditTextDocumentPage extends CreatePlainTextContentPage
     public EditTextDocumentPage render()
     {
         return render(new RenderTime(maxPageLoadingTime));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public EditTextDocumentPage render(long time)
-    {
-        return render(new RenderTime(time));
     }
 
     /**
@@ -83,7 +69,7 @@ public class EditTextDocumentPage extends CreatePlainTextContentPage
     public HtmlPage saveWithValidation(ContentDetails details)
     {
         createWithValidation(details);
-        return FactorySharePage.resolvePage(drone);
+        return getCurrentPage();
     }
 
     /**
@@ -94,25 +80,25 @@ public class EditTextDocumentPage extends CreatePlainTextContentPage
     public ContentDetails getDetails()
     {
         ContentDetails details = null;
-        WebElement element = drone.findAndWait(NAME);
+        WebElement element = findAndWait(NAME);
         if (element != null)
         {
             details = new ContentDetails();
             details.setName(element.getAttribute("value"));
 
-            element = drone.findAndWait(TITLE);
+            element = findAndWait(TITLE);
             if (element != null)
             {
                 details.setTitle(element.getAttribute("value"));
             }
 
-            element = drone.findAndWait(DESCRIPTION);
+            element = findAndWait(DESCRIPTION);
             if (element != null)
             {
                 details.setDescription(element.getText());
             }
 
-            element = drone.findAndWait(CONTENT);
+            element = findAndWait(CONTENT);
 
             if (element != null)
             {
@@ -131,8 +117,8 @@ public class EditTextDocumentPage extends CreatePlainTextContentPage
     {
         try
         {
-            drone.findAndWait(By.cssSelector("button[id$='_default-form-cancel-button']")).click();
-            return (T) FactorySharePage.resolvePage(drone);
+            findAndWait(By.cssSelector("button[id$='_default-form-cancel-button']")).click();
+            return (T) getCurrentPage();
         }
         catch (TimeoutException te)
         {

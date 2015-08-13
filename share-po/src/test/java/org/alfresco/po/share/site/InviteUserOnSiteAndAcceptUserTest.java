@@ -23,12 +23,12 @@ import static org.testng.Assert.assertNotNull;
 
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.util.SiteUtil;
+
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -77,8 +77,8 @@ public class InviteUserOnSiteAndAcceptUserTest extends AbstractTest
     @AfterClass(groups = "Enterprise-only")
     public void deleteSite()
     {
-        SiteUtil.deleteSite(drone, siteName);
-        logout(drone);
+        siteUtil.deleteSite(username, password, siteName);
+        logout(driver);
     }
 
     /**
@@ -98,7 +98,7 @@ public class InviteUserOnSiteAndAcceptUserTest extends AbstractTest
             if (searchUsers != null && searchUsers.size() > 0)
             {
 
-                membersPage = membersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR);
+                membersPage = membersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
                 assertNotNull(membersPage);
                 membersPage = membersPage.clickInviteButton().render();
                 assertNotNull(membersPage);
@@ -125,12 +125,12 @@ public class InviteUserOnSiteAndAcceptUserTest extends AbstractTest
 //            task.acceptInvitaton();
 //            assertNotNull(task);
 //
-//            logout(drone);
+//            logout(driver);
 //
 //        }
 //        catch (Throwable e)
 //        {
-//            saveScreenShot(drone, "SiteTest.testAcceptInvitation-error");
+//            saveScreenShot(driver, "SiteTest.testAcceptInvitation-error");
 //            throw new Exception("Unable to Accept Invitation", e);
 //        }
 //    }
@@ -147,7 +147,7 @@ public class InviteUserOnSiteAndAcceptUserTest extends AbstractTest
 //        }
 //        catch (Throwable e)
 //        {
-//            saveScreenShot(drone, "SiteTest.testAcceptInvitation-error");
+//            saveScreenShot(driver, "SiteTest.testAcceptInvitation-error");
 //            throw new Exception("Unable to Accept Invitation", e);
 //        }
 //        task = task.clickOnTask(null);

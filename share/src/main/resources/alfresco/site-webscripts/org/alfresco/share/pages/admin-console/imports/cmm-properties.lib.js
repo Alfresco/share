@@ -75,10 +75,13 @@ properties.createForm = [
                   value: "d:mltext",
                   label: "d:mltext"
                },
+/* NOTE: disabled as Forms Runtime does not support content fields except in 'Create' Form mode 
+   which is currently only accessible when using the Create plain/html content pages
                {
                   value: "d:content",
                   label: "d:content"
                },
+*/
                {
                   value: "d:int",
                   label: "d:int"
@@ -171,7 +174,7 @@ properties.createForm = [
       }
    },
    {
-      name: "alfresco/forms/controls/NumberSpinner",
+      name: "alfresco/forms/controls/TextBox",
       config: {
          fieldId: "DEFAULT_NUMERIC",
          label: "cmm.property.default",
@@ -179,6 +182,7 @@ properties.createForm = [
          description: "cmm.property.default.info",
          additionalCssClasses: "create-property-default number",
          value: "",
+         postWhenHiddenOrDisabled: false,
          visibilityConfig: {
             initialValue: false,
             rules: [
@@ -188,8 +192,13 @@ properties.createForm = [
                }
             ]
          },
-         postWhenHiddenOrDisabled: false,
-         permitEmpty: true
+         validationConfig: [
+            {
+               validation: "regex",
+               regex: "^$|^[-]?[0-9]{1,20}(?:\.[0-9]{1,10})?$",
+               errorMessage: "cmm.property.default.number.error"
+            }
+         ]
       }
    },
    {
@@ -572,7 +581,7 @@ properties.createForm = [
                },
                {
                   value: "nontxt-standard",
-                  label: "cmm.property.indexing.nontext.standard"
+                  label: "cmm.property.indexing.nontext.basic"
                },
                {
                   value: "nontxt-enhanced",
@@ -585,11 +594,44 @@ properties.createForm = [
             rules: [
                {
                   targetId: "DATATYPE",
-                  isNot: ["d:text", "d:mltext", "d:content"]
+                  isNot: ["d:text", "d:mltext", "d:content", "d:boolean"]
                }
             ]
          },
          inlineHelp: "cmm.property.indexing.nontxthelp"
+      }
+   },
+   {
+      name: "alfresco/forms/controls/Select",
+      config: {
+         fieldId: "INDEXING_BOOLEAN",
+         label: "cmm.property.indexing",
+         name: "indexing_boolean",
+         description: "cmm.property.indexing.info",
+         additionalCssClasses: "create-property-indexing boolean",
+         value: "boolean-standard",
+         optionsConfig: {
+            fixed: [
+               {
+                  value: "boolean-none",
+                  label: "cmm.property.indexing.nontext.none"
+               },
+               {
+                  value: "boolean-standard",
+                  label: "cmm.property.indexing.nontext.basic"
+               }
+            ]
+         },
+         visibilityConfig: {
+            initialValue: false,
+            rules: [
+               {
+                  targetId: "DATATYPE",
+                  is: ["d:boolean"]
+               }
+            ]
+         },
+         inlineHelp: "cmm.property.indexing.booleanhelp"
       }
    },
    {
@@ -600,16 +642,12 @@ properties.createForm = [
          name: "indexing_txt",
          description: "cmm.property.indexing.info",
          additionalCssClasses: "create-property-indexing text",
-         value: "txt-standard",
+         value: "txt-free",
          optionsConfig: {
             fixed: [
                {
                   value: "txt-none",
                   label: "cmm.property.indexing.text.none"
-               },
-               {
-                  value: "txt-standard",
-                  label: "cmm.property.indexing.text.standard"
                },
                {
                   value: "txt-free",
@@ -702,7 +740,10 @@ multipleFieldConfig.description = "cmm.property.multiple.no.edit";
 var nontxtIndexingFieldConfig = properties.editActiveForm[20].config;
 nontxtIndexingFieldConfig._disabled = true;
 nontxtIndexingFieldConfig.description = "cmm.property.indexing.no.edit";
-var txtIndexingFieldConfig = properties.editActiveForm[21].config;
+var booleanIndexingFieldConfig = properties.editActiveForm[21].config;
+booleanIndexingFieldConfig._disabled = true;
+booleanIndexingFieldConfig.description = "cmm.property.indexing.no.edit";
+var txtIndexingFieldConfig = properties.editActiveForm[22].config;
 txtIndexingFieldConfig._disabled = true;
 txtIndexingFieldConfig.description = "cmm.property.indexing.no.edit";
 
@@ -814,6 +855,10 @@ properties.propertyFormValue = {
    indexing_txt: {
       alfType: "item",
       alfProperty: "indexing_txt"
+   },
+   indexing_boolean: {
+      alfType: "item",
+      alfProperty: "indexing_boolean"
    },
    indexing_nontxt: {
       alfType: "item",

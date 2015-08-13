@@ -14,64 +14,42 @@
  */
 package org.alfresco.po.share;
 
-import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
-import org.alfresco.webdrone.exception.PageOperationException;
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
+import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
+import ru.yandex.qatools.htmlelements.element.Button;
+import ru.yandex.qatools.htmlelements.element.TextInput;
 
-@SuppressWarnings("unused")
+/**
+ * @author
+ */
+
+@SuppressWarnings("unchecked")
 public class AddUserGroupPage extends ShareDialogue
 {
-    private static Log logger = LogFactory.getLog(CopyOrMoveContentPage.class);
 
-    private static final String SEARCH_BUTTON = "button[id*='search-peoplefinder']";
-    private static final String SEARCH_INPUT = "input[id*='search-peoplefinder-search-text']";
+    private static final String SEARCH_BUTTON = "button[id$='search-peoplefinder']";
+    @RenderWebElement @FindBy(css="input[id$='peoplefinder-search-text']") TextInput search;
     private static final String SEARCH_RESULT_ROW = "tr[class^='yui-dt-rec']";
-    private static final String ADD_BUTTON = "td[class*='yui-dt-col-actions'] button";
+    @FindBy(css="td[class*='yui-dt-col-actions'] button") Button add;
     private static final String CLOSE_ICON = "div[class*='people-picker'] a";
 
-    /**
-     * Constructor.
-     * 
-     * @param drone WebDriver to access page
-     */
-    public AddUserGroupPage(WebDrone drone)
-    {
-        super(drone);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public AddUserGroupPage render(RenderTime timer)
-    {
-        basicRender(timer);
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public AddUserGroupPage render()
     {
-        return render(new RenderTime(maxPageLoadingTime));
+        RenderTime timer = new RenderTime(maxPageLoadingTime);
+        basicRender(timer);
+        webElementRender(timer);
+        return this;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public AddUserGroupPage render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Checks if search button is present and enabled
      * 
@@ -81,7 +59,7 @@ public class AddUserGroupPage extends ShareDialogue
     {
         try
         {
-            WebElement searchButton = drone.find(By.cssSelector(SEARCH_BUTTON));
+            WebElement searchButton = driver.findElement(By.cssSelector(SEARCH_BUTTON));
             return searchButton.isDisplayed() && searchButton.isEnabled();
         }
         catch (NoSuchElementException e)
@@ -99,12 +77,11 @@ public class AddUserGroupPage extends ShareDialogue
     {
         try
         {
-            WebElement searchField = drone.find(By.cssSelector(SEARCH_INPUT));
-            return searchField.isDisplayed() && searchField.isEnabled();
+            return search.isDisplayed() && search.isEnabled();
         }
-        catch (NoSuchElementException e)
+        catch (Exception e)
         {
-            throw new PageException("Not found Element:" + SEARCH_INPUT, e);
+            throw new PageException("Search input not found Element:", e);
         }
     }
 
@@ -116,10 +93,10 @@ public class AddUserGroupPage extends ShareDialogue
         try
         {
 
-            WebElement addUserButton = drone.findAndWait(By.cssSelector(ADD_BUTTON));
-            if (addUserButton.isEnabled())
+            
+            if (add.isEnabled())
             {
-                addUserButton.click();
+                add.click();
                 waitUntilAlert();
             }
             else
@@ -129,17 +106,16 @@ public class AddUserGroupPage extends ShareDialogue
         }
         catch (TimeoutException e)
         {
-            throw new PageOperationException("Not found element is : " + ADD_BUTTON, e);
+            throw new PageOperationException("Unable to click on add button: ", e);
         }
     }
-
     /**
      * Serch for user to add to a group
      * 
      * @param userName String
      * @return AddUserGroupPage
      */
-    public AddUserGroupPage searchUser(String userName)
+    public HtmlPage searchUser(String userName)
     {
         if (StringUtils.isEmpty(userName))
         {
@@ -147,18 +123,17 @@ public class AddUserGroupPage extends ShareDialogue
         }
         try
         {
-            WebElement input = drone.findAndWait(By.cssSelector(SEARCH_INPUT));
-            input.clear();
-            input.sendKeys(userName);
-            WebElement searchButton = drone.findAndWait(By.cssSelector(SEARCH_BUTTON));
+            search.clear();
+            search.sendKeys(userName);
+            WebElement searchButton = findAndWait(By.cssSelector(SEARCH_BUTTON));
             searchButton.click();
-            drone.findAndWaitForElements(By.cssSelector(SEARCH_RESULT_ROW));
-            return new AddUserGroupPage(drone).render();
+            findAndWaitForElements(By.cssSelector(SEARCH_RESULT_ROW), getDefaultWaitTime());
+            return this;
 
         }
         catch (NoSuchElementException nse)
         {
-            throw new PageOperationException("Not visible Element:" + SEARCH_INPUT, nse);
+            throw new PageOperationException("Not visible Element search input:", nse);
         }
         catch (TimeoutException toe)
         {
@@ -171,15 +146,22 @@ public class AddUserGroupPage extends ShareDialogue
     {
         try
         {
-            WebElement addUserButton = drone.findAndWait(By.cssSelector(CLOSE_ICON));
+            WebElement addUserButton = findAndWait(By.cssSelector(CLOSE_ICON));
             addUserButton.click();
         }
         catch (TimeoutException e)
         {
-            throw new PageOperationException("Not found element is : " + ADD_BUTTON, e);
+            throw new PageOperationException("Not found element is : " + CLOSE_ICON, e);
         }
 
-        return FactorySharePage.resolvePage(drone);
-
+        return getCurrentPage();
+    }
+    /**
+     * Checkes if add button on page is visible.
+     * @return true if visible
+     */
+    public boolean isAddButtonDisplayed()
+    {
+        return add.isDisplayed();
     }
 }

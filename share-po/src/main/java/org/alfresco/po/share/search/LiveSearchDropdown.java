@@ -18,12 +18,11 @@ package org.alfresco.po.share.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.alfresco.po.share.FactorySharePage;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.webdrone.HtmlPage;
-import org.alfresco.webdrone.RenderTime;
-import org.alfresco.webdrone.WebDrone;
-import org.alfresco.webdrone.exception.PageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -64,17 +63,6 @@ public class LiveSearchDropdown extends SharePage
     // See more document results
     private static final String MORE_RESULTS = "a[title='More'] span";
 
-    /**
-     * Constructor
-     * 
-     * @param drone WebDrone
-     */
-    public LiveSearchDropdown(WebDrone drone)
-    {
-        super(drone);
-
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public LiveSearchDropdown render()
@@ -89,13 +77,6 @@ public class LiveSearchDropdown extends SharePage
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public LiveSearchDropdown render(final long time)
-    {
-        return render(new RenderTime(time));
-    }
-
     /**
      * Gets the search results as a collection of LiveSearchDocumentResult.
      * 
@@ -108,12 +89,12 @@ public class LiveSearchDropdown extends SharePage
         try
         {
             
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector(DOCUMENT_RESULTS));           
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector(DOCUMENT_RESULTS));           
             if (elements.size() > 0)
             {
                 for (WebElement element : elements)
                 {
-                    results.add(new LiveSearchDocumentResult(element, drone));
+                    results.add(new LiveSearchDocumentResult(element, driver, factoryPage));
                 }
             }
 
@@ -136,12 +117,12 @@ public class LiveSearchDropdown extends SharePage
         List<LiveSearchSiteResult> results = new ArrayList<LiveSearchSiteResult>();
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector(SITES_RESULTS));
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector(SITES_RESULTS));
             if (elements.size() > 0)
             {
                 for (WebElement element : elements)
                 {
-                    results.add(new LiveSearchSiteResult(element, drone));
+                    results.add(new LiveSearchSiteResult(element, driver, factoryPage));
                 }
             }
         }
@@ -162,12 +143,12 @@ public class LiveSearchDropdown extends SharePage
         List<LiveSearchPeopleResult> results = new ArrayList<LiveSearchPeopleResult>();
         try
         {
-            List<WebElement> elements = drone.findAndWaitForElements(By.cssSelector(PEOPLE_RESULTS));
+            List<WebElement> elements = findAndWaitForElements(By.cssSelector(PEOPLE_RESULTS));
             if (elements.size() > 0)
             {
                 for (WebElement element : elements)
                 {
-                    results.add(new LiveSearchPeopleResult(element, drone));
+                    results.add(new LiveSearchPeopleResult(element, driver, factoryPage));
                 }
             }
         }
@@ -185,7 +166,7 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement closeDropdown = drone.findAndWait(By.cssSelector(CLOSE_DROPDOWN));
+            WebElement closeDropdown = findAndWait(By.cssSelector(CLOSE_DROPDOWN));
             closeDropdown.click();
         }
         catch (NoSuchElementException nse)
@@ -210,7 +191,7 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement documentTitle = drone.find(By.cssSelector(DOCUMENTS_TITLE));
+            WebElement documentTitle = driver.findElement(By.cssSelector(DOCUMENTS_TITLE));
             return documentTitle.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -229,7 +210,7 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement sitesTitle = drone.find(By.cssSelector(SITES_TITLE));
+            WebElement sitesTitle = driver.findElement(By.cssSelector(SITES_TITLE));
             return sitesTitle.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -248,7 +229,7 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement peopleTitle = drone.find(By.cssSelector(PEOPLE_TITLE));
+            WebElement peopleTitle = driver.findElement(By.cssSelector(PEOPLE_TITLE));
             return peopleTitle.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -267,7 +248,7 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement moreResults = drone.find(By.cssSelector(MORE_RESULTS));
+            WebElement moreResults = driver.findElement(By.cssSelector(MORE_RESULTS));
             return moreResults.isDisplayed();
         }
         catch (NoSuchElementException nse)
@@ -333,8 +314,8 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement expandDocumentResults = drone.findAndWait(By.cssSelector(MORE_RESULTS));
-            drone.mouseOver(expandDocumentResults);
+            WebElement expandDocumentResults = findAndWait(By.cssSelector(MORE_RESULTS));
+            mouseOver(expandDocumentResults);
             expandDocumentResults.click();
         }
         catch (NoSuchElementException nse)
@@ -364,8 +345,8 @@ public class LiveSearchDropdown extends SharePage
         }
         try
         {
-            drone.findAndWait(By.xpath(String.format("//a[text()='%s']", liveSearchItem))).click();
-            return FactorySharePage.resolvePage(drone);
+            findAndWait(By.xpath(String.format("//a[text()='%s']", liveSearchItem))).click();
+            return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {

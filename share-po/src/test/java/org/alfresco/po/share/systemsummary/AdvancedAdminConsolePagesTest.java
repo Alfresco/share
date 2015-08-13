@@ -1,7 +1,7 @@
 package org.alfresco.po.share.systemsummary;
 
-import org.alfresco.po.share.AbstractTest;
-import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.AbstractTest;
+
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +22,7 @@ public class AdvancedAdminConsolePagesTest extends AbstractTest
     {
         SystemSummaryPage sysSummaryPage = null;
         try {
-            sysSummaryPage = (SystemSummaryPage) ShareUtil.navigateToSystemSummary(drone, shareUrl, username, password);
+            sysSummaryPage = (SystemSummaryPage) shareUtil.navigateToSystemSummary(driver, shareUrl, username, password);
         } catch (Exception e) {
             if (logger.isDebugEnabled())
             {

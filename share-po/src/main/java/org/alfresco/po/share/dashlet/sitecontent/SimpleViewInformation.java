@@ -14,10 +14,12 @@
  */
 package org.alfresco.po.share.dashlet.sitecontent;
 
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.MyProfilePage;
-import org.alfresco.webdrone.WebDrone;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Holds the information about the Simple View inside site content dashlet.
@@ -33,17 +35,19 @@ public class SimpleViewInformation
     private String contentStatus;
     private ShareLink user;
     private boolean previewDisplayed;
-    private WebDrone drone;
+    private WebDriver driver;
+    private FactoryPage factoryPage;
 
-    public SimpleViewInformation(WebDrone drone,
+    public SimpleViewInformation(WebDriver driver,
                                  final ShareLink thumbnail,
                                  final ShareLink contentDetail,
                                  final ShareLink user,
                                  final String contentStatus,
-                                 final boolean previewDisplayed)
+                                 final boolean previewDisplayed,
+                                 FactoryPage factoryPage)
     {
 
-        if (null == drone)
+        if (null == driver)
         {
             throw new UnsupportedOperationException("Drone is required, It can't be null.");
         }
@@ -63,12 +67,13 @@ public class SimpleViewInformation
             throw new UnsupportedOperationException("User link is required");
         }
 
-        this.drone = drone;
+        this.driver = driver;
         this.thumbnail = thumbnail;
         this.contentDetail = contentDetail;
         this.user = user;
         this.contentStatus = contentStatus;
         this.previewDisplayed = previewDisplayed;
+        this.factoryPage = factoryPage;
     }
 
     public ShareLink getThumbnail()
@@ -101,10 +106,10 @@ public class SimpleViewInformation
      * 
      * @return {@link DocumentDetailsPage}
      */
-    public DocumentDetailsPage clickContentDetail()
+    public HtmlPage clickContentDetail()
     {
         this.contentDetail.click();
-        return new DocumentDetailsPage(drone);
+        return factoryPage.instantiatePage(driver, DocumentDetailsPage.class);
     }
 
     /**
@@ -112,10 +117,10 @@ public class SimpleViewInformation
      * 
      * @return {@link MyProfilePage}
      */
-    public MyProfilePage clickUser()
+    public HtmlPage clickUser()
     {
         this.user.click();
-        return new MyProfilePage(drone);
+        return factoryPage.instantiatePage(driver, MyProfilePage.class);
     }
 
     @Override

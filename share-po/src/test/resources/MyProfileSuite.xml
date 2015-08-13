@@ -6,11 +6,6 @@
             <class name="org.alfresco.po.share.user.TrashCanPageTest" />
       </classes>
     </test>
-   <test name="TrashCanPaginationTest">
-      <classes>
-            <class name="org.alfresco.po.share.user.TrashCanPaginationTest" />
-      </classes>
-    </test>
    <test name="NotificationPageTest">
       <classes>
             <class name="org.alfresco.po.share.user.NotificationPageTest" />
