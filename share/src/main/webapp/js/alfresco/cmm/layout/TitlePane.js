@@ -182,6 +182,7 @@ define(["dojo/_base/declare",
        * @param {object} evt The click event that triggers the close.
        */
       onClose: function cmm_layout_TitlePane__onClose(/* jshint unused:false */ evt) {
+         this.destroy();
          this.destroyRecursive();
       }
    });

@@ -539,12 +539,11 @@ modellingService.service = {
                      optionsConfig: {
                         fixed: [
                            /* Currently unsupported by the Forms Runtime expect in 'Create' form mode which is only
-                              used by the Doclib Create New Plain Text content action...
+                              used by the Doclib Create New Plain Text content action...*/
                            {
                               value: "content",
                               label: "cmm.form-editor.property.form-control.textarea"
                            },
-                           */
                            {
                               value: "richtext",
                               label: "cmm.form-editor.property.form-control.richtext"
