@@ -17,6 +17,8 @@ import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -55,14 +57,6 @@ public class ShareLinkTest extends AbstractDocumentTest
         siteUtil.deleteSite(username, password, siteName);
     }
 
-    /**
-     * Create User
-     * 
-     * @throws Exception
-     */
-    public void createUser() throws Exception
-    {
-    }
 
     /**
      * Test updating an existing file with a new uploaded file. The test covers major and minor version changes
@@ -81,8 +75,14 @@ public class ShareLinkTest extends AbstractDocumentTest
         documentLibPage = uploadForm.uploadFile(tempFile.getCanonicalPath()).render();
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(folderName1, folderDescription).render();
+        
     }
 
+    @BeforeMethod
+    public void prep()
+    {
+    	documentLibPage.getSiteNav().selectDocumentLibrary();
+    }
     @Test(groups = { "alfresco-one" }, priority = 1)
     public void testViewLink()
     {
@@ -98,6 +98,7 @@ public class ShareLinkTest extends AbstractDocumentTest
         Assert.assertTrue(viewPage.isDocumentViewDisplayed());
         Assert.assertEquals(viewPage.getButtonName(), "Document Details");
         Assert.assertEquals(viewPage.getContentTitle(), file.getName());
+        viewPage.clickOnDocumentDetailsButton();
     }
     
 
