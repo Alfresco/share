@@ -8,7 +8,6 @@
 package org.alfresco.po.share.site.document;
 
 import java.io.File;
-import java.util.Set;
 
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
@@ -115,61 +114,11 @@ public class ShareLinkTest extends AbstractDocumentTest
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 5)
-    public void testOtherShareLinks() throws InterruptedException
-    {
-    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(tempFile.getName());
-        ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
-
-        Assert.assertTrue(shareLinkPage.isFaceBookLinkPresent());
-        shareLinkPage.clickFaceBookLink();
-        Thread.sleep(2000);
-        
-        String mainWindow = driver.getWindowHandle();
-        Assert.assertTrue(isWindowOpened("Facebook"));
-        driver.close();
-        driver.switchTo().window(mainWindow);
-
-        Assert.assertTrue(shareLinkPage.isTwitterLinkPresent());
-        shareLinkPage.clickTwitterLink();
-        Thread.sleep(2000);
-
-        mainWindow = driver.getWindowHandle();
-        Assert.assertTrue(isWindowOpened("Share a link on Twitter"));
-        driver.close();
-        driver.switchTo().window(mainWindow);
-
-        Assert.assertTrue(shareLinkPage.isGooglePlusLinkPresent());
-        shareLinkPage.clickGooglePlusLink();
-        Thread.sleep(2000);
-
-        mainWindow = driver.getWindowHandle();
-        Assert.assertTrue(isWindowOpened("Google+"));
-        driver.close();
-        driver.switchTo().window(mainWindow);
-    }
-
     @Test(groups = { "alfresco-one" }, priority = 6, expectedExceptions = UnsupportedOperationException.class)
     public void clickShareLinkFolder()
     {
     	documentLibPage.getSiteNav().selectDocumentLibrary().render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName1);
         thisRow.clickShareLink().render();
-    }
-
-    private boolean isWindowOpened(String windowName)
-    {
-        Set<String> windowHandles = driver.getWindowHandles();
-
-        for (String windowHandle : windowHandles)
-        {
-            driver.switchTo().window(windowHandle);
-            if (driver.getTitle().equals(windowName))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
