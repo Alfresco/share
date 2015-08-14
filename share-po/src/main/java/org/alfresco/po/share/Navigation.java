@@ -21,6 +21,7 @@ package org.alfresco.po.share;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.PageElement;
 import org.alfresco.po.exception.PageException;
@@ -31,6 +32,7 @@ import org.alfresco.po.share.adminconsole.NodeBrowserPage;
 import org.alfresco.po.share.search.FacetedSearchConfigPage;
 import org.alfresco.po.share.search.FacetedSearchHeaderSearchForm;
 import org.alfresco.po.share.search.FacetedSearchPage;
+import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.document.MyFilesPage;
@@ -136,7 +138,7 @@ public class Navigation extends PageElement
     {
         selectSitesDropdown();
         driver.findElement(CREATE_SITE_LINK).click();
-        return getCurrentPage();
+        return factoryPage.instantiatePage(driver, CreateSitePage.class);
     }
 
     @FindBy(id="HEADER_SITES_MENU_text") WebElement siteDropdown;
