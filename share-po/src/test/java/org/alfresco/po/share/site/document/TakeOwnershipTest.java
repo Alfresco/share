@@ -19,7 +19,7 @@ import static org.testng.Assert.assertTrue;
 import java.io.File;
 import java.util.List;
 
-import org.alfresco.po.share.AbstractTest;
+import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.ShareUtil;
@@ -33,7 +33,7 @@ import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.user.UserSitesPage;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.webdrone.exception.PageRenderTimeException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.Assert;
@@ -87,8 +87,8 @@ public class TakeOwnershipTest extends AbstractTest
         userPage.searchFor(takeOwnershipUserName).render();
         Assert.assertTrue(userPage.hasResults());
 
-        SiteUtil.createSite(drone, takeOwnershipSiteName, "description", "Public");
-        siteDashBoard = drone.getCurrentPage().render();
+        siteUtil.createSite(driver, username, password, takeOwnershipSiteName, "description", "Public");
+        siteDashBoard = resolvePage(driver).render();
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         List<String> searchUsers = null;
         for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
@@ -111,23 +111,23 @@ public class TakeOwnershipTest extends AbstractTest
             }
             try
             {
-                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
+                addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
             }
             catch (PageRenderTimeException exception)
             {
             }
         }
-        logout(drone);
+        logout(driver);
         
         //collaborator logs in and creates two folders and files
         dashBoard = loginAs(takeOwnershipUserName, takeOwnershipUserName); 
         userSitesPage = dashBoard.getNav().selectMySites().render();     
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteDocumentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(takeOwnershipFolder, takeOwnershipFolder).render();
        
-        File file = SiteUtil.prepareFile(takeOwnershipFile, takeOwnershipFile, ".txt");
+        File file = siteUtil.prepareFile(takeOwnershipFile, takeOwnershipFile, ".txt");
         takeOwnershipFilePrepared = file.getName();
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
@@ -135,12 +135,12 @@ public class TakeOwnershipTest extends AbstractTest
         newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(takeOwnershipFolderCancel, takeOwnershipFolderCancel).render();
         
-        File fileCancel = SiteUtil.prepareFile(takeOwnershipFileCancel, takeOwnershipFileCancel, ".txt");
+        File fileCancel = siteUtil.prepareFile(takeOwnershipFileCancel, takeOwnershipFileCancel, ".txt");
         takeOwnershipFileCancelPrepared = fileCancel.getName();
         uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(fileCancel.getCanonicalPath()).render();
       
-        ShareUtil.logout(drone);
+        logout(driver);
         
         //collaborator becomes consumer
         dashBoard = loginAs(username, password);
@@ -154,7 +154,7 @@ public class TakeOwnershipTest extends AbstractTest
             try
             {
                 siteMembersSearchUsers = siteMembersPage.searchUser(takeOwnershipUserName);
-                siteMembersPage.renderWithUserSearchResults(refreshDuration);
+                siteMembersPage.renderWithUserSearchResults(maxPageWaitTime);
             }
             catch (PageRenderTimeException exception)
             {
@@ -174,7 +174,7 @@ public class TakeOwnershipTest extends AbstractTest
     @AfterClass
     public void teardown()
     {
-        SiteUtil.deleteSite(drone, takeOwnershipSiteName);
+        siteUtil.deleteSite(username, password, takeOwnershipSiteName);
     }
     
     @Test
@@ -194,7 +194,7 @@ public class TakeOwnershipTest extends AbstractTest
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
         
         
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
         List<FileDirectoryInfo> folders = documentLibPage.getFiles();
         FileDirectoryInfo folder = folders.get(0);
         
@@ -204,27 +204,28 @@ public class TakeOwnershipTest extends AbstractTest
         TakeOwnershipPage takeOwnershipPage = folderDetailsPage.selectTakeOwnership().render();
         folderDetailsPage = takeOwnershipPage.clickOnTakeOwnershipButton().render();
  
-        ShareUtil.logout(drone);
+        logout(driver);
 
         dashBoard = loginAs(takeOwnershipUserName, takeOwnershipUserName);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
                   
         //consumer cannot create content anymore 
         documentLibPage.selectFolder(takeOwnershipFolder);
         Assert.assertFalse(documentLibPage.getNavigation().isCreateContentEnabled());
         Assert.assertFalse(documentLibPage.getNavigation().isFileUploadEnabled());
          
-        //folder cannot be deleted 
-        documentLibPage.selectDocumentLibrary(drone).render();
+        //folder cannot be deleted
+       
+        documentLibPage.getSiteNav().selectDocumentLibrary().render();
         documentLibPage.getFileDirectoryInfo(takeOwnershipFolder).selectCheckbox();
         documentLibPage = documentLibPage.getNavigation().clickSelectedItems().render();
         assertTrue(documentLibPage.getNavigation().isSelectedItemMenuVisible());
         Assert.assertFalse(documentLibPage.getNavigation().isDeleteActionForIncompleteWorkflowDocumentPresent()); 
         
         //consumer logs out 
-        ShareUtil.logout(drone);
+        logout(driver);
         
    }
     
@@ -237,7 +238,7 @@ public class TakeOwnershipTest extends AbstractTest
         //admin user cancels taking ownership of the folder created by collaborator
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
         List<FileDirectoryInfo> folders = documentLibPage.getFiles();
         FileDirectoryInfo folder = folders.get(1);
         
@@ -248,12 +249,12 @@ public class TakeOwnershipTest extends AbstractTest
         TakeOwnershipPage takeOwnershipPage = folderDetailsPage.selectTakeOwnership().render();
         folderDetailsPage = takeOwnershipPage.clickOnTakeOwnershipCancelButton().render();
         
-        ShareUtil.logout(drone);
+        logout(driver);
 
         dashBoard = loginAs(takeOwnershipUserName, takeOwnershipUserName);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
         
         //consumer can still create content  
         documentLibPage.selectFolder(takeOwnershipFolderCancel);
@@ -261,14 +262,14 @@ public class TakeOwnershipTest extends AbstractTest
         Assert.assertTrue(documentLibPage.getNavigation().isFileUploadEnabled());
         
         //folder can still be deleted 
-        documentLibPage.selectDocumentLibrary(drone).render();
+        documentLibPage.getSiteNav().selectDocumentLibrary().render();
         documentLibPage.getFileDirectoryInfo(takeOwnershipFolderCancel).selectCheckbox();
         documentLibPage = documentLibPage.getNavigation().clickSelectedItems().render();
         assertTrue(documentLibPage.getNavigation().isSelectedItemMenuVisible());
         Assert.assertTrue(documentLibPage.getNavigation().isDeleteActionForIncompleteWorkflowDocumentPresent()); 
         
         //consumer logs out 
-        ShareUtil.logout(drone);
+        logout(driver);
         
     }
     
@@ -281,18 +282,18 @@ public class TakeOwnershipTest extends AbstractTest
         //admin user takes ownership of the file created by collaborator
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
         DocumentDetailsPage documentDetailsPage = documentLibPage.selectFile(takeOwnershipFilePrepared).render();
         TakeOwnershipPage takeOwnershipPage = documentDetailsPage.selectTakeOwnership().render();  
         documentDetailsPage = takeOwnershipPage.clickOnTakeOwnershipButton().render();
         
-        ShareUtil.logout(drone);
+        logout(driver);
 
         //consumer logs in
         dashBoard = loginAs(takeOwnershipUserName, takeOwnershipUserName);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
                          
         //consumer cannot edit file anymore
         documentDetailsPage = documentLibPage.selectFile(takeOwnershipFilePrepared).render();
@@ -303,7 +304,7 @@ public class TakeOwnershipTest extends AbstractTest
         //consumer cannot delete file anymore
         Assert.assertFalse(documentDetailsPage.isDeleteDocumentLinkDisplayed());
         
-        ShareUtil.logout(drone);
+        logout(driver);
         
     }
     
@@ -316,18 +317,18 @@ public class TakeOwnershipTest extends AbstractTest
         //admin user cancels taking ownership of the file created by collaborator
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
         DocumentDetailsPage documentDetailsPage = documentLibPage.selectFile(takeOwnershipFileCancelPrepared).render();
         TakeOwnershipPage takeOwnershipPage = documentDetailsPage.selectTakeOwnership().render();  
         documentDetailsPage = takeOwnershipPage.clickOnTakeOwnershipCancelButton().render();
         
-        ShareUtil.logout(drone);
+        logout(driver);
 
         //consumer logs in
         dashBoard = loginAs(takeOwnershipUserName, takeOwnershipUserName);
         userSitesPage = dashBoard.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(takeOwnershipSiteName).clickOnSiteName().render();
-        documentLibPage = siteDashBoard.getSiteNav().selectSiteContentLibrary().render();
+        documentLibPage = siteDashBoard.getSiteNav().selectDocumentLibrary().render();
                          
         //consumer can still edit file 
         documentDetailsPage = documentLibPage.selectFile(takeOwnershipFileCancelPrepared).render();

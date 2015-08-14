@@ -75,45 +75,47 @@ public class AddUsersToSitePageTest extends AbstractTest
         SharePage page = resolvePage(driver).render();
         userSitesPage = page.getNav().selectMySites().render();
         siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-//        if (!alfrescoVersion.isCloud())
-//        {
-//            List<String> searchUsers = null;
-//            addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-//            for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
-//            {
-//                searchUsers = addUsersToSitePage.searchUser(userName);
-//                try
-//                {
-//                    if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(userName) != -1))
-//                    {
-//                        addUsersToSitePage.clickSelectUser(userName);
-//                        addUsersToSitePage.setUserRoles(userName, role);
-//
-//                        addUsersToSitePage.clickAddUsersButton();
-//                        break;
-//                    }
-//                }
-//                catch (Exception e)
-//                {
-//                    saveScreenShot("SiteTest.instantiateMembers-error");
-//                    throw new Exception("Waiting for object to load", e);
-//                }
-//                try
-//                {
-//                    addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-//                }
-//                catch (PageRenderTimeException exception)
-//                {
-//                }
-//            }
-//
-//        }
-//        else
-//        {
-//            // TODO: In Cloud environemnt, need to implement the inviting and
-//            // accepting the invitation to join on another user site page.
-//        }
-    }
+        //if (!alfrescoVersion.isCloud())
+        //{
+            List<String> searchUsers = null;
+            addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
+            for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
+            {
+                searchUsers = addUsersToSitePage.searchUser(userName);
+                try
+                {
+                    if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(userName) != -1))
+                    {
+                        addUsersToSitePage.clickSelectUser(userName);
+                        addUsersToSitePage.setUserRoles(userName, role);
+
+                        addUsersToSitePage.clickAddUsersButton();
+                        break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    saveScreenShot("SiteTest.instantiateMembers-error");
+                    throw new Exception("Waiting for object to load", e);
+                }
+                try
+                {
+                    addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
+                }
+                catch (PageRenderTimeException exception)
+                {
+                }
+            }
+
+        }
+        /**
+        else
+        {
+            // TODO: In Cloud environemnt, need to implement the inviting and
+            // accepting the invitation to join on another user site page.
+        }
+        **/
+    
 
     /**
      * Search for site members
