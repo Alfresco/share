@@ -34,7 +34,7 @@
     <!-- WebDriver        -->
     <!--                  -->
     <bean id="webDriver" factory-bean="&amp;webDriverFactoryBean" factory-method="getObject"  destroy-method="quit" lazy-init="true" scope="prototype">
-        <constructor-arg value="RemoteFireFox"/>
+        <constructor-arg value="${webdriver.browser}"/>
     </bean>
 </beans>
 
