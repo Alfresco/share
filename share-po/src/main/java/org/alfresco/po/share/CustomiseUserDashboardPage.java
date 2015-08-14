@@ -51,10 +51,10 @@ public class CustomiseUserDashboardPage extends SharePage
     private static final By SELECT_THREE_COLUMN_LAYOUT_BTN = By.cssSelector("button[id*='dashboard-3-columns-button']");
     private static final By SELECT_FOUR_COLUMN_LAYOUT_BTN = By.cssSelector("button[id*='dashboard-4-columns-button']");
 
-    //Restore Get Started Panel
+    // Restore Get Started Panel
     private static final By SHOW_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("input[id*='welcomePanelEnabled']");
     private static final By HIDE_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("input[id*='welcomePanelDisabled']");
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public CustomiseUserDashboardPage render(RenderTime timer)
@@ -90,7 +90,7 @@ public class CustomiseUserDashboardPage extends SharePage
 
     /**
      * Mimics the action of selection change layout button.
-     *
+     * 
      * @return {@link CustomiseUserDashboardPage}
      */
     public CustomiseUserDashboardPage selectChangeLayou()
@@ -118,7 +118,7 @@ public class CustomiseUserDashboardPage extends SharePage
 
     /**
      * Mimics the action of removing the all dashlets from Columns.
-     *
+     * 
      * @return {@link SiteDashboardPage}
      */
     public DashBoardPage removeAllDashlets()
@@ -140,7 +140,7 @@ public class CustomiseUserDashboardPage extends SharePage
 
     /**
      * Select Layout from given {@link SiteLayout}.
-     *
+     * 
      * @return {@link SiteDashboardPage}
      */
     public DashBoardPage selectDashboard(SiteLayout layout)
@@ -152,7 +152,7 @@ public class CustomiseUserDashboardPage extends SharePage
 
     /**
      * Add all the dashlets into different columns available.
-     *
+     * 
      * @return {@link SiteDashboardPage}
      */
     public DashBoardPage addAllDashlets()
@@ -183,7 +183,7 @@ public class CustomiseUserDashboardPage extends SharePage
 
     /**
      * Add given dashlet into given column.
-     *
+     * 
      * @param dashletName Dashlets
      * @param columnNumber int
      * @return {@link SiteDashboardPage}
@@ -248,8 +248,7 @@ public class CustomiseUserDashboardPage extends SharePage
                     List<WebElement> existingDashletsInColumn = Collections.emptyList();
                     try
                     {
-                        existingDashletsInColumn = findAndWaitForElements(By.cssSelector(String.format("ul[id$='column-ul-%d'] li",
-                                columnNumber)), getDefaultWaitTime());
+                        existingDashletsInColumn = findAndWaitForElements(By.cssSelector(String.format("ul[id$='column-ul-%d'] li", columnNumber)), getDefaultWaitTime());
                     }
                     catch (TimeoutException e)
                     {
@@ -280,11 +279,10 @@ public class CustomiseUserDashboardPage extends SharePage
 
         throw new PageOperationException("Error in adding dashlet using drag and drop");
     }
-    
-    
+
     /**
      * Add given dashlet into given column.
-     *
+     * 
      * @param dashletName String
      * @param columnNumber int
      * @return {@link SiteDashboardPage}
@@ -349,8 +347,7 @@ public class CustomiseUserDashboardPage extends SharePage
                     List<WebElement> existingDashletsInColumn = Collections.emptyList();
                     try
                     {
-                        existingDashletsInColumn = findAndWaitForElements(By.cssSelector(String.format("ul[id$='column-ul-%d'] li",
-                                columnNumber)), getDefaultWaitTime());
+                        existingDashletsInColumn = findAndWaitForElements(By.cssSelector(String.format("ul[id$='column-ul-%d'] li", columnNumber)), getDefaultWaitTime());
                     }
                     catch (TimeoutException e)
                     {
@@ -385,7 +382,7 @@ public class CustomiseUserDashboardPage extends SharePage
     /**
      * This method used to select the ok button present on Customize site
      * dashboard page.
-     *
+     * 
      * @return SiteDashboardPage
      */
     public DashBoardPage selectOk()
@@ -398,12 +395,12 @@ public class CustomiseUserDashboardPage extends SharePage
         {
             logger.error("Unable to find the Save button css ", te);
         }
-        return getCurrentPage().render();
+        return factoryPage.instantiatePage(driver, DashBoardPage.class).render();
     }
 
     /**
      * Remove dashlet by name.
-     *
+     * 
      * @param dashlet Dashlets
      */
     public DashBoardPage removeDashlet(Dashlets dashlet)
@@ -417,7 +414,7 @@ public class CustomiseUserDashboardPage extends SharePage
 
     /**
      * Method to change layout on Customize Site Dashboard page
-     *
+     * 
      * @param numOfColumns int
      */
 
@@ -453,8 +450,7 @@ public class CustomiseUserDashboardPage extends SharePage
             }
         }
     }
-    
-    
+
     /**
      * Clicks on Show on dashboard radio button (to show Get Started Panel on user dashboard)
      * 
@@ -475,8 +471,7 @@ public class CustomiseUserDashboardPage extends SharePage
         }
         return getCurrentPage();
     }
-    
-    
+
     /**
      * Clicks on Hide on dashboard radio button (to hide Get Started Panel on user dashboard)
      * 

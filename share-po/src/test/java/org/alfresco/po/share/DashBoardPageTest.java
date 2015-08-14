@@ -41,7 +41,6 @@ public class DashBoardPageTest extends AbstractTest
      * @throws Exception
      */
     
-    private String userGetStartedPanel = "userGetStartedPanel" + System.currentTimeMillis();
     DashBoardPage dashBoard;
 
     @Test(groups = "alfresco-one")
@@ -66,8 +65,8 @@ public class DashBoardPageTest extends AbstractTest
     @Test(dependsOnMethods = "refreshPage", groups = "alfresco-one")
     public void checkTopLogoUrl()
     {
-        DashBoardPage dashBoardPage = resolvePage(driver).render();
-        Assert.assertNotNull(dashBoardPage.getTopLogoUrl());
+        dashBoard = resolvePage(driver).render();
+        Assert.assertNotNull(dashBoard.getTopLogoUrl());
     }
 
     @Test(dependsOnMethods = "refreshPage", groups = "alfresco-one")
@@ -93,19 +92,11 @@ public class DashBoardPageTest extends AbstractTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "checkVersionsFromPopUpLogo", groups = "Enterprise-only")
+    @Test(dependsOnMethods = "checkTopLogoUrl", groups = "Enterprise-only")
     public void testHideGetStartedPanelFromUserDashboard() throws Exception
     {
-    	driver.navigate().refresh();
-        
-        logout(driver);
-        createEnterpriseUser(userGetStartedPanel);
-                
-        dashBoard = loginAs(userGetStartedPanel, UNAME_PASSWORD).render();
-        
         HideGetStartedPanel  hideGetStartedPanel = dashBoard.clickOnHideGetStartedPanelButton().render();
         dashBoard = hideGetStartedPanel.clickOnHideGetStartedPanelOkButton().render();
- 
         Assert.assertFalse(dashBoard.panelExists(dashBoard.getGetStartedPanelTitle()));
                 
     }

@@ -31,39 +31,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Dashboard page object, holds all element of the HTML page relating to share's
- *
+ * 
  * @author Michael Suzuki
  * @since 1.0
  */
 public class DashBoardPage extends SharePage implements Dashboard
 {
-	@Autowired FactoryShareDashlet factoryDashlet;
-	private final Log logger = LogFactory.getLog(DashBoardPage.class);
+    @Autowired
+    FactoryShareDashlet factoryDashlet;
+    private final Log logger = LogFactory.getLog(DashBoardPage.class);
     @RenderWebElement
     MySitesDashlet mySitesDashlet;
     @RenderWebElement
     MyDocumentsDashlet myDocumentsDashlet;
     @RenderWebElement
     MyActivitiesDashlet myActivitiesDashlet;
-    
-    //Get Started Panel
-    
-    //Get Started Panel Title
+
+    // Get Started Panel
+
+    // Get Started Panel Title
     private static final String GET_STARTED_PANEL_TITLE = ".welcome-info";
-    
-    //Get Started Panel Icon
+
+    // Get Started Panel Icon
     public static final By GET_STARTED_PANEL_ICON = By.cssSelector("");
-    
-    //Get Started Panel Text
+
+    // Get Started Panel Text
     public static final By GET_STARTED_PANEL_TEXT = By.cssSelector(".welcome-info-text");
-    
-    //Get Started Panel Hide Button
+
+    // Get Started Panel Hide Button
     public static final By HIDE_GET_STARTED_PANEL_BUTTON = By.xpath("//button[text()='Hide']");
- 
 
     /**
      * Verify if home page banner web element is present
-     *
+     * 
      * @return true if exists
      */
     public boolean titlePresent()
@@ -78,7 +78,7 @@ public class DashBoardPage extends SharePage implements Dashboard
         }
         return false;
     }
-        
+
     /**
      * Clicks on Hide button on Get Started Panel
      * 
@@ -90,7 +90,7 @@ public class DashBoardPage extends SharePage implements Dashboard
         {
             findAndWait(HIDE_GET_STARTED_PANEL_BUTTON, maxPageLoadingTime).click();
             waitUntilAlert();
-            
+
         }
         catch (TimeoutException toe)
         {
@@ -98,11 +98,10 @@ public class DashBoardPage extends SharePage implements Dashboard
         }
         return factoryPage.instantiatePage(driver, HideGetStartedPanel.class).render();
     }
-    
-   
+
     /**
      * Gets dashlets in the dashboard page.
-     *
+     * 
      * @param name String title of dashlet
      * @return HtmlPage page object
      */
@@ -110,7 +109,7 @@ public class DashBoardPage extends SharePage implements Dashboard
     {
         return factoryDashlet.getPage(driver, name);
     }
-    
+
     /**
      * Retrns css selector for Get Started Panel title
      * 
@@ -120,7 +119,7 @@ public class DashBoardPage extends SharePage implements Dashboard
     {
         return GET_STARTED_PANEL_TITLE;
     }
-    
+
     /**
      * Click the 'View the tutorials' link
      */
@@ -139,6 +138,6 @@ public class DashBoardPage extends SharePage implements Dashboard
         {
             logger.error("Exceeded the time to find Get Started link.", e);
             throw new PageOperationException("Not able to find Get Started link");
-        }  
+        }
     }
 }
