@@ -80,7 +80,7 @@ public class ShareLinkTest extends AbstractDocumentTest
     @BeforeMethod
     public void prep()
     {
-    	documentLibPage.getSiteNav().selectDocumentLibrary();
+    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
     }
     @Test(groups = { "alfresco-one" }, priority = 1)
     public void testViewLink()
