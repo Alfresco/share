@@ -17,7 +17,6 @@ import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -74,14 +73,8 @@ public class ShareLinkTest extends AbstractDocumentTest
         documentLibPage = uploadForm.uploadFile(tempFile.getCanonicalPath()).render();
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(folderName1, folderDescription).render();
-        
     }
 
-    @BeforeMethod
-    public void prep()
-    {
-    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
-    }
     @Test(groups = { "alfresco-one" }, priority = 1)
     public void testViewLink()
     {
@@ -104,7 +97,8 @@ public class ShareLinkTest extends AbstractDocumentTest
     @Test(groups = { "alfresco-one" }, priority = 3)
     public void testVerifyUnShareLink()
     {
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
+    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
+    	FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
         Assert.assertTrue(shareLinkPage.isUnShareLinkPresent());
         documentLibPage = shareLinkPage.clickOnUnShareButton().render();
@@ -113,6 +107,7 @@ public class ShareLinkTest extends AbstractDocumentTest
     @Test(groups = { "alfresco-one" }, priority = 4)
     public void testVerifyEmailLink()
     {
+    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
         Assert.assertTrue(shareLinkPage.isEmailLinkPresent());
@@ -123,6 +118,7 @@ public class ShareLinkTest extends AbstractDocumentTest
     @Test(groups = { "alfresco-one" }, priority = 5)
     public void testOtherShareLinks() throws InterruptedException
     {
+    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(tempFile.getName());
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
 
@@ -157,6 +153,7 @@ public class ShareLinkTest extends AbstractDocumentTest
     @Test(groups = { "alfresco-one" }, priority = 6, expectedExceptions = UnsupportedOperationException.class)
     public void clickShareLinkFolder()
     {
+    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName1);
         thisRow.clickShareLink().render();
     }
