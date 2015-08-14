@@ -1507,42 +1507,42 @@
 
    <!-- Transform Repo Action -->
    <config evaluator="string-compare" condition="transform">
-      <forms>
-         <form>
-            <field-visibility>
-               <show id="mime-type" />
-               <show id="destination-folder" />
-            </field-visibility>
-            <appearance>
-               <field id="mime-type" label-id="transform.field.mime-type" />
-               <field id="destination-folder" label-id="transform.field.destination-folder" />
-            </appearance>
-         </form>
-      </forms>
-   </config>
-  
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="mime-type" />
+               <show id="destination-folder" />
+            </field-visibility>
+            <appearance>
+               <field id="mime-type" label-id="transform.field.mime-type" />
+               <field id="destination-folder" label-id="transform.field.destination-folder" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
    <!-- Transform Image Repo Action -->
-   <config evaluator="string-compare" condition="transform-image">
-      <forms>
-         <form>
-            <field-visibility>
-               <show id="mime-type" />
-               <show id="convert-command" />
-               <show id="destination-folder" />
-            </field-visibility>
-            <appearance>
-               <field id="mime-type" label-id="transform-image.field.mime-type">
-                  <control template="/org/alfresco/components/form/controls/selectone.ftl">
-                    <control-param name="options">image/gif|GIF Image,image/jpeg|JPEG Image,image/png|PNG Image</control-param>
-                 </control>
-               </field>
-               <field id="convert-command" label-id="transform-image.field.convert-command" />
-               <field id="destination-folder" label-id="transform-image.field.destination-folder" />
-            </appearance>
-         </form>
-      </forms>
-   </config>
-  
+   <config evaluator="string-compare" condition="transform-image">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="mime-type" />
+               <show id="convert-command" />
+               <show id="destination-folder" />
+            </field-visibility>
+            <appearance>
+               <field id="mime-type" label-id="transform-image.field.mime-type">
+                  <control template="/org/alfresco/components/form/controls/selectone.ftl">
+                     <control-param name="options">image/gif|GIF Image,image/jpeg|JPEG Image,image/png|PNG Image</control-param>
+                  </control>
+               </field>
+               <field id="convert-command" label-id="transform-image.field.convert-command" />
+               <field id="destination-folder" label-id="transform-image.field.destination-folder" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
    <!-- Execute Script Repo Action -->
    <config evaluator="string-compare" condition="script">
       <forms>
@@ -1615,6 +1615,286 @@
                 <field id="dp:offlineExpiresAfter">
                     <control template="/org/alfresco/components/form/controls/distributionpolicies/offlinetimeout.ftl" />
                 </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   
+   <!--
+      Aspect form config
+   -->
+   
+   <!-- cm:dublincore aspect -->
+   <config evaluator="aspect" condition="cm:dublincore">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:publisher" />
+               <show id="cm:contributor" />
+               <show id="cm:type" />
+               <show id="cm:identifier" />
+               <show id="cm:dcsource" />
+               <show id="cm:coverage" />
+               <show id="cm:rights" />
+               <show id="cm:subject" />
+            </field-visibility>
+            <appearance>
+               <set id="dublincore-2col" appearance="bordered-panel" label-id="aspect.cm_dublincore" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field set="dublincore-2col" id="cm:publisher" />
+               <field set="dublincore-2col" id="cm:contributor" />
+               <field set="dublincore-2col" id="cm:type" />
+               <field set="dublincore-2col" id="cm:identifier" />
+               <field set="dublincore-2col" id="cm:dcsource" />
+               <field set="dublincore-2col" id="cm:coverage" />
+               <field set="dublincore-2col" id="cm:rights" />
+               <field set="dublincore-2col" id="cm:subject" />
+            </appearance>
+          </form>
+      </forms>
+   </config>
+   <!-- cm:complianceable aspect -->
+   <config evaluator="aspect" condition="cm:complianceable">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:removeAfter" />
+            </field-visibility>
+            <appearance>
+               <set id="complianceable" appearance="bordered-panel" label-id="aspect.cm_complianceable" />
+               <field set="complianceable" id="cm:removeAfter" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- cm:summarizable aspect -->
+   <config evaluator="aspect" condition="cm:summarizable">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:summary" />
+            </field-visibility>
+            <appearance>
+               <set id="summarizable" appearance="bordered-panel" label-id="aspect.cm_summarizable" />
+               <field set="summarizable" id="cm:summary" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- cm:effectivity aspect -->
+   <config evaluator="aspect" condition="cm:effectivity">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:from" />
+               <show id="cm:to" />
+            </field-visibility>
+            <appearance>
+               <set id="effectivity" appearance="bordered-panel" label-id="aspect.cm_effectivity" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field set="effectivity" id="cm:from">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                     <control-param name="showTime">false</control-param>
+                  </control>
+               </field>
+               <field set="effectivity" id="cm:to">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                     <control-param name="showTime">false</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- cm:attachable aspect -->
+   <config evaluator="aspect" condition="cm:attachable">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:attachments" />
+            </field-visibility>
+            <appearance>
+               <set id="attachable" appearance="bordered-panel" label-id="aspect.cm_attachable" />
+               <field set="attachable" id="cm:attachments" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- cm:emailed aspect -->
+   <config evaluator="aspect" condition="cm:emailed">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:originator" />
+               <show id="cm:addressee" />
+               <show id="cm:addressees" />
+               <show id="cm:subjectline" />
+               <show id="cm:sentdate" />
+            </field-visibility>
+            <appearance>
+               <set id="emailed" appearance="bordered-panel" label-id="aspect.cm_emailed" />
+               <set id="emailed-details1" parent="emailed" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="emailed-details2" parent="emailed" />
+               <field set="emailed-details1" id="cm:originator" read-only="true" />
+               <field set="emailed-details1" id="cm:sentdate" read-only="true" />
+               <field set="emailed-details2" id="cm:addressee" read-only="true" />
+               <field set="emailed-details2" id="cm:addressees" read-only="true" />
+               <field set="emailed-details2" id="cm:subjectline" read-only="true" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- emailserver:aliasable aspect -->
+   <config evaluator="aspect" condition="emailserver:aliasable">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="emailserver:alias" />
+            </field-visibility>
+            <appearance>
+               <set id="email-alias" appearance="bordered-panel" label-id="aspect.emailserver_aliasable" />
+               <field set="email-alias" id="emailserver:alias" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- cm:geographic aspect -->
+   <config evaluator="aspect" condition="cm:geographic">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:latitude" />
+               <show id="cm:longitude" />
+            </field-visibility>
+            <appearance>
+               <set id="geographic" appearance="bordered-panel" label-id="aspect.cm_geographic" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field set="geographic" id="cm:latitude" />
+               <field set="geographic" id="cm:longitude" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- exif:exif aspect -->
+   <config evaluator="aspect" condition="exif:exif">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="exif:pixelXDimension" />
+               <show id="exif:pixelYDimension" />
+               <show id="exif:focalLength" />
+               <show id="exif:exposureTime" />
+               <show id="exif:fNumber" />
+               <show id="exif:isoSpeedRatings" />
+               <show id="exif:orientation" />
+               <show id="exif:dateTimeOriginal" />
+               <show id="exif:flash" />
+               <show id="exif:xResolution" />
+               <show id="exif:yResolution" />
+               <show id="exif:resolutionUnit" />
+               <show id="exif:manufacturer" />
+               <show id="exif:model" />
+               <show id="exif:software" />
+            </field-visibility>
+            <appearance>
+               <set id="exif" appearance="bordered-panel" label-id="aspect.exif_exif" />
+               <set id="exif-details" parent="exif" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="exif-resolution" parent="exif" appearance="panel" label-id="aspect.exif_resolution" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="exif-camera" parent="exif" appearance="panel" label-id="aspect.exif_camera" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field set="exif-details" id="exif:pixelXDimension" />
+               <field set="exif-details" id="exif:pixelYDimension" />
+               <field set="exif-details" id="exif:focalLength" />
+               <field set="exif-details" id="exif:exposureTime" />
+               <field set="exif-details" id="exif:fNumber" />
+               <field set="exif-details" id="exif:isoSpeedRatings" />
+               <field set="exif-details" id="exif:flash" />
+               <field set="exif-details" id="exif:orientation" />
+               <field set="exif-details" id="exif:dateTimeOriginal" />
+               <field set="exif-resolution" id="exif:xResolution" />
+               <field set="exif-resolution" id="exif:yResolution" />
+               <field set="exif-resolution" id="exif:resolutionUnit" />
+               <field set="exif-camera" id="exif:manufacturer" />
+               <field set="exif-camera" id="exif:model" />
+               <field set="exif-camera" id="exif:software" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- audio:audio aspect -->
+   <config evaluator="aspect" condition="audio:audio">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="audio:album" />
+               <show id="audio:artist" />
+               <show id="audio:composer" />
+               <show id="audio:engineer" />
+               <show id="audio:genre" />
+               <show id="audio:trackNumber" />
+               <show id="audio:releaseDate" />
+               <show id="audio:sampleRate" />
+               <show id="audio:sampleType" />
+               <show id="audio:channelType" />
+               <show id="audio:compressor" />
+            </field-visibility>
+            <appearance>
+               <set id="audio" appearance="bordered-panel" label-id="aspect.audio_audio" />
+               <set id="audio-details1" parent="audio" appearance="whitespace" />
+               <set id="audio-details2" parent="audio" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field set="audio-details1" id="audio:album" />
+               <field set="audio-details1" id="audio:artist" />
+               <field set="audio-details1" id="audio:composer" />
+               <field set="audio-details1" id="audio:engineer" />
+               <field set="audio-details1" id="audio:genre" />
+               <field set="audio-details2" id="audio:trackNumber" />
+               <field set="audio-details2" id="audio:releaseDate" />
+               <field set="audio-details2" id="audio:sampleRate" />
+               <field set="audio-details2" id="audio:sampleType" />
+               <field set="audio-details2" id="audio:channelType" />
+               <field set="audio-details2" id="audio:compressor" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- cm:indexControl aspect -->
+   <config evaluator="aspect" condition="cm:indexControl">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:isIndexed" />
+               <show id="cm:isContentIndexed" />
+            </field-visibility>
+            <appearance>
+               <set id="indexcontrol" appearance="bordered-panel" label-id="aspect.cm_indexControl" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field set="indexcontrol" id="cm:isIndexed" />
+               <field set="indexcontrol" id="cm:isContentIndexed" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- cm:storeSelector aspect -->
+   <config evaluator="aspect" condition="cm:storeSelector">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:storeName" />
+            </field-visibility>
+            <appearance>
+               <set id="storeselector" appearance="bordered-panel" label-id="aspect.cm_storeSelector" />
+               <field set="storeselector" id="cm:storeName" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+   <!-- dp:restrictable aspect -->
+   <config evaluator="aspect" condition="dp:restrictable">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="dp:storeName" />
+            </field-visibility>
+            <appearance>
+               <set id="restrictable" appearance="bordered-panel" label-id="aspect.dp_restrictable" />
+               <field set="restrictable" id="dp:offlineExpiresAfter" />
             </appearance>
          </form>
       </forms>
