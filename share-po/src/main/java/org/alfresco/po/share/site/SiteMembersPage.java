@@ -337,8 +337,8 @@ public class SiteMembersPage extends SharePage
         {
             throw new PageException("Not found Element:" + PENDING_INVITES, nse);
         }
-    }
-
+    }    
+    
     /**
      * Method to verify Invite Link
      *

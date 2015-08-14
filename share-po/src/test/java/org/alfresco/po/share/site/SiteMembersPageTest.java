@@ -21,11 +21,8 @@ import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.UserSearchPage;
-import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.task.EditTaskPage;
 import org.alfresco.test.FailedTestListener;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -38,7 +35,7 @@ import org.testng.annotations.Test;
 public class SiteMembersPageTest extends AbstractTest
 {
     SiteMembersPage siteMembersPage;
-    InviteMembersPage inviteMembersPage;
+    AddUsersToSitePage addUsersToSitePage;
     WebElement user;
     DashBoardPage dashBoard;
     String siteName;
@@ -52,76 +49,48 @@ public class SiteMembersPageTest extends AbstractTest
     {
         siteName = "InviteMembersTest" + System.currentTimeMillis();
         dashBoard = loginAs(username, password);
-//        if (!alfrescoVersion.isCloud())
-//        {
-//            UserSearchPage page = dashBoard.getNav().getUsersPage().render();
-//            NewUserPage newPage = page.selectNewUser().render();
-//            newPage.inputFirstName(userName);
-//            newPage.inputLastName(userName);
-//            newPage.inputEmail(userName);
-//            newPage.inputUsername(userName);
-//            newPage.inputPassword(userName);
-//            newPage.inputVerifyPassword(userName);
-//            UserSearchPage userCreated = newPage.selectCreateUser().render();
-//            userCreated.searchFor(userName).render();
-//        }
-//        else
-//        {
-//            // TODO: Cloud user creation needs to be implemented
-//            // Assert.assertTrue(UserUtil.createUser(userName, userName,
-//            // userName, userName, userName, alfrescoVersion.isCloud(),
-//            // shareUrl));
-//        }
+        UserSearchPage userSearchPage = dashBoard.getNav().getUsersPage().render();
+        NewUserPage newPage = userSearchPage.selectNewUser().render();
+        newPage.inputFirstName(userName);
+        newPage.inputLastName(userName);
+        newPage.inputEmail(userName);
+        newPage.inputUsername(userName);
+        newPage.inputPassword(userName);
+        newPage.inputVerifyPassword(userName);
+        UserSearchPage userCreated = newPage.selectCreateUser().render();
+        userCreated.searchFor(userName).render();
         SharePage page = resolvePage(driver).render();
         CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
-//        if (!alfrescoVersion.isCloud())
-//        {
-//            List<String> searchUsers = null;
-//            inviteMembersPage = site.getSiteNav().selectInvite().render();
-//            for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
-//            {
-//                searchUsers = inviteMembersPage.searchUser(userName);
-//                waitInSeconds(1);
-//                try
-//                {
-//                    if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userName))
-//                    {
-//                        inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
-//                        inviteMembersPage.clickInviteButton().render();
-//                        break;
-//                    }
-//                }
-//                catch (Exception e)
-//                {
-//                    saveScreenShot("SiteTest.instantiateMembers-error");
-//                    throw new Exception("Waiting for object to load", e);
-//                }
-//                try
-//                {
-//                    inviteMembersPage.renderWithUserSearchResults(refreshDuration);
-//                }
-//                catch (PageRenderTimeException exception)
-//                {
-//                }
-//            }
-//           
-//            ShareUtil.logout(drone);
-//            DashBoardPage userDashBoardPage = loginAs(userName, userName).render();
-//            MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
-//            EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
-//            userDashBoardPage = editTaskPage.selectAcceptButton().render();
-//            ShareUtil.logout(drone);
-//            dashBoard = loginAs(username, password);
-//            drone.navigateTo(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
-//            site = drone.getCurrentPage().render();
-//        }
-//        else
-//        {
-//            // TODO: In Cloud environemnt, need to implement the inviting and
-//            // accepting the invitation to join on another user site page.
-//        }
-        siteMembersPage = site.getSiteNav().selectMembers().render();
+        List<String> searchUsers = null;
+        addUsersToSitePage = site.getSiteNav().selectAddUser().render();
+        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        {
+            searchUsers = addUsersToSitePage.searchUser(userName);
+            try
+            {
+                if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userName))
+                {
+                    addUsersToSitePage.clickSelectUser(userName);
+                    addUsersToSitePage.setUserRoles(userName, UserRole.COLLABORATOR);
+                    addUsersToSitePage.clickAddUsersButton();
+                    break;
+                }
+            }
+            catch (Exception e)
+            {
+                saveScreenShot("SiteTest.instantiateMembers-error");
+                throw new Exception("Waiting for object to load", e);
+            }
+            try
+            {
+                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
+            }
+            catch (PageRenderTimeException exception)
+            {
+            }
+        }
+        siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
     }
 
     @Test(groups = "Enterprise-only")

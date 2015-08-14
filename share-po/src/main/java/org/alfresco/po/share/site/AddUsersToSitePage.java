@@ -50,7 +50,8 @@ public class AddUsersToSitePage extends SharePage
      */
 
     // Search for Users input field
-    @FindBy(css ="div.search-text>input") WebElement searchTextBox;
+    @FindBy(css = "div.search-text>input")
+    WebElement searchTextBox;
 
     // Search for Users button
     private static final String SEARCH_USER_BUTTON = "button[id*='default-search-button-button']";
@@ -67,7 +68,7 @@ public class AddUsersToSitePage extends SharePage
 
     // Add user - 1 Search for People button -list of all buttons on the page ???
     private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select')]";
-    //private static final String SELECT_USER_BUTTONS = "//span[contains(@id, '%s')]//button[contains(text(),'Add >>')]";
+    // private static final String SELECT_USER_BUTTONS = "//span[contains(@id, '%s')]//button[contains(text(),'Add >>')]";
 
     /**
      * 2 - Set User Roles panel:
@@ -80,13 +81,13 @@ public class AddUsersToSitePage extends SharePage
      * List of invitees
      * List of invitees user names
      */
-    
-    //Info tooltip 
+
+    // Info tooltip
     private static final By INFO_TOOLTIP_BUTTON = By.cssSelector("button[id$='default-role-info-button-button']");
-    
-    //Role info tooltip
+
+    // Role info tooltip
     private static final By ROLE_INFOTOOLTIP = By.cssSelector(".alf-info-balloon");
- 
+
     // Set All Roles to button
     private static final By SET_ALL_ROLES_TO_BUTTON = By.cssSelector("button[id$='selectallroles-button-button']");
 
@@ -96,9 +97,9 @@ public class AddUsersToSitePage extends SharePage
     // Select Role button
     // private static final By SELECT_ROLE_BUTTONS = By.cssSelector("div[style*='visible']>div>span>span>button");
     // private static final String ROLES_DROP_DOWN_BUTTON = "div[style*='visible']>div>span>span>button";
-    //private static final String SELECT_ROLE_BUTTONS = "div[style*='visible']>div>span>span>button";
-    private static final String SELECT_ROLE_BUTTONS =  "//button[contains(text(),'Select Role')]";
-    
+    // private static final String SELECT_ROLE_BUTTONS = "div[style*='visible']>div>span>span>button";
+    private static final String SELECT_ROLE_BUTTONS = "//button[contains(text(),'Select Role')]";
+
     // Select Role button drop down values
     // private static final By SELECT_ROLE_DROP_DOWN_VALUES = By.cssSelector("div[style*='visible']>div>span>span>button");
     private static final String SELECT_ROLE_DROP_DOWN_VALUES = "div[style*='visible']>div>div[style*='visible']>div.bd>ul>li";
@@ -139,13 +140,12 @@ public class AddUsersToSitePage extends SharePage
     // private static final By ADDED_USERS_LIST = By.cssSelector(".alfresco-lists-views-layouts-Row");
 
     // Added users names list
-    //private static final By ADDED_USERS_NAMES_LIST = By.xpath("//tr[starts-with(@id, 'alfresco_lists_views_layouts_Row')]/td[1]/span[1]/span/span[2]");
+    // private static final By ADDED_USERS_NAMES_LIST = By.xpath("//tr[starts-with(@id, 'alfresco_lists_views_layouts_Row')]/td[1]/span[1]/span/span[2]");
     private static final By ADDED_USERS_NAMES_LIST = By.cssSelector("td[class$='yui-dt-first'] div h3.itemname");
-    
-    // Added users roles list
-    //private static final By ADDED_USERS_ROLES_LIST = By.xpath("//tr[starts-with(@id, 'alfresco_lists_views_layouts_Row')]/td[1]/span[2]/span/span[2]");
-    private static final By ADDED_USERS_ROLES_LIST = By.cssSelector("h3.itemname~div.detail");
 
+    // Added users roles list
+    // private static final By ADDED_USERS_ROLES_LIST = By.xpath("//tr[starts-with(@id, 'alfresco_lists_views_layouts_Row')]/td[1]/span[2]/span/span[2]");
+    private static final By ADDED_USERS_ROLES_LIST = By.cssSelector("h3.itemname~div.detail");
 
     /**
      * 4 - External Users panel:
@@ -168,14 +168,14 @@ public class AddUsersToSitePage extends SharePage
     private static final By EXTERNAL_ADD_BUTTON = By.xpath("//button[contains(@id,'email-button-button')]");
 
     private final By linkGroups = By.linkText("Groups");
-    private final By linkUsers= By.linkText("People");
+    private final By linkUsers = By.linkText("Users");
     private final By linkPendingInvites = By.linkText("Pending Invites");
 
     @SuppressWarnings("unchecked")
     @Override
     public AddUsersToSitePage render()
     {
-    	RenderTime timer = new RenderTime(maxPageLoadingTime);
+        RenderTime timer = new RenderTime(maxPageLoadingTime);
         while (true)
         {
             try
@@ -213,15 +213,15 @@ public class AddUsersToSitePage extends SharePage
 
     public AddUsersToSitePage renderWithUserSearchResults(RenderTime timer)
     {
-    	while(true)
-    	{
-    		timer.start();
-    		if(driver.findElement(SEARCH_RESULTS_USER_FIRST_LAST).isDisplayed())
-    		{
-    			return this;
-    		}
-    		timer.end();
-    	}
+        while (true)
+        {
+            timer.start();
+            if (driver.findElement(SEARCH_RESULTS_USER_FIRST_LAST).isDisplayed())
+            {
+                return this;
+            }
+            timer.end();
+        }
     }
 
     /**
@@ -408,7 +408,7 @@ public class AddUsersToSitePage extends SharePage
      * addUsers()
      * removeSelectedUser()
      */
-    
+
     /**
      * Clickcks on info tooltil button in select role panel
      * 
@@ -424,10 +424,10 @@ public class AddUsersToSitePage extends SharePage
         catch (TimeoutException te)
         {
             logger.info("Cannot find info tooltip button.", te);
-        }        
+        }
         return factoryPage.instantiatePage(driver, AddUsersToSitePage.class);
     }
-    
+
     /**
      * Returns true if tooltip
      * 
@@ -442,10 +442,9 @@ public class AddUsersToSitePage extends SharePage
         catch (TimeoutException nse)
         {
             logger.info("Cannot find info tooltip header.", nse);
-        } 
+        }
         return false;
     }
-    
 
     /**
      * This method gets the list of selected users.
@@ -645,7 +644,6 @@ public class AddUsersToSitePage extends SharePage
         return Collections.emptyList();
     }
 
- 
     /**
      * This method clicks on Add Users button on Invite user page.
      * 
@@ -683,7 +681,6 @@ public class AddUsersToSitePage extends SharePage
         return Collections.emptyList();
     }
 
- 
     /**
      * 4 - External Users panel:
      * enterExternalUserFirstName()
