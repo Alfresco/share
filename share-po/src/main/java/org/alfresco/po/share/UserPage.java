@@ -5,6 +5,7 @@ import org.alfresco.po.RenderTime;
 import org.alfresco.po.RenderWebElement;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.user.AccountSettingsPage;
 import org.alfresco.po.share.user.MyProfilePage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,10 +34,9 @@ public class UserPage extends SharePage
 
     private static final By USER_DASHBOARD_LINK = By.linkText("User Dashboard");
     private static final By USE_CURRENT_PAGE_LINK = By.cssSelector("td#HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text");
-    private static final By USE_MY_DASHBOARD_LINK  = By.cssSelector("td#HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text");
-    
-    private Log logger = LogFactory.getLog(this.getClass());
+    private static final By USE_MY_DASHBOARD_LINK = By.cssSelector("td#HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text");
 
+    private Log logger = LogFactory.getLog(this.getClass());
 
     @SuppressWarnings("unchecked")
     @Override
@@ -114,7 +114,7 @@ public class UserPage extends SharePage
     {
         try
         {
-            return driver.findElement(STATUS_LINK_CSS).isDisplayed();
+            return findAndWait(STATUS_LINK_CSS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
@@ -189,7 +189,7 @@ public class UserPage extends SharePage
         }
         return false;
     }
-    
+
     /**
      * verifies whether Use My Dashboard as a home page link is present.
      * 
@@ -206,8 +206,7 @@ public class UserPage extends SharePage
         }
         return false;
     }
-    
-    
+
     /**
      * Mimics the action of selecting my profile link is present.
      * 
@@ -244,12 +243,12 @@ public class UserPage extends SharePage
      * 
      * @return {AccountSettingsPage}
      */
-    public HtmlPage selectAccountSettingsPage()
+    public AccountSettingsPage selectAccountSettingsPage()
     {
         try
         {
             findAndWait(ACCOUNT_SETTINGS).click();
-            return getCurrentPage();
+            return factoryPage.instantiatePage(driver, AccountSettingsPage.class);
         }
         catch (TimeoutException e)
         {
@@ -269,17 +268,18 @@ public class UserPage extends SharePage
         try
         {
             findAndWait(CHANGE_PASSWORD_CSS).click();
-            return getCurrentPage().render(); 
-        }       
+            return getCurrentPage().render();
+        }
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find css.", e);
         }
         throw new PageOperationException("Not able to find the ChangePassword link");
     }
-    
+
     /**
      * Mimics the action of selecting User Dashboard link.
+     * 
      * @return {@link HtmlPage} current page po
      */
     public HtmlPage selectUserDashboard()
@@ -288,18 +288,17 @@ public class UserPage extends SharePage
         {
             findAndWait(USER_DASHBOARD_LINK).click();
             return getCurrentPage();
-        }       
+        }
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find css.", e);
         }
         throw new PageOperationException("Not able to find the User Dashboard link");
     }
-    
-    
-    
+
     /**
      * Mimics the action of selecting Use Current Page link.
+     * 
      * @return {@link HtmlPage} current page po
      */
     public HtmlPage selectUseCurrentPage()
@@ -308,16 +307,17 @@ public class UserPage extends SharePage
         {
             findAndWait(USE_CURRENT_PAGE_LINK).click();
             return getCurrentPage();
-        }       
+        }
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find css.", e);
         }
         throw new PageOperationException("Not able to find the Use Current Page link");
     }
-    
+
     /**
      * Mimics the action of selecting Use My Dashboard link.
+     * 
      * @return {@link HtmlPage} user dashboard page po
      */
     public HtmlPage selectUseMyDashboardPage()
@@ -326,7 +326,7 @@ public class UserPage extends SharePage
         {
             findAndWait(USE_MY_DASHBOARD_LINK).click();
             return getCurrentPage();
-        }       
+        }
         catch (TimeoutException e)
         {
             logger.error("Exceeded the time to find css.", e);

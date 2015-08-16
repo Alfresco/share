@@ -42,7 +42,7 @@ import org.openqa.selenium.support.ui.Select;
 public class CreateSitePage extends ShareDialogue
 {
     private static Log logger = LogFactory.getLog(SitePage.class);
-    
+
     protected static final By MODERATED_CHECKBOX = By.cssSelector("input[id$='-isModerated']");
     protected static final By PRIVATE_CHECKBOX = By.cssSelector("input[id$='-isPrivate']");
     protected static final By PUBLIC_CHECKBOX = By.cssSelector("input[id$='-isPublic']");
@@ -56,7 +56,6 @@ public class CreateSitePage extends ShareDialogue
     protected static final By CREATE_SITE_FORM = By.id("alfresco-createSite-instance-form");
     protected static final By SAVE_BUTTON = By.cssSelector("span.yui-button.yui-submit-button.alf-primary-button");
 
-    @SuppressWarnings("unchecked")
     @Override
     public CreateSitePage render(RenderTime timer)
     {
@@ -152,7 +151,7 @@ public class CreateSitePage extends ShareDialogue
 
     /**
      * Selects the visibility required for site to be created/edited.
-     *
+     * 
      * @param isPrivate boolean
      * @param isModerated boolean
      */
@@ -160,15 +159,15 @@ public class CreateSitePage extends ShareDialogue
     {
         if (isPrivate)
         {
-            driver.findElement(PRIVATE_CHECKBOX).click();
+            findAndWait(PRIVATE_CHECKBOX).click();
             return;
         }
         else
         {
-            driver.findElement(PUBLIC_CHECKBOX).click();
+            findAndWait(PUBLIC_CHECKBOX).click();
             if (isModerated)
             {
-                driver.findElement(MODERATED_CHECKBOX).click();
+                findAndWait(MODERATED_CHECKBOX).click();
             }
         }
     }
@@ -270,14 +269,13 @@ public class CreateSitePage extends ShareDialogue
     /**
      * Returns help text under private checkbox
      * 
-     * 
      * @return
      */
     public String getPrivateCheckboxHelpText()
     {
         return driver.findElement(PRIVATE_CHECKBOX_HELP_TEXT).getText();
-    }  
-    
+    }
+
     /**
      * Returns true if help text under privete checkbox is displayed
      * 
@@ -287,9 +285,9 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-        	driver.findElement(PRIVATE_CHECKBOX_HELP_TEXT);
+            findAndWait(PRIVATE_CHECKBOX_HELP_TEXT);
             return true;
-        } 
+        }
         catch (NoSuchElementException nse)
         {
             logger.error("Can't find css for private checkbox help. ", nse);
@@ -300,7 +298,7 @@ public class CreateSitePage extends ShareDialogue
         }
         return false;
     }
-    
+
     /**
      * Checks if the check box with the label public is ticked.
      * 
@@ -317,10 +315,9 @@ public class CreateSitePage extends ShareDialogue
             return false;
         }
     }
-    
+
     /**
      * Returns help text under public checkbox
-     * 
      * 
      * @return
      */
@@ -328,7 +325,7 @@ public class CreateSitePage extends ShareDialogue
     {
         return driver.findElement(PUBLIC_CHECKBOX_HELP_TEXT).getText();
     }
-    
+
     /**
      * Returns true if help text under public checkbox is displayed
      * 
@@ -338,9 +335,10 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-        	driver.findElement(PUBLIC_CHECKBOX_HELP_TEXT);
+            findAndWait(PUBLIC_CHECKBOX_HELP_TEXT);
             return true;
-        } catch (NoSuchElementException nse)
+        }
+        catch (NoSuchElementException nse)
         {
             logger.error("Can't find css for public checkbox help. ", nse);
         }
@@ -367,18 +365,17 @@ public class CreateSitePage extends ShareDialogue
             return false;
         }
     }
-    
+
     /**
      * Returns help text under moderated checkbox
-     * 
      * 
      * @return
      */
     public String getModeratedCheckboxHelpText()
     {
-            return driver.findElement(MODERATED_CHECKBOX_HELP_TEXT).getText();
+        return driver.findElement(MODERATED_CHECKBOX_HELP_TEXT).getText();
     }
-    
+
     /**
      * Returns true if help text under moderated checkbox is displayed
      * 
@@ -388,9 +385,10 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            driver.findElement(MODERATED_CHECKBOX_HELP_TEXT);
+            findAndWait(MODERATED_CHECKBOX_HELP_TEXT);
             return true;
-        } catch (NoSuchElementException nse)
+        }
+        catch (NoSuchElementException nse)
         {
             logger.error("Can't find css for moderated checkbox help. ", nse);
         }
@@ -400,8 +398,6 @@ public class CreateSitePage extends ShareDialogue
         }
         return false;
     }
-
-
 
     /**
      * Action of selecting site type drop down.
@@ -519,7 +515,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isUrlNameEditingDisaabled()
     {
-        if (driver.findElement(By.name("shortName")).getAttribute("disabled") != null)
+        if (findAndWait(By.name("shortName")).getAttribute("disabled") != null)
         {
             return true;
         }
@@ -533,7 +529,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isNameEditingDisaabled()
     {
-        if (driver.findElement(By.name("title")).getAttribute("disabled") != null)
+        if (findAndWait(By.name("title")).getAttribute("disabled") != null)
         {
             return true;
         }

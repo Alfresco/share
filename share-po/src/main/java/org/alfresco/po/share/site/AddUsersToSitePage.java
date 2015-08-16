@@ -216,7 +216,7 @@ public class AddUsersToSitePage extends SharePage
         while (true)
         {
             timer.start();
-            if (driver.findElement(SEARCH_RESULTS_USER_FIRST_LAST).isDisplayed())
+            if (findAndWait(SEARCH_RESULTS_USER_FIRST_LAST).isDisplayed())
             {
                 return this;
             }

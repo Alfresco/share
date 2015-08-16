@@ -35,11 +35,9 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 /**
- * 
  * Add Users to Site tests
  * 
  * @author jcule
- *
  */
 @Listeners(FailedTestListener.class)
 public class AddUsersToSitePageTest extends AbstractTest
@@ -50,8 +48,9 @@ public class AddUsersToSitePageTest extends AbstractTest
     private AddUsersToSitePage addUsersToSitePage;
     private DashBoardPage dashBoard;
     private SiteDashboardPage siteDashBoard;
-    private UserSitesPage userSitesPage;
+    private SiteFinderPage siteFinderPage;
     private String siteName = "AddUserToSiteTest" + System.currentTimeMillis();
+    public static long refreshDuration = 30000;
 
     @BeforeClass(groups = "Enterprise-only")
     public void createSite() throws Exception
@@ -72,50 +71,49 @@ public class AddUsersToSitePageTest extends AbstractTest
     private void addUserToSite(String userName, UserRole role) throws Exception
     {
         dashBoard = loginAs(username, password);
-        SharePage page = resolvePage(driver).render();
-        userSitesPage = page.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-        //if (!alfrescoVersion.isCloud())
-        //{
-            List<String> searchUsers = null;
-            addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-            for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
-            {
-                searchUsers = addUsersToSitePage.searchUser(userName);
-                try
-                {
-                    if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(userName) != -1))
-                    {
-                        addUsersToSitePage.clickSelectUser(userName);
-                        addUsersToSitePage.setUserRoles(userName, role);
+        UserSearchPage page = dashBoard.getNav().getUsersPage().render();
+        NewUserPage newPage = page.selectNewUser().render();
+        newPage.inputFirstName(userName);
+        newPage.inputLastName(userName);
+        newPage.inputEmail(userName);
+        newPage.inputUsername(userName);
+        newPage.inputPassword(userName);
+        newPage.inputVerifyPassword(userName);
+        UserSearchPage userCreated = newPage.selectCreateUser().render();
+        userCreated.searchFor(userName).render();
 
-                        addUsersToSitePage.clickAddUsersButton();
-                        break;
-                    }
-                }
-                catch (Exception e)
+        page = resolvePage(driver).render();
+        siteDashBoard = page.getNav().selectMostRecentSite().render();
+        List<String> searchUsers = null;
+        addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
+        for (int searchCount = 1; searchCount <= retrySearchCount + 4; searchCount++)
+        {
+            searchUsers = addUsersToSitePage.searchUser(userName);
+            try
+            {
+                if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(userName) != -1))
                 {
-                    saveScreenShot("SiteTest.instantiateMembers-error");
-                    throw new Exception("Waiting for object to load", e);
-                }
-                try
-                {
-                    addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
-                }
-                catch (PageRenderTimeException exception)
-                {
+                    addUsersToSitePage.clickSelectUser(userName);
+                    addUsersToSitePage.setUserRoles(userName, role);
+                    addUsersToSitePage.clickAddUsersButton();
+                    break;
                 }
             }
+            catch (Exception e)
+            {
+                saveScreenShot("SiteTest.instantiateMembers-error");
+                throw new Exception("Waiting for object to load", e);
+            }
+            try
+            {
+                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
+            }
+            catch (PageRenderTimeException exception)
+            {
+            }
+        }
 
-        }
-        /**
-        else
-        {
-            // TODO: In Cloud environemnt, need to implement the inviting and
-            // accepting the invitation to join on another user site page.
-        }
-        **/
-    
+    }
 
     /**
      * Search for site members
@@ -127,12 +125,11 @@ public class AddUsersToSitePageTest extends AbstractTest
     public List<String> searchForSiteMembers(String userName) throws Exception
     {
         List<String> siteMembers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 4; searchCount++)
         {
             try
             {
                 siteMembers = addUsersToSitePage.searchUser(userName);
-                addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
             }
             catch (PageRenderTimeException exception)
             {
@@ -304,13 +301,14 @@ public class AddUsersToSitePageTest extends AbstractTest
         System.out.println("USER NAVIGATE TO DASHBOARD *** " + userNavigateToSiteDashboard);
 
         addUserToSite(userNavigateToSiteDashboard, UserRole.CONSUMER);
-
         logout(driver);
 
         dashBoard = loginAs(userNavigateToSiteDashboard, userNavigateToSiteDashboard);
-        userSitesPage = dashBoard.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+        siteFinderPage = dashBoard.getNav().selectSearchForSites().render();
 
+        siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, siteName);
+        siteDashBoard = siteFinderPage.selectSite(siteName).render();
+        
         Assert.assertEquals(siteDashBoard.getPageTitle(), siteName);
 
         logout(driver);
@@ -325,25 +323,25 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         String userMultiple3 = "userMultipleUsersAdedToSite3" + System.currentTimeMillis();
         String userMultiple4 = "userMultipleUsersAdedToSite4" + System.currentTimeMillis();
-        
-        
+
         System.out.println("SITE MULTIPLE USERS *** " + siteName);
         System.out.println("USER MULTIPLE USERS1 *** " + userMultiple1);
         System.out.println("USER MULTIPLE USERS2 *** " + userMultiple2);
         System.out.println("USER MULTIPLE USERS3 *** " + userMultiple3);
         System.out.println("USER MULTIPLE USERS4 *** " + userMultiple4);
 
-        
         createEnterpriseUser(userMultiple1);
         createEnterpriseUser(userMultiple2);
 
         createEnterpriseUser(userMultiple3);
         createEnterpriseUser(userMultiple4);
-        
-        
+
         dashBoard = loginAs(username, password);
-        userSitesPage = dashBoard.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+        siteFinderPage = dashBoard.getNav().selectSearchForSites().render();
+
+        siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, siteName);
+        siteDashBoard = siteFinderPage.selectSite(siteName).render();
+
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         // search for user and select user from search results list
@@ -377,16 +375,16 @@ public class AddUsersToSitePageTest extends AbstractTest
         String addedUserRole2 = addedUserRoles.get(1);
         Assert.assertEquals(addedUserRole1, "Collaborator");
         Assert.assertEquals(addedUserRole2, "Collaborator");
-        
+
         searchUsers = searchForSiteMembers(userMultiple3);
         addUsersToSitePage.clickSelectUser(userMultiple3).render();
         searchUsers = searchForSiteMembers(userMultiple4);
         addUsersToSitePage.clickSelectUser(userMultiple4).render();
         addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
         addUsersToSitePage.clickAddUsersButton();
-        
+
         addedUserNames = addUsersToSitePage.getAddedUsersNames();
-        
+
         String addedUserNameNew1 = addedUserNames.get(0);
         String addedUserNameNew2 = addedUserNames.get(1);
         String addedUserNameNew3 = addedUserNames.get(2);
@@ -395,90 +393,79 @@ public class AddUsersToSitePageTest extends AbstractTest
         Assert.assertTrue(addedUserNameNew2.indexOf(userMultiple4) != -1);
         Assert.assertTrue(addedUserNameNew3.indexOf(userMultiple1) != -1);
         Assert.assertTrue(addedUserNameNew4.indexOf(userMultiple2) != -1);
-        
+
         addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
-        
+
         String addedUserRoleNew1 = addedUserRoles.get(0);
         String addedUserRoleNew2 = addedUserRoles.get(1);
         String addedUserRoleNew3 = addedUserRoles.get(2);
         String addedUserRoleNew4 = addedUserRoles.get(3);
         Assert.assertEquals(addedUserRoleNew1, "Collaborator");
-        Assert.assertEquals(addedUserRoleNew2, "Collaborator"); 
+        Assert.assertEquals(addedUserRoleNew2, "Collaborator");
         Assert.assertEquals(addedUserRoleNew3, "Collaborator");
-        Assert.assertEquals(addedUserRoleNew4, "Collaborator"); 
-        
+        Assert.assertEquals(addedUserRoleNew4, "Collaborator");
+
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        
+
         List<String> siteMembers1 = siteMembersPage.searchUser(userMultiple1);
         Assert.assertTrue(siteMembers1.get(0).indexOf(userMultiple1) != -1);
- 
+
         List<String> siteMembers2 = siteMembersPage.searchUser(userMultiple2);
         Assert.assertTrue(siteMembers2.get(0).indexOf(userMultiple2) != -1);
- 
+
         List<String> siteMembers3 = siteMembersPage.searchUser(userMultiple3);
         Assert.assertTrue(siteMembers3.get(0).indexOf(userMultiple3) != -1);
-        
+
         List<String> siteMembers4 = siteMembersPage.searchUser(userMultiple4);
         Assert.assertTrue(siteMembers4.get(0).indexOf(userMultiple4) != -1);
-        
+
         logout(driver);
 
     }
 
-    //@Test(dependsOnMethods = "testAddMultipleUsersToSite", groups = "Enterprise-only")
+    // @Test(dependsOnMethods = "testAddMultipleUsersToSite", groups = "Enterprise-only")
     /**
-    public void testAddExternalUserToSite() throws Exception
-    {
-        // add user to site with manager role
-        String userExternalUserName = "userExternal" + System.currentTimeMillis() + "@test.com";
+     * public void testAddExternalUserToSite() throws Exception
+     * {
+     * // add user to site with manager role
+     * String userExternalUserName = "userExternal" + System.currentTimeMillis() + "@test.com";
+     * System.out.println("SITE EXTERNAL *** " + siteName);
+     * System.out.println("USER EXTERNAL *** " + userExternalUserName);
+     * dashBoard = loginAs(username, password);
+     * userSitesPage = dashBoard.getNav().selectMySites().render();
+     * siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+     * addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
+     * addUsersToSitePage.enterExternalUserFirstName(userExternalUserName);
+     * addUsersToSitePage.enterExternalUserLastName(userExternalUserName);
+     * addUsersToSitePage.enterExternalUserEmail(userExternalUserName);
+     * addUsersToSitePage.selectExternalUser();
+     * addUsersToSitePage.setAllRolesTo(UserRole.CONSUMER);
+     * addUsersToSitePage.clickAddUsersButton();
+     * // check added users count
+     * String count = addUsersToSitePage.getTotalAddedUsersCount();
+     * Assert.assertEquals("Total users added 1", count);
+     * // check the Add Users panel displays added user user name
+     * List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
+     * String addedUserName = addedUserNames.get(0);
+     * Assert.assertEquals(addedUserName, userExternalUserName + " " + userExternalUserName);
+     * // check the Add Users panel displays added user role
+     * List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
+     * String addedUserRole = addedUserRoles.get(0);
+     * Assert.assertEquals(addedUserRole, "Consumer");
+     * // check added user is displayed on SiteMembersPage
+     * siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
+     * List<String> siteMembers = siteMembersPage.searchUser(userExternalUserName);
+     * // external user has to accept invite !
+     * for (String siteMember : siteMembers)
+     * {
+     * Assert.assertTrue(siteMember.indexOf(userExternalUserName) != -1);
+     * }
+     * logout(driver);
+     * }
+     **/
 
-        System.out.println("SITE EXTERNAL *** " + siteName);
-        System.out.println("USER EXTERNAL *** " + userExternalUserName);
-
-        dashBoard = loginAs(username, password);
-        userSitesPage = dashBoard.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-
-        addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-
-        addUsersToSitePage.enterExternalUserFirstName(userExternalUserName);
-        addUsersToSitePage.enterExternalUserLastName(userExternalUserName);
-        addUsersToSitePage.enterExternalUserEmail(userExternalUserName);
-        addUsersToSitePage.selectExternalUser();
-        addUsersToSitePage.setAllRolesTo(UserRole.CONSUMER);
-        addUsersToSitePage.clickAddUsersButton();
-
-        // check added users count
-        String count = addUsersToSitePage.getTotalAddedUsersCount();
-        Assert.assertEquals("Total users added 1", count);
-
-        // check the Add Users panel displays added user user name
-        List<String> addedUserNames = addUsersToSitePage.getAddedUsersNames();
-        String addedUserName = addedUserNames.get(0);
-        Assert.assertEquals(addedUserName, userExternalUserName + " " + userExternalUserName);
-
-        // check the Add Users panel displays added user role
-        List<String> addedUserRoles = addUsersToSitePage.getAddedUsersRoles();
-        String addedUserRole = addedUserRoles.get(0);
-        Assert.assertEquals(addedUserRole, "Consumer");
-
-        // check added user is displayed on SiteMembersPage
-        siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
-        List<String> siteMembers = siteMembersPage.searchUser(userExternalUserName);
-
-        // external user has to accept invite !
-
-        for (String siteMember : siteMembers)
-        {
-            Assert.assertTrue(siteMember.indexOf(userExternalUserName) != -1);
-        }
-
-        logout(driver);
-    }
-    **/
-
-    //@Test(dependsOnMethods = "testAddExternalUserToSite", groups = "Enterprise-only")
+    // @Test(dependsOnMethods = "testAddExternalUserToSite", groups = "Enterprise-only")
     @Test(dependsOnMethods = "testAddMultipleUsersToSite", groups = "Enterprise-only")
     public void testRemoveSelectedUser() throws Exception
     {
@@ -486,12 +473,12 @@ public class AddUsersToSitePageTest extends AbstractTest
         String userRemoveUserName = "userRemove" + System.currentTimeMillis();
         createEnterpriseUser(userRemoveUserName);
         dashBoard = loginAs(username, password);
-        userSitesPage = dashBoard.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+        
+        siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         // search for user and select user from search results list
-        List<String> searchUsers = searchForSiteMembers(userRemoveUserName + "@test.com");
+        List<String> searchUsers = searchForSiteMembers(userRemoveUserName);
         Assert.assertTrue(searchUsers.size() > 0);
         addUsersToSitePage.clickSelectUser(userRemoveUserName);
 
@@ -509,9 +496,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     public void testNavigateToPendingInvitesPage() throws Exception
     {
         dashBoard = loginAs(username, password);
-        userSitesPage = dashBoard.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
-
+        siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         addUsersToSitePage.navigateToPendingInvitesPage();
@@ -525,8 +510,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     public void testNavigateToGroupsInvatePage() throws Exception
     {
         dashBoard = loginAs(username, password);
-        userSitesPage = dashBoard.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+        siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
 
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
@@ -541,8 +525,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     public void testNavigateToSiteMembersPage() throws Exception
     {
         dashBoard = loginAs(username, password);
-        userSitesPage = dashBoard.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+        siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
 
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
@@ -553,24 +536,19 @@ public class AddUsersToSitePageTest extends AbstractTest
 
     }
 
-
     @Test(dependsOnMethods = "testNavigateToSiteMembersPage", groups = "Enterprise-only")
     public void testInfoTooltip() throws Exception
     {
         dashBoard = loginAs(username, password);
-        userSitesPage = dashBoard.getNav().selectMySites().render();
-        siteDashBoard = userSitesPage.getSite(siteName).clickOnSiteName().render();
+        siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
 
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
-        addUsersToSitePage =  addUsersToSitePage.clickOnInfoTooltip().render();
+        addUsersToSitePage = addUsersToSitePage.clickOnInfoTooltip().render();
         Assert.assertTrue(addUsersToSitePage.isRoleInfoTooltipDisplayed());
 
         logout(driver);
 
     }
-
-
-
 
 }
