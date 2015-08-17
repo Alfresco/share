@@ -83,7 +83,8 @@ public class ModulePackageUsingProperties implements ModulePackage
         if (StringUtils.isEmpty(ver))
         {
             return new ComparableVersion(UNSET_VERSION);
-        } else
+        }
+        else
         {
             return new ComparableVersion(ver);
         }
