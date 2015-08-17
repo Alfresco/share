@@ -12,6 +12,7 @@ if (uri !== "")
    {
       uri = "http://" + uri;
    }
+   uri = stringUtils.stripUnsafeHTML(uri);
    c.properties["webviewURI"] = uri;
    model.uri = uri;
 }
