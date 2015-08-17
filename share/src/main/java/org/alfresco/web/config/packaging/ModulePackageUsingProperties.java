@@ -18,6 +18,7 @@
  */
 package org.alfresco.web.config.packaging;
 
+import org.alfresco.util.VersionNumber;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
@@ -31,18 +32,6 @@ import java.util.Properties;
  */
 public class ModulePackageUsingProperties implements ModulePackage
 {
-    //Copied from ModuleDetails in the Repo.
-    String PROP_ID = "module.id";
-    String PROP_VERSION = "module.version";
-    String PROP_TITLE = "module.title";
-    String PROP_DESCRIPTION = "module.description";
-    String PROP_EDITIONS = "module.editions";
-    String PROP_REPO_VERSION_MIN = "module.repo.version.min";
-    String PROP_REPO_VERSION_MAX = "module.repo.version.max";
-    String PROP_DEPENDS_PREFIX = "module.depends.";
-    //End of Copied from ModuleDetails in the Repo.
-
-    public static final String UNSET_VERSION = "0-ERROR_UNSET";
 
     private final Properties properties;
 
@@ -55,7 +44,23 @@ public class ModulePackageUsingProperties implements ModulePackage
     {
         Properties props = new Properties();
         props.load(resource.getInputStream());
+        cleanupProperties(props);
         return new ModulePackageUsingProperties(props);
+    }
+
+    protected static void cleanupProperties(Properties props)
+    {
+        //We haven't got a Share version min then use the repo version min.
+        if (!props.containsKey(PROP_SHARE_VERSION_MIN) && props.containsKey(PROP_REPO_VERSION_MIN))
+        {
+           props.setProperty(PROP_SHARE_VERSION_MIN, props.getProperty(PROP_REPO_VERSION_MIN));
+        }
+
+        //We haven't got a Share version max then use the repo version max.
+        if (!props.containsKey(PROP_SHARE_VERSION_MAX) && props.containsKey(PROP_REPO_VERSION_MAX))
+        {
+            props.setProperty(PROP_SHARE_VERSION_MAX, props.getProperty(PROP_REPO_VERSION_MAX));
+        }
     }
 
     @Override
@@ -90,6 +95,33 @@ public class ModulePackageUsingProperties implements ModulePackage
         }
     }
 
+    @Override
+    public VersionNumber getVersionMin()
+    {
+        String ver = properties.getProperty(PROP_SHARE_VERSION_MIN);
+        if (StringUtils.isEmpty(ver))
+        {
+            return VersionNumber.VERSION_ZERO;
+        }
+        else
+        {
+            return new VersionNumber(ver);
+        }
+    }
+
+    @Override
+    public VersionNumber getVersionMax()
+    {
+        String ver = properties.getProperty(PROP_SHARE_VERSION_MAX);
+        if (StringUtils.isEmpty(ver))
+        {
+            return VersionNumber.VERSION_BIG;
+        }
+        else
+        {
+            return new VersionNumber(ver);
+        }
+    }
 
     @Override
     public String toString()
@@ -99,6 +131,8 @@ public class ModulePackageUsingProperties implements ModulePackage
         sb.append(", title='").append(getTitle()).append('\'');
         sb.append(", description='").append(getDescription()).append('\'');
         sb.append(", version=").append(getVersion());
+        sb.append(", versionMin=").append(getVersionMin());
+        sb.append(", versionMax=").append(getVersionMax());
         sb.append('}');
         return sb.toString();
     }

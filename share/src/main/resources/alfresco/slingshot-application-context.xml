@@ -238,7 +238,9 @@
    </bean>
 
    <!-- Boostrap bean to look at Module Packages, aka Jar/amps -->
-   <bean id="modulepackagemanager" class="org.alfresco.web.config.packaging.ModulePackageManager" />
+   <bean id="modulepackagemanager" class="org.alfresco.web.config.packaging.ModulePackageManager">
+      <property name="shareManifest"  ref="slingshot.scriptprocessor.shareManifest" />
+   </bean>
 
    <bean id="webscript.org.alfresco.components.admin.module-package.get" parent="webscript" class="org.alfresco.web.scripts.ModulePackageWebScript">
       <property name="moduleManager"  ref="modulepackagemanager" />

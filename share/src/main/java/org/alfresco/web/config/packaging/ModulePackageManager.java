@@ -18,6 +18,7 @@
  */
 package org.alfresco.web.config.packaging;
 
+import org.alfresco.web.scripts.ShareManifest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -25,7 +26,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +40,8 @@ public class ModulePackageManager implements InitializingBean
     public static final String MODULE_RESOURCES = "classpath*:alfresco/module/*/module.properties";
     private static Log logger = LogFactory.getLog(ModulePackageManager.class);
 
-    List<ModulePackage> modules = new ArrayList<>();
+    private ShareManifest shareManifest;
+    private List<ModulePackage> modules = new ArrayList<>();
 
     /**
      * Finds modules based on the resource path.
@@ -75,7 +76,7 @@ public class ModulePackageManager implements InitializingBean
      * @param resource Spring resource
      * @return ModulePackage
      */
-    protected ModulePackage asModulePackage(Resource resource)
+    protected static ModulePackage asModulePackage(Resource resource)
     {
         Assert.notNull(resource, "Resource must not be null");
 
@@ -123,11 +124,19 @@ public class ModulePackageManager implements InitializingBean
         logger.debug("Resolving module packages.");
         modules = resolveModules(MODULE_RESOURCES);
         String moduleList = writeModuleList(modules);
-        if (!StringUtils.isEmpty(moduleList))
+        if (!modules.isEmpty())
         {
             logger.info("Found "+ modules.size() +" module package(s)");
             logger.info(moduleList);
+            for (ModulePackage module : modules)
+            {
+                ModulePackageHelper.checkValid(module, shareManifest);
+            }
         }
     }
 
+    public void setShareManifest(ShareManifest shareManifest)
+    {
+        this.shareManifest = shareManifest;
+    }
 }

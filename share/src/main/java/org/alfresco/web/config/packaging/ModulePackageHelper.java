@@ -18,16 +18,23 @@
  */
 package org.alfresco.web.config.packaging;
 
+import org.alfresco.error.AlfrescoRuntimeException;
+import org.alfresco.util.VersionNumber;
+import org.alfresco.web.scripts.ShareManifest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.servlet.ServletContext;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.Manifest;
 
 /**
  * Helpful methods for working with ModulePackages.
@@ -37,6 +44,14 @@ public class ModulePackageHelper
 {
     private static Log logger = LogFactory.getLog(ModulePackageHelper.class);
     private static PropertyDescriptor[] descriptors;
+
+    //see http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Main%20Attributes
+    public static final String MANIFEST_SPECIFICATION_TITLE = "Specification-Title";
+    public static final String MANIFEST_SPECIFICATION_VERSION = "Specification-Version";
+    public static final String MANIFEST_IMPLEMENTATION_TITLE = "Implementation-Title";
+    protected static final String REGEX_NUMBER_OR_DOT = "[0-9\\.]*";
+    public static final String MANIFEST_SHARE = "Alfresco Share";
+    public static final String MANIFEST_COMMUNITY = "Community";
 
     static
     {
@@ -78,5 +93,33 @@ public class ModulePackageHelper
             }
         }
         return asMap;
+    }
+
+    /**
+     * Checks the Module Packages is valid.
+     */
+    public static void checkValid(ModulePackage module, ShareManifest shareManifest)
+    {
+        Map<String, String> attribs = shareManifest.mainAttributesMap();
+        String version = attribs.get(MANIFEST_SPECIFICATION_VERSION);
+        checkVersions(new VersionNumber(version), module);
+    }
+
+    /**
+     * Compares the version information with the module details to see if their valid.  If they are invalid then it throws an exception.
+     * @param warVersion VersionNumber
+     * @param installingModuleDetails ModuleDetails
+     * @throws AlfrescoRuntimeException
+     */
+    private static void checkVersions(VersionNumber warVersion, ModulePackage installingModuleDetails)
+    {
+        if(warVersion.compareTo(installingModuleDetails.getVersionMin())==-1) {
+            throw new AlfrescoRuntimeException("The module ("+installingModuleDetails.getTitle()+") must be installed on a Share version greater than "
+                    +installingModuleDetails.getVersionMin()+". Share is version:"+warVersion+".");
+        }
+        if(warVersion.compareTo(installingModuleDetails.getVersionMax())==1) {
+            throw new AlfrescoRuntimeException("The module ("+installingModuleDetails.getTitle()+") cannot be installed on a Share version greater than "
+                    +installingModuleDetails.getVersionMax()+". Share is version:"+warVersion+".");
+        }
     }
 }
