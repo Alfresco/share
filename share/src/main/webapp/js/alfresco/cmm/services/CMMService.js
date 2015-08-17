@@ -2285,7 +2285,7 @@ define(["dojo/_base/declare",
        */
       _processPropertyIndexing: function alfresco_cmm_services_CMMService___processPropertyIndexing(payload) {
  
-         if (payload.datatype === "d:text" || payload.dataType === "d:mltext" || payload.dataType === "d:content")
+         if (payload.datatype === "d:text" || payload.datatype === "d:mltext" || payload.datatype === "d:content")
          {
             payload.indexing = payload.indexing_txt;
          }

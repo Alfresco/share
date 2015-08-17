@@ -3,12 +3,6 @@
 .cmm-forms-controls-SimpleStyle .dijitToggleButton,
 .cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton {
    margin: 3px;
-   width: 25px;
-   height: 25px;
-}
-.cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton {
-   margin: 4px 3px 3px 2px;
-   width: 24px;
 }
 .cmm-forms-controls-SimpleStyle .dijitButton .dijitButtonNode,
 .cmm-forms-controls-SimpleStyle .dijitToggleButton .dijitButtonNode,
@@ -21,10 +15,11 @@
    box-shadow: none;
 }
 .cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton span {
-   line-height: 19px;
+   line-height: 25px;
 }
 .cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton .dijitReset.dijitInline.dijitButtonNode {
-   padding: 2px 4px 4px 4px;
+   padding: 0;
+   width: 25px;
 }
 
 /* SimpleStyle toggle buttons */

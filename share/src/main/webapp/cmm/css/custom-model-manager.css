@@ -596,6 +596,9 @@ table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropTarget .previe
 #PROPERTIES_PANEL .alfresco-forms-controls-BaseFormControl > .description-row > .description {
    margin: 0;
 }
+#CMM #PROPERTIES_PANEL .cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton {
+   padding: 0;
+}
 
 /* Editor panel columns */
 #FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.singleColumnWrapper,
