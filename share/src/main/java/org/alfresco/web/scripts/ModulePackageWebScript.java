@@ -46,12 +46,12 @@ public class ModulePackageWebScript extends DeclarativeWebScript
             WebScriptRequest req, Status status, Cache cache) {
 
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("modulepackages", asJson(moduleManager.getModulePackages()));
+        model.put("modulepackages", asMap(moduleManager.getModulePackages()));
         return model;
 
     }
 
-    private List<Map> asJson(List<ModulePackage> mp)
+    private List<Map> asMap(List<ModulePackage> mp)
     {
         List<Map> modulesPacks = new ArrayList<>();
 
