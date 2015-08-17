@@ -379,7 +379,7 @@
                               <artifactItem>
                                 <groupId>org.alfresco</groupId>
                                 <artifactId>alfresco-dev-tomcat</artifactId>
-                                <version>${project.version}</version>
+                                <version>${alfresco.platform.version}</version>
                                 <classifier>config</classifier>
                                 <overWrite>true</overWrite>
                                 <type>zip</type>
@@ -401,7 +401,7 @@
                               <artifactItem>
                                 <groupId>org.alfresco</groupId>
                                 <artifactId>alfresco-solr4</artifactId>
-                                <version>${project.version}</version>
+                                <version>${alfresco.platform.version}</version>
                                 <classifier>config</classifier>
                                 <overWrite>true</overWrite>
                                 <type>zip</type>
