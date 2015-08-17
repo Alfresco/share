@@ -131,6 +131,7 @@ public class ModulePackageManager implements InitializingBean
             for (ModulePackage module : modules)
             {
                 ModulePackageHelper.checkValid(module, shareManifest);
+                ModulePackageHelper.checkDependencies(module, modules);
             }
         }
     }

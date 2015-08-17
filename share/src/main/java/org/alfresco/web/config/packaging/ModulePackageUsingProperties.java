@@ -19,11 +19,16 @@
 package org.alfresco.web.config.packaging;
 
 import org.alfresco.util.VersionNumber;
-import org.apache.maven.artifact.versioning.ComparableVersion;
+import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.artifact.versioning.VersionRange;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -32,11 +37,26 @@ import java.util.Properties;
  */
 public class ModulePackageUsingProperties implements ModulePackage
 {
+    //Copied from ModuleDetails in the Repo.
 
+    public static final String PROP_ID = "module.id";
+    public static final String PROP_VERSION = "module.version";
+    public static final String PROP_TITLE = "module.title";
+    public static final String PROP_DESCRIPTION = "module.description";
+    public static final String PROP_EDITIONS = "module.editions";
+    public static final String PROP_REPO_VERSION_MIN = "module.repo.version.min";
+    public static final String PROP_REPO_VERSION_MAX = "module.repo.version.max";
+    public static final String PROP_DEPENDS_PREFIX = "module.depends.";
+    //End of Copied from ModuleDetails in the Repo.
+
+    public static final String PROP_SHARE_VERSION_MIN = "module.share.version.min";
+    public static final String PROP_SHARE_VERSION_MAX = "module.share.version.max";
     private final Properties properties;
+    private final List<ModulePackageDependency> dependencies = new ArrayList<>();
 
     protected ModulePackageUsingProperties(Properties properties)
     {
+        validateProperties(properties);
         this.properties = properties;
     }
 
@@ -44,11 +64,10 @@ public class ModulePackageUsingProperties implements ModulePackage
     {
         Properties props = new Properties();
         props.load(resource.getInputStream());
-        cleanupProperties(props);
         return new ModulePackageUsingProperties(props);
     }
 
-    protected static void cleanupProperties(Properties props)
+    protected void validateProperties(Properties props)
     {
         //We haven't got a Share version min then use the repo version min.
         if (!props.containsKey(PROP_SHARE_VERSION_MIN) && props.containsKey(PROP_REPO_VERSION_MIN))
@@ -61,6 +80,7 @@ public class ModulePackageUsingProperties implements ModulePackage
         {
             props.setProperty(PROP_SHARE_VERSION_MAX, props.getProperty(PROP_REPO_VERSION_MAX));
         }
+        dependencies.addAll(extractDependencies(props));
     }
 
     @Override
@@ -82,16 +102,16 @@ public class ModulePackageUsingProperties implements ModulePackage
     }
 
     @Override
-    public ComparableVersion getVersion()
+    public ArtifactVersion getVersion()
     {
         String ver = properties.getProperty(PROP_VERSION);
         if (StringUtils.isEmpty(ver))
         {
-            return new ComparableVersion(UNSET_VERSION);
+            return new DefaultArtifactVersion(UNSET_VERSION);
         }
         else
         {
-            return new ComparableVersion(ver);
+            return new DefaultArtifactVersion(ver);
         }
     }
 
@@ -124,6 +144,12 @@ public class ModulePackageUsingProperties implements ModulePackage
     }
 
     @Override
+    public List<ModulePackageDependency> getDependencies()
+    {
+        return dependencies;
+    }
+
+    @Override
     public String toString()
     {
         final StringBuilder sb = new StringBuilder("ModulePackageUsingProperties{");
@@ -133,7 +159,78 @@ public class ModulePackageUsingProperties implements ModulePackage
         sb.append(", version=").append(getVersion());
         sb.append(", versionMin=").append(getVersionMin());
         sb.append(", versionMax=").append(getVersionMax());
+        sb.append(", dependencies=").append(dependencies);
         sb.append('}');
         return sb.toString();
+    }
+
+
+    /**
+     * This method is copied from ModuleDetailsImpl "as-is".  It is hoped that this code can be REUSED in the
+     * future instead of cutting and pasting.
+     * @param properties
+     * @return
+     */
+    private static List<ModulePackageDependency> extractDependencies(Properties properties)
+    {
+        int prefixLength = PROP_DEPENDS_PREFIX.length();
+
+        List<ModulePackageDependency> dependencies = new ArrayList<ModulePackageDependency>(2);
+        for (Map.Entry entry : properties.entrySet())
+        {
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
+            if (!key.startsWith(PROP_DEPENDS_PREFIX))
+            {
+                continue;
+            }
+            if (key.length() == prefixLength)
+            {
+                // Just ignore it
+                continue;
+            }
+            final String dependencyId = key.substring(prefixLength);
+            // Build the dependency
+            ModulePackageDependency dependency = new ModulePackageDependencyOnlyId(dependencyId);
+            // Add it
+            dependencies.add(dependency);
+        }
+        // Done
+        return dependencies;
+    }
+
+    /**
+     * Basic implementation only uses the ID
+     */
+    public static class ModulePackageDependencyOnlyId implements ModulePackageDependency {
+
+        String id;
+
+        public ModulePackageDependencyOnlyId(String dependencyId)
+        {
+            this.id = dependencyId;
+
+        }
+
+        @Override
+        public String getId()
+        {
+            return id;
+        }
+
+        @Override
+        public VersionRange getVersionRange()
+        {
+            //Always ignore the version range for now.
+            return null;
+        }
+
+        @Override
+        public String toString()
+        {
+            final StringBuilder sb = new StringBuilder("");
+            sb.append("id='").append(id).append('\'');
+            return sb.toString();
+        }
     }
 }

@@ -24,17 +24,15 @@ import org.alfresco.web.scripts.ShareManifest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.ServletContext;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.jar.Manifest;
 
 /**
  * Helpful methods for working with ModulePackages.
@@ -105,21 +103,64 @@ public class ModulePackageHelper
         checkVersions(new VersionNumber(version), module);
     }
 
+    protected static List<String> toIds(List<ModulePackage> mods)
+    {
+        //In Java 8 this is: mods.stream().map(module -> module.getId()).collect(toList());
+        //In Groovy mods.collect { it.id }
+        //In Java 7
+        List<String> ids = new ArrayList<>(mods.size());
+        for (ModulePackage mod : mods)
+        {
+            ids.add(mod.getId());
+        }
+        return ids;
+    }
+
     /**
      * Compares the version information with the module details to see if their valid.  If they are invalid then it throws an exception.
      * @param warVersion VersionNumber
      * @param installingModuleDetails ModuleDetails
      * @throws AlfrescoRuntimeException
      */
-    private static void checkVersions(VersionNumber warVersion, ModulePackage installingModuleDetails)
+    protected static void checkVersions(VersionNumber warVersion, ModulePackage installingModuleDetails)
     {
         if(warVersion.compareTo(installingModuleDetails.getVersionMin())==-1) {
             throw new AlfrescoRuntimeException("The module ("+installingModuleDetails.getTitle()+") must be installed on a Share version greater than "
-                    +installingModuleDetails.getVersionMin()+". Share is version:"+warVersion+".");
+                    +installingModuleDetails.getVersionMin()+". Share is version: "+warVersion+".");
         }
         if(warVersion.compareTo(installingModuleDetails.getVersionMax())==1) {
             throw new AlfrescoRuntimeException("The module ("+installingModuleDetails.getTitle()+") cannot be installed on a Share version greater than "
-                    +installingModuleDetails.getVersionMax()+". Share is version:"+warVersion+".");
+                    +installingModuleDetails.getVersionMax()+". Share is version: "+warVersion+".");
         }
+    }
+
+    /**
+     * A BASIC dependency check this is only based on ID and ignores the version.
+     * @param module
+     * @param availableModules
+     */
+    protected static void checkDependencies(ModulePackage module, List<ModulePackage> availableModules)
+    {
+        List<ModulePackageDependency> dependencies = module.getDependencies();
+        if (dependencies != null && !dependencies.isEmpty())
+        {
+            List<String> moduleIds = toIds(availableModules);
+            List<ModulePackageDependency> missingDependencies = new ArrayList<>(0);
+
+            for (ModulePackageDependency dependency : dependencies)
+            {
+                if(!moduleIds.contains(dependency.getId()))
+                {
+                    missingDependencies.add(dependency);
+                }
+            }
+
+            //We have some missing dependencies
+            if (!missingDependencies.isEmpty())
+            {
+                throw new AlfrescoRuntimeException("The module ("+module.getTitle()+") cannot be installed. The following modules must first be installed: " + missingDependencies);
+            }
+        }
+
     }
 }
