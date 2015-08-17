@@ -32,6 +32,7 @@ import org.springframework.core.io.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Tests the ModulePackageManager
@@ -95,6 +96,13 @@ public class ModulePackageManagerTest
         assertEquals("UNSUPPORTED experiment", mp.getDescription());
         assertTrue(new ComparableVersion("1.0-SNAPSHOT").equals(mp.getVersion()));
 
+        ModulePackageUsingProperties mpup = (ModulePackageUsingProperties) mp;
+        Map<String, String> asMap = ModulePackageHelper.toMap(mpup);
+        assertEquals("Alfresco JAR Module Project", asMap.get("title"));
+        assertEquals("alfresco-simple-module", asMap.get("id"));
+        assertEquals("UNSUPPORTED experiment", asMap.get("description"));
+        assertEquals("1.0-SNAPSHOT", asMap.get("version"));
+
         resource = new DefaultResourceLoader().getResource("classpath:alfresco/module/bad/badmodule.properties");
         mp = mpm.asModulePackage(resource);
         logger.debug("Bad module:" + mp.toString());
@@ -102,6 +110,13 @@ public class ModulePackageManagerTest
         assertNull("A bad module with no id.", mp.getId());
         assertNull("A bad module with no desc.", mp.getDescription());
         assertTrue(new ComparableVersion(ModulePackageUsingProperties.UNSET_VERSION).equals(mp.getVersion()));
+
+        mpup = (ModulePackageUsingProperties) mp;
+        asMap = ModulePackageHelper.toMap(mpup);
+        assertEquals("Alfresco Bad Module", asMap.get("title"));
+        assertEquals("null", asMap.get("id"));
+        assertEquals("null", asMap.get("description"));
+        assertEquals(ModulePackageUsingProperties.UNSET_VERSION, asMap.get("version"));
     }
 
     @Test

@@ -19,23 +19,16 @@
 package org.alfresco.web.scripts;
 
 import org.alfresco.web.config.packaging.ModulePackage;
+import org.alfresco.web.config.packaging.ModulePackageHelper;
 import org.alfresco.web.config.packaging.ModulePackageManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.extensions.webscripts.Cache;
 import org.springframework.extensions.webscripts.DeclarativeWebScript;
 import org.springframework.extensions.webscripts.Status;
-import org.springframework.extensions.webscripts.WebScriptException;
 import org.springframework.extensions.webscripts.WebScriptRequest;
-import org.springframework.extensions.webscripts.WebScriptResponse;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,28 +51,18 @@ public class ModulePackageWebScript extends DeclarativeWebScript
 
     }
 
-    private List<JSONObject> asJson(List<ModulePackage> mp)
+    private List<Map> asJson(List<ModulePackage> mp)
     {
-        List<JSONObject> modulesPacks = new JSONArray();
+        List<Map> modulesPacks = new ArrayList<>();
 
         if (mp!= null && !mp.isEmpty())
         {
             for (ModulePackage modulePackage : mp)
             {
-                modulesPacks.add(asJsonObject(modulePackage));
+                modulesPacks.add(ModulePackageHelper.toMap(modulePackage));
             }
         }
         return modulesPacks;
-    }
-
-    private JSONObject asJsonObject(ModulePackage modulePackage)
-    {
-        JSONObject mpAsJson = new JSONObject();
-        mpAsJson.put("title", modulePackage.getTitle());
-        mpAsJson.put("description", modulePackage.getDescription());
-        mpAsJson.put("id", modulePackage.getId());
-        mpAsJson.put("version", modulePackage.getVersion());
-        return mpAsJson;
     }
 
     public void setModuleManager(ModulePackageManager moduleManager)
