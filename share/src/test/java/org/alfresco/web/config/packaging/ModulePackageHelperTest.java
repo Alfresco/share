@@ -112,7 +112,7 @@ public class ModulePackageHelperTest
             assertFalse(true); //should not get here
         } catch (AlfrescoRuntimeException are)
         {
-            assertTrue(are.getMessage().contains("must be installed on a Share version greater than 5.2"));
+            assertTrue(are.getMessage().contains("must be installed on a Share version equal to or greater than 5.2"));
         }
     }
 
