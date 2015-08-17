@@ -125,7 +125,7 @@ public class ModulePackageHelper
     protected static void checkVersions(VersionNumber warVersion, ModulePackage installingModuleDetails)
     {
         if(warVersion.compareTo(installingModuleDetails.getVersionMin())==-1) {
-            throw new AlfrescoRuntimeException("The module ("+installingModuleDetails.getTitle()+") must be installed on a Share version greater than "
+            throw new AlfrescoRuntimeException("The module ("+installingModuleDetails.getTitle()+") must be installed on a Share version equal to or greater than "
                     +installingModuleDetails.getVersionMin()+". Share is version: "+warVersion+".");
         }
         if(warVersion.compareTo(installingModuleDetails.getVersionMax())==1) {
