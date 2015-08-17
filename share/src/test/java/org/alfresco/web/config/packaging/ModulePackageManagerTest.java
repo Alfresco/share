@@ -110,6 +110,17 @@ public class ModulePackageManagerTest extends ModulePackageHelperTest
     }
 
     @Test
+    public void testBadAsModulePackage()
+    {
+        ModulePackageManager mpm = setup();
+        ModulePackage mp = mpm.asModulePackage(loader.getResource("nonsense.txt"));
+        assertNull(mp);
+
+        List<ModulePackage> packs = mpm.resolveModules("not any.txt");
+        assertEquals(0, packs.size());
+    }
+
+    @Test
     public void testWriteModuleList()
     {
         ModulePackageManager mpm = setup();
@@ -146,6 +157,16 @@ public class ModulePackageManagerTest extends ModulePackageHelperTest
         //Uses module.share.version
         assertEquals("5.0", mp.getVersionMin().toString());
         assertEquals("5.999", mp.getVersionMax().toString());
+    }
+
+    @Test
+    public void testAfterPropertiesSet()
+    {
+        ModulePackageManager mpm = setup();
+        mpm.setShareManifest(shareManifest);
+        mpm.afterPropertiesSet();
+
+        assertNotNull(mpm.getModulePackages());
     }
 
 }

@@ -42,6 +42,7 @@ public class ModulePackageHelperTest
 {
     public static final String SIMPLE_SIMPLEMODULE_PROPERTIES = "classpath:alfresco/module/simple/simplemodule.properties";
     public static final String BAD_BADMODULE_PROPERTIES = "classpath:alfresco/module/bad/badmodule.properties";
+    public static final String USER_BADMODULE_PROPERTIES = "classpath:alfresco/module/bad/usermodule.properties";
     public static final String MODULE_PENT_MODULE_PROPERTIES = "classpath:alfresco/module/pent/module.properties";
 
     public static ModulePackageManager setup()
@@ -103,7 +104,7 @@ public class ModulePackageHelperTest
             assertTrue(are.getMessage().contains("cannot be installed on a Share version greater than 2.1"));
         }
 
-        resource = loader.getResource("classpath:alfresco/module/user.admin/module.properties");
+        resource = loader.getResource(USER_BADMODULE_PROPERTIES);
         mp = ModulePackageManager.asModulePackage(resource);
         try
         {
