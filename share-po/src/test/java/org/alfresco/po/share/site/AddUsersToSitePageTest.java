@@ -86,7 +86,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         siteDashBoard = page.getNav().selectMostRecentSite().render();
         List<String> searchUsers = null;
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        for (int searchCount = 1; searchCount <= retrySearchCount + 4; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
             searchUsers = addUsersToSitePage.searchUser(userName);
             try
@@ -125,7 +125,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     public List<String> searchForSiteMembers(String userName) throws Exception
     {
         List<String> siteMembers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount + 4; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
             try
             {
@@ -471,7 +471,10 @@ public class AddUsersToSitePageTest extends AbstractTest
     {
         // create user
         String userRemoveUserName = "userRemove" + System.currentTimeMillis();
+        
         createEnterpriseUser(userRemoveUserName);
+        
+        
         dashBoard = loginAs(username, password);
         
         siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
