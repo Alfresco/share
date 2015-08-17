@@ -56,11 +56,13 @@ public class ModulePackageManager implements InitializingBean
         try
         {
             Resource[] resources = resolver.getResources(resourcePath);
-            for(Resource resource : resources){
+            for(Resource resource : resources)
+            {
                 ModulePackage mp = asModulePackage(resource);
                 if (mp != null) modulesFound.add(mp);
             }
-        } catch (IOException ioe)
+        }
+        catch (IOException ioe)
         {
             logger.error("Unable to resolve modules ", ioe);
         }
@@ -80,7 +82,8 @@ public class ModulePackageManager implements InitializingBean
         try
         {
            return ModulePackageUsingProperties.loadFromResource(resource);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             logger.error("Failed to load resource "+resource.toString(), e);
             return null;
@@ -95,7 +98,7 @@ public class ModulePackageManager implements InitializingBean
      */
     protected String writeModuleList(List<ModulePackage> foundModules)
     {
-        StringBuilder b = new StringBuilder("");
+        StringBuilder b = new StringBuilder(128);
         for (ModulePackage module : foundModules)
         {
             b.append(module.getTitle()).append(", " + module.getVersion()).append(", "+module.getDescription());
@@ -122,7 +125,8 @@ public class ModulePackageManager implements InitializingBean
         String moduleList = writeModuleList(modules);
         if (!StringUtils.isEmpty(moduleList))
         {
-            logger.info("\nAvailable Module Packages:\n"+moduleList);
+            logger.info("Found "+ modules.size() +" module package(s)");
+            logger.info(moduleList);
         }
     }
 
