@@ -439,7 +439,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             	}
                 if (siteFullText != null)
                 {
-                    if (siteFullText.toLowerCase().contains(siteName.toLowerCase()) && tmpDescription.equalsIgnoreCase(siteDescription))
+                    if (siteFullText.equalsIgnoreCase(siteName) && tmpDescription.equalsIgnoreCase(siteDescription))
                     {
                         site.click();                       
                     	waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
