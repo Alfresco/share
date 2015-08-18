@@ -900,10 +900,11 @@ function getUserMenuWidgets()
    var userMenuWidgets = [
       {
          id: "HEADER_USER_MENU_DAHSBOARD",
-         name: "alfresco/menus/AlfMenuBarItem",
+         name: "alfresco/menus/AlfMenuItem",
          config: {
             id: "HEADER_USER_MENU_DASHBOARD",
             label: "header.menu.user_dashboard.label",
+            iconClass: "alf-user-dashboard-icon",
             targetUrl: "user/" + encodeURIComponent(user.name) + "/dashboard"
          }
       },
@@ -946,6 +947,7 @@ function getUserMenuWidgets()
                   {
                      id: "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME",
                      label: "set_current_page_as_home.label",
+                     iconClass: "alf-user-set-homepage-current-icon",
                      publishTopic: "ALF_SET_CURRENT_PAGE_AS_HOME",
                      publishPayload: {
                         servletContext: page.url.servletContext
@@ -959,6 +961,7 @@ function getUserMenuWidgets()
                   {
                      id: "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME",
                      label: "set_dashboard_as_home.label",
+                     iconClass: "alf-user-set-homepage-dashboard-icon",
                      publishTopic: "ALF_SET_USER_HOME_PAGE",
                      publishPayload: {
                         homePage: getUserHomePageDashboard()
