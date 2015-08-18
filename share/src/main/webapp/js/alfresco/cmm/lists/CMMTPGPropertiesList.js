@@ -44,46 +44,35 @@ define(["dojo/_base/declare",
       syncNodesTopic: "",
       
       /**
-       * If [useHash]{@link module:alfresco/lists/AlfHashList#useHash} has been set to true
-       * then this function will be called whenever the browser hash fragment is modified. It will update
-       * the attributes of this instance with the values provided in the fragment.
-       * 
        * @instance
-       * @param {object} payload
+       * @param {object} hashParameters An object containing the current hash parameters
        */
-      onHashChanged: function alfresco_cmm_lists_CMMTPGPropertiesList__onHashChanged(payload) {
+      _updateCoreHashVars: function cmm_lists_CMMTPGPropertiesList___updateCoreHashVars(hashParameters) {
 
-         // Only update if the payload contains one of the variables we care about
-         if (this.doHashVarUpdate(payload))
-         {
-            lang.mixin(this, payload);
-            
-            // the Properties list can either use a propertygroup or a type variable
-            // they are mutually exclusive and we need to ensure the opposing variable is cleared when one is set
-            
-            if (payload.propertygroup) this.type = null;
-            if (payload.type) this.propertygroup = null;
-            
-            this.updateLoadDataPayload({
-               name: this.model,
-               type: this.type,
-               propertygroup: this.propertygroup
-            });
-            
-            // Fire off an event to update labels that care about the type or property group name
-            this.alfPublish(CMMConstants.UPDATE_TPG_HEADING, {
-               label: this.model + " - " + (this.type || this.propertygroup)
-            });
-            
-            // Load data
-            this.loadData();
-         }
+         lang.mixin(this, hashParameters);
+         
+         // the Properties list can either use a propertygroup or a type variable
+         // they are mutually exclusive and we need to ensure the opposing variable is cleared when one is set
+         
+         if (hashParameters.propertygroup) this.type = null;
+         if (hashParameters.type) this.propertygroup = null;
+         
+         this.updateLoadDataPayload({
+            name: this.model,
+            type: this.type,
+            propertygroup: this.propertygroup
+         });
+         
+         // Fire off an event to update labels that care about the type or property group name
+         this.alfPublish(CMMConstants.UPDATE_TPG_HEADING, {
+            label: this.model + " - " + (this.type || this.propertygroup)
+         });
       },
 
       /**
        * @instance
        */
-      onDataLoadSuccess: function alfresco_cmm_lists_CMMTPGPropertiesList__onDataLoadSuccess(payload) {
+      onDataLoadSuccess: function cmm_lists_CMMTPGPropertiesList__onDataLoadSuccess(payload) {
          this.inherited(arguments);
 
          if(this.syncNodesTopic != "")
@@ -105,7 +94,7 @@ define(["dojo/_base/declare",
       /**
        * @instance
        */
-      syncNodes: function alfresco_cmm_lists_CMMTPGPropertiesList__syncNodes(canvasNodes) {
+      syncNodes: function cmm_lists_CMMTPGPropertiesList__syncNodes(canvasNodes) {
 
          // Unsubscribe the callback
          this.alfUnsubscribe(this._syncCallBackHandle);
