@@ -505,7 +505,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     {
         DocumentLibraryPage libraryPage = resolvePage(driver).render();
         libraryPage = libraryPage.getFileDirectoryInfo("Test Doc").selectEditOffline().render();
-        DocumentEditOfflinePage docEditPage = libraryPage.selectFile("Test Doc").render();
+        DocumentEditOfflinePage docEditPage = libraryPage.selectFileEditedOffline("Test Doc").render();
         assertTrue(docEditPage.isViewOriginalLinkPresent());
         DocumentDetailsPage docDetailsPage = docEditPage.selectViewOriginalDocument().render();
         assertFalse(docDetailsPage.isViewOriginalLinkPresent());
