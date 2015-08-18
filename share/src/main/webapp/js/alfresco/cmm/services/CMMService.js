@@ -1611,9 +1611,6 @@ define(["dojo/_base/declare",
                                        case "expression":
                                           property.constraintExpression = param.simpleValue;
                                           break;
-                                       case "requiresMatch":
-                                          property.constraintRequiresMatch = (param.simpleValue == 'true');
-                                          break;
                                        case "minLength":
                                           property.constraintMinLength = param.simpleValue;
                                           break;
@@ -2170,8 +2167,7 @@ define(["dojo/_base/declare",
          
          // Create a REGEX constraint
          if(constraint === "REGEX" 
-            && (constraintExpression = lang.getObject("constraintExpression", false, payload)) != null 
-            && (constraintRequiresMatch = lang.getObject("constraintRequiresMatch", false, payload)) != null)
+            && (constraintExpression = lang.getObject("constraintExpression", false, payload)) != null)
          {
             constraintPayload = {
                name: "REGEX_" + uuid.generateRandomUuid(),
@@ -2183,7 +2179,7 @@ define(["dojo/_base/declare",
                   },
                   {
                      name: "requiresMatch",
-                     simpleValue: constraintRequiresMatch
+                     simpleValue: true
                   }
                ]
             };
