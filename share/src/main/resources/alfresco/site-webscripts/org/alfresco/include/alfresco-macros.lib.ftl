@@ -6,7 +6,7 @@
    <#assign site_url = relativeURL>
 
    <#if (siteId?length > 0)>
-      <#assign site_url = "site/${siteId}/${site_url}">
+      <#assign site_url = "site/${siteId?html}/${site_url?html}">
    </#if>
 
    <#if site_url?starts_with("/")><#assign site_url = site_url?substring(1)></#if>
@@ -53,7 +53,7 @@
    <#local userid=userName>
    <#local userprofilepage = userprofilepage?replace("{", "$" + "{")?interpret/>
    <#local userprofilepage><@userprofilepage/></#local>
-   <#local link><a href="${url.context + "/page" + userprofilepage}" ${linkAttr}>${displayLabel}</a></#local>
+   <#local link><a href="${url.context + "/page" + userprofilepage?html}" ${linkAttr?html}>${displayLabel?html}</a></#local>
    <#return link>
 </#function>
 
@@ -167,7 +167,7 @@
          <span class="separator"> &gt; </span>
       </#if>
       <span class="${path.cssClass?html}">
-         <a href="${siteURL(path.href)}">${path.label?html}</a>
+         <a href="${siteURL(path.href?html)}">${path.label?html}</a>
       </span>
    </#list>
 </#macro>
@@ -180,7 +180,7 @@
       <span class="separator"> &gt; </span>
       </#if>
    <span class="${path.cssClass?html}">
-         <a target="_blank" href="${prefix}${path.href}">${path.label?html}</a>
+         <a target="_blank" href="${prefix?html}${path.href?html}">${path.label?html}</a>
       </span>
    </#list>
 </#macro>
@@ -193,12 +193,12 @@
       <#if path_index != 0>
          <span class="separator"> &gt; </span>
       </#if>
-      <#assign pathDisplayHref=siteURL(path.href) />
+      <#assign pathDisplayHref=siteURL(path.href?html) />
       <#if absolute>
-         <#assign pathDisplayHref=absurl(siteURL(path.href)) />
+         <#assign pathDisplayHref=absurl(siteURL(path.href?html)) />
       </#if>
       <span class="${path.cssClass?html}">
-         <a href="${pathDisplayHref}">${path.label?html}</a>
+         <a href="${pathDisplayHref?html}">${path.label?html}</a>
       </span>
    </#list>
 </#macro>

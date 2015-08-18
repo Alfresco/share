@@ -302,6 +302,26 @@
                         }
 
                         return parsedEvents;
+                     },
+                     error: function(data)
+                     {
+                        if (data.status == 404)
+                        {
+                           Alfresco.util.PopupManager.displayPrompt(
+                           {
+                              title: me.msg("calendar.site-does-not-exist-title", me.options.siteId),
+                              text: me.msg("calendar.site-does-not-exist"),
+                              buttons: [
+                              {
+                                 text: me.msg("button.ok"),
+                                 handler: function ()
+                                 {
+                                    this.destroy();
+                                 },
+                                 isDefault: true
+                              }]
+                           });
+                        }
                      }
                   }
                ],

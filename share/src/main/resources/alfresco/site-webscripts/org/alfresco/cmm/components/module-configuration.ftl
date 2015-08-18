@@ -59,19 +59,6 @@
          </#if>
       </config>
 
-      <!-- Form configuration section - aspect -->
-      <#list aspects as a>
-      <#if a.properties??>
-      <config evaluator="aspect" condition="${a.name}">
-         <forms>
-            <form>
-               <@form e=a/>
-            </form>
-         </forms>
-      </config>
-      </#if>
-      </#list>
-      
       <!-- Form configuration section - type -->
       <#list types as t>
       <#if t.properties??>
@@ -111,6 +98,19 @@
                      </control>
                   </field>
                </appearance>
+            </form>
+         </forms>
+      </config>
+      </#if>
+      </#list>
+      
+      <!-- Form configuration section - aspect -->
+      <#list aspects as a>
+      <#if a.properties??>
+      <config evaluator="aspect" condition="${a.name}">
+         <forms>
+            <form>
+               <@form e=a/>
             </form>
          </forms>
       </config>

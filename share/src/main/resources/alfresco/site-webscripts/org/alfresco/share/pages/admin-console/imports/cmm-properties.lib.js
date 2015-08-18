@@ -329,27 +329,6 @@ properties.createForm = [
          postWhenHiddenOrDisabled: false
       }
    },
-   {
-      name: "alfresco/forms/controls/CheckBox",
-      config: {
-         fieldId: "CONSTRAINT_REQUIRES_MATCH",
-         label: "cmm.property.constraint.requires-match",
-         name: "constraintRequiresMatch",
-         description: "cmm.property.constraint.requires-match.info",
-         additionalCssClasses: "create-property-constraint-requires-match",
-         visibilityConfig: {
-            initialValue: false,
-            rules: [
-               {
-                  targetId: "CONSTRAINT",
-                  is: ["REGEX"]
-               }
-            ]
-         },
-         postWhenHiddenOrDisabled: false,
-         value: false
-      }
-   },
 
    // Constraint options for LENGTH
    {
@@ -598,7 +577,7 @@ properties.createForm = [
                }
             ]
          },
-         inlineHelp: "cmm.property.indexing.nontxthelp"
+         inlineHelp: "cmm.property.indexing.txthelp"
       }
    },
    {
@@ -631,7 +610,7 @@ properties.createForm = [
                }
             ]
          },
-         inlineHelp: "cmm.property.indexing.booleanhelp"
+         inlineHelp: "cmm.property.indexing.txthelp"
       }
    },
    {
@@ -694,7 +673,7 @@ var nameFieldConfig = properties.editForm[0].config;
 nameFieldConfig._disabled = true;
 nameFieldConfig.description = "cmm.property.name.no.edit";
 nameFieldConfig.requirementConfig.initialValue = false;
-properties.editForm[23] = {
+properties.editForm[22] = {
    name: "alfresco/forms/controls/HiddenValue",
    config: {
       fieldId: "MODEL_NAME",
@@ -703,7 +682,7 @@ properties.editForm[23] = {
       postWhenHiddenOrDisabled: true
    }
 };
-properties.editForm[24] = {
+properties.editForm[23] = {
    name: "alfresco/forms/controls/HiddenValue",
    config: {
       fieldId: "TYPE_NAME",
@@ -712,7 +691,7 @@ properties.editForm[24] = {
       postWhenHiddenOrDisabled: true
    }
 };
-properties.editForm[25] = {
+properties.editForm[24] = {
    name: "alfresco/forms/controls/HiddenValue",
    config: {
       fieldId: "PROPERTYGROUP_NAME",
@@ -737,13 +716,13 @@ mandatoryFieldConfig.description = "cmm.property.mandatory.no.edit";
 var multipleFieldConfig = properties.editActiveForm[5].config;
 multipleFieldConfig._disabled = true;
 multipleFieldConfig.description = "cmm.property.multiple.no.edit";
-var nontxtIndexingFieldConfig = properties.editActiveForm[20].config;
+var nontxtIndexingFieldConfig = properties.editActiveForm[19].config;
 nontxtIndexingFieldConfig._disabled = true;
 nontxtIndexingFieldConfig.description = "cmm.property.indexing.no.edit";
-var booleanIndexingFieldConfig = properties.editActiveForm[21].config;
+var booleanIndexingFieldConfig = properties.editActiveForm[20].config;
 booleanIndexingFieldConfig._disabled = true;
 booleanIndexingFieldConfig.description = "cmm.property.indexing.no.edit";
-var txtIndexingFieldConfig = properties.editActiveForm[22].config;
+var txtIndexingFieldConfig = properties.editActiveForm[21].config;
 txtIndexingFieldConfig._disabled = true;
 txtIndexingFieldConfig.description = "cmm.property.indexing.no.edit";
 
@@ -871,10 +850,6 @@ properties.propertyFormValue = {
    constraintExpression: {
       alfType: "item",
       alfProperty: "constraintExpression"
-   },
-   constraintRequiresMatch: {
-      alfType: "item",
-      alfProperty: "constraintRequiresMatch"
    },
    constraintMinLength: {
       alfType: "item",

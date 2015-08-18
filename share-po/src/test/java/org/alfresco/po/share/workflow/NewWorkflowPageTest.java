@@ -82,6 +82,7 @@ public class NewWorkflowPageTest extends AbstractTest
     {
         // assertTrue(PageUtilsTest.checkAlfrescoVersionBeforeClassRun(driver));
         siteName = "AdhocReassign" + System.currentTimeMillis();
+        uniqueWorkflow = "wf-" + siteName;
         taskComment = "Comment" + System.currentTimeMillis();
         fileForWorkflow = siteUtil.prepareFile("WF-File");
         loginAs(username, password);
@@ -386,7 +387,6 @@ public class NewWorkflowPageTest extends AbstractTest
         assignmentPage.selectReviewers(formDetails.getReviewers());
         newWorkflowPage.selectItem(fileForWorkflow.getName(), siteName);
         myTasksPage = newWorkflowPage.doubleClickStartWorkflow().render();
-
         Assert.assertTrue(myTasksPage.isTaskNameUnique(uniqueWorkflow));
 
     }

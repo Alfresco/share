@@ -1020,7 +1020,12 @@ public class SiteActions extends CommonActions
 
     public HtmlPage viewDetails(WebDriver driver, String name)
     {
-        DocumentLibraryPage doclib = (DocumentLibraryPage) factoryPage.getPage(driver).render();
+        DocumentLibraryPage doclib = factoryPage.getPage(driver).render();
+        FileDirectoryInfo row = doclib.getFileDirectoryInfo(name);
+        if(row.isFolder())
+        {
+        	return row.selectViewFolderDetails();
+        }
         return doclib.selectFile(name).render();
     }
 }

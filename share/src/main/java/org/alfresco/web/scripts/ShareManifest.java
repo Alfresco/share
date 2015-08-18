@@ -63,7 +63,7 @@ public class ShareManifest extends BaseProcessorExtension
     /**
      * Read the manifest file that was specified in the constructor.
      */
-    protected void readManifest()
+    public void readManifest()
     {
         try (InputStream is = resource.getInputStream())
         {

@@ -21,6 +21,7 @@ import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.test.FailedTestListener;
 import org.openqa.selenium.WebDriver;
+import org.springframework.social.alfresco.connect.exception.AlfrescoException;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -70,7 +71,14 @@ public class UserContentsPageTest extends AbstractTest
     @AfterClass(groups = { "alfresco-one" })
     public void tearDown()
     {
-        siteUtil.deleteSite(username, password, siteName1);
+    	try
+    	{
+    		siteUtil.deleteSite(username, password, siteName1);
+    	}
+    	catch(AlfrescoException e)
+    	{
+    		//Ignore exception realting to site not found.
+    	}
     }
     @Test(groups = { "alfresco-one" })
     public void getContentNoContent()
