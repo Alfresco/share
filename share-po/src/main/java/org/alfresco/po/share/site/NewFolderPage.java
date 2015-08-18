@@ -22,6 +22,7 @@ import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.RepositoryPage;
 import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.apache.commons.lang3.StringUtils;
@@ -97,7 +98,8 @@ public class NewFolderPage extends ShareDialogue
         okButton.click();
         // Wait till the pop up disappears
         waitUntilMessageAppearAndDisappear("Folder");
-        DocumentLibraryPage page = factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+        //DocumentLibraryPage page = factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+        RepositoryPage page = factoryPage.instantiatePage(driver, RepositoryPage.class);
         page.setShouldHaveFiles(true);
         return page;
     }
