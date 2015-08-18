@@ -37,6 +37,7 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.springframework.social.alfresco.connect.exception.AlfrescoException;
 import org.springframework.stereotype.Component;
 import org.testng.SkipException;
 
@@ -234,7 +235,14 @@ public class SiteUtil
      */
     public void deleteSite(final String username, final String password, final String siteName)
     {
-        siteService.delete(username, password, "testdomain", siteName);
+    	try
+    	{
+    		siteService.delete(username, password, "testdomain", siteName);
+    	}
+    	catch(AlfrescoException ae)
+    	{
+    		//ignore as site is not found.
+    	}
     }
 
     /**
