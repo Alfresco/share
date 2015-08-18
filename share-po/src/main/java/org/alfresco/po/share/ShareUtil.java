@@ -79,6 +79,11 @@ public class ShareUtil
      */
     public HtmlPage loginAs(final WebDriver driver, final String url, final String... userInfo) throws Exception
     {
+        PageUtils.checkMandotaryParam("webdriver", driver);
+        if(null == url||!url.startsWith("http://"))
+        {
+            throw new IllegalArgumentException("A valid shareUrl is required and can not be: " + url);
+        }
         driver.navigate().to(url);
         LoginPage lp = factoryPage.getPage(driver).render();
         lp.loginAs(userInfo[0], userInfo[1]);
