@@ -12,7 +12,7 @@
    <@createWidgets group="calendar"/>
    <@inlineScript group="calendar">
       <#-- JavaScript to be executed AFTER widget instantiation here -->
-      calendar.setSiteId("${page.url.templateArgs.site!""}");
+      calendar.setSiteId("${(page.url.templateArgs.site!"")?js_string}");
    </@>
 </@>
 

@@ -187,7 +187,7 @@
          {
             var url = YAHOO.lang.substitute(Alfresco.constants.URL_FEEDSERVICECONTEXT + "components/wiki/rss?site={site}",
                 {
-                    site: this.options.siteId
+                    site: encodeURIComponent(this.options.siteId)
                 });
             this.widgets.rssFeedButton.set("href", url);
          }
@@ -316,7 +316,7 @@
        */
       onNewPageClick: function WikiToolbar_onNewPageClick(e)
       {
-         var url = Alfresco.constants.URL_PAGECONTEXT + "site/" + this.options.siteId + "/wiki-create";
+         var url = Alfresco.constants.URL_PAGECONTEXT + "site/" + encodeURIComponent(this.options.siteId) + "/wiki-create";
          if (!this.options.showBackLink)
          {
             url += "?listViewLinkBack=true";
@@ -381,7 +381,7 @@
          Alfresco.util.Ajax.request(
          {
             method: Alfresco.util.Ajax.DELETE,
-            url: Alfresco.constants.PROXY_URI + "slingshot/wiki/page/" + this.options.siteId + "/" + Alfresco.util.encodeURIPath(this.options.title) + "?page=wiki",
+            url: Alfresco.constants.PROXY_URI + "slingshot/wiki/page/" + encodeURIComponent(this.options.siteId) + "/" + Alfresco.util.encodeURIPath(this.options.title) + "?page=wiki",
             successCallback:
             {
                fn: this.onPageDeleted,
@@ -401,7 +401,7 @@
       onPageDeleted: function WikiToolbar_onPageDeleted(e)
       {
          // Redirect to the wiki landing page
-         var landingPage = Alfresco.constants.URL_PAGECONTEXT + "site/" + this.options.siteId + "/wiki";
+         var landingPage = Alfresco.constants.URL_PAGECONTEXT + "site/" + encodeURIComponent(this.options.siteId) + "/wiki";
          if (window.location.pathname == landingPage)
          {
             window.location.reload(true);
@@ -470,7 +470,7 @@
             if (!YAHOO.lang.isUndefined(response.title))
             {
                // Change the location bar
-               window.location = Alfresco.constants.URL_PAGECONTEXT + "site/" + this.options.siteId + "/wiki-page?title=" + encodeURIComponent(response.title);
+               window.location = Alfresco.constants.URL_PAGECONTEXT + "site/" + encodeURIComponent(this.options.siteId) + "/wiki-page?title=" + encodeURIComponent(response.title);
             } 
             else
             {

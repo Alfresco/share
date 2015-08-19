@@ -169,24 +169,24 @@
    <div id="${id}-gallery-empty" class="hidden">
       <div class="yui-dt-liner"></div>
    </div>
-   <div id="${args.htmlid}-filmstrip" class="alf-filmstrip alf-gallery documents">
-        <div id="${args.htmlid}-filmstrip-main-content" class="alf-filmstrip-main-content">
-            <div id="${args.htmlid}-filmstrip-carousel"></div>
-            <div id="${args.htmlid}-filmstrip-nav-main-previous" class="alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-prev">
+   <div id="${id}-filmstrip" class="alf-filmstrip alf-gallery documents">
+        <div id="${id}-filmstrip-main-content" class="alf-filmstrip-main-content">
+            <div id="${id}-filmstrip-carousel"></div>
+            <div id="${id}-filmstrip-nav-main-previous" class="alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-prev">
                 <img src="${page.url.context}/res/components/documentlibrary/images/filmstrip-main-nav-prev.png" />
             </div>
-            <div id="${args.htmlid}-filmstrip-nav-main-next" class="alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-next">
+            <div id="${id}-filmstrip-nav-main-next" class="alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-next">
                 <img src="${page.url.context}/res/components/documentlibrary/images/filmstrip-main-nav-next.png" />
             </div>
         </div>
-        <div id="${args.htmlid}-filmstrip-nav" class="alf-filmstrip-nav">
-            <div id="${args.htmlid}-filmstrip-nav-handle" class="alf-filmstrip-nav-handle"></div>
-            <div id="${args.htmlid}-filmstrip-nav-carousel"></div>
-            <div id="${args.htmlid}-filmstrip-nav-buttons" class="alf-filmstrip-nav-buttons">
-                <div id="${args.htmlid}-filmstrip-nav-previous" class="alf-filmstrip-nav-button alf-filmstrip-nav-prev">
+        <div id="${id}-filmstrip-nav" class="alf-filmstrip-nav">
+            <div id="${id}-filmstrip-nav-handle" class="alf-filmstrip-nav-handle"></div>
+            <div id="${id}-filmstrip-nav-carousel"></div>
+            <div id="${id}-filmstrip-nav-buttons" class="alf-filmstrip-nav-buttons">
+                <div id="${id}-filmstrip-nav-previous" class="alf-filmstrip-nav-button alf-filmstrip-nav-prev">
                     <img src="${page.url.context}/res/components/documentlibrary/images/filmstrip-content-nav-prev.png" />
                 </div>
-                <div id="${args.htmlid}-filmstrip-nav-next" class="alf-filmstrip-nav-button alf-filmstrip-nav-next">
+                <div id="${id}-filmstrip-nav-next" class="alf-filmstrip-nav-button alf-filmstrip-nav-next">
                     <img src="${page.url.context}/res/components/documentlibrary/images/filmstrip-content-nav-next.png" />
                 </div>
             </div>
@@ -234,12 +234,12 @@
       </div>
       
       <#-- Document List Filmstrip View Templates -->
-       <div id="${args.htmlid}-filmstrip-nav-item-template" class="alf-filmstrip-nav-item hidden">
+       <div id="${id}-filmstrip-nav-item-template" class="alf-filmstrip-nav-item hidden">
           <div class="alf-filmstrip-nav-item-thumbnail">
              <div class="alf-label"></div>
           </div>
        </div>
-       <div id="${args.htmlid}-filmstrip-item-template" class="alf-gallery-item hidden">
+       <div id="${id}-filmstrip-item-template" class="alf-gallery-item hidden">
           <div class="alf-gallery-item-thumbnail">
              <div class="alf-header">
                 <div class="alf-select"></div>

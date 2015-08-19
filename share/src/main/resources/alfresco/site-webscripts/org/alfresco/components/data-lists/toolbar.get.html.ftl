@@ -14,9 +14,9 @@
 
 <@markup id="html">
    <@uniqueIdDiv>
-      <#assign id = args.htmlid>
-      <div id="${args.htmlid}-body" class="datalist-toolbar toolbar">
-         <div id="${args.htmlid}-headerBar" class="header-bar flat-button theme-bg-2">
+      <#assign id = args.htmlid?html>
+      <div id="${id}-body" class="datalist-toolbar toolbar">
+         <div id="${id}-headerBar" class="header-bar flat-button theme-bg-2">
             <div class="left">
                <div class="new-row">
                   <span id="${id}-newRowButton" class="yui-button yui-push-button">
@@ -26,8 +26,8 @@
                   </span>
                </div>
                <div class="selected-items">
-                  <button class="no-access-check" id="${args.htmlid}-selectedItems-button" name="doclist-selectedItems-button">${msg("menu.selected-items")}</button>
-                  <div id="${args.htmlid}-selectedItems-menu" class="yuimenu">
+                  <button class="no-access-check" id="${id}-selectedItems-button" name="doclist-selectedItems-button">${msg("menu.selected-items")}</button>
+                  <div id="${id}-selectedItems-menu" class="yuimenu">
                      <div class="bd">
                         <ul>
                         <#list actionSet as action>

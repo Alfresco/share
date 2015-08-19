@@ -20,11 +20,11 @@
       <#list pageList.pages as p>
          <div class="wikipage <#if p.tags??><#list p.tags as t>wp-${t}<#if t_has_next> </#if></#list></#if>">
          <div class="actionPanel">
-            <#if p.permissions.edit><div class="editPage"><a href="${url.context}/page/site/${page.url.templateArgs.site?html}/wiki-page?title=${p.title?url}&amp;action=edit&amp;listViewLinkBack=true">${msg("link.edit")}</a></div></#if>
-            <div class="detailsPage"><a href="${url.context}/page/site/${page.url.templateArgs.site}/wiki-page?title=${p.title?url}&amp;action=details&amp;listViewLinkBack=true">${msg("link.details")}</a></div>
+            <#if p.permissions.edit><div class="editPage"><a href="${url.context}/page/site/${page.url.templateArgs.site?url}/wiki-page?title=${p.title?url}&amp;action=edit&amp;listViewLinkBack=true">${msg("link.edit")}</a></div></#if>
+            <div class="detailsPage"><a href="${url.context}/page/site/${page.url.templateArgs.site?url}/wiki-page?title=${p.title?url}&amp;action=details&amp;listViewLinkBack=true">${msg("link.details")}</a></div>
             <#if p.permissions.delete><div class="deletePage"><a href="#" class="delete-link" title="${p.title?html}">${msg("link.delete")}</a></div></#if>
          </div>
-   <div class="pageTitle"><a class="pageTitle theme-color-1" href="${url.context}/page/site/${page.url.templateArgs.site?html}/wiki-page?title=${p.title?url}&amp;listViewLinkBack=true">${p.title?html?replace("_", " ")}</a></div>
+   <div class="pageTitle"><a class="pageTitle theme-color-1" href="${url.context}/page/site/${page.url.templateArgs.site?url}/wiki-page?title=${p.title?url}&amp;listViewLinkBack=true">${p.title?html?replace("_", " ")}</a></div>
          <div class="publishedDetails">
             <span class="attrLabel">${msg("label.creator")}</span> <span class="attrValue"><a href="${url.context}/page/user/${p.createdByUser?url}/profile" class="theme-color-1" >${p.createdBy?html}</a></span>
             <span class="spacer">&nbsp;</span>

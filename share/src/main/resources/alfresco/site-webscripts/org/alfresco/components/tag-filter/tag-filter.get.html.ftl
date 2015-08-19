@@ -18,7 +18,7 @@
    <@uniqueIdDiv>
       <div class="filter">
          <h2 class="alfresco-twister">${msg("header.title")}</h2>
-         <ul class="filterLink" id="${args.htmlid}-tags"><li>&nbsp;</li></ul>
+         <ul class="filterLink" id="${args.htmlid?html}-tags"><li>&nbsp;</li></ul>
       </div>
    </@>
 </@>

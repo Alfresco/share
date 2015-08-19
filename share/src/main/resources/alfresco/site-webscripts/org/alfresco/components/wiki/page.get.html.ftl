@@ -24,7 +24,7 @@
 </@>
 
 <@markup id="html">
-   <link rel="alternate" type="application/wiki" href="${page.url.servletContext}/site/${page.url.templateArgs.site}/wiki-page?title=${(page.url.args.title!"")?url}&amp;action=edit" />
+   <link rel="alternate" type="application/wiki" href="${page.url.servletContext}/site/${page.url.templateArgs.site?url}/wiki-page?title=${(page.url.args.title!"")?url}&amp;action=edit" />
    <@uniqueIdDiv>
       <#-- Version History -->
       <#if (result.versionhistory?? && result.versionhistory?size > 0)>
@@ -87,9 +87,9 @@
             <div id="${args.htmlid}-page" class="rich-content"><#if result.pagetext??>${result.pagetext}<#elseif result.message??><span class="error-alt">${result.message}</span></#if></div>
       <#elseif action == "edit">
             <div class="page-form-body">
-               <form id="${args.htmlid}-form" action="${url.context}/proxy/alfresco/slingshot/wiki/page/${page.url.templateArgs.site}/${page.url.args["title"]?url}" method="post">
+               <form id="${args.htmlid}-form" action="${url.context}/proxy/alfresco/slingshot/wiki/page/${page.url.templateArgs.site?url}/${page.url.args["title"]?url}" method="post">
                   <fieldset>
-                  <#assign pageContext = page.url.context + "/page/site/" + page.url.templateArgs.site + "/wiki-page?title=" + page.url.args.title?url>
+                  <#assign pageContext = page.url.context + "/page/site/" + page.url.templateArgs.site?url + "/wiki-page?title=" + page.url.args.title?url>
                      <input type="hidden" name="context" value="${pageContext?html}" />
                      <input type="hidden" name="page" value="wiki-page" />
                      <input type="hidden" name="currentVersion" value="${currentVersion}" />
@@ -219,7 +219,7 @@
                      <script type="text/javascript">//<![CDATA[
 var links = YUIDom.getElementsByClassName("links", "div");
 this.parser = new Alfresco.WikiParser();
-this.parser.URL = "${url.context}/page/site/${page.url.templateArgs.site}/wiki-page?title=";
+this.parser.URL = "${url.context}/page/site/${page.url.templateArgs.site?url}/wiki-page?title=";
 for (i=0; i<links.length; i++)
 {
    if (links[i].className === "links")

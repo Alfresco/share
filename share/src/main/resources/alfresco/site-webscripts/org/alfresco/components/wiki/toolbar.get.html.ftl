@@ -19,12 +19,12 @@
             <div>
                <#if args.showBackLink == "true">
                <span class="<#if (page.url.args.listViewLinkBack! == "true")>backLink<#else>forwardLink</#if>">
-                  <a href="${url.context}/page/site/${page.url.templateArgs.site}/wiki">${msg("link.listView")}</a>
+                  <a href="${url.context}/page/site/${page.url.templateArgs.site?url}/wiki">${msg("link.listView")}</a>
                </span>
                </#if>
                <#if page.url.args.title! != "Main_Page">
                <span class="forwardLink">
-                  <a href="${url.context}/page/site/${page.url.templateArgs.site!""}/wiki-page?filter=main&amp;title=Main_Page<#if args.showBackLink != "true">&amp;listViewLinkBack=true</#if>">${msg("link.mainPage")}</a>
+                  <a href="${url.context}/page/site/${(page.url.templateArgs.site!"")?url}/wiki-page?filter=main&amp;title=Main_Page<#if args.showBackLink != "true">&amp;listViewLinkBack=true</#if>">${msg("link.mainPage")}</a>
                </span>
                </#if>
             </div>
@@ -47,7 +47,7 @@
          <div id="${args.htmlid}-renamepanel" class="rename-panel">
             <div class="hd"><label for="${args.htmlid}-renameTo">${msg("panel.rename.title")}</label></div>
             <div class="bd">
-               <form id="${args.htmlid}-renamePageForm" method="post" action="${url.context}/proxy/alfresco/slingshot/wiki/page/${page.url.templateArgs["site"]}/${(page.url.args.title!"")?url}">
+               <form id="${args.htmlid}-renamePageForm" method="post" action="${url.context}/proxy/alfresco/slingshot/wiki/page/${page.url.templateArgs["site"]?url}/${(page.url.args.title!"")?url}">
                   <div class="yui-ge">
                      <input type="hidden" id="${args.htmlid}-page" name="page" value="wiki-page" />
                      <div class="yui-u first">

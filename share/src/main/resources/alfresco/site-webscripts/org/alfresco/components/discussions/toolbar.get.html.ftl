@@ -18,7 +18,7 @@
          <div class="navigation-bar <#if (args.showNavigationBar == "false")>hide</#if>">
             <div>
                <span class="<#if (page.url.args.listViewLinkBack! == "true")>backLink<#else>forwardLink</#if>">
-                  <a href="${url.context}/page/site/${page.url.templateArgs.site}/discussions-topiclist">${msg("link.listView")}</a>
+                  <a href="${url.context}/page/site/${page.url.templateArgs.site?url}/discussions-topiclist">${msg("link.listView")}</a>
                </span>
             </div>
          </div>
@@ -28,7 +28,7 @@
          <@markup id="rssAction">
          <div class="rss-feed">
             <div>
-               <a id="${args.htmlid}-rssFeed-button" href="${url.context}/proxy/alfresco-feed/slingshot/wiki/pages/${page.url.templateArgs["site"]}?format=rss">${msg("button.rssfeed")}</a>
+               <a id="${args.htmlid}-rssFeed-button" href="${url.context}/proxy/alfresco-feed/slingshot/wiki/pages/${page.url.templateArgs["site"]?url}?format=rss">${msg("button.rssfeed")}</a>
             </div>
          </div>
          </@>

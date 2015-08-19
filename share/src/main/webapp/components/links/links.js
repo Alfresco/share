@@ -686,7 +686,7 @@
                {
                   var response = YAHOO.lang.JSON.parse(oResponse.responseText);
                   this.widgets.dataTable.set("MSG_ERROR", response.message);
-                  this.widgets.dataTable.showTableMessage(response.message, YAHOO.widget.DataTable.CLASS_ERROR);
+                  this.widgets.dataTable.showTableMessage(Alfresco.util.encodeHTML(response.message), YAHOO.widget.DataTable.CLASS_ERROR);
                   if (oResponse.status == 404)
                   {
                      YAHOO.Bubbling.fire("deactivateAllControls");
@@ -931,7 +931,7 @@
       {
          var url = YAHOO.lang.substitute(Alfresco.constants.URL_PAGECONTEXT + "site/{site}/links-linkedit",
          {
-            site: this.options.siteId
+            site: encodeURIComponent(this.options.siteId)
          });
          window.location = url;
       },
@@ -1344,7 +1344,7 @@
       {
          var url = YAHOO.lang.substitute(Alfresco.constants.URL_FEEDSERVICECONTEXT + "components/links/rss?site={site}",
          {
-            site: this.options.siteId
+            site: encodeURIComponent(this.options.siteId)
          });
 
          return url;
