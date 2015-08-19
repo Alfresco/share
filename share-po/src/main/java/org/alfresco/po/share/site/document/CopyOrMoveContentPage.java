@@ -423,7 +423,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      */
     public CopyOrMoveContentPage selectSiteByDescription(String siteName, String siteDescription)
     {
-    	if (StringUtils.isEmpty(siteDescription))
+        if (StringUtils.isEmpty(siteDescription))
         {
             throw new IllegalArgumentException("Site description is required");
         }
