@@ -61,7 +61,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
     public void reset()
     {
         driver.navigate().refresh();
-        SharePage page = resolvePage(driver).render();
+        SharePage page = (SharePage)resolvePage(driver);
         page.getNav().selectMyDashBoard().render();
     }
     
