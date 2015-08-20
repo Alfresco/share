@@ -423,7 +423,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      */
     public CopyOrMoveContentPage selectSiteByDescription(String siteName, String siteDescription)
     {
-    	if (StringUtils.isEmpty(siteDescription))
+        if (StringUtils.isEmpty(siteDescription))
         {
             throw new IllegalArgumentException("Site description is required");
         }
@@ -439,7 +439,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             	}
                 if (siteFullText != null)
                 {
-                    if (siteFullText.toLowerCase().contains(siteName.toLowerCase()) && tmpDescription.equalsIgnoreCase(siteDescription))
+                    if ((siteFullText.contains(siteName)) && tmpDescription.equalsIgnoreCase(siteDescription))
                     {
                         site.click();                       
                     	waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));

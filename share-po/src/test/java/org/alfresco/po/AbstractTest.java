@@ -129,13 +129,6 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
      */
     public DashBoardPage loginAs(final String... userInfo) throws Exception
     {
-        if(shareUrl == null)
-        {
-            if(logger.isTraceEnabled())
-            {
-                logger.trace("null shareUrl");
-            }
-        }
         return shareUtil.loginAs(driver, shareUrl, userInfo).render();
     }
 
@@ -147,13 +140,6 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
      */
     public DashBoardPage loginAs(WebDriver driver, String shareUrl, final String... userInfo) throws Exception
     {
-        if(shareUrl == null)
-        {
-            if(logger.isTraceEnabled())
-            {
-                logger.trace("null shareUrl");
-            }
-        }
         return shareUtil.loginAs(driver, shareUrl, userInfo).render();
     }
 

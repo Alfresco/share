@@ -126,6 +126,11 @@
             form.addValidation(this.id + "-input-email", Alfresco.forms.validation.mandatory, null, "keyup");
             form.addValidation(this.id + "-input-email", Alfresco.forms.validation.email, null, "keyup");
             form.addValidation(this.id + "-input-companyemail", Alfresco.forms.validation.email, null, "keyup");
+	
+            form.addValidation(this.id + "-input-telephone", Alfresco.forms.validation.phone, null, "keyup");
+            form.addValidation(this.id + "-input-mobile", Alfresco.forms.validation.phone, null, "keyup");
+            form.addValidation(this.id + "-input-companytelephone", Alfresco.forms.validation.phone, null, "keyup");
+            form.addValidation(this.id + "-input-companyfax", Alfresco.forms.validation.phone, null, "keyup");
             
             // Initialise the form
             form.init();

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.RenderTime;
-import org.alfresco.po.WebDriverAwareDecorator;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
@@ -31,7 +30,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 /**
  * User Notification page object has a checkbox to enable and disable
@@ -149,13 +147,10 @@ public class UserSitesPage extends SharePage
         List<UserSiteItem> sites = new ArrayList<>();
         try
         {
-            WebDriverAwareDecorator decorator = new WebDriverAwareDecorator(driver);
             for (WebElement el : siteItems)
             {
                 UserSiteItem siteItem = (UserSiteItem) factoryPage.instantiatePageElement(driver, UserSiteItem.class);
                 siteItem.setWrappedElement(el);
-                PageFactory.initElements(decorator, siteItem);
-                siteItem.setWebDriver(driver);
                 sites.add(siteItem);
             }
         }

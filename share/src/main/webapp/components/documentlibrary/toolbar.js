@@ -1977,7 +1977,7 @@
             type: this.modules.docList.options.showFolders ? "all" : "documents",
             site: encodeURIComponent(this.options.siteId),
             container: encodeURIComponent(this.options.containerId),
-	    path: Alfresco.util.encodeURIPath(this.currentPath)
+	         path: Alfresco.util.encodeURIPath(this.currentPath)
          });
 
          params += "?filter=" + encodeURIComponent(this.currentFilter.filterId);

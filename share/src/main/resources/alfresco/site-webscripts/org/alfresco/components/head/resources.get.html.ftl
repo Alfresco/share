@@ -52,9 +52,9 @@
       Alfresco.constants.URL_SERVICECONTEXT = "${url.context?js_string}/service/";
       Alfresco.constants.URL_FEEDSERVICECONTEXT = "${url.context?js_string}/feedservice/";
       Alfresco.constants.USERNAME = "${(user.name!"")?js_string}";
-      Alfresco.constants.SITE = "<#if page??>${(page.url.templateArgs.site!"")?js_string}</#if>";
-      Alfresco.constants.PAGECONTEXT = "<#if page??>${(page.url.templateArgs.pagecontext!"")?js_string}</#if>";
-      Alfresco.constants.PAGEID = "<#if page??>${(page.url.templateArgs.pageid!"")?js_string}</#if>";
+      Alfresco.constants.SITE = "<#if page??>${(page.url.templateArgs.site!"")?url?js_string}</#if>";
+      Alfresco.constants.PAGECONTEXT = "<#if page??>${(page.url.templateArgs.pagecontext!"")?url?js_string}</#if>";
+      Alfresco.constants.PAGEID = "<#if page??>${(page.url.templateArgs.pageid!"")?url?js_string}</#if>";
       Alfresco.constants.JS_LOCALE = "${locale}";
       Alfresco.constants.USERPREFERENCES = "${preferences?js_string}";
       Alfresco.constants.CSRF_POLICY = {

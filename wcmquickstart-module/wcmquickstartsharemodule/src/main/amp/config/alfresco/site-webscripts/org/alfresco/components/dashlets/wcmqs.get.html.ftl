@@ -1,7 +1,7 @@
 <script type="text/javascript">//<![CDATA[
    new Alfresco.dashlet.WCMQS("${args.htmlid}").setOptions(
    {
-      siteId: "${page.url.templateArgs.site!""}"
+      siteId: "${(page.url.templateArgs.site!"")?js_string}"
    }).setMessages(${messages});
 //]]></script>
 

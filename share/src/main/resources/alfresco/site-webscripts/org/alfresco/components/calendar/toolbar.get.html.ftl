@@ -55,7 +55,7 @@
             <@markup id="iCalAction">
             <div class="yui-u flat-button">
                <div class="ical-feed">
-                  <a id="${el}-publishEvents-button" href="${url.context}/feedservice/components/calendar/ical/eventList-${page.url.templateArgs["site"]}.ics?site=${page.url.templateArgs["site"]}" rel="_blank">${msg("button.ical")}</a>
+                  <a id="${el}-publishEvents-button" href="${url.context}/feedservice/components/calendar/ical/eventList-${page.url.templateArgs["site"]?url}.ics?site=${page.url.templateArgs["site"]?url}" rel="_blank">${msg("button.ical")}</a>
                </div>
             </div>
             </@>

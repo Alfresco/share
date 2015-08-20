@@ -33,41 +33,30 @@ define(["dojo/_base/declare",
    return declare([AlfHashList], {
 
       /**
-       * If [useHash]{@link module:alfresco/lists/AlfHashList#useHash} has been set to true
-       * then this function will be called whenever the browser hash fragment is modified. It will update
-       * the attributes of this instance with the values provided in the fragment.
-       * 
        * @instance
-       * @param {object} payload
+       * @param {object} hashParameters An object containing the current hash parameters
        */
-      onHashChanged: function alfresco_cmm_lists_CMMTPGList__onHashChanged(payload) {
+      _updateCoreHashVars: function cmm_lists_CMMTPGList___updateCoreHashVars(hashParameters) {
 
-         // Only update if the payload contains one of the variables we care about
-         if (this.doHashVarUpdate(payload))
-         {
-            lang.mixin(this, payload);
-            this.updateLoadDataPayload({
-               name: this.model
-            });
-            
-            // Fire off an event to update labels that care about the model name
-            this.alfPublish(CMMConstants.UPDATE_MODEL_HEADING, {
-               label: this.model
-            });
-            
-            // Load data
-            this.loadData();
-         }
+         lang.mixin(this, hashParameters);
+         this.updateLoadDataPayload({
+            name: this.model
+         });
+         
+         // Fire off an event to update labels that care about the model name
+         this.alfPublish(CMMConstants.UPDATE_MODEL_HEADING, {
+            label: this.model
+         });
       },
 
       /**
-       * Update the loadDataPayload
-       * 
        * @instance
        * @param {object} payload The details of the payload update
        */
-      updateLoadDataPayload: function alfresco_cmm_lists_CMMTPGList__updateLoadDataPayload(payload) {
+      updateLoadDataPayload: function cmm_lists_CMMTPGList__updateLoadDataPayload(payload) {
+         this.inherited(arguments);
          this.loadDataPublishPayload = payload;
       }
+
    });
 });

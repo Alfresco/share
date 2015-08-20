@@ -518,7 +518,7 @@
          html += '   <form id="' + rowId + '-form" method="POST" action="">';
          if (this.options.siteId)
          {
-            html += '      <input type="hidden" name="site" value="' + this.options.siteId + '" />';
+            html += '      <input type="hidden" name="site" value="' + encodeURIComponent(this.options.siteId) + '" />';
          }
          html += '      <textarea name="content" id="' + rowId + '-content" style="width: 100%">' + (comment || '') + '</textarea>';
          html += '      <div id="' + rowId + '-help" class="help-text hidden">' + this.msg("link.help") + '</div>';

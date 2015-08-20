@@ -79,12 +79,10 @@
       <uri-templates>
 
          <!--  This is intended for use with remotely created pages -->
-         <uri-template id="remote-node-page">/{pageid}/p/{pagename}/{store_type}/{store_id}/{id}</uri-template>
          <uri-template id="remote-site-page">/site/{site}/{pageid}/p/{pagename}</uri-template>
          <uri-template id="remote-page">/{pageid}/p/{pagename}</uri-template>
 
          <!-- This needs to go BEFORE "sitepage" -->
-         <uri-template id="share-site-page">/{pageid}/ws/{webscript}/{store_type}/{store_id}/{id}</uri-template>
          <uri-template id="share-site-page">/site/{site}/{pageid}/ws/{webscript}</uri-template>
 
          <uri-template id="sitedashboardpage">/site/{site}/dashboard</uri-template>

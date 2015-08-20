@@ -296,7 +296,7 @@
                      {
                         var response = YAHOO.lang.JSON.parse(oResponse.responseText);
                         parent.widgets.dataTable.set("MSG_ERROR", response.message);
-                        parent.widgets.dataTable.showTableMessage(response.message, YAHOO.widget.DataTable.CLASS_ERROR);
+                        parent.widgets.dataTable.showTableMessage(Alfresco.util.encodeHTML(response.message), YAHOO.widget.DataTable.CLASS_ERROR);
                         me._setResultsMessage("message.noresults");
                      }
                      catch(e)

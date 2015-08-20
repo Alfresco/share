@@ -51,7 +51,7 @@
       <#assign js>${js}, (function(){ var btn = new YAHOO.widget.Button("${itemId}", { type: "menu", menu: "${itemMenuId}", lazyloadmenu: false }); btn.getMenu().cfg.setProperty("keepopen", true); return btn; })()</#assign>
       <button ${attrTitle!""} tabindex="0">${label}</button>
    <#elseif item.type = "js">
-      <#assign js>${js}, (function(){ var module = new ${item.value}("${itemId}"); module.setOptions({ siteId: "${page.url.templateArgs.site!""}" }); return module;})()</#assign>
+      <#assign js>${js}, (function(){ var module = new ${item.value}("${itemId}"); module.setOptions({ siteId: "${(page.url.templateArgs.site!"")?url}" }); return module;})()</#assign>
       <button ${attrTitle!""} tabindex="0">${label}</button>
    <#else>
       <#assign js>${js}, new YAHOO.widget.Button("${itemId}")</#assign>

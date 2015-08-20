@@ -15,8 +15,8 @@
 <@markup id="html">
    <@uniqueIdDiv>
       <div class="filter tags">
-         <h2 id="${args.htmlid}-h2">${msg("header.title")}</h2>
-         <ul id="${args.htmlid}-ul" class="filterLink">
+         <h2 id="${args.htmlid?html}-h2">${msg("header.title")}</h2>
+         <ul id="${args.htmlid?html}-ul" class="filterLink">
       <#if tags?size &gt; 0>
             <li><span class="tag"><a href="#" class="tag-link" rel="-all-">${msg("label.all-tags")}</a></span></li>
          <#list tags as tag>

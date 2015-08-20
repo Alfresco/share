@@ -11,7 +11,7 @@
          </h2>
          <div class="panel-body">
             <#list attachmentsAssocs as assoc>
-               <div id="${args.htmlid}-assoc-div-${assoc_index}" class="moreInfo">
+               <div id="${el}-assoc-div-${assoc_index}" class="moreInfo">
                   <div class="info">
                      <a class="theme-color-1" href="${url.context}/page/document-details?nodeRef=${assoc.nodeRef}" >${assoc.name?html}</a>
                   </div>
