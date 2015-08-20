@@ -66,4 +66,9 @@
             <class name="org.alfresco.po.share.UserSearchPageTest" />
         </classes>
     </test>
+    <test name="UserPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.UserPageTest" />
+        </classes>
+    </test>
 </suite>
