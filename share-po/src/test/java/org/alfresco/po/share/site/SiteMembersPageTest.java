@@ -97,7 +97,7 @@ public class SiteMembersPageTest extends AbstractTest
     public void testSearchUser() throws Exception
     {
         List<String> searchUsers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
             try
             {
@@ -107,7 +107,7 @@ public class SiteMembersPageTest extends AbstractTest
             catch (PageRenderTimeException exception)
             {
             }
-            if (searchUsers != null && searchUsers.size() > 0)
+            if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).indexOf(userName) != -1)
             {
                 break;
             }
