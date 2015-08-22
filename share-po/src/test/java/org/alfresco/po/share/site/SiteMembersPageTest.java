@@ -42,7 +42,7 @@ public class SiteMembersPageTest extends AbstractTest
 
     // user should be created.
     String userName = "user" + System.currentTimeMillis() + "@test.com";
-    public static long refreshDuration = 15000;
+    public static long refreshDuration = 30000;
 
     @BeforeClass(groups = "Enterprise-only")
     public void instantiateMembers() throws Exception
