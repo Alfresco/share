@@ -64,7 +64,7 @@ public class SiteMembersPageTest extends AbstractTest
         SitePage site = createSitePage.createNewSite(siteName).render();
         List<String> searchUsers = null;
         addUsersToSitePage = site.getSiteNav().selectAddUser().render();
-        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
             searchUsers = addUsersToSitePage.searchUser(userName);
             try
