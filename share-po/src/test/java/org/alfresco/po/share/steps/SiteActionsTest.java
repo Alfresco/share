@@ -128,7 +128,7 @@ public class SiteActionsTest extends AbstractTest
         docLibPage.selectFile(file.getName()).render();
         
         List<String> aspects = new ArrayList<String>();
-        aspects.add(DocumentAspect.VERSIONABLE.getValue());
+        aspects.add(DocumentAspect.EXIF.getValue());
         siteActions.addAspects(driver, aspects);
         
         SelectAspectsPage aspectsPage = siteActions.getAspectsPage(driver);  

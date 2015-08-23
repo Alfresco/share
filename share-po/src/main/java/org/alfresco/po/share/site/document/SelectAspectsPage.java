@@ -52,7 +52,7 @@ public class SelectAspectsPage extends SharePage
 
     private static final By AVAILABLE_ASPECT_TABLE = By.cssSelector("div[id$='aspects-left']>table>tbody.yui-dt-data>tr");
     private static final By CURRENTLY_ADDED_ASPECT_TABLE = By.cssSelector("div[id$='aspects-right']>table>tbody.yui-dt-data>tr");
-    private static final By HEADER_ASPECT_TABLE = By.cssSelector("td>div>h4");
+    private static final By HEADER_ASPECT_TABLE = By.cssSelector("td>div>[class='name']");
     private static final By ADD_REMOVE_LINK = By.cssSelector("td>div>a");
     private static final By APPLY_CHANGE = By.cssSelector("button[id$='aspects-ok-button']");
     private static final By CANCEL = By.cssSelector("button[id$='aspects-cancel-button']");
@@ -62,7 +62,7 @@ public class SelectAspectsPage extends SharePage
     private static final By ASPECTS_SELECTED = By.xpath("//div[contains(@id,'default-aspects-right')]//td/div[@class='yui-dt-liner']");
     private static final By NOTIFICATION = By.cssSelector("div.bd>span.message");
 
-    private static final String ASPECT_AVAILBLE_XPATH ="//div[contains(@id,'aspects-left')]//td/div[@class='yui-dt-liner']//h4[text()='%s']";
+    private static final String ASPECT_AVAILBLE_XPATH ="//div[contains(@id,'aspects-left')]//td/div[@class='yui-dt-liner']//[text()='%s']";
 
     @SuppressWarnings("unchecked")
     @Override
@@ -141,7 +141,7 @@ public class SelectAspectsPage extends SharePage
         Map<String, ShareLink> availableAspectMap = null;
         try
         {
-            availableElements = findAndWaitForElements(by);
+            availableElements = driver.findElements(by);
         }
         catch (TimeoutException exception)
         {
@@ -157,9 +157,11 @@ public class SelectAspectsPage extends SharePage
                 try
                 {
                     WebElement header = webElement.findElement(HEADER_ASPECT_TABLE);
+                    //Some case title appears as Sample (sa:sa) or just as Sample. 
+                    String title[] = header.getText().split("\\(");
                     WebElement addLink = webElement.findElement(ADD_REMOVE_LINK);
                     ShareLink addShareLink = new ShareLink(addLink, driver, factoryPage);
-                    availableAspectMap.put(header.getText(), addShareLink);
+                    availableAspectMap.put(title[0].trim(), addShareLink);
                 }
                 catch (NoSuchElementException e)
                 {
@@ -184,6 +186,10 @@ public class SelectAspectsPage extends SharePage
          try
          {
              Set<String> allAspects = getAllAspectsMap(CURRENTLY_ADDED_ASPECT_TABLE).keySet();
+             for(String s:allAspects)
+             {
+                 if(aspectName.contains(s)) return true;
+             }
              return allAspects.contains(aspectName);
          }
          catch (Exception e)
@@ -203,7 +209,12 @@ public class SelectAspectsPage extends SharePage
         try
         {
             Set<String> allAspects = getAllAspectsMap(AVAILABLE_ASPECT_TABLE).keySet();
-            return allAspects.contains(aspectName);
+            //As ket differs between some versions we have to iterate and match.
+            for(String s:allAspects)
+            {
+                if(aspectName.contains(s)) return true;
+            }
+            return false;
         }
         catch (Exception e)
         {
@@ -340,30 +351,11 @@ public class SelectAspectsPage extends SharePage
         {
             for (String aspect : aspects)
             {
-                ShareLink link = availableAspectMap.get(aspect);
+                String title[] = aspect.split("\\(");
+                ShareLink link = availableAspectMap.get(title[0].trim());
                 if (link != null)
                 {
-                    try
-                    {
-                        if (AVAILABLE_ASPECT_TABLE.equals(by))
-                        {
-                            WebElement aspectElement = driver.findElement(By.xpath(String.format(ASPECT_AVAILBLE_XPATH, aspect)));
-                            if (!aspectElement.isSelected())
-                            {
-                                aspectElement.click();
-                            }
-                        }
-                        link.click();
-                        if (logger.isTraceEnabled())
-                        {
-                            logger.trace(aspect + "Aspect Added.");
-                        }
-                    }
-                    catch (StaleElementReferenceException exception)
-                    {
-                        driver.findElement(CANCEL).click();
-                        throw new PageException("Unexpected Refresh on Page lost reference to the Aspects.", exception);
-                    }
+                    link.click();
                 }
                 else
                 {

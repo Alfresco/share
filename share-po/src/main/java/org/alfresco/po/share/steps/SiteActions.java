@@ -974,7 +974,7 @@ public class SiteActions extends CommonActions
         try
         {
             DetailsPage detailsPage = getSharePage(driver).render();
-            return detailsPage.selectManageAspects().render();     
+            return detailsPage.selectManageAspects().render();
         }
         catch(ClassCastException ce)
         {
@@ -987,7 +987,7 @@ public class SiteActions extends CommonActions
     }
     
     /**
-     * Util to Save or Cancel the Node Properties from Details Page
+     * Util to Save or Cancel the Node Properties from Details Page.
      * 
      * @param driver
      * @param actionSaveOrCancel
@@ -1000,6 +1000,13 @@ public class SiteActions extends CommonActions
 
         try
         {
+            SharePage page = getSharePage(driver);
+            if(page instanceof DocumentDetailsPage)
+            {
+                DocumentDetailsPage dd = page.render();
+                dd.selectEditProperties();
+            }
+                
             EditDocumentPropertiesPage editPropPage = getSharePage(driver).render();
 
             // Edit Properties
