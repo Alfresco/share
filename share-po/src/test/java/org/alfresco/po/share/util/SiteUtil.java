@@ -179,7 +179,7 @@ public class SiteUtil
      */
     public void deleteSite(final String username, final String password, final String siteName)
     {
-		siteService.delete(username, password, "testdomain", siteName);
+        siteService.delete(username, password, "testdomain", siteName);
     }
 
     /**

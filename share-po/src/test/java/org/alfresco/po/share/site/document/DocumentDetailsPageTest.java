@@ -21,10 +21,10 @@ import java.util.StringTokenizer;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.site.UploadFilePage;
-
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.social.alfresco.connect.exception.AlfrescoException;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -84,7 +84,12 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     @AfterClass(groups = { "alfresco-one" })
     public void deleteSite()
     {
-        siteUtil.deleteSite(username, password, siteName);
+        try
+        {
+            siteUtil.deleteSite(username, password, siteName);
+        }
+        catch(AlfrescoException ex){}
+        
     }
 
     /**

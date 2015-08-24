@@ -76,7 +76,7 @@ public enum DocumentAspect
         }
         for (DocumentAspect aspect : DocumentAspect.values())
         {
-            if (aspect.value != null && aspect.value.equalsIgnoreCase(name.trim()))
+            if (aspect.value.contains(name.trim()))
             {
                 return aspect;
             }
