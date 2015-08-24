@@ -84,9 +84,12 @@
       {
          // Listen on clicks
          this.widgets.hideButton = Alfresco.util.createYUIButton(this, "hide-button", this.onHideButtonClick);
-         Event.addListener(this.id + "-get-started-panel-container", "click", function() {
-            location.href = this.msg("welcome.user.clickable-content-link");
-         }, this, true);
+         if (this.dashboardType == "user")
+         {
+            Event.addListener(this.id + "-get-started-panel-container", "click", function() {
+               location.href = this.msg("welcome.user.clickable-content-link");
+            }, this, true);
+         }
          Event.addListener(this.id + "-createSite-button", "click", this.onCreateSiteLinkClick, this, true);
          Event.addListener(this.id + "-requestJoin-button", "click", this.onRequestJoinLinkClick, this, true);
       },
