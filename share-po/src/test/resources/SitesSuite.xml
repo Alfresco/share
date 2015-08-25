@@ -7,9 +7,9 @@
    <class name="org.alfresco.po.share.site.AddGroupsPageTest" />
   </classes>
  </test>
- <test name="CustomiseSiteDashboardPageTest">
+ <test name="CustomizeSiteDashboardPageTest">
   <classes>
-   <class name="org.alfresco.po.share.site.CustomiseSiteDashboardPageTest" />
+   <class name="org.alfresco.po.share.site.CustomizeSiteDashboardPageTest" />
   </classes>
  </test>
  <test name="CustomizeSitePageTest">
