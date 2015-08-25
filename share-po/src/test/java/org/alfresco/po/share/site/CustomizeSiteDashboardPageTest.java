@@ -39,6 +39,7 @@ import org.testng.annotations.Test;
  * @since 1.6.1
  */
 @Listeners(FailedTestListener.class)
+@Test(groups = { "Enterprise-only" })
 public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
 {
     DashBoardPage dashBoard;
