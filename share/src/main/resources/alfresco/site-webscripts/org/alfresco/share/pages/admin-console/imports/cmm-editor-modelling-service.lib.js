@@ -114,7 +114,7 @@ modellingService.attributes.selectAppearance = {
       name: "elementconfig.appearance",
       label: "cmm.form-editor.property.appearance",
       description: "cmm.form-editor.property.appearance.desc",
-      value: "title",
+      value: "bordered-panel",
       optionsConfig: {
          fixed: [
             {

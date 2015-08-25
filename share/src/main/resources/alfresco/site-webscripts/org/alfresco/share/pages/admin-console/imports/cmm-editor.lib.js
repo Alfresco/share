@@ -170,7 +170,7 @@ editor.nonPropertyPalette = {
                pseudonym: "cmm/editor/layout/1cols",
                elementconfig: {
                   label: "",
-                  appearance: "title"
+                  appearance: "bordered-panel"
                }
             }
          },
@@ -182,7 +182,7 @@ editor.nonPropertyPalette = {
                pseudonym: "cmm/editor/layout/2cols",
                elementconfig: {
                   label: "",
-                  appearance: "title"
+                  appearance: "bordered-panel"
                }
             }
          },
@@ -194,7 +194,7 @@ editor.nonPropertyPalette = {
                pseudonym: "cmm/editor/layout/2colswideleft",
                elementconfig: {
                   label: "",
-                  appearance: "title"
+                  appearance: "bordered-panel"
                }
             }
          },
@@ -206,7 +206,7 @@ editor.nonPropertyPalette = {
                pseudonym: "cmm/editor/layout/3cols",
                elementconfig: {
                   label: "",
-                  appearance: "title"
+                  appearance: "bordered-panel"
                }
             }
          }
