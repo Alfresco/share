@@ -62,6 +62,11 @@ public class CustomiseSiteDashboardPage extends SharePage
     private static final By SELECT_FOUR_COLUMN_LAYOUT_BTN = By.cssSelector("button[id*='dashboard-4-columns-button']");
     private static final By TITLE_ON_PAGE = By.cssSelector(".sub-title");
     private static final By USED_DASHLETS = By.cssSelector(".usedList>li>span");
+    
+    // Restore Get Started Panel
+    private static final By GET_STARTED_PANEL = By.cssSelector("div[id$='_default-welcome-preference']");
+    private static final By SHOW_ON_DASHBOARD_RADIO_BUTTON = By.cssSelector("input[id*='welcomePanelEnabled']");
+    private static final By HIDE_FROM_DASHBOARD_RADIO_BUTTON = By.cssSelector("input[id*='welcomePanelDisabled']");
 
 
     @SuppressWarnings("unchecked")
@@ -82,6 +87,62 @@ public class CustomiseSiteDashboardPage extends SharePage
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
+    
+    
+    /**
+     * Returns true if Get Started Panel title is displayed
+     * 
+     * @return
+     */
+    public boolean isGetStartedPanelDisplayed()
+    {
+        try
+        {
+            return findAndWait(GET_STARTED_PANEL).isDisplayed();
+        }
+        catch (TimeoutException toe)
+        {
+            logger.info("Cannot find Get Started Panel Title.", toe);
+        }
+        return false;
+    }
+    
+    /**
+     * Returns true if Show on Dashboard radio button is displayed
+     * 
+     * @return
+     */
+    public boolean isShowOnDashboardDisplayed()
+    {
+        try
+        {
+            return findAndWait(SHOW_ON_DASHBOARD_RADIO_BUTTON).isDisplayed();
+        }
+        catch (TimeoutException toe)
+        {
+            logger.info("Cannot find Show On Dashboard radio button.", toe);
+        }
+        return false;
+    }
+    
+    /**
+     * Returns true if Hide from Dashboard radio button is displayed
+     * 
+     * @return
+     */
+    public boolean isHideFromDashboardDisplayed()
+    {
+        try
+        {
+            return findAndWait(HIDE_FROM_DASHBOARD_RADIO_BUTTON).isDisplayed();
+        }
+        catch (TimeoutException toe)
+        {
+            logger.info("Cannot find Hide From Dashboard radio button.", toe);
+        }
+        return false;
+    }   
+       
 
     /**
      * Mimics the action of selection change layout button.
@@ -441,7 +502,8 @@ public class CustomiseSiteDashboardPage extends SharePage
     {
         try
         {
-            findAndWait(SAVE_BUTTON).click();
+            findAndWait(SAVE_BUTTON, maxPageLoadingTime).click();
+            waitUntilAlert();
         }
         catch (NoSuchElementException te)
         {

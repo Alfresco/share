@@ -39,13 +39,12 @@ import org.testng.annotations.Test;
  * @since 1.6.1
  */
 @Listeners(FailedTestListener.class)
-@Test(groups = "Enterprise4.1")
 public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
 {
     DashBoardPage dashBoard;
     CustomiseSiteDashboardPage customizeSiteDashboardPage;
 
-    @BeforeClass(groups = "Enterprise4.1")
+    @BeforeClass
     public void loadFile() throws Exception
     {
         dashBoard = loginAs(username, password);
@@ -54,7 +53,7 @@ public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
         navigateToSiteDashboard();
     }
 
-    @AfterClass(groups = "Enterprise4.1")
+    @AfterClass
     public void tearDown()
     {
         siteUtil.deleteSite(username, password, siteName);
@@ -65,6 +64,9 @@ public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
     {
         customizeSiteDashboardPage = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         assertTrue(resolvePage(driver).render() instanceof CustomiseSiteDashboardPage);
+        assertFalse(customizeSiteDashboardPage.isGetStartedPanelDisplayed());
+        assertFalse(customizeSiteDashboardPage.isShowOnDashboardDisplayed());
+        assertFalse(customizeSiteDashboardPage.isHideFromDashboardDisplayed());
     }
 
 
@@ -117,6 +119,7 @@ public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
         assertTrue(customizeSiteDashboardPage.getDashletsCountIn(4) == 0);
     }
 
+ /**   
     @Test(dependsOnMethods = "checkAddNewLayout")
     public void checkAddAllDashlets()
     {
@@ -134,5 +137,6 @@ public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
         customizeSiteDashboardPage.selectDashboard(SiteLayout.THREE_COLUMN_WIDE_CENTRE);
         assertTrue(resolvePage(driver).render() instanceof SiteDashboardPage);
     }
-
+**/
+ 
 }
