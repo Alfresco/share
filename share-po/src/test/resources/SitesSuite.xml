@@ -12,9 +12,9 @@
    <class name="org.alfresco.po.share.site.CustomizeSiteDashboardPageTest" />
   </classes>
  </test>
- <test name="CustomizeSitePageTest">
+ <test name="CustomiseSitePageTest">
   <classes>
-   <class name="org.alfresco.po.share.site.CustomizeSitePageTest" />
+   <class name="org.alfresco.po.share.site.CustomiseSitePageTest" />
   </classes>
  </test>
  <test name="EditSitePageTest">

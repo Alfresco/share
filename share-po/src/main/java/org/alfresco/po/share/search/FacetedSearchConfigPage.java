@@ -45,7 +45,7 @@ public class FacetedSearchConfigPage extends SharePage
     private static final Log logger = LogFactory.getLog(FacetedSearchConfigPage.class);
 
     private String title;
-    @FindAll({@FindBy(how = How.CSS, using = "tr.alfresco-lists-views-layouts-Row.alfresco-lists-views-layout-_MultiItemRendererMixin--item")}) 
+    @FindAll({@FindBy(how = How.CSS, using = "tr.alfresco-lists-views-layouts-Row.alfresco-lists-views-layout-_MultiItemRendererMixin__item")}) 
     List<FacetedSearchConfigFilter> filters;
 
     /*

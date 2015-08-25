@@ -51,6 +51,7 @@ public class TakeOwnershipTest extends AbstractTest
 {
     private static Log logger = LogFactory.getLog(TakeOwnershipTest.class);
 
+    public static long refreshDuration = 30000;
     private static String takeOwnershipSiteName = "TakeOwnershipSite" + System.currentTimeMillis();
     private String takeOwnershipUserName = "takeOwnershipUser" + System.currentTimeMillis() + "@test.com";
     private String takeOwnershipUserFirstName = takeOwnershipUserName;
@@ -87,7 +88,7 @@ public class TakeOwnershipTest extends AbstractTest
         siteDashBoard = resolvePage(driver).render();
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         List<String> searchUsers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount + 2; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
             searchUsers = addUsersToSitePage.searchUser(takeOwnershipUserName);
             try
@@ -107,7 +108,7 @@ public class TakeOwnershipTest extends AbstractTest
             }
             try
             {
-                addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
+                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
             }
             catch (PageRenderTimeException exception)
             {
@@ -147,17 +148,17 @@ public class TakeOwnershipTest extends AbstractTest
         siteMembersPage = siteDashBoard.getSiteNav().selectMembers().render();
 
         List<String> siteMembersSearchUsers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
             try
             {
                 siteMembersSearchUsers = siteMembersPage.searchUser(takeOwnershipUserName);
-                siteMembersPage.renderWithUserSearchResults(maxPageWaitTime);
+                siteMembersPage.renderWithUserSearchResults(refreshDuration);
             }
             catch (PageRenderTimeException exception)
             {
             }
-            if (siteMembersSearchUsers != null && siteMembersSearchUsers.size() > 0)
+            if (siteMembersSearchUsers != null && siteMembersSearchUsers.size() > 0  && (searchUsers.get(0).indexOf(takeOwnershipUserName) != -1))
             {
                 break;
             }
