@@ -30,6 +30,7 @@ import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePopup;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
 import org.alfresco.po.share.site.CreateSitePage;
@@ -851,9 +852,13 @@ public class SiteActions extends CommonActions
             {
                 return ((DetailsPage) sharePage).selectEditProperties().render();
             }
+            else if(sharePage instanceof EditDocumentPropertiesPage)
+            {
+                return sharePage;
+            }
             else
             {
-                throw new UnexpectedSharePageException("Expected Doclib or Details Page");
+                throw new UnexpectedSharePageException("Expected Doclib or Details Page, if not already on EditDocumentPropertiesPage");
             }
         }
         catch (Exception e)
@@ -1000,14 +1005,18 @@ public class SiteActions extends CommonActions
 
         try
         {
-            SharePage page = getSharePage(driver);
-            if(page instanceof DocumentDetailsPage)
+            EditDocumentPropertiesPage editPropPage = null;
+            
+            SharePage sharePage = getSharePage(driver).render();
+
+            if (sharePage instanceof SharePopup)
             {
-                DocumentDetailsPage dd = page.render();
-                dd.selectEditProperties();
+                editPropPage = acknowledgeShareError(driver).render();
             }
-                
-            EditDocumentPropertiesPage editPropPage = getSharePage(driver).render();
+            else
+            {
+                editPropPage = sharePage.render();
+            }
 
             // Edit Properties
             editPropPage.setProperties(properties);
@@ -1037,5 +1046,23 @@ public class SiteActions extends CommonActions
         	return row.selectViewFolderDetails();
         }
         return doclib.selectFile(name).render();
+    }
+    
+    
+    /**
+     * Click ok / Default button if error is displayed
+     * @param driver
+     * @return HtmlPage
+     */
+
+    public HtmlPage acknowledgeShareError(WebDriver driver)
+    {
+        SharePage sharePage = getSharePage(driver).render();
+        
+        if (sharePage instanceof SharePopup)
+        {
+            return ((SharePopup) sharePage).clickOK();
+        }
+        return sharePage;
     }
 }
