@@ -98,11 +98,11 @@ public class CustomiseSiteDashboardPage extends SharePage
     {
         try
         {
-            return findAndWait(GET_STARTED_PANEL).isDisplayed();
+            return driver.findElement(GET_STARTED_PANEL).isDisplayed();
         }
-        catch (TimeoutException toe)
+        catch (NoSuchElementException nse)
         {
-            logger.info("Cannot find Get Started Panel Title.", toe);
+            logger.info("Cannot find Get Started Panel Title.", nse);
         }
         return false;
     }
@@ -116,11 +116,11 @@ public class CustomiseSiteDashboardPage extends SharePage
     {
         try
         {
-            return findAndWait(SHOW_ON_DASHBOARD_RADIO_BUTTON).isDisplayed();
+            return driver.findElement(SHOW_ON_DASHBOARD_RADIO_BUTTON).isDisplayed();
         }
-        catch (TimeoutException toe)
+        catch (NoSuchElementException nse)
         {
-            logger.info("Cannot find Show On Dashboard radio button.", toe);
+            logger.info("Cannot find Show On Dashboard radio button.", nse);
         }
         return false;
     }
@@ -134,11 +134,11 @@ public class CustomiseSiteDashboardPage extends SharePage
     {
         try
         {
-            return findAndWait(HIDE_FROM_DASHBOARD_RADIO_BUTTON).isDisplayed();
+            return driver.findElement(HIDE_FROM_DASHBOARD_RADIO_BUTTON).isDisplayed();
         }
-        catch (TimeoutException toe)
+        catch (NoSuchElementException nse)
         {
-            logger.info("Cannot find Hide From Dashboard radio button.", toe);
+            logger.info("Cannot find Hide From Dashboard radio button.", nse);
         }
         return false;
     }   
