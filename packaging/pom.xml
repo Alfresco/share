@@ -22,6 +22,9 @@
         <!-- Install builder version -->
         <installer.installbuilder.version>15.1.0</installer.installbuilder.version>
 
+        <!-- Installer version that will be used in the final name -->
+        <installer.version.name>${project.version}</installer.version.name>
+
     </properties>
 
     <modules>
