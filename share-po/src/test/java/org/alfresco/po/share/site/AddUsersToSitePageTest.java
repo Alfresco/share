@@ -122,14 +122,20 @@ public class AddUsersToSitePageTest extends AbstractTest
      * @throws Exception
      */
 
-    public List<String> searchForSiteMembers(String userName) throws Exception
+    public List<String> searchForSiteMembers(String userName, boolean addUsersToSite) throws Exception
     {
         List<String> siteMembers = null;
         for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
             try
             {
-                siteMembers = addUsersToSitePage.searchUser(userName);
+                if (addUsersToSite)
+                {
+                    siteMembers = addUsersToSitePage.searchUser(userName);
+                } else
+                {
+                    siteMembers = siteMembersPage.searchUser(userName);
+                }
             }
             catch (PageRenderTimeException exception)
             {
@@ -332,7 +338,6 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         createEnterpriseUser(userMultiple1);
         createEnterpriseUser(userMultiple2);
-
         createEnterpriseUser(userMultiple3);
         createEnterpriseUser(userMultiple4);
 
@@ -343,19 +348,20 @@ public class AddUsersToSitePageTest extends AbstractTest
         siteDashBoard = siteFinderPage.selectSite(siteName).render();
 
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-
+        
         // search for user and select user from search results list
-        List<String> searchUsers = searchForSiteMembers(userMultiple1);
-        Assert.assertTrue(searchUsers.size() > 0);
+        List<String> searchUsers = searchForSiteMembers(userMultiple1, true);
+        Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple1) != -1);
         addUsersToSitePage.clickSelectUser(userMultiple1).render();
 
-        searchUsers = searchForSiteMembers(userMultiple2);
+        searchUsers = searchForSiteMembers(userMultiple2, true);
+        Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple2) != -1);  
         addUsersToSitePage.clickSelectUser(userMultiple2).render();
 
         addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
 
         addUsersToSitePage.clickAddUsersButton();
-
+        
         // check added users count
         String count = addUsersToSitePage.getTotalAddedUsersCount();
         Assert.assertEquals("Total users added 2", count);
@@ -376,9 +382,11 @@ public class AddUsersToSitePageTest extends AbstractTest
         Assert.assertEquals(addedUserRole1, "Collaborator");
         Assert.assertEquals(addedUserRole2, "Collaborator");
 
-        searchUsers = searchForSiteMembers(userMultiple3);
+        searchUsers = searchForSiteMembers(userMultiple3, true);
+        Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple3) != -1);
         addUsersToSitePage.clickSelectUser(userMultiple3).render();
-        searchUsers = searchForSiteMembers(userMultiple4);
+        searchUsers = searchForSiteMembers(userMultiple4, true);
+        Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple4) != -1);
         addUsersToSitePage.clickSelectUser(userMultiple4).render();
         addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
         addUsersToSitePage.clickAddUsersButton();
@@ -408,18 +416,22 @@ public class AddUsersToSitePageTest extends AbstractTest
         // check added user is displayed on SiteMembersPage
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
 
-        List<String> siteMembers1 = siteMembersPage.searchUser(userMultiple1);
+        //List<String> siteMembers1 = siteMembersPage.searchUser(userMultiple1);
+        List<String> siteMembers1 = searchForSiteMembers(userMultiple1, false);
         Assert.assertTrue(siteMembers1.get(0).indexOf(userMultiple1) != -1);
 
-        List<String> siteMembers2 = siteMembersPage.searchUser(userMultiple2);
+        //List<String> siteMembers2 = siteMembersPage.searchUser(userMultiple2);
+        List<String> siteMembers2 = searchForSiteMembers(userMultiple2, false);
         Assert.assertTrue(siteMembers2.get(0).indexOf(userMultiple2) != -1);
 
-        List<String> siteMembers3 = siteMembersPage.searchUser(userMultiple3);
+        //List<String> siteMembers3 = siteMembersPage.searchUser(userMultiple3);
+        List<String> siteMembers3 = searchForSiteMembers(userMultiple3, false);
         Assert.assertTrue(siteMembers3.get(0).indexOf(userMultiple3) != -1);
 
-        List<String> siteMembers4 = siteMembersPage.searchUser(userMultiple4);
+        //List<String> siteMembers4 = siteMembersPage.searchUser(userMultiple4);
+        List<String> siteMembers4 = searchForSiteMembers(userMultiple4, false);
         Assert.assertTrue(siteMembers4.get(0).indexOf(userMultiple4) != -1);
-
+        
         logout(driver);
 
     }
@@ -481,7 +493,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
         // search for user and select user from search results list
-        List<String> searchUsers = searchForSiteMembers(userRemoveUserName);
+        List<String> searchUsers = searchForSiteMembers(userRemoveUserName, true);
         Assert.assertTrue(searchUsers.size() > 0);
         addUsersToSitePage.clickSelectUser(userRemoveUserName);
 
