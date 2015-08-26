@@ -16,7 +16,6 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
-import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
@@ -28,6 +27,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Button;
 
 /**
  * New User page object, holds all element of the html page relating to
@@ -48,7 +50,7 @@ public class NewUserPage extends SharePage
     private static final String GROUP_FINDER_SEARCH_TEXT = "input[id$='admin-console_x0023_default-create-groupfinder-search-text']";
 
     private static final String GROUP_SEARCH_BUTTON = "button[id$='default-create-groupfinder-group-search-button-button']";
-    private static final String CREATE_USER = "button[id$='default-createuser-ok-button-button']";
+    
     private static final String CREATE_ANOTHER_USER = "button[id$='default-createuser-another-button-button']";
     private static final String CANCEL_CREATE_USER = "button[id$='default-createuser-cancel-button-button']";
 
@@ -219,6 +221,7 @@ public class NewUserPage extends SharePage
         return groupsFrameLoaded;
     }
 
+    @FindBy(css="button[id$='default-createuser-ok-button-button']") Button createUser;
     /**
      * Clicks on Create User Button.
      * To get the error page there is wait added to delete disappear so it may not find the exact time taken to execute method,
@@ -228,7 +231,8 @@ public class NewUserPage extends SharePage
      */
     public HtmlPage selectCreateUser()
     {
-        return submit(By.cssSelector(CREATE_USER), ElementState.INVISIBLE);
+        createUser.click();
+        return getCurrentPage();
     }
 
     /**
