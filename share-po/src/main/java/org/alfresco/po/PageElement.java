@@ -844,8 +844,20 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
                     {
                         if(a instanceof FindBy)
                         {
-                            String val = ((FindBy) a).css();
-                            by = By.cssSelector(val);
+                            FindBy f = ((FindBy) a);
+                            if(!StringUtils.isEmpty(f.css()))
+                            { 
+                                by = By.cssSelector(f.css());
+                            }
+                            if(!StringUtils.isEmpty(f.id()))
+                            {
+                                by = By.id(f.id());
+                            }
+                            if(!StringUtils.isEmpty(f.xpath()))
+                            {
+                                by = By.xpath(f.xpath());
+                            }
+                                
                         }
                     }
                     if(by != null)
