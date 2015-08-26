@@ -844,20 +844,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
                     {
                         if(a instanceof FindBy)
                         {
-                            FindBy f = ((FindBy) a);
-                            if(!StringUtils.isEmpty(f.css()))
-                            { 
-                                by = By.cssSelector(f.css());
-                            }
-                            if(!StringUtils.isEmpty(f.id()))
-                            {
-                                by = By.id(f.id());
-                            }
-                            if(!StringUtils.isEmpty(f.xpath()))
-                            {
-                                by = By.xpath(f.xpath());
-                            }
-                                
+                            by = extractSelector((FindBy)a);
                         }
                     }
                     if(by != null)
@@ -871,6 +858,27 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
         {
             elementRender(renderTime, elements.toArray(new RenderElement[elements.size()]));
         }
+    }
+    /**
+     * Extract the selector query from annotation.
+     * @param findBy
+     * @return By selector with value from annotation.
+     */
+    private By extractSelector(FindBy findBy)
+    {
+        if(!StringUtils.isEmpty(findBy.css()))
+        { 
+            return By.cssSelector(findBy.css());
+        }
+        if(!StringUtils.isEmpty(findBy.id()))
+        {
+            return By.id(findBy.id());
+        }
+        if(!StringUtils.isEmpty(findBy.xpath()))
+        {
+            return By.xpath(findBy.xpath());
+        }
+        throw new PageOperationException("Select by is not supported" + findBy.toString());
     }
     private By buildFromFindBy(FindBy findBy)
     {
