@@ -52,6 +52,7 @@ import org.springframework.extensions.surf.util.StringBuilderWriter;
 import org.springframework.extensions.webscripts.ScriptConfigModel;
 import org.springframework.extensions.webscripts.servlet.mvc.ResourceController;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.ServletContextResource;
 
@@ -499,18 +500,19 @@ public class DependencyHandler implements ApplicationContextAware
             paths = pathsToCheck.iterator();
             while (this.servletContext != null && in == null && paths.hasNext())
             {
-                String p = paths.next();
-                String tmp = p;
-                if (!tmp.startsWith("/"))
+                final String p = paths.next();
+                // servlet resource paths cannot start with a relative operator - they should always begin
+                // at the root - note that ServletContextResource() will prepend "/" automatically to all paths
+                // and "/../something" is invalid for most modern containers
+                if (!StringUtils.cleanPath(p).startsWith(".."))
                 {
-                    tmp = "/" + tmp;
-                }
-                ServletContextResource resource = new ServletContextResource(this.servletContext, tmp);
-                {
-                    if (resource.exists())
+                    ServletContextResource resource = new ServletContextResource(this.servletContext, p);
                     {
-                        addResourceInfoToCache(path, new ServletContextRes(p));
-                        in = this.getCachedResourceInfo(path).getInputStream();
+                        if (resource.exists())
+                        {
+                            addResourceInfoToCache(path, new ServletContextRes(p));
+                            in = this.getCachedResourceInfo(path).getInputStream();
+                        }
                     }
                 }
             }
