@@ -15,7 +15,6 @@
 package org.alfresco.po.share;
 
 import org.alfresco.po.HtmlPage;
-import org.alfresco.po.RenderTime;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -54,14 +53,12 @@ public class UnknownSharePage extends SharePage
     public <T extends HtmlPage> T render()
     {
         HtmlPage actualPage = getActualPage();
+        if (actualPage instanceof UnknownSharePage)
+        {
+            return (T) actualPage;
+        }
+        
         return (T) actualPage.render();
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends HtmlPage> T render(RenderTime timer)
-    {
-        HtmlPage actualPage = getActualPage();
-        return (T) actualPage.render(timer);
-    }
 }

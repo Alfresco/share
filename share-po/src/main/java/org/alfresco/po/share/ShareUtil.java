@@ -121,16 +121,17 @@ public class ShareUtil
         try
         {
             client.executeMethod(post);
-
             HttpState state = client.getState();
-
-            //add cookies to browser and navigate to user dashboard
+            //Navigate to login page to obtain a session cookie.
+            driver.navigate().to(shareUrl);
+            //add authenticated token to cookie and navigate to user dashboard
             String url = shareUrl + "/page/user/" + userName + "/dashboard";
             driver.manage().addCookie(new Cookie(state.getCookies()[0].getName(),state.getCookies()[0].getValue()));
             driver.navigate().to(url);
         }
         catch (IOException e)
         {
+            e.printStackTrace();
             logger.error("Login error ", e);
         }
         finally

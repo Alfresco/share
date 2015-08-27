@@ -30,6 +30,7 @@ import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePopup;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
 import org.alfresco.po.share.site.CreateSitePage;
@@ -848,9 +849,13 @@ public class SiteActions extends CommonActions
             {
                 return ((DetailsPage) sharePage).selectEditProperties().render();
             }
+            else if(sharePage instanceof EditDocumentPropertiesPage)
+            {
+                return sharePage;
+            }
             else
             {
-                throw new UnexpectedSharePageException("Expected Doclib or Details Page");
+                throw new UnexpectedSharePageException("Expected Doclib or Details Page, if not already on EditDocumentPropertiesPage");
             }
         }
         catch (Exception e)
@@ -971,7 +976,7 @@ public class SiteActions extends CommonActions
         try
         {
             DetailsPage detailsPage = getSharePage(driver).render();
-            return detailsPage.selectManageAspects().render();     
+            return detailsPage.selectManageAspects().render();
         }
         catch(ClassCastException ce)
         {
@@ -984,7 +989,7 @@ public class SiteActions extends CommonActions
     }
     
     /**
-     * Util to Save or Cancel the Node Properties from Details Page
+     * Util to Save or Cancel the Node Properties from Details Page.
      * 
      * @param driver
      * @param actionSaveOrCancel
@@ -997,7 +1002,18 @@ public class SiteActions extends CommonActions
 
         try
         {
-            EditDocumentPropertiesPage editPropPage = getSharePage(driver).render();
+            EditDocumentPropertiesPage editPropPage = null;
+            
+            SharePage sharePage = getSharePage(driver).render();
+
+            if (sharePage instanceof SharePopup)
+            {
+                editPropPage = acknowledgeShareError(driver).render();
+            }
+            else
+            {
+                editPropPage = sharePage.render();
+            }
 
             // Edit Properties
             editPropPage.setProperties(properties);
@@ -1027,5 +1043,23 @@ public class SiteActions extends CommonActions
         	return row.selectViewFolderDetails();
         }
         return doclib.selectFile(name).render();
+    }
+    
+    
+    /**
+     * Click ok / Default button if error is displayed
+     * @param driver
+     * @return HtmlPage
+     */
+
+    public HtmlPage acknowledgeShareError(WebDriver driver)
+    {
+        SharePage sharePage = getSharePage(driver).render();
+        
+        if (sharePage instanceof SharePopup)
+        {
+            return ((SharePopup) sharePage).clickOK();
+        }
+        return sharePage;
     }
 }

@@ -41,6 +41,7 @@ import org.openqa.selenium.support.ui.Select;
  * @author Meenal Bhave
  * @since 1.3.1
  */
+@SuppressWarnings("unchecked")
 public class EditDocumentPropertiesPage extends AbstractEditProperties
 {
     private static Log logger = LogFactory.getLog(EditDocumentPropertiesPage.class);
@@ -52,10 +53,9 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
 
     private String tagName;
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public EditDocumentPropertiesPage render(RenderTime timer)
+    public EditDocumentPropertiesPage render()
     {
+        RenderTime timer = new RenderTime(maxPageLoadingTime);
         while (true)
         {
             timer.start();
@@ -126,13 +126,6 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
         {
         }
         return false;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public EditDocumentPropertiesPage render()
-    {
-        return render(new RenderTime(maxPageLoadingTime));
     }
 
     /**
@@ -862,5 +855,14 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
             
         }
         return currentValue;
+    }
+    public boolean isErrorDialogDisplayed()
+    {
+        return isDisplayed(By.cssSelector("div#prompt"));
+    }
+    public HtmlPage clickOkError()
+    {
+        driver.findElement(By.xpath(".//div[@id='prompt']//button[text()='OK']")).click();
+        return this;
     }
 }

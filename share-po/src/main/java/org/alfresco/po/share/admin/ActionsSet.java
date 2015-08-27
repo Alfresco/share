@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -91,11 +92,11 @@ public class ActionsSet extends PageElement
             if (actionName.equalsIgnoreCase(StringUtils.trim(menuRow.findElement(MENU_LABEL).getText())))
             {
                 menuRow.click();
-                break;
+                return getCurrentPage();
             }
         }
+        throw new PageException("Action can not be found in the dropdown, " + actionName);
         
-        return getCurrentPage();
     }
 
     /**

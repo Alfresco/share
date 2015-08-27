@@ -211,9 +211,10 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
         detailsPage = docLibPage.selectFile(file2.getName()).render();
         List<DocumentAspect> documentAspects = new ArrayList<DocumentAspect>();
         documentAspects.add(DocumentAspect.DUBLIN_CORE);
+        documentAspects.add(DocumentAspect.INDEX_CONTROL);
         SelectAspectsPage selectAspectsPage = detailsPage.selectManageAspects();
-        selectAspectsPage.add(documentAspects);
-        selectAspectsPage.clickApplyChanges();
+        selectAspectsPage.add(documentAspects).render();
+        selectAspectsPage.clickApplyChanges().render();
         detailsPage.render();
 
         editPropertiesPage = detailsPage.selectEditProperties().render();

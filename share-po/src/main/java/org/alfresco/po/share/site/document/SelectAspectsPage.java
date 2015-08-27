@@ -29,14 +29,18 @@ import java.util.concurrent.TimeUnit;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Button;
 
 import com.sun.jna.platform.unix.X11.XSizeHints.Aspect;
 
@@ -52,9 +56,7 @@ public class SelectAspectsPage extends SharePage
 
     private static final By AVAILABLE_ASPECT_TABLE = By.cssSelector("div[id$='aspects-left']>table>tbody.yui-dt-data>tr");
     private static final By CURRENTLY_ADDED_ASPECT_TABLE = By.cssSelector("div[id$='aspects-right']>table>tbody.yui-dt-data>tr");
-    private static final By HEADER_ASPECT_TABLE = By.cssSelector("td>div>h4");
-    private static final By ADD_REMOVE_LINK = By.cssSelector("td>div>a");
-    private static final By APPLY_CHANGE = By.cssSelector("button[id$='aspects-ok-button']");
+
     private static final By CANCEL = By.cssSelector("button[id$='aspects-cancel-button']");
     private static Log logger = LogFactory.getLog(SelectAspectsPage.class);
     private static final By TITLE = By.cssSelector("div[id$='aspects-title']");
@@ -62,7 +64,7 @@ public class SelectAspectsPage extends SharePage
     private static final By ASPECTS_SELECTED = By.xpath("//div[contains(@id,'default-aspects-right')]//td/div[@class='yui-dt-liner']");
     private static final By NOTIFICATION = By.cssSelector("div.bd>span.message");
 
-    private static final String ASPECT_AVAILBLE_XPATH ="//div[contains(@id,'aspects-left')]//td/div[@class='yui-dt-liner']//h4[text()='%s']";
+//    private static final String ASPECT_AVAILBLE_XPATH ="//div[contains(@id,'aspects-left')]//[text()='%s']";
 
     @SuppressWarnings("unchecked")
     @Override
@@ -139,14 +141,7 @@ public class SelectAspectsPage extends SharePage
     {
         List<WebElement> availableElements = null;
         Map<String, ShareLink> availableAspectMap = null;
-        try
-        {
-            availableElements = findAndWaitForElements(by);
-        }
-        catch (TimeoutException exception)
-        {
-            return Collections.emptyMap();
-        }
+        availableElements = findAndWaitForElements(by);
 
         if (availableElements != null && !availableElements.isEmpty())
         {
@@ -156,10 +151,12 @@ public class SelectAspectsPage extends SharePage
             {
                 try
                 {
-                    WebElement header = webElement.findElement(HEADER_ASPECT_TABLE);
-                    WebElement addLink = webElement.findElement(ADD_REMOVE_LINK);
+                    WebElement header = webElement.findElement(By.xpath(".//*[@class='name']"));
+                    //Some case title appears as Sample (sa:sa) or just as Sample. 
+                    String title[] = header.getText().split("\\(");
+                    WebElement addLink = webElement.findElement(By.xpath(".//a"));
                     ShareLink addShareLink = new ShareLink(addLink, driver, factoryPage);
-                    availableAspectMap.put(header.getText(), addShareLink);
+                    availableAspectMap.put(title[0].trim(), addShareLink);
                 }
                 catch (NoSuchElementException e)
                 {
@@ -170,8 +167,9 @@ public class SelectAspectsPage extends SharePage
                     logger.error("Exception while finding & adding aspects : ", e);
                 }
             }
+            return availableAspectMap;
         }
-        return availableAspectMap;
+        throw new PageOperationException("No Aspects were found");
     }
     
     /**
@@ -184,6 +182,10 @@ public class SelectAspectsPage extends SharePage
          try
          {
              Set<String> allAspects = getAllAspectsMap(CURRENTLY_ADDED_ASPECT_TABLE).keySet();
+             for(String s:allAspects)
+             {
+                 if(aspectName.contains(s)) return true;
+             }
              return allAspects.contains(aspectName);
          }
          catch (Exception e)
@@ -203,7 +205,12 @@ public class SelectAspectsPage extends SharePage
         try
         {
             Set<String> allAspects = getAllAspectsMap(AVAILABLE_ASPECT_TABLE).keySet();
-            return allAspects.contains(aspectName);
+            //As ket differs between some versions we have to iterate and match.
+            for(String s:allAspects)
+            {
+                if(aspectName.contains(s)) return true;
+            }
+            return false;
         }
         catch (Exception e)
         {
@@ -220,40 +227,19 @@ public class SelectAspectsPage extends SharePage
      */
     private HtmlPage addRemoveAspects(List<DocumentAspect> aspects, By by)
     {
-        if (aspects == null || aspects.isEmpty())
-        {
-            throw new UnsupportedOperationException("Aspets can't be empty or null.");
-        }
-        Map<DocumentAspect, ShareLink> availableAspectMap = getSystemAspectsMap(by);
-
+        PageUtils.checkMandotaryParam("aspcets", aspects);
+        PageUtils.checkMandotaryParam("By selector", by);
+        
+        Map<String, ShareLink> availableAspectMap = getAllAspectsMap(by);
         if (availableAspectMap != null && !availableAspectMap.isEmpty())
         {
             for (DocumentAspect aspect : aspects)
             {
-                ShareLink link = availableAspectMap.get(aspect);
+                String title[] = aspect.getValue().split("\\(");
+                ShareLink link = availableAspectMap.get(title[0].trim());
                 if (link != null)
                 {
-                    try
-                    {
-                        if (AVAILABLE_ASPECT_TABLE.equals(by))
-                        {
-                            WebElement aspectElement = driver.findElement(By.xpath(String.format(ASPECT_AVAILBLE_XPATH, aspect.getValue())));
-                            if (!aspectElement.isSelected())
-                            {
-                                aspectElement.click();
-                            }
-                        }
-                        link.openLink();
-                        if (logger.isTraceEnabled())
-                        {
-                            logger.trace(aspect + "Aspect Added.");
-                        }
-                    }
-                    catch (StaleElementReferenceException exception)
-                    {
-                        driver.findElement(CANCEL).click();
-                        throw new PageException("Unexpected Refresh on Page lost reference to the Aspects.", exception);
-                    }
+                    link.click();
                 }
                 else
                 {
@@ -261,8 +247,7 @@ public class SelectAspectsPage extends SharePage
                 }
             }
         }
-
-        return this;
+        return getCurrentPage();
     }
 
     /**
@@ -283,6 +268,7 @@ public class SelectAspectsPage extends SharePage
         }
     }
 
+    @FindBy(css="div[id$='_default-aspects-dialog'] button[id$='_default-aspects-ok-button']") Button applyChanges;
     /**
      * Click on {@code ApplyChanges} in {@code selectAspectsPage}
      * 
@@ -292,7 +278,7 @@ public class SelectAspectsPage extends SharePage
     {
         try
         {
-            driver.findElement(APPLY_CHANGE).click();
+            applyChanges.click();
             waitForElement(NOTIFICATION, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
 
             if (!isNotificationTextCorrect())
@@ -340,30 +326,11 @@ public class SelectAspectsPage extends SharePage
         {
             for (String aspect : aspects)
             {
-                ShareLink link = availableAspectMap.get(aspect);
+                String title[] = aspect.split("\\(");
+                ShareLink link = availableAspectMap.get(title[0].trim());
                 if (link != null)
                 {
-                    try
-                    {
-                        if (AVAILABLE_ASPECT_TABLE.equals(by))
-                        {
-                            WebElement aspectElement = driver.findElement(By.xpath(String.format(ASPECT_AVAILBLE_XPATH, aspect)));
-                            if (!aspectElement.isSelected())
-                            {
-                                aspectElement.click();
-                            }
-                        }
-                        link.click();
-                        if (logger.isTraceEnabled())
-                        {
-                            logger.trace(aspect + "Aspect Added.");
-                        }
-                    }
-                    catch (StaleElementReferenceException exception)
-                    {
-                        driver.findElement(CANCEL).click();
-                        throw new PageException("Unexpected Refresh on Page lost reference to the Aspects.", exception);
-                    }
+                    link.click();
                 }
                 else
                 {
