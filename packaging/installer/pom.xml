@@ -24,6 +24,7 @@
            project.windowsSigningPkcs12File=${signing.key.location}/Alfresco-Software-Ltd.p12 
            project.windowsSigningPkcs12Password=${p12Password} 
            alfresco_edition=enterprise 
+           alfresco_package='${alfresco.package.name}' 
            postgres_component_enabled=0 
            alfrescocustomstacksettings_component_enabled=1 
            libreofficecomponent_component_enabled=0 
