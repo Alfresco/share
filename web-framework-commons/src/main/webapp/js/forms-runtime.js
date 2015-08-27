@@ -1135,6 +1135,7 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
                      if (Alfresco.logger.isDebugEnabled())
                         Alfresco.logger.debug("JSON data request cancelled in doBeforeAjaxRequest()");
                   }
+                  this._toggleSubmitElements(true);
                }
                else
                {
