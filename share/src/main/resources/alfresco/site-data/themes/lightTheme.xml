@@ -15,6 +15,9 @@
          @dashlet-toolbar-border-bottom: 1px solid #ccc;
          @dashlet-body-background: #fff;
          @dashlet-body-border-radius: 0;
+         
+         @use-legacy-buttons: false;
+         
       </less-variables>
    </css-tokens>
 </theme>

@@ -128,7 +128,7 @@
       showConfig: {},
 
       /**
-       * Shows the CreteSite dialog to the user.
+       * Shows the Edit Site dialog to the user.
        *
        * @method show
        */
@@ -203,7 +203,8 @@
          // Create the ok button, the forms runtime will handle when its clicked
          this.widgets.okButton = Alfresco.util.createYUIButton(this, "ok-button", null,
          {
-            type: "submit"
+            type: "submit",
+            additionalClass: "alf-primary-button"
          });
 
          // Configure the forms runtime
@@ -263,10 +264,6 @@
          this.widgets.isModerated = Dom.get(this.id + "-isModerated");
          this.widgets.isPrivate = Dom.get(this.id + "-isPrivate");
 
-         // Make sure we disable moderated if public isn't selected
-         YAHOO.util.Event.addListener(this.widgets.isPublic, "change", this.onVisibilityChange, this, true);
-         YAHOO.util.Event.addListener(this.widgets.isPrivate, "change", this.onVisibilityChange, this, true);
-
          // Show the panel
          this._showPanel();
       },
@@ -282,13 +279,14 @@
          formEl.attributes.action.nodeValue = Alfresco.constants.PROXY_URI + "api/sites/" + this.showConfig.shortName;
 
          // Site access
-         var siteVisibility = "PUBLIC";
+         var siteVisibility;
          if (this.widgets.isPublic.checked)
          {
-            if (this.widgets.isModerated.checked)
-            {
-               siteVisibility = "MODERATED";
-            }
+            siteVisibility = "PUBLIC";
+         } 
+         else if (this.widgets.isModerated.checked)
+         {
+            siteVisibility = "MODERATED";
          }
          else
          {
@@ -316,22 +314,6 @@
       doBeforeAjaxRequest: function CreateSite_doBeforeAjaxRequest(p_config)
       {
          return true;
-      },
-
-      /**
-       * Called when user clicks on the isPublic checkbox.
-       *
-       * @method onVisibilityChange
-       * @param type
-       * @param args
-       */
-      onVisibilityChange: function CS_onVisibilityChange(type, args)
-      {
-         var element = new Element(this.widgets.isModerated);
-         element.set("disabled", !new Element(this.widgets.isPublic).get("checked"));
-         // reset the flag
-         // ACE-2056
-         element.set("checked", false);
       },
 
       /**

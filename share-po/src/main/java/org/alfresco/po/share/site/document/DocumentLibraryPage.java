@@ -28,6 +28,7 @@ import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.Pagination;
 import org.alfresco.po.share.enums.ViewType;
+import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.logging.Log;
@@ -508,6 +509,21 @@ public class DocumentLibraryPage extends SitePage
         return getCurrentPage();
     }
 
+    
+    /**
+     * Selects the title of the document link edited offline.
+     *
+     * @param title String file title
+     * @return DocumentDetailsPage page response object
+     */
+    public DocumentEditOfflinePage selectFileEditedOffline(final String title)
+    {
+        selectEntry(title).click();
+        waitUntilAlert();
+        return factoryPage.instantiatePage(driver, DocumentEditOfflinePage.class);
+    }
+    
+    
     /**
      * Selects the title of the folder link.
      *
@@ -545,6 +561,9 @@ public class DocumentLibraryPage extends SitePage
             case TABLE_VIEW:
                 xpath = "//td[contains(@class,'yui-dt-col-name')]/div/span/a[text()='%s']";
                 break;
+            case DETAILED_VIEW:    
+                xpath = "//a[text()='%s']";
+                break;                
             default:
                 break;
         }

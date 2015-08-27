@@ -1,18 +1,14 @@
 /*
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- *
  * This file is part of Alfresco
- *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,6 +20,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 
@@ -39,8 +37,10 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.springframework.social.alfresco.connect.exception.AlfrescoException;
 import org.springframework.stereotype.Component;
 import org.testng.SkipException;
+
 @Component
 /**
  * Utility class to manage site related operations
@@ -56,15 +56,20 @@ import org.testng.SkipException;
  */
 public class SiteUtil
 {
-    private final static  Log logger = LogFactory.getLog(SiteUtil.class);
-    private final  String ERROR_MESSAGE_PATTERN = "Failed to create a new site %n Site Name: %s%n Create Site API URL: %s%n";
-    @Autowired  FactoryPage factoryPage;
-    @Autowired SiteService siteService;
-    @Value("${share.target}") String shareUrl;
+    private final static Log logger = LogFactory.getLog(SiteUtil.class);
+    private static final String SITE_FINDER_LOCATION_SUFFIX = "/page/site-finder";
+    private final String ERROR_MESSAGE_PATTERN = "Failed to create a new site %n Site Name: %s%n Create Site API URL: %s%n";
+    @Autowired
+    FactoryPage factoryPage;
+    @Autowired
+    SiteService siteService;
+    @Value("${share.target}")
+    String shareUrl;
+
     /**
      * Prepare a file in system temp directory to be used
      * in test for uploads.
-     *
+     * 
      * @return {@link File} simple text file.
      */
     public File prepareFile()
@@ -75,7 +80,7 @@ public class SiteUtil
     /**
      * Prepare a plain text file in system temp directory to be used
      * in test for uploads.
-     *
+     * 
      * @param name Name to give the file, without the file extension. If null a default name will be used.
      * @param data Content to write to the file
      */
@@ -87,9 +92,9 @@ public class SiteUtil
     /**
      * Prepare a file in system temp directory to be used
      * in test for uploads.
-     *
-     * @param name      Name to give the file, without the file extension. If null a default name will be used.
-     * @param data      Content to write to the file
+     * 
+     * @param name Name to give the file, without the file extension. If null a default name will be used.
+     * @param data Content to write to the file
      * @param extension File extension to append to the end of the filename
      * @return {@link File} simple text file.
      */
@@ -133,9 +138,59 @@ public class SiteUtil
     }
 
     /**
+     * Prepare a zip or acp file in system temp directory to be used
+     * in test for uploads.
+     * 
+     * @param name Name to give the file, without the file extension. If null a default name will be used.
+     * @param extension File extension to append to the end of the filename
+     * @return {@link File} simple zip/acp file.
+     */
+    public static File prepareZipFile(final String name, String extension)
+    {
+
+        File file = null;
+        OutputStreamWriter writer = null;
+        try
+        {
+            String fileName = (name != null && !name.isEmpty() ? name : "myfile");
+            file = File.createTempFile(fileName, extension);
+
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file));
+            ZipEntry e = new ZipEntry(fileName + ".txt");
+            out.putNextEntry(e);
+
+            writer = new OutputStreamWriter(out);
+            writer.close();
+        }
+        catch (IOException ioe)
+        {
+            logger.error("Unable to create sample file", ioe);
+        }
+        catch (Exception e)
+        {
+            logger.error("Unable to create site", e);
+        }
+        finally
+        {
+            if (writer != null)
+            {
+                try
+                {
+                    writer.close();
+                }
+                catch (IOException ioe)
+                {
+                    logger.error("Unable to close properly", ioe);
+                }
+            }
+        }
+        return file;
+    }
+
+    /**
      * Prepare a text file in system temp directory to be used
      * in test for uploads, containing default content.
-     *
+     * 
      * @param name Name to give the file, without the file extension. If null a default name will be used.
      * @return {@link File} simple text file.
      */
@@ -147,10 +202,10 @@ public class SiteUtil
 
     /**
      * Create site using share
-     *
+     * 
      * @param String username
      * @param String password
-     * @param siteName      String site name
+     * @param siteName String site name
      * @param desc String
      * @param siteVisibility SiteVisiblity
      * @return true if site created
@@ -159,19 +214,20 @@ public class SiteUtil
     {
         if (siteName == null || siteName.isEmpty())
             throw new UnsupportedOperationException("site name is required");
-		try 
-		{
-			siteService.create(username, password, "testdomain", siteName, desc, Visibility.valueOf(siteVisibility.toUpperCase()));
-		} 
-		catch (IOException e) 
-		{
-			throw new RuntimeException("Unable to create site " + siteName, e);
-		}
-        driver.navigate().to(shareUrl+"/page/site/" + siteName + "/dashboard");
+        try
+        {
+            siteService.create(username, password, "testdomain", siteName, desc, Visibility.valueOf(siteVisibility.toUpperCase()));
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Unable to create site " + siteName, e);
+        }
+        driver.navigate().to(shareUrl + "/page/site/" + siteName + "/dashboard");
     }
 
     /**
-     * Deletes site using share
+     * Deletes site using public api
+     * 
      * @param String username
      * @param String password
      * @param siteName String site name
@@ -179,12 +235,66 @@ public class SiteUtil
      */
     public void deleteSite(final String username, final String password, final String siteName)
     {
-        siteService.delete(username, password, "testdomain", siteName);
+    	try
+    	{
+    		siteService.delete(username, password, "testdomain", siteName);
+    	}
+    	catch(AlfrescoException ae)
+    	{
+    		//ignore as site is not found.
+    	}
+    }
+
+    /**
+     * Deletes site using share
+     * 
+     * @param siteName String site name
+     * @return true if site deleted
+     */
+    public boolean deleteSite(WebDriver driver, final String siteName)
+    {
+        if (siteName == null || siteName.isEmpty())
+            throw new IllegalArgumentException("site name is required");
+
+        try
+        {
+            // Alfresco.cloud.constants.CURRENT_TENANT
+
+            String url = driver.getCurrentUrl();
+            String target = url.replaceFirst("^*/page.*", SITE_FINDER_LOCATION_SUFFIX);
+            driver.navigate().to(target);
+            int count = 0;
+            while (count < 5)
+            {
+                if (target.equalsIgnoreCase(driver.getCurrentUrl()))
+                {
+                    break;
+                }
+                count++;
+            }
+            SharePage page = factoryPage.getPage(driver).render();
+            SiteFinderPage siteFinder = page.getNav().selectSearchForSites().render();
+            siteFinder = siteSearchRetry(driver, siteFinder, siteName);
+            if (siteFinder.hasResults())
+            {
+                siteFinder = siteFinder.deleteSite(siteName).render();
+                return !siteFinder.hasResults();
+            }
+        }
+        catch (UnsupportedOperationException une)
+        {
+            String msg = String.format(ERROR_MESSAGE_PATTERN, siteName);
+            throw new RuntimeException(msg, une);
+        }
+        catch (PageException e)
+        {
+        }
+        return false;
     }
 
     /**
      * Search site using share.
-     *
+     * 
      * @param siteName String site name
      * @return site name
      */
@@ -215,7 +325,7 @@ public class SiteUtil
 
     /**
      * This method create in Temp directory jpg file for uploading.
-     *
+     * 
      * @param jpgName String
      * @return File object for created Image.
      */
@@ -237,9 +347,8 @@ public class SiteUtil
         }
         throw new SkipException("Can't create JPG file");
     }
-    
+
     /**
-     * 
      * Searching with retry for sites to handle solr lag
      * 
      * @param drone WebDrone
@@ -247,15 +356,16 @@ public class SiteUtil
      * @param siteName String
      * @return SiteFinderPage
      */
+
     public SiteFinderPage siteSearchRetry(WebDriver driver, SiteFinderPage finderPage, String siteName)
     {
         int counter = 0;
         int waitInMilliSeconds = 2000;
         int retrySearchCount = 5;
-        while(counter < retrySearchCount)
+        while (counter < retrySearchCount)
         {
             SiteFinderPage siteSearchResults = finderPage.searchForSite(siteName).render();
-            if(siteSearchResults.getSiteList().contains(siteName))
+            if (siteSearchResults.getSiteList().contains(siteName))
             {
                 return siteSearchResults;
             }
@@ -264,11 +374,17 @@ public class SiteUtil
                 counter++;
                 factoryPage.getPage(driver).render();
             }
-            //double wait time to not over do solr search
-            waitInMilliSeconds = (waitInMilliSeconds*2);
+            // double wait time to not over do solr search
+            waitInMilliSeconds = (waitInMilliSeconds * 2);
             synchronized (SiteUtil.class)
             {
-                try{ SiteUtil.class.wait(waitInMilliSeconds); } catch (InterruptedException e) {}
+                try
+                {
+                    SiteUtil.class.wait(waitInMilliSeconds);
+                }
+                catch (InterruptedException e)
+                {
+                }
             }
         }
         throw new PageException("site search failed");

@@ -186,7 +186,8 @@
             this.createAnotherRule = false;
          },
          {
-            type: "submit"
+            type: "submit",
+            additionalClass: "alf-primary-button"
          }, this.id + "-create-button");
          this.widgets.createAnotherButton = Alfresco.util.createYUIButton(this, "createAnother-button", function ()
          {

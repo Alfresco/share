@@ -30,17 +30,28 @@
          <div class="yui-gd">
             <div class="yui-u first"><label for="${el}-isPublic">${msg("label.access")}:</label></div>
             <div class="yui-u">
-               <input id="${el}-isPublic" type="radio" <#if (profile.visibility == "PUBLIC" || profile.visibility == "MODERATED")>checked="checked"</#if> tabindex="0" name="-" /> ${msg("label.isPublic")}<br />
-               <div class="moderated">
-                  <input id="${el}-isModerated" type="checkbox" tabindex="0" name="-" <#if (profile.visibility == "MODERATED")>checked="checked"</#if> <#if (profile.visibility == "PRIVATE")>disabled="true"</#if>/> ${msg("label.isModerated")}<br />
-                  <span class="help"><label for="${el}-isModerated">${msg("label.moderatedHelp")}</label></span>
-               </div>
+               <input id="${el}-isPublic" type="radio" <#if profile.visibility == "PUBLIC">checked="checked"</#if> tabindex="0" name="-" />
+               <label for="${el}-isPublic">${msg("site.visibility.label.PUBLIC")}<br />
+                 <span id="${el}-public-help-text" class="help">${msg("site.visibility.description.PUBLIC")}</span>
+              </label>
             </div>
          </div>
          <div class="yui-gd">
             <div class="yui-u first">&nbsp;</div>
             <div class="yui-u">
-               <input id="${el}-isPrivate" type="radio" tabindex="0" name="-" <#if (profile.visibility == "PRIVATE")>checked="checked"</#if>/> ${msg("label.isPrivate")}
+               <input id="${el}-isModerated" type="radio" <#if profile.visibility == "MODERATED">checked="checked" </#if>tabindex="0" name="-" />
+               <label for="${el}-isModerated">${msg("site.visibility.label.MODERATED")}<br />
+                  <span id="${el}-moderated-help-text" class="help">${msg("site.visibility.description.MODERATED")}</span>
+               </label>
+            </div>
+         </div>
+         <div class="yui-gd">
+            <div class="yui-u first">&nbsp;</div>
+            <div class="yui-u">
+               <input id="${el}-isPrivate" type="radio" <#if profile.visibility == "PRIVATE">checked="checked" </#if>tabindex="0" name="-" />
+               <label for="${el}-isPrivate">${msg("site.visibility.label.PRIVATE")}<br />
+                  <span id="${el}-private-help-text" class="help">${msg("site.visibility.description.PRIVATE")}</span>
+               </label>
             </div>
          </div>
 
@@ -48,7 +59,7 @@
 
       <div class="bdft">
          <#-- BUTTONS -->
-         <input type="submit" id="${el}-ok-button" value="${msg("button.ok")}" tabindex="0"/>
+         <input type="submit" id="${el}-ok-button" value="${msg("button.save")}" tabindex="0"/>
          <input type="button" id="${el}-cancel-button" value="${msg("button.cancel")}" tabindex="0"/>
       </div>
    </form>

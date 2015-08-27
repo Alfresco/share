@@ -10,12 +10,6 @@
     <description>Alfresco Web Framework common libraries</description>
     <packaging>war</packaging>
 
-    <properties>
-        <sonar.exclusions>
-            src/main/webapp/modules/editors/tinymce/**
-        </sonar.exclusions>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.extensions.surf</groupId>

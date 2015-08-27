@@ -22,26 +22,37 @@
    <class name="org.alfresco.po.share.site.EditSitePageTest" />
   </classes>
  </test>
+  <test name="AddUsersToSitePageTest">
+  <classes>
+   <class name="org.alfresco.po.share.site.AddUsersToSitePageTest" />
+   </classes>
+ </test>
+
+ <!-- 
  <test name="InviteMembersPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.InviteMembersPageTest" />
   </classes>
  </test>
+ 
  <test name="InviteUserOnSiteAndAcceptUserTest">
   <classes>
    <class name="org.alfresco.po.share.site.InviteUserOnSiteAndAcceptUserTest" />
   </classes>
  </test>
+  -->
  <test name="NewFolderPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.NewFolderPageTest" />
   </classes>
  </test>
-  <test name="PendingInvitesPageTest">
+ <!-- 
+ <test name="PendingInvitesPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.PendingInvitesPageTest" />
   </classes>
  </test>
+  -->
  <test name="SiteFinderPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.SiteFinderPageTest" />

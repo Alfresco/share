@@ -479,7 +479,7 @@
          });
 
          // OK button
-         this.widgets.okButton = Alfresco.util.createYUIButton(this, "ok", this.onOK);
+         this.widgets.okButton = Alfresco.util.createYUIButton(this, "ok", this.onOK, {additionalClass: "alf-primary-button"});
 
          // Cancel button
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancel", this.onCancel);

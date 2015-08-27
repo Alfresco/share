@@ -23,8 +23,11 @@ import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogue;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -38,22 +41,27 @@ import org.openqa.selenium.support.ui.Select;
 @SuppressWarnings("unchecked")
 public class CreateSitePage extends ShareDialogue
 {
+    private static Log logger = LogFactory.getLog(SitePage.class);
+
     protected static final By MODERATED_CHECKBOX = By.cssSelector("input[id$='-isModerated']");
     protected static final By PRIVATE_CHECKBOX = By.cssSelector("input[id$='-isPrivate']");
     protected static final By PUBLIC_CHECKBOX = By.cssSelector("input[id$='-isPublic']");
+    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='moderated-help-text']");
+    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='private-help-text']");
+    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='public-help-text']");
     protected static final By INPUT_DESCRIPTION = By.cssSelector("textarea[id$='-description']");
     protected static final By INPUT_TITLE = By.name("title");
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
     protected static final By CANCEL_BUTTON = By.cssSelector("button[id$='cancel-button-button']");
     protected static final By CREATE_SITE_FORM = By.id("alfresco-createSite-instance-form");
+    protected static final By SAVE_BUTTON = By.cssSelector("span.yui-button.yui-submit-button.alf-primary-button");
 
     @Override
     public CreateSitePage render(RenderTime timer)
     {
-        elementRender(timer, RenderElement.getVisibleRenderElement(CREATE_SITE_FORM), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION));
+        elementRender(timer, RenderElement.getVisibleRenderElement(CREATE_SITE_FORM), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(SAVE_BUTTON));
         return this;
     }
-
 
     /**
      * Verify if the create dialog is displayed. A wait is introduce to deal
@@ -143,7 +151,7 @@ public class CreateSitePage extends ShareDialogue
 
     /**
      * Selects the visibility required for site to be created/edited.
-     *
+     * 
      * @param isPrivate boolean
      * @param isModerated boolean
      */
@@ -151,15 +159,15 @@ public class CreateSitePage extends ShareDialogue
     {
         if (isPrivate)
         {
-            driver.findElement(PRIVATE_CHECKBOX).click();
+            findAndWait(PRIVATE_CHECKBOX).click();
             return;
         }
         else
         {
-            driver.findElement(PUBLIC_CHECKBOX).click();
+            findAndWait(PUBLIC_CHECKBOX).click();
             if (isModerated)
             {
-                driver.findElement(MODERATED_CHECKBOX).click();
+                findAndWait(MODERATED_CHECKBOX).click();
             }
         }
     }
@@ -259,6 +267,39 @@ public class CreateSitePage extends ShareDialogue
     }
 
     /**
+     * Returns help text under private checkbox
+     * 
+     * @return
+     */
+    public String getPrivateCheckboxHelpText()
+    {
+        return driver.findElement(PRIVATE_CHECKBOX_HELP_TEXT).getText();
+    }
+
+    /**
+     * Returns true if help text under privete checkbox is displayed
+     * 
+     * @return
+     */
+    public boolean isPrivateCheckboxHelpTextDisplayed()
+    {
+        try
+        {
+            findAndWait(PRIVATE_CHECKBOX_HELP_TEXT);
+            return true;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Can't find css for private checkbox help. ", nse);
+        }
+        catch (TimeoutException te)
+        {
+            logger.error("Timed out finding css for private checkbox help. ", te);
+        }
+        return false;
+    }
+
+    /**
      * Checks if the check box with the label public is ticked.
      * 
      * @return true if selected
@@ -276,6 +317,39 @@ public class CreateSitePage extends ShareDialogue
     }
 
     /**
+     * Returns help text under public checkbox
+     * 
+     * @return
+     */
+    public String getPublicCheckboxHelpText()
+    {
+        return driver.findElement(PUBLIC_CHECKBOX_HELP_TEXT).getText();
+    }
+
+    /**
+     * Returns true if help text under public checkbox is displayed
+     * 
+     * @return
+     */
+    public boolean isPublicCheckboxHelpTextDisplayed()
+    {
+        try
+        {
+            findAndWait(PUBLIC_CHECKBOX_HELP_TEXT);
+            return true;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Can't find css for public checkbox help. ", nse);
+        }
+        catch (TimeoutException te)
+        {
+            logger.error("Timed out finding css for public checkbox help. ", te);
+        }
+        return false;
+    }
+
+    /**
      * Checks if the check box with the label private is ticked.
      * 
      * @return true if selected
@@ -290,6 +364,39 @@ public class CreateSitePage extends ShareDialogue
         {
             return false;
         }
+    }
+
+    /**
+     * Returns help text under moderated checkbox
+     * 
+     * @return
+     */
+    public String getModeratedCheckboxHelpText()
+    {
+        return driver.findElement(MODERATED_CHECKBOX_HELP_TEXT).getText();
+    }
+
+    /**
+     * Returns true if help text under moderated checkbox is displayed
+     * 
+     * @return
+     */
+    public boolean isModeratedCheckboxHelpTextDisplayed()
+    {
+        try
+        {
+            findAndWait(MODERATED_CHECKBOX_HELP_TEXT);
+            return true;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Can't find css for moderated checkbox help. ", nse);
+        }
+        catch (TimeoutException te)
+        {
+            logger.error("Timed out finding css for moderated checkbox help. ", te);
+        }
+        return false;
     }
 
     /**
@@ -408,7 +515,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isUrlNameEditingDisaabled()
     {
-        if (driver.findElement(By.name("shortName")).getAttribute("disabled") != null)
+        if (findAndWait(By.name("shortName")).getAttribute("disabled") != null)
         {
             return true;
         }
@@ -422,7 +529,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isNameEditingDisaabled()
     {
-        if (driver.findElement(By.name("title")).getAttribute("disabled") != null)
+        if (findAndWait(By.name("title")).getAttribute("disabled") != null)
         {
             return true;
         }

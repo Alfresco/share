@@ -447,7 +447,7 @@
          this.versionSection = Dom.get(this.id + "-versionSection-div");
 
          // Create and save a reference to the uploadButton so we can alter it later
-         this.widgets.uploadButton = Alfresco.util.createYUIButton(this, "upload-button", this.onUploadButtonClick);
+         this.widgets.uploadButton = Alfresco.util.createYUIButton(this, "upload-button", this.onUploadButtonClick, {additionalClass: "alf-primary-button"});
 
          // Create and save a reference to the cancelOkButton so we can alter it later
          this.widgets.cancelOkButton = Alfresco.util.createYUIButton(this, "cancelOk-button", this.onCancelOkButtonClick);

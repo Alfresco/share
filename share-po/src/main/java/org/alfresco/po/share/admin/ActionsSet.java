@@ -109,25 +109,20 @@ public class ActionsSet extends PageElement
     {
         // Click the action
         clickActionByName(actionName);
-
         // Find the dialog
         WebElement dialog = this.driver.findElement(DIALOG);
         if (PageUtils.usableElement(dialog))
         {
+            // Within the dialog find the buttons
+            List<WebElement> dialogButtons = dialog.findElements(DIALOG_BUTTONS);
             // Find the dialog
-            if (PageUtils.usableElement(dialog))
+            // Iterate over the dialogButtons and click the button that matches the named dialog button name
+            for (WebElement button : dialogButtons)
             {
-                // Within the dialog find the buttons
-                List<WebElement> dialogButtons = dialog.findElements(DIALOG_BUTTONS);
-
-                // Iterate over the dialogButtons and click the button that matches the named dialog button name
-                for (WebElement button : dialogButtons)
+                if (dialogButtonName.equalsIgnoreCase(StringUtils.trim(button.getText())))
                 {
-                    if (dialogButtonName.equalsIgnoreCase(StringUtils.trim(button.getText())))
-                    {
-                        button.click();
-                        break;
-                    }
+                    button.click();
+                    break;
                 }
             }
         }

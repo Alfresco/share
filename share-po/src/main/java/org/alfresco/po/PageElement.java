@@ -67,7 +67,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
     private Log logger = LogFactory.getLog(PageElement.class);
     private static final String LOCATOR_REQUIRED_ERR_MSG = "A locator is required";
     @Value("${render.element.wait.time}")
-    private long defaultWaitTime = 4000;
+	protected long defaultWaitTime = 4000;
     @Value("${render.page.wait.time}")
     protected long maxPageLoadingTime = 30000;
     @Value("${share.target}")

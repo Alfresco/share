@@ -41,7 +41,8 @@ import org.testng.annotations.Test;
 public class SiteGroupsPageTest extends AbstractTest
 {
     private String groupName = "testGrp" + System.currentTimeMillis();
-    InviteMembersPage membersPage;
+    //InviteMembersPage membersPage;
+    AddUsersToSitePage membersPage;
     SiteGroupsPage siteGroupsPage;
     AddGroupsPage addGroupsPage;
     String user;
@@ -69,7 +70,8 @@ public class SiteGroupsPageTest extends AbstractTest
         //navigate to site groups page
         CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
-        membersPage = site.getSiteNav().selectInvite().render();
+        //membersPage = site.getSiteNav().selectInvite().render();
+        membersPage = site.getSiteNav().selectAddUser().render();
         siteGroupsPage = membersPage.navigateToSiteGroupsPage().render();
 
         //add a group to site

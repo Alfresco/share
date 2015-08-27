@@ -236,14 +236,7 @@
        */ 
       onTagRefresh_failure: function TagFilter_onTagRefresh_failure(response)
       {
-         if (response.serverResponse.status === 403)
-         {
-            Dom.get(this.id + "-tags").innerHTML = '<span>' + this.msg("message.refresh.failure.forbidden") + '</span>';
-         }
-         else
-         {
-            Dom.get(this.id + "-tags").innerHTML = '<span class="error-alt">' + this.msg("message.refresh.failure") + '</span>';
-         }
+         Dom.get(this.id + "-tags").innerHTML = '<span class="error-alt">' + this.msg("message.refresh.failure") + '</span>';
       },
       
 

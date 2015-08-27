@@ -17,16 +17,13 @@ package org.alfresco.po.share.site;
 import java.util.List;
 
 import org.alfresco.po.AbstractTest;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.SharePage;
-
 import org.alfresco.po.share.UserSearchPage;
-import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.task.EditTaskPage;
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.po.exception.PageRenderTimeException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -38,22 +35,22 @@ import org.testng.annotations.Test;
 public class SiteMembersPageTest extends AbstractTest
 {
     SiteMembersPage siteMembersPage;
-    InviteMembersPage inviteMembersPage;
+    AddUsersToSitePage addUsersToSitePage;
     WebElement user;
     DashBoardPage dashBoard;
     String siteName;
 
     // user should be created.
     String userName = "user" + System.currentTimeMillis() + "@test.com";
-    public static long refreshDuration = 15000;
+    public static long refreshDuration = 30000;
 
     @BeforeClass(groups = "Enterprise-only")
     public void instantiateMembers() throws Exception
     {
         siteName = "InviteMembersTest" + System.currentTimeMillis();
         dashBoard = loginAs(username, password);
-        UserSearchPage userPage = dashBoard.getNav().getUsersPage().render();
-        NewUserPage newPage = userPage.selectNewUser().render();
+        UserSearchPage userSearchPage = dashBoard.getNav().getUsersPage().render();
+        NewUserPage newPage = userSearchPage.selectNewUser().render();
         newPage.inputFirstName(userName);
         newPage.inputLastName(userName);
         newPage.inputEmail(userName);
@@ -66,16 +63,17 @@ public class SiteMembersPageTest extends AbstractTest
         CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
         List<String> searchUsers = null;
-        inviteMembersPage = site.getSiteNav().selectInvite().render();
-        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        addUsersToSitePage = site.getSiteNav().selectAddUser().render();
+        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
-            searchUsers = inviteMembersPage.searchUser(userName);
+            searchUsers = addUsersToSitePage.searchUser(userName);
             try
             {
-                if (searchUsers != null && searchUsers.size() > 0)
+                if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userName))
                 {
-                    inviteMembersPage.selectRole(searchUsers.get(0), UserRole.COLLABORATOR).render();
-                    inviteMembersPage.clickInviteButton().render();
+                    addUsersToSitePage.clickSelectUser(userName);
+                    addUsersToSitePage.setUserRoles(userName, UserRole.COLLABORATOR);
+                    addUsersToSitePage.clickAddUsersButton();
                     break;
                 }
             }
@@ -86,30 +84,20 @@ public class SiteMembersPageTest extends AbstractTest
             }
             try
             {
-                inviteMembersPage.renderWithUserSearchResults(refreshDuration);
+                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
             }
             catch (PageRenderTimeException exception)
             {
             }
         }
-
-        shareUtil.logout(driver);
-        DashBoardPage userDashBoardPage = loginAs(userName, userName);
-        MyTasksDashlet task = userDashBoardPage.getDashlet("tasks").render();
-        EditTaskPage editTaskPage = task.clickOnTask(siteName).render();
-        userDashBoardPage = editTaskPage.selectAcceptButton().render();
-        shareUtil.logout(driver);
-        dashBoard = loginAs(username, password);
-        driver.navigate().to(String.format("%s/page/site/%s/dashboard", shareUrl, siteName));
-        site = resolvePage(driver).render();
-        siteMembersPage = site.getSiteNav().selectMembers().render();
+        siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
     }
 
     @Test(groups = "Enterprise-only")
     public void testSearchUser() throws Exception
     {
         List<String> searchUsers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
         {
             try
             {
@@ -119,7 +107,7 @@ public class SiteMembersPageTest extends AbstractTest
             catch (PageRenderTimeException exception)
             {
             }
-            if (searchUsers != null && searchUsers.size() > 0)
+            if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).indexOf(userName) != -1)
             {
                 break;
             }

@@ -115,6 +115,8 @@ function main()
       components = [];
    }
    
+   var welcomePanelEnabled = false;
+   
    // Transform the webscripts to easy-to-access dashlet items for the template
    var columns = [[], [], [], []];
    for (i = 0; i < components.length; i++)
@@ -157,6 +159,11 @@ function main()
                columns[column-1][row-1] = dashlet;
             }
          }
+         
+         if (regionId == "full-width-dashlet")
+         {
+            welcomePanelEnabled = true;
+         }
       }
       // else skip this component since it lacks regionId or shortName
    }
@@ -196,6 +203,7 @@ function main()
    model.dashboardId = dashboardId;
    model.columns = columns;
    model.currentLayout = currentLayout;
+   model.welcomePanelEnabled = welcomePanelEnabled;
    
    // Widget instantiation metadata...
    var customizeDashlets = {
@@ -209,7 +217,8 @@ function main()
             icon : url.context + "/res/components/dashboard/images/" + currentTemplate.id + ".png"
          },
          dashboardUrl : model.dashboardUrl,
-         dashboardId : model.dashboardId
+         dashboardId : model.dashboardId,
+         welcomePanelEnabled: model.welcomePanelEnabled
       }
    };
    model.widgets = [customizeDashlets];

@@ -542,7 +542,7 @@
                   label: "form.control.object-picker.remove-item"
                });
             }
-            this.widgets.ok = Alfresco.util.createYUIButton(this, "ok", this.onOK);
+            this.widgets.ok = Alfresco.util.createYUIButton(this, "ok", this.onOK, {additionalClass:"alf-primary-button"});
             this.widgets.cancel = Alfresco.util.createYUIButton(this, "cancel", this.onCancel);
             
             // force the generated buttons to have a name of "-" so it gets ignored in

@@ -97,7 +97,7 @@
                      </div>
                   </div>
                   <div id="${id}-form-buttons" class="form-buttons">
-                     <span id="${id}-form-submit" class="yui-button yui-submit-button">
+                     <span id="${id}-form-submit" class="yui-button yui-submit-button alf-primary-button">
                         <span class="first-child">
                            <button type="button" tabindex="0" name="-">${msg("button." + mode + "-job")}</button>
                         </span>

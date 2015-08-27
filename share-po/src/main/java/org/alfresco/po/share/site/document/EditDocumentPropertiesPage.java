@@ -305,7 +305,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
     {
         try
         {
-            return driver.findElement(By.cssSelector("button[id$='submit-button']")).isDisplayed();
+            return driver.findElement(By.cssSelector("span.yui-button.yui-submit-button.alf-primary-button")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {

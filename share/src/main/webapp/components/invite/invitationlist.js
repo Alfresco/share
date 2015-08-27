@@ -116,7 +116,10 @@
          }
          
          // button to invite all people in the list 
-         this.widgets.inviteButton = Alfresco.util.createYUIButton(this, "invite-button", this.inviteButtonClick);
+         this.widgets.inviteButton = Alfresco.util.createYUIButton(this, "invite-button", this.inviteButtonClick,
+               {
+                  additionalClass: "alf-primary-button"
+               });
          
          // File Select menu button
          this.widgets.allRolesSelect = Alfresco.util.createYUIButton(this, "selectallroles-button", this.onSelectAllRoles,
@@ -124,6 +127,9 @@
             type: "menu", 
             menu: "selectallroles-menu"
          });
+         
+         // Role info tooltip
+         this.widgets.roleTooltip = new Alfresco.module.RolesTooltip(this.id, this.id + "-role-info", "role-info-button", this.options.siteId);
          
          // setup the datasource
          this.widgets.dataSource = new YAHOO.util.DataSource([],
@@ -216,7 +222,7 @@
             var actionsColumnTemplate = Dom.get(me.id + '-role-column-template'),
                templateInstance = actionsColumnTemplate.cloneNode(true);
             templateInstance.setAttribute("id", "actionsDiv" + id);
-            Dom.setStyle(templateInstance, "display", "");
+            Dom.removeClass(templateInstance, "hidden");
 
             // define the role dropdown menu and the event listeners
             var rolesMenu = [], role;
@@ -268,9 +274,7 @@
           * @param oData {object|string}
           */
          var renderCellRemoveButton = function InvitationList_renderCellRemoveButton(elCell, oRecord, oColumn, oData)
-         {  
-            Dom.setStyle(elCell.parentNode, "width", oColumn.width + "px");
-
+         {
             var desc =
                '<span id="' + me.id + '-removeInvitee">' +
                '  <a href="#" class="remove-item-button"><span class="removeIcon">&nbsp;</span></a>' +
@@ -282,14 +286,25 @@
          var columnDefinitions =
          [
             { key: "user", label: "User", sortable: false, formatter: renderCellDescription },
-            { key: "role", label: "Role", sortable: false, formatter: renderCellRole, width: 140 },
-            { key: "remove", label: "Remove", sortable: false, formatter: renderCellRemoveButton, width: 30 }
+            { key: "role", label: "Role", sortable: false, formatter: renderCellRole },
+            { key: "remove", label: "Remove", sortable: false, formatter: renderCellRemoveButton }
          ];
 
+         var msgEmpty = "";
+         // Sets up the appropriate message for the right page.
+         if (me.id.indexOf("_invite_") > 0)
+         {
+            msgEmpty = this.msg("invitationlist.empty-list");
+         }
+         else if (me.id.indexOf("_add-users_") > 0)
+         {
+            msgEmpty = this.msg("added-users-list.direct-add-instructions");
+         }
+         
          // DataTable definition
          this.widgets.dataTable = new YAHOO.widget.DataTable(this.id + "-inviteelist", columnDefinitions, this.widgets.dataSource,
          {
-            MSG_EMPTY: this.msg("invitationlist.empty-list")
+            MSG_EMPTY: msgEmpty
          });
       },
 
@@ -591,6 +606,35 @@
       },
 
       /**
+       * If we are in the add-users page, then users are added directly.
+       * This function handles direct add finalization.
+       */
+      _finalizeDirectAdds: function InvitationList__finalizeDirectAdds(inviteData)
+      {
+         var addedUsers = [];
+         if (this.id.indexOf("_add-users_") > 0)
+         {
+            var length = inviteData.recs.length;
+            for (var i = 0; i < length; i++)
+            {
+               for (var j = inviteData.successes.length - 1; j >= 0; j--)
+               {
+                  if (inviteData.successes[j] == i)
+                  {
+                     addedUsers.push(inviteData.recs[i]._oData);
+                  }
+               }
+            }
+            
+            // Fire the usersAdded event
+            YAHOO.Bubbling.fire("usersAdded",
+            {
+               users: addedUsers
+            });
+         }
+      },
+      
+      /**
        * Called when all invites have been processed
        *
        * @method _finalizeInvites
@@ -598,7 +642,9 @@
        * @private
        */
       _finalizeInvites: function InvitationList__finalizeInvites(inviteData)
-      {  
+      {
+         this._finalizeDirectAdds(inviteData);
+         
          // remove the entries that were successful
          for (var i = inviteData.successes.length - 1; i >= 0; i--)
          {

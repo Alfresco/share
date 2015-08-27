@@ -24,6 +24,8 @@ function main()
    }
    model.shareVersion = shareManifest.mainAttributeValue("Implementation-Version");
    model.shareLibs = shareManifest.attributesMap("Share Libraries");
+   model.shareBuild = "r" + shareManifest.mainAttributeValue("Build-Revision") + 
+      "-b" + shareManifest.mainAttributeValue("Build-Number");
 }
 
 main();

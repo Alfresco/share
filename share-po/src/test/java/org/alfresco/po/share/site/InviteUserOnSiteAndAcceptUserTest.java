@@ -42,6 +42,7 @@ import org.testng.annotations.Test;
  * @author CBairaajoni
  * @since 1.0
  */
+@Deprecated
 @Listeners(FailedTestListener.class)
 public class InviteUserOnSiteAndAcceptUserTest extends AbstractTest
 {

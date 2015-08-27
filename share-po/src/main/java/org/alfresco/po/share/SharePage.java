@@ -40,7 +40,7 @@ import org.openqa.selenium.support.ui.Select;
  * Abstract of an Alfresco Share page object which contains helper methods
  * that are only applicable when on a share based page.
  * 
- *
+ * 
  * @author Michael Suzuki
  * @author Shan Nagarajan
  */
@@ -58,6 +58,7 @@ public abstract class SharePage extends Page
     protected static final By CANCEL_DELETE = By.xpath("//span[@class='button-group']/span[2]/span/button");
     private final static By TOP_LOGO = By.xpath("//div[@id='HEADER_LOGO']/div/img");
     private final static By FOOTER_LOGO = By.xpath("//span[@class='copyright']/a/img");
+    private static final By PAGE_TITLE_LABEL = By.cssSelector("span[id^=alfresco_html_Label]");
     private Navigation nav;
 
     /**
@@ -65,7 +66,7 @@ public abstract class SharePage extends Page
      * The message details the background action taking place.
      * Some possible messages are document being uploaded, site
      * being created.
-     *
+     * 
      * @return if message displayed
      */
     protected boolean isJSMessageDisplayed()
@@ -87,7 +88,7 @@ public abstract class SharePage extends Page
 
     /**
      * Verify if the Alfresco logo is present on the page.
-     *
+     * 
      * @return true if logo element exists
      */
     public boolean isLogoPresent()
@@ -97,17 +98,38 @@ public abstract class SharePage extends Page
 
     /**
      * Alfresco share based layout and style page title label element.
-     *
+     * 
      * @return String page title label
      */
     public String getPageTitle()
     {
         return driver.findElement(By.cssSelector("#HEADER_TITLE")).getText().trim();
     }
+    
+    /**
+     * Page title label
+     * 
+     * 
+     * @return
+     */
+    public String getPageTitleLabel()
+    {
+        String pageTitleLabel = "";
+        try
+        {
+            waitForElement(PAGE_TITLE_LABEL, defaultWaitTime);
+            pageTitleLabel = findAndWait(PAGE_TITLE_LABEL).getText();
+        } catch (TimeoutException toe)
+        {
+            
+        }
+        return pageTitleLabel;
+    }
 
+    
     /**
      * Verify share page title is present and matches the page
-     *
+     * 
      * @return true if exists
      */
     public boolean isTitlePresent(final String title)
@@ -125,7 +147,7 @@ public abstract class SharePage extends Page
 
     /**
      * Verifies if the element is visible on the page.
-     *
+     * 
      * @param panelName the css location of the element
      * @return true if element is visible
      */
@@ -136,7 +158,7 @@ public abstract class SharePage extends Page
 
     /**
      * Gets the {@link LoginPage}
-     *
+     * 
      * @return LoginPage page object
      */
     public HtmlPage getLogin()
@@ -146,7 +168,7 @@ public abstract class SharePage extends Page
 
     /**
      * Get the {@link Navigation}
-     *
+     * 
      * @return Navigation page object
      */
     public Navigation getNav()
@@ -157,7 +179,7 @@ public abstract class SharePage extends Page
     /**
      * Perform inputing a search term in to the search box on the main
      * navigation.
-     *
+     * 
      * @return Search page object
      */
     public SearchBox getSearch()
@@ -167,8 +189,8 @@ public abstract class SharePage extends Page
 
     /**
      * Helper to resolve the delete button from the collection of buttons.
-     *
-     * @param button   String button name value to find
+     * 
+     * @param button String button name value to find
      * @param elements List<WebElement> collection of buttons
      * @return {@link WebElement} delete button
      */
@@ -212,7 +234,7 @@ public abstract class SharePage extends Page
 
     /**
      * Verifies if a user is currently logged in
-     *
+     * 
      * @return true if user is logged in
      */
     public boolean isLoggedIn()
@@ -222,7 +244,7 @@ public abstract class SharePage extends Page
 
     /**
      * Get copy right text from alfresco footer.
-     *
+     * 
      * @return String copy right text.
      */
     public String getCopyRight()
@@ -234,7 +256,7 @@ public abstract class SharePage extends Page
     /**
      * Waits for site pop up message to disappear to allow the driver to resume
      * operations on the page.
-     *
+     * 
      * @param waitTime timer in milliseconds
      * @return true if message has gone
      */
@@ -278,7 +300,7 @@ public abstract class SharePage extends Page
      * Default wait for site pop up message to disappear. Once the popup disappears
      * driver can resume operations on the page as the focus is
      * off the div.bd and back on the main page.
-     *
+     * 
      * @return true if message has gone
      */
     protected boolean canResume()
@@ -289,7 +311,7 @@ public abstract class SharePage extends Page
 
     /**
      * Wait for file to be present given path for maximum page loading time.
-     *
+     * 
      * @param pathname Absolute Path Name with File Name.
      */
     public void waitForFile(final long time, String pathname)
@@ -299,7 +321,7 @@ public abstract class SharePage extends Page
 
     /**
      * Wait for file to be present given path for maximum page loading time.
-     *
+     * 
      * @param pathname Absolute Path Name with File Name.
      */
     public void waitForFile(String pathname)
@@ -309,9 +331,9 @@ public abstract class SharePage extends Page
 
     /**
      * Wait for file to be present given path.
-     *
+     * 
      * @param renderTime Render Time
-     * @param pathname   Absolute Path Name with File Name.
+     * @param pathname Absolute Path Name with File Name.
      */
     protected void waitForFile(RenderTime renderTime, String pathname)
     {
@@ -336,7 +358,7 @@ public abstract class SharePage extends Page
     /**
      * <li>Click the element which passed and wait for given ElementState on the same element.</li> <li>If the Element State not changed, then render the
      * {@link SharePopup} Page, if it is rendered the return {@link SharePopup} page.</li>
-     *
+     * 
      * @param locator By
      * @param elementState ElementState
      * @return {@link HtmlPage}
@@ -390,7 +412,7 @@ public abstract class SharePage extends Page
     /**
      * Method to get element text for given locator.
      * If the element is not found, returns empty string
-     *
+     * 
      * @param locator By
      * @return String
      */
@@ -427,7 +449,7 @@ public abstract class SharePage extends Page
 
     /**
      * Helper to consistently get the Site Short Name.
-     *
+     * 
      * @param siteName String Name of the test for uniquely identifying / mapping test data with the test
      * @return String site short name
      */
@@ -446,8 +468,8 @@ public abstract class SharePage extends Page
 
     /**
      * Wait until the black message box appear with text then wait until same black message disappear with text.
-     *
-     * @param text          - Text to be checked in the black message.
+     * 
+     * @param text - Text to be checked in the black message.
      * @param timeInSeconds - Time to wait in seconds.
      */
     protected void waitUntilMessageAppearAndDisappear(String text, long timeInSeconds)
@@ -459,7 +481,7 @@ public abstract class SharePage extends Page
      * Return the {@link RenderElement} of the action message.
      * Checks that the black box with the message is not showing
      * on the page or showing pending state passed invisible vs visible.
-     *
+     * 
      * @param state {@link ElementState} the visiblity state of element
      * @return {@link RenderElement} of action message based on state
      */
@@ -472,7 +494,7 @@ public abstract class SharePage extends Page
     /**
      * Find the all the elements for given locator and returns the first visible {@link WebElement}.
      * It could be used to elemanate the hidden element with same locators.
-     *
+     * 
      * @param locator By
      * @return {@link WebElement}
      */
@@ -492,7 +514,7 @@ public abstract class SharePage extends Page
     /**
      * Returns the validation message from the validation popup balloon for the web element
      * or an empty string if there is no message or the field is not validated.
-     *
+     * 
      * @param locator By
      * @return The validation message
      */
@@ -517,7 +539,7 @@ public abstract class SharePage extends Page
     /**
      * Returns the validation message from the validation popup balloon for the web element
      * or an empty string if there is no message or the field is not validated.
-     *
+     * 
      * @param webElement WebElement
      * @return The validation message
      */
@@ -533,18 +555,18 @@ public abstract class SharePage extends Page
      */
     public SharePage waitUntilAlert()
     {
-        final long WAIT_DELETE_FROM_DOM = getDefaultWaitTime() / 1000;
+        final long WAIT_DELETE_FROM_DOM = getDefaultWaitTime() / 100;
         return waitUntilAlert(WAIT_DELETE_FROM_DOM);
     }
 
     /**
      * Method for wait while balloon message about some changes hide.
-     *
+     * 
      * @param seconds long
      */
     public SharePage waitUntilAlert(long seconds)
     {
-        final long WAIT_ALERT_PRESENT = 1; //hardcoded - possible temporary excess in most cases.
+        final long WAIT_ALERT_PRESENT = 1; // hardcoded - possible temporary excess in most cases.
         try
         {
             By AlertMessage = By.xpath(".//*[@id='message']/div/span");
@@ -561,11 +583,10 @@ public abstract class SharePage extends Page
         return this;
     }
 
-
     /**
      * Select the given option with text matching the argument in select options list.
-     *
-     * @param by   the selector of the Select dropdown.
+     * 
+     * @param by the selector of the Select dropdown.
      * @param text The visible text to match against
      */
     public void selectOption(By by, String text)
@@ -576,20 +597,19 @@ public abstract class SharePage extends Page
 
     /**
      * Accept inputs from keyborad on page level.
-     *
+     * 
      * @param inputs Keys...
      */
-    public void inputFromKeyborad(Keys ...inputs)
+    public void inputFromKeyborad(Keys... inputs)
     {
         Actions actions = new Actions(driver);
         actions.sendKeys(inputs);
         actions.perform();
     }
 
-
     /**
      * Get Footer page which has license details.
-     *
+     * 
      * @return FootersPage
      */
     public FootersPage getFooter()
@@ -608,7 +628,6 @@ public abstract class SharePage extends Page
 
         return factoryPage.instantiatePage(driver, FootersPage.class).render();
     }
-
 
     /**
      * @return String
@@ -657,12 +676,12 @@ public abstract class SharePage extends Page
 
     /**
      * Get background color of element or color of element (font color)
-     *
+     * 
      * @param locator By
      * @param background if needed to find color of element's background - param must be true
-     *                   if needed to find color of element itself - param must be false
+     *            if needed to find color of element itself - param must be false
      * @return hex
-     * return color in Hex color model
+     *         return color in Hex color model
      */
     public String getColor(By locator, boolean background)
     {
@@ -702,10 +721,9 @@ public abstract class SharePage extends Page
         return hex;
     }
 
-
     /**
      * Open About popUp from footer.
-     *
+     * 
      * @return AboutPopUp
      */
     public AboutPopUp openAboutPopUp()
@@ -716,7 +734,7 @@ public abstract class SharePage extends Page
 
     /**
      * Return Top Logo image url.
-     *
+     * 
      * @return String
      */
     public String getTopLogoUrl()
@@ -726,7 +744,7 @@ public abstract class SharePage extends Page
 
     /**
      * Return Footer Logo image Url
-     *
+     * 
      * @return String
      */
     public String getFooterLogoUrl()

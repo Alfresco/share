@@ -54,7 +54,8 @@
        */
       onReady: function WLT_onReady()
       {
-         this.widgets.startWorkflowButton = Alfresco.util.createYUIButton(this, "startWorkflow-button", this.onStartWorkflowButtonClick, {});
+         this.widgets.startWorkflowButton = Alfresco.util.createYUIButton(this, "startWorkflow-button", this.onStartWorkflowButtonClick, 
+               {additionalClass: "alf-primary-button"});
          Dom.removeClass(Selector.query(".hidden", this.id + "-body", true), "hidden");
       },
 

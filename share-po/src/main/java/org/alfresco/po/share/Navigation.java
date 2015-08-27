@@ -1,18 +1,14 @@
 /*
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- *
  * This file is part of Alfresco
- *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,6 +27,7 @@ import org.alfresco.po.share.adminconsole.NodeBrowserPage;
 import org.alfresco.po.share.search.FacetedSearchConfigPage;
 import org.alfresco.po.share.search.FacetedSearchHeaderSearchForm;
 import org.alfresco.po.share.search.FacetedSearchPage;
+import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.document.MyFilesPage;
@@ -50,11 +47,11 @@ import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * Represent elements found on the HTML page relating to the main navigation bar
- *
+ * 
  * @author Michael Suzuki
  * @since 1.0
  */
-@FindBy(tagName="nav")
+@FindBy(tagName = "nav")
 public class Navigation extends PageElement
 {
 
@@ -68,11 +65,13 @@ public class Navigation extends PageElement
     private static final String RECENT_SITES = "td[id^='HEADER_SITES_MENU_RECENT'] a";
     private static final String FAVOURITE_TEXT = "div[id^='HEADER_SITES_MENU_FAVOURITES'] td[class$='dijitMenuItemLabel']";
     private static final String FAVOURITE_SITES = "div[id^='HEADER_SITES_MENU_FAVOURITES'] td[class$='dijitMenuItemLabel'] a";
-    
-    @FindBy(id="HEADER_HOME_text")Link home;
+
+    @FindBy(id = "HEADER_HOME_text")
+    Link home;
+
     /**
      * Mimics the action of selecting the dashboard link.
-     *
+     * 
      * @return HtmlPage dashboard page object
      */
     public HtmlPage selectMyDashBoard()
@@ -81,10 +80,12 @@ public class Navigation extends PageElement
         return getCurrentPage();
     }
 
-    @FindBy(id="HEADER_PEOPLE_text") Link peopleFinder;
+    @FindBy(id = "HEADER_PEOPLE_text")
+    Link peopleFinder;
+
     /**
      * Mimics the action of selecting people finder link.
-     *
+     * 
      * @return HtmlPage people finder page object
      */
     public PeopleFinderPage selectPeople()
@@ -95,7 +96,7 @@ public class Navigation extends PageElement
 
     /**
      * Mimics the action of selecting site finder link.
-     *
+     * 
      * @return HtmlPage people finder page object
      */
     public HtmlPage selectSearchForSites()
@@ -107,7 +108,7 @@ public class Navigation extends PageElement
         }
         catch (NoSuchElementException nse)
         {
-            //Try again
+            // Try again
             selectSearchForSites();
         }
         return getCurrentPage().render();
@@ -115,17 +116,19 @@ public class Navigation extends PageElement
 
     /**
      * Mimics the action of selecting create site link.
-     *
+     * 
      * @return HtmlPage people finder page object
      */
     public HtmlPage selectCreateSite()
     {
         selectSitesDropdown();
-        driver.findElement(CREATE_SITE_LINK).click();
-        return getCurrentPage();
+        findAndWait(CREATE_SITE_LINK).click();
+        return factoryPage.instantiatePage(driver, CreateSitePage.class);
     }
 
-    @FindBy(id="HEADER_SITES_MENU_text") WebElement siteDropdown;
+    @FindBy(id = "HEADER_SITES_MENU_text")
+    WebElement siteDropdown;
+
     /**
      * Selects the "Sites" icon on main navigation. As this link is created by
      * Java script, a wait is implemented to ensure the link is rendered.
@@ -142,57 +145,62 @@ public class Navigation extends PageElement
             throw new PageOperationException("Exceeded time to find the Sites dropdown css.", te);
         }
     }
-    @FindBy(id="HEADER_USER_MENU_POPUP_text") WebElement userDropdown;
+
+    @FindBy(id = "HEADER_USER_MENU_POPUP_text")
+    WebElement userDropdown;
+
     /**
      * Selects the user link on main navigation. As this link is created by Java
      * script, a wait is implemented to ensure the link is rendered.
+     * 
      * @return {@link UserPage}
      */
-    public void selectUserDropdown()
+    public UserPage selectUserDropdown()
     {
         userDropdown.click();
+        return factoryPage.instantiatePage(driver, UserPage.class);
     }
-    
+
     /**
      * Mimics the action of selecting my profile link.
-     *
+     * 
      * @return {@link MyProfilePage}
      */
     public HtmlPage selectMyProfile()
     {
         selectUserDropdown();
-        driver.findElement(By.id("HEADER_USER_MENU_PROFILE_text")).click(); 
+        driver.findElement(By.id("HEADER_USER_MENU_PROFILE_text")).click();
         return getCurrentPage();
     }
 
     /**
      * Mimics the action of selecting Account SoSettings link.
-     *
+     * 
      * @return {@link AccountSettingsPage}
      */
     public HtmlPage selectAccountSettingsPage()
     {
         selectUserDropdown();
         selectAccountSettingsPage();
-        return getCurrentPage(); 
+        return getCurrentPage();
     }
 
     /**
      * Mimics the action of selecting my profile link.
-     *
+     * 
      * @return {@link ChangePasswordPage}
      */
     public HtmlPage selectChangePassword()
     {
         selectUserDropdown();
         driver.findElement(By.id("HEADER_USER_MENU_CHANGE_PASSWORD_text")).click();
-        return getCurrentPage(); 
+        return getCurrentPage();
     }
 
     /**
      * Mimics the action of selecting logout link.
      * The page returned from a logout is a LoginPage.
-     *
+     * 
      * @return {@link LoginPage} page response
      */
     public HtmlPage logout()
@@ -202,10 +210,12 @@ public class Navigation extends PageElement
         return getCurrentPage();
     }
 
-    @FindBy(id="HEADER_REPOSITORY_text") Link repository;
+    @FindBy(id = "HEADER_REPOSITORY_text")
+    Link repository;
+
     /**
      * Mimics the action of selecting repository link.
-     *
+     * 
      * @return HtmlPage repository page object
      */
     public HtmlPage selectRepository()
@@ -213,14 +223,18 @@ public class Navigation extends PageElement
         repository.click();
         return getCurrentPage();
     }
-    
-    @FindBy(id="HEADER_SEARCH_BOX_DROPDOWN_MENU") WebElement advSearchDropDown;
+
+    @FindBy(id = "HEADER_SEARCH_BOX_DROPDOWN_MENU")
+    WebElement advSearchDropDown;
+
     private void clickAdvSearchDropDown()
     {
         advSearchDropDown.click();
     }
-    
-    @FindBy(id="HEADER_SEARCH_BOX_ADVANCED_SEARCH_text") Link advanceSearch;
+
+    @FindBy(id = "HEADER_SEARCH_BOX_ADVANCED_SEARCH_text")
+    Link advanceSearch;
+
     public boolean isAdvSearchLinkPresent()
     {
         clickAdvSearchDropDown();
@@ -229,7 +243,7 @@ public class Navigation extends PageElement
 
     /**
      * Select the advance search button from dropdown.
-     *
+     * 
      * @return HtmlPage advance search page.
      */
     public HtmlPage selectAdvanceSearch()
@@ -241,12 +255,12 @@ public class Navigation extends PageElement
 
     /**
      * Navigates to the users page on Admin Console - Enterprise Only option.
-     *
+     * 
      * @return {@link UserSearchPage} Instance of UserSearchPage
      */
     public HtmlPage getUsersPage()
     {
-        //TODO To be implemented by using UI once JIRA: https://issues.alfresco.com/jira/browse/ALF-18909 is resolved 
+        // TODO To be implemented by using UI once JIRA: https://issues.alfresco.com/jira/browse/ALF-18909 is resolved
         String usersPageURL = "/page/console/admin-console/users";
         String currentUrl = driver.getCurrentUrl();
         if (currentUrl != null)
@@ -257,11 +271,13 @@ public class Navigation extends PageElement
         return getCurrentPage();
     }
 
-    @FindBy(id="HEADER_TASKS") WebElement tasks;
+    @FindBy(id = "HEADER_TASKS")
+    WebElement tasks;
+
     /**
      * Selects the user link on main navigation. As this link is created by Java
      * script, a wait is implemented to ensure the link is rendered.
-     *
+     * 
      * @return {@link MyTasksPage}
      */
     public HtmlPage selectMyTasks()
@@ -273,7 +289,7 @@ public class Navigation extends PageElement
 
     /**
      * Method to select "Workflows I've Started" under Tasks navigation menu item
-     *
+     * 
      * @return {@link MyWorkFlowsPage}
      */
     public HtmlPage selectWorkFlowsIHaveStarted()
@@ -292,12 +308,12 @@ public class Navigation extends PageElement
 
     /**
      * Navigates to the groups page on Admin Console - Enterprise Only option.
-     *
+     * 
      * @return {@link GroupsPage} Instance of UserSearchPage
      */
     public HtmlPage getGroupsPage()
     {
-        //TODO To be implemented by using UI once JIRA: https://issues.alfresco.com/jira/browse/ALF-18909 is resolved 
+        // TODO To be implemented by using UI once JIRA: https://issues.alfresco.com/jira/browse/ALF-18909 is resolved
         String usersPageURL = "/page/console/admin-console/groups";
         String currentUrl = driver.getCurrentUrl();
         if (currentUrl != null)
@@ -311,7 +327,7 @@ public class Navigation extends PageElement
 
     /**
      * Select admin tools.
-     *
+     * 
      * @return the html page
      */
     public HtmlPage selectAdminTools()
@@ -322,7 +338,7 @@ public class Navigation extends PageElement
 
     /**
      * Select manage sites link from home page by Site Admin.
-     *
+     * 
      * @return the html page
      */
 
@@ -334,7 +350,7 @@ public class Navigation extends PageElement
 
     /**
      * Does the current page have a manage-sites link in the header?
-     *
+     * 
      * @return boolean
      */
     public boolean hasSelectManageSitesSiteAdminLink()
@@ -342,10 +358,10 @@ public class Navigation extends PageElement
         List<org.openqa.selenium.WebElement> elements = driver.findElements(By.cssSelector(SITE_ADMIN_MANAGE_SITE_LINK_SELECTOR));
         return (elements.size() != 0);
     }
-    
+
     /**
      * Select manage sites link as Admin.
-     *
+     * 
      * @return the html page
      */
 
@@ -359,7 +375,7 @@ public class Navigation extends PageElement
 
     /**
      * Does the current page have an Admin Tools link in the header?
-     *
+     * 
      * @return boolean
      */
     private boolean hasSelectManageSitesRepoAdmin()
@@ -368,10 +384,9 @@ public class Navigation extends PageElement
         return (elements.size() != 0);
     }
 
-
     /**
      * Abstract the manage sites page to choose.
-     *
+     * 
      * @return the manage sites page
      */
     public HtmlPage selectManageSitesPage()
@@ -398,7 +413,9 @@ public class Navigation extends PageElement
         throw new UnsupportedOperationException("The correct method for finding the manage sites page couldn't be determined");
     }
 
-    @FindBy(id="HEADER_CUSTOMIZE_USER_DASHBOARD") Link config;
+    @FindBy(id = "HEADER_CUSTOMIZE_USER_DASHBOARD")
+    Link config;
+
     /**
      * Mimics the action of selecting on the
      * user dashboard configuration icon
@@ -418,8 +435,8 @@ public class Navigation extends PageElement
     }
 
     /**
-     * Go to Node-Browser  page use direct URL.
-     *
+     * Go to Node-Browser page use direct URL.
+     * 
      * @return {@link org.alfresco.po.share.adminconsole.NodeBrowserPage}
      */
     public NodeBrowserPage getNodeBrowserPage()
@@ -435,8 +452,8 @@ public class Navigation extends PageElement
     }
 
     /**
-     * Go to Node-Browser  page use direct URL.
-     *
+     * Go to Node-Browser page use direct URL.
+     * 
      * @return {@link org.alfresco.po.share.adminconsole.CategoryManagerPage}
      */
     public CategoryManagerPage getCategoryManagerPage()
@@ -453,7 +470,7 @@ public class Navigation extends PageElement
 
     /**
      * Check if "CreateSite" element is present in the sites menu.
-     *
+     * 
      * @return boolean
      */
     public boolean isCreateSitePresent()
@@ -462,10 +479,9 @@ public class Navigation extends PageElement
         return isDisplayed(CREATE_SITE_LINK);
     }
 
-
     /**
      * Check for details of site is favorite or not.
-     *
+     * 
      * @return boolean
      */
     public boolean isSiteFavourtie()
@@ -498,7 +514,7 @@ public class Navigation extends PageElement
 
     /**
      * Set Site as favourite.
-     *
+     * 
      * @return HtmlPage
      */
     public HtmlPage setSiteAsFavourite()
@@ -509,7 +525,7 @@ public class Navigation extends PageElement
             {
                 selectSitesDropdown();
                 driver.findElement(By.cssSelector(SELECT_SITE_AS_FAVOURITE)).click();
-                //remove focus point from the drop down.
+                // remove focus point from the drop down.
                 driver.findElement(By.tagName("body")).click();
                 return getCurrentPage();
             }
@@ -525,7 +541,7 @@ public class Navigation extends PageElement
 
     /**
      * Remove site as favourite.
-     *
+     * 
      * @return HtmlPage
      */
     public HtmlPage removeFavourite()
@@ -549,7 +565,7 @@ public class Navigation extends PageElement
 
     /**
      * Get the names of all recently visited sites.
-     *
+     * 
      * @return List<String>
      */
     public List<String> getRecentSitesPresent()
@@ -565,8 +581,20 @@ public class Navigation extends PageElement
     }
 
     /**
+     * Clicks on the most recent site from the recent site list in sites dropdown
+     * 
+     * @return
+     */
+    public HtmlPage selectMostRecentSite()
+    {
+        List<String> recentSites = getRecentSitesPresent();
+        findAndWait(By.linkText(recentSites.get(0))).click();
+        return factoryPage.instantiatePage(driver, SiteDashboardPage.class);
+    }
+
+    /**
      * Does any sites been selectd as favourite.
-     *
+     * 
      * @return boolean
      */
     public boolean doesAnyFavouriteSiteExist()
@@ -591,7 +619,7 @@ public class Navigation extends PageElement
 
     /**
      * Get list of favourite sites available.
-     *
+     * 
      * @return List<String>
      */
     public List<String> getFavouriteSites()
@@ -616,12 +644,12 @@ public class Navigation extends PageElement
 
     /**
      * Select favourites.
-     *
+     * 
      * @return HtmlPage
      */
     private HtmlPage selectFavourties()
     {
-        //Refresh is needed since sites added in favourites dont reflect.
+        // Refresh is needed since sites added in favourites dont reflect.
         driver.navigate().refresh();
         selectSitesDropdown();
         driver.findElement(By.id("HEADER_SITES_MENU_FAVOURITES_text")).click();
@@ -630,7 +658,7 @@ public class Navigation extends PageElement
 
     /**
      * Select My Sites from sites drop down.
-     *
+     * 
      * @return HtmlPage
      */
     public HtmlPage selectMySites()
@@ -640,10 +668,12 @@ public class Navigation extends PageElement
         return getCurrentPage();
     }
 
-    @FindBy(id="HEADER_SHARED_FILES_text") Link sharedFiles;
+    @FindBy(id = "HEADER_SHARED_FILES_text")
+    Link sharedFiles;
+
     /**
      * Mimics the action of selecting shared files link.
-     *
+     * 
      * @return HtmlPage shared files page object
      */
     public SharedFilesPage selectSharedFilesPage()
@@ -654,12 +684,12 @@ public class Navigation extends PageElement
 
     /**
      * Navigates to the faceted search page.
-     *
+     * 
      * @return {@link FacetedSearchPage} Instance of FacetedSearchPage
      */
     public HtmlPage getFacetedSearchPage()
     {
-      //FIXME should not use url
+        // FIXME should not use url
         String facetedSearchPageURL = "/page/dp/ws/faceted-search";
         String currentUrl = driver.getCurrentUrl();
         if (currentUrl != null)
@@ -677,7 +707,7 @@ public class Navigation extends PageElement
      */
     public HtmlPage getFacetedSearchConfigPage()
     {
-      //FIXME should not use url
+        // FIXME should not use url
         String facetedSearchConfigPageURL = "/page/dp/ws/faceted-search-config";
         String currentUrl = driver.getCurrentUrl();
         if (currentUrl != null)
@@ -690,12 +720,12 @@ public class Navigation extends PageElement
 
     /**
      * Go to Admin Console page (application) use direct URL.
-     *
+     * 
      * @return {@link org.alfresco.po.share.admin.AdminConsolePage}
      */
     public AdminConsolePage getAdminConsolePage()
     {
-      //FIXME should not use url
+        // FIXME should not use url
         String usersPageURL = "/page/console/admin-console/application";
         String currentUrl = driver.getCurrentUrl();
         if (currentUrl != null)
@@ -706,10 +736,12 @@ public class Navigation extends PageElement
         return getCurrentPage().render();
     }
 
-    @FindBy(id="HEADER_MY_FILES")Link myFiles;
+    @FindBy(id = "HEADER_MY_FILES")
+    Link myFiles;
+
     /**
      * Mimics the action of selecting My files link.
-     *
+     * 
      * @return HtmlPage shared files page object
      */
     public MyFilesPage selectMyFilesPage()
@@ -720,14 +752,14 @@ public class Navigation extends PageElement
 
     /**
      * Method to perfrom search using header search bar
-     *
+     * 
      * @param searchString String
      * @return FacetedSearchPage
      */
     public HtmlPage performSearch(String searchString)
     {
-        FacetedSearchHeaderSearchForm facetedSearchHeaderSearchForm = (FacetedSearchHeaderSearchForm)
-            factoryPage.instantiatePageElement(driver, FacetedSearchHeaderSearchForm.class);
+        FacetedSearchHeaderSearchForm facetedSearchHeaderSearchForm = (FacetedSearchHeaderSearchForm) factoryPage
+                .instantiatePageElement(driver, FacetedSearchHeaderSearchForm.class);
         facetedSearchHeaderSearchForm.search(searchString);
         return getCurrentPage();
     }

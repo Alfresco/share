@@ -31,6 +31,11 @@
     */
    var Dom = YAHOO.util.Dom,
       Event = YAHOO.util.Event;
+   
+   /**
+    * Alfresco library aliases
+    */
+   var $html = Alfresco.util.encodeHTML;
 
    /**
     * DynamicWelcome constructor.
@@ -41,7 +46,7 @@
     */
    Alfresco.dashlet.DynamicWelcome = function DynamicWelcome_constructor(htmlId, dashboardUrl, dashboardType, site, siteTitle)
    {
-      Alfresco.dashlet.DynamicWelcome.superclass.constructor.call(this, "Alfresco.dashlet.DynamicWelcome", htmlId);
+      Alfresco.dashlet.DynamicWelcome.superclass.constructor.call(this, "Alfresco.dashlet.DynamicWelcome", htmlId, ["button"]);
 
       this.name = "Alfresco.dashlet.DynamicWelcome";
       this.dashboardUrl = dashboardUrl;
@@ -52,7 +57,7 @@
 
       this.services.preferences = new Alfresco.service.Preferences();
       return this;
-   }
+   };
 
    YAHOO.extend(Alfresco.dashlet.DynamicWelcome, Alfresco.component.Base,
    {
@@ -77,8 +82,14 @@
        */
       onReady: function DynamicWelcome_onReady()
       {
-         // Listen on clicks for the create site link
-         Event.addListener(this.id + "-close-button", "click", this.onCloseClick, this, true);
+         // Listen on clicks
+         this.widgets.hideButton = Alfresco.util.createYUIButton(this, "hide-button", this.onHideButtonClick);
+         if (this.dashboardType == "user")
+         {
+            Event.addListener(this.id + "-get-started-panel-container", "click", function() {
+               location.href = this.msg("welcome.user.clickable-content-link");
+            }, this, true);
+         }
          Event.addListener(this.id + "-createSite-button", "click", this.onCreateSiteLinkClick, this, true);
          Event.addListener(this.id + "-requestJoin-button", "click", this.onRequestJoinLinkClick, this, true);
       },
@@ -259,22 +270,22 @@
       },
 
       /**
-       * Close welcome dashlet click event handler
+       * Hide welcome dashlet click event handler
        *
-       * @method onCloseClick
-       * @param e {object} DomEvent
-       * @param args {array} Event parameters (depends on event type)
+       * @method onHideButtonClick
+       * @param e {Object} Event arguments
        */
-      onCloseClick: function DynamicWelcome_onCloseClick(e, args)
+      onHideButtonClick: function DynamicWelcome_onHideButtonClick(e, args)
       {
          var _this = this;
+         var messageText = this.msg("panel.delete.msg");
          Alfresco.util.PopupManager.displayPrompt(
          {
             title: this.msg("panel.delete.header"),
-            text: this.msg("panel.delete.msg"),
+            text: messageText,
             buttons: [
             {
-               text: this.msg("button.yes"),
+               text: this.msg("button.ok"),
                handler: function()
                {
                   this.destroy();
@@ -282,14 +293,18 @@
                }
             },
             {
-               text: this.msg("button.no"),
+               text: this.msg("button.cancel"),
                handler: function()
                {
                   this.destroy();
                },
                isDefault: true
-            }]
+            }],
+            noEscape: true
          });
+
+         var elements = Dom.getElementsByClassName('yui-button', 'span', 'prompt');
+         Dom.addClass(elements[0], 'alf-primary-button');
 
          Event.stopEvent(e);
       }

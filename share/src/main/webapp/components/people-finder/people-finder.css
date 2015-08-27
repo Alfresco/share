@@ -53,6 +53,11 @@
    font-size: 108%;
 }
 
+.alf-invite-direct-add .people-finder .title
+{
+   padding-top: 0;
+}
+
 .people-finder .search-bar
 {
    border-bottom: 1px dashed #c0c0c0;
@@ -63,6 +68,17 @@
 .people-finder .search-bar div
 {
    float: left;
+}
+
+.people-finder .search-bar div:first-child
+{
+   width: 62%
+}
+
+.people-finder .search-bar div:last-child
+{
+   width: 31%;
+   text-align: right;
 }
 
 .people-finder .result-info
@@ -77,7 +93,7 @@
 
 .people-finder .search-text input
 {
-   width: 30em;
+   width: 100%;
 }
 
 .people-finder .search-button button
@@ -140,14 +156,20 @@
    display: none;
 }
 
-.people-finder.compact .search-text input
-{
-   width: 14em;
-}
-
 .people-finder.compact .results
 {
    height: 160px;
+}
+
+.alf-invite-direct-add .people-finder.compact .alf-results-wrapper
+{
+   height: 300px;
+   overflow:auto;
+}
+
+.alf-invite-direct-add .people-finder.compact .results
+{
+   height: auto;
 }
 
 .people-finder.compact img.avatar
@@ -158,4 +180,16 @@
 .people-finder.compact div.detail
 {
    display: inline;
+}
+
+/* Full Page Mode */
+.people-finder .alf-full-page
+{
+   height: auto;
+}
+
+/* Default Mode */
+.people-finder .alf-default
+{
+   height: 300px;
 }

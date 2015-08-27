@@ -349,6 +349,7 @@
          {
             type: "submit"
          });
+         Dom.addClass(saveButton._button.parentElement.parentElement, "alf-primary-button");
          Alfresco.util.createYUIButton(this, "cancel-button", this.onCancelSelect);
          
          // TinyMCE

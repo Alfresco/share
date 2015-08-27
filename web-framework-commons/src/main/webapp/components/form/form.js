@@ -145,7 +145,8 @@
             {
                this.buttons.submit = Alfresco.util.createYUIButton(this, "submit", null,
                {
-                  type: "submit"
+                  type: "submit",
+                  additionalClass:"alf-primary-button"
                });
    
                // force the generated button to have a name of "-" so it gets ignored in

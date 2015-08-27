@@ -299,6 +299,7 @@
          {
             type: "submit"
          });
+         YUIDom.addClass(this.widgets.okButton._button.parentElement.parentElement, "alf-primary-button");
          
          // register the cancel button
          this.widgets.cancelButton = new YAHOO.widget.Button(this.id + "-cancel");

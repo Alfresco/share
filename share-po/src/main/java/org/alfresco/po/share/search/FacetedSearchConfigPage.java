@@ -40,12 +40,12 @@ import org.openqa.selenium.support.How;
 public class FacetedSearchConfigPage extends SharePage
 {
     private static final By PAGE_TITLE = By.cssSelector("h1.alfresco-header-Title");
-    private static final By FILTER = By.cssSelector("tr.alfresco-lists-views-layouts-Row.alfresco-lists-views-layout-_MultiItemRendererMixin--item");
+    private static final By FILTER = By.cssSelector("tr.alfresco-lists-views-layouts-Row.alfresco-lists-views-layout-_MultiItemRendererMixin__item");
     private static final By ADD_NEW_FILTER = By.id("CREATE_FACET_BUTTON");
     private static final Log logger = LogFactory.getLog(FacetedSearchConfigPage.class);
 
     private String title;
-    @FindAll({@FindBy(how = How.CSS, using = "tr.alfresco-lists-views-layouts-Row.alfresco-lists-views-layout-_MultiItemRendererMixin--item")}) 
+    @FindAll({@FindBy(how = How.CSS, using = "tr.alfresco-lists-views-layouts-Row.alfresco-lists-views-layout-_MultiItemRendererMixin__item")}) 
     List<FacetedSearchConfigFilter> filters;
 
     /*

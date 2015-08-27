@@ -541,8 +541,8 @@
 
          // Create and save a reference to the buttons so we can alter them later
          this.widgets.cancelOkButton = Alfresco.util.createYUIButton(this, "cancelOk-button", this.onCancelOkButtonClick);
-         this.widgets.uploadButton = Alfresco.util.createYUIButton(this, "upload-button", this.onUploadButtonClick);
-         this.widgets.fileSelectionOverlayButton = Alfresco.util.createYUIButton(this, "file-selection-button-overlay", this._doNothing);
+         this.widgets.uploadButton = Alfresco.util.createYUIButton(this, "upload-button", this.onUploadButtonClick, {additionalClass: "alf-primary-button"});
+         this.widgets.fileSelectionOverlayButton = Alfresco.util.createYUIButton(this, "file-selection-button-overlay", this._doNothing, {additionalClass: "alf-primary-button"});
          Dom.addClass(this.widgets.fileSelectionOverlayButton._button, "dnd-file-selection-button-overlay");
          Dom.addClass(this.widgets.fileSelectionOverlayButton._button.parentNode, "dnd-file-selection-button-overlay-wrapper");
 
@@ -1329,6 +1329,8 @@
             formData.append("filedata", fileInfo.uploadData.filedata);
             formData.append("filename", fileInfo.uploadData.filename);
             formData.append("destination", fileInfo.uploadData.destination);
+            formData.append("siteId", fileInfo.uploadData.siteId);
+            formData.append("containerId", fileInfo.uploadData.containerId);
             formData.append("uploaddirectory", fileInfo.uploadData.uploaddirectory);
             formData.append("majorVersion", fileInfo.uploadData.majorVersion ? "true" : "false");
             formData.append("username", fileInfo.uploadData.username);
@@ -1340,12 +1342,6 @@
             {
                formData.append("updateNodeRef", fileInfo.uploadData.updateNodeRef);
             }
-            else
-            {
-               formData.append("siteId", fileInfo.uploadData.siteId);
-               formData.append("containerId", fileInfo.uploadData.containerId);
-            }
-
             if (fileInfo.uploadData.description)
             {
                formData.append("description", fileInfo.uploadData.description);

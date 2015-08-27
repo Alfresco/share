@@ -86,6 +86,7 @@ function main()
       }
    };
    model.widgets = [dashletResizer, dashletTitleBarActions];
+   model.addUsersPage = config.scoped["SitePages"]["additional-pages"].getChildValue("add-users");
 }
 
 main();

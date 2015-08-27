@@ -56,7 +56,7 @@
    YAHOO.extend(Alfresco.module.CreateSite, Alfresco.component.Base,
    {
       /**
-       * Shows the CreteSite dialog to the user.
+       * Shows the CreateSite dialog to the user.
        *
        * @method show
        */
@@ -115,7 +115,8 @@
          // Create the ok button, the forms runtime will handle when its clicked
          this.widgets.okButton = Alfresco.util.createYUIButton(this, "ok-button", null,
          {
-            type: "submit"
+            type: "submit",
+            additionalClass: "alf-primary-button"
          });
          
          // Site access form controls
@@ -123,10 +124,6 @@
          this.widgets.isPublic = Dom.get(this.id + "-isPublic");
          this.widgets.isModerated = Dom.get(this.id + "-isModerated");
          this.widgets.isPrivate = Dom.get(this.id + "-isPrivate");
-
-         // Make sure we disable moderated if public isn't selected
-         Event.addListener(this.widgets.isPublic, "change", this.onVisibilityChange, this.widgets.isPublic, this);
-         Event.addListener(this.widgets.isPrivate, "change", this.onVisibilityChange, this.widgets.isPrivate, this);
 
          // Configure the forms runtime
          var createSiteForm = new Alfresco.forms.Form(this.id + "-form");
@@ -267,13 +264,14 @@
          this.widgets.cancelButton.set("disabled", true);
 
          // Site access
-         var siteVisibility = "PUBLIC";
+         var siteVisibility;
          if (this.widgets.isPublic.checked)
          {
-            if (this.widgets.isModerated.checked)
-            {
-               siteVisibility = "MODERATED";
-            }
+            siteVisibility = "PUBLIC";
+         }
+         else if (this.widgets.isModerated.checked)
+         {
+            siteVisibility = "MODERATED";
          }
          else
          {
@@ -306,23 +304,7 @@
 
          return text;
       },
-
-      /**
-       * Called when user clicks on the isPublic checkbox.
-       *
-       * @method onVisibilityChange
-       * @param type
-       * @param el
-       */
-      onVisibilityChange: function CreateSite_onVisibilityChange(type, el)
-      {
-         var element = new Element(this.widgets.isModerated);
-         element.set("disabled", el == this.widgets.isPrivate);
-         // reset the flag
-         // ACE-2056
-         element.set("checked", false);
-      },
-
+      
       /**
        * Called when user fills site name input
        *

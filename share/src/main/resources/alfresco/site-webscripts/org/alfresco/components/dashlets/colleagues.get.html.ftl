@@ -38,7 +38,7 @@
                      <#-- INVITE -->
                      <@markup id="managerToolbar-inviteLink">
                         <span class="first-child">
-                           <a href="invite" class="theme-color-1">
+                           <a href="${addUsersPage}" class="theme-color-1">
                               <img src="${url.context}/res/components/images/user-16.png" style="vertical-align: text-bottom" width="16" />
                            ${msg("link.invite")}</a>
                         </span>

@@ -263,7 +263,7 @@ Alfresco.util.onlineEditUrl = function(vtiServer, location)
    // Thor: used by overridden JS to place the tenant domain into the URL.
    var tenant = location.tenant ? location.tenant : "";
    var onlineEditUrl = vtiServer.host + ":" + vtiServer.port + "/" +
-      Alfresco.util.combinePaths(vtiServer.contextPath, tenant, (location.container && location.site) ? location.site.name : "", location.container ? encodeURIComponent(location.container.name) : "", encodeURIComponent(location.container ? location.path : location.path.substring(location.path.indexOf("/", 1))).replace(/%2F/g, "/"), encodeURIComponent(location.file));
+      Alfresco.util.combinePaths(vtiServer.contextPath, tenant, location.site ? location.site.name : "", location.container ? location.container.name : "", location.path.replace(/#/g,"%23"), location.file.replace(/#/g,"%23"));
    if (!(/^(http|https):\/\//).test(onlineEditUrl))
    {
       // Did they specify the protocol on the vti server bean?
@@ -2215,6 +2215,12 @@ Alfresco.util.createYUIButton = function(p_scope, p_name, p_onclick, p_obj, p_oE
          if (typeof obj.htmlName != "undefined")
          {
             button.get("element").getElementsByTagName("button")[0].name = obj.htmlName;
+         }
+         
+         // Adds button styling
+         if (typeof obj.additionalClass == "string")
+         {
+            YUIDom.addClass(button._button.parentElement.parentElement, obj.additionalClass);
          }
       }
    }
@@ -11114,6 +11120,14 @@ Alfresco.util.RENDERLOOPSIZE = 25;
                else if (response.json && response.json.message && response.json.message.indexOf("PropertyValueSizeIsMoreMaxLengthException") !== -1)
                {
                     failureMsg = this.msg("message.details.failure.more.max.length");
+               }
+               else if (response.json && response.json.message && response.json.message.indexOf("org.alfresco.error.AlfrescoRuntimeException") == 0)
+               {  
+                  var split =  response.json.message.split(/(?:org.alfresco.error.AlfrescoRuntimeException:\s*\d*\s*)/ig);
+                  if (split && split[1])
+                  {
+                        failureMsg = split[1];
+                  }
                }
                Alfresco.util.PopupManager.displayPrompt(
                {

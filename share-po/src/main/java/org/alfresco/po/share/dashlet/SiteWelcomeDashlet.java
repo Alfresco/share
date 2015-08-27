@@ -36,7 +36,7 @@ import org.openqa.selenium.support.FindBy;
  */
 public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
 {
-    private static final String REMOVE_WELCOME_DASHLET = ".welcome-close-button";
+    private static final String REMOVE_WELCOME_DASHLET = ".alf-welcome-hide-button";
     private static final String DASHLET_CONTAINER_PLACEHOLDER = "div.dashlet.dynamic-welcome";
     private static final String PROMPT_PANEL_ID = "prompt.panel.id";
     private static final String OPTIONS_CSS_LOCATION = ".welcome-details-column-info>a";

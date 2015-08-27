@@ -133,6 +133,14 @@ blockquote
    width: auto;
 }
 
+.alfresco-share .alf-menu-group-no-label .alf-menu-group-title
+{
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+    height: 0.8em;
+}
+
 .sticky-wrapper fieldset,
 .yui-overlay fieldset,
 .login-panel fieldset
@@ -1903,3 +1911,19 @@ table.mceLayout
    display: none !important;
 }
 
+.alf-site-visibility {
+   margin-left: 1em;
+   margin-top: 2em;
+   padding: 3px 4px;
+   font-size: 90%;
+   font-family: 'Open Sans', Arial, sans-serif;
+   display: inline-block;
+   border: 1px solid #eaeaea; 
+   background-color: #dff0d8;
+   border-color: #d6e9c6;
+   border-radius: 5px;
+}
+
+.alf-site-visibility span {
+   vertical-align: baseline;
+}

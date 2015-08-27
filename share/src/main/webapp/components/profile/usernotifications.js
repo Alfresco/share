@@ -60,7 +60,8 @@
          // Buttons
          this.widgets.ok = Alfresco.util.createYUIButton(this, "button-ok", null,
             {
-               type: "submit"
+               type: "submit",
+               additionalClass: "alf-primary-button"
             });
          this.widgets.cancel = Alfresco.util.createYUIButton(this, "button-cancel", this.onCancel);
          

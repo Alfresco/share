@@ -44,7 +44,6 @@ public class UserSitesPage extends SharePage
 
     private final Log logger = LogFactory.getLog(UserSitesPage.class);
 
-
     @SuppressWarnings("unchecked")
     @Override
     public UserSitesPage render(RenderTime timer)
@@ -75,7 +74,8 @@ public class UserSitesPage extends SharePage
                 {
                 }
 
-                if (driver.findElement(NO_SITES_MESSAGE).isDisplayed() || driver.findElement(NO_SITES_MESSAGE).getText().equals(getValue("user.profile.sites.nosite")))
+                if (driver.findElement(NO_SITES_MESSAGE).isDisplayed()
+                        || driver.findElement(NO_SITES_MESSAGE).getText().equals(getValue("user.profile.sites.nosite")))
                 {
                     break;
                 }
@@ -97,7 +97,6 @@ public class UserSitesPage extends SharePage
     {
         return render(new RenderTime(maxPageLoadingTime));
     }
-
 
     /**
      * Get the navigation bar.
@@ -135,7 +134,9 @@ public class UserSitesPage extends SharePage
         return present;
     }
 
-    @FindAll({@FindBy(css="ul[id$='default-sites'] li")}) List<WebElement> siteItems;
+    @FindAll({ @FindBy(css = "ul[id$='default-sites'] li") })
+    List<WebElement> siteItems;
+
     /**
      * Get a list of sites.
      * 
@@ -148,7 +149,7 @@ public class UserSitesPage extends SharePage
         {
             for (WebElement el : siteItems)
             {
-            	UserSiteItem siteItem = (UserSiteItem)factoryPage.instantiatePageElement(driver, UserSiteItem.class);
+                UserSiteItem siteItem = (UserSiteItem) factoryPage.instantiatePageElement(driver, UserSiteItem.class);
                 siteItem.setWrappedElement(el);
                 sites.add(siteItem);
             }

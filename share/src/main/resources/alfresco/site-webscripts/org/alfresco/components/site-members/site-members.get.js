@@ -70,8 +70,8 @@ function main()
    {
       model.links.push(
       {
-         id: "invite-people-link",
-         href: "invite",
+         id: "invitePeople",
+         href: config.scoped["SitePages"]["additional-pages"].getChildValue("add-users"),
          cssClass: null,
          label: msg.get("site-members.invite-people")
       });

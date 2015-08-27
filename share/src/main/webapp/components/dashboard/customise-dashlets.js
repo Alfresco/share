@@ -85,7 +85,7 @@
       {
          // Save reference to buttons so we can change label and such later
          this.widgets.addDashletsButton = Alfresco.util.createYUIButton(this, "addDashlets-button", this.onAddDashletsButtonClick);
-         this.widgets.saveButton = Alfresco.util.createYUIButton(this, "save-button", this.onSaveButtonClick);
+         this.widgets.saveButton = Alfresco.util.createYUIButton(this, "save-button", this.onSaveButtonClick, {additionalClass: "alf-primary-button"});
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancel-button", this.onCancelButtonClick);
 
          // Save a reference to the dashlet list and garbage can
@@ -297,7 +297,6 @@
          }
 
          // Prepare save request config
-         var dashboardUrl = this.options.dashboardUrl;
          var templateId = this.options.currentLayout.templateId;
          var dataObj = {dashboardPage: this.options.dashboardId, templateId: templateId, dashlets: dashlets};
 
@@ -309,11 +308,7 @@
             dataObj: dataObj,
             successCallback:
             {
-               fn: function()
-               {
-                  // Send the user to the newly configured dashboard
-                  document.location.href = Alfresco.constants.URL_PAGECONTEXT + "" + dashboardUrl;
-               },
+               fn: this.saveWelcomePanelPreference,
                scope: this
             },
             failureMessage: Alfresco.util.message("message.saveFailure", this.name),
@@ -357,6 +352,36 @@
          
          // Send the user to this page again without saveing changes
          document.location.href = Alfresco.constants.URL_PAGECONTEXT + "" + this.options.dashboardUrl;
+      },
+      
+      saveWelcomePanelPreference: function CD_saveWelcomePanelPreference()
+      {
+         var welcomePanelEnabledValue = Dom.get(this.id + "-welcomePanelEnabled").checked;
+         if (this.options.welcomePanelEnabled != welcomePanelEnabledValue)
+         {
+            Alfresco.util.Ajax.jsonPost(
+            {
+               url: Alfresco.constants.URL_SERVICECONTEXT + "components/dashboard/welcome-preference",
+               dataObj:
+               {
+                  welcomePanelEnabled: welcomePanelEnabledValue
+               },
+               successCallback:
+               {
+                  fn: function()
+                  {
+                     // Send the user to the newly configured dashboard
+                     document.location.href = Alfresco.constants.URL_PAGECONTEXT + "" + this.options.dashboardUrl;
+                  },
+                  scope: this
+               },
+               failureMessage: this.msg("message.saveFailure")
+            });
+         }
+         else
+         {
+            document.location.href = Alfresco.constants.URL_PAGECONTEXT + "" + this.options.dashboardUrl;
+         }
       }
 
    });

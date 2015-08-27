@@ -151,7 +151,7 @@
           * @default [ "SiteManager" ]
           */
          nonEditableNames: [ "^GROUP_site_.*_SiteManager$" ],
-	 nonEditableRoles: [ "SiteManager" ],
+         nonEditableRoles: [ "SiteManager" ],
          unDeletableRoles: [ "^GROUP_site_.*_SiteManager$", "^GROUP_site_.*_SiteCollaborator$", "^GROUP_site_.*_SiteContributor$", "^GROUP_site_.*_SiteConsumer$" ],
          showGroups: true,
          
@@ -177,7 +177,8 @@
          this.widgets.inherited = Alfresco.util.createYUIButton(this, "inheritedButton", this.onInheritedButton);
          this.widgets.saveButton = Alfresco.util.createYUIButton(this, "okButton", this.onSaveButton);
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancelButton", this.onCancelButton);
-
+         this.widgets.rolesTooltip = new Array();
+         
          // DataSource set-up and event registration
          this._setupDataSources();
          
@@ -867,6 +868,48 @@
          // Enable row highlighting 
          this.widgets.dtDirect.subscribe("rowMouseoverEvent", this.onEventHighlightRow, this, true);
          this.widgets.dtDirect.subscribe("rowMouseoutEvent", this.onEventUnhighlightRow, this, true);
+
+         this._injectRoleTooltip(this.id + "-inheritedPermissions", "-role");
+         this._injectRoleTooltip(this.id + "-directPermissions", "-role");
+      },
+      
+      /**
+       * Finds the YUI data table column corresponding to the given headerIdSuffix
+       * and injects and initializes a role info tooltip.
+       *
+       * @method _injectRoleTooltip
+       * @param role {String} Event object.
+       * @return The role info tooltip
+       * @private
+       */
+      _injectRoleTooltip: function Permissions__injectRoleTooltip(dataTableId, headerIdSuffix)
+      {
+         // Find the role column header
+         var roleColumnHeaders = Dom.getElementsBy(
+               function (foundElement) { return foundElement.id.indexOf(headerIdSuffix) > 0; },
+               "th",
+               dataTableId
+         );
+         if (roleColumnHeaders.length > 0)
+         {
+            var counter = this.widgets.rolesTooltip.length;
+            // Inject the role tooltip
+            var roleTooltipId = this.id + '-role-info' + counter;
+            var roleTooltip = document.createElement('div');
+            roleTooltip.id = roleTooltipId;
+            roleTooltip.className = 'alf-role-info-tooltip';
+            var buttonName = 'role-info-button' + counter;
+            roleTooltip.innerHTML = '<button id="' + this.id + '-' + buttonName + '">&nbsp;</button>';
+            
+            roleColumnHeaders[0].children[0].children[0].className += ' alf-role-column-label';
+            roleColumnHeaders[0].children[0].appendChild(roleTooltip);
+            
+            this.widgets.rolesTooltip.push(new Alfresco.module.RolesTooltip(
+                  this.id, roleTooltipId, buttonName, 
+                  this.options.site, this.options.nodeRef));
+            return this.widgets.rolesTooltip;
+         }
+         return null;
       },
 
       /**

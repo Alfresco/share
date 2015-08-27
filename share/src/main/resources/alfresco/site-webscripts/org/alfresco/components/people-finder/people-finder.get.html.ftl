@@ -22,7 +22,7 @@
                <@markup id="searchBar">
                <div class="search-bar theme-bg-color-3">
                   <div class="search-text"><input type="text" id="${el}-search-text" name="-" value="" maxlength="256" tabindex="0" placeholder="${msg('help.title')}"/></div>
-                  <div class="search-button">
+                  <div class="search-button alf-colored-button">
                      <span id="${el}-search-button" class="yui-button yui-push-button"><span class="first-child"><button>${msg("button.search")}</button></span></span>
                   </div>
                </div>
@@ -35,8 +35,10 @@
                </@markup>
 
                <@markup id="searchResults">
-               <div id="${el}-results-info" class="yui-dt-liner theme-bg-color-2 result-info hidden"></div>
-               <div id="${el}-results" class="results hidden"></div>
+               <div class="alf-results-wrapper">
+                  <div id="${el}-results-info" class="yui-dt-liner theme-bg-color-2 result-info hidden"></div>
+                  <div id="${el}-results" class="results hidden"></div>
+               </div>
                </@markup>
             </div>
          </div>

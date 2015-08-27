@@ -100,7 +100,8 @@
             this.widgets.edit = Alfresco.util.createYUIButton(this, "button-edit", this.onEditProfile);
             this.widgets.save = Alfresco.util.createYUIButton(this, "button-save", null,
                {
-                  type: "submit"
+                  type: "submit",
+                  additionalClass:"alf-primary-button"
                });
             this.widgets.cancel = Alfresco.util.createYUIButton(this, "button-cancel", this.onCancel);
 

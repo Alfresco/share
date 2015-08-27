@@ -175,20 +175,31 @@ public class SiteNavigation extends AbstractSiteNavigation
         siteMembers.click();
         return factoryPage.instantiatePage(driver, SiteMembersPage.class);
     }
-
+    
     @FindBy(id="HEADER_SITE_INVITE")Link invite;
     /**
-     * This method returns the MembersPage object.
+     * Clicks on invite users button
      * 
-     * @return {@link InviteMembersPage}
      */
     public HtmlPage selectInvite()
     {
         invite.click();
         return factoryPage.instantiatePage(driver, InviteMembersPage.class);
     }
+    
 
     @FindBy(id="HEADER_SITE_DOCUMENTLIBRARY") Link documentLibrary;
+    /**
+     * Clicks on add user to site button
+     * 
+     * @return {@link AddUsersToSitePage}
+     */
+    public HtmlPage selectAddUser()
+    {
+    	selectInvite();
+        return getCurrentPage();
+    }
+
     /**
      * Check if the site navigation has document library link highlighted.
      * 

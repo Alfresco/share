@@ -20,10 +20,7 @@
             src/main/webapp/jquery/**, 
             src/main/webapp/js/flash/extMouseWheel.js,
             src/main/webapp/js/lightbox.js,
-            src/main/webapp/yui/**,
-            src/main/webapp/components/preview/**,
-            src/main/webapp/components/console/**,
-            src/main/webapp/ctools/**
+            src/main/webapp/yui/**
         </sonar.exclusions>
     </properties>
 

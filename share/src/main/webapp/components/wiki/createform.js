@@ -132,6 +132,7 @@
          {
             type: "submit"
          });
+         this.widgets.saveButton.addClass("alf-primary-button");
 
          Alfresco.util.createYUIButton(this, "cancel-button", null,
          {

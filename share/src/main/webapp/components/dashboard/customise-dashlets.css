@@ -34,6 +34,17 @@
    text-align: left;
 }
 
+.alf-welcome-preference div.buttons.alf-values
+{
+   text-align: left;
+}
+
+.alf-welcome-preference div.buttons.alf-values input
+{
+   margin-right: 0.5em;
+   margin-bottom: 0.7em;
+}
+
 /* Center buttons */
 .customise-dashlets div.buttons
 {

@@ -88,6 +88,10 @@ cursor: pointer;
 .yui-button a {
 text-decoration: none;
 }
+.yui-skin-gdocs .alf-colored-button .yui-button {
+border-color: #0082c8;
+border-radius: 5px;
+}
 .yui-skin-gdocs .yui-button {
 border-width: 1px 0;
 border-style: solid;
@@ -95,12 +99,25 @@ border-color: green;
 background: url(sprite.png) repeat-x 0 0;
 margin: auto .25em;
 }
+.yui-skin-gdocs .alf-colored-button .yui-button .first-child {
+border-color: #0082c8;
+border-radius: 5px;
+}
 .yui-skin-gdocs .yui-button .first-child {
 border-width: 0 1px;
 border-style: solid;
 border-color: red;
 margin: 0 -1px;
 _margin: 0;
+}
+.yui-skin-gdocs .alf-colored-button.alf-primary-button .yui-button button {
+color: white;
+background-color: #0082c8;
+border-radius: 3px;
+}
+.yui-skin-gdocs .alf-colored-button .yui-button button,
+.yui-skin-gdocs .alf-colored-button .yui-button a {
+color: #0082c8;
 }
 .yui-skin-gdocs .yui-button button,.yui-skin-gdocs .yui-button a {
 padding: 0 10px;
@@ -119,12 +136,25 @@ background-repeat: no-repeat;
 .yui-skin-gdocs .yui-split-button button {
 background-image: url(split-button-arrow.png);
 }
+.yui-skin-gdocs .alf-colored-button .yui-button-focus {
+border-color: #006ca6;
+}
 .yui-skin-gdocs .yui-button-focus {
 border-color: #7D98B8;
 background-position: 0 -1300px;
 }
+.yui-skin-gdocs .alf-colored-button .yui-button-focus .first-child {
+border-color: #006ca6;
+}
 .yui-skin-gdocs .yui-button-focus .first-child {
 border-color: #7D98B8;
+}
+.yui-skin-gdocs .alf-colored-button.alf-primary-button .yui-button-focus button {
+background-color: #006ca6;
+}
+.yui-skin-gdocs .alf-colored-button .yui-button-focus button,
+.yui-skin-gdocs .alf-colored-button .yui-button-focus a {
+color: #006ca6;
 }
 .yui-skin-gdocs .yui-button-focus button,.yui-skin-gdocs .yui-button-focus a {
 color: #000;
@@ -132,29 +162,52 @@ color: #000;
 .yui-skin-gdocs .yui-split-button-focus button {
 background-image: url(split-button-arrow-focus.png);
 }
+.yui-skin-gdocs .alf-colored-button .yui-button-hover {
+border-color: #006ca6;
+}
 .yui-skin-gdocs .yui-button-hover {
 border-color: #7D98B8;
 background-position: 0 -1300px;
 }
+.yui-skin-gdocs .alf-colored-button .yui-button-hover .first-child {
+border-color: #006ca6;
+}
 .yui-skin-gdocs .yui-button-hover .first-child {
 border-color: #7D98B8;
+}
+.yui-skin-gdocs .alf-colored-button.alf-primary-button .yui-button-hover button {
+background-color: #006ca6;
+}
+.yui-skin-gdocs .alf-colored-button .yui-button-hover button,
+.yui-skin-gdocs .alf-colored-button .yui-button-hover a {
+color: #006ca6;
 }
 .yui-skin-gdocs .yui-button-hover button,.yui-skin-gdocs .yui-button-hover a {
 color: #333;
 text-decoration: none; 
 }
-
-
-
 .yui-skin-gdocs .yui-split-button-hover button {
 background-image: url(split-button-arrow-hover.png);
+}
+.yui-skin-gdocs .alf-colored-button .yui-button-active {
+border-color: #005684;
 }
 .yui-skin-gdocs .yui-button-active {
 border-color: #7D98B8;
 background-position: 0 -1700px;
 }
+.yui-skin-gdocs .alf-colored-button .yui-button-active .first-child {
+border-color: #005684;
+}
 .yui-skin-gdocs .yui-button-active .first-child {
 border-color: #7D98B8;
+}
+.yui-skin-gdocs .alf-colored-button.alf-primary-button .yui-button-active button {
+background-color: #005684;
+}
+.yui-skin-gdocs .alf-colored-button .yui-button-active button,
+.yui-skin-gdocs .alf-colored-button .yui-button-active a {
+color: #005684;
 }
 .yui-skin-gdocs .yui-button-active button,.yui-skin-gdocs .yui-button-active a {
 color: #333;
@@ -179,14 +232,24 @@ border-color: #304369;
 .yui-skin-gdocs .yui-radio-button-checked button,.yui-skin-gdocs .yui-checkbox-button-checked button {
 color: #fff;
 }
-.yui-skin-gdocs .yui-button-disabled {
+.yui-skin-gdocs .yui-button-disabled,
+.yui-skin-gdocs .alf-colored-button .yui-button-disabled {
 border-color: #ccc;
 background-position: 0 -1500px;
 }
-.yui-skin-gdocs .yui-button-disabled .first-child {
+.yui-skin-gdocs .yui-button-disabled .first-child,
+.yui-skin-gdocs .alf-colored-button .yui-button-disabled .first-child  {
 border-color: #ccc;
 }
-.yui-skin-gdocs .yui-button-disabled button,.yui-skin-gdocs .yui-button-disabled a {
+.yui-skin-gdocs .alf-colored-button.alf-primary-button .yui-button-disabled button {
+background-color: transparent;
+}
+.yui-skin-gdocs .yui-button-disabled button,
+.yui-skin-gdocs .alf-colored-button .yui-button-disabled button,
+.yui-skin-gdocs .alf-colored-button.alf-primary-button .yui-button-disabled button,
+.yui-skin-gdocs .yui-button-disabled a,
+.yui-skin-gdocs .alf-colored-button .yui-button-disabled a,
+.yui-skin-gdocs .alf-colored-button.alf-primary-button .yui-button-disabled a {
 color: #A6A6A6;
 cursor: default;
 }

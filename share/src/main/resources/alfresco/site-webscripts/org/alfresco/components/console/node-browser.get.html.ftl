@@ -56,7 +56,7 @@
                       <option>db-cmis</option>
                   </select>
                   <!-- Search button -->
-                  <span class="yui-button yui-push-button" id="${el}-search-button">
+                  <span class="yui-button yui-push-button alf-primary-button" id="${el}-search-button">
                      <span class="first-child"><button>${msg("button.search")}</button></span>
                   </span>
                </div>

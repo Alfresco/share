@@ -95,24 +95,30 @@ cursor: pointer;
 text-decoration: none;
 }
 .yui-skin-lightTheme .yui-button {
-border-width: 1px 0;
-border-style: solid;
-border-color: #ccc;
 margin: auto .25em;
 }
 .yui-skin-lightTheme .yui-button .first-child {
-border-width: 0 1px;
+border-radius: 3px;
+border-width: 1px;
 border-style: solid;
-border-color: #ccc;
+border-color: #0C79BF;
 margin: 0;
 _margin: 0;
 }
-.yui-skin-lightTheme .yui-button button,.yui-skin-lightTheme .yui-button a {
+.yui-skin-lightTheme .alf-primary-button.yui-button button,
+.yui-skin-lightTheme .alf-primary-button.yui-button a
+{
+color: white;
+background-color: #0C79BF;
+border-radius: 1px;
+}
+.yui-skin-lightTheme .yui-button button,
+.yui-skin-lightTheme .yui-button a {
 padding: 0 10px;
 -font-size: 93%;
 line-height: 2;*line-height:1.7;
 min-height: 2em;*min-height:auto;
-color: #000;
+color: #0C79BF;
 }
 .yui-skin-lightTheme .yui-button a {*line-height:1.875;*padding-bottom:1px;
 }
@@ -125,40 +131,67 @@ background-repeat: no-repeat;
 background-image: url(split-button-arrow.png);
 }
 .yui-skin-lightTheme .yui-button-focus {
-border-color: #aaa;
+border-color: #135FA3;
 background-position: 0 -1300px;
 }
 .yui-skin-lightTheme .yui-button-focus .first-child {
-border-color: #aaa;
+border-color: #135FA3;
 }
-.yui-skin-lightTheme .yui-button-focus button,.yui-skin-lightTheme .yui-button-focus a {
-color: #000;
+.yui-skin-lightTheme .alf-primary-button.yui-button-focus button,
+.yui-skin-lightTheme .alf-primary-button.yui-button-focus a,
+.yui-skin-lightTheme .alf-primary-button.yui-button a:focus
+{
+background-color: #135FA3;
+}
+.yui-skin-lightTheme .yui-button-focus button,
+.yui-skin-lightTheme .yui-button-focus a {
+color: #135FA3;
 }
 .yui-skin-lightTheme .yui-split-button-focus button {
 background-image: url(split-button-arrow-focus.png);
 }
 .yui-skin-lightTheme .yui-button-hover {
-border-color: #aaa;
+border-color: #135FA3;
 background-position: 0 -1300px;
 }
 .yui-skin-lightTheme .yui-button-hover .first-child {
-border-color: #aaa;
+border-color: #135FA3;
 }
-.yui-skin-lightTheme .yui-button-hover button,.yui-skin-lightTheme .yui-button-hover a {
-color: #000;
+.yui-skin-lightTheme .alf-primary-button.yui-button-hover button,
+.yui-skin-lightTheme .alf-primary-button.yui-button-hover a,
+.yui-skin-lightTheme .alf-primary-button.yui-button a:hover
+{
+background-color: #135FA3;
+color: white;
+}
+.yui-skin-lightTheme .yui-button-hover button,
+.yui-skin-lightTheme .yui-button-hover a,
+.yui-skin-lightTheme .yui-link-button-hover a,
+.yui-skin-lightTheme .yui-link-button-hover a:hover {
+color: #135FA3;
 }
 .yui-skin-lightTheme .yui-split-button-hover button {
 background-image: url(split-button-arrow-hover.png);
 }
 .yui-skin-lightTheme .yui-button-active {
-border-color: #aaa;
+border-color: #125380;
 background-position: 0 -1700px;
 }
 .yui-skin-lightTheme .yui-button-active .first-child {
-border-color: #aaa;
+border-color: #125380;
 }
-.yui-skin-lightTheme .yui-button-active button,.yui-skin-lightTheme .yui-button-active a {
-color: #000;
+.yui-skin-lightTheme .alf-primary-button.yui-button-active button,
+.yui-skin-lightTheme .alf-primary-button.yui-button-active a,
+.yui-skin-lightTheme .alf-primary-button.yui-button a:active
+{
+background-color: #125380;
+color: white;
+}
+.yui-skin-lightTheme .yui-button-active button,
+.yui-skin-lightTheme .yui-button-active a,
+.yui-skin-lightTheme .yui-link-button-active a,
+.yui-skin-lightTheme .yui-link-button-active a:hover {
+color: #125380;
 }
 .yui-skin-lightTheme .yui-split-button-activeoption {
 border-color: #ccc;
@@ -187,7 +220,18 @@ background-position: 0 -1500px;
 .yui-skin-lightTheme .yui-button-disabled .first-child {
 border-color: #ccc;
 }
-.yui-skin-lightTheme .yui-button-disabled button,.yui-skin-lightTheme .yui-button-disabled a {
+.yui-skin-lightTheme .alf-primary-button.yui-button-disabled button,
+.yui-skin-lightTheme .alf-primary-button.yui-button-disabled a,
+.yui-skin-lightTheme .alf-primary-button.yui-button a:disabled
+{
+background-color: transparent;
+}
+.yui-skin-lightTheme .yui-button-disabled button,
+.yui-skin-lightTheme .alf-primary-button.yui-button-disabled button,
+.yui-skin-lightTheme .yui-button-disabled a,
+.yui-skin-lightTheme .alf-primary-button.yui-button-disabled a,
+.yui-skin-lightTheme .alf-primary-button.yui-button a:disabled
+{
 color: #A6A6A6;
 cursor: default;
 }
@@ -981,19 +1025,21 @@ text-align: right;
 font-weight: bold;
 }
 .yui-skin-lightTheme .yui-dialog .ft span.default {
-border-color: #333;
 background-position: 0 -1400px;
 }
-.yui-skin-lightTheme .yui-dialog .ft span.default .first-child {
-border-color: #333;
-}
-.yui-skin-lightTheme .yui-dialog .ft button {
-color: #333;
-background-color: #fff;
-}
 .yui-skin-lightTheme .yui-dialog .bdft button {
-color: #333;
-background-color: #fff;
+color: #0C79BF;
+}
+.yui-skin-lightTheme .yui-dialog .bdft .alf-primary-button button,
+.yui-skin-lightTheme .yui-dialog .bdft .alf-primary-button a
+{
+color: white;
+}
+.yui-skin-lightTheme .yui-dialog .bdft .alf-primary-button.yui-button-disabled button,
+.yui-skin-lightTheme .yui-dialog .bdft .alf-primary-button.yui-button-disabled a,
+.yui-skin-lightTheme .yui-dialog .bdft .alf-primary-button.yui-button a:disabled
+{
+color: #a6a6a6;
 }
 .yui-skin-lightTheme .yui-dialog .ft span.yui-button-disabled {
 background-position: 0pt -1500px;

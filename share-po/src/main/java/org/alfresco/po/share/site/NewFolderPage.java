@@ -22,6 +22,7 @@ import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.RepositoryPage;
 import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +36,7 @@ import org.openqa.selenium.WebElement;
 /**
  * Create folder page object, holds all element of the HTML page relating to
  * share's create folder page.
- *
+ * 
  * @author Michael Suzuki, Jamie Allison
  * @since 1.0
  */
@@ -84,8 +85,8 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Create a new folder action by completing and submitting the form.
-     *
-     * @param folderName  mandatory folder name
+     * 
+     * @param folderName mandatory folder name
      * @param description optional folder description
      * @return {@link HtmlPage} page response
      */
@@ -97,15 +98,16 @@ public class NewFolderPage extends ShareDialogue
         okButton.click();
         // Wait till the pop up disappears
         waitUntilMessageAppearAndDisappear("Folder");
-        DocumentLibraryPage page = factoryPage.getPage(driver).render();
+        //DocumentLibraryPage page = factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+        RepositoryPage page = factoryPage.instantiatePage(driver, RepositoryPage.class);
         page.setShouldHaveFiles(true);
         return page;
     }
 
     /**
      * Create a new folder action by completing and submitting the form.
-     *
-     * @param folderName  mandatory folder name
+     * 
+     * @param folderName mandatory folder name
      * @param description optional folder description
      * @param folderTitle options folder Title
      * @return {@link HtmlPage} page response
@@ -130,8 +132,8 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Create a new folder action by completing and submitting the form.
-     *
-     * @param folderName  mandatory folder name
+     * 
+     * @param folderName mandatory folder name
      * @param description optional folder description
      * @return {@link HtmlPage} page response
      */
@@ -142,8 +144,8 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Create a new folder action by completing and submitting the form.
-     *
-     * @param folderName  mandatory folder name
+     * 
+     * @param folderName mandatory folder name
      * @param description optional folder description
      * @param folderTitle optional folder Title
      * @return {@link HtmlPage} page response
@@ -163,7 +165,7 @@ public class NewFolderPage extends ShareDialogue
 
             // Wait till the pop up disappears
             waitUntilMessageAppearAndDisappear("Folder");
-            DocumentLibraryPage page = factoryPage.getPage(driver).render();
+            DocumentLibraryPage page = factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
             page.setShouldHaveFiles(true);
             return page;
         }
@@ -178,7 +180,7 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Clear & Type Folder Name on the Text box.
-     *
+     * 
      * @param folderName
      */
     public void typeName(final String folderName)
@@ -199,7 +201,7 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Clear & Type the Folder Title for box.
-     *
+     * 
      * @param folderTitle
      */
     public String typeTitle(final String folderTitle)
@@ -213,7 +215,7 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Clear & Type the Description for box.
-     *
+     * 
      * @param description
      */
     public String typeDescription(final String description)
@@ -236,7 +238,7 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Mimics the action of clicking the cancel button.
-     *
+     * 
      * @return {@link HtmlPage} Page Response.
      */
     public HtmlPage selectCancel()
@@ -250,7 +252,7 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Wait until the black message box appear with text then wait until same black message disappear with text.
-     *
+     * 
      * @param text - Text to be checked in the black message.
      */
     protected void waitUntilMessageAppearAndDisappear(String text)
@@ -260,8 +262,8 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Wait until the black message box appear with text then wait until same black message disappear with text.
-     *
-     * @param text          - Text to be checked in the black message.
+     * 
+     * @param text - Text to be checked in the black message.
      * @param timeInSeconds - Time to wait in seconds.
      */
     protected void waitUntilMessageAppearAndDisappear(String text, long timeInSeconds)
@@ -272,7 +274,7 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Returns the validation message, if any, for the given Field.
-     *
+     * 
      * @param field The reqired field
      * @return The validation message or an empty string if there is no message.
      */
@@ -313,7 +315,6 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Mimics the action of clicking the save button.
-     *
      */
     public void selectSubmitButton()
     {
@@ -323,7 +324,7 @@ public class NewFolderPage extends ShareDialogue
 
     /**
      * Method finds notification message
-     *
+     * 
      * @return notification message string value
      */
     public String getNotificationMessage()

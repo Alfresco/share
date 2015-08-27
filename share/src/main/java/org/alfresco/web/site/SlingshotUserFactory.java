@@ -39,6 +39,7 @@ import org.springframework.extensions.surf.site.AuthenticationUtil;
 import org.springframework.extensions.surf.support.AlfrescoUserFactory;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.surf.util.StringBuilderWriter;
+import org.springframework.extensions.surf.util.URLEncoder;
 import org.springframework.extensions.webscripts.Status;
 import org.springframework.extensions.webscripts.connector.Connector;
 import org.springframework.extensions.webscripts.connector.ConnectorContext;
@@ -67,6 +68,10 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
     public static final String PROP_USERSTATUS = "userStatus";
     public static final String PROP_USERSTATUSTIME = "userStatusTime";
     public static final String PROP_USERHOME = "userHome";
+    
+    public static final String CM_PREFERENCEVALUES = "{http://www.alfresco.org/model/content/1.0}preferenceValues";
+    public static final String PROP_USERHOMEPAGE = "userHomePage";
+    public static final String PREFERENCE_USERHOMEPAGE = "org.alfresco.share.user.homePage";
     
     public static final String ACTIVITI_ADMIN_ENDPOINT_ID = "activiti-admin";
     
@@ -104,6 +109,23 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
         user.setProperty(PROP_USERSTATUSTIME, properties.has(CM_USERSTATUSTIME) ? properties.getString(CM_USERSTATUSTIME) : null);
         user.setProperty(PROP_USERHOME, properties.has(CM_USERHOME) ? properties.getString(CM_USERHOME) : null);
         
+        if (properties.has(CM_PREFERENCEVALUES))
+        {
+            String preferenceValues = properties.getString(CM_PREFERENCEVALUES);
+            JSONObject preferences = new JSONObject(preferenceValues);
+            try{
+                String defaultPage = preferences.getString(PREFERENCE_USERHOMEPAGE);
+                if (defaultPage != null && !defaultPage.trim().equals(""))
+                {
+                    user.setProperty(PROP_USERHOMEPAGE, defaultPage);
+                }
+            }
+            catch (JSONException e)
+            {
+                // No default page set, that's fine
+            }
+        }
+        
         return user;
     }
     
@@ -130,6 +152,33 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
         }
         
         return user;
+    }
+    
+    /**
+     * Gets the home page for the given user, for example:
+     * <code>/page/site/swsdp/documentlibrary</code>
+     * <p>
+     * The default value if none has been set is the user's dashboard: 
+     * <code>/page/user/{username}/dashboard</code>
+     * 
+     * @param context
+     * @param userId
+     * @return the user's home page
+     * @throws UserFactoryException
+     */
+    public String getUserHomePage(RequestContext context, String userId) throws UserFactoryException
+    {
+        String homePage = "/page/user/" + URLEncoder.encode(userId) + "/dashboard";
+        User user = context.getUser();
+        if (user != null)
+        {
+            String userHomePage = (String) user.getProperty(PROP_USERHOMEPAGE);
+            if (userHomePage != null && !userHomePage.trim().equals(""))
+            {
+                homePage = userHomePage;
+            }
+        }
+        return homePage;
     }
 
     /**

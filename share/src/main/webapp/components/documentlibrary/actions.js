@@ -1765,6 +1765,17 @@
       {
          this._copyMoveTo("move", record);
       },
+      
+      /**
+       * Unzip a single archive.
+       *
+       * @method onActionUnzipTo
+       * @param record {object} Object literal representing the archive to be actioned
+       */
+      onActionUnzipTo: function dlA_onActionUnzipTo(record)
+      {
+         this._copyMoveTo("unzip", record);
+      },
 
       /**
        * Copy/Move To implementation.
@@ -1780,7 +1791,8 @@
          if (!mode in
             {
                copy: true,
-               move: true
+               move: true,
+               unzip: true
             })
          {
             throw new Error("'" + mode + "' is not a valid Copy/Move to mode.");
@@ -1806,7 +1818,7 @@
             allowedViewModes.push(DLGF.VIEW_MODE_REPOSITORY);
          }
 
-         allowedViewModes.push(DLGF.VIEW_MODE_USERHOME)
+         allowedViewModes.push(DLGF.VIEW_MODE_USERHOME);
 
          var zIndex = 0;
          if (this.fullscreen !== undefined && ( this.fullscreen.isWindowOnly || Dom.hasClass(this.id, 'alf-fullscreen')))
@@ -1890,6 +1902,65 @@
             path: this.currentPath,
             files: record
          }).showDialog();
+      },
+      
+      /**
+       * Take Ownership.
+       *
+       * @method onActionTakeOwnership
+       * @param record {object} Object literal representing the file or folder to be actioned
+       */
+      onActionTakeOwnership: function dlA_onActionTakeOwnership(record, owner)
+      {
+         var me = this,
+            jsNode = record.jsNode,
+            content = jsNode.isContainer ? "folder" : "document",
+            displayName = record.displayName,
+            zIndex = 0;
+
+         var displayPromptText = this.msg("message.confirm.take-ownership", displayName);
+
+         if (this.fullscreen !== undefined && ( this.fullscreen.isWindowOnly || Dom.hasClass(this.id, 'alf-fullscreen')))
+         {
+            zIndex = 1000;
+         }
+
+         //MNT-11084 : Full screen/window view: Actions works incorrectly;
+         var parent = undefined;
+         var container = Dom.get(this.id);
+         var ua = navigator.userAgent.toLowerCase();
+         if ((ua.indexOf('gecko') != -1 || ua.indexOf('safari')!=-1) && ua.indexOf('chrome')==-1)
+         {
+            parent = container;
+         }
+       
+         var buttons =
+         [
+            {
+               text: this.msg("button.take-ownership"),
+               handler: function dlA_onActionTakeOwnership_confirm()
+               {
+                  this.destroy();
+                  me.onActionSimpleRepoAction.call(me, record, owner);
+               }
+            },
+            {
+               text: this.msg("button.cancel"),
+               handler: function dlA_onActionTakeOwnership_cancel()
+               {
+                  this.destroy();
+               },
+               isDefault: true
+            }
+         ];
+         
+         Alfresco.util.PopupManager.displayPrompt(
+         {
+            title: this.msg("message.confirm.take-ownership.title"),
+            text: displayPromptText,
+            noEscape: true,
+            buttons: buttons
+         });
       },
 
       /**

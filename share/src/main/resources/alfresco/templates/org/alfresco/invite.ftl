@@ -10,7 +10,7 @@
    </div>
    </@>
    <@markup id="bd">
-   <div id="bd">
+   <div id="bd" class="alf-invite-require-acceptance">
       <@region id="membersbar" scope="template" />
       <div class="yui-g grid">
          <div class="yui-u first column1">

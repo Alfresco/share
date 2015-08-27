@@ -339,6 +339,9 @@
                isDefault: true
             }]
          });
+
+         var elements = Dom.getElementsByClassName('yui-button', 'span', 'prompt');
+         Dom.addClass(elements[0], 'alf-primary-button');
       },
 
       /**
@@ -568,6 +571,10 @@
                      var el = document.getElementsByName(a[i])[0];
                      el.value = Alfresco.util.decodeHTML(el.value);
                   }
+                  
+                  // Style button
+                  Dom.addClass(this.widgets.okButton._button.parentElement.parentElement, "alf-primary-button");
+                  this.widgets.okButton._button.innerHTML = this.msg("button.save");
                },
                scope: EditDialog
             },

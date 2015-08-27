@@ -271,15 +271,8 @@
                         var docNode = rootNode.children[0];
                         docNode.isLoading = false;
                         docNode.isLeaf = true;
-                        if (oResponse.status == 403)
-                        {
-                           docNode.label = this.msg("message.refresh.failure.forbidden");
-                        }
-                        else
-                        {
-                           docNode.label = response.message;
-                           docNode.labelStyle = "ygtverror";
-                        }
+                        docNode.label = response.message;
+                        docNode.labelStyle = "ygtverror";
                         rootNode.refresh();
                      }
                      catch(e)

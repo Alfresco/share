@@ -3,12 +3,14 @@
       <#-- CSS Dependencies -->
       <@link href="${url.context}/res/components/manage-permissions/manage-permissions.css" group="manage-permissions"/>
       <@link href="${url.context}/res/components/people-finder/authority-finder.css" group="manage-permissions"/>
+      <@link href="${url.context}/res/modules/roles-tooltip.css" group="invite"/>
    </@>
    
    <@markup id="js">
       <#-- JavaScript Dependencies -->
       <@script src="${url.context}/res/components/manage-permissions/manage-permissions.js" group="manage-permissions"/>
       <@script src="${url.context}/res/components/people-finder/authority-finder.js" group="manage-permissions"/>
+      <@script src="${url.context}/res/modules/roles-tooltip.js" group="invite"/>
    </@>
    
    <@markup id="widgets">
@@ -50,7 +52,7 @@
                <div id="${id}-directPermissions" class="permissions-list"></div>
             </div>
             <div class="center">
-               <span id="${id}-okButton" class="yui-button yui-push-button">
+               <span id="${id}-okButton" class="yui-button yui-push-button alf-primary-button">
                   <span class="first-child">
                      <button>${msg("button.save")}</button>
                   </span>
