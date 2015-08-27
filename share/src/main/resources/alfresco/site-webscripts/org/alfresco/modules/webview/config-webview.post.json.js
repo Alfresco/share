@@ -19,7 +19,6 @@ function main()
 			status.setCode(status.STATUS_BAD_REQUEST, "URL is not valid.");
 			return;
 		}
-		//uri = stringUtils.stripUnsafeHTML(uri);
 		c.properties["webviewURI"] = uri;
 		model.uri = uri;
 	}
@@ -29,10 +28,9 @@ function main()
 
 function isURLValid(url)
 {
-	var expression = /(ftp|http|https):\/\/[\w\-_]+(\.[\w\-_]+)*([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+    var expression = /(ftp|http|https):\/\/[\w\-_]+(\.[\w\-_]+)*([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?/;
     // Check an empty string replacement returns an empty string
-	var pattern = new RegExp(expression);
-	return url.replace(pattern, "") === "";
+    return url.replace(expression, "") === "";
 }
 
 main();

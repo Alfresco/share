@@ -58,11 +58,7 @@
             <class name="org.alfresco.po.share.site.document.ManagePermissionsTest"/>
         </classes>
     </test>
-    <test name="InviteMembersPageTest">
-  	    <classes>
-            <class name="org.alfresco.po.share.site.InviteMembersPageTest" />
-  		</classes>
-    </test>
+
     <test name="SiteFinderPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.SiteFinderPageTest" />

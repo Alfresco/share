@@ -210,9 +210,9 @@
             {
                // Check referrer and fall back to user dashboard if unavailable.
                if(this.referrerValue) {
-                   if(referrerValue == 'tasks') {
+                   if(this.referrerValue == 'tasks') {
                       document.location.href = $siteURL("my-tasks");
-                   } else if(referrerValue='workflows') {
+                   } else if(this.referrerValue == 'workflows') {
                       document.location.href = $siteURL("my-workflows");
                    }
                 } else {

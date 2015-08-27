@@ -360,12 +360,14 @@ public class FactorySharePageTest extends AbstractTest
             page = resolvePage("http://localhost:8080/alfresco/s/enterprise/admin/admin-repoconsole", "admin-repoconsole", driver);
             Assert.assertTrue(page instanceof RepositoryAdminConsolePage);
             
-            page = resolvePage("http://localhost:8080/share/xxyyzz", "UnknownSharePage", driver);
+            page = resolvePage("http://localhost:8080/share/xxyyzz", "UnknownSharePage", driver).render();
             Assert.assertTrue(page instanceof SharePage);
             Assert.assertTrue(page instanceof UnknownSharePage);
             
             page = resolvePage(modelsPage, "ModelsPage", driver);
             Assert.assertTrue(page instanceof ModelsPage);
+            
+;
             
             long duration = System.currentTimeMillis() - start;
             logger.info("Total duration of test in milliseconds: " + duration);
