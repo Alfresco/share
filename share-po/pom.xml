@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>5.1-SNAPSHOT</version>
+        <version>5.1.a-EA-SNAPSHOT</version>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -216,12 +216,12 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+                                        <taskdef resource="net/sf/antcontrib/antlib.xml" />
 
                                         <echo>Recreating database...</echo>
                                         <sql driver="org.postgresql.Driver" url="jdbc:postgresql:template1" userid="alfresco" password="alfresco" autocommit="true">drop database if exists alfresco; create database alfresco</sql>
                                         <if>
-                                            <not> <isset property="installer.location"/> </not>
+                                            <not> <isset property="installer.location" /> </not>
                                             <then>
                                                 <property name="installer.location" location="${basedir}/target/alf-installer.bin" />
                                                 <echo>Downloading Alfresco installer to ${installer.location}...</echo>

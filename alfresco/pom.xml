@@ -7,7 +7,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>5.1-SNAPSHOT</version>
+        <version>5.1.a-EA-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -46,7 +46,7 @@
                         <overlay>
                             <groupId>org.alfresco</groupId>
                             <artifactId>alfresco-platform</artifactId>
-                            <excludes/>
+                            <excludes />
                         </overlay>
                         <overlay>
                             <groupId>org.alfresco</groupId>
@@ -81,7 +81,7 @@
                         <solr.host>localhost</solr.host>
                         <solr.secureComms>none</solr.secureComms>
                         <solr.port>8080</solr.port>
-                        <solr.port.ssl></solr.port.ssl>
+                        <solr.port.ssl />
                         <solr.backup.alfresco.numberToKeep>0</solr.backup.alfresco.numberToKeep>
                         <solr.backup.archive.numberToKeep>0</solr.backup.archive.numberToKeep>
                         <solr.solr.home>${runtime.solr.folder}</solr.solr.home>

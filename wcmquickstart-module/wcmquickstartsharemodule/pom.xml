@@ -5,7 +5,7 @@
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>5.1-SNAPSHOT</version>
+        <version>5.1.a-EA-SNAPSHOT</version>
     </parent>
     <packaging>amp</packaging>
 
@@ -39,9 +39,8 @@
                 <configuration>
                     <target>
                         <copy todir="${project.build.directory}/${project.build.finalName}/config">
-                            <fileset dir="${basedir}/src/main/amp/config"
-                                includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
+                            <fileset dir="${basedir}/src/main/amp/config" includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
                         </copy>
                     </target>
                 </configuration>
