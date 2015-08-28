@@ -1126,8 +1126,9 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
                     if (authHdr.equals(AUTH_NTLM))
                     {
                         // authentication failed on repo side - being login process again
+                    	// check for "chrome" since Chrome user-agent contains a Safari version
                         String userAgent = req.getHeader("user-agent");
-                        if (userAgent != null && userAgent.indexOf("Safari") != -1)
+                        if (userAgent != null && userAgent.indexOf("Safari") != -1 && userAgent.indexOf("Chrome") == -1)
                         {
                             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             final PrintWriter out = res.getWriter();
