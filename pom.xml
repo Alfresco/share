@@ -6,7 +6,7 @@
         <version>6</version>
     </parent>
     <artifactId>alfresco-share-parent</artifactId>
-    <version>5.1.a-EA-SNAPSHOT</version>
+    <version>5.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -69,8 +69,8 @@
     </properties>
 
    <scm>
-     <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/branches/5.1.a</connection>
-     <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/branches/5.1.a</developerConnection>
+     <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
+     <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/trunk/</developerConnection>
    </scm>
     <pluginRepositories>
         <pluginRepository>
