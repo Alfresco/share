@@ -130,6 +130,12 @@
             <groupId>org.alfresco.test</groupId>
             <artifactId>dataprep</artifactId>
             <version>1.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.alfresco.services.sync</groupId>
+                    <artifactId>service-synchronization-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     
