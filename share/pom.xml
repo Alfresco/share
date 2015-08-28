@@ -80,7 +80,7 @@
         <dependency>
             <groupId>org.springframework.extensions.surf</groupId>
             <artifactId>spring-surf-api</artifactId>
-            <version>${dependency.surf.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.extensions.surf</groupId>
@@ -310,7 +310,7 @@
                                     <alfresco-core>${dependency.alfresco-core.version}</alfresco-core>
                                     <alfresco-jlan>${dependency.alfresco-jlan.version}</alfresco-jlan>
                                     <spring>${dependency.spring.version}</spring>
-                                    <surf>${dependency.surf.version}</surf>
+                                    <surf>${project.version}</surf>
                                     <aikau>${dependency.aikau.version}</aikau>
                                     <webscripts>${dependency.webscripts.version}</webscripts>
                                     <yui>${dependency.yui.version}</yui>
