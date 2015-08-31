@@ -93,7 +93,7 @@ public class TakeOwnershipTest extends AbstractTest
             searchUsers = addUsersToSitePage.searchUser(takeOwnershipUserName);
             try
             {
-                if (searchUsers != null && searchUsers.size() > 0 && (searchUsers.get(0).indexOf(takeOwnershipUserName) != -1))
+                if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, takeOwnershipUserName))
                 {
                     addUsersToSitePage.clickSelectUser(takeOwnershipUserName);
                     addUsersToSitePage.setUserRoles(takeOwnershipUserName, UserRole.COLLABORATOR);

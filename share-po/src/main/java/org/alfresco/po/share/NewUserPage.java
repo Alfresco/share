@@ -232,6 +232,7 @@ public class NewUserPage extends SharePage
     public HtmlPage selectCreateUser()
     {
         createUser.click();
+        waitUntilAlert();
         return getCurrentPage();
     }
 

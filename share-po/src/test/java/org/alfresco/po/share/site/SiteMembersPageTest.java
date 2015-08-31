@@ -69,7 +69,7 @@ public class SiteMembersPageTest extends AbstractTest
             searchUsers = addUsersToSitePage.searchUser(userName);
             try
             {
-                if (searchUsers != null && searchUsers.size() > 0 && searchUsers.get(0).toString().contains(userName))
+                if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
                 {
                     addUsersToSitePage.clickSelectUser(userName);
                     addUsersToSitePage.setUserRoles(userName, UserRole.COLLABORATOR);
@@ -93,6 +93,7 @@ public class SiteMembersPageTest extends AbstractTest
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
     }
 
+     
     @Test(groups = "Enterprise-only")
     public void testSearchUser() throws Exception
     {
