@@ -67,8 +67,8 @@ public class AddUsersToSitePage extends SharePage
     private static final By SEARCH_RESULTS_USER_NAMES = By.cssSelector("td+td>div.yui-dt-liner>h3>span.lighter");
 
     // Add user - 1 Search for People button -list of all buttons on the page ???
-    private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select')]";
-    // private static final String SELECT_USER_BUTTONS = "//span[contains(@id, '%s')]//button[contains(text(),'Add >>')]";
+    //private static final String SELECT_USER_BUTTONS = "//button[contains(text(),'Select')]";
+    private static final String SELECT_USER_BUTTONS = "//span[contains(@id, '%s')]//button[contains(text(),'Select')]";
 
     /**
      * 2 - Set User Roles panel:

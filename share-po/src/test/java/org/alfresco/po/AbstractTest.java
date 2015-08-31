@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -288,4 +289,25 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     {
         return factoryPage.getPage(driver);
     }
+    
+    /**
+     * Returns true if the search user list contains created user
+     * 
+     * @param searchUsers
+     * @param userName
+     * @return
+     */
+    protected boolean hasUser(List<String> searchUsers, String userName)
+    {
+        boolean hasUser = false;
+        for(String searchUser : searchUsers)
+        {
+            if(searchUser.indexOf(userName) != -1)
+            {
+                hasUser = true;
+            }
+        }
+        return hasUser;
+    }
+    
 }
