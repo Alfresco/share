@@ -35,7 +35,7 @@ function getLicenseUsage() {
 function getShareServices() {
    var ss = {};
 
-   if (user.properties["alfUserLoaded"] > new Date().getTime() - 5000)
+   if (user.properties["alfUserLoaded"] > new Date().getTime() - 15000)
    {
       // retrieve ShareServices information
       var connector = remote.connect("alfresco-api");
@@ -44,6 +44,11 @@ function getShareServices() {
       {
          ss = JSON.parse(result);
       }
+   }
+   else
+   {
+      //Don't check shareservices, lets inform the widget
+      ss['nocheck'] = true;
    }
    return ss;
 }
