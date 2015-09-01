@@ -64,7 +64,7 @@ import org.alfresco.po.share.search.SearchBox;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.document.DetailsPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
-import org.alfresco.po.share.steps.DashBoardActions;
+import org.alfresco.po.share.steps.CommonActions;
 import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,7 +72,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 @Component
-public class CmmActions extends DashBoardActions
+public class CmmActions extends CommonActions
 {
     private String createAction = "Create";
     private String editAction = "Edit";

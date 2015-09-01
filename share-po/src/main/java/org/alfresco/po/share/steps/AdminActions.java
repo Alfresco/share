@@ -14,7 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 import org.alfresco.po.exception.PageOperationException;
 @Component
-public class AdminActions extends DashBoardActions
+public class AdminActions extends CommonActions
 {
     /**
      * Navigate to Groups page
