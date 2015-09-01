@@ -22,6 +22,7 @@
         <list>
             <value>classpath:en.properties</value>
             <value>classpath:share.properties</value>
+            <value>classpath:cmm.properties</value>
         </list>
          </property>
     </bean>

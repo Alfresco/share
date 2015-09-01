@@ -65,10 +65,10 @@ public class Navigation extends PageElement
     private static final String RECENT_SITES = "td[id^='HEADER_SITES_MENU_RECENT'] a";
     private static final String FAVOURITE_TEXT = "div[id^='HEADER_SITES_MENU_FAVOURITES'] td[class$='dijitMenuItemLabel']";
     private static final String FAVOURITE_SITES = "div[id^='HEADER_SITES_MENU_FAVOURITES'] td[class$='dijitMenuItemLabel'] a";
-
-    @FindBy(id = "HEADER_HOME_text")
-    Link home;
-
+    private static final String ADMIN_TOOLS_LINK_SELECTOR = "div#HEADER_ADMIN_CONSOLE";
+    private static final String NON_ADMIN_TOOLS_LINK_SELECTOR = "div[id='HEADER_NON_ADMIN_ADMIN_CONSOLE']";
+    private static final String MANAGE_CUSTOM_MODELS_LINK_SELECTOR = "tr[id='HEADER_CUSTOM_MODEL_MANAGER_CONSOLE']>td>a";
+    @FindBy(id="HEADER_HOME_text")Link home;
     /**
      * Mimics the action of selecting the dashboard link.
      * 
@@ -762,5 +762,103 @@ public class Navigation extends PageElement
                 .instantiatePageElement(driver, FacetedSearchHeaderSearchForm.class);
         facetedSearchHeaderSearchForm.search(searchString);
         return getCurrentPage();
+    }
+    /**
+     * Select manage custom models link as Admin.
+     * 
+     * @return the html page
+     */
+
+    private HtmlPage selectManageCustomModelsRepoAdmin()
+    {
+        selectAdminTools().render();
+        String selector = "ul.toolLink > li > span > a[href=\"custom-model-manager\"]";
+        driver.findElement(By.cssSelector(selector)).click();
+        return getCurrentPage();
+    }
+
+    /**
+     * Select manage custom models link from Navigation Bar.
+     * 
+     * @return the html page
+     */
+    private HtmlPage selectManageCustomModelsNonAdmin()
+    {
+        try
+        {
+            // Select Non Admin Drop down
+            WebElement monAdminMenuSelector = driver.findElement(By.cssSelector(NON_ADMIN_TOOLS_LINK_SELECTOR));
+            monAdminMenuSelector.click();
+
+            // Select Custom Models Menu
+            WebElement menuSelector = driver.findElement(By.cssSelector(MANAGE_CUSTOM_MODELS_LINK_SELECTOR));
+            menuSelector.click();
+
+            return factoryPage.getPage(driver);
+        }
+        catch (NoSuchElementException | TimeoutException te)
+        {
+            throw new PageOperationException("Unable to select Model Manager Option as Non Admin User", te);
+        }
+    }
+
+//    /**
+//     * Select manage Custom Models link as Network Admin for cloud.
+//     * 
+//     * @return the html page
+//     */
+//
+//    private HtmlPage selectManageCustomModelsNetworkAdmin()
+//    {
+//        ShareUtil.validateAlfrescoVersion(alfrescoVersion, RequiredAlfrescoVersion.CLOUD_ONLY);
+//        throw new UnsupportedOperationException("Operation not supported for MyAlfresco");
+//    }
+
+    /**
+     * Does the current page have a Admin-tools link in the header?
+     * 
+     * @return boolean
+     */
+    private boolean hasAdminToolsLink()
+    {
+        List<WebElement> elements = driver.findElements(By.cssSelector(ADMIN_TOOLS_LINK_SELECTOR));
+        return !elements.isEmpty();
+    }
+
+    /**
+     * Does the current page have a manage-custom-models link in the header?
+     * 
+     * @return boolean
+     */
+    public boolean hasManageModelsLink()
+    {
+        List<WebElement> elements = driver.findElements(By.cssSelector(MANAGE_CUSTOM_MODELS_LINK_SELECTOR));
+        return !elements.isEmpty();
+    }
+
+    /**
+     * Select Manage Custom Models Page: calls appropriate method for AlfrescoVersion and user type
+     * 
+     * @return the HtmlPage
+     */
+    public HtmlPage selectManageCustomModelsPage()
+    {
+        String msg = "Unable to select appropriate menu option for manage custom models";
+        try
+        {
+        	if (hasAdminToolsLink())
+            {
+                return selectManageCustomModelsRepoAdmin();
+            }
+            else if (hasManageModelsLink())
+            {
+                return selectManageCustomModelsNonAdmin();
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+            throw new PageOperationException(msg, e);
+        }
+        throw new UnsupportedOperationException(msg);
     }
 }

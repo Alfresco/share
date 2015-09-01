@@ -17,6 +17,7 @@
              <value>classpath:test.properties</value>
              <value>classpath:module.properties</value>
              <value>classpath:custom.properties</value>
+             <value>classpath:cmm.properties</value>
           </list>
        </property>
        <property name="ignoreUnresolvablePlaceholders" value="true"/>
