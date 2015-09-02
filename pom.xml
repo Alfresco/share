@@ -6,7 +6,7 @@
         <version>6</version>
     </parent>
     <artifactId>alfresco-share-parent</artifactId>
-    <version>5.1-SIMP2-SNAPSHOT</version>
+    <version>5.1-SIMP-DEV-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -28,17 +28,18 @@
         <version.minor>1</version.minor>
         <version.revision>0</version.revision>
         <!-- Version of Alfresco Platform to depen on -->
-        <alfresco.platform.version>5.1-SIMP2-SNAPSHOT</alfresco.platform.version>
+        <alfresco.platform.version>5.1-SIMP1-SNAPSHOT</alfresco.platform.version>
 
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -XX:MaxPermSize=256m -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <dependency.spring.version>3.2.14.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
-        <dependency.aikau.version>1.0.31</dependency.aikau.version>
+        <dependency.aikau.version>1.0.33</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
-        <dependency.alfresco-core.version>5.1.3</dependency.alfresco-core.version>
+        <dependency.surf.version>${project.version}</dependency.surf.version>
+        <dependency.alfresco-core.version>5.1.3-SNAPSHOT</dependency.alfresco-core.version>
         <dependency.alfresco-jlan.version>5.1.1</dependency.alfresco-jlan.version>        
         <dependency.webscripts.version>5.1.2</dependency.webscripts.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
@@ -185,16 +186,16 @@
                         <configuration>
                             <exportAntProperties>true</exportAntProperties>
                             <target>
-                                <property name="db.driver" value="org.postgresql.Driver" />
-                                <property name="db.name" value="alfresco" />
-                                <property name="db.url" value="jdbc:postgresql:${db.name}" />
-                                <property name="db.master.url" value="jdbc:postgresql:template1" />
-                                <property name="db.username" value="alfresco" />
-                                <property name="db.password" value="alfresco" />
-                                <property name="db.master.username" value="alfresco" />
-                                <property name="db.master.password" value="alfresco" />
-                                <property name="db.drop.command" value="drop database if exists ${db.name}" />
-                                <property name="db.create.command" value="create database ${db.name}" />
+                                <property name="db.driver" value="org.postgresql.Driver"/>
+                                <property name="db.name" value="alfresco"/>
+                                <property name="db.url" value="jdbc:postgresql:${db.name}"/>
+                                <property name="db.master.url" value="jdbc:postgresql:template1"/>
+                                <property name="db.username" value="alfresco"/>
+                                <property name="db.password" value="alfresco"/>
+                                <property name="db.master.username" value="alfresco"/>
+                                <property name="db.master.password" value="alfresco"/>
+                                <property name="db.drop.command" value="drop database if exists ${db.name}"/>
+                                <property name="db.create.command" value="create database ${db.name}"/>
                             </target>
                         </configuration>
                     </execution>
@@ -474,16 +475,17 @@
                                 <phase>generate-resources</phase>
                                 <configuration>
                                     <target>
-                                        <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
+                                        <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+                                            classpathref="maven.plugin.classpath"/>
                                         <if>
-                                            <available file="${runtime.tomcat.conf.folder}" type="dir" />
+                                            <available file="${runtime.tomcat.conf.folder}" type="dir"/>
                                             <then>
-                                                <echo message="Skipping creation of tomcat configuration, already exists: ${runtime.tomcat.conf.folder}" />
+                                                <echo message="Skipping creation of tomcat configuration, already exists: ${runtime.tomcat.conf.folder}"/>
                                             </then>
                                             <else>
-                                                <echo message="Creating tomcat runtime configuration: ${runtime.tomcat.conf.folder}" />
+                                                <echo message="Creating tomcat runtime configuration: ${runtime.tomcat.conf.folder}"/>
                                                 <copy todir="${runtime.tomcat.conf.folder}">
-                                                    <fileset dir="${project.build.directory}/tomcat-conf" />
+                                                    <fileset dir="${project.build.directory}/tomcat-conf"/>
                                                 </copy>
                                             </else>
                                         </if>
