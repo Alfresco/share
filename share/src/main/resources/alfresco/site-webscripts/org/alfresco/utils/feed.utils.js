@@ -100,7 +100,7 @@ function prepareForE4X(xmlStr)
    // NOTE: In Java RegExps the . (dot) does NOT include \r or \n characters by default,
    // to turn that on we use the (?s) instruction at the beginning of the regexp.
    var str = new java.lang.String(xmlStr);
-   return new String(str.replaceAll("(?s)(<\\?.*?\\?>)|(<!--.*?-->)", "").replaceAll("^[^<]*", "").replaceAll(">.*$", ">"));
+   return new String(str.replaceAll("(?s)(<\\?.*?\\?>)|(<!--.*?-->)", "").replaceAll("^[^<]*", "").replaceAll(">\s+$", ">"));
 }
 
 /**
