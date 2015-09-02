@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 @Component
 /**
@@ -48,6 +49,7 @@ public class ShareUtil
     private  final String WEBDAV_PAGE = "alfresco/webdav";
     @Autowired  FactoryPage factoryPage;
     @Autowired UserService userService;
+    @Value("${share.target}")protected String shareUrl;
 
     /**
      * A simple Enum to request the required Alfresco version.
@@ -84,10 +86,7 @@ public class ShareUtil
         {
             throw new IllegalArgumentException("A valid shareUrl is required and can not be: " + url);
         }
-        driver.navigate().to(url);
-        LoginPage lp = factoryPage.getPage(driver).render();
-        lp.loginAs(userInfo[0], userInfo[1]);
-        return factoryPage.getPage(driver);
+        return loginWithPost(driver, url, userInfo[0], userInfo[1]);
     }
 
     /**
@@ -99,9 +98,7 @@ public class ShareUtil
      */
     public HtmlPage logInAs(final WebDriver driver, final String... userInfo) throws Exception
     {
-        LoginPage lp = factoryPage.instantiatePage(driver, LoginPage.class).render();
-        lp.loginAs(userInfo[0], userInfo[1]);
-        return factoryPage.getPage(driver);
+        return loginWithPost(driver, shareUrl, userInfo[0], userInfo[1]);
     }
     
     public HtmlPage loginWithPost(WebDriver driver, String shareUrl, String userName, String password)

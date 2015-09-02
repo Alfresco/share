@@ -12,11 +12,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.alfresco.po.share;
+package org.alfresco.po.share.adminconsole;
 
 import java.util.List;
 
 import org.alfresco.po.AbstractTest;
+import org.alfresco.po.share.AddUserGroupPage;
+import org.alfresco.po.share.DashBoardPage;
+import org.alfresco.po.share.GroupsPage;
+import org.alfresco.po.share.NewGroupPage;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -31,15 +35,14 @@ public class AddUserGroupPageTest extends AbstractTest
 {
     private DashBoardPage dashBoard;
     private String groupName = "Add_Group";
-    private String user = "user" + System.currentTimeMillis() + "@test.com";
+    private String user = "user" + System.currentTimeMillis();
 
     @BeforeClass(groups = "Enterprise-only")
     public void setup() throws Exception
     {
-        dashBoard = loginAs("admin", "admin");
-        UserSearchPage userPage = dashBoard.getNav().getUsersPage().render();
-        NewUserPage newPage = userPage.selectNewUser().render();
-        newPage.createEnterpriseUser(user, user, user, user, user);
+    	userService.create("admin", "admin", user, user, user+"@test.com", user, user);
+    	dashBoard = loginAs("admin", "admin");
+    	dashBoard.getNav().getUsersPage().render();
 
     }
 
