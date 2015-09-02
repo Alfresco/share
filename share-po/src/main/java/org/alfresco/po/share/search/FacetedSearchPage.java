@@ -33,6 +33,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.TextInput;
 
 
 /**
@@ -426,6 +429,15 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
 	public FacetedSearchScopeMenu getScopeMenu() 
 	{
 		return new FacetedSearchScopeMenu(driver, factoryPage);
+	}
+
+	@FindBy(css= "input[name='searchTerm']") TextInput search;
+	@FindBy(css= "span[role='button']") WebElement searchBtn;
+	public HtmlPage search(String searchTerm)
+	{
+		search.sendKeys(searchTerm);
+		searchBtn.click();
+		return this;
 	}
 
 
