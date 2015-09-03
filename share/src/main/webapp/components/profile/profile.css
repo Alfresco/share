@@ -127,11 +127,6 @@
    line-height: 1.5em;
 }
 
-.profile .fieldlabel .user-status
-{
-   margin-top: 4px;
-}
-
 .profile .fieldlabelright
 {
    clear: left;
@@ -247,11 +242,6 @@
 .profile .people .lighter
 {
    padding-left: 0.3em;
-}
-
-.profile .user-status
-{
-   margin-top: 4px;
 }
 
 .profile .user-info

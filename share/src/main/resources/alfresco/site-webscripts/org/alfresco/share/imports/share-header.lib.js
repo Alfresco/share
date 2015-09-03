@@ -682,36 +682,6 @@ function getSubNavigationWidgets() {
 
 /* *********************************************************************************
  *                                                                                 *
- * USER STATUS WIDGET DEFINITION                                                   *
- *                                                                                 *
- ***********************************************************************************/
-function getUserStatusWidget()
-{
-   var userStatus = "",
-      userStatusTime = "";
-
-   if (user.properties["userStatus"] != null)
-   {
-      userStatus = user.properties["userStatus"];
-   }
-   if (user.properties["userStatusTime"] != null)
-   {
-      userStatusTime = user.properties["userStatusTime"];
-   }
-
-   return {
-      id: "HEADER_USER_STATUS",
-      name: "alfresco/header/CurrentUserStatus",
-      config: {
-         id: "HEADER_USER_STATUS",
-         userStatus: userStatus,
-         userStatusTime: userStatusTime
-      }
-   };
-}
-
-/* *********************************************************************************
- *                                                                                 *
  * CONSTRUCT HELP LINK                                                             *
  *                                                                                 *
  ***********************************************************************************/
@@ -969,30 +939,6 @@ function getUserMenuWidgets()
                   }
                }
             ]
-         }
-      },
-      {
-         id: "HEADER_USER_MENU_STATUS_GROUP",
-         name: "alfresco/menus/AlfMenuGroup",
-         config:
-         {
-            label: "group.set_status.label",
-            widgets:
-            [
-               getUserStatusWidget(),
-               {
-                  id: "HEADER_USER_MENU_SET_STATUS",
-                  name: "alfresco/header/AlfMenuItem",
-                  config:
-                  {
-                     id: "HEADER_USER_MENU_SET_STATUS",
-                     label: "set_status.label",
-                     iconClass: "alf-user-status-icon",
-                     publishTopic: "ALF_SET_USER_STATUS"
-                  }
-               }
-            ],
-            additionalCssClasses: "alf-menu-group-no-label"
          }
       }
    ];

@@ -124,17 +124,6 @@
                         <div>${msg("role." + m.role)}</div>
                      </@markup>
 
-                     <#if m.authority.userStatus?? && (m.authority.userStatus?length > 0)>
-
-                        <#-- LIST - ITEM - STATUS -->
-                        <@markup id="list-item-status">
-                           <#if m.authority.userStatus??>
-                           <div class="user-status">${m.authority.userStatus?html} <span class="time">(<span class="relativeTime">${m.authority.userStatusTime.iso8601?html}</span>)</span></div>
-                           </#if>
-                        </@markup>
-
-                     </#if>
-
                   </div>
                   <div class="clear"></div>
                </div>
