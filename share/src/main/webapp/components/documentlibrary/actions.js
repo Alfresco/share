@@ -130,8 +130,13 @@
             "id": p_action.id,
             "icon": p_action.icon,
             "label": $html(Alfresco.util.substituteDotNotation(this.msg(p_action.label), p_record)),
-            "additionalCssClasses" : (p_action.additionalCssClasses ? " " + p_action.additionalCssClasses : "")
+            "additionalCssClasses" : p_action.additionalCssClasses ? " " + p_action.additionalCssClasses : ""
          };
+         
+         if (p_action.lastActionInSubgroup)
+         {
+            markupParams.additionalCssClasses = " alf-action-group-end";
+         }
 
          // Parameter substitution for each action type
          if (p_action.type === "link")

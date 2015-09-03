@@ -388,7 +388,7 @@ var DocList =
    getGroupActions: function getGroupActions(groupId, allActions)
    {
       var scopedRoot = config.scoped["DocLibActions"]["actionGroups"],
-         groupConfigs, actionGroup, actionConfigs, actionConfig, actionId, actionIndex, actionLabel, action,
+         groupConfigs, actionGroup, actionConfigs, actionConfig, actionId, actionIndex, actionSubgroup, action,
          actions = {};
 
       try
@@ -412,11 +412,15 @@ var DocList =
                            // Get each action item for this actionGroup
                            actionId = actionConfig.getAttribute("id");
                            actionIndex = actionConfig.getAttribute("index");
+                           actionSubgroup = Number(actionConfig.getAttribute("subgroup") || 99);
+                           var effectiveIndex = Number(actionSubgroup + "" + (actionIndex || "000"));
+                           
                            if (actionId)
                            {
                               action = DocList.merge(allActions[actionId],
                               {
-                                 index: actionIndex || 0
+                                 index: effectiveIndex,
+                                 subgroup: actionSubgroup
                               });
                               if (typeof action == "undefined")
                               {

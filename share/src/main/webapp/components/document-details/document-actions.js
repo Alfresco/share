@@ -207,6 +207,11 @@
          record.actionParams = {};
          for (var i = 0, ii = actions.length; i < ii; i++)
          {
+             if (i + 1 < ii && actions[i].subgroup != actions[i + 1].subgroup)
+             {
+                actions[i]["lastActionInSubgroup"] = true;
+             }
+            
             actionHTML += this.renderAction(actions[i], record);
          }
 
