@@ -118,12 +118,21 @@
                      <control-param name="activateLinks">true</control-param>
                   </control>
                </field>
-               <field id="mimetype">
+               
+               <set id="cm:content2cols" template="/org/alfresco/components/form/2-column-set.ftl" />
+               
+               <field set="cm:content2cols" id="mimetype">
                   <control template="/org/alfresco/components/form/controls/mimetype.ftl" />
                </field>
-               <field id="size">
+               
+               <field set="cm:content2cols" id="size">
                   <control template="/org/alfresco/components/form/controls/size.ftl" />
                </field>
+               <field set="cm:content2cols" id="cm:creator" />
+               <field set="cm:content2cols" id="cm:created" />
+               <field set="cm:content2cols" id="cm:modifier" />
+               <field set="cm:content2cols" id="cm:modified" />
+               
                <field id="cm:taggable">
                   <control>
                      <control-param name="compactMode">true</control-param>
@@ -223,19 +232,24 @@
                <show id="cm:name" />
                <show id="cm:title" force="true" />
                <show id="cm:description" force="true" />
-
+               
+               <show id="cm:creator" for-mode="view" />
+               <show id="cm:created" for-mode="view" />
+               <show id="cm:modifier" for-mode="view" />
+               <show id="cm:modified" for-mode="view" />                       
+               
                <!-- tags and categories -->
                <show id="cm:taggable" for-mode="edit" force="true" />
                <show id="cm:categories" />
-
+               
                <!-- emailserver:aliasable aspect -->
                <show id="emailserver:alias" />
             </field-visibility>
             <appearance>
                <field id="cm:name">
-                 <control>
-                    <control-param name="maxLength">255</control-param>
-                 </control>
+                  <control>
+                     <control-param name="maxLength">255</control-param>
+                  </control>
                </field>
                <field id="cm:title">
                   <control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -245,6 +259,13 @@
                      <control-param name="activateLinks">true</control-param>
                   </control>
                </field>
+         
+               <set id="cm:folder2col" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <field set="cm:folder2col" id="cm:creator" />
+               <field set="cm:folder2col" id="cm:created" />
+               <field set="cm:folder2col" id="cm:modifier" />
+               <field set="cm:folder2col" id="cm:modified" />
+         
                <field id="cm:taggable">
                   <control>
                      <control-param name="compactMode">true</control-param>
@@ -259,9 +280,9 @@
                   </control>
                </field>
             </appearance>
-          </form>
+         </form>
 
-          <!-- Document Library pop-up Edit Metadata form -->
+         <!-- Document Library pop-up Edit Metadata form -->
          <form id="doclib-simple-metadata">
             <field-visibility>
                <show id="cm:name" />
