@@ -29,7 +29,6 @@ public class UserPageTest extends AbstractTest
         driver.navigate().to(shareUrl);
         DashBoardPage dashBoard = loginAs(username, password);
         userpage = dashBoard.getNav().selectUserDropdown().render();
-        Assert.assertTrue(userpage.isSetStausLinkPresent());
         Assert.assertTrue(userpage.isHelpLinkPresent());
         Assert.assertTrue(userpage.isLogoutLinkPresent());
     }
