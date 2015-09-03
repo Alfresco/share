@@ -40,11 +40,6 @@
    margin-right: 0.5em;
 }
 
-.application .yui-button button, .application .yui-button button a
-{
-   min-height: 1.75em;
-}
-
 .application .logonote
 {
    float: none !important;

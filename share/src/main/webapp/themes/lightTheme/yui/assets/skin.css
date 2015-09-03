@@ -118,7 +118,6 @@ padding: 0 10px;
 -font-size: 93%;
 line-height: 2;*line-height:1.7;
 min-height: 2em;*min-height:auto;
-color: #0C79BF;
 }
 .yui-skin-lightTheme .yui-button a {*line-height:1.875;*padding-bottom:1px;
 }
@@ -147,6 +146,10 @@ background-color: #135FA3;
 .yui-skin-lightTheme .yui-button-focus a {
 color: #135FA3;
 }
+.yui-skin-lightTheme .yui-menu-button-focus button,
+.yui-skin-lightTheme .yui-menu-button-focus a {
+color: #000;
+}
 .yui-skin-lightTheme .yui-split-button-focus button {
 background-image: url(split-button-arrow-focus.png);
 }
@@ -170,6 +173,10 @@ color: white;
 .yui-skin-lightTheme .yui-link-button-hover a:hover {
 color: #135FA3;
 }
+.yui-skin-lightTheme .yui-menu-button-hover button,
+.yui-skin-lightTheme .yui-menu-button-hover a {
+color: #000;
+}
 .yui-skin-lightTheme .yui-split-button-hover button {
 background-image: url(split-button-arrow-hover.png);
 }
@@ -192,6 +199,10 @@ color: white;
 .yui-skin-lightTheme .yui-link-button-active a,
 .yui-skin-lightTheme .yui-link-button-active a:hover {
 color: #125380;
+}
+.yui-skin-lightTheme .yui-menu-button-active button,
+.yui-skin-lightTheme .yui-menu-button-active a {
+color: #000;
 }
 .yui-skin-lightTheme .yui-split-button-activeoption {
 border-color: #ccc;
@@ -2885,7 +2896,7 @@ background-image: url(menubaritem_submenuindicator_disabled.png);
 }
 .yui-skin-lightTheme .yuimenu {
 font-size: 93%;
-line-height: 1.5;*line-height:1.45;
+line-height: 1.75;
 }
 .yui-skin-lightTheme .yuimenu .bd {*zoom:1;
 _zoom: normal;
@@ -2943,7 +2954,7 @@ _border-bottom: solid 1px #fff;
 padding: 0 20px;
 color: #000;
 text-decoration: none;
-cursor: default;
+cursor: pointer;
 }
 .yui-skin-lightTheme .yuimenuitemlabel .helptext {
 margin-top: -1.5em;*margin-top:-1.45em;
