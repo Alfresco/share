@@ -1260,8 +1260,7 @@
          </actionGroup>
 
          <actionGroup id="document-details">
-            <action index="100" id="document-download" />
-            <action index="110" id="document-view-content" />
+            <action index="100" id="document-view-content" additionalCssClasses="alf-action-group-end" />
             <action index="120" id="document-edit-metadata" />
             <action index="130" id="document-upload-new-version" />
             <action index="140" id="document-view-original" />

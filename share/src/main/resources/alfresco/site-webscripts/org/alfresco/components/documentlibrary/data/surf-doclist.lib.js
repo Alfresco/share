@@ -429,6 +429,7 @@ var DocList =
                               DocList.fnAddIfNotNull(action, actionConfig.getAttribute("icon"), "icon");
                               DocList.fnAddIfNotNull(action, actionConfig.getAttribute("type"), "type");
                               DocList.fnAddIfNotNull(action, actionConfig.getAttribute("label"), "label");
+                              DocList.fnAddIfNotNull(action, actionConfig.getAttribute("additionalCssClasses"), "additionalCssClasses");
 
                               DocList.fnAddIfNotNull(action, DocList.getActionParamConfig(actionConfig), "params");
                               DocList.fnAddIfNotNull(action, DocList.getEvaluatorConfig(actionConfig), "evaluators");
@@ -481,6 +482,7 @@ var DocList =
                   DocList.fnAddIfNotNull(action, actionConfig.getAttribute("icon"), "icon");
                   DocList.fnAddIfNotNull(action, actionConfig.getAttribute("type"), "type");
                   DocList.fnAddIfNotNull(action, actionConfig.getAttribute("label"), "label");
+                  DocList.fnAddIfNotNull(action, actionConfig.getAttribute("additionalCssClasses"), "additionalCssClasses");
 
                   DocList.fnAddIfNotNull(action, DocList.getActionParamConfig(actionConfig), "params");
                   DocList.fnAddIfNotNull(action, DocList.getEvaluatorConfig(actionConfig), "evaluators");
