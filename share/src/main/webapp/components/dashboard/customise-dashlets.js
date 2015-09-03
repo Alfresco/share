@@ -364,7 +364,7 @@
                url: Alfresco.constants.URL_SERVICECONTEXT + "components/dashboard/welcome-preference",
                dataObj:
                {
-                  welcomePanelEnabled: welcomePanelEnabledValue
+                  welcomePanelEnabled: welcomePanelEnabledElement.checked
                },
                successCallback:
                {
