@@ -356,8 +356,8 @@
       
       saveWelcomePanelPreference: function CD_saveWelcomePanelPreference()
       {
-         var welcomePanelEnabledValue = Dom.get(this.id + "-welcomePanelEnabled").checked;
-         if (this.options.welcomePanelEnabled != welcomePanelEnabledValue)
+         var welcomePanelEnabledElement = Dom.get(this.id + "-welcomePanelEnabled");
+         if (welcomePanelEnabledElement && this.options.welcomePanelEnabled != welcomePanelEnabledElement.checked)
          {
             Alfresco.util.Ajax.jsonPost(
             {
