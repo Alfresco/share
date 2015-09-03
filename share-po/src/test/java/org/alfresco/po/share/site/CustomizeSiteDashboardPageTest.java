@@ -65,9 +65,9 @@ public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
     {
         customizeSiteDashboardPage = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         assertTrue(resolvePage(driver).render() instanceof CustomiseSiteDashboardPage);
-        //assertFalse(customizeSiteDashboardPage.isGetStartedPanelDisplayed());
-        //assertFalse(customizeSiteDashboardPage.isShowOnDashboardDisplayed());
-        //assertFalse(customizeSiteDashboardPage.isHideFromDashboardDisplayed());
+        assertFalse(customizeSiteDashboardPage.isGetStartedPanelDisplayed());
+        assertFalse(customizeSiteDashboardPage.isShowOnDashboardDisplayed());
+        assertFalse(customizeSiteDashboardPage.isHideFromDashboardDisplayed());
     }
 
 
@@ -120,7 +120,7 @@ public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
         assertTrue(customizeSiteDashboardPage.getDashletsCountIn(4) == 0);
     }
 
- /**   
+ /**
     @Test(dependsOnMethods = "checkAddNewLayout")
     public void checkAddAllDashlets()
     {
@@ -139,5 +139,5 @@ public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
         assertTrue(resolvePage(driver).render() instanceof SiteDashboardPage);
     }
 **/
- 
+
 }
