@@ -1,6 +1,5 @@
-<import resource="classpath:alfresco/site-webscripts/org/alfresco/aikau/webscript/libs/service-filtering.lib.js">
-<import resource="classpath:alfresco/site-webscripts/org/alfresco/share/imports/share-header.lib.js">
-<import resource="classpath:alfresco/site-webscripts/org/alfresco/share/imports/share-footer.lib.js">
+<import resource="classpath:/alfresco/site-webscripts/org/alfresco/share/imports/share-header.lib.js">
+<import resource="classpath:/alfresco/site-webscripts/org/alfresco/share/imports/share-footer.lib.js">
 
 /* *********************************************************************************
  *                                                                                 *
@@ -876,29 +875,28 @@ var scopeSelection = {
 main.config.widgets.splice(2, 0, scopeSelection);
 
 // Append services with those required for search
-var searchServices = [ "alfresco/services/SearchService",
-                       "alfresco/services/ActionService",
-                       {
-                          name: "alfresco/services/actions/CopyMoveService",
-                          config: {
-                              repoNodeRef: repoRootNode
-                          }
-                       },
-                       "alfresco/services/actions/SimpleWorkflowService",
-                       "alfresco/services/DocumentService",
-                       "alfresco/services/PreferenceService",
-                       "alfresco/services/QuickShareService",
-                       "alfresco/services/RatingsService",
-                       "alfresco/services/CrudService",
-                       "alfresco/services/ContentService",
-                       "alfresco/services/TagService",
-                       "alfresco/services/LightboxService"];
-var filteredServices = alfAddUniqueServices(searchServices, services);
+services.push("alfresco/services/SearchService",
+              "alfresco/services/ActionService",
+              {
+                 name: "alfresco/services/actions/CopyMoveService",
+                 config: {
+                     repoNodeRef: repoRootNode
+                 }
+              },
+              "alfresco/services/actions/SimpleWorkflowService",
+              "alfresco/services/DocumentService",
+              "alfresco/services/PreferenceService",
+              "alfresco/services/QuickShareService",
+              "alfresco/services/RatingsService",
+              "alfresco/services/CrudService",
+              "alfresco/services/ContentService",
+              "alfresco/services/TagService",
+              "alfresco/services/LightboxService");
 
 // Add in the search form and search doc lib...
 widgets.unshift(accessMenu);
 widgets.push(main);
 
 // Push services and widgets into the getFooterModel to return with a sticky footer wrapper
-model.jsonModel = getFooterModel(filteredServices, widgets);
+model.jsonModel = getFooterModel(services, widgets);
 model.jsonModel.groupMemberships = user.properties["alfUserGroups"];
