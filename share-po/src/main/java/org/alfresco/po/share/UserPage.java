@@ -26,7 +26,6 @@ public class UserPage extends SharePage
     @RenderWebElement
     private static final By USER_PAGE_CSS = By.cssSelector("#HEADER_USER_MENU");
     private static final By MY_PROFILE_CSS = By.cssSelector("td#HEADER_USER_MENU_PROFILE_text");
-    private static final By STATUS_LINK_CSS = By.cssSelector("td#HEADER_USER_MENU_SET_STATUS_text");
     private static final By HELP_CSS = By.cssSelector("td#HEADER_USER_MENU_HELP_text");
     private static final By CHANGE_PASSWORD_CSS = By.cssSelector("td#HEADER_USER_MENU_CHANGE_PASSWORD_text");
     private static final By LOGOUT_CSS = By.cssSelector("td#HEADER_USER_MENU_LOGOUT_text");
@@ -98,23 +97,6 @@ public class UserPage extends SharePage
         try
         {
             return driver.findElement(HELP_CSS).isDisplayed();
-        }
-        catch (NoSuchElementException e)
-        {
-        }
-        return false;
-    }
-
-    /**
-     * verifies whether status link is present.
-     * 
-     * @return true if status link present , else false.
-     */
-    public boolean isSetStausLinkPresent()
-    {
-        try
-        {
-            return findAndWait(STATUS_LINK_CSS).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
