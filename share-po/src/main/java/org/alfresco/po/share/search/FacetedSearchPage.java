@@ -435,6 +435,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
 	@FindBy(css= "span[role='button']") WebElement searchBtn;
 	public HtmlPage search(String searchTerm)
 	{
+		search.clear();
 		search.sendKeys(searchTerm);
 		searchBtn.click();
 		return this;

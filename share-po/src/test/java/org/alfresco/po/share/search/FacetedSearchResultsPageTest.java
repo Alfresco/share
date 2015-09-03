@@ -328,7 +328,8 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         newPage.createEnterpriseUserWithGroup(userinfo, userinfo, userinfo, userinfo, userinfo, groupName);
         logout(driver);
         loginAs(userinfo, userinfo);
-        FacetedSearchPage facetedSearchPage = dashBoard.getNav().getFacetedSearchPage().render();
+        FacetedSearchPage facetedSearchPage = dashBoard.getSearch().search("ipsum").render();
+        		
         Assert.assertTrue(facetedSearchPage.isConfigureSearchDisplayed(driver));
         FacetedSearchConfigPage facetedSearchConfigPage = facetedSearchPage.getNav().getFacetedSearchConfigPage().render();
         Assert.assertTrue(facetedSearchConfigPage.getTitle().equals("Search Manager"));
@@ -345,12 +346,12 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         String newUrl = driver.getCurrentUrl();
         // We should no longer be on the faceted search page
         Assert.assertNotEquals(url, newUrl, "After searching for the letter 'a' and clicking the site link of result 1, the url should have changed");     
-        facetedSearchPage = dashBoard.getNav().getFacetedSearchPage().render();
+        facetedSearchPage = dashBoard.getSearch().search("ipsum").render();
         FacetedSearchPage facetedsearchPage = facetedSearchPage.search(SEARCH_TERM).render();
         facetedsearchPage.getResults().get(1).clickSiteLink().render(); 
         String newurl = driver.getCurrentUrl();
         Assert.assertNotEquals(url, newurl, "After searching for the letter 'a' and clicking the site link of result 1, the url should have changed");
-        facetedSearchPage = dashBoard.getNav().getFacetedSearchPage().render();
+        facetedSearchPage = dashBoard.getSearch().search("ipsum").render();
         FacetedSearchPage facetedsearchpage = search.search(SEARCH_TERM).render();
         facetedsearchpage.getResults().get(1).clickLink().render(); 
         String newurl1 = driver.getCurrentUrl();

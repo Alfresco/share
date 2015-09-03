@@ -686,6 +686,7 @@ public class Navigation extends PageElement
      * Navigates to the faceted search page.
      * 
      * @return {@link FacetedSearchPage} Instance of FacetedSearchPage
+     * @deprecated Incorrect use, should not use url to reach the page.
      */
     public HtmlPage getFacetedSearchPage()
     {
