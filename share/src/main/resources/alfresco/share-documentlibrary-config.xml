@@ -1260,7 +1260,8 @@
          </actionGroup>
 
          <actionGroup id="document-details">
-            <action index="110" id="document-view-content" subgroup="10" />
+            <!-- An effective index is built using the subgroup and index -->
+            <action index="110" id="document-view-content" subgroup="10" /> <!-- effectiveIndex=10110 -->
             <action index="210" id="document-approve" subgroup="20" />
             <action index="220" id="document-reject" subgroup="20" />
             <action index="310" id="document-cancel-editing" subgroup="30" />
@@ -1314,7 +1315,8 @@
          </actionGroup>
 
          <actionGroup id="folder-details">
-            <action index="110" id="folder-download" subgroup="10" />
+            <!-- An effective index is built using the subgroup and index -->
+            <action index="110" id="folder-download" subgroup="10" /> <!-- effectiveIndex=10110 -->
             <action index="210" id="document-approve" subgroup="20" icon="folder-approve" />
             <action index="220" id="document-reject" subgroup="20" icon="folder-reject" />
             <action index="310" id="document-edit-metadata" subgroup="30" icon="folder-edit-metadata" label="actions.folder.edit-metadata" />
