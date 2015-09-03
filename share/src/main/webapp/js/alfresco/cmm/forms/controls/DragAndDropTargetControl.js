@@ -120,7 +120,8 @@ define(["dojo/_base/declare",
       syncNodes: function cmm_forms_controls_DragAndDropTargetControl__syncNodes(paletteNodes) {
 
          // Get the canvas and existing widgets it contains
-         var canvas = lang.getObject("wrappedWidget.previewTarget", false, this);
+         var canvas = lang.getObject("wrappedWidget.previewTarget", false, this),
+             nameRegex = /\[([^\]]+)\]/;
          
          if(canvas != null)
          {
@@ -135,16 +136,20 @@ define(["dojo/_base/declare",
             {
                // Convert to a real widget
                var canvasObj = Registry.byId(canvasWidgets[i].id),
-                   found = false;
+                   found = false,
+                   canvasObjMatch = canvasObj.label.match(nameRegex),
+                   canvasObjName = canvasObjMatch ? canvasObjMatch[1] : canvasObj.label;
 
                // Iterate over the palette items
                for(var j=0; j<paletteNodes.length; ++j)
                {
                   // Convert to a real widget
-                  var paletteObj = Registry.byId(paletteNodes[j].firstChild.id);
+                  var paletteObj = Registry.byId(paletteNodes[j].firstChild.id)
+                      paletteObjMatch = paletteObj.title.match(nameRegex),
+                      paletteObjName = paletteObjMatch ? paletteObjMatch[1] : paletteObj.title;
 
-                  // If the canvas widget label matches the palette widget title, they are a match
-                  if(canvasObj.label === paletteObj.title)
+                  // If the canvas widget name matches the palette widget name, they are a match
+                  if(canvasObjName === paletteObjName)
                   {
                      found = true;
                      break;

@@ -99,7 +99,9 @@ define(["dojo/_base/declare",
          // Unsubscribe the callback
          this.alfUnsubscribe(this._syncCallBackHandle);
          
-         var palette = lang.getObject("viewMap.Abstract.docListRenderer.sourceTarget", false, this);
+         var palette = lang.getObject("viewMap.Abstract.docListRenderer.sourceTarget", false, this),
+             nameRegex = /\[([^\]]+)\]/;
+
          if(palette != null)
          {
             var paletteNodes = palette.getAllNodes();
@@ -109,16 +111,20 @@ define(["dojo/_base/declare",
             {
                // Convert to a real widget with the registry
                var paletteNodeObj = Registry.byId(paletteNodes[i].firstChild.id),
-                   found = false;
+                   found = false,
+                   paletteNodeObjMatch = paletteNodeObj.title.match(nameRegex),
+                   paletteNodeObjName = paletteNodeObjMatch ? paletteNodeObjMatch[1] : paletteNodeObj.title;
 
                // Iterate over the canvas items
                for(var j=0; j<canvasNodes.length; ++j)
                {
                   // Convert the canvas node to a real widget
-                  var canvasNodeObj = Registry.byId(canvasNodes[j].id);
+                  var canvasNodeObj = Registry.byId(canvasNodes[j].id),
+                      canvasNodeObjMatch = canvasNodeObj.label.match(nameRegex),
+                      canvasNodeObjName = canvasNodeObjMatch ? canvasNodeObjMatch[1] : canvasNodeObj.label;
 
-                  // If the canvas widget label matches the title of the palette item, they are a match
-                  if(canvasNodeObj.label === paletteNodeObj.title)
+                  // If the palette widget name matches the canvas widget name, they are a match
+                  if(paletteNodeObjName === canvasNodeObjName)
                   {
                      found = true;
                      break;

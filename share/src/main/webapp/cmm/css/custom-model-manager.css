@@ -32,8 +32,16 @@
 
 /* Data list */
 #CMM .alfresco-lists-views-AlfListView.bordered > table > tbody > tr > td {
-  border-top: none;
-  border-bottom: none;
+   border-top: none;
+   border-bottom: none;
+}
+
+#CMM td.nameColumn span.alfresco-renderers-Property span {
+   color: #006ca6;
+}
+#CMM td.nameColumn span.alfresco-renderers-Property span:hover {
+   text-decoration: underline;
+   color: #005684;
 }
 
 #CMM .alfresco-lists-AlfList > div.info {
