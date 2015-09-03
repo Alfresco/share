@@ -26,7 +26,6 @@ import static org.alfresco.po.share.dashlet.SiteActivitiesTypeFilter.ALL_ITEMS;
 import static org.alfresco.po.share.dashlet.SiteActivitiesTypeFilter.COMMENTS;
 import static org.alfresco.po.share.dashlet.SiteActivitiesTypeFilter.CONTENT;
 import static org.alfresco.po.share.dashlet.SiteActivitiesTypeFilter.MEMBERSHIPS;
-import static org.alfresco.po.share.dashlet.SiteActivitiesTypeFilter.STATUS_UPDATES;
 import static org.alfresco.po.share.dashlet.SiteActivitiesUserFilter.EVERYONES_ACTIVITIES;
 import static org.alfresco.po.share.dashlet.SiteActivitiesUserFilter.IM_FOLLOWING;
 import static org.alfresco.po.share.dashlet.SiteActivitiesUserFilter.MY_ACTIVITIES;
@@ -230,7 +229,6 @@ public class SiteAcitivitiesDashletTest extends AbstractSiteDashletTest
         dashlet.clickTypeButton();
         List<SiteActivitiesTypeFilter> allTypeFilters = dashlet.getTypeFilters();
         assertTrue(allTypeFilters.contains(ALL_ITEMS));
-        assertTrue(allTypeFilters.contains(STATUS_UPDATES));
         assertTrue(allTypeFilters.contains(COMMENTS));
         assertTrue(allTypeFilters.contains(CONTENT));
         assertTrue(allTypeFilters.contains(MEMBERSHIPS));
