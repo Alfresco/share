@@ -204,6 +204,7 @@ function main()
    model.columns = columns;
    model.currentLayout = currentLayout;
    model.welcomePanelEnabled = welcomePanelEnabled;
+   model.showWelcomePanelOptions = args.dashboardType == "user";
    
    // Widget instantiation metadata...
    var customizeDashlets = {
