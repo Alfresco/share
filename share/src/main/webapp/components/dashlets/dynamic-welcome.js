@@ -278,10 +278,10 @@
       onHideButtonClick: function DynamicWelcome_onHideButtonClick(e, args)
       {
          var _this = this;
-         var messageText = this.msg("panel.delete.msg");
+         var messageText = this.msg(this.dashboardType + ".panel.delete.msg");
          Alfresco.util.PopupManager.displayPrompt(
          {
-            title: this.msg("panel.delete.header"),
+            title: this.msg(this.dashboardType + ".panel.delete.header"),
             text: messageText,
             buttons: [
             {

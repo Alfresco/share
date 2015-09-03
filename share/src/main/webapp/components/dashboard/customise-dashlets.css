@@ -45,6 +45,11 @@
    margin-bottom: 0.7em;
 }
 
+.alf-welcome-preference label
+{
+   font-family: inherit;
+}
+
 /* Center buttons */
 .customise-dashlets div.buttons
 {
