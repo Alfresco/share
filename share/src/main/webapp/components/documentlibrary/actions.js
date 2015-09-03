@@ -117,9 +117,9 @@
            iconStyle = 'style="background-image:url(' + urlContext + '{icon}-16.png)" ',
            actionTypeMarkup =
            {
-              "link": '<div class="{id}"><a title="{label}" class="simple-link" href="{href}" ' + iconStyle + '{target}><span>{label}</span></a></div>',
-              "pagelink": '<div class="{id}"><a title="{label}" class="simple-link" href="{pageUrl}" ' + iconStyle + '><span>{label}</span></a></div>',
-              "javascript": '<div class="{id}" id="{jsfunction}"><a title="{label}" class="action-link" href="#"' + iconStyle + '><span>{label}</span></a></div>'
+              "link": '<div class="{id}{additionalCssClasses}"><a title="{label}" class="simple-link" href="{href}" ' + iconStyle + '{target}><span>{label}</span></a></div>',
+              "pagelink": '<div class="{id}{additionalCssClasses}"><a title="{label}" class="simple-link" href="{pageUrl}" ' + iconStyle + '><span>{label}</span></a></div>',
+              "javascript": '<div class="{id}{additionalCssClasses}" id="{jsfunction}"><a title="{label}" class="action-link" href="#"' + iconStyle + '><span>{label}</span></a></div>'
            };
 
          // Store quick look-up for client-side actions
@@ -129,7 +129,8 @@
          {
             "id": p_action.id,
             "icon": p_action.icon,
-            "label": $html(Alfresco.util.substituteDotNotation(this.msg(p_action.label), p_record))
+            "label": $html(Alfresco.util.substituteDotNotation(this.msg(p_action.label), p_record)),
+            "additionalCssClasses" : (p_action.additionalCssClasses ? " " + p_action.additionalCssClasses : "")
          };
 
          // Parameter substitution for each action type
