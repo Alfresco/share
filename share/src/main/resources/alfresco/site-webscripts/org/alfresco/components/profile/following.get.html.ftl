@@ -37,11 +37,6 @@
                         <span class="lighter">(${user.userName?html})</span>
                         <div class="user-info">${(user.jobtitle!"")?html}</div>
                         <div class="user-info">${(user.organization!"")?html}</div>
-                        <#if (user.userStatus??)>
-                        <div class="user-status">${(user.userStatus!"")?html}
-                           <span class="lighter"> (<span class="relativeTime">${user.userStatusTime.iso8601?html}</span>)</span>
-                         </div>
-                        </#if>
                      </div>
                      <#if (activeUserProfile)>
                         <div class="button-wrapper">

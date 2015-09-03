@@ -31,14 +31,6 @@
    clear: both;
 }
 
-.profile .user-status
-{
-   float: left;
-   min-width: 32%;
-   min-height: 1.5em;
-   margin: 0.5em 0 0.5em 0.5em;
-}
-
 .profile .fieldlabel
 {
    float: left;

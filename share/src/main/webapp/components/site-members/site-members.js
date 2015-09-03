@@ -409,9 +409,7 @@
          var userName = oRecord.getData("userName"),
             name = userName,
             firstName = oRecord.getData("firstName"),
-            lastName = oRecord.getData("lastName"),
-            userStatus = oRecord.getData("userStatus"),
-            userStatusTime = oRecord.getData("userStatusTime");
+            lastName = oRecord.getData("lastName");
 
          if ((firstName !== undefined) || (lastName !== undefined))
          {
@@ -431,10 +429,6 @@
          if (organization.length > 0)
          {
             desc += '<div><span class="attr-name">' + this.msg('label.company') + ':</span>&nbsp;<span class="attr-value">' + $html(organization) + '</span></div>';
-         }
-         if (typeof userStatus != "undefined" && userStatus.length > 0)
-         {
-            desc += '<div class="user-status">' + $html(userStatus) + ' <span>(' + Alfresco.util.relativeTime(Alfresco.util.fromISO8601(userStatusTime.iso8601)) + ')</span></div>';
          }
 
          elCell.innerHTML = desc;

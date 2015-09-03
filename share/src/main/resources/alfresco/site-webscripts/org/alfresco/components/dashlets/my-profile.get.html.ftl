@@ -38,7 +38,6 @@
       <#escape x as x?html>
                <div class="namelabel"><a href="${url.context}/page/user/${user.name?url}/profile" class="theme-color-1">${user.properties["firstName"]!""} ${user.properties["lastName"]!""}</a></div>
                <div class="titlelabel">${user.properties["jobtitle"]!""}</div>
-               <#if user.properties.userStatus?? && user.properties.userStatus?length!=0><div class="user-status">${user.properties.userStatus?html} <span class="time">(<span class="relativeTime">${user.properties.userStatusTime}</span>)</span></div></#if>
                <div class="clear"></div>
             </div>
             <div class="clear"></div>
