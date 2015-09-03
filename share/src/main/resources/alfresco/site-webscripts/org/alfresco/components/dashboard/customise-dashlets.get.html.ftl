@@ -100,8 +100,10 @@
                <h2>${msg("header.welcomePreference")}</h2>
                <hr />
                <div class="buttons alf-values" id="${args.htmlid}-welcomePreferenceButtonWrapper-div">
-                  <input id="${args.htmlid}-welcomePanelEnabled" type="radio" name="welcomePanelEnabled" value="true" <#if welcomePanelEnabled>checked</#if>>${msg("welcomePanel.enabled")}<br />
-                  <input id="${args.htmlid}-welcomePanelDisabled" type="radio" name="welcomePanelEnabled" value="false" <#if !welcomePanelEnabled>checked</#if>>${msg("welcomePanel.disabled")}
+                  <input id="${args.htmlid}-welcomePanelEnabled" type="radio" name="welcomePanelEnabled" value="true" <#if welcomePanelEnabled>checked</#if>>
+                  <label for="${args.htmlid}-welcomePanelEnabled">${msg("welcomePanel.enabled")}</label><br />
+                  <input id="${args.htmlid}-welcomePanelDisabled" type="radio" name="welcomePanelEnabled" value="false" <#if !welcomePanelEnabled>checked</#if>>
+                  <label for="${args.htmlid}-welcomePanelDisabled">${msg("welcomePanel.disabled")}</label>
                </div>
             </div>
          </#if>

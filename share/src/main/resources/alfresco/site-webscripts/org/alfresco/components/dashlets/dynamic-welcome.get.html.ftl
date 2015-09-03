@@ -20,7 +20,7 @@
             <div class="alf-welcome-hide-button">
                 <span id="${el}-hide-button" class="yui-button yui-push-button">
                     <span class="first-child">
-                        <button>${msg("welcome.hide")}</button>
+                        <button>${msg(args.dashboardType + ".welcome.close")}</button>
                     </span>
                 </span>
             </div>
