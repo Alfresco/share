@@ -1230,33 +1230,37 @@
          <actionGroup id="empty"/>
 
          <actionGroup id="document-browse">
-            <action index="100" id="document-download" />
-            <action index="110" id="document-view-content" />
-            <action index="120" id="document-locate" />
-            <action index="130" id="document-edit-properties" />
-            <action index="140" id="document-upload-new-version" />
-            <action index="150" id="document-view-original" />
-            <action index="160" id="document-view-working-copy" />
-            <action index="170" id="document-approve" />
-            <action index="180" id="document-reject" />
-            <action index="190" id="document-inline-edit" />
-            <action index="200" id="document-edit-online" />
-            <action index="201" id="document-edit-online-aos" />
-            <action index="210" id="document-edit-offline" />
-            <action index="250" id="document-copy-to" />
-            <action index="260" id="document-move-to" />
-            <action index="270" id="document-delete" />
-            <action index="280" id="document-assign-workflow" />
-            <action index="290" id="document-cancel-editing" />
-            <action index="295" id="document-cancel-editing-unlock" icon="document-cancel-editing"/>
-            <action index="297" id="document-manage-granular-permissions" />
-            <action index="298" id="document-manage-repo-permissions" />
-            <action index="310" id="document-view-googlemaps" />
-            <action index="320" id="document-view-in-source-repository" />
-            <action index="330" id="document-cloud-sync" />
-            <action index="340" id="document-cloud-unsync" />
-            <action index="350" id="document-view-in-cloud" />
-            <action index="360" id="document-request-sync"/> 
+            <action index="100" id="document-download" subgroup="01" />
+            <action index="110" id="document-view-content" subgroup="01" />
+            <action index="120" id="document-locate" subgroup="01" />
+            <action index="200" id="document-inline-edit" subgroup="02" />
+            <action index="210" id="document-edit-online" subgroup="02" />
+            <action index="220" id="document-edit-offline" subgroup="02" />
+            <action index="230" id="document-cancel-editing" subgroup="02" />
+            <action index="240" id="document-cancel-editing-unlock" icon="document-cancel-editing" subgroup="02" />
+            <action index="250" id="document-edit-online-aos" subgroup="02" />
+            <action index="260" id="document-view-original" subgroup="02" />
+            <action index="270" id="document-view-working-copy" subgroup="02" />
+            <action index="280" id="document-upload-new-version" subgroup="02" />
+            <action index="300" id="document-edit-properties" subgroup="03" />
+            <action index="400" id="document-move-to" subgroup="04" />
+            <action index="410" id="document-copy-to" subgroup="04" />
+            <action index="415" id="document-unzip-to" subgroup="04" />
+            <action index="420" id="document-delete" subgroup="04" />
+            <action index="425" id="document-view-googlemaps" subgroup="04" />
+            <action index="430" id="document-cloud-sync" subgroup="04" />
+            <action index="440" id="document-cloud-unsync" subgroup="04" />
+            <action index="450" id="document-view-in-cloud" subgroup="04" />
+            <action index="460" id="document-request-sync" subgroup="04" />
+            <action index="500" id="document-approve" subgroup="05" />
+            <action index="510" id="document-reject" subgroup="05" />
+            <action index="530" id="document-assign-workflow" subgroup="05" />
+            <action index="540" id="document-manage-granular-permissions" subgroup="05" />
+            <action index="550" id="document-manage-repo-permissions" subgroup="05" />
+            <action index="560" id="document-take-ownership" subgroup="05" />
+            <action index="570" id="document-manage-aspects" subgroup="05" />
+            <action index="580" id="document-change-type" subgroup="05" />
+            <action index="590" id="document-view-in-source-repository" subgroup="05" /> 
          </actionGroup>
 
          <actionGroup id="document-details">
@@ -1273,14 +1277,15 @@
             <action index="300" id="document-edit-metadata" subgroup="03" />
             <action index="400" id="document-move-to" subgroup="04" />
             <action index="410" id="document-copy-to" subgroup="04" />
+            <action index="415" id="document-unzip-to" subgroup="04" />
             <action index="420" id="document-delete" subgroup="04" />
+            <action index="425" id="document-view-googlemaps" subgroup="04" />
             <action index="430" id="document-cloud-sync" subgroup="04" />
             <action index="440" id="document-cloud-unsync" subgroup="04" />
             <action index="450" id="document-view-in-cloud" subgroup="04" />
             <action index="460" id="document-request-sync" subgroup="04" />
             <action index="500" id="document-approve" subgroup="05" />
             <action index="510" id="document-reject" subgroup="05" />
-            <action index="520" id="document-unzip-to" subgroup="05" />
             <action index="530" id="document-assign-workflow" subgroup="05" />
             <action index="540" id="document-manage-granular-permissions" subgroup="05" />
             <action index="550" id="document-manage-repo-permissions" subgroup="05" />
@@ -1288,51 +1293,53 @@
             <action index="570" id="document-manage-aspects" subgroup="05" />
             <action index="580" id="document-change-type" subgroup="05" />
             <action index="590" id="document-view-in-source-repository" subgroup="05" />
-            <action index="595" id="document-view-googlemaps" subgroup="05" />
          </actionGroup>
 
          <actionGroup id="folder-browse">
-            <action index="100" id="folder-download"/>
-            <action index="105" id="folder-view-details" />
-            <action index="110" id="document-edit-properties" icon="folder-edit-properties" label="actions.folder.edit-metadata" />
-            <action index="120" id="document-approve" icon="folder-approve" />
-            <action index="130" id="document-reject" icon="folder-reject" />
-            <action index="140" id="document-locate" icon="document-locate" label="actions.folder.locate" />
-            <action index="150" id="document-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
-            <action index="160" id="document-move-to" icon="folder-move-to" label="actions.folder.move-to" />
-            <action index="170" id="folder-manage-rules" />
-            <action index="180" id="document-delete" icon="folder-delete" label="actions.folder.delete" />
-            <action index="190" id="document-manage-granular-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
-            <action index="200" id="document-manage-repo-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
-            <action index="210" id="document-manage-aspects" label="actions.folder.manage-aspects" />
-            <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />
-            <action index="310" id="document-view-googlemaps" />
-            <action index="360" id="document-cloud-sync" />
-            <action index="370" id="document-cloud-unsync" />
-            <action index="380" id="document-view-in-cloud" />
-            <action index="390" id="document-request-sync"/>
+            <action index="100" id="folder-download" subgroup="01" />
+            <action index="200" id="document-edit-properties" subgroup="02" icon="folder-edit-properties" label="actions.folder.edit-metadata" />
+            <action index="300" id="document-move-to" subgroup="03" icon="folder-move-to" label="actions.folder.move-to" />
+            <action index="310" id="document-copy-to" subgroup="03" icon="folder-copy-to" label="actions.folder.copy-to" />
+            <action index="320" id="document-delete" subgroup="03" icon="folder-delete" label="actions.folder.delete" />
+            <action index="330" id="document-view-googlemaps" subgroup="03" />
+            <action index="340" id="document-cloud-sync" subgroup="03" />
+            <action index="350" id="document-cloud-unsync" subgroup="03" />
+            <action index="360" id="document-view-in-cloud" subgroup="03" />
+            <action index="370" id="document-request-sync" subgroup="03" />
+            <action index="400" id="document-manage-granular-permissions" subgroup="04" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="410" id="document-manage-repo-permissions" subgroup="04" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="420" id="document-manage-aspects" subgroup="04" label="actions.folder.manage-aspects" />
+            <action index="430" id="folder-manage-rules" subgroup="04" />
+            <action index="440" id="document-change-type" subgroup="04" />
+            <action index="450" id="document-approve" subgroup="04" icon="folder-approve" />
+            <action index="460" id="document-reject" subgroup="04" icon="folder-reject" />
+            <action index="470" id="document-locate" subgroup="04" icon="document-locate" label="actions.folder.locate" />
+            <action index="480" id="folder-view-details" subgroup="04" />
+            <action index="490" id="document-view-in-source-repository" subgroup="04" label="actions.folder.view-source-repository" />
          </actionGroup>
 
          <actionGroup id="folder-details">
-            <action index="100" id="folder-download"/>
-            <action index="105" id="document-edit-metadata" icon="folder-edit-metadata" label="actions.folder.edit-metadata" />
-            <action index="110" id="document-approve" icon="folder-approve" />
-            <action index="120" id="document-reject" icon="folder-reject" />
-            <action index="130" id="document-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
-            <action index="140" id="document-move-to" icon="folder-move-to" label="actions.folder.move-to" />
-            <action index="150" id="folder-manage-rules" />
-            <action index="160" id="document-delete" icon="folder-delete" label="actions.folder.delete" />
-            <action index="170" id="document-manage-granular-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
-            <action index="180" id="document-manage-repo-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
-            <action index="185" id="document-take-ownership" icon="folder-manage-permissions" />
-            <action index="190" id="document-manage-aspects" label="actions.folder.manage-aspects" />
-            <action index="200" id="document-change-type" label="actions.folder.change-type" />
-            <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />
-            <action index="350" id="document-view-googlemaps" />
-            <action index="360" id="document-cloud-sync" />
-            <action index="370" id="document-cloud-unsync" />
-            <action index="380" id="document-view-in-cloud" />
-            <action index="390" id="document-request-sync"/>
+            <action index="100" id="folder-download" subgroup="01" />
+            <action index="200" id="document-edit-metadata" subgroup="02" icon="folder-edit-metadata" label="actions.folder.edit-metadata" />
+            <action index="300" id="document-move-to" subgroup="03" icon="folder-move-to" label="actions.folder.move-to" />
+            <action index="310" id="document-copy-to" subgroup="03" icon="folder-copy-to" label="actions.folder.copy-to" />
+            <action index="320" id="document-delete" subgroup="03" icon="folder-delete" label="actions.folder.delete" />
+            <action index="330" id="document-view-googlemaps" subgroup="03" />
+            <action index="340" id="document-cloud-sync" subgroup="03" />
+            <action index="350" id="document-cloud-unsync" subgroup="03" />
+            <action index="360" id="document-view-in-cloud" subgroup="03" />
+            <action index="370" id="document-request-sync" subgroup="03" />
+            <action index="400" id="document-manage-granular-permissions" subgroup="04" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="410" id="document-manage-repo-permissions" subgroup="04" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+            <action index="415" id="document-take-ownership" subgroup="04" icon="folder-manage-permissions" />
+            <action index="420" id="document-manage-aspects" subgroup="04" label="actions.folder.manage-aspects" />
+            <action index="430" id="folder-manage-rules" subgroup="04" />
+            <action index="440" id="document-change-type" subgroup="04" />
+            <action index="450" id="document-approve" subgroup="04" icon="folder-approve" />
+            <action index="460" id="document-reject" subgroup="04" icon="folder-reject" />
+            <action index="470" id="document-locate" subgroup="04" icon="document-locate" label="actions.folder.locate" />
+            <action index="480" id="folder-view-details" subgroup="04" />
+            <action index="490" id="document-view-in-source-repository" subgroup="04" label="actions.folder.view-source-repository" />
          </actionGroup>
 
          <actionGroup id="document-link-browse">
