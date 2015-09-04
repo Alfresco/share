@@ -311,6 +311,7 @@ public class FolderDetailsPage extends DetailsPage
      * Method for verify all labels that Properties section must contain on the details page
      *
      * @return boolean
+     * @deprecated needs to be re written
      */
     public boolean isPropertiesLabelsPresent()
     {
@@ -318,9 +319,6 @@ public class FolderDetailsPage extends DetailsPage
         try
         {
             List<WebElement> labels = driver.findElements(By.xpath(PROPERTIES_INFO));
-
-            if(labels.size() != 3)
-                throw new Exception("Properties section doesn't contain full information");
 
             for(WebElement label : labels)
             {
@@ -330,8 +328,11 @@ public class FolderDetailsPage extends DetailsPage
                     if(label.getText().equals(labelName))
                         present = true;
                 }
-                if (!present)
-                    return false;
+                if (present)
+                {
+                	return true;
+                }
+                return false;
 
             }
 
