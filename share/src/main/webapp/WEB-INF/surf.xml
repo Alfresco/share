@@ -95,7 +95,7 @@
             <packages>
                 <!--All Aikau packages are now defined within the Aikau dependency JAR-->
                 <package name="share" location="js/share" />
-
+                <package name="share-components" location="components" />
                 <package name="cmm" location="js/alfresco/cmm"/>
             </packages>
          </dojo-pages>
