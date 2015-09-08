@@ -36,8 +36,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 @SuppressWarnings("unchecked")
 public class AddUserGroupPage extends ShareDialogue
 {
-
-    private static final String SEARCH_BUTTON = "button[id$='search-peoplefinder']";
+    private static final String SEARCH_BUTTON = "button[id$='default-search-peoplefinder-search-button-button']";
     @RenderWebElement @FindBy(css="input[id$='peoplefinder-search-text']") TextInput search;
     private static final String SEARCH_RESULT_ROW = "tr[class^='yui-dt-rec']";
     @FindBy(css="td[class*='yui-dt-col-actions'] button") Button add;
