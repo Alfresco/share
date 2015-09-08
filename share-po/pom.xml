@@ -374,5 +374,29 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>sanity-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>     
+                        <configuration>
+                        	<skipTests>false</skipTests>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>${testng.suite.filename}</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <excludedGroups>
+                                ${test.exclude}
+                            </excludedGroups>
+                            <groups>
+                                ${test.include}
+                            </groups>
+                            <workingDirectory>target</workingDirectory>
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
