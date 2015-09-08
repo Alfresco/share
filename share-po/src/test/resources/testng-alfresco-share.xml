@@ -13,11 +13,6 @@
             <exclude name="communityIssue"/>
         </run>
     </groups>
-    <test name="DocumentDetailsPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.DocumentDetailsPageTest"/>
-        </classes>
-    </test>
     <test name="LoginPageTest">
         <classes>
             <class name="org.alfresco.po.share.LoginPageTest" />
@@ -28,14 +23,19 @@
             <class name="org.alfresco.po.share.NavigationBarTest" />
         </classes>
     </test>
+    <test name="FacetedSearchResultsPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.search.FacetedSearchResultsPageTest" />
+        </classes>
+    </test>
     <test name="LiveSearchDropdownTest">
         <classes>
             <class name="org.alfresco.po.share.search.LiveSearchDropdownTest" />
         </classes>
     </test>
-    <test name="FacetedSearchResultsPageTest">
+    <test name="DocumentDetailsPageTest">
         <classes>
-            <class name="org.alfresco.po.share.search.FacetedSearchResultsPageTest" />
+            <class name="org.alfresco.po.share.site.document.DocumentDetailsPageTest"/>
         </classes>
     </test>
     <test name="DocumentLibraryPageTest">
