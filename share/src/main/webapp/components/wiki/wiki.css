@@ -330,7 +330,7 @@ table.versionHistory
     font-size: 0.9em;
     line-height: 1.5em;
     border: 1px solid #cccccc;
-    padding: 1em;
+    padding: 0em 1em;
     margin: 0.5em 0;
     background-color: #f0f0f0;
     overflow: auto;
