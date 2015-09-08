@@ -1343,7 +1343,7 @@
          // Get action params
          var params = this.getAction(record, owner).params,
             displayName = record.displayName,
-            namedParams = ["function", "action", "success", "successMessage", "failure", "failureMessage"],
+            namedParams = ["function", "action", "success", "successMessage", "failure", "failureMessage", "async"],
             repoActionParams = {};
 
          for (var name in params)
@@ -1357,6 +1357,8 @@
          //Deactivate action
          var ownerTitle = owner.title;
          owner.title = owner.title + "_deactivated";
+
+         var async = params.async ? "async=" + params.async : null;
 
          // Prepare genericAction config
          var config =
@@ -1382,7 +1384,8 @@
             {
                method: Alfresco.util.Ajax.POST,
                stem: Alfresco.constants.PROXY_URI + "api/",
-               name: "actionQueue"
+               name: "actionQueue",
+               queryString: async
             },
             config:
             {
