@@ -22,7 +22,6 @@ import org.alfresco.po.AbstractTest;
 import org.alfresco.test.FailedTestListener;
 import org.openqa.selenium.Cookie;
 import org.testng.Assert;
-import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -55,15 +54,15 @@ public class LoginPageTest extends AbstractTest
     {
         driver.navigate().to(shareUrl);
         LoginPage page = factoryPage.getPage(driver).render();
-        AssertJUnit.assertTrue(page.isBrowserTitle("login"));
-        AssertJUnit.assertFalse(page.hasErrorMessage());
+        Assert.assertTrue(page.isBrowserTitle("login"));
+        Assert.assertFalse(page.hasErrorMessage());
 
         DashBoardPage dashboardPage = shareUtil.loginAs(driver, shareUrl, username, password).render();
-        AssertJUnit.assertFalse(page.isBrowserTitle("login"));
-        AssertJUnit.assertTrue(dashboardPage.isBrowserTitle("dashboard"));
-        AssertJUnit.assertTrue(dashboardPage.isLoggedIn());
+        Assert.assertFalse(page.isBrowserTitle("login"));
+        Assert.assertTrue(dashboardPage.isBrowserTitle("dashboard"));
+        Assert.assertTrue(dashboardPage.isLoggedIn());
         LoginPage pageResponse = dashboardPage.getNav().logout().render();
-        AssertJUnit.assertTrue(pageResponse.isBrowserTitle("login"));
+        Assert.assertTrue(pageResponse.isBrowserTitle("login"));
     }
     
     /**
@@ -76,10 +75,10 @@ public class LoginPageTest extends AbstractTest
     public void loginWithFakeCredentials() throws Exception
     {
         driver.navigate().to(shareUrl);
-        LoginPage page = (LoginPage) shareUtil.loginAs(driver, shareUrl,"fake-admin", "fake-password").render(); 
-        AssertJUnit.assertTrue(page.isBrowserTitle("login"));
-        AssertJUnit.assertTrue(page.hasErrorMessage());
-        AssertJUnit.assertTrue(page.getErrorMessage().length() > 1);
+        LoginPage page = shareUtil.loginAs(driver, shareUrl,"fake-admin", "fake-password").render(); 
+        Assert.assertTrue(page.isBrowserTitle("login"));
+        Assert.assertTrue(page.hasErrorMessage());
+        Assert.assertTrue(page.getErrorMessage().length() > 1);
     }
     
     @Test(dependsOnMethods = "loginWithFakeCredentials")

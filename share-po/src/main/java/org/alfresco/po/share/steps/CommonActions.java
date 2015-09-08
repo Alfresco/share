@@ -23,6 +23,7 @@ package org.alfresco.po.share.steps;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
 import org.openqa.selenium.WebDriver;
@@ -105,5 +106,37 @@ public abstract class CommonActions
             }
         }
         return getSharePage(driver);
+    }
+    /**
+     * Navigate to User DashBoard page and waits for the page render to
+     * complete. Assumes User is logged in
+     * 
+     * @param driver WebDriver Instance
+     * @return DashBoardPage
+     */
+    public DashBoardPage refreshUserDashboard(WebDriver driver)
+    {
+        // Assumes User is logged in
+        SharePage page = getSharePage(driver);
+        return page.getNav().selectMyDashBoard().render();
+    }
+
+    /**
+     * Navigate to User DashBoard and waits for the page render to complete.
+     * Assumes User is logged in
+     * 
+     * @param driver WebDriver Instance
+     * @return DashBoardPage
+     */
+    public DashBoardPage openUserDashboard(WebDriver driver)
+    {
+        // Assumes User is logged in
+        SharePage page = getSharePage(driver);
+        if (page.getPageTitle().contains(MY_DASHBOARD))
+        {
+            return (DashBoardPage) page;
+        }
+
+        return refreshUserDashboard(driver);
     }
 }

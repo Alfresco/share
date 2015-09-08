@@ -42,7 +42,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserProfileActions extends CommonActions
 {
-    private static Log logger = LogFactory.getLog(DashBoardActions.class);
+    private static Log logger = LogFactory.getLog(UserProfileActions.class);
     
     /**
      * Navigate to User Profile page 
