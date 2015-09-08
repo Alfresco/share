@@ -346,7 +346,7 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         // We should no longer be on the faceted search page
         Assert.assertNotEquals(url, newUrl, "After searching for the letter 'a' and clicking the site link of result 1, the url should have changed");     
         facetedSearchPage = dashBoard.getNav().getFacetedSearchPage().render();
-        FacetedSearchPage facetedsearchPage = search.search(SEARCH_TERM).render();
+        FacetedSearchPage facetedsearchPage = facetedSearchPage.search(SEARCH_TERM).render();
         facetedsearchPage.getResults().get(1).clickSiteLink().render(); 
         String newurl = driver.getCurrentUrl();
         Assert.assertNotEquals(url, newurl, "After searching for the letter 'a' and clicking the site link of result 1, the url should have changed");

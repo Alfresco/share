@@ -11,9 +11,10 @@
             <class name="org.alfresco.po.share.adminconsole.NodeBrowserPageTest"/>
         </classes>
     </test>
-    <test name="Mange Groups">
+<!-- Issue with solr not finding in time, re-enable when meta data query is available.    
+	<test name="Mange Groups">
         <classes>
             <class name="org.alfresco.po.share.adminconsole.AddUserGroupPageTest"/>
         </classes>
-    </test>
+    </test> -->
 </suite>
