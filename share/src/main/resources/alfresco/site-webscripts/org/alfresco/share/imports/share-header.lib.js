@@ -28,6 +28,30 @@ function getLicenseUsage() {
    return usage;
 }
 
+/**
+ *
+ * @returns {object} Details about Share Services.
+ */
+function getShareServices() {
+   var ss = {};
+
+   if (user.properties["alfUserLoaded"] > new Date().getTime() - 5000)
+   {
+      // retrieve ShareServices information
+      var connector = remote.connect("alfresco-api");
+      var result = connector.get("/-default-/private/alfresco/versions/1/modulepackages/alfresco-share-services");
+      if (result.status.code == status.STATUS_OK)
+      {
+         ss = JSON.parse(result);
+      }
+   }
+   return ss;
+}
+
+function getShareVersion() {
+   return shareManifest.mainAttributeValue("Implementation-Version");
+}
+
 /* *********************************************************************************
  *                                                                                 *
  * USER GROUP INFO                                                                 *
@@ -1602,6 +1626,15 @@ function getHeaderModel(pageTitle) {
       name: "alfresco/header/LicenseWarning",
       config: {
          usage: getLicenseUsage(),
+         userIsAdmin: user.isAdmin
+      }
+   },
+   {
+      id: "HEADER_SHARE_SERVICES_WARNING",
+      name: "share/services/ServicesWarning",
+      config: {
+         shareServices: getShareServices(),
+         shareVersion: getShareVersion(),
          userIsAdmin: user.isAdmin
       }
    },
