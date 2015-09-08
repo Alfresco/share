@@ -19,7 +19,7 @@
 
 /**
  * Extends the [standard warning]{@link module:alfresco/header/Warning} to provide some
- * License specific data handling.
+ * share-services specific data handling.
  *
  * @module share/services/ServicesWarning
  * @extends module:alfresco/header/Warning
@@ -63,14 +63,18 @@ define(["dojo/_base/declare",
 
             /**
              * Overrides the [inherited function]{@link module:alfresco/header/Warning#postCreate}
-             * to handle license specific data.
+             * to handle share-services specific data.
              *
              * @instance
              */
             postCreate: function alfresco_header_ServicesWarning__postCreate() {
 
                 //No check specified.
-                if (this.shareServices && this.shareServices.nocheck) return;
+                if (this.shareServices && this.shareServices.nocheck)
+                {
+                    domStyle.set(this.domNode, "display", "none");
+                    return;
+                }
 
                 this.alfLog("debug", "Share version is.", this.shareVersion);
 
