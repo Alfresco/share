@@ -339,7 +339,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <suiteXmlFiles>
-                                <suiteXmlFile>src/test/resources/SearchSuite.xml</suiteXmlFile>
+                            	<suiteXmlFile>src/test/resources/SearchSuite.xml</suiteXmlFile>
                                 <suiteXmlFile>src/test/resources/DashletSuite.xml</suiteXmlFile>
                                 <suiteXmlFile>src/test/resources/DocumentSuite.xml</suiteXmlFile>
                                 <suiteXmlFile>src/test/resources/DownloadSuite.xml</suiteXmlFile>
@@ -355,6 +355,7 @@
                                 <suiteXmlFile>src/test/resources/CalendarPageSuite.xml</suiteXmlFile>
                                 <suiteXmlFile>src/test/resources/MyProfileSuite.xml</suiteXmlFile>
                                 <suiteXmlFile>src/test/resources/ShareStepsSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/CmmSuite.xml</suiteXmlFile>
                             </suiteXmlFiles>
                             <excludedGroups>
                                 ${test.exclude}

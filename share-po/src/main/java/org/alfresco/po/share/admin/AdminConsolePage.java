@@ -17,6 +17,7 @@ package org.alfresco.po.share.admin;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import org.alfresco.po.HtmlPage;
@@ -46,6 +47,7 @@ public class AdminConsolePage extends SharePage
     private static final By FILE_UPLOAD_BUTTON = By.cssSelector("#page_x002e_ctool_x002e_admin-console_x0023_default-upload-button-button");
     public static final By LOGO_PICTURE = By.xpath("//div[@class='logo']/img");
     private final static By REPLICATION_JOBS_LINK = By.cssSelector(".tool a[href='replication-jobs']");
+    private static final By CMM_LINK = By.cssSelector("a[href='custom-model-manager']");
 
     public enum ThemeType
     {
@@ -186,5 +188,27 @@ public class AdminConsolePage extends SharePage
         waitForPageLoad(5);
         logger.info("Navigating to Replication Jobs page");
         return getCurrentPage();
+    }
+    /**
+     * Clicks on Manage Custom Models link.
+     * 
+     * @return {@link HtmlPage}
+     */
+    public HtmlPage selectCustomModelManager()
+    {
+        driver.findElement(CMM_LINK).click();
+        return factoryPage.getPage(driver);
+
+    }
+
+    /**
+     * Does the current page have a manage-custom-models link in the Left Panel
+     * 
+     * @return boolean
+     */
+    public boolean hasManageModelsLink()
+    {
+        List<WebElement> elements = driver.findElements(CMM_LINK);
+        return !elements.isEmpty();
     }
 }

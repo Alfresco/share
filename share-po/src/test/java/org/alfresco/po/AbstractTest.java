@@ -35,12 +35,16 @@ import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.ShareUtil;
+import org.alfresco.po.share.cmm.steps.CmmActions;
 import org.alfresco.po.share.dashlet.FactoryShareDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.site.document.UserProfile;
+import org.alfresco.po.share.steps.AdminActions;
+import org.alfresco.po.share.steps.SiteActions;
+import org.alfresco.po.share.steps.UserProfileActions;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.po.share.workflow.MyWorkFlowsPage;
 import org.alfresco.test.AlfrescoTests;
@@ -65,7 +69,8 @@ import org.testng.annotations.BeforeMethod;
 @ContextConfiguration("classpath*:share-po-test-context.xml")
 @PropertySources({
     @PropertySource("classpath:test.properties"),
-    @PropertySource("classpath:module.properties")
+    @PropertySource("classpath:module.properties"),
+    @PropertySource("classpath:cmm.properties")
 })
 /**
  * Abstract test holds all common methods and information required
@@ -94,7 +99,12 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     @Autowired protected FactoryShareDashlet dashletFactory;
     @Autowired protected ShareUtil shareUtil;
     @Autowired protected SiteUtil siteUtil;
-    @Autowired UserService userService;
+    @Autowired protected UserService userService;
+    @Autowired protected CmmActions cmmActions;
+    @Autowired protected SiteActions siteActions;
+    @Autowired protected AdminActions adminActions;
+    @Autowired protected UserProfileActions userActions;
+    
     public static Integer retrySearchCount = 3;
     protected WebDriver driver;
     protected static final String UNAME_PASSWORD = "password";

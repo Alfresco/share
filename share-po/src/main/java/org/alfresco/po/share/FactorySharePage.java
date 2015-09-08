@@ -40,6 +40,22 @@ import org.alfresco.po.share.adminconsole.TagManagerPage;
 import org.alfresco.po.share.bulkimport.BulkImportPage;
 import org.alfresco.po.share.bulkimport.InPlaceBulkImportPage;
 import org.alfresco.po.share.bulkimport.StatusBulkImportPage;
+import org.alfresco.po.share.cmm.admin.ApplyDefaultLayoutPopUp;
+import org.alfresco.po.share.cmm.admin.ClearFormLayoutPopUp;
+import org.alfresco.po.share.cmm.admin.ConfirmDeletePopUp;
+import org.alfresco.po.share.cmm.admin.CreateNewCustomTypePopUp;
+import org.alfresco.po.share.cmm.admin.CreateNewModelPopUp;
+import org.alfresco.po.share.cmm.admin.CreateNewPropertyGroupPopUp;
+import org.alfresco.po.share.cmm.admin.CreateNewPropertyPopUp;
+import org.alfresco.po.share.cmm.admin.EditCustomTypePopUp;
+import org.alfresco.po.share.cmm.admin.EditModelPopUp;
+import org.alfresco.po.share.cmm.admin.EditPropertyGroupPopUp;
+import org.alfresco.po.share.cmm.admin.EditPropertyPopUp;
+import org.alfresco.po.share.cmm.admin.FormEditorPage;
+import org.alfresco.po.share.cmm.admin.ImportModelPopUp;
+import org.alfresco.po.share.cmm.admin.ManagePropertiesPage;
+import org.alfresco.po.share.cmm.admin.ManageTypesAndAspectsPage;
+import org.alfresco.po.share.cmm.admin.ModelManagerPage;
 import org.alfresco.po.share.dashlet.ConfigureSiteNoticeDialogBoxPage;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.FactoryShareDashlet;
@@ -155,7 +171,11 @@ public class FactorySharePage implements FactoryPage
     private static Properties poProperties;
     public static final String DOCUMENTLIBRARY = "documentlibrary";
     public static final String NODE_REFRESH_META_DATA_IDENTIFIER = "?refreshMetadata";
-
+    protected static final String SHARE_DIALOGUE_AIKAU = "div.dijitDialogTitleBar";
+    private static final String CMM_URL = "custom-model-manager";
+    private static final String TPG_HASH = "view=types_property_groups";
+    private static final String PROPERTIES_HASH = "view=properties";
+    private static final String FORM_EDITOR_HASH = "view=editor";
     static
     {
         pages = new ConcurrentHashMap<String, Class<? extends Page>>();
@@ -252,6 +272,10 @@ public class FactorySharePage implements FactoryPage
         pages.put("transformations", AlfrescoTransformationServerHistoryPage.class);
         pages.put("transformation-server", AlfrescoTransformationServerStatusPage.class);
         pages.put("models", ModelsPage.class);
+        pages.put("ModelManager", ModelManagerPage.class);
+        pages.put("ManageTypesAndAspects", ManageTypesAndAspectsPage.class);
+        pages.put("ManageProperties", ManagePropertiesPage.class);
+        pages.put("FormEditor", FormEditorPage.class);
     }
 
     public HtmlPage getPage(WebDriver driver)
@@ -581,6 +605,7 @@ public class FactorySharePage implements FactoryPage
                 return "allSitesResultsPage";
             }
         }
+        
         // Remove any clutter.
         if (val.contains("?") || val.contains("#"))
         {
@@ -590,6 +615,24 @@ public class FactorySharePage implements FactoryPage
         {
             val = "googledocsEditor";
         }
+        
+        if (url.contains(TPG_HASH))
+        {
+        	return "ManageTypesAndAspects";
+        }
+        else if (url.contains(PROPERTIES_HASH))
+        {
+        	return "ManageProperties";
+        }
+        else if (url.contains(FORM_EDITOR_HASH))
+        {
+        	return "FormEditor";
+        }
+        else if (url.contains(CMM_URL))
+        {
+        	return "ModelManager";
+        }
+       
         return val;
     }
 
@@ -676,9 +719,60 @@ public class FactorySharePage implements FactoryPage
                 {
                     sharePage = instantiatePage(driver,ChangeTypePage.class);
                 }
-                if(dialogueID.contains("default-aspects"))
+                else if(dialogueID.contains("default-aspects"))
                 {
                     sharePage = instantiatePage(driver,SelectAspectsPage.class);
+                }
+                String dialogueText = dialogue.getText();
+
+                if ("Create Model".equals(dialogueText))
+                {
+                	sharePage = instantiatePage(driver, CreateNewModelPopUp.class);
+                }
+                else if ("Create Custom Type".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, CreateNewCustomTypePopUp.class);
+                }
+                else if ("Create Aspect".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, CreateNewPropertyGroupPopUp.class);
+                }
+                else if ("Create Property".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, CreateNewPropertyPopUp.class);
+                }
+                else if ("Edit Model".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, EditModelPopUp.class);
+                }
+                else if ("Edit Custom Type".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, EditCustomTypePopUp.class);
+                }
+                else if ("Edit Aspect".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, EditPropertyGroupPopUp.class);
+                }
+                else if ("Edit Property".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, EditPropertyPopUp.class);
+                }
+                else if ("Apply the default layout".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, ApplyDefaultLayoutPopUp.class);
+                }
+                else if ("Delete Model".equals(dialogueText) || "Delete Custom Type".equals(dialogueText)
+                        || "Delete Aspect".equals(dialogueText) || "Delete Property".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, ConfirmDeletePopUp.class);
+                }
+                else if ("Clear the Layout Designer".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, ClearFormLayoutPopUp.class);
+                }
+                else if ("Import Model".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, ImportModelPopUp.class);
                 }
             }
         }
