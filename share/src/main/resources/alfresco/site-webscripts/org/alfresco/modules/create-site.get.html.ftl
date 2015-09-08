@@ -33,7 +33,7 @@
             </div>
 
             <#-- SITEPRESET -->
-            <div class="yui-gd${sitePresetsClass}">
+            <div class="yui-gd<#if sitePresets?size == 1> hidden</#if>">
                <div class="yui-u first"><label for="${el}-sitePreset">${msg("label.type")}:</label></div>
                <div class="yui-u">
                   <select id="${el}-sitePreset" name="sitePreset" tabindex="0">
