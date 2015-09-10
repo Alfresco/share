@@ -82,6 +82,11 @@
    </filter-mapping>
 
    <filter-mapping>
+      <filter-name>Authentication Filter</filter-name>
+      <url-pattern>/service/*</url-pattern>
+   </filter-mapping>
+
+   <filter-mapping>
       <filter-name>CSRF Token Filter</filter-name>
       <url-pattern>/page/*</url-pattern>
    </filter-mapping>
