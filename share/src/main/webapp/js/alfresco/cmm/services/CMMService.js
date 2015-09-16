@@ -2492,6 +2492,7 @@ define(["dojo/_base/declare",
                               infotype: p.dataType
                            },
                            label: this.message(p.label) + ' ['+p.id+']',
+                           type: ["property"]
                         };
                         if (p.config)
                         {
@@ -2518,7 +2519,8 @@ define(["dojo/_base/declare",
                               infolabel: item.title ? item.title : item.name,
                               infotype: item.dataType
                            },
-                           label: item.title ? (item.title + ' ['+item.name+']') : item.name
+                           label: item.title ? (item.title + ' ['+item.name+']') : item.name,
+                           type: ["property"]
                         });
                      }
                   }));
