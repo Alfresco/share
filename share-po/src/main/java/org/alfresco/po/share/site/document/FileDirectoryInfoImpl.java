@@ -109,17 +109,8 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     protected static final String LINK_CHECKIN_GOOGLE_DOCS = "#onGoogledocsActionCheckin a";
     protected static final String LINK_CANCEL_GOOGLE_DOCS = "#onGoogledocsActionCancel a";
     private static final By MODELINFO_FIELD = By.cssSelector("td.yui-dt-col-fileName div.yui-dt-liner div span");
-//    public FileDirectoryInfoImpl(String nodeRef, WebElement webElement, WebDriver driver)
-//    {
-//        super.driver = driver;
-//        setWrappedElement(webElement);
-//        if (nodeRef == null)
-//        {
-//            throw new IllegalArgumentException("NodeRef is required");
-//        }
-//        this.nodeRef = nodeRef;
-//    }
-
+    private static final String TAG_INFO = "span[title='Tag'] + form + span.item";
+	private static final String ENTERPRISE_REMOVE_TAG = "img[src$='delete-tag-off.png']";
     /*
      * (non-Javadoc)
      * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#getName()
@@ -299,7 +290,11 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     @Override
     public EditDocumentPropertiesPage selectEditProperties()
     {
-        WebElement editProperties = findElement(EDIT_PROP_ICON);
+        WebElement editProperties = findAndWait(EDIT_PROP_ICON);
+        String javaScript = "var evObj = document.createEvent('MouseEvents');" +
+                "evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
+                "arguments[0].dispatchEvent(evObj);";
+        executeJavaScript(javaScript, editProperties);
         editProperties.click();
         return factoryPage.instantiatePage(driver,EditDocumentPropertiesPage.class).render();
     }
@@ -515,6 +510,160 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
         throw new PageOperationException("Unable to find content row title");
     }
 
+
+    public void clickOnAddTag()
+    {
+        RenderTime timer = new RenderTime(maxPageLoadingTime * 2);
+        while (true)
+        {
+            try
+            {
+                timer.start();
+                WebElement tagInfo = findAndWait(By.cssSelector(TAG_INFO));
+                //getDrone().mouseOver(tagInfo);
+                String javaScript = "var evObj = document.createEvent('MouseEvents');" +
+                        "evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
+                        "arguments[0].dispatchEvent(evObj);";
+                executeJavaScript(javaScript, tagInfo);
+                By addTagButton = By.xpath(String.format("//h3/span/a[text()='%s']/../../../div/span[@title='Tag']", getName()));
+                waitUntilElementClickable(addTagButton, SECONDS.convert(3000, MILLISECONDS));
+                executeJavaScript("arguments[0].click();", findAndWait(addTagButton));
+                if (findElement(By.cssSelector(INPUT_TAG_NAME)).isDisplayed())
+                {
+                    break;
+                }
+            }
+            catch (NoSuchElementException e)
+            {
+                logger.error("Unable to find the add tag icon", e);
+            }
+            catch (TimeoutException te)
+            {
+                logger.error("Exceeded time to find the tag info area ", te);
+            }
+            catch (StaleElementReferenceException stale)
+            {
+            }
+            finally
+            {
+                timer.end();
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#removeTagButtonIsDisplayed(java.lang.String)
+     */
+    public boolean removeTagButtonIsDisplayed(String tagName)
+    {
+        if (tagName == null)
+        {
+            throw new IllegalArgumentException("tagName is required.");
+        }
+        try
+        {
+            return getRemoveTagButton(tagName).isDisplayed();
+        }
+        catch (Exception e)
+        {
+        }
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnTagRemoveButton(java.lang.String)
+     */
+    public void clickOnTagRemoveButton(String tagName)
+    {
+        if (tagName == null)
+        {
+            throw new IllegalArgumentException("tagName is required.");
+        }
+
+        try
+        {
+            getRemoveTagButton(tagName).click();
+        }
+        catch (Exception e)
+        {
+            throw new PageException("Unable to find the remove tag button.", e);
+        }
+    }
+
+    /**
+     * This method finds the remove button on tag element and returns button
+     * 
+     * @param tagName String
+     * @return WebElement
+     */
+    private WebElement getRemoveTagButton(String tagName)
+    {
+        for (WebElement tag : getInlineTagList())
+        {
+            String text = tag.getText();
+            if (text != null && text.equalsIgnoreCase(tagName))
+            {
+                try
+                {
+                    return tag.findElement(By.cssSelector(ENTERPRISE_REMOVE_TAG));
+                }
+                catch (NoSuchElementException e)
+                {
+                    logger.error("Unable to find the remove tag button.", e);
+                }
+            }
+        }
+        throw new PageException("Unable to find the remove tag button.");
+    }
+    /**
+     * This method gets the list of in line tags after clicking on tag info icon.
+     * 
+     * @return List<WebElement> collection of tags
+     */
+    private List<WebElement> getInlineTagList()
+    {
+        try
+        {
+            return findAllWithWait(By.cssSelector(INLINE_TAGS));
+        }
+        catch (TimeoutException e)
+        {
+            logger.error("Exceeded the time to find css.", e);
+            throw new PageException("Exceeded the time to find css.");
+        }
+
+    }
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#clickOnTagSaveButton()
+     */
+    public void clickOnTagSaveButton()
+    {
+        try
+        {
+            findAndWait(By.xpath("//form[@class='insitu-edit']/a[text()='Save']")).click();
+        }
+        catch (TimeoutException ex)
+        {
+            logger.error("Exceeded time to find the Save button css.", ex);
+            throw new PageException("Exceeded time to find the Save button css.");
+        }
+    }
+
+    public void clickOnTagCancelButton()
+    {
+        try
+        {
+            findAndWait(By.xpath("//form[@class='insitu-edit']/a[text()='Cancel']")).click();
+        }
+        catch (TimeoutException ex)
+        {
+            logger.error("Exceeded time to find the Save button css.", ex);
+            throw new PageException("Exceeded time to find the Save button css.");
+        }
+    }
 
     /*
      * (non-Javadoc)
@@ -1329,7 +1478,13 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     public void contentNameEnableEdit()
     {
         WebElement contentNameLink = findAndWait(By.cssSelector(FILENAME_IDENTIFIER));
-       mouseOver(contentNameLink);
+        //getDrone().mouseOver(contentNameLink);
+
+        String javaScript = "var evObj = document.createEvent('MouseEvents');" +
+                "evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
+                "arguments[0].dispatchEvent(evObj);";
+        executeJavaScript(javaScript, contentNameLink);
+
         resolveStaleness();
         // Wait till pencil icon appears
         WebElement editIcon = findElement(By.cssSelector(EDIT_CONTENT_NAME_ICON));
