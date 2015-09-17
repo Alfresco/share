@@ -36,7 +36,7 @@ import org.testng.annotations.Test;
 
 /**
  * Add Users to Site tests
- * 
+ *
  * @author jcule
  */
 @Listeners(FailedTestListener.class)
@@ -57,13 +57,13 @@ public class AddUsersToSitePageTest extends AbstractTest
     {
         dashBoard = loginAs(username, password);
         CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
-        createSitePage.createNewSite(siteName).render();
+        createSitePage.createNewSite(siteName, siteName, true, false).render();
         logout(driver);
     }
 
     /**
      * Adds user to the site
-     * 
+     *
      * @param userName
      * @param role
      * @throws Exception
@@ -117,7 +117,7 @@ public class AddUsersToSitePageTest extends AbstractTest
 
     /**
      * Search for site members
-     * 
+     *
      * @param userName
      * @throws Exception
      */
@@ -147,8 +147,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         }
         return siteMembers;
     }
-    
-   
+
+
     @Test(groups = "Enterprise-only")
     public void testAddManagerToSite() throws Exception
     {
@@ -316,7 +316,7 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, siteName);
         siteDashBoard = siteFinderPage.selectSite(siteName).render();
-        
+
         Assert.assertEquals(siteDashBoard.getPageTitle(), siteName);
 
         logout(driver);
@@ -350,7 +350,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         siteDashBoard = siteFinderPage.selectSite(siteName).render();
 
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        
+
         // search for user and select user from search results list
         List<String> searchUsers = searchForSiteMembers(userMultiple1, true);
         //Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple1) != -1);
@@ -365,7 +365,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
 
         addUsersToSitePage.clickAddUsersButton();
-        
+
         // check added users count
         String count = addUsersToSitePage.getTotalAddedUsersCount();
         Assert.assertEquals("Total users added 2", count);
@@ -437,7 +437,7 @@ public class AddUsersToSitePageTest extends AbstractTest
         //List<String> siteMembers4 = siteMembersPage.searchUser(userMultiple4);
         List<String> siteMembers4 = searchForSiteMembers(userMultiple4, false);
         Assert.assertTrue(siteMembers4.get(0).indexOf(userMultiple4) != -1);
-        
+
         logout(driver);
 
     }
@@ -489,12 +489,12 @@ public class AddUsersToSitePageTest extends AbstractTest
     {
         // create user
         String userRemoveUserName = "userRemove" + System.currentTimeMillis();
-        
+
         createEnterpriseUser(userRemoveUserName);
-        
-        
+
+
         dashBoard = loginAs(username, password);
-        
+
         siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
 
