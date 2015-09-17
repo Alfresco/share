@@ -54,7 +54,7 @@ function getShareServices() {
 }
 
 function getShareVersion() {
-   return shareManifest.mainAttributeValue("Implementation-Version");
+   return shareManifest.mainAttributeValue("Specification-Version");
 }
 
 /* *********************************************************************************
