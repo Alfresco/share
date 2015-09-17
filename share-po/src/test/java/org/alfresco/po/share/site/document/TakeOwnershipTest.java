@@ -88,32 +88,47 @@ public class TakeOwnershipTest extends AbstractTest
         siteDashBoard = resolvePage(driver).render();
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         List<String> searchUsers = null;
-        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
+        int counter = 0;
+        int waitInMilliSeconds = 2000;
+        while (counter < retrySearchCount + 8)
         {
             searchUsers = addUsersToSitePage.searchUser(takeOwnershipUserName);
-            try
+            if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, takeOwnershipUserName))
             {
-                if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, takeOwnershipUserName))
+                addUsersToSitePage.clickSelectUser(takeOwnershipUserName);
+                addUsersToSitePage.setUserRoles(takeOwnershipUserName, UserRole.COLLABORATOR);
+                addUsersToSitePage.clickAddUsersButton();
+                break;
+            }
+            else
+            {
+                counter++;
+                factoryPage.getPage(driver).render();
+            }
+            // double wait time to not over do solr search
+            waitInMilliSeconds = (waitInMilliSeconds * 2);
+            synchronized (this)
+            {
+                try
                 {
-                    addUsersToSitePage.clickSelectUser(takeOwnershipUserName);
-                    addUsersToSitePage.setUserRoles(takeOwnershipUserName, UserRole.COLLABORATOR);
-                    addUsersToSitePage.clickAddUsersButton();
-                    break;
+                    this.wait(waitInMilliSeconds);
+                }
+                catch (InterruptedException e)
+                {
                 }
             }
-            catch (Exception e)
-            {
-                saveScreenShot("SiteTest.instantiateMembers-error");
-                throw new Exception("Waiting for object to load", e);
-            }
-            try
-            {
-                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-            }
-            catch (PageRenderTimeException exception)
-            {
-            }
         }
+        try
+        {
+            addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
+        }
+        catch (PageRenderTimeException exception)
+        {
+            saveScreenShot("SiteTest.instantiateMembers-error");
+            throw new Exception("Waiting for object to load", exception);
+
+        }
+ 
         logout(driver);
 
         // collaborator logs in and creates two folders and files
