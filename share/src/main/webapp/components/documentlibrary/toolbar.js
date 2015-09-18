@@ -1972,12 +1972,11 @@
        */
       _getRssFeedUrl: function DLTB__getRssFeedUrl()
       {
-         var params = YAHOO.lang.substitute("{type}/site/{site}/{container}" + (this.currentPath !== "/" ? "{path}" : ""),
+         var params = YAHOO.lang.substitute("{type}/site/{site}/{container}",
          {
             type: this.modules.docList.options.showFolders ? "all" : "documents",
             site: encodeURIComponent(this.options.siteId),
-            container: encodeURIComponent(this.options.containerId),
-	         path: Alfresco.util.encodeURIPath(this.currentPath)
+            container: encodeURIComponent(this.options.containerId)
          });
 
          params += "?filter=" + encodeURIComponent(this.currentFilter.filterId);
