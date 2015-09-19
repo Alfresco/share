@@ -81,49 +81,8 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         page = resolvePage(driver).render();
         siteDashBoard = page.getNav().selectMostRecentSite().render();
-        List<String> searchUsers = null;
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        
-        int counter = 0;
-        int waitInMilliSeconds = 2000;
-        while (counter < retrySearchCount + 8)
-        {
-            searchUsers = addUsersToSitePage.searchUser(userName);
-            if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
-            {
-                addUsersToSitePage.clickSelectUser(userName);
-                addUsersToSitePage.setUserRoles(userName, role);
-                addUsersToSitePage.clickAddUsersButton();
-                break;
-            }
-            else
-            {
-                counter++;
-                factoryPage.getPage(driver).render();
-            }
-            // double wait time to not over do solr search
-            waitInMilliSeconds = (waitInMilliSeconds * 2);
-            synchronized (this)
-            {
-                try
-                {
-                    this.wait(waitInMilliSeconds);
-                }
-                catch (InterruptedException e)
-                {
-                }
-            }
-        }
-        try
-        {
-            addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-        }
-        catch (PageRenderTimeException exception)
-        {
-            saveScreenShot("SiteTest.instantiateMembers-error");
-            throw new Exception("Waiting for object to load", exception);
-
-        }
+        addUsersToSite(addUsersToSitePage, userName, role);
     }
 
     /**
@@ -364,12 +323,10 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         // search for user and select user from search results list
         List<String> searchUsers = searchForSiteMembers(userMultiple1, true);
-        //Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple1) != -1);
         Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userMultiple1));
         addUsersToSitePage.clickSelectUser(userMultiple1).render();
 
         searchUsers = searchForSiteMembers(userMultiple2, true);
-        //Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple2) != -1);
         Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userMultiple2));
         addUsersToSitePage.clickSelectUser(userMultiple2).render();
 

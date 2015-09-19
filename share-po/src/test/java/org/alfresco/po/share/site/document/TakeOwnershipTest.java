@@ -87,48 +87,7 @@ public class TakeOwnershipTest extends AbstractTest
         siteUtil.createSite(driver, username, password, takeOwnershipSiteName, "description", "Public");
         siteDashBoard = resolvePage(driver).render();
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        List<String> searchUsers = null;
-        int counter = 0;
-        int waitInMilliSeconds = 2000;
-        while (counter < retrySearchCount + 8)
-        {
-            searchUsers = addUsersToSitePage.searchUser(takeOwnershipUserName);
-            if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, takeOwnershipUserName))
-            {
-                addUsersToSitePage.clickSelectUser(takeOwnershipUserName);
-                addUsersToSitePage.setUserRoles(takeOwnershipUserName, UserRole.COLLABORATOR);
-                addUsersToSitePage.clickAddUsersButton();
-                break;
-            }
-            else
-            {
-                counter++;
-                factoryPage.getPage(driver).render();
-            }
-            // double wait time to not over do solr search
-            waitInMilliSeconds = (waitInMilliSeconds * 2);
-            synchronized (this)
-            {
-                try
-                {
-                    this.wait(waitInMilliSeconds);
-                }
-                catch (InterruptedException e)
-                {
-                }
-            }
-        }
-        try
-        {
-            addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-        }
-        catch (PageRenderTimeException exception)
-        {
-            saveScreenShot("SiteTest.instantiateMembers-error");
-            throw new Exception("Waiting for object to load", exception);
-
-        }
- 
+        addUsersToSite(addUsersToSitePage, takeOwnershipUserName, UserRole.COLLABORATOR);
         logout(driver);
 
         // collaborator logs in and creates two folders and files
@@ -173,7 +132,7 @@ public class TakeOwnershipTest extends AbstractTest
             catch (PageRenderTimeException exception)
             {
             }
-            if (siteMembersSearchUsers != null && siteMembersSearchUsers.size() > 0  && (searchUsers.get(0).indexOf(takeOwnershipUserName) != -1))
+            if (siteMembersSearchUsers != null && siteMembersSearchUsers.size() > 0  && (siteMembersSearchUsers.get(0).indexOf(takeOwnershipUserName) != -1))
             {
                 break;
             }
