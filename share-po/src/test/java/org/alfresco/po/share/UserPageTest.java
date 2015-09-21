@@ -1,6 +1,9 @@
 package org.alfresco.po.share;
 
 import org.alfresco.po.AbstractTest;
+import org.alfresco.po.share.enums.UserRole;
+import org.alfresco.po.share.site.AddUsersToSitePage;
+import org.alfresco.po.share.site.EditSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
@@ -8,6 +11,7 @@ import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.user.MyProfilePage;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -22,7 +26,19 @@ public class UserPageTest extends AbstractTest
     UserPage userpage;
     private String setHomePageUserSiteName = "setHomePageUserSite" + System.currentTimeMillis();
     private String setHomePageFolder = "setHomePageFolder" + System.currentTimeMillis();
-
+    private String privateSiteName = "privateSiteName" + System.currentTimeMillis();
+    private String publicSiteName = "publicSiteName" + System.currentTimeMillis();
+    private String siteUserName = "siteUserName" + System.currentTimeMillis();
+    
+    @BeforeClass
+    public void prepare() throws Exception
+    {
+        siteUtil.createSite(driver, username, password, publicSiteName,"", "Public");
+        siteUtil.createSite(driver, username, password, privateSiteName,"", "Private");
+        createEnterpriseUser(siteUserName);
+    }
+    
+    
     @Test(groups = "alfresco-one")
     public void userPageLinks() throws Exception
     {
@@ -160,6 +176,87 @@ public class UserPageTest extends AbstractTest
         userpage = dashBoard.getNav().selectUserDropdown();
         dashBoard = userpage.selectUserDashboard().render();
         Assert.assertEquals("Administrator Dashboard", dashBoard.getPageTitle());
+        logout(driver);
     }
+    
+    /**
+     * Checks that error page is displayed when user sets the home page to be the site's dashboard
+     * and the site's visibility changed from Public to Private
+     * 
+     * @throws Exception
+     */
+    @Test(groups = "Enterprise-only", dependsOnMethods = "userDashboardCheck")
+    public void useSiteDashboardAsHomePageAndChangeVisibility() throws Exception
+    {
+        //user sets public site's dashboard as a home page
+        DashBoardPage dashBoard = loginAs(siteUserName, "password");
+        SiteFinderPage siteFinderPage = dashBoard.getNav().selectSearchForSites().render();
+        siteFinderPage.searchForSite(publicSiteName).render();
+        siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, publicSiteName);
+        SiteDashboardPage siteDashboardPage = siteFinderPage.selectSite(publicSiteName).render();
+        userpage = siteDashboardPage.getNav().selectUserDropdown().render();
+        siteDashboardPage = userpage.selectUseCurrentPage().render();
+        logout(driver);
+        
+        //public site becomes private
+        dashBoard = loginAs(username, password);
+        siteFinderPage = dashBoard.getNav().selectSearchForSites().render();
+        siteFinderPage.searchForSite(publicSiteName).render();
+        siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, publicSiteName);
+        siteDashboardPage = siteFinderPage.selectSite(publicSiteName).render();
+        EditSitePage editSitePage = siteDashboardPage.getSiteNav().selectEditSite().render();
+        editSitePage.selectSiteVisibility(true, false);
+        siteDashboardPage = editSitePage.selectOk().render();
+        logout(driver);
+            
+        //error page is displayed as home page 
+        driver.navigate().to(shareUrl);
+        LoginPage lp = factoryPage.getPage(driver).render();
+        lp.loginAs(siteUserName, "password");
+        Assert.assertTrue(resolvePage(driver).getTitle().indexOf("System Error") != -1);
+        
+        String dashboardUrl = shareUrl + "/page/user/" + siteUserName + "/dashboard";
+        driver.navigate().to(dashboardUrl);
+        logout(driver);
+        
+    }
+    
+    /**
+     * Checks that error page is displayed when member of the private site sets the home page to be the site 
+     * dashboard and leaves the site 
+     * 
+     * @throws Exception
+     */
+    @Test(groups = "Enterprise-only", dependsOnMethods = "useSiteDashboardAsHomePageAndChangeVisibility")
+    public void useSiteDashboardAsHomePageAndLeaveSite() throws Exception
+    {
+        //user added to the private site
+        DashBoardPage dashBoard = loginAs(username, password);
+        SiteFinderPage siteFinderPage = dashBoard.getNav().selectSearchForSites().render();
+        siteFinderPage.searchForSite(privateSiteName).render();
+        siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, privateSiteName);
+        SiteDashboardPage siteDashboardPage = siteFinderPage.selectSite(privateSiteName).render();
+        AddUsersToSitePage addUsersToSitePage = siteDashboardPage.getSiteNav().selectAddUser().render();
+        addUsersToSite(addUsersToSitePage, siteUserName, UserRole.COLLABORATOR);
+        logout(driver);
+
+        //user sets private site's dashboard as a home page
+        dashBoard = loginAs(siteUserName, "password");
+        siteFinderPage = dashBoard.getNav().selectSearchForSites().render();
+        siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, privateSiteName);
+        siteDashboardPage = siteFinderPage.selectSite(privateSiteName).render();
+        userpage = siteDashboardPage.getNav().selectUserDropdown().render();
+        siteDashboardPage = userpage.selectUseCurrentPage().render();
+        
+        //user leaves the site
+        dashBoard = siteDashboardPage.getSiteNav().leaveSite().render();   
+
+        //error page is displayed as home page
+        dashBoard.getNav().selectMyDashBoard();
+        Assert.assertTrue(resolvePage(driver).getTitle().indexOf("System Error") != -1);
+    }
+    
+    
+    
 
 }

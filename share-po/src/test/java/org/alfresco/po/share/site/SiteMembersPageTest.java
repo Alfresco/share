@@ -62,50 +62,8 @@ public class SiteMembersPageTest extends AbstractTest
         SharePage page = resolvePage(driver).render();
         CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
-        List<String> searchUsers = null;
         addUsersToSitePage = site.getSiteNav().selectAddUser().render();
-              
-        int counter = 0;
-        int waitInMilliSeconds = 2000;
-        while (counter < retrySearchCount + 8)
-        {
-            searchUsers = addUsersToSitePage.searchUser(userName);
-            if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
-            {
-                addUsersToSitePage.clickSelectUser(userName);
-                addUsersToSitePage.setUserRoles(userName, UserRole.COLLABORATOR);
-                addUsersToSitePage.clickAddUsersButton();
-                break;
-            }
-            else
-            {
-                counter++;
-                factoryPage.getPage(driver).render();
-            }
-            // double wait time to not over do solr search
-            waitInMilliSeconds = (waitInMilliSeconds * 2);
-            synchronized (this)
-            {
-                try
-                {
-                    this.wait(waitInMilliSeconds);
-                }
-                catch (InterruptedException e)
-                {
-                }
-            }
-        }
-        try
-        {
-            addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-        }
-        catch (PageRenderTimeException exception)
-        {
-            saveScreenShot("SiteTest.instantiateMembers-error");
-            throw new Exception("Waiting for object to load", exception);
-
-        }
-
+        addUsersToSite(addUsersToSitePage, userName, UserRole.COLLABORATOR);
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
     }
 
