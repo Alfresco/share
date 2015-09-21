@@ -11,9 +11,7 @@
     <description>Alfresco Enterprise Repository WAR</description>
 
     <properties>
-        <maven.tomcat.port>${tomcat.default.alfresco.port}</maven.tomcat.port>
-        <maven.tomcat.httpsPort>${tomcat.default.alfresco.ssl.port}</maven.tomcat.httpsPort>
-        <maven.tomcat.path>/alfresco</maven.tomcat.path>
+        <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
     </properties>
 
