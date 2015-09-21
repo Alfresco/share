@@ -455,10 +455,12 @@
          if (jsNode.isLink)
          {
              file = $isValueSet(jsNode.linkedNode.properties) ? jsNode.linkedNode.properties.name : null;
-             Alfresco.util.PopupManager.displayMessage(
-             {
-                text: this.msg("message.actions.failure.locate")
-             });
+             if(file === null) {
+                Alfresco.util.PopupManager.displayMessage(
+                {
+                   text: this.msg("message.actions.failure.locate")
+                });
+             }
          }
          else
          {
