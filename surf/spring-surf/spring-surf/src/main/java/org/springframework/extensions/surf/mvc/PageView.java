@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -426,6 +427,12 @@ public class PageView extends AbstractWebFrameworkView
                 throw new RequestDispatchException(ree);
             }
         }
+    }
+    
+    @Override
+    protected void prepareResponse(HttpServletRequest request, HttpServletResponse response)
+    {
+        response.setHeader("Cache-Control", "no-cache");
     }
 
     /**
