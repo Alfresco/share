@@ -21,11 +21,8 @@ import org.alfresco.po.AbstractTest;
 import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.user.UserSitesPage;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,33 +83,47 @@ public class AddUsersToSitePageTest extends AbstractTest
         siteDashBoard = page.getNav().selectMostRecentSite().render();
         List<String> searchUsers = null;
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
+        
+        int counter = 0;
+        int waitInMilliSeconds = 2000;
+        while (counter < retrySearchCount + 8)
         {
             searchUsers = addUsersToSitePage.searchUser(userName);
-            try
+            if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
             {
-                if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
+                addUsersToSitePage.clickSelectUser(userName);
+                addUsersToSitePage.setUserRoles(userName, role);
+                addUsersToSitePage.clickAddUsersButton();
+                break;
+            }
+            else
+            {
+                counter++;
+                factoryPage.getPage(driver).render();
+            }
+            // double wait time to not over do solr search
+            waitInMilliSeconds = (waitInMilliSeconds * 2);
+            synchronized (this)
+            {
+                try
                 {
-                    addUsersToSitePage.clickSelectUser(userName);
-                    addUsersToSitePage.setUserRoles(userName, role);
-                    addUsersToSitePage.clickAddUsersButton();
-                    break;
+                    this.wait(waitInMilliSeconds);
+                }
+                catch (InterruptedException e)
+                {
                 }
             }
-            catch (Exception e)
-            {
-                saveScreenShot("SiteTest.instantiateMembers-error");
-                throw new Exception("Waiting for object to load", e);
-            }
-            try
-            {
-                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-            }
-            catch (PageRenderTimeException exception)
-            {
-            }
         }
+        try
+        {
+            addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
+        }
+        catch (PageRenderTimeException exception)
+        {
+            saveScreenShot("SiteTest.instantiateMembers-error");
+            throw new Exception("Waiting for object to load", exception);
 
+        }
     }
 
     /**
