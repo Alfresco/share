@@ -1512,14 +1512,11 @@ public class CmmActions extends CommonActions
      * Util to perform search using the given search string and value
      * 
      * @param driver
-     * @param typeAspectPropName
-     * @param value
+     * @param searchString
      * @return FacetedSearchPage
      */
-    public HtmlPage search(WebDriver driver, String typeAspectPropName, String value)
+    public HtmlPage search(WebDriver driver, String searchString)
     {
-        String searchString = typeAspectPropName + ":" + value;
-
         SearchBox search = getSharePage(driver).getSearch();
         FacetedSearchPage resultPage = search.search(searchString).render();
         return resultPage;
@@ -1537,7 +1534,7 @@ public class CmmActions extends CommonActions
      */
     public boolean checkSearchResults(WebDriver driver, String typeAspectPropName, String value, String nodeNameToLookFor, boolean expectedInResults)
     {
-        FacetedSearchPage resultPage = search(driver, typeAspectPropName, value).render();
+        FacetedSearchPage resultPage = search(driver, typeAspectPropName + ":" + value).render();
         if (resultPage.hasResults())
         {
             return expectedInResults == resultPage.isItemPresentInResultsList(SitePageType.DOCUMENT_LIBRARY, nodeNameToLookFor);
@@ -1546,5 +1543,38 @@ public class CmmActions extends CommonActions
         {
             return expectedInResults == false;
         }
+    }
+    
+    /**
+     * Util to perform search and retry waiting for solr indexing : check if search results are as expected
+     * 
+     * @param driver
+     * @param typeAspectPropName
+     * @param value
+     * @param nodeNameToLookFor
+     * @param expectedInResults
+     * @return true if search results are as expected
+     */
+    public boolean checkSearchResultsWithRetry(WebDriver driver, String typeAspectPropName, String value, String nodeNameToLookFor, boolean expectedInResults, int retrySearchCount)
+    {
+        boolean resultOk = false;
+        
+        for (int searchCount = 1; searchCount < retrySearchCount; searchCount++)
+        {
+        	resultOk = checkSearchResults(driver, typeAspectPropName, value, nodeNameToLookFor, expectedInResults);
+        	
+        	// ResultOk?
+        	if (resultOk)
+        	{
+        		return resultOk;
+        	}
+            else
+            {
+            	// Retry: Wait for Solr Indexing
+            	logger.info("Waiting for the solr indexing to catchup for Node: " + nodeNameToLookFor);
+            	webDriverWait(driver, 20000);
+            }
+         }
+        return checkSearchResults(driver, typeAspectPropName, value, nodeNameToLookFor, expectedInResults);
     }
 }
