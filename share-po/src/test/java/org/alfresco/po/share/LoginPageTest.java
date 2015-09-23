@@ -75,7 +75,8 @@ public class LoginPageTest extends AbstractTest
     public void loginWithFakeCredentials() throws Exception
     {
         driver.navigate().to(shareUrl);
-        LoginPage page = shareUtil.loginAs(driver, shareUrl,"fake-admin", "fake-password").render(); 
+        LoginPage page = resolvePage(driver).render();
+        page.loginAs("fake-admin", "fake-password").render(); 
         Assert.assertTrue(page.isBrowserTitle("login"));
         Assert.assertTrue(page.hasErrorMessage());
         Assert.assertTrue(page.getErrorMessage().length() > 1);

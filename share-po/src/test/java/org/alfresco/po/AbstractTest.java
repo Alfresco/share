@@ -85,7 +85,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
 {
     private static Log logger = LogFactory.getLog(AbstractTest.class);
     @Autowired private ApplicationContext ctx;
-    @Value("${share.target}")protected String shareUrl;
+    @Value("${share.url}")protected String shareUrl;
     @Value("${share.license}")protected String licenseShare;
     @Value("${download.directory}")protected String downloadDirectory;
     @Value("${test.password}") protected String password;

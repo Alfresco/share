@@ -110,13 +110,8 @@ public class ClusterValidationPage extends ShareDialogue {
     /**
      * Close Validate Cluster page
      *
-<<<<<<< .working
      * @param driver
      * @return
-=======
-     * @param drone WebDrone
-     * @return RepositoryServerClusteringPage
->>>>>>> .merge-right.r109852
      */
     public RepositoryServerClusteringPage closeValidationPage(WebDriver driver)
     {
