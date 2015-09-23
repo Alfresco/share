@@ -49,11 +49,7 @@ public class LiveSearchPeopleResult extends PageElement
     /**
      * Constructor
      * @param element {@link WebElement} 
-<<<<<<< .working
      * @param driver 
-=======
-     * @param drone WebDrone
->>>>>>> .merge-right.r109852
      */
     public LiveSearchPeopleResult(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {

@@ -29,8 +29,10 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 @Component
+@PropertySource("classpath:sharepo.properties")
 /**
  * Share page object util
  * 
@@ -47,9 +49,9 @@ public class ShareUtil
     private  final String TENANT_ADMIN_CONSOLE_PAGE = "alfresco/s/enterprise/admin/admin-tenantconsole";
     private  final String REPO_ADMIN_CONSOLE_PAGE = "alfresco/s/enterprise/admin/admin-repoconsole";
     private  final String WEBDAV_PAGE = "alfresco/webdav";
-    @Autowired  FactoryPage factoryPage;
+    @Autowired FactoryPage factoryPage;
     @Autowired UserService userService;
-    @Value("${share.target}")protected String shareUrl;
+    @Value("${share.url}")protected String shareUrl;
 
     /**
      * A simple Enum to request the required Alfresco version.
@@ -174,16 +176,9 @@ public class ShareUtil
     }
 
     /**
-<<<<<<< .working
      * @param driver
      * @param userInfo
      * @return
-=======
-     * @param drone WebDrone
-     * @param url String
-     * @param userInfo String
-     * @return HtmlPage
->>>>>>> .merge-right.r109852
      */
     public HtmlPage navigateToSystemSummary(final WebDriver driver, String url, final String... userInfo)
     {
@@ -204,17 +199,10 @@ public class ShareUtil
     /**
      * Methods for navigation bulk import page
      *
-<<<<<<< .working
      * @param driver
      * @param inPlace
      * @param userInfo
      * @return
-=======
-     * @param drone WebDrone
-     * @param inPlace boolean
-     * @param userInfo String...
-     * @return HtmlPage
->>>>>>> .merge-right.r109852
      */
     public HtmlPage navigateToBulkImport(final WebDriver driver, boolean inPlace, final String... userInfo)
     {
@@ -248,17 +236,10 @@ public class ShareUtil
     }
 
     /**
-<<<<<<< .working
      * Helper method to extract alfresco webscript url and direct webdriver to location. 
      * @param driver
      * @param userInfo
      * @return
-=======
-     * Helper method to extract alfresco webscript url and direct webdrone to location. 
-     * @param drone WebDrone
-     * @param userInfo String
-     * @return HtmlPage
->>>>>>> .merge-right.r109852
      * @throws Exception
      */
     public HtmlPage navigateToWebScriptsHome(final WebDriver driver,final String... userInfo) throws Exception
