@@ -1,2 +1,0 @@
-Alfresco Share ${project.version}
-======================
