@@ -18,6 +18,8 @@
  */
 package org.alfresco.po.share.workflow;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.alfresco.po.AbstractTest;
@@ -53,7 +55,14 @@ public class CalendarDatePickerTest extends AbstractTest
         dashBoardPage = loginAs(username, password);
 
         workFlow1 = "MyWF-" + System.currentTimeMillis() + "-1";
-        dueDate = "17/09/2015";
+        
+        // Create a due date in 3 months time. Was hard coded to 17/0/2015.
+        Calendar calendar = new GregorianCalendar();
+        calendar.add(Calendar.MONTH, 3);
+        dueDate = String.format("%02d/%02d/%04d",
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH)+1,
+            calendar.get(Calendar.YEAR));
         due = DateTimeFormat.forPattern("dd/MM/yyyy").parseDateTime(dueDate);
     }
 
@@ -73,7 +82,6 @@ public class CalendarDatePickerTest extends AbstractTest
     public void selectDateFormCalendarWithException() throws Exception
     {
         newWorkflowPage.selectDateFromCalendar("");
-        newWorkflowPage.selectDateFromCalendar("12 Dec 2015");
     }
 
     @Test(groups = "Enterprise4.2", expectedExceptions = UnsupportedOperationException.class, dependsOnMethods = "selectDateFormCalendarWithException")
