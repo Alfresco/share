@@ -595,15 +595,9 @@ public class ManagePermissionsPage extends SharePage
     /**
      * Finds the CSS for user role and clicks it option.
      *
-<<<<<<< .working
      * @param driver
      * @param userRole
      * @return
-=======
-     * @param drone WebDrone
-     * @param userRole UserRole
-     * @return WebElement
->>>>>>> .merge-right.r109852
      */
     private WebElement getRoleOption(WebDriver driver, UserRole userRole)
     {

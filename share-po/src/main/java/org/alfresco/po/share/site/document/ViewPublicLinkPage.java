@@ -20,7 +20,6 @@ import org.alfresco.po.RenderWebElement;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -198,7 +197,6 @@ public class ViewPublicLinkPage extends SharePage
     public String getDocumentBody()
     {
         int counter = 0;
-        int waitInMilliSeconds = 2000;
         int retryRefreshCount = 5;
         WebElement element = findAndWait(By.cssSelector(DOCUMENT_BODY));
 
@@ -210,17 +208,6 @@ public class ViewPublicLinkPage extends SharePage
             }
             counter++;
             // double wait time to not over do slow search
-            waitInMilliSeconds = (waitInMilliSeconds * 2);
-            synchronized (ShareUtil.class)
-            {
-                try
-                {
-                    ShareUtil.class.wait(waitInMilliSeconds);
-                }
-                catch (InterruptedException e)
-                {
-                }
-            }
         }
         throw new PageException("Content search failed");
     }

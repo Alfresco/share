@@ -48,7 +48,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
@@ -66,12 +65,8 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
 {
     private Log logger = LogFactory.getLog(PageElement.class);
     private static final String LOCATOR_REQUIRED_ERR_MSG = "A locator is required";
-    @Value("${render.element.wait.time}")
 	protected long defaultWaitTime = 4000;
-    @Value("${render.page.wait.time}")
     protected long maxPageLoadingTime = 30000;
-    @Value("${share.target}")
-    protected String alfrescoUrl;
     @Autowired
     protected FactoryPage factoryPage;
     protected WebDriver driver;
@@ -101,11 +96,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
 
     public void navigate(String ...url)
     {
-        if(url.length > 1)
-        {
-            driver.navigate().to(url[0]);
-        }
-        driver.navigate().to(alfrescoUrl);
+        driver.navigate().to(url[0]);
     }
     
     public boolean isDisplayed(WebElement element)
@@ -922,4 +913,11 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
         // Fall through
         return null;
     }
+	public void setDefaultWaitTime(long defaultWaitTime) {
+		this.defaultWaitTime = defaultWaitTime;
+	}
+	public void setMaxPageLoadingTime(long maxPageLoadingTime) {
+		this.maxPageLoadingTime = maxPageLoadingTime;
+	}
+    
 }

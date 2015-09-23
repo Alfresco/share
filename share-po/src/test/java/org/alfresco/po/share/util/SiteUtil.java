@@ -63,7 +63,7 @@ public class SiteUtil
     FactoryPage factoryPage;
     @Autowired
     SiteService siteService;
-    @Value("${share.target}")
+    @Value("${share.url}")
     String shareUrl;
 
     /**

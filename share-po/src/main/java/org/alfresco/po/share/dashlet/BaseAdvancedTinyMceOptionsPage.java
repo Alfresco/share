@@ -45,12 +45,7 @@ public abstract class BaseAdvancedTinyMceOptionsPage extends SharePage
     
     /**
      * Constructor.
-<<<<<<< .working
      * @param driver
-=======
-     * @param drone WebDrone
-     * @param element WebElement
->>>>>>> .merge-right.r109852
      */
     public BaseAdvancedTinyMceOptionsPage(WebDriver driver, WebElement element)
     {
