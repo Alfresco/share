@@ -30,7 +30,7 @@ public class UserPageTest extends AbstractTest
     private String publicSiteName = "publicSiteName" + System.currentTimeMillis();
     private String siteUserName = "siteUserName" + System.currentTimeMillis();
     
-    @BeforeClass
+    @BeforeClass(groups = "Enterprise-only")
     public void prepare() throws Exception
     {
         siteUtil.createSite(driver, username, password, publicSiteName,"", "Public");
