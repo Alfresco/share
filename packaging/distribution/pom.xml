@@ -9,6 +9,11 @@
     <name>Distribution of Alfresco Share</name>
     <packaging>pom</packaging>
 
+    <!-- To replace in share-config-custom.xml -->
+    <properties>
+        <BITROCK_TOMCAT_PORT>8080</BITROCK_TOMCAT_PORT>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -43,6 +48,13 @@
                         <goals>
                             <goal>resources</goal>
                         </goals>
+                        <configuration>
+                            <delimiters>
+                                <delimiter>${*}</delimiter>
+                                <delimiter>@@</delimiter> <!-- To replace Tomcat port in share-config-custom.xml -->
+                            </delimiters>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
