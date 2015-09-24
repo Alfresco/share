@@ -18,6 +18,7 @@
        <property name="locations">
           <list>
              <value>classpath:test.properties</value>
+             <value>classpath:cmm.properties</value>
           </list>
        </property>
        <property name="ignoreUnresolvablePlaceholders" value="true"/>
