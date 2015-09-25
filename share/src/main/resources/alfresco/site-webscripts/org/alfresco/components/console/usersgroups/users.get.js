@@ -14,9 +14,10 @@ function main() {
    }
    
    var minSearchTermLength = (args.minSearchTermLength != null) ? args.minSearchTermLength : search.getChildValue("min-search-term-length"),
-       maxSearchResults  = (args.maxSearchResults != null) ? args.maxSearchResults : search.getChildValue("max-search-results"),
+       maxSearchResults  = (args.maxSearchResults != null) ? args.maxSearchResults : search.getChildValue("max-users-search-results"),
        minUsernameLength = users.getChildValue('username-min-length'),
-       minPasswordLength = users.getChildValue('password-min-length');
+       minPasswordLength = users.getChildValue('password-min-length'),
+       showAuthorizationStatus = users.getChildValue('show-authorization-status');
    
    // Widget instantiation metadata...
    var widget = {
@@ -26,7 +27,8 @@ function main() {
          minSearchTermLength: parseInt(minSearchTermLength),
          maxSearchResults: parseInt(maxSearchResults),
          minUsernameLength: parseInt(minUsernameLength),
-         minPasswordLength: parseInt(minPasswordLength)
+         minPasswordLength: parseInt(minPasswordLength),
+         showAuthorizationStatus: showAuthorizationStatus == 'true' ? true : false
       }
    };
    model.widgets = [widget];
