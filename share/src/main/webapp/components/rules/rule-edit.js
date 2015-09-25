@@ -180,7 +180,7 @@
             this._toggleScriptRef(!p_oAsynchronousCheckboxEl.checked);
          }, asynchronousCheckboxEl, this);
 
-         // Create & Edit menues & buttons
+         // Create & Edit menus & buttons
          this.widgets.createButton = Alfresco.util.createYUIButton(this, "create-button", function ()
          {
             this.createAnotherRule = false;
@@ -201,7 +201,8 @@
             this.createAnotherRule = false;
          },
          {
-            type: "submit"
+            type: "submit",
+            additionalClass: "alf-primary-button"
          }, this.id + "-save-button");
          this.widgets.cancelButton = Alfresco.util.createYUIButton(this, "cancel-button", this.onCancelButtonClick);
 
