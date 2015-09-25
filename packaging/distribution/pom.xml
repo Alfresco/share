@@ -62,6 +62,25 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
+                    <!-- Extract keystore from alfresco-repository -->
+                    <execution>
+                        <id>extract-keystore</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>alfresco-repository</artifactId>
+                                    <version>${alfresco.platform.version}</version>
+                                    <includes>alfresco/keystore/**</includes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
                     <!-- Extract licenses and bin from distribution resources -->
                     <execution>
                         <id>unpack-resources</id>

@@ -11,6 +11,11 @@
             <directory>target/classes</directory>
             <outputDirectory></outputDirectory>
         </fileSet>
+        <!-- Keystore -->
+        <fileSet>
+            <directory>target/dependency/alfresco/keystore</directory>
+            <outputDirectory>alf_data/keystore</outputDirectory>
+        </fileSet>
     </fileSets>
 
     <dependencySets>
