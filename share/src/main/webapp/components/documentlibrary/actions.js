@@ -1105,6 +1105,77 @@
        */
       onActionEditOnlineAos: function dlA_onActionEditOnlineAos(record)
       {
+          var internalEditOnlineAos = function dlA_internalEditOnlineAos(response)
+          {
+              var jsonNode = JSON.parse(response.serverResponse.responseText);
+              if (jsonNode)
+              {
+                  var node = jsonNode.item.node;
+                  if (node.isLocked)
+                  {
+                      var checkedOut = Alfresco.util.arrayContains(node.aspects,"cm:checkedOut");
+                      var lockOwner = node.properties["cm:lockOwner"]; 
+                      var differentLockOwner = lockOwner.userName !== Alfresco.constants.USERNAME;
+
+                      // If locked for offline editing, ask for user's confirmation to continue with online editing
+                      if (checkedOut && differentLockOwner)
+                      { 
+                          this._onAlreadyLockedConfirmation(record, lockOwner);
+                      }
+                      else
+                      {
+                          this._triggerEditOnlineAos(record);
+                      }
+                  }
+                  else
+                  {
+                      this._triggerEditOnlineAos(record);
+                  }
+              }
+          };
+          
+          // Populate the node details before triggering the action, in case the isLocked state changed
+          Alfresco.util.Ajax.request(
+          {
+              url: Alfresco.constants.PROXY_URI + "slingshot/doclib2/node/"  + record.nodeRef.replace('://', '/'),
+              successCallback:
+              {
+                  fn: internalEditOnlineAos,
+                  scope: this
+              }
+          });
+      },
+      
+      _onAlreadyLockedConfirmation: function dlA_onAlreadyLockedConfirmation(record, lockOwner)
+      {
+          var me = this;
+          Alfresco.util.PopupManager.displayPrompt(
+          {
+              title: this.msg('message.edit-online-aos.edit_offline_locked.title', lockOwner.displayName.length > 0 ? lockOwner.displayName : lockOwner.userName ),
+              text: this.msg('message.edit-online-aos.edit_offline_locked.message'),
+              buttons: [
+                  {
+                      text: this.msg('message.edit-online-aos.edit_offline_locked.confirm'),
+                      handler: function dlA_onAlreadyLockedConfirmation_confirm()
+                      {
+                          this.destroy();
+                          me._triggerEditOnlineAos(record);
+                      }
+                  },
+                  {
+                      text: this.msg('message.edit-online-aos.edit_offline_locked.cancel'),
+                      handler: function dlA_onAlreadyLockedConfirmation_cancel()
+                      {
+                          this.destroy();
+                      },
+                      isDefault: true
+                  }
+              ]
+          });
+      },
+      
+      _triggerEditOnlineAos: function dlA_triggerEditOnlineAos(record)
+      {
          if (!$isValueSet(record.onlineEditUrlAos))
          {
             record.onlineEditUrlAos = Alfresco.util.onlineEditUrlAos(this.doclistMetadata.custom.aos, record);
@@ -1255,6 +1326,7 @@
               protocolHandlerPresent = true;
           };
           location.href = protocolUrl;
+          var me = this;
           setTimeout(function()
           {
               input.onblur = null;
@@ -1263,7 +1335,7 @@
               {
                   Alfresco.util.PopupManager.displayMessage(
                   {
-                      text: this.msg('message.edit-online-aos.supported_office_version_required')
+                      text: me.msg('message.edit-online-aos.supported_office_version_required')
                   });
               }
           }, 500);
