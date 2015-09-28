@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
 --%>
-<%@ page isErrorPage="true" %>
+<%@ page isErrorPage="true" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.alfresco.web.site.*" %>
