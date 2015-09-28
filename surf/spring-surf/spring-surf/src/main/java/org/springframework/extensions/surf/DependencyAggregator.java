@@ -308,7 +308,7 @@ public class DependencyAggregator implements ApplicationContextAware
                         
                         cacheByFileSet = false; // If there is any inline dynamic JavaScipt then we shouldn't use the file set as a cache key
                     }
-                    else if (this.dependencyHandler.isDebugMode() && compressionType != CompressionType.CSS) // Temporary check on CSS compression - see commment below
+                    else if (this.dependencyHandler.isDebugMode() || compressionType == CompressionType.CSS) // Never compress CSS - it breaks the LESS processing
                     {
                         // If we're running in debug mode then we still want to aggregate the requested files but that we
                         // want to aggregate them in their uncompressed format...
@@ -320,17 +320,17 @@ public class DependencyAggregator implements ApplicationContextAware
                             aggregatedFileContents.append(path);
                             aggregatedFileContents.append("*/\n\n");
                             
-                            // As a temporary workaround (with the potential to become a permanent workaround) the
-                            // CSS resources will always be compressed even in debug mode to ensure that the LESS compiler
-                            // can run without error. It's less important (no pun intended) to have the CSS uncompressed because
-                            // the browser dev tools will display it in a sensible fashion anyway.
-//                            if (compressionType == CompressionType.CSS)
-//                            {
-//                                fileContents = processCssImports(path, fileContents, new HashSet<String>()).toString();
-//                                StringBuilder sb = new StringBuilder(fileContents);
-//                                adjustImageURLs(path, sb);
-//                                fileContents = this.cssThemeHandler.processCssThemes(path, sb);
-//                            }
+                            if (compressionType == CompressionType.CSS)
+                            {
+                                // For CSS files it's important to adjust URLs to ensure that relative paths are processed
+                                // for un-imported CSS file URLs, then we want to process themes (e.g. pass through the 
+                                // LESS engine)...
+                                fileContents = processCssImports(path, fileContents, new HashSet<String>()).toString();
+                                
+                                StringBuilder sb = new StringBuilder(fileContents);
+                                adjustImageURLs(path, sb);
+                                fileContents = this.cssThemeHandler.processCssThemes(path, sb);
+                            }
                             
                             aggregatedFileContents.append(fileContents);
                             aggregatedFileContents.append("\n");
@@ -342,14 +342,6 @@ public class DependencyAggregator implements ApplicationContextAware
                         fileContents = getCompressedFile(path, compressionType);
                         fileContents = processCssImports(path, fileContents, new HashSet<String>()).toString();
                         
-                        // For CSS files it's important to adjust URLs to ensure that relative paths are processed
-                        // for un-imported CSS file URLs.
-                        if (compressionType == CompressionType.CSS)
-                        {
-                            StringBuilder sb = new StringBuilder(fileContents);
-                            adjustImageURLs(path, sb);
-                            fileContents = this.cssThemeHandler.processCssThemes(path, sb);
-                        }
                         if (fileContents == null)
                         {
                             // The file could not be found, generate an error but don't fail the process.
