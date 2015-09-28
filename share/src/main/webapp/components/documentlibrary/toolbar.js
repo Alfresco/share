@@ -1213,6 +1213,7 @@
       {
          if (this.modules.docList)
          {
+            this.modules.docList.resetSelectedFiles();
             this.modules.docList.selectFiles("selectNone");
          }
       },
