@@ -242,7 +242,7 @@
       <property name="shareManifest"  ref="slingshot.scriptprocessor.shareManifest" />
    </bean>
 
-   <bean id="webscript.org.alfresco.components.admin.module-package.get" parent="webscript" class="org.alfresco.web.scripts.ModulePackageWebScript">
+   <bean id="webscript.org.alfresco.components.console.module-package.get" parent="webscript" class="org.alfresco.web.scripts.ModulePackageWebScript">
       <property name="moduleManager"  ref="modulepackagemanager" />
    </bean>
 
