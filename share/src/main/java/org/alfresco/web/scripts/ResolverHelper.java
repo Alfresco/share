@@ -68,6 +68,10 @@ public class ResolverHelper extends BaseProcessorExtension implements Applicatio
         catch (Exception e)
         {
             logger.warn("DoclistDataUrlResolver '" + resolverName + "' not found.");
+            if (logger.isDebugEnabled())
+            {
+                logger.debug("Exception when trying to get doclistDataUrlResolver '" + resolverName + "':", e);
+            }
         }
         return null;
     }
