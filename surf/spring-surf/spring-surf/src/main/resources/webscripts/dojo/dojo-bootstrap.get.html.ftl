@@ -8,6 +8,7 @@
             var dojoConfig = {
                baseUrl: "${url.context?js_string}${webframeworkConfig.dojoBaseUrl}",
                tlmSiblingOfDojo: false,
+               locale: (navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage)).toLowerCase(),
                async: true,
                parseOnLoad: false,
                packages: [
