@@ -319,7 +319,7 @@
                   var isDisabled = false;
                   var buttonClass = "";
 
-                  if(isAdminAuthority)
+                  if(isAdminAuthority && isAuthorized)
                   {
                      title = parent.msg("deauthorize.dialog.cannot.deauthorize.admin");
                      isDisabled = true;
@@ -346,24 +346,21 @@
 
                   button.addClass(buttonClass);
 
-                  if(!isAdminAuthority)
+                  if (isAuthorized)
                   {
-                     if (isAuthorized)
+                     button.on("click", function(e)
                      {
-                        button.on("click", function(e)
-                        {
-                           parent.selectedUser = oRecord.getData("userName");
-                           parent.onDeauthorizedButtonClick(e,elCell);
-                        }, null, parent);
-                     }
-                     else
+                        parent.selectedUser = oRecord.getData("userName");
+                        parent.onDeauthorizedButtonClick(e,elCell);
+                     }, null, parent);
+                  }
+                  else
+                  {
+                     button.on("click", function(e)
                      {
-                        button.on("click", function(e)
-                        {
-                           parent.selectedUser = oRecord.getData("userName");
-                           parent.onReauthorizedButtonClick(e,elCell,parent);
-                        }, null, parent);
-                     }
+                        parent.selectedUser = oRecord.getData("userName");
+                        parent.onReauthorizedButtonClick(e,elCell,parent);
+                     }, null, parent);
                   }
                }
             };
