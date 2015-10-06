@@ -18,13 +18,18 @@
 package org.springframework.extensions.surf;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.extensions.config.ConfigElement;
+import org.springframework.extensions.config.WebFrameworkConfigElement;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.surf.types.Theme;
+import org.springframework.extensions.webscripts.ScriptConfigModel;
 
 import com.asual.lesscss.LessEngine;
 import com.asual.lesscss.LessException;
@@ -41,7 +46,7 @@ public class LessForJavaCssThemeHandler extends CssThemeHandler
     /**
      * The engine to use for LESS processing.
      */
-    private LessEngine engine;
+    protected LessEngine engine;
     
     /**
      * Sets up a new {@link LessEngine} instance.
@@ -53,23 +58,84 @@ public class LessForJavaCssThemeHandler extends CssThemeHandler
 
     public static final String LESS_TOKEN = "less-variables";
     
+        /**
+     * The default LESS configuration. This will be populated with the contents of a file referenced by the 
+     * web-framework > defaults > dojo-pages > default-less-configuration.
+     */
+    private String defaultLessConfig = null;
+    
+    /**
+     * Returns the current default LESS configuration. If it has not previously been retrieved then it will
+     * attempt to load it.
+     * 
+     * @return A String containing the default LESS configuration variables.
+     */
+    @SuppressWarnings("unchecked")
+    protected String getDefaultLessConfig()
+    {
+        final RequestContext rc = ThreadLocalRequestContext.getRequestContext();
+        if (this.defaultLessConfig == null)
+        {
+            String defaultLessConfigPath = null;
+            ScriptConfigModel config = rc.getExtendedScriptConfigModel(null);
+            Map<String, ConfigElement> configs = (Map<String, ConfigElement>)config.getScoped().get("WebFramework");
+            if (configs != null)
+            {
+                WebFrameworkConfigElement wfce = (WebFrameworkConfigElement) configs.get("web-framework");
+                defaultLessConfigPath = wfce.getDojoDefaultLessConfig();
+            }
+            else
+            {
+                defaultLessConfigPath = this.getWebFrameworkConfigElement().getDojoDefaultLessConfig();
+            }
+            try
+            {
+                InputStream in = this.getDependencyHandler().getResourceInputStream(defaultLessConfigPath);
+                if (in != null)
+                {
+                    this.defaultLessConfig = this.getDependencyHandler().convertResourceToString(in);
+                }
+                else
+                {
+                    if (logger.isErrorEnabled())
+                    {
+                        logger.error("Could not find the default LESS configuration at: " + defaultLessConfigPath);
+                    }
+                    // Set the configuration as the empty string as it's not in the configured location
+                    this.defaultLessConfig = "";
+                }
+            }
+            catch (IOException e)
+            {
+                if (logger.isErrorEnabled())
+                {
+                    logger.error("An exception occurred retrieving the default LESS configuration from: " + defaultLessConfigPath, e);
+                }
+            }
+        }
+        return defaultLessConfig;
+    }
+    
     /**
      * Looks for the LESS CSS token which should contain the LESS style variables that 
      * can be applied to each CSS file. This will be prepended to each CSS file processed.
      * 
      * @return The String of LESS variables.
      */
-    public String getLessVariables() {
-        String variables = null;
+    public String getLessVariables()
+    {
+        String variables = this.getDefaultLessConfig();
         Theme currentTheme = ThreadLocalRequestContext.getRequestContext().getTheme();
         if (currentTheme == null)
         {
             currentTheme = ThreadLocalRequestContext.getRequestContext().getObjectService().getTheme("default");
         }
-        variables = currentTheme.getCssTokens().get(LessForJavaCssThemeHandler.LESS_TOKEN);
-        if (variables == null)
+        String themeVariables = currentTheme.getCssTokens().get(LessForJavaCssThemeHandler.LESS_TOKEN);
+        if (themeVariables != null)
         {
-            variables = "";
+            // Add a new line just to make sure the first theme specific variable isn't appended to 
+            // the end of the last default variable!
+            variables += "\n" + themeVariables;
         }
         return variables;
     }

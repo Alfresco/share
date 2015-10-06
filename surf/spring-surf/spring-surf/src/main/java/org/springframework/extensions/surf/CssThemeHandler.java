@@ -153,14 +153,7 @@ public class CssThemeHandler
         return this.tokenMap;
     }
     
-    
-    /**
-     * 
-     * @param path String
-     * @param cssContents StringBuilder
-     * @throws IOException
-     */
-    public String processCssThemes(String path, StringBuilder cssContents) throws IOException
+    protected String processCssThemeTokens(String path, StringBuilder cssContents) throws IOException
     {
         StringBuffer processedOutput = new StringBuffer();
         Matcher m = sourceTokenPattern.matcher(cssContents);
@@ -183,6 +176,17 @@ public class CssThemeHandler
         }
         m.appendTail(processedOutput);
         return processedOutput.toString();
+    }
+    
+    /**
+     * 
+     * @param path String
+     * @param cssContents StringBuilder
+     * @throws IOException
+     */
+    public String processCssThemes(String path, StringBuilder cssContents) throws IOException
+    {
+        return processCssThemeTokens(path, cssContents);
     }
     
 }

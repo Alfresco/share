@@ -107,7 +107,7 @@ public class ResourceController extends org.springframework.extensions.webscript
         DependencyResource resource = this.dependencyAggregator.getCachedDependencyResource(path);
         if (resource != null)
         {
-            byte[] bytes = resource.getContent().getBytes(this.dependencyHandler.getCharset());
+            byte[] bytes = resource.getContent();
             applyHeaders(path, response, bytes.length, 0L);
             ByteArrayInputStream in = new ByteArrayInputStream(bytes);
             copyStream(in, response.getOutputStream());

@@ -17,19 +17,29 @@
  */
 package org.springframework.extensions.surf;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * <p>Defines key information required for handling dependency resources.</p> 
  * @author David Draper
+ * @author Kevin Roast
  */
 public class DependencyResource
 {
-    private String mimetype = null;
-    private String content = null;
+    private final String mimetype;
+    private final byte[] content;
     
-    public DependencyResource(String mimetype, String content)
+    public DependencyResource(String mimetype, String content, String charset)
     {
         this.mimetype = mimetype;
-        this.content = content;
+        try
+        {
+            this.content = content.getBytes(charset);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getMimetype()
@@ -37,7 +47,7 @@ public class DependencyResource
         return mimetype;
     }
 
-    public String getContent()
+    public byte[] getContent()
     {
         return content;
     }

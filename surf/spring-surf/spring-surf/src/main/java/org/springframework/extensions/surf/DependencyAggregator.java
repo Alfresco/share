@@ -372,7 +372,8 @@ public class DependencyAggregator implements ApplicationContextAware
             // Generate a checksum from the combined dependencies and add it to the cache...
             String combinedDependencies = aggregatedFileContents.toString();
             checksum = this.dependencyHandler.generateCheckSum(combinedDependencies) + compressionType.fileExtension;
-            DependencyResource resource = new DependencyResource(compressionType.mimetype, combinedDependencies);
+            DependencyResource resource = new DependencyResource(
+                    compressionType.mimetype, combinedDependencies, this.dependencyHandler.getCharset());
             cacheDependencyResource(checksum, resource);
             
             if (cacheByFileSet == true && this.dependencyHandler.isDebugMode() == false)
@@ -426,36 +427,25 @@ public class DependencyAggregator implements ApplicationContextAware
      */
     protected Map<Set<String>, String> getFileSetChecksumCache()
     {
-        this.fileSetToMD5MapLock.readLock().lock();
-        try
+        if (this.fileSetToMD5Map == null)
         {
-            if (this.fileSetToMD5Map == null)
+            this.fileSetToMD5MapLock.writeLock().lock();
+            try
             {
-                // upgrade to write lock
-                this.fileSetToMD5MapLock.readLock().unlock();
-                this.fileSetToMD5MapLock.writeLock().lock();
-                try
+                // check again as multiple threads could have been waiting on the write lock
+                if (this.fileSetToMD5Map == null)
                 {
-                    // check again as multiple threads could have been waiting on the write lock
-                    if (this.fileSetToMD5Map == null)
-                    {
-                        this.fileSetToMD5Map = new ConcurrentLinkedHashMap.Builder<Set<String>, String>()
-                                 .maximumWeightedCapacity(this.cacheSize)
-                                 .concurrencyLevel(32)
-                                 .weigher(Weighers.singleton())
-                                 .build();
-                    }
-                }
-                finally
-                {
-                    this.fileSetToMD5MapLock.readLock().lock();
-                    this.fileSetToMD5MapLock.writeLock().unlock();
+                    this.fileSetToMD5Map = new ConcurrentLinkedHashMap.Builder<Set<String>, String>()
+                             .maximumWeightedCapacity(this.cacheSize)
+                             .concurrencyLevel(16)
+                             .weigher(Weighers.singleton())
+                             .build();
                 }
             }
-        }
-        finally
-        {
-            this.fileSetToMD5MapLock.readLock().unlock();
+            finally
+            {
+                this.fileSetToMD5MapLock.writeLock().unlock();
+            }
         }
         return this.fileSetToMD5Map;
     }
@@ -568,34 +558,24 @@ public class DependencyAggregator implements ApplicationContextAware
      */
     protected Map<String, DependencyResource> getCombinedDependencyCache()
     {
-        this.combinedDependencyMapLock.readLock().lock();
-        try
+        if (this.combinedDependencyMap == null)
         {
-            if (this.combinedDependencyMap == null)
+            this.combinedDependencyMapLock.writeLock().lock();
+            try
             {
-                this.combinedDependencyMapLock.readLock().unlock();
-                this.combinedDependencyMapLock.writeLock().lock();
-                try
+                if (this.combinedDependencyMap == null)
                 {
-                    if (this.combinedDependencyMap == null)
-                    {
-                        this.combinedDependencyMap = new ConcurrentLinkedHashMap.Builder<String, DependencyResource>()
-                                .maximumWeightedCapacity(this.cacheSize)
-                                .concurrencyLevel(32)
-                                .weigher(Weighers.singleton())
-                                .build();
-                    }
-                }
-                finally
-                {
-                    this.combinedDependencyMapLock.readLock().lock();
-                    this.combinedDependencyMapLock.writeLock().unlock();
+                    this.combinedDependencyMap = new ConcurrentLinkedHashMap.Builder<String, DependencyResource>()
+                            .maximumWeightedCapacity(this.cacheSize)
+                            .concurrencyLevel(16)
+                            .weigher(Weighers.singleton())
+                            .build();
                 }
             }
-        }
-        finally
-        {
-            this.combinedDependencyMapLock.readLock().unlock();
+            finally
+            {
+                this.combinedDependencyMapLock.writeLock().unlock();
+            }
         }
         return this.combinedDependencyMap;
     }
