@@ -31,12 +31,15 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.alfresco.dataprep.UserService;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.cmm.steps.CmmActions;
 import org.alfresco.po.share.dashlet.FactoryShareDashlet;
+import org.alfresco.po.share.enums.UserRole;
+import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.UploadFilePage;
@@ -82,7 +85,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
 {
     private static Log logger = LogFactory.getLog(AbstractTest.class);
     @Autowired private ApplicationContext ctx;
-    @Value("${share.target}")protected String shareUrl;
+    @Value("${share.url}")protected String shareUrl;
     @Value("${share.license}")protected String licenseShare;
     @Value("${download.directory}")protected String downloadDirectory;
     @Value("${test.password}") protected String password;
@@ -298,6 +301,60 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     {
         return factoryPage.getPage(driver);
     }
+    
+    /**
+     * Method to add user to the site
+     * 
+     * @param addUsersToSitePage
+     * @param userName
+     * @param role
+     * @throws Exception
+     */
+    protected void addUsersToSite(AddUsersToSitePage addUsersToSitePage, String userName, UserRole role) throws Exception
+    {
+        int counter = 0;
+        int waitInMilliSeconds = 2000;
+        List<String> searchUsers = null;
+        while (counter < retrySearchCount + 8)
+        {
+            searchUsers = addUsersToSitePage.searchUser(userName);
+            if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
+            {
+                addUsersToSitePage.clickSelectUser(userName);
+                addUsersToSitePage.setUserRoles(userName, role);
+                addUsersToSitePage.clickAddUsersButton();
+                break;
+            }
+            else
+            {
+                counter++;
+                factoryPage.getPage(driver).render();
+            }
+            // double wait time to not over do solr search
+            waitInMilliSeconds = (waitInMilliSeconds * 2);
+            synchronized (this)
+            {
+                try
+                {
+                    this.wait(waitInMilliSeconds);
+                }
+                catch (InterruptedException e)
+                {
+                }
+            }
+        }
+        try
+        {
+            addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
+        }
+        catch (PageRenderTimeException exception)
+        {
+            saveScreenShot("SiteTest.instantiateMembers-error");
+            throw new Exception("Waiting for object to load", exception);
+
+        }        
+    }
+    
     
     /**
      * Returns true if the search user list contains created user

@@ -91,7 +91,6 @@ public class NavigationBarTest extends AbstractTest
 //    }
 //    
     /**
-<<<<<<< .working
      * Selects My Sites from Sites menu and checks that User Sites List is Displayed
      * @throws Exception
      */

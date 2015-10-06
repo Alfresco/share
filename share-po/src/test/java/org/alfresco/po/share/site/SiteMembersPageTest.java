@@ -62,34 +62,8 @@ public class SiteMembersPageTest extends AbstractTest
         SharePage page = resolvePage(driver).render();
         CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
-        List<String> searchUsers = null;
         addUsersToSitePage = site.getSiteNav().selectAddUser().render();
-        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
-        {
-            searchUsers = addUsersToSitePage.searchUser(userName);
-            try
-            {
-                if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
-                {
-                    addUsersToSitePage.clickSelectUser(userName);
-                    addUsersToSitePage.setUserRoles(userName, UserRole.COLLABORATOR);
-                    addUsersToSitePage.clickAddUsersButton();
-                    break;
-                }
-            }
-            catch (Exception e)
-            {
-                saveScreenShot("SiteTest.instantiateMembers-error");
-                throw new Exception("Waiting for object to load", e);
-            }
-            try
-            {
-                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-            }
-            catch (PageRenderTimeException exception)
-            {
-            }
-        }
+        addUsersToSite(addUsersToSitePage, userName, UserRole.COLLABORATOR);
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
     }
 

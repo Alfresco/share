@@ -81,13 +81,8 @@ public class FootersPage extends ShareDialogue
     }
 
     /**
-<<<<<<< .working
      * @param driver
      * @return
-=======
-     * @param drone WebDrone
-     * @return Map
->>>>>>> .merge-right.r109852
      */
     private Map<String, String> getHeaderInfo(WebDriver driver)
     {

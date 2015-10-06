@@ -506,13 +506,8 @@ public class RepositoryServerClusteringPage extends AdvancedAdminConsolePage {
     /**
      * Opens Validate Cluster page
      *
-<<<<<<< .working
      * @param driver
      * @return
-=======
-     * @param drone WebDrone
-     * @return ClusterValidationPage
->>>>>>> .merge-right.r109852
      */
     public ClusterValidationPage getValidationPage(WebDriver driver) 
     {

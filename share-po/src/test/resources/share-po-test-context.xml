@@ -11,12 +11,13 @@
         http://www.springframework.org/schema/util/spring-util.xsd">
 	
     <context:annotation-config/>
-    <bean id="testPOProperties" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" >
+    <import resource="classpath:share-po-context.xml"/>
+    <import resource="classpath:dataprep-context.xml"/> 
+    
+    <bean id="testPOProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
        <property name="locations">
           <list>
              <value>classpath:test.properties</value>
-             <value>classpath:module.properties</value>
-             <value>classpath:custom.properties</value>
              <value>classpath:cmm.properties</value>
           </list>
        </property>
@@ -32,5 +33,4 @@
         <property name="password" value="${test.user1.password}" />
         <property name="emailId" value="${test.user1.emailId}" />
     </bean>
-    <import resource="classpath:share-po-context.xml"/>
 </beans>

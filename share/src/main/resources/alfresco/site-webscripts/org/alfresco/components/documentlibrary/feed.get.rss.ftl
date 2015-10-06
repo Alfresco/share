@@ -24,7 +24,7 @@
    <item>
       <title>${item.displayName?html}</title>
       <description>
-         &lt;img src=&quot;${proxyLink + "api/node/" + item.nodeRef?replace("://", "/") + "/content/thumbnails/doclib?c=queue&amp;ph=true"}&quot;&gt;${(item.description!"")?html}&lt;br /&gt;
+         &lt;img src=&quot;${proxyLink + "api/node/" + item.nodeRef?replace("://", "/") + "/content/thumbnails/doclib?c=queue&amp;ph=true"}&quot;&gt;${(item.description)!""?html}&lt;br /&gt;
          ${msg("feed.created", formatDate(item.createdOn), item.createdBy)}&lt;br /&gt;
          ${msg("feed.modified", formatDate(item.modifiedOn), item.modifiedBy)}&lt;br /&gt;
          ${msg("feed.location")}:&#160;&lt;a href="${location(item.location)?xml}"&gt;${displayLocation(item.location)?xml}&lt;/a&gt;

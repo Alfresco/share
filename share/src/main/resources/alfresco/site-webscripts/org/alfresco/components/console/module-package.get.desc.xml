@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Module Package List</shortname>
+  <description>Admin: Lists the installed Module Packages</description>
+  <url>/components/admin/module-package</url>
+  <family>admin-console</family>
+</webscript>

@@ -59,11 +59,7 @@ public class TrashCanItem extends PageElement
      * Constructor
      * 
      * @param element {@link WebElement}
-<<<<<<< .working
      * @param driver
-=======
-     * @param drone WebDrone
->>>>>>> .merge-right.r109852
      */
     public TrashCanItem(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {

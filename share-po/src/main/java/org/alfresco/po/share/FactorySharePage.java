@@ -144,7 +144,6 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -155,14 +154,16 @@ import org.springframework.stereotype.Component;
  * @version 1.7.1
  */
 @Component
-@PropertySource("classpath:sharepo.properties")
 public class FactorySharePage implements FactoryPage 
 {
     private static Log logger = LogFactory.getLog(FactorySharePage.class);
     @Autowired private ApplicationContext ac;
     @Autowired FactoryShareDashlet dashletFactory;
+    private long defaultWaitTime;
+    private long maxPageLoadingTime;
+    private String alfrescoUrl;
     private static final By COPY_MOVE_DIALOGUE_SELECTOR = By.cssSelector(".dijitDialogTitleBar");
-    private static final String CREATE_PAGE_ERROR_MSG = "Unabel to instantiate the page";
+    private static final String CREATE_PAGE_ERROR_MSG = "Unable to instantiate the page";
     protected static final String FAILURE_PROMPT = "div[id='prompt']";
     protected static final String NODE_REF_IDENTIFIER = "?nodeRef";
     protected static final String SHARE_DIALOGUE = "div.hd, .dijitDialogTitleBar";
@@ -422,6 +423,8 @@ public class FactorySharePage implements FactoryPage
                 	{
                         //Wire spring 
                         ac.getAutowireCapableBeanFactory().autowireBean(value);
+                        ((PageElement) value).setDefaultWaitTime(defaultWaitTime);
+                        ((PageElement) value).setMaxPageLoadingTime(maxPageLoadingTime);
                 	}
                     field.set(page, value);
                 }
@@ -800,4 +803,21 @@ public class FactorySharePage implements FactoryPage
     {
         this.ac = applicationContext;
     }
+
+	public void setDefaultWaitTime(long defaultWaitTime)
+	{
+		this.defaultWaitTime = defaultWaitTime;
+	}
+
+	public void setMaxPageLoadingTime(long maxPageLoadingTime) 
+	{
+		this.maxPageLoadingTime = maxPageLoadingTime;
+	}
+
+
+	public void setAlfrescoUrl(String alfrescoUrl) 
+	{
+		this.alfrescoUrl = alfrescoUrl;
+	}
+    
 }

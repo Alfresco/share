@@ -245,7 +245,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public int getResultCount()
     {
-        String val = driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_MENU_BAR>div>div>div>span>b")).getText();
+        String val = driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_COUNT_LABEL>b")).getText();
         return Integer.valueOf(val).intValue();
     }
     /**

@@ -216,9 +216,11 @@
       <property name="configService" ref="web.config" />
    </bean>
    
-   <bean id="webframework.webscripts.scriptprocessor.javascript" class="org.springframework.extensions.webscripts.processor.JSScriptProcessor">
-      <property name="searchPath" ref="webframework.webscripts.searchpath" />
-      <property name="scriptProcessorRegistry" ref="webframework.webscripts.registry.scriptprocessor" />
+   <!-- Set a specific JSScriptProcessor that allows token substitution of variables in resource import paths -->
+   <bean id="webframework.webscripts.scriptprocessor.javascript" class="org.springframework.extensions.surf.processor.JSScriptWithTokensProcessor">
+      <property name="searchPath"                ref="webframework.webscripts.searchpath" />
+      <property name="scriptProcessorRegistry"   ref="webframework.webscripts.registry.scriptprocessor" />
+      <property name="webFrameworkConfigElement" ref="webframework.config.element"/>
       <property name="configService" ref="web.config" />
    </bean>
 

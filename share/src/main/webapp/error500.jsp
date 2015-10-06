@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
 --%>
-<%@ page isErrorPage="true" %>
+<%@ page isErrorPage="true" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*" %>
+<%@ page import="java.util.*" %>
 <%@ page import="org.alfresco.web.site.*" %>
 <%@ page import="org.springframework.extensions.webscripts.ui.common.StringUtils" %>
 <%@ page import="org.apache.commons.logging.LogFactory" %>
@@ -32,6 +33,7 @@
            dashboardPath = "/page/user/" + userid + "/dashboard";
        }
    }
+   ResourceBundle messages = ResourceBundle.getBundle("alfresco/messages/slingshot", request.getLocale());
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -130,7 +132,7 @@ div.alf-error-detail p
     color: #A6A6A6;
 }
    </style>
-   <title>Alfresco Share &raquo; System Error</title>
+   <title><%= messages.getString("page.error.500.title")%></title>
 </head>
 <body>
    <div class="alf-error-bg">
@@ -140,19 +142,15 @@ div.alf-error-detail p
        <img src="${pageContext.request.contextPath}/res/themes/default/images/app-logo.png" />
     </div>
    <div class="alf-error-wrapper">
-      <div class="alf-error-header">Something's wrong with this page...</div>
+      <div class="alf-error-header"><%= messages.getString("page.error.500.header")%></div>
       <div class="alf-error-detail">
-	        <p>We may have hit an error or something might have been removed or deleted, so check that the URL is correct.</p>
-            <p>Alternatively you might not have permission to view the page (it could be on a private site) 
-            or there could have been an internal error. Try checking with your Alfresco administrator.</p>
-            <p>If you're trying to get to your home page and it's no longer available you 
-            should change it by clicking your name on the Alfresco toolbar.</p>
+	        <%= messages.getString("page.error.500.detail")%>
             <div class="alf-error-nav">
-                <a class="alf-primary-button" href="${pageContext.request.contextPath}<%=dashboardPath%>">Back to My Dashboard</a>
+                <a class="alf-primary-button" href="${pageContext.request.contextPath}<%=dashboardPath%>"><%= messages.getString("page.error.500.nav.dashboard")%></a>
             </div>
       </div>
       <div class="alf-error-footer">
-        <a href="http://www.alfresco.com">Alfresco Software</a> Inc. &copy; 2005-2015 All rights reserved.
+        <%= messages.getString("page.error.500.footer")%>
       </div>
    </div>
    <div>

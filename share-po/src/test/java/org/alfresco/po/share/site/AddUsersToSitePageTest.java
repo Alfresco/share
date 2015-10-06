@@ -21,11 +21,8 @@ import org.alfresco.po.AbstractTest;
 import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.user.UserSitesPage;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,35 +81,8 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         page = resolvePage(driver).render();
         siteDashBoard = page.getNav().selectMostRecentSite().render();
-        List<String> searchUsers = null;
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        for (int searchCount = 1; searchCount <= retrySearchCount + 8; searchCount++)
-        {
-            searchUsers = addUsersToSitePage.searchUser(userName);
-            try
-            {
-                if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
-                {
-                    addUsersToSitePage.clickSelectUser(userName);
-                    addUsersToSitePage.setUserRoles(userName, role);
-                    addUsersToSitePage.clickAddUsersButton();
-                    break;
-                }
-            }
-            catch (Exception e)
-            {
-                saveScreenShot("SiteTest.instantiateMembers-error");
-                throw new Exception("Waiting for object to load", e);
-            }
-            try
-            {
-                addUsersToSitePage.renderWithUserSearchResults(refreshDuration);
-            }
-            catch (PageRenderTimeException exception)
-            {
-            }
-        }
-
+        addUsersToSite(addUsersToSitePage, userName, role);
     }
 
     /**
@@ -353,12 +323,10 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         // search for user and select user from search results list
         List<String> searchUsers = searchForSiteMembers(userMultiple1, true);
-        //Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple1) != -1);
         Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userMultiple1));
         addUsersToSitePage.clickSelectUser(userMultiple1).render();
 
         searchUsers = searchForSiteMembers(userMultiple2, true);
-        //Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple2) != -1);
         Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userMultiple2));
         addUsersToSitePage.clickSelectUser(userMultiple2).render();
 
