@@ -10,8 +10,6 @@
          additionally handles requests checksum identified resources -->
     <bean id="resourceController" class="org.springframework.extensions.surf.mvc.ResourceController">
        <property name="cacheSeconds"              value="-1" />
-       <property name="serviceRegistry"           ref="webframework.service.registry" />
-       <property name="remoteConfig"              ref="remote.config.element"></property>
        <property name="dependencyHandler"         ref="dependency.handler" />
        <property name="dojoDependencyHandler"     ref="dojo.dependency.handler" />
        <property name="dependencyAggregator"      ref="dependency.aggregator" />
@@ -19,7 +17,6 @@
        <property name="defaultUrl"><value>/resources</value></property>
        <property name="useExpiresHeader"><value>true</value></property>
        <property name="useCacheControlHeader"><value>true</value></property>
-       
     </bean>
         
     <!-- Abstract Beans -->
@@ -49,12 +46,10 @@
             <list>
                 <ref bean="requestContextInterceptor"/>
                 <ref bean="themeInterceptor"/>
-                <ref bean="previewContextInterceptor"/>
             </list>
         </property>
         <property name="mappings">
             <value>
-                /preview/**=previewController
                 /remote/**=remoteController
                 /proxy/**=endpointController
                 /resource/**=resourceController
@@ -76,12 +71,6 @@
     </bean>
     
     <!-- Web Framework Controllers -->
-    <bean id="previewController" class="org.springframework.extensions.surf.mvc.PreviewController" parent="abstractWebFrameworkController">
-        <property name="cacheSeconds" value="-1" />
-        <property name="useExpiresHeader"><value>true</value></property>
-        <property name="useCacheControlHeader"><value>true</value></property>
-        <property name="frameworkUtil" ref="framework.utils"></property>
-    </bean>
     <bean id="remoteController" class="org.springframework.extensions.surf.mvc.RemoteController">
         <property name="cacheSeconds" value="-1" />
         <property name="useExpiresHeader"><value>true</value></property>
@@ -130,7 +119,6 @@
     
     <!-- Interceptors -->
     <bean id="requestContextInterceptor" class="org.springframework.extensions.surf.mvc.RequestContextInterceptor" parent="abstractWebFrameworkInterceptor" />
-    <bean id="previewContextInterceptor" class="org.springframework.extensions.surf.mvc.PreviewContextInterceptor" parent="abstractWebFrameworkInterceptor" />
     <bean id="themeInterceptor" class="org.springframework.extensions.surf.mvc.ThemeInterceptor" parent="abstractWebFrameworkInterceptor">
         <property name="webFrameworkConfig" ref="webframework.config.element"></property>
     </bean>

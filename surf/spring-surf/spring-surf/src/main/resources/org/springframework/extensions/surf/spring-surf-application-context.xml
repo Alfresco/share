@@ -100,8 +100,6 @@
    <!-- Provider Implementations                        -->
    <!--                                                 -->
 
-   <bean id="webframework.previewcontext.provider" class="org.springframework.extensions.surf.PreviewContextProviderImpl" />
-
    <bean id="webframework.connector.provider" class="org.springframework.extensions.surf.WebFrameworkConnectorProvider">
       <property name="connectorService" ref="connector.service" />
    </bean>   
@@ -134,7 +132,6 @@
       </property>
       <property name="connectorService" ref="connector.service" />
       <property name="connectorProvider" ref="webframework.connector.provider" />
-      <property name="previewContextProvider" ref="webframework.previewcontext.provider" />
    </bean>
    <bean id="webframework.store.local.abstract" class="org.springframework.extensions.webscripts.LocalFileSystemStore" abstract="true" init-method="init">
       <property name="root">

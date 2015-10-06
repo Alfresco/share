@@ -21,7 +21,7 @@
                 <!-- Pick the runtime: classpath, webapp, local, alfresco -->
                 <runtime>webapp</runtime>
 
-                <!-- Pick the mode: development, preview, production -->
+                <!-- Pick the mode: development, production -->
                 <mode>development</mode>
             </autowire>
 

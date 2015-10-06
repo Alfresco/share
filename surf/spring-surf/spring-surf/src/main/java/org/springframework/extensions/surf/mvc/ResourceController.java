@@ -32,7 +32,6 @@ import org.springframework.extensions.surf.DependencyAggregator;
 import org.springframework.extensions.surf.DependencyHandler;
 import org.springframework.extensions.surf.DependencyResource;
 import org.springframework.extensions.surf.DojoDependencyHandler;
-import org.springframework.extensions.surf.ServletUtil;
 
 /**
  * <p>Overrides the {@link VirtualizedResourceController} (which in itself overrides the WebScript 
@@ -40,7 +39,7 @@ import org.springframework.extensions.surf.ServletUtil;
  * {@link DependencyHandler} to process requests for resources that contain content based checksums.</p> 
  * @author David Draper
  */
-public class ResourceController extends VirtualizedResourceController
+public class ResourceController extends org.springframework.extensions.webscripts.servlet.mvc.ResourceController
 {
     public static final String HTTP_HEADER_EXPIRES = "Expires";
     public static final String HTTP_HEADER_FAR_FUTURE_EXPIRES_VALUE = "Sun, 17-Jan-2038 19:14:07 GMT";
@@ -104,22 +103,10 @@ public class ResourceController extends VirtualizedResourceController
             return true;
         }
         
-        // Check the VirtualizedResourceController first for backwards compatibility with 
-        // applications built for previous Surf verions...
-        if (this.webframeworkConfigElement.isPreviewEnabled())
-        {
-            // see if we can resolve and serve back the remote resource
-            String endpointId = (String) request.getParameter("e");
-            String storeId = (String) request.getParameter("s");
-            String webappId = (String) request.getParameter("w");
-            resolved = retrieveRemoteResource(request, response, path, endpointId, storeId, webappId);
-        }
-        
         // ...check the DependencyAggregator...
         DependencyResource resource = this.dependencyAggregator.getCachedDependencyResource(path);
         if (resource != null)
         {
-            // TODO: Need to handle IE6/7/8 lack of support for CSS data images.
             byte[] bytes = resource.getContent().getBytes(this.dependencyHandler.getCharset());
             applyHeaders(path, response, bytes.length, 0L);
             ByteArrayInputStream in = new ByteArrayInputStream(bytes);
@@ -140,27 +127,11 @@ public class ResourceController extends VirtualizedResourceController
                 resolved = true;
             }
         }
-
+        
         // ...now check the DependencyHandler...
         if (!resolved)
         {
-            InputStream in = null;
-            Float ieVersion = ServletUtil.getInternetExplorerVersion(request);
-            if (ieVersion != null && ieVersion < 8)
-            {
-                // The request has come from a version of IE less than 8, this means that we cannot
-                // support CSS data images. Therefore we need to ensure that they are not generated.
-                // The DataHandler may have previously generated and cached resources that contain
-                // data images so we need to ensure that they are NOT used. Therefore we need to obtain
-                // the unmodified InputStream to ensure that no modifications will have occurred.
-                in = this.dependencyHandler.getUnmodifiedResourceInputStream(path);
-            }
-            else
-            {
-                // For IE version 8 onwards (and all other browsers) get the regular input stream...
-                in = this.dependencyHandler.getResourceInputStream(path);
-            }
-            
+            InputStream in = this.dependencyHandler.getResourceInputStream(path);
             if (in != null)
             {
                 applyHeaders(path, response, in.available(), 0L);
@@ -169,8 +140,7 @@ public class ResourceController extends VirtualizedResourceController
             }
         }
         
-        // ...Finally drop through again to the VirtualizedResourceController (this is ultimately
-        // not the most efficient implementation but should satisfy most cases.
+        // ...Finally drop through again to the Spring ResourceController
         if (!resolved)
         {
             resolved = super.dispatchResource(path, request, response);

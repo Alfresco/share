@@ -93,11 +93,7 @@ public interface WebFrameworkConfigProperties
     public String getAutowireModeId();    
     public boolean isAutowireModeDevelopment();
     public boolean isAutowireModeProduction();
-    public boolean isAutowireModePreview();
             
-    // are we in preview mode
-    public boolean isPreviewEnabled();
-        
     // runtime config
     public RuntimeConfigDescriptor getRuntimeConfigDescriptor(String id);
     

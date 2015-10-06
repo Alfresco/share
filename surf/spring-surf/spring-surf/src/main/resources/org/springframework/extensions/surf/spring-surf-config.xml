@@ -298,7 +298,7 @@
                 <!-- <runtime>classpath</runtime> -->
 
 
-                <!-- Pick the mode: development, preview, production -->
+                <!-- Pick the mode: development, production -->
                 <!-- <mode>development</mode> -->
 
             </autowire>

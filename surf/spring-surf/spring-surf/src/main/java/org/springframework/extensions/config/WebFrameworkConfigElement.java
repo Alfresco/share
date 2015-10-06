@@ -39,7 +39,6 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
 {
     private static final long serialVersionUID = 1L;
     public static final String MODE_DEVELOPMENT = "development";
-    public static final String MODE_PREVIEW = "preview";
     public static final String MODE_PRODUCTION = "production";
     
     public static final String DEFAULT_WEBFRAMEWORK_USER_FACTORY_ID = "webframework.factory.user.default";
@@ -558,11 +557,6 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
         return MODE_PRODUCTION.equals(this.autowireModeId);
     }
 
-    public boolean isAutowireModePreview()
-    {
-        return MODE_PREVIEW.equals(this.autowireModeId);
-    }
-    
     public String getAutowireModeId()
     {
         return this.autowireModeId;
@@ -573,11 +567,6 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
         return this.autowireRuntimeId;
     }
     
-    public boolean isPreviewEnabled()
-    {
-        return this.isAutowireModePreview();
-    }
-        
     public RuntimeConfigDescriptor getRuntimeConfigDescriptor(String id)
     {
         return (RuntimeConfigDescriptor) this.runtimeConfigs.get(id);
@@ -588,7 +577,6 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
         return this.persisterConfigDescriptor;
     }
     
-
     public String getModuleDeploymentMode()
     {
         return this.moduleDeploymentMode;

@@ -31,7 +31,6 @@ import org.springframework.extensions.surf.exception.ModelObjectPersisterExcepti
 import org.springframework.extensions.surf.exception.PlatformRuntimeException;
 import org.springframework.extensions.surf.persister.CachedPersister;
 import org.springframework.extensions.surf.persister.PersisterService;
-import org.springframework.extensions.webscripts.PreviewContext;
 
 /**
  * Object Persistence Service
@@ -88,20 +87,7 @@ public final class ObjectPersistenceService
      */
     public ModelPersistenceContext getPersistenceContext()
     {
-        ModelPersistenceContext mpc = null;
-
-        PreviewContext previewContext = ThreadLocalPreviewContext.getPreviewContext();
-        if (previewContext != null)
-        {
-            mpc = new ModelPersistenceContext(previewContext.getUserId());
-            mpc.setStoreId(previewContext.getStoreId());
-            mpc.setWebappId(previewContext.getWebappId());
-        }
-        else
-        {
-            mpc = new ModelPersistenceContext(null);
-        }
-
+        ModelPersistenceContext mpc = new ModelPersistenceContext(null);
         return mpc;
     }
 
