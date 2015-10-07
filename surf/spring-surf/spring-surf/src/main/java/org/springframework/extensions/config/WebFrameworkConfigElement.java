@@ -1334,6 +1334,8 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     public static final String DOJO_MESSAGES_DEFAULT_SCOPE = "default-messages-scope";
     public static final String DOJO_DEFAULT_LESS_CONFIG = "default-less-configuration";
     
+    public static final String AIKAU_VERSION = "aikau-version";
+    
     /*
      * DOJO CONFIGURATION VALUES
      */
@@ -1345,6 +1347,7 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     protected String  dojoMessagesObject = null;
     protected String  dojoMessagesDefaultScope = null;
     protected String  dojoDefaultLessConfig = null;
+    protected String  aikauVersion = null;
     protected Map<String, String> dojoPackages = new HashMap<String, String>();
     protected Map<String, String> dojoPackagesMain = new HashMap<String, String>();
     
@@ -1399,6 +1402,11 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
     {
         return dojoDefaultLessConfig;
     }
+    
+    public String getAikauVersion()
+    {
+        return this.aikauVersion;
+    }
 
     /**
      * Processes the Dojo configuration from the supplied {@link Element}
@@ -1449,6 +1457,11 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
             if (defaultLessConfig != null)
             {
                 configElement.dojoDefaultLessConfig = defaultLessConfig;
+            }
+            String aikauVersion = dojoConfig.elementTextTrim(AIKAU_VERSION);
+            if (aikauVersion != null)
+            {
+                configElement.aikauVersion = aikauVersion;
             }
             Element packages = dojoConfig.element(DOJO_PACKAGES);
             if (packages != null)
@@ -1534,6 +1547,11 @@ public class WebFrameworkConfigElement extends ConfigElementAdapter implements W
         if (configElement.dojoPackagesMain != null)
         {
             combinedElement.dojoPackagesMain.putAll(configElement.dojoPackagesMain);
+        }
+        combinedElement.aikauVersion = this.aikauVersion;
+        if (configElement.aikauVersion != null)
+        {
+            combinedElement.aikauVersion = configElement.aikauVersion;
         }
     }
 }
