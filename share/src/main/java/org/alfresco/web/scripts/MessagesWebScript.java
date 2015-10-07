@@ -91,7 +91,7 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
             final int schemaIndex = serverPath.indexOf(':');
             writer.write("window.setTimeout(function(){(document.getElementById('alfresco-yuiloader')||document.createElement('div')).innerHTML = '<img src=\"");
             writer.write(serverPath.substring(0, schemaIndex));
-            writer.write("://www.alfresco.com/assets/images/logos/community-5.0-share.png\" alt=\"*\" style=\"display:none\"/>\'}, 100);\r\n");
+            writer.write("://www.alfresco.com/assets/images/logos/community-5.1-share.png\" alt=\"*\" style=\"display:none\"/>\'}, 100);\r\n");
         }
         return writer.toString();
     }
@@ -115,7 +115,7 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
             final int schemaIndex = serverPath.indexOf(':');
             sb.append("window.setTimeout(function(){(document.getElementById('alfresco-yuiloader')||document.createElement('div')).innerHTML = '<img src=\"");
             sb.append(serverPath.substring(0, schemaIndex));
-            sb.append("://www.alfresco.com/assets/images/logos/community-5.0-share.png\" alt=\"*\" style=\"display:none\"/>\'}, 100);\r\n");
+            sb.append("://www.alfresco.com/assets/images/logos/community-5.1-share.png\" alt=\"*\" style=\"display:none\"/>\'}, 100);\r\n");
         }
         return sb.toString();
     }
