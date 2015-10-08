@@ -387,6 +387,9 @@
               the userHeader to the name of the HTTP header that the external SSO
               uses to provide the authenticated user name.
    -->
+
+   <!-- Security warning -->
+   <!-- For production environment set verify-hostname to true.-->
    <!--
    <config evaluator="string-compare" condition="Remote">
       <remote>
@@ -394,6 +397,7 @@
              <path>alfresco/web-extension/alfresco-system.p12</path>
              <type>pkcs12</type>
              <password>alfresco-system</password>
+             <verify-hostname>true</verify-hostname>
          </keystore>
          
          <connector>
