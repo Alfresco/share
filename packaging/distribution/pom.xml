@@ -36,6 +36,11 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+            <resource>
+                <directory>${project.build.directory}/dependency/bitrock/bitrock/alfresco/shared/web-extension</directory>
+                <targetPath>${project.build.directory}/web-extension-samples</targetPath>
+                <filtering>true</filtering>
+            </resource>
         </resources>
 
         <plugins>
@@ -67,21 +72,6 @@
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
-                    <execution>
-                        <id>copy-share-config-custom</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/src/main/resources/web-extension-samples</outputDirectory>
-                            <resources>
-                               <resource>
-                                   <directory>${project.build.directory}/dependency/bitrock/bitrock/alfresco/shared/web-extension</directory>
-                               </resource>
-                            </resources>
-                       </configuration>
-                    </execution>
                     <!-- Copies local files: README, ... -->
                     <execution>
                         <id>default-resources</id>
