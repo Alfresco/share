@@ -1326,8 +1326,8 @@
           input.onblur = function() {
               protocolHandlerPresent = true;
           };
+          input.context = this;
           location.href = protocolUrl;
-          var me = this;
           setTimeout(function()
           {
               input.onblur = null;
@@ -1336,7 +1336,7 @@
               {
                   Alfresco.util.PopupManager.displayMessage(
                   {
-                      text: me.msg('message.edit-online-aos.supported_office_version_required')
+                      text: input.context.msg('message.edit-online-aos.supported_office_version_required')
                   });
               }
           }, 500);
