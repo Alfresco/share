@@ -308,7 +308,7 @@ public class DependencyAggregator implements ApplicationContextAware
                         
                         cacheByFileSet = false; // If there is any inline dynamic JavaScipt then we shouldn't use the file set as a cache key
                     }
-                    else if (this.dependencyHandler.isDebugMode() || compressionType == CompressionType.CSS) // Never compress CSS - it breaks the LESS processing
+                    else if (this.isDebugMode() || compressionType == CompressionType.CSS) // Never compress CSS - it breaks the LESS processing
                     {
                         // If we're running in debug mode then we still want to aggregate the requested files but that we
                         // want to aggregate them in their uncompressed format...
@@ -323,13 +323,13 @@ public class DependencyAggregator implements ApplicationContextAware
                             if (compressionType == CompressionType.CSS)
                             {
                                 // For CSS files it's important to adjust URLs to ensure that relative paths are processed
-                                // for un-imported CSS file URLs, then we want to process themes (e.g. pass through the 
-                                // LESS engine)...
-                                fileContents = processCssImports(path, fileContents, new HashSet<String>()).toString();
-                                
+                                // for un-imported CSS file URLs
                                 StringBuilder sb = new StringBuilder(fileContents);
+                                this.cssImageDataHandler.processCssImages(path, sb);
+                                fileContents = processCssImports(path, sb.toString(), new HashSet<String>()).toString();
+                                sb = new StringBuilder(fileContents);
                                 adjustImageURLs(path, sb);
-                                fileContents = this.cssThemeHandler.processCssThemes(path, sb);
+                                fileContents = sb.toString();
                             }
                             
                             aggregatedFileContents.append(fileContents);
@@ -338,10 +338,8 @@ public class DependencyAggregator implements ApplicationContextAware
                     }
                     else
                     {
-                        // Retrieve and compress the requested file...
+                        // Retrieve and compress the requested JS file...
                         fileContents = getCompressedFile(path, compressionType);
-                        fileContents = processCssImports(path, fileContents, new HashSet<String>()).toString();
-                        
                         if (fileContents == null)
                         {
                             // The file could not be found, generate an error but don't fail the process.
@@ -369,14 +367,31 @@ public class DependencyAggregator implements ApplicationContextAware
                 }
             }
             
+            String combinedDependencies;
+            if (compressionType == CompressionType.CSS)
+            {
+                try
+                {
+                    combinedDependencies = this.cssThemeHandler.processCssThemes("", aggregatedFileContents);
+                }
+                catch (IOException e)
+                {
+                    logger.error("Failed to process themes: " + e.getMessage());
+                    combinedDependencies = aggregatedFileContents.toString();
+                }
+            }
+            else
+            {
+                combinedDependencies = aggregatedFileContents.toString();
+            }
+            
             // Generate a checksum from the combined dependencies and add it to the cache...
-            String combinedDependencies = aggregatedFileContents.toString();
             checksum = this.dependencyHandler.generateCheckSum(combinedDependencies) + compressionType.fileExtension;
             DependencyResource resource = new DependencyResource(
                     compressionType.mimetype, combinedDependencies, this.dependencyHandler.getCharset());
             cacheDependencyResource(checksum, resource);
             
-            if (cacheByFileSet == true && this.dependencyHandler.isDebugMode() == false)
+            if (cacheByFileSet == true && this.isDebugMode() == false)
             {
                 cacheChecksumForFileSet(paths, checksum);
             }
@@ -782,24 +797,10 @@ public class DependencyAggregator implements ApplicationContextAware
                     String importContents = null;
                     try
                     {
-                        if (this.isDebugMode())
-                        {
-                            // Process the CSS import using its uncompressed contents (DEBUG MODE)
-                            String importPath = this.dependencyHandler.getRelativePath(cssPath, path.toString());
-                            InputStream in = this.dependencyHandler.getResourceInputStream(importPath);
-                            if (in != null)
-                            {
-                                importContents = this.dependencyHandler.convertResourceToString(in);
-                                importContents = processCssImport(importContents, cssPath, importPath, processedPaths);
-                            }
-                        }
-                        else
-                        {
-                            // Process the CSS import using its compressed contents (PRODUCTION MODE)
-                            String importPath = this.dependencyHandler.getRelativePath(cssPath, path.toString());
-                            importContents = this.getCompressedFile(importPath, CompressionType.CSS);
-                            importContents = processCssImport(importContents, cssPath, importPath, processedPaths);
-                        }
+                        // Process the CSS import - CSS is no longer compressed but it is LESS compiled etc.
+                        String importPath = this.dependencyHandler.getRelativePath(cssPath, path.toString());
+                        importContents = this.getCompressedFile(importPath, CompressionType.CSS);
+                        importContents = processCssImport(importContents, cssPath, importPath, processedPaths);
                     }
                     catch (IOException e)
                     {
@@ -856,7 +857,8 @@ public class DependencyAggregator implements ApplicationContextAware
     
     
     /**
-     * Returns the compressed version of the 
+     * Returns the compressed version of the file at the given path using the supplied compression type.
+     * 
      * @param path String
      * @param type CompressionType
      * @return String
@@ -864,8 +866,6 @@ public class DependencyAggregator implements ApplicationContextAware
      */
     String getCompressedFile(String path, CompressionType type) throws IOException
     {
-        // Check the compression exclusions to ensure that we really want to compress the file...
-        
         String compressedFile = null;
         if (type == CompressionType.JAVASCRIPT)
         {
@@ -877,6 +877,7 @@ public class DependencyAggregator implements ApplicationContextAware
         }
         if (compressedFile == null)
         {
+            // Check the compression exclusions to ensure that we really want to compress the file...
             if (excludeFileFromCompression(path))
             {
                 InputStream in = this.dependencyHandler.getResourceInputStream(path);
@@ -889,9 +890,6 @@ public class DependencyAggregator implements ApplicationContextAware
                     }
                     else if (type == CompressionType.CSS)
                     {
-                        StringBuilder source = new StringBuilder(compressedFile);
-                        this.cssImageDataHandler.processCssImages(path, source);
-                        compressedFile = this.cssThemeHandler.processCssThemes(path, source);
                         cacheCompressedCssResource(path, compressedFile);
                     }
                 }
@@ -932,10 +930,6 @@ public class DependencyAggregator implements ApplicationContextAware
                         else if (type == CompressionType.CSS)
                         {
                             compressedFile = compressCSSFile(in);
-                            
-                            StringBuilder source = new StringBuilder(compressedFile);
-                            this.cssImageDataHandler.processCssImages(path, source);
-                            compressedFile = source.toString();
                             cacheCompressedCssResource(path, compressedFile);
                         }
                     }

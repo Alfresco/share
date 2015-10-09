@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.extensions.surf.DependencyHandler;
+import org.springframework.extensions.surf.DependencyHandlerProcessingCallback;
 import org.springframework.extensions.surf.extensibility.ExtensibilityModel;
 import org.springframework.extensions.surf.types.TemplateInstance;
 
@@ -35,6 +37,7 @@ import freemarker.template.TemplateModel;
  * matches the resource contents.</p>
  * 
  * @author David Draper
+ * @author Kevin Roast
  */
 public class ChecksumResourceDirective extends AbstractDependencyExtensibilityDirective
 {
@@ -95,7 +98,34 @@ public class ChecksumResourceDirective extends AbstractDependencyExtensibilityDi
                         // If the checksum has been requested to be placed as a parameter then it is necessary
                         // to build the request slightly differently. This is a non-standard approach that has
                         // been created to solve specific use cases and currently is not as efficient.
-                        String checksum = this.dependencyHandler.getChecksum(getUpdatedSrc(pd));
+                        String checksum = this.dependencyHandler.getChecksum(getUpdatedSrc(pd), new DependencyHandlerProcessingCallback() {
+                            @Override
+                            public String process(DependencyHandler handler, String path, String contents) throws IOException
+                            {
+                                String resourceContents = contents;
+                                if (path.toLowerCase().endsWith(".css"))
+                                {
+                                    StringBuilder processedContents = new StringBuilder(resourceContents);
+                                    
+                                    // If we're generating CSS data images for CSS files then do it now...
+                                    if (handler.getWebFrameworkConfigElement().isGenerateCssDataImagesEnabled() && handler.getCssDataImageHandler() != null)
+                                    {
+                                        handler.getCssDataImageHandler().processCssImages(path, processedContents);                 // works on the StringBuilder directly
+                                    }
+                                    
+                                    // If we are performing LESS CSS processing then do it now...
+                                    if (handler.getCssThemeHandler() != null)
+                                    {
+                                        resourceContents = handler.getCssThemeHandler().processCssThemes(path, processedContents);  // returns a String
+                                    }
+                                    else
+                                    {
+                                        resourceContents = processedContents.toString();
+                                    }
+                                }
+                                return resourceContents;
+                            }
+                        });
                         env.getOut().write(getToInsert(pd) + getUpdatedSrc(pd) + DirectiveConstants.QUESTION_MARK + parm + DirectiveConstants.EQUALS + checksum);
                         getRequestContext().markDependencyAsRequested(src);
                     }

@@ -66,6 +66,7 @@ import org.springframework.web.context.support.ServletContextResource;
  * against resources this class does not support hot-deploy of new resources.</p> 
  * 
  * @author David Draper
+ * @author Kevin Roast
  */
 public class DependencyHandler implements ApplicationContextAware
 {
@@ -172,12 +173,34 @@ public class DependencyHandler implements ApplicationContextAware
     {
         this.cssDataImageHandler = cssDataImageHandler;
     }
-
+    
+    public CssImageDataHandler getCssDataImageHandler()
+    {
+        return this.cssDataImageHandler;
+    }
+    
+    private CssThemeHandler cssThemeHandler;
+    
+    public void setCssThemeHandler(CssThemeHandler cssThemeHandler)
+    {
+        this.cssThemeHandler = cssThemeHandler;
+    }
+    
+    public CssThemeHandler getCssThemeHandler()
+    {
+        return this.cssThemeHandler;
+    }
+    
     private WebFrameworkConfigElement webFrameworkConfigElement;
     
     public void setWebFrameworkConfigElement(WebFrameworkConfigElement webFrameworkConfigElement)
     {
         this.webFrameworkConfigElement = webFrameworkConfigElement;
+    }
+
+    public WebFrameworkConfigElement getWebFrameworkConfigElement()
+    {
+        return this.webFrameworkConfigElement;
     }
 
     /**
@@ -405,24 +428,17 @@ public class DependencyHandler implements ApplicationContextAware
     }
     
     /**
-     * <p>Returns the {@link InputStream} for the supplied path but will load the {@link InputStream} directly
-     * rather than using the value stored in the {@link ResourceInfo} as this may potentially have been modified.</p>
-     * @param path The path to load the resource from.
-     * @return An {@link InputStream} for the requested path and <code>null</code> if one cannot be found.
-     * @throws IOException
+     * <p>Creates an {@link InputStream} to the requested path. This will look in both the
+     * defined classpath and within the META-INF of the application.</p>
+     * 
+     * @param path The path to generate an {@link InputStream} to.
+     * @return The {@link InputStream} for the requested resource and <code>null</code> if the
+     * resource could not be found.
+     * @throws IOException Thrown when an error occurs attempting to generate an {@link InputStream}
      */
-    public InputStream getUnmodifiedResourceInputStream(String path) throws IOException
+    public InputStream getResourceInputStream(String path) throws IOException
     {
-        InputStream in = getResourceInputStream(path); // Calling this ensures that the ResourceInfo is cached...
-        if (in != null)
-        {
-            // Get the cached ResourceInfo and load the InputStream - this ensures that
-            // we get the unmodified InputStream and not the version stored as part of the
-            // ResourceInfo that might potentially have been modified.
-            ResourceInfo resourceInfo = getCachedResourceInfo(path);
-            in = resourceInfo.loadInputStream();
-        }
-        return in;
+        return getResourceInputStream(path, null);
     }
     
     /**
@@ -434,7 +450,7 @@ public class DependencyHandler implements ApplicationContextAware
      * resource could not be found.
      * @throws IOException Thrown when an error occurs attempting to generate an {@link InputStream}
      */
-    public InputStream getResourceInputStream(String path) throws IOException
+    public InputStream getResourceInputStream(String path, DependencyHandlerProcessingCallback callback) throws IOException
     {
         InputStream in = null;
         
@@ -463,7 +479,7 @@ public class DependencyHandler implements ApplicationContextAware
                     in = this.remoteResourcesHandler.getRemoteResource(currPath);
                     if (in != null)
                     {
-                        addResourceInfoToCache(path, new RemoteResource(currPath));
+                        addResourceInfoToCache(path, new RemoteResource(currPath), callback);
                         in = this.getCachedResourceInfo(path).getInputStream();
                     }
                 }
@@ -476,7 +492,7 @@ public class DependencyHandler implements ApplicationContextAware
                 Resource r = applicationContext.getResource("classpath*:" + currPath);
                 if (r != null && r.exists())
                 {
-                    addResourceInfoToCache(path, new ApplicationContextResource(currPath));
+                    addResourceInfoToCache(path, new ApplicationContextResource(currPath), callback);
                     in = this.getCachedResourceInfo(path).getInputStream();
                 }
             }
@@ -492,7 +508,7 @@ public class DependencyHandler implements ApplicationContextAware
                 URL resourceUrl = ClassUtils.getDefaultClassLoader().getResource("META-INF/" + currPath);
                 if (resourceUrl != null)
                 {
-                    addResourceInfoToCache(path, new ClassLoaderResource(currPath));
+                    addResourceInfoToCache(path, new ClassLoaderResource(currPath), callback);
                     in = this.getCachedResourceInfo(path).getInputStream();
                 }
             }
@@ -510,7 +526,7 @@ public class DependencyHandler implements ApplicationContextAware
                     {
                         if (resource.exists())
                         {
-                            addResourceInfoToCache(path, new ServletContextRes(p));
+                            addResourceInfoToCache(path, new ServletContextRes(p), callback);
                             in = this.getCachedResourceInfo(path).getInputStream();
                         }
                     }
@@ -521,7 +537,7 @@ public class DependencyHandler implements ApplicationContextAware
         // If the input stream is still null, add a sentinel...
         if (in == null)
         {
-            addResourceInfoToCache(path, getResourceInfoSentinel());
+            addResourceInfoToCache(path, getResourceInfoSentinel(), callback);
         }
         return in;
     }
@@ -567,7 +583,8 @@ public class DependencyHandler implements ApplicationContextAware
      * @param resourceInfo A {@link ResourceInfo} object specifying where to obtain the resource.
      * @throws IOException 
      */
-    private void addResourceInfoToCache(String path, ResourceInfo resourceInfo) throws IOException
+    private void addResourceInfoToCache(String path, ResourceInfo resourceInfo, DependencyHandlerProcessingCallback callback)
+            throws IOException
     {
         String checksum = "";
         if (resourceInfo == getResourceInfoSentinel())
@@ -588,17 +605,17 @@ public class DependencyHandler implements ApplicationContextAware
                 if (in != null)
                 {
                     String resourceContents = convertResourceToString(in);
-                    if (this.webFrameworkConfigElement.isGenerateCssDataImagesEnabled() && path.toLowerCase().endsWith(CSS))
+                    
+                    // allow for a callback function to provide additional processing on the resource before it is stored
+                    if (callback != null)
                     {
-                        // If we're generating CSS data images for CSS files then do it now...
-                        StringBuilder processedContents = new StringBuilder(resourceContents);
-                        this.cssDataImageHandler.processCssImages(path, processedContents);
-                        resourceInfo.setContents(processedContents.toString());
-                        resourceContents = processedContents.toString(); // Make sure to update the contents so that the checksum is generated appropriately!
+                        resourceContents = callback.process(this, path, resourceContents);
+                        resourceInfo.setContents(resourceContents);
                     }
+                    
                     checksum = generateCheckSum(resourceContents);
-                    this.addChecksumToCache(path, checksum);
                 }
+                this.addChecksumToCache(path, checksum);
             }
         }
         
@@ -690,7 +707,7 @@ public class DependencyHandler implements ApplicationContextAware
      * the contents of the file. If the resource could not be found (or an error occurred attempted to read 
      * the resource contents into memory) then this will return <code>null</code>
      */
-    public String getChecksum(String path)
+    public String getChecksum(String path, DependencyHandlerProcessingCallback callback)
     {
         String checksum = lookupChecksumInCache(path);
         
@@ -699,7 +716,7 @@ public class DependencyHandler implements ApplicationContextAware
         {
             try
             {
-                this.getResourceInputStream(path);
+                this.getResourceInputStream(path, callback);
                 checksum = lookupChecksumInCache(path); 
             }
             catch (IOException e)

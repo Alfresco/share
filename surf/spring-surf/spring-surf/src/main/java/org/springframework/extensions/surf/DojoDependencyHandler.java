@@ -580,6 +580,8 @@ public class DojoDependencyHandler
                if (in != null)
                {
                    String textContents = this.dependencyHandler.convertResourceToString(in);
+                   // TODO: would this be better using a regex to replace in a single matcher/find/replace run?
+                   // see http://stackoverflow.com/questions/1326682/java-replacing-multiple-different-substring-in-a-string-at-once-or-in-the-most
                    textContents = textContents.replace('\'', '"').replace("\"", "\\\"").replace("\n", "").replace("\r", "");
                    currentDep.append(textContents);
                }

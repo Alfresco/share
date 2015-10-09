@@ -28,10 +28,12 @@ public class DependencyResource
 {
     private final String mimetype;
     private final byte[] content;
+    private final String charset;
     
     public DependencyResource(String mimetype, String content, String charset)
     {
         this.mimetype = mimetype;
+        this.charset = charset;
         try
         {
             this.content = content.getBytes(charset);
@@ -50,5 +52,18 @@ public class DependencyResource
     public byte[] getContent()
     {
         return content;
+    }
+    
+    @Override
+    public String toString()
+    {
+        try
+        {
+            return new String(this.content, this.charset);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return e.getMessage();
+        }
     }
 }

@@ -378,6 +378,7 @@
        <property name="remoteResourcesHandler"    ref="remote.resources.handler"/>
        <property name="scriptConfigModel"         ref="script.config.model.instance"/>
        <property name="cssDataImageHandler"       ref="css.data.image.handler"/>
+       <property name="cssThemeHandler"           ref="css.theme.handler"/>
        <property name="webFrameworkConfigElement" ref="webframework.config.element"/>
        <property name="resourceControllerMapping" value="/res" />
    </bean>
