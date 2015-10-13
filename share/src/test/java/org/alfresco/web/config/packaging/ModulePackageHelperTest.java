@@ -31,6 +31,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -62,9 +63,9 @@ public class ModulePackageHelperTest
         manifestFile.deleteOnExit();
         try (PrintWriter pw = new PrintWriter(manifestFile))
         {
-            pw.println(ModulePackageHelper.MANIFEST_SPECIFICATION_TITLE+": "+ModulePackageHelper.MANIFEST_SHARE);
-            pw.println(ModulePackageHelper.MANIFEST_SPECIFICATION_VERSION+": "+"5.1");
-            pw.println(ModulePackageHelper.MANIFEST_IMPLEMENTATION_TITLE+": "+ModulePackageHelper.MANIFEST_COMMUNITY);
+            pw.println(ShareManifest.MANIFEST_SPECIFICATION_TITLE+": "+ModulePackageHelper.MANIFEST_SHARE);
+            pw.println(ShareManifest.MANIFEST_SPECIFICATION_VERSION+": "+"5.1");
+            pw.println(ShareManifest.MANIFEST_IMPLEMENTATION_VERSION+": "+"5.1-SNAPSHOT");
         }
 
         // Create an instance of the class under test.
@@ -73,6 +74,31 @@ public class ModulePackageHelperTest
         // Normally handled by register(), but we don't want to have to deal
         // with mocking out all the details of a processor - just test the manifest related stuff.
         shareManifest.readManifest();
+    }
+
+    @Test
+    public void testValidVersion() throws IOException
+    {
+        assertEquals("5.1",shareManifest.getSpecificationVersion());
+        assertEquals("5.1-SNAPSHOT",shareManifest.getImplementationVersion());
+    }
+
+    @Test
+    public void testInValidVersion() throws IOException
+    {
+        File badFile = File.createTempFile("Bad Manifest", "MF");
+        badFile.deleteOnExit();
+        ShareManifest badManifest = new ShareManifest(new FileSystemResource(badFile));
+        badManifest.readManifest();
+        try
+        {
+            ModulePackageHelper.checkValid(null, badManifest);
+            fail("should throw the error");
+        } catch (AlfrescoRuntimeException expected)
+        {
+            assertTrue(expected.getMessage().contains("Share Specification-Version is missing"));
+            assertTrue(expected.getMessage().contains("Invalid MANIFEST.MF"));
+        }
     }
 
     @Test
