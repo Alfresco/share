@@ -10,6 +10,9 @@
         <fileSet>
             <directory>target/classes</directory>
             <outputDirectory></outputDirectory>
+            <excludes>
+                <exclude>**/bitrock/**</exclude>
+            </excludes>
         </fileSet>
         <!-- Keystore -->
         <fileSet>
