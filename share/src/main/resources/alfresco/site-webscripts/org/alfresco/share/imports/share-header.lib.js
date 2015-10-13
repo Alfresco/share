@@ -1772,7 +1772,7 @@ function getHeaderModel(pageTitle) {
     * If user is not Admin, and they belong to group GROUP_ALFRESCO_MODEL_ADMINISTRATORS, add model manager 
     * link to the share header.
     */
-   if (!user.isAdmin && (user.properties["alfUserGroups"].indexOf("GROUP_ALFRESCO_MODEL_ADMINISTRATORS") !== -1))
+   if (!user.isAdmin && (user.properties["alfUserGroups"] != null && user.properties["alfUserGroups"].indexOf("GROUP_ALFRESCO_MODEL_ADMINISTRATORS") !== -1))
    {
       addNonAdminAdministrativeMenuItem(headerModel, {
          id: "HEADER_CUSTOM_MODEL_MANAGER_CONSOLE",
