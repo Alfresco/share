@@ -1442,17 +1442,43 @@ function getHeaderServices() {
       var siteData = getSiteData();
       if (siteData != null)
       {
-         services.push({
-            name: "share/services/LeaveSiteService",
-            config: {
-               publishPayload: {
-                  site: page.url.templateArgs.site,
-                  siteTitle: siteData.profile.title,
-                  user: user.name,
-                  userFullName: user.fullName
+         if (siteData.profile.shortName == "")
+         {
+            services.push({
+               name: "share/services/UrlUnavailableService",
+               config: {
+                  httpStatusCode: 404,
+                  url: page.url.url
                }
+            });
+         }
+         else 
+         {
+            if (!user.isAdmin && siteData.profile.visibility != "PUBLIC" && siteData.userIsMember === false)
+            {
+               services.push({
+                  name: "share/services/UrlUnavailableService",
+                  config: {
+                     httpStatusCode: 401,
+                     url: page.url.url
+                  }
+               });
             }
-         });
+            else
+            {
+               services.push({
+                  name: "share/services/LeaveSiteService",
+                  config: {
+                     publishPayload: {
+                        site: page.url.templateArgs.site,
+                        siteTitle: siteData.profile.title,
+                        user: user.name,
+                        userFullName: user.fullName
+                     }
+                  }
+               });
+            }
+         }
       }
    }
    
