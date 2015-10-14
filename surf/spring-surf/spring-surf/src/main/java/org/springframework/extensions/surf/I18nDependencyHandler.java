@@ -20,8 +20,10 @@ package org.springframework.extensions.surf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,12 +34,14 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.springframework.extensions.config.WebFrameworkConfigElement;
 import org.springframework.extensions.surf.DojoDependencies.I18nDependency;
+import org.springframework.extensions.surf.util.CacheReport;
+import org.springframework.extensions.surf.util.CacheReporter;
 import org.springframework.extensions.surf.util.I18NUtil;
 import org.springframework.extensions.surf.util.StringBuilderWriter;
 import org.springframework.extensions.webscripts.WebScriptException;
 import org.springframework.extensions.webscripts.json.JSONWriter;
 
-public class I18nDependencyHandler
+public class I18nDependencyHandler implements CacheReporter
 {
     /**
      * A {@link DependencyHandler} is required for retrieving the properties file contents.
@@ -349,6 +353,7 @@ public class I18nDependencyHandler
     /**
      * Clears the cache.
      */
+    @Override
     public void clearCaches()
     {
         this.bundleCacheLock.writeLock().lock();
@@ -362,6 +367,35 @@ public class I18nDependencyHandler
         }
     }
     
+    @Override
+    public List<CacheReport> report()
+    {
+        List<CacheReport> reports = new ArrayList<>(3);
+        
+        long size = 0;
+        this.bundleCacheLock.writeLock().lock();
+        try
+        {
+            for (Map<Locale, Map<String, Object>> m : this.bundleCache.values())
+            {
+                for (Map<String, Object> b : m.values())
+                {
+                    for (Object o : b.values())
+                    {
+                        size += ((String)o).length()*2 + 64;
+                    }
+                }
+            }
+            reports.add(new CacheReport("bundleCache", this.bundleCache.size(), size));
+        }
+        finally
+        {
+            this.bundleCacheLock.writeLock().unlock();
+        }
+        
+        return reports;
+    }
+
     public DependencyHandler getDependencyHandler()
     {
         return dependencyHandler;

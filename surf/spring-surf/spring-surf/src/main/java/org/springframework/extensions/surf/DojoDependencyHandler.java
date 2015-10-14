@@ -20,6 +20,7 @@ package org.springframework.extensions.surf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +41,8 @@ import org.springframework.extensions.surf.DependencyAggregator.CompressionType;
 import org.springframework.extensions.surf.exception.PlatformRuntimeException;
 import org.springframework.extensions.surf.mvc.ResourceController;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
+import org.springframework.extensions.surf.util.CacheReport;
+import org.springframework.extensions.surf.util.CacheReporter;
 import org.springframework.extensions.webscripts.ScriptConfigModel;
 
 /**
@@ -47,7 +50,7 @@ import org.springframework.extensions.webscripts.ScriptConfigModel;
  * 
  * @author David Draper
  */
-public class DojoDependencyHandler
+public class DojoDependencyHandler implements CacheReporter
 {
     private static final Log logger = LogFactory.getLog(DojoDependencyHandler.class);
     
@@ -120,12 +123,12 @@ public class DojoDependencyHandler
      * <p>A {@link ReadWriteLock} to prevent multiple threads accessing the cache at the same time. Multiple
      * threads can read but only one thread can write.</p>
      */
-    private final ReadWriteLock depsLock = new ReentrantReadWriteLock();
+    private final ReadWriteLock cachedDepsLock = new ReentrantReadWriteLock();
     
     /**
      * <p>A map of paths to the dependencies required for the file on that path.</p>
      */
-    private final Map<String, DojoDependencies> cachedDeps = new HashMap<String, DojoDependencies>();
+    private final Map<String, DojoDependencies> cachedDeps = new HashMap<String, DojoDependencies>(1024);
     
     /**
      * <p>Checks for previously cached {@link DojoDependencies} for the supplied path.</p>
@@ -136,14 +139,14 @@ public class DojoDependencyHandler
     private DojoDependencies getCachedDeps(String path)
     {
         DojoDependencies deps = null;
-        this.depsLock.readLock().lock();
+        this.cachedDepsLock.readLock().lock();
         try
         {
             deps = this.cachedDeps.get(path);
         }
         finally
         {
-            this.depsLock.readLock().unlock();
+            this.cachedDepsLock.readLock().unlock();
         }
         return deps;
     }
@@ -156,14 +159,14 @@ public class DojoDependencyHandler
      */
     private void cacheDeps(String path, DojoDependencies deps)
     {
-        this.depsLock.writeLock().lock();
+        this.cachedDepsLock.writeLock().lock();
         try
         {
             this.cachedDeps.put(path, deps);
         }
         finally
         {
-            this.depsLock.writeLock().unlock();
+            this.cachedDepsLock.writeLock().unlock();
         }
     }
     
@@ -171,6 +174,7 @@ public class DojoDependencyHandler
      * Clears the caches stored in the <code>cachedDeps</code> and <code>generatedResourceCache</code> maps. 
      * This method has been provided to allow a WebScript to clear the caches of running systems.
      */
+    @Override
     public void clearCaches()
     {
         this.dependenciesChecksumLock.writeLock().lock();
@@ -182,14 +186,14 @@ public class DojoDependencyHandler
         {
             this.dependenciesChecksumLock.writeLock().unlock();
         }
-        this.depsLock.writeLock().lock();
+        this.cachedDepsLock.writeLock().lock();
         try
         {
             this.cachedDeps.clear();
         }
         finally
         {
-            this.depsLock.writeLock().unlock();
+            this.cachedDepsLock.writeLock().unlock();
         }
         this.cachedResourceLock.writeLock().lock();
         try
@@ -200,6 +204,52 @@ public class DojoDependencyHandler
         {
             this.cachedResourceLock.writeLock().unlock();
         }
+    }
+    
+    @Override
+    public List<CacheReport> report()
+    {
+        List<CacheReport> reports = new ArrayList<>(3);
+        
+        long size = this.dependenciesChecksumCache.size() * 512;
+        reports.add(new CacheReport("dependenciesChecksumCache", this.dependenciesChecksumCache.size(), size));
+        
+        size = 0;
+        this.cachedDepsLock.writeLock().lock();
+        try
+        {
+            for (DojoDependencies d : this.cachedDeps.values())
+            {
+                // add up each dojo dependency list - each has a number of file sets
+                size += d.getCssDeps().size() * 128;
+                size += d.getI18nDeps().size() * 128;
+                size += d.getJavaScriptDeps().size() * 128;
+                size += d.getNonAmdDependencies().size() * 128;
+                size += d.getTextDeps().size() * 128;
+            }
+            reports.add(new CacheReport("cachedDeps", this.cachedDeps.size(), size));
+        }
+        finally
+        {
+            this.cachedDepsLock.writeLock().unlock();
+        }
+        
+        size = 0;
+        this.cachedResourceLock.writeLock().lock();
+        try
+        {
+            for (String v : this.generatedResourceCache.values())
+            {
+                size += v.length()*2 + 128;
+            }
+            reports.add(new CacheReport("generatedResourceCache", this.generatedResourceCache.size(), size));
+        }
+        finally
+        {
+            this.cachedResourceLock.writeLock().unlock();
+        }
+        
+        return reports;
     }
     
     /**
@@ -359,7 +409,7 @@ public class DojoDependencyHandler
     /**
      * This {@link Map} is used to cache checksums of for a set of dependencies.
      */
-    private final Map<Object, String> dependenciesChecksumCache = new HashMap<Object, String>();
+    private final Map<String, String> dependenciesChecksumCache = new HashMap<String, String>();
     
     /**
      * This method is used to both generate the checksum for the supplied JavaScript source code and also to cache that generated

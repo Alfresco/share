@@ -48,6 +48,8 @@ import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.WebFrameworkConfigElement;
 import org.springframework.extensions.config.element.GenericConfigElement;
 import org.springframework.extensions.directives.DirectiveConstants;
+import org.springframework.extensions.surf.util.CacheReport;
+import org.springframework.extensions.surf.util.CacheReporter;
 import org.springframework.extensions.surf.util.StringBuilderWriter;
 import org.springframework.extensions.webscripts.ScriptConfigModel;
 import org.springframework.extensions.webscripts.servlet.mvc.ResourceController;
@@ -68,7 +70,7 @@ import org.springframework.web.context.support.ServletContextResource;
  * @author David Draper
  * @author Kevin Roast
  */
-public class DependencyHandler implements ApplicationContextAware
+public class DependencyHandler implements ApplicationContextAware, CacheReporter
 {
     public static final String CSS = ".css";
 
@@ -247,8 +249,8 @@ public class DependencyHandler implements ApplicationContextAware
      * the assumption that dynamic updating of resources (whilst the server is running) is not supported, i.e.
      * the cache will only get refreshed on server restart.</p>
      */
-    private final Map<String, String> cachedChecksumPaths = new HashMap<String, String>(32);
-    private final Map<String, String> cachedChecksums = new HashMap<String, String>(32);
+    private final Map<String, String> cachedChecksumPaths = new HashMap<String, String>(1024);
+    private final Map<String, String> cachedChecksums = new HashMap<String, String>(1024);
     
     /**
      * <p>This lock allows optimum performance when reading from and writing to the cache.</p>
@@ -386,7 +388,7 @@ public class DependencyHandler implements ApplicationContextAware
      * the assumption that dynamic updating of resources (whilst the server is running) is not supported, i.e.
      * the cache will only get refreshed on server restart.</p>
      */
-    private final Map<String, ResourceInfo> cachedResourceInfoMap = new HashMap<String, ResourceInfo>();
+    private final Map<String, ResourceInfo> cachedResourceInfoMap = new HashMap<String, ResourceInfo>(2048);
     
     /**
      * <p>This lock allows optimum performance when reading from and writing to the cache.</p>
@@ -818,6 +820,7 @@ public class DependencyHandler implements ApplicationContextAware
      * and <code>cachedChecksumPaths</code> maps. This method has been provided to allow a WebScript
      * to clear the caches of running systems.
      */
+    @Override
     public void clearCaches()
     {
         this.checksumsLock.writeLock().lock();
@@ -849,6 +852,67 @@ public class DependencyHandler implements ApplicationContextAware
         }
     }
     
+    @Override
+    public List<CacheReport> report()
+    {
+        List<CacheReport> reports = new ArrayList<>(3);
+        
+        long size = 0;
+        this.checksumsLock.writeLock().lock();
+        try
+        {
+            for (String v : this.cachedChecksums.keySet())
+            {
+                size += v.length()*2 + 64;
+            }
+            reports.add(new CacheReport("cachedChecksums", this.cachedChecksums.size(), size));
+        }
+        finally
+        {
+            this.checksumsLock.writeLock().unlock();
+        }
+        
+        size = 0;
+        this.resourceInfoLock.writeLock().lock();
+        try
+        {
+            for (ResourceInfo v : this.cachedResourceInfoMap.values())
+            {
+                if (v.path != null)
+                {
+                    size += v.path.length()*2;
+                    size += v.getContents() != null ? v.getContents().length()*2 : 32;
+                }
+                else
+                {
+                    size += 128;        // sentinel cache marker reference
+                }
+            }
+            reports.add(new CacheReport("cachedResourceInfoMap", this.cachedResourceInfoMap.size(), size));
+        }
+        finally
+        {
+            this.resourceInfoLock.writeLock().unlock();
+        }
+        
+        size = 0;
+        this.checksumPathsLock.writeLock().lock();
+        try
+        {
+            for (String v : this.cachedChecksumPaths.values())
+            {
+                size += v.length()*2 + (v.length()+64)*2;
+            }
+            reports.add(new CacheReport("cachedChecksumPaths", this.cachedChecksumPaths.size(), size));
+        }
+        finally
+        {
+            this.checksumPathsLock.writeLock().unlock();
+        }
+        
+        return reports;
+    }
+
     private final static String[] hex = {
         "00", "01", "02", "03", "04", "05", "06", "07",
         "08", "09", "0a", "0b", "0c", "0d", "0e", "0f",
@@ -1004,7 +1068,7 @@ public class DependencyHandler implements ApplicationContextAware
         /**
          * <p>The path that identifies the resource.</p>
          */
-        protected String path;
+        final protected String path;
         protected ResourceInfo(String path)
         {
             this.path = path;

@@ -44,6 +44,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.element.GenericConfigElement;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
+import org.springframework.extensions.surf.util.CacheReport;
+import org.springframework.extensions.surf.util.CacheReporter;
 import org.springframework.extensions.webscripts.ScriptConfigModel;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -54,7 +56,7 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 import com.yahoo.platform.yui.javascript.ErrorReporter;
 import com.yahoo.platform.yui.javascript.EvaluatorException;
 
-public class DependencyAggregator implements ApplicationContextAware
+public class DependencyAggregator implements ApplicationContextAware, CacheReporter
 {
     private static final Log logger = LogFactory.getLog(DependencyAggregator.class);
     
@@ -234,9 +236,11 @@ public class DependencyAggregator implements ApplicationContextAware
     public enum CompressionType
     {
         JAVASCRIPT("text/javascript", ".js"), CSS("text/css", ".css");
-        private String mimetype = null;
-        private String fileExtension = null;
-        private CompressionType(String mimetype, String fileExtension)
+        
+        private final String mimetype;
+        private final String fileExtension;
+        
+        private CompressionType(final String mimetype, final String fileExtension)
         {
             this.mimetype = mimetype;
             this.fileExtension = fileExtension;
@@ -345,10 +349,7 @@ public class DependencyAggregator implements ApplicationContextAware
                             // The file could not be found, generate an error but don't fail the process.
                             // If a file is requested by a browser that does not exist we would not necessarily
                             // expect the page to fail if it does not truly depend upon that file.
-                            if (logger.isErrorEnabled())
-                            {
-                                logger.error("Could not retrieve path:" + path);
-                            }
+                            logger.error("Could not retrieve path:" + path);
                         }
                         else
                         {
@@ -360,10 +361,7 @@ public class DependencyAggregator implements ApplicationContextAware
                 }
                 catch (IOException e)
                 {
-                    if (logger.isErrorEnabled())
-                    {
-                        logger.error("An exception occurred compressing: " + path);
-                    }
+                    logger.error("An exception occurred compressing: " + path);
                 }
             }
             
@@ -406,8 +404,8 @@ public class DependencyAggregator implements ApplicationContextAware
      * During development and/or migration the server should be shutdown before updating files.</p> 
      */
     private Map<Set<String>, String> fileSetToMD5Map = null;
-    private Map<String, String> compressedJSResources = new HashMap<String, String>();
-    private Map<String, String> compressedCSSResources = new HashMap<String, String>();
+    private Map<String, String> compressedJSResources = new HashMap<String, String>(1024);
+    private Map<String, String> compressedCSSResources = new HashMap<String, String>(32);
     private Map<String, DependencyResource> combinedDependencyMap = null;
     
     // Locks for accessing caches...
@@ -600,6 +598,7 @@ public class DependencyAggregator implements ApplicationContextAware
         this.getCombinedDependencyCache().put(checksum, content);
     }
     
+    @Override
     public void clearCaches()
     {
         this.fileSetToMD5MapLock.writeLock().lock();
@@ -639,6 +638,81 @@ public class DependencyAggregator implements ApplicationContextAware
         {
             this.combinedDependencyMapLock.writeLock().unlock();
         }
+    }
+    
+    @Override
+    public List<CacheReport> report()
+    {
+        List<CacheReport> reports = new ArrayList<>(4);
+        
+        long size = 0;
+        if (this.fileSetToMD5Map != null)
+        {
+            this.fileSetToMD5MapLock.writeLock().lock();
+            try
+            {
+                for (Set<String> v : this.fileSetToMD5Map.keySet()) // oddly for this cache, the key is the weight
+                {
+                    for (String p: v) size += p.length()*2;
+                    size += 64;
+                }
+                reports.add(new CacheReport("fileSetToMD5Map", this.fileSetToMD5Map.size(), size));
+            }
+            finally
+            {
+                this.fileSetToMD5MapLock.writeLock().unlock();
+            }
+        }
+        
+        size = 0;
+        this.compressedJSResourcesLock.writeLock().lock();
+        try
+        {
+            for (String v : this.compressedJSResources.values())
+            {
+                size += v.length()*2 + 64;
+            }
+            reports.add(new CacheReport("compressedJSResources", this.compressedJSResources.size(), size));
+        }
+        finally
+        {
+            this.compressedJSResourcesLock.writeLock().unlock();
+        }
+        
+        size = 0;
+        this.compressedCSSResourcesLock.writeLock().lock();
+        try
+        {
+            for (String v : this.compressedCSSResources.values())
+            {
+                size += v.length()*2 + 64;
+            }
+            reports.add(new CacheReport("compressedCSSResources", this.compressedCSSResources.size(), size));
+        }
+        finally
+        {
+            this.compressedCSSResourcesLock.writeLock().unlock();
+        }
+        
+        size = 0;
+        if (this.combinedDependencyMap != null)
+        {
+            this.combinedDependencyMapLock.writeLock().lock();
+            try
+            {
+                for (DependencyResource d : this.combinedDependencyMap.values())
+                {
+                    size += d.getContent().length*2 + 64;
+                }
+                reports.add(new CacheReport("combinedDependencyMap", this.combinedDependencyMap.size(), size));
+            }
+            finally
+            {
+                this.combinedDependencyMapLock.writeLock().unlock();
+            }
+        }
+        
+        return reports;
     }
     
     /**
@@ -937,9 +1011,7 @@ public class DependencyAggregator implements ApplicationContextAware
                     {
                         // An exception occurred compressing the file. 
                         if (logger.isWarnEnabled())
-                        {
                             logger.warn("The file: \"" + path + "\" could not be compressed due to the following error: ", e);
-                        }
                         
                         // Generate a String of the uncompressed file...
                         compressedFile = IOUtils.toString(in, this.charset);
@@ -992,7 +1064,7 @@ public class DependencyAggregator implements ApplicationContextAware
            }
            catch (Exception e)
            {
-              logger.error("Compression error: ", e);
+               logger.error("Compression error: ", e);
            }
         } 
         else
