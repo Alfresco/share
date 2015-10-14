@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Cache Report</shortname>
+  <description>Provides sizing report information on all caches within the Surf web-framework.</description>
+  <url>/caches/report</url>
+  <authentication>admin</authentication>
+  <lifecycle>internal</lifecycle>
+  <family>Caching</family>
+</webscript>

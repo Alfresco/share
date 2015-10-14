@@ -556,6 +556,10 @@
       <property name="i18nDependencyHandler" ref="i18n.dependency.handler" />
    </bean>
    
+   <!-- This bean backs the cache report WebScript to report cache size and status on a running system -->
+   <bean id="webscript.caching.report.get" class="org.springframework.extensions.surf.webscripts.GetCacheReport" parent="webscript" scope="prototype">
+   </bean>
+   
    <!-- This bean builds aggregated CSS and JavaScript resources for the requested dependencies -->
    <bean id="webscript.resources.xhr-dependencies.get" class="org.springframework.extensions.surf.webscripts.XhrDependencies" parent="webscript" scope="prototype">
       <property name="dependencyAggregator"  ref="dependency.aggregator" />
