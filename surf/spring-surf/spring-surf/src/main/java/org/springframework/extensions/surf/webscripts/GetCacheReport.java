@@ -19,6 +19,7 @@ package org.springframework.extensions.surf.webscripts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +59,7 @@ public class GetCacheReport extends DeclarativeWebScript
         
         // ask each bean supporting the interface to return information on its internal cache state and size
         // we then construct a model of those reports for each bean with some simple meta information on each cache
-        List<List<Map<String, Object>>> modelBeans = new ArrayList<>();
+        Map<String, List<Map<String, Object>>> modelBeans = new LinkedHashMap<>();
         for (String bean: beans.keySet())
         {
             CacheReporter reporter = beans.get(bean);
@@ -76,7 +77,7 @@ public class GetCacheReport extends DeclarativeWebScript
                 modelBeanReporterReport.put("size", report.getValueSizeEstimate());
                 modelBeanReporter.add(modelBeanReporterReport);
             }
-            modelBeans.add(modelBeanReporter);
+            modelBeans.put(bean, modelBeanReporter);
         }
         model.put("reports", modelBeans);
         

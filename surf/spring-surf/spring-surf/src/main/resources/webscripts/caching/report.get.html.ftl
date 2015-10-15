@@ -12,14 +12,15 @@
          </table>
          <table>
             <tr align="left">
-               <td><b>Cache Name</b></td>
-               <td><b>Entries</b></td>
-               <td><b>Size (bytes, approx)</b></td>
+               <th><b>Cache Bean</b></th>
+               <th><b>Entries</b></th>
+               <th><b>Size (bytes, approx)</b></th>
             </tr>
-         <#list reports as cache>
-            <#list cache as report>
+         <#list reports?keys as cache>
+            <tr><td colspan="3"><b>${cache?html}</b></td></tr>
+            <#list reports[cache] as report>
             <tr>
-               <td>${report.name?html}</td>
+               <td>&nbsp;&nbsp;&nbsp;${report.name?html}</td>
                <td>${report.count}</td>
                <td>${report.size}</td>
             </tr>
