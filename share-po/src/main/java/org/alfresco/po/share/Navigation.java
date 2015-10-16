@@ -146,7 +146,7 @@ public class Navigation extends PageElement
         }
     }
 
-    @FindBy(id = "HEADER_USER_MENU_POPUP_text")
+    @FindBy(id = "HEADER_USER_MENU_BAR")
     WebElement userDropdown;
 
     /**
@@ -845,8 +845,23 @@ public class Navigation extends PageElement
     public HtmlPage selectManageCustomModelsPage()
     {
         String msg = "Unable to select appropriate menu option for manage custom models";
+
         try
         {
+        	//Check if modal is already open
+        	WebElement cancelBtn = driver.findElement(By.cssSelector("span[id$='CANCEL_label']"));
+        	if(cancelBtn.isDisplayed())
+        	{
+        		cancelBtn.click();
+        	}
+        }
+        catch(Exception e)
+        {
+        	//ignore as might not meet the condition
+        }
+        try
+        {
+
         	if (hasAdminToolsLink())
             {
                 return selectManageCustomModelsRepoAdmin();
