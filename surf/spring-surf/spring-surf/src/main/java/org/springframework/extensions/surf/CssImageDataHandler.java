@@ -31,6 +31,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.extensions.surf.util.Base64;
+import org.springframework.extensions.surf.util.CacheReport;
+import org.springframework.extensions.surf.util.CacheReporter;
 
 /**
  * <p>This class provides the capability to search through CSS resources and convert all URL references to be Base64 encoded data. This
@@ -41,7 +43,7 @@ import org.springframework.extensions.surf.util.Base64;
  * 
  * @author David Draper
  */
-public class CssImageDataHandler
+public class CssImageDataHandler implements CacheReporter
 {
     private static final Log logger = LogFactory.getLog(DependencyHandler.class);
     
@@ -327,7 +329,7 @@ public class CssImageDataHandler
      * <p>A cache of previously encoded images. A single image might be used multiple times within one or more
      * CSS files so there is no point in repeatedly encoding it.</p>
      */
-    private Map<String, String> encodedImageCache = new HashMap<String, String>();
+    private Map<String, String> encodedImageCache = new HashMap<String, String>(256);
     
     /**
      * <p>The empty String is used as the missing image sentinel. We cannot use null as this will indicate that
@@ -471,4 +473,41 @@ public class CssImageDataHandler
             return new byte[16384];
         }
     };
+    
+    @Override
+    public void clearCaches()
+    {
+        this.encodedImageCacheLock.writeLock().lock();
+        try
+        {
+            this.encodedImageCache.clear();
+        }
+        finally
+        {
+            this.encodedImageCacheLock.writeLock().unlock();
+        }
+    }
+    
+    @Override
+    public List<CacheReport> report()
+    {
+        List<CacheReport> reports = new ArrayList<>(1);
+        
+        long size = 0;
+        this.encodedImageCacheLock.writeLock().lock();
+        try
+        {
+            for (String v : this.encodedImageCache.values())
+            {
+                size += v.length()*2 + 128;
+            }
+            reports.add(new CacheReport("encodedImageCache", this.encodedImageCache.size(), size));
+        }
+        finally
+        {
+            this.encodedImageCacheLock.writeLock().unlock();
+        }
+        
+        return reports;
+    }
 }

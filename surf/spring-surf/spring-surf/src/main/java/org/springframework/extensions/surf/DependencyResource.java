@@ -17,28 +17,43 @@
  */
 package org.springframework.extensions.surf;
 
-import java.io.UnsupportedEncodingException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * <p>Defines key information required for handling dependency resources.</p> 
+ * 
  * @author David Draper
  * @author Kevin Roast
  */
-public class DependencyResource
+public final class DependencyResource
 {
     private final String mimetype;
     private final byte[] content;
     private final String charset;
+    private int length;
     
+    /**
+     * Create a Dependency Resource - compressing the given content before storing it.
+     */
     public DependencyResource(String mimetype, String content, String charset)
     {
         this.mimetype = mimetype;
         this.charset = charset;
+        this.length = content.length();
         try
         {
-            this.content = content.getBytes(charset);
+            // GZIP the content string into an array of compressed bytes
+            ByteArrayOutputStream bao = new ByteArrayOutputStream(this.length >> 2 > 32 ? this.length >> 2 : 32);
+            GZIPOutputStream gzos = new GZIPOutputStream(bao);
+            gzos.write(content.getBytes(charset));
+            gzos.close();
+            this.content = bao.toByteArray();
         }
-        catch (UnsupportedEncodingException e)
+        catch (IOException e)
         {
             throw new RuntimeException(e);
         }
@@ -51,7 +66,30 @@ public class DependencyResource
 
     public byte[] getContent()
     {
-        return content;
+        try
+        {
+            // unzip our byte array and return the raw byte data - this is generally streamed back to a client
+            GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(this.content));
+            byte[] buf = new byte[4096*2];
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(this.length);
+            int len;
+            while ((len=gzip.read(buf, 0, buf.length)) != -1)
+            {
+               bos.write(buf, 0, len);
+            }
+            bos.close();
+            gzip.close();
+            return bos.toByteArray();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /*package*/ int getStoredSize()
+    {
+        return this.content.length;
     }
     
     @Override
@@ -59,9 +97,9 @@ public class DependencyResource
     {
         try
         {
-            return new String(this.content, this.charset);
+            return new String(getContent(), this.charset);
         }
-        catch (UnsupportedEncodingException e)
+        catch (IOException e)
         {
             return e.getMessage();
         }

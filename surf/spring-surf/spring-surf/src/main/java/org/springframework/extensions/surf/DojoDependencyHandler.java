@@ -45,6 +45,9 @@ import org.springframework.extensions.surf.util.CacheReport;
 import org.springframework.extensions.surf.util.CacheReporter;
 import org.springframework.extensions.webscripts.ScriptConfigModel;
 
+import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
+import com.googlecode.concurrentlinkedhashmap.Weighers;
+
 /**
  * <p>This bean provides a way of ensuring that Dojo requested dependency file contents are modified to reference MD5 checksum codes</p>
  * 
@@ -180,7 +183,7 @@ public class DojoDependencyHandler implements CacheReporter
         this.dependenciesChecksumLock.writeLock().lock();
         try
         {
-           this.dependenciesChecksumCache.clear();
+           this.dependenciesChecksumCache = null;
         }
         finally
         {
@@ -198,7 +201,7 @@ public class DojoDependencyHandler implements CacheReporter
         this.cachedResourceLock.writeLock().lock();
         try
         {
-            this.generatedResourceCache.clear();
+            this.generatedResourceCache = null;
         }
         finally
         {
@@ -211,8 +214,12 @@ public class DojoDependencyHandler implements CacheReporter
     {
         List<CacheReport> reports = new ArrayList<>(3);
         
-        long size = this.dependenciesChecksumCache.size() * 512;
-        reports.add(new CacheReport("dependenciesChecksumCache", this.dependenciesChecksumCache.size(), size));
+        long size = 0;
+        if (this.dependenciesChecksumCache != null)
+        {
+            size = this.dependenciesChecksumCache.size() * 512;
+            reports.add(new CacheReport("dependenciesChecksumCache", this.dependenciesChecksumCache.size(), size));
+        }
         
         size = 0;
         this.cachedDepsLock.writeLock().lock();
@@ -221,11 +228,11 @@ public class DojoDependencyHandler implements CacheReporter
             for (DojoDependencies d : this.cachedDeps.values())
             {
                 // add up each dojo dependency list - each has a number of file sets
-                size += d.getCssDeps().size() * 128;
-                size += d.getI18nDeps().size() * 128;
-                size += d.getJavaScriptDeps().size() * 128;
-                size += d.getNonAmdDependencies().size() * 128;
-                size += d.getTextDeps().size() * 128;
+                size += d.getCssDeps().size() * 256;
+                size += d.getI18nDeps().size() * 256;
+                size += d.getJavaScriptDeps().size() * 256;
+                size += d.getNonAmdDependencies().size() * 256;
+                size += d.getTextDeps().size() * 256;
             }
             reports.add(new CacheReport("cachedDeps", this.cachedDeps.size(), size));
         }
@@ -235,18 +242,21 @@ public class DojoDependencyHandler implements CacheReporter
         }
         
         size = 0;
-        this.cachedResourceLock.writeLock().lock();
-        try
+        if (this.dependenciesChecksumCache != null)
         {
-            for (String v : this.generatedResourceCache.values())
+            this.cachedResourceLock.writeLock().lock();
+            try
             {
-                size += v.length()*2 + 128;
+                for (DependencyResource v : this.generatedResourceCache.values())
+                {
+                    size += v.getStoredSize() + 256;
+                }
+                reports.add(new CacheReport("generatedResourceCache", this.generatedResourceCache.size(), size));
             }
-            reports.add(new CacheReport("generatedResourceCache", this.generatedResourceCache.size(), size));
-        }
-        finally
-        {
-            this.cachedResourceLock.writeLock().unlock();
+            finally
+            {
+                this.cachedResourceLock.writeLock().unlock();
+            }
         }
         
         return reports;
@@ -355,7 +365,31 @@ public class DojoDependencyHandler implements CacheReporter
     /**
      * This {@link Map} is used to cache all of the resources that have been generated.
      */
-    private final Map<String, String> generatedResourceCache = new HashMap<String, String>();
+    private Map<String, DependencyResource> generatedResourceCache = null;
+    
+    private Map<String, DependencyResource> getGeneratedResourceCache()
+    {
+        if (this.generatedResourceCache == null)
+        {
+            this.cachedResourceLock.writeLock().lock();
+            try
+            {
+                if (this.generatedResourceCache == null)
+                {
+                    this.generatedResourceCache = new ConcurrentLinkedHashMap.Builder<String, DependencyResource>()
+                            .maximumWeightedCapacity(this.dependencyAggregator.cacheSize)
+                            .concurrencyLevel(16)
+                            .weigher(Weighers.singleton())
+                            .build();
+                }
+            }
+            finally
+            {
+                this.cachedResourceLock.writeLock().unlock();
+            }
+        }
+        return this.generatedResourceCache;
+    }
     
     /**
      * Attempts to retrieve a generated JavaScript resource that has been previously cached. The resource will be present
@@ -367,14 +401,17 @@ public class DojoDependencyHandler implements CacheReporter
     public String getCachedResource(String path)
     {
         String resource = null;
-        this.cachedResourceLock.readLock().lock();
         try
         {
-            resource = this.generatedResourceCache.get(path);
+            DependencyResource res = getGeneratedResourceCache().get(path);
+            if (res != null)
+            {
+                resource = new String(res.getContent(), "UTF-8");
+            }
         }
-        finally
+        catch (IOException e)
         {
-            this.cachedResourceLock.readLock().unlock();
+            throw new RuntimeException(e);
         }
         return resource;
     }
@@ -389,15 +426,7 @@ public class DojoDependencyHandler implements CacheReporter
      */
     private void cacheResource(String checksum, String resource)
     {
-        this.cachedResourceLock.writeLock().lock();
-        try
-        {
-            this.generatedResourceCache.put(checksum, resource);
-        }
-        finally
-        {
-            this.cachedResourceLock.writeLock().unlock();
-        }
+        getGeneratedResourceCache().put(checksum, new DependencyResource(null, resource, "UTF-8"));
     }
     
     /**
@@ -409,7 +438,31 @@ public class DojoDependencyHandler implements CacheReporter
     /**
      * This {@link Map} is used to cache checksums of for a set of dependencies.
      */
-    private final Map<String, String> dependenciesChecksumCache = new HashMap<String, String>();
+    private Map<String, String> dependenciesChecksumCache = null;
+    
+    private Map<String, String> getDependenciesChecksumCache()
+    {
+        if (this.dependenciesChecksumCache == null)
+        {
+            this.dependenciesChecksumLock.writeLock().lock();
+            try
+            {
+                if (this.dependenciesChecksumCache == null)
+                {
+                    this.dependenciesChecksumCache = new ConcurrentLinkedHashMap.Builder<String, String>()
+                            .maximumWeightedCapacity(this.dependencyAggregator.cacheSize)
+                            .concurrencyLevel(16)
+                            .weigher(Weighers.singleton())
+                            .build();
+                }
+            }
+            finally
+            {
+                this.dependenciesChecksumLock.writeLock().unlock();
+            }
+        }
+        return this.dependenciesChecksumCache;
+    }
     
     /**
      * This method is used to both generate the checksum for the supplied JavaScript source code and also to cache that generated
@@ -440,17 +493,7 @@ public class DojoDependencyHandler implements CacheReporter
             final Map<String, DojoDependencies> dependencies, final String pagePath, final DojoDependencies pageDeps)
     {
         final String key;
-        String checksum;
-        this.dependenciesChecksumLock.readLock().lock();
-        try
-        {
-            checksum = this.dependenciesChecksumCache.get(key = getBuildKeyForDependencies(dependencies));
-        }
-        finally
-        {
-            this.dependenciesChecksumLock.readLock().unlock();
-        }
-        
+        String checksum = getDependenciesChecksumCache().get(key = getBuildKeyForDependencies(dependencies));
         if (checksum == null)
         {
             // Construct the aggregated output - this is where the bulk of the processing is done.
@@ -469,15 +512,7 @@ public class DojoDependencyHandler implements CacheReporter
                 throw new PlatformRuntimeException("IO error during dependency aggregation: " + e.getMessage(), e);
             }
             checksum = this.getChecksumPathForDependencies(aggregatedOutput.toString());
-            this.dependenciesChecksumLock.writeLock().lock();
-            try
-            {
-                this.dependenciesChecksumCache.put(key, checksum);
-            }
-            finally
-            {
-                this.dependenciesChecksumLock.writeLock().unlock();
-            }
+            getDependenciesChecksumCache().put(key, checksum);
         }
         
         return checksum;

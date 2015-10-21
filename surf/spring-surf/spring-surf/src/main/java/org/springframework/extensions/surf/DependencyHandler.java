@@ -885,7 +885,7 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
                 }
                 else
                 {
-                    size += 128;        // sentinel cache marker reference
+                    size += 16;         // sentinel cache marker reference
                 }
             }
             reports.add(new CacheReport("cachedResourceInfoMap", this.cachedResourceInfoMap.size(), size));
@@ -901,7 +901,7 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
         {
             for (String v : this.cachedChecksumPaths.values())
             {
-                size += v.length()*2 + (v.length()+64)*2;
+                size += v.length()*2;
             }
             reports.add(new CacheReport("cachedChecksumPaths", this.cachedChecksumPaths.size(), size));
         }

@@ -454,8 +454,9 @@
           </list>
        </property>
        
-       <!-- size of file set to MD5 checksum cache in entries -->
-       <property name="cacheSize" value="10240"/>
+       <!-- size of file set to MD5 checksum cache in entries -
+            effectively this means the max number of Aikau based pages in the cache before oldest are discarded (LRU eviction strategy) -->
+       <property name="cacheSize" value="256"/>
        
    </bean>
    

@@ -50,6 +50,7 @@ import org.springframework.extensions.webscripts.ScriptConfigModel;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
+import com.googlecode.concurrentlinkedhashmap.EvictionListener;
 import com.googlecode.concurrentlinkedhashmap.Weighers;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
@@ -79,7 +80,7 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
     public static final String INLINE_AGGREGATION_MARKER = ">>>";
     
     /** Set the size of the file cache for MD5 checksums */
-    public int cacheSize = 10240;
+    public int cacheSize = 256;
     public void setCacheSize(int cacheSize)
     {
         this.cacheSize = cacheSize;
@@ -404,9 +405,10 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
      * During development and/or migration the server should be shutdown before updating files.</p> 
      */
     private Map<Set<String>, String> fileSetToMD5Map = null;
-    private Map<String, String> compressedJSResources = new HashMap<String, String>(1024);
-    private Map<String, String> compressedCSSResources = new HashMap<String, String>(32);
-    private Map<String, DependencyResource> combinedDependencyMap = null;
+    private Map<String, String> compressedJSResources = new HashMap<>(1024);
+    private Map<String, String> compressedCSSResources = new HashMap<>(32);
+    // NOTE: cache eviction from this map is managed by the fileSetToMD5Map implementation EvictionListener - see getFileSetChecksumCache()
+    private Map<String, DependencyResource> combinedDependencyMap = new HashMap<>(256);
     
     // Locks for accessing caches...
     private ReentrantReadWriteLock fileSetToMD5MapLock = new ReentrantReadWriteLock();
@@ -417,7 +419,7 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
     /**
      * This checks the cache to see if the requested set of files has previously been used to generate
      * an aggregated resource. The supplied fileset is updated to include the current theme id to ensure
-     * that theme specific resources are returned (the theme id is removed after the cached is checked).
+     * that theme specific resources are returned (the theme id is removed after the cache is checked).
      * 
      * @param fileSet Set<String>
      * @return String
@@ -429,6 +431,21 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
         String checksum = this.getFileSetChecksumCache().get(fileSet);
         fileSet.remove(themeId);
         return checksum;
+    }
+    
+    /**
+     * Caches a generated aggregated resource checksum against the fileset that it was
+     * generated against. The current theme id is added to the fileset to ensure that
+     * resources are cached per theme.
+     * 
+     * @param fileSet Set<String>
+     * @param checksum String
+     */
+    protected void cacheChecksumForFileSet(Set<String> fileSet, String checksum)
+    {
+        String themeId = ThreadLocalRequestContext.getRequestContext().getThemeId();
+        fileSet.add(themeId);
+        this.getFileSetChecksumCache().put(fileSet, checksum);
     }
     
     /**
@@ -452,6 +469,27 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
                              .maximumWeightedCapacity(this.cacheSize)
                              .concurrencyLevel(16)
                              .weigher(Weighers.singleton())
+                             .listener(new EvictionListener<Set<String>, String>() {
+                                    /**
+                                     * Listener called when a key/value pair is evicted from the cache - we use this to ensure the validity
+                                     * of the combinedDependencyMap cache in which data must exist when a user attempts to view a page with
+                                     * a previously cached value - as it will have been written to the page as a resource checksum link.
+                                     */
+                                    @Override
+                                    public void onEviction(Set<String> key, String value)
+                                    {
+                                        // the value in this cache is the 'checksum' which is used as the key in the dependency Map cache
+                                        combinedDependencyMapLock.writeLock().lock();
+                                        try
+                                        {
+                                            combinedDependencyMap.remove(value);
+                                        }
+                                        finally
+                                        {
+                                            combinedDependencyMapLock.writeLock().unlock();
+                                        }
+                                    }
+                                })
                              .build();
                 }
             }
@@ -461,21 +499,6 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
             }
         }
         return this.fileSetToMD5Map;
-    }
-    
-    /**
-     * Caches a generated aggregated resource checksum against the fileset that it was
-     * generated against. The current theme id is added to the fileset to ensure that
-     * resources are cached per theme.
-     * 
-     * @param fileSet Set<String>
-     * @param checksum String
-     */
-    protected void cacheChecksumForFileSet(Set<String> fileSet, String checksum)
-    {
-        String themeId = ThreadLocalRequestContext.getRequestContext().getThemeId();
-        fileSet.add(themeId);
-        this.getFileSetChecksumCache().put(fileSet, checksum);
     }
     
     public String getCachedCompressedJSResource(String path)
@@ -559,43 +582,28 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
      */
     public DependencyResource getCachedDependencyResource(String checksum)
     {
-        DependencyResource dependencyResource = this.getCombinedDependencyCache().get(checksum);
-        return dependencyResource;
-    }
-    
-    /**
-     * Retrieves the the cached map of checksums to aggregated resources (and creates 
-     * a new map if one doesn't already exist)
-     * 
-     * @return Map
-     */
-    protected Map<String, DependencyResource> getCombinedDependencyCache()
-    {
-        if (this.combinedDependencyMap == null)
+        this.combinedDependencyMapLock.readLock().lock();
+        try
         {
-            this.combinedDependencyMapLock.writeLock().lock();
-            try
-            {
-                if (this.combinedDependencyMap == null)
-                {
-                    this.combinedDependencyMap = new ConcurrentLinkedHashMap.Builder<String, DependencyResource>()
-                            .maximumWeightedCapacity(this.cacheSize)
-                            .concurrencyLevel(16)
-                            .weigher(Weighers.singleton())
-                            .build();
-                }
-            }
-            finally
-            {
-                this.combinedDependencyMapLock.writeLock().unlock();
-            }
+            return this.combinedDependencyMap.get(checksum);
         }
-        return this.combinedDependencyMap;
+        finally
+        {
+            this.combinedDependencyMapLock.readLock().unlock();
+        }
     }
     
     protected void cacheDependencyResource(String checksum, DependencyResource content)
     {
-        this.getCombinedDependencyCache().put(checksum, content);
+        this.combinedDependencyMapLock.writeLock().lock();
+        try
+        {
+            this.combinedDependencyMap.put(checksum, content);
+        }
+        finally
+        {
+            this.combinedDependencyMapLock.writeLock().unlock();
+        }
     }
     
     @Override
@@ -632,7 +640,7 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
         this.combinedDependencyMapLock.writeLock().lock();
         try
         {
-            this.combinedDependencyMap = null;
+            this.combinedDependencyMap.clear();
         }
         finally
         {
@@ -685,7 +693,7 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
         {
             for (String v : this.compressedCSSResources.values())
             {
-                size += v.length()*2 + 64;
+                size += v.length()*2;
             }
             reports.add(new CacheReport("compressedCSSResources", this.compressedCSSResources.size(), size));
         }
@@ -695,21 +703,18 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
         }
         
         size = 0;
-        if (this.combinedDependencyMap != null)
+        this.combinedDependencyMapLock.writeLock().lock();
+        try
         {
-            this.combinedDependencyMapLock.writeLock().lock();
-            try
+            for (DependencyResource d : this.combinedDependencyMap.values())
             {
-                for (DependencyResource d : this.combinedDependencyMap.values())
-                {
-                    size += d.getContent().length*2 + 64;
-                }
-                reports.add(new CacheReport("combinedDependencyMap", this.combinedDependencyMap.size(), size));
+                size += d.getStoredSize();
             }
-            finally
-            {
-                this.combinedDependencyMapLock.writeLock().unlock();
-            }
+            reports.add(new CacheReport("combinedDependencyMap", this.combinedDependencyMap.size(), size));
+        }
+        finally
+        {
+            this.combinedDependencyMapLock.writeLock().unlock();
         }
         
         return reports;
