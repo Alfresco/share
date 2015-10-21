@@ -501,6 +501,7 @@
          // No records, display the empty container and exit
          Dom.removeClass(emptyContainer, 'hidden');
          Dom.setStyle(emptyContainer, 'height', 'auto');
+         scope.widgets.dataTable.fireEvent('tableMsgShowEvent', {html: emptyContainer.innerHTML});
          return;
       }
       Dom.addClass(emptyContainer, 'hidden');
