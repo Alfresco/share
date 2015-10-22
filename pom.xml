@@ -38,7 +38,8 @@
         <dependency.aikau.version>1.0.36.5</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
-        <dependency.alfresco-core.version>5.2</dependency.alfresco-core.version>
+        <dependency.alfresco-core.version>5.2.2</dependency.alfresco-core.version>
+        <dependency.httpcomponents.version>4.5.1</dependency.httpcomponents.version>
 
         <dependency.alfresco-jlan.version>5.2</dependency.alfresco-jlan.version>
         <dependency.webscripts.version>5.5</dependency.webscripts.version>
@@ -129,6 +130,16 @@
                 <groupId>org.springframework.extensions.surf</groupId>
                 <artifactId>spring-surf-core-configservice</artifactId>
                 <version>${dependency.webscripts.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.apache.httpcomponents</groupId>
+               <artifactId>httpclient</artifactId>
+               <version>${dependency.httpcomponents.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.apache.httpcomponents</groupId>
+               <artifactId>httpmime</artifactId>
+               <version>${dependency.httpcomponents.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
