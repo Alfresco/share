@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
+import org.alfresco.po.RenderWebElement;
 import org.alfresco.po.share.site.SitePage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,6 +31,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * Site Calendar Page object
@@ -43,7 +45,8 @@ public class CalendarPage extends SitePage
     private Log logger = LogFactory.getLog(this.getClass());
 
     int waitInMilliSeconds = 2000;
-
+    @RenderWebElement 
+    @FindBy(id="HEADER_SITE_CALENDAR") private WebElement calendarHeader;
     private static final By ADD_EVENT = By.cssSelector("#template_x002e_toolbar_x002e_calendar_x0023_default-addEvent-button-button");
     private static final By TAB_CONTAINER = By.cssSelector("div[id*='defaultView']");
 
@@ -1278,4 +1281,9 @@ public class CalendarPage extends SitePage
         }
         return size;
     }
+
+	public void closeEventDialog() 
+	{
+		driver.findElement(By.cssSelector("div#eventInfoPanel a.container-close")).click();
+	}
 }
