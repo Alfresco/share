@@ -21,9 +21,13 @@
             <button id="${el}-button-cancel" name="cancel">${msg("button.cancel")}</button>
          </div>
          <div class="extra-links">
-            <a target="_blank" href="http://www.alfresco.com/cloud?utm_source=AlfEnt4&utm_medium=anchor&utm_campaign=claimnetwork" class="theme-color-1">No Account? Sign up for free</a>
+            <a target="_blank" href="http://www.alfresco.com/cloud?utm_source=AlfEnt4&utm_medium=anchor&utm_campaign=claimnetwork" class="theme-color-1">
+                ${msg("label.signup")}
+            </a>
             <span class="cloud-core-login-separator">|</span>
-            <a target="_blank" href="https://my.alfresco.com/share/page/forgot-password" class="theme-color-1">Forgot password?</a>
+            <a target="_blank" href="https://my.alfresco.com/share/page/forgot-password" class="theme-color-1">
+                ${msg("label.forgot-password")}
+            </a>
          </div>
       </form>
    </div>
