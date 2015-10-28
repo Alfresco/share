@@ -40,6 +40,7 @@
          
          <#if field.disabled == false>
             <input type="hidden" id="${fieldHtmlId}" name="${field.name}" value="${field.value?html}" />
+            <input type="hidden" id="${fieldHtmlId}_isCategory" name="${field.name}_isCategory" value="true" />
             <div id="${controlId}-itemGroupActions" class="show-picker inlineable"></div>
             
             <#if field.control.params.showSubCategoriesOption?? && field.control.params.showSubCategoriesOption == "true">
