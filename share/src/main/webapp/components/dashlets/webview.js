@@ -142,6 +142,7 @@
          {
             // Iframe itself
             this.widgets.iframe.src = this.options.webviewURI;
+            this.widgets.iframe.setAttribute("sandbox","allow-same-origin allow-forms allow-scripts");
 
             // Title link
             this.widgets.iframeTitle.href = this.options.webviewURI;
