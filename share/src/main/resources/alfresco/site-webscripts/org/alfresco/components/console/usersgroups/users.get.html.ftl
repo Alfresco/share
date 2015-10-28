@@ -64,6 +64,7 @@
                <div id="${el}-search-bar" class="search-bar theme-bg-color-3">${msg("message.noresults")}</div>
                <div class="results" id="${el}-datatable"></div>
             </div>
+            <div id="${el}-paginator" class="paginator" >&nbsp;</div>
          </div>
          
          <!-- Upload CSV results panel -->

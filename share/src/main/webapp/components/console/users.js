@@ -53,7 +53,7 @@
       Alfresco.util.ComponentManager.register(this);
 
       /* Load YUI Components */
-      Alfresco.util.YUILoaderHelper.require(["button", "container", "datasource", "datatable", "json", "history"], this.onComponentsLoaded, this);
+      Alfresco.util.YUILoaderHelper.require(["button", "container", "datasource", "datatable", "paginator", "json", "history"], this.onComponentsLoaded, this);
 
       /* Decoupled event listeners */
       YAHOO.Bubbling.on("viewUserClick", this.onViewUserClick, this);
@@ -83,6 +83,29 @@
           * @type Boolean
           */
          isSearching: false,
+
+         /**
+          * Keeps track of currently seelected user
+          *
+          * @property selectedUser
+          * @type String
+          */
+         selectedUser: null,
+		 
+		 /**
+		 * Deauthorize dialog
+		 */
+		 deauthorizeDialog: null,
+
+         /**
+         * Reauthorize dialog
+         */
+         reauthorizeDialog: null,
+
+         /**
+         * Original messages(labels) for upload dialog
+         */
+         fileUploadOriginalMessages: null,
 
 
          /**
@@ -123,61 +146,14 @@
                failureMessage: parent._msg("message.authenticationdetails-failure", $html(parent.group))
             });
 
-            // DataTable and DataSource setup
-            parent.widgets.dataSource = new YAHOO.util.DataSource(Alfresco.constants.PROXY_URI + "api/people",
-            {
-               responseType: YAHOO.util.DataSource.TYPE_JSON,
-               responseSchema:
-               {
-                  resultsList: "people",
-                  metaFields:
-                  {
-                     recordOffset: "startIndex",
-                     totalRecords: "totalRecords"
-                  }
-               }
-            });
-
-            var me = this;
-
-            // Work to be performed after data has been queried but before display by the DataTable
-            parent.widgets.dataSource.doBeforeParseData = function PeopleFinder_doBeforeParseData(oRequest, oFullResponse)
-            {
-               var updatedResponse = oFullResponse;
-
-               if (oFullResponse)
-               {
-                  var items = oFullResponse.people;
-
-                  // remove GUEST(s)
-                  for (var i = 0; i < items.length; i++)
-                  {
-                      if (items[i].userName == "guest" || items[i].userName.indexOf("guest&") == 0)
-                      {
-                         items.splice(i, 1);
-                      }
-                  }
-
-                  // we need to wrap the array inside a JSON object so the DataTable gets the object it expects
-                  updatedResponse =
-                  {
-                     "people": items
-                  };
-               }
-
-               // update Results Bar message with number of results found
-               if (items.length < parent.options.maxSearchResults)
-               {
-                  me._setResultsMessage("message.results", $html(parent.searchTerm), items.length);
-               }
-               else
-               {
-                  me._setResultsMessage("message.maxresults", parent.options.maxSearchResults);
-               }
-
-               return updatedResponse;
-            };
-
+            
+            
+               
+                  
+                  
+               
+               
+            
             // Setup the main datatable
             this._setupDataTable();
 
@@ -217,19 +193,24 @@
                var me = this;
 
                // Reset the custom error messages
-               me._setDefaultDataTableErrors(parent.widgets.dataTable);
+               me._setDefaultDataTableErrors(parent.widgets.pagingDataTable.widgets.dataTable);
 
                // Don't display any message
-               parent.widgets.dataTable.set("MSG_EMPTY", parent._msg("message.searching"));
+               parent.widgets.pagingDataTable.widgets.dataTable.set("MSG_EMPTY", parent._msg("message.searching"));
 
                // Empty results table
-               parent.widgets.dataTable.deleteRows(0, parent.widgets.dataTable.getRecordSet().getLength());
+               var startShowIndex =  parent.widgets.pagingDataTable.widgets.dataTable.getRecordSet().getLength() - parent.widgets.pagingDataTable.currentMaxItems;
+               parent.widgets.pagingDataTable.widgets.dataTable.deleteRows(startShowIndex, parent.widgets.pagingDataTable.widgets.dataTable.getRecordSet().getLength());
+
+               //Clear sorting in paginator
+               parent.widgets.pagingDataTable.currentSortKey = null;
+               parent.widgets.pagingDataTable.currentDir = null;
 
                var successHandler = function ConsoleUsers__ps_successHandler(sRequest, oResponse, oPayload)
                {
                   me._enableSearchUI();
-                  me._setDefaultDataTableErrors(parent.widgets.dataTable);
-                  parent.widgets.dataTable.onDataReturnInitializeTable.call(parent.widgets.dataTable, sRequest, oResponse, oPayload);
+                  me._setDefaultDataTableErrors(parent.widgets.pagingDataTable.widgets.dataTable);
+                  parent.widgets.pagingDataTable.widgets.dataTable.onDataReturnInitializeTable.call(parent.widgets.pagingDataTable.widgets.dataTable, sRequest, oResponse, oPayload);
                };
 
                var failureHandler = function ConsoleUsers__ps_failureHandler(sRequest, oResponse)
@@ -245,24 +226,25 @@
                      try
                      {
                         var response = YAHOO.lang.JSON.parse(oResponse.responseText);
-                        parent.widgets.dataTable.set("MSG_ERROR", response.message);
-                        parent.widgets.dataTable.showTableMessage(Alfresco.util.encodeHTML(response.message), YAHOO.widget.DataTable.CLASS_ERROR);
+                        parent.widgets.pagingDataTable.widgets.dataTable.set("MSG_ERROR", response.message);
+                        parent.widgets.pagingDataTable.widgets.dataTable.showTableMessage(Alfresco.util.encodeHTML(response.message), YAHOO.widget.DataTable.CLASS_ERROR);
                         me._setResultsMessage("message.noresults");
                      }
                      catch(e)
                      {
-                        me._setDefaultDataTableErrors(parent.widgets.dataTable);
+                        me._setDefaultDataTableErrors(parent.widgets.pagingDataTable.widgets.dataTable);
                      }
                   }
                };
 
                // Send the query to the server
                // ... with hint to use CQ for user admin page (note: passed via searchTerm in lieu of a change in the /api/people API)
-               parent.widgets.dataSource.sendRequest(me._buildSearchParams(parent.searchTerm + " [hint:useCQ]"),
+               parent.widgets.pagingDataTable.widgets.dataSource.sendRequest(me._buildSearchParams(parent.searchTerm + " [hint:useCQ]") + "&startIndex=0&pageSize=" + parent.options.maxSearchResults,
                {
                   success: successHandler,
                   failure: failureHandler,
-                  scope: parent
+                  scope: parent,
+				  argument: {}
                });
                me._setResultsMessage("message.searchingFor", $html(parent.searchTerm));
 
@@ -322,6 +304,91 @@
              */
 
             /**
+             * Select user custom datacell formatter
+             *
+             * @method renderCellDeauthorizeAction
+             */
+            var renderCellDeauthorizeAction = function renderCellDeauthorizeAction(elCell, oRecord, oColumn, oData)
+            {
+               var authorizationStatus = oRecord.getData("authorizationStatus");
+               if ("NEVER_AUTHORIZED" != authorizationStatus)
+               {
+                  var isAdminAuthority = oRecord.getData("isAdminAuthority");
+                  var isAuthorized = (authorizationStatus == "AUTHORIZED");
+                  var title = "";
+                  var isDisabled = false;
+                  var buttonClass = "";
+
+                  if(isAdminAuthority && isAuthorized)
+                  {
+                     title = parent.msg("deauthorize.dialog.cannot.deauthorize.admin");
+                     isDisabled = true;
+                     buttonClass = "deauthorize-disabled";
+                  }
+                  else
+                  {
+                     if(isAuthorized)
+                     {
+                        buttonClass = "deauthorize-enabled";
+                     }
+                     else
+                     {
+                        buttonClass = "reauthorize-enabled";
+                     }
+                  }
+
+                  var button = new YAHOO.widget.Button(
+                  {
+                     container : elCell,
+                     title: title,
+                     disabled : isDisabled
+                  });
+
+                  button.addClass(buttonClass);
+
+                  if (isAuthorized)
+                  {
+                     button.on("click", function(e)
+                     {
+                        parent.selectedUser = oRecord.getData("userName");
+                        parent.onDeauthorizedButtonClick(e,elCell);
+                     }, null, parent);
+                  }
+                  else
+                  {
+                     button.on("click", function(e)
+                     {
+                        parent.selectedUser = oRecord.getData("userName");
+                        parent.onReauthorizedButtonClick(e,elCell,parent);
+                     }, null, parent);
+                  }
+               }
+            };
+            
+            /**
+             * User authorization state custom datacell formatter
+             *
+             * @method renderCellAuthorizationStatus
+             */
+            var renderCellAuthorizationStatus = function renderCellAuthorizationStatus(elCell, oRecord, oColumn, oData)
+            {
+               elCell.innerHTML = $html(parent._msg("label.authorization.status." + oData));
+            };
+            
+            /**
+             * User isDeleted state custom datacell formatter
+             *
+             * @method renderCellAuthorizationStatus
+             */
+            var renderCellIsDeletedStatus = function renderCellIsDeletedStatus(elCell, oRecord, oColumn, oData)
+            {
+               if (oRecord.getData("isDeleted"))
+               {
+                  elCell.innerHTML = $html(parent._msg("label.authorization.deleted"));
+               }
+            };
+
+            /**
              * User avatar custom datacell formatter
              *
              * @method renderCellAvatar
@@ -337,6 +404,10 @@
                if (oRecord.getData("avatar") !== undefined)
                {
                   avatarUrl = Alfresco.constants.PROXY_URI + oRecord.getData("avatar") + "?c=queue&ph=true";
+               }
+               if (oRecord.getData("isDeleted"))
+               {
+                  avatarUrl = Alfresco.constants.URL_RESCONTEXT + "components/images/deleted-user-photo-64.png";
                }
                Dom.setStyle(elCell, "background-image", "url('" + avatarUrl + "')");
                Dom.setStyle(elCell, "background-repeat", "no-repeat");
@@ -354,22 +425,25 @@
              */
             var renderCellFullName = function renderCellFullName(elCell, oRecord, oColumn, oData)
             {
-               // Create view userlink
-               var firstName = oRecord.getData("firstName"),
-                  lastName = oRecord.getData("lastName"),
-                  name = firstName + ' ' + (lastName ? lastName : ""),
-                  viewUserLink = document.createElement("a");
-               viewUserLink.innerHTML = $html(name);
-
-               // fire the 'viewUserClick' event when the selected user in the list has changed
-               YAHOO.util.Event.addListener(viewUserLink, "click", function(e)
+               if (!oRecord.getData("isDeleted"))
                {
-                  YAHOO.Bubbling.fire('viewUserClick',
+                  // Create view userlink
+                  var firstName = oRecord.getData("firstName"),
+                     lastName = oRecord.getData("lastName"),
+                     name = firstName + ' ' + (lastName ? lastName : ""),
+                     viewUserLink = document.createElement("a");
+                  viewUserLink.innerHTML = $html(name);
+
+                  // fire the 'viewUserClick' event when the selected user in the list has changed
+                  YAHOO.util.Event.addListener(viewUserLink, "click", function(e)
                   {
-                     username: oRecord.getData("userName")
-                  });
-               }, null, parent);
-               elCell.appendChild(viewUserLink);
+                     YAHOO.Bubbling.fire('viewUserClick',
+                     {
+                        username: oRecord.getData("userName")
+                     });
+                  }, null, parent);
+                  elCell.appendChild(viewUserLink);
+               }
             };
 
             /**
@@ -444,36 +518,86 @@
                { key: "quota", label: parent._msg("label.quota"), sortable: true, sortOptions: {sortFunction: sortCellQuota}, formatter: renderCellQuota }
             ];
 
-            // DataTable definition
-            parent.widgets.dataTable = new YAHOO.widget.DataTable(parent.id + "-datatable", columnDefinitions, parent.widgets.dataSource,
+            if (parent.options.showAuthorizationStatus == true)
             {
-               initialLoad: false,
-               renderLoopSize: 32,
-               dynamicData: true,
-               sortedBy:
+               columnDefinitions.push({ key: "authorizationStatus", label: parent._msg("label.authorization"), sortable: true, formatter: renderCellAuthorizationStatus });
+               columnDefinitions.push({ key: "isDeleted", label: parent._msg("label.authorization.isdeleted"), sortable: true, formatter: renderCellIsDeletedStatus });
+               columnDefinitions.push({ key: "deauthorizeAction", label: parent._msg("label.authorization.actions"), sortable: false, formatter: renderCellDeauthorizeAction });
+            }
+
+            var me = this;
+            var meParent = parent;
+
+            parent.widgets.pagingDataTable = new Alfresco.util.DataTable(
+            {
+               dataTable:
                {
-                  key: "userName",
-                  dir: "asc"
+                  config:
+                  {
+                     generateRequest:  function(oState, oSelf) 
+                     {
+                        var startIndex = (oState.pagination.page - 1 )*oState.pagination.rowsPerPage;
+                        var sort = encodeURIComponent((oState.sortedBy) ? oState.sortedBy.key : oSelf.getColumnSet().keys[0].getKey());
+                        var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+
+                        //Save current sort for paging
+                        meParent.widgets.pagingDataTable.currentSortKey = sort;
+                        meParent.widgets.pagingDataTable.currentDir = dir;
+
+                        // Build the request
+                        var query =  "?sortBy=" + sort + "&dir=" + dir;
+
+                        if (parent.searchTerm)
+                        {
+                           query = query + "&filter=" + encodeURIComponent(parent.searchTerm) + "&startIndex=" + startIndex + "&pageSize=" + oState.pagination.rowsPerPage;
+                        }
+
+                        return query;
+                     }
+                  },
+                  container: parent.id + "-datatable",
+                  columnDefinitions: columnDefinitions
                },
-               generateRequest:  function(oState, oSelf) {
-
-               // Set defaults
-               oState = oState || {pagination:null, sortedBy:null};
-               var sort = encodeURIComponent((oState.sortedBy) ? oState.sortedBy.key : oSelf.getColumnSet().keys[0].getKey());
-               var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
-
-               // Build the request
-               var query =  "?sortBy=" + sort + "&dir=" + dir;
-
-               if (parent.searchTerm)
+               dataSource:
                {
-                  query = query + "&filter=" + encodeURIComponent(parent.searchTerm);
+                  url: Alfresco.constants.PROXY_URI + "api/people",
+                  pagingResolver: function (currentSkipCount, currentMaxItems, currentSortKey, currentDir)
+                  {
+                     // People webscript uses other pagination parameters than the default setting
+                     return "startIndex=" + currentSkipCount + "&" + "pageSize=" + currentMaxItems + "&" + me._buildSearchParams(parent.searchTerm + " [hint:useCQ]").substring(1) + "&sortBy=" + currentSortKey + "&dir=" + currentDir;
+                  },   
+                  defaultFilter:
+                  {
+                     filterId: "all" 
+                  },
+                  config:
+                  {
+                     responseType: YAHOO.util.DataSource.TYPE_JSON,
+                     responseSchema:
+                     {
+                        resultsList: "people"
+                     }   
+                  }
+               },
+               paginator:
+               {
+                  history: false,
+                  hide: false,
+                  config:
+                  {
+                     containers: [parent.id+ "-paginator"],
+                     rowsPerPage: parent.options.maxSearchResults
+                  }
                }
-
-               return query;
-               },
-               MSG_EMPTY: parent._msg("message.empty")
             });
+            
+            //Show total number of search result
+            parent.widgets.pagingDataTable.widgets.dataSource.doBeforeParseData = function PeopleFinder_doBeforeParseData(oRequest, oFullResponse)
+            {
+               me._setResultsMessage("message.results", $html(parent.searchTerm), oFullResponse.paging.totalItems);
+               
+               return oFullResponse;
+            };
          },
 
          /**
@@ -500,7 +624,7 @@
           */
          _buildSearchParams: function _buildSearchParams(searchTerm)
          {
-            return "?filter=" + encodeURIComponent(searchTerm) + "&maxResults=" + parent.options.maxSearchResults;
+            return "?filter=" + encodeURIComponent(searchTerm);
          },
 
          /**
@@ -1424,7 +1548,16 @@
           * @type int
           * @default 3
           */
-         minPasswordLength: 3
+         minPasswordLength: 3,
+         
+         /**
+          * Specifies whether authorization status should be displayed
+          * 
+          * @property showAuthorizationStatus
+          * @type boolean
+          * @default false
+          */
+         showAuthorizationStatus: false
       },
 
       /**
@@ -1549,7 +1682,7 @@
          var searchTerm = YAHOO.lang.trim(searchTermElem.value);
 
          // inform the user if the search term entered is too small
-         if (searchTerm.replace(/\*/g, "").length < this.options.minSearchTermLength)
+         if (searchTerm.length < this.options.minSearchTermLength)
          {
             Alfresco.util.PopupManager.displayMessage(
             {
@@ -1557,10 +1690,196 @@
             });
             return;
          }
-
+         
          this.refreshUIState({"search": searchTerm});
       },
 
+      /**
+       * Deauthorized button click event handler
+       *
+       * @method onDeauthorizedButtonClick
+       * @param e {object} DomEvent
+       * @param args {array} Event parameters (depends on event type)
+       */
+      onDeauthorizedButtonClick: function ConsoleUsers_onDeauthorizedButtonClick(e, cell)
+      {
+        var me = this;
+
+         var buttons =
+         [
+            {
+               text: this.msg("deauthorize.dialog.deauthorize.confirm.ok"),
+               handler: function ConsoleUsers_onDeauthorizedButtonClick_deauthorize()
+               {
+                  this.hide();
+         
+                  Alfresco.util.Ajax.request(
+                  {
+                     method: Alfresco.util.Ajax.POST,
+                     url: Alfresco.constants.PROXY_URI + "api/deauthorize",
+                     requestContentType: Alfresco.util.Ajax.JSON,
+                     dataObj: 
+                     {
+                        username: me.selectedUser
+                     },
+                     successCallback:
+                     {
+                        fn: function onDeauthorizeSuccess()
+                        {
+                           Alfresco.util.PopupManager.displayMessage(
+                           {
+                              text: me.msg("message.deauthorize.success")
+                           })
+                           YAHOO.lang.later(2000, this, function()
+                           {
+                              window.location.reload();
+                           });
+                        },
+                        scope: me
+                     },
+                     failureCallback: 
+                     {
+                        fn: function onDeauthorizeFailure(o)
+                        {
+                           var serverMessage = YAHOO.lang.JSON.parse(o.serverResponse.responseText).message;
+                           Alfresco.util.PopupManager.displayPrompt(
+                           {
+                              text: me.msg("message.deauthorize.failure", serverMessage)
+                           })
+                        },
+                        scope: me
+                     }
+                  });
+               }
+            },
+            {
+               text: this.msg("deauthorize.dialog.deauthorize.confirm.cancel"),
+               handler: function ConsoleUsers_onDeauthorizedButtonClick_cancel()
+               {
+                  this.hide();
+               },
+               isDefault: true
+            }
+         ];
+
+         this.deauthorizeDialog = new YAHOO.widget.Dialog(this.id+ "-deauthorizeuserdialog",
+         {
+            width: "35em",
+            modal: true,
+            fixedcenter : true,
+            close: false,
+            buttons: buttons
+         });
+   
+         var deauthHeader = this.msg("deauthorize.dialog.header", this.selectedUser);
+         var deauthCheckboxMessage = this.msg("deauthorize.dialog.checkbox.message");
+         var body=this.msg("deauthorize.dialog.message", this.selectedUser) + "<br><br>&nbsp;&nbsp;<input type=\"checkbox\" name=\"isAgreed\" id=\"isAgreedID\" value=\"1\" />&nbsp;" + deauthCheckboxMessage;
+   
+         this.deauthorizeDialog.setHeader(deauthHeader);	
+         this.deauthorizeDialog.setBody(body);
+   
+         //get current row and render on it's first child
+         this.deauthorizeDialog.render(cell.parentNode.parentNode.firstChild);
+   
+         this.deauthorizeDialog.getButtons()[0]._setDisabled(true);
+   
+         var checkBoxEl = Dom.get("isAgreedID");
+         YAHOO.util.Event.addListener(checkBoxEl, "change", function(e,obj)
+         {
+            me.deauthorizeDialog.getButtons()[0]._setDisabled(!obj.checked);
+         }, checkBoxEl, this);
+   
+         this.deauthorizeDialog.show();
+      },
+         
+      /**
+       * Reauthorized button click event handler
+       *
+       * @method onDeauthorizedButtonClick
+       * @param e {object} DomEvent
+       * @param args {array} Event parameters (depends on event type)
+       */
+      onReauthorizedButtonClick: function ConsoleUsers_onReauthorizedButtonClick(e, cell, parent)
+      {
+         var me = this;
+         var success = function(res)
+         {
+            if (!me.reauthorizeDialog)
+            {
+               me.reauthorizeDialog = Alfresco.util.ComponentManager.findFirst("Alfresco.HtmlUpload") 
+            }
+         
+            // Show uploader for single file select - override the upload URL to use appropriate upload service
+            var uploadConfig =
+            {
+               uploadURL: "api/enterprise/restoredb",
+               mode: me.reauthorizeDialog.MODE_SINGLE_UPLOAD,
+               onFileUploadComplete:
+               {
+                  fn: function(res)
+                  {
+                     if(res.successful[0].response.status.result != "success")
+                     {
+                        Alfresco.util.PopupManager.displayMessage(
+                        {
+                           text: parent._msg("reauthorize.dialog.fail"),
+                           effect: null
+                        });
+                     }
+                     else
+                     {
+                        Alfresco.util.PopupManager.displayMessage(
+                        {
+                           text: parent._msg("reauthorize.dialog.success"),
+                           effect: null
+                        });	
+                     }
+                     YAHOO.lang.later(2000, this, function()
+                     {
+                        window.location.reload();
+                     });
+                  },
+                  scope: me
+               }
+            };
+         
+            me.reauthorizeDialog.show(uploadConfig);
+
+            var extesnsionSpan = Dom.get(me.reauthorizeDialog.id + "-extension-message");
+            var selectFileMessage = Dom.get(me.reauthorizeDialog.id + "-select-file-message");
+ 
+            if (!me.fileUploadOriginalMessages)
+            {
+               me.fileUploadOriginalMessages = {};
+               me.fileUploadOriginalMessages.originalExtesnsionSpan = extesnsionSpan.innerHTML;
+               me.fileUploadOriginalMessages.originalSelectFileMessage = selectFileMessage.innerHTML;
+               me.fileUploadOriginalMessages.originalTitle = me.reauthorizeDialog.widgets.titleText.innerHTML;
+               me.fileUploadOriginalMessages.originalTitleUploadButtonLable = me.reauthorizeDialog.widgets.uploadButton._button.innerHTML;
+            }
+ 
+            me.reauthorizeDialog.widgets.titleText.innerHTML = parent._msg("reauthorize.dialog.title", me.selectedUser);
+            me.reauthorizeDialog.widgets.uploadButton._button.innerHTML = parent._msg("reauthorize.dialog.button.ok");  
+            extesnsionSpan.innerHTML = parent._msg("reauthorize.dialog.message", me.selectedUser + ":" + YAHOO.lang.JSON.parse(res.serverResponse.responseText).restoreKey);
+            selectFileMessage.innerHTML = "";
+         
+            // Make sure the "use Flash" tip is hidden just in case Flash is enabled...
+            var singleUploadTip = Dom.get(me.reauthorizeDialog.id + "-singleUploadTip-span");
+            Dom.addClass(singleUploadTip, "hidden");
+            Event.preventDefault(e);
+         };
+ 
+         Alfresco.util.Ajax.request(
+         {
+            url: Alfresco.constants.PROXY_URI + "api/enterprise/restoredb?username=" +  encodeURIComponent(me.selectedUser),
+            method: Alfresco.util.Ajax.GET,
+            successCallback:
+            {
+               fn: success,
+               scope: parent
+            }
+         });
+      },
+         
       /**
        * Upload Users button click event handler
        *
@@ -1590,6 +1909,18 @@
             }
          };
 
+         if (this.fileUploadOriginalMessages) 
+         {
+            //Message of upload dialog was changed in reauthorize method. Get back original messages
+            var extesnsionSpan = Dom.get(this.fileUpload.id + "-extension-message");
+            var selectFileMessage = Dom.get(this.fileUpload.id + "-select-file-message");
+ 
+            extesnsionSpan.innerHTML = this.fileUploadOriginalMessages.originalExtesnsionSpan;
+            selectFileMessage.innerHTML = this.fileUploadOriginalMessages.originalSelectFileMessage;
+            this.fileUpload.widgets.titleText.innerHTML = this.fileUploadOriginalMessages.originalTitle;
+            this.fileUpload.widgets.uploadButton._button.innerHTML = this.fileUploadOriginalMessages.originalTitleUploadButtonLable;
+         }
+   
          this.fileUpload.show(uploadConfig);
 
          // Make sure the "use Flash" tip is hidden just in case Flash is enabled...
@@ -1790,6 +2121,10 @@
        */
       onCreateUserCancelClick: function ConsoleUsers_onCreateUserCancelClick(e, args)
       {
+         if (this.widgets.selectedItem)
+         {
+            this.widgets.selectedItem.set("disabled", true);
+         }
          this.refreshUIState({"panel": "search"});
       },
 
