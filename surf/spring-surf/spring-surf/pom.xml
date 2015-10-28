@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
-	<parent>
-		<groupId>org.springframework.extensions.surf</groupId>
-		<artifactId>spring-surf-parent</artifactId>
-		<version>5.2-SNAPSHOT</version>
-		<relativePath>../../pom.xml</relativePath>
-	</parent>
-	
-	<artifactId>spring-surf</artifactId>
-	<name>Spring Surf</name>
-	<description>Spring Surf</description>
-	<url>spring-surf/${project.artifactId}</url>
-	<packaging>jar</packaging>
-	<build>
-	    <plugins>
-	        <plugin>
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.springframework.extensions.surf</groupId>
+      <artifactId>spring-surf-parent</artifactId>
+      <version>5.2-SNAPSHOT</version>
+      <relativePath>../../pom.xml</relativePath>
+   </parent>
+
+   <artifactId>spring-surf</artifactId>
+   <name>Spring Surf</name>
+   <description>Spring Surf</description>
+   <url>spring-surf/${project.artifactId}</url>
+   <packaging>jar</packaging>
+   <build>
+       <plugins>
+           <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
@@ -24,13 +24,13 @@
                         <suiteXmlFile>src/test/resources/readWriteTests.xml</suiteXmlFile>
                         <!-- <suiteXmlFile>src/test/resources/readOnlyTests.xml</suiteXmlFile> -->
                         <!-- <suiteXmlFile>src/test/resources/configOverrideTests.xml</suiteXmlFile> -->
-                        <!-- <suiteXmlFile>src/test/resources/groovyTests.xml</suiteXmlFile> -->                        
+                        <!-- <suiteXmlFile>src/test/resources/groovyTests.xml</suiteXmlFile> -->
                     </suiteXmlFiles>
                 </configuration>
-            </plugin>	    
-	    </plugins>
-	</build>
-	<dependencies>
+            </plugin>
+       </plugins>
+   </build>
+   <dependencies>
       <dependency>
          <groupId>org.testng</groupId>
          <artifactId>testng</artifactId>
