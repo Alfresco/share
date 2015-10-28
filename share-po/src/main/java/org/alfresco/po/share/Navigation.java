@@ -139,10 +139,11 @@ public class Navigation extends PageElement
         {
             // Wait is applied as the link is within a java script.
             siteDropdown.click();
+            driver.findElement(By.id("HEADER_SITES_MENU_dropdown")).isDisplayed();
         }
-        catch (TimeoutException te)
+        catch (NoSuchElementException te)
         {
-            throw new PageOperationException("Exceeded time to find the Sites dropdown css.", te);
+            throw new PageOperationException("Unable to find site dropdown.", te);
         }
     }
 
