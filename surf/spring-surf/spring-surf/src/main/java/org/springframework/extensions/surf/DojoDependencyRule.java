@@ -218,7 +218,7 @@ public class DojoDependencyRule
             }
             
             // Add the dependency prior to the "!" as this should still map to a JavaScript file...
-            String pluginDep = dependency.substring(0, dependency.indexOf("!"));
+            String pluginDep = dependency.substring(dependency.indexOf("!") + 1);
             String pluginPath = this.dojoDependencyHandler.getPath(sourcePath, pluginDep) + ".js";
             addJavaScriptDependency(dependencies, pluginPath);
             
