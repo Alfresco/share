@@ -1,5 +1,0 @@
-<webscript>
-  <shortname>Workflow List</shortname>
-  <description>Component for displaying the user's workflows</description>
-  <url>/components/workflow/workflow-list</url>
-</webscript>

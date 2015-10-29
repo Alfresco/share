@@ -1,5 +1,0 @@
-<webscript>
-  <shortname>Rules Header</shortname>
-  <description>Rule header with actions that can be applied to a folder</description>
-  <url>/components/rules/rules-header</url>
-</webscript>

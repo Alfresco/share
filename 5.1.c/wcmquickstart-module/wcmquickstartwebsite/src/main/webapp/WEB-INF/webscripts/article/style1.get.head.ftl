@@ -1,1 +1,0 @@
-<@startTemplate toolbarLocation="top"/>

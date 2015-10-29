@@ -1,8 +1,0 @@
-<chrome>
-    <id>component_freemarker-chrome</id>
-	<title>Freemarker Based Chrome</title>
-    <processor mode="view">
-        <id>webtemplate</id>
-        <uri>chrome/component_freemarker-chrome.ftl</uri>
-    </processor>
-</chrome>

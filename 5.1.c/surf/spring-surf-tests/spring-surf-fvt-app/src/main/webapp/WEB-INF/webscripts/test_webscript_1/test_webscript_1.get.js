@@ -1,1 +1,0 @@
-model.message = "Test_WebScript_1";

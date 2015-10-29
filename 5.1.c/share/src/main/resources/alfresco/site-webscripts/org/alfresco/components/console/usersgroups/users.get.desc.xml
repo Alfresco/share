@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>Admin Console Users Tool</shortname>
-  <description>Administration Console - User Management Tool</description>
-  <url>/components/console/users</url>
-  <family>admin-console</family>
-</webscript>

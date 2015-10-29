@@ -1,1 +1,0 @@
-model.domain="http://www.yourdomain.com";

@@ -1,1 +1,0 @@
-<@region id="hide-footer" target="footer" action="remove" />

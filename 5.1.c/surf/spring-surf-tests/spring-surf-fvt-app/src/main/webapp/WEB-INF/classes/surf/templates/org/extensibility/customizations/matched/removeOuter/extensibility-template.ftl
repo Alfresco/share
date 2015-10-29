@@ -1,1 +1,0 @@
-<@markup id="RemoveAll" target="outer" action="remove"/>

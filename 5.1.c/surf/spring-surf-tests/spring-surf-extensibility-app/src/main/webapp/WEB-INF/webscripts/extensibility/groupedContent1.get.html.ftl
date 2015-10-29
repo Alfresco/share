@@ -1,1 +1,0 @@
-<div>Grouped content 1</div>

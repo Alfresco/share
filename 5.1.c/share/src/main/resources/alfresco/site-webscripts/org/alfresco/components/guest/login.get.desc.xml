@@ -1,5 +1,0 @@
-<webscript>
-   <shortname>Login</shortname>
-   <description>Login form using the guest dialog</description>
-   <url>/components/guest/login</url>
-</webscript>

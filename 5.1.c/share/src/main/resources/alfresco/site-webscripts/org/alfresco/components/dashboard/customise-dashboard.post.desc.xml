@@ -1,7 +1,0 @@
-<webscript>
-   <shortname>Save Customise Dashboard</shortname>
-   <description>Saves the result from Customise dashlets &amp; layout components</description>
-   <format default="json"/>
-   <url>/components/dashboard/customise-dashboard</url>
-   <authentication>user</authentication>
-</webscript>

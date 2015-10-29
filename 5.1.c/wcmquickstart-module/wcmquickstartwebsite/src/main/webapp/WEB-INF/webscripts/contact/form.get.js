@@ -1,1 +1,0 @@
-<import resource="/comments/write.get.js">

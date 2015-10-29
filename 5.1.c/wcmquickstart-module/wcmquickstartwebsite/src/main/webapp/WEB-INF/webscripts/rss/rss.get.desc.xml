@@ -1,7 +1,0 @@
-<webscript>
-  <shortname>rss</shortname>
-  <description>rss feed</description>
-  <url>/rss/rss</url>
-  <authentication>none</authentication>
-  <format default="rss">argument</format>   
-</webscript>
