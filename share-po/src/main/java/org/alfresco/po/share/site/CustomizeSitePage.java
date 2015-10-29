@@ -22,11 +22,16 @@ import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.FactorySharePage;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
+import java.util.logging.Logger;
+import java.util.logging.Logger;
 
 /**
  * Customize Site Page Object have to add pages, get current pages and get available pages.
@@ -40,12 +45,16 @@ public class CustomizeSitePage extends SitePage
 
     private static final By CURRENT_PAGES = By.cssSelector("#template_x002e_customise-pages_x002e_customise-site_x0023_default-currentPages-ul");
     private static final By AVAILABLE_PAGES = By.cssSelector("ul[id$='_default-availablePages-ul']");
+    private static final By AVAILABLE_PAGES_CONTAINER_ITEM = By.cssSelector("ul[id$='_default-availablePages-ul']>li");
     private static final By SAVE_BUTTON = By.cssSelector("#template_x002e_customise-pages_x002e_customise-site_x0023_default-save-button-button");
     private static final By CANCEL_BUTTON = By.cssSelector("#template_x002e_customise-pages_x002e_customise-site_x0023_default-save-button-button");
     private static final By THEME_MENU = By.cssSelector("#template_x002e_customise-pages_x002e_customise-site_x0023_default-theme-menu");
     private static final By DOCUMENT_LIB = By.cssSelector("li[id$='_default-page-documentlibrary']");
     private static final By CURRENT_PAGES_CONTAINER = By.xpath("//ul[contains(@id, '_default-currentPages-ul')]/..");
-    private static final By CURRENT_PAGES_CONTAINER_ITEM = By.cssSelector("ul[id$='_default-currentPages-ul']>li");
+    //private static final By LAST_AVAILABLE_PAGE = By.cssSelector("ul[id$='_default-availablePages-ul']:last-child li[class$='dnd-draggable']:last-child");
+    private static final By LAST_AVAILABLE_PAGE = By.xpath("//ul[contains(@id, '_default-availablePages-ul')]/..//li[@class='customise-pages-page-list-item dnd-draggable'][last()]");
+    private static final By LAST_CURRENT_PAGE = By.xpath("//ul[contains(@id, '_default-currentPages-ul')]/..//li[@class='customise-pages-page-list-item dnd-draggable'][last()]");
+    private static final By CURRENT_PAGES_CONTAINER_ITEM = By.cssSelector("li[class$='_default-currentPages-ul']>li");
     private static final String PARENT_AVAILABLE_PAGES_XPATH = "/parent::ul[contains(@id,'_default-currentPages-ul')]";
 
     @SuppressWarnings("unchecked")
@@ -99,6 +108,62 @@ public class CustomizeSitePage extends SitePage
             }
         }
         return currentPageTypes;
+    }
+
+    private int getLastAvailablePageX()
+    {
+
+        try
+        {
+            getCurrentPage();
+            return  driver.findElement(LAST_AVAILABLE_PAGE).getLocation().getX();
+        }
+        catch (NoSuchElementException n)
+        {
+        }
+        return 0;
+    }
+
+    private int getLastAvailablePageY()
+    {
+
+        try
+        {
+            getCurrentPage();
+            return  driver.findElement(LAST_AVAILABLE_PAGE).getLocation().getY();
+        }
+        catch (NoSuchElementException n)
+        {
+        }
+        return 0;
+    }
+
+    private int getLastCurrentPageX()
+    {
+
+        try
+        {
+            getCurrentPage();
+            return driver.findElement(LAST_CURRENT_PAGE).getLocation().getX();
+        }
+        catch (NoSuchElementException n)
+        {
+        }
+        return 0;
+    }
+
+    private int getLastCurrentPageY()
+    {
+
+        try
+        {
+            getCurrentPage();
+            return  driver.findElement(LAST_CURRENT_PAGE).getLocation().getY();
+        }
+        catch (NoSuchElementException n)
+        {
+        }
+        return 0;
     }
 
     /**
@@ -156,11 +221,17 @@ public class CustomizeSitePage extends SitePage
             {
                 try
                 {
-//                    WebDriver webDriver = ((WebDriverImpl) driver).getDriver();
-//                    Actions builder = new Actions(webDriver);
-                    WebElement elem = driver.findElement(theTypes.getLocator());
-                    executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
-                    dragAndDrop(elem, target);
+                    WebElement elem = findAndWait(theTypes.getLocator());
+
+                    int availableX = getLastAvailablePageX() + elem.getSize().width + 2;
+                    int availableY = getLastAvailablePageY();
+                    new Actions(driver).dragAndDropBy(elem, availableX, 0).build().perform();
+
+                    int currentX = getLastCurrentPageX() + elem.getSize().width + 2;
+                    int currentY = getLastCurrentPageY() + 2 - availableY;
+                    //drone.executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
+                    //drone.dragAndDrop(elem, target);
+                    new Actions(driver).dragAndDropBy(elem, currentX, currentY).build().perform();
                 }
                 catch (TimeoutException e)
                 {
