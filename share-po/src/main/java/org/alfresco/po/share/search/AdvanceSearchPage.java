@@ -29,7 +29,10 @@ import org.alfresco.po.share.exception.ShareException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+
+import ru.yandex.qatools.htmlelements.element.TextInput;
 
 /**
  * Advance search Abstract contains all the common functions of the search
@@ -41,7 +44,6 @@ import org.openqa.selenium.support.ui.Select;
 public class AdvanceSearchPage extends SharePage
 {
     protected static final By KEYWORD_SEARCH = By.cssSelector("input[id$='default-search-text']");
-    protected static final By NAME_SEARCH = By.cssSelector("input[id$='prop_cm_name']");
     protected static final By TITLE_SEARCH = By.cssSelector("textarea[id$='prop_cm_title']");
     protected static final By DESCRIPTION_SEARCH = By.cssSelector("textarea[id$='prop_cm_description']");
     protected static final By MODIFIER_SEARCH = By.cssSelector("input[id$='prop_cm_modifier']");
@@ -119,6 +121,7 @@ public class AdvanceSearchPage extends SharePage
         return findElementDisplayed(KEYWORD_SEARCH).getAttribute("value");
     }
 
+    @FindBy(css="input[id$='prop_cm_name']") TextInput name;
     /**
      * Enter the text value in the Name field.
      *
@@ -130,9 +133,8 @@ public class AdvanceSearchPage extends SharePage
         {
             throw new UnsupportedOperationException("Search term is required to perform a search");
         }
-        WebElement nameElement = findElementDisplayed(NAME_SEARCH);
-        nameElement.clear();
-        nameElement.sendKeys(nameSearchText);
+        name.clear();
+        name.sendKeys(nameSearchText);
     }
 
     /**
@@ -142,7 +144,7 @@ public class AdvanceSearchPage extends SharePage
      */
     public String getName()
     {
-        return findElementDisplayed(NAME_SEARCH).getAttribute("value");
+        return name.getText();
     }
 
     /**
@@ -298,12 +300,13 @@ public class AdvanceSearchPage extends SharePage
      */
     public HtmlPage clickSearch()
     {
-        findAndWait(SEARCH_BUTTON).click();
+        driver.findElement(SEARCH_BUTTON).click();
+        waitUntilElementDisappears(SEARCH_BUTTON, 1);
         return getCurrentPage();
     }
 
     /**
-     * This function will help to find element in the content and folder serach form.
+     * This function will help to find element in the content and folder search form.
      *
      * @return - WebElement
      */
@@ -399,7 +402,7 @@ public class AdvanceSearchPage extends SharePage
     private boolean isPageCorrect()
     {
         return findElementDisplayed(CONTENT_SEARCH_FORM_DROPDOWN).isDisplayed() && isLookForDropDownCorrect()
-            && isSearchButtonDisplayed() && findElementDisplayed(KEYWORD_SEARCH).isDisplayed() && findElementDisplayed(NAME_SEARCH).isDisplayed()
+            && isSearchButtonDisplayed() && findElementDisplayed(KEYWORD_SEARCH).isDisplayed() && name.isDisplayed()
             && findElementDisplayed(TITLE_SEARCH).isDisplayed() && findElementDisplayed(DESCRIPTION_SEARCH).isDisplayed();
     }
 
