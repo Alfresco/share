@@ -28,7 +28,6 @@ import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.Pagination;
 import org.alfresco.po.share.enums.ViewType;
-import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.logging.Log;
