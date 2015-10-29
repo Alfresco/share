@@ -1973,12 +1973,14 @@
        */
       _getRssFeedUrl: function DLTB__getRssFeedUrl()
       {
-         var params = YAHOO.lang.substitute("{type}/site/{site}/{container}",
-         {
-            type: this.modules.docList.options.showFolders ? "all" : "documents",
-            site: encodeURIComponent(this.options.siteId),
-            container: encodeURIComponent(this.options.containerId)
-         });
+          var params = YAHOO.lang.substitute("{type}/site/{site}/{container}" + 
+                  (this.currentFilter.filterId === "path" ? (this.currentPath !== "/" ? "{path}" : "") : ""),
+          {
+              type: this.modules.docList.options.showFolders ? "all" : "documents",
+              site: encodeURIComponent(this.options.siteId),
+              container: encodeURIComponent(this.options.containerId),
+              path: Alfresco.util.encodeURIPath(this.currentPath)
+          });
 
          params += "?filter=" + encodeURIComponent(this.currentFilter.filterId);
          if (this.currentFilter.filterData)
