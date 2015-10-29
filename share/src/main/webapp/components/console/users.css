@@ -245,3 +245,33 @@
    padding-left: 20px;
    cursor: pointer;
 }
+
+.users .yui-button .first-child
+{
+   background: transparent;
+}
+
+.users .deauthorize-enabled
+{
+   background: url(../images/deauthorize-user-icon-16.png) no-repeat center;
+}
+
+.users .deauthorize-disabled
+{
+   background: url(../images/deauthorize-disabled-user-icon-16.png) no-repeat center;
+}
+
+.users .reauthorize-enabled
+{
+   background: url(../images/reauthorize-user-icon-16.png) no-repeat center;
+}
+
+.users .paginator
+{
+   text-align: center;
+}
+
+.users .alfresco-datatable thead
+{
+   display: table-header-group;
+}

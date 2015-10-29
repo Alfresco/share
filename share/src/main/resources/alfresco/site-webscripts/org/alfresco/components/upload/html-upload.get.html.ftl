@@ -56,7 +56,8 @@
                <input type="hidden" name="failure" value="window.parent.${callback}_failure"/>
                <div>
                   <div class="yui-g">
-                     <h2>${msg("section.file")}</h2>
+                      <div id="${el}-extension-message" style="padding: 1em;"></div>
+                      <h2 id="${el}-select-file-message">${msg("section.file")}</h2>
                   </div>
                   <div class="yui-gd <#if (contentTypes?size == 1)>hidden</#if>">
                      <div class="yui-u first">
