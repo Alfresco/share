@@ -5,9 +5,10 @@
     <description>Alfresco WQS Test Automation, ene to end functional tests.</description>
     <groupId>org.alfresco.test</groupId>
     <parent>
-        <artifactId>alfresco-wcmqs-parent</artifactId>
+        <artifactId>alfresco-parent</artifactId>
         <groupId>org.alfresco</groupId>
         <version>5.1.1-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <developers>
         <developer>
