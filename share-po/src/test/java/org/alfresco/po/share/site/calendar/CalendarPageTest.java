@@ -63,15 +63,6 @@ public class CalendarPageTest extends AbstractSiteDashletTest
         List<SitePageType> addPageTypes = new ArrayList<>();
         addPageTypes.add(SitePageType.CALENDER);
         customizeSitePage.addPages(addPageTypes);
-        try
-        {
-            saveScreenShot("addCalendarPage_after_add_pages_screen");
-            savePageSource("addCalendarPage_after_add_pages_page_source");
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
         calendarPage = siteDashBoard.getSiteNav().selectCalendarPage().render();
         assertNotNull(calendarPage);
     }
