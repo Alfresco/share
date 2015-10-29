@@ -1,0 +1,8 @@
+<config>
+   <title>tool.workflow.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Name=WorkflowInformation</itemId>
+   </form>
+   <editable>false</editable>
+</config>

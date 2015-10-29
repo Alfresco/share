@@ -1,0 +1,8 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<webscript>
+  <shortname>Footer WebScript</shortname>
+  <description>A basic example of a WebScript that could used as a reuable footer</description>
+  <url>/my/footer</url>
+</webscript>

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Create comment component</shortname>
+  <description>Shows a dialog to create a comment</description>
+  <url>/components/blog/createcomment</url>
+</webscript>

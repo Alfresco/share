@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>checkin</shortname>
+  <description>Checking rule action dialog</description>
+  <url>/modules/rules/actions/checkin</url>
+</webscript>

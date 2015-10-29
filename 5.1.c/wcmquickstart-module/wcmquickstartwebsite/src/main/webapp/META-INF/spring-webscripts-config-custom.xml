@@ -1,0 +1,23 @@
+<app-config>
+   <plug-ins>
+      <element-readers>
+         <element-reader element-name="server" class="org.springframework.extensions.config.ServerElementReader"/>
+         <element-reader element-name="remote" class="org.springframework.extensions.config.RemoteConfigElementReader"/>
+      </element-readers>
+   </plug-ins>
+
+    <config evaluator="string-compare" condition="Remote">
+        <remote>
+            <endpoint>
+                <id>alfresco-qs</id>
+                <name>Alfresco Quick Start</name>
+                <connector-id>alfresco</connector-id>
+                <endpoint-url>http://localhost:8080/alfresco/service</endpoint-url>
+                <identity>declared</identity>
+                <username>admin</username>
+                <password>admin</password>
+            </endpoint>
+        </remote>
+    </config>
+
+</app-config>

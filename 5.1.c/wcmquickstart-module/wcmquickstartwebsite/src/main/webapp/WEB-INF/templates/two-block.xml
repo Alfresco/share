@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-instance>
+	<title>two-block</title>  
+  	<description>Template with two main areas</description>
+   	<template-type>two-block</template-type>
+    <components>
+        <component>
+            <region-id>top-right</region-id>
+            <url>/search/box</url>     
+        </component>
+        <component>
+            <region-id>footer</region-id>
+            <url>/footer/footer</url>     
+        </component>        
+    </components>     	
+</template-instance>

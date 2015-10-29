@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Admin Console Workflow Tool</shortname>
+  <description>Administration Console - Workflow Tool</description>
+  <url>/components/console/workflow</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:TEAM</family>
+  <family>edition:ENTERPRISE</family>
+</webscript>

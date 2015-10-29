@@ -1,0 +1,27 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="TestConfiguration1">
+      <template-config>
+         <tc-one>template-static1</tc-one>
+         <tc-two>template-static2</tc-two>
+      </template-config>
+   </config>   
+   <config evaluator="string-compare" condition="TestConfiguration2">
+      <controller-config>
+         <cc-one>controller-static-1</cc-one>
+         <cc-two>controller-static-2</cc-two>
+      </controller-config>
+   </config>   
+   <config evaluator="string-compare" condition="TestConfiguration3">
+      <ws-template-config>
+         <ws-tc-one>ws-template-static1</ws-tc-one>
+         <ws-tc-two>ws-template-static2</ws-tc-two>
+      </ws-template-config>
+   </config>
+   <config evaluator="string-compare" condition="TestConfiguration4">
+      <ws-controller-config>
+         <ws-cc-one>ws-controller-static-1</ws-cc-one>
+         <ws-cc-two>ws-controller-static-2</ws-cc-two>
+      </ws-controller-config>
+   </config>
+</alfresco-config>

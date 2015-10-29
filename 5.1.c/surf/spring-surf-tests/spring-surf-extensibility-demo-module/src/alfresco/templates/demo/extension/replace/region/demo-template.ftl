@@ -1,0 +1,1 @@
+<@region id="replacement-body" target="body" action="replace" scope="global" />

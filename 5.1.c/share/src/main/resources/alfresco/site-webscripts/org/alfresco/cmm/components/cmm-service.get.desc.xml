@@ -1,0 +1,10 @@
+<webscript>
+   <shortname>CMM Service GET</shortname>
+   <description>Custom Model Management Service</description>
+   <format default="json" />
+   <url>/cmm/model-service/{model}</url>
+   <url>/cmm/model-service/{model}/{entity}</url>
+   <url>/cmm/model-service/{model}/forms</url>
+   <authentication>user</authentication>
+   <cache><never>true</never></cache>
+</webscript>

@@ -1,0 +1,8 @@
+<component-type>
+    <id>taglib_print_test-componentType</id>
+    <title>A component type that references a JSP that uses the print tag</title>
+    <processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/print.jsp</uri>
+    </processor>
+</component-type>

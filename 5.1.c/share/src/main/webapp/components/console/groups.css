@@ -1,0 +1,467 @@
+.groups
+{
+   margin: 16px 10px 10px;
+}
+
+.groups.yui-panel
+{
+   margin: 0;
+}
+
+.groups .title
+{
+   font-size: 123.1%;
+   font-weight: bold;
+   margin-bottom: 0.8em;
+}
+
+.groups .search-button
+{
+   margin-top: -2.0em;
+   padding-left: 16em;
+}
+
+.groups .people-finder .search-button
+{
+   padding: 0;
+}
+
+.groups .separator
+{
+   margin-bottom: 0.8em;
+}
+
+.groups .search-bar
+{
+   padding-left: 1em;
+}
+
+.groups .search-bar-text
+{
+   line-height: 2.5em;
+}
+
+.groups .align-right
+{
+   text-align: right;
+}
+
+.groups .search-main
+{
+   border: 1px solid #D7D7D7;
+}
+
+.groups .browse-button
+{
+   float: right;
+   margin-top: -2.3em;
+}
+
+/* Data table styling */
+
+.groups .results table
+{
+   width: 100%;
+   border: none;
+}
+
+.groups .yui-dt td
+{
+   border-bottom: 1px solid #D7D7D7;
+   border-right: medium none;
+}
+
+.groups .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.groups tr.yui-dt-odd,
+   .groups tr.yui-dt-even
+{
+   background-color: #ffffff;
+   cursor: auto;
+}
+
+.groups td.yui-dt-asc,
+   .groups td.yui-dt-desc
+{
+   background-color: #ffffff !important;
+}
+
+.groups td.yui-dt-last .yui-dt-liner
+{
+   text-align: right;
+}
+
+.groups td.yui-dt-last .yui-dt-liner a.update
+{
+   background-image: url(../images/edit-16.png);
+   cursor: pointer;
+}
+
+.groups td.yui-dt-last .yui-dt-liner a.delete
+{
+   background-image: url(../images/delete-16.png);
+   cursor: pointer;
+}
+
+.groups td.yui-dt-last .yui-dt-liner a.delete-disabled
+{
+   background-image: url(../images/delete-disabled-16.png);
+}
+
+.groups td.yui-dt-last .yui-dt-liner a
+{
+   background-position: 0 center;
+   background-repeat: no-repeat;
+   padding-bottom: 0.1em;
+   padding-left: 0.6em;
+   padding-right: 0.7em;
+}
+
+/* Columnbrowser styling */
+
+.groups .yui-columnbrowser
+{
+   border: 1px solid black;
+}
+
+.groups .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column
+{
+   width: 26em;
+}
+
+.groups .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column .yui-columnbrowser-column-body a
+{
+   color: black;
+   font-family: 'Lucida Grande', Helvetica, sans-serif;
+   font-size: 12px;
+   text-decoration: none;
+   line-height: 1.5em;
+}
+
+.groups .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column .yui-columnbrowser-column-footer .yui-pg-container a
+{
+   color: black;
+}
+
+.groups .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column .yui-columnbrowser-column-footer .yui-pg-container span.yui-pg-first,
+.groups .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column .yui-columnbrowser-column-footer .yui-pg-container span.yui-pg-previous,
+.groups .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column .yui-columnbrowser-column-footer .yui-pg-container span.yui-pg-next,
+.groups .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column .yui-columnbrowser-column-footer .yui-pg-container span.yui-pg-last
+{
+   color: #cccccc;
+}
+
+
+.yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-column-has-next
+{
+   background-position: 99% center;
+}
+
+.groups .yui-columnbrowser.yui-carousel .yui-columnbrowser-column-header
+{
+   padding-right: 1.5em;
+   text-align: right;
+}
+
+.groups .yui-columnbrowser.yui-carousel .yui-columnbrowser-column-header span span
+{
+   padding-top: 0.1em;
+   padding-bottom: 0.1em;
+   background-repeat: no-repeat;
+   background-position: 0 center;
+   padding-left: 1em;
+   margin-left: 0.7em;
+   cursor: pointer;
+}
+
+.groups .yui-columnbrowser.yui-carousel .yui-columnbrowser-column-header span span.groups-newgroup-button
+{
+   background-image: url(../images/new-group-16.png);
+}
+
+.groups .yui-columnbrowser.yui-carousel .yui-columnbrowser-column-header span span.groups-addgroup-button
+{
+   background-image: url(../images/add-group-16.png);
+}
+
+.groups .yui-columnbrowser.yui-carousel .yui-columnbrowser-column-header span span.groups-adduser-button
+{
+   background-image: url(../images/add-user-16.png);
+}
+
+.groups .yui-columnbrowser-breadcrumb .yui-columnbrowser-breadcrumb-item-text-active,
+.groups .yui-columnbrowser.yui-carousel .yui-columnbrowser-column-header.yui-columnbrowser-column-header-active span
+{
+   text-decoration: underline;
+}
+
+.groups .yui-columnbrowser-breadcrumb .yui-columnbrowser-breadcrumb-item-text-active,
+.groups .yui-columnbrowser .yui-columnbrowser-column-header.yui-columnbrowser-column-header-active,
+.groups .yui-columnbrowser .yui-columnbrowser-column-body .yui-columnbrowser-item-active
+{
+   cursor: pointer;
+}
+
+.groups .yui-columnbrowser .yui-columnbrowser-column-body .yui-columnbrowser-item-active
+{
+   background-color: #EFEFEF;
+}
+
+.groups .yui-columnbrowser.yui-carousel .yui-columnbrowser-column-body .yui-columnbrowser-item.groups-item-group .yui-columnbrowser-item-label
+{
+   background-image: url(../images/group-16.png);
+   padding-bottom: 0.2em;
+   padding-top: 0.1em;
+}
+
+.groups .yui-columnbrowser.yui-carousel .yui-columnbrowser-column-body .yui-columnbrowser-item.groups-item-user .yui-columnbrowser-item-label
+{
+   background-image: url(../images/user-16.png);
+   padding-bottom: 0.2em;
+   padding-top: 0.1em;
+}
+
+.groups .yui-columnbrowser-breadcrumb
+{
+   color: #000000;
+   border-top: 1px solid #D7D7D7;
+   border-left: 1px solid #D7D7D7;
+   border-right: 1px solid #D7D7D7;
+   
+
+/*width:1001px;*/
+   width: 77.2em;
+   line-height: 2.5em;
+}
+
+.groups .yui-columnbrowser-breadcrumb .yui-columnbrowser-breadcrumb-item
+{
+   padding-bottom: 0.1em;
+}
+
+.groups .yui-columnbrowser-breadcrumb .yui-columnbrowser-breadcrumb-item.groups-item-group
+{
+   background-image: url(../images/group-16.png);
+}
+
+.groups .yui-columnbrowser-breadcrumb .yui-columnbrowser-breadcrumb-item.groups-item-user
+{
+   background-image: url(../images/user-16.png);
+}
+
+.groups .yui-columnbrowser.yui-carousel,
+   .groups .yui-columnbrowser.yui-carousel-vertical
+{
+   border: 1px solid #D7D7D7;
+}
+
+.groups .yui-columnbrowser .yui-columnbrowser-item .yui-columnbrowser-item-buttons
+{
+   margin-right: 1.7em;
+}
+
+.groups .yui-columnbrowser .yui-columnbrowser-item .yui-columnbrowser-item-buttons span
+{
+   background-repeat: no-repeat;
+   background-position: 0 0;
+   padding-bottom: 0.1em;
+   padding-left: 0.6em;
+   padding-right: 1.1em;
+}
+
+.groups .yui-columnbrowser .yui-columnbrowser-item .yui-columnbrowser-item-buttons span.groups-update-button
+{
+   background-image: url(../images/edit-16.png);
+}
+
+.groups .yui-columnbrowser .yui-columnbrowser-item .yui-columnbrowser-item-buttons span.groups-delete-button,
+.groups .yui-columnbrowser .yui-columnbrowser-item .yui-columnbrowser-item-buttons span.users-remove-button
+{
+   background-image: url(../images/delete-16.png);
+}
+
+.groups .yui-columnbrowser .yui-columnbrowser-item .yui-columnbrowser-item-buttons span.groups-delete-button-disabled
+{
+   background-image: url(../images/delete-disabled-16.png);
+}
+
+/* Create & Update Panels */
+
+.groups .header-bar
+{
+   height: 1.1em;
+   padding: 0.3em;
+   margin: 1.0em;
+   background-color: #e3eaec;
+   border-bottom: 2px solid #f0f3f4;
+   font-weight: bold;
+   font-size: 116%;
+}
+
+.groups .field-row
+{
+   padding: 0.333em;
+}
+
+.groups .name-label
+{
+   margin-left: 96px;
+   font-size: 123.1%;
+   line-height: 1.7em;
+}
+
+.groups .field-label
+{
+   margin-left: 96px;
+   line-height: 1.5em;
+}
+
+.groups .field-label-right
+{
+   clear: left;
+   display: block;
+   padding-right: 0.8em;
+   width: 9em;
+   margin-left: 2em;
+   text-align: right;
+   font-weight: bold;
+}
+
+.groups .field-value
+{
+   float: left;
+   margin-left: 12em;
+   margin-top: -1.2em;
+}
+
+.groups .create-main
+{
+   border: 1px solid #D7D7D7;
+   padding-bottom: 1em;
+   margin-bottom: 1.5em;
+}
+
+.groups .update-main
+{
+   border: 1px solid #D7D7D7;
+   padding-bottom: 1em;
+   margin-bottom: 1.5em;
+}
+
+.groups .crud-label
+{
+   margin-left: 1.5em;
+   line-height: 1.5em;
+}
+
+.groups .crud-input
+{
+   margin-left: 1.5em;
+}
+
+.groups select
+{
+   width: 4em;
+}
+
+.groups .left
+{
+   float: left;
+}
+
+.groups .small
+{
+   margin-left: 1.75em;
+   font-size: 85%;
+}
+
+/* Remove Dialog */
+
+.remove-dialog div div div
+{
+   margin-top: 0.3em;
+}
+
+.remove-dialog .yui-gf div.first
+{
+   width: 10%;
+}
+
+.remove-dialog .yui-gf .yui-u
+{
+   width: 83%;
+}
+
+.remove-dialog .dialog-panel
+{
+   padding: 1em;
+}
+
+.remove-dialog .dialog-panel .parent-list
+{
+   color: #919DAB;
+   margin-bottom: 1em;
+}
+
+/* People picker */
+
+.people-picker
+{
+   width: 51em;
+}
+
+.people-picker .people-finder .search-text
+{
+   padding: 0 1em 0.3em 0.3em;
+}
+
+.people-picker .people-finder.list
+{
+   margin-bottom: 0;
+   margin-top: 0;
+   padding-bottom: 1em;
+   padding-top: 0.3em;
+}
+
+.people-picker .people-finder .title
+{
+   display: none;
+}
+
+.people-picker .bd
+{
+   padding: 1em;
+}
+
+.people-picker .search-button
+{
+   margin-top: 0;
+}
+
+/* Group picker */
+
+.groups.group-picker
+{
+   width: 51em;
+}
+
+.group-picker .group-finder.list
+{
+   margin-bottom: 0;
+   margin-top: 0;
+   padding-bottom: 1em;
+   padding-top: 0.3em;
+}
+
+.group-picker .group-finder .title
+{
+   display: none;
+}
+
+.group-picker .bd
+{
+   padding: 1em;
+}

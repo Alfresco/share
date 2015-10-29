@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>taglib_region_fail_test-template</template-type>
+    <components>
+	    <component>
+            <region-id>embed_this_region</region-id>
+            <component-type-id>jsp_component_type_3-componentType</component-type-id>
+        </component>
+    </components>   
+</template-instance>

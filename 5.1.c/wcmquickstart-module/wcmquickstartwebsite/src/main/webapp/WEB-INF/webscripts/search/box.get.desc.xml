@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Search</shortname>
+  <description>Search within the whole site</description>
+  <url>/search/box</url>
+</webscript>

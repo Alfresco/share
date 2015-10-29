@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Get Section(s)</shortname>
+  <url>/api/websection</url>
+  <format default="xml">argument</format>
+  <authentication>user</authentication>
+  <transaction allow="readonly">required</transaction>
+</webscript>

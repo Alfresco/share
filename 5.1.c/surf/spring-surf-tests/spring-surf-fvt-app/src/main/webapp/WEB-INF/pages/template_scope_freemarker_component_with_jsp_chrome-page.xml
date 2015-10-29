@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>template_scope_freemarker_component_with_jsp_chrome-page</id>
+   <title>Template scoped Freemarker component page with JSP Chrome</title>
+   <template-instance>template_scope_freemarker_component_with_jsp_chrome-template</template-instance>   
+</page>

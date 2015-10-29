@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<component>
+   <scope>template</scope>
+   <region-id>metadata</region-id>
+   <source-id>metadata</source-id>
+   <url>/components/form?js={js}&amp;title={title}&amp;redirect={redirect}&amp;formId={formId}</url>
+   <properties>
+      <itemKind>{itemKind}</itemKind>
+      <itemId>{itemId}</itemId>
+      <showCaption>true</showCaption>
+   </properties>
+</component>

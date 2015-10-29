@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Groovy Test 1</shortname>
+  <description>Groovy Test 1</description>
+  <format>argument</format>
+  <url>/test/groovy1</url>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

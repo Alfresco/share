@@ -1,0 +1,8 @@
+<config>
+   <title>tool.email-imap.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Type=Configuration,Category=imap,id1=default</itemId>
+   </form>
+   <editable>true</editable>
+</config>

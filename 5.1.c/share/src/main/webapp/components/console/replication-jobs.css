@@ -1,0 +1,182 @@
+.replication
+{
+   margin: 16px 10px 10px;
+}
+
+.replication div.bottom-border
+{
+   border-bottom: 1px solid #dfdfdf;
+   padding-bottom: 4px;
+}
+
+.replication div.container-panel
+{
+   border: 1px solid #808080;
+   padding: 0.5em;
+}
+
+.replication .summary-panel
+{
+   margin-bottom: 1em;
+}
+
+/* Firefox line-height bug fix */
+@-moz-document url-prefix()
+{
+   .replication span.yui-button span.first-child button
+   {
+      padding-bottom: 1px;
+   }
+}
+
+/* Smaller buttons */
+.replication .yui-button button,
+.replication .yui-button a
+{
+   font-size: 85%;
+}
+
+/* Job Summary */
+
+.replication .job-summary ul
+{
+   padding: 1em;
+}
+
+.replication .job-summary ul li
+{
+   display: inline;
+   margin: 0 1em;
+}
+
+/* Job List */
+
+.replication .jobs-list .no-jobs
+{
+   font-style: italic;
+   padding: 1em 0;
+}
+
+.replication .jobs-list ul li
+{
+   background-position: 2px 50%;
+   background-repeat: no-repeat;
+   margin: 0.5em 0.5em 0;
+   padding: 4px 4px 4px 20px;
+}
+.replication .jobs-list ul li.enabled,
+.replication .job-detail div.enabled
+{
+   background-image: url(../images/enabled-indicator-on-16.png);
+}
+.replication .jobs-list ul li.disabled,
+.replication .job-detail div.disabled
+{
+   background-image: url(../images/enabled-indicator-off-16.png);
+}
+
+.replication .job-summary ul li,
+.replication .jobs-list ul li a,
+.replication .job-detail div.job-status div,
+.replication .job-detail div.transfer-target div
+{
+   background-position: 0 2px;
+   background-repeat: no-repeat;
+   padding: 2px 0 2px 20px;
+}
+/* New|Running|CancelRequested|Completed|Failed|Cancelled|Pending */
+.replication .new,
+.replication .none
+{
+   background-image: url(../images/job-no-status-16.png);
+}
+.replication .running
+{
+   background-image: url(../images/job-running-16.png);
+}
+.replication .cancelrequested
+{
+   background-image: url(../images/job-running-16.png);
+}
+.replication .completed
+{
+   background-image: url(../images/job-success-16.png);
+}
+.replication .failed
+{
+   background-image: url(../images/job-failed-16.png);
+}
+.replication .cancelled
+{
+   background-image: url(../images/job-cancelled-16.png);
+}
+.replication .pending
+{
+   background-image: url(../images/job-running-16.png);
+}
+
+/* Job Detail */
+
+.replication .job-detail div.warning
+{
+   background-image: url(../images/warning-16.png);
+}
+
+.replication .job-detail .message
+{
+   font-style: italic;
+   padding: 1em 0;
+}
+
+.replication .job-detail h2,
+.replication .job-detail h3
+{
+   margin-bottom: 0.5em;
+   padding-top: 0.3em;
+}
+
+.replication .job-detail hr
+{
+   margin: 1em auto;
+}
+
+.replication .job-detail div.enabled,
+.replication .job-detail div.disabled
+{
+   background-position: 2px 50%;
+   background-repeat: no-repeat;
+   padding: 4px 4px 4px 20px;
+}
+
+.replication .job-detail div.job-status
+{
+   padding-top: 0.5em;
+}
+
+.replication .job-detail div.server
+{
+   background-image: url(../images/filetypes/generic-server-16.png);
+}
+
+/* Job Detail - Payload */
+
+.replication .job-detail .payload
+{
+   border: 1px solid #808080;
+   padding: 0.5em 1em;
+}
+
+.replication .job-detail .payload div
+{
+   background-position: 0 50%;
+   background-repeat: no-repeat;
+   padding: 4px 4px 4px 20px;
+}
+.replication .job-detail .payload div.document
+{
+   background-image: url(../images/filetypes/generic-file-16.png);
+}
+.replication .job-detail .payload div.folder
+{
+   background-image: url(../images/filetypes/generic-folder-16.png);
+}

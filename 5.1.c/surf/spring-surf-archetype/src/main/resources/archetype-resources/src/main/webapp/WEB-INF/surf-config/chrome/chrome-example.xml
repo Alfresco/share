@@ -1,0 +1,37 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version='1.0' encoding='UTF-8'?>
+<chrome>
+    <id>Chrome Example</id>
+    <title>An Example of Chrome</title>
+    <description>This is provided as an example only - it is not used in this application. Use of Chrome should be avoided</description>
+   
+    <!-- Example definitions of Chrome processors. There are theoretically multiple
+         processing modes, but in practice only "view" is ever used. There are three
+         processors configured by default:
+             * webtemplate = FreeMarker
+             * jsp = JSP
+             * webscript = WebScript
+    -->	
+	
+	<!-- FreeMarker example - the URI is relative to any templates store -->
+    <processor mode="view">
+        <id>webtemplate</id>
+        <uri>org/example/chrome/example_component-chrome</uri>
+    </processor>
+	
+	<!-- 	
+	JSP example - the uri is relative to the web application root
+	<processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/chrome.jsp</uri>
+    </processor>
+	
+	WebScript example - the uri should map to a value defined in a WebScript descriptor file
+	<processor mode="view">
+        <id>webscript</id>
+        <uri>/chrome_webscript</uri>
+    </processor>
+    -->	
+</chrome>

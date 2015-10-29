@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component> 
+  <guid>global.menu</guid>  
+  <component-type-id>webscript</component-type-id>  
+  <title>global.menu</title>  
+  <description>global.menu</description>  
+  <url>/menu/top</url>  
+  <resources/>  
+  <scope>global</scope>  
+  <source-id>global</source-id>  
+  <region-id>menu</region-id>  
+  <properties/>
+</component>

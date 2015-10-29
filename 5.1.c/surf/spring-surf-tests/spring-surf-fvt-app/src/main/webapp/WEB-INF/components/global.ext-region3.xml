@@ -1,0 +1,12 @@
+<component>
+   <id>global.ext-region3</id>
+   <region-id>ext-region3</region-id>
+   <source-id>global</source-id>
+   <scope>global</scope>
+   <url>/extensibility/webscript/4</url>
+   <properties>
+      <msg-key-one>ext_ws4.one</msg-key-one>
+      <msg-key-two>ext_ws4.two</msg-key-two>
+      <msg-key-three>ext_ws4.three</msg-key-three>
+   </properties>
+</component>

@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+   <!--  Bootstrap model -->
+   <bean id="wcmquickstartmodule_dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
+      <property name="models">
+         <list>
+            <value>alfresco/module/org_alfresco_module_wcmquickstart/model/webSiteModel.xml</value>
+         </list>
+      </property>
+      <property name="labels">
+         <list>
+            <value>alfresco.module.org_alfresco_module_wcmquickstart.model.website-model</value>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="wcmquickstartmodule_sectionType" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.SectionType"
+      init-method="init">
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="behaviourFilter" ref="policyBehaviourFilter" />
+      <property name="publishService" ref="org_alfresco_module_wcmquickstart_publishingService" />
+      <property name="nodeService" ref="nodeService" />
+      <property name="dictionaryService" ref="dictionaryService" />
+      <property name="fileFolderService" ref="fileFolderService" />
+      <property name="contentService" ref="contentService" />
+      <property name="transactionService" ref="transactionService" />
+      <property name="mimetypeMap" ref="mimetypeService" />
+      <property name="contextParserService" ref="wcmquickstartmodule_contextParserService" />
+      <property name="renditionService" ref="renditionService" />
+      <property name="sectionIndexPageName" value="${wcmqs.indexpage}" />
+      <property name="sectionCollectionsFolderName" value="${wcmqs.collectionsfolder}" />
+      <property name="namespaceService" ref="namespaceService" />
+      <property name="typesToIgnore" ref="wqsmodule_sectionTypesToIgnore" />
+      <property name="assetCollectionDefinitions" ref="wqsmodule_sectionAssetCollections" />
+      <property name="sectionHierarchyProcessor" ref="wqsmodule_sectionHierarchyProcessor" />
+   </bean>
+   
+   <bean id="wqsmodule_sectionTypesToIgnore" class="java.util.TreeSet">
+      <constructor-arg>
+         <set>
+            <value>ws:visitorFeedback</value>
+            <value>ws:indexPage</value>
+         </set>
+       </constructor-arg>
+   </bean>
+   
+   <bean id="wqsmodule_sectionAssetCollections" class="java.util.ArrayList" >
+      <constructor-arg>
+         <list>
+            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.AssetCollectionDefinition">
+                <property name="name" value="latest.articles" />
+                <property name="title" value="Latest Articles" />
+                <property name="queryType" value="alfrescoCmis" />
+                <property name="maxResults" value="3" />
+                <property name="query"><value>SELECT d.* FROM cmis:document AS d JOIN ws:webasset AS wa ON d.cmis:objectId = wa.cmis:objectId WHERE d.cmis:objectTypeId='D:ws:article' AND in_tree(d, '%{section:.}') ORDER BY wa.ws:publishedTime DESC</value></property>
+            </bean>
+            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.AssetCollectionDefinition">
+                <property name="name" value="section.articles" />
+                <property name="title" value="Articles" />
+                <property name="query"><value>SELECT d.* FROM cmis:document AS d JOIN ws:webasset AS wa ON d.cmis:objectId = wa.cmis:objectId WHERE d.cmis:objectTypeId='D:ws:article' AND in_tree(d, '%{section:.}') ORDER BY wa.ws:publishedTime DESC</value></property>
+            </bean>
+            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.AssetCollectionDefinition">
+                <property name="name" value="featured.articles" />
+                <property name="title" value="Featured Articles" />
+            </bean>
+         </list>
+      </constructor-arg>
+   </bean>
+   
+   <bean id="wqsmodule_sectionHierarchyProcessor"
+        class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.SectionHierarchyProcessor">
+      <property name="behaviourFilter" ref="policyBehaviourFilter" />
+      <property name="nodeService" ref="nodeService" />
+      <property name="dictionaryService" ref="dictionaryService" />
+      <property name="searchService" ref="SearchService" />
+      <property name="transactionService" ref="TransactionService" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_webassetCollectionFolderType" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.WebassetCollectionFolderType"
+      init-method="init">
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="nodeService" ref="nodeService" />
+      <property name="dictionaryService" ref="dictionaryService" />
+      <property name="permissionService" ref="permissionService" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_webassetCollectionType" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.WebassetCollectionType"
+      init-method="init">
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="nodeService" ref="nodeService" />
+      <property name="collectionHelper" ref="org_alfresco_module_wcmquickstart_collectionHelper" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_webassetAspect" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.WebAssetAspect"
+      init-method="init">
+      <property name="nodeService" ref="nodeService" />
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="behaviourFilter" ref="policyBehaviourFilter" />
+      <property name="publishService" ref="org_alfresco_module_wcmquickstart_publishingService" />
+      <property name="renditionHelper" ref="wcmquickstartmodule_renditionHelper" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_imageType" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.ImageType"
+      init-method="init">
+      <property name="nodeService" ref="nodeService" />
+      <property name="policyComponent" ref="policyComponent" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_taggableAspect" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.TaggableAspect"
+      init-method="init">
+      <property name="nodeService" ref="nodeService" />
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="behaviourFilter" ref="policyBehaviourFilter" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_temporaryMultilingualAspect" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.TemporaryMultilingualAspect"
+      init-method="init">
+      <property name="nodeService" ref="nodeService" />
+      <property name="copyService" ref="copyService" />
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="behaviourFilter" ref="policyBehaviourFilter" />
+      <property name="multilingualContentService" ref="multilingualContentService" />
+      <property name="dictionaryService" ref="dictionaryService" />
+      <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_visitorFeedback" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.VisitorFeedbackType"
+      init-method="init">
+      <property name="nodeService" ref="nodeService" />
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="behaviourFilter" ref="policyBehaviourFilter" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_visitorFeedbackSummary" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.VisitorFeedbackSummaryType"
+      init-method="init">
+      <property name="nodeService" ref="nodeService" />
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="behaviourFilter" ref="policyBehaviourFilter" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_article" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.ArticleType"
+      init-method="init">
+      <property name="nodeService" ref="nodeService" />
+      <property name="policyComponent" ref="policyComponent" />
+   </bean>
+
+   <bean id="wcmquickstartmodule_website" class="org.alfresco.module.org_alfresco_module_wcmquickstart.model.WebSiteType"
+      init-method="init">
+      <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+      <property name="policyComponent" ref="policyComponent" />
+      <property name="nodeService" ref="nodeService" />
+   </bean>
+</beans>

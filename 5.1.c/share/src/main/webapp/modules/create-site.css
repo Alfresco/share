@@ -1,0 +1,20 @@
+.create-site,
+.edit-site
+{
+   width: 40em;
+}
+
+.create-site .bd label span.help,
+.edit-site .bd label span.help
+{
+   font-size: 81%;
+   display: block;
+   padding-left: 1.5em;
+}
+
+.create-site textarea,
+.edit-site textarea
+{
+   resize: vertical;
+   overflow: auto;
+}

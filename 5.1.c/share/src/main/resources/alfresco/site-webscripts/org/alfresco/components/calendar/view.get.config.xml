@@ -1,0 +1,18 @@
+<config>
+   <truncateLength>100</truncateLength>
+   <weekView>"agendaWeek"</weekView>
+   <dayView>"agendaDay"</dayView>
+   <monthView>"month"</monthView>
+   <weekMode>"variable"</weekMode>
+   <weekends>true</weekends>
+   <allDaySlot>true</allDaySlot>
+   <firstHour>0</firstHour>
+   <minTimeWorkHours>7</minTimeWorkHours>
+   <maxTimeWorkHours>19</maxTimeWorkHours>
+   <minTimeToggle>0</minTimeToggle>
+   <maxTimeToggle>24</maxTimeToggle>
+   <aspectRatio>1.5</aspectRatio>
+   <slotMinutes>30</slotMinutes>
+   <disableDragging>false</disableDragging>
+   <disableResizing>false</disableResizing>
+</config>

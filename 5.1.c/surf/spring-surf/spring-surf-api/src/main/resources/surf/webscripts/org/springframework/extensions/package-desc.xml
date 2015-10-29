@@ -1,0 +1,11 @@
+<package>
+    <shortname>Webscript Global</shortname>
+    <description>Global Webscripts.</description>
+    <resources>
+        <resource>
+            <shortname>Webscript Message</shortname>
+            <description>Webscripts for managing Spring webscript messages.</description>
+            <webscripts>messages.get</webscripts>
+        </resource>
+    </resources>
+</package>

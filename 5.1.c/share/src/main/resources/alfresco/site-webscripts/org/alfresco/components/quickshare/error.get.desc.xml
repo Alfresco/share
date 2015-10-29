@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Quickshare Error</shortname>
+  <description>Quickshare error component</description>
+  <url>/components/quickshare/error</url>
+</webscript>

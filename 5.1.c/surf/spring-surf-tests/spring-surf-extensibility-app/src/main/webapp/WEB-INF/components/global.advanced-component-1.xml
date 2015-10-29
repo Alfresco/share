@@ -1,0 +1,34 @@
+<component>
+    <id>global.advanced-component-1</id>
+    <region-id>advanced-component-1</region-id>
+    <source-id>global</source-id>
+    <scope>global</scope>
+    <sub-components>
+        <sub-component id="subComp1">
+            <uri>/default/webscript</uri>
+			<properties>
+			    <prop1>defaultValue1</prop1>
+				<prop2>defaultValue2</prop2>
+			</properties>			
+            <evaluations>
+               <evaluation id="Should fail">
+                    <evaluators>
+                        <evaluator type="rejection.component.evaluator"/>
+                    </evaluators>
+					<properties>
+			            <prop1>evalProp1</prop1>
+			        </properties>
+                </evaluation>
+               <evaluation id="Should pass">
+                    <uri>/evaluated/webscript</uri>
+                    <evaluators>
+	                    <evaluator type="default.component.evaluator"/>
+	                </evaluators>
+					<properties>
+			            <prop1>overriddenValue1</prop1>				        
+			        </properties>
+	            </evaluation>
+            </evaluations>
+        </sub-component>
+    </sub-components> 
+</component>

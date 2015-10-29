@@ -1,0 +1,29 @@
+<contentviewer>
+
+   <content mimetype="text/plain" viewer="viewers/text.ftl" preload="true"/>
+   <content mimetype="text/css" viewer="viewers/text.ftl" preload="true"/>
+
+   <content mimetype="text/html" viewer="viewers/html.ftl" preload="true"/>
+
+   <content mimetype="text/xml" viewer="viewers/xml.ftl" preload="true"/>
+
+   <content mimetype="application/x-shockwave-flash" viewer="viewers/flash.ftl" width="200" height="200"/>
+
+   <content mimetype="video/mpeg" viewer="viewers/video.ftl" />
+
+   <content mimetype="audio/x-wav" viewer="viewers/audio.ftl" />
+   <content mimetype="audio/mid" viewer="viewers/audio.ftl" />
+   <content mimetype="audio/mpeg" viewer="viewers/audio.ftl" />
+
+
+   <!-- audio/mpeg -->
+
+   <!-- video/quicktime -->
+
+   <content mimetype="application/rss+xml" viewer="viewers/rss.ftl" preload="true"/>
+
+   <content mimetype="image/gif" viewer="viewers/image.ftl"/>
+   <content mimetype="image/jpeg" viewer="viewers/image.ftl"/>
+   <content mimetype="image/png" viewer="viewers/image.ftl"/>
+
+</contentviewer>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-type>
+   <title>Share Full Page</title>
+   <description>This template-type references the "full-page" WebScript to render a complete page of Dojo based widgets</description>
+   <processor mode="view">
+      <id>webscript</id>
+      <uri>/share/full-page/template</uri>
+   </processor>
+</template-type>

@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Surf API - Retrieves Page Templates</shortname>
+  <description>Surf API - Retrieves Page Templates</description>
+  <url>/api/surf/page/{id}/templates</url>
+  <format default="html">argument</format>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

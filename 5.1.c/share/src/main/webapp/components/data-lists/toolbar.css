@@ -1,0 +1,84 @@
+.datalist-toolbar
+{
+   margin: 0 -10px;
+   visibility: hidden;
+}
+
+.datalist-toolbar .header-bar
+{
+   min-height: 2em;
+   padding: 4px 1em;
+}
+
+.datalist-toolbar .left,
+.datalist-toolbar .left div
+{
+   float: left;
+}
+
+.datalist-toolbar .right
+{
+   float: right;
+}
+
+/* Selected Items Menu */
+
+.toolbar .selected-items li
+{
+   width: auto;
+}
+
+.toolbar .selected-items li.yuimenuitem-disabled
+{
+   display: none;
+}
+
+.toolbar .selected-items .yuimenuitemlabel span
+{
+   background-position: 2px 50%;
+   background-repeat: no-repeat;
+   cursor: pointer;
+   display: block;
+   margin-left: -4px;
+   min-height: 16px;
+   padding: 2px 0px 1px 24px;
+}
+
+.toolbar .selected-items hr
+{
+   padding: 0px;
+}
+
+.toolbar .onActionDuplicate
+{
+   background-image: url(../images/duplicate-row-16.png);
+}
+
+.toolbar .onActionDelete
+{
+   background-image: url(../images/delete-row-16.png);
+}
+
+.toolbar .onActionDeselectAll
+{
+   background-image: url(../images/select-rows-none-16.png);
+}
+
+.datalist-toolbar .new-row span.first-child
+{
+   background: url(../images/add-row-16.png) no-repeat 12px 4px;
+   padding-left: 24px;
+}
+
+.datalist-toolbar .print span.first-child
+{
+   background: url(../images/printer-16.png) no-repeat 12px 4px;
+   padding-left: 24px;
+}
+
+.datalist-toolbar .rss-feed span.first-child
+{
+   background: url(../images/feed-icon-16.png) no-repeat 12px 4px;
+   padding-left: 24px;
+}
+

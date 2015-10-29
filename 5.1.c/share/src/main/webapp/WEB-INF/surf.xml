@@ -1,0 +1,107 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="WebFramework">
+   
+      <web-framework>
+      
+         <!--  Override the default Spring Surf configuration to use AdvancedComponentImpl
+               instead of ComponentImpl. This will mean that SubComponents are used for
+               rendering rather than Components. This enables Share for greater extensibility -->
+         <object-type>
+             <id>component</id>
+             <version>1.0</version>
+             <name>Component</name>
+             <description>Component</description>
+             <namespace></namespace>
+             <class>org.springframework.extensions.surf.types.AdvancedComponentImpl</class>
+         </object-type>
+         
+         <!-- Configure Surf Defaults -->
+         <defaults>
+            <!-- Service Overrides -->
+            <page-mapper-factory>webframework.factory.pagemapper.slingshot</page-mapper-factory>
+            <user-factory>webframework.factory.user.slingshot</user-factory>
+            
+            <!-- Setting Overrides -->
+            <site-configuration>slingshot.site.configuration</site-configuration>
+            <region-chrome>slingshot-region-chrome</region-chrome>
+            <!-- no chrome required for components -->
+            <component-chrome></component-chrome>
+            
+            <!-- Slingshot specific page types -->
+            <page-type>
+               <id>login</id>
+               <page-instance-id>slingshot-login</page-instance-id>
+            </page-type>
+            <page-type>
+               <id>logout</id>
+               <page-instance-id>slingshot-logout</page-instance-id>
+            </page-type>
+            
+            <!-- theme - currently one of: default, greenTheme, hcBlack -->
+            <theme>default</theme>
+         </defaults>
+         
+         <error-handler>
+            <id>region-nocomponent</id>
+            <processor-id>nocomponent</processor-id>
+         </error-handler>
+         <error-handler>
+             <id>page-error</id>
+             <processor-id>jsp</processor-id>
+             <uri>/error500.jsp</uri>
+         </error-handler>
+         
+         <!-- Autowire Runtime Settings -->
+         <autowire>
+            <!-- Pick the runtime: classpath, webapp, local, alfresco -->
+            <runtime>alfresco</runtime>
+            
+            <!-- Pick the mode: development, production -->
+            <mode>production</mode>
+         </autowire>
+
+         <!--
+            Stops cached client side resources from being stale after a release by adding a checksum to the url
+            for resources requested using <@script> & <@link> tags
+         -->
+         <use-checksum-dependencies>true</use-checksum-dependencies>
+         <aggregate-dependencies>false</aggregate-dependencies>
+         <calculate-webscript-dependencies>true</calculate-webscript-dependencies>
+         <generate-css-data-images>true</generate-css-data-images>
+         
+         <!-- Disables extension modules from being processed on guest authenticated pages (such as the 
+              Login page). This is one way to enable dynamic extensions without generating error messages
+              from unauthenticated users logging in. -->
+         <enable-guest-page-extension-modules>true</enable-guest-page-extension-modules>
+         
+         <!-- Disable dynamic extension modules by default (Dynamic Extension Modules are modules that can be
+              added and removed from an Extension created on the Alfresco Repository. When this is enabled then
+              authentication errors will be generated on the Repository when accessing guest authenticated pages (e.g.
+              the Login page) unless "enable-guest-page-extension-modules" is set to false -->
+         <enable-dynamic-extension-modules>true</enable-dynamic-extension-modules>
+         
+         <enable-remote-resource-resolving>false</enable-remote-resource-resolving>
+         
+         <!-- This is the Dojo configuration settings for Surf -->
+         <dojo-pages>
+            <!-- This indicates that Dojo page support is on - this means that the Dojo
+                 dependency handler bean will be checked by the ResourceController and that
+                 the relevant FreeMarker directives will be made available to WebScripts -->
+            <enabled>true</enabled>
+            <!-- This determines whether or not the loader trace is on or off -->
+            <loader-trace-enabled>false</loader-trace-enabled>
+            <messages-object>Alfresco</messages-object>
+            <packages>
+                <!--All Aikau packages are now defined within the Aikau dependency JAR-->
+                <package name="share" location="js/share" />
+                <package name="share-components" location="components" />
+                <package name="cmm" location="js/alfresco/cmm"/>
+            </packages>
+         </dojo-pages>
+
+      </web-framework>
+
+   </config>
+
+</alfresco-config>

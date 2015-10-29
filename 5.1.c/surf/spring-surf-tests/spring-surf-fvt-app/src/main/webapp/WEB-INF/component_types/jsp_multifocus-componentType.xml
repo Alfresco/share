@@ -1,0 +1,9 @@
+<component-type>
+    <id>jsp_multifocus-componentType</id>
+    <title>A component that has files for both head and body.</title>
+    <description></description>
+    <processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/multifocus_jsp.jsp</uri>        
+    </processor>
+</component-type>

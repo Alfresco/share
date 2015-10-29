@@ -1,0 +1,28 @@
+<extension>
+   <!-- This is a WebScript module -->
+   <modules>
+        <module>
+            <id>WebScript-Module</id>
+			<evaluator>default.extensibility.evaluator</evaluator>
+			<evaluatorProperties>
+				<sitePresetId>someSitePreset</sitePresetId>
+				<anotherProp>propValue</anotherProp>
+			</evaluatorProperties>  
+			<customizations>
+			    <customization>
+				    <targetPackageRoot>webscripts.extensibility</targetPackageRoot>
+                    <sourcePackageRoot>webscripts.extensibility.extension1.module1</sourcePackageRoot>
+				</customization>
+			</customizations>
+        </module>
+        <module>
+            <id>Template-Module</id>
+			<customizations>
+			    <customization>
+                    <targetPackageRoot>org.acme</targetPackageRoot>
+                    <sourcePackageRoot>extension1.module1</sourcePackageRoot>    
+                </customization>
+			</customizations>			
+        </module>
+   </modules>
+</extension>

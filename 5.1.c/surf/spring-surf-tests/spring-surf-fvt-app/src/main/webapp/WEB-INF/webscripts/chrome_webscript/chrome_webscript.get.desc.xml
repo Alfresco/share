@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Chrome WebScript</shortname>
+  <description>A WebScript used to render chrome</description>
+  <url>/webscripts/chrome_webscript</url>
+</webscript>

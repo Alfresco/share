@@ -1,0 +1,18 @@
+/* Center text and buttons inside p elements */
+.revert-wiki-version .bdbd
+{
+   padding-top: 1em;
+   padding-bottom: 1em;
+}
+
+.revert-wiki-version p
+{
+   text-align: center;
+}
+
+/* General styling */
+
+.yui-panel-container .revert-wiki-version
+{
+   width: 440px;
+}

@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>WebScript Intended To Be Replaced In Extension Test</shortname>
+  <description></description>
+  <url>/extensibility/test/contentToReplace</url>
+  <family>RegionExtensibilityTests</family>
+</webscript>

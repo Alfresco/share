@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<surfbug>
+   <title>Default SurfBug</title>
+   <processor mode="view">
+      <id>webscript</id>
+      <uri>/default/surfbug</uri>
+   </processor>
+</surfbug>

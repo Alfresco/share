@@ -1,0 +1,8 @@
+<component-type>
+    <id>taglib_region_fail_test-componentType</id>
+    <title>A component type that references a JSP that renders another region</title>
+    <processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/regionTagFailTest.jsp</uri>
+    </processor>
+</component-type>

@@ -1,0 +1,38 @@
+.search-title.page-title h1
+{
+   float: left;
+}
+
+.search-title div
+{
+   float: right;
+   line-height: 1.8em;
+}
+
+.search-title div span
+{
+   vertical-align: middle;
+}
+
+.search-title .clear
+{
+   clear: both;
+}
+
+.search-title .backLink
+{
+   background-image: url(../images/back-arrow.png);
+   background-position: left center;
+   background-repeat: no-repeat;
+   padding: 0 5px 0 19px;
+   margin-right: 5px;
+}
+
+.search-title .forwardLink
+{
+   background-image: url(../images/forward-arrow-16.png);
+   background-position: right center;
+   background-repeat: no-repeat;
+   padding: 0 21px 0 5px;
+   margin-right: 5px;
+}

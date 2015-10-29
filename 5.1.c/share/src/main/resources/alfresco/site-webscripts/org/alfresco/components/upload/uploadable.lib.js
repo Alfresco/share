@@ -1,0 +1,1 @@
+model.uploadable = !(new java.lang.String(context.headers["user-agent"])).matches(".*iPad; CPU OS 5_.*Safari/.*");

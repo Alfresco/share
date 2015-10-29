@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Comments</shortname>
+  <description>Get all comments for a node</description>
+  <url>/components/node/{store_type}/{store_id}/{id}/comments</url>
+  <format default="json">argument</format>
+</webscript>

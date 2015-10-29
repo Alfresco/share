@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>people-finder</shortname>
+  <description>People Finder component</description>
+  <url>/components/people-finder/people-finder</url>
+</webscript>

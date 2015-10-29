@@ -1,0 +1,1 @@
+<div>Evaluated advanced component: Prop1: ${args.prop1}, Prop2: ${args.prop2}</div>

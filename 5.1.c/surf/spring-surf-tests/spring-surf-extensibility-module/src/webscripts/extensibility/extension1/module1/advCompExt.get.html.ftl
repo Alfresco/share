@@ -1,0 +1,1 @@
+<div>Content provided by advanced component extension</div> 

@@ -1,0 +1,11 @@
+.create-content-mgr
+{
+   padding: 0;
+}
+
+.create-content-mgr .heading
+{
+   color: #333333;
+   font-size: 154%;
+   padding: 1em 0.2em 0;
+}

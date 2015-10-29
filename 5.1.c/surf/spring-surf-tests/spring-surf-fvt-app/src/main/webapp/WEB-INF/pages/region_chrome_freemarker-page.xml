@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>region_chrome_freemarker-page</id>
+   <title>Page for testing chrome rendered in freemarker</title>
+   <template-instance>region_chrome_freemarker-template</template-instance>
+</page>

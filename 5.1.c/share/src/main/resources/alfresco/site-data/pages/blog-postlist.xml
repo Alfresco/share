@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>blog-postlist</id>
+   <page-type>blog-postlist</page-type>
+   <title>Blog</title>
+   <title-id>page.blogPostList.title</title-id>
+   <description>Displays the blog posts</description>
+   <description-id>page.blogPostList.description</description-id>
+   <template-instance>blog-postlist</template-instance>
+   <authentication>user</authentication>
+</page>

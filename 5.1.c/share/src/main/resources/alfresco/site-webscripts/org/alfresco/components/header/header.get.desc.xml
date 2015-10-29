@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Global Header Component</shortname>
+  <description>Header component used across the whole application</description>
+  <url>/components/header</url>
+</webscript>

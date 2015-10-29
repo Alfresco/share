@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>taglib_component_test-page</id>
+   <title>Page that attempts to nest one JSP component inside another.</title>
+   <template-instance>taglib_component_test-template</template-instance>
+   <components>
+      <component>
+         <region-id>taglib_component_test-region</region-id>
+         <component-type-id>taglib_component_test-componentType</component-type-id>
+      </component>   
+   </components>   
+</page>

@@ -1,0 +1,27 @@
+.quickshare-node-header
+{
+   margin-bottom: 2em;
+}
+
+.quickshare-node-header-info-thumbnail
+{
+   float: left;
+   padding: 0.5em 0.5em 1em 0;
+}
+
+.quickshare-node-header-info-title
+{
+   padding: 0.5em 0 0.2em;
+}
+
+.quickshare-node-action
+{
+   float: right;
+   text-align: right;
+}
+
+.quickshare-node-action .onDownloadDocumentClick a
+{
+   background: transparent url(../documentlibrary/actions/document-download-16.png) no-repeat scroll 12px 4px;
+   padding-left: 32px;
+}

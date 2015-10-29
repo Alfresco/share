@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Get Asset</shortname>
+  <url>/api/webasset</url>
+  <format default="xml">argument</format>
+  <authentication>user</authentication>
+  <transaction allow="readonly">required</transaction>
+</webscript>

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>My Document Libraries</shortname>
+  <description>Lists a user&apos;s sites, but links directly to the Document Library page</description>
+  <url>/components/my-documentlibraries/my-doclibs</url>
+</webscript>

@@ -1,0 +1,7 @@
+<webscript>
+   <shortname>Welcome Panel Preference Save</shortname>
+   <description>Saves the welcome panel preference</description>
+   <format default="json"/>
+   <url>/components/dashboard/welcome-preference</url>
+   <authentication>user</authentication>
+</webscript>

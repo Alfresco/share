@@ -1,0 +1,8 @@
+<component-type>
+    <id>directive_link_test-componentType</id>
+    <title>A component type that references a FreeMarker template that uses the link directive</title>
+    <processor mode="view">
+        <id>webtemplate</id>
+        <uri>/linkDirective.ftl</uri>
+    </processor>
+</component-type>

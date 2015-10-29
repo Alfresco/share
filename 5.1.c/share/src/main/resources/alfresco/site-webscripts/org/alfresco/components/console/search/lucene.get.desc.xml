@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Admin Console Lucene Tool</shortname>
+  <description>Administration Console - Lucene Tool</description>
+  <url>/components/console/lucene</url>
+  <!--<family>admin-console</family>-->
+  <family>edition:ENTERPRISE</family>
+</webscript>

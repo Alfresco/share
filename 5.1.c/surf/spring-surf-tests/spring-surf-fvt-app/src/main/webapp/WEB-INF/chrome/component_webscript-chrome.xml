@@ -1,0 +1,8 @@
+<chrome>
+    <id>component_webscript-chrome</id>
+	<title>WebScript Based Chrome</title>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/webscripts/chrome_webscript</uri>
+    </processor>
+</chrome>

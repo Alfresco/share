@@ -1,0 +1,3 @@
+${pageProp}
+${templateProp}
+${componentProp}

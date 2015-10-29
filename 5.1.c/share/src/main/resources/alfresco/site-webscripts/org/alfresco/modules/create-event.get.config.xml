@@ -1,0 +1,5 @@
+<config>
+   <enableDocFolder>false</enableDocFolder>
+   <defaultStart>12:00 PM</defaultStart>
+   <defaultEnd>1:00 PM</defaultEnd>
+</config>

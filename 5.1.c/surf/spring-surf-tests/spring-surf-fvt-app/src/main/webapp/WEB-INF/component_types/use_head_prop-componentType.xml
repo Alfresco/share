@@ -1,0 +1,9 @@
+<component-type>
+    <id>use_head_prop-componentType</id>
+    <title>Component with header to render</title>
+    <description>This component has a header focus that can be pre-rendered and included a model propery.</description>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/webscripts/webscript_with_header</uri>
+    </processor>	
+</component-type>

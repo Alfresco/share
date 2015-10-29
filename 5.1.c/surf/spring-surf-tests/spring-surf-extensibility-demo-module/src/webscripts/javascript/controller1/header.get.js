@@ -1,0 +1,1 @@
+model.imageURL = "/res/images/logo/PoweredBySurf.png"

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+    <id>theme_2-theme</id>
+    <page-types>
+        <page-type>
+            <id>basic-pageType</id>
+            <page-instance-id>theme_2_basic_pageType-page</page-instance-id>
+        </page-type>
+    </page-types>
+</theme>

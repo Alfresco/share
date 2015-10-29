@@ -1,0 +1,79 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Workflow Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">
+    <test name="CurrentTaskTypeTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.CurrentTaskTypeTest" />
+        </classes>
+    </test>
+    <test name="KeepContentStrategyTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.KeepContentStrategyTest" />
+        </classes>
+    </test>
+    <test name="MyTasksTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.MyTasksTest" />
+        </classes>
+    </test>
+    <test name="MyWorkFlowsPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.MyWorkFlowsPageTest" />
+        </classes>
+    </test>
+    <test name="NewWorkflowPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.NewWorkflowPageTest" />
+        </classes>
+    </test>
+    <test name="PriorityTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.PriorityTest" />
+        </classes>
+    </test>
+    <test name="SelectContentPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.SelectContentPageTest" />
+        </classes>
+    </test>
+    <test name="SendEMailNotificationsTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.SendEMailNotificationsTest" />
+        </classes>
+    </test>
+    <test name="StartWorkFlowPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.StartWorkFlowPageTest" />
+        </classes>
+    </test>
+    <test name="ViewWorkflowPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.ViewWorkflowPageTest" />
+        </classes>
+    </test>
+    <test name="WorkFlowHistoryTypeTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.WorkFlowHistoryTypeTest" />
+        </classes>
+    </test>
+    <test name="WorkFlowStatusTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.WorkFlowStatusTest" />
+        </classes>
+    </test>
+    <test name="WorkFlowTitleTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.WorkFlowTitleTest" />
+        </classes>
+    </test>
+    <test name="WorkFlowTypeTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.WorkFlowTypeTest" />
+        </classes>
+    </test>
+    <test name="CalenderDatePickerTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.CalendarDatePickerTest" />
+        </classes>
+    </test>
+</suite>

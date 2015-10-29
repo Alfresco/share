@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>root-page</id>
+   <title>Root Page</title>
+   <template-instance>root-template</template-instance>
+</page>

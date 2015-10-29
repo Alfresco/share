@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<theme>
+   <title>Google Docs Theme</title>
+   <title-id>theme.gdocs</title-id>
+   <css-tokens>
+      <less-variables>
+         @dashlet-background: #fff;
+         @dashlet-border: 1px solid #ddd;
+         @dashlet-border-radius: 0;
+         @dashlet-title-background: #eff3fa;
+         @dashlet-title-border-bottom: 0;
+         @dashlet-title-border-radius: 0;
+         @dashlet-title-color: #333;
+         @dashlet-toolbar-background: #fff;
+         @dashlet-toolbar-border-bottom: 1px solid #ddd;
+         @dashlet-body-background: #fff;
+         @dashlet-body-border-radius: 0;
+      </less-variables>
+   </css-tokens>
+</theme>

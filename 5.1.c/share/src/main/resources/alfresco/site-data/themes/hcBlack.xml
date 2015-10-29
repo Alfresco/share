@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<theme>
+   <title>High Contrast Theme</title>
+   <title-id>theme.hcBlack</title-id>
+   <css-tokens>
+      <less-variables>
+         @dashlet-background: #fff;
+         @dashlet-border: 1px solid #232323;
+         @dashlet-border-radius: 0;
+         @dashlet-title-background: #d7e0e7 linear-gradient(to bottom, #4c4c4c, #101010);
+         @dashlet-title-border-bottom: 0;
+         @dashlet-title-border-radius: 0;
+         @dashlet-title-color: #fff;
+         @dashlet-toolbar-background: #f6f6f6;
+         @dashlet-toolbar-border-bottom: 1px solid #7e7e7e;
+         @dashlet-body-background: #fff linear-gradient(to bottom, #ebebeb, #fff 116px, #fff);
+         @dashlet-body-border-radius: 0;
+      </less-variables>
+   </css-tokens>
+</theme>

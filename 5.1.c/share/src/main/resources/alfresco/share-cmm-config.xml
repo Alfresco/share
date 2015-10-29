@@ -1,0 +1,107 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="WebFramework">
+      <web-framework>
+         <!-- Enable dynamic extension modules by default (Dynamic Extension Modules are modules that can be
+           added and removed from an Extension created on the Alfresco Repository. When this is enabled then
+           authentication errors will be generated on the Repository when accessing guest authenticated pages (e.g.
+           the Login page) unless "enable-guest-page-extension-modules" is set to false -->
+         <enable-dynamic-extension-modules>true</enable-dynamic-extension-modules>
+      </web-framework>
+   </config>
+   
+   <!-- CMM specific config -->
+   <config evaluator="string-compare" condition="CMM">
+      <!-- Types namespace blacklist -->
+      <types>
+         <ns>act</ns>
+         <ns>app</ns>
+         <ns>bpm</ns>
+         <ns>brightcove</ns>
+         <ns>cloudfront</ns>
+         <ns>dl</ns>
+         <ns>dod</ns>
+         <ns>download</ns>
+         <ns>facebook</ns>
+         <ns>flickr</ns>
+         <ns>fm</ns>
+         <ns>hwf</ns>
+         <ns>ia</ns>
+         <ns>imap</ns>
+         <ns>imwf</ns>
+         <ns>inwf</ns>
+         <ns>linkedin</ns>
+         <ns>lnk</ns>
+         <ns>prj</ns>
+         <ns>pub</ns>
+         <ns>pubwf</ns>
+         <ns>rma</ns>
+         <ns>rmr</ns>
+         <ns>rmwf</ns>
+         <ns>slideshare</ns>
+         <ns>srft</ns>
+         <ns>st</ns>
+         <ns>surf</ns>
+         <ns>trx</ns>
+         <ns>twitter</ns>
+         <ns>wf</ns>
+         <ns>youtube</ns>
+      </types>
+      <!-- Aspects namespace blacklist -->
+      <aspects>
+         <ns>act</ns>
+         <ns>additionalXmpModel</ns>
+         <ns>aos</ns>
+         <ns>app</ns>
+         <ns>audio</ns>
+         <ns>blg</ns>
+         <ns>bpm</ns>
+         <ns>brightcove</ns>
+         <ns>cloudfront</ns>
+         <ns>cm</ns>
+         <ns>cmm</ns>
+         <ns>dl</ns>
+         <ns>dod</ns>
+         <ns>dp</ns>
+         <ns>emailserver</ns>
+         <ns>exif</ns>
+         <ns>facebook</ns>
+         <ns>flickr</ns>
+         <ns>fm</ns>
+         <ns>hwf</ns>
+         <ns>ia</ns>
+         <ns>imap</ns>
+         <ns>imwf</ns>
+         <ns>inwf</ns>
+         <ns>iptcxmp</ns>
+         <ns>linkedin</ns>
+         <ns>lnk</ns>
+         <ns>pbcoreModel</ns>
+         <ns>pub</ns>
+         <ns>qshare</ns>
+         <ns>rc</ns>
+         <ns>rma</ns>
+         <ns>rmc</ns>
+         <ns>rmv</ns>
+         <ns>rn</ns>
+         <ns>rule</ns>
+         <ns>slideshare</ns>
+         <ns>srft</ns>
+         <ns>srn</ns>
+         <ns>st</ns>
+         <ns>surf</ns>
+         <ns>sync</ns>
+         <ns>sys</ns>
+         <ns>trx</ns>
+         <ns>twitter</ns>
+         <ns>ver2</ns>
+         <ns>ver</ns>
+         <ns>webdav</ns>
+         <ns>webvttModel</ns>
+         <ns>wf</ns>
+         <ns>wfl</ns>
+         <ns>youtube</ns>
+      </aspects>
+   </config>
+
+</alfresco-config>

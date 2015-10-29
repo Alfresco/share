@@ -1,0 +1,61 @@
+.my-doclibs
+{
+   clear: both;
+   margin: 0 1em;
+   padding-top: 0.5em;
+}
+
+.my-doclibs .header-bar
+{
+   background-color: #e3eaec;
+   border: 1px solid #e3eaec;
+   border-bottom: 1px solid #f0f3f4;
+   margin: 0;
+   padding: 0.3em;
+}
+
+.my-doclibs .header-bar h2
+{
+   margin: 0;
+}
+
+.my-doclibs .sites
+{
+   border-color: #CBCBCB;
+   border-style: solid;
+   border-width: 0 1px 1px 1px;
+}
+
+.my-doclibs .sites li
+{
+   border-top: 1px dashed #CBCBCB;
+   clear: both;
+   list-style: none;
+   overflow: auto;
+   width: 100%;
+}
+
+.my-doclibs .sites li.first
+{
+   border-top: medium none;
+}
+
+.my-doclibs .sites li div.icon
+{
+   float: left;
+   padding: 6px;
+}
+
+.my-doclibs .sites li div.details
+{
+   float: left;
+   padding: 6px;
+}
+
+.my-doclibs .sites li div.details span.visibility
+{
+   color: #fff;
+   float: left;
+   font-size: 93%;
+   padding: 0.1em 0.2em;
+}

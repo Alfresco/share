@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>email-form</shortname>
+  <description>Email form dialog</description>
+  <url>/modules/email-form</url>
+</webscript>

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>User Profile</shortname>
+  <description>User Profile View and Edit</description>
+  <url>/components/profile/userprofile</url>
+</webscript>

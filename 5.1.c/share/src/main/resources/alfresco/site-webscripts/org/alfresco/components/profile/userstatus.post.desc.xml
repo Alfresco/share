@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>User Status Update</shortname>
+  <description>User Status Update POST component</description>
+  <format default="json" />
+  <url>/components/profile/userstatus</url>
+  <authentication>user</authentication>
+</webscript>

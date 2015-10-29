@@ -1,0 +1,49 @@
+/* SimpleStyle buttons */
+.cmm-forms-controls-SimpleStyle .dijitButton,
+.cmm-forms-controls-SimpleStyle .dijitToggleButton,
+.cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton {
+   margin: 3px;
+}
+.cmm-forms-controls-SimpleStyle .dijitButton .dijitButtonNode,
+.cmm-forms-controls-SimpleStyle .dijitToggleButton .dijitButtonNode,
+.cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton .dijitButtonNode {
+   margin: 0;
+   border: 1px solid #ccc;
+   background-image: none;
+   background-color: #fff;
+   border-radius: 0;
+   box-shadow: none;
+}
+.cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton span {
+   line-height: 25px;
+}
+.cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton .dijitReset.dijitInline.dijitButtonNode {
+   padding: 0;
+   width: 25px;
+}
+
+/* SimpleStyle toggle buttons */
+.cmm-forms-controls-SimpleStyle .dijitToggleButton.dijitToggleButtonChecked .dijitButtonNode {
+   background-color: #ddd;
+}
+
+/* SimpleStyle button icons */
+.cmm-forms-controls-SimpleStyle .dijitIcon {
+   width: 16px;
+   height: 16px;
+}
+.cmm-forms-controls-SimpleStyle .dijitIcon.bold {
+   background-image: url(./images/bold-16.png);
+}
+.cmm-forms-controls-SimpleStyle .dijitIcon.italic {
+   background-image: url(./images/italic-16.png);
+}
+.cmm-forms-controls-SimpleStyle .dijitIcon.underlined {
+   background-image: url(./images/underlined-16.png);
+}
+.cmm-forms-controls-SimpleStyle .dijitIcon.color {
+   background-image: url(./images/color-16.png);
+}
+.cmm-forms-controls-SimpleStyle .dijitIcon.background {
+   background-image: url(./images/background-16.png);
+}

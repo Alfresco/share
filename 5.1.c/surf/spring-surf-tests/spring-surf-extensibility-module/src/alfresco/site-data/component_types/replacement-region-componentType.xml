@@ -1,0 +1,7 @@
+<component-type>
+    <id>replacement-region-componentType</id>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/extension1/module1/replacementContent</uri>
+    </processor>	
+</component-type>

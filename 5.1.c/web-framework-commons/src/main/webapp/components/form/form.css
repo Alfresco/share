@@ -1,0 +1,531 @@
+/* FormUI Component */
+
+.form-container fieldset
+{
+   border: 1px solid #aaaaaa;
+   padding: 1.0em 0 0.5em 1.0em;
+   margin-bottom: 1em;
+}
+
+.form-container legend
+{
+   font-size: 116%;
+   color: #333333;
+   padding: 0 0.4em;
+}
+
+.form-container label
+{
+   clear: both;
+   display: block;
+}
+
+.form-container label.checkbox
+{
+   clear: both;
+   display: inline;
+   margin-left: 0.2em;
+   vertical-align: top;
+}
+
+.form-container .input,
+.form-container input[type="file"],
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container textarea,
+.form-container .input input[type="file"],
+.form-container .input input[type="text"],
+.form-container .input input[type="password"],
+.form-container .input textarea
+{
+   background-color: white;
+}
+
+.form-container input,
+.form-container input[type="file"],
+.form-container input[type="text"],
+.form-container input[type="password"]
+{
+   clear: both;
+   width: 28em;
+}
+
+.form-container input[type="checkbox"]
+{
+   width: auto;
+}
+
+.form-container input[type="button"]
+{
+   width: auto;
+}
+
+.form-container input[type="submit"]
+{
+   width: auto;
+}
+
+.form-container textarea
+{
+   width: 28em;
+}
+
+.form-container select
+{
+   width: auto;
+}
+
+.form-container input.number
+{
+   width: 8em;
+}
+
+.form-container .form-field,
+.form-fields .form-field
+{
+   margin: 0 1em 1em 0;
+}
+
+.form-container .debug
+{
+   border: 1px solid #ccc;
+   background-color: #efefef;
+   padding: 0.5em;
+   margin-bottom: 0.5em;
+}
+
+.form-container .missing-options
+{
+   font-style: italic;
+   margin: 0.6em 0 1em 0;
+}
+
+.form-container .form-fields
+{
+   padding: 1em;
+   border-bottom: 1px dashed #c2c2c2;
+}
+
+.form-container .form-fields .suggested-actions .yui-button .first-child
+{
+   background: url(images/suggested-action-16.png) no-repeat scroll 12px 4px transparent;
+   padding-left: 22px;
+}
+
+.form-container .form-buttons
+{
+   padding-top: 1em;
+}
+
+.form-container .mandatory-indicator
+{
+   color: green;
+   margin-left: 0.4em;
+   margin-right: 0.4em;
+}
+
+.form-container .incomplete-warning
+{
+   margin-left: -26px;
+}
+
+.form-container .incomplete-warning img
+{
+   margin-right: 6px;
+   vertical-align: -2px;
+}
+
+.form-container .help-icon
+{
+   margin-left: 0.4em;
+   position: absolute;
+}
+
+.form-container .help-icon img
+{
+   vertical-align: -6px;
+}
+
+.form-container .help-text
+{
+   margin-top: 0.4em;
+   padding: 0.6em;
+   width: 37.5em;
+   background-color: #ffffcc;
+   border: 1px solid #cacaca;
+   display: none;
+   font-size: 77%;
+   border-radius: 5px;
+}
+
+.form-container .alf-textarea .help-icon
+{
+   float: right;
+   position: relative;
+}
+
+.form-container .alf-textarea .help-icon img
+{
+   vertical-align: 0px;
+}
+
+.form-container .alf-textarea label
+{
+   float: left;
+}
+
+.form-container .alf-textarea .help-text
+{
+   margin-top: 0;
+   text-align: center;
+   top: -0.4em;
+   position: relative;
+   float: right;
+}
+
+.form-container .viewmode-field
+{
+   margin-bottom: 0.7em;
+   word-wrap: break-word;
+}
+
+.form-container .viewmode-label
+{
+   color: #606060;
+   margin-right: 0.4em;
+}
+
+.form-container .viewmode-value
+{
+   color: #333333;
+   word-wrap: break-word;
+}
+
+/* Grid containers */
+.form-container .alf-g .alf-u
+{
+   width: 49.1%;
+   float: right;
+}
+
+.form-container .alf-gc .alf-u
+{
+   width: 32%;
+   float: right;
+}
+
+.form-container .alf-g .alf-u.first
+{
+   float: left;
+}
+
+.form-container .alf-gc .alf-u.first
+{
+   width: 66%;
+   float: left;
+}
+
+.form-container .alf-gb .alf-u
+{
+   width: 32%;
+   float: left;
+}
+
+.form-container .alf-g:after,
+.form-container .alf-gb:after,
+.form-container .alf-gc:after
+{
+   content: "";
+   display: block;
+   clear: both;
+}
+
+.form-container .alf-gb .alf-u input,
+.form-container .alf-gb .alf-u input[type="file"],
+.form-container .alf-gb .alf-u input[type="text"],
+.form-container .alf-gb .alf-u input[type="password"],
+.form-container .alf-gc .alf-u input,
+.form-container .alf-gc .alf-u input[type="file"],
+.form-container .alf-gc .alf-u input[type="text"],
+.form-container .alf-gc .alf-u input[type="password"]
+{
+   width: auto;
+}
+
+form .mandatory,
+.form-fields .mandatory,
+.form-fields input[type=text].mandatory,
+.form-fields .input.mandatory input[type=text],
+.form-fields .input .mandatory input[type=text]
+{
+   background-color: #fafae6;
+}
+
+form .invalid,
+.form-fields .invalid,
+.form-fields input[type=text].invalid,
+.form-fields .input.invalid input[type=text],
+.form-fields .input .invalid input[type=text]
+{
+   background-color: #faecee;
+}
+
+/* If custom form controls wants to avoid the background color, they can add this css class manually */
+.form-fields .invalid.suppress-validation,
+form .invalid.suppress-validation,
+.form-fields input[type=text].invalid.suppress-validation,
+.form-fields .input.invalid.suppress-validation input[type=text],
+.form-fields .input .invalid.suppress-validation input[type=text],
+.form-fields .mandatory.suppress-validation,
+form .mandatory.suppress-validation,
+.form-fields input[type=text].mandatory.suppress-validation,
+.form-fields .input.mandatory.suppress-validation input[type=text],
+.form-fields .input .mandatory.suppress-validation input[type=text]
+{
+   background-color: transparent !important;
+}
+
+form .error,
+.form-container .error label
+{
+   color: #ff6666;
+}
+
+.form-container .viewmode-field .current-values div
+{
+   padding: 0.5em;
+   display: inline;
+}
+
+.form-container .viewmode-field .current-values img
+{
+   position: relative;
+   top: 3px;
+}
+
+/* Object finder related classes */
+
+.form-container .object-finder
+{
+   margin-bottom: 1.3em;
+}
+
+/* Date picker related classes */
+
+.form-container .datepicker
+{ 
+   display: none; 
+   position: absolute; 
+   z-index: 1;
+   margin-left: 1.5em;
+} 
+
+.form-container .datepicker-icon
+{
+   vertical-align: -0.3em;
+   margin: 0 0.4em;
+}
+
+.form-container input.date-entry
+{
+   width: 6em;
+   margin-bottom: 0.1em;
+}
+
+.form-container input.time-entry
+{
+   width: 3em;
+   margin-bottom: 0.1em;
+}
+
+.form-container .format-info
+{
+   margin-bottom: 0;
+}
+
+.form-container .date-format
+{
+   font-size: 0.7em;
+   color: #aaa;
+   margin-left: 0.2em;
+}
+
+.form-container .time-format
+{
+   font-size: 0.7em;
+   color: #aaa;
+   margin-left: 6.2em;
+}
+
+.form-container .time-format-disabled
+{
+   font-size: 0.7em;
+   color: #aaa;
+   margin-left: 3em;
+}
+
+.yui-calcontainer .title
+{
+   position: relative;
+}
+
+/* Period control related classes */
+
+.form-container .period
+{
+   margin-top: 0.6em;
+}
+
+.form-container .period select
+{
+   width: auto;
+   margin-left: 0.3em;
+   margin-right: 0.5em;
+}
+
+.form-container .period input
+{
+   width: 60px;
+   margin-left: 0.3em;
+}
+
+/* Category control related classes */
+.form-container .subcats-option
+{
+   padding-top: 0.5em;
+   padding-left: 0.3em;
+}
+
+/* Set appearance classes */
+
+.set
+{
+   padding-bottom: 0.5em;
+}
+
+.set-panel
+{
+   margin-bottom: 0.6em;
+}
+
+.set-panel-heading
+{
+   background-color: #eeeeee;
+   color: #515d6b;
+   padding: 0.3em 0.2em;
+}
+
+.set-panel-body
+{
+   margin-top: 0.8em;
+   padding-left: 0.2em;
+}
+
+.set-bordered-panel
+{
+   margin-bottom: 0.8em;
+}
+
+.set-bordered-panel-heading
+{
+   background-color: #eeeeee;
+   color: #515d6b;
+   padding: 0.3em 0.6em;
+}
+
+.set-bordered-panel-body
+{
+   padding: 1em 0.2em 0 0.6em;
+   border: 1px solid #eeeeee;
+}
+
+.set-title
+{
+   font-size: 116%;
+   border-bottom: 1px solid #eeeeee;
+   padding-bottom: 0.1em;
+   margin-bottom: 0.6em;
+   margin-top: 0.2em;
+}
+
+.set-whitespace
+{
+   padding: 0.4em;
+}
+
+.yui-calendar div.calheader a.calnav:hover {
+   color:#000000;
+}
+
+/* Balloon pop-up default styling */
+
+.balloon {
+   background: #35403f;
+   color: #e8e8e8;
+   padding: 8px 10px;
+   position: relative;
+   border-radius: 3px;
+   border:1px solid #2c3635;
+   box-shadow: 0 1px 0 #fff;
+   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+   margin-bottom: 10px;
+   min-width: 20em;
+}
+
+.balloon:before {
+   width: 0;
+   height: 0;
+   border-right: 7px solid transparent;
+   border-left: 7px solid transparent;
+   border-top: 7px solid #35403F;
+   z-index:5;
+   content: " ";
+   position:absolute;
+   bottom:-6px;
+   left:50px;
+}
+
+.balloon:after {
+   width: 0;
+   height: 0;
+   border-right: 7px solid transparent;
+   border-left: 7px solid transparent;
+   border-top: 7px solid #2C3635;
+   display:block;
+   content: " ";
+   position:absolute;
+   bottom:-7px;
+   left:50px;
+}
+
+.balloon .closeButton
+{
+   cursor: pointer;
+   color: #888;
+   float: right;
+   left: 6px;
+   position: relative;
+   top: -7px;
+   font-weight: bold;
+}
+
+.balloon .text
+{
+   text-align: left;
+}
+
+.balloon .text ul
+{
+   padding-left: 2em;
+}
+
+.balloon .text ul li
+{
+   list-style: disc;
+}
+
+/* Mac/Firefox 3.6 fix override */
+.prevent-scrollbars
+{
+   overflow: visible;
+}

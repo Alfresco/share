@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>WebView Config Module</shortname>
+  <description>Configuration dialog for WebView dashlet</description>
+  <url>/modules/webview/config</url>
+</webscript>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>site-members</id>
+   <page-type>site-members</page-type>
+   <title>Site Members</title>
+   <title-id>page.siteMembers.title</title-id>
+   <description>Site Members</description>
+   <description-id>page.siteMembers.description</description-id>
+   <template-instance>site-members</template-instance>
+   <authentication>user</authentication>
+</page>

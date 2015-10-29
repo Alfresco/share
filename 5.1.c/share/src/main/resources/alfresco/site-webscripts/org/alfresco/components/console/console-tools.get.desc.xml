@@ -1,0 +1,15 @@
+<webscript>
+  <shortname>Console Tools</shortname>
+  <description>Reusable Tools component for all Console pages</description>
+  <url>/components/console/tools</url>
+  <args>
+    <arg>
+      <shortname>listType</shortname>
+      <description>
+        Decides how the list of tools will be displayed.
+        Possible values: "grouped" (grouped by category/folder) or "simple" (simple plain list).
+        Default value: "grouped".
+      </description>
+    </arg>
+  </args>
+</webscript>

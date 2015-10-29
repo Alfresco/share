@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Custom Model Manager Console</title>
+   <title-id>tool.custom-model-manager.label</title-id>
+   <description>Custom Model Manager Console</description>
+   <description-id>tool.custom-model-manager.description</description-id>
+   <template-instance>console</template-instance>
+   <authentication>user</authentication>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/simple-title</url>
+         <properties>
+            <title>tool.custom-model-manager.label</title>
+         </properties>
+      </component>
+
+      <!-- Tools -->
+      <component>
+         <region-id>tools</region-id>
+         <url>/components/console/tools</url>
+      </component>
+
+   </components>
+</page>

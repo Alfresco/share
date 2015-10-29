@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/wiki-create</template-type>
+   <properties>
+      <pageFamily>wiki</pageFamily>
+      <container>wiki</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Create Form -->
+      <component>
+         <region-id>createform</region-id>
+         <url>/components/wiki/createform</url>
+      </component>
+   </components>
+</template-instance>

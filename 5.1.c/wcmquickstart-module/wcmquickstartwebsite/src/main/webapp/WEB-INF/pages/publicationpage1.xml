@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>publicationpage1</id>
+   <description>page of publication thumbnails</description>
+   <template-instance>two-block</template-instance>
+   <authentication>none</authentication>
+   <components>
+      <component>
+         <region-id>left1</region-id>
+         <url>/preview/web-preview</url>
+      </component>    
+      <component>
+         <region-id>right1</region-id>
+         <url>/content/details</url>
+         <properties>
+            <title>content.details.title</title>
+         </properties>          
+      </component>               
+   </components>
+</page>

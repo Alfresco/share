@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<theme>
+   <title>Light Theme</title>
+   <title-id>theme.lightTheme</title-id>
+   <css-tokens>
+      <less-variables>
+         @dashlet-background: #fff;
+         @dashlet-border: 1px solid #ccc;
+         @dashlet-border-radius: 6px 6px 0 0;
+         @dashlet-title-background: #eee;
+         @dashlet-title-border-bottom: 1px solid #ccc;
+         @dashlet-title-border-radius: 6px 6px 0 0;
+         @dashlet-title-color: #333;
+         @dashlet-toolbar-background: transparent;
+         @dashlet-toolbar-border-bottom: 1px solid #ccc;
+         @dashlet-body-background: #fff;
+         @dashlet-body-border-radius: 0;
+         
+         @use-legacy-buttons: false;
+         
+      </less-variables>
+   </css-tokens>
+</theme>

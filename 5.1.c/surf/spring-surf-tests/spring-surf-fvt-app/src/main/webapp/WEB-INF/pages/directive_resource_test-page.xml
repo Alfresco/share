@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>directive_resource_test-page</id>
+   <title>Example Resource directive test</title>
+   <template-instance>directive_resource_test-template</template-instance>
+</page>

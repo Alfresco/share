@@ -1,0 +1,168 @@
+#wef.wef-ie #wef-ribbon
+{
+   height: 78px;
+}
+
+#wef.wef-ie-7 #wef-ribbon
+{
+   height: 80px;
+}
+#wef.wef-ie #wef-ribbon_c
+{
+   position: relative;
+   top: -2px;
+   left: -2px;
+   float:right;
+}
+
+/* Fix for ALF-4655 - removes gap on right in IE8 */
+#wef.wef-ie-8 #wef-ribbon_c
+{
+   left: 0px;
+}
+#wef.wef-ie-8 #wef-ribbon
+{
+   left:2px;
+}
+
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon .bd {
+	margin-left:0px;
+}
+
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonHeader {
+	padding:0 10px 10px 0;
+}
+
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c
+{
+   position: absolute !important;
+   top: expression(((document.documentElement.scrollTop || document.body.scrollTop) + (!this.offsetHeight && 0))-2 + "px");
+}
+
+#wef.wef-ie-7 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonFooter,
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonFooter
+{
+   top: 7px;
+}
+
+#wef.wef-ie-7 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonFooter .wef-toolbar .icon-button button,
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonFooter .wef-toolbar .icon-button button
+{
+   padding-left: 3.5em;
+}
+
+#wef.wef-ie-7 #wef-ribbon #wef-ribbonHeader h6,
+#wef.wef-ie-6 #wef-ribbon #wef-ribbonHeader h6
+{
+   height: 82px;
+}
+
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonFooter
+{
+   width: 16em;
+}
+
+#wef.wef-ie-6 #wef-ribbon .wef-tab-toolbar DIV.wef-toolbar
+{
+   margin-bottom: 0;
+}
+#wef.wef-ie-6 #wef-ribbon_c
+{
+   padding-bottom: 0
+}
+
+#wef.wef-ie-6 #awe-login_c
+{
+   width: 260px;
+}
+
+#wef.wef-ie-7 #wef-toolbar-secondary-container .wef-toolbar .icon-button,
+#wef.wef-ie-6 #wef-toolbar-secondary-container .wef-toolbar .icon-button
+{
+   background-position-y: 2px;
+}
+
+#wef.wef-ie-7 #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter .yui-button button,
+#wef.wef-ie-7 #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter .yui-button button,
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter .yui-button button,
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter .yui-button button
+{
+   text-indent: 0;
+   width: 4em;
+   padding-left: 4em;
+}
+
+#wef.wef-ie-7 #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter .yui-menu-button button,
+#wef.wef-ie-7 #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter .yui-button button,
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter .yui-button button,
+#wef.wef-ie-6 #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter .yui-menu-button button
+{
+   width: 4.5em;
+   padding-left: 4.5em;
+   text-indent: 0;
+}
+
+#wef.wef-ie #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c
+{
+   border: 0;
+   height:6em;
+}
+
+#wef.wef-ie #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonHeader,
+#wef.wef-ie #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonBody,
+#wef.wef-ie #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonFooter
+{
+   border-left: 1px solid black;
+}
+
+#wef.wef-ie-7 #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonBody,
+#wef.wef-ie-7 #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonBody
+{
+   margin-top: 22px;
+}
+
+#wef.wef-ie-8 #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonBody,
+#wef.wef-ie-8 #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonBody
+{
+   margin-top: 30px;
+}
+
+#wef.wef-ie-8 #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonFooter,
+#wef.wef-ie-8 #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonFooter
+{
+   height: 22px;
+}
+
+/* fix for ie8 when ribbon is clicked (focused), tab content div expands */
+#wef.wef-ie-8 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbonBody .wef-tab-toolbar .yui-navset .yui-content
+{
+   height: 47px !important;
+}
+
+#wef.wef-ie-8 #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonBody .wef-tab-toolbar .yui-navset .yui-nav,
+#wef.wef-ie-8 #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonBody .wef-tab-toolbar .yui-navset .yui-nav
+{
+   margin-top: 1px;
+}
+/*fixes for sites in quirks mode*/
+body.wef-quirks #wef.wef-ie #wef-ribbon_c
+{
+   position: absolute !important;
+   top: expression(((document.documentElement.scrollTop || document.body.scrollTop) + (!this.offsetHeight && 0))-2 + "px");
+}
+
+body.wef-quirks #wef.wef-ie-8 #wef-ribbon .wef-tab-toolbar div.yui-content
+{
+   padding:0;
+}
+
+body.wef-quirks #wef.wef-ie #awe-login_c
+{
+   width: 260px;
+}
+
+body.wef-quirks #wef.wef-ie-8 #wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonFooter .wef-toolbar .icon-button button
+{
+   padding-left: 3.5em;
+}
+/*end of quirks mode fixes*/

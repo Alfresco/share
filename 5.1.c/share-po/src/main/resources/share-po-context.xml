@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util.xsd">
+          
+    <context:component-scan base-package="org.alfresco.po"/>
+    <context:spring-configured/>
+    <import resource="classpath:webdriver-context.xml"/> 
+
+    <!-- Inject the properties as java.util.Property -->
+    <bean id="poProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean" >
+        <property name="locations">
+	        <list>
+	            <value>classpath:en.properties</value>
+	            <value>classpath:share.properties</value>
+	            <value>classpath:cmm.properties</value>
+	        </list>
+        </property>
+    </bean>
+    <bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+       <property name="locations">
+          <list>
+             <value>classpath*:sharepo.properties</value>
+        	 <value>classpath*:*-qa.properties</value>
+          </list>
+       </property>
+       <property name="ignoreUnresolvablePlaceholders" value="true"/>
+       <property name="ignoreResourceNotFound" value="true" />
+    </bean>
+    
+    <bean id="factoryPage"  class="org.alfresco.po.share.FactorySharePage">
+        <property name="poProperties" ref="poProperties" />
+        <property name="defaultWaitTime" value="${render.element.wait.time}" />
+        <property name="maxPageLoadingTime" value="${render.page.wait.time}" />
+    </bean>
+
+    <!--                  -->
+    <!-- WebDriver        -->
+    <!--                  -->
+    <bean id="webDriver" factory-bean="&amp;webDriverFactoryBean" factory-method="getObject"  destroy-method="quit" lazy-init="true" scope="prototype">
+        <constructor-arg value="${webdriver.browser}"/>
+    </bean>
+</beans>
+
+

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<theme>
+   <title>Yellow Theme</title>
+   <title-id>theme.yellowTheme</title-id>
+   <css-tokens>
+      <less-variables>
+         @dashlet-background: #fff;
+         @dashlet-border: 1px solid #d7d7d7;
+         @dashlet-border-radius: 0;
+         @dashlet-title-background: #eee linear-gradient(to bottom, #fff, #eee);
+         @dashlet-title-border-bottom: 0;
+         @dashlet-title-border-radius: 0;
+         @dashlet-title-color: inherit;
+         @dashlet-toolbar-background: #f8f8f8;
+         @dashlet-toolbar-border-bottom: 1px solid #e8e8e8;
+         @dashlet-body-background: #fff;
+         @dashlet-body-border-radius: 0;
+      </less-variables>
+   </css-tokens>
+</theme>

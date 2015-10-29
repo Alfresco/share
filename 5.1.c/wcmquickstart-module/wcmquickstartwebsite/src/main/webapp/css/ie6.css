@@ -1,0 +1,64 @@
+/* double float bug */
+.slide-1-desc h1,
+.slide-1-desc p,
+.slideshow-rm,
+.slideshow-rm a,
+.latest-news h3,
+.ln-list li h6,
+.ln-list li p,
+.ln-date,
+.h-services-list li a,
+.body-rm,
+.body-rm a,
+.reverse-arrow,
+.reverse-arrow a,
+.newsletter h3,
+.newsletter p,
+.interior-header h2,
+.intheader-paragraph,
+#tabs,
+.ui-tabs .ui-tabs-nav li,
+.flickr h3,
+.flickr ul,
+.flickr ul li,
+.blog-categ h3,
+.blog-categ ul li,
+.services-wrapper li,
+.services-box h3,
+.services-box-list,
+.services-box p,
+.aboutus-box h3,
+.aboutus-box p,
+.address-box h3,
+.address-box address,
+.portfolio-wrapper li,
+.portfolio-wrapper li h4 {
+	display:inline;
+}
+
+#footer {
+	margin:5px -1px 0 0;
+	width:959px;	
+}
+.tbl {
+	margin-bottom:12px;
+}
+.tabular-block h4 {
+	margin-top:5px;
+}
+.blog-misc .bm-square {
+	font-size:0;
+	line-height:0;
+}
+.flickr {
+	padding-bottom:14px;
+}
+.pagination {
+	padding-bottom:10px;
+}
+.slide-txt {
+	bottom:3px;
+}
+.interior-header {
+	padding-bottom:12px;
+}

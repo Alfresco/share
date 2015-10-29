@@ -1,0 +1,786 @@
+/* Headings */
+#CMM h2,
+#CMM h3 {
+   font-family: 'Open Sans Bold';
+}
+
+/* Labels */
+#CMM .alfresco-html-Label {
+   font-family: 'Open Sans Condensed', Arial, sans-serif;
+   font-size: 132%;
+}
+#CMM .alfresco-html-Label.status,
+#CMM .alfresco-renderers-Property.status {
+   display: inline-block;
+   padding: 5px 20px;
+   border-radius: 3px;
+   background-color: #ccc;
+}
+#CMM .alfresco-html-Label.status.active,
+#CMM .alfresco-renderers-Property.status.active {
+   background-color: #45a540;
+   color: #fff;
+}
+#CMM .alfresco-renderers-Property.status.active > span {
+   color: #fff;
+}
+#CMM .alfresco-renderers-Property.status {
+   padding: 1px 0 1px 6px;
+   width: 99px;
+   border-radius: 3px;
+}
+
+/* Data list */
+#CMM .alfresco-lists-views-AlfListView.bordered > table > tbody > tr > td {
+   border-top: none;
+   border-bottom: none;
+}
+
+#CMM td.nameColumn span.alfresco-renderers-Property span {
+   color: #006ca6;
+}
+#CMM td.nameColumn span.alfresco-renderers-Property span:hover {
+   text-decoration: underline;
+   color: #005684;
+}
+
+#CMM .alfresco-lists-AlfList > div.info {
+   margin-left: 0;
+}
+
+#CMM th {
+   font-family: 'Open Sans Bold';
+}
+
+#CMM .nameColumn {
+   width: 200px
+}
+#CMM .statusColumn {
+   width: 90px
+}
+#CMM .actionsColumn {
+   width: 90px
+}
+#CMM .parentColumn {
+}
+
+#CMM #PROPERTIES_LIST .datatypeColumn {
+   width: 90px
+}
+#CMM #PROPERTIES_LIST .mandatoryColumn {
+   width: 160px
+}
+#CMM #PROPERTIES_LIST .multivalueColumn {
+   width: 90px
+}
+
+#CMM .cmm-layout-CMMStackContainer .dijitStackContainer-dijitContentPane {
+   padding: 10px;
+}
+
+#CMM .alfresco-layout-VerticalWidgets.verticalPalette .alfresco-buttons-AlfButton {
+   width: 100%;
+   margin-bottom: 8px;
+   background-color: #6e9e2d;
+   border: 1px solid #777;
+   border-radius: 4px;
+}
+#CMM .alfresco-layout-VerticalWidgets.verticalPalette .alfresco-buttons-AlfButton .dijitInline.dijitButtonText {
+   color: #fff;
+}
+
+#CMM .alfresco-buttons-AlfButton {
+   padding: 6px 13px;
+}
+
+#CMM .alfresco-buttons-AlfButton.createButton,
+#CMM .alfresco-buttons-AlfButton.createTypeButton,
+#CMM .alfresco-buttons-AlfButton.createPropertyGroupButton,
+#CMM .alfresco-buttons-AlfButton.createPropertyButton {
+   background-color: #0078be;
+   border: 1px solid #777;
+}
+#CMM .alfresco-buttons-AlfButton.createButton .dijitInline.dijitButtonText,
+#CMM .alfresco-buttons-AlfButton.createTypeButton .dijitInline.dijitButtonText,
+#CMM .alfresco-buttons-AlfButton.createPropertyGroupButton .dijitInline.dijitButtonText,
+#CMM .alfresco-buttons-AlfButton.createPropertyButton .dijitInline.dijitButtonText {
+   color: #fff;
+}
+
+#CMM .alfresco-buttons-AlfButton.createPropertyButton {
+   background-color: #0078be;
+   border: 1px solid #777;
+}
+#CMM .alfresco-buttons-AlfButton.createPropertyButton .dijitInline.dijitButtonText {
+   color: #fff;
+}
+
+/* Model edit form */
+#CMM .nameField .dijitTextBox {
+   width: 20em;
+}
+
+#CMM .descriptionField .dijitTextBox {
+   width: 50em;
+}
+
+/* Icons used throughout */
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-edit,
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-delete,
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-activate,
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-deactivate,
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-import,
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-export,
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-edit-form {
+   background-repeat: no-repeat;
+   height: 20px;
+   width: 20px;
+}
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-edit {
+   background-image: url(./images/edit-16.png);
+}
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-delete {
+   background-image: url(./images/delete-16.png);
+}
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-activate {
+   background-image: url(./images/activate-16.png);
+}
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-deactivate {
+   background-image: url(./images/deactivate-16.png);
+}
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-edit-form {
+   background-image: url(./images/edit-form-16.png);
+}
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-search {
+   background-image: url(./images/search-16.png);
+}
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-import {
+   background-image: url(./images/import-16.png);
+}
+.alfresco-share .dijitIcon.dijitMenuItemIcon.cmm-icon-export {
+   background-image: url(./images/export-16.png);
+}
+
+/* Editor */
+#FORM_EDITOR_CONSOLE #FORM_CANVAS {
+   margin: 0;
+   padding: 0;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS div.title-row {
+   display: none;
+}
+
+#FORM_EDITOR_CONSOLE #PROPERTY_PALETTE {
+   min-width: 180px;
+}
+#FORM_EDITOR_CONSOLE #PROPERTY_PALETTE > div.info {
+   margin: 0;
+}
+#FORM_EDITOR_CONSOLE #PROPERTY_PALETTE > div.info.data-loading {
+   margin: 16px 12px;
+}
+#FORM_EDITOR_CONSOLE #PROPERTY_PALETTE > div.info.rendered-view {
+   margin-top: -30px;
+}
+#FORM_EDITOR_CONSOLE #PROPERTY_PALETTE > div.info.rendered-view .alfresco-lists-views-AlfListView__no-data {
+   margin: 48px 10px;
+   max-width: 160px;
+}
+#FORM_EDITOR_CONSOLE #PROPERTY_PALETTE .palette {
+   border: none;
+   margin-top: 38px;
+}
+
+#FORM_EDITOR_CONSOLE .alfresco-dnd-DragAndDropItems .palette {
+   margin: 0 5px 5px 0;
+   padding: 6px 0 0 6px;
+}
+
+/* Non property palette */
+#FORM_EDITOR_CONSOLE #NON_PROPERTY_PALETTE .palette {
+   background-color: #eee;
+   margin-bottom: 0;
+   text-align: center;
+}
+#FORM_EDITOR_CONSOLE #NON_PROPERTY_PALETTE .dojoDndItem {
+   display: inline-block;
+}
+#FORM_EDITOR_CONSOLE #NON_PROPERTY_PALETTE .dojoDndItem .title {
+   display: none;
+}
+#FORM_EDITOR_CONSOLE #NON_PROPERTY_PALETTE .alfresco-dnd-DragAndDropItem.dragTemplate {
+   width: auto;
+}
+
+/* Property menu */
+.alfresco-dnd-DragAndDropItem.dragTemplate span {
+   vertical-align: top !important;
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .title {
+   width: 120px;
+   word-break: break-word;
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon {
+   background-position: 2px 2px;
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-1cols {
+   background-image: url(./images/single-col-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-2cols {
+   background-image: url(./images/double-col-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-2cols-wide-left {
+   background-image: url(./images/double-col-wide-left-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-3cols {
+   background-image: url(./images/triple-col-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-text {
+   background-image: url(./images/text-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-mltext {
+   background-image: url(./images/textml-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-content {
+   background-image: url(./images/content-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-int {
+   background-image: url(./images/int-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-long {
+   background-image: url(./images/long-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-float {
+   background-image: url(./images/float-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-double {
+   background-image: url(./images/double-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-date {
+   background-image: url(./images/date-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-datetime {
+   background-image: url(./images/datetime-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-boolean {
+   background-image: url(./images/boolean-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-size {
+   background-image: url(./images/int-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-mimetype {
+   background-image: url(./images/content-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-taggable {
+   background-image: url(./images/single-col-16.png);
+}
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate .icon.editor-categories {
+   background-image: url(./images/single-col-16.png);
+}
+
+#FORM_EDITOR_CONSOLE .alfresco-dnd-DragAndDropItems .palette .dojoDndItem {
+   padding: 0;
+}
+#FORM_EDITOR_CONSOLE .alfresco-dnd-DragAndDropItems .palette .alfresco-dnd-DragAndDropItem {
+   margin: 0px 4px 6px 2px;
+   border-radius: 3px;
+}
+
+/* Inline property create button */
+#CMM #FORM_EDITOR_CONSOLE .inlinePropertyButton {
+   margin: 10px 8px;
+   border-radius: 3px;
+   border: 1px dashed #CCC;
+   padding: 5px 4px 5px 7px;
+   width: 162px;
+}
+#CMM #FORM_EDITOR_CONSOLE .inlinePropertyButton .dijitButtonNode {
+   padding: 0;
+}
+#CMM #FORM_EDITOR_CONSOLE .inlinePropertyButton .inlinePropertyButtonIcon {
+   width: 16px;
+   height: 16px;
+   background-image: url(./images/plus-16.png);
+   margin-right: 5px;
+}
+
+/* Canvas layout*/
+#FORM_EDITOR_CONSOLE #FORM_EDITOR {
+   margin: 0 5px 5px 0;
+}
+#FORM_EDITOR_CONSOLE .alfresco-forms-controls-BaseFormControl > .control-row > .control {
+   margin: 0;
+}
+#FORM_CANVAS.alfresco-forms-controls-BaseFormControl > .control-row {
+   line-height: 10px;
+}
+
+/* DnD indicators */
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.singleColumnWrapper .alfresco-dnd-DroppedItemWrapper.dojoDndItem.dojoDndItemOver.dojoDndItemBefore:before {
+   border-top: 2px dashed #0081c7;
+   content: "";
+   position: absolute;
+   top: -8px;
+   bottom: 0;
+   left: 0;
+   right: 0;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.singleColumnWrapper .alfresco-dnd-DroppedItemWrapper.dojoDndItem.dojoDndItemOver.dojoDndItemAfter:after {
+   border-bottom: 2px dashed #0081c7;
+   content: "";
+   position: absolute;
+   top: 0;
+   bottom: -7px;
+   left: 0;
+   right: 0;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper .alfresco-dnd-DroppedItemWrapper.dojoDndItem.dojoDndItemOver.dojoDndItemBefore:before,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper .alfresco-dnd-DroppedItemWrapper.dojoDndItem.dojoDndItemOver.dojoDndItemBefore:before,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper .alfresco-dnd-DroppedItemWrapper.dojoDndItem.dojoDndItemOver.dojoDndItemBefore:before {
+   border-left: 2px dashed #0081c7;
+   content: "";
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: -7px;
+   right: 0;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper .alfresco-dnd-DroppedItemWrapper.dojoDndItem.dojoDndItemOver.dojoDndItemAfter:after,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper .alfresco-dnd-DroppedItemWrapper.dojoDndItem.dojoDndItemOver.dojoDndItemAfter:after,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper .alfresco-dnd-DroppedItemWrapper.dojoDndItem.dojoDndItemOver.dojoDndItemAfter:after {
+   border-right: 2px dashed #0081c7;
+   content: "";
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: -7px;
+}
+
+/* DnD avatars - remove dojo template */
+body.claro > table.dojoDndAvatar,
+body.claro.dojoDndMove > table.dojoDndAvatar {
+   border: none;
+   border-collapse: collapse;
+   background-color: transparent;
+   box-shadow: none;
+   padding: 0;
+   margin: 0;
+   min-width: 200px;
+   max-width: 400px;
+}
+body.claro > table.dojoDndAvatar tr.dojoDndAvatarHeader,
+body.claro.dojoDndMove > table.dojoDndAvatar tr.dojoDndAvatarHeader {
+   display: none;
+}
+body.claro > table.dojoDndAvatar td,
+body.claro.dojoDndMove > table.dojoDndAvatar td {
+   border: none;
+   padding: 0;
+   margin: 0;
+}
+
+/* DnD avatars - colours during drag */
+body.claro > table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropItem.dragTemplate span,
+body.claro > table.dojoDndAvatar tr.dojoDndAvatarItem td > .alfresco-dnd-DroppedItemWrapper span {
+   color: #0081c7;
+}
+
+body.claro > table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropItem.dragTemplate,
+body.claro > table.dojoDndAvatar tr.dojoDndAvatarItem td > .alfresco-dnd-DroppedItemWrapper {
+   border-color: #0081c7;
+   background-color: #f2fbff;
+}
+
+/* DnD avatars - colours for canDrop */
+body.claro > table.dojoDndAvatar.dojoDndAvatarCanDrop tr.dojoDndAvatarItem td > .alfresco-dnd-DroppedItemWrapper span {
+   color: #333;
+}
+body.claro > table.dojoDndAvatar.dojoDndAvatarCanDrop tr.dojoDndAvatarItem td > .alfresco-dnd-DroppedItemWrapper {
+   border-color: #ccc;
+   background-color: #fff;
+   border-radius: 3px;
+}
+
+/* DnD avatars - Items from the menus have slightly different classes  */
+.dojoDndItem .alfresco-dnd-DragAndDropItem.dragTemplate {
+   box-shadow: none;
+}
+body.claro > table.dojoDndAvatar.dojoDndAvatarCanDrop tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropItem.dragTemplate span {
+   color: #333;
+}
+body.claro > table.dojoDndAvatar.dojoDndAvatarCanDrop tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropItem.dragTemplate {
+   border-color: #ccc;
+   background-color: #fff;
+   border-radius: 3px;
+}
+
+table.dojoDndAvatar tr.dojoDndAvatarItem {
+   opacity: 1.0 !important;
+}
+table.dojoDndAvatar tr.dojoDndAvatarHeader td span {
+    display: none;
+}
+table.dojoDndAvatar tr.dojoDndAvatarItem td > .alfresco-dnd-DroppedItemWrapper {
+   margin: 5px;
+   border-radius: 3px;
+}
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropTarget .previewPanel {
+   min-width: 200px;
+}
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DroppedItemWrapper .alfresco-dnd-DragAndDropTarget .previewPanel {
+   padding: 8px 4px 4px 10px;
+}
+
+/* Wrappers throughout their lifecycle */
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper,
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DroppedItemWrapper {
+   margin: 5px 8px 10px 2px;
+   box-shadow: none;
+   transition: none;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper:last-of-type {
+	margin-bottom: 10px;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper > .actions,
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DroppedItemWrapper > .actions {
+   position: absolute;
+   top: 5px;
+   right: 5px;
+   margin: 0;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper > .dojoDndHandle,
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DroppedItemWrapper > .dojoDndHandle {
+   position: absolute;
+   top: 5px;
+   left: 5px;
+   margin: 0;
+   cursor: move;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper > .label {
+   position: absolute;
+   top: 4px;
+   left: 25px;
+   margin: 0;
+   font-size: 103%;
+   color: #000;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper > .control,
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DroppedItemWrapper > .control {
+   margin-top: 20px;
+   margin-bottom: 0;
+}
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DroppedItemWrapper > .label {
+   position: relative;
+   top: 0;
+   margin: 0 0 0 20px;
+   font-size: 103%;
+   color: #000;
+}
+
+/* Nested targets */
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget .previewPanel {
+   max-width: 800px;
+   min-width: 800px;
+   min-height: 500px;
+   margin: 0;
+   box-shadow: none;
+   padding: 4px 0px 6px 6px;
+   border: 1px solid #ccc;
+}
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropTarget .previewPanel {
+   margin: 0;
+   box-shadow: none;
+   padding: 6px 0 6px 6px;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget .previewPanel .previewPanel {
+   display: inline-block;
+   width: 100%;
+   min-height: 42px;
+   min-width: 758px;
+   padding: 6px 1px 0 7px;
+   background-image: none;
+   border: 1px dashed #ccc;
+}
+table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropTarget .previewPanel .previewPanel {
+   display: inline-block;
+   width: 100%;
+   padding: 6px 1px 0 7px;
+}
+.alfresco-dnd-DragAndDropTarget .alfresco-dnd-DragAndDropTarget {
+   padding-right: 10px;
+}
+
+#FORM_EDITOR_CONSOLE .alfresco-dnd-DragAndDropItems .dojoDndItem.dojoDndItemAnchor,
+#FORM_EDITOR_CONSOLE .alfresco-dnd-DragAndDropItems .dojoDndItem.dojoDndItemOver {
+   background-color: transparent;
+}
+
+#FORM_CANVAS.alfresco-forms-controls-BaseFormControl > .control-row .previewPanel {
+   line-height: 1.231;
+}
+
+#FORM_EDITOR .buttons {
+   background-color: #eee;
+   padding: 6px 2px 1px 0px;
+   text-align: right;
+}
+#FORM_EDITOR .buttons .alfresco-buttons-AlfButton {
+   margin-right: 0;
+   margin-left: 15px;
+}
+
+/* Title pane */
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE {
+   position: absolute;
+   top: 116px;
+   left: 1004px;
+   z-index: 100;
+   width: 238px;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info {
+   background-color: #f5f5f5;
+   padding: 0 3px;
+   border-left: 1px solid #eee;
+   border-right: 1px solid #eee;
+   margin-bottom: 0;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info.first {
+   border-top: 1px solid #eee;
+   padding-bottom: 0;
+   margin-bottom: 0;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info.last {
+   border-bottom: 1px solid #eee;
+   padding-top: 0;
+   margin-bottom: 10px;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info div.title-row,
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info div.control-row {
+   height: 20px;
+   max-width: 160px !important;
+   text-align: right;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info div.title-row {
+   width: 48px;
+   display: inline-block;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info div.title-row > label {
+   font: inherit;
+   font-size: 12px;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info div.control-row div {
+   border: none;
+   background-color: transparent;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .edit-properties-info div.control-row div input {
+   font-style: italic;
+   padding-bottom: 3px;
+   text-overflow: ellipsis;
+}
+#FORM_EDITOR_CONSOLE #PROPERTIES_PANEL #ALF_DROPPED_ITEM_CONFIGURATION_TITLE_PANE .underborder {
+   border-bottom: 1px solid #eee;
+   padding-bottom:  13px;
+}
+
+/* Properties panel */
+#PROPERTIES_PANEL .alfresco-forms-controls-BaseFormControl > .title-row {
+   width: auto;
+   text-align: left;
+   float: none;
+   display: inline-block;
+}
+#PROPERTIES_PANEL .alfresco-forms-controls-BaseFormControl > .title-row > label {
+   font-size: 13px;
+   line-height: normal;
+   margin-bottom: 0;
+}
+#PROPERTIES_PANEL .alfresco-forms-controls-BaseFormControl > .title-row > label:after {
+   content: ":";
+}
+#PROPERTIES_PANEL .alfresco-forms-controls-BaseFormControl > .description-row > .description {
+   margin: 0;
+}
+#CMM #PROPERTIES_PANEL .cmm-forms-controls-SimpleStyle .alfresco-buttons-AlfButton {
+   padding: 0;
+}
+
+/* Editor panel columns */
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.singleColumnWrapper,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.singleColumnWrapper,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper {
+   background-color: #fff;
+   border-color: #ccc;
+   border-radius: 3px;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.singleColumnWrapper.selected,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper.selected,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper.selected,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper.selected,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper .alfresco-dnd-DragAndDropTarget .alfresco-dnd-DroppedItemWrapper.selected {
+   color: #0081c7;
+   border: 1px solid #0081c7;
+   border-radius: 3px;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.doubleColumn .previewPanel .alfresco-dnd-DroppedItemWrapper,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.doubleColumnWideLeft .previewPanel .alfresco-dnd-DroppedItemWrapper,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.tripleColumn .previewPanel .alfresco-dnd-DroppedItemWrapper {
+   float: left;
+   margin-bottom: 5px;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.doubleColumn .previewPanel .alfresco-dnd-DroppedItemWrapper:last-of-type,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.doubleColumnWideLeft .previewPanel .alfresco-dnd-DroppedItemWrapper:last-of-type,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.tripleColumn .previewPanel .alfresco-dnd-DroppedItemWrapper:last-of-type {
+   margin-bottom: 10px;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.doubleColumn .previewPanel .alfresco-dnd-DroppedItemWrapper {
+   width: 47%;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.doubleColumnWideLeft .previewPanel .alfresco-dnd-DroppedItemWrapper:nth-child(odd) {
+   width: 63%;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.doubleColumnWideLeft .previewPanel .alfresco-dnd-DroppedItemWrapper:nth-child(even) {
+   width: 30%;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DragAndDropTarget.tripleColumn .previewPanel .alfresco-dnd-DroppedItemWrapper {
+   width: 30%;
+}
+
+/* Dropped widgets */
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper .actions {
+   display: none;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper .alfresco-dnd-DragAndDropTarget .alfresco-dnd-DroppedItemWrapper,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper {
+   background-color: #fff;
+   border-color: #ccc;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper .alfresco-dnd-DragAndDropTarget .label,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper .alfresco-dnd-DragAndDropTarget .label {
+   font-size: 100%;
+   color: #444;
+   position: static;
+   display: inline-block;
+   margin: 0;
+   padding: 0 20px;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.singleColumnWrapper .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.singleColumnWrapper > .dojoDndHandle {
+   background-image: url(./images/single-col-16.png);
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper > .dojoDndHandle {
+   background-image: url(./images/double-col-16.png);
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper > .dojoDndHandle {
+   background-image: url(./images/double-col-wide-left-16.png);
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper > .dojoDndHandle {
+   background-image: url(./images/triple-col-16.png);
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.textWidget .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.textWidget .dojoDndHandle {
+   background-image: url(./images/text-16.png);
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.contentWidget .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.contentWidget .dojoDndHandle {
+   background-image: url(./images/content-16.png);
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.numericWidget .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.numericWidget .dojoDndHandle {
+   background-image: url(./images/numeric-16.png);
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.dateWidget .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.dateWidget .dojoDndHandle {
+   background-image: url(./images/date-16.png);
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.booleanWidget .dojoDndHandle,
+body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.booleanWidget .dojoDndHandle {
+   background-image: url(./images/boolean-16.png);
+}
+
+.alfresco-dnd-DroppedItemWrapper .alfresco-dnd-DroppedItem {
+   display: none;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper .alfresco-dnd-DragAndDropTarget .alfresco-dnd-DroppedItemWrapper.dojoDndItem {
+   padding-bottom: 3px;
+   border-radius: 3px;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper .alfresco-dnd-DroppedItemWrapper .actions .action.up .image,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper .alfresco-dnd-DroppedItemWrapper .actions .action.up .image,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper .alfresco-dnd-DroppedItemWrapper .actions .action.up .image {
+   display: inline-block;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+   background: url(./images/move-left.png) no-repeat;
+   width: 12px;
+   height: 13px;
+   padding-left: 12px;
+}
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWrapper .alfresco-dnd-DroppedItemWrapper .actions .action.down .image,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.doubleColumnWideLeftWrapper .alfresco-dnd-DroppedItemWrapper .actions .action.down .image,
+#FORM_EDITOR_CONSOLE #FORM_CANVAS .alfresco-dnd-DroppedItemWrapper.tripleColumnWrapper .alfresco-dnd-DroppedItemWrapper .actions .action.down .image {
+   display: inline-block;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+   background: url(./images/move-right.png) no-repeat;
+   width: 12px;
+   height: 13px;
+   padding-left: 12px;
+}
+
+#FORM_EDITOR_CONSOLE div.left-widgets {
+   background-color: #eee;
+   border: 1px solid #ccc;
+}
+
+#FORM_EDITOR_CONSOLE .paletteLabel {
+   display: inline-block;
+   margin-top: 14px;
+   margin-left: 10px;
+   font-size: 13px;
+   font-family: 'Open Sans Bold';
+}
+
+#FORM_EDITOR_CONSOLE .layoutLabel {
+   position: absolute;
+   margin-top: 14px;
+   font-size: 13px;
+   font-family: 'Open Sans Bold';
+}
+
+#FORM_EDITOR_CONSOLE #FORM_EDITOR .layout-help-top {
+   position: absolute;
+   margin-left: 285px;
+   max-width: 305px;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_EDITOR .layout-help-left {
+   position: absolute;
+   margin-top: 200px;
+   max-width: 680px;
+}
+
+#FORM_EDITOR_CONSOLE #FORM_EDITOR .layout-help-bottom {
+   position: absolute;
+   margin-left: 460px;
+   top: 508px;
+   max-width: 305px;
+}

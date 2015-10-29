@@ -1,0 +1,8 @@
+<component-type>
+    <id>webscript_component_type_legacy-componentType</id>
+    <title>A WebScript Rendered Component Type</title>
+    <description></description>
+    <processor mode="view">
+        <id>webscript</id>        
+    </processor>
+</component-type>

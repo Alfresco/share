@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page> 
+   <id>articlepage2</id>
+   <description>blog article style page with comment display and form</description>   
+   <template-instance>two-block</template-instance>
+   <authentication>none</authentication>
+   <components>
+      <component>
+         <region-id>left1</region-id>
+         <url>/article/style2</url>
+      </component>
+      <component>
+         <region-id>left2</region-id>
+         <url>/comments/display</url>
+      </component>  
+      <component>
+         <region-id>left3</region-id>
+         <url>/comments/write</url>
+         <properties>
+            <successAsset>comment-thankyou.html</successAsset>
+         </properties>                  
+      </component>       
+      <component>
+         <region-id>right1</region-id>
+         <url>/list/narrow</url>
+         <properties>
+            <collection>latest.articles</collection>
+         </properties>         
+      </component>    
+      <component>
+         <region-id>right2</region-id>
+         <url>/facebook/like</url>
+      </component> 
+   </components>
+</page>

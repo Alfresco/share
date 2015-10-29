@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Web View Default</shortname>
+   <description>Display the defaults contents of of an empty webview</description>
+   <url>/components/dashlets/webview-default</url>
+</webscript>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Tag Management</title>
+   <title-id>page.manageTags.title</title-id>
+   <description>Create new or Edit existing Tags</description>
+   <description-id>page.manageTags.description</description-id>
+   <template-instance>tag-management</template-instance>
+   <authentication>admin</authentication>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/simple-title</url>
+         <properties>
+            <title>page.adminConsole.title</title>
+         </properties>
+      </component>
+
+   </components>
+</page>

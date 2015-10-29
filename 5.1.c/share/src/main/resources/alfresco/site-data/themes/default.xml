@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<theme>
+   <title>Default Blue Theme</title>
+   <title-id>theme.default</title-id>
+   <css-tokens>
+      <less-variables>
+         @dashlet-background: transparent;
+         @dashlet-border: 1px solid #bababa;
+         @dashlet-border-radius: 0;
+         @dashlet-title-background: #d7e0e7 linear-gradient(to bottom, #e3ebef, #afc0cf);
+         @dashlet-title-border-bottom: 0;
+         @dashlet-title-border-radius: 0;
+         @dashlet-title-color: #262d35;
+         @dashlet-toolbar-background: #f6f6f6;
+         @dashlet-toolbar-border-bottom: 1px solid #d3d3d3;
+         @dashlet-body-background: #f9fcfd;
+         @dashlet-body-border-radius: 0;
+      </less-variables>
+   </css-tokens>
+</theme>

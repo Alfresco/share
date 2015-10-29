@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>construct_preset_jsp-page</id>
+   <title>A page that constructs a new preset</title>
+   <description>This page contains a template with a JSP component that uses the constructPreset custom tag.</description>
+   <template-instance>construct_preset_jsp-template</template-instance>
+</page>

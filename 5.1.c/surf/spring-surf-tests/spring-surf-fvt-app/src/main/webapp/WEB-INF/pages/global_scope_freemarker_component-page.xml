@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>global_scope_freemarker_component-page</id>
+   <title>Global scoped Freemarker component page</title>
+   <description>This page uses a template that will load a Freemarker rendered global scope component</description>
+   <template-instance>global_scope_freemarker_component-template</template-instance>
+</page>

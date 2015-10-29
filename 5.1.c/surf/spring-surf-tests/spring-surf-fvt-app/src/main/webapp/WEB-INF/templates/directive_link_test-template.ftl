@@ -1,0 +1,1 @@
+<@region id="directive_link_test-region" scope="page"/>

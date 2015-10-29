@@ -1,0 +1,7 @@
+<config>
+   <filters>
+      <filter id="priority" data="1" label="priority.high" />
+      <filter id="priority" data="2" label="priority.medium" />
+      <filter id="priority" data="3" label="priority.low" />
+   </filters>
+</config>

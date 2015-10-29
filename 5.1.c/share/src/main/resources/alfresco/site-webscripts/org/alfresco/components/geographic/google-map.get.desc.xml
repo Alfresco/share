@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>google-map</shortname>
+  <description>Google Map Component</description>
+  <url>/components/geographic/google-map</url>
+</webscript>

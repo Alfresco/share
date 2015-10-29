@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/dashboard</template-type>
+   <description>Two columns: narrow left, wide right</description>
+   <properties>
+      <gridClass>yui-gd</gridClass>
+      <gridColumn1>5</gridColumn1>
+      <gridColumn2>5</gridColumn2>
+   </properties>
+</template-instance>

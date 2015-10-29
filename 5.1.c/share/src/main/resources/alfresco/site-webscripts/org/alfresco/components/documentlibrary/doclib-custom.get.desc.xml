@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>DocLib Custom Code Injection Component</shortname>
+  <description>Document Library: Custom Clientside Code Injection Component</description>
+  <url>/components/documentlibrary/doclib-custom</url>
+</webscript>

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Inline Edit</title>
+   <title-id>page.inlineEdit.title</title-id>
+   <description>Edit text-based content</description>
+   <description-id>page.inlineEdit.description</description-id>
+   <template-instance>inline-edit</template-instance>
+   <authentication>user</authentication>
+</page>

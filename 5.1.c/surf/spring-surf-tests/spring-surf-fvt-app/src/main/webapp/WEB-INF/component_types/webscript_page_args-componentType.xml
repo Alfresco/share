@@ -1,0 +1,9 @@
+<component-type>
+    <id>webscript_page_args-componentType</id>
+    <title>A WebScript Rendered Component Type For Displaying Page Args</title>
+    <description></description>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/webscripts/page_args</uri>        
+    </processor>	
+</component-type>

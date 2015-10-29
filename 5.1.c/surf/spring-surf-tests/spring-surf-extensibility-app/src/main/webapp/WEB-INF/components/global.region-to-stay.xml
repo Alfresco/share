@@ -1,0 +1,7 @@
+<component>
+  <id>global.region-to-stay</id>
+  <region-id>region-to-stay</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>region-to-stay-componentType</component-type-id>   
+</component>

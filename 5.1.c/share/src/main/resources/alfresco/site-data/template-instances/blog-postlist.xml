@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/blog-postlist</template-type>
+   <properties>
+      <pageFamily>blog-postlist</pageFamily>
+      <container>blog</container>
+   </properties>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+
+      <!-- Toolbar -->
+      <component>
+         <region-id>toolbar</region-id>
+         <url>/components/blog/toolbar</url>
+         <properties>
+            <showNavigationBar>false</showNavigationBar>
+         </properties>
+      </component>
+
+      <!-- Postlist-->
+      <component>
+         <region-id>postlist</region-id>
+         <url>/components/blog/postlist</url>
+      </component>
+
+      <!-- Blog Filters -->
+      <component>
+         <region-id>filters</region-id>
+         <url>/components/blog/filters</url>
+      </component>
+
+      <!-- Archives Filter -->
+      <component>
+         <region-id>archives</region-id>
+         <url>/components/blog/archives</url>
+      </component>
+
+      <!-- Tags Filter-->
+      <component>
+         <region-id>tags</region-id>
+         <url>/components/tag-filter</url>
+      </component>
+
+   </components>
+</template-instance>

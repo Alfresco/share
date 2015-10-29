@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    <!-- Bootstrap the process definition -->
+    <bean parent="workflowDeployer">
+        <property name="workflowDefinitions">
+            <list>
+                <props>
+                    <prop key="engineId">jbpm</prop>
+                    <prop key="location">alfresco/module/org_alfresco_module_wcmquickstart/process/publishasset-process-definition.xml</prop>
+                    <prop key="mimetype">text/xml</prop>
+                    <prop key="redeploy">false</prop>
+                </props>
+                <props>
+                    <prop key="engineId">jbpm</prop>
+                    <prop key="location">alfresco/module/org_alfresco_module_wcmquickstart/process/publishsectiontree-process-definition.xml</prop>
+                    <prop key="mimetype">text/xml</prop>
+                    <prop key="redeploy">false</prop>
+                </props>
+                <props>
+                    <prop key="engineId">jbpm</prop>
+                    <prop key="location">alfresco/module/org_alfresco_module_wcmquickstart/process/readcontact-process-definition.xml</prop>
+                    <prop key="mimetype">text/xml</prop>
+                    <prop key="redeploy">false</prop>
+                </props>
+                <props>
+                    <prop key="engineId">activiti</prop>
+                    <prop key="location">alfresco/module/org_alfresco_module_wcmquickstart/process/publish-asset.bpmn20.xml</prop>
+                    <prop key="mimetype">text/xml</prop>
+                    <prop key="redeploy">false</prop>
+                </props>
+                <props>
+                    <prop key="engineId">activiti</prop>
+                    <prop key="location">alfresco/module/org_alfresco_module_wcmquickstart/process/publish-section-tree.bpmn20.xml</prop>
+                    <prop key="mimetype">text/xml</prop>
+                    <prop key="redeploy">false</prop>
+                </props>
+                <props>
+                    <prop key="engineId">activiti</prop>
+                    <prop key="location">alfresco/module/org_alfresco_module_wcmquickstart/process/read-contact.bpmn20.xml</prop>
+                    <prop key="mimetype">text/xml</prop>
+                    <prop key="redeploy">false</prop>
+                </props>
+            </list>
+        </property>
+        <property name="models">
+            <list>
+                <value>alfresco/module/org_alfresco_module_wcmquickstart/process/process-model.xml</value>
+            </list>
+        </property>
+        <property name="labels">
+            <list>
+                <value>alfresco/module/org_alfresco_module_wcmquickstart/process/process-messages</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="webqs_publish" parent="action-executer" class="org.alfresco.module.org_alfresco_module_wcmquickstart.process.WebPublishAction">
+        <property name="nodeService" ref="NodeService" />
+        <property name="publishService" ref="org_alfresco_module_wcmquickstart_publishingService" />
+    </bean>
+
+    <bean id="webqs_publishTree" parent="action-executer" 
+            class="org.alfresco.module.org_alfresco_module_wcmquickstart.process.PublishSectionTreeAction">
+        <property name="nodeService" ref="NodeService" />
+        <property name="dictionaryService" ref="DictionaryService" />
+        <property name="publishService" ref="org_alfresco_module_wcmquickstart_publishingService" />
+        <property name="nodeCrawlerFactory" ref="NodeCrawlerFactory" />
+    </bean>
+
+</beans>

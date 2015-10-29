@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Admin Console Groups Tool</shortname>
+  <description>Administration Console - Groups Management Tool</description>
+  <url>/components/console/groups</url>
+  <family>admin-console</family>
+</webscript>

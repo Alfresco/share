@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Delete Site Module GUI</shortname>
+   <description>Delete Site messages for js component</description>
+   <url>/modules/delete-site</url>
+</webscript>

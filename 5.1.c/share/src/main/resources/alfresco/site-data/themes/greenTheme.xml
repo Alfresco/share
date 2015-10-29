@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<theme>
+   <title>Green Theme</title>
+   <title-id>theme.greenTheme</title-id>
+   <css-tokens>
+      <less-variables>
+         @dashlet-background: #fff;
+         @dashlet-border: 1px solid #bababa;
+         @dashlet-border-radius: 0;
+         @dashlet-title-background: #92c15f linear-gradient(to bottom, #a3d07a, #92c15f);
+         @dashlet-title-border-bottom: 0;
+         @dashlet-title-border-radius: 0;
+         @dashlet-title-color: #fff;
+         @dashlet-toolbar-background: #f6f6f6;
+         @dashlet-toolbar-border-bottom: 1px solid #d3d3d3;
+         @dashlet-body-background: #f9fcfd;
+         @dashlet-body-border-radius: 0;
+      </less-variables>
+   </css-tokens>
+</theme>

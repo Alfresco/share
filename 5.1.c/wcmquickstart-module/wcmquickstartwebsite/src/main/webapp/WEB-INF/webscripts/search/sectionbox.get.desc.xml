@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Search Box</shortname>
+  <description>Search within a section and it's sub-sections</description>
+  <url>/search/sectionbox</url>
+</webscript>

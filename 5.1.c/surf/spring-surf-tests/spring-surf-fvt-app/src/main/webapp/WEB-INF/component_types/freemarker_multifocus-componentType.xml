@@ -1,0 +1,9 @@
+<component-type>
+    <id>freemarker_multifocus-componentType</id>
+    <title>A component that has files for both head and body.</title>
+    <description></description>
+    <processor mode="view">
+        <id>webtemplate</id>
+        <uri>/multifocus_freemarker.ftl</uri>        
+    </processor>
+</component-type>

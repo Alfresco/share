@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Global messages bundle</shortname>
+  <description>Web Scripts global messages bundle as a JavaScript response</description>
+  <url>/messages?locale={locale}</url>
+</webscript>

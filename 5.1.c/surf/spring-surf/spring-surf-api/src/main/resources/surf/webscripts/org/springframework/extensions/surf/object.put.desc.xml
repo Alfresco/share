@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Surf API - Update an object</shortname>
+  <description>Surf API - Update an object</description>
+  <url>/api/surf/object/{type}/{id}</url>
+  <format default="json">argument</format>
+  <authentication>none</authentication>
+  <transaction>required</transaction>
+</webscript>

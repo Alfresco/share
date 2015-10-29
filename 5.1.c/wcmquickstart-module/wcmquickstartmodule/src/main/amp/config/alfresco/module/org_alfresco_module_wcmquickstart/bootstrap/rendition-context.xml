@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="wcmquickstartmodule_renditionHelper" class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.RenditionHelper">    
+        <property name="nodeService" ref="nodeService" />
+        <property name="contentService" ref="contentService" />
+        <property name="renditionService" ref="renditionService" />
+        <property name="namespaceService" ref="NamespaceService" />
+        <property name="contextParserService" ref="wcmquickstartmodule_contextParserService"/>
+        <property name="dictionaryService" ref="dictionaryService" />
+    </bean>
+
+    <bean id="wqsmodule_defaultImageTransformationOptions" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="targetMapClass" value="java.util.HashMap"/>
+        <property name="sourceMap">
+            <map>
+                <entry key="timeoutMs" value="${system.thumbnail.definition.default.timeoutMs}"/>
+                <entry key="readLimitTimeMs" value="${system.thumbnail.definition.default.readLimitTimeMs}"/>
+                <entry key="maxSourceSizeKBytes" value="${system.thumbnail.definition.default.maxSourceSizeKBytes}"/>
+                <entry key="readLimitKBytes" value="${system.thumbnail.definition.default.readLimitKBytes}"/>
+                <entry key="pageLimit" value="${system.thumbnail.definition.default.pageLimit}"/>
+                <entry key="maxPages" value="${system.thumbnail.definition.default.maxPages}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="wqsmodule_renditionDefinitions" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapCompositeRenditionDefinition">
+                    <property name="name" value="smallThumbnail"/>
+                    <property name="renderingEngineName" value="compositeRenderingEngine"/>
+                    <property name="definitions">
+                        <list>                            
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="reformat"/>
+                                <property name="defaultParameters" ref="wqsmodule_defaultImageTransformationOptions"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="mime-type" value="image/jpeg"/>          
+                                        <entry key="runAs" value="System"/>   
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="imageRenderingEngine"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="xsize" value="72"/>                            
+                                        <entry key="ysize" value="72"/>                                                        
+                                        <entry key="maintainAspectRatio" value="false"/>
+                                        <entry key="runAs" value="System"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>                    
+                    </property>
+                </bean>
+                                  
+                <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapCompositeRenditionDefinition">
+                    <property name="name" value="mediumPublicationThumbnail"/>
+                    <property name="renderingEngineName" value="compositeRenderingEngine"/>
+                    <property name="definitions">
+                        <list>                            
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="reformat"/>
+                                <property name="defaultParameters" ref="wqsmodule_defaultImageTransformationOptions"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="mime-type" value="image/jpeg"/>          
+                                        <entry key="runAs" value="System"/>   
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="imageRenderingEngine"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="xsize" value="110"/>                            
+                                        <entry key="ysize" value="145"/>                                                        
+                                        <entry key="maintainAspectRatio" value="false"/>
+                                        <entry key="runAs" value="System"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>                    
+                    </property>
+                </bean>
+                
+                <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapCompositeRenditionDefinition">
+                    <property name="name" value="mediumNewsThumbnail"/>
+                    <property name="renderingEngineName" value="compositeRenderingEngine"/>
+                    <property name="definitions">
+                        <list>                            
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="reformat"/>
+                                <property name="defaultParameters" ref="wqsmodule_defaultImageTransformationOptions"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="mime-type" value="image/jpeg"/>          
+                                        <entry key="runAs" value="System"/>   
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="imageRenderingEngine"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="xsize" value="223"/>                            
+                                        <entry key="ysize" value="143"/>                                                        
+                                        <entry key="maintainAspectRatio" value="false"/>
+                                        <entry key="runAs" value="System"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>                    
+                    </property>
+                </bean>
+                
+                <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapCompositeRenditionDefinition">
+                    <property name="name" value="largeNewsThumbnail"/>
+                    <property name="renderingEngineName" value="compositeRenderingEngine"/>
+                    <property name="definitions">
+                        <list>                            
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="reformat"/>
+                                <property name="defaultParameters" ref="wqsmodule_defaultImageTransformationOptions"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="mime-type" value="image/jpeg"/>          
+                                        <entry key="runAs" value="System"/>   
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="imageRenderingEngine"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="xsize" value="574"/>                            
+                                        <entry key="ysize" value="395"/>                                                        
+                                        <entry key="maintainAspectRatio" value="false"/>
+                                        <entry key="runAs" value="System"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>                    
+                    </property>
+                </bean>
+                
+                <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapCompositeRenditionDefinition">
+                    <property name="name" value="featuredNewsThumbnail"/>
+                    <property name="renderingEngineName" value="compositeRenderingEngine"/>
+                    <property name="definitions">
+                        <list>                            
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="reformat"/>
+                                <property name="defaultParameters" ref="wqsmodule_defaultImageTransformationOptions"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="mime-type" value="image/jpeg"/>          
+                                        <entry key="runAs" value="System"/>   
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="imageRenderingEngine"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="percent_crop" value="true"/>
+                                        <entry key="crop_height" value="80"/>
+                                        <entry key="xsize" value="641"/>                            
+                                        <entry key="ysize" value="281"/>                                                        
+                                        <entry key="maintainAspectRatio" value="false"/>
+                                        <entry key="runAs" value="System"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>                    
+                    </property>
+                </bean>
+                
+                <!-- imagePreview rendition definition -->                
+                <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapCompositeRenditionDefinition">
+                    <property name="name" value="imagePreview"/>
+                    <property name="renderingEngineName" value="compositeRenderingEngine"/>
+                    <property name="definitions">
+                        <list>                            
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="reformat"/>
+                                <property name="defaultParameters" ref="wqsmodule_defaultImageTransformationOptions"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="mime-type" value="image/jpeg"/>          
+                                        <entry key="runAs" value="System"/>   
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                                <property name="renderingEngineName" value="imageRenderingEngine"/>
+                                <property name="parameters">
+                                    <map>
+                                        <entry key="xsize" value="625"/>                                                        
+                                        <entry key="maintainAspectRatio" value="true"/>
+                                        <entry key="runAs" value="System"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>                    
+                    </property>
+                </bean>
+                
+                
+                <!--  SWF preview rendition definition -->
+                <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                    <property name="name" value="swfPreview"/>
+                    <property name="renderingEngineName" value="reformat"/>
+                    <property name="parameters">
+                        <map>
+                            <entry key="mime-type" value="application/x-shockwave-flash"/> 
+                            <entry key="flashVersion" value="9"/>           
+                            <entry key="runAs" value="System"/>   
+                        </map>
+                    </property>
+                </bean>
+                
+                <!--  PDF webasset rendition definition -->
+                <!--  NOTE: used internally to make pdf web assets -->
+                <bean class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.BootstrapRenditionDefinition">
+                    <property name="name" value="pdfWebasset"/>
+                    <property name="renderingEngineName" value="reformat"/>
+                    <property name="parameters">
+                        <map>
+                            <entry key="mime-type" value="application/pdf"/>          
+                            <entry key="runAs" value="System"/>   
+                            <entry key="destination-path-template" value="${pdfrenditionpath}"/>
+                        </map>
+                    </property>
+                </bean>
+                
+            </list>
+        </constructor-arg>
+    </bean> 
+
+    <bean id="wcmquickstartmodule_renditionBootstrap" class="org.alfresco.module.org_alfresco_module_wcmquickstart.rendition.RenditionBootstrap">
+        <property name="nodeService" ref="NodeService"/>
+        <property name="renditionService" ref="RenditionService" />
+        <property name="dictionaryService" ref="DictionaryService" />
+        <property name="transactionService" ref="TransactionService" />
+        <property name="definitions" ref="wqsmodule_renditionDefinitions" />
+    </bean>
+                
+
+</beans>

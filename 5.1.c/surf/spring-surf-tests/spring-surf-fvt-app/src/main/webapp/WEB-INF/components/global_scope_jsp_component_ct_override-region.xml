@@ -1,0 +1,8 @@
+<component>
+  <id>global.global_scope_jsp_component_ct_override-region</id>
+  <region-id>global_scope_jsp_component_ct_override-region</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>jsp_component_type_1-componentType</component-type-id>
+  <url>/WEB-INF/JSPs/simple_jsp_2.jsp</url>  
+</component>

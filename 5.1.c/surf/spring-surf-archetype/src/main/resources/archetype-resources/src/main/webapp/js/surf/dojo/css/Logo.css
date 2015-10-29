@@ -1,0 +1,11 @@
+.logo {
+   margin: 20px 20px 20px 0;
+}
+
+.logo .alfresco-logo-large {
+   background-image: url("./images/alfresco3d.jpg");
+   background-repeat: no-repeat;
+   height: 168px;
+   width: 520px;
+   margin-right: 10px;
+}

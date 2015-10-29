@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>workflow</shortname>
+  <description>Workflow rule action dialog</description>
+  <url>/modules/rules/actions/workflow</url>
+</webscript>

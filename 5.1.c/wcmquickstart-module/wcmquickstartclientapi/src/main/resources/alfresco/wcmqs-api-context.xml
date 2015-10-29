@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!--
+      Create a property placeholder configurer so that properties can be substituted from a .properties file. Note that
+      the prefix must be altered from the default to avoid wrongly substituting a property value in Spring Surf which
+      contains ${.
+   -->
+   <bean id="clientApiConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders">
+            <value>true</value>
+        </property>
+        <property name="locations">
+            <list>
+                <value>classpath:alfresco/wcmqs-api.properties</value>
+                <value>classpath*:alfresco/extension/wqsapi-custom.properties</value>
+            </list>
+        </property>
+        <property name="placeholderPrefix" value="%{" />
+        <property name="searchSystemEnvironment">
+            <value>false</value>
+        </property>
+   </bean>
+
+   <!-- CMIS Session factory for anonymous visitors to the website -->
+   <bean id="guestSessionFactory" class="org.alfresco.wcm.client.util.impl.GuestSessionFactoryImpl" init-method="init">
+      <property name="authenticationProvider" ref="cmisAuthenticationProvider" />
+      <property name="username" value="%{wcmqs.api.user}" />
+      <property name="password" value="%{wcmqs.api.password}" />
+      <property name="repoUrl" value="%{wcmqs.api.alfresco.cmis}" />
+      <property name="repositoryPollInterval" value="%{wcmqs.api.repositoryPollMilliseconds}" />
+   </bean>
+
+   <bean id="cmisAuthenticationProvider" class="org.alfresco.wcm.client.util.impl.AlfrescoTicketCmisAuthenticationProvider">
+      <property name="webscriptCaller" ref="webscriptCaller" />
+      <property name="ticketDuration" value="%{wcmqs.api.alfresco.ticketTtl}" />
+   </bean>
+
+   <!-- Pool of anonymous CMIS sessions -->
+   <bean id="guestSessionPool" class="org.apache.commons.pool.impl.GenericObjectPool">
+      <constructor-arg ref="guestSessionFactory" />
+      <constructor-arg value="%{wcmqs.api.cmis.maxActiveSessions}" /> <!-- maxActive -->
+      <constructor-arg value="0" /> <!-- whenExhausedAction -->
+      <constructor-arg value="%{wcmqs.api.cmis.maxWaitSessions}" /> <!-- maxWait -->
+      <constructor-arg value="%{wcmqs.api.cmis.maxIdleSessions}" /> <!-- maxIdle -->
+   </bean>
+
+   <!-- Session pool facade which wraps the two types of session pool -->
+   <bean id="sessionPool" class="org.alfresco.wcm.client.util.impl.CmisSessionPoolImpl">
+      <constructor-arg ref="guestSessionPool" />
+      <constructor-arg value="%{wcmqs.api.alfresco.ticketTtl}" />
+   </bean>
+
+   <!--  Section factory -->
+   <bean id="sectionFactory" class="org.alfresco.wcm.client.impl.SectionFactoryWebscriptImpl">
+      <property name="sectionsRefreshAfter" value="%{wcmqs.api.sectionCacheSeconds}" />
+      <property name="assetFactory" ref="assetFactory" />
+      <property name="dictionaryService" ref="dictionaryService" />
+      <property name="collectionFactory" ref="collectionFactory" />
+      <property name="webscriptCaller" ref="webscriptCaller" />
+   </bean>
+   
+   <!--  Collection factory -->
+   <bean id="collectionFactory" class="org.alfresco.wcm.client.impl.CachingAssetCollectionFactoryImpl" lazy-init="true">
+      <property name="assetFactory" ref="assetFactory" />
+      <property name="delegate" ref="webscriptCollectionFactory" />
+      <property name="cache">
+         <bean class="org.alfresco.wcm.client.impl.cache.EhCacheAdapter">
+            <property name="cache">
+               <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                  <property name="cacheManager">
+                     <ref bean="ehCacheManager" />
+                  </property>
+                  <property name="cacheName">
+                     <value>assetCollectionCache</value>
+                  </property>
+               </bean>
+            </property>
+         </bean>
+      </property>
+   </bean>
+
+   <bean id="webscriptCollectionFactory" class="org.alfresco.wcm.client.impl.CollectionFactoryWebserviceImpl" lazy-init="true">
+      <property name="assetFactory" ref="assetFactory" />
+      <property name="webscriptCaller" ref="webscriptCaller" />
+   </bean>
+
+   <!-- Class for converting between CMIS ids and url safe representations of the id -->
+   <bean id="cmisIdEncoder" class="org.alfresco.wcm.client.util.impl.AlfrescoCmisIdEncoderImpl" />
+
+   <!-- Url Utils -->
+   <bean id="urlUtils" class="org.alfresco.wcm.client.util.impl.UrlUtilsImpl">
+      <property name="cmisIdEncoder" ref="cmisIdEncoder" />
+   </bean>
+
+   <!--  Asset factory -->
+   <bean id="assetFactory" class="org.alfresco.wcm.client.impl.CachingAssetFactoryImpl">
+      <property name="delegate" ref="%{wcmqs.api.assetFactoryType}AssetFactory" />
+      <property name="cache">
+         <bean class="org.alfresco.wcm.client.impl.cache.EhCacheAdapter">
+            <property name="cache">
+               <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                  <property name="cacheManager">
+                     <ref bean="ehCacheManager" />
+                  </property>
+                  <property name="cacheName">
+                     <value>assetCache</value>
+                  </property>
+               </bean>
+            </property>
+         </bean>
+      </property>
+      <property name="cacheContent" value="true" />
+   </bean>
+
+   <bean id="cmisAssetFactory" class="org.alfresco.wcm.client.impl.AssetFactoryCmisImpl">
+      <property name="collectionFactory" ref="collectionFactory" />
+      <property name="sectionFactory" ref="sectionFactory" />
+   </bean>
+
+   <bean id="webscriptAssetFactory" class="org.alfresco.wcm.client.impl.AssetFactoryWebscriptImpl" lazy-init="true">
+      <property name="collectionFactory" ref="collectionFactory" />
+      <property name="sectionFactory" ref="sectionFactory" />
+      <property name="supportingAssetFactory" ref="cmisAssetFactory" />
+      <property name="webscriptCaller" ref="webscriptCaller" />
+   </bean>
+
+
+   <!-- Service for fetching site data. Implements a cache. -->
+   <bean id="webSiteService" class="org.alfresco.wcm.client.impl.WebSiteServiceImpl">
+      <property name="webSiteCacheRefreshAfter" value="%{wcmqs.api.websiteCacheSeconds}" />
+      <property name="sectionFactory" ref="sectionFactory" />
+      <property name="assetFactory" ref="assetFactory" />
+      <property name="webscriptCaller" ref="webscriptCaller" />
+      <property name="logoFilename" value="logo.%" />
+      <property name="formIdCache">
+         <bean class="org.alfresco.wcm.client.impl.cache.EhCacheAdapter">
+            <property name="cache">
+               <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                  <property name="cacheManager">
+                     <ref bean="ehCacheManager" />
+                  </property>
+                  <property name="cacheName">
+                     <value>formIdCache</value>
+                  </property>
+               </bean>
+            </property>
+         </bean>
+      </property>
+   </bean>
+
+   <!--  Dictionary service -->
+   <bean id="dictionaryService" class="org.alfresco.wcm.client.impl.DictionaryServiceImpl" />
+
+   <!--  Web script caller -->
+   <bean id="webscriptCaller" class="org.alfresco.wcm.client.impl.WebScriptCallerImpl" init-method="init" >
+      <property name="baseUrl" value="%{wcmqs.api.alfresco.webscript}" />
+      <property name="username" value="%{wcmqs.api.user}" />
+      <property name="password" value="%{wcmqs.api.password}" />
+   </bean>
+
+   <!--  EH Cache manager -->
+   <bean name="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
+
+   <!--
+      <bean id="collectionService" parent="baseScriptExtension"
+      class="org.alfresco.wcm.client.service.CollectionService"> <property name="extensionName"
+      value="collectionService"/> <property name="collectionFactory" ref="collectionFactory"/> </bean>
+   -->
+
+</beans>

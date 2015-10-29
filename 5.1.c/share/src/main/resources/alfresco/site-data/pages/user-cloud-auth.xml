@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Change Cloud Authentication Settings for a User</title>
+   <title-id>page.userCloudAuth.title</title-id>
+   <description>Change Cloud Authentication Settings section on Profile page for a User</description>
+   <description-id>page.userCloudAuth.description</description-id>
+   <template-instance>user-cloud-auth</template-instance>
+   <authentication>user</authentication>
+</page>

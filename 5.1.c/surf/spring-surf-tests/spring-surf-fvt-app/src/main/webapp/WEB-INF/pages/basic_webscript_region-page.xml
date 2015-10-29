@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>basic_webscript_region-page</id>
+   <title>Page Using Template That Embeds A WebScript Rendered Region</title>
+   <template-instance>basic_webscript_region-template</template-instance>
+</page>

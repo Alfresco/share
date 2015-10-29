@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>use_head_prop-page</id>
+   <title>Use the head property</title>
+   <template-instance>use_head_prop-template</template-instance>
+</page>

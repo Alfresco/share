@@ -1,0 +1,554 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-share-parent</artifactId>
+        <version>5.1.c-EA</version>
+    </parent>
+
+    <artifactId>share</artifactId>
+    <packaging>war</packaging>
+    <name>Alfresco Share WAR Community</name>
+    <description>Alfresco Share</description>
+
+    <properties>
+        <maven.tomcat.path>/share</maven.tomcat.path>
+        <maven.tomcat.port>${tomcat.default.share.port}</maven.tomcat.port>
+        <maven.tomcat.httpsPort>${tomcat.default.share.ssl.port}</maven.tomcat.httpsPort>
+        <!-- Files to exclude from SonarQube analysis -->
+        <sonar.exclusions>
+            src/main/webapp/jquery/**, 
+            src/main/webapp/js/flash/extMouseWheel.js,
+            src/main/webapp/js/lightbox.js,
+            src/main/webapp/yui/**
+        </sonar.exclusions>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-web-framework-commons</artifactId>
+            <version>${project.version}</version>
+            <classifier>classes</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis-spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.quartz-scheduler</groupId>
+                    <artifactId>quartz</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-jlan-embed</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.chemistry.opencmis</groupId>
+            <artifactId>chemistry-opencmis-client-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.alfresco.cmis.client</groupId>
+            <artifactId>alfresco-opencmis-extension</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.extensions.surf</groupId>
+            <artifactId>spring-surf-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.extensions.surf</groupId>
+            <artifactId>spring-cmis-framework</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>abdera-extensions-main</artifactId>
+                    <groupId>org.apache.abdera</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>abdera-extensions-html</artifactId>
+                    <groupId>org.apache.abdera</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>abdera-server</artifactId>
+                    <groupId>org.apache.abdera</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>geronimo-activation_1.0.2_spec</artifactId>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>js</artifactId>
+                    <groupId>rhino</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jstl</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jvnet.staxex</groupId>
+                    <artifactId>stax-ex</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Dependency on Alfresco patched version of Rhino available in artifacts.alfresco.com -->
+        <dependency>
+            <groupId>org.mozilla</groupId>
+            <artifactId>rhino</artifactId>
+            <version>${dependency.rhino.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>json-simple</artifactId>
+            <groupId>com.googlecode.json-simple</groupId>
+            <version>1.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>junit</artifactId>
+                    <groupId>junit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.tuckey</groupId>
+            <artifactId>urlrewritefilter</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${dependency.freemarker.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-web-framework-commons</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <optional>true</optional>
+            <!-- MNT-10118 -->
+        </dependency>
+        <dependency>
+            <artifactId>stax-api</artifactId>
+            <groupId>stax</groupId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
+            <version>2.4</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hazelcast-client</artifactId>
+                    <groupId>com.hazelcast</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsr250-api</artifactId>
+                    <groupId>javax.annotation</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-impl</artifactId>
+        </dependency>
+        <!-- Dependency on external Aikau project (this includes Dojo) -->
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>aikau</artifactId>
+            <version>${dependency.aikau.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.extensions.surf</groupId>
+                    <artifactId>spring-surf-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Dependency on YUI ZIP (custom version deployed at artifacts.alfresco.com) -->
+        <dependency>
+            <groupId>com.yahoo.platform.yui</groupId>
+            <artifactId>yui</artifactId>
+            <version>${dependency.yui.version}</version>
+            <type>zip</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- This is used for the LESS CSS processing. It allows us to include LESS code in both
+             the Theme XML files and in widget CSS files. We deliberately exclude it's preferred
+             Rhino version so as to avoid conflicts with our own dependencies. -->
+        <dependency>
+            <groupId>org.alfresco.3rdparty.com.asual.lesscss</groupId>
+            <artifactId>lesscss-engine</artifactId>
+            <version>1.5.0-patched</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mozilla</groupId>
+                    <artifactId>rhino</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+    </dependencies>
+
+    <build>
+        <finalName>share</finalName>
+        <plugins>
+            <!-- ACE-3329 Create _en.properties message files  -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                 <executions>
+                    <execution>
+                        <id>duplicate-english-messages</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <target>
+                        <copy todir="${project.build.outputDirectory}">
+                            <fileset dir="${basedir}/src/main/resources" includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
+                        </copy>
+                        <copy todir="${project.build.directory}/${project.build.finalName}">
+                            <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties" />
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
+                        </copy>
+                    </target>
+                </configuration>
+            </plugin>
+
+            <!-- Configuration of the WAR build -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>alfresco-web-framework-commons</artifactId>
+                            <excludes>
+                                <exclude>WEB-INF/classes/*</exclude>
+                                <exclude>WEB-INF/lib/*</exclude>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.yahoo.platform.yui</groupId>
+                            <artifactId>yui</artifactId>
+                            <type>zip</type>
+                        </overlay>
+                    </overlays>
+                    <archive>
+                        <manifestSections combine.children="append">
+                            <manifestSection>
+                                <name>Share Libraries</name>
+                                <manifestEntries>
+                                    <alfresco-core>${dependency.alfresco-core.version}</alfresco-core>
+                                    <alfresco-jlan>${dependency.alfresco-jlan.version}</alfresco-jlan>
+                                    <spring>${dependency.spring.version}</spring>
+                                    <surf>${project.version}</surf>
+                                    <aikau>${dependency.aikau.version}</aikau>
+                                    <webscripts>${dependency.webscripts.version}</webscripts>
+                                    <yui>${dependency.yui.version}</yui>
+                                    <freemarker>${dependency.freemarker.version}</freemarker>
+                                    <rhino>${dependency.rhino.version}</rhino>
+                                </manifestEntries>
+                            </manifestSection>
+                        </manifestSections>
+                    </archive>
+                </configuration>
+                <!-- This allows overlays to be prepared on the FS for minification and faster run -->
+                <executions>
+                    <execution>
+                        <id>prepare-exploded-war</id>
+                        <goals>
+                            <goal>exploded</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <!-- MANIFEST.MF needs to be generated too, since Share reads it -->
+                    <execution>
+                        <id>generate-manifest</id>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <warSourceDirectory>${project.build.directory}/${project.build.finalName}</warSourceDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <id>minimize-slingshot-javascript</id>
+                        <goals>
+                            <goal>compress</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+                <!-- ensure YUI Compressor 2.4.8-rhino-alfresco-patched is used - as 2.4.7 is the default -->
+                <dependencies>
+                    <dependency>
+                        <groupId>com.yahoo.platform.yui</groupId>
+                        <artifactId>yuicompressor</artifactId>
+                        <version>2.4.8-rhino-alfresco-patched</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <jswarn>false</jswarn>
+                    <encoding>UTF-8</encoding>
+                    <includes>
+                        <include>**/*.js</include>
+                    </includes>
+                    <!-- We don't need to re-minify YUI or 3rd party libs -->
+                    <excludes>
+                        <exclude>**/sinon-1.10.3/**</exclude>
+                        <exclude>**/*-min.js</exclude>
+                        <exclude>**/WEB-INF/**</exclude>
+                        <exclude>**/tinymce/**</exclude>
+                        <exclude>**/yui/**</exclude>
+                        <exclude>js/lib/dojo*/**</exclude>
+                        <exclude>**/log4javascript*.js</exclude>
+                    </excludes>
+                    <sourceDirectory>${project.build.directory}/${project.build.finalName}</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                    <excludeResources>true</excludeResources>
+                    <!-- <nocompress>true</nocompress> -->
+                    <!-- <disableOptimizations>true</disableOptimizations> -->
+                    <!-- <nosuffix>true</nosuffix> -->
+                    <!-- <preserveAllSemiColons>true</preserveAllSemiColons> -->
+                    <!-- <nomunge>true</nomunge> -->
+                    <aggregations>
+                        <aggregation>
+                            <!-- remove files after aggregation (default: false) <removeIncluded>true</removeIncluded> -->
+                            <output>${project.build.directory}/${project.build.finalName}/js/yui-common-min.js</output>
+                            <!-- files to include, path relative to output's directory or absolute path -->
+                            <includes>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/utilities/utilities.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/button/button-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/button/buttonariaplugin-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/container/container-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/menu/menu-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/json/json-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/selector/selector-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/datasource/datasource-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/autocomplete/autocomplete-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/paginator/paginator-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/datatable/datatable-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/treeview/treeview-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/cookie/cookie-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/uploader/uploader-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/calendar/calendar-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/resize/resize-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/history/history-min.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/yui-patch.js</include>
+                            </includes>
+                            <!-- files to exclude, path relative to output's directory <excludes> <exclude>**/*.pack.js</exclude>
+                                <exclude>**/compressed.css</exclude> </excludes> -->
+                        </aggregation>
+                        <aggregation>
+                            <!-- remove files after aggregation (default: false) <removeIncluded>true</removeIncluded> -->
+                            <output>${project.build.directory}/${project.build.finalName}/js/yui-common.js</output>
+                            <!-- files to include, path relative to output's directory or absolute path -->
+                            <includes>
+                                <include>${project.build.directory}/${project.build.finalName}/js/log4javascript.v1.4.1.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/yahoo/yahoo-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/event/event-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/dom/dom-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/dragdrop/dragdrop-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/animation/animation-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/logger/logger-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/connection/connection-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/element/element-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/get/get-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/yuiloader/yuiloader-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/button/button-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/button/buttonariaplugin-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/container/container-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/menu/menu-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/json/json-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/selector/selector-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/datasource/datasource-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/autocomplete/autocomplete-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/paginator/paginator-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/datatable/datatable-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/treeview/treeview-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/cookie/cookie-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/uploader/uploader-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/calendar/calendar-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/resize/resize-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/history/history-debug.js</include>
+                                <include>${project.build.directory}/${project.build.finalName}/yui/yui-patch.js</include>
+                            </includes>
+                            <!-- files to exclude, path relative to output's directory <excludes> <exclude>**/*.pack.js</exclude>
+                               <exclude>**/compressed.css</exclude> </excludes> -->
+                        </aggregation>
+                    </aggregations>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                  <!-- Set up an interval to scan for changes -->
+                  <!--
+                  <scanIntervalSeconds>10</scanIntervalSeconds>
+                  <scanTargetPatterns>
+                     <scanTargetPattern>
+                        <directory>${project.build.directory}/${project.build.finalName}/js/alfresco</directory>
+                        <includes>
+                          <include>**/*.js</include>
+                          <include>**/*.css</include>
+                          <include>**/*.html</include>
+                          <include>**/*.properties</include>
+                        </includes>
+                    </scanTargetPattern>
+                    <scanTargetPattern>
+                        <directory>tests/testApp</directory>
+                        <includes>
+                          <include>js/aikau/**/*.js</include>
+                          <include>js/aikau/**/*.css</include>
+                          <include>js/aikau/**/*.html</include>
+                          <include>js/aikau/**/*.properties</include>
+                          <include>WEB-INF/classes/alfresco/site-webscripts/**</include>
+                        </includes>
+                    </scanTargetPattern>
+                 </scanTargetPatterns> -->
+                  
+                  <!-- Sets the port when using mvn jetty:run-forked -->
+                  <jvmArgs>-Djetty.port=8089</jvmArgs>
+                  <!-- Override the system properties to set a port that *should* be unused -->
+                   <systemProperties>
+                     <force>true</force>
+                     <systemProperty>
+                        <name>jetty.port</name>
+                        <value>8089</value>
+                      </systemProperty>
+                   </systemProperties>
+                   <!--  The following 3 settings allow us to execute a mvn jetty:stop command to shutdown the test application -->
+                   <stopPort>9966</stopPort>
+                   <stopKey>foo</stopKey>
+                   <stopWait>20</stopWait>
+                   <!-- Configure the application, this will essentially be Share but overlaid with the test resources -->
+                   <webApp>
+                     <!--  <descriptor>${project.build.directory}/${project.build.finalName}/WEB-INF/web.xml</descriptor> -->
+                     <descriptor>tests/testApp/WEB-INF/web.xml</descriptor>
+                     <!--  <descriptor>tests/testApp/WEB-INF/web.xml</descriptor> -->
+                     <contextPath>/aikau</contextPath>
+                     <resourceBases>
+                        <resourceBase>tests/testApp</resourceBase>
+                        <resourceBase>${project.build.directory}/${project.build.finalName}</resourceBase>
+                     </resourceBases>
+                     <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames> 
+                   </webApp>
+                   <webAppSourceDirectory>tests/testApp</webAppSourceDirectory>
+                   <classesDirectory>tests/testApp/WEB-INF/classes</classesDirectory>
+                   <baseAppFirst>false</baseAppFirst>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
+                    <contextFile>${basedir}/tomcat/share-context.xml</contextFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>run</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>run-exploded-webapp</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

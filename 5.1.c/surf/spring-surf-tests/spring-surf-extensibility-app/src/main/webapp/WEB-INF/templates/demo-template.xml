@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+    <template-type>org/acme/demo-template</template-type>
+    <components>
+        <component>
+            <region-id>header</region-id>
+            <url>/demo/header</url>
+        </component>
+        <component>
+            <region-id>body</region-id>
+            <uri>/demo/body</uri>
+        </component>
+        <component>
+            <region-id>footer</region-id>
+            <uri>/demo/footer</uri>
+        </component>
+    </components>
+</template-instance>

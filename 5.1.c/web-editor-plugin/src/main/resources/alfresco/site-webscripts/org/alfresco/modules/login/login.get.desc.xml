@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Login Module</shortname>
+   <description>Login Module</description>
+   <url>/modules/login/login</url>
+</webscript>

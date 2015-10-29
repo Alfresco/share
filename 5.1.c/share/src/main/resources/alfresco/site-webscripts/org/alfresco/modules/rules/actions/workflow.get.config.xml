@@ -1,0 +1,6 @@
+<workflow>
+   <step>
+      <action>copy</action>
+      <action>move</action>
+   </step>
+</workflow>

@@ -1,0 +1,11 @@
+<config>
+   <title>tool.license.label</title>
+   <form>
+      <itemKind>mbean</itemKind>
+      <itemId>Alfresco:Name=License</itemId>
+      <showCancelButton>false</showCancelButton>
+      <showSubmitButton>false</showSubmitButton>
+      <showCancelLink>true</showCancelLink>
+   </form>
+   <editable>true</editable>
+</config>

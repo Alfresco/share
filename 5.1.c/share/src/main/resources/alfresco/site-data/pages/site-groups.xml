@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>site-groups</id>
+   <page-type>site-groups</page-type>
+   <title>Site Groups</title>
+   <title-id>page.siteGroups.title</title-id>
+   <description>Site Groups</description>
+   <description-id>page.siteGroups.description</description-id>
+   <template-instance>site-groups</template-instance>
+   <authentication>user</authentication>
+</page>

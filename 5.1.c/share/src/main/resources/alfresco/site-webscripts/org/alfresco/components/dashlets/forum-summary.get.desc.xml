@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>My Discussions</shortname>
+   <description>Filtered discussion Forum summary</description>
+   <family>dashlet</family>
+   <url>/components/dashlets/forum-summary</url>
+</webscript>

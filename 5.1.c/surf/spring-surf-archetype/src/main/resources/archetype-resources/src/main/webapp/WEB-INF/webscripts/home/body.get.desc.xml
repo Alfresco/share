@@ -1,0 +1,8 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<webscript>
+  <shortname>Body WebScript</shortname>
+  <description>A basic example of a WebScript that could used as a reuable body</description>
+  <url>/my/body</url>
+</webscript>

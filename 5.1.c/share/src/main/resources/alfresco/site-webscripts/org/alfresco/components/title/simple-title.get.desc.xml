@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Simple Title</shortname>
+  <description>Simple generic title component that displays the title using the message keys passed in as properties</description>
+  <url>/components/title/simple-title</url>
+</webscript>

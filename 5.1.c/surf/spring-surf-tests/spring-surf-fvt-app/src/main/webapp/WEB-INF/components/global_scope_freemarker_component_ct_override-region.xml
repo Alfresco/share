@@ -1,0 +1,8 @@
+<component>
+  <id>global.global_scope_freemarker_component_ct_override-region</id>
+  <region-id>global_scope_freemarker_component_ct_override-region</region-id>
+  <source-id>global</source-id>
+  <scope>global</scope>
+  <component-type-id>freemarker_component_type_1-componentType</component-type-id>
+  <url>/basic_freemarker_2.ftl</url>  
+</component>

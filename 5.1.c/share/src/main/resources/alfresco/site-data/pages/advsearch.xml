@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Advanced Search</title>
+   <title-id>page.advsearch.title</title-id>
+   <description>Advanced Search view</description>
+   <description-id>page.advsearch.description</description-id>
+   <template-instance>search</template-instance>
+   <authentication>user</authentication>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/advsearch-title</url>
+      </component>
+
+      <!-- Search -->
+      <component>
+         <region-id>search</region-id>
+         <url>/components/search/advsearch</url>
+      </component>
+
+   </components>
+</page>

@@ -1,0 +1,8 @@
+<component-type>
+    <id>taglib_component_test-componentType</id>
+    <title>A JSP Component Type that references a JSP that attempts to nest another component</title>
+    <processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/componentTagTest.jsp</uri>
+    </processor>
+</component-type>

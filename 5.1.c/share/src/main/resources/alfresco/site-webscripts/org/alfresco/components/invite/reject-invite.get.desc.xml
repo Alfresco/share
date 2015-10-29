@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Reject invite</shortname>
+  <description>Component that rejects an invite</description>
+  <url>/components/invite/reject-invite</url>
+</webscript>

@@ -1,0 +1,190 @@
+/* Ensures that with the new header there isn't additional space above the menu bar */
+.alfresco-share .people-finder {
+    margin: 0;
+}
+.people-finder
+{
+   margin: 1em 0 0;
+}
+
+.people-finder.list
+{
+   margin-bottom: 10px;
+}
+
+.people-finder .finder-wrapper
+{
+   border: 1px solid #c0c0c0;
+   margin-top: 10px;
+}
+
+.people-finder .results table
+{
+   width: 100%;
+   border: none;
+}
+
+.people-finder .results table thead
+{
+   display: none;
+}
+
+.people-finder .yui-dt td
+{
+   border-bottom: 1px dashed #D7D7D7;
+   border-right: medium none;
+}
+
+.people-finder .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.people-finder tr.yui-dt-odd,
+.people-finder tr.yui-dt-even
+{
+   background-color: #ffffff;
+   cursor: auto;
+}
+
+.people-finder .title
+{
+   padding-top: 0.5em;
+   font-size: 108%;
+}
+
+.alf-invite-direct-add .people-finder .title
+{
+   padding-top: 0;
+}
+
+.people-finder .search-bar
+{
+   border-bottom: 1px dashed #c0c0c0;
+   height: 2em;
+   padding: 0.5em;
+}
+
+.people-finder .search-bar div
+{
+   float: left;
+}
+
+.people-finder .search-bar div:first-child
+{
+   width: 62%
+}
+
+.people-finder .search-bar div:last-child
+{
+   width: 31%;
+   text-align: right;
+}
+
+.people-finder .result-info
+{
+   border-bottom: 1px dashed #c0c0c0;
+}
+
+.people-finder .search-text
+{
+   padding: 0.3em 1em 0 0.5em;
+}
+
+.people-finder .search-text input
+{
+   width: 100%;
+}
+
+.people-finder .search-button button
+{
+   background: transparent url(../images/search-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.people-finder .results
+{
+   clear: both;
+   overflow: auto;
+   position: relative !important;
+}
+
+.people-finder .itemname
+{
+   padding-bottom: 0.2em;
+}
+
+.people-finder .detail
+{
+   line-height: 1.4em;
+}
+
+.people-finder .detail span
+{
+   color: #656565;
+}
+
+.people-finder .help span
+{
+   display: block;
+   padding: 0.5em;
+}
+
+.people-finder .help .title
+{
+   font-size: 116%;
+}
+
+.people-finder .help .subtitle
+{
+   font-weight: bold;
+}
+
+.people-finder .help .example
+{
+   font-style: italic;
+}
+
+/* Compact Mode */
+.people-finder.compact div.title
+{
+   display: none;
+}
+
+.people-finder.compact .results
+{
+   height: 160px;
+}
+
+.alf-invite-direct-add .people-finder.compact .alf-results-wrapper
+{
+   height: 300px;
+   overflow:auto;
+}
+
+.alf-invite-direct-add .people-finder.compact .results
+{
+   height: auto;
+}
+
+.people-finder.compact img.avatar
+{
+   width: 32px;
+}
+
+.people-finder.compact div.detail
+{
+   display: inline;
+}
+
+/* Full Page Mode */
+.people-finder .alf-full-page
+{
+   height: auto;
+}
+
+/* Default Mode */
+.people-finder .alf-default
+{
+   height: 300px;
+}

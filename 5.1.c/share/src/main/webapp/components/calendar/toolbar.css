@@ -1,0 +1,112 @@
+.toolbar
+{
+   margin: 0 0 0 -10px;
+   min-height: 2em;
+   position:relative;
+}
+
+.toolbar .inline
+{
+   display: inline;
+}
+
+.toolbar .addEventContainer {
+   float:left;
+   width:auto;
+}
+
+.toolbar .addEvent button
+{
+   background: transparent url(images/add-event-16-2.png) no-repeat 7px 6px;
+   padding-left: 28px;
+}
+
+.toolbar div.first
+{
+   width: auto;
+}
+
+.toolbar .yui-buttongroup .yui-button
+{
+   margin: auto 0;
+}
+
+div.separator
+{
+   padding: 0 5px;
+   text-align: center;
+   margin-top: 5px;
+}
+
+.toolbar .ical-feed a
+{
+   background: transparent url(images/publish.png) no-repeat 12px 4px;
+   padding-left: 32px;
+   position:absolute;
+   top:10px;
+   right:5px;
+}
+
+.yui-skin-default .yui-navset .yui-nav,
+.yui-skin-default .yui-navset .yui-navset-top .yui-nav { /* protect nested tabviews from other orientations */
+    border: solid #2647a0; /* color between tab list and content */
+    border-width: 0;
+}
+
+.yui-navset
+{
+   margin: 0 -10px;
+   padding: 0.5em 0.5em 0 10px;
+}
+
+.toolbar div.yui-u div.addEvent {
+   float: left;
+   margin-left: 4px;
+}
+
+.toolbar div.yui-u div.separator {
+   float: left;
+}
+
+.toolbar div.flat-button {
+   padding:0.5em 0;
+}
+
+.calendar-bar .yui-u.first {
+   padding:0.5em 0 0.5em 0.5em;
+}
+
+.toolbar .yui-button,
+div.toolbar .yui-radio-button-checked.yui-button-disabled,
+div.toolbar .yui-checkbox-button-checked.yui-button-disabled
+{
+  background: url(images/toolbar-unchecked-gradient.gif) 0 0;
+}
+
+.toolbar .yui-button, .toolbar .yui-button .first-child {
+  border-color:#b7b7b7;
+}
+
+.toolbar .yui-radio-button-checked, .toolbar .yui-checkbox-button-checked {
+  background: url(images/toolbar-checked-gradient.gif) 0 0;
+}
+
+.toolbar .separator {
+   float:left;
+   margin-top: 12px;
+}
+
+.toolbar .prev-button
+{
+   margin-right:-4px;
+}
+.toolbar .next-button
+{
+   margin-left:-4px;
+}
+
+.toolbar .prev-button button,
+.toolbar .next-button button
+{
+   padding: 0 5px;
+}

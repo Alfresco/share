@@ -1,0 +1,58 @@
+/* Sites Module */
+
+/* Drop-down menus */
+
+.header .menu-with-icons .bd ul li.yuimenuitem a.yuimenuitemlabel
+{
+   background-repeat: no-repeat;
+   background-position: 15px 5px;
+   padding-left: 37px;
+}
+
+.header .menu-with-icons .bd ul.favourite-sites-list li.yuimenuitem .yuimenuitemlabel
+{
+   background-image: url(../../components/images/star-selected_16x16.png);
+}
+
+.header .menu-with-icons .bd ul.add-favourite-menuitem li.yuimenuitem .yuimenuitemlabel
+{
+   background-image: url(../../components/images/star-deselected_16x16.png);
+}
+
+.header .menu-with-icons .bd ul.site-finder-menuitem li.yuimenuitem .yuimenuitemlabel
+{
+   background-image: url(../../components/images/search-16.png);
+}
+
+.header .menu-with-icons .bd ul.create-site-menuitem li.yuimenuitem .yuimenuitemlabel
+{
+   background-image: url(../../components/images/site-16.png);
+}
+
+/* THE FOLLOWING DUPLICATE THE ABOVE MINUS THE "header" CLASS TO WORK WITH THE NEW FRAMEWORK */
+.menu-with-icons .bd ul li.yuimenuitem a.yuimenuitemlabel
+{
+   background-repeat: no-repeat;
+   background-position: 15px 2px;
+   padding-left: 37px;
+}
+
+.menu-with-icons .bd ul.favourite-sites-list li.yuimenuitem .yuimenuitemlabel
+{
+   background-image: url(../../components/images/star-selected_16x16.png);
+}
+
+.menu-with-icons .bd ul.add-favourite-menuitem li.yuimenuitem .yuimenuitemlabel
+{
+   background-image: url(../../components/images/star-deselected_16x16.png);
+}
+
+.menu-with-icons .bd ul.site-finder-menuitem li.yuimenuitem .yuimenuitemlabel
+{
+   background-image: url(../../components/images/search-16.png);
+}
+
+.menu-with-icons .bd ul.create-site-menuitem li.yuimenuitem .yuimenuitemlabel
+{
+   background-image: url(../../components/images/site-16.png);
+}

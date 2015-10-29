@@ -1,0 +1,27 @@
+.folder-actions .doclist
+{
+   visibility: visible;
+}
+
+.folder-actions .doclist .action-set
+{
+   margin-top: 1em; 
+}
+
+.folder-actions .doclist .action-set a,
+.folder-actions .doclist .action-set a:visited
+{
+   border: 1px solid #fafafa;
+}
+
+.folder-actions .doclist .action-set a:active,
+.folder-actions .doclist .action-set a:hover
+{
+   background-color: #fff;
+   text-decoration: none;
+}
+
+.folder-actions .doclist .action-set div
+{
+   padding: 0.3em;
+}

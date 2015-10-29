@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+   <bean id="webframework.webscripts.searchpath" class="org.springframework.extensions.webscripts.SearchPath">
+      <property name="searchPath">
+         <list>
+            <ref bean="webframework.webscripts.store.classpath" />
+         </list>
+      </property>
+   </bean> 
+
+   <bean id="webframework.templates.searchpath" class="org.springframework.extensions.webscripts.SearchPath">
+      <property name="searchPath">
+         <list>
+            <ref bean="webframework.templates.store.classpath" />
+            <ref bean="webframework.webscripts.store.classpath" />
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="webframework.objects.persister" class="org.springframework.extensions.surf.persister.MultiObjectPersister">
+      <property name="serviceRegistry" ref="webframework.service.registry" />      
+      <property name="persisters">
+         <list>
+            <ref bean="webframework.sitedata.persister.classpath" />
+         </list>
+      </property>
+      <property name="defaultPersister">
+      	 <ref bean="webframework.sitedata.persister.classpath" />
+      </property>
+   </bean>
+   
+</beans>

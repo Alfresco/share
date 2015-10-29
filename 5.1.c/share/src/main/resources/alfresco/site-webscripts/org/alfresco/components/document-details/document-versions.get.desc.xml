@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>document-details-versions</shortname>
+  <description>Document Details Versions Component</description>
+  <url>/components/document-details/document-versions</url>
+</webscript>

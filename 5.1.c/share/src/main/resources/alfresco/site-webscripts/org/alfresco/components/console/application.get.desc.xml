@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Admin Console Application Tool</shortname>
+  <description>Administration Console - Application Settings Tool</description>
+  <url>/components/console/application</url>
+  <family>admin-console</family>
+</webscript>

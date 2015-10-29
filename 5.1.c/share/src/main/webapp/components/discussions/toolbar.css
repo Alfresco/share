@@ -1,0 +1,28 @@
+.discussions-toolbar .new-topic button
+{
+   background: transparent url(../images/new-blog-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.discussions-toolbar .new-topic .yui-button-disabled button
+{
+   background-image: url(../images/create-discussion-16.png);
+}
+
+.discussions-toolbar .rss-feed
+{
+   float: right;
+}
+
+.discussions-toolbar .rss-feed a
+{
+   background: transparent url(../images/feed-icon-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.discussions-toolbar .hide
+{
+   display: none;
+   padding: 0;
+   width: 0;
+}

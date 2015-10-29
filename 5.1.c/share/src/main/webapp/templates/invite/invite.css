@@ -1,0 +1,115 @@
+.people-finder
+{
+   margin: 10px 0px;
+}
+
+.invitationlistwrapper .title,
+.people-finder .title
+{
+   visibility: hidden;
+   height: 0;
+}
+
+.alf-invite-require-acceptance .people-finder .title,
+.alf-invite-require-acceptance .invitationlistwrapper .title
+{
+   visibility: visible;
+   height: auto;
+   font-size: 108%;
+   padding: 10px 0px 10px 34px;
+}
+
+.alf-invite-require-acceptance .people-finder .title
+{
+   background: transparent url(images/step-one.png) no-repeat 3px center;
+}
+
+.alf-invite-require-acceptance .invitationlistwrapper .title
+{
+   background: transparent url(images/step-two.png) no-repeat 3px center;
+}
+
+.alf-invite-direct-add .people-finder .search-bar
+{
+   padding-left: 32px;
+   background: #f5f5f5 url(../../components/images/1-grey-28.png) no-repeat 6px center;
+}
+
+.alf-invite-direct-add .invitationlist .invitelist-bar
+{
+   text-align: right;
+   background: #f5f5f5 url(../../components/images/2-grey-28.png) no-repeat 6px center;
+}
+
+.alf-invite-panel-header
+{
+   min-height: 2.5em;
+}
+
+.alf-invite-panel-header > div
+{
+   padding-top: 0.2em;
+}
+
+.alf-invite-panel-header > .yui-button
+{
+   margin-top: 0.2em !important;
+}
+
+.added-users-list .added-users-list-bar
+{
+   background: url(../../components/images/3-grey-28.png) no-repeat 6px center;
+}
+
+.alf-invite-direct-add .yui-u
+{
+   margin-left: 1%;
+}
+
+.alf-invite-direct-add .column1
+{
+   width: 35%;
+}
+
+.alf-invite-direct-add .column2
+{
+   width: 37%;
+}
+
+.alf-invite-direct-add .column3
+{
+   width: 26%;
+}
+
+.alf-invite-direct-add .instructions-bar
+{
+   padding-left: 10px;
+   padding-top: 10px;
+}
+
+.alf-invite-direct-add .alf-green-check
+{
+   background: url(../../components/images/green-check-28.png) no-repeat center;
+   width: 28px;
+   height: 28px;
+   float: right;
+}
+
+.alf-invite-direct-add .alf-label 
+{
+   float: left;
+   font-size: 1.1em;
+   line-height: 2em;
+   margin-left: 2.3em;
+}
+
+button
+{
+   white-space: nowrap;
+}
+
+.itemname,
+.detail
+{
+   word-break: break-all;
+}

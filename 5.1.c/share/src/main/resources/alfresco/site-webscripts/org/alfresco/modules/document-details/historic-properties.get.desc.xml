@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Historic Properties Viewer</shortname>
+   <description>View the properties from a previous version</description>
+   <url>/modules/document-details/historic-properties-viewer</url>
+</webscript>

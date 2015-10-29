@@ -1,0 +1,119 @@
+.node-header h1
+{
+   padding: 0.5em 0 0.3em;
+   word-wrap: break-word;
+}
+
+.node-header h1 .document-version
+{
+   margin-left: 0.8em;
+   position: relative;
+   top: -2px;
+}
+
+.node-header .node-info
+{
+   float: left;
+   width: 78%;
+}
+
+.node-header .node-path
+{
+   padding-bottom: 0.5em;
+   padding-top: 1em;
+}
+
+.node-header .node-path .folder-link
+{
+   background-position: left 50%;
+   background-repeat: no-repeat;
+   padding: 2px 0 2px 16px;
+}
+
+.node-header .node-path .folder-link:first-child
+{
+   margin-left: -16px;
+}
+
+.node-header .node-path .folder-open
+{
+   background-image: url(../documentlibrary/images/folder-open-16.png);
+   padding-left: 20px;
+}
+
+.node-header .node-path .folder-closed
+{
+   background-image: url(../documentlibrary/images/folder-closed-16.png);
+   padding-left: 20px;
+}
+
+.node-header .node-path .separator
+{
+   border: medium none;
+   padding: 0 0.5em;
+}
+
+.node-header .status-banner
+{
+   margin-top: 0.75em;
+   padding: 0.5em 1em;
+}
+
+.node-header .status-banner span
+{
+   background-repeat: no-repeat;
+   line-height: 1.5em;
+   padding: 1px 0 1px 20px;
+}
+
+.node-header .status-banner .editing
+{
+   background-image: url(../documentlibrary/indicators/editing-16.png);
+}
+.node-header .status-banner .lock-owner
+{
+   background-image: url(../documentlibrary/indicators/lock-owner-16.png);
+}
+
+.node-header .status-banner .locked
+{
+   background-image: url(../documentlibrary/indicators/locked-16.png);
+}
+
+.node-header .node-thumbnail
+{
+   float: left;
+   padding: 0.5em 0.5em 0.5em 0;
+}
+
+.node-header .node-action
+{
+   float: right;
+   width: 20%;
+   text-align: right;
+}
+
+.node-header .node-action
+{
+   float: right;
+   width: 20%;
+   text-align: right;
+   padding-top: 3.75em;
+}
+
+.node-header .node-action .onDownloadDocumentClick a
+{
+   background: transparent url(../documentlibrary/actions/document-download-16.png) no-repeat scroll 12px 4px;
+   padding-left: 32px;
+}
+
+.node-header span.item-social
+{
+   margin-left: 0.8em;
+}
+
+.node-header .node-social
+{
+   padding-left: 6px;
+   min-height: 24px;
+}

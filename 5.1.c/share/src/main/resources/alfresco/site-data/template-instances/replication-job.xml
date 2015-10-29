@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/replication-job</template-type>
+   <components>
+
+      <!-- Replication Job -->
+      <component>
+         <region-id>replication-job</region-id>
+         <url>/components/admin/replication-job</url>
+      </component>
+
+   </components>
+</template-instance>

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>task-edit-header</shortname>
+  <description>Component for handlign task edit formand (re)assigning tasks</description>
+  <url>/components/workflow/task-edit-header</url>
+</webscript>

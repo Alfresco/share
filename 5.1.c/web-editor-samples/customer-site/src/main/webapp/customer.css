@@ -1,0 +1,64 @@
+body
+{
+   text-align: left;
+   font-family: Verdana, Arial, sans-serif;
+}
+
+h1
+{
+   font-size: 167%;
+   margin: 10px 10px 20px 10px;
+}
+
+h3
+{
+   font-size: 108%;
+   margin: 20px 10px;
+}
+
+li
+{
+   list-style-type: square;
+   margin: 10px 0px 0px -6px;
+}
+
+a, a:visited
+{
+   text-decoration: none;
+   color: green;
+}
+
+a:hover
+{
+   text-decoration: underline;
+}
+
+.content
+{
+   margin: 10px 100px 10px 10px;
+   font-size: 77%;
+}
+
+.logo
+{
+   margin: 10px;
+}
+
+.trailer-text
+{
+   margin: 30px 100px 10px 10px;
+   font-size: 77%;
+}
+
+.links
+{
+   margin: 20px 10px 0px 10px;
+   font-size: 77%;
+}
+
+.copyright
+{
+   font-size: 60%;
+   color: #efefef;
+   margin: 30px 10px; 
+}

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+    <id>taglib_region_fail_test-page</id>
+    <title>Page for testing the use of the region tag.</title>
+    <template-instance>taglib_region_fail_test-template</template-instance>
+    <components>
+        <component>
+            <region-id>taglib_region_fail_test-region</region-id>
+            <component-type-id>taglib_region_fail_test-componentType</component-type-id>
+        </component>   
+	    <component>
+            <region-id>embed_this_region</region-id>
+            <component-type-id>jsp_component_type_2-componentType</component-type-id>
+        </component>
+    </components>   
+</page>

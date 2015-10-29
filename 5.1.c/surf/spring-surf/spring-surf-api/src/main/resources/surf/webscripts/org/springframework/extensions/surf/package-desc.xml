@@ -1,0 +1,16 @@
+<package>
+    <shortname>Spring Surf Core</shortname>
+    <description>Spring Surf Core Webscripts.</description>
+    <resources>
+        <resource>
+            <shortname>Web Framework</shortname>
+            <description>Webscripts for Spring Surf Web Framework console and maintenance.</description>
+            <webscripts>console.get,console.post</webscripts>
+        </resource>
+        <resource>
+            <shortname>Surf Object</shortname>
+            <description>Webscripts for Spring Surf Object CRUD operations.</description>
+            <webscripts>object.delete,object.get,object.post,object.put,objects.get</webscripts>
+        </resource>
+    </resources>
+</package>

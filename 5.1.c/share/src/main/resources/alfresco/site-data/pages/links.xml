@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>links</id>
+   <page-type>links</page-type>
+   <title>Links</title>
+   <title-id>page.links.title</title-id>
+   <description>Links</description>
+   <description-id>page.links.description</description-id>
+   <template-instance>links</template-instance>
+   <authentication>user</authentication>
+</page>

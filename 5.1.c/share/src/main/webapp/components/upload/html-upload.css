@@ -1,0 +1,23 @@
+/* Center text and buttons inside p elements */
+.html-upload p
+{
+   text-align: center;
+   word-wrap: break-word;
+   margin-bottom: 0em;
+}
+
+/* General styling */
+.yui-panel-container .html-upload
+{
+   width: 440px;
+}
+
+.html-upload .yui-gd div.first
+{
+   width: 10.5em;
+}
+
+.html-upload textarea
+{
+   width: 20em;
+}

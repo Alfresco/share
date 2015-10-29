@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>basic_dependencies-page</id>
+   <description>This page uses a template that provide a location for a module to insert dependencies</description>
+   <template-instance>basic_dependencies-template</template-instance>
+</page>

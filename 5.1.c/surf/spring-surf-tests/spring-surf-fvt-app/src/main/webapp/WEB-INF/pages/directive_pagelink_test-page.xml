@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>directive_pagelink_test-page</id>
+   <title>Example pagelink</title>
+   <template-instance>directive_pagelink_test-template</template-instance>
+</page>

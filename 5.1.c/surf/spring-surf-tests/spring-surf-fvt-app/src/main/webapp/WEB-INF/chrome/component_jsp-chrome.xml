@@ -1,0 +1,8 @@
+<chrome>
+    <id>component_jsp-chrome</id>
+	<title>JSP Based Chrome</title>
+    <processor mode="view">
+        <id>jsp</id>
+        <uri>/WEB-INF/JSPs/chrome.jsp</uri>
+    </processor>
+</chrome>

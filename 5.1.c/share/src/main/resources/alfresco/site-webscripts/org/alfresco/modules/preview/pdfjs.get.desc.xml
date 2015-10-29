@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>pdfjs</shortname>
+  <description>Container for pdf.js viewer</description>
+  <url>/components/preview/pdfjs</url>
+  <format default="html"/>
+</webscript>

@@ -1,0 +1,11 @@
+.cmm-forms-controls-ColorButton {
+   position: relative;
+}
+.cmm-forms-controls-ColorButton .colorBall {
+    position: absolute;
+    top: -2px;
+    right: -6px;
+    border-style: solid;
+    border-width: 8px 8px 0px;
+    transform: rotate(225deg);
+}

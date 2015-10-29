@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>SurfBug Toggle</shortname>
+  <description>Enables or Disables SurfBug</description>
+  <url>/surfBugStatus?statusUpdate={statusUpdate?}</url>
+  <authentication>admin</authentication>
+  <lifecycle>internal</lifecycle>
+  <family>SurfBug</family>
+</webscript>

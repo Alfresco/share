@@ -1,0 +1,8 @@
+<webscript>
+   <shortname>Update web site renditions</shortname>
+   <url>/api/updatewebsiterenditions?site={site?}</url>
+   <format default="json">argument</format>
+   <authentication>user</authentication>
+   <transaction>required</transaction>
+   <lifecycle>internal</lifecycle>
+</webscript>

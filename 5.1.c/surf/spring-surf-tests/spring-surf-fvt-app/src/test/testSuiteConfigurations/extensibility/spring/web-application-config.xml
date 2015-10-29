@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- SURF: required infrastructure imports -->
+	<import resource="surf-config.xml"/>
+
+   <bean id="webframework.configsource" class="org.springframework.extensions.config.source.UrlConfigSource">
+      <constructor-arg>
+         <list>
+            <!-- Spring Web Scripts -->
+            <value>classpath:org/springframework/extensions/webscripts/spring-webscripts-config.xml</value>
+            <value>classpath:META-INF/spring-webscripts-config-custom.xml</value>
+            <value>jar:*!/META-INF/spring-webscripts-config-custom.xml</value>
+            
+            <!-- Spring Surf -->
+            <value>classpath:org/springframework/extensions/surf/spring-surf-config.xml</value>
+            <value>classpath:org/springframework/extensions/surf/spring-surf-config-remote.xml</value>
+            <value>classpath:META-INF/spring-surf-config-custom.xml</value>
+            <value>jar:*!/META-INF/spring-surf-config-custom.xml</value>
+            
+            <!-- Surf Autowire Support -->
+            <value>webapp:WEB-INF/surf.xml</value>
+
+            <!-- Add additional configuration file for overridding via modules -->
+            <value>webapp:WEB-INF/static-config.xml</value>
+            
+         </list>
+      </constructor-arg>
+   </bean>
+
+	<!-- Maps requests to @Controllers based on @RequestMapping("path") annotation values
+		 If no annotation-based path mapping is found, Spring MVC sends a 404 response and logs a pageNotFound warning. -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="order" value="1" />
+
+		<!-- SURF: required interceptors -->
+        <property name="interceptors">
+            <list>
+            	<ref bean="requestContextInterceptor"/>
+            	<ref bean="themeInterceptor"/>
+                <ref bean="previewContextInterceptor"/>
+            </list>
+        </property>
+	</bean>
+    
+    <bean id="presets.persister" class="org.springframework.extensions.surf.persister.StoreObjectPersister" parent="webframework.sitedata.persister.abstract">
+	    <property name="store" ref="presets.store" />
+		<property name="pathPrefix"><value>/</value></property>
+	</bean>
+	<bean id="presets.store" class="org.springframework.extensions.webscripts.LocalFileSystemStore">
+	    <property name="root"><value>./WEB-INF</value></property>
+		<property name="path"><value>/presetConstructs</value></property>
+	</bean>
+   
+    <bean id="webframework.service.persister" class="org.springframework.extensions.surf.persister.PersisterService" init-method="init">
+       <property name="webFrameworkConfig" ref="webframework.config.element" />
+       <property name="autowireService"  ref="webframework.service.autowire"/>       
+       <property name="persisters">
+           <list>
+               <!-- The default persister added to the default persister service. This is done to 
+                    satisfy the legacy requirement of the Alresco Share which would define the
+                    same persister through the default Spring Surf object type configuration. -->
+               <ref bean="webframework.objects.persister"/>
+			   <ref bean="presets.persister" />
+           </list>
+       </property>
+    </bean>
+</beans>

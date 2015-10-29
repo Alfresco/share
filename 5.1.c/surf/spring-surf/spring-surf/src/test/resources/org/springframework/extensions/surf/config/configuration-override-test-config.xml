@@ -1,0 +1,40 @@
+<alfresco-config>
+
+	<config evaluator="string-compare" condition="WebFramework">
+
+		<web-framework>
+
+			<!-- Define additional formats -->
+			<format>
+				<id>testformat1</id>
+				<name>Test Format 1</name>
+				<description>Test Format 1</description>
+			</format>
+			<format>
+				<id>testformat2</id>
+				<name>Test Format 2</name>
+				<description>Test Format 2</description>
+			</format>
+
+			<!-- Configure Surf Defaults -->
+			<defaults>
+
+				<!-- Service Overrides -->
+				<request-context-factory>webframework.factory.requestcontext.test1</request-context-factory>
+				<link-builder-factory>webframework.factory.linkbuilder.test1</link-builder-factory>
+				<user-factory>webframework.factory.user.test1</user-factory>
+
+				<!-- Setting Overrides -->
+				<format>testformat1</format>				
+				<theme>testtheme1</theme>
+				<site-configuration>testsiteconfig1</site-configuration>
+				<region-chrome>testregionchrome1</region-chrome>
+				<component-chrome>testcomponentchrome1</component-chrome>
+				
+			</defaults>
+
+		</web-framework>
+
+	</config>
+
+</alfresco-config>

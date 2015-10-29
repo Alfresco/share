@@ -1,0 +1,1292 @@
+<alfresco-config>
+
+   <config evaluator="node-type" condition="ws:section">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:excludeFromNavigation" />
+               <show id="ws:sectionConfig" />
+               <show id="ws:inheritRenditionConfig" />
+               <show id="ws:renditionConfig" />
+               <show id="ws:orderIndex" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:sectionConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:renditionConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:excludeFromNavigation" />
+               <show id="ws:sectionConfig" />
+               <show id="ws:inheritRenditionConfig" />
+               <show id="ws:renditionConfig" />
+               <show id="ws:orderIndex" force="true" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:sectionConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:renditionConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="model-type" condition="ws:section">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:translationOf" force="true" />
+               <show id="ws:initiallyOrphaned" force="true" />
+               <show id="ws:language" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                  <control template="/org/alfresco/components/form/controls/namefield.ftl">
+                     <control-param name="contextProperty">name</control-param>
+                  </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:translationOf">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">translationOf</control-param>
+                  </control>
+               </field>
+               <field id="ws:initiallyOrphaned">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">orphan</control-param>
+                  </control>
+               </field>
+               <field id="ws:language">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">language</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="ws:webroot">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:sectionConfig" />
+               <show id="ws:renditionConfig" />
+               <show id="ws:redirectConfig" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:sectionConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:renditionConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:redirectConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:sectionConfig" />
+               <show id="ws:renditionConfig" />
+               <show id="ws:redirectConfig" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:sectionConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:renditionConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:redirectConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="ws:website">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:hostName" />
+               <show id="ws:hostPort" />
+               <show id="ws:webAppContext" />
+               <show id="ws:siteConfig" />
+               <show id="ws:siteLocales" />
+               <show id="ws:feedbackConfig" />
+               <show id="ws:publishTarget" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:siteConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:feedbackConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:siteLocales">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+            </appearance>
+         </form>
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:hostName" />
+               <show id="ws:hostPort" />
+               <show id="ws:webAppContext" />
+               <show id="ws:siteConfig" />
+               <show id="ws:siteLocales" />
+               <show id="ws:feedbackConfig" />
+               <show id="ws:publishTarget" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:siteConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:siteLocales">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:feedbackConfig">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="ws:webassetCollectionFolder">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:name" read-only="true" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="ws:webassetCollection">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:queryLanguage" />
+               <show id="ws:query" />
+               <show id="ws:queryResultsMaxSize" />
+               <show id="ws:minsToQueryRefresh" />
+               <show id="ws:webassets" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:webassets" >
+                    <control>
+                        <control-param name="startLocation">{doclib}</control-param>
+                    </control>
+               </field>
+            </appearance>
+         </form>
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="ws:queryLanguage" />
+               <show id="ws:query" />
+               <show id="ws:queryResultsMaxSize" />
+               <show id="ws:minsToQueryRefresh" />
+               <show id="ws:webassets" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="ws:webassets" >
+                    <control>
+                        <control-param name="startLocation">{doclib}</control-param>
+                    </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="ws:indexPage">
+      <forms>
+         <!-- Default form configuration for the ws:indexPage type -->
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="cm:author" force="true" />
+               <show id="cm:creator" for-mode="view" />
+               <show id="cm:created" for-mode="view" />
+               <show id="cm:modifier" for-mode="view" />
+               <show id="cm:modified" for-mode="view" />
+
+               <show id="ws:templateName" force="true" />
+
+               <show id="size" for-mode="view" />
+               <show id="mimetype" for-mode="view" />
+               
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+
+               <!-- ws:webasset aspect -->
+               <show id="ws:derivedCommentCount" for-mode="view" />
+               <show id="ws:derivedAverageRating" for-mode="view" />
+               <show id="ws:publishedTime" for-mode="view" />
+
+               <!-- cm:dublincore aspect -->
+               <show id="cm:publisher" />
+               <show id="cm:contributor" />
+               <show id="cm:type" />
+               <show id="cm:identifier" />
+               <show id="cm:dcsource" />
+               <show id="cm:coverage" />
+               <show id="cm:rights" />
+               <show id="cm:subject" />
+
+               <!-- cm:complianceable aspect -->
+               <show id="cm:removeAfter" />
+
+               <!-- cm:effectivity aspect -->
+               <show id="cm:from" />
+               <show id="cm:to" />
+
+               <!--  cm:summarizable aspect -->
+               <show id="cm:summary" />
+
+               <!-- cm:translatable aspect -->
+               <show id="cm:translations" />
+
+               <!-- cm:localizable aspect -->
+               <show id="cm:locale" />
+
+               <!-- cm:ownable aspect -->
+               <show id="cm:owner" />
+
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+
+               <!-- cm:emailed aspect -->
+               <show id="cm:originator" />
+               <show id="cm:addressee" />
+               <show id="cm:addressees" />
+               <show id="cm:sentdate" />
+               <show id="cm:subjectline" />
+
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/mimetype.ftl" />
+               </field>
+               <field id="size">
+                  <control template="/org/alfresco/components/form/controls/size.ftl" />
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:originator" read-only="true" />
+               <field id="cm:addressee" read-only="true" />
+               <field id="cm:addressees" read-only="true" />
+               <field id="cm:sentdate" read-only="true" />
+               <field id="cm:subjectline" read-only="true" />
+            </appearance>
+         </form>
+
+         <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+
+         <!-- Document Library Inline Edit form -->
+         <form id="doclib-inline-edit">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="cm:content" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:content">
+                  <control>
+                     <control-param name="editorAppearance">explorer</control-param>
+                     <control-param name="forceEditor">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="model-type" condition="ws:indexPage">
+      <forms>
+         <!-- Default form configuration for creating a ws:indexPage -->
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="cm:content" force="true" />
+               <show id="ws:translationOf" force="true" />
+               <show id="mimetype" />
+               <show id="ws:initiallyOrphaned" force="true" />
+               <show id="ws:language" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                  <control template="/org/alfresco/components/form/controls/namefield.ftl">
+                     <control-param name="contextProperty">name</control-param>
+                  </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:content">
+                  <control>
+                     <control-param name="editorAppearance">explorer</control-param>
+                     <control-param name="forceEditor">true</control-param>
+                  </control>
+               </field>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">mimeType</control-param>
+                  </control>
+               </field>
+               <field id="ws:translationOf">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">translationOf</control-param>
+                  </control>
+               </field>
+               <field id="ws:initiallyOrphaned">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">orphan</control-param>
+                  </control>
+               </field>
+               <field id="ws:language">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">language</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="ws:article">
+      <forms>
+         <!-- Default form configuration for the cm:content type -->
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="cm:author" force="true" />
+               <show id="cm:creator" for-mode="view" />
+               <show id="cm:created" for-mode="view" />
+               <show id="cm:modifier" for-mode="view" />
+               <show id="cm:modified" for-mode="view" />
+
+               <show id="ws:templateName" force="true" />
+
+               <show id="mimetype" for-mode="view" />
+               <show id="size" for-mode="view" />
+
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+
+               <!-- ws:webasset aspect -->
+               <show id="ws:derivedCommentCount" for-mode="view" />
+               <show id="ws:derivedAverageRating" for-mode="view" />
+               <show id="ws:publishedTime" for-mode="view" />
+
+               <!-- cm:dublincore aspect -->
+               <show id="cm:publisher" />
+               <show id="cm:contributor" />
+               <show id="cm:type" />
+               <show id="cm:identifier" />
+               <show id="cm:dcsource" />
+               <show id="cm:coverage" />
+               <show id="cm:rights" />
+               <show id="cm:subject" />
+
+               <!-- cm:complianceable aspect -->
+               <show id="cm:removeAfter" />
+
+               <!-- cm:effectivity aspect -->
+               <show id="cm:from" />
+               <show id="cm:to" />
+
+               <!--  cm:summarizable aspect -->
+               <show id="cm:summary" />
+
+               <!-- cm:translatable aspect -->
+               <show id="cm:translations" />
+
+               <!-- cm:localizable aspect -->
+               <show id="cm:locale" />
+
+               <!-- cm:ownable aspect -->
+               <show id="cm:owner" />
+
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+
+               <!-- cm:emailed aspect -->
+               <show id="cm:originator" />
+               <show id="cm:addressee" />
+               <show id="cm:addressees" />
+               <show id="cm:sentdate" />
+               <show id="cm:subjectline" />
+
+               <show id="ws:primaryImage" />
+               <show id="ws:secondaryImage" />
+               <show id="ws:relatedArticles" />
+
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/mimetype.ftl" />
+               </field>
+               <field id="size">
+                  <control template="/org/alfresco/components/form/controls/size.ftl" />
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:originator" read-only="true" />
+               <field id="cm:addressee" read-only="true" />
+               <field id="cm:addressees" read-only="true" />
+               <field id="cm:sentdate" read-only="true" />
+               <field id="cm:subjectline" read-only="true" />
+               <field id="ws:primaryImage" >
+                    <control>
+                        <control-param name="startLocation">{doclib}</control-param>
+                    </control>
+               </field>
+               <field id="ws:secondaryImage" >
+                    <control>
+                        <control-param name="startLocation">{doclib}</control-param>
+                    </control>
+               </field>
+               <field id="ws:relatedArticles" >
+                    <control>
+                        <control-param name="startLocation">{doclib}</control-param>
+                    </control>
+               </field>
+            </appearance>
+         </form>
+
+         <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+
+         <!-- Document Library Inline Edit form -->
+         <form id="doclib-inline-edit">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="cm:content" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                  <control template="/org/alfresco/components/form/controls/namefield.ftl" />
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:content">
+                  <control>
+                     <control-param name="editorAppearance">explorer</control-param>
+                     <control-param name="forceEditor">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="model-type" condition="ws:article">
+      <forms>
+         <!-- Default form configuration for creating a ws:indexPage -->
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="cm:content" force="true" />
+               <show id="mimetype" />
+               <show id="ws:translationOf" force="true" />
+               <show id="ws:initiallyOrphaned" force="true" />
+               <show id="ws:language" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:name">
+                  <control template="/org/alfresco/components/form/controls/namefield.ftl">
+                     <control-param name="contextProperty">name</control-param>
+                  </control>
+               </field>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:content">
+                  <control>
+                     <control-param name="editorAppearance">explorer</control-param>
+                     <control-param name="forceEditor">true</control-param>
+                  </control>
+               </field>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">mimeType</control-param>
+                  </control>
+               </field>
+               <field id="ws:translationOf">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">translationOf</control-param>
+                  </control>
+               </field>
+               <field id="ws:initiallyOrphaned">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">orphan</control-param>
+                  </control>
+               </field>
+               <field id="ws:language">
+                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                     <control-param name="contextProperty">language</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="model-type" condition="ws:visitorFeedback">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="ws:visitorEmail" />
+               <show id="ws:commentFlagged" />
+               <show id="ws:feedbackType" />
+               <show id="ws:feedbackSubject" />
+               <show id="ws:feedbackComment" />
+               <show id="ws:rating" />
+               <show id="ws:relevantAssetAssoc" />
+               <show id="ws:visitorName" />
+               <show id="ws:visitorWebsite" />
+            </field-visibility>
+            <create-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="ws:feedbackComment">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:relevantAssetAssoc" read-only="true" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="ws:image">
+      <forms>
+         <!-- Default form configuration for the cm:content type -->
+         <form>
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="mimetype" />
+               <show id="cm:author" force="true" />
+               <show id="size" for-mode="view" />
+               <show id="cm:creator" for-mode="view" />
+               <show id="cm:created" for-mode="view" />
+               <show id="cm:modifier" for-mode="view" />
+               <show id="cm:modified" for-mode="view" />
+
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+
+               <!-- ws:webasset aspect -->
+               <show id="ws:derivedCommentCount" for-mode="view" />
+               <show id="ws:derivedAverageRating" for-mode="view" />
+               <show id="ws:publishedTime" for-mode="view" />
+
+               <!-- cm:dublincore aspect -->
+               <show id="cm:publisher" />
+               <show id="cm:contributor" />
+               <show id="cm:type" />
+               <show id="cm:identifier" />
+               <show id="cm:dcsource" />
+               <show id="cm:coverage" />
+               <show id="cm:rights" />
+               <show id="cm:subject" />
+
+               <!-- cm:complianceable aspect -->
+               <show id="cm:removeAfter" />
+
+               <!-- cm:effectivity aspect -->
+               <show id="cm:from" />
+               <show id="cm:to" />
+
+               <!--  cm:summarizable aspect -->
+               <show id="cm:summary" />
+
+               <!-- cm:translatable aspect -->
+               <show id="cm:translations" />
+
+               <!-- cm:localizable aspect -->
+               <show id="cm:locale" />
+
+               <!-- cm:ownable aspect -->
+               <show id="cm:owner" />
+
+               <!-- cm:attachable aspect -->
+               <show id="cm:attachments" />
+
+               <!-- cm:emailed aspect -->
+               <show id="cm:originator" />
+               <show id="cm:addressee" />
+               <show id="cm:addressees" />
+               <show id="cm:sentdate" />
+               <show id="cm:subjectline" />
+
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="mimetype">
+                  <control template="/org/alfresco/components/form/controls/mimetype.ftl" />
+               </field>
+               <field id="size">
+                  <control template="/org/alfresco/components/form/controls/size.ftl" />
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:originator" read-only="true" />
+               <field id="cm:addressee" read-only="true" />
+               <field id="cm:addressees" read-only="true" />
+               <field id="cm:sentdate" read-only="true" />
+               <field id="cm:subjectline" read-only="true" />
+            </appearance>
+         </form>
+
+         <!-- Document Library pop-up Edit Metadata form -->
+         <form id="doclib-simple-metadata">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <!-- tags and categories -->
+               <show id="cm:taggable" for-mode="edit" force="true" />
+               <show id="cm:categories" />
+            </field-visibility>
+            <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:description">
+                  <control>
+                     <control-param name="activateLinks">true</control-param>
+                  </control>
+               </field>
+               <field id="cm:taggable">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                     <control-param name="params">aspect=cm:taggable</control-param>
+                     <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
+                     <control-param name="createNewItemIcon">tag</control-param>
+                  </control>
+               </field>
+               <field id="cm:categories">
+                  <control>
+                     <control-param name="compactMode">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+
+         <!-- Document Library Inline Edit form -->
+         <form id="doclib-inline-edit">
+            <field-visibility>
+               <show id="cm:name" />
+               <show id="cm:title" force="true" />
+               <show id="cm:description" force="true" />
+               <show id="cm:content" force="true" />
+            </field-visibility>
+            <appearance>
+               <field id="cm:title">
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+               <field id="cm:content">
+                  <control>
+                     <control-param name="editorAppearance">explorer</control-param>
+                     <control-param name="forceEditor">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="ws:visitorFeedback">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="ws:visitorEmail" />
+               <show id="ws:commentFlagged" />
+               <show id="ws:feedbackType" />
+               <show id="ws:feedbackSubject" />
+               <show id="ws:feedbackComment" />
+               <show id="ws:rating" />
+               <show id="ws:relevantAssetAssoc" />
+               <show id="ws:visitorName" />
+               <show id="ws:visitorWebsite" />
+            </field-visibility>
+            <edit-form template="../data-lists/forms/dataitem.ftl" />
+            <appearance>
+               <field id="ws:feedbackComment">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="ws:relevantAssetAssoc" read-only="true" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Review and Publish Web Assets Workflow Definition -->
+   <config evaluator="string-compare" condition="jbpm$wswf:reviewPublish">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                      <control-param name="showTime">false</control-param>
+                      <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Review and Publish Web Assets Workflow Definition -->
+   <config evaluator="string-compare" condition="jbpm$wswf:publishTree">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                      <control-param name="showTime">false</control-param>
+                      <control-param name="submitTime">false</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Review and Publish Web Assets Workflow Definition -->
+   <config evaluator="string-compare" condition="activiti$quickStartReviewPublish">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                     <control-param name="submitTime">false</control-param>
+                     <control-param name="showTime">false</control-param>
+                  </control>
+               </field> 
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <!-- Review and Publish Web Assets Workflow Definition -->
+   <config evaluator="string-compare" condition="activiti$quickStartReviewPublishTree">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:workflowDescription" />
+               <show id="bpm:workflowDueDate" />
+               <show id="bpm:workflowPriority" />
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.general" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="bpm:workflowDescription" label-id="workflow.field.message">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl">
+                     <control-param name="style">width: 95%</control-param>
+                  </control>
+               </field>
+               <field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info">
+                  <control template="/org/alfresco/components/form/controls/date.ftl">
+                     <control-param name="submitTime">false</control-param>
+                     <control-param name="showTime">false</control-param>
+                  </control>
+               </field> 
+               <field id="bpm:workflowPriority" label-id="workflow.field.priority" set="info">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wswf:submitReviewTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="bpm:assignee" />
+               <show id="packageItems" />
+            </field-visibility>
+            <appearance>
+               <set id="assignee" appearance="title" label-id="workflow.set.assignee" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+
+               <field id="bpm:assignee" label-id="workflow.field.reviewer" set="assignee" />
+               <field id="packageItems" set="items" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wswf:reviewTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="bpm:status" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="progress" appearance="title" label-id="workflow.set.task.progress" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:status" set="progress" />
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wswf:approvedTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wswf:rejectedTask">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:taskId" />
+               <show id="packageItems" />
+               <show id="bpm:comment" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="task-type" condition="wswf:handleContactRequest">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="packageItems" />
+               <show id="message" />
+               <show id="taskOwner" />
+               <show id="bpm:priority" />
+               <show id="bpm:dueDate" />
+               <show id="bpm:comment" />
+               <show id="bpm:taskId" />
+               <show id="transitions" />
+            </field-visibility>
+            <appearance>
+               <set id="" appearance="title" label-id="workflow.set.task.info" />
+               <set id="info" appearance="" template="/org/alfresco/components/form/3-column-set.ftl" />
+               <set id="items" appearance="title" label-id="workflow.set.items" />
+               <set id="response" appearance="title" label-id="workflow.set.response" />
+
+               <field id="message">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="taskOwner" set="info" />
+               <field id="bpm:taskId" set="info">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="bpm:priority" set="info" read-only="true">
+                  <control template="/org/alfresco/components/form/controls/workflow/priority.ftl" />
+               </field>
+               <field id="bpm:dueDate" set="info" label-id="workflow.field.due">
+                  <control template="/org/alfresco/components/form/controls/info.ftl" />
+               </field>
+               <field id="packageItems" set="items" />
+               <field id="bpm:comment" label-id="workflow.field.comment" set="response">
+                  <control template="/org/alfresco/components/form/controls/textarea.ftl" />
+               </field>
+               <field id="transitions" set="response" />
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+
+</alfresco-config>

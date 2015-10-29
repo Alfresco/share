@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Create or edit a post</shortname>
+  <description>Create or edit post form</description>
+  <url>/components/blog/postedit</url>
+</webscript>

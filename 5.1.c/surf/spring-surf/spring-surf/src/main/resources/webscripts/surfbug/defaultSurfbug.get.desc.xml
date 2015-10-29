@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Default SurfBug WebScript</shortname>
+  <description>Provides default debug information</description>
+  <url>/default/surfbug</url>
+  <family>SurfBug</family>
+  <authentication>admin</authentication>
+</webscript>

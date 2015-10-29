@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Get Asset Collection</shortname>
+  <url>/api/assetcollections/{name}?sectionid={sectionid}&amp;modifiedTimeOnly={modifiedTimeOnly?}</url>
+  <url>/api/assetcollections?assetcollectionid={assetcollectionid}&amp;modifiedTimeOnly={modifiedTimeOnly?}</url>
+  <format default="xml">argument</format>
+  <authentication>user</authentication>
+  <transaction allow="readonly">required</transaction>
+  <lifecycle>draft_public_api</lifecycle>
+</webscript>

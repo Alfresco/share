@@ -1,0 +1,200 @@
+div.dashlet.dynamic-welcome
+{
+   background: url(../images/welcome-background.png) repeat-x;
+   border: 1px solid #FFEA5B;
+   padding-top: 10px;
+   margin-bottom: 0;
+   margin-top: 16px;
+   position: relative;
+}
+
+div.dashlet.dynamic-welcome.alf-user-welcome
+{
+   cursor: pointer;
+}
+
+.alf-welcome-hide-button
+{
+   position: absolute;
+   right: 10px;
+   top: 34%;
+   margin-right: 10px;
+   text-align: right;
+   zoom: 1;
+   z-index: 1;
+   color: #515D6B;
+}
+
+.alf-confirmation-panel-text {
+    display: inline-block;
+    max-width: 23em;
+    padding-bottom: 0.5em;
+}
+
+.alfresco-share .alf-configure-icon.alf-hide-confirmation
+{
+    padding: 1px 9px 3px 9px;
+    display: inline;
+    float: none;
+}
+
+.welcome-body
+{
+   margin: 5px 20px;
+   position: relative;
+}
+
+.welcome-info
+{
+   margin-bottom: 10px;
+}
+
+.alf-user-welcome .welcome-info {
+   background: transparent url(../images/lightbulb-orange-60.png) no-repeat left center;
+   padding-bottom: 4px;
+   padding-left: 80px;
+   padding-top: 7px;
+}
+
+.alf-user-welcome .welcome-info h1 {
+   color: #F89829;
+   font-family: Open Sans bold,Arial,sans-serif;
+   font-size: 16px;
+}
+
+.alf-user-welcome .welcome-info .welcome-info-text {
+   font-size: 12px;
+}
+
+.welcome-info h1
+{
+   font-size: 187%;
+   font-weight: normal;
+   margin-bottom: 0;
+   letter-spacing: -0.7px;
+}
+
+.welcome-info h2
+{
+   font-size: 138.5%;
+   margin-bottom: 18px;
+   font-weight: normal;
+}
+
+.welcome-info-text
+{
+   font-size: 108%;
+   margin-top: 0px;
+   margin-bottom: 12px;
+}
+
+.welcome-border-container
+{
+   border-right: solid 1px #FFEA5B;
+}
+
+.welcome-right-container
+{
+   clear: left;
+   float: left;
+   width: 100%;
+   overflow: hidden;
+}
+
+.welcome-middle-right-container
+{
+   clear: left;
+   float: left;
+   width: 100%;
+   position: relative;
+   right: 25%;
+}
+
+.welcome-middle-left-container
+{
+   clear: left;
+   float: left;
+   width: 100%;
+   position: relative;
+   right: 25%;
+}
+
+.welcome-left-container
+{
+   float: left;
+   width: 100%;
+   position: relative;
+   right: 25%;
+}
+
+.welcome-details-column
+{
+   float: left;
+   width: 21%;
+   position: relative;
+   left: 77%;
+   overflow: hidden;
+}
+
+.welcome-details-column-0
+{
+   left: 77%;
+}
+
+.welcome-details-column-1
+{
+   left: 81%;
+}
+
+.welcome-details-column-2
+{
+   left: 85%;
+}
+
+.welcome-details-column-3
+{
+   left: 89%;
+}
+
+.welcome-details-column-image
+{
+   float: left;
+   top: 0;
+   left: 0;
+   width: 74px;
+}
+
+.welcome-details-column-info
+{
+   height: 100%;
+   margin-left: 74px;
+   position: relative;
+}
+
+.welcome-details-column-info h3
+{
+    margin: 0px;
+}
+
+.welcome-details-column-info-text
+{
+   margin-bottom: 0;
+   margin-top: 0;
+}
+
+.welcome-details-column-info-vertical-spacer
+{
+   height: 1.5em;
+}
+
+.welcome-details-column-info a
+{
+   color: #4D92C9;
+   font-size: 100%;
+   bottom: 0;
+}
+
+.welcome-height-adjuster
+{
+   clear: both;
+}

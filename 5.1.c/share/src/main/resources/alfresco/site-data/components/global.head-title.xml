@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<component>
+   <scope>global</scope>
+   <region-id>head-title</region-id>
+   <source-id>global</source-id>
+   <sub-components>
+      <sub-component id="default">
+         <evaluations>
+            <evaluation id="quickshare">
+               <evaluators>
+                  <evaluator type="page.component.evaluator">
+                     <params>
+                        <pages>quickshare</pages>
+                     </params>
+                  </evaluator>
+               </evaluators>
+               <url>/components/quickshare/title</url>
+               <properties>
+                  <shareId>{shareid}</shareId>
+               </properties>
+            </evaluation>
+            <evaluation id="default">
+               <url>/components/head/title</url>
+            </evaluation>
+         </evaluations>
+      </sub-component>
+   </sub-components>
+</component>

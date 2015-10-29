@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>My Files</title>
+   <title-id>page.myFiles.title</title-id>
+   <description>Browse my files</description>
+   <description-id>page.myFiles.description</description-id>
+   <template-instance>myfiles</template-instance>
+   <authentication>user</authentication>
+</page>

@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Fix Web Assets 1</shortname>
+  <url>/api/fixwebassets1</url>
+  <format default="json">argument</format>
+  <authentication>admin</authentication>
+  <transaction>required</transaction>
+</webscript>

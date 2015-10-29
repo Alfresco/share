@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+    <template-type>use_head_prop-template</template-type>
+    <components>
+        <component>
+            <region-id>use_head_prop-region</region-id>
+            <component-type-id>use_head_prop-componentType</component-type-id>
+        </component>   
+    </components>      
+</template-instance>

@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>folder-details-actions</shortname>
+  <description>Folder Details Actions Component</description>
+  <url>/components/folder-details/folder-actions</url>
+</webscript>

@@ -1,0 +1,319 @@
+.search
+{
+	margin: 10px -10px 0 -10px;
+}
+
+.search .align-right
+{
+   text-align: right;
+}
+
+.search .search-sites
+{
+   margin-bottom: -0.75em;
+   padding: 1em 0 0 1.25em;
+}
+
+.search .search-sites a.bold
+{
+   font-weight: bold;
+}
+
+.search .search-box
+{
+   margin: 1.25em;
+   height: 2.1em;
+}
+
+.search .search-box div
+{
+   float: left;
+}
+
+.search .search-box input
+{
+   padding: 5px;
+}
+
+.search .search-box .terms
+{
+   width: 42em;
+}
+
+.search .search-icon span.first-child
+{
+   background: url(../images/search-16.png) no-repeat 12px 4px;
+   padding-left: 24px;
+}
+
+.search .search-bar
+{
+   padding: 4px 0.5em 2px;
+}
+
+.search .search-bar-bottom
+{
+	border-top: none;
+}
+
+.search .search-bar .paginator
+{
+   float: left;
+   margin: 0 0 0 32px;
+   padding: 4px 0;
+   text-align: center;
+}
+
+.search .search-bar .paginator-bottom
+{
+   margin: 0 0 0 200px;
+}
+
+.search .search-info
+{
+   float: left;
+   padding: 0.5em 0 0.6em 1em;
+}
+
+.search .action-overlay
+{
+   position: absolute;
+   margin-top: 2px;
+   margin-left: 70px;
+}
+
+.search .thumbnail-cell
+{
+   text-align: center;
+   vertical-align: middle;
+   padding-top: 8px;
+   padding-bottom: 8px;
+}
+
+.search .thumbnail-cell > div
+{
+   visibility: hidden;
+}
+
+.search .thumbnail-cell:hover > div
+{
+   visibility: visible;
+}
+
+.search .thumbnail > span img
+{
+   box-shadow: 3px 3px 5px #888;
+}
+
+.search table td.description
+{
+   line-height: 1.5em;
+   border-right: none;
+   vertical-align: top;
+}
+
+.search .itemname
+{
+   padding: 0.2em 0;
+}
+
+.search .itemname a
+{
+   font-size: 116%;
+}
+
+.search h3.itemname span.title
+{
+   color: #606060;
+   font-size: 82%;
+   padding-left: 0.7em;
+}
+
+.search .results
+{
+   margin-right: 1px;
+}
+
+.search .results .meta
+{
+   color: #333;
+}
+
+.search .results div.details
+{
+   padding-bottom: 0.1em;
+   padding-top: 0.1em;
+}
+
+.search .results div.details span.tags
+{
+   background: url(../images/tag-16.png) no-repeat 0 2px;
+   padding-left: 22px;
+}
+
+.search .results div.details .searchByTag
+{
+   padding-right: 2px;
+}
+
+.search .yui-dt .yui-dt-message
+{
+   display: none;
+}
+
+.search .yui-dt table
+{
+	width: 100%;
+	border: none;
+}
+
+.search .yui-dt table thead
+{
+	display: none;
+}
+
+.search tr.yui-dt-odd, tr.yui-dt-even
+{
+   background-color: #ffffff !important;
+}
+
+.search .yui-dt td
+{
+   border-bottom: 1px solid #ddd;
+}
+
+.search .yui-dt tr.yui-dt-first td
+{
+   border-top: 1px solid #ddd;
+}
+
+.search .search-bar span.yui-button
+{
+   background: none;
+   border-width: 0px;
+}
+
+.search .search-bar span.yui-button span.first-child
+{
+   background-color: transparent;
+   border-width: 0px;
+}
+
+
+/* Advanced Search specific styles */
+
+.search .form-type-name
+{
+   font-size: 116%;
+   padding: 0.15em;
+}
+
+.search .form-type-description
+{
+   font-size: 93%;
+   padding: 0.2em;
+}
+
+.search .form-row
+{
+   margin: 1.5em 0 1.5em 2.2em !important;
+   width: 830px;
+}
+
+.search .form-row span.lookfor
+{
+   float: left;
+   padding-top: 0.4em;
+}
+
+.search .forms-container
+{
+   margin-left: 1.5em;
+}
+
+.search .keywords-box
+{
+   width: 800px;
+}
+
+.search .keywords-box .terms
+{
+   width: 60em;
+}
+
+.search .keywords-box .set
+{
+   padding-bottom: 1em;
+}
+
+/* Forms list button and menu styles */
+
+.search .yuimenu .bd
+{
+   zoom: normal;
+   border: 1px solid #84B4D5;
+   background-color: #FFFFFF;
+   padding: 0;
+}
+
+.search .yuimenu .bd ul
+{
+   padding: 0px;
+   cursor: pointer;
+}
+
+.search .yuimenu .bd ul li.yuimenuitem .yuimenuitemlabel
+{
+   cursor: pointer;
+}
+
+.search .selected-form-button span.yui-button
+{
+   background: none;
+   border-width: 0px;
+}
+
+.search .selected-form-button span.yui-button span.first-child
+{
+   background-repeat: no-repeat;
+   border-width: 0px;
+}
+
+/* hide mandatory indicators - make no sense for a search */
+.search .form-container .mandatory-indicator
+{
+   display: none;
+}
+
+/* collapse form-buttons div as it is not used */
+.search .form-container .form-buttons
+{
+   margin: 2em;
+   padding: 0;
+}
+
+/* help text */
+.search .help span
+{
+   display: block;
+   padding: 0.5em;
+   color: #000000;
+}
+
+.search .help .title
+{
+   font-size: 116%;
+   margin-bottom: -0.25em;
+}
+
+.search .help .subtitle
+{
+   font-weight: bold;
+}
+
+.search .help .example
+{
+   font-style: italic;
+   margin-top: -0.5em;
+   margin-bottom: -0.5em;
+}

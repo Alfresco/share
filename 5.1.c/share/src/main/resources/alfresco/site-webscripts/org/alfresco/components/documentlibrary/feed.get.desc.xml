@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>doclist-rss</shortname>
+  <description>Document List Component - doclist RSS feed</description>
+  <url>/components/documentlibrary/feed/{feedArgs}</url>
+  <format default="rss">argument</format>
+</webscript>

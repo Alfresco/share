@@ -1,0 +1,25 @@
+.repository
+{
+   margin: 16px 10px 10px;
+}
+
+.repository .title
+{
+   font-size: 123.1%;
+   font-weight: bold;
+   padding-bottom: 0.5em;
+}
+
+.repository .row
+{
+   padding: 0.333em;
+}
+
+.repository .label
+{
+   display: block;
+   float: left;
+   padding: 0 0.8em 0 1em;
+   width: 10em;
+   font-weight: bold;
+}

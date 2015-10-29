@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Test WebScript 1</shortname>
+  <description>A trivial WebScript used for providing inserts</description>
+  <url>/tests/test1</url>
+</webscript>

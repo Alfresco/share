@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Accepts an invite</shortname>
+  <description>Add email to invite list</description>
+  <url>/components/invite/accept-invite</url>
+</webscript>

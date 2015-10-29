@@ -1,0 +1,348 @@
+.object-finder-list
+{
+   display: block;
+   min-height: 2em;
+   max-height: 17.4em;
+   overflow-x: hidden;
+   overflow-y: scroll;
+   margin-bottom: 0.5em;
+}
+
+.current-values.object-finder-list table
+{
+   width: 100%;
+  /* table-layout: fixed; */
+   border: none;
+}
+
+.current-values.object-finder-list table thead
+{
+   display: none;
+}
+
+.current-values.object-finder-list table td
+{
+   border-right-style: none;
+}
+
+.current-values.object-finder-list table td.yui-dt-empty .yui-dt-liner
+{
+   display: block;
+}
+
+.current-values.object-finder-list table td.yui-dt-col-nodeRef .yui-dt-liner div
+{
+   text-align: center;
+}
+
+.current-values.object-finder-list table td.yui-dt-col-name .yui-dt-liner div
+{
+   display: block;
+}
+
+.current-values.object-finder-list table td.yui-dt-col-name
+{
+
+}
+/*
+.current-values.object-finder-list table td.yui-dt-col-action
+{
+   width: 30%;
+}
+  */
+.current-values.object-finder-list table td.yui-dt-col-name .yui-dt-liner div
+{
+   padding-left: 0;
+   padding-right: 0;
+   padding-bottom: 0;
+}
+
+.current-values.object-finder-list table td.yui-dt-col-action .remove-list-item
+{
+   padding: 1em 1.5em;
+   background: url(../form/images/remove-icon-16.png) no-repeat left;
+}
+
+.current-values.object-finder-list table td.yui-dt-col-action .view_more_actions
+{
+   padding: 1em 1.5em;
+   background: url(../form/images/forward-arrow-16.png) no-repeat left;
+}
+
+.current-values.object-finder-list div
+{
+   padding: 0.5em;
+}
+
+.object-finder .inlineable div
+{
+   display: inline-block;
+   float: none;
+   padding: 4px;
+}
+
+.yui-panel .object-finder .current-values.object-finder-item
+{
+   max-height: 8em;
+   overflow-y: auto;
+}
+
+.object-finder .current-values
+{
+   margin-bottom: 4px;
+}
+
+.object-finder .current-values div.itemtype-tag
+{
+   background-color: #e8e8e8;
+   border-radius: 8px;
+   font-size: 93%;
+   margin: 1px 0.5em 1px 0;
+   padding: 2px 8px;
+   -moz-border-radius: 8px;
+   -webkit-border-radius: 8px;
+}
+
+.object-finder .show-picker
+{
+   clear: left;
+}
+
+.object-finder .picker
+{
+   display: none;
+   margin-left: 2em;
+   margin-top: 0.3em;
+   width: 60em;
+}
+
+.object-finder .bd
+{
+   border: 2px solid #aaa;
+   padding: 0.5em;
+}
+
+.object-finder .bdft
+{
+   margin-top: 1em;
+   text-align: center;
+}
+
+.object-finder .picker-header
+{
+   height: 2em;
+   padding: 0.5em;
+}
+
+.object-finder .picker-header div
+{
+   float: left;
+}
+
+.object-finder .picker-header .folder-up button
+{
+   background: transparent url(../form/images/folder-up-16.png) no-repeat 50% 50%;
+}
+.object-finder .picker-header .folder-up .yui-button-disabled button
+{
+   background-image: url(../form/images/folder-up-disabled-16.png);
+}
+
+.object-finder .picker-header .navigator span.wait
+{
+   background-image: url(../form/images/ajax_anim.gif);
+   background-repeat: no-repeat;
+   padding: 1px 0 2px 16px;
+}
+
+.object-finder .picker-header .navigator button span.item-icon img
+{
+   padding-right: 0.3em;
+   vertical-align: middle;
+}
+
+.object-finder .picker-header .navigator button span.item-name
+{
+   white-space: nowrap;
+}
+
+.object-finder .picker-header .navigator .navigator-items-list .yuimenuitemlabel
+{
+   padding: 0.2em 12px;
+}
+
+.object-finder .picker-header .navigator .navigator-items-list span.item-icon img
+{
+   padding-right: 0.3em;
+   vertical-align: middle;
+}
+
+.object-finder .picker-header .navigator .navigator-items-list span.item-name
+{
+}
+
+.object-finder .picker-header .search
+{
+   display: none;
+}
+
+.object-finder .picker-header .search .search-input
+{
+   float: left;
+   width: 17em;
+   padding: 0.3em 1em 0.4em 0.5em;
+}
+
+.object-finder .picker-items
+{
+   border: 1px solid #ccc;
+   height: 20em;
+   overflow-x: auto;
+   overflow-y: scroll;
+   position: relative;
+}
+
+.object-finder .picker-items h3
+{
+   font-weight: normal;
+}
+
+.object-finder input.create-new-input
+{
+   width: 100%;
+}
+
+.object-finder .picker-items .icon16
+{
+   display: block;
+   min-height: 16px;
+   position: relative;
+}
+
+.object-finder .picker-items .icon32
+{
+   display: block;
+   min-height: 32px;
+   position: relative;
+}
+
+.object-finder .picker-items .icon16 span.new-item-overlay
+{
+   background: url(../form/images/new-overlay-16.png) no-repeat;
+   display: block;
+   height: 16px;
+   width: 16px;
+   position: absolute;
+}
+
+.object-finder .picker-items .icon32 span.new-item-overlay
+{
+   background: url(../form/images/new-overlay-32.png) no-repeat;
+   display: block;
+   height: 32px;
+   width: 32px;
+   position: absolute;
+}
+
+.object-finder .picker-items a.add-item:hover,
+.object-finder .picker-items a.remove-item:hover,
+.object-finder .picker-items a.create-new-item:hover
+{
+   text-decoration: none;
+}
+
+.object-finder .picker-items .addIcon
+{
+	background: transparent url(../form/images/add-icon-16.png) no-repeat center center;
+	padding: 8px;
+}
+
+.object-finder .picker-items .removeIcon
+{
+   background: transparent url(../form/images/remove-icon-16.png) no-repeat center center;
+   padding: 8px;
+}
+
+.object-finder .picker-items .createNewIcon
+{
+   background: transparent url(../form/images/create-new-16.png) no-repeat center center;
+   padding: 8px;
+}
+
+
+.object-finder .picker-items table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.object-finder .picker-items thead
+{
+   display: none;
+}
+
+.object-finder .picker-items tbody
+{
+   outline: none;
+}
+
+.object-finder .picker-items tr.create-new-row
+{
+   background-color: #ffffe0;
+}
+
+.object-finder .picker-items.yui-dt .yui-dt-message td
+{
+   border: medium none;
+}
+
+.object-finder .picker-items.yui-dt .yui-dt-data td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: middle;
+}
+
+.object-finder .picker-items .item-name
+{
+   word-break: break-all;
+}
+
+.object-finder .picker-items .description
+{
+   word-break: break-all;
+}
+
+.object-finder .panel-left,
+.object-finder .panel-right
+{
+}
+
+.object-finder .panel-left .picker-items
+{
+   clear: left;
+   margin-left: 0.5em;
+   margin-right: 6px;
+}
+
+.object-finder .panel-right .picker-items
+{
+   clear: left;
+   margin-right: 0.5em;
+}
+
+/* Compact Mode */
+.object-finder.compact
+{
+   width: 50em;
+}
+
+.object-finder.compact .picker-items
+{
+   border: 1px solid #aaa;
+}
+
+.object-finder.compact .picker-items h3
+{
+   font-size: 100%;
+}

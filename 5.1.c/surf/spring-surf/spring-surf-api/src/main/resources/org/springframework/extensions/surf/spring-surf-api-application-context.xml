@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+   <!--                             -->
+   <!--  Web Script Implementations -->
+   <!--                             -->
+   
+   <!-- Beans to help manage console state -->   
+   <bean id="webscript.org.springframework.extensions.surf.console.get" class="org.springframework.extensions.surf.bean.Console" parent="webscript" scope="prototype" />
+   <bean id="webscript.org.springframework.extensions.surf.console.post" class="org.springframework.extensions.surf.bean.ConsoleUpdate" parent="webscript" scope="prototype">
+      <property name="serviceRegistry" ref="webframework.service.registry" />
+   </bean>
+ 
+</beans>

@@ -1,0 +1,9 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<page-type>
+    <!-- A page-type can be referenced instead of a page. The actual page rendered will be determined by
+	     the current or specified theme -->
+    <id>basic-pageType</id>
+</page-type>

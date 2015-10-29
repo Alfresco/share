@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Manage Permissions</title>
+   <title-id>page.managePermissions.title</title-id>
+   <description>Manage Permissions</description>
+   <description-id>page.managePermissions.description</description-id>
+   <template-instance>manage-permissions</template-instance>
+   <authentication>user</authentication>
+</page>

@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Module Deployment Status</shortname>
+  <description>Displays the current module deployment status.</description>
+  <url>/modules/deploy</url>
+  <family>ModuleDeployment</family>
+  <lifecycle>internal</lifecycle>
+  <authentication>admin</authentication>
+</webscript>

@@ -1,0 +1,146 @@
+/* Cloud Sync Status Styles */
+
+.cloud-sync-status h2
+{
+   text-align: center;
+}
+
+.cloud-sync-status p
+{
+   margin: 0 0 10px;
+}
+
+.cloud-sync-status p.parent-msg
+{
+   margin-bottom: -5px;
+}
+
+.sticky-wrapper .cloud-sync-status .cloud-sync-details-info a:link,
+.sticky-wrapper .cloud-sync-status .cloud-sync-details-info a:visited,
+.sticky-wrapper .cloud-sync-status .cloud-sync-details-info a:hover,
+.sticky-wrapper .cloud-sync-status .cloud-sync-details-info a:active
+{
+   color: #4F94C9;
+}
+
+.cloud-sync-status .more-info
+{
+   float: right;
+   font-size: 85%;
+   margin-right: 5px;
+   margin-top: -15px;
+}
+
+.location .folder-link
+{
+   font-size: 90%;
+}
+
+.location .document-link
+{
+   display: block;
+   font-size: 110%;
+   margin-bottom: -15px;
+   margin-top: 3px;
+}
+
+.location .document-root-link
+{
+   margin-top: 2px;
+}
+
+.location .view-in-cloud
+{
+   bottom: 10px;
+   left: 10px;
+   position: relative;
+}
+
+.cloud-sync-details-failed,
+.cloud-sync-details-failed-detailed,
+.cloud-sync-details-failed-transient,
+.cloud-sync-details-failed-detailed-transient
+{
+   background: url("../../components/images/warning-16.png") no-repeat scroll 6px 4px #FFFFE0;
+   border: 1px solid #FFCA7A;
+   color: black;
+   font-weight: bold;
+   margin-top: 10px;
+   padding: 5px 0 3px 30px;
+}
+
+a.cloud-sync-details-failed-show-link,
+a.cloud-sync-details-failed-hide-link,
+a.cloud-sync-details-failed-show-link-transient,
+a.cloud-sync-details-failed-hide-link-transient
+{
+   cursor: pointer;
+   float: right;
+   font-size: 85%;
+   font-weight: normal;
+   padding-right: 5px;
+}
+
+.cloud-sync-details-success
+{
+   height: 20px;
+}
+
+div.cloud-sync-status-buttons
+{
+   padding-top: 15px;
+   text-align: center;
+}
+
+.cloud-sync-error-code
+{
+   color: black;
+   display: block;
+   font: 13px/1.231 arial,helvetica,clean,sans-serif;
+   padding-right: 55px;
+   padding-top: 5px;
+}
+
+.sticky-wrapper textarea.cloud-sync-error-details,
+.sticky-wrapper textarea.cloud-sync-error-details-transient
+{
+   margin-bottom: 5px;
+   margin-top: 5px;
+   min-height: 6em;
+   padding: 7px;
+   width: 85%;
+}
+
+.cloud-sync-error-details-report
+{
+   padding-top: 17px;
+}
+
+.cloud-sync-indirect-root
+{
+   color: black;
+   padding-top: 13px;
+}
+
+.sticky-wrapper label.cloud-sync-error-details-label,
+.sticky-wrapper label.cloud-sync-error-details-transient-label
+{
+   color: black;
+}
+
+.cloud-sync-location-heading
+{
+   padding-top: 5px;
+   color: black;
+}
+
+.cloud-sync-status-heading
+{
+   color: black;
+   padding-top: 10px;
+}
+
+.cloud-sync-details-info
+{
+   margin-bottom: -15px;
+}

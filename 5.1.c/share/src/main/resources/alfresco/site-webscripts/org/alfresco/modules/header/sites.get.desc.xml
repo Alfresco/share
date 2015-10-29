@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Sites module for Header</shortname>
+  <description>Implementation for Sites application item in Header bar</description>
+  <url>/modules/header/sites</url>
+</webscript>

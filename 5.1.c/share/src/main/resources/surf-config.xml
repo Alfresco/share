@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+   <!-- Import Web Scripts Framework -->
+   <import resource="classpath*:org/springframework/extensions/webscripts/*-context.xml" />
+   
+   <!-- Import Surf Framework -->
+   <import resource="classpath*:org/springframework/extensions/surf/*-context.xml" />
+   <import resource="classpath*:alfresco/web-extension/custom-web-framework-application-context.xml" />
+   
+   <!-- Import Slingshot -->
+   <import resource="classpath*:alfresco/slingshot-application-context.xml" />
+   <import resource="classpath*:alfresco/slingshot-documentlibrary-context.xml" />
+   <import resource="classpath*:alfresco/web-extension/*-context.xml" />
+   
+   <!-- SURF: support for Surf application config -->
+   <import resource="classpath*:org/springframework/extensions/surf/application/*-context.xml" />
+   
+   <!-- SURF: support for custom application configuration overrides -->
+   <import resource="classpath*:org/springframework/extensions/surf/override/*-context.xml" />
+   
+   <!-- Set up to auto-resolve to url based views -->   	
+   <bean id="handlerMappings" parent="webframeworkHandlerMappings">
+      <property name="order" value="0" />
+      
+      <property name="defaultHandler">
+         <bean class="org.springframework.extensions.surf.mvc.UrlViewController">
+            <property name="urlPathHelper" ref="urlPathHelper" />
+            <property name="supportedMethods">
+               <list>
+                  <value>GET</value>
+                  <value>HEAD</value>
+                  <value>PUT</value>
+                  <value>POST</value>
+                  <value>DELETE</value>
+                  <value>OPTIONS</value>
+               </list>
+            </property>
+         </bean>
+      </property>
+   </bean>
+   
+   <!--  Override the default JavaScript debugger to set the appropriate title -->
+   <bean id="scriptDebugger" class="org.springframework.extensions.webscripts.ScriptDebugger" init-method="start">
+      <property name="title" value="Alfresco Share JavaScript Debugger"/>
+   </bean>
+
+</beans>

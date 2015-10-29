@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Admin Console Trashcan Tool</shortname>
+  <description>Administration Console - Trashcan File Recovery Tool</description>
+  <url>/components/console/trashcan</url>
+  <!--<family>admin-console</family>-->
+</webscript>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>global_scope_webscript_component_with_webscript_chrome-page</id>
+   <title>Global scoped WebScript component page with Freemarker rendered chrome</title>
+   <description></description>
+   <template-instance>global_scope_webscript_component_with_webscript_chrome-template</template-instance>
+</page>

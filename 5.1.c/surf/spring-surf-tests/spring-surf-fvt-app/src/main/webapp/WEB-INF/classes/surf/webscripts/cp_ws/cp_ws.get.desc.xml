@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>WebScript 1</shortname>
+  <description>A trivial WebScript used for providing inserts</description>
+  <url>/webscripts/cp_ws</url>
+</webscript>

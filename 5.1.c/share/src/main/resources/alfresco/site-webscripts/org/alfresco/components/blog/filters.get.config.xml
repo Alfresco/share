@@ -1,0 +1,8 @@
+<filters>
+
+   <filter id="all" label="link.all" />
+   <filter id="new" label="link.new" />
+   <filter id="mydrafts" label="link.mydrafts" />
+   <filter id="mypublished" label="link.mypublished" />
+
+</filters>

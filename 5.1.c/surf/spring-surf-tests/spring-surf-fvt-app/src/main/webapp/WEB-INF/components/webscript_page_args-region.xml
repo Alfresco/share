@@ -1,0 +1,7 @@
+<component>
+  <id>page.webscript_page_args-region.pageargs_and_properties-page</id>
+  <region-id>webscript_page_args-region</region-id>
+  <source-id>pageargs_and_properties-page</source-id>
+  <scope>page</scope>
+  <component-type-id>webscript_page_args-componentType</component-type-id>  
+</component>

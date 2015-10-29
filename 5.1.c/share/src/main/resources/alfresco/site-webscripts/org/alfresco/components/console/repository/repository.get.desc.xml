@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Admin Console Repository Tool</shortname>
+  <description>Administration Console - Repository Info Tool</description>
+  <url>/components/console/repository</url>
+  <!--<family>admin-console</family>-->
+</webscript>

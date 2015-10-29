@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Site Search</shortname>
+   <description>Site Search Dashlet</description>
+   <family>dashlet</family>
+   <url>/components/dashlets/site-search</url>
+</webscript>

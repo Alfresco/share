@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Revert version</shortname>
+   <description>Revert document to a previous version</description>
+   <url>/modules/document-details/revert-version</url>
+</webscript>

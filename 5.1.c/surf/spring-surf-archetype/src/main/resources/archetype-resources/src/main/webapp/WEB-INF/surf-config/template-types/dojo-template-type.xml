@@ -1,0 +1,12 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<template-type>
+   <title>WebScript Template Type</title>
+   <description>Template type for using WebScripts for Template Instances</description>
+   <processor mode="view">
+      <id>webscript</id>
+      <uri>/dojo/page/template</uri>
+   </processor>
+</template-type>

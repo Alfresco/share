@@ -1,0 +1,142 @@
+.site-members
+{
+   color: #000;
+   margin: 0 1em 1em 1em;
+}
+
+.site-members .title
+{
+   color:#008000;
+   font-size:108%;
+   float: left;
+}
+
+.site-members .title,
+.site-members .links
+{
+   line-height:2.5em;
+}
+
+.site-members.list
+{
+   margin-bottom: 10px;
+}
+
+.site-members .links
+{
+   position: absolute;
+   right: 32px;
+   padding-top: 45px;
+}
+
+.site-members .links a:hover
+{
+   text-decoration: none;
+}
+
+.site-members .finder-wrapper
+{
+   clear: both;
+   border: 1px solid #c0c0c0;
+   margin-top: 10px;
+}
+
+.site-members .results table
+{
+   border: none;
+   width: 100%;
+}
+
+.site-members .results table thead
+{
+   display: none;
+}
+
+.site-members .yui-dt td
+{
+   display: table-cell;
+   border-bottom: 1px dashed #D7D7D7;
+   border-right: medium none;
+}
+
+.site-members .yui-dt-last td
+{
+   border-bottom: medium none;
+}
+
+.site-members tr.yui-dt-odd
+{
+   background-color: #fbfbfb;
+}
+
+.site-members .yui-dt-error
+{
+   background: red;
+   color: white;
+   font-weight: bold;
+   margin: 1em auto;
+   padding: 1em;
+}
+
+.site-members .search-controls
+{
+   border-bottom: 1px dashed #c0c0c0;
+   height: 2em;
+   padding: 0.5em;
+}
+
+.site-members .search-controls div
+{
+   float: left;
+}
+
+.site-members .search-controls .search-text
+{
+   padding: 0.3em 1em 0.5em 0.5em;
+}
+
+.site-members .search-controls .search-text input
+{
+   width: 20em;
+}
+
+.site-members .search-controls .search-button button
+{
+   background: transparent url(../images/search-16.png) no-repeat 12px 4px;
+   padding-left: 32px;
+}
+
+.site-members .search-controls .results
+{
+   clear: both;
+   background-color: #f6f9fc;
+   overflow: auto;
+   position: relative !important;
+}
+
+.site-members h3 a
+{
+   color: #2b6eb5;
+}
+
+.site-members .attr-name
+{
+   color: #606060;
+}
+
+.site-members .attr-value
+{
+   color: #333333;
+}
+
+/* Use a class since IE6 crashes if setStyle is use overflow with !important */
+.site-members .overflow
+{
+   overflow: visible !important;
+}
+
+.site-members .uninvite button
+{
+   padding: 0px 10px;
+   min-width: 6.5em
+}

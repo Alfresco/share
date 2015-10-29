@@ -1,0 +1,1 @@
+<@streamasset asset=asset/>

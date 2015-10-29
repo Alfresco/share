@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    <bean id="org_alfresco_module_wcmquickstart_transferService" parent="transferService2">
+        <property name="transmitter" ref="org_alfresco_module_wcmquickstart_transferTransmitter" />
+        <property name="transferManifestNodeFactory" ref="org_alfresco_module_wcmquickstart_transferManifestNodeFactory" />
+    </bean>
+
+    <bean id="org_alfresco_module_wcmquickstart_transferTransmitter"
+            class="org.alfresco.module.org_alfresco_module_wcmquickstart.publish.InProcessTransmitterImpl">
+        <property name="receiver" ref="transferReceiver" />
+        <property name="contentService" ref="ContentService" />
+        <property name="transactionService" ref="TransactionService" />
+    </bean>
+
+    <bean id="org_alfresco_module_wcmquickstart_transferManifestNodeFactory"
+        class="org.alfresco.module.org_alfresco_module_wcmquickstart.publish.WebPublishingManifestNodeFactory">
+        <property name="delegate" ref="transferManifestNodeFactory" />
+        <property name="descriptorService" ref="DescriptorService" />
+        <property name="nodeService" ref="NodeService" />
+        <property name="nodeRefMapper" ref="org_alfresco_module_wcmquickstart_nodeRefMapper" />
+    </bean>
+
+    <bean id="org_alfresco_module_wcmquickstart_nodeRefMapper" 
+        class="org.alfresco.module.org_alfresco_module_wcmquickstart.publish.NodeRefMapper" />
+
+    <bean id="org_alfresco_module_wcmquickstart_publishingService"
+        class="org.alfresco.module.org_alfresco_module_wcmquickstart.publish.PublishServiceImpl">
+        <property name="nodeService" ref="NodeService" />
+        <property name="namespaceService" ref="NamespaceService" />
+        <property name="siteHelper" ref="org_alfresco_module_wcmquickstart_siteHelper" />
+        <property name="transferService" ref="org_alfresco_module_wcmquickstart_transferService" />
+        <property name="pathMapper" ref="org_alfresco_module_wcmquickstart_transferManifestNodeFactory" />
+        <property name="nodeCrawlerFactory" ref="NodeCrawlerFactory" />
+        <property name="crawlerConfigurer" ref="wqsmodule_publishingCrawlerConfigurer" />
+        <property name="aspectsToExclude" ref="wqsmodule_aspectsNotToPublish" />
+        <property name="transactionService" ref="TransactionService" />
+        <property name="maxPublishAttempts">
+            <value>${wcmqs.maxPublishAttempts}</value>
+        </property>
+    </bean>
+    
+    
+    <bean id="wqsmodule_aspectsNotToPublish" class="java.util.TreeSet">
+      <constructor-arg>
+         <set>
+            <value>fm:discussable</value>
+         </set>
+      </constructor-arg>
+    </bean>
+    
+    
+    <bean id="wqsmodule_publishingCrawlerConfigurer" 
+            class="org.alfresco.module.org_alfresco_module_wcmquickstart.publish.WqsNodeCrawlerConfigurerImpl" />
+
+    <bean 
+        class="org.alfresco.module.org_alfresco_module_wcmquickstart.publish.PublishBootstrap">
+        <property name="transferService" ref="org_alfresco_module_wcmquickstart_transferService" />
+        <property name="publishService" ref="org_alfresco_module_wcmquickstart_publishingService" />
+    </bean>
+</beans>

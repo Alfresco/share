@@ -1,0 +1,132 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Dashlet Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">
+    <test name="ConfigureSavedSearchDialogBoxPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.ConfigureSavedSearchDialogBoxPageTest" />
+        </classes>
+    </test>
+    
+    
+    <test name="MyMeetingWorkspacesTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.MyMeetingWorkspacesTest" />
+        </classes>
+    </test>
+    
+    
+     <test name="MyCalendarDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.MyCalendarDashletTest" />
+        </classes>
+    </test>
+    
+    
+    <test name="SiteNoticeDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteNoticeDashletTest" />
+        </classes>
+    </test>
+    <test name="ImagePreviewDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.ImagePreviewDashletTest" />
+        </classes>
+    </test>
+<!--    <test name="MyDiscussionsDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.MyDiscussionsDashletTest" />
+        </classes>
+    </test>-->
+    <test name="MySiteDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.MySiteDashletTest" />
+        </classes>
+    </test>
+    <!--WEBDRONE-746 FIXME
+    <test name="MyTasksDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.MyTasksDashletTest" />
+        </classes>
+    </test>
+    -->
+<!--    <test name="RssFeedDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.RssFeedDashletTest" />
+        </classes>
+    </test>-->
+    <test name="SavedSearchDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SavedSearchDashletTest" />
+        </classes>
+    </test>
+    <test name="SearchLimitTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SearchLimitTest" />
+        </classes>
+    </test>
+    <test name="SiteAcitivitiesDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteAcitivitiesDashletTest" />
+        </classes>
+    </test>
+    <test name="SiteCalendarDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteCalendarDashletTest" />
+        </classes>
+    </test>
+    <test name="SiteContentDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteContentDashletTest" />
+        </classes>
+    </test>
+    <test name="SiteLinksDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteLinksDashletTest" />
+        </classes>
+    </test>
+    <test name="SiteMembersDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteMembersDashletTest" />
+        </classes>
+    </test>
+    <test name="SiteProfileDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteProfileDashletTest" />
+        </classes>
+    </test>
+    <test name="SiteSearchDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteSearchDashletTest" />
+        </classes>
+    </test>
+    <test name="SiteWelcomeDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteWelcomeDashletTest" />
+        </classes>
+    </test>
+    <test name="WebViewDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.WebViewDashletTest" />
+        </classes>
+    </test>
+    <test name="WikiDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.WikiDashletTest" />
+        </classes>
+    </test>
+    <test name="SiteContentBreakdownDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteContentBreakdownDashletTest" />
+        </classes>
+    </test>
+    <test name="TopSiteContributorDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.TopSiteContributorDashletTest" />
+        </classes>
+    </test>
+    <test name="EditingContentDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.EditingContentDashletTest" />
+        </classes>
+    </test>
+</suite>

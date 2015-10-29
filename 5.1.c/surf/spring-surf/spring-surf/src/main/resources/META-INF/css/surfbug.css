@@ -1,0 +1,67 @@
+.surfbug_highlight
+{
+   outline: solid red 1px;
+}
+
+.surfbug_highlight:hover 
+{
+   outline: solid green 1px;
+}
+
+.surfbug_popup 
+{
+   display: none;
+   position: absolute;
+   z-index: 10000;
+   background: black;
+   opacity: 0.8;
+   -moz-box-shadow: 10px 10px 5px #888;
+   -webkit-box-shadow: 10px 10px 5px #888;
+   box-shadow: 10px 10px 5px #888;
+   color: white;
+   outline: none;
+   padding: 10px;
+   border-radius: 5px;
+   -moz-border-radius: 5px;
+   -khtml-border-radius: 5px;
+   -webkit-border-radius: 5px;
+}
+
+.surfbug_popup_close
+{
+   cursor: pointer;
+   float: right;
+   width: 1em;
+}
+.surfbug_popup span 
+{
+   font-weight: bold;
+}
+
+.surfbug_data
+{
+   clear: both;
+}
+
+.surfbug_data table
+{
+   color: white;
+}
+
+.surfbug_data td
+{
+   padding: 0px 4px;
+   font-size: small;
+   font-family: "Courier New", Courier, monospace;
+   text-align: left;
+}
+
+.surfbug_property_key
+{
+	font-style: italic;
+}
+
+.surfbug_data a
+{
+   color: white;
+}

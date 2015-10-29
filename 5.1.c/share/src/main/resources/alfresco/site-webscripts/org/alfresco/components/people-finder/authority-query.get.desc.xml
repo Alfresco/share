@@ -1,0 +1,18 @@
+<webscript>
+   <shortname>Authority Query</shortname>
+   <description><![CDATA[
+      Queries the Repository for User and/or Group authorities
+      <br />
+      Parameters:
+      <ul>
+      <li>filter (Mandatory) Returns those users and/or groups with a partial match on shortName. You can use the pattern matching characters * to match zero or more characters or ? to match one character.</li>
+      <li>authorityType (Optional) [all|user|group] Determines which authority types to return. Default is all if parameter not specified.</li>
+      <li>site (Optional) site shortname. Scopes the user search to a particular site</li>
+      <li>defGroupsFor (Optional) site shortname. Scopes the default groups search to a particular site</li>
+      </ul>
+      <br />
+      Returns an Array of authorities in JSON format.
+   ]]></description>
+   <url>/components/people-finder/authority-query</url>
+   <format default="json"></format>
+</webscript>

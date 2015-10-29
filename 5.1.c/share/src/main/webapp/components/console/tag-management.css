@@ -1,0 +1,139 @@
+/* Toolbars */
+
+
+.search-button
+{
+	margin-top:-25px;
+	padding-left:16em;
+}
+
+.search-text input
+{
+	margin-top:20px;
+	padding:3px;
+}
+
+.tags-List .tags-list-info
+{
+   float: left;
+   padding: 0.5em 0 0.6em 1em;
+}
+
+.tags-List .hide
+{
+   visibility: hidden;
+}
+
+.tags-List .toolbar div.actions,
+.tags-List .toolbar div.links
+{
+   float: right;
+}
+
+.tags-List .toolbar div.actions
+{
+   min-height: 2em; line-height: 2em;
+}
+
+.tags-List .toolbar .yui-pg-container,
+.tags-List .toolbar .yui-pg-container .yui-pg-current
+{
+   margin: 0 0 0 0.3em;
+   padding: 0;
+   text-align: center;
+}
+
+/* Body */
+
+.tags-List .body
+{
+   clear: both;
+}
+
+.tags-List .scrollableList 
+{
+   padding:0;
+}
+
+.tags-List .body h4,
+.tags-List .body div   
+{
+   margin-bottom: 0.2em;
+}
+
+/* Data Table */
+
+.tags-List .yui-dt table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.tags-List .yui-dt thead
+{
+   display: table-header-group;
+}
+
+.tags-List .yui-dt tbody
+{
+   outline: none;
+}
+
+.tags-List .yui-dt tr.yui-dt-even,
+.tags-List .yui-dt tr.yui-dt-odd
+{
+   background-color: #ffffff;
+}
+
+.tags-List .yui-dt td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: top;
+}
+
+.tags-List .yui-dt td .yui-dt-liner
+{
+   padding: 4px 6px;
+}
+
+.tags-List .yui-dt .yui-dt-message td
+{
+   border: medium none;
+}
+
+.tags-List a.delete-tag,
+.tags-List a.edit-tag
+{
+   cursor: pointer;
+   padding: 1em 0.75em;
+   visibility: hidden;
+}
+
+.tags-List a.delete-tag-active,
+.tags-List a.edit-tag-active
+{
+   cursor: pointer;
+   padding: 1em 0.75em;
+   visibility: visible;
+}
+
+.tags-List a.delete-tag
+{
+   background: url(../images/delete-tag-16.png) no-repeat left;
+}
+
+.tags-List a.edit-tag
+{
+   background: url(../images/edit-16.png) no-repeat left;
+}
+
+.tags-List .yui-dt-highlighted a
+{
+   visibility: visible;
+}
+
+.tags-List .yui-dt18-col-name .yui-dt-liner
+{
+   overflow: visible !important;
+}

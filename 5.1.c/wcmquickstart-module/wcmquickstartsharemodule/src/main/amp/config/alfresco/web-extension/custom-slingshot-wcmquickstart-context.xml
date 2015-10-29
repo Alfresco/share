@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+   
+   <bean id="wcmquickstart.custom.config" class="org.springframework.extensions.config.ConfigBootstrap" init-method="register">
+      <property name="configService" ref="web.config" />
+      <property name="configs">
+         <list>
+            <value>classpath:alfresco/wcmquickstart-form-config.xml</value>
+            <value>classpath:alfresco/wcmquickstart-share-config.xml</value>
+            <value>classpath:alfresco/web-extension/wqs-config-custom.xml</value>
+            <value>jar:*!/META-INF/wqs-config-custom.xml</value>
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="wcmquickstart.custom.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
+      <property name="resourceBundles">
+         <list>
+            <value>alfresco.messages.wcmquickstart</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Document Library Action: Preview Web Asset -->
+   <bean id="wcmqs.evaluator.doclib.action.isWebsiteContainerType" parent="evaluator.doclib.action.containerType">
+      <property name="types">
+         <list>
+            <value>ws:websiteContainer</value>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="wcmqs.evaluator.doclib.action.isWebContentNodeType" parent="evaluator.doclib.action.nodeType">
+      <property name="allowSubtypes" value="true" />
+      <property name="types">
+         <list>
+            <value>cm:content</value>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="wcmqs.evaluator.doclib.action.isPreviewable" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="wcmqs.evaluator.doclib.action.isWebsiteContainerType" />
+            <ref bean="wcmqs.evaluator.doclib.action.isWebContentNodeType" />
+         </list>
+      </property>
+   </bean>
+
+   <!-- Document Library Action: Manage Translations -->
+   <bean id="wcmqs.evaluator.doclib.action.isWebAssetNodeType" parent="evaluator.doclib.action.nodeType">
+      <property name="allowSubtypes" value="true" />
+      <property name="types">
+         <list>
+            <value>cm:content</value>
+            <value>ws:section</value>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="wcmqs.evaluator.doclib.action.isTranslatable" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <ref bean="wcmqs.evaluator.doclib.action.isWebsiteContainerType" />
+            <ref bean="wcmqs.evaluator.doclib.action.isWebAssetNodeType" />
+         </list>
+      </property>
+   </bean>
+
+</beans>

@@ -1,0 +1,190 @@
+body.wef-root-body .wef,
+.wef div,
+.wef dl,
+.wef dt,
+.wef dd,
+.wef ul,
+.wef ol,
+.wef li,
+.wef h1,
+.wef h2,
+.wef h3,
+.wef h4,
+.wef h5,
+.wef h6,
+.wef pre,
+.wef code,
+.wef form,
+.wef fieldset,
+.wef legend,
+.wef input,
+.wef button,
+.wef textarea,
+.wef p,
+.wef blockquote,
+.wef th,
+.wef td 
+{
+   margin: 0;
+   padding: 0;
+}
+
+.wef table 
+{
+   border-collapse: collapse;
+   border-spacing: 0;
+}
+
+.wef fieldset,
+.wef img 
+{
+   border: 0;
+}
+
+.wef img 
+{
+   display:block;
+}
+
+.wef address,
+.wef caption,
+.wef cite,
+.wef code,
+.wef dfn,
+.wef em,
+.wef strong,
+.wef th,
+.wef var,
+.wef optgroup 
+{
+   font-style: inherit;
+   font-weight: inherit;
+}
+
+.wef del,
+.wef ins 
+{
+   text-decoration: none;
+}
+
+.wef li 
+{
+   list-style: none;
+}
+
+.wef caption,
+.wef th 
+{
+   text-align: left;
+}
+
+.wef h1,
+.wef h2,
+.wef h3,
+.wef h4,
+.wef h5,
+.wef h6 
+{
+   font-size: 100%;
+   font-weight: normal;
+}
+
+.wef q:before,
+.wef q:after 
+{
+   content: '';
+}
+
+.wef abbr,
+.wef acronym 
+{
+   border: 0;
+   font-variant: normal;
+}
+
+.wef sup 
+{
+   vertical-align: baseline;
+}
+
+.wef sub 
+{
+   vertical-align: baseline;
+}
+
+/*because legend doesn't inherit in IE */
+.wef legend 
+{
+   color: #000;
+}
+
+.wef input,
+.wef button,
+.wef textarea,
+.wef select,
+.wef optgroup,
+.wef option 
+{
+   font-family: inherit;
+   font-size: inherit;
+   font-style: inherit;
+   font-weight: inherit;
+}
+
+/*@purpose To enable resizing for IE */
+/*@branch For IE6-Win, IE7-Win */
+.wef input,
+.wef button,
+.wef textarea,
+.wef select 
+{
+   *font-size: 100%;
+}
+
+/**
+ * Percents could work for IE, but for backCompat purposes, we are using keywords.
+ * x-small is for IE6/7 quirks mode.
+ */
+body.wef-root-body div.wef 
+{
+   font:13px/1.231 arial,helvetica,clean,sans-serif;
+   /* for IE6/7 */ 
+   *font-size:small; 
+   /* for IE Quirks Mode */
+   *font:x-small; 
+}
+
+/**
+ * Nudge down to get to 13px equivalent for these form elements
+ */ 
+.wef select,
+.wef input,
+.wef button,
+.wef textarea,
+.wef button 
+{
+   font:99% arial,helvetica,clean,sans-serif;
+}
+
+/**
+ * To help tables remember to inherit
+ */
+.wef table 
+{
+   font-size:inherit;
+   font:100%;
+}
+
+/**
+ * Bump up IE to get to 13px equivalent for these fixed-width elements
+ */
+.wef pre,
+.wef code,
+.wef kbd,
+.wef samp,
+.wef tt 
+{
+   font-family:monospace;
+   *font-size:108%;
+   line-height:100%;
+}

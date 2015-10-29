@@ -1,0 +1,11 @@
+<package>
+    <shortname>Spring Surf Model Site</shortname>
+    <description>Spring Surf Model Site related Webscripts.</description>
+    <resources>
+        <resource>
+            <shortname>Site Configuration</shortname>
+            <description>Webscripts for managing Spring Surf site configuration.</description>
+            <webscripts>configuration.get,configuration.put</webscripts>
+        </resource>
+    </resources>
+</package>

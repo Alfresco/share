@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Blog Filter</shortname>
+  <description>Blog: Filter Component</description>
+  <url>/components/blog/filters</url>
+</webscript>

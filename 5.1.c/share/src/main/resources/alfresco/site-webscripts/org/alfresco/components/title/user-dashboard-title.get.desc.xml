@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>User Dashboard Title</shortname>
+  <description>Title component used in the user dashboard page</description>
+  <url>/components/title/user-dashboard-title</url>
+</webscript>

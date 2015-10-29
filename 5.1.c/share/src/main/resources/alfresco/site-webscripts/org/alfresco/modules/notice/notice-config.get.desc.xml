@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Site Notice Dashlet Config</shortname>
+   <description>Configuration dialog for the site notice dashlet</description>
+   <url>/modules/notice/config</url>
+</webscript>

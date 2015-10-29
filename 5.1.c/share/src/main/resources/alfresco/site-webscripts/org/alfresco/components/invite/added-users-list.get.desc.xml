@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Added Users list</shortname>
+  <description>Added Users list</description>
+  <url>/components/invite/added-users-list</url>
+</webscript>

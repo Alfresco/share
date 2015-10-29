@@ -1,0 +1,65 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Alfresco Share 4.1 Tests" verbose="6" >
+    <groups>
+        <run>
+            <include name="unit" />
+            <include name="alfresco-one" />
+            <include name="Enterprise4.1" />
+            <include name="Enterprise-only" />
+            <!-- <include name="Repository" /> -->
+            <exclude name=".*Bug" />
+            <exclude name="chromeOnly" />
+            <exclude name="Hybrid" />
+            <exclude name="download" />
+        </run>
+    </groups>
+    <test name="Dashlets">
+        <packages>
+            <package name="org.alfresco.po.share.dashlet" />
+        </packages>
+    </test>
+    <test name="SiteContent">
+        <packages>
+            <package name="org.alfresco.po.share.dashlet.sitecontent" />
+        </packages>
+    </test>
+    <test name="Search">
+        <packages>
+            <package name="org.alfresco.po.share.search" />
+        </packages>
+    </test>
+    <test name="Site">
+        <packages>
+            <package name="org.alfresco.po.share.site" />
+        </packages>
+    </test>
+    <test name="Workflow">
+        <packages>
+            <package name="org.alfresco.po.share.workflow" />
+        </packages>
+    </test>
+    <test name="Task">
+        <packages>
+            <package name="org.alfresco.po.share.task" />
+        </packages>
+    </test>
+    <test name="Download">
+        <packages>
+            <package name="org.alfresco.po.share.site.document.download" />
+        </packages>
+    </test>
+    <test name="Document">
+        <packages>
+            <package name="org.alfresco.po.share.site.document" >
+            <exclude name="org.alfresco.po.share.site.document.CopyOrMoveContentPageTest"> </exclude>
+            <exclude name="org.alfresco.po.share.site.document.ChangeTypePageTest"> </exclude>
+            </package>
+        </packages>
+    </test>
+    <test name="Share">
+        <packages>
+            <package name="org.alfresco.po.share" />
+        </packages>
+    </test>
+</suite>

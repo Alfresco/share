@@ -1,0 +1,345 @@
+#wef-ribbon-container
+{
+   position: fixed;
+   top: 0;
+   z-index: 100;
+}
+
+#wef-ribbon-container #wef-ribbon
+{
+   visibility: hidden;
+   border-width: 0;
+}
+
+#wef-ribbon-container #wef-ribbon_c
+{   
+   background-color: transparent;
+}
+
+#wef-ribbon-container #wef-ribbon
+{
+   background-color: #b7d4e9;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c,
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c
+{
+   border: 1px solid #57585A;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c
+{
+   border-width: 0 0 2px 0;
+   -moz-box-shadow: 0 0 20px #999;
+   -webkit-box-shadow: 0 0 20px #999;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c
+{
+   border-width: 0 1px 0 0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c
+{
+   border-width: 0 0 0 1px;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top,
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c,
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c
+{
+   left: 0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c
+{
+   right: 0;
+}
+
+#wef-ribbon-container,
+#wef-ribbon-container.wef-ribbon-orientation-right,
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c
+{
+   width: 100%;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left,
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c
+{
+   width: 130px;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon,
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c
+{
+   height: 6.1em;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon .hd,
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon .ft
+{
+   float: left;
+   height: inherit;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon .bd {
+   height:inherit;
+   position:absolute;
+   margin-left:130px;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon #wef-ribbonBody,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon #wef-ribbonBody
+{
+   padding-left: 1.5em;
+   min-height: 6em;
+   background-color: #B7D4E9;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonHeader
+{
+   width: 133px;
+   background-color:#fff;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonFooter
+{
+   width: auto;
+   float: right;
+   position: absolute;
+   top: 2px;
+   right: 0;
+   height: 2em;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon #wef-ribbonFooter,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon #wef-ribbonFooter
+{
+   position: absolute;
+   top: 78px;
+   left: 0;
+   padding: 3px 0;
+   border: 1px solid #aec2d1;
+   border-width: 1px 0;
+   width:100%;
+   background: url(./images/vertical-orient-sec-toolbar-bg.gif);
+}
+
+#wef #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter #wef-toolbar-secondary-container .wef-toolbar li.first .icon-button,
+#wef #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter #wef-toolbar-secondary-container .wef-toolbar li.first .icon-button
+{
+   padding: 0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter .yui-button button,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter .yui-button button
+{
+   overflow: hidden;
+   text-indent: -9em;
+   width:3em;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter  .icon-button,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter  .icon-button
+{
+   background: transparent url(./images/vert-toolbar-separator.gif);
+   padding-left: 1.5em;
+   
+}
+#wef #wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter .icon-button,
+#wef #wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter .icon-button  
+{
+   padding-left: 0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbonFooter .icon-button button,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbonFooter .icon-button button
+{
+   padding-left: 1.5em;
+}
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonBody,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonBody
+{
+   margin-top: 2.5em;
+   padding: 0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonBody,
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonFooter
+{
+   width: 132px;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonBody,
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonFooter
+{
+   border-right: 1px solid black;
+}
+
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon .wef-tab-toolbar div.yui-content,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon .wef-tab-toolbar div.yui-content
+{
+  margin-left: 3em;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: #fff url(./images/vert-tab-bg.gif) repeat scroll 0 0;  
+}
+
+/* fix for ie8 when ribbon is clicked (focused), tab content div expands */
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbonBody .wef-tab-toolbar .yui-navset .yui-content
+{
+   height: 48px !important;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon .wef-tab-toolbar div.yui-content
+{
+  background: #fff url(./images/vert-tab-bg-right.gif) repeat scroll 0 0;  
+}
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonBody .yui-nav
+{
+   margin-right: -3em;
+   background-color: #B7D4E9;
+}
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonBody .yui-nav,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonBody .yui-nav
+{
+   border-bottom:0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon .wef-tab-toolbar div.yui-content
+{
+   margin-left: 0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonBody .yui-nav li,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonBody .yui-nav li
+{
+   width: 3em;
+   padding-left:0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon_c #wef-ribbon #wef-ribbonBody .yui-nav li.selected,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon_c #wef-ribbon #wef-ribbonBody .yui-nav li.selected
+{
+   margin: 0 0 0 0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-left #wef-ribbon .wef-tab-toolbar .yui-nav li.selected a,
+#wef-ribbon-container.wef-ribbon-orientation-right #wef-ribbon .wef-tab-toolbar .yui-nav li.selected a
+{
+   border-top: 0;
+}
+
+#wef-ribbon-container.wef-ribbon-orientation-top #wef-ribbon_c #wef-ribbon #wef-ribbonBody
+{
+   width: auto;
+}
+
+#wef-ribbon-container .yui-toolbar-container
+{
+   margin-top: 0.5em;
+}
+
+#wef-ribbon-container .yui-toolbar-subcont
+{
+   border-bottom: 0;
+   padding: 0;
+}
+
+#wef-ribbon #wef-ribbonHeader h6 
+{
+   height: 78px;
+   text-align: center;
+   text-indent: -9999em;
+   overflow: hidden;
+   background: url(./images/logo.gif) repeat scroll 0 0;
+}
+
+#wef-ribbon .wef-ribbon-module
+{
+   border: none;
+   background: none;
+   padding: 0;
+}
+
+#wef-ribbon .wef-ribbon-module .yuimenu .bd
+{
+   border: 1px solid black;
+   padding: 0;
+}
+
+#wef-ribbon .wef-ribbon-module .yui-menu-shadow
+{
+   display: none;
+}
+
+/*  toolbar focus */
+#wef-ribbon .yui-toolbar-container .yui-toolbar-groupitem .yui-button:focus
+{
+   border: 1px dotted black;
+}
+
+#wef-ribbon-container #wef-ribbon_c #wef-ribbon #wef-ribbonFooter
+{
+   font-size: inherit;
+}
+
+#WEF-Ribbon--ribbon-placement,
+#WEF-Ribbon--ribbon-placement span.first-child,
+#WEF-Ribbon--help,
+#WEF-Ribbon--help span.first-child
+{
+   background: none;
+   border: 0;
+}
+
+#wef-ribbon #WEF-Ribbon--help button,
+#wef-ribbon #WEF-Ribbon--ribbon-placement button
+{
+   font-weight: bold;
+   font-size: 85%;
+   color: #333;
+}
+
+#wef-ribbon #WEF-Ribbon--help.yui-button-disabled button,
+#wef-ribbon #WEF-Ribbon--ribbon-placement.yui-button-disabled button
+{
+   color: #999;
+}
+
+#wef-ribbon #WEF-Ribbon--help button
+{
+   background: transparent url(./images/help.png) no-repeat 11px 50%;
+}
+
+#wef-ribbon #WEF-Ribbon--ribbon-placement span.first-child
+{
+   background: transparent url(./images/orientation.png) no-repeat 6px 50%;
+}
+
+#wef-ribbon .wef-tab-toolbar .wef-toolbar .icon-button button
+{
+   padding-left: 0;
+}
+
+#wef #wef-toolbar-secondary-container .wef-toolbar .icon-button
+{
+   background: transparent url(./images/toolbar-separator.gif) no-repeat scroll 0 5px;
+   padding-left: 1em;
+}
+
+#wef #wef-toolbar-secondary-container .wef-toolbar li.first .icon-button
+{
+   background: none;
+   padding-left: 0;
+}
+
+#wef #wef-ribbon-container.wef-ribbon-orientation-left #wef-toolbar-secondary-container .yui-menu-button button,
+#wef #wef-ribbon-container.wef-ribbon-orientation-right #wef-toolbar-secondary-container .yui-menu-button button
+{
+   background-position: 28px center;
+}

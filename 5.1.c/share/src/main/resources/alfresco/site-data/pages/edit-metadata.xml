@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Edit Metadata</title>
+   <title-id>page.editMetadata.title</title-id>
+   <description>Edit metadata of a node</description>
+   <description-id>page.editMetadata.description</description-id>
+   <template-instance>edit-metadata</template-instance>
+   <authentication>user</authentication>
+</page>

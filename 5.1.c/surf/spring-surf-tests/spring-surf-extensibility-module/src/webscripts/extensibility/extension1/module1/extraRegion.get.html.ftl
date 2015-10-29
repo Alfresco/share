@@ -1,0 +1,1 @@
+<div>Addional module content!</div> 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-type>
+	<title>Web Script Component Type</title>
+	<description>Web Script Component Type</description>
+
+	<!-- Define the rendering processors for this component type -->	
+    <processor mode="view">
+       <id>webscript</id>
+    </processor>
+    <processor mode="edit">
+       <id>webscript</id>
+       <uri>${mode.view.uri}/edit</uri>
+    </processor>
+    <processor mode="help">
+       <id>webscript</id>
+       <uri>${mode.view.uri}/help</uri>
+    </processor>
+    <processor mode="admin">
+       <id>webscript</id>
+       <uri>${mode.view.uri}/admin</uri>
+    </processor>
+
+</component-type>

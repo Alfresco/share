@@ -1,0 +1,13 @@
+<component-type>
+    <id>webscript_component_type_3-componentType</id>
+    <title>A WebScript Rendered Component Type</title>
+    <description></description>
+    <processor mode="view">
+        <id>webscript</id>
+        <uri>/webscripts/webscript3</uri>        
+    </processor>
+	<processor mode="edit">
+        <id>webscript</id>
+        <uri>/webscripts/webscript6</uri>        
+    </processor>
+</component-type>
