@@ -456,14 +456,14 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
     {
         InputStream in = null;
         
-        // TODO: Check the sentinel isn't returned...
+        // Check the sentinel isn't returned...
         ResourceInfo resourceInfo = getCachedResourceInfo(path);
         if (resourceInfo == getResourceInfoSentinel())
         {
             // No action required - the ResourceInfoSentinel indicates that we've previously searched
             // for this path and the resource couldn't be found.
         }
-        else if (resourceInfo != null)
+        else if (resourceInfo != null && this.isDebugMode() == false)
         {
             in = resourceInfo.getInputStream();
         }
@@ -600,7 +600,7 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
             // and then add the ResourceInfo object to the cache under both the basic path and the
             // checksum based path...
             checksum = this.lookupChecksumInCache(path);
-            if (checksum == null)
+            if (checksum == null || this.isDebugMode() == true)
             {
                 // The checksum hasn't previously been cached, get it now...
                 InputStream in = resourceInfo.getInputStream();
@@ -714,7 +714,7 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
         String checksum = lookupChecksumInCache(path);
         
         // If we've not previously generated the checksum then generate one now...
-        if (checksum == null)
+        if (checksum == null || this.isDebugMode() == true)
         {
             try
             {
