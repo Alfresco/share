@@ -221,17 +221,9 @@ public class CustomizeSitePage extends SitePage
             {
                 try
                 {
-                    WebElement elem = findAndWait(theTypes.getLocator());
-
-                    int availableX = getLastAvailablePageX() + elem.getSize().width + 2;
-                    int availableY = getLastAvailablePageY();
-                    new Actions(driver).dragAndDropBy(elem, availableX, 0).build().perform();
-
-                    int currentX = getLastCurrentPageX() + elem.getSize().width + 2;
-                    int currentY = getLastCurrentPageY() + 2 - availableY;
-                    //drone.executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
-                    //drone.dragAndDrop(elem, target);
-                    new Actions(driver).dragAndDropBy(elem, currentX, currentY).build().perform();
+                    WebElement elem = driver.findElement(theTypes.getLocator());
+                    WebElement dropZone = driver.findElement(By.cssSelector("ul[id$='default-currentPages-ul']"));
+                    new Actions(driver).dragAndDrop(elem, dropZone).build().perform();
                 }
                 catch (TimeoutException e)
                 {
