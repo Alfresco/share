@@ -194,7 +194,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
      * test to verify the Start and End Date Time
      * author Bogdan.Bocancea
      */
-    @Test(dependsOnMethods = "testCheckInformationEventForm", groups = "Verifycalendar", timeOut = 60000)
+//    @Test(dependsOnMethods = "testCheckInformationEventForm", groups = "Verifycalendar", timeOut = 60000)
     public void testStartEndDateInfoFields()
     {
         navigateToSiteDashboard();
@@ -207,7 +207,6 @@ public class CalendarPageTest extends AbstractSiteDashletTest
         int todayDate = calendar.get(Calendar.DATE);
         calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.MONTH_TAB, event_2, event_2, event_2, String.valueOf(todayDate), null,
                 String.valueOf(todayDate), null, null, false).render();
-        waitInSeconds(2);
         Assert.assertTrue(calendarPage.isEventPresent(CalendarPage.EventType.MONTH_TAB_SINGLE_EVENT, event_2), "The " + event_2
                 + " isn't correctly displayed on the day tab");
         InformationEventForm eventInfo = calendarPage.clickOnEvent(CalendarPage.EventType.MONTH_TAB_SINGLE_EVENT, event_2).render();
