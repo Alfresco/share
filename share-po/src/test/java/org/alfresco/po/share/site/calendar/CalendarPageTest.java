@@ -94,6 +94,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
     {
         Assert.assertTrue(calendarPage.isEventPresent(CalendarPage.EventType.MONTH_TAB_SINGLE_EVENT, event1), "The " + event1
                 + " isn't correctly displayed on the month tab");
+        calendarPage.closeEventDialog();
     }
 
     @Test(dependsOnMethods = "testIsEventPresent", timeOut = 60000)
