@@ -198,7 +198,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
      * 
      * author Bogdan.Bocancea
      */
-    @Test(groups = "Verifycalendar", timeOut = 60000)
+//    @Test(groups = "Verifycalendar", timeOut = 60000)
     public void testStartEndDateInfoFields()
     {
 
