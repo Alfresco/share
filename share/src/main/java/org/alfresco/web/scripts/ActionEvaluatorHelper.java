@@ -66,6 +66,10 @@ public class ActionEvaluatorHelper extends BaseProcessorExtension implements App
         catch (Exception e)
         {
             logger.warn("Evaluator '" + evaluatorName + "' not found.");
+            if (logger.isDebugEnabled())
+            {
+                logger.debug("Exception when trying to get evaluator '" + evaluatorName + "':", e);
+            }
         }
         return null;
     }
