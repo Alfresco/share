@@ -57,6 +57,12 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 import com.yahoo.platform.yui.javascript.ErrorReporter;
 import com.yahoo.platform.yui.javascript.EvaluatorException;
 
+/**
+ * Bean providing aggregating, compression and caching services for groups of Surf file resource dependencies.
+ * 
+ * @author David Draper
+ * @author Kevin Roast
+ */
 public class DependencyAggregator implements ApplicationContextAware, CacheReporter
 {
     private static final Log logger = LogFactory.getLog(DependencyAggregator.class);
@@ -285,7 +291,7 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
      * @param compressionType CompressionType
      * @return String
      */
-    private String generateDependencies(LinkedHashSet<String> paths, CompressionType compressionType)
+    private String generateDependencies(final LinkedHashSet<String> paths, final CompressionType compressionType)
     {
         String checksum = getCachedChecksumForFileSet(paths);
         if (checksum != null)
@@ -298,11 +304,14 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
 
             // Iterate over the requested paths and aggregate all the content into a single resource (this
             // will be compressed or uncompressed depending upon the debug mode of the application)...
-            StringBuilder aggregatedFileContents = new StringBuilder(10240);
-            for (String path: paths)
+            final StringBuilder aggregatedFileContents = new StringBuilder(10240);
+            for (final String path: paths)
             {
                 try
                 {
+                    if (logger.isDebugEnabled())
+                        logger.debug("Aggregating resource path: " + (path.indexOf('\n') == -1 ? path : path.substring(0,path.indexOf('\n'))));
+                    
                     String fileContents = null;
                     if (path.startsWith(INLINE_AGGREGATION_MARKER))
                     {
@@ -386,6 +395,8 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
             
             // Generate a checksum from the combined dependencies and add it to the cache...
             checksum = this.dependencyHandler.generateCheckSum(combinedDependencies) + compressionType.fileExtension;
+            if (logger.isDebugEnabled())
+                logger.debug("Checksum for aggregated dependencies: " + checksum);
             DependencyResource resource = new DependencyResource(
                     compressionType.mimetype, combinedDependencies, this.dependencyHandler.getCharset());
             cacheDependencyResource(checksum, resource);
@@ -945,6 +956,8 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
      */
     String getCompressedFile(String path, CompressionType type) throws IOException
     {
+        if (logger.isDebugEnabled())
+            logger.debug("Compressing " + path + " as " + type);
         String compressedFile = null;
         if (type == CompressionType.JAVASCRIPT)
         {

@@ -481,6 +481,8 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
                     in = this.remoteResourcesHandler.getRemoteResource(currPath);
                     if (in != null)
                     {
+                        if (logger.isDebugEnabled())
+                            logger.debug("Found REMOTE resource: " + currPath);
                         addResourceInfoToCache(path, new RemoteResource(currPath), callback);
                         in = this.getCachedResourceInfo(path).getInputStream();
                     }
@@ -494,6 +496,8 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
                 Resource r = applicationContext.getResource("classpath*:" + currPath);
                 if (r != null && r.exists())
                 {
+                    if (logger.isDebugEnabled())
+                            logger.debug("Found CLASSPATH resource: " + currPath);
                     addResourceInfoToCache(path, new ApplicationContextResource(currPath), callback);
                     in = this.getCachedResourceInfo(path).getInputStream();
                 }
@@ -510,6 +514,8 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
                 URL resourceUrl = ClassUtils.getDefaultClassLoader().getResource("META-INF/" + currPath);
                 if (resourceUrl != null)
                 {
+                    if (logger.isDebugEnabled())
+                            logger.debug("Found JAR resource: " + currPath);
                     addResourceInfoToCache(path, new ClassLoaderResource(currPath), callback);
                     in = this.getCachedResourceInfo(path).getInputStream();
                 }
@@ -528,6 +534,8 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
                     {
                         if (resource.exists())
                         {
+                            if (logger.isDebugEnabled())
+                                logger.debug("Found SERVLET resource: " + p);
                             addResourceInfoToCache(path, new ServletContextRes(p), callback);
                             in = this.getCachedResourceInfo(path).getInputStream();
                         }
@@ -539,6 +547,8 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
         // If the input stream is still null, add a sentinel...
         if (in == null)
         {
+            if (logger.isDebugEnabled())
+                logger.debug("FAILED to find resource: " + path);
             addResourceInfoToCache(path, getResourceInfoSentinel(), callback);
         }
         return in;
@@ -603,7 +613,7 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
             if (checksum == null || this.isDebugMode() == true)
             {
                 // The checksum hasn't previously been cached, get it now...
-                InputStream in = resourceInfo.getInputStream();
+                final InputStream in = resourceInfo.getInputStream();
                 if (in != null)
                 {
                     String resourceContents = convertResourceToString(in);
@@ -611,18 +621,25 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
                     // allow for a callback function to provide additional processing on the resource before it is stored
                     if (callback != null)
                     {
+                        if (logger.isDebugEnabled())
+                            logger.debug("Executing callback for resource: " + path);
+                        
                         resourceContents = callback.process(this, path, resourceContents);
                         resourceInfo.setContents(resourceContents);
                     }
                     
                     checksum = generateCheckSum(resourceContents);
                 }
+                
+                if (logger.isDebugEnabled())
+                    logger.debug("Calculating resource checksum and adding to cache: " + path + " = " + checksum);
+                
                 this.addChecksumToCache(path, checksum);
             }
         }
         
         // Generate the path and cache the result...
-        String checksumPath = generateCheckSumPath(path, checksum);
+        final String checksumPath = generateCheckSumPath(path, checksum);
         addChecksumPathToCache(path, checksumPath);
         this.resourceInfoLock.writeLock().lock();
         try
