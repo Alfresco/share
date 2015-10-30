@@ -463,7 +463,7 @@ public class DependencyHandler implements ApplicationContextAware, CacheReporter
             // No action required - the ResourceInfoSentinel indicates that we've previously searched
             // for this path and the resource couldn't be found.
         }
-        else if (resourceInfo != null && this.isDebugMode() == false)
+        else if (resourceInfo != null && (!this.isDebugMode() || callback == null))
         {
             in = resourceInfo.getInputStream();
         }
