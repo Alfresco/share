@@ -68,7 +68,7 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
 
     private static final By DESCRIPTION_VALIDATION_MSG = By.cssSelector(".create-propertygroup-description .validation-message");
 
-    private static final By NEW_PROPERTY_GROUP_CREATE_BUTTON = By.cssSelector(UNIQUE_DIALOG_SELECTOR + BUTTON_FIRST);
+    private static final By NEW_PROPERTY_GROUP_CREATE_BUTTON = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label");
 
     private static final By NEW_PROPERTY_GROUP_CANCEL_BUTTON = By.cssSelector(UNIQUE_DIALOG_SELECTOR + BUTTON_LAST);
 
@@ -269,9 +269,9 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
     {
         try
         {
-            WebElement outerButton = findAndWait(NEW_PROPERTY_GROUP_CREATE_BUTTON);
-            outerButton.findElement(BUTTON_CLICKABLE).click();
-            return factoryPage.getPage(driver);
+            driver.findElement(NEW_PROPERTY_GROUP_CREATE_BUTTON).click();
+            waitUntilElementDisappears(NEW_PROPERTY_GROUP_CREATE_BUTTON, 1);
+            return getCurrentPage();
         }
         catch (TimeoutException e)
         {

@@ -53,7 +53,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     private static final By DESCRIPTION_TEXT = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " textarea[name='description']");
     private static final By AUTHOR_TEXT = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .dijitInputField input[name='author']");
     private static final By BUTTON_CANCEL_CREATE_MODEL = By.cssSelector("div[class='footer']>span>span>span>span.dijitReset.dijitInline.dijitButtonText");
-    private static final By BUTTON_CREATE_MODEL = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .footer #CMM_CREATE_MODEL_DIALOG_OK");
+    private static final By BUTTON_CREATE_MODEL = By.id("CMM_CREATE_MODEL_DIALOG_OK_label");
     private static final By BUTTON_CANCEL_MODEL = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .footer #CMM_CREATE_MODEL_DIALOG_CANCEL");
 
     private static final By BUTTON_CREATE_MODEL_CLICKABLE = By.cssSelector(" #CMM_CREATE_MODEL_DIALOG_OK_label");
@@ -281,40 +281,29 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
         }
         return false;
     }
-
+    /**
+     * Select create button in Create New Model Pop up Page
+     * 
+     * @deprecated use selectCreateModelButton
+     * @param buttonName
+     * @return {@link ModelManagerPage Page} page response
+     */
+    public HtmlPage selectCreateModelButton(String buttonName)
+    {
+    	return selectCreateModelButton();
+    }
     /**
      * Select create button in Create New Model Pop up Page
      * 
      * @param buttonName
      * @return {@link ModelManagerPage Page} page response
      */
-    public HtmlPage selectCreateModelButton(String buttonName)
+    public HtmlPage selectCreateModelButton()
     {
-        PageUtils.checkMandotaryParam("buttonName", buttonName);
-        try
-        {
-            // Get the list of buttons
-            WebElement button = findAndWait(BUTTON_CREATE_MODEL);
-            List<WebElement> clickableButton = button.findElements(BUTTON_CREATE_MODEL_CLICKABLE);
-
-            for (WebElement buttonname : clickableButton)
-            {
-                if (buttonname.getText().equalsIgnoreCase(buttonName) && (buttonname.isDisplayed()))
-                {
-                    buttonname.click();
-                    return getCurrentPage();
-                }
-            }
-        }
-        catch (TimeoutException e)
-        {
-            if (LOGGER.isTraceEnabled())
-            {
-                LOGGER.trace("Unable to select the" + buttonName + "button: ", e);
-            }
-        }
-
-        throw new PageOperationException("Unable to select the" + buttonName + "button");
+        // Get the list of buttons
+        driver.findElement(BUTTON_CREATE_MODEL).click();
+        waitUntilElementDisappears(BUTTON_CREATE_MODEL, 1);
+        return getCurrentPage();
     }
 
 
