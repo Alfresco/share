@@ -20,7 +20,9 @@ package org.alfresco.po.share.cmm.admin;
 
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SelectList;
@@ -78,11 +80,11 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
     @Override
     public CreateNewPropertyGroupPopUp render(RenderTime timer)
     {
-        elementRender(timer, getVisibleRenderElement(SHARE_DIALOGUE_HEADER));
-
         elementRender(
                 timer,
+                getVisibleRenderElement(SHARE_DIALOGUE_HEADER),
                 getVisibleRenderElement(NAME_FIELD),
+                new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE),
                 getVisibleRenderElement(PARENT_PROPERTY_GROUP_FIELD),
                 getVisibleRenderElement(TITLE_FIELD),
                 getVisibleRenderElement(DESCRIPTION_FIELD),

@@ -117,7 +117,6 @@ public class CreateNewPropertyPopUp extends ShareDialogueAikau
     private static final String NEW_PROPERTY_CREATE_AND_ANOTHER_BUTTON_CLICKABLE = "#CMM_CREATE_PROPERTY_DIALOG_CREATE_AND_ANOTHER";
     private static final String NEW_PROPERTY_CANCEL_BUTTON = "#CMM_ CREATE_PROPERTY_DIALOG span[widgetid=CMM_CREATE_PROPERTY_DIALOG_CANCEL]";
     private static final String NEW_PROPERTY_CANCEL_BUTTON_CLICKABLE = "#CMM_CREATE_PROPERTY_DIALOG_CANCEL";
-    private static By ERROR_MSG_DIALOG = By.cssSelector("span.alfresco-notifications-AlfNotification__message"); 
     @Override
     public CreateNewPropertyPopUp render()
     {
