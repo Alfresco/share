@@ -67,11 +67,10 @@ public class ModelManagerPage extends SharePage
     {
         RenderTime renderTime = new RenderTime(maxPageLoadingTime);
         // Button
-        elementRender(renderTime, getVisibleRenderElement(BUTTON_CREATE_NEW_MODEL), getVisibleRenderElement(BUTTON_IMPORT_MODEL));
+        elementRender(renderTime,
+        			  getVisibleRenderElement(BUTTON_CREATE_NEW_MODEL),
+        			  getVisibleRenderElement(BUTTON_IMPORT_MODEL));
 
-        // Model Headers
-        // elementRender(renderTime, getVisibleRenderElement(CMM_MODEL_LIST), getVisibleRenderElement(HEADER_NAME), getVisibleRenderElement(HEADER_NAMESPACE),
-        // getVisibleRenderElement(HEADER_STATUS), getVisibleRenderElement(HEADER_ACTIONS));
         return this;
     }
 
