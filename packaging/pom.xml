@@ -17,10 +17,10 @@
         <!-- Versions of binaries packaged in the installer -->
         <installer.common.version>5.1-20150819</installer.common.version>
         <installer.tomcat.version>7.0.59-alfresco-distribution</installer.tomcat.version>
-        <installer.java.version>1.8.0_51</installer.java.version>
+        <installer.java.version>1.8.0_65</installer.java.version>
 
         <!-- Install builder version -->
-        <installer.installbuilder.version>15.1.0</installer.installbuilder.version>
+        <installer.installbuilder.version>15.9.0</installer.installbuilder.version>
 
         <!-- Installer version that will be used in the final name -->
         <installer.version.name>${project.version}</installer.version.name>

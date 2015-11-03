@@ -180,9 +180,7 @@ public class FacetedSearchView extends SharePage
      */
     private void openMenu()
     {
-        driver.findElement(By.tagName("body")).click();
         WebElement element = driver.findElement(By.id("FCTSRCH_VIEWS_MENU"));
-        mouseOver(element);
         element.click();
     }
 

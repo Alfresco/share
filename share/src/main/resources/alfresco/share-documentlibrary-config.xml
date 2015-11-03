@@ -1296,8 +1296,8 @@
             <action index="100" id="folder-download"/>
             <action index="105" id="folder-view-details" />
             <action index="110" id="document-edit-properties" icon="folder-edit-properties" label="actions.folder.edit-metadata" />
-            <action index="120" id="document-approve" icon="folder-approve" />
-            <action index="130" id="document-reject" icon="folder-reject" />
+            <action index="120" id="document-approve" icon="document-approve" />
+            <action index="130" id="document-reject" icon="document-reject" />
             <action index="140" id="document-locate" icon="document-locate" label="actions.folder.locate" />
             <action index="150" id="document-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
             <action index="160" id="document-move-to" icon="folder-move-to" label="actions.folder.move-to" />
@@ -1317,8 +1317,8 @@
          <actionGroup id="folder-details">
             <!-- An effective index is built using the subgroup and index -->
             <action index="110" id="folder-download" subgroup="10" /> <!-- effectiveIndex=10110 -->
-            <action index="210" id="document-approve" subgroup="20" icon="folder-approve" />
-            <action index="220" id="document-reject" subgroup="20" icon="folder-reject" />
+            <action index="210" id="document-approve" subgroup="20" icon="document-approve" />
+            <action index="220" id="document-reject" subgroup="20" icon="document-reject" />
             <action index="310" id="document-edit-metadata" subgroup="30" icon="folder-edit-metadata" label="actions.folder.edit-metadata" />
             <action index="410" id="document-move-to" subgroup="40" icon="folder-move-to" label="actions.folder.move-to" />
             <action index="420" id="document-copy-to" subgroup="40" icon="folder-copy-to" label="actions.folder.copy-to" />

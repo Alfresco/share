@@ -21,6 +21,7 @@ package org.alfresco.web.scripts;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.alfresco.error.AlfrescoRuntimeException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.FileSystemResource;
@@ -129,5 +131,30 @@ public class ShareManifestTest
         assertEquals("Fish and chips", map.get("Dinner"));
         assertEquals("Pizza", map.get("Lunch"));
         assertEquals("Toast", map.get("Breakfast"));
+    }
+
+    @Test
+    public void doesntGetVersion()
+    {
+        try
+        {
+            String version = shareManifest.getSpecificationVersion();
+            fail("should throw the error");
+        } catch (AlfrescoRuntimeException expected)
+        {
+            assertTrue(expected.getMessage().contains("Share Specification-Version is missing"));
+            assertTrue(expected.getMessage().contains("Invalid MANIFEST.MF"));
+        }
+
+        try
+        {
+            String version = shareManifest.getImplementationVersion();
+            fail("should throw the error");
+        } catch (AlfrescoRuntimeException expected)
+        {
+            assertTrue(expected.getMessage().contains("Share Implementation-Version is missing"));
+            assertTrue(expected.getMessage().contains("Invalid MANIFEST.MF"));
+        }
+
     }
 }

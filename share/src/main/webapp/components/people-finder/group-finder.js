@@ -733,7 +733,7 @@
        */
       _buildSearchParams: function GroupFinder__buildSearchParams(searchTerm)
       {
-         return "shortNameFilter=" + (this.options.wildcardPrefix ? "*" : "") + encodeURIComponent(searchTerm);
+         return "shortNameFilter=" + (this.options.wildcardPrefix ? "*" : "") + encodeURIComponent(searchTerm) + "&maxResults=" + this.options.maxSearchResults;
       }
    });
 })();

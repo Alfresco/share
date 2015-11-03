@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.document.DocumentLibraryPage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
 
 /**
  * Abstract class with common method used in dashlet
@@ -64,6 +65,7 @@ public class AbstractSiteDashletTest extends AbstractDocumentTest
         }
         driver.navigate().to(shareUrl);
         DashBoardPage boardPage = resolvePage(driver).render();
+        boardPage.waitUntilElementDisappears(By.cssSelector("div.bd"),1000);
         SiteFinderPage finderPage = boardPage.getNav().selectSearchForSites().render();
         finderPage = finderPage.searchForSite(siteName).render();
         finderPage = siteUtil.siteSearchRetry(driver, finderPage, siteName);

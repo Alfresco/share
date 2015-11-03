@@ -7,7 +7,7 @@
     <parent>
         <artifactId>alfresco-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>5.0.3-SNAPSHOT</version>
+        <version>5.1-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
     <developers>
@@ -20,7 +20,7 @@
     </developers>
     <properties>
         <webdrone.version>2.9</webdrone.version>
-        <share-po.version>5.0.2-SNAPSHOT</share-po.version>
+        <share-po.version>${project.version}</share-po.version>
         <enable.hybrid>false</enable.hybrid>
         <uniqueTestRunName>TestReports</uniqueTestRunName>
         <argLine>-Xms512m -Xmx1024m</argLine>
@@ -44,13 +44,13 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>share-po</artifactId>
-            <version>5.0.2-SNAPSHOT</version>
+            <version>${share-po.version}</version>
             <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>share-po</artifactId>
-            <version>5.0.2-SNAPSHOT</version>
+            <version>${share-po.version}</version>
         </dependency>
         <dependency>
             <groupId>org.alfresco.test</groupId>

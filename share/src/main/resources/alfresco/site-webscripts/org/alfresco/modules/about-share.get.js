@@ -22,7 +22,7 @@ function main()
       model.serverSchema = json.data.schema;
       model.licenseHolder = context.properties["editionInfo"].holder;
    }
-   model.shareVersion = shareManifest.mainAttributeValue("Implementation-Version");
+   model.shareVersion = shareManifest.getImplementationVersion();
    model.shareLibs = shareManifest.attributesMap("Share Libraries");
    model.shareBuild = "r" + shareManifest.mainAttributeValue("Build-Revision") + 
       "-b" + shareManifest.mainAttributeValue("Build-Number");

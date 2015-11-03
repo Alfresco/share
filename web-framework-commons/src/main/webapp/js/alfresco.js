@@ -11131,8 +11131,8 @@ Alfresco.util.RENDERLOOPSIZE = 25;
                }
                Alfresco.util.PopupManager.displayPrompt(
                {
-                    title: this.msg(this.options.failureMessageKey),
-                    text: failureMsg ? failureMsg : (response.json && response.json.message ? response.json.message : this.msg("message.details.failure"))
+                  title: this.msg(this.options.failureMessageKey),
+                  text: failureMsg ? failureMsg : (response.json && response.json.message ? response.json.message : this.msg("message.details.failure"))
                });
             },
 

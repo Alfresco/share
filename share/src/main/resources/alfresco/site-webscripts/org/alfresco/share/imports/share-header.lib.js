@@ -54,7 +54,7 @@ function getShareServices() {
 }
 
 function getShareVersion() {
-   return shareManifest.mainAttributeValue("Specification-Version");
+   return shareManifest.getSpecificationVersion();
 }
 
 /* *********************************************************************************
@@ -1442,17 +1442,43 @@ function getHeaderServices() {
       var siteData = getSiteData();
       if (siteData != null)
       {
-         services.push({
-            name: "share/services/LeaveSiteService",
-            config: {
-               publishPayload: {
-                  site: page.url.templateArgs.site,
-                  siteTitle: siteData.profile.title,
-                  user: user.name,
-                  userFullName: user.fullName
+         if (siteData.profile.shortName == "")
+         {
+            services.push({
+               name: "share/services/UrlUnavailableService",
+               config: {
+                  httpStatusCode: 404,
+                  url: page.url.url
                }
+            });
+         }
+         else 
+         {
+            if (!user.isAdmin && siteData.profile.visibility != "PUBLIC" && siteData.userIsMember === false)
+            {
+               services.push({
+                  name: "share/services/UrlUnavailableService",
+                  config: {
+                     httpStatusCode: 401,
+                     url: page.url.url
+                  }
+               });
             }
-         });
+            else
+            {
+               services.push({
+                  name: "share/services/LeaveSiteService",
+                  config: {
+                     publishPayload: {
+                        site: page.url.templateArgs.site,
+                        siteTitle: siteData.profile.title,
+                        user: user.name,
+                        userFullName: user.fullName
+                     }
+                  }
+               });
+            }
+         }
       }
    }
    
@@ -1746,7 +1772,7 @@ function getHeaderModel(pageTitle) {
     * If user is not Admin, and they belong to group GROUP_ALFRESCO_MODEL_ADMINISTRATORS, add model manager 
     * link to the share header.
     */
-   if (!user.isAdmin && (user.properties["alfUserGroups"].indexOf("GROUP_ALFRESCO_MODEL_ADMINISTRATORS") !== -1))
+   if (!user.isAdmin && (user.properties["alfUserGroups"] != null && user.properties["alfUserGroups"].indexOf("GROUP_ALFRESCO_MODEL_ADMINISTRATORS") !== -1))
    {
       addNonAdminAdministrativeMenuItem(headerModel, {
          id: "HEADER_CUSTOM_MODEL_MANAGER_CONSOLE",

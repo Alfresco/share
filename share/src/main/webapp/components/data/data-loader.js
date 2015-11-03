@@ -112,6 +112,7 @@
       onReady: function DataLoader_onReady()
       {
          var url = encodeURI(Alfresco.util.combinePaths(this.options.useProxy ? Alfresco.constants.PROXY_URI : "", this.options.url));
+             url += (url.indexOf("?") == -1 ? "?" : "&") + "noCache=" + new Date().getTime();
 
          Alfresco.util.Ajax.jsonGet(
          {

@@ -57,7 +57,6 @@ public class UnknownSharePage extends SharePage
         {
             return (T) actualPage;
         }
-        
         return (T) actualPage.render();
     }
 

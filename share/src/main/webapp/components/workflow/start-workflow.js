@@ -111,7 +111,7 @@
                this.onWorkflowSelectChange,
          {
             label: this.msg("label.selectWorkflowDefinition") + " " + Alfresco.constants.MENU_ARROW_SYMBOL,
-            title: this.msg("title.selectWorkflowDefinition") + " " + Alfresco.constants.MENU_ARROW_SYMBOL,
+            title: this.msg("title.selectWorkflowDefinition"),
             type: "menu",
             menu: "workflow-definition-menu"
          });

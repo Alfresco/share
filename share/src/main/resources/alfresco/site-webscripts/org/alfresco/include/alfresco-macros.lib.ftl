@@ -6,7 +6,7 @@
    <#assign site_url = relativeURL>
 
    <#if (siteId?length > 0)>
-      <#assign site_url = "site/${siteId?html}/${site_url?html}">
+      <#assign site_url = "site/${siteId?html}/${site_url}">
    </#if>
 
    <#if site_url?starts_with("/")><#assign site_url = site_url?substring(1)></#if>
@@ -198,7 +198,7 @@
          <#assign pathDisplayHref=absurl(siteURL(path.href?html)) />
       </#if>
       <span class="${path.cssClass?html}">
-         <a href="${pathDisplayHref?html}">${path.label?html}</a>
+         <a href="${pathDisplayHref}">${path.label?html}</a>
       </span>
    </#list>
 </#macro>

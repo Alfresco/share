@@ -44,12 +44,8 @@ public class ModulePackageHelper
     private static PropertyDescriptor[] descriptors;
 
     //see http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Main%20Attributes
-    public static final String MANIFEST_SPECIFICATION_TITLE = "Specification-Title";
-    public static final String MANIFEST_SPECIFICATION_VERSION = "Specification-Version";
-    public static final String MANIFEST_IMPLEMENTATION_TITLE = "Implementation-Title";
     protected static final String REGEX_NUMBER_OR_DOT = "[0-9\\.]*";
     public static final String MANIFEST_SHARE = "Alfresco Share";
-    public static final String MANIFEST_COMMUNITY = "Community";
 
     static
     {
@@ -98,9 +94,7 @@ public class ModulePackageHelper
      */
     public static void checkValid(ModulePackage module, ShareManifest shareManifest)
     {
-        Map<String, String> attribs = shareManifest.mainAttributesMap();
-        String version = attribs.get(MANIFEST_SPECIFICATION_VERSION);
-        checkVersions(new VersionNumber(version), module);
+        checkVersions(new VersionNumber(shareManifest.getSpecificationVersion()), module);
     }
 
     protected static List<String> toIds(List<ModulePackage> mods)

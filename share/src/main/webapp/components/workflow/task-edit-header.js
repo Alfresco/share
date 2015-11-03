@@ -209,17 +209,23 @@
             YAHOO.lang.later(2000, this, function()
             {
                // Check referrer and fall back to user dashboard if unavailable.
-               if(this.referrerValue) {
-                   if(this.referrerValue == 'tasks') {
-                      document.location.href = $siteURL("my-tasks");
-                   } else if(this.referrerValue == 'workflows') {
-                      document.location.href = $siteURL("my-workflows");
-                   }
-                } else {
+               if(this.referrerValue)
+               {
+                  if(this.referrerValue == 'tasks')
+                  {
+                     document.location.href = $siteURL("my-tasks");
+                  }
+                  else if(this.referrerValue='workflows')
+                  {
+                     document.location.href = $siteURL("my-workflows");
+                  }
+                }
+                else
+                {
                    document.location.href = this.getSiteDefaultUrl() || Alfresco.constants.URL_CONTEXT;
-               }
+                }
             }, []);
-         }
+          }
 
          if (task.isReassignable)
          {
