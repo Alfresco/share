@@ -302,7 +302,17 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     {
         // Get the list of buttons
         driver.findElement(BUTTON_CREATE_MODEL).click();
-        waitUntilElementDisappears(BUTTON_CREATE_MODEL, 1);
+        try
+        {
+        	waitUntilElementDisappears(BUTTON_CREATE_MODEL, 1);
+        } 
+        catch(TimeoutException te)
+        {
+        	/* Ignore timeout exception as the button may still be visible
+        	 * due to validation catching issue with the form
+        	 */
+        	
+        }
         return getCurrentPage();
     }
 
