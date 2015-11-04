@@ -42,7 +42,7 @@
         <dependency.httpcomponents.version>4.5.1</dependency.httpcomponents.version>
 
         <dependency.alfresco-jlan.version>5.2</dependency.alfresco-jlan.version>
-        <dependency.webscripts.version>5.7</dependency.webscripts.version>
+        <dependency.webscripts.version>5.8</dependency.webscripts.version>
 
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
 
