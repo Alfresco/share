@@ -30,6 +30,9 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.extensions.config.ConfigElement;
+import org.springframework.extensions.config.HasAikauVersion;
+import org.springframework.extensions.config.WebFrameworkConfigElement;
 import org.springframework.extensions.surf.ModelObject;
 import org.springframework.extensions.surf.RequestContext;
 import org.springframework.extensions.surf.RequestContextUtil;
@@ -51,7 +54,7 @@ import org.springframework.extensions.webscripts.servlet.WebScriptServletRuntime
  * @author kevinr
  * @author David Draper
  */
-public class LocalWebScriptRuntimeContainer extends PresentationContainer implements HandlesExtensibility
+public class LocalWebScriptRuntimeContainer extends PresentationContainer implements HandlesExtensibility, HasAikauVersion
 {
     /** ThreadLocal responsible for the current RequestContext */
     private ThreadLocal<RequestContext> renderContext = new ThreadLocal<RequestContext>();
@@ -474,5 +477,30 @@ public class LocalWebScriptRuntimeContainer extends PresentationContainer implem
     public boolean isExtensibilitySuppressed()
     {
         return this.extensibilitySuppressed;
+    }
+    
+    /**
+     * Returns the current Aikau version. This will found in the version of Aikau that is in use.
+     * It will typically be the latest version of Aikau found unless module deployment order has
+     * been manually set to use a different version.
+     * 
+     * @return A String containing the current Aikau version.
+     */
+    @SuppressWarnings("unchecked")
+    public String getAikauVersion()
+    {
+        String aikauVersion = null;
+        final RequestContext rc = ThreadLocalRequestContext.getRequestContext();
+        if (rc != null)
+        {
+            ScriptConfigModel config = rc.getExtendedScriptConfigModel(null);
+            Map<String, ConfigElement> configs = (Map<String, ConfigElement>)config.getScoped().get("WebFramework");
+            if (configs != null)
+            {
+                WebFrameworkConfigElement wfce = (WebFrameworkConfigElement) configs.get("web-framework");
+                aikauVersion = wfce.getAikauVersion();
+            }
+        }
+        return aikauVersion;
     }
 }
