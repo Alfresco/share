@@ -56,8 +56,6 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     private static final By BUTTON_CREATE_MODEL = By.id("CMM_CREATE_MODEL_DIALOG_OK");
     private static final By BUTTON_CANCEL_MODEL = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .footer #CMM_CREATE_MODEL_DIALOG_CANCEL");
 
-    private static final By BUTTON_CREATE_MODEL_CLICKABLE = By.cssSelector(" #CMM_CREATE_MODEL_DIALOG_OK_label");
-
     private static final By NAMESPACE_VALIDATION_MESSAGE = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-form-namespace .validation-message.display");
     private static final By NAME_VALIDATION_MESSAGE = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-form-name .validation-message.display");
     private static final By PREFIX_VALIDATION_MESSAGE = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-form-prefix .validation-message.display");
