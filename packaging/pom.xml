@@ -11,8 +11,8 @@
 
     <properties>
         <highest.basedir>${basedir}/../../..</highest.basedir>
-        <alfresco.package.name>alfresco-share</alfresco.package.name>
-        <alfresco.distribution.name>${alfresco.package.name}-distribution</alfresco.distribution.name>
+        <alfresco.package.name>alfresco-share-enterprise</alfresco.package.name>
+        <alfresco.distribution.name>alfresco-share-distribution</alfresco.distribution.name>
 
         <!-- Versions of binaries packaged in the installer -->
         <installer.common.version>5.1-20150819</installer.common.version>
