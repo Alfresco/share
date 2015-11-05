@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2011 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -55,11 +55,36 @@ public class EditionInfo implements Serializable
     public EditionInfo(String response) throws JSONException
     {
         JSONObject json = new JSONObject(response);
-        this.users = json.optLong("users", -1L);
-        this.documents = json.optLong("documents", -1L);
-        this.edition = json.getString("licenseMode");
-        this.holder = json.getString("licenseHolder");
-        this.response = true;
+        if (json.has("data"))
+        {
+            String edition = UNKNOWN_HOLDER;
+            JSONObject data = json.getJSONObject("data");
+            if (data != null)
+            {
+                // only set the edition if it's enterprise
+                if (ENTERPRISE_EDITION.equalsIgnoreCase(data.getString("edition")))
+                {
+                    edition = ENTERPRISE_EDITION;
+                }
+            }
+             
+            this.users = -1L;
+            this.documents = -1L;
+            this.holder = UNKNOWN_HOLDER;
+            this.edition = edition;
+                        
+            // we don't have all the information we need so set this
+            // flag to false to indicate a re-attempt is required
+            this.response = false;
+        }
+        else
+        {
+            this.users = json.optLong("users", -1L);
+            this.documents = json.optLong("documents", -1L);
+            this.edition = json.getString("licenseMode");
+            this.holder = json.getString("licenseHolder");
+            this.response = true;
+        }
     }
 
     public long getUsers()
