@@ -70,7 +70,7 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
 
     private static final By DESCRIPTION_VALIDATION_MSG = By.cssSelector(".create-propertygroup-description .validation-message");
 
-    private static final By NEW_PROPERTY_GROUP_CREATE_BUTTON = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label");
+    private static final By NEW_PROPERTY_GROUP_CREATE_BUTTON = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK");
 
     private static final By NEW_PROPERTY_GROUP_CANCEL_BUTTON = By.cssSelector(UNIQUE_DIALOG_SELECTOR + BUTTON_LAST);
 
