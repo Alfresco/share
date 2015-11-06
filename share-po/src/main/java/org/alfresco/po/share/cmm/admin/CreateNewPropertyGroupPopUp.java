@@ -269,18 +269,16 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
      */
     public HtmlPage selectCreateButton()
     {
+    	driver.findElement(NEW_PROPERTY_GROUP_CREATE_BUTTON).click();
         try
         {
-            driver.findElement(NEW_PROPERTY_GROUP_CREATE_BUTTON).click();
             waitUntilElementDisappears(NEW_PROPERTY_GROUP_CREATE_BUTTON, 1);
-            return getCurrentPage();
         }
         catch (TimeoutException e)
         {
             LOGGER.trace("Unable to select the create button ", e);
         }
-
-        throw new PageOperationException("Unable to select the create button");
+        return getCurrentPage();
     }
 
     /**

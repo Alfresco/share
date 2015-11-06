@@ -23,7 +23,9 @@ import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
@@ -61,7 +63,7 @@ public class ManageTypesAndAspectsPage extends SharePage
     private static final By BUTTON_BACK_TO_MODELS = By.cssSelector(".alfresco-buttons-AlfButton.backToModels > span");
     private static final By BUTTON_CREATE_TYPE = By.cssSelector(".alfresco-buttons-AlfButton.createTypeButton > span");
     private static final By BUTTON_CREATE_PROPERTY_GROUP = By.cssSelector(".alfresco-buttons-AlfButton.createPropertyGroupButton > span");
-
+    private static final By CMM_ERROR_DIALOG = By.cssSelector("span.alfresco-notifications-AlfNotification__message");
 
 
     @SuppressWarnings("unchecked")
@@ -70,6 +72,7 @@ public class ManageTypesAndAspectsPage extends SharePage
         RenderTime renderTime = new RenderTime(maxPageLoadingTime);
         elementRender(
                 renderTime,
+                new RenderElement(CMM_ERROR_DIALOG,ElementState.INVISIBLE),
                 getVisibleRenderElement(BUTTON_BACK_TO_MODELS),
                 getVisibleRenderElement(BUTTON_CREATE_TYPE),
                 getVisibleRenderElement(BUTTON_CREATE_PROPERTY_GROUP),
@@ -254,19 +257,12 @@ public class ManageTypesAndAspectsPage extends SharePage
 
     public HtmlPage selectBackToModelsButton()
     {
-        try
-        {
-            WebElement backToModelsButton = findFirstDisplayedElement(BUTTON_BACK_TO_MODELS);
-            backToModelsButton.click();
+        WebElement backToModelsButton = findFirstDisplayedElement(BUTTON_BACK_TO_MODELS);
+        backToModelsButton.click();
+        waitUntilElementDisappears(BUTTON_BACK_TO_MODELS, 1);
             // TODO: Change it later to: FactoryShareCMMPage.resolveCMMPage(driver).render();
             // For now: use this as resolve is based on dom not url and it causes issues
-            return factoryPage.instantiatePage(driver, ModelManagerPage.class);
-        }
-        catch (TimeoutException e)
-        {
-            LOGGER.error("Unable to find the button: ", e);
-        }
-        throw new PageOperationException("Button Not visible: Back To Models");
+        return factoryPage.instantiatePage(driver, ModelManagerPage.class);
     }
 
     /**

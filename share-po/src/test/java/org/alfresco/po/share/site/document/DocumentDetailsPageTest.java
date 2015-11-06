@@ -7,7 +7,6 @@
  */
 package org.alfresco.po.share.site.document;
 
-import static org.alfresco.po.share.site.document.TinyMceEditor.FormatType.BOLD;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
