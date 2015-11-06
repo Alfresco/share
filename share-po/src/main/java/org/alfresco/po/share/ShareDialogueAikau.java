@@ -236,8 +236,7 @@ public class ShareDialogueAikau extends ShareDialogue
     public boolean isElementEnabled(By selector)
     {
         WebElement element = driver.findElement(selector);
-        boolean test = !element.getAttribute("class").contains("dijitDisabled");
-        return test; 
+        return !element.getAttribute("class").contains("dijitDisabled");
     }
 
     /**

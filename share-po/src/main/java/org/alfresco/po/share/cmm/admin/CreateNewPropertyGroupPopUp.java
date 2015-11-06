@@ -116,7 +116,8 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
         PageUtils.checkMandotaryParam("name", name);
         try
         {
-            findAndWait(NAME_FIELD).sendKeys(name);
+            findAndWait(NAME_FIELD).sendKeys(name + "\t");
+            
             return this;
         }
         catch (TimeoutException toe)
