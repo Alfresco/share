@@ -1,36 +1,4 @@
 
-function convertTopicJSONData(topic)
-{
-    // created
-    var created = new Date(topic["createdOn"]);
-    if (isNaN(created) == false)
-    {
-        topic["createdOn"] = created;
-    }
-    
-    // last reply
-    if (topic["lastReplyOn"] != undefined)
-    {
-        var last = new Date(topic["lastReplyOn"]);
-        if (isNaN(last) == false)
-        {
-	    topic["lastReplyOn"] = last;
-        }
-    }
-}
-
-/**
- * Converts the data object from strings to the proper types
- * (currently this only handles strings
- */
-function convertTopicsJSONData(data)
-{
-    for (var x=0; x < data.items.length; x++)
-    {
-        convertTopicJSONData(data.items[x]);
-    }
-}
-
 function main()
 {
    var site, container, theUrl, cname, connector, result, data;
@@ -51,7 +19,6 @@ function main()
       return null;
    }
    data = JSON.parse(result.response);
-   convertTopicsJSONData(data);
    model.items = data.items;
 
    // set additional properties
