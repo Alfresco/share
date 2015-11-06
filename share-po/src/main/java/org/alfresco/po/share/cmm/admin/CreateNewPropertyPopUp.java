@@ -20,7 +20,9 @@ package org.alfresco.po.share.cmm.admin;
 
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SelectList;
@@ -115,26 +117,23 @@ public class CreateNewPropertyPopUp extends ShareDialogueAikau
     private static final String NEW_PROPERTY_CREATE_AND_ANOTHER_BUTTON_CLICKABLE = "#CMM_CREATE_PROPERTY_DIALOG_CREATE_AND_ANOTHER";
     private static final String NEW_PROPERTY_CANCEL_BUTTON = "#CMM_ CREATE_PROPERTY_DIALOG span[widgetid=CMM_CREATE_PROPERTY_DIALOG_CANCEL]";
     private static final String NEW_PROPERTY_CANCEL_BUTTON_CLICKABLE = "#CMM_CREATE_PROPERTY_DIALOG_CANCEL";
-
+    private static By ERROR_MSG_DIALOG = By.cssSelector("span.alfresco-notifications-AlfNotification__message"); 
     @Override
     public CreateNewPropertyPopUp render()
     {
     	
     	RenderTime timer = new RenderTime(maxPageLoadingTime);
-        elementRender(timer, getVisibleRenderElement(SHARE_DIALOGUE_HEADER));
-
         elementRender(
                 timer,
+                getVisibleRenderElement(SHARE_DIALOGUE_HEADER),
+                new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE),
                 getVisibleRenderElement(NAME_FIELD),
                 getVisibleRenderElement(TITLE_FIELD),
                 getVisibleRenderElement(DESCRIPTION_FIELD),
                 getVisibleRenderElement(DATATYPE_FIELD),
                 getVisibleRenderElement(MANDATORY_FIELD),
                 getVisibleRenderElement(MULTIPLE_FIELD),
-                // getVisibleRenderElement(DEFAULT_VALUE_FIELD_GENERIC), // Amended since the default field css are different per data type
                 getVisibleRenderElement(CONSTRAINT_FIELD)
-        // getVisibleRenderElement(SHARE_DIALOGUE_CLOSE_ICON),
-        // getVisibleRenderElement(By.cssSelector(NEW_PROPERTY_CANCEL_BUTTON + ">span"))
         );
 
         return this;
@@ -467,7 +466,7 @@ public class CreateNewPropertyPopUp extends ShareDialogueAikau
             WebElement constraintType = findAndWait(CONSTRAINT_FIELD);
             SelectList list = new SelectList(driver, constraintType);
             list.selectValue(value, true);
-            constraintType.sendKeys(Keys.TAB);
+//            constraintType.sendKeys(Keys.TAB);
         }
         catch (TimeoutException toe)
         {
