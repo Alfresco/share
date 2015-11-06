@@ -53,7 +53,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     private static final By DESCRIPTION_TEXT = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " textarea[name='description']");
     private static final By AUTHOR_TEXT = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .dijitInputField input[name='author']");
     private static final By BUTTON_CANCEL_CREATE_MODEL = By.cssSelector("div[class='footer']>span>span>span>span.dijitReset.dijitInline.dijitButtonText");
-    private static final By BUTTON_CREATE_MODEL = By.id("CMM_CREATE_MODEL_DIALOG_OK_label");
+    private static final By BUTTON_CREATE_MODEL = By.id("CMM_CREATE_MODEL_DIALOG_OK");
     private static final By BUTTON_CANCEL_MODEL = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .footer #CMM_CREATE_MODEL_DIALOG_CANCEL");
 
     private static final By BUTTON_CREATE_MODEL_CLICKABLE = By.cssSelector(" #CMM_CREATE_MODEL_DIALOG_OK_label");

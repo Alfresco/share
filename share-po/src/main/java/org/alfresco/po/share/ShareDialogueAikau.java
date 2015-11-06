@@ -47,6 +47,7 @@ public class ShareDialogueAikau extends ShareDialogue
     protected static final String BUTTON_LAST = ">div>.footer .alfresco-buttons-AlfButton:last-of-type";
     protected static final String BUTTON_OK = "div>.footer .alfresco-buttons-AlfButton:first-of-type>span";
     protected static final String BUTTON_CANCEL = "div>.footer .alfresco-buttons-AlfButton:last-of-type>span";
+    protected static By ERROR_MSG_DIALOG = By.cssSelector("span.alfresco-notifications-AlfNotification__message"); 
     /**
      * Helper method to click on the Close button to return to the original page
      */
