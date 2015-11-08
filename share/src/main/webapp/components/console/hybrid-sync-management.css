@@ -11,8 +11,18 @@
 
 .search-text input
 {
-	margin-top:20px;
-	padding:3px;
+   margin-top:20px;
+   margin-right: 5px;
+   padding: 3px!important;
+}
+
+.search-text select
+{
+   padding: 3px!important;
+}
+.search-text label
+{
+   margin-left: 6px!important;
 }
 
 .ssds-List .ssds-list-info
@@ -92,6 +102,7 @@
    border-bottom: 1px dashed #d9d9d9;
    border-right: medium none;
    vertical-align: top;
+   text-align: center;
 }
 
 .ssds-List .yui-dt td .yui-dt-liner
