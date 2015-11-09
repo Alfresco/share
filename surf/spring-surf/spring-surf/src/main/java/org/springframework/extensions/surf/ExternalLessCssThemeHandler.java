@@ -96,10 +96,10 @@ public class ExternalLessCssThemeHandler extends LessCssThemeHandler
         if ((s = stdError.readLine()) != null)
         {
             // error occured, collect information and throw exception with the message
-            buf = new StringBuilder(s);
-            while ((s = stdOut.readLine()) != null) {
+            buf = new StringBuilder("Error during external LESS compilation for path: ").append(path).append("\r\n");
+            do {
                 buf.append(s);
-            }
+            } while ((s = stdOut.readLine()) != null);
             throw new IOException(buf.toString());
         }
         
