@@ -58,11 +58,11 @@ public class HybridCssThemeHandler extends LessForJavaCssThemeHandler
         }
         catch (LessException e)
         {
-            compiledCss = "/*" + LessForJavaCssThemeHandler.logLessException(e, path) + "*/\n\n " + initialProcessResults;
+            compiledCss = "/*" + logLessException(e, path) + "*/\n\n " + initialProcessResults;
         }
         catch (ClassCastException e)
         {
-            compiledCss = "/*" + LessForJavaCssThemeHandler.logLessException(e, path) + "*/\n\n " + initialProcessResults;
+            compiledCss = "/*" + logLessException(e, path) + "*/\n\n " + initialProcessResults;
         }
         return compiledCss;
     }
