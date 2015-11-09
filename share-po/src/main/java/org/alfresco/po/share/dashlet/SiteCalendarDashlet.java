@@ -114,7 +114,7 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
         }
         catch (StaleElementReferenceException e)
         {
-        	this.dashlet = drone.findAndWait(DASHLET_CONTAINER_PLACEHOLDER);
+        	this.dashlet = findAndWait(DASHLET_CONTAINER_PLACEHOLDER);
         	return dashlet.findElements(EVENTS_LINKS);
         }
         catch (Exception e)
