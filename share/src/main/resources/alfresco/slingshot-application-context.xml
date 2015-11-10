@@ -225,7 +225,9 @@
    <bean id="pageViewResolver" class="org.alfresco.web.site.SlingshotPageViewResolver" parent="abstractWebFrameworkViewResolver" />
    
    <!-- Interceptors -->
-   <bean id="editionInterceptor" class="org.alfresco.web.site.EditionInterceptor" parent="abstractWebFrameworkInterceptor" />
+   <bean id="editionInterceptor" class="org.alfresco.web.site.EditionInterceptor" parent="abstractWebFrameworkInterceptor">
+      <property name="shareManifest" ref="slingshot.scriptprocessor.shareManifest" />
+   </bean>
    <bean id="userDashboardInterceptor" class="org.alfresco.web.site.UserDashboardInterceptor" parent="abstractWebFrameworkInterceptor" />
    
    <bean id="dependency.aggregator" parent="dependency.aggregator.abstract" class="org.springframework.extensions.surf.DependencyAggregator">

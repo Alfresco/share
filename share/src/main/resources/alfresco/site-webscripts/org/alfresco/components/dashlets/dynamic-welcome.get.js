@@ -309,6 +309,7 @@ function main()
    model.dashboardUrl = dashboardUrl;
    model.dashboardId = dashboardId;
    model.dashboardType = args.dashboardType;
+   var docsEdition = context.properties["docsEdition"];
 
    // Widget instantiation metadata...
    var dynamicWelcome = {
@@ -318,7 +319,8 @@ function main()
                   "\"" + model.dashboardUrl + "\"",
                   "\"" + model.dashboardType + "\"",
                   "\"" + (model.siteNodeRef == null ? "" : model.siteNodeRef) + "\"",
-                  "\"" + (model.site == null ? "" : encodeURIComponent(jsonUtils.encodeJSONString(model.site))) + "\""]
+                  "\"" + (model.site == null ? "" : encodeURIComponent(jsonUtils.encodeJSONString(model.site))) + "\"",
+                  "\"" + docsEdition.getValue() + "\""]
    };
    model.widgets = [dynamicWelcome];
 }
