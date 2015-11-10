@@ -4,7 +4,7 @@
   <parent>
 	 <groupId>org.springframework.extensions.surf</groupId>
 	 <artifactId>spring-surf-parent</artifactId>
-	 <version>5.1-SNAPSHOT</version>
+	 <version>5.1-EA-1</version>
 	 <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>spring-surf-archetype</artifactId>
