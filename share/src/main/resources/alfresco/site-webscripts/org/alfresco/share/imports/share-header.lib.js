@@ -718,13 +718,8 @@ function getSubNavigationWidgets() {
  * This is the default function for getting the help URL for Share.
  */
 function getHelpLink() {
-   var helpConfig = config.scoped["HelpPages"],
-       helpLink = "";
-   if (helpConfig != null)
-   {
-      helpConfig = helpConfig["help-pages"];
-      helpLink = (helpConfig != null) ? helpConfig.getChildValue("share-help") : "";
-   }
+   var docsEdition = context.properties["docsEdition"].getValue();
+   var helpLink = msg.get("share-help.docs-url", [docsEdition]);
    return helpLink;
 }
 

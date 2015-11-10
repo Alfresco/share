@@ -1,16 +1,10 @@
 function main()
 {
-// Get the tutorial link from the config (taking care to avoid scripting errors!)
-   var tutorial = config.scoped["HelpPages"];
-   if (tutorial != null)
-   {
-      tutorial = tutorial["help-pages"];
-      tutorial = (tutorial != null) ? tutorial.getChildValue("share-tutorial") : "";
-   }
-
    // Define a set of functions to return common column settings...
    function getTutorialColumn()
    {
+      var docsEdition = context.properties["docsEdition"].getValue();
+      var tutorial = msg.get("share-tutorial.docs-url", [docsEdition]);
       return (
       {
          title: "welcome.user.tutorial.title",
