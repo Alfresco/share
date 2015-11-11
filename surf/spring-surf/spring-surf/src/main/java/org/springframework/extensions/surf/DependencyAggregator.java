@@ -967,7 +967,7 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
         {
             compressedFile = getCachedCompressedCssResource(path);
         }
-        if (compressedFile == null)
+        if (compressedFile == null || isDebugMode() == true)
         {
             // Check the compression exclusions to ensure that we really want to compress the file...
             if (excludeFileFromCompression(path))

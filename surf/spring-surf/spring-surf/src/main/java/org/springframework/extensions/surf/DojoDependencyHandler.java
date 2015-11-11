@@ -296,7 +296,7 @@ public class DojoDependencyHandler implements CacheReporter
     public DojoDependencies getDependencies(String path)
     {
         DojoDependencies deps = getCachedDeps(path);
-        if (deps == null)
+        if (deps == null || this.dependencyAggregator.isDebugMode() == true)
         {
             try
             {
@@ -494,7 +494,7 @@ public class DojoDependencyHandler implements CacheReporter
     {
         final String key;
         String checksum = getDependenciesChecksumCache().get(key = getBuildKeyForDependencies(dependencies));
-        if (checksum == null)
+        if (checksum == null || this.dependencyAggregator.isDebugMode() == true)
         {
             // Construct the aggregated output - this is where the bulk of the processing is done.
             // We don't take out the write lock yet - as this is a singleton bean and doing so could block
