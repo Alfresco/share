@@ -29,9 +29,6 @@
             <!-- Share default config -->
             <value>classpath:alfresco/share-config.xml</value>
             
-            <!-- Share help url config -->
-            <value>classpath:alfresco/share-help-config.xml</value>
-            
             <!-- Share form config -->
             <value>classpath:alfresco/share-form-config.xml</value>
             
