@@ -4,6 +4,8 @@
 
 function main()
 {
+   var docsEdition = context.properties["docsEdition"];
+   model.docsShareVersion = docsEdition.getValue();
    if (args.noderef)
    {
       // This may be called from a context where there is a nodref such as Manage Permissions
