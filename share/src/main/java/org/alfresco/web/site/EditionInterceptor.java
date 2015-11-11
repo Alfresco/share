@@ -131,7 +131,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                         if (response.getStatus().getCode() == Status.STATUS_OK)
                         {
                             EditionInfo editionInfo = new EditionInfo(response.getResponse());
-                            docsEdition = new DocsEdition(EDITIONINFO.getEdition(), shareManifest.getSpecificationVersion(), false);
+                            docsEdition = new DocsEdition(editionInfo.getEdition(), shareManifest.getSpecificationVersion(), false);
                             if (editionInfo.getValidResponse())
                             {
                                logger.info("Successfully retrieved license information from Alfresco.");
