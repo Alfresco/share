@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2011 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -20,8 +20,6 @@ package org.alfresco.web.evaluator;
 
 import org.json.simple.JSONObject;
 
-import org.alfresco.api.AlfrescoPublicApi;     
-
 /**
  * Contract supported by all classes that provide dynamic evaluation for a UI element.
  * <p>
@@ -32,7 +30,6 @@ import org.alfresco.api.AlfrescoPublicApi;
  *
  * @author mikeh
  */
-@AlfrescoPublicApi
 public interface Evaluator
 {
     /**
