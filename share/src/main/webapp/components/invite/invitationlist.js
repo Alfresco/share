@@ -653,11 +653,12 @@
          
          // remove wait message
          this.widgets.feedbackMessage.destroy();
-         
+
          // inform the user
+         var plurality = inviteData.successes.length == 1 ? "" : "s";
          Alfresco.util.PopupManager.displayMessage(
          {
-            text: this.msg("message.inviteresult", inviteData.successes.length, inviteData.failures.length)
+            text: this.msg("message.inviteresult", inviteData.successes.length, plurality)
          });
          
          // update the invite button
