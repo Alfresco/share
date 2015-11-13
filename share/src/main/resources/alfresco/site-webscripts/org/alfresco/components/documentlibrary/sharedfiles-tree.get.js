@@ -9,7 +9,8 @@ function main()
    model.rootNode = "alfresco://company/shared";
    
    var evaluateChildFolders = "true",
-       maximumFolderCount = "-1";
+       maximumFolderCount = "-1",
+       customFolderStyleConfig = null;
    var docLibConfig = config.scoped["RepositoryLibrary"];
    if (docLibConfig != null)
    {
@@ -22,6 +23,15 @@ function main()
          maximumFolderCount = tmp != null ? tmp : "-1";
       }
    }
+   var commonComponentStyleConfig = config.scoped["CommonComponentStyle"];
+   if (commonComponentStyleConfig != null)
+   {
+      var commonComponentStyle = commonComponentStyleConfig["component-style"];
+      if (commonComponentStyle != null)
+      {
+         customFolderStyleConfig = commonComponentStyle != null ? JSON.parse(commonComponentStyle.value) : null;
+      }
+   }
 
    var repoDocListTree = {
       id : "RepositoryDocListTree", 
@@ -30,7 +40,8 @@ function main()
          rootNode : model.rootNode != null ? model.rootNode : "null",
          evaluateChildFolders : (evaluateChildFolders == "true"),
          maximumFolderCount : parseInt(maximumFolderCount),
-         setDropTargets : true
+         setDropTargets : true,
+         customFolderStyleConfig : customFolderStyleConfig
       }
    };
    model.widgets = [repoDocListTree];

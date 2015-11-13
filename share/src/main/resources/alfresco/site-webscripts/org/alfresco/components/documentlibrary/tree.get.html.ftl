@@ -6,6 +6,7 @@
 <@markup id="js">
    <#-- JavaScript Dependencies -->
    <@script type="text/javascript" src="${url.context}/res/components/documentlibrary/tree.js" group="documentlibrary"/>
+   <@script type="text/javascript" src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="documentlibrary"/>
 </@>
 
 <@markup id="widgets">

@@ -10,6 +10,7 @@
    <#-- JavaScript Dependencies -->
    <@script src="${url.context}/res/modules/document-picker/document-picker.js" group="wiki"/>
    <@script src="${url.context}/res/components/object-finder/object-finder.js" group="wiki"/>
+   <@script src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="wiki"/>
    <@script src="${url.context}/res/modules/simple-editor.js" group="wiki"/>
    <@script src="${url.context}/res/modules/taglibrary/taglibrary.js" group="wiki"/>
    <@script src="${url.context}/res/components/wiki/createform.js" group="wiki"/>

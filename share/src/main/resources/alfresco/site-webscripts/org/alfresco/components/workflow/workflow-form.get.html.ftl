@@ -24,6 +24,7 @@
    <@script src="${url.context}/res/modules/documentlibrary/global-folder.js" group="workflow" />
    <@script src="${url.context}/res/modules/documentlibrary/cloud-folder.js" group="workflow" />
    <@script src="${url.context}/res/modules/cloud-auth.js" group="workflow" />
+   <@script src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="workflow"/>
 </@>
 
 <@markup id="widgets">

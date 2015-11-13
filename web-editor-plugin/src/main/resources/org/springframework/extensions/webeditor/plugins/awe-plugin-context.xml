@@ -68,6 +68,7 @@
             <ref bean="formsCSS" />
             <ref bean="formsDatePickerControl" />
             <ref bean="formsPeriodControl" />
+            <ref bean="formsCommonsComponentFilterChain" />
             <ref bean="formsObjectFinderControl" />
             <ref bean="formsObjectFinderControlCSS" />
             <ref bean="formsRichTextControl" />
@@ -119,6 +120,13 @@
       <property name="name" value="org.alfresco.forms.control.period" />
       <property name="description" value="Forms period control" />
       <property name="path" value="/res/components/form/period.js" />
+      <property name="type" value="js" />
+   </bean>
+   
+   <bean id="formsCommonsComponentFilterChain" class="org.springframework.extensions.webeditor.WEFResourceImpl">
+      <property name="name" value="org.alfresco.forms.common.component.filter.chain" />
+      <property name="description" value="Common Component Filter Chain" />
+      <property name="path" value="/res/components/common/common-component-style-filter-chain.js" />
       <property name="type" value="js" />
    </bean>
    

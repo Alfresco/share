@@ -73,6 +73,7 @@ function getCreateContent()
 
             // Create content menu items
             content = {
+               id: attr["id"] ? attr["id"].toString() : null,
                type: attr["type"] ? attr["type"].toString() : null,
                icon: attr["icon"] ? attr["icon"].toString() : attr["id"] ? attr["id"].toString() : "generic",
                label: attr["label"] ? attr["label"].toString() : attr["id"] ? "create-content." + attr["id"].toString() : null,

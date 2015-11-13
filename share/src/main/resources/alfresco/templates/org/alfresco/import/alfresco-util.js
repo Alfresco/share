@@ -712,5 +712,205 @@ var AlfrescoUtil =
       {
          return null;
       }
+   },
+
+      /**
+       * Gets ["CommonComponentStyle"]["component-style"] configuration value from share-document-library-config.xml.
+       * 
+       * @returns ["CommonComponentStyle"]["component-style"] configuration value, or null it the configuration is not present.
+       */
+      getCommonConfigStyle : function getCommonConfigStyle()
+   {
+      var commonComponentStyle = null;
+      var commonComponentStyleConfig = config.scoped["CommonComponentStyle"]["component-style"];
+
+      if (commonComponentStyleConfig !== null)
+      {
+         commonComponentStyle = commonComponentStyleConfig.value;
+      }
+      return commonComponentStyle;
+   },
+
+   /**
+    * Gets ["SuppressComponent"]["component-config"] configuration value from share-document-library-config.xml.
+    * 
+    * @returns ["SuppressComponent"]["component-config"] configuration value from share-document-library-config.xml, or null it the configuration is not present.
+    */
+   getSupressConfig : function getSupressConfig()
+   {
+      var suppressComponent = null;
+      var suppressComponentConfig = config.scoped["SuppressComponent"]["component-config"];
+
+      if (suppressComponentConfig !== null)
+      {
+         suppressComponent = suppressComponentConfig.value;
+      }
+      return suppressComponent;
+   },
+
+   /**
+    * Gets icon resource path string specified in the {component.style} configuration for specified by {iconSize} attribute.
+    * See ["CommonComponentStyle"]["component-config"] configuration from share-document-library-config.xml. As an example for {browse.folder} component configuration 
+    * and for {iconSize} "32x32" the result will be "components/documentlibrary/images/virtual-folder-32.png" 
+    * @param component
+    * @param iconSize
+    */
+   getResource : function getResource(component, iconSize)
+   {
+      return component.style.icons[iconSize].icon;
+   },
+
+   /**
+    * Gets icon resource path string specified in the style configuration that corresponds
+    * with matching filter (["CommonComponentStyle"]["component-config"] configuration from share-document-library-config.xml),
+    * or {defaultValue} parameter if there are no matching filters.
+    * 
+    * @param node {object}
+    * @param commonComponentConfig {object}
+    * @param defaultValue {String}- default icon resource path string or default style 
+    * @param iconSize {String} - (values of form: "16x16", "32x32"..)
+    * @returns icon resource path string or resource style specified in the style configuration that corresponds
+    *    with matching filter, or defaultValue specified if there are no matching filters.
+    */
+   filterResource : function filterResource(node, commonComponentConfig, defaultValue, iconSize)
+   {
+      var defaultResourceValue = defaultValue;
+      if (commonComponentConfig && commonComponentConfig.length != null)
+      {
+         for (var i = 0; i < commonComponentConfig.length; i++)
+         {
+            var component = commonComponentConfig[i];
+            var filter = component.filter;
+            if (!this.accepted(filter.name))
+            {
+               continue;
+            }
+            var match = this.match(node, filter);
+            if (match == true)
+            {
+               defaultResourceValue = this.getResource(component, iconSize);
+               break;
+            }
+         }
+      }
+      return defaultResourceValue;
+   },
+
+   /**
+    * Aspect filter implementation. Returns true if the node attribute has all the aspects enumerated in {filter.match} 
+    * from ["CommonComponentStyle"]["component-style"] or ["SuppressComponent"]["component-config"] configurations from share-document-library-config.xml.
+    * 
+    * @param node {object}
+    * @param filter {object}
+    * @returns {Boolean} - true if the node attribute has all the aspects enumerated in filter.match, false otherwise.
+    */
+   matchAspect : function matchAspect(node, filter)
+   {
+      var match = true;
+      if (filter.match && filter.match.length != null)
+      {
+         for (var j = 0; j < filter.match.length; j++)
+         {
+            var aspect = filter.match[j];
+            if (!node.aspects || node.aspects.indexOf(aspect) == -1)
+            {
+               match = false;
+               break;
+            }
+         }
+      }
+      else
+      {
+         match = false;
+      }
+      return match;
+   },
+
+   /**
+    * Returns true if filterType is accepted, false otherwise. Currently only aspect filters accepted. 
+    * @param filterType
+    * @returns {Boolean} - true if filterType is accepted, false otherwise.
+    */
+   accepted : function accepted(filterType)
+   {
+      return (filterType == "aspect");
+   },
+
+   /**
+    * Filter implementation. Currently only aspect filter supported, but other filter types can be added and implemented.
+    * @param node {object}
+    * @param filter {object}
+    * @returns {Boolean} - true if filter matches, false otherwise.
+    */
+   match : function match(node, filter)
+   {
+      if (filter.name == "aspect")
+      {
+         return this.matchAspect(node, filter);
+      }
+      return false;
+   },
+
+   /**
+    * Gets icon resource path string specified in the {style} configuration that corresponds with matching filter, 
+    * of {defaultIcon} if there are no matching filters.
+    * 
+    * @param node {object}
+    * @param commonComponentConfig {object} - common component configuration from share-documentlibrary-config.xml
+    * @param defaultIcon {String} - default resource icon path string
+    * @param iconSize {String} - (values of form: "16x16", "32x32"..)
+    * 
+    * @returns icon resource path string specified in the {style} configuration that corresponds with matching filter, 
+    * of {defaultIcon} if there are no matching filters.
+    */
+   getResourceIcon : function getResourceIcon(node, commonComponentConfig, defaultIcon, iconSize)
+   {
+      var iconStr = this.filterResource(node, commonComponentConfig, defaultIcon, iconSize);
+      return iconStr;
+   },
+
+   /**
+    * Gets JSON value for {social.details.folder} component from ["SuppressComponent"]["component-config"] configuration value from share-document-library-config.xml.
+    */
+   getSupressSocialfolderDetailsConfig : function getSupressSocialfolderDetailsConfig()
+   {
+      var conf = this.getSupressConfig();
+      var supressSocialfolderDetailsConfig = {};
+      if (conf)
+      {
+         supressSocialfolderDetailsConfig = JSON.parse(conf).social.details.folder;
+      }
+      return supressSocialfolderDetailsConfig;
+   },
+
+   /**
+    * Gets true if any of {supressConfig} filters are matching, or false otherwise.
+    * 
+    * This function is used for suppressing Social components {favorites, likes and comments}, Tags, Date. Currently only used for folders in Virtual Folders context.
+    * 
+    * @returns {Boolean} - true if any of {supressConfig} filters are matching, or false otherwise.
+    */
+   isComponentSuppressed : function isComponentSuppressed(node, supressConfig)
+   {
+      var suppress = false;
+      if (supressConfig && supressConfig.length != null)
+      {
+         for (var i = 0; i < supressConfig.length; i++)
+         {
+            var component = supressConfig[i];
+            var filter = component.filter;
+            if (!this.accepted(filter.name))
+            {
+               continue;
+            }
+            var match = this.match(node, filter);
+            if (match == true)
+            {
+               suppress = true;
+               break;
+            }
+         }
+      }
+      return suppress;
    }
 };

@@ -42,9 +42,9 @@
     * @return {Alfresco.DocumentListSimpleViewRenderer} The new SimpleViewRenderer instance
     * @constructor
     */
-   Alfresco.DocumentListSimpleViewRenderer = function(name, parentDocumentList)
+   Alfresco.DocumentListSimpleViewRenderer = function(name, parentDocumentList, commonComponentStyle)
    {
-      Alfresco.DocumentListSimpleViewRenderer.superclass.constructor.call(this, name, parentDocumentList);
+      Alfresco.DocumentListSimpleViewRenderer.superclass.constructor.call(this, name, parentDocumentList, commonComponentStyle);
       this.actionsColumnWidth = 80;
       this.actionsSplitAtModifier = 0;
       return this;
@@ -77,7 +77,7 @@
 
       if (isContainer)
       {
-         elCell.innerHTML = '<span class="folder-small">' + (isLink ? '<span class="link"></span>' : '') + (scope.dragAndDropEnabled ? '<span class="droppable"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + Alfresco.constants.URL_RESCONTEXT + 'components/documentlibrary/images/folder-32.png" /></a>';
+         elCell.innerHTML = '<span class="folder-small">' + (isLink ? '<span class="link"></span>' : '') + (scope.dragAndDropEnabled ? '<span class="droppable"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + this.getFolderIcon(record.node) + '" /></a>';
          containerTarget = new YAHOO.util.DDTarget(imgId); // Make the folder a target
       }
       else
@@ -89,13 +89,28 @@
             fileIcon = Alfresco.util.getFileIconByMimetype(node.mimetype);
          }
          elCell.innerHTML = '<span id="' + id + '" class="icon32">' + (isLink ? '<span class="link"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + fileIcon + '" alt="' + extn + '" title="' + $html(name) + '" /></a></span>';
-		 
          // Preview tooltip
          scope.previewTooltips.push(id);
       }
       var dnd = new Alfresco.DnD(imgId, scope);
    };
    
+   /**
+    * Default icon resource path string for this view.
+    * @returns {String}
+    */
+   Alfresco.DocumentListSimpleViewRenderer.prototype.getDefaultFolderIcon = function DL_SVR_getDefaultFolderIcon()
+   {
+      return "components/documentlibrary/images/folder-32.png";
+   };
+   /**
+    * Default icon size for this view.
+    * @returns {String}
+    */
+   Alfresco.DocumentListSimpleViewRenderer.prototype.getIconSize = function DL_SVR_getIconSize()
+   {
+      return "32x32";
+   };
    /**
     * Override Alfresco.DocumentListViewRenderer.setupRenderer to setup preview tooltip
     */
