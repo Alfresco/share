@@ -18,6 +18,26 @@
  */
 package org.alfresco.web.site.servlet;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
@@ -25,15 +45,6 @@ import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.ConfigService;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A filter adding HTTP response headers to incoming requests to improve security for the webapp.
@@ -162,6 +173,9 @@ public class SecurityHeadersFilter implements Filter
             {
                 response.setHeader(header.getName(), header.getValue());
             }
+            
+            // Wrap the response object.
+            servletResponse = new CookieCustomisingResponse(response);
         }
 
         // Proceed as usual
@@ -214,6 +228,75 @@ public class SecurityHeadersFilter implements Filter
 
         public void setEnabled(Boolean enabled) {
             this.enabled = enabled;
+        }
+    }
+    
+    /**
+     * Response wrapper that intercepts addCookie() calls and invokes setHttpOnly()
+     * on the cookie.
+     */
+    private static class CookieCustomisingResponse extends HttpServletResponseWrapper
+    {
+        public CookieCustomisingResponse(HttpServletResponse response)
+        {
+            super(response);
+        }
+
+        @Override
+        public void addCookie(Cookie cookie)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("addCookie(<"+cookie.getName()+">) called");
+            }
+            if (httpOnlyRequired(cookie))
+            {
+                setHttpOnly(cookie);
+            }
+            super.addCookie(cookie);
+        }
+
+        /**
+         * Is the httpOnly setting required for this cookie?
+         * 
+         * @param cookie
+         * @return true if httpOnly must be set for this cookie.
+         */
+        private boolean httpOnlyRequired(Cookie cookie)
+        {
+            return !cookie.getName().equals("Alfresco-CSRFToken");
+        }
+
+        /**
+         * Use reflection to access the JEE6 API feature setHttpOnly(boolean), if available.
+         * 
+         * @param cookie
+         */
+        private void setHttpOnly(Cookie cookie)
+        {
+            Class<? extends Cookie> cookieClass = cookie.getClass();
+            try
+            {
+                Method httpOnlyMethod = cookieClass.getMethod("setHttpOnly", boolean.class);
+                httpOnlyMethod.invoke(cookie, true);
+                if (logger.isDebugEnabled())
+                {
+                    logger.debug("Cookie <"+cookie.getName()+"> set to httpOnly.");
+                }
+            }
+            catch (
+                        NoSuchMethodException |
+                        SecurityException |
+                        IllegalAccessException | 
+                        IllegalArgumentException |
+                        InvocationTargetException error)
+            {
+                if (logger.isDebugEnabled())
+                {
+                    logger.debug("Unable to set cookie <"+cookie.getName()+"> to httpOnly.", error);
+                }
+                // We do not have access to such a method, so do nothing.
+            }
         }
     }
 }
