@@ -209,3 +209,33 @@
 {
    background-color: #dceaf4;
 }
+
+.icon-virtual {
+ display: block;
+ height: 22px;
+ padding-left: 20px;
+ background: transparent
+  url(../documentlibrary/images/virtual-folder-16.png) 0 0px no-repeat;
+}
+
+.icon-virtualn {
+ display: block;
+ height: 22px;
+ padding-left: 20px;
+ background: transparent
+  url(../documentlibrary/images/virtual-folder-closed-16.png) 0 0px no-repeat;
+}
+.icon-virtualm {
+ display: block;
+ height: 22px;
+ padding-left: 20px;
+ background: transparent
+  url(../documentlibrary/images/virtual-folder-open-16.png) 0 0px no-repeat;
+}
+.icon-virtualp {
+ display: block;
+ height: 22px;
+ padding-left: 20px;
+ background: transparent
+  url(../documentlibrary/images/virtual-folder-closed-16.png) 0 0px no-repeat;
+}

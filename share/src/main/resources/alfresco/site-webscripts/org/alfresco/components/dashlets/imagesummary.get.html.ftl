@@ -9,6 +9,7 @@
    <#-- JavaScript Dependencies -->
    <@script type="text/javascript" src="${url.context}/res/modules/documentlibrary/global-folder.js"/>
    <@script type="text/javascript" src="${url.context}/res/components/dashlets/imagesummary.js" group="dashlets"/>
+   <@script type="text/javascript" src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="dashlets"/>
 </@>
 
 <@markup id="widgets">

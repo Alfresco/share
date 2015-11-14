@@ -1,5 +1,13 @@
 <#assign compactMode = field.control.params.compactMode!false>
 
+<#-- Assing ["CommonComponentStyle"]["component-style"] configuration value from share-document-library-config.xml to customFolderStyleConfig variable. -->
+<#-- This variable will be set as option for Alfresco.ObjectFinder. -->
+<#assign commonComponentConfig = config.scoped["CommonComponentStyle"]["component-style"]!>
+<#if commonComponentConfig.value??>
+        <#assign tmp = commonComponentConfig.value>
+        <#assign customFolderStyleConfig = tmp!"">
+</#if>
+
 <#macro renderPickerJS field picker="picker">
     <@renderPickerJS field "picker" false/>
 </#macro>
@@ -23,6 +31,7 @@
    {
       <#if form.mode == "view" || (field.disabled && !(field.control.params.forceEditable?? && field.control.params.forceEditable == "true"))>disabled: true,</#if>
       field: "${field.name}",
+      customFolderStyleConfig: <#if customFolderStyleConfig??>${(customFolderStyleConfig!"")}<#else>null</#if>,
       compactMode: ${compactMode?string},
    <#if field.mandatory??>
       mandatory: ${field.mandatory?string},

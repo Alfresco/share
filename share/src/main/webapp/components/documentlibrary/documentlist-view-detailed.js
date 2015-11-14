@@ -44,7 +44,7 @@
     * @return {Alfresco.DocumentListViewRenderer} The new ViewRenderer instance
     * @constructor
     */
-   Alfresco.DocumentListViewRenderer = function(name, parentDocumentList)
+   Alfresco.DocumentListViewRenderer = function(name, parentDocumentList, commonComponentStyle)
    {
       /*
        * Initialise prototype properties
@@ -61,7 +61,14 @@
       this.buttonCssClass = this.name + "-view";
       this.metadataBannerViewName = this.name;
       this.metadataLineViewName = this.name;
-      
+      if (commonComponentStyle != null)
+      {
+         this.folderIconConfig = YAHOO.lang.JSON.parse(commonComponentStyle).browse.folder;
+      }
+      else
+      {
+         this.folderIconConfig = {};
+      }
       return this;
    };
    
@@ -265,7 +272,7 @@
       
          if (isContainer || (isLink && node.linkedNode.isContainer))
          {
-            elCell.innerHTML = '<span class="folder">' + (isLink ? '<span class="link"></span>' : '') + (scope.dragAndDropEnabled ? '<span class="droppable"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + Alfresco.constants.URL_RESCONTEXT + 'components/documentlibrary/images/folder-64.png" /></a>';
+            elCell.innerHTML = '<span class="folder">' + (isLink ? '<span class="link"></span>' : '') + (scope.dragAndDropEnabled ? '<span class="droppable"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + this.getFolderIcon(record.node) + '" /></a>';
             containerTarget = new YAHOO.util.DDTarget(imgId); // Make the folder a target
          }
          else
@@ -273,6 +280,34 @@
             elCell.innerHTML = '<span class="thumbnail">' + (isLink ? '<span class="link"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + Alfresco.DocumentList.generateThumbnailUrl(record) + '" alt="' + extn + '" title="' + $html(name) + '" /></a></span>';
          }
          var dnd = new Alfresco.DnD(imgId, scope);
+      },
+      
+      /**
+       * Returns icon resource URL for specified {node} parameter. 
+       * @param node {object} - container node object
+       * @returns icon resource URL for specified {node} parameter.
+       */
+      getFolderIcon : function DL_VR_getFolderIcon(node)
+      {
+         var filterChain = new Alfresco.CommonComponentIconFilterChain(node, this.folderIconConfig, this.getDefaultFolderIcon(), this.getIconSize());
+         var folderIconStr = filterChain.createIconResourceName();
+         return Alfresco.constants.URL_RESCONTEXT + folderIconStr;
+      },
+      /**
+       * Default icon resource path string for this view.
+       * @returns {String}
+       */
+      getDefaultFolderIcon : function DL_VR_getDefaultFolderIcon()
+      {
+         return "components/documentlibrary/images/folder-64.png";
+      },
+      /**
+       * Default icon size for this view.
+       * @returns {String}
+       */
+      getIconSize : function DL_VR_getIconSize()
+      {
+         return "64x64";
       },
 
       /**

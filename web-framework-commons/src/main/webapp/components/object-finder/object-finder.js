@@ -135,6 +135,12 @@
           * @type string
           */
          field: null,
+         /**
+          * This field contains the share-documentlibrary-config.xml [CommonComponentStyle][component-style] configuration.
+          * 
+          * It can be used to display different icons or styles for desired components.
+          */
+         customFolderStyleConfig: null,
 
          /**
           * The type of the item to find
@@ -2365,6 +2371,34 @@
       {
          return Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIcon(item.name, item.type, size, item.parentType);
       },
+      /**
+       * Generate item icon resource URL.
+       * 
+       * The URL is composed by {Alfresco.constants.URL_RESCONTEXT} +
+       *  - icon resource string path from {style} configuration that corresponds with matching filter from 
+       *     share-documentlibrary-config.xml [CommonComponentStyle][component-style], {browse.folder} component 
+       *  - "components/images/filetypes/generic-folder-{size}.png" if there are no matching filters.
+       *  
+       * @method getFolderIconURL
+       * @param item {object} Item object literal
+       * @param size {number} Icon size (16, 32)
+       */
+      getFolderIconURL : function ObjectRenderer_getFolderIconURL(item, size)
+      {
+         var conf = {};
+         if (this.options.customFolderStyleConfig)
+         {
+            conf = this.options.customFolderStyleConfig.browse.folder;
+         }
+         //default folder icon that will be returned if there are no mathcing filters.
+         var defaultIcon = 'components/images/filetypes/'
+               + Alfresco.util.getFileIcon(item.name, item.type, size, item.parentType);
+         //(icon size will be of form 16x16 or 32x32)
+         var iconSize = size + "x" + size;
+         var filterChain = new Alfresco.CommonComponentIconFilterChain(item, conf, defaultIcon, iconSize);
+         var iconStr = filterChain.createIconResourceName();
+         return Alfresco.constants.URL_RESCONTEXT + iconStr;
+      },
       
       /**
        * Render item using a passed-in template
@@ -2386,7 +2420,15 @@
                {
                   item.parentType = item.parent.type;
                }
-               return '<img src="' + me.getIconURL(item, iconSize) + '" style="border-style:none;"' + '" width="' + iconSize + '" alt="' + $html(item.description) + '" title="' + $html(item.name) + '" />'; 
+               // In case that item.type is a folder the function getFolderIconURL will be used.
+               var fileType = typeof item.type === "string" ? item.type : "cm:content";
+               var iconUrl = me.getIconURL(item, iconSize);
+               var type = Alfresco.util.getFileIcon.types[fileType];
+               if (type === "folder")
+               {
+                  iconUrl = me.getFolderIconURL(item, iconSize);
+               }
+               return '<img src="' + iconUrl + '" style="border-style:none;"' + '" width="' + iconSize + '" alt="' + $html(item.description) + '" title="' + $html(item.name) + '" />'; 
             }
             return $html(p_value);
          };

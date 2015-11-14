@@ -65,9 +65,9 @@
     * @return {Alfresco.DocumentListFilmstripViewRenderer} The new FilmstripViewRenderer instance
     * @constructor
     */
-   Alfresco.DocumentListFilmstripViewRenderer = function(name, parentDocumentList)
+   Alfresco.DocumentListFilmstripViewRenderer = function(name, parentDocumentList, commonComponentStyle)
    {
-      Alfresco.DocumentListFilmstripViewRenderer.superclass.constructor.call(this, name, parentDocumentList);
+      Alfresco.DocumentListFilmstripViewRenderer.superclass.constructor.call(this, name, parentDocumentList, commonComponentStyle);
       this.parentElementIdSuffix = "-filmstrip";
       this.windowResizeCheckTime = FILMSTRIP_WINDOW_RESIZE_CHECK_TIME;
       this.windowResizeMinTime = FILMSTRIP_WINDOW_RESIZE_MIN_TIME;

@@ -85,6 +85,7 @@ function main()
       "components/documentlibrary/toolbar.js",
       "components/documentlibrary/tree.js",
       "components/documentlibrary/documentlist.js",
+      "components/common/common-component-style-filter-chain.js",
       "components/tag-filter/tag-filter.js",
       "components/upload/dnd-upload.js",
       "components/upload/file-upload.js",

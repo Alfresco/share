@@ -11,6 +11,7 @@
    <@script src="${url.context}/res/components/rules/rules-header.js" group="rules"/>
    <@script src="${url.context}/res/modules/documentlibrary/global-folder.js" group="rules"/>
    <@script src="${url.context}/res/modules/rules/rules-picker.js" group="rules"/>
+   <@script src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="rules"/>
 </@>
 
 <@markup id="widgets">

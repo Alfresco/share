@@ -24,7 +24,9 @@ function main()
          replicationUrlMapping : model.replicationUrlMapping != null ? model.replicationUrlMapping : "{}",
          repositoryBrowsing : model.rootNode != null, 
          useTitle : (model.useTitle != null ? model.useTitle == "true" : true),
-         userIsSiteManager : model.userIsSiteManager
+         userIsSiteManager : model.userIsSiteManager,
+         commonComponentStyle : model.commonComponentStyle,
+         suppressComponent : model.suppressComponent
       }
    };
    if (model.repositoryUrl != null)

@@ -1,5 +1,6 @@
 <@script type="text/javascript" src="${url.context}/res/components/documentlibrary/actions.js" group="${dependencyGroup}"/>
 <@script type="text/javascript" src="${url.context}/res/components/documentlibrary/actions-util.js" group="${dependencyGroup}"/>
+<@script type="text/javascript" src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="${dependencyGroup}"/>
 <@script type="text/javascript" src="${url.context}/res/modules/simple-dialog.js" group="${dependencyGroup}"/>
 <@script type="text/javascript" src="${url.context}/res/modules/documentlibrary/global-folder.js" group="${dependencyGroup}"/>
 <@script type="text/javascript" src="${url.context}/res/modules/documentlibrary/copy-move-to.js" group="${dependencyGroup}"/>

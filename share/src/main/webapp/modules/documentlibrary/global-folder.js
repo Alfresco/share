@@ -385,7 +385,8 @@
           * @property templateFailMessage
           * @type {string} text of message to be displayed to the user in a dialogue
           */
-         templateFailMessage: "Could not load 'global-folder' template"
+         templateFailMessage: "Could not load 'global-folder' template",
+         customFolderStyleConfig: null
       },
 
 
@@ -568,6 +569,8 @@
                            userAccess: isSyncSetMemberNode ? false : item.userAccess,
                            style: isSyncSetMemberNode ? "no-permission" : (item.userAccess.create ? "" : "no-permission")
                         }, node, false);
+                        var customStyleClass = this._buildCustomStyleClass(item);
+                        tempNode.customCls = customStyleClass;
 
                         if (!item.hasChildren)
                         {
@@ -1500,6 +1503,25 @@
          });
 
          return url;
+      },
+      
+      /**
+       * Gets resource style specified in the {style} configuration that corresponds with matching filter 
+       * from share-documentlibrary-config.xml [CommonComponentStyle][component-style], {browse.folder} component, or null if the filter does not match.
+       * 
+       * The returned value is used to be set to the treeNode as customCls attribute, used for rendering custom icons in treeView. 
+       * @param p_oData
+       */
+      _buildCustomStyleClass : function DLGF__buildCustomStyleClass(p_oData)
+      {
+         var customStyleClass = null;
+         if (this.options.customFolderStyleConfig)
+         {
+            var filterChain = new Alfresco.CommonComponentStyleFilterChain(p_oData,
+                  this.options.customFolderStyleConfig.browse.folder);
+            customStyleClass = filterChain.createCustomStyle();
+         }
+         return customStyleClass;
       },
 
       /**
