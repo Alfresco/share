@@ -28,7 +28,9 @@ import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogueAikau;
@@ -53,9 +55,10 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     private static final By DESCRIPTION_TEXT = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " textarea[name='description']");
     private static final By AUTHOR_TEXT = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .dijitInputField input[name='author']");
     private static final By BUTTON_CANCEL_CREATE_MODEL = By.cssSelector("div[class='footer']>span>span>span>span.dijitReset.dijitInline.dijitButtonText");
-    private static final By BUTTON_CREATE_MODEL = By.id("CMM_CREATE_MODEL_DIALOG_OK");
+    private static final By BUTTON_CREATE_MODEL = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .footer #CMM_CREATE_MODEL_DIALOG_OK");
     private static final By BUTTON_CANCEL_MODEL = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .footer #CMM_CREATE_MODEL_DIALOG_CANCEL");
-
+    private static final By BUTTON_CREATE_MODEL_CLICKABLE = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .footer #CMM_CREATE_MODEL_DIALOG_OK_label");
+    
     private static final By NAMESPACE_VALIDATION_MESSAGE = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-form-namespace .validation-message.display");
     private static final By NAME_VALIDATION_MESSAGE = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-form-name .validation-message.display");
     private static final By PREFIX_VALIDATION_MESSAGE = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-form-prefix .validation-message.display");
@@ -73,7 +76,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     public CreateNewModelPopUp render()
     {
         RenderTime timer = new RenderTime(maxPageLoadingTime);
-        elementRender(timer, getVisibleRenderElement(SHARE_DIALOGUE_HEADER));
+        elementRender(timer, new RenderElement(SHARE_DIALOGUE_HEADER, ElementState.PRESENT));
         elementRender(
                 timer,
                 getVisibleRenderElement(NAME_SPACE_TEXT),
@@ -107,7 +110,15 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     
     public void setName(String name)
     {
-        this.name.sendKeys(name);
+        PageUtils.checkMandotaryParam("name", name);
+        try
+        {
+            findAndWait(NAME_TEXT).sendKeys(name);
+        }
+        catch (TimeoutException toe)
+        {
+            throw new PageOperationException("Not visible Element: NAME_TEXT", toe);
+        }
     }
 
     /**
@@ -282,17 +293,40 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     /**
      * Select create button in Create New Model Pop up Page
      * 
-     * @deprecated use selectCreateModelButton
      * @param buttonName
      * @return {@link ModelManagerPage Page} page response
      */
     public HtmlPage selectCreateModelButton(String buttonName)
     {
-    	return selectCreateModelButton();
+        PageUtils.checkMandotaryParam("buttonName", buttonName);
+        try
+        {
+            // Get the list of buttons
+            WebElement button = findAndWait(BUTTON_CREATE_MODEL);
+            List<WebElement> clickableButton = button.findElements(BUTTON_CREATE_MODEL_CLICKABLE);
+
+            for (WebElement buttonname : clickableButton)
+            {
+                if (buttonname.getText().equalsIgnoreCase(buttonName) && (buttonname.isDisplayed()))
+                {
+                    buttonname.click();
+                    return getCurrentPage();
+                }
+            }
+        }
+        catch (TimeoutException e)
+        {
+            if (LOGGER.isTraceEnabled())
+            {
+                LOGGER.trace("Unable to select the" + buttonName + "button: ", e);
+            }
+        }
+
+        throw new PageOperationException("Unable to select the" + buttonName + "button");
     }
     /**
      * Select create button in Create New Model Pop up Page
-     * 
+     * @deprecated
      * @param buttonName
      * @return {@link ModelManagerPage Page} page response
      */

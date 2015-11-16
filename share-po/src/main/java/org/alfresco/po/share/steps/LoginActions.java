@@ -79,9 +79,9 @@ public class LoginActions extends CommonActions
         }
         catch (Exception e)
         {
-            String errorMessage = "Failed: Login: " + userInfo[0] + " Password: " + userInfo[1] + " Error: " + e;
-            logger.info(errorMessage);
-            throw new ShareException(errorMessage);
+            String errorMessage = "Failed: Login: " + userInfo[0] + " Password: " + userInfo[1];
+            logger.info(errorMessage, e);
+            throw new ShareException(errorMessage, e);
         }
 
         return sharePage;
