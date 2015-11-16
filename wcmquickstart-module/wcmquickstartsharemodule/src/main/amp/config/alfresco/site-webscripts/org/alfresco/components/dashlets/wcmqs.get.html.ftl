@@ -22,7 +22,7 @@
       </div>      
    <#else>
       <div class="detail-list-item last-item" >
-         <a href="${msg("url.help")}" target="_new">${msg("label.help_link")}</a>
+         <a href="${msg("url.help", context.properties["docsEdition"].value)}" target="_new">${msg("label.help_link")}</a>
       </div>
    </#if>
    
