@@ -84,17 +84,17 @@
          * Sync id, used for filtering.
          * @instance
          * @type {string}
-         * @default null
+         * @default ""
         */
-        ssdId: null,
+        ssdId: "",
           
         /**
          * Sync set def creator username, used for filtering.
          * @instance
          * @type {string}
-         * @default null
+         * @default ""
          */
-        ssdSyncCreator: null,
+        ssdSyncCreator: "",
         
         /**
          * Sync set def that has sync failed aspect, used for filtering.
