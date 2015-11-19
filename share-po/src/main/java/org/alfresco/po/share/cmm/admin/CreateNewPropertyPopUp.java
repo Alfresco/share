@@ -465,7 +465,8 @@ public class CreateNewPropertyPopUp extends ShareDialogueAikau
             WebElement constraintType = findAndWait(CONSTRAINT_FIELD);
             SelectList list = new SelectList(driver, constraintType);
             list.selectValue(value, true);
-//            constraintType.sendKeys(Keys.TAB);
+            // Do not Remove: // Specifically added to get the focus on next field / get it visible if the screen-size limits the PropertyPopup fields displayed
+            constraintType.sendKeys(Keys.TAB);
         }
         catch (TimeoutException toe)
         {
