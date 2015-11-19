@@ -525,7 +525,7 @@ table.dojoDndAvatar tr.dojoDndAvatarItem .alfresco-dnd-DragAndDropTarget .previe
 
 #FORM_EDITOR .buttons {
    background-color: #eee;
-   padding: 6px 2px 1px 0px;
+   padding: 6px 6px 6px 0px;
    text-align: right;
 }
 #FORM_EDITOR .buttons .alfresco-buttons-AlfButton {
@@ -761,7 +761,7 @@ body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.booleanWidget .dojoD
 
 #FORM_EDITOR_CONSOLE .layoutLabel {
    position: absolute;
-   margin-top: 14px;
+   margin: 14px;
    font-size: 13px;
    font-family: 'Open Sans Bold';
 }
