@@ -345,9 +345,18 @@
                return true;
             }
             
+            var encUrl = "";
+            try
+            {
+               encUrl = encodeURI(decodeURI(url));
+            }
+            catch (e)
+            {
+               // ignore invalid URLs - they could be an attack vector or simply junk
+            }
             innerHtml += '<div class="detail"><span class="item"><em style="padding-right: 2px; float: left">' + me.msg("details.url") + ':</em> ' +
                          '<a style="float: left;" class="theme-color-1"' +  (internal ? '' : ' target="_blank" class="external"') + ' href=' + (needHttpPrefix(url) ? 'http://' : '') +
-                         encodeURI(decodeURI(url)) + '>' + $html(url).replace(/'/g, "") + '</a></span></div>';
+                         encUrl + '>' + $html(url).replace(/'/g, "") + '</a></span></div>';
 
             if (!me.options.simpleView)
             {
