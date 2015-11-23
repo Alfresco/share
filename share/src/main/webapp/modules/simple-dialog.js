@@ -242,6 +242,14 @@
           width: "30em",
           
           /**
+           * Allow zIndex to be set.
+           * @property zIndex
+           * @type integer
+           * @default null
+           */
+          zIndex: null,
+
+          /**
            * Clear the form before showing it?
            *
            * @property: clearForm
@@ -490,10 +498,16 @@
          }
 
          // Create and render the YUI dialog
-         this.dialog = Alfresco.util.createYUIPanel(dialogDiv,
-         {
+         var dialogOptions = {
             width: this.options.width
-         });
+         };
+
+         if (this.options.zIndex)
+         {
+            dialogOptions.zIndex = this.options.zIndex;
+         }
+
+         this.dialog = Alfresco.util.createYUIPanel(dialogDiv, dialogOptions);
 
          // Hook close button
          this.dialog.hideEvent.subscribe(this.onHideEvent, null, this);

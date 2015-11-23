@@ -2512,6 +2512,23 @@ Alfresco.util.createYUIPanel = function(p_el, p_params, p_custom)
    // Create and return the panel
    panel = new (custom.type)(p_el, params);
 
+   // Patch YUI's broken bringToTop method. (Spotted while fixing ACE-4629)
+   // bringToTop only considers YUI panels when calculating the highest z-index in use and ignores the specified z-index param.
+   // If the user has specified a z-index, we want to use that if it's higher than the calculated one.
+   if (params.zIndex)
+   {
+      panel._bringToTop = panel.bringToTop;
+      panel.bringToTop = function () {
+         var oldZindex = panel.cfg.getProperty("zindex");
+         panel._bringToTop();
+         var newZindex = panel.cfg.getProperty("zindex");
+         // Highest z-index wins.
+         if (newZindex < oldZindex) {
+            panel.cfg.setProperty("zindex", oldZindex);
+         }
+      }
+   }
+
    if (custom.render)
    {
       panel.render(document.body);

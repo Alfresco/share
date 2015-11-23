@@ -359,6 +359,7 @@
          editDetails.setOptions(
          {
             width: "auto",
+            zIndex: 1001, // This needs to be high so it works in full screen mode
             templateUrl: templateUrl,
             actionUrl: null,
             destroyOnHide: true,
