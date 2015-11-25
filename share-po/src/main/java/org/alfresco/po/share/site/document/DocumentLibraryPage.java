@@ -545,7 +545,13 @@ public class DocumentLibraryPage extends SitePage
     }
 
     /**
-     * Selects an entry regardless of type (file or folder)
+     * Selects an entry regardless of type (file or folder).
+     * The entry selected is based on the name displayed and not the actual
+     * file name hence we are using the function normalize-space().
+     * An example:
+     * An entry may display Hello world.txt but in the html it would be
+     * Hello        world.txt
+     * 
      *
      * @return WebElement
      */
@@ -553,23 +559,30 @@ public class DocumentLibraryPage extends SitePage
     {
         if (title == null || title.isEmpty())
             throw new IllegalArgumentException("Title is required");
-        String xpath = "//h3/span/a[text()='%s']";
+        String xpath = "//h3/span/a[normalize-space(text())='%s']";
 
         switch (viewType)
         {
             case TABLE_VIEW:
-                xpath = "//td[contains(@class,'yui-dt-col-name')]/div/span/a[text()='%s']";
+                xpath = "//td[contains(@class,'yui-dt-col-name')]/div/span/a[normalize-space(text())='%s']";
                 break;
-            case DETAILED_VIEW:    
-                xpath = "//a[text()='%s']";
-                break;                
+            case DETAILED_VIEW:
+                xpath = "//a[normalize-space(text())=\"%s\"]";
+                break;
             default:
                 break;
         }
 
         if(title == null || title.isEmpty()) {throw new IllegalArgumentException("Title is required");}
         String search = String.format(xpath, title);
-        return findAndWait(By.xpath(search), getDefaultWaitTime());
+        try
+        {
+            return findAndWait(By.xpath(search), getDefaultWaitTime());
+        }
+        catch(Exception e)
+        {
+            throw new NoSuchElementException("Unabel to find element, query: " + search);
+        }
     }
 
     /**
