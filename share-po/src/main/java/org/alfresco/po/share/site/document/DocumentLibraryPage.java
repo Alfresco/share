@@ -710,7 +710,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public HtmlPage selectNextPage()
     {
-        Pagination pagination = (Pagination)factoryPage.instantiatePage(driver,Pagination.class);
+        Pagination pagination = (Pagination)factoryPage.instantiatePageElement(driver,Pagination.class);
         return pagination.selectPaginationButton(driver, PAGINATION_BUTTON_NEXT);
     }
 
@@ -719,7 +719,7 @@ public class DocumentLibraryPage extends SitePage
      */
     public HtmlPage selectPreviousPage()
     {
-        Pagination pagination = (Pagination)factoryPage.instantiatePage(driver,Pagination.class);
+        Pagination pagination = (Pagination)factoryPage.instantiatePageElement(driver,Pagination.class);
         return pagination.selectPaginationButton(driver, PAGINATION_BUTTON_PREVIOUS);
     }
 
