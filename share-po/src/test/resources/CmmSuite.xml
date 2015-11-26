@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
 <suite name="Share-CMM Suite" verbose="6" preserve-order="true" parallel="classes" thread-count="1">	
 	<tests>
 		<test name="NavigationTest">
