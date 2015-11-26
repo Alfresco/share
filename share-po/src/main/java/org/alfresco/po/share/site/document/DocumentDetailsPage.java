@@ -153,6 +153,12 @@ public class DocumentDetailsPage extends DetailsPage
                     // upload dialog should not be displayed.
                     if (!driver.findElement(By.cssSelector("div.yui-dt-bd")).isDisplayed())
                     {
+                        //If edit offline mode then version will not be displayed
+                        if(isEditOfflineDisplayed())
+                        {
+                            docVersionOnScreen = "";
+                            break;
+                        }
                         docVersionOnScreen = findAndWait(By.cssSelector(DOCUMENT_VERSION_PLACEHOLDER)).getText().trim();
                         // If the text is not what we expect it to be, then repeat
                         if (this.previousVersion != null && docVersionOnScreen.equals(this.previousVersion))
@@ -266,7 +272,7 @@ public class DocumentDetailsPage extends DetailsPage
     {
         try
         {
-            return findAndWait(By.cssSelector("span.editing")).isDisplayed();
+            return driver.findElement(By.cssSelector("span.editing")).isDisplayed();
         }
         catch (NoSuchElementException e)
         {
