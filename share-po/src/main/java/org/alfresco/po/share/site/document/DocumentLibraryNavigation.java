@@ -160,7 +160,7 @@ public class DocumentLibraryNavigation extends PageElement
             By criteria = By.cssSelector(CREATE_NEW_FOLDER_BUTTON);
             return driver.findElement(criteria).isEnabled();
         }
-        catch (TimeoutException e)
+        catch (NoSuchElementException e)
         {
             return false;
         }
