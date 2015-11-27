@@ -168,10 +168,8 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
         // Create Properties without Default
         cmmActions.createProperty(driver, propertyNoDef + "t", propertyNoDef + "t", "", DataType.Text, MandatoryClassifier.Mandatory, false, "");
         cmmActions.createProperty(driver, propertyNoDef + "ml", propertyNoDef + "ml", "", DataType.MlText, MandatoryClassifier.Optional, false, "");
-        // SHA: 787, 1260: Removal of cm:content from the Property data types
-        cmmActions.createProperty(driver, propertyNoDef + "con", propertyNoDef + "con", "", DataType.MlTextContent, MandatoryClassifier.Optional, false, "");
-
-        cmmActions.createProperty(driver, propertyNoDef + "bool", propertyNoDef + "bool", "", DataType.Boolean, MandatoryClassifier.MANDATORYENF, false, "");
+        
+        cmmActions.createProperty(driver, propertyNoDef + "bool", propertyNoDef + "bool", "", DataType.Boolean, MandatoryClassifier.Mandatory, false, "");
 
         cmmActions.createProperty(driver, propertyNoDef + "int", propertyNoDef + "int", "", DataType.Int, MandatoryClassifier.Mandatory, false, "");
         cmmActions.createProperty(driver, propertyNoDef + "dbl", propertyNoDef + "dbl", "", DataType.Double, MandatoryClassifier.Mandatory, false, "");
@@ -190,7 +188,7 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
     @Test(groups = { "Enterprise-only" }, priority = 2)
     public void testCreatePropertiesWithDefaultsTest() throws Exception
     {
-        String dateTime = "31-12-2016 15:05:50";
+        String dateTime = "01-12-2016";
 
         // Visit properties via Aspect
         mmp = cmmActions.navigateToModelManagerPage(driver).render();
@@ -200,18 +198,16 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
         // Create Properties without Default
         cmmActions.createProperty(driver, propertyDef + "t", propertyDef + "t", "", DataType.Text, MandatoryClassifier.Mandatory, false, "text");
         cmmActions.createProperty(driver, propertyDef + "ml", propertyDef + "ml", "", DataType.MlText, MandatoryClassifier.Optional, false, "mlText");
-        // SHA: 787, 1260: Removal of cm:content from the Property data types
-        cmmActions.createProperty(driver, propertyDef + "con", propertyDef + "con", "", DataType.MlTextContent, MandatoryClassifier.Optional, false, "content");
-
-        cmmActions.createProperty(driver, propertyDef + "bool", propertyDef + "bool", "", DataType.Boolean, MandatoryClassifier.MANDATORYENF, false, "true");
+        
+        cmmActions.createProperty(driver, propertyDef + "bool", propertyDef + "bool", "", DataType.Boolean, MandatoryClassifier.Mandatory, false, "False");
 
         cmmActions.createProperty(driver, propertyDef + "int", propertyDef + "int", "", DataType.Int, MandatoryClassifier.Mandatory, false, "0");
         cmmActions.createProperty(driver, propertyDef + "dbl", propertyDef + "dbl", "", DataType.Double, MandatoryClassifier.Mandatory, false, "-37.5");
         cmmActions.createProperty(driver, propertyDef + "fl", propertyDef + "fl", "", DataType.Float, MandatoryClassifier.Mandatory, false, "3.142");
         cmmActions.createProperty(driver, propertyDef + "long", propertyDef + "long", "", DataType.Long, MandatoryClassifier.Mandatory, false, "999999999");
 
-        cmmActions.createProperty(driver, propertyDef + "dt", propertyDef + "dt", "", DataType.Date, MandatoryClassifier.Mandatory, false, "12/12/2012");
-        cmmActions.createProperty(driver, propertyDef + "dtm", propertyDef + "dttm", "", DataType.DateTime, MandatoryClassifier.Mandatory, false, dateTime);
+        cmmActions.createProperty(driver, propertyDef + "dt", propertyDef + "dt", "", DataType.Date, MandatoryClassifier.Mandatory, false, getAikauDateEntryDMY());
+        cmmActions.createProperty(driver, propertyDef + "dtm", propertyDef + "dttm", "", DataType.DateTime, MandatoryClassifier.Mandatory, false, getAikauDateEntryDMY());
     }
 
     /**
@@ -219,7 +215,7 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
      * 
      * @throws Exception the exception
      */
-    @Test(groups = { "Enterprise-only" }, priority = 3, dependsOnMethods = "testCreatePropertiesNoDefaultsTest", enabled = false)
+    @Test(groups = { "Enterprise-only" }, priority = 3, dependsOnMethods = "testCreatePropertiesNoDefaultsTest")
     public void testEditPropertiesNoDefaultsTest() throws Exception
     {
         String compoundPropName = name + ":" + propertyNoDef;
@@ -250,18 +246,7 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
                 MandatoryClassifier.Optional,
                 false,
                 "");
-        // SHA: 787, 1260: Removal of cm:content from the Property data types
-        cmmActions.editProperty(
-                driver,
-                compoundTypeName,
-                compoundPropName + "con",
-                compoundPropName + "con",
-                "",
-                DataType.MlTextContent,
-                MandatoryClassifier.Optional,
-                false,
-                "");
-
+        
         cmmActions.editProperty(
                 driver,
                 compoundTypeName,
@@ -269,7 +254,7 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
                 compoundPropName + "bool",
                 "",
                 DataType.Boolean,
-                MandatoryClassifier.MANDATORYENF,
+                MandatoryClassifier.Mandatory,
                 false,
                 "");
 
@@ -345,13 +330,13 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
      * 
      * @throws Exception
      */
-    @Test(groups = { "Enterprise-only" }, priority = 4, dependsOnMethods = "testCreatePropertiesWithDefaultsTest", enabled = false)
+    @Test(groups = { "Enterprise-only" }, priority = 4, dependsOnMethods = "testCreatePropertiesWithDefaultsTest")
     public void testEditPropertiesWithDefaultsTest() throws Exception
     {
         String compoundpropName = name + ":" + propertyDef;
 
-        String dateTime = "31-12-2016 15:05:50";
-
+        String dateTime = "01/02/2016";
+        
         // Visit properties via Aspect
         mmp = cmmActions.navigateToModelManagerPage(driver).render();
         mtaap = mmp.selectCustomModelRowByName(name).render();
@@ -380,18 +365,6 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
                 false,
                 "mlText");
 
-        // SHA: 787, 1260: Removal of cm:content from the Property data types
-        cmmActions.editProperty(
-                driver,
-                compoundPGName,
-                compoundpropName + "con",
-                compoundpropName + "con",
-                "",
-                DataType.MlTextContent,
-                MandatoryClassifier.Optional,
-                false,
-                "content");
-
         cmmActions.editProperty(
                 driver,
                 compoundPGName,
@@ -399,9 +372,9 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
                 compoundpropName + "bool",
                 "",
                 DataType.Boolean,
-                MandatoryClassifier.MANDATORYENF,
+                MandatoryClassifier.Mandatory,
                 false,
-                "true");
+                "True");
 
         cmmActions.editProperty(
                 driver,
@@ -456,18 +429,18 @@ public class CreateEditPropertyPopUpDefaultValueTest extends AbstractTestCMM
                 DataType.Date,
                 MandatoryClassifier.Mandatory,
                 false,
-                "12/12/2012");
+                getAikauDateEntryDMY());
 
         cmmActions.editProperty(
                 driver,
                 compoundPGName,
-                compoundpropName + "dtm",
+                compoundpropName + "dt",
                 compoundpropName + "dttm",
                 "",
                 DataType.DateTime,
                 MandatoryClassifier.Mandatory,
                 false,
-                dateTime);
+                getAikauDateEntryDMY());
     }
 
 }
