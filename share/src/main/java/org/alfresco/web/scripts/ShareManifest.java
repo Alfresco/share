@@ -21,6 +21,7 @@ package org.alfresco.web.scripts;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +91,15 @@ public class ShareManifest extends BaseProcessorExtension
      */
     public String mainAttributeValue(String key)
     {
-        return manifest.getMainAttributes().getValue(key);
+        String value = null;
+        
+        Attributes attributes = manifest.getMainAttributes();
+        if (attributes != null)
+        {
+            value = attributes.getValue(key);
+        }
+        
+        return value;
     }
     
     /**
@@ -118,7 +127,15 @@ public class ShareManifest extends BaseProcessorExtension
      */
     public List<String> mainAttributeNames()
     {
-        return namesToStrings(manifest.getMainAttributes().keySet());
+        List<String> names = Collections.emptyList();
+
+        Attributes attributes = manifest.getMainAttributes();
+        if (attributes != null)
+        {
+            names = namesToStrings(attributes.keySet());
+        }
+        
+        return names;
     }
     
     /**
@@ -130,7 +147,15 @@ public class ShareManifest extends BaseProcessorExtension
      */
     public String attributeValue(String section, String key)
     {
-        return manifest.getAttributes(section).getValue(key);
+        String value = null;
+        
+        Attributes attributes = manifest.getAttributes(section);
+        if (attributes != null)
+        {
+            value = attributes.getValue(key);
+        }
+        
+        return value;
     }
     
     /**
@@ -159,7 +184,15 @@ public class ShareManifest extends BaseProcessorExtension
      */
     public List<String> attributeNames(String section)
     {
-        return namesToStrings(manifest.getAttributes(section).keySet());
+        List<String> names = Collections.emptyList();
+
+        Attributes attributes = manifest.getAttributes(section);
+        if (attributes != null)
+        {
+            names = namesToStrings(attributes.keySet());
+        }
+        
+        return names;
     }
     
     /**
@@ -171,8 +204,6 @@ public class ShareManifest extends BaseProcessorExtension
     {
         return manifest.getEntries().keySet();
     }
-    
-    
     
     protected List<String> namesToStrings(Set<Object> names)
     {
