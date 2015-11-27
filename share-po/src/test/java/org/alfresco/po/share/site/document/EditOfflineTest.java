@@ -85,7 +85,12 @@ public class EditOfflineTest extends AbstractDocumentTest
     @Test(groups="alfresco-one", dependsOnMethods = "selectEditOffline")
     public void isEdited() throws Exception
     {
-        assertTrue(documentLibPage.getFileDirectoryInfo(fileName).isEdited());
+        FileDirectoryInfo row = documentLibPage.getFileDirectoryInfo(fileName);
+        assertTrue(row.isEdited());
+        DocumentDetailsPage detailsPage = row.clickOnTitle().render();
+        assertTrue(detailsPage.isEditOfflineDisplayed());
+        detailsPage.getSiteNav().selectDocumentLibrary().render();
+        
     }
 
     /**
@@ -98,5 +103,9 @@ public class EditOfflineTest extends AbstractDocumentTest
     {
         documentLibPage = documentLibPage.getFileDirectoryInfo(fileName).selectCancelEditing().render();
         assertFalse(documentLibPage.getFileDirectoryInfo(fileName).isEdited());
+        FileDirectoryInfo row = documentLibPage.getFileDirectoryInfo(fileName);
+        DocumentDetailsPage detailsPage = row.clickOnTitle().render();
+        assertFalse(detailsPage.isEditOfflineDisplayed());
+        detailsPage.getSiteNav().selectDocumentLibrary().render();
     }
 }
