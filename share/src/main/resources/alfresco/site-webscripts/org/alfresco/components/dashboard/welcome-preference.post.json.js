@@ -9,7 +9,7 @@ function main()
    var clientJSON = JSON.parse(clientRequest);
    
    var welcomePanelEnabled = decodeURIComponent(clientJSON.welcomePanelEnabled);
-   var dashboardPage = "user/" + encodeURIComponent(user.name) + "/dashboard";
+   var dashboardPage = "user/" + user.name + "/dashboard";
    var welcomePanelRegionId = "full-width-dashlet";
    
    if (welcomePanelEnabled == "true")
