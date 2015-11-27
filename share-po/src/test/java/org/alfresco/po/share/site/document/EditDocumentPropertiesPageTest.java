@@ -60,6 +60,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
     private String title;
     private File file;
     private File file2;
+    private File file3;
     private String tagName;
     DashBoardPage dashBoard;
     SiteDashboardPage site;
@@ -92,7 +93,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
         title = "";
         tagName = siteName;
 
-        File file = siteUtil.prepareFile();
+//        File file = siteUtil.prepareFile();
         fileName = file.getName();
         loginAs(username, password);
         SharePage page = resolvePage(driver).render();
@@ -109,6 +110,14 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
         upLoadPage = docPage.getNavigation().selectFileUpload().render();
         docPage = upLoadPage.uploadFile(file2.getCanonicalPath()).render();
 
+        file3 = siteUtil.prepareFile("My      funky file");
+        upLoadPage = docPage.getNavigation().selectFileUpload().render();
+        docPage = upLoadPage.uploadFile(file3.getCanonicalPath()).render();
+        String funky = file3.getName();
+        String[] l = funky.split("e");
+        DocumentDetailsPage p = docPage.selectFile("My funky file"+l[1]).render();
+        p.getSiteNav().selectDocumentLibrary().render();
+        p = docPage.selectFile("My      funky file"+l[1]).render();
         docPage.selectFile(fileName).render();
     }
 
