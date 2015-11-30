@@ -18,12 +18,7 @@
  */
 package org.alfresco.po;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
+import com.google.common.base.Predicate;
 import org.alfresco.po.exception.ElementExpectedConditions;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.exception.PageRenderTimeException;
@@ -32,14 +27,7 @@ import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -48,10 +36,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import com.google.common.base.Predicate;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Abstract that holds all common functions and helper method
@@ -255,7 +246,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
         }
         catch (RuntimeException re)
         {
-            throw new NoSuchElementException("Unable to locate element " + by);
+            throw new TimeoutException("Unable to locate element " + by);
         }
 
     }
