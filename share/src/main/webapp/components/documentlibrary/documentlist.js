@@ -479,7 +479,6 @@
       };
       this.actions = {};
       this.selectedFiles = {};
-      this.selectedFilesData = {};
       this.afterDocListUpdate = [];
       this.doclistMetadata = {};
       this.previewTooltips = [];
@@ -1110,14 +1109,6 @@
        * @type object
        */
       selectedFiles: null,
-
-      /**
-       * Object file data for visible files (indexed by nodeRef).
-       *
-       * @property selectedFiles
-       * @type object
-       */
-      selectedFilesData: null,
 
       /**
        * Current actions menu being shown
@@ -3150,7 +3141,6 @@
       getSelectedFiles: function DL_getSelectedFiles()
       {
          var files = [],
-            currentPageAddedNodes = {},
             oRecordSet = this.widgets.dataTable.getRecordSet(),
             oRecord, node, i, j;
 
@@ -3161,44 +3151,10 @@
             if (this.selectedFiles[node.nodeRef])
             {
                files.push(oRecord.getData());
-               //set node as beeing seleted on current page
-               currentPageAddedNodes[node.nodeRef] = true;
-               this.selectedFilesData[node.nodeRef] = oRecord.getData();
             }
-            else 
-            {
-                //remove node from selectFiles as is no longer selected
-                delete this.selectedFiles[node.nodeRef];
-                //also remove node data
-                delete this.selectedFilesData[node.nodeRef];
-                
-            }
-         }
-         
-         //check selected nodes from other than current page and add them if selected
-         for (var key in this.selectedFiles)
-         {
-             if (!currentPageAddedNodes[key])
-             {
-                 if (this.selectedFiles[key])
-                 {
-                     files.push(this.selectedFilesData[key]);
-                 } 
-                 else 
-                 {
-                     delete this.selectedFilesData[key];
-                 }
-             }
          }
 
          return files;
-      },
-
-      //removes selected files and selected files data from all pages
-      resetSelectedFiles: function DL_resetSelectedFiles()
-      {
-          this.selectedFiles = {};
-          this.selectedFilesdData = {};
       },
 
       /**
@@ -3275,14 +3231,6 @@
             oRecord = oRecordSet.getRecord(i);
             record = oRecord.getData();
             this.selectedFiles[record.nodeRef] = checks[i].checked = fnCheck(record, checks[i].checked);
-            if (this.selectedFiles[record.nodeRef])
-            {
-                this.selectedFilesData[record.nodeRef] = record;
-            } else 
-            {
-                delete this.selectedFilesData[record.nodeRef];
-            }
-            
          }
 
          YAHOO.Bubbling.fire("selectedFilesChanged");
