@@ -305,6 +305,26 @@ public class SiteNavigation extends AbstractSiteNavigation
     }
 
     /**
+     * Mimics the action of join Site.
+     * 
+     * @return {@link DashBoardPage}
+     */
+    public HtmlPage joinSite()
+    {
+        try
+        {
+            selectConfigure();
+            driver.findElement(JOIN_SITE).click();
+            driver.findElement(By.xpath("//span[text()='OK']")).click();
+            return getCurrentPage();
+        }
+        catch (TimeoutException te)
+        {
+        }
+        throw new PageException("Not able to find Join Site Link.");
+    }
+
+    /**
      * Mimics the action of leave Site.
      * 
      * @return {@link CustomizeSitePage}
