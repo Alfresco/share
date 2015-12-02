@@ -82,5 +82,16 @@
 				<class name="org.alfresco.po.share.cmm.ValidateModelTest" />
 			</classes>
 		</test>
+		<test name="CreateNewCustomTypePopUpTest">
+			<classes>
+				<class name="org.alfresco.po.share.cmm.CreateNewCustomTypePopUpTest" />
+			</classes>
+		</test>
+		<test name="CreateEditPropertyPopUpDefaultValueTest">
+			<classes>
+				<class name="org.alfresco.po.share.cmm.CreateEditPropertyPopUpDefaultValueTest" />
+			</classes>
+		</test>
+		
 	</tests>
 </suite>
