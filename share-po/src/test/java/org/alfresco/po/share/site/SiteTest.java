@@ -248,8 +248,8 @@ public class SiteTest extends AbstractTest
         
         //Check that non-member user can request to join moderated site
         dashBoard = siteDashboardPage.getSiteNav().joinSite().render();
-        Assert.assertTrue(dashBoard.getPageTitle().indexOf(testuser) != -1);
-        Assert.assertTrue(dashBoard.getPageTitle().indexOf("Dashboard") != -1);
+        Assert.assertTrue(dashBoard.getPageTitle().contains(testuser));
+        Assert.assertTrue(dashBoard.getPageTitle().contains("Dashboard"));
         logout(driver);
     	dashBoard = loginAs(username, password);
     }
