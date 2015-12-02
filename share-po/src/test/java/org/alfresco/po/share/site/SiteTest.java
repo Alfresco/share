@@ -14,10 +14,13 @@
  */
 package org.alfresco.po.share.site;
 
+import static org.testng.Assert.*;
+
 import java.io.IOException;
 import java.util.List;
 
 import org.alfresco.po.AbstractTest;
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.SharePopup;
@@ -46,7 +49,7 @@ public class SiteTest extends AbstractTest
 {
     private String siteName;
     private String privateSiteName;
-    private String moderateSiteName;
+    private String moderatedSiteName;
     private String privateModSiteName;
     private String publicSiteNameLabel;
     private String moderatedSiteNameLabel;
@@ -54,13 +57,14 @@ public class SiteTest extends AbstractTest
 
     DashBoardPage dashBoard;
     String testuser = "testuser" + System.currentTimeMillis();
+    String testuser2 = "testuser2" + System.currentTimeMillis();
 
     @BeforeTest(groups = "alfresco-one")
     public void setup()
     {
         siteName = String.format("test-%d-site-crud", System.currentTimeMillis());
         privateSiteName = "private-" + siteName;
-        moderateSiteName = "mod-" + siteName;
+        moderatedSiteName = "mod-" + siteName;
         privateModSiteName = "privateMod-" + siteName;
         publicSiteNameLabel = "publicSiteNameLabel" + System.currentTimeMillis();
         moderatedSiteNameLabel = "moderatedSiteNameLabel" + System.currentTimeMillis();
@@ -87,7 +91,7 @@ public class SiteTest extends AbstractTest
             // Ignore as site has already been removed notification.
         }
         siteUtil.deleteSite(username, password, privateSiteName);
-        siteUtil.deleteSite(username, password, moderateSiteName);
+        siteUtil.deleteSite(username, password, moderatedSiteName);
         siteUtil.deleteSite(username, password, privateModSiteName);
         siteUtil.deleteSite(username, password, publicSiteNameLabel);
         siteUtil.deleteSite(username, password, moderatedSiteNameLabel);
@@ -214,12 +218,27 @@ public class SiteTest extends AbstractTest
     public void createPublicModerateSite()
     {
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
-        SiteDashboardPage site = createSite.createModerateSite(moderateSiteName).render();
-        Assert.assertTrue(moderateSiteName.equalsIgnoreCase(site.getPageTitle()));
+        SiteDashboardPage site = createSite.createModerateSite(moderatedSiteName).render();
+        Assert.assertTrue(moderatedSiteName.equalsIgnoreCase(site.getPageTitle()));
         EditSitePage siteDetails = site.getSiteNav().selectEditSite().render();
         Assert.assertFalse(siteDetails.isPrivate());
         Assert.assertTrue(siteDetails.isModerate());
         siteDetails.cancel();
+    }
+    
+    @Test(dependsOnMethods = "createPublicModeratedSite")
+    public void nonMemberCanJoinModeratedSite() throws Exception
+    {
+        createEnterpriseUser(testuser2);
+        DashBoardPage user2Dash = loginAs(username, password);
+        SiteFinderPage siteFinder = user2Dash.getNav().selectSearchForSites().render();
+        siteFinder = siteFinder.searchForSite(moderatedSiteName).render();
+        siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, moderatedSiteName);
+        SiteDashboardPage siteDash = siteFinder.selectSite(siteName).render();
+        Assert.assertTrue(moderatedSiteName.equalsIgnoreCase(siteDash.getPageTitle()));
+        HtmlPage htmlPage = siteDash.getSiteNav().joinSite();
+        assertTrue(htmlPage instanceof DashBoardPage, "User was able to join the site");
+        assertEquals(user2Dash.getPageTitle(), htmlPage.getTitle());
     }
 
     @Test(dependsOnMethods = "createPublicModerateSite")

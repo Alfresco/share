@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  * This file is part of Alfresco
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -39,6 +39,7 @@ public abstract class AbstractSiteNavigation extends SharePage
     
     
     protected static final By LEAVE_SITE = By.cssSelector("#HEADER_LEAVE_SITE_text");
+    protected static final By JOIN_SITE = By.cssSelector("#HEADER_JOIN_SITE_text");
     protected static final By MORE_BUTTON_LINK = By.cssSelector(".links>div>div>ul>li>a");
     protected static final String SITE_DASHBOARD = "Site Dashboard";
     protected static final String DASHBOARD = "Dashboard";
