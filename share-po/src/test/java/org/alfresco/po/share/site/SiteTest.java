@@ -110,6 +110,7 @@ public class SiteTest extends AbstractTest
      * 
      * @throws Exception if error
      */
+    
     @Test
     public void createSite() throws Exception
     {
@@ -131,7 +132,8 @@ public class SiteTest extends AbstractTest
         Assert.assertTrue(site.getSiteNav().isDashboardDisplayed());
         Assert.assertTrue(site.getSiteNav().isSelectSiteMembersDisplayed());
     }
-
+    
+    
     @Test(dependsOnMethods = "createSite")
     public void createDuplicateSite() throws Exception
     {
@@ -147,6 +149,7 @@ public class SiteTest extends AbstractTest
         }
         createSite.cancel();
     }
+    
 
     @Test(dependsOnMethods = "createDuplicateSite")
     public void checkSiteNavigation()
@@ -166,6 +169,7 @@ public class SiteTest extends AbstractTest
         Assert.assertTrue(docPage.getSiteNav().isDashboardActive());
         Assert.assertFalse(docPage.getSiteNav().isDocumentLibraryActive());
     }
+    
 
     @Test(dependsOnMethods = "checkSiteNavigation")
     public void searchForSiteThatDoesntExists()
@@ -195,6 +199,8 @@ public class SiteTest extends AbstractTest
         List<String> sites = siteFinder.getSiteList();
         Assert.assertFalse(sites.contains(siteName));
     }
+
+
 
     @Test(dependsOnMethods = "searchForSiteThatDoesntExists")
     public void createPrivateSite()
@@ -226,23 +232,30 @@ public class SiteTest extends AbstractTest
         siteDetails.cancel();
     }
     
-    @Test(dependsOnMethods = "createPublicModeratedSite")
+    @Test(dependsOnMethods = "createPublicModerateSite")
     public void nonMemberCanJoinModeratedSite() throws Exception
     {
-        createEnterpriseUser(testuser2);
-        DashBoardPage user2Dash = loginAs(username, password);
-        SiteFinderPage siteFinder = user2Dash.getNav().selectSearchForSites().render();
+    	logout(driver);
+    	dashBoard = loginAs(testuser, "password");
+        SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(moderatedSiteName).render();
         siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, moderatedSiteName);
-        SiteDashboardPage siteDash = siteFinder.selectSite(siteName).render();
-        Assert.assertTrue(moderatedSiteName.equalsIgnoreCase(siteDash.getPageTitle()));
-        HtmlPage htmlPage = siteDash.getSiteNav().joinSite();
-        assertTrue(htmlPage instanceof DashBoardPage, "User was able to join the site");
-        assertEquals(user2Dash.getPageTitle(), htmlPage.getTitle());
+        SiteDashboardPage siteDashboardPage = (SiteDashboardPage)siteFinder.selectSite(moderatedSiteName);
+        
+        //Check that moderated site dashboard header with site name is displayed
+        Assert.assertEquals(siteDashboardPage.getPageTitle(), moderatedSiteName);
+        Assert.assertEquals(siteDashboardPage.getPageTitleLabel(), "Moderated");
+        
+        //Check that non-member user can request to join moderated site
+        dashBoard = siteDashboardPage.getSiteNav().joinSite().render();
+        Assert.assertTrue(dashBoard.getPageTitle().indexOf(testuser) != -1);
+        Assert.assertTrue(dashBoard.getPageTitle().indexOf("Dashboard") != -1);
+        logout(driver);
+    	dashBoard = loginAs(username, password);
     }
 
-    @Test(dependsOnMethods = "createPublicModerateSite")
-    public void createPrivateModerateSiteShouldYeildPrivateSite()
+    @Test(dependsOnMethods = "nonMemberCanJoinModeratedSite")
+    public void createPrivateModerateSiteShouldYeildPrivateSite() throws Exception
     {
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
         SiteDashboardPage site = createSite.createNewSite(privateModSiteName, null, true, true).render();
