@@ -390,7 +390,8 @@
    <bean id="css.data.image.handler" parent="css.data.image.handler.abstract" class="org.springframework.extensions.surf.CssImageDataHandler"/>
    <bean id="css.data.image.handler.abstract" abstract="true">
        <property name="dependencyHandler" ref="dependency.handler" />
-       <property name="maximumImageSize" value="10485760" />
+       <!-- Maximum size in bytes of an image binary before encoding is skipped i.e. ignore images this size and larger -->
+       <property name="maximumImageSize" value="10240" />
        <!-- Mimetypes to be included in data image processing - but require remapping from filename extension to a valid data image mimetype -->
        <property name="remapMimetypes">
           <map>
