@@ -147,7 +147,7 @@ public class Navigation extends PageElement
         }
     }
 
-    @FindBy(id = "HEADER_USER_MENU_BAR")
+    @FindBy(id = "HEADER_USER_MENU_POPUP")
     WebElement userDropdown;
 
     /**

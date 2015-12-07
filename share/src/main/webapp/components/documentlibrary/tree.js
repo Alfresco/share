@@ -121,7 +121,9 @@
           * @type boolean
           * @default false
           */
-         setDropTargets: false
+         setDropTargets: false,
+         
+         customFolderStyleConfig: null
       },
       
       /**
@@ -250,6 +252,8 @@
                   * in the response object
                   */
                   oResponse.argument.fnLoadComplete();
+
+                  YAHOO.Bubbling.fire("docLibTreeLoadComplete");
                },
 
                // If the XHR call is not successful, fire the TreeView callback anyway
@@ -1101,15 +1105,36 @@
        * @param p_expanded {object} Optional expanded/collaped state flag
        * @return {YAHOO.widget.TextNode} The new tree node
        */
-      _buildTreeNode: function DLT__buildTreeNode(p_oData, p_oParent, p_expanded)
+      _buildTreeNode : function DLT__buildTreeNode(p_oData, p_oParent, p_expanded)
       {
-         return new YAHOO.widget.TextNode(
+         var treeNode = new YAHOO.widget.TextNode(
          {
-            label: p_oData.name,
-            path: p_oData.path,
-            nodeRef: p_oData.nodeRef,
-            description: p_oData.description
+            label : p_oData.name,
+            path : p_oData.path,
+            nodeRef : p_oData.nodeRef,
+            description : p_oData.description
          }, p_oParent, p_expanded);
+         var customStyleClass = this._buildCustomStyleClass(p_oData);
+         treeNode.customCls = customStyleClass;
+         return treeNode;
+      },
+      /**
+       * Gets resource style specified in the {style} configuration that corresponds with matching filter 
+       * from share-documentlibrary-config.xml [CommonComponentStyle][component-style], {browse.folder} component, or null if the filter does not match.
+       * 
+       * The returned value is used to be set to the treeNode as customCls attribute, used for rendering custom icons in treeView. 
+       * @param p_oData
+       */
+      _buildCustomStyleClass : function DLT__buildCustomStyleClass(p_oData)
+      {
+         var customStyleClass = null;
+         if (this.options.customFolderStyleConfig)
+         {
+            var filterChain = new Alfresco.CommonComponentStyleFilterChain(p_oData,
+                  this.options.customFolderStyleConfig.browse.folder);
+            customStyleClass = filterChain.createCustomStyle();
+         }
+         return customStyleClass;
       },
 
       /**

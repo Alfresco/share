@@ -52,9 +52,9 @@
     * @return {Alfresco.DocumentListTableViewRenderer} The new TableViewRenderer instance
     * @constructor
     */
-   Alfresco.DocumentListTableViewRenderer = function(name, parentDocumentList, jsonConfig)
+   Alfresco.DocumentListTableViewRenderer = function(name, parentDocumentList, commonComponentStyle, jsonConfig)
    {
-      Alfresco.DocumentListTableViewRenderer.superclass.constructor.call(this, name, parentDocumentList);
+      Alfresco.DocumentListTableViewRenderer.superclass.constructor.call(this, name, parentDocumentList, commonComponentStyle);
       this.actionsColumnWidth = 160;
       this.actionsSplitAtModifier = 0;
       if (jsonConfig != null)
@@ -258,7 +258,7 @@
    
       if (isContainer)
       {
-         elCell.innerHTML = '<span class="folder-small">' + (isLink ? '<span class="link"></span>' : '') + (scope.dragAndDropEnabled ? '<span class="droppable"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + Alfresco.constants.URL_RESCONTEXT + 'components/documentlibrary/images/folder-32.png" /></a>';
+         elCell.innerHTML = '<span class="folder-small">' + (isLink ? '<span class="link"></span>' : '') + (scope.dragAndDropEnabled ? '<span class="droppable"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + this.getFolderIcon(record.node) + '" /></a>';
       }
       else
       {
@@ -269,7 +269,22 @@
          scope.previewTooltips.push(id);
       }
    };
-   
+   /**
+    * Default icon resource path string for this view.
+    * @returns {String}
+    */
+   Alfresco.DocumentListTableViewRenderer.prototype.getDefaultFolderIcon = function DL_SVR_getDefaultFolderIcon()
+   {
+      return "components/documentlibrary/images/folder-32.png";
+   };
+   /**
+    * Default icon size for this view.
+    * @returns {String}
+    */
+   Alfresco.DocumentListTableViewRenderer.prototype.getIconSize = function DL_SVR_getIconSize()
+   {
+      return "32x32";
+   };
    /**
     * @see Alfresco.DocumentListViewRenderer.destroyView
     */

@@ -64,6 +64,10 @@ var DocList =
 {
    PROP_NAME: "cm:name",
    PROP_TITLE: "cm:title",
+   ARRAY_TOSTRING: '[object Array]',
+   FUNCTION_TOSTRING: '[object Function]',
+   OBJECT_TOSTRING: '[object Object]',
+   OP: Object.prototype,
 
    /**
     * Process the response from the Repository webscripts, decorating with appropriate action config.
@@ -378,6 +382,150 @@ var DocList =
    },
 
    /**
+    * Determines whether or not the provided object is of type object
+    * or function
+    * @method isObject
+    * @param {any} o The object being testing
+    * @return {boolean} the result
+    */
+   isObject: function isObject(o){
+      return (o && (typeof o === 'object' || DocList.isFunction(o))) || false;
+   },
+
+   /**
+    * Determines whether or not the provided object is a function.
+    *
+    * @method isFunction
+    * @param {any} o The object being testing
+    * @return {boolean} the result
+    */
+   isFunction: function isFunction(o){
+      return (typeof o === 'function') || DocList.OP.toString.apply(o) === DocList.FUNCTION_TOSTRING;
+   },
+
+   /**
+    * Determines whether or not the provided object is of type date
+    *
+    * @method isDate
+    * @param o {object} The object to test
+    * @return {boolean} True if o is of type date
+    */
+   isDate: function isDate(o){
+      return o.constructor && o.constructor.toString().indexOf("Date") != -1;
+   },
+
+   /**
+    * Determines whether or not the provided object is a string
+    * @method isString
+    * @param {any} o The object being testing
+    * @return {boolean} the result
+    */
+   isString: function isString(o){
+      return typeof o === 'string';
+   },
+
+   /**
+    * Determines whether or not the provided object is a legal number
+    * @method isNumber
+    * @param {any} o The object being testing
+    * @return {boolean} the result
+    */
+   isNumber: function isNumber(o){
+      return typeof o === 'number' && isFinite(o);
+   },
+
+   /**
+    * Determines whether or not the provided object is a boolean
+    * @method isBoolean
+    * @param {any} o The object being testing
+    * @return {boolean} the result
+    */
+   isBoolean: function isBoolean(o) {
+      return typeof o === 'boolean';
+   },
+
+   /**
+    * Determines whether or not the provided object is an array.
+    * @method isArray
+    * @param {any} o The object being testing
+    * @return {boolean} the result
+    */
+   isArray: function isArray(o) {
+      return DocList.OP.toString.apply(o) === DocList.ARRAY_TOSTRING;
+   },
+
+   /**
+    * Copies the values in an object into a new instance.
+    *
+    * Note 1. This method ONLY copy values of type object, array, date, boolean, string or number.
+    * Note 2. Functions are not copied.
+    * Note 3. Objects with a constructor other than of type Object are still in the result but aren't copied.
+    *         This means that objects of HTMLElements or window will be in the result but will not be copied and hence
+    *         shared between p_oObj and the returned copy of p_oObj.
+    *
+    * @method deepCopy
+    * @param p_obj {object|array|date|string|number|boolean} The object to copy
+    * @return {object|array|date|string|number|boolean} A new instance of the same type as o with the same values
+    */
+   deepCopy: function deepCopy(p_oObj)
+   {
+      if (!p_oObj)
+      {
+         return p_oObj;
+      }
+
+      if (DocList.isArray(p_oObj))
+      {
+         var arr = [];
+         for (var i = 0, il = p_oObj.length, arrVal; i < il; i++)
+         {
+            arrVal = p_oObj[i];
+            if (!DocList.isFunction(arrVal))
+            {
+               arr.push(DocList.deepCopy(arrVal));
+            }
+         }
+         return arr;
+      }
+
+      if (DocList.isDate(p_oObj))
+      {
+         return new Date(p_oObj.getTime());
+      }
+
+      if (DocList.isString(p_oObj) || DocList.isNumber(p_oObj) || DocList.isBoolean(p_oObj))
+      {
+         return p_oObj;
+      }
+
+      if (DocList.isObject(p_oObj))
+      {
+         if (p_oObj.toString() == DocList.OBJECT_TOSTRING)
+         {
+            var obj = {}, objVal;
+            for (var name in p_oObj)
+            {
+               if (p_oObj.hasOwnProperty(name))
+               {
+                  objVal = p_oObj[name];
+                  if (!DocList.isFunction(objVal))
+                  {
+                     obj[name] = DocList.deepCopy(objVal);
+                  }
+               }
+            }
+            return obj;
+         }
+         else
+         {
+            // The object was
+            return p_oObj;
+         }
+      }
+      return null;
+   },
+
+   /**
     * Get action definitions for a given groupId
     *
     * @method getGroupActions
@@ -417,7 +565,7 @@ var DocList =
                            
                            if (actionId)
                            {
-                              action = DocList.merge(allActions[actionId],
+                              action = DocList.merge(DocList.deepCopy(allActions[actionId]),
                               {
                                  index: effectiveIndex,
                                  subgroup: actionSubgroup
@@ -436,7 +584,7 @@ var DocList =
                               DocList.fnAddIfNotNull(action, actionConfig.getAttribute("additionalCssClasses"), "additionalCssClasses");
 
                               DocList.fnAddIfNotNull(action, DocList.getActionParamConfig(actionConfig), "params");
-                              DocList.fnAddIfNotNull(action, DocList.getEvaluatorConfig(actionConfig), "evaluators");
+                              DocList.fnAddIfNotNull(action, DocList.getGroupEvaluatorConfig(action, actionConfig), "evaluators");
                               DocList.fnAddIfNotNull(action, DocList.getActionPermissionConfig(actionConfig), "permissions");
                               DocList.fnAddIfNotNull(action, DocList.getOverrideConfig(actionConfig), "overrides");
 
@@ -618,6 +766,94 @@ var DocList =
          }
       }
 
+      return evaluators;
+   },
+
+   /**
+    * Gets the evaluators for one action configured in actionGroups.
+    * 
+    * By default all actions will be disabled in a virtual context. The actions remain visible in a non-virtual context.
+    * This is accomplished by adding <code>evaluator.doclib.action.DisabledInVirtualContext</code> evaluator to original action evaluators.
+    * 
+    * For enabling action in virtual context, the flag <code>appendEvaluators="true"</code> must be used in actionGroup configuration with one of evaluators:
+    * 
+    *    <code>evaluator.doclib.action.VirtualFolderEnable</code>
+    *    <code>evaluator.doclib.action.DocumentEnableInVirtualFolder</code>
+    *    <code>evaluator.doclib.action.FolderEnableInVirtualFolder</code>
+    *    <code>evaluator.doclib.action.FolderAndVirtualFolderEnable</code>
+    * 
+    * An example of configuration :
+    * 
+    * <code>
+    *       <action index="100" id="document-download" appendEvaluators="true">
+    *            <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+    *        </action>
+    * </code>
+    * 
+    * For displaying actions just in virtual context, the flag <code>appendEvaluators="true"</code> must be used in actionGroup configuration with one of evaluators:
+    * 
+    *    <code>evaluator.doclib.action.VirtualFolderEvaluator</code>
+    *    <code>evaluator.doclib.action.VirtualDocumentEvaluator</code>
+    *    <code>evaluator.doclib.action.VirtualFolderContextEvaluator</code>
+    * 
+    * An example of configuration :
+    * <code>
+    *        <action index="125" id="test-virtual" appendEvaluators="true">
+    *            <evaluator>evaluator.doclib.action.VirtualDocumentEvaluator</evaluator>
+    *        </action>
+    * </code>
+    * If the flag <code>appendEvaluators="true"</code> is not present the configured evaluators will override the existing action evaluators.
+    * 
+    * @param action {object} original action configuration
+    * @param actionConfig {object} action configuration from actionGroups
+    * 
+    * @returns {object} evaluators for actionGroup action configuration
+    */
+   getGroupEvaluatorConfig: function getGroupEvaluatorConfig(action, actionConfig)
+   {
+      var evaluators = {};
+      if (action["evaluators"])
+      {
+         evaluators = action["evaluators"];
+      }
+      var actionGroupEvaluators = DocList.getEvaluatorConfig(actionConfig);
+      var disableVirtualContextValue = "evaluator.doclib.action.DisabledInVirtualContext";
+      var disableVirtualContextQualify = true;
+      var disableVirtualContextEvaluator = evaluatorHelper.getEvaluator(disableVirtualContextValue);
+
+      if (actionGroupEvaluators)
+      {
+         if (actionConfig.getAttribute("appendEvaluators") == "true")
+         {
+               for (index in actionGroupEvaluators)
+               {
+                  evaluators[index] = actionGroupEvaluators[index];
+               }
+         }
+         else
+         {
+            evaluators = actionGroupEvaluators;
+            if (disableVirtualContextEvaluator != null)
+            {
+               evaluators[disableVirtualContextValue] =
+               {
+                  evaluator: disableVirtualContextEvaluator,
+                  qualify: disableVirtualContextQualify
+               };
+            }
+         }
+      }
+      else
+      {
+         if (disableVirtualContextEvaluator != null)
+         {
+            evaluators[disableVirtualContextValue] =
+            {
+               evaluator: disableVirtualContextEvaluator,
+               qualify: disableVirtualContextQualify
+            };
+         }
+      }
       return evaluators;
    },
 

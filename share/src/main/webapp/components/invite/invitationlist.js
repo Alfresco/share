@@ -611,9 +611,9 @@
        */
       _finalizeDirectAdds: function InvitationList__finalizeDirectAdds(inviteData)
       {
-         var addedUsers = [];
          if (this.id.indexOf("_add-users_") > 0)
          {
+            var addedUsers = [];
             var length = inviteData.recs.length;
             for (var i = 0; i < length; i++)
             {
@@ -655,10 +655,24 @@
          this.widgets.feedbackMessage.destroy();
          
          // inform the user
-         Alfresco.util.PopupManager.displayMessage(
+         if (this.id.indexOf("_add-users_") > 0)
          {
-            text: this.msg("message.inviteresult", inviteData.successes.length, inviteData.failures.length)
-         });
+            // Shows a message only if there are failures, because successfully added users are shown in the right column
+            if (inviteData.failures.length > 0)
+            {
+               Alfresco.util.PopupManager.displayMessage(
+               {
+                  text: this.msg("message.failure-adding-users", inviteData.failures.length)
+               });
+            }
+         }
+         else
+         {
+            Alfresco.util.PopupManager.displayMessage(
+            {
+               text: this.msg("message.inviteresult", inviteData.successes.length, inviteData.failures.length)
+            });
+         }
          
          // update the invite button
          this._enableDisableInviteButton();

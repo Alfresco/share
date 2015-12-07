@@ -135,7 +135,7 @@
         <dependency>
             <groupId>org.alfresco.test</groupId>
             <artifactId>dataprep</artifactId>
-            <version>1.4</version>
+            <version>1.7</version>
         </dependency>
     </dependencies>
     
@@ -231,7 +231,7 @@
                                             <then>
                                                 <property name="installer.location" location="${basedir}/target/alf-installer.bin" />
                                                 <echo>Downloading Alfresco installer to ${installer.location}...</echo>
-                                                <sshexec username="tomcat" host="pbam01.alfresco.com" keyfile="${user.home}/.ssh/id_rsa" outputproperty="installerPath" command="ls -rt /data/bamboo/artifacts/${enterprise.build.plan}/ALL/alfresco-enterprise-installer-*-linux-x64.??? | tail -1 | tr ' ' '?' " />
+                                                <sshexec username="tomcat" host="pbam01.alfresco.com" keyfile="${user.home}/.ssh/id_rsa" outputproperty="installerPath" command="ls -rt /data/bamboo/artifacts/${enterprise.build.plan}/ALL/alfresco-*-linux-x64.??? | tail -1 | tr ' ' '?' " />
                                                 <scp file="tomcat@pbam01.alfresco.com:${installerPath}" localTofile="${installer.location}" keyfile="${user.home}/.ssh/id_rsa" />
                                             </then>
                                         </if>

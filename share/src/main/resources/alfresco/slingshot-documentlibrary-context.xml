@@ -756,4 +756,56 @@
       </property>
    </bean>
 
+   <!--                                            -->
+   <!-- Virtual Context Actions Evaluators -->
+   <!--                                            -->
+
+    <!-- Used for displaying actions just for virtual folders -->
+   <bean id="evaluator.doclib.action.VirtualFolderEvaluator" class="org.alfresco.web.evaluator.VirtualFolderEvaluator" />
+   <!-- Used for displaying actions just for documents in virtual context -->
+   <bean id="evaluator.doclib.action.VirtualDocumentEvaluator" class="org.alfresco.web.evaluator.VirtualDocumentEvaluator" />
+   <!-- Used just for displaying actions for physical folders in virtual context -->
+   <bean id="evaluator.doclib.action.VirtualFolderContextEvaluator" class="org.alfresco.web.evaluator.VirtualFolderContextEvaluator" />
+
+    <!-- Used for disabling actions in virtual context by default. The disabled actions remain visible for entities that are not in virtual context. -->
+    <!-- The actions will appear in virtual context only if one of the following evaluators are configured in actionGroups configuration. -->
+   <bean id="evaluator.doclib.action.DisabledInVirtualContext" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" />
+
+    <!-- Used for enabling actions for virtual folders -->
+   <bean id="evaluator.doclib.action.VirtualFolderEnable" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.VirtualFolderEvaluator" />
+         </list>
+      </property>
+   </bean>
+
+    <!-- Used for enabling actions for documents in virtual context(the actions are also visible for entities that are not in virtual context) -->
+   <bean id="evaluator.doclib.action.DocumentEnableInVirtualFolder" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.VirtualDocumentEvaluator" />
+         </list>
+      </property>
+   </bean>
+
+    <!-- Used for enabling actions for physical folders in virtual context(the actions are also visible for entities that are not in virtual context) -->
+   <bean id="evaluator.doclib.action.FolderEnableInVirtualFolder" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.VirtualFolderContextEvaluator" />
+         </list>
+      </property>
+   </bean>
+
+    <!-- Used for enabling actions for virtual folders and physical folders in virtual context(the actions are also visible for entities that are not in virtual context -->
+   <bean id="evaluator.doclib.action.FolderAndVirtualFolderEnable" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
+      <property name="evaluators">
+         <list>
+            <ref bean="evaluator.doclib.action.VirtualFolderEvaluator" />
+            <ref bean="evaluator.doclib.action.VirtualFolderContextEvaluator" />
+         </list>
+      </property>
+   </bean>
+
 </beans>

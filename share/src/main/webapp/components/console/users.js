@@ -1557,7 +1557,16 @@
           * @type boolean
           * @default false
           */
-         showAuthorizationStatus: false
+         showAuthorizationStatus: false,
+         
+         /*
+          * Specifies the edition for docs links
+          * 
+          * @property docsEdition
+          * @type String
+          * @default "community"
+          */
+         docsEdition: "community"
       },
 
       /**
@@ -1773,7 +1782,7 @@
    
          var deauthHeader = this.msg("deauthorize.dialog.header", this.selectedUser);
          var deauthCheckboxMessage = this.msg("deauthorize.dialog.checkbox.message");
-         var body=this.msg("deauthorize.dialog.message", this.selectedUser) + "<br><br>&nbsp;&nbsp;<input type=\"checkbox\" name=\"isAgreed\" id=\"isAgreedID\" value=\"1\" />&nbsp;" + deauthCheckboxMessage;
+         var body=this.msg("deauthorize.dialog.message", this.options.docsEdition) + "<br><br>&nbsp;&nbsp;<input type=\"checkbox\" name=\"isAgreed\" id=\"isAgreedID\" value=\"1\" />&nbsp;" + deauthCheckboxMessage;
    
          this.deauthorizeDialog.setHeader(deauthHeader);	
          this.deauthorizeDialog.setBody(body);

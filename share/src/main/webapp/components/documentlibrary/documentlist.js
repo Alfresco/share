@@ -479,7 +479,6 @@
       };
       this.actions = {};
       this.selectedFiles = {};
-      this.selectedFilesData = {};
       this.afterDocListUpdate = [];
       this.doclistMetadata = {};
       this.previewTooltips = [];
@@ -1110,14 +1109,6 @@
        * @type object
        */
       selectedFiles: null,
-
-      /**
-       * Object file data for visible files (indexed by nodeRef).
-       *
-       * @property selectedFiles
-       * @type object
-       */
-      selectedFilesData: null,
 
       /**
        * Current actions menu being shown
@@ -1866,6 +1857,11 @@
        */
       _setupMetadataRenderers: function DL__setupMetadataRenderers()
       {
+         var supressComponentConfig = {};
+         if (this.options.suppressComponent)
+         {
+            supressComponentConfig = JSON.parse(this.options.suppressComponent);
+         }
          this.registerRenderer("i18nLabel", function(record, label)
          {
             // Just return the label, removing the trailing ": "
@@ -1927,18 +1923,21 @@
                properties = jsNode.properties,
                html = "";
 
-            var dateI18N = "modified", dateProperty = properties.modified.iso8601;
-            if (record.workingCopy && record.workingCopy.isWorkingCopy)
-            {
-               dateI18N = "editing-started";
-            }
-            else if (dateProperty === properties.created.iso8601)
-            {
-               dateI18N = "created";
-            }
+            var suppressDate = Alfresco.util.isSuppressed(record.node, supressComponentConfig.date.browse.folder);
 
-            html = '<span class="item">' + label + this.msg("details." + dateI18N + "-by", $relTime(dateProperty), Alfresco.DocumentList.generateUserLink(this, properties.modifier)) + '</span>';
-
+            if (!suppressDate)
+            {
+               var dateI18N = "modified", dateProperty = properties.modified.iso8601;
+               if (record.workingCopy && record.workingCopy.isWorkingCopy)
+               {
+                  dateI18N = "editing-started";
+               }
+               else if (dateProperty === properties.created.iso8601)
+               {
+                  dateI18N = "created";
+               }
+               html = '<span class="item">' + label + this.msg("details." + dateI18N + "-by", $relTime(dateProperty), Alfresco.DocumentList.generateUserLink(this, properties.modifier)) + '</span>';
+            }
             return html;
          });
 
@@ -2099,57 +2098,62 @@
                id = Alfresco.util.generateDomId(),
                html = "";
 
-            var tags = jsNode.tags, tag;
-            if (jsNode.hasAspect("cm:taggable") && tags.length > 0)
+            var suppressTags = Alfresco.util.isSuppressed(record.node, supressComponentConfig.tags.browse.folder);
+            if(!suppressTags)
             {
-               for (var i = 0, j = tags.length; i < j; i++)
+               var tags = jsNode.tags, tag;
+               if (jsNode.hasAspect("cm:taggable") && tags.length > 0)
                {
-                  tag = $html(tags[i]);
-                  html += '<span class="tag" style="display: inline-block"><a href="#" class="tag-link" rel="' + tag + '">' + tag + '</a></span>';
-               }
-            }
-            else
-            {
-               html += '<span class="faded">' + label + this.msg("details.tags.none") + '</span>';
-            }
-
-            if (jsNode.hasPermission("Write") && !jsNode.isLocked)
-            {
-               // Add the tags insitu editor
-               this.insituEditors.push(
-               {
-                  context: id,
-                  params:
+                  for (var i = 0, j = tags.length; i < j; i++)
                   {
-                     type: "tagEditor",
-                     nodeRef: jsNode.nodeRef.toString(),
-                     name: "prop_cm_taggable",
-                     value: record.node.properties["cm:taggable"],
-                     validations: [
-                     {
-                        type: Alfresco.forms.validation.nodeName,
-                        when: "keyup",
-                        message: this.msg("validation-hint.nodeName")
-                     },
-                     {
-                        type: Alfresco.forms.validation.length,
-                        args: { min: 1, max: 255, crop: true, ignoreEmpty: true },
-                        when: "keyup",
-                        message: this.msg("validation-hint.length.min.max", 1, 255)
-                     }],
-                     title: this.msg("tip.insitu-tag"),
-                     errorMessage: this.msg("message.insitu-edit.tag.failure")
-                  },
-                  callback:
-                  {
-                     fn: this._insituCallback,
-                     scope: this,
-                     obj: record
+                     tag = $html(tags[i]);
+                     html += '<span class="tag" style="display: inline-block"><a href="#" class="tag-link" rel="' + tag + '">' + tag + '</a></span>';
                   }
-               });
+               }
+               else
+               {
+                  html += '<span class="faded">' + label + this.msg("details.tags.none") + '</span>';
+               }
+   
+               if (jsNode.hasPermission("Write") && !jsNode.isLocked)
+               {
+                  // Add the tags insitu editor
+                  this.insituEditors.push(
+                  {
+                     context: id,
+                     params:
+                     {
+                        type: "tagEditor",
+                        nodeRef: jsNode.nodeRef.toString(),
+                        name: "prop_cm_taggable",
+                        value: record.node.properties["cm:taggable"],
+                        validations: [
+                        {
+                           type: Alfresco.forms.validation.nodeName,
+                           when: "keyup",
+                           message: this.msg("validation-hint.nodeName")
+                        },
+                        {
+                           type: Alfresco.forms.validation.length,
+                           args: { min: 1, max: 255, crop: true, ignoreEmpty: true },
+                           when: "keyup",
+                           message: this.msg("validation-hint.length.min.max", 1, 255)
+                        }],
+                        title: this.msg("tip.insitu-tag"),
+                        errorMessage: this.msg("message.insitu-edit.tag.failure")
+                     },
+                     callback:
+                     {
+                        fn: this._insituCallback,
+                        scope: this,
+                        obj: record
+                     }
+                  });
+               }
+   
+               return '<span id="' + id + '" class="item">' + label + html + '</span>';
             }
-
-            return '<span id="' + id + '" class="item">' + label + html + '</span>';
+            return "";
          });
 
          /**
@@ -2190,19 +2194,22 @@
          {
             var jsNode = record.jsNode,
                html = "";
+            var supressSocial = Alfresco.util.isSuppressed(record.node, supressComponentConfig.social.browse.folder);
 
-            /* Favourite / Likes / Comments */
-            html += '<span class="item item-social">' + Alfresco.DocumentList.generateFavourite(this, record) + '</span>';
-            html += '<span class="item item-social item-separator">' + Alfresco.DocumentList.generateLikes(this, record) + '</span>';
-            if (jsNode.permissions.user.CreateChildren)
+            if (!supressSocial)
             {
-               html += '<span class="item item-social item-separator">' + Alfresco.DocumentList.generateComments(this, record) + '</span>';
+               /* Favourite / Likes / Comments */
+               html += '<span class="item item-social">' + Alfresco.DocumentList.generateFavourite(this, record) + '</span>';
+               html += '<span class="item item-social item-separator">' + Alfresco.DocumentList.generateLikes(this, record) + '</span>';
+               if (jsNode.permissions.user.CreateChildren)
+               {
+                  html += '<span class="item item-social item-separator">' + Alfresco.DocumentList.generateComments(this, record) + '</span>';
+               }
+               if (!record.node.isContainer && Alfresco.constants.QUICKSHARE_URL)
+               {
+                  html += '<span class="item item-separator">' + Alfresco.DocumentList.generateQuickShare(this, record) + '</span>';
+               }
             }
-            if (!record.node.isContainer && Alfresco.constants.QUICKSHARE_URL)
-            {
-               html += '<span class="item item-separator">' + Alfresco.DocumentList.generateQuickShare(this, record) + '</span>';
-            }
-
             return html;
          });
       },
@@ -2228,7 +2235,7 @@
                }
                if (typeof instanceFunction === "function")
                {
-                  this.registerViewRenderer(new instanceFunction(this.options.viewRenderers[i].id, this, this.options.viewRenderers[i].jsonConfig));
+                  this.registerViewRenderer(new instanceFunction(this.options.viewRenderers[i].id, this, this.options.commonComponentStyle, this.options.viewRenderers[i].jsonConfig));
                }
             }
          }
@@ -2600,6 +2607,13 @@
          this.widgets.dataTable.subscribe("renderEvent", function DL_renderEvent()
          {
             Alfresco.logger.debug("DataTable renderEvent");
+
+            // If we're in a virtual folder and there's no records shown, ensure create folder link isn't visible.
+            var toolbar = Alfresco.util.ComponentManager.findFirst("Alfresco.DocListToolbar")
+            if (toolbar && toolbar.isVirtualFolder())
+            {
+               Dom.addClass(this.id + "-new-folder-link-template-instance", "hidden");
+            }
 
             // IE6 fix for long filename rendering issue
             if (0 < YAHOO.env.ua.ie && YAHOO.env.ua.ie < 7)
@@ -3127,7 +3141,6 @@
       getSelectedFiles: function DL_getSelectedFiles()
       {
          var files = [],
-            currentPageAddedNodes = {},
             oRecordSet = this.widgets.dataTable.getRecordSet(),
             oRecord, node, i, j;
 
@@ -3138,44 +3151,10 @@
             if (this.selectedFiles[node.nodeRef])
             {
                files.push(oRecord.getData());
-               //set node as beeing seleted on current page
-               currentPageAddedNodes[node.nodeRef] = true;
-               this.selectedFilesData[node.nodeRef] = oRecord.getData();
             }
-            else 
-            {
-                //remove node from selectFiles as is no longer selected
-                delete this.selectedFiles[node.nodeRef];
-                //also remove node data
-                delete this.selectedFilesData[node.nodeRef];
-                
-            }
-         }
-         
-         //check selected nodes from other than current page and add them if selected
-         for (var key in this.selectedFiles)
-         {
-             if (!currentPageAddedNodes[key])
-             {
-                 if (this.selectedFiles[key])
-                 {
-                     files.push(this.selectedFilesData[key]);
-                 } 
-                 else 
-                 {
-                     delete this.selectedFilesData[key];
-                 }
-             }
          }
 
          return files;
-      },
-
-      //removes selected files and selected files data from all pages
-      resetSelectedFiles: function DL_resetSelectedFiles()
-      {
-          this.selectedFiles = {};
-          this.selectedFilesdData = {};
       },
 
       /**
@@ -3252,14 +3231,6 @@
             oRecord = oRecordSet.getRecord(i);
             record = oRecord.getData();
             this.selectedFiles[record.nodeRef] = checks[i].checked = fnCheck(record, checks[i].checked);
-            if (this.selectedFiles[record.nodeRef])
-            {
-                this.selectedFilesData[record.nodeRef] = record;
-            } else 
-            {
-                delete this.selectedFilesData[record.nodeRef];
-            }
-            
          }
 
          YAHOO.Bubbling.fire("selectedFilesChanged");

@@ -92,7 +92,7 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
         title = "";
         tagName = siteName;
 
-        File file = siteUtil.prepareFile();
+//        File file = siteUtil.prepareFile();
         fileName = file.getName();
         loginAs(username, password);
         SharePage page = resolvePage(driver).render();

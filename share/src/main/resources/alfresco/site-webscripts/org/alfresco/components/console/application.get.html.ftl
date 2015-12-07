@@ -29,7 +29,7 @@
             </@>
             <#if isEnterprise>
                <@markup id="msgNewAdminConsole">
-               <div class="row info">${msg("message.new-admin-console")}</div>
+               <div class="row info">${msg("message.new-admin-console", context.properties["docsEdition"].value)}</div>
                </@>
             </#if>
             <form id="${el}-options-form" action="${url.context}/service/components/console/application" method="post">

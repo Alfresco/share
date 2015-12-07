@@ -57,7 +57,9 @@ function widgets()
          repositoryBrowsing : model.rootNode != null, 
          useTitle : (model.useTitle != null ? model.useTitle == "true" : true),
          userIsSiteManager : model.userIsSiteManager,
-         associatedToolbar: { _alfValue: "docListToolbar", _alfType: "REFERENCE" }
+         associatedToolbar: { _alfValue: "docListToolbar", _alfType: "REFERENCE" },
+         commonComponentStyle : model.commonComponentStyle,
+         suppressComponent : model.suppressComponent
       }
    };
    if (model.repositoryUrl != null)

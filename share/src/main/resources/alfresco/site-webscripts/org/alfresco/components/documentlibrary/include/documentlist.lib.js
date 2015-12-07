@@ -160,6 +160,10 @@ var DocumentList =
       
       // Iterate over the view-renderer configuration...
       var docListViewConfig = config.scoped["DocumentLibraryViews"]["view-renderers"];
+      var commonComponentStyleConfig = config.scoped["CommonComponentStyle"]["component-style"];
+      var suppressComponentConfig = config.scoped["SuppressComponent"]["component-config"];
+      data.commonComponentStyle = commonComponentStyleConfig != null ? commonComponentStyleConfig.value : null;
+      data.suppressComponent = suppressComponentConfig != null ? suppressComponentConfig.value : null;
       var viewRendererList = docListViewConfig.getChildren("view-renderer");
       for (var i=0; i<viewRendererList.size(); i++)
       {
@@ -278,4 +282,6 @@ function doclibCommon()
    model.viewRenderers = viewData.views;
    model.viewJsDeps = viewData.deps.js;
    model.viewCssDeps = viewData.deps.css;
+   model.commonComponentStyle = viewData.commonComponentStyle;
+   model.suppressComponent = viewData.suppressComponent;
 }

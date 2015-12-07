@@ -9,6 +9,9 @@
 
 var properties = {};
 
+// Converts the Java.lang.String to a Javascript string for serialization
+var inlineHelpVal = "" + msg.get("cmm.property.indexing.txthelp", [context.properties["docsEdition"].getValue()]);
+
 /**
  * Form for creating a property
  */
@@ -577,7 +580,7 @@ properties.createForm = [
                }
             ]
          },
-         inlineHelp: "cmm.property.indexing.txthelp"
+         inlineHelp: inlineHelpVal
       }
    },
    {
@@ -610,7 +613,7 @@ properties.createForm = [
                }
             ]
          },
-         inlineHelp: "cmm.property.indexing.txthelp"
+         inlineHelp: inlineHelpVal
       }
    },
    {
@@ -659,7 +662,7 @@ properties.createForm = [
                }
             ]
          },
-         inlineHelp: "cmm.property.indexing.txthelp"
+         inlineHelp: inlineHelpVal
       }
    }
 ];

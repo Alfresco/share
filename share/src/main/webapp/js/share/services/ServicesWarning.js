@@ -34,6 +34,16 @@ define(["dojo/_base/declare",
     function(declare, Warning, domStyle, array, lang, domConstruct) {
 
         return declare([Warning], {
+
+            /**
+             * An array of the CSS files to use with this widget.
+             *
+             * @instance
+             * @type {object[]}
+             * @default [{cssFile:"./css/LicenseWarning.css"}]
+             */
+            cssRequirements: [{cssFile:"./ServicesWarning.css"}],
+
             /**
              * An array of the i18n files to use with this widget.
              *
@@ -72,7 +82,6 @@ define(["dojo/_base/declare",
                 //No check specified.
                 if (this.shareServices && this.shareServices.nocheck)
                 {
-                    domStyle.set(this.domNode, "display", "none");
                     return;
                 }
 

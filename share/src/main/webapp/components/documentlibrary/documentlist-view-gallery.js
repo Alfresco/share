@@ -66,9 +66,9 @@
     * @return {Alfresco.DocumentListGalleryViewRenderer} The new GalleryViewRenderer instance
     * @constructor
     */
-   Alfresco.DocumentListGalleryViewRenderer = function(name, parentDocumentList, galleryColumns)
+   Alfresco.DocumentListGalleryViewRenderer = function(name, parentDocumentList, commonComponentStyle, galleryColumns)
    {
-      Alfresco.DocumentListGalleryViewRenderer.superclass.constructor.call(this, name, parentDocumentList);
+      Alfresco.DocumentListGalleryViewRenderer.superclass.constructor.call(this, name, parentDocumentList, commonComponentStyle);
       this.parentElementIdSuffix = "-gallery";
       this.parentElementEmptytIdSuffix = "-gallery-empty";
       this.rowClassName = "alf-gallery-item";
@@ -743,13 +743,29 @@
       
       if (isContainer)
       {
-         imgHtml = '<img id="' + imgId + '" class="alf-gallery-item-thumbnail-img" src="' + Alfresco.constants.URL_RESCONTEXT + 'components/documentlibrary/images/folder-256.png" />';
+         imgHtml = '<img id="' + imgId + '" class="alf-gallery-item-thumbnail-img" src="' + this.getFolderIcon(record.node)+'" />';
       }
       else
       {
          imgHtml = '<img id="' + imgId + '" class="alf-gallery-item-thumbnail-img" src="' + Alfresco.DocumentList.generateThumbnailUrl(record, renditionName) + '" alt="' + $html(extn) + '" title="' + $html(name) + '" />';
       }
       return { id: imgId, html: imgHtml, isContainer: isContainer, isLink: isLink };
+   };
+   /**
+    * Default icon resource path string for this view.
+    * @returns {String}
+    */
+   Alfresco.DocumentListGalleryViewRenderer.prototype.getDefaultFolderIcon = function DL_GVR_getDefaultFolderIcon()
+   {
+      return "components/documentlibrary/images/folder-256.png";
+   };
+   /**
+    * Default icon size for this view.
+    * @returns {String}
+    */
+   Alfresco.DocumentListGalleryViewRenderer.prototype.getIconSize = function DL_GVR_getIconSize()
+   {
+      return "256x256";
    };
    
    /**

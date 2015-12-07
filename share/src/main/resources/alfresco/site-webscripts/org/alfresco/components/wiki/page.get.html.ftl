@@ -17,6 +17,7 @@
    <@script src="${url.context}/res/modules/simple-editor.js" group="wiki"/>
    <@script src="${url.context}/res/modules/taglibrary/taglibrary.js" group="wiki"/>
    <@script src="${url.context}/res/modules/wiki/revert-wiki-version.js" group="wiki"/>
+   <@script src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="wiki"/>
 </@>
 
 <@markup id="widgets">

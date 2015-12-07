@@ -11,16 +11,16 @@
 
     <properties>
         <highest.basedir>${basedir}/../../..</highest.basedir>
-        <alfresco.package.name>alfresco-share</alfresco.package.name>
-        <alfresco.distribution.name>${alfresco.package.name}-distribution</alfresco.distribution.name>
+        <alfresco.package.name>alfresco-one-share</alfresco.package.name>
+        <alfresco.distribution.name>alfresco-share-distribution</alfresco.distribution.name>
 
         <!-- Versions of binaries packaged in the installer -->
-        <installer.common.version>5.1-20150819</installer.common.version>
+        <installer.common.version>5.1-20151118</installer.common.version>
         <installer.tomcat.version>7.0.59-alfresco-distribution</installer.tomcat.version>
         <installer.java.version>1.8.0_65</installer.java.version>
 
         <!-- Install builder version -->
-        <installer.installbuilder.version>15.9.0</installer.installbuilder.version>
+        <installer.installbuilder.version>15.10.1</installer.installbuilder.version>
 
         <!-- Installer version that will be used in the final name -->
         <installer.version.name>${project.version}</installer.version.name>

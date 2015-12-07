@@ -2512,6 +2512,23 @@ Alfresco.util.createYUIPanel = function(p_el, p_params, p_custom)
    // Create and return the panel
    panel = new (custom.type)(p_el, params);
 
+   // Patch YUI's broken bringToTop method. (Spotted while fixing ACE-4629)
+   // bringToTop only considers YUI panels when calculating the highest z-index in use and ignores the specified z-index param.
+   // If the user has specified a z-index, we want to use that if it's higher than the calculated one.
+   if (params.zIndex)
+   {
+      panel._bringToTop = panel.bringToTop;
+      panel.bringToTop = function () {
+         var oldZindex = panel.cfg.getProperty("zindex");
+         panel._bringToTop();
+         var newZindex = panel.cfg.getProperty("zindex");
+         // Highest z-index wins.
+         if (newZindex < oldZindex) {
+            panel.cfg.setProperty("zindex", oldZindex);
+         }
+      }
+   }
+
    if (custom.render)
    {
       panel.render(document.body);
@@ -12133,4 +12150,91 @@ Alfresco.util.getCalendarControlConfiguration = function()
       initialFocus : "year"
    };
    return navConfig;
+};
+
+/**
+ * Aspect filter implementation. Returns true if the node attribute has all the aspects enumerated in {filter.match}. 
+ * For filters examples see ["CommonComponentStyle"]["component-style"] or ["SuppressComponent"]["component-config"] configurations from share-document-library-config.xml.
+ * 
+ * @param node {object}
+ * @param filter {object}
+ * @returns {Boolean} - true if the node attribute has all the aspects enumerated in filter.match, false otherwise.
+ */
+Alfresco.util.matchAspect = function(node, filter)
+{
+   var match = true;
+   if (filter.match && filter.match.length != null)
+   {
+      for (var j = 0; j < filter.match.length; j++)
+      {
+         var aspect = filter.match[j];
+         if (!node.aspects || node.aspects.indexOf(aspect) == -1)
+         {
+            match = false;
+            break;
+         }
+      }
+   }
+   else
+   {
+      match = false;
+   }
+   return match;
+};
+
+/**
+ * Returns true if filterType is accepted, false otherwise. Currently only aspect filters accepted. 
+ * @param filterType
+ * @returns {Boolean} - true if filterType is accepted, false otherwise.
+ */
+Alfresco.util.accepted = function(filterType)
+{
+   return (filterType == "aspect");
+};
+
+/**
+ * Filter implementation. Currently only aspect filter supported implemented by function Alfresco.util.matchAspect, 
+ * but other filter types can be added and implemented( e.g. filter by type, filter by one property name,....) and here we'll hook the implementations for each filter type.
+ * @param node {object}
+ * @param filter {object}
+ * @returns {Boolean} - true if filter matches, false otherwise.
+ */
+Alfresco.util.match = function(node, filter)
+{
+   if (filter.name == "aspect")
+   {
+      return Alfresco.util.matchAspect(node, filter);
+   }
+   return false;
+};
+
+/**
+ * Gets true if any of {supressConfig} filters are matching, or false otherwise.
+ * 
+ * This function is used for suppressing Social components {favorites, likes and comments}. Currently only used for folders in Virtual Folders context.
+ * 
+ * @returns {Boolean} - true if any of {supressConfig} filters are matching, or false otherwise.
+ */
+Alfresco.util.isSuppressed = function(node, supressConfig)
+{
+   var suppress = false;
+   if (supressConfig && supressConfig.length != null)
+   {
+      for (var i = 0; i < supressConfig.length; i++)
+      {
+         var component = supressConfig[i];
+         var filter = component.filter;
+         if (!Alfresco.util.accepted(filter.name))
+         {
+            continue;
+         }
+         var match = Alfresco.util.match(node, filter);
+         if (match == true)
+         {
+            suppress = true;
+            break;
+         }
+      }
+   }
+   return suppress;
 };

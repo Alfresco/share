@@ -79,9 +79,8 @@
                <#if showOnlyLocation == "false">
                   <!-- Icon -->
                   <#if isContainer>
-                     <img src="${url.context}/res/components/images/filetypes/generic-folder-48.png"
-                          title="${displayName}" class="node-thumbnail" width="48" />
-                     <#else>
+                     <img src="${folderIcon?html}" title="${displayName}" class="node-thumbnail" width="48" />
+                  <#else>
                      <img src="${url.context}/res/components/images/filetypes/${fileExt}-file-48.png"
                           onerror="this.src='${url.context}/res/components/images/filetypes/generic-file-48.png'"
                           title="${displayName}" class="node-thumbnail" width="48" />
@@ -92,12 +91,14 @@
                   </h1>
                   <!-- Modified & Social -->
                   <div class="node-social">
+                  <#if showItemModifier == "true">
                      <span class="item-modifier">
                               <#assign modifyUser = node.properties["cm:modifier"]>
                               <#assign modifyDate = node.properties["cm:modified"]>
                               <#assign modifierLink = userProfileLink(modifyUser.userName, modifyUser.displayName, 'class="theme-color-1"') >
                               ${msg(modifyLabel, modifierLink, "<span id='${id}-modifyDate'>${modifyDate.iso8601}</span>")}
                      </span>
+                  </#if>
                   <#if showFavourite == "true">
                      <span id="${id}-favourite" class="item item-separator"></span>
                   </#if>

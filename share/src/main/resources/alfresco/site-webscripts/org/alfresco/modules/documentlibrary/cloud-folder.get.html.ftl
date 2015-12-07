@@ -56,6 +56,11 @@
    <#assign evaluateChildFoldersSite = treeConfig.getChildValue("evaluate-child-folders")!"true">
    <#assign maximumFolderCountSite = treeConfig.getChildValue("maximum-folder-count")!"-1">
 </#if>
+<#assign commonComponentConfig = config.scoped["CommonComponentStyle"]["component-style"]!>
+<#if commonComponentConfig.value??>
+        <#assign tmp = commonComponentConfig.value>
+        <#assign customFolderStyleConfig = tmp!"">
+</#if>
 <script type="text/javascript">//<![CDATA[
    Alfresco.util.addMessages(${messages}, "Alfresco.module.DoclibCloudFolder");
    Alfresco.util.ComponentManager.get("${el}").setOptions(
@@ -64,6 +69,7 @@
       maximumFolderCountSite: ${(maximumFolderCountSite!"-1")},
       evaluateChildFoldersRepo: ${evaluateChildFoldersRepo!"true"},
       maximumFolderCountRepo: ${(maximumFolderCountRepo!"-1")},
+      customFolderStyleConfig: <#if customFolderStyleConfig??>${(customFolderStyleConfig!"")}<#else>null</#if>,
       siteTreeContainerTypes: {
          <#assign siteTreeConfig = config.scoped["GlobalFolder"]["siteTree"]!>
          <#if siteTreeConfig.getChildren?? && siteTreeConfig.getChildren("container")??>

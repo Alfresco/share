@@ -44,7 +44,8 @@
     * @return {DynamicWelcome} The new component instance
     * @constructor
     */
-   Alfresco.dashlet.DynamicWelcome = function DynamicWelcome_constructor(htmlId, dashboardUrl, dashboardType, site, siteTitle)
+   Alfresco.dashlet.DynamicWelcome = function DynamicWelcome_constructor(htmlId, dashboardUrl, dashboardType, site, siteTitle,
+         docsEdition)
    {
       Alfresco.dashlet.DynamicWelcome.superclass.constructor.call(this, "Alfresco.dashlet.DynamicWelcome", htmlId, ["button"]);
 
@@ -54,6 +55,7 @@
       this.dashboardType = dashboardType;
       this.site = site;
       this.siteTitle = decodeURIComponent(siteTitle);
+      this.docsEdition = docsEdition;
 
       this.services.preferences = new Alfresco.service.Preferences();
       return this;
@@ -65,6 +67,7 @@
       dashboardType: "",
       dashboardUrl: "",
       closeDialog: null,
+      docsEdition: "",
 
       /**
        * CreateSite module instance.
@@ -87,7 +90,7 @@
          if (this.dashboardType == "user")
          {
             Event.addListener(this.id + "-get-started-panel-container", "click", function() {
-               location.href = this.msg("welcome.user.clickable-content-link");
+               location.href = this.msg("welcome.user.clickable-content-link", this.docsEdition);
             }, this, true);
          }
          Event.addListener(this.id + "-createSite-button", "click", this.onCreateSiteLinkClick, this, true);

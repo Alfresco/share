@@ -207,7 +207,16 @@
           * @type string
           * @default null
           */
-         sharedBy: null
+         sharedBy: null,
+
+         /**
+          * Flag indicating whether or not to show item modifier
+          * 
+          * @property showItemModifier
+          * @type boolean
+          * @default: true
+          */
+         showItemModifier: true
       },
 
       /**
@@ -306,7 +315,7 @@
          }
          
          // Parse the date
-         if (!this.options.showOnlyLocation)
+         if (this.options.showItemModifier && !this.options.showOnlyLocation)
          {
             var dateEl = Dom.get(this.id + '-modifyDate');
             dateEl.innerHTML = Alfresco.util.formatDate(Alfresco.util.fromISO8601(dateEl.innerHTML), Alfresco.util.message("date-format.default"));
@@ -329,7 +338,7 @@
 
          var url = 'components/node-details/node-header?nodeRef={nodeRef}&rootPage={rootPage}' +
             '&rootLabelId={rootLabelId}&showFavourite={showFavourite}&showLikes={showLikes}' +
-            '&showComments={showComments}&showQuickShare={showQuickShare}&showDownload={showDownload}&showPath={showPath}' +
+            '&showComments={showComments}&showQuickShare={showQuickShare}&showDownload={showDownload}&showPath={showPath}&showItemModifier={showItemModifier}' +
             (this.options.pagecontext ? '&pagecontext={pagecontext}' :  '') + 
             (this.options.libraryRoot ? '&libraryRoot={libraryRoot}' :  '') +
             (this.options.siteId ? '&site={siteId}' :  '');

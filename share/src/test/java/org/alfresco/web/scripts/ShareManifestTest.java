@@ -155,6 +155,12 @@ public class ShareManifestTest
             assertTrue(expected.getMessage().contains("Share Implementation-Version is missing"));
             assertTrue(expected.getMessage().contains("Invalid MANIFEST.MF"));
         }
-
+    }
+    
+    @Test
+    public void canHandleMissingSection()
+    {
+        List<String> noNames = shareManifest.attributeNames("Missing");
+        assertTrue(noNames.isEmpty());
     }
 }

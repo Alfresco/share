@@ -20,7 +20,9 @@ package org.alfresco.po.share.cmm.admin;
 
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SelectList;
@@ -78,11 +80,11 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
     @Override
     public CreateNewPropertyGroupPopUp render(RenderTime timer)
     {
-        elementRender(timer, getVisibleRenderElement(SHARE_DIALOGUE_HEADER));
-
         elementRender(
                 timer,
+                new RenderElement(SHARE_DIALOGUE_HEADER, ElementState.PRESENT), // Amended from visible to present, as server error hides the Header
                 getVisibleRenderElement(NAME_FIELD),
+                new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE),
                 getVisibleRenderElement(PARENT_PROPERTY_GROUP_FIELD),
                 getVisibleRenderElement(TITLE_FIELD),
                 getVisibleRenderElement(DESCRIPTION_FIELD),
@@ -114,7 +116,8 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
         PageUtils.checkMandotaryParam("name", name);
         try
         {
-            findAndWait(NAME_FIELD).sendKeys(name);
+            findAndWait(NAME_FIELD).sendKeys(name + "\t");
+            
             return this;
         }
         catch (TimeoutException toe)
@@ -269,7 +272,7 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
     {
         try
         {
-            WebElement outerButton = findAndWait(NEW_PROPERTY_GROUP_CREATE_BUTTON);
+        	WebElement outerButton = findAndWait(NEW_PROPERTY_GROUP_CREATE_BUTTON);
             outerButton.findElement(BUTTON_CLICKABLE).click();
             return factoryPage.getPage(driver);
         }
@@ -277,8 +280,7 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
         {
             LOGGER.trace("Unable to select the create button ", e);
         }
-
-        throw new PageOperationException("Unable to select the create button");
+        return getCurrentPage();
     }
 
     /**

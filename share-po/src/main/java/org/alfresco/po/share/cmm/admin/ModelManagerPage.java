@@ -47,7 +47,7 @@ public class ModelManagerPage extends SharePage
 {
 
     private static final Log LOGGER = LogFactory.getLog(ModelManagerPage.class);
-    private static final By BUTTON_CREATE_NEW_MODEL = By.cssSelector("span.alfresco-buttons-AlfButton.createButton > span");
+    private static final By BUTTON_CREATE_NEW_MODEL = By.cssSelector("span[id^='alfresco_buttons_AlfButton']");
     private static final By BUTTON_IMPORT_MODEL = By.cssSelector(".alfresco-buttons-AlfButton.importButton>span");
     private static final By CMM_MODEL_LIST = By.id("MODELS_LIST");
     private static final By MODEL_ROWS = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
@@ -67,11 +67,10 @@ public class ModelManagerPage extends SharePage
     {
         RenderTime renderTime = new RenderTime(maxPageLoadingTime);
         // Button
-        elementRender(renderTime, getVisibleRenderElement(BUTTON_CREATE_NEW_MODEL), getVisibleRenderElement(BUTTON_IMPORT_MODEL));
+        elementRender(renderTime,
+        			  getVisibleRenderElement(BUTTON_CREATE_NEW_MODEL),
+        			  getVisibleRenderElement(BUTTON_IMPORT_MODEL));
 
-        // Model Headers
-        // elementRender(renderTime, getVisibleRenderElement(CMM_MODEL_LIST), getVisibleRenderElement(HEADER_NAME), getVisibleRenderElement(HEADER_NAMESPACE),
-        // getVisibleRenderElement(HEADER_STATUS), getVisibleRenderElement(HEADER_ACTIONS));
         return this;
     }
 
@@ -235,17 +234,9 @@ public class ModelManagerPage extends SharePage
      */
     public HtmlPage clickCreateNewModelButton()
     {
-        try
-        {
-            WebElement createButton = findFirstDisplayedElement(BUTTON_CREATE_NEW_MODEL);
-            createButton.click();
-            return factoryPage.instantiatePage(driver, CreateNewModelPopUp.class);
-        }
-        catch (TimeoutException e)
-        {
-            LOGGER.error("Unable to find the button: ", e);
-        }
-        throw new PageOperationException("Not visible Element: Create a new custom model");
+        WebElement createButton = driver.findElement(BUTTON_CREATE_NEW_MODEL);
+        createButton.click();
+        return factoryPage.instantiatePage(driver, CreateNewModelPopUp.class);
     }
 
     /**

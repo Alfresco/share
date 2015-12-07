@@ -387,3 +387,8 @@
    margin-top: -10px;
    margin-left: 10px;
 }
+
+.toolbar .breadcrumb .filter-path.icon-virtual {
+    display: inline;
+    background: transparent url(../documentlibrary/images/virtual-folder-16.png) 0px 4px no-repeat;
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2011 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -18,7 +18,6 @@
  */
 package org.alfresco.web.evaluator;
 
-import org.alfresco.api.AlfrescoPublicApi;     
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -35,7 +34,6 @@ import java.util.HashMap;
  *
  * @author mikeh
  */
-@AlfrescoPublicApi
 public abstract class BaseEvaluator implements Evaluator
 {
     private static final String PORTLET_HOST = "portletHost";

@@ -20,6 +20,7 @@
 <@script src="${page.url.context}/res/components/form/date-picker.js" group="forms"/>
 <@script src="${page.url.context}/res/components/form/period.js" group="forms"/>
 <@script src="${page.url.context}/res/components/object-finder/object-finder.js" group="forms"/>
+<@script src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="form"/>
 <@script src="${page.url.context}/res/yui/calendar/calendar.js" group="forms"/>
 <!-- NOTE: Use preminified version of tinymce/tinymce.js -->
 <script type="text/javascript" src="${page.url.context}/res/modules/editors/tinymce/tinymce.min.js"></script>

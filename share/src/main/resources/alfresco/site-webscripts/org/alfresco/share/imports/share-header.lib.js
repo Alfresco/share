@@ -508,7 +508,7 @@ function getSiteNavigationWidgets() {
                label: (pages[i].sitePageTitle) ? pages[i].sitePageTitle : pages[i].title,
                pageId: pages[i].pageId,
                targetUrl: targetUrl,
-               selected: ((page.url.url.startsWith(page.url.servletContext + "/" + targetUrl)) || 
+               selected: ((page.url.url.startsWith(page.url.servletContext + "/" + targetUrl)) ||
                           (pages[i].pageId == "documentlibrary" && page.url.url.startsWith(page.url.servletContext + "/site/" + page.url.templateArgs.site + "/document-details")) ||
                           (pages[i].pageId == "wiki-page" && (page.url.url.startsWith(page.url.servletContext + "/site/" + page.url.templateArgs.site + "/wiki"))) ||
                           (pages[i].pageId == "blog-postlist" && (page.url.url.startsWith(page.url.servletContext + "/site/" + page.url.templateArgs.site + "/blog"))) ||
@@ -587,7 +587,7 @@ function getSubNavigationWidgets() {
                  "&sa=" + (args["a"] != null ? encodeURIComponent(args["a"]) : "") +
                  "&sr=" + (args["r"] != null ? encodeURIComponent(args["r"]) : "") +
                  "&sq=" + (args["q"] != null ? encodeURIComponent(args["q"]) : "");
-         
+
       }
       var advancedSearchUrl = "advsearch?" + query;
       if (page.url.templateArgs.site == null)
@@ -611,10 +611,10 @@ function getSubNavigationWidgets() {
                selected: false
             }
          });
-         
+
          advancedSearchUrl = "site/" + page.url.templateArgs.site + "/" + advancedSearchUrl;
       }
-      
+
       // Add the advanced search link...
       navigationWidgets.push({
          id: "HEADER_ADVANCED_SEARCH",
@@ -641,7 +641,7 @@ function getSubNavigationWidgets() {
                      "&r=" + (args["sr"] != null ? encodeURIComponent(args["sr"]) : "") +
                      "&q=" + (args["sq"] != null ? encodeURIComponent(args["sq"]) : "");
          model.backlink = query;
-         
+
          var searchUrl = "search?" + query;
          if (page.url.templateArgs.site == null)
          {
@@ -651,7 +651,7 @@ function getSubNavigationWidgets() {
          {
             searchUrl = "site/" + page.url.templateArgs.site + "/" + searchUrl;
          }
-         
+
          navigationWidgets.push({
             id: "HEADER_SEARCH_BACK_TO_RESULTS",
             name: "alfresco/menus/AlfMenuBarItem",
@@ -664,7 +664,7 @@ function getSubNavigationWidgets() {
             }
          });
       }
-      
+
       if (page.url.templateArgs.site == null)
       {
          // We're on the basic search page
@@ -718,13 +718,8 @@ function getSubNavigationWidgets() {
  * This is the default function for getting the help URL for Share.
  */
 function getHelpLink() {
-   var helpConfig = config.scoped["HelpPages"],
-       helpLink = "";
-   if (helpConfig != null)
-   {
-      helpConfig = helpConfig["help-pages"];
-      helpLink = (helpConfig != null) ? helpConfig.getChildValue("share-help") : "";
-   }
+   var docsEdition = context.properties["docsEdition"].getValue();
+   var helpLink = msg.get("share-help.docs-url", [docsEdition]);
    return helpLink;
 }
 
@@ -784,8 +779,8 @@ function generateAppItems() {
             id: "HEADER_TASKS",
             label: "header.menu.tasks.label",
             widgets: [
-               {  
-                  id: "HEADER_TASKS_GROUP", 
+               {
+                  id: "HEADER_TASKS_GROUP",
                   name: "alfresco/menus/AlfMenuGroup",
                   config: {
                      widgets: [
@@ -1017,7 +1012,7 @@ function getUserMenuWidgets()
 }
 
 /**
- * Gets the user home page in a format for menu links, i.e. 
+ * Gets the user home page in a format for menu links, i.e.
  * "site/swsdp/documentlibrary"
  *
  * @returns {object} The user home page target URL
@@ -1452,9 +1447,9 @@ function getHeaderServices() {
                }
             });
          }
-         else 
+         else
          {
-            if (!user.isAdmin && siteData.profile.visibility != "PUBLIC" && siteData.userIsMember === false)
+            if (!user.isAdmin && siteData.profile.visibility != "PUBLIC" && siteData.profile.visibility != "MODERATED" && siteData.userIsMember === false)
             {
                services.push({
                   name: "share/services/UrlUnavailableService",
@@ -1481,7 +1476,7 @@ function getHeaderServices() {
          }
       }
    }
-   
+
    // Only add the logging service when in client-debug mode...
    if (config.global.flags.getChildValue("client-debug") == "true")
    {
@@ -1608,7 +1603,7 @@ function getHeaderModel(pageTitle) {
       };
       headerMenus.appItems.push(loggingWidget);
    }
-    
+
    // Get the user and group data and generate a "currentItem" for it so that render filtering
    // can be applied based on group membership...
    var userGroupData = getUserGroupData();
@@ -1728,7 +1723,7 @@ function getHeaderModel(pageTitle) {
       headerTitleBar.config.widgets.push(
             {
                id: "HEADER_TITLE_VISIBILITY",
-               align: "left", 
+               align: "left",
                name: "alfresco/misc/AlfTooltip",
                config: {
                   widgets: [
@@ -1751,7 +1746,7 @@ function getHeaderModel(pageTitle) {
                }
             });
    }
-      
+
    // If the user is not the admin, then add in a role-based menu item for sites management...
    if (!user.isAdmin)
    {
@@ -1769,7 +1764,7 @@ function getHeaderModel(pageTitle) {
    }
 
    /**
-    * If user is not Admin, and they belong to group GROUP_ALFRESCO_MODEL_ADMINISTRATORS, add model manager 
+    * If user is not Admin, and they belong to group GROUP_ALFRESCO_MODEL_ADMINISTRATORS, add model manager
     * link to the share header.
     */
    if (!user.isAdmin && (user.properties["alfUserGroups"] != null && user.properties["alfUserGroups"].indexOf("GROUP_ALFRESCO_MODEL_ADMINISTRATORS") !== -1))

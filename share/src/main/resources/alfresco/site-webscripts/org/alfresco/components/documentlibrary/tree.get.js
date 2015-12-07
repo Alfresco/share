@@ -6,7 +6,8 @@
 function main()
 {
    var evaluateChildFolders = "true",
-       maximumFolderCount = "-1";
+       maximumFolderCount = "-1",
+       customFolderStyleConfig=null;
    var docLibConfig = config.scoped["DocumentLibrary"];
    if (docLibConfig != null)
    {
@@ -21,7 +22,15 @@ function main()
          applyDropTargets = tmp != null ? tmp : "true";
       }
    }
-
+   var commonComponentStyleConfig = config.scoped["CommonComponentStyle"];
+   if (commonComponentStyleConfig != null)
+   {
+      var commonComponentStyle = commonComponentStyleConfig["component-style"];
+      if (commonComponentStyle != null)
+      {
+         customFolderStyleConfig = commonComponentStyle != null ? JSON.parse(commonComponentStyle.value) : null;
+      }
+   }
    var docListTree = {
       id : "DocListTree", 
       name : "Alfresco.DocListTree",
@@ -30,7 +39,8 @@ function main()
          containerId : template.properties.container != null ? template.properties.container : "documentLibrary",
          evaluateChildFolders : (evaluateChildFolders == "true"),
          maximumFolderCount : parseInt(maximumFolderCount),
-         setDropTargets : (applyDropTargets == "true")
+         setDropTargets : (applyDropTargets == "true"),
+         customFolderStyleConfig : customFolderStyleConfig
       }
    };
    model.widgets = [docListTree];

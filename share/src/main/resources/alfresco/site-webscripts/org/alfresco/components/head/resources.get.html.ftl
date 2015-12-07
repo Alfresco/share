@@ -123,9 +123,8 @@
       };
       Alfresco.constants.HELP_PAGES =
       {
-         <#list config.scoped["HelpPages"]["help-pages"].children as c>
-         "${c.name}": "${c.value}"<#if c_has_next>,</#if>
-         </#list>
+         "share-help": "${msg("share-help.docs-url", context.properties["docsEdition"].value)}",
+         "share-tutorial": "${msg("share-tutorial.docs-url", context.properties["docsEdition"].value)}"
       };
       Alfresco.constants.HTML_EDITOR = 'tinyMCE';
       <#if config.scoped["Social"]["quickshare"].getChildValue("url")??>
