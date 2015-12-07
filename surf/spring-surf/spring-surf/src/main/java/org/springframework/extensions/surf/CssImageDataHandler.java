@@ -50,12 +50,12 @@ public class CssImageDataHandler implements CacheReporter
     /**
      * <p>This is the first part of the CSS data image text. This is the text that runs up until the MIME type of the image.</p>
      */
-    public static final String DATA_PREFIX_PART1 = "data:image/";
+    public static final String DATA_IMAGE_PREFIX    = "data:image/";
     
     /**
-     * <p>This is the second part of the CSS data image text. It runs from the MIME type to the Base64 encoded data.</p>
+     * <p>This is the second part of the CSS data image text. It runs from the MIME type to Base64 encoded data.</p>
      */
-    public static final String DATA_PREFIX_PART2 = ";base64,";
+    public static final String DATA_BASE64_ENCODING = ";base64,";
     
     /**
      * <p>This is the String used to target the start of image URL. <b>NOTE: At the moment this assumes URL only applies to "background-image"
@@ -142,6 +142,21 @@ public class CssImageDataHandler implements CacheReporter
     public void setDependencyHandler(DependencyHandler dependencyHandler)
     {
         this.dependencyHandler = dependencyHandler;
+    }
+    
+    /**
+     * <p>Mimetypes to be included in data image processing - but require remapping from filename extension to a valid data image mimetype</p>
+     */
+    private Map<String, String> remapMimetypes;
+    
+    public Map<String, String> getRemapMimetypes()
+    {
+        return remapMimetypes;
+    }
+
+    public void setRemapMimetypes(Map<String, String> remapMimetypes)
+    {
+        this.remapMimetypes = remapMimetypes;
     }
     
     /**
@@ -282,9 +297,9 @@ public class CssImageDataHandler implements CacheReporter
                             // Update the CSS source to replace the URL with the encoded image data... 
                             int offset = index + URL_OPEN_TARGET_PATTERN.length();
                             cssContents.delete(offset, matchingClose);               // Delete the original URL
-                            offset = insert(cssContents, offset, DATA_PREFIX_PART1); // Add the first part of the prefix...
-                            offset = insert(cssContents, offset, mimetype);          // Add the mimetype...
-                            offset = insert(cssContents, offset, DATA_PREFIX_PART2); // Add the second part of the prefix...
+                            // Add the prefix, mimetype and encoding part of the prefix
+                            mimetype = remapMimetypes.containsKey(mimetype) ? remapMimetypes.get(mimetype) : mimetype;
+                            offset = insert(cssContents, offset, DATA_IMAGE_PREFIX + mimetype + DATA_BASE64_ENCODING); 
                             offset = insert(cssContents, offset, encodedImage);      // Add the encoded image
                             
                             // Continue the search for the next image...

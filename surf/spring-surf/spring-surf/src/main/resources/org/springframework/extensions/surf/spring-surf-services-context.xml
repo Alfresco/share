@@ -391,6 +391,13 @@
    <bean id="css.data.image.handler.abstract" abstract="true">
        <property name="dependencyHandler" ref="dependency.handler" />
        <property name="maximumImageSize" value="10485760" />
+       <!-- Mimetypes to be included in data image processing - but require remapping from filename extension to a valid data image mimetype -->
+       <property name="remapMimetypes">
+          <map>
+             <entry key="svg"><value>svg+xml</value></entry>
+          </map>
+       </property>
+       <!-- Mimetypes to be ignored during data image processing -->
        <property name="excludeMimeTypes">
           <list>
              <value>css</value>

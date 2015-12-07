@@ -775,7 +775,7 @@ public class DependencyAggregator implements ApplicationContextAware, CacheRepor
                     imageSrc = imageSrc.substring(0, imageSrc.length() -1);
                 }
                 
-                if (imageSrc.startsWith(CssImageDataHandler.DATA_PREFIX_PART1) ||
+                if (imageSrc.startsWith(CssImageDataHandler.DATA_IMAGE_PREFIX) ||
                     imageSrc.toLowerCase().startsWith("http://") || 
                     imageSrc.startsWith(CssImageDataHandler.FORWARD_SLASH))
                 {
