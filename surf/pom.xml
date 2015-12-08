@@ -57,6 +57,7 @@
 
    <properties>
       <!-- Surf projects historically use 'spring.version' property -->
+      <dependency.webscripts.version>5.9</dependency.webscripts.version>
       <spring.version>${dependency.spring.version}</spring.version>
       <plugin.jetty.version>7.0.1.v20091125</plugin.jetty.version>
    </properties>
