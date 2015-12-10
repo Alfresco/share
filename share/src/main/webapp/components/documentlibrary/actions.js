@@ -559,6 +559,7 @@
          if (jsNode.hasAspect("sync:syncSetMemberNode"))
          {
             displayPromptText += this.msg("actions.synced.remove-sync");
+            // The code further on down assumes that the unsync button is first
             buttons.unshift({
                text: this.msg("button.unsync"),
                handler: function dlA_onActionCloudUnsync_unsync()
@@ -574,6 +575,12 @@
                         successCallback:{
                            fn: function cloudSync_onCloudUnsync_success()
                            {
+                           
+                              // MNT-15233: Delete Document pop-up isn't closed after Remove sync action is performed
+                              var displayPrompt = Dom.get('prompt');
+                              var buttonUnsync = displayPrompt.getElementsByTagName('button')[0];
+                              buttonUnsync.style.display = 'none';
+                              
                               YAHOO.Bubbling.fire("metadataRefresh");
                               Alfresco.util.PopupManager.displayMessage(
                               {
