@@ -403,7 +403,7 @@
                         Dom.addClass(me.id + "-ssds", "hidden");
                         
                         // set the text
-                        Dom.get(me.id + '-ssds-list-info').innerHTML = me.msg("no-ssd-found");
+                        Dom.get(me.id + '-ssds-list-info').innerHTML = me.msg("message.no-ssds");
                         Dom.removeClass(me.id + "-ssds-list-info", "hidden");
                     }
                 }
@@ -657,9 +657,8 @@
                         this._reloadSearchData();
                     },
                     scope: this
-                }
-                //,
-                //failureMessage: this.msg("message.ssd-reassign.failure")
+                },
+                failureMessage: this.msg("message.ssd-reassign.failure")
             });
         },
         
