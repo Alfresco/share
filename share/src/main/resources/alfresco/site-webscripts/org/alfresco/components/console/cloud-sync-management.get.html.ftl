@@ -1,14 +1,14 @@
 <@markup id="css" >
    <#-- CSS Dependencies -->
    <#include "../form/form.css.ftl"/>
-   <@link href="${url.context}/res/components/console/hybrid-sync-management.css" group="console"/>
+   <@link href="${url.context}/res/components/console/cloud-sync-management.css" group="console"/>
 </@>
 
 <@markup id="js">
    <#-- JavaScript Dependencies -->
    <#include "../form/form.js.ftl"/>
    <@script src="${url.context}/res/components/console/consoletool.js" group="console"/>
-   <@script src="${url.context}/res/components/console/hybrid-sync-management.js" group="console"/>
+   <@script src="${url.context}/res/components/console/cloud-sync-management.js" group="console"/>
    <@script src="${url.context}/res/modules/simple-dialog.js" group="console"/>
    <@script src="${url.context}/res/modules/documentlibrary/doclib-actions.js" group="console"/>
 </@>
