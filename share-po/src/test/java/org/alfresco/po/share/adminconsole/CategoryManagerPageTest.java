@@ -18,14 +18,14 @@
  */
 package org.alfresco.po.share.adminconsole;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Aliaksei Boole
@@ -82,6 +82,7 @@ public class CategoryManagerPageTest extends AbstractTest
         categoryManagerPage.editCategory(categoryName, renameCategoryName);
         Thread.sleep(solrWaitTime); //wait solr
         driver.navigate().refresh();
+        categoryManagerPage.render();
         assertTrue(categoryManagerPage.isCategoryPresent(renameCategoryName));
         categoryManagerPage.openSubCategoryList(renameCategoryName);
         assertTrue(categoryManagerPage.isCategoryPresent(subCategoryName));
