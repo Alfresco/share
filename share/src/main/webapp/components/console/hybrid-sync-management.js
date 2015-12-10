@@ -228,7 +228,15 @@
             var renderCellSyncCreator = function ConsoleHybridSyncManagement_onReady_renderCellSyncCreator(elCell, oRecord, oColumn, oData)
             {
                 var syncCreator = oRecord.getData().entry.syncCreator;
-                var messageDesc = '<span><a class="theme-color-1" href="' + Alfresco.constants.URL_PAGECONTEXT + 'user/' + encodeURIComponent(syncCreator) + '/profile">' + $html(syncCreator) + '</a></span>';
+                var messageDesc;
+                if (oRecord.getData().entry.syncCreatorExists == "true")
+                {
+                    messageDesc = Alfresco.util.userProfileLink(syncCreator, "", 'class="theme-color-1"');
+                }
+                else
+                {
+                    messageDesc = '<span title="' + me.msg("message.ssd-sync-creator-no-link") +'">' + $html(syncCreator) + '</span>';
+                }
                 elCell.innerHTML = messageDesc;
             };
             
