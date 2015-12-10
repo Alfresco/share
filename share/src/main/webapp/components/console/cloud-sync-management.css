@@ -157,7 +157,7 @@
 
 .ssds-List a.reassign-ssd
 {
-   background: url(../../js/alfresco/menus/css/images/Password.png) no-repeat left;
+   background: url(../../../components/images/password-20.png) no-repeat left;
 }
 
 .ssds-List .yui-dt-highlighted a
