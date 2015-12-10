@@ -299,6 +299,7 @@
                         {
                            text: this.msg("sync.new-folder.creation.failure")
                         });
+                        this.widgets.createFolderInTheCloudDialog.widgets.okButton.set("disabled", false);
                      },
                      scope: this
                   }
