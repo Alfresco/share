@@ -62,6 +62,16 @@
 
       if (htmlId != "null")
       {
+         try 
+         {
+            YAHOO.Bubbling.unsubscribe("networkSelected", null, this);
+            YAHOO.Bubbling.unsubscribe("authDetailsAvailable", null, this);
+         }
+         catch(err)
+         {
+            /*ignore, because error is thrown when event isn't registred*/
+         };
+
          YAHOO.Bubbling.on("networkSelected", this._populateSitePicker, this);
          YAHOO.Bubbling.on("authDetailsAvailable", this.onAuthDetailsAvailable, this);
       }
