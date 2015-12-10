@@ -78,17 +78,20 @@
 .ssds-List .yui-dt-col-remoteTenantId
 {
    width: 10%;
+   word-break: break-all;
 }
 
 .ssds-List .yui-dt-col-syncError
 {
    width: 15%;
+   word-break: break-all;
 }
 
 .ssds-List .yui-dt-col-path,
 .ssds-List .yui-dt-col-targetFolderNodeRef
 {
    width: 20%;
+   word-break: break-all;
 }
 
 .ssds-List .body h4,
