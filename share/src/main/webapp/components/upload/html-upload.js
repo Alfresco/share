@@ -436,7 +436,7 @@
             text = Alfresco.util.message(key, this.name);
          if (text == key)
          {
-            text = e.status.code ? e.status.code : Alfresco.util.message("message.failure", this.name);
+            text = e.message ? e.message : Alfresco.util.message("message.failure", this.name);
          }
          Alfresco.util.PopupManager.displayPrompt(
          {
