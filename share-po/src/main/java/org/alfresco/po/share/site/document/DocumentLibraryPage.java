@@ -566,8 +566,8 @@ public class DocumentLibraryPage extends SitePage
             case TABLE_VIEW:
                 xpath = "//td[contains(@class,'yui-dt-col-name')]/div/span/a[normalize-space(text())='%s']";
                 break;
-            case DETAILED_VIEW:
-                xpath = "//a[normalize-space(text())=\"%s\"]";
+            case DETAILED_VIEW:    
+                xpath = "//a[text()='%s']";
                 break;
             default:
                 break;

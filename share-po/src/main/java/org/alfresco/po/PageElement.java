@@ -235,21 +235,29 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
         FluentWait<By> fluentWait = new FluentWait<By>(by);
         fluentWait.pollingEvery(interval, TimeUnit.MILLISECONDS);
         fluentWait.withTimeout(limit, TimeUnit.MILLISECONDS);
-        fluentWait.until(new Predicate<By>()
+        try
         {
-            public boolean apply(By by)
+            fluentWait.until(new Predicate<By>()
             {
-                try
+                public boolean apply(By by)
                 {
-                    return driver.findElement(by).isDisplayed();
+                    try
+                    {
+                        return driver.findElement(by).isDisplayed();
+                    }
+                    catch (NoSuchElementException ex)
+                    {
+                        return false;
+                    }
                 }
-                catch (NoSuchElementException ex)
-                {
-                    return false;
-                }
-            }
-        });
-        return driver.findElement(by);
+            });
+            return driver.findElement(by);
+        }
+        catch (RuntimeException re)
+        {
+            throw new NoSuchElementException("Unable to locate element " + by);
+        }
+
     }
     /**
      * Helper method to find a {@link WebElement} with a time limit in milliseconds. During the wait period it will check for the element every 100 millisecond.
@@ -268,14 +276,14 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
         {
             public boolean apply(By by)
             {
-                try
-                {
-                    return getWrappedElement().findElement(by).isDisplayed();
-                }
-                catch (NoSuchElementException ex)
-                {
-                    return false;
-                }
+            try
+            {
+                return getWrappedElement().findElement(by).isDisplayed();
+            }
+            catch (NoSuchElementException ex)
+            {
+                return false;
+            }
             }
         });
         return getWrappedElement().findElement(by);
