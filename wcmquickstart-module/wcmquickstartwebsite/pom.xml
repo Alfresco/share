@@ -6,7 +6,7 @@
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>5.1-SNAPSHOT</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
 
     <build>
@@ -53,11 +53,11 @@
             <version>${project.version}</version>
             <classifier>classes</classifier>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+         <dependency>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+            <version>${dependency.surf.version}</version>
+         </dependency>
 
         <dependency>
             <groupId>org.tuckey</groupId>

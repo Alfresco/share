@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>5.1-SNAPSHOT</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
     <artifactId>alfresco-web-framework-commons</artifactId>
     <name>Alfresco Web Framework common libraries</name>
@@ -11,11 +11,11 @@
     <packaging>war</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+         <dependency>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+            <version>${dependency.surf.version}</version>
+         </dependency>
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>

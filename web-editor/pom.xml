@@ -6,7 +6,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>5.1-SNAPSHOT</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
 
     <build>
@@ -92,9 +92,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf-api</artifactId>
-            <version>${project.version}</version>
+            <version>${dependency.surf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.extensions.surf</groupId>
