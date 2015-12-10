@@ -266,6 +266,8 @@
                 var ssd = oRecord.getData();
                 if (me.options.username !== ssd.entry.syncCreator) {
                     var actions = "", reassignLink, index=oRecord._nCount;
+
+                    Dom.addClass(elCell, 'align-center');
                     
                     actions += '<a id="' + me.id + '-reassign-link-'+index+'" href="#" class="reassign-ssd" title="' + me.msg("button.ssd-reassign.label") + '">&nbsp;</a>';
                     
