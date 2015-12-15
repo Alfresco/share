@@ -180,8 +180,12 @@
 
          this.onNetworkSelect(null, this.widgets.networkButtons);
 
-         Event.on(Dom.getElementsByClassName("cloud-path-add-folder", "div"), "click", function onCreateFolder(event)
-         {
+         var cloudCreateFolderButtonEl = Dom.getElementsByClassName("cloud-path-add-folder", "div");
+
+         // Add click listener to create folder button, but ensure it only registers once (See ACE-4791).
+         // Remove fails silently if listener isn't registered.
+         Event.removeListener(cloudCreateFolderButtonEl, "click");
+         Event.on(cloudCreateFolderButtonEl, "click", function onCreateFolder(event) {
             Event.preventDefault(event);
             this.createFolderInTheCloud();
          }, {}, this);
