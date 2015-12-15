@@ -35,7 +35,7 @@
            alfrescosolr4_component_enabled=0 
            alfrescowcmqs_component_enabled=0 
            imagemagick_component_enabled=0 
-           swftools_component_enabled=0 
+           alfrescosharepointimitation_component_enabled=0 
         </bitrock.arguments>
         <shareInstaller>true</shareInstaller>
     </properties>
