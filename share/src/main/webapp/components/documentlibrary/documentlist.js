@@ -637,7 +637,10 @@
             if (record.parent.isContainer || record.node.isContainer)
             {
                // handle folder parent node
-               html = '#" class="filter-change" rel="' + Alfresco.DocumentList.generatePathMarkup(record.location);
+               var location = {};
+               location.path = scope.currentPath;
+               location.file = record.location.file;
+               html = '#" class="filter-change" rel="' + Alfresco.DocumentList.generatePathMarkup(location);
             }
             else if (record.location.path === "/")
             {
@@ -645,7 +648,7 @@
                html = '#" class="filter-change" rel="' + Alfresco.DocumentList.generateFilterMarkup(
                   {
                      filterId: "path",
-                     filterData: $combine(record.location.path, "")
+                     filterData: $combine(scope.currentPath, "")
                   });
             }
             else
