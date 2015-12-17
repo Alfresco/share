@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Manage Sync Set Definitions</shortname>
+  <description>This WebScript defines the Manage Sync Set Definitions page- it should be accessible to Admins</description>
+  <family>admin-console</family>
+  <family>edition:ENTERPRISE-CLOUDSYNCPREM</family>
+  <url>/components/console/hybrid-sync-management</url>
+</webscript>

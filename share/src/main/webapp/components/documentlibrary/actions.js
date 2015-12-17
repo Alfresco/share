@@ -559,6 +559,7 @@
          if (jsNode.hasAspect("sync:syncSetMemberNode"))
          {
             displayPromptText += this.msg("actions.synced.remove-sync");
+            // The code further on down assumes that the unsync button is first
             buttons.unshift({
                text: this.msg("button.unsync"),
                handler: function dlA_onActionCloudUnsync_unsync()
@@ -574,6 +575,12 @@
                         successCallback:{
                            fn: function cloudSync_onCloudUnsync_success()
                            {
+                           
+                              // MNT-15233: Delete Document pop-up isn't closed after Remove sync action is performed
+                              var displayPrompt = Dom.get('prompt');
+                              var buttonUnsync = displayPrompt.getElementsByTagName('button')[0];
+                              buttonUnsync.style.display = 'none';
+                              
                               YAHOO.Bubbling.fire("metadataRefresh");
                               Alfresco.util.PopupManager.displayMessage(
                               {
@@ -2171,53 +2178,45 @@
        */
       onActionCloudSync: function dlA_onActionCloudSync(record)
       {
-         // Instantiate Cloud Folder Picker & Cloud Auth Dialogue if they don't exist
-         if (!cloudFolderPicker)
+         // MNT-15212 : If the Cloud Folder Picker was initialized before delete it 
+         if(cloudFolderPicker)
          {
-            cloudFolderPicker = new Alfresco.module.DoclibCloudFolder(this.id + "-cloud-folder");
+               cloudFolderPicker.destroy();
+         }
 
-            var me = this;
+         // Instantiate Cloud Folder Picker & Cloud Auth Dialogue
+         cloudFolderPicker = new Alfresco.module.DoclibCloudFolder(this.id + "-cloud-folder");
 
-            // Set up handler for when the sync location has been chosen:
-            YAHOO.Bubbling.on("folderSelected", function cloudSync_onCloudFolderSelected(event, args)
+         var me = this;
+
+         // Set up handler for when the sync location has been chosen:
+         YAHOO.Bubbling.on("folderSelected", function cloudSync_onCloudFolderSelected(event, args)
+         {
+            this.updateSyncOptions();
+
+            Alfresco.util.Ajax.jsonPost(
             {
-               this.updateSyncOptions();
-
-               Alfresco.util.Ajax.jsonPost(
+               url: Alfresco.constants.PROXY_URI + "enterprise/sync/syncsetdefinitions",
+               dataObj: YAHOO.lang.merge(this.options.syncOptions,
                {
-                  url: Alfresco.constants.PROXY_URI + "enterprise/sync/syncsetdefinitions",
-                  dataObj: YAHOO.lang.merge(this.options.syncOptions,
+                  memberNodeRefs: me.getMemberNodeRefs(this.options.files),
+                  remoteTenantId: this.options.targetNetwork,
+                  targetFolderNodeRef: args[1].selectedFolder.nodeRef
+               }),
+               successCallback: {
+                  fn: function cloudSync_onCloudFolderSelectedSuccess()
                   {
-                     memberNodeRefs: me.getMemberNodeRefs(this.options.files),
-                     remoteTenantId: this.options.targetNetwork,
-                     targetFolderNodeRef: args[1].selectedFolder.nodeRef
-                  }),
-                  successCallback: {
-                     fn: function cloudSync_onCloudFolderSelectedSuccess()
+                     YAHOO.Bubbling.fire("metadataRefresh");
+                     Alfresco.util.PopupManager.displayMessage(
                      {
-                        YAHOO.Bubbling.fire("metadataRefresh");
-                        Alfresco.util.PopupManager.displayMessage(
-                        {
-                           text: this.msg("message.sync.success")
-                        });
-                     },
-                     scope: this
+                        text: this.msg("message.sync.success")
+                     });
                   },
-                  failureMessage: this.msg("message.sync.failure")
-               })
-            }, cloudFolderPicker);
-         }
-         else
-         {
-            var optionInputs = cloudFolderPicker.widgets.optionInputs;
-            if (optionInputs)
-            {
-               for (var i = 0; i < optionInputs.length; i++)
-               {
-                  optionInputs[i].checked = optionInputs[i].defaultChecked;
-               }
-            }
-         }
+                  scope: this
+               },
+               failureMessage: this.msg("message.sync.failure")
+            })
+         }, cloudFolderPicker);
 
          if(!this.modules.cloudAuth)
          {

@@ -62,6 +62,16 @@
 
       if (htmlId != "null")
       {
+         try 
+         {
+            YAHOO.Bubbling.unsubscribe("networkSelected", null, this);
+            YAHOO.Bubbling.unsubscribe("authDetailsAvailable", null, this);
+         }
+         catch(err)
+         {
+            /*ignore, because error is thrown when event isn't registred*/
+         };
+
          YAHOO.Bubbling.on("networkSelected", this._populateSitePicker, this);
          YAHOO.Bubbling.on("authDetailsAvailable", this.onAuthDetailsAvailable, this);
       }
@@ -170,8 +180,12 @@
 
          this.onNetworkSelect(null, this.widgets.networkButtons);
 
-         Event.on(Dom.getElementsByClassName("cloud-path-add-folder", "div"), "click", function onCreateFolder(event)
-         {
+         var cloudCreateFolderButtonEl = Dom.getElementsByClassName("cloud-path-add-folder", "div");
+
+         // Add click listener to create folder button, but ensure it only registers once (See ACE-4791).
+         // Remove fails silently if listener isn't registered.
+         Event.removeListener(cloudCreateFolderButtonEl, "click");
+         Event.on(cloudCreateFolderButtonEl, "click", function onCreateFolder(event) {
             Event.preventDefault(event);
             this.createFolderInTheCloud();
          }, {}, this);
@@ -295,6 +309,7 @@
                         {
                            text: this.msg("sync.new-folder.creation.failure")
                         });
+                        this.widgets.createFolderInTheCloudDialog.widgets.okButton.set("disabled", false);
                      },
                      scope: this
                   }

@@ -1,0 +1,176 @@
+/* Toolbars */
+
+.search-button
+{
+    display: inline-block;
+}
+.search-text
+{
+    padding-bottom: 1em;
+}
+
+.search-text input
+{
+   margin-top:20px;
+   margin-right: 5px;
+   padding: 3px!important;
+}
+
+.search-text select
+{
+   padding: 3px!important;
+}
+.search-text label
+{
+   margin-left: 6px!important;
+}
+
+.ssds-List .ssds-list-info
+{
+   float: left;
+   padding: 0.5em 0 0.6em 1em;
+}
+
+.ssds-List .hide
+{
+   visibility: hidden;
+}
+
+.ssds-List .toolbar div.actions,
+.ssds-List .toolbar div.links
+{
+   float: right;
+}
+
+.ssds-List .toolbar div.actions
+{
+   min-height: 2em; line-height: 2em;
+}
+
+.ssds-List .toolbar .yui-pg-container,
+.ssds-List .toolbar .yui-pg-container .yui-pg-current
+{
+   margin: 0 0 0 0.3em;
+   padding: 0;
+   text-align: center;
+}
+
+/* Body */
+
+.ssds-List .body
+{
+   clear: both;
+}
+
+.ssds-List .scrollableList 
+{
+   padding:0;
+}
+
+.ssds-List .yui-dt-col-action
+{
+   width: 5%;
+}
+
+.ssds-List .yui-dt-col-id,
+.ssds-List .yui-dt-col-syncCreator,
+.ssds-List .yui-dt-col-cloudUsername,
+.ssds-List .yui-dt-col-remoteTenantId
+{
+   width: 10%;
+   word-break: break-all;
+}
+
+.ssds-List .yui-dt-col-syncError
+{
+   width: 15%;
+   word-break: break-all;
+}
+
+.ssds-List .yui-dt-col-path,
+.ssds-List .yui-dt-col-targetFolderNodeRef
+{
+   width: 20%;
+   word-break: break-all;
+}
+
+.ssds-List .body h4,
+.ssds-List .body div   
+{
+   margin-bottom: 0.2em;
+}
+
+/* Data Table */
+
+.ssds-List .yui-dt table
+{
+   border: medium none;
+   width: 100%;
+}
+
+.ssds-List .yui-dt thead
+{
+   display: table-header-group;
+}
+
+.ssds-List .yui-dt tbody
+{
+   outline: none;
+}
+
+.ssds-List .yui-dt tr.yui-dt-even,
+.ssds-List .yui-dt tr.yui-dt-odd
+{
+   background-color: #ffffff;
+}
+
+.ssds-List .yui-dt td
+{
+   border-bottom: 1px dashed #d9d9d9;
+   border-right: medium none;
+   vertical-align: top;
+}
+
+.ssds-List .yui-dt td .yui-dt-liner
+{
+   padding: 4px 6px;
+}
+
+.ssds-List .yui-dt .yui-dt-message td
+{
+   border: medium none;
+}
+
+.ssds-List a.reassign-ssd
+{
+   cursor: pointer;
+   padding: 1em 0.75em;
+   visibility: hidden;
+}
+
+.ssds-List a.reassign-ssd-active
+{
+   cursor: pointer;
+   padding: 1em 0.75em;
+   visibility: visible;
+}
+
+.ssds-List a.reassign-ssd
+{
+   background: url(../../../components/images/password-20.png) no-repeat left;
+}
+
+.ssds-List .yui-dt-highlighted a
+{
+   visibility: visible;
+}
+
+.ssds-List .yui-dt18-col-name .yui-dt-liner
+{
+   overflow: visible !important;
+}
+
+.align-center
+{
+   text-align: center;
+}
