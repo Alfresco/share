@@ -63,34 +63,45 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     @Override
     public SiteDashboardPage render(RenderTime timer)
     {
-        while (true)
+        if (!this.getPageTitleLabel().equalsIgnoreCase("Moderated"))
         {
-            try
+            while (true)
             {
-                timer.start();
-                // Check site is being created message has disappeared
-                if (!isJSMessageDisplayed())
+                try
                 {
-                    try
+                    timer.start();
+                    // Check site is being created message has disappeared
+                    if (!isJSMessageDisplayed())
                     {
-                        siteMembersDashlet.render(timer);
-                        siteContentDashlet.render(timer);
+                        try
+                        {
+                            siteMembersDashlet.render(timer);
+                            siteContentDashlet.render(timer);
+                        }
+                        catch (PageException pe)
+                        {
+                            throw new PageException(this.getClass().getName() + " failed to render in time", pe);
+                        }
+                        return this;
                     }
-                    catch (PageException pe)
-                    {
-                        throw new PageException(this.getClass().getName() + " failed to render in time", pe);
-                    }
-                    return this;
                 }
+                catch (Exception e)
+                {
+                    // Catch stale element exception caused by js message on
+                    // page
+                }
+                finally
+                {
+                    timer.end();
+                }
+
             }
-            catch (Exception e)
-            {
-                // Catch stale element exception caused by js message on page
-            }
-            finally
-            {
-                timer.end();
-            }
+        }
+        else
+        {
+            basicRender(timer);
+            return this;
+
         }
     }
 
