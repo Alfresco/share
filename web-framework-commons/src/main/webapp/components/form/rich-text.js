@@ -147,17 +147,8 @@
          this.editor.getEditor().on('BeforeSetContent', function(e) {
             _this._handleContentChange();
          });
-         // MNT-8717
-         var submitButton = YAHOO.util.Dom.get(this.id.replace(/_prop_[a-zA-Z]+_[a-zA-Z]+/,'-form-submit-button'));
-         if (submitButton)
-         {
-            function saveClicked() 
-            {
-               _this._handleContentChange();
-            }
-
-            YAHOO.util.Event.on(submitButton, "click", saveClicked);
-         }
+         // register the listener to add saving of the editor contents before form is submitted
+         YAHOO.Bubbling.on("formBeforeSubmit", this._handleContentChange, this);
          // MNT-10232: Description is displayed with tags
          if (this.id.indexOf("_prop_cm_") > 0 && this.id.indexOf("_prop_cm_content") == -1)
          {
