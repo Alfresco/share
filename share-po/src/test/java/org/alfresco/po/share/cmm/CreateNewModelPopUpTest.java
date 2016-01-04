@@ -124,7 +124,7 @@ public class CreateNewModelPopUpTest extends AbstractTestCMM
         CreateNewModelPopUp createNewModelPopUpPage = cmmPage.clickCreateNewModelButton().render();
 
         createNewModelPopUpPage.setPrefix(name);
-        Assert.assertEquals(createNewModelPopUpPage.getPrefix(), name, "Namespace field text dispalyed correctly");
+        Assert.assertEquals(createNewModelPopUpPage.getPrefix(), name, "prefix field text dispalyed correctly");
         createNewModelPopUpPage.selectCloseButton().render();
     }
 
@@ -238,7 +238,7 @@ public class CreateNewModelPopUpTest extends AbstractTestCMM
         createNewModelPopUpPage.selectCloseButton().render();
     }
 
-    @Test(groups = { "Enterprise-only" }, priority = 10)
+    @Test(groups = { "Enterprise-only" }, priority = 11)
     public void testDuplicateModelSameName() throws Exception
     {
         String duplicateString = name;
@@ -260,10 +260,10 @@ public class CreateNewModelPopUpTest extends AbstractTestCMM
         // TODO: Test that error is returned
 
         // Test that model is not added
-        Assert.assertEquals(modelCount, cmmPage.getCMCount());
+        Assert.assertEquals(modelCount, cmmPage.getCMCount());        
     }
 
-    @Test(groups = { "Enterprise-only" }, priority = 11)
+    @Test(groups = { "Enterprise-only" }, priority = 10)
     public void testDuplicateModelSameNamespace() throws Exception
     {
         String duplicateString = "ns" + name;
