@@ -409,8 +409,15 @@
           * @property finderAPI
           * @type string
           */
-         itemsAPI: null
-         
+         itemsAPI: null,
+
+         /**
+          * Specifies the mime type of the items that can be selected.
+          * 
+          * @property selectableMimeType
+          * @type string
+          */
+         selectableMimeType: null
       },
 
       /**
@@ -3156,7 +3163,13 @@
                params += "&rootNode=" + encodeURIComponent(rootNode);
             }
          }
-         
+
+         //set the selectableMimeType parameter if it's configured
+         if(this.objectFinder.options.selectableMimeType)
+         {
+            params += "&selectableMimeType=" + encodeURI(this.objectFinder.options.selectableMimeType);
+         }
+
          if (this.objectFinder.options.params)
          {
             params += "&" + encodeURI(this.objectFinder.options.params);
