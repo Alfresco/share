@@ -213,32 +213,7 @@ public class CreateNewModelPopUpTest extends AbstractTestCMM
 
     }
 
-    /**
-     * Verify validation message for Mandatory fields are displayed
-     * 
-     * @throws Exception if error
-     */
     @Test(groups = { "Enterprise-only" }, priority = 9)
-    public void testFieldValidationMessages() throws Exception
-    {
-        // loginAs(username, password);
-
-        ModelManagerPage cmmPage = cmmActions.navigateToModelManagerPage(driver).render();
-
-        CreateNewModelPopUp createNewModelPopUpPage = cmmPage.clickCreateNewModelButton().render();
-
-        // Commented out as error behaviour is changed. Messages will only be displayed on invalid input.
-        // Discussed within CMM that tests for validations etc are in scope for Aikau team
-
-        // Assert.assertTrue(createNewModelPopUpPage.isNamespaceValidationMessageDisplayed(), "Message displayed correctly");
-        // Assert.assertTrue(createNewModelPopUpPage.isNameValidationMessageDisplayed(), "Message displayed correctly");
-        // Assert.assertTrue(createNewModelPopUpPage.isPrefixValidationMessageDisplayed(), "Message displayed correctly");
-        // Assert.assertFalse(createNewModelPopUpPage.isAuthorValidationMessageDisplayed(), "Message not displayed correctly");
-        // Assert.assertFalse(createNewModelPopUpPage.isDescValidationMessageDisplayed(), "Message not displayed correctly");
-        createNewModelPopUpPage.selectCloseButton().render();
-    }
-
-    @Test(groups = { "Enterprise-only" }, priority = 11)
     public void testDuplicateModelSameName() throws Exception
     {
         String duplicateString = name;
@@ -289,7 +264,7 @@ public class CreateNewModelPopUpTest extends AbstractTestCMM
         Assert.assertFalse(cmmPage.isCustomModelRowDisplayed(newModel), "Custom Model Row is not displayed");
     }
 
-    @Test(groups = { "Enterprise-only" }, priority = 12)
+    @Test(groups = { "Enterprise-only" }, priority = 11)
     public void testDuplicateModelSamePrefix() throws Exception
     {
         String duplicateString = "pre" + name;
