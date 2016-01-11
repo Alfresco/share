@@ -47,7 +47,7 @@ public class ModelManagerPage extends SharePage
 {
 
     private static final Log LOGGER = LogFactory.getLog(ModelManagerPage.class);
-    private static final By BUTTON_CREATE_NEW_MODEL = By.cssSelector("span.createButton > span");
+    private static final By BUTTON_CREATE_NEW_MODEL = By.cssSelector(".createButton>span");
     private static final By BUTTON_IMPORT_MODEL = By.cssSelector(".alfresco-buttons-AlfButton.importButton>span");
     private static final By CMM_MODEL_LIST = By.id("MODELS_LIST");
     private static final By MODEL_ROWS = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
@@ -234,9 +234,9 @@ public class ModelManagerPage extends SharePage
      */
     public HtmlPage clickCreateNewModelButton()
     {
-        WebElement createButton = driver.findElement(BUTTON_CREATE_NEW_MODEL);
+        WebElement createButton = findFirstDisplayedElement(BUTTON_CREATE_NEW_MODEL);
         createButton.click();
-        return factoryPage.instantiatePage(driver, CreateNewModelPopUp.class);
+        return factoryPage.getPage(driver);
     }
 
     /**
