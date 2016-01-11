@@ -1161,6 +1161,7 @@
             <evaluator>evaluator.doclib.metadata.isSomeoneLocked</evaluator>
             <evaluator>evaluator.doclib.action.notHasWorkingCopy</evaluator>
             <evaluator>evaluator.doclib.action.cancelLockedBlacklist</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.isSyncLock</evaluator>
          </action>
 
          <!-- Manage folder rules -->

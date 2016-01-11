@@ -592,6 +592,15 @@
       <property name="negateOutput" value="true" />
    </bean>
 
+   <bean id="evaluator.doclib.action.isSyncLock" parent="evaluator.doclib.metadata.value">
+      <property name="accessor" value="node.properties.sync:syncLock"/>
+      <property name="comparator">
+         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
+            <property name="value" value="true" />
+         </bean>
+      </property>
+   </bean>
+
    <bean id="evaluator.doclib.action.hasSyncFailedAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator">
       <property name="aspects">
          <list>
