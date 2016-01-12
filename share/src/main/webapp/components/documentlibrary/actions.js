@@ -1191,6 +1191,7 @@
          }
 
          var fileExtension = Alfresco.util.getFileExtension(record.location.file);
+         fileExtension = fileExtension != null ? fileExtension.toLowerCase() : fileExtension;
          var protocolHandler = this.getProtocolForFileExtension(fileExtension);
 
          if(protocolHandler === undefined)
