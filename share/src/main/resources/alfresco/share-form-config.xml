@@ -1930,7 +1930,9 @@
                <show id="vm:custom-template-association" />
             </field-visibility>
             <appearance>
-               <field id="vm:custom-template-association" label-id="property.vm_custom-template-association" read-only="false" />
+               <field id="vm:custom-template-association" label-id="property.vm_custom-template-association" read-only="false" >
+                 <control template="/org/alfresco/components/form/controls/selectable-mimetype-association.ftl" />
+               </field>
             </appearance>
          </form>
       </forms>
