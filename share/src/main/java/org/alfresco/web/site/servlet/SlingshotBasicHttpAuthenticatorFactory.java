@@ -82,10 +82,9 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
             }
             case user:
             {
-                HttpSession session = req.getHttpServletRequest().getSession(false);
+                final HttpSession session = req.getHttpServletRequest().getSession(false);
                 if (session != null)
                 {
-                    final User user = (User)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_OBJECT);
                     auth = new Authenticator()
                     {
                         @Override
@@ -97,6 +96,7 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                         @Override
                         public boolean authenticate(RequiredAuthentication required, boolean isGuest)
                         {
+                            User user = (User)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_OBJECT);
                             return (user != null && !AuthenticationUtil.isGuest(user.getId()));
                         }
                     };
@@ -105,10 +105,9 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
             }
             case guest:
             {
-                HttpSession session = req.getHttpServletRequest().getSession(false);
+                final HttpSession session = req.getHttpServletRequest().getSession(false);
                 if (session != null)
                 {
-                    final User user = (User)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_OBJECT);
                     auth = new Authenticator()
                     {
                         @Override
@@ -120,6 +119,7 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                         @Override
                         public boolean authenticate(RequiredAuthentication required, boolean isGuest)
                         {
+                            User user = (User)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_OBJECT);
                             return (user != null && AuthenticationUtil.isGuest(user.getId()));
                         }
                     };
