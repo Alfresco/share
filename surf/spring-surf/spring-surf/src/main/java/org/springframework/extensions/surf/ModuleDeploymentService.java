@@ -566,7 +566,7 @@ public class ModuleDeploymentService
     private synchronized void saveDeployedModuleConfigurations()
     {
         final RequestContext rc = ThreadLocalRequestContext.getRequestContext();
-        if (rc != null && rc.getUser() != null && rc.getUser().isAdmin())
+        if (rc != null && rc.getUser() != null)
         {
             if (logger.isDebugEnabled())
             {
