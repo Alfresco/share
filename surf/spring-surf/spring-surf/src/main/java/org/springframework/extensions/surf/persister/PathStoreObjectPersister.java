@@ -19,10 +19,13 @@
 package org.springframework.extensions.surf.persister;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -30,6 +33,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
+import org.springframework.extensions.surf.ClusterMessageAware;
+import org.springframework.extensions.surf.ClusterService;
 import org.springframework.extensions.surf.ModelObject;
 import org.springframework.extensions.surf.ModelPersistenceContext;
 import org.springframework.extensions.surf.ModelPersisterInfo;
@@ -67,7 +72,7 @@ import org.springframework.extensions.surf.util.XMLUtil;
  * 
  * @author Kevin Roast
  */
-public class PathStoreObjectPersister extends AbstractStoreObjectPersister
+public class PathStoreObjectPersister extends AbstractStoreObjectPersister implements ClusterMessageAware
 {
     private static Log logger = LogFactory.getLog(PathStoreObjectPersister.class);
     
@@ -196,6 +201,8 @@ public class PathStoreObjectPersister extends AbstractStoreObjectPersister
                     cachePut(context, modelObject);
                 }
             }
+            
+            updateClusterCachePath(generatePath(modelObject.getTypeId(), modelObject.getId()));
         }
         catch (IOException ex)
         {
@@ -401,6 +408,30 @@ public class PathStoreObjectPersister extends AbstractStoreObjectPersister
         }
         
         return obj;
+    }
+    
+    @Override
+    public boolean removeObject(ModelPersistenceContext context, String objectTypeId, String objectId)
+            throws ModelObjectPersisterException
+    {
+        final boolean removed = super.removeObject(context, objectTypeId, objectId);
+        if (removed)
+        {
+            updateClusterCachePath(generatePath(objectTypeId, objectId));
+        }
+        return removed;
+    }
+
+    @Override
+    protected ModelObject newObject(ModelPersistenceContext context, String objectTypeId, String objectId, boolean addToCache)
+            throws ModelObjectPersisterException
+    {
+        final ModelObject modelObject = super.newObject(context, objectTypeId, objectId, addToCache);
+        if (modelObject != null)
+        {
+             updateClusterCachePath(generatePath(objectTypeId, objectId));
+        }
+        return modelObject;
     }
     
     /**
@@ -732,5 +763,79 @@ public class PathStoreObjectPersister extends AbstractStoreObjectPersister
     {
         super.invalidateCache();
         this.objectCache.invalidate();
+    }
+    
+    /**
+     * Cluster message indicating that paths in persister cache should be invalidated.
+     * The payload for this message is an array of path strings.
+     */
+    static interface PathCacheInvalidationMessage
+    {
+        static final String TYPE = "path-cache-invalidation";
+        static final String PAYLOAD_PATHS = "paths";
+    }
+    
+    protected ClusterService clusterService;
+    
+    @Override
+    public void setClusterService(ClusterService service)
+    {
+        this.clusterService = service;
+    }
+    
+    @Override
+    public String getClusterMessageType()
+    {
+        return PathCacheInvalidationMessage.TYPE;
+    }
+    
+    @Override
+    public void onClusterMessage(Map<String, Serializable> payload)
+    {
+        final List<String> paths = (List<String>)payload.get(PathCacheInvalidationMessage.PAYLOAD_PATHS);
+        if (paths != null)
+        {
+            final boolean debug = logger.isDebugEnabled();
+            
+            this.cacheLock.writeLock().lock();
+            try
+            {
+                for (final String path: paths)
+                {
+                    if (debug) logger.debug("...invalidating cache for path: " + path);
+                    // default object cache (if no MT is used)
+                    this.objectCache.remove(path);
+                    // process each MT cache also
+                    // TODO: this could be improved by passing the tenant with the path
+                    if (this.caches.size() != 0)
+                    {
+                        for (Entry<String, ContentCache<ModelObject>> entry: this.caches.entrySet())
+                        {
+                            entry.getValue().remove(path);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                this.cacheLock.writeLock().unlock();
+            }
+        }
+    }
+    
+    /**
+     * Add a cluster message for an invalid cache path for a model object in the cache.
+     * 
+     * @param path  Object path
+     */
+    protected void updateClusterCachePath(String path)
+    {
+        if (this.clusterService != null)
+        {
+            this.clusterService.publishClusterMessage(
+                    PathCacheInvalidationMessage.TYPE,
+                    Collections.<String, Serializable>singletonMap(PathCacheInvalidationMessage.PAYLOAD_PATHS,
+                            (Serializable)Collections.<String>singletonList(path)));
+        }
     }
 }
