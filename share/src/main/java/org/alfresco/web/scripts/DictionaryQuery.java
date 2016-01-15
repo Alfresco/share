@@ -35,6 +35,8 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.extensions.surf.ClusterMessageAware;
+import org.springframework.extensions.surf.ClusterService;
 import org.springframework.extensions.surf.RequestContext;
 import org.springframework.extensions.surf.ServletUtil;
 import org.springframework.extensions.surf.exception.ConnectorServiceException;
@@ -55,7 +57,7 @@ import org.springframework.extensions.webscripts.connector.Response;
  * @author Kevin Roast
  */
 @SuppressWarnings("serial")
-public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary> implements Serializable
+public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary> implements Serializable, ClusterMessageAware
 {
     private static Log logger = LogFactory.getLog(DictionaryQuery.class);
     
@@ -365,6 +367,15 @@ public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary
         ParameterCheck.mandatoryString("json", json);
         
         getDictionary().updateAddClasses(json);
+        
+        // inform cluster of update
+        if (this.clusterService != null)
+        {
+            Map<String, Serializable> params = new HashMap<>(4);
+            params.put(DictionaryUpdateMessage.PAYLOAD_ADD, json);
+            params.put(DictionaryUpdateMessage.PAYLOAD_USERID, ThreadLocalRequestContext.getRequestContext().getUserId());
+            this.clusterService.publishClusterMessage(DictionaryUpdateMessage.TYPE, params);
+        }
     }
     
     /**
@@ -377,6 +388,15 @@ public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary
         ParameterCheck.mandatoryString("json", json);
         
         getDictionary().updateRemoveClasses(json);
+        
+        // inform cluster of update
+        if (this.clusterService != null)
+        {
+            Map<String, Serializable> params = new HashMap<>(4);
+            params.put(DictionaryUpdateMessage.PAYLOAD_REMOVE, json);
+            params.put(DictionaryUpdateMessage.PAYLOAD_USERID, ThreadLocalRequestContext.getRequestContext().getUserId());
+            this.clusterService.publishClusterMessage(DictionaryUpdateMessage.TYPE, params);
+        }
     }
     
     @Override
@@ -482,6 +502,60 @@ public class DictionaryQuery extends SingletonValueProcessorExtension<Dictionary
     protected String getValueName()
     {
         return "dictionary information";
+    }
+    
+    
+    /**
+     * Cluster message indicating that paths in persister cache should be invalidated.
+     * The payload for this message is an array of path strings.
+     */
+    static interface DictionaryUpdateMessage
+    {
+        static final String TYPE = "dictionary-update";
+        static final String PAYLOAD_ADD = "add";
+        static final String PAYLOAD_REMOVE = "remove";
+        static final String PAYLOAD_USERID = "user";
+    }
+    
+    protected ClusterService clusterService;
+    
+    @Override
+    public void setClusterService(ClusterService service)
+    {
+        this.clusterService = service;
+    }
+    
+    @Override
+    public String getClusterMessageType()
+    {
+        return DictionaryUpdateMessage.TYPE;
+    }
+    
+    @Override
+    public void onClusterMessage(Map<String, Serializable> payload)
+    {
+        final String userId = (String)payload.get(DictionaryUpdateMessage.PAYLOAD_USERID);
+        final String jsonAdd = (String)payload.get(DictionaryUpdateMessage.PAYLOAD_ADD);
+        final String jsonRemove = (String)payload.get(DictionaryUpdateMessage.PAYLOAD_ADD);
+        
+        if (jsonAdd != null)
+        {
+            if (logger.isDebugEnabled())
+                logger.debug("Cluster message to update dictionary with ADD operation: " + jsonAdd);
+            if (hasSingletonValue(isTenant(), userId))
+            {
+                getSingletonValue(isTenant(), userId).updateAddClasses(jsonAdd);
+            }
+        }
+        if (jsonRemove != null)
+        {
+            if (logger.isDebugEnabled())
+                logger.debug("Cluster message to update dictionary with REMOVE operation: " + jsonRemove);
+            if (hasSingletonValue(isTenant(), userId))
+            {
+                getSingletonValue(isTenant(), userId).updateRemoveClasses(jsonRemove);
+            }
+        }
     }
 }
 

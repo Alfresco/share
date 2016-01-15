@@ -68,9 +68,20 @@ public abstract class SingletonValueProcessorExtension<T> extends BaseProcessorE
      */
     protected final T getSingletonValue(final boolean tenant)
     {
+        return getSingletonValue(tenant, ThreadLocalRequestContext.getRequestContext().getUserId());
+    }
+    
+    /**
+     * Thread-safe get of the singleton value. Can be optionally stored per tenant based on user Id.
+     * 
+     * @param tenant    True to get/store per tenant, false for a single value for all repo instances.
+     * 
+     * @return singleton value, optionally per tenant.
+     */
+    protected final T getSingletonValue(final boolean tenant, final String userId)
+    {
         T result;
         
-        final String userId = ThreadLocalRequestContext.getRequestContext().getUserId();
         final String storeId = tenant ? getTenantUserStore(userId) : "";
         
         // NOTE: currently there is a single RRW lock for all values -
@@ -113,6 +124,32 @@ public abstract class SingletonValueProcessorExtension<T> extends BaseProcessorE
                     this.lock.writeLock().unlock();
                 }
             }
+        }
+        finally
+        {
+            this.lock.readLock().unlock();
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Query the existence of a singleton value for the given userId
+     * 
+     * @param tenant
+     * @param userId
+     * 
+     * @return true if singleton value exists, false otherwise
+     */
+    protected final boolean hasSingletonValue(final boolean tenant, final String userId)
+    {
+        boolean result = false;
+        
+        final String storeId = tenant ? getTenantUserStore(userId) : "";
+        this.lock.readLock().lock();
+        try
+        {
+            result = (storeValues.get(storeId) != null);
         }
         finally
         {

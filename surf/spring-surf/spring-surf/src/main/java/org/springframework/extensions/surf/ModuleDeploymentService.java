@@ -17,6 +17,7 @@
  */
 package org.springframework.extensions.surf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,7 +42,7 @@ import org.springframework.extensions.surf.types.ExtensionModule;
 import org.springframework.extensions.surf.types.ModuleDeployment;
 import org.springframework.extensions.webscripts.Registry;
 
-public class ModuleDeploymentService
+public class ModuleDeploymentService implements ClusterMessageAware
 {
     private static final Log logger = LogFactory.getLog(ModuleDeploymentService.class);
     
@@ -180,6 +181,10 @@ public class ModuleDeploymentService
                 }
             }
             this.saveDeployedModuleConfigurations();
+            
+            // inform cluster of the update
+            updateClusterCache();
+            
             result = (module != null);
         }
         else
@@ -246,6 +251,10 @@ public class ModuleDeploymentService
                 }
             }
             this.saveDeployedModuleConfigurations();
+            
+            // inform cluster of the update
+            updateClusterCache();
+            
             result = (module != null);
         }
         else
@@ -298,6 +307,10 @@ public class ModuleDeploymentService
                 {
                     this.undeployedModules.remove(deletedModule);
                 }
+                
+                // inform cluster of the update
+                updateClusterCache();
+                
                 result = (deletedModule != null);
             }
        }
@@ -621,7 +634,7 @@ public class ModuleDeploymentService
         {
             if (logger.isDebugEnabled())
             {
-                logger.debug("Unable to saving module deployment configuration as user is not Admin.");
+                logger.debug("Unable to saving module deployment configuration as user does not have required authentication.");
             }
         }
     }
@@ -760,5 +773,48 @@ public class ModuleDeploymentService
             deleted = true;
         }
         return deleted;
+    }
+    
+    
+    /**
+     * Cluster message indicating that module deployment lists should be invalidated.
+     */
+    static interface ModuleDeploymentInvalidationMessage
+    {
+        static final String TYPE = "module-deployment-invalidation";
+    }
+    
+    protected ClusterService clusterService;
+    
+    @Override
+    public void setClusterService(ClusterService service)
+    {
+        this.clusterService = service;
+    }
+    
+    @Override
+    public String getClusterMessageType()
+    {
+        return ModuleDeploymentInvalidationMessage.TYPE;
+    }
+    
+    @Override
+    public synchronized void onClusterMessage(Map<String, Serializable> payload)
+    {
+        if (logger.isDebugEnabled())
+            logger.debug("Clearing all deployed module caches due to cluster cache invalidation message...");
+        this.configuredModules = null;
+        this.undeployedModules = null;
+        this.deployedModules = null;
+    }
+    
+    private void updateClusterCache()
+    {
+        if (this.clusterService != null)
+        {
+            this.clusterService.publishClusterMessage(
+                    ModuleDeploymentInvalidationMessage.TYPE,
+                    Collections.<String, Serializable>emptyMap());
+        }
     }
 }
