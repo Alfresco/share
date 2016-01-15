@@ -60,3 +60,13 @@
    border-width: 10px 20px 10px 0;
    border-color: transparent #fff;
 }
+
+/* Variant : bottom */
+.speech-bubble.bottom:before {
+   right: 130px;
+   left: auto;
+}
+.speech-bubble.bottom:after {
+   right: 132px;
+   left: auto;
+}
