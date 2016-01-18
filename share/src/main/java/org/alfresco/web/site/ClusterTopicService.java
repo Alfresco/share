@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * Copyright (C) 2005-2016 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -19,26 +19,23 @@
 package org.alfresco.web.site;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.alfresco.util.GUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
-import org.springframework.extensions.surf.ModelObject;
-import org.springframework.extensions.surf.ModelPersistenceContext;
-import org.springframework.extensions.surf.RequestContext;
-import org.springframework.extensions.surf.cache.ContentCache;
-import org.springframework.extensions.surf.exception.ModelObjectPersisterException;
-import org.springframework.extensions.surf.persister.PathStoreObjectPersister;
-import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.extensions.surf.ClusterMessageAware;
+import org.springframework.extensions.surf.ClusterService;
 import org.springframework.extensions.surf.util.ISO8601DateFormat;
 import org.springframework.extensions.surf.util.StringBuilderWriter;
 import org.springframework.extensions.webscripts.json.JSONWriter;
@@ -49,22 +46,24 @@ import com.hazelcast.core.Message;
 import com.hazelcast.core.MessageListener;
 
 /**
- * Hazlecast cluster aware implementation of the PathStoreObjectPersister. Manages the
- * local ModelObject cache by broadcasting and receiving messages relating to pertinent
- * cache operations that affect other cluster nodes.
+ * Hazlecast cluster aware Service. Manages the cluster by broadcasting and receiving messages
+ * relating to Surf operations (such as cache changes) that affect other cluster nodes.
  * <p>
  * The current implementation uses a simple broadcast message that informs other cluster
- * nodes to invalidate specific path objects (remove them) from the persister cache. This
- * is enough to deal with addition (caching of nulls), removal and modification of model
- * objects relating to site and user dashboards and the site configuration object.
- * 
- * @see ClusterAwareRequestContext
+ * nodes to invalidate or update specific caches e.g. remove paths from the persister cache.
+ * <p>
+ * For example Share deals with addition (caching of nulls), removal and modification of model
+ * objects relating to site and user dashboards and the site configuration object and also.
+ * <p>
+ * Surf objects interested in cluster messages or publishing cluster messages implement the
+ * appropriate Message interfaces. This service will automatically find all beans that
+ * implement those interfaces and provide them with cluster messages when appropriate.
  * 
  * @author Kevin Roast
  */
-public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersister implements MessageListener<String>
+public class ClusterTopicService implements MessageListener<String>, ClusterService, ApplicationContextAware
 {
-    private static Log logger = LogFactory.getLog(ClusterAwarePathStoreObjectPersister.class);
+    private static Log logger = LogFactory.getLog(ClusterTopicService.class);
     
     /** The Hazelcast cluster bean instance */
     private HazelcastInstance hazelcastInstance;
@@ -75,11 +74,14 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
     /** The Hazelcast Topic resolved during Persister init */
     private ITopic<String> clusterTopic = null;
     
+    /** Registry of cluster message types to implementation beans */
+    private Map<String, ClusterMessageAware> clusterBeans = null;
+    
     /** Node identifier - to ensure multicast messages aren't processed by the sender */
     private static final String clusterNodeId = GUID.generate();
     
     
-    /////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Setters and Spring properties
     
     /**
@@ -99,169 +101,134 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
     }
     
     
-    /////////////////////////////////////////////////////////////////
-    // PathStoreObjectPersister overrides
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Spring Init
+    
+    private ApplicationContext applicationContext = null;
+
+    /**
+     * Set ApplicationContext
+     *
+     * @param applicationContext    The Spring ApplicationContext
+     */
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    {
+        this.applicationContext = applicationContext;
+    }
     
     /**
-     * Override the persister init method to perform one time init of the Hazelcast cluster node.
+     * Bean init method to perform one time setup of the Hazelcast cluster node.
      */
-    @Override
-    public void init(ModelPersistenceContext context)
+    public void init()
     {
-        super.init(context);
-        
         // validate bean setup
         if (this.hazelcastInstance == null)
         {
-            throw new IllegalArgumentException("The hazelcastInstance property (HazelcastInstance) is mandatory.");
+            throw new IllegalArgumentException("The 'hazelcastInstance' property (HazelcastInstance) is mandatory.");
         }
         if (this.hazelcastTopicName == null || this.hazelcastTopicName.length() == 0)
         {
-            throw new IllegalArgumentException("The hazelcastTopicName property (String) is mandatory.");
+            throw new IllegalArgumentException("The 'hazelcastTopicName' property (String) is mandatory.");
         }
         
-        // cluster initialisation
+        // cluster topic initialisation
         ITopic<String> topic = this.hazelcastInstance.getTopic(this.hazelcastTopicName);
         if (topic == null)
         {
             throw new IllegalArgumentException(
                     "Did not find Hazelcast topic with name: '" + this.hazelcastTopicName + "' - cannot init.");
         }
+        
+        // find the beans that are interested in cluster messages and register them with the service
+        Map<String, ClusterMessageAware> beans = this.applicationContext.getBeansOfType(ClusterMessageAware.class);
+        this.clusterBeans = new HashMap<>();
+        for (final String id: beans.keySet())
+        {
+            final ClusterMessageAware bean = beans.get(id);
+            final String messageType = bean.getClusterMessageType();
+            // beans that do not specify a message type can still post messages via the service or just keep a reference
+            // but they are not registered in the list of handler beans that can accept cluster messages
+            if (messageType != null)
+            {
+                if (this.clusterBeans.containsKey(messageType))
+                {
+                    throw new IllegalStateException("ClusterMessageAware bean with id '" + id +
+                            "' attempted to register with existing Message Type: " + messageType);
+                }
+                this.clusterBeans.put(messageType, bean);
+            }
+            bean.setClusterService(this);
+        }
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("Registered beans for cluster messages:");
+            for (final String id: beans.keySet())
+            {
+                logger.debug(id + " [" + beans.get(id).getClusterMessageType() + "]");
+            }
+        }
+        
+        // start listening for cluster messages
         this.clusterTopic = topic;
         this.clusterTopic.addMessageListener(this);
-    }
-    
-    @Override
-    public boolean saveObject(ModelPersistenceContext context, ModelObject modelObject)
-            throws ModelObjectPersisterException
-    {
-        final boolean saved = super.saveObject(context, modelObject);
-        if (saved)
-        {
-            addInvalidCachePath(generatePath(modelObject.getTypeId(), modelObject.getId()));
-        }
-        return saved;
-    }
-
-    @Override
-    public boolean removeObject(ModelPersistenceContext context, String objectTypeId, String objectId)
-            throws ModelObjectPersisterException
-    {
-        final boolean removed = super.removeObject(context, objectTypeId, objectId);
-        if (removed)
-        {
-            addInvalidCachePath(generatePath(objectTypeId, objectId));
-        }
-        return removed;
-    }
-
-    @Override
-    protected ModelObject newObject(ModelPersistenceContext context, String objectTypeId, String objectId, boolean addToCache)
-            throws ModelObjectPersisterException
-    {
-        final ModelObject modelObject = super.newObject(context, objectTypeId, objectId, addToCache);
-        if (modelObject != null)
-        {
-             addInvalidCachePath(generatePath(objectTypeId, objectId));
-        }
-        return modelObject;
-    }
-    
-    /**
-     * Keep track of invalid cache paths to later inform cluster to invalidate the given paths from caches.
-     * 
-     * @param path      ModelObject storage path
-     */
-    private void addInvalidCachePath(final String path)
-    {
-        if (logger.isDebugEnabled())
-            logger.debug("Adding invalid cache path: " + path);
         
-        RequestContext rc = ThreadLocalRequestContext.getRequestContext();
-        if (!(rc instanceof ClusterAwareRequestContext))
-        {
-            throw new IllegalStateException("Incorrect Share cluster configuration detected - ClusterAwareRequestContextFactory is required.");
-        }
-        ((ClusterAwareRequestContext)rc).addInvalidCachePath(path);
+        logger.info("Init complete for Hazelcast cluster - listening on topic: " + hazelcastTopicName);
     }
     
     
     /////////////////////////////////////////////////////////////////
-    // Cluster message send and receive
+    // Hazelcast Cluster message send and receive
     
     /**
      * Push message out to the cluster - multicast or direct TCP depending on Hazelcast config.
-     * 
-     * @param message   The message to be sent
      */
-    public void pushMessage(ClusterMessage message)
+    @Override
+    public void publishClusterMessage(String messageType, Map<String, Serializable> payload)
     {
-        String msg = message.toString();
+        // construct the message object from the payload
+        final ClusterMessage msg = new ClusterMessageImpl(messageType, payload);
         
+        // serialise it to plain text for transmission
+        final String serialised = msg.toString();
         if (logger.isDebugEnabled())
-            logger.debug("Pushing message:\r\n" + msg);
+            logger.debug("Pushing message:\r\n" + serialised);
         
-        this.clusterTopic.publish(msg);
+        // push the message out to the Hazelcast topic cluster
+        this.clusterTopic.publish(serialised);
     }
     
     /**
      * Hazelcast MessageListener implementation - called when a message is received from a cluster node
      * 
-     * @param message   String message data
+     * @param message   Cluster message JSON string
      */
     @Override
-    public void onMessage(Message<String> message)
+    public void onMessage(final Message<String> message)
     {
         final boolean debug = logger.isDebugEnabled();
         
         // process message objects and extract the payload
-        String messageObj = message.getMessageObject();
-        MessageProcessor proc = new MessageProcessor(messageObj);
+        final String msg = message.getMessageObject();
+        final MessageProcessor proc = new MessageProcessor(msg);
         if (!proc.isSender())
         {
-            if (debug) logger.debug("Received message:\r\n" + messageObj);
+            if (debug) logger.debug("Received message of type:" + proc.getMessageType() + "\r\n" + msg);
             
-            // process the mesage types we understand - only this one currently
-            if (PathInvalidationMessage.TYPE.equals(proc.getMessageType()))
+            // call an implementation of a message handler bean
+            final ClusterMessageAware bean = this.clusterBeans.get(proc.getMessageType());
+            if (bean != null)
             {
-                if (debug) logger.debug("Processing message of type: " + proc.getMessageType());
-                final List<String> paths = (List<String>)proc.getMessagePayload().get(PathInvalidationMessage.PAYLOAD_PATHS);
-                if (paths != null)
-                {
-                    this.cacheLock.writeLock().lock();
-                    try
-                    {
-                        for (final String path: paths)
-                        {
-                            if (debug) logger.debug("...invalidating cache for path: " + path);
-                            // default object cache (if no MT is used)
-                            this.objectCache.remove(path);
-                            // process each MT cache also
-                            // TODO: this could be improved by passing the tenant with the path
-                            if (this.caches.size() != 0)
-                            {
-                                for (Entry<String, ContentCache<ModelObject>> entry: this.caches.entrySet())
-                                {
-                                    entry.getValue().remove(path);
-                                }
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        this.cacheLock.writeLock().unlock();
-                    }
-                }
+                bean.onClusterMessage(proc.getMessagePayload());
             }
             else
             {
-                logger.warn("Received message of unknown type: " + proc.getMessageType());
+                logger.warn("Received message of unknown type - no handler bean found: " + proc.getMessageType());
             }
         }
     }
     
     
-    /////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes and messaging contract interfaces
     
     /**
@@ -287,7 +254,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
         /**
          * @return the arbitrary payload data bundle
          */
-        Map<String, Object> getPayload();
+        Map<String, Serializable> getPayload();
     }
     
     /**
@@ -296,13 +263,13 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
      * Wraps an object payload and the type of the message and handles the marshling
      * of the payload to JSON string message format.
      */
-    static abstract class BaseMessage implements ClusterMessage
+    static class ClusterMessageImpl implements ClusterMessage
     {
         /** message type */
         final private String type;
         
         /** payload object */
-        final Map<String, Object> payload;
+        final Map<String, Serializable> payload;
         
         /**
          * Constructor
@@ -310,7 +277,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
          * @param type      Type of this message
          * @param payload   Payload object for this message
          */
-        BaseMessage(String type, Map<String, Object> payload)
+        ClusterMessageImpl(String type, Map<String, Serializable> payload)
         {
             this.type = type;
             this.payload = payload;
@@ -319,7 +286,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
         /**
          * @return the payload map for the message
          */
-        public Map<String, Object> getPayload()
+        public Map<String, Serializable> getPayload()
         {
             return this.payload;
         }
@@ -354,7 +321,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
                 writer.startObject();
                 writer.writeValue(ClusterMessage.JSON_TYPE, getType());
                 writer.startValue(ClusterMessage.JSON_PAYLOAD);
-                serialiseMessageObjects(writer, null, this.payload);
+                serialiseMessageObjects(writer, null, (Serializable)this.payload);
                 writer.endValue();
                 writer.endObject();
                 writer.endValue();
@@ -363,7 +330,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
             }
             catch (IOException e)
             {
-                throw new IllegalStateException("Unable to output cluster message: " + e.getMessage(), e);
+                throw new IllegalStateException("Failed to serialise cluster message: " + e.getMessage(), e);
             }
         }
         
@@ -376,7 +343,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
          * @param name      Name of the current value, can be null for array item
          * @param obj       Object representing the value to serialise
          */
-        static void serialiseMessageObjects(final JSONWriter writer, final String name, final Object obj)
+        static void serialiseMessageObjects(final JSONWriter writer, final String name, final Serializable obj)
             throws IOException
         {
             if (obj instanceof Map)
@@ -387,7 +354,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
                     writer.startValue(name);
                 }
                 writer.startObject();
-                Map<String, Object> map = (Map<String, Object>)obj;
+                Map<String, Serializable> map = (Map<String, Serializable>)obj;
                 for (final String key: map.keySet())
                 {
                     serialiseMessageObjects(writer, key, map.get(key));
@@ -408,7 +375,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
                 writer.startArray();
                 for (final Object item: (List)obj)
                 {
-                    serialiseMessageObjects(writer, null, item);
+                    serialiseMessageObjects(writer, null, (Serializable)item);
                 }
                 writer.endArray();
                 if (name != null)
@@ -475,26 +442,6 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
     }
     
     /**
-     * Message indicating that paths in persister cache should be invalidated.
-     * The payload for this message is an array of path strings.
-     */
-    static class PathInvalidationMessage extends BaseMessage
-    {
-        static final String TYPE = "cache-invalidation";
-        static final String PAYLOAD_PATHS = "paths";
-        
-        /**
-         * Constructor
-         * 
-         * @param paths The payload for this message is a List of path strings to be removed from caches
-         */
-        PathInvalidationMessage(List<String> paths)
-        {
-            super(TYPE, Collections.<String, Object>singletonMap(PathInvalidationMessage.PAYLOAD_PATHS, (Object)paths));
-        }
-    }
-    
-    /**
      * This class is responsible for deserialising a message string into objects.
      * <p>
      * The sender, message type and object payload can then be retrieved for further processing.
@@ -503,7 +450,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
     {
         private final String sender;
         private final String type;
-        private final Map<String, Object> payload;
+        private final Map<String, Serializable> payload;
         
         MessageProcessor(String msg)
         {
@@ -525,7 +472,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
                 this.sender = (String)json.get(ClusterMessage.JSON_SENDER);
                 Map<String, Object> message = (Map<String, Object>)json.get(ClusterMessage.JSON_MESSAGE);
                 this.type = (String)message.get(ClusterMessage.JSON_TYPE);
-                this.payload = (Map<String, Object>)message.get(ClusterMessage.JSON_PAYLOAD);
+                this.payload = (Map<String, Serializable>)message.get(ClusterMessage.JSON_PAYLOAD);
             }
             catch (Throwable e)
             {
@@ -543,7 +490,7 @@ public class ClusterAwarePathStoreObjectPersister extends PathStoreObjectPersist
             return this.type;
         }
         
-        Map<String, Object> getMessagePayload()
+        Map<String, Serializable> getMessagePayload()
         {
             return this.payload;
         }
