@@ -26,9 +26,9 @@
 
     <properties>
         <version.major>5</version.major>
-        <version.minor>1</version.minor>
+        <version.minor>2</version.minor>
         <version.revision>0</version.revision>
-        <!-- Version of Alfresco Platform to depen on -->
+        <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>5.1-SNAPSHOT</alfresco.platform.version>
 
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
@@ -39,12 +39,11 @@
         <dependency.aikau.version>1.0.39.2</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
-        <dependency.alfresco-core.version>5.6</dependency.alfresco-core.version>
         <dependency.httpcomponents.version>4.5.1</dependency.httpcomponents.version>
-
         <dependency.alfresco-jlan.version>5.2</dependency.alfresco-jlan.version>
-        <dependency.webscripts.version>5.9</dependency.webscripts.version>
-        <dependency.surf.version>6.0</dependency.surf.version>
+        <dependency.alfresco-core.version>6.0</dependency.alfresco-core.version>
+        <dependency.webscripts.version>6.0</dependency.webscripts.version>
+        <dependency.surf.version>6.2</dependency.surf.version>
 
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
 
@@ -119,17 +118,17 @@
                 <version>${dependency.alfresco-jlan.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-webscripts</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-core</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-core-configservice</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>

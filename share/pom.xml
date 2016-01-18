@@ -56,6 +56,16 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-jlan-embed</artifactId>
+            <exclusions>
+               <exclusion>
+                   <groupId>org.springframework.extensions.surf</groupId>
+                   <artifactId>spring-surf-core</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework.extensions.surf</groupId>
+                   <artifactId>spring-surf-core-configservice</artifactId>
+               </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.portlet</groupId>
@@ -83,9 +93,9 @@
             <version>${dependency.surf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-cmis-framework</artifactId>
-            <version>${project.version}</version>
+            <version>${dependency.surf.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>abdera-extensions-main</artifactId>
@@ -210,10 +220,28 @@
             <artifactId>aikau</artifactId>
             <version>${dependency.aikau.version}</version>
             <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.extensions.surf</groupId>
-                    <artifactId>spring-surf-api</artifactId>
-                </exclusion>
+               <!-- surf pulls in a patched version -->
+               <exclusion>
+                  <groupId>com.asual.lesscss</groupId>
+                  <artifactId>lesscss-engine</artifactId>
+               </exclusion>
+               <!-- until Aikau pom dependencies are updated, avoid old surf versions -->
+               <exclusion>
+                  <groupId>org.springframework.extensions.surf</groupId>
+                  <artifactId>spring-webscripts</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>org.springframework.extensions.surf</groupId>
+                  <artifactId>spring-webscripts-api</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>org.springframework.extensions.surf</groupId>
+                  <artifactId>spring-surf</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>org.springframework.extensions.surf</groupId>
+                  <artifactId>spring-surf-api</artifactId>
+               </exclusion>
             </exclusions>
         </dependency>
         <!-- Dependency on YUI ZIP (custom version deployed at artifacts.alfresco.com) -->
