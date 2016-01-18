@@ -81,12 +81,12 @@
                                 <artifactItem>
                                     <groupId>org.alfresco.surf</groupId>
                                     <artifactId>spring-webeditor</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${dependency.surf.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.alfresco.surf</groupId>
                                     <artifactId>spring-webeditor-client-jsp</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${dependency.surf.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.yahoo.platform.yui</groupId>
