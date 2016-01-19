@@ -56,7 +56,7 @@ public abstract class SharePage extends Page
     private static String COPYRIGHT_SEARCH_STRING = " All rights reserved.";
     protected static final By CONFIRM_DELETE = By.xpath("//span[@class='button-group']/span[1]/span/button");
     protected static final By CANCEL_DELETE = By.xpath("//span[@class='button-group']/span[2]/span/button");
-    private final static By TOP_LOGO = By.xpath("//div[@id='HEADER_LOGO']/div/img");
+    private final static By TOP_LOGO = By.xpath("//div[@id='HEADER_LOGO']/img");
     private final static By FOOTER_LOGO = By.xpath("//span[@class='copyright']/a/img");
     private static final By PAGE_TITLE_LABEL = By.cssSelector("span[id^=alfresco_html_Label]");
     private Navigation nav;
