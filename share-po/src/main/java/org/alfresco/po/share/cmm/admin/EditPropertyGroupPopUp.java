@@ -20,7 +20,9 @@ package org.alfresco.po.share.cmm.admin;
 
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SelectList;
@@ -85,6 +87,7 @@ public class EditPropertyGroupPopUp extends ShareDialogueAikau
                 getVisibleRenderElement(TITLE_FIELD),
                 getVisibleRenderElement(DESCRIPTION_FIELD),
                 getVisibleRenderElement(SHARE_DIALOGUE_CLOSE_ICON),
+                new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE),
                 getVisibleRenderElement(NEW_PROPERTY_GROUP_CANCEL_BUTTON));
 
         return this;

@@ -18,12 +18,17 @@
  */
 package org.alfresco.po.share.cmm.admin;
 
+import static org.alfresco.po.RenderElement.getVisibleRenderElement;
+
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderWebElement;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SelectList;
 import org.alfresco.po.share.ShareDialogueAikau;
 import org.alfresco.po.share.util.PageUtils;
+import org.alfresco.po.RenderTime;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -40,6 +45,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
  * @author Richard Smith
  * @author mbhave
  */
+@SuppressWarnings("unchecked")
 public class CreateNewCustomTypePopUp extends ShareDialogueAikau
 {
     private static final Log logger = LogFactory.getLog(CreateNewCustomTypePopUp.class);
@@ -54,6 +60,36 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
     private static final By NEW_CUSTOM_TYPE_CREATE_BUTTON = By.cssSelector(UNIQUE_DIALOG_SELECTOR + BUTTON_FIRST);
     private static final By NEW_CUSTOM_TYPE_CANCEL_BUTTON = By.cssSelector(UNIQUE_DIALOG_SELECTOR + BUTTON_LAST);
     private static final By BUTTON_CLICKABLE = By.cssSelector(".dijitButtonText");
+    
+    private static final By NAME_FIELD = By.cssSelector(".create-type-name input.dijitInputInner");
+
+    private static final By TITLE_FIELD = By.cssSelector(".create-type-title input.dijitInputInner");
+
+    private static final By DESCRIPTION_FIELD = By.cssSelector(".create-type-description textarea");
+
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.ShareDialogue#render(org.alfresco.webdrone.RenderTime)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public CreateNewCustomTypePopUp render()
+    {
+    	RenderTime timer = new RenderTime(maxPageLoadingTime);
+    	
+    	elementRender(timer, getVisibleRenderElement(SHARE_DIALOGUE_HEADER));
+
+        elementRender(
+                timer,
+                getVisibleRenderElement(NAME_FIELD),
+                getVisibleRenderElement(TITLE_FIELD),
+                getVisibleRenderElement(DESCRIPTION_FIELD),
+                getVisibleRenderElement(SHARE_DIALOGUE_CLOSE_ICON),
+                getVisibleRenderElement(NEW_CUSTOM_TYPE_CANCEL_BUTTON),
+                new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE));
+
+        return this;
+    }
 
 
     /**

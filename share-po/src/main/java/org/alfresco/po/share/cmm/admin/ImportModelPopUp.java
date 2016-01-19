@@ -22,7 +22,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogueAikau;
@@ -57,10 +59,10 @@ public class ImportModelPopUp extends ShareDialogueAikau
     @Override
     public ImportModelPopUp render(RenderTime timer)
     {
-        elementRender(timer, getVisibleRenderElement(SHARE_DIALOGUE_HEADER));
+        elementRender(timer, getVisibleRenderElement(SHARE_DIALOGUE_HEADER), getVisibleRenderElement(By.cssSelector(IMPORT_BUTTON)), getVisibleRenderElement(By.cssSelector(BUTTON_CANCEL + ">span")));
 
-        elementRender(timer, getVisibleRenderElement(By.cssSelector(IMPORT_BUTTON)), getVisibleRenderElement(By.cssSelector(BUTTON_CANCEL + ">span")));
-
+        elementRender(timer, new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE));
+        
         return this;
     }
 

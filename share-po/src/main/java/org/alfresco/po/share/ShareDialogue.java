@@ -65,6 +65,10 @@ public class ShareDialogue extends SharePage
             {
                 break;
             }
+            if (isBlackMessageDisappeared(timer.timeLeft()))
+            {
+                break;
+            } 
             timer.end();
         }
 

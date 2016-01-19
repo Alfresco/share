@@ -19,7 +19,7 @@
 package org.alfresco.po;
 
 import java.util.Set;
-
+import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 
 /**
@@ -68,6 +68,7 @@ public abstract class Page extends PageElement implements HtmlPage
         try
         {
             timer.start();
+            isBlackMessageDisappeared(timer.timeLeft());
             isRenderComplete(timer.timeLeft());
         }
         finally
@@ -90,6 +91,17 @@ public abstract class Page extends PageElement implements HtmlPage
             exists = title.contains(titleName.toLowerCase());
         }
         return exists;
+    }
+    
+     /**
+     * Helper method to verify if the black message has disappeared
+     * @return true if black message disappears
+     */
+    public boolean isBlackMessageDisappeared(final long waitTime)
+    {
+        By blackMessage = By.cssSelector("div.alfresco-notifications-AlfNotification");
+        waitUntilElementDeletedFromDom(blackMessage, waitTime);
+        return true;
     }
     /**
      * Gets the browser session id from a cookie.
