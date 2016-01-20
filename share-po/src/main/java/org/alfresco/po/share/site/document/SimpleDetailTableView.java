@@ -41,7 +41,7 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
     private void selectMoreAction()
     {
         //reset focus
-        driver.findElement(By.tagName("body")).click();
+        //driver.findElement(By.tagName("body")).click();
         WebElement actions = selectAction();
         mouseOver(actions);
         WebElement more = actions.findElement(By.cssSelector(MORE_ACTIONS));
@@ -306,6 +306,10 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
         WebElement actions = selectAction();
         mouseOver(actions);
         resolveStaleness();
+        if(!super.isEditPropertiesLinkPresent())
+        {
+            selectMoreAction();
+        }
         return super.isEditPropertiesLinkPresent();
     }
 
@@ -362,6 +366,10 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
     {
         WebElement actions = selectAction();
         mouseOver(actions);
+        if(!super.isEditPropertiesLinkPresent())
+        {
+            selectMoreAction();
+        }
         return super.selectEditProperties();
     }
 

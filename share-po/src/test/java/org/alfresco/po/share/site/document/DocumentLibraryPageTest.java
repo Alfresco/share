@@ -47,7 +47,6 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
     private File file2;
     private File file3; 
     private String userName = "user" + System.currentTimeMillis() + "@test.com";
-
     @SuppressWarnings("unused")
     private String uname = "dlpt1user" + System.currentTimeMillis();
 
@@ -79,7 +78,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
     private void createUser() throws Exception
     {
         createEnterpriseUser(userName);
-        loginAs(userName, UNAME_PASSWORD	);
+        loginAs(userName, UNAME_PASSWORD);
     }
 
     @AfterClass(groups = "alfresco-one")
@@ -107,9 +106,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
     {
         SitePage page = resolvePage(driver).render();
         documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
-
         documentLibPage = documentLibPage.clickOnMyFavourites().render();
-
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
 
         // documentLibPage = getDocumentLibraryPage(siteName).render();
@@ -118,10 +115,8 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage.createNewFolder(folderName, folderDescription).render();
         documentLibPage = (documentLibPage.getNavigation().selectDetailedView()).render();
-
         files = documentLibPage.getFiles();
         FileDirectoryInfo folder = files.get(0);
-
         assertTrue(documentLibPage.paginatorRendered());
         assertEquals(files.size(), 1);
         assertEquals(folder.isTypeFolder(), true);
@@ -145,17 +140,13 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
     {
         documentLibPage = documentLibPage.browseToEntry(folderName).render();
         Assert.assertEquals(documentLibPage.getNavigation().getFoldersInNavBar().get(1).getLink().getText(), folderName);
-
         File tempFile = siteUtil.prepareFile();
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(tempFile.getCanonicalPath()).render();
         DocumentDetailsPage detailsPage = documentLibPage.browseToEntry(tempFile.getName()).render();
         Assert.assertTrue(detailsPage.isDocumentDetailsPage());
-
         documentLibPage = detailsPage.delete().render();
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
-
-
     }
 
     @Test(dependsOnMethods = "uploadFile", groups="alfresco-one")
