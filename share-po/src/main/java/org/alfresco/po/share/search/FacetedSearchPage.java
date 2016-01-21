@@ -245,8 +245,13 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public int getResultCount()
     {
-        String val = driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_COUNT_LABEL>b")).getText();
-        return Integer.valueOf(val).intValue();
+        String val = driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_COUNT_LABEL")).getText();
+        String count = val.split("-")[0].trim();
+        if(StringUtils.isEmpty(count))
+        {
+            throw new RuntimeException("Unable to find result count info");
+        }
+        return Integer.valueOf(count).intValue();
     }
     /**
      * Select the facet that matches the title from the facet grouping. 

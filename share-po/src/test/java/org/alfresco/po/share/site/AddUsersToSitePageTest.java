@@ -302,12 +302,6 @@ public class AddUsersToSitePageTest extends AbstractTest
         String userMultiple3 = "userMultipleUsersAdedToSite3" + System.currentTimeMillis();
         String userMultiple4 = "userMultipleUsersAdedToSite4" + System.currentTimeMillis();
 
-        System.out.println("SITE MULTIPLE USERS *** " + siteName);
-        System.out.println("USER MULTIPLE USERS1 *** " + userMultiple1);
-        System.out.println("USER MULTIPLE USERS2 *** " + userMultiple2);
-        System.out.println("USER MULTIPLE USERS3 *** " + userMultiple3);
-        System.out.println("USER MULTIPLE USERS4 *** " + userMultiple4);
-
         createEnterpriseUser(userMultiple1);
         createEnterpriseUser(userMultiple2);
         createEnterpriseUser(userMultiple3);

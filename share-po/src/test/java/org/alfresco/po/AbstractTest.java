@@ -243,7 +243,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
      */
     public void createEnterpriseUser(String uname) throws Exception
     {
-    	userService.create(username, password, uname, "password", uname + "@test.com", uname, uname);
+        userService.create(username, password, uname, "password", uname + "@test.com", uname, uname);
     }
 
 

@@ -295,13 +295,10 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         Assert.assertNotNull(facetedSearchPage);
         facetedSearchPage.getView().selectViewByLabel("Detailed View");
         Assert.assertTrue(facetedSearchPage.getView().isDetailedViewResultsDisplayed(),"Detailed view option is matching");      
-        
      }
-    
-    @Test(groups = { "Enterprise-only" },dependsOnMethods="searchSelectViewTest")
+    @Test(groups = { "Enterprise-only" }, dependsOnMethods = "searchSelectViewTest")
     public void clickImagePreviewTest() throws Exception
-    {  	      
-       
+    {
         SearchBox search = dashBoard.getSearch();
         FacetedSearchPage facetedSearchPage = search.search("jpg").render();
         Assert.assertNotNull(facetedSearchPage);
