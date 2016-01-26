@@ -56,6 +56,21 @@ define(["dojo/_base/declare",
       updateLoadDataPayload: function cmm_lists_CMMTPGList__updateLoadDataPayload(payload) {
          this.inherited(arguments);
          this.loadDataPublishPayload = payload;
+      },
+
+      /**
+       * Handles failed calls to get data from the repository.
+       *
+       * @instance
+       * @param {object} response The response object
+       * @param {object} originalRequestConfig The configuration that was passed to the the [serviceXhr]{@link module:alfresco/core/CoreXhr#serviceXhr} function
+       */
+      onDataLoadFailure: function cmm_lists_CMMTPGList__onDataLoadFailure(response, originalRequestConfig) {
+         this.alfLog("info", "Data Load Failed", response, originalRequestConfig);
+         this.currentData = null;
+         this.showDataLoadFailure();
+         this.alfPublish(this.documentLoadFailedTopic, {});
+         this.alfPublish(this.requestFinishedTopic, {});
       }
 
    });

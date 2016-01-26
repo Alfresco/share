@@ -444,7 +444,9 @@ define(["dojo/_base/declare",
        */
       getTypes: function alfresco_cmm_services_CMMService__getTypes(payload) {
          
-         var name = lang.getObject("name", false, payload);
+         var name = lang.getObject("name", false, payload),
+             responseTopic = payload.alfResponseTopic || payload.responseTopic;
+
          if (name != null)
          {
             // Get the model
@@ -487,7 +489,6 @@ define(["dojo/_base/declare",
                               }
                               
                               // call original success topic as the list widget is expecting this data
-                              var responseTopic = payload.alfResponseTopic || payload.responseTopic;
                               if (responseTopic != null)
                               {
                                  this.alfPublish(responseTopic + "_SUCCESS", res);
@@ -503,6 +504,7 @@ define(["dojo/_base/declare",
          else
          {
             this.alfLog("warn", "A request was made to get types for a model but no 'name' attribute was provided", payload, this);
+            this.alfPublish(responseTopic + "_FAILURE", {}, payload);
          }
       },
 
@@ -514,7 +516,9 @@ define(["dojo/_base/declare",
        */
       getPropertyGroups: function alfresco_cmm_services_CMMService__getPropertyGroups(payload) {
          
-         var name = lang.getObject("name", false, payload);
+         var name = lang.getObject("name", false, payload),
+             responseTopic = payload.alfResponseTopic || payload.responseTopic;
+
          if (name != null)
          {
             // Get the model
@@ -550,7 +554,6 @@ define(["dojo/_base/declare",
                               }
                               
                               // call original success topic as the list widget is expecting this data
-                              var responseTopic = payload.alfResponseTopic || payload.responseTopic;
                               if (responseTopic != null)
                               {
                                  this.alfPublish(responseTopic + "_SUCCESS", res);
@@ -566,6 +569,7 @@ define(["dojo/_base/declare",
          else
          {
             this.alfLog("warn", "A request was made to get property groups for a model but no 'name' attribute was provided", payload, this);
+            this.alfPublish(responseTopic + "_FAILURE", {}, payload);
          }
       },
       
@@ -1538,7 +1542,9 @@ define(["dojo/_base/declare",
          // this method excepts either a type or a propertygroup name in the payload
          var name = lang.getObject("name", false, payload),
              type = lang.getObject("type", false, payload),
-             propertygroup = lang.getObject("propertygroup", false, payload);
+             propertygroup = lang.getObject("propertygroup", false, payload),
+             responseTopic = payload.alfResponseTopic || payload.responseTopic;
+
          if (name != null && (type != null || propertygroup != null))
          {
             // Get the model
@@ -1646,7 +1652,6 @@ define(["dojo/_base/declare",
 
                         }
                         // call original success topic as the list widget is expecting this data
-                        var responseTopic = payload.alfResponseTopic || payload.responseTopic;
                         if (responseTopic != null)
                         {
                            this.alfPublish(responseTopic + "_SUCCESS", res);
@@ -1660,6 +1665,7 @@ define(["dojo/_base/declare",
          else
          {
             this.alfLog("warn", "A request was made to get properties but no model 'name' or 'type' or 'propertygroup' attributes were provided", payload, this);
+            this.alfPublish(responseTopic + "_FAILURE", {}, payload);
          }
       },
 
@@ -1674,7 +1680,9 @@ define(["dojo/_base/declare",
          // this method excepts either a type or a propertygroup name in the payload
          var name = lang.getObject("name", false, payload),
              type = lang.getObject("type", false, payload),
-             propertygroup = lang.getObject("propertygroup", false, payload);
+             propertygroup = lang.getObject("propertygroup", false, payload),
+             responseTopic = payload.alfResponseTopic || payload.responseTopic;
+
          if (name != null && (type != null || propertygroup != null))
          {
             // Get the model
@@ -1759,7 +1767,6 @@ define(["dojo/_base/declare",
                         }));
                         
                         // call original success topic as the list widget is expecting this data
-                        var responseTopic = payload.alfResponseTopic || payload.responseTopic;
                         if (responseTopic != null)
                         {
                            this.alfPublish(responseTopic + "_SUCCESS", propertyItems);
@@ -1772,6 +1779,7 @@ define(["dojo/_base/declare",
          else
          {
             this.alfLog("warn", "A request was made to get editor properties but no model 'name' or 'type' or 'propertygroup' attributes were provided", payload, this);
+            this.alfPublish(responseTopic + "_FAILURE", {}, payload);
          }
       },
 
