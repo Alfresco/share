@@ -87,13 +87,28 @@
 
     <build>
         <resources>
+	
+            <!-- need to filter the module.properties file only -->	
+		    <resource>
+                 <directory>source/amp</directory>
+                 <targetPath>../${project.build.finalName}</targetPath>
+                <filtering>true</filtering>
+                <includes>
+                    <include>module.properties</include>
+                </includes>
+             </resource>
             <resource>
                 <directory>src/main/amp</directory>
                 <targetPath>../${project.build.finalName}</targetPath>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>module.properties</exclude>
+                </excludes>
             </resource>
-        </resources>
+         </resources>
+ 
+         <plugins>
 
-        <plugins>
             <plugin>
                 <groupId>org.alfresco.maven.plugin</groupId>
                 <artifactId>alfresco-maven-plugin</artifactId>
@@ -125,7 +140,7 @@
                     <includes>quick/*</includes>
                 </configuration>
             </plugin>
-
+			
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
