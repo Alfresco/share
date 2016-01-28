@@ -56,7 +56,7 @@
             <value>classpath:alfresco/web-extension/share-config-custom-dev.xml</value>
             <value>jar:*!/META-INF/share-config-custom-dev.xml</value>
 
-            <value>classpath:alfresco/web-extension/virtualfolders-amp-actions-config.xml</value>
+            <value>classpath:alfresco/web-extension/smartfolders-amp-actions-config.xml</value>
          </list>
       </constructor-arg>
    </bean>
@@ -69,7 +69,7 @@
             <value>alfresco.messages.common</value>
             <value>alfresco.messages.cmm</value>
             <value>alfresco.messages.slingshot</value>
-            <value>alfresco.messages.virtualization</value>
+            <value>alfresco.messages.smartfolder</value>
          </list>
       </property>
    </bean>

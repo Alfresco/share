@@ -12211,7 +12211,7 @@ Alfresco.util.match = function(node, filter)
 /**
  * Gets true if any of {supressConfig} filters are matching, or false otherwise.
  * 
- * This function is used for suppressing Social components {favorites, likes and comments}. Currently only used for folders in Virtual Folders context.
+ * This function is used for suppressing Social components {favorites, likes and comments}. Currently only used for folders in Smart Folders context.
  * 
  * @returns {Boolean} - true if any of {supressConfig} filters are matching, or false otherwise.
  */

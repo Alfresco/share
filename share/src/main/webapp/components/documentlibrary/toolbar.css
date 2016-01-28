@@ -388,7 +388,7 @@
    margin-left: 10px;
 }
 
-.toolbar .breadcrumb .filter-path.icon-virtual {
+.toolbar .breadcrumb .filter-path.icon-smart {
     display: inline;
-    background: transparent url(../documentlibrary/images/virtual-folder-16.png) 0px 4px no-repeat;
+    background: transparent url(../documentlibrary/images/smart-folder-16.png) 0px 4px no-repeat;
 }

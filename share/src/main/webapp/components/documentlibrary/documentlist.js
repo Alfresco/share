@@ -2608,7 +2608,7 @@
          {
             Alfresco.logger.debug("DataTable renderEvent");
 
-            // If we're in a virtual folder and there's no records shown, ensure create folder link isn't visible.
+            // If we're in a smart folder and there's no records shown, ensure create folder link isn't visible.
             var toolbar = Alfresco.util.ComponentManager.findFirst("Alfresco.DocListToolbar")
             if (toolbar && toolbar.isVirtualFolder())
             {

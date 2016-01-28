@@ -531,8 +531,8 @@
             <aspect name="audio:audio" />
             <aspect name="cm:indexControl" />
             <aspect name="dp:restrictable" />
-            <aspect name="vm:custom-virtualization" />
-            <aspect name="vm:system-virtualization" />
+            <aspect name="sf:customConfigSmartFolder" />
+            <aspect name="sf:systemConfigSmartFolder" />
          </visible>
 
          <!--
@@ -568,7 +568,7 @@
       -->
       <types>
          <type name="cm:content">
-            <subtype name="vm:virtualFolderTemplate" />
+            <subtype name="sf:smartFolderTemplate" />
          </type>
 
          <type name="cm:folder">
@@ -802,12 +802,12 @@
 
       <multi-select>
          <action type="action-link" id="onActionDownload" icon="document-download" label="menu.selected-items.download" />
-         <action type="action-link" id="onActionCopyTo" icon="document-copy-to" label="menu.selected-items.copy" notAspect="vm:virtual,vm:virtual-document"/>
-         <action type="action-link" id="onActionMoveTo" icon="document-move-to" permission="Delete" label="menu.selected-items.move" notAspect="vm:virtual,vm:virtual-document"/>
+         <action type="action-link" id="onActionCopyTo" icon="document-copy-to" label="menu.selected-items.copy" notAspect="sf:smartFolder,sf:smartFolderChild"/>
+         <action type="action-link" id="onActionMoveTo" icon="document-move-to" permission="Delete" label="menu.selected-items.move" notAspect="sf:smartFolder,sf:smartFolderChild"/>
          <action type="action-link" id="onActionAssignWorkflow" asset="document" icon="document-assign-workflow" label="menu.selected-items.assign-workflow"/>
-         <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="hwf:hybridWorkflow,sys:undeletable,vm:virtual" />
-         <action type="action-link" id="onActionCloudSync" asset="document" icon="document-cloud-sync"  permission="CreateChildren" label="menu.selected-items.cloudSync" notAspect="sync:syncSetMemberNode,vm:virtual,vm:virtual-document" syncMode="ON_PREMISE" />
-         <action type="action-link" id="onActionCloudSyncRequest" icon="document-request-sync" label="menu.selected-items.cloudRequestSync" hasAspect="sync:syncSetMemberNode" notAspect="vm:virtual,vm:virtual-document" syncMode="ON_PREMISE" />
+         <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="hwf:hybridWorkflow,sys:undeletable,sf:smartFolder" />
+         <action type="action-link" id="onActionCloudSync" asset="document" icon="document-cloud-sync"  permission="CreateChildren" label="menu.selected-items.cloudSync" notAspect="sync:syncSetMemberNode,sf:smartFolder,sf:smartFolderChild" syncMode="ON_PREMISE" />
+         <action type="action-link" id="onActionCloudSyncRequest" icon="document-request-sync" label="menu.selected-items.cloudRequestSync" hasAspect="sync:syncSetMemberNode" notAspect="sf:smartFolder,sf:smartFolderChild" syncMode="ON_PREMISE" />
       </multi-select>
 
    </config>
@@ -1241,49 +1241,49 @@
 
          <actionGroup id="document-browse">
             <action index="100" id="document-download" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="110" id="document-view-content" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="120" id="document-locate" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="130" id="document-edit-properties" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="140" id="document-upload-new-version" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="150" id="document-view-original" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="160" id="document-view-working-copy" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="170" id="document-approve" />
             <action index="180" id="document-reject" />
             <action index="190" id="document-inline-edit" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="200" id="document-edit-online" />
             <action index="201" id="document-edit-online-aos" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="210" id="document-edit-offline" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="250" id="document-copy-to" />
             <action index="260" id="document-move-to" />
             <action index="270" id="document-delete" />
             <action index="280" id="document-assign-workflow" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="290" id="document-cancel-editing" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="295" id="document-cancel-editing-unlock" icon="document-cancel-editing" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="297" id="document-manage-granular-permissions" />
             <action index="298" id="document-manage-repo-permissions" />
@@ -1298,37 +1298,37 @@
          <actionGroup id="document-details">
             <!-- An effective index is built using the subgroup and index -->
             <action index="110" id="document-view-content" subgroup="10" appendEvaluators="true"> <!-- effectiveIndex=10110 -->
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="210" id="document-approve" subgroup="20" />
             <action index="220" id="document-reject" subgroup="20" />
             <action index="310" id="document-cancel-editing" subgroup="30" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="320" id="document-cancel-editing-unlock" subgroup="30" icon="document-cancel-editing" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="330" id="document-inline-edit" subgroup="30" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="340" id="document-edit-online-aos" subgroup="30" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="350" id="document-edit-online" subgroup="30" />
             <action index="360" id="document-edit-offline" subgroup="30" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="370" id="document-upload-new-version" subgroup="30" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="380" id="document-view-original" subgroup="30" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="390" id="document-view-working-copy" subgroup="30" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="410" id="document-edit-metadata" subgroup="40" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="510" id="document-move-to" subgroup="50" />
             <action index="520" id="document-copy-to" subgroup="50" />
@@ -1339,16 +1339,16 @@
             <action index="630" id="document-view-in-cloud" subgroup="60" />
             <action index="640" id="document-request-sync" subgroup="60" />
             <action index="710" id="document-assign-workflow" subgroup="70" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="720" id="document-manage-granular-permissions" subgroup="70" />
             <action index="730" id="document-manage-repo-permissions" subgroup="70" />
             <action index="740" id="document-take-ownership" subgroup="70" />
             <action index="750" id="document-manage-aspects" subgroup="70" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="760" id="document-change-type" subgroup="70" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="770" id="document-view-in-source-repository" subgroup="70" />
             <action index="780" id="document-view-googlemaps" subgroup="70" />
@@ -1356,13 +1356,13 @@
 
          <actionGroup id="folder-browse">
             <action index="100" id="folder-download" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.FolderAndVirtualFolderEnable</evaluator>
+                <evaluator>evaluator.doclib.action.FolderAndSmartFolderEnable</evaluator>
             </action>
             <action index="105" id="folder-view-details" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.FolderAndVirtualFolderEnable</evaluator>
+                <evaluator>evaluator.doclib.action.FolderAndSmartFolderEnable</evaluator>
             </action>
             <action index="110" id="document-edit-properties" icon="folder-edit-properties" label="actions.folder.edit-metadata" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.FolderEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.FolderEnableInSmartFolder</evaluator>
             </action>
             <action index="120" id="document-approve" icon="document-approve" />
             <action index="130" id="document-reject" icon="document-reject" />
@@ -1374,7 +1374,7 @@
             <action index="190" id="document-manage-granular-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
             <action index="200" id="document-manage-repo-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
             <action index="210" id="document-manage-aspects" label="actions.folder.manage-aspects" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.FolderEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.FolderEnableInSmartFolder</evaluator>
             </action>
             <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />
             <action index="310" id="document-view-googlemaps" />
@@ -1387,12 +1387,12 @@
          <actionGroup id="folder-details">
             <!-- An effective index is built using the subgroup and index -->
             <action index="110" id="folder-download" subgroup="10" appendEvaluators="true"> <!-- effectiveIndex=10110 -->
-                <evaluator>evaluator.doclib.action.FolderAndVirtualFolderEnable</evaluator>
+                <evaluator>evaluator.doclib.action.FolderAndSmartFolderEnable</evaluator>
             </action>
             <action index="210" id="document-approve" subgroup="20" icon="document-approve" />
             <action index="220" id="document-reject" subgroup="20" icon="document-reject" />
             <action index="310" id="document-edit-metadata" subgroup="30" icon="folder-edit-metadata" label="actions.folder.edit-metadata" >
-                <evaluator>evaluator.doclib.action.FolderEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.FolderEnableInSmartFolder</evaluator>
             </action>
             <action index="410" id="document-move-to" subgroup="40" icon="folder-move-to" label="actions.folder.move-to" />
             <action index="420" id="document-copy-to" subgroup="40" icon="folder-copy-to" label="actions.folder.copy-to" />
@@ -1405,10 +1405,10 @@
             <action index="620" id="document-manage-repo-permissions" subgroup="60" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
             <action index="630" id="document-take-ownership" subgroup="60" icon="folder-manage-permissions" />
             <action index="640" id="document-manage-aspects" subgroup="60" label="actions.folder.manage-aspects" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.FolderEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.FolderEnableInSmartFolder</evaluator>
             </action>
             <action index="650" id="document-change-type" subgroup="60" appendEvaluators="true">
-                <evaluator>evaluator.doclib.action.FolderEnableInVirtualFolder</evaluator>
+                <evaluator>evaluator.doclib.action.FolderEnableInSmartFolder</evaluator>
             </action>
             <action index="660" id="folder-manage-rules" subgroup="60" />
             <action index="670" id="document-view-in-source-repository" subgroup="60" label="actions.folder.view-source-repository" />
@@ -1455,7 +1455,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "vm:virtual"
+                                    "sf:smartFolder"
                                 ]
                             }
                         }
@@ -1467,7 +1467,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "vm:virtual"
+                                    "sf:smartFolder"
                                 ]
                             }
                         }
@@ -1481,7 +1481,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "vm:virtual"
+                                    "sf:smartFolder"
                                 ]
                             }
                         }
@@ -1495,7 +1495,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "vm:virtual"
+                                    "sf:smartFolder"
                                 ]
                             }
                         }
@@ -1507,7 +1507,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "vm:virtual"
+                                    "sf:smartFolder"
                                 ]
                             }
                         }
@@ -1520,7 +1520,7 @@
 
    <!-- 
       Configuration of components styles for folders, when the filter criteria match.
-      Used for Virtual Folders visualization.
+      Used for Smart Folders visualization.
       This approach can also be used for content - some adaptations required. 
    -->
    <config evaluator="string-compare" condition="CommonComponentStyle">
@@ -1532,26 +1532,26 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "vm:virtual"
+                                    "sf:smartFolder"
                                 ]
                             },
                             "style":{
-                                "css":"icon-virtual",
+                                "css":"icon-smart",
                                 "icons":{
                                     "16x16":{
-                                        "icon":"components/documentlibrary/images/virtual-folder-16.png"
+                                        "icon":"components/documentlibrary/images/smart-folder-16.png"
                                     },
                                     "32x32":{
-                                        "icon":"components/documentlibrary/images/virtual-folder-32.png"
+                                        "icon":"components/documentlibrary/images/smart-folder-32.png"
                                     },
                                     "48x48":{
-                                        "icon":"components/documentlibrary/images/virtual-folder-48.png"
+                                        "icon":"components/documentlibrary/images/smart-folder-48.png"
                                     },
                                     "64x64":{
-                                        "icon":"components/documentlibrary/images/virtual-folder-64.png"
+                                        "icon":"components/documentlibrary/images/smart-folder-64.png"
                                     },
                                     "256x256":{
-                                        "icon":"components/documentlibrary/images/virtual-folder-256.png"
+                                        "icon":"components/documentlibrary/images/smart-folder-256.png"
                                     }
                                 }
                             }
