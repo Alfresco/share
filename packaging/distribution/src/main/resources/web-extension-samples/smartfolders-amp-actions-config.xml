@@ -1,20 +1,20 @@
 <alfresco-config>
-   <!-- Custom DocLibActions config for enabling actions from amps in virtual context -->
+   <!-- Custom DocLibActions config for enabling actions from amps in smart context -->
    <config evaluator="string-compare" condition="DocLibActions">
       <actionGroups>
          <actionGroup id="document-browse">
              <!--
              <action index="250" id="google-docs-edit-action-link" appendEvaluators="true">
-               <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+               <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
              </action>
             <action index="250" id="google-docs-checkin-action-link" appendEvaluators="true">
-               <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+               <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="250" id="google-docs-resume-action-link" appendEvaluators="true">
-               <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+               <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="250" id="google-docs-cancel-action-link" appendEvaluators="true">
-               <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+               <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             -->
          </actionGroup>
@@ -22,16 +22,16 @@
          <actionGroup id="document-details">
              <!--
              <action index="250" id="google-docs-edit-action-link" subgroup="20" appendEvaluators="true">
-               <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+               <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
              </action>
             <action index="250" id="google-docs-checkin-action-link" subgroup="20" appendEvaluators="true">
-               <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+               <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="250" id="google-docs-resume-action-link" subgroup="20" appendEvaluators="true">
-               <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+               <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             <action index="250" id="google-docs-cancel-action-link" subgroup="20" appendEvaluators="true">
-               <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+               <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
             -->
          </actionGroup>

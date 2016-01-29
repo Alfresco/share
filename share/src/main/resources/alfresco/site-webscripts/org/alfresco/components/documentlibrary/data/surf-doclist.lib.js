@@ -772,34 +772,34 @@ var DocList =
    /**
     * Gets the evaluators for one action configured in actionGroups.
     * 
-    * By default all actions will be disabled in a virtual context. The actions remain visible in a non-virtual context.
-    * This is accomplished by adding <code>evaluator.doclib.action.DisabledInVirtualContext</code> evaluator to original action evaluators.
+    * By default all actions will be disabled in a smart folder context. The actions remain visible in a non-smart folder context.
+    * This is accomplished by adding <code>evaluator.doclib.action.DisabledInSmartFolderContext</code> evaluator to original action evaluators.
     * 
-    * For enabling action in virtual context, the flag <code>appendEvaluators="true"</code> must be used in actionGroup configuration with one of evaluators:
+    * For enabling action in smart folder context, the flag <code>appendEvaluators="true"</code> must be used in actionGroup configuration with one of evaluators:
     * 
-    *    <code>evaluator.doclib.action.VirtualFolderEnable</code>
-    *    <code>evaluator.doclib.action.DocumentEnableInVirtualFolder</code>
-    *    <code>evaluator.doclib.action.FolderEnableInVirtualFolder</code>
-    *    <code>evaluator.doclib.action.FolderAndVirtualFolderEnable</code>
+    *    <code>evaluator.doclib.action.SmartFolderEnable</code>
+    *    <code>evaluator.doclib.action.DocumentEnableInSmartFolder</code>
+    *    <code>evaluator.doclib.action.FolderEnableInSmartFolder</code>
+    *    <code>evaluator.doclib.action.FolderAndSmartFolderEnable</code>
     * 
     * An example of configuration :
     * 
     * <code>
     *       <action index="100" id="document-download" appendEvaluators="true">
-    *            <evaluator>evaluator.doclib.action.DocumentEnableInVirtualFolder</evaluator>
+    *            <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
     *        </action>
     * </code>
     * 
-    * For displaying actions just in virtual context, the flag <code>appendEvaluators="true"</code> must be used in actionGroup configuration with one of evaluators:
+    * For displaying actions just in smart folder context, the flag <code>appendEvaluators="true"</code> must be used in actionGroup configuration with one of evaluators:
     * 
-    *    <code>evaluator.doclib.action.VirtualFolderEvaluator</code>
-    *    <code>evaluator.doclib.action.VirtualDocumentEvaluator</code>
-    *    <code>evaluator.doclib.action.VirtualFolderContextEvaluator</code>
+    *    <code>evaluator.doclib.action.SmartFolderEvaluator</code>
+    *    <code>evaluator.doclib.action.SmartDocumentEvaluator</code>
+    *    <code>evaluator.doclib.action.SmartFolderContextEvaluator</code>
     * 
     * An example of configuration :
     * <code>
-    *        <action index="125" id="test-virtual" appendEvaluators="true">
-    *            <evaluator>evaluator.doclib.action.VirtualDocumentEvaluator</evaluator>
+    *        <action index="125" id="test-smart" appendEvaluators="true">
+    *            <evaluator>evaluator.doclib.action.SmartDocumentEvaluator</evaluator>
     *        </action>
     * </code>
     * If the flag <code>appendEvaluators="true"</code> is not present the configured evaluators will override the existing action evaluators.
@@ -817,9 +817,9 @@ var DocList =
          evaluators = action["evaluators"];
       }
       var actionGroupEvaluators = DocList.getEvaluatorConfig(actionConfig);
-      var disableVirtualContextValue = "evaluator.doclib.action.DisabledInVirtualContext";
-      var disableVirtualContextQualify = true;
-      var disableVirtualContextEvaluator = evaluatorHelper.getEvaluator(disableVirtualContextValue);
+      var disableSmartFolderContextValue = "evaluator.doclib.action.DisabledInSmartFolderContext";
+      var disableSmartFolderContextQualify = true;
+      var disableSmartFolderContextEvaluator = evaluatorHelper.getEvaluator(disableSmartFolderContextValue);
 
       if (actionGroupEvaluators)
       {
@@ -833,24 +833,24 @@ var DocList =
          else
          {
             evaluators = actionGroupEvaluators;
-            if (disableVirtualContextEvaluator != null)
+            if (disableSmartFolderContextEvaluator != null)
             {
-               evaluators[disableVirtualContextValue] =
+               evaluators[disableSmartFolderContextValue] =
                {
-                  evaluator: disableVirtualContextEvaluator,
-                  qualify: disableVirtualContextQualify
+                  evaluator: disableSmartFolderContextEvaluator,
+                  qualify: disableSmartFolderContextQualify
                };
             }
          }
       }
       else
       {
-         if (disableVirtualContextEvaluator != null)
+         if (disableSmartFolderContextEvaluator != null)
          {
-            evaluators[disableVirtualContextValue] =
+            evaluators[disableSmartFolderContextValue] =
             {
-               evaluator: disableVirtualContextEvaluator,
-               qualify: disableVirtualContextQualify
+               evaluator: disableSmartFolderContextEvaluator,
+               qualify: disableSmartFolderContextQualify
             };
          }
       }

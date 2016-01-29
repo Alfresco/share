@@ -743,7 +743,7 @@
       {
          if (this.createContentMenu && this.folderMenuItem)
          {
-            // If the containing folder is virtual, then hide the create folder option.
+            // If the containing folder is smart, then hide the create folder option.
             if (this.context.isVirtualFolder()){
                Dom.addClass(this.folderMenuItem.id, "hidden");
                Dom.addClass(this.createFolderByTemplateItem.id, "hidden");
@@ -1393,7 +1393,7 @@
                   Dom.removeClass(syncToCloudButtonDiv, "hidden");
                   Dom.addClass(unsyncFromCloudButtonDiv, "hidden");
                }
-               if(Alfresco.util.arrayContains(aspects, "vm:virtual"))
+               if(Alfresco.util.arrayContains(aspects, "sf:smartFolder"))
                {
                   Dom.addClass(unsyncFromCloudButtonDiv, "hidden");
                   Dom.addClass(syncToCloudButtonDiv, "hidden");
@@ -2088,14 +2088,14 @@
       },
 
       /**
-       * Is the currently displayed folder a virtual one?
+       * Is the currently displayed folder a smart one?
        *
        * @returns Boolean
        */
       isVirtualFolder: function DLTB_isVirtualFolder()
       {
          var parentAspects = Alfresco.util.findValueByDotNotation(this, "doclistMetadata.parent.aspects"),
-            isVirtualFolder = Alfresco.util.arrayContains(parentAspects, "vm:virtual");
+            isVirtualFolder = Alfresco.util.arrayContains(parentAspects, "sf:smartFolder");
 
          return isVirtualFolder;
 

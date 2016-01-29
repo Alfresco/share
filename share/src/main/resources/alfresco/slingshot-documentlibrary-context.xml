@@ -766,53 +766,53 @@
    </bean>
 
    <!--                                            -->
-   <!-- Virtual Context Actions Evaluators -->
+   <!-- Smart Folder Context Actions Evaluators -->
    <!--                                            -->
 
-    <!-- Used for displaying actions just for virtual folders -->
-   <bean id="evaluator.doclib.action.VirtualFolderEvaluator" class="org.alfresco.web.evaluator.VirtualFolderEvaluator" />
-   <!-- Used for displaying actions just for documents in virtual context -->
-   <bean id="evaluator.doclib.action.VirtualDocumentEvaluator" class="org.alfresco.web.evaluator.VirtualDocumentEvaluator" />
-   <!-- Used just for displaying actions for physical folders in virtual context -->
-   <bean id="evaluator.doclib.action.VirtualFolderContextEvaluator" class="org.alfresco.web.evaluator.VirtualFolderContextEvaluator" />
+    <!-- Used for displaying actions just for smart folders -->
+   <bean id="evaluator.doclib.action.SmartFolderEvaluator" class="org.alfresco.web.evaluator.VirtualFolderEvaluator" />
+   <!-- Used for displaying actions just for documents in smart folder context -->
+   <bean id="evaluator.doclib.action.SmartDocumentEvaluator" class="org.alfresco.web.evaluator.VirtualDocumentEvaluator" />
+   <!-- Used just for displaying actions for physical folders in smart folder context -->
+   <bean id="evaluator.doclib.action.SmartFolderContextEvaluator" class="org.alfresco.web.evaluator.VirtualFolderContextEvaluator" />
 
-    <!-- Used for disabling actions in virtual context by default. The disabled actions remain visible for entities that are not in virtual context. -->
-    <!-- The actions will appear in virtual context only if one of the following evaluators are configured in actionGroups configuration. -->
-   <bean id="evaluator.doclib.action.DisabledInVirtualContext" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" />
+    <!-- Used for disabling actions in smart folder context by default. The disabled actions remain visible for entities that are not in smart folder context. -->
+    <!-- The actions will appear in smart folder context only if one of the following evaluators are configured in actionGroups configuration. -->
+   <bean id="evaluator.doclib.action.DisabledInSmartFolderContext" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" />
 
-    <!-- Used for enabling actions for virtual folders -->
-   <bean id="evaluator.doclib.action.VirtualFolderEnable" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
+    <!-- Used for enabling actions for smart folders -->
+   <bean id="evaluator.doclib.action.SmartFolderEnable" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
       <property name="evaluators">
          <list>
-            <ref bean="evaluator.doclib.action.VirtualFolderEvaluator" />
+            <ref bean="evaluator.doclib.action.SmartFolderEvaluator" />
          </list>
       </property>
    </bean>
 
-    <!-- Used for enabling actions for documents in virtual context(the actions are also visible for entities that are not in virtual context) -->
-   <bean id="evaluator.doclib.action.DocumentEnableInVirtualFolder" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
+    <!-- Used for enabling actions for documents in smart folder context(the actions are also visible for entities that are not in smart folder context) -->
+   <bean id="evaluator.doclib.action.DocumentEnableInSmartFolder" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
       <property name="evaluators">
          <list>
-            <ref bean="evaluator.doclib.action.VirtualDocumentEvaluator" />
+            <ref bean="evaluator.doclib.action.SmartDocumentEvaluator" />
          </list>
       </property>
    </bean>
 
-    <!-- Used for enabling actions for physical folders in virtual context(the actions are also visible for entities that are not in virtual context) -->
-   <bean id="evaluator.doclib.action.FolderEnableInVirtualFolder" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
+    <!-- Used for enabling actions for physical folders in smart folder context(the actions are also visible for entities that are not in smart folder context) -->
+   <bean id="evaluator.doclib.action.FolderEnableInSmartFolder" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
       <property name="evaluators">
          <list>
-            <ref bean="evaluator.doclib.action.VirtualFolderContextEvaluator" />
+            <ref bean="evaluator.doclib.action.SmartFolderContextEvaluator" />
          </list>
       </property>
    </bean>
 
-    <!-- Used for enabling actions for virtual folders and physical folders in virtual context(the actions are also visible for entities that are not in virtual context -->
-   <bean id="evaluator.doclib.action.FolderAndVirtualFolderEnable" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
+    <!-- Used for enabling actions for smart folders and physical folders in smart folder context(the actions are also visible for entities that are not in smart folder context -->
+   <bean id="evaluator.doclib.action.FolderAndSmartFolderEnable" class="org.alfresco.web.evaluator.VirtualChainedMatchOneEvaluator" >
       <property name="evaluators">
          <list>
-            <ref bean="evaluator.doclib.action.VirtualFolderEvaluator" />
-            <ref bean="evaluator.doclib.action.VirtualFolderContextEvaluator" />
+            <ref bean="evaluator.doclib.action.SmartFolderEvaluator" />
+            <ref bean="evaluator.doclib.action.SmartFolderContextEvaluator" />
          </list>
       </property>
    </bean>

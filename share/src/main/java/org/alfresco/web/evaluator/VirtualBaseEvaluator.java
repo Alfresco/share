@@ -22,7 +22,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- * Base class for all virtual evaluators.
+ * Base class for all smart evaluators.
  * 
  * @author sdinuta
  *
@@ -42,17 +42,17 @@ public abstract class VirtualBaseEvaluator extends BaseEvaluator
     }
 
     /**
-     * Checks if the node isn't in a virtual context.
+     * Checks if the node isn't in a smart folder context.
      * 
      * @param jsonObject JSONObject containing a "node" object as returned from the ApplicationScriptUtils class.
      * 
-     * @return boolean <code>true</code> if {jsonObject} parameter isn't in a virtual context, or <code>false</code> otherwise.
+     * @return boolean <code>true</code> if {jsonObject} parameter isn't in a smart folder context, or <code>false</code> otherwise.
      */
     boolean notInVirtualContext(JSONObject jsonObject)
     {
-        boolean virtual = hasAspect(jsonObject,"vm:virtual") || hasAspect(jsonObject,"vm:virtual-document");
+        boolean virtual = hasAspect(jsonObject,"sf:smartFolder") || hasAspect(jsonObject,"sf:smartFolderChild");
         boolean isContainer = isContainer(jsonObject);
-        boolean virtualContext = isContainer && hasAspect(jsonObject,"vm:virtual-document");
+        boolean virtualContext = isContainer && hasAspect(jsonObject,"sf:smartFolderChild");
         if (!virtual && !virtualContext)
         {
             return true;

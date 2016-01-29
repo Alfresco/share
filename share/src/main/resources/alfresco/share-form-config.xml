@@ -1920,33 +1920,33 @@
          </form>
       </forms>
    </config>
-   <!-- Virtual Folder aspects -->  
-   <!-- vm:custom-virtualization aspect -->
-   <config evaluator="aspect" condition="vm:custom-virtualization" >
+   <!-- Smart Folder aspects -->  
+   <!-- sf:customConfigSmartFolder aspect -->
+   <config evaluator="aspect" condition="sf:customConfigSmartFolder" >
       <forms>
          <!-- Default form configuration used on the document details and edit metadata pages -->
          <form>
             <field-visibility>
-               <show id="vm:custom-template-association" />
+               <show id="sf:custom-template-association" />
             </field-visibility>
             <appearance>
-               <field id="vm:custom-template-association" label-id="property.vm_custom-template-association" read-only="false" >
+               <field id="sf:custom-template-association" label-id="property.sf_custom-template-association" read-only="false" >
                  <control template="/org/alfresco/components/form/controls/selectable-mimetype-association.ftl" />
                </field>
             </appearance>
          </form>
       </forms>
    </config>
-   <!-- vm:system-virtualization aspect -->
-   <config evaluator="aspect" condition="vm:system-virtualization" >
+   <!-- sf:systemConfigSmartFolder aspect -->
+   <config evaluator="aspect" condition="sf:systemConfigSmartFolder" >
       <forms>
          <!-- Default form configuration used on the document details and edit metadata pages -->
          <form>
             <field-visibility>
-               <show id="vm:system-template-location" />
+               <show id="sf:system-template-location" />
             </field-visibility>
             <appearance>
-               <field id="vm:system-template-location" label-id="property.vm_system-template-location" read-only="false" />
+               <field id="sf:system-template-location" label-id="property.sf_system-template-location" read-only="false" />
             </appearance>
          </form>
       </forms>
