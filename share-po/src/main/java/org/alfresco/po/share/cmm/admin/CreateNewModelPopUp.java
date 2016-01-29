@@ -78,10 +78,10 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
         RenderTime timer = new RenderTime(maxPageLoadingTime);
         elementRender(timer, new RenderElement(SHARE_DIALOGUE_HEADER, ElementState.PRESENT));
         elementRender(timer, new RenderElement(NAME_SPACE_TEXT, ElementState.PRESENT));
+        elementRender(timer, new RenderElement(NAME_TEXT, ElementState.PRESENT));
+        elementRender(timer, new RenderElement(DESCRIPTION_TEXT, ElementState.PRESENT));
         elementRender(
                 timer,
-                getVisibleRenderElement(NAME_TEXT),
-                getVisibleRenderElement(DESCRIPTION_TEXT),
                 getVisibleRenderElement(SELECT_CLOSE_BUTTON),
                 getVisibleRenderElement(BUTTON_CANCEL_MODEL));
 

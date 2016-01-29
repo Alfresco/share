@@ -21,7 +21,7 @@ package org.alfresco.web.evaluator;
 import org.json.simple.JSONObject;
 
 /**
- * Evaluator for virtual folders.
+ * Evaluator for smart folders.
  * 
  * @author sdinuta
  *
@@ -29,16 +29,16 @@ import org.json.simple.JSONObject;
 public class VirtualFolderEvaluator extends VirtualBaseEvaluator
 {
     /**
-     * Evaluates if we have a virtual folder.
+     * Evaluates if we have a smart folder.
      * 
      * @param jsonObject The object the evaluation is for
      * 
-     * @return <code>true</code> if the folder is virtual, or <code>false</code> otherwise.
+     * @return <code>true</code> if the folder is smart, or <code>false</code> otherwise.
      */
     @Override
     public boolean evaluate(JSONObject jsonObject)
     {
-        if(hasAspect(jsonObject, "vm:virtual")){
+        if(hasAspect(jsonObject, "sf:smartFolder")){
             return true;
         }
         return false;

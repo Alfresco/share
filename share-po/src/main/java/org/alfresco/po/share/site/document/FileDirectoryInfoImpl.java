@@ -1267,7 +1267,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     {
         try
         {
-            return findElement(By.cssSelector("div.document-edit-properties>a")).isDisplayed();
+            return driver.findElement(By.cssSelector("div.document-edit-properties>a")).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {

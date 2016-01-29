@@ -30,12 +30,11 @@
            libreofficecomponent_component_enabled=0 
            libreofficevalidations_component_enabled=0 
            alfrescogoogledocs_component_enabled=0 
-           alfrescosharepoint_component_enabled=0 
            alfrescosolr_component_enabled=0 
            alfrescosolr4_component_enabled=0 
            alfrescowcmqs_component_enabled=0 
            imagemagick_component_enabled=0 
-           alfrescosharepointimitation_component_enabled=0 
+           aosmodule_component_enabled=0 
         </bitrock.arguments>
         <shareInstaller>true</shareInstaller>
     </properties>

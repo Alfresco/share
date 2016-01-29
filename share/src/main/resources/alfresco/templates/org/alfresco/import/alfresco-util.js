@@ -751,7 +751,7 @@ var AlfrescoUtil =
    /**
     * Gets icon resource path string specified in the {component.style} configuration for specified by {iconSize} attribute.
     * See ["CommonComponentStyle"]["component-config"] configuration from share-document-library-config.xml. As an example for {browse.folder} component configuration 
-    * and for {iconSize} "32x32" the result will be "components/documentlibrary/images/virtual-folder-32.png" 
+    * and for {iconSize} "32x32" the result will be "components/documentlibrary/images/smart-folder-32.png" 
     * @param component
     * @param iconSize
     */
@@ -886,7 +886,7 @@ var AlfrescoUtil =
    /**
     * Gets true if any of {supressConfig} filters are matching, or false otherwise.
     * 
-    * This function is used for suppressing Social components {favorites, likes and comments}, Tags, Date. Currently only used for folders in Virtual Folders context.
+    * This function is used for suppressing Social components {favorites, likes and comments}, Tags, Date. Currently only used for folders in Smart Folders context.
     * 
     * @returns {Boolean} - true if any of {supressConfig} filters are matching, or false otherwise.
     */

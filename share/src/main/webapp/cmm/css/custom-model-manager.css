@@ -780,7 +780,8 @@ body > table.dojoDndAvatar .alfresco-dnd-DroppedItemWrapper.booleanWidget .dojoD
 
 #FORM_EDITOR_CONSOLE #FORM_EDITOR .layout-help-bottom {
    position: absolute;
-   margin-left: 460px;
-   top: 508px;
-   max-width: 305px;
+   right: calc(100% - 980px);
+   bottom: calc(100% - 700px);
+   min-width: 300px;
+   max-width: 500px;
 }

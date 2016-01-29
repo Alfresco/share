@@ -47,7 +47,7 @@ Zaizi<br/>
                </div>
             </div>
             <div class="copy">
-               <span>&copy; 2005-2015 Alfresco Software Inc. All rights reserved.</span>
+               <span>&copy; 2005-2016 Alfresco Software Inc. All rights reserved.</span>
                <a href="http://www.alfresco.com" target="new">www.alfresco.com</a>
                <a href="http://www.alfresco.com/legal/agreements/" target="new">Legal and License</a>
             </div>

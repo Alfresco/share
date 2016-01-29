@@ -22,7 +22,7 @@ package org.alfresco.web.evaluator;
 import org.json.simple.JSONObject;
 
 /**
- * Evaluator for documents in virtual context.
+ * Evaluator for documents in smart folder context.
  * 
  * @author sdinuta
  *
@@ -30,16 +30,16 @@ import org.json.simple.JSONObject;
 public class VirtualDocumentEvaluator extends VirtualBaseEvaluator
 {
     /**
-     * Evaluates if we have a document and if it is in a virtual context.
+     * Evaluates if we have a document and if it is in a smart folder context.
      * 
      * @param jsonObject The object the evaluation is for
      * 
-     * @return <code>true</code> if the document is in virtual context, or <code>false</code> otherwise.
+     * @return <code>true</code> if the document is in smart folder context, or <code>false</code> otherwise.
      */
     @Override
     public boolean evaluate(JSONObject jsonObject)
     {
-        if (hasAspect(jsonObject,"vm:virtual-document") && !isContainer(jsonObject))
+        if (hasAspect(jsonObject,"sf:smartFolderChild") && !isContainer(jsonObject))
         {
             return true;
         }

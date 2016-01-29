@@ -24,13 +24,13 @@ import java.util.ListIterator;
 import org.json.simple.JSONObject;
 
 /**
- * If the node isn't in virtual context the evaluator returns always <code>true</code>.
+ * If the node isn't in smart folder context the evaluator returns always <code>true</code>.
  * 
- * If node is in virtual context, multiple evaluators are called in turn until either the last one is called
+ * If node is in smart folder context, multiple evaluators are called in turn until either the last one is called
  * or one of the evaluators returns true. Effectively becomes a logical
  * OR of the participating evaluators.
  * 
- * If no evaluators are configured and the node is not in virtual context will return always <code>false</code>.
+ * If no evaluators are configured and the node is not in smart folder context will return always <code>false</code>.
  * 
  * @author sdinuta
  *
@@ -50,11 +50,11 @@ public class VirtualChainedMatchOneEvaluator extends VirtualBaseEvaluator
     }
 
     /**
-     * If the node isn't in virtual context the evaluator returns always <code>true</code>.
+     * If the node isn't in smart folder context the evaluator returns always <code>true</code>.
      * 
-     * If no evaluators are configured and the node is not in virtual context will return always <code>false</code>.
+     * If no evaluators are configured and the node is not in smart folder context will return always <code>false</code>.
      * 
-     * If node is in virtual context run through each given evaluator until we either get to the end or one returns false.
+     * If node is in smart folder context run through each given evaluator until we either get to the end or one returns false.
      * 
      * @param jsonObject The object the evaluation is for
      * 

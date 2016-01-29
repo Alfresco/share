@@ -21,9 +21,9 @@
  * Common Component Filter Chain.
  * 
  * This filter has the purpose to return: 
- *   -a resource path string (e.g. "components/documentlibrary/images/virtual-folder-16.png") 
+ *   -a resource path string (e.g. "components/documentlibrary/images/smart-folder-16.png") 
  *    which combined with Alfresco.constants.URL_RESCONTEXT will return an icon resource url; 
- *   -a resource style ( e.g. icon-virtual); 
+ *   -a resource style ( e.g. icon-smart); 
  * based on share-documentlibrary-config.xml configuration.
  * 
  * An example of component configuration: 
@@ -35,26 +35,26 @@
  *                              "filter":{
  *                                  "name":"aspect",
  *                                  "match":[
- *                                      "vm:virtual"
+ *                                      "sf:smartFolder"
  *                                  ]
  *                              },
  *                              "style":{
- *                                  "css":"icon-virtual",
+ *                                  "css":"icon-smart",
  *                                  "icons":{
  *                                      "16x16":{
- *                                          "icon":"components/documentlibrary/images/virtual-folder-16.png"
+ *                                          "icon":"components/documentlibrary/images/smart-folder-16.png"
  *                                      },
  *                                      "32x32":{
- *                                          "icon":"components/documentlibrary/images/virtual-folder-32.png"
+ *                                          "icon":"components/documentlibrary/images/smart-folder-32.png"
  *                                      },
  *                                      "48x48":{
- *                                          "icon":"components/documentlibrary/images/virtual-folder-48.png"
+ *                                          "icon":"components/documentlibrary/images/smart-folder-48.png"
  *                                      },
  *                                      "64x64":{
- *                                          "icon":"components/documentlibrary/images/virtual-folder-64.png"
+ *                                          "icon":"components/documentlibrary/images/smart-folder-64.png"
  *                                      },
  *                                      "256x256":{
- *                                          "icon":"components/documentlibrary/images/virtual-folder-256.png"
+ *                                          "icon":"components/documentlibrary/images/smart-folder-256.png"
  *                                      }
  *                                  }
  *                              }
@@ -65,26 +65,26 @@
  *                              "filter":{
  *                                  "name":"aspect",
  *                                  "match":[
- *                                      "vm:virtual-document"
+ *                                      "sf:smartFolderChild"
  *                                  ]
  *                              },
  *                              "style":{
- *                                  "css":"icon-virtual-file",
+ *                                  "css":"icon-smart-file",
  *                                  "icons":{
  *                                      "16x16":{
- *                                          "icon":"components/documentlibrary/images/virtual-file-16.png"
+ *                                          "icon":"components/documentlibrary/images/smart-file-16.png"
  *                                      },
  *                                      "32x32":{
- *                                          "icon":"components/documentlibrary/images/virtual-file-32.png"
+ *                                          "icon":"components/documentlibrary/images/smart-file-32.png"
  *                                      },
  *                                      "48x48":{
- *                                          "icon":"components/documentlibrary/images/virtual-file-48.png"
+ *                                          "icon":"components/documentlibrary/images/smart-file-48.png"
  *                                      },
  *                                      "64x64":{
- *                                          "icon":"components/documentlibrary/images/virtual-file-64.png"
+ *                                          "icon":"components/documentlibrary/images/smart-file-64.png"
  *                                      },
  *                                      "256x256":{
- *                                          "icon":"components/documentlibrary/images/virtual-file-256.png"
+ *                                          "icon":"components/documentlibrary/images/smart-file-256.png"
  *                                      }
  *                                  }
  *                              }
@@ -94,7 +94,7 @@
  *              }
  *     </component-style>
  * 
- * Currently we have only aspect filters implemented since it was needed for Virtual Folders Visual indicators (filter.name == "aspect"), 
+ * Currently we have only aspect filters implemented since it was needed for Smart Folders Visual indicators (filter.name == "aspect"), 
  * but the implementation offers the possibility to introduce other filters (filter.name == "type" or any other filters). 
  * @namespace Alfresco
  * @author sdinuta
@@ -229,7 +229,7 @@
     * Gets icon resource path string specified in the {style} configuration that corresponds with matching filter 
     * for specified by {iconSize} attribute.
     * See sample configuration from header file comment. As an example for {browse.folder} component configuration 
-    * and for {iconSize} "32x32" the result will be "components/documentlibrary/images/virtual-folder-32.png" 
+    * and for {iconSize} "32x32" the result will be "components/documentlibrary/images/smart-folder-32.png" 
     * @param component
     * @returns
     */
@@ -265,7 +265,7 @@
    /**
     * Gets resource style specified in the {style} configuration that corresponds with matching filter.
     * See sample configuration from header file comment. As an example for {browse.content} component configuration 
-    * the result will be "icon-virtual-file".
+    * the result will be "icon-smart-file".
     * @param component
     * @returns
     */
