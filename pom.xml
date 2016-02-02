@@ -123,6 +123,11 @@
             </dependency>
             <dependency>
                 <groupId>org.alfresco.surf</groupId>
+                <artifactId>spring-webscripts-api</artifactId>
+                <version>${dependency.webscripts.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-core</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>
