@@ -97,14 +97,14 @@
             <version>${dependency.surf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webeditor</artifactId>
-            <version>${project.version}</version>
+            <version>${dependency.surf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webeditor-client-jsp</artifactId>
-            <version>${project.version}</version>
+            <version>${dependency.surf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.tuckey</groupId>
