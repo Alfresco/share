@@ -1,1 +1,0 @@
-BeforePageScopeJSPComponent<@region id="page_scope_jsp_component-region" scope="page"/>AfterPageScopeJSPComponent

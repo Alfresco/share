@@ -1,1 +1,0 @@
-<@region id="webscript_page_args-region" scope="page"/>
