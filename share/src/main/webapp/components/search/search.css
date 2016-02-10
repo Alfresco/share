@@ -279,6 +279,12 @@
    border-width: 0px;
 }
 
+/* hide mandatory indicators - make no sense for a search */
+.search .form-container .mandatory-indicator
+{
+   display: none;
+}
+
 /* collapse form-buttons div as it is not used */
 .search .form-container .form-buttons
 {
