@@ -50,6 +50,7 @@ import org.alfresco.po.share.steps.SiteActions;
 import org.alfresco.po.share.steps.UserProfileActions;
 import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.po.share.workflow.MyWorkFlowsPage;
+import org.alfresco.selenium.FetchUtil;
 import org.alfresco.test.AlfrescoTests;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -189,9 +190,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
 
     public void savePageSource(String methodName) throws IOException
     {
-        String htmlSource = driver.getPageSource();
-        File file = new File("target/webdriver-" + methodName + ".html");
-        FileUtils.writeStringToFile(file, htmlSource);
+        FetchUtil.save(driver, methodName + ".html");
     }
 
     @BeforeMethod(alwaysRun = true)
