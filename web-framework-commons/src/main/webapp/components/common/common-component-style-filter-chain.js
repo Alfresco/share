@@ -35,7 +35,7 @@
  *                              "filter":{
  *                                  "name":"aspect",
  *                                  "match":[
- *                                      "sf:smartFolder"
+ *                                      "smf:smartFolder"
  *                                  ]
  *                              },
  *                              "style":{
@@ -65,7 +65,7 @@
  *                              "filter":{
  *                                  "name":"aspect",
  *                                  "match":[
- *                                      "sf:smartFolderChild"
+ *                                      "smf:smartFolderChild"
  *                                  ]
  *                              },
  *                              "style":{
