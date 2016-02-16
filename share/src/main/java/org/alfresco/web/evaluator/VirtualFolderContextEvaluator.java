@@ -38,7 +38,7 @@ public class VirtualFolderContextEvaluator extends VirtualBaseEvaluator
     @Override
     public boolean evaluate(JSONObject jsonObject)
     {
-        boolean virtualContext = isContainer(jsonObject) && hasAspect(jsonObject,"sf:smartFolderChild");
+        boolean virtualContext = isContainer(jsonObject) && hasAspect(jsonObject,"smf:smartFolderChild");
         if (virtualContext)
         {
             return true;

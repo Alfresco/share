@@ -1921,32 +1921,32 @@
       </forms>
    </config>
    <!-- Smart Folder aspects -->  
-   <!-- sf:customConfigSmartFolder aspect -->
-   <config evaluator="aspect" condition="sf:customConfigSmartFolder" >
+   <!-- smf:customConfigSmartFolder aspect -->
+   <config evaluator="aspect" condition="smf:customConfigSmartFolder" >
       <forms>
          <!-- Default form configuration used on the document details and edit metadata pages -->
          <form>
             <field-visibility>
-               <show id="sf:custom-template-association" />
+               <show id="smf:custom-template-association" />
             </field-visibility>
             <appearance>
-               <field id="sf:custom-template-association" label-id="property.sf_custom-template-association" read-only="false" >
+               <field id="smf:custom-template-association" label-id="property.smf_custom-template-association" read-only="false" >
                  <control template="/org/alfresco/components/form/controls/selectable-mimetype-association.ftl" />
                </field>
             </appearance>
          </form>
       </forms>
    </config>
-   <!-- sf:systemConfigSmartFolder aspect -->
-   <config evaluator="aspect" condition="sf:systemConfigSmartFolder" >
+   <!-- smf:systemConfigSmartFolder aspect -->
+   <config evaluator="aspect" condition="smf:systemConfigSmartFolder" >
       <forms>
          <!-- Default form configuration used on the document details and edit metadata pages -->
          <form>
             <field-visibility>
-               <show id="sf:system-template-location" />
+               <show id="smf:system-template-location" />
             </field-visibility>
             <appearance>
-               <field id="sf:system-template-location" label-id="property.sf_system-template-location" read-only="false" />
+               <field id="smf:system-template-location" label-id="property.smf_system-template-location" read-only="false" />
             </appearance>
          </form>
       </forms>
