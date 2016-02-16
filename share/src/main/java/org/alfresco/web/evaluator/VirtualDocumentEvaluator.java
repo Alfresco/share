@@ -39,7 +39,7 @@ public class VirtualDocumentEvaluator extends VirtualBaseEvaluator
     @Override
     public boolean evaluate(JSONObject jsonObject)
     {
-        if (hasAspect(jsonObject,"sf:smartFolderChild") && !isContainer(jsonObject))
+        if (hasAspect(jsonObject,"smf:smartFolderChild") && !isContainer(jsonObject))
         {
             return true;
         }

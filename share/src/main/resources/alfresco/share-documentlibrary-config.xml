@@ -531,8 +531,8 @@
             <aspect name="audio:audio" />
             <aspect name="cm:indexControl" />
             <aspect name="dp:restrictable" />
-            <aspect name="sf:customConfigSmartFolder" />
-            <aspect name="sf:systemConfigSmartFolder" />
+            <aspect name="smf:customConfigSmartFolder" />
+            <aspect name="smf:systemConfigSmartFolder" />
          </visible>
 
          <!--
@@ -568,7 +568,7 @@
       -->
       <types>
          <type name="cm:content">
-            <subtype name="sf:smartFolderTemplate" />
+            <subtype name="smf:smartFolderTemplate" />
          </type>
 
          <type name="cm:folder">
@@ -802,12 +802,12 @@
 
       <multi-select>
          <action type="action-link" id="onActionDownload" icon="document-download" label="menu.selected-items.download" />
-         <action type="action-link" id="onActionCopyTo" icon="document-copy-to" label="menu.selected-items.copy" notAspect="sf:smartFolder,sf:smartFolderChild"/>
-         <action type="action-link" id="onActionMoveTo" icon="document-move-to" permission="Delete" label="menu.selected-items.move" notAspect="sf:smartFolder,sf:smartFolderChild"/>
+         <action type="action-link" id="onActionCopyTo" icon="document-copy-to" label="menu.selected-items.copy" notAspect="smf:smartFolder,smf:smartFolderChild"/>
+         <action type="action-link" id="onActionMoveTo" icon="document-move-to" permission="Delete" label="menu.selected-items.move" notAspect="smf:smartFolder,smf:smartFolderChild"/>
          <action type="action-link" id="onActionAssignWorkflow" asset="document" icon="document-assign-workflow" label="menu.selected-items.assign-workflow"/>
-         <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="hwf:hybridWorkflow,sys:undeletable,sf:smartFolder" />
-         <action type="action-link" id="onActionCloudSync" asset="document" icon="document-cloud-sync"  permission="CreateChildren" label="menu.selected-items.cloudSync" notAspect="sync:syncSetMemberNode,sf:smartFolder,sf:smartFolderChild" syncMode="ON_PREMISE" />
-         <action type="action-link" id="onActionCloudSyncRequest" icon="document-request-sync" label="menu.selected-items.cloudRequestSync" hasAspect="sync:syncSetMemberNode" notAspect="sf:smartFolder,sf:smartFolderChild" syncMode="ON_PREMISE" />
+         <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="hwf:hybridWorkflow,sys:undeletable,smf:smartFolder" />
+         <action type="action-link" id="onActionCloudSync" asset="document" icon="document-cloud-sync"  permission="CreateChildren" label="menu.selected-items.cloudSync" notAspect="sync:syncSetMemberNode,smf:smartFolder,smf:smartFolderChild" syncMode="ON_PREMISE" />
+         <action type="action-link" id="onActionCloudSyncRequest" icon="document-request-sync" label="menu.selected-items.cloudRequestSync" hasAspect="sync:syncSetMemberNode" notAspect="smf:smartFolder,smf:smartFolderChild" syncMode="ON_PREMISE" />
       </multi-select>
 
    </config>
@@ -1455,7 +1455,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "sf:smartFolder"
+                                    "smf:smartFolder"
                                 ]
                             }
                         }
@@ -1467,7 +1467,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "sf:smartFolder"
+                                    "smf:smartFolder"
                                 ]
                             }
                         }
@@ -1481,7 +1481,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "sf:smartFolder"
+                                    "smf:smartFolder"
                                 ]
                             }
                         }
@@ -1495,7 +1495,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "sf:smartFolder"
+                                    "smf:smartFolder"
                                 ]
                             }
                         }
@@ -1507,7 +1507,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "sf:smartFolder"
+                                    "smf:smartFolder"
                                 ]
                             }
                         }
@@ -1532,7 +1532,7 @@
                             "filter":{
                                 "name":"aspect",
                                 "match":[
-                                    "sf:smartFolder"
+                                    "smf:smartFolder"
                                 ]
                             },
                             "style":{

@@ -1393,7 +1393,7 @@
                   Dom.removeClass(syncToCloudButtonDiv, "hidden");
                   Dom.addClass(unsyncFromCloudButtonDiv, "hidden");
                }
-               if(Alfresco.util.arrayContains(aspects, "sf:smartFolder"))
+               if(Alfresco.util.arrayContains(aspects, "smf:smartFolder"))
                {
                   Dom.addClass(unsyncFromCloudButtonDiv, "hidden");
                   Dom.addClass(syncToCloudButtonDiv, "hidden");
@@ -2095,7 +2095,7 @@
       isVirtualFolder: function DLTB_isVirtualFolder()
       {
          var parentAspects = Alfresco.util.findValueByDotNotation(this, "doclistMetadata.parent.aspects"),
-            isVirtualFolder = Alfresco.util.arrayContains(parentAspects, "sf:smartFolder");
+            isVirtualFolder = Alfresco.util.arrayContains(parentAspects, "smf:smartFolder");
 
          return isVirtualFolder;
 

@@ -50,9 +50,9 @@ public abstract class VirtualBaseEvaluator extends BaseEvaluator
      */
     boolean notInVirtualContext(JSONObject jsonObject)
     {
-        boolean virtual = hasAspect(jsonObject,"sf:smartFolder") || hasAspect(jsonObject,"sf:smartFolderChild");
+        boolean virtual = hasAspect(jsonObject,"smf:smartFolder") || hasAspect(jsonObject,"smf:smartFolderChild");
         boolean isContainer = isContainer(jsonObject);
-        boolean virtualContext = isContainer && hasAspect(jsonObject,"sf:smartFolderChild");
+        boolean virtualContext = isContainer && hasAspect(jsonObject,"smf:smartFolderChild");
         if (!virtual && !virtualContext)
         {
             return true;
