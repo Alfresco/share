@@ -246,7 +246,8 @@ function updateRecentSites() {
 function getSiteData()
 {
    var siteId = page.url.templateArgs.site,
-       siteData = null;
+       siteData = {};
+
    if (siteId != null)
    {
       if (model.siteData == null)
@@ -283,11 +284,42 @@ function getSiteData()
                userIsSiteManager = obj.role == "SiteManager";
             }
          }
+         
+         // Get the site invitations for the current user
+         var url = "/api/invitations?inviteeUserName=" + encodeURIComponent(user.name),
+             result = remote.connect("alfresco").get(url),
+             inviteData = [];
 
-         siteData = {};
+         if (result.status == status.STATUS_OK)
+         {
+            var json = JSON.parse(result.response);
+            inviteData = json.data;
+         }
+
+         var invites = [];
+         for (var i = 0; i < inviteData.length; i++)
+         {
+            var invite = {};
+            invite.id = inviteData[i].inviteId;
+            invite.siteId = inviteData[i].resourceName;
+            invite.type = inviteData[i].invitationType;
+            invites.push(invite);
+         }
+
+         var invitationInPending = false;
+         for(i=0; i < invites.length; i++)
+         {
+            if(invites[i].siteId == siteId && invites[i].type == "MODERATED")
+            {
+               invitationInPending = true;
+               siteData.pendingInvite = invites[i];
+            }
+         }
+
          siteData.profile = profile;
          siteData.userIsSiteManager = userIsSiteManager;
          siteData.userIsMember = userIsMember;
+         siteData.invitationInPending = invitationInPending;
 
          // Store this in the model to allow for repeat calls to the function (and therefore
          // prevent multiple REST calls to the Repository)...
@@ -1339,24 +1371,43 @@ function getTitleBarModel() {
          }
          else if (siteData.profile.visibility != "PRIVATE" || user.isAdmin)
          {
-            // If the member is not a member of a site then give them the option to join...
-            siteConfig.config.widgets.push({
-               id: "HEADER_JOIN_SITE",
-               name: "alfresco/menus/AlfMenuItem",
-               config: {
+            if (siteData.invitationInPending)
+            {
+               siteConfig.config.widgets.push({
+                  id: "HEADER_CANCEL_JOIN_SITE_REQUEST",
+                  name: "alfresco/menus/AlfMenuItem",
+                  config: {
+                     id: "HEADER_CANCEL_JOIN_SITE_REQUEST",
+                     label: "cancel_request_to_join.label",
+                     iconClass: "alf-leave-icon",
+                     publishTopic: "ALF_CANCEL_JOIN_SITE_REQUEST",
+                     publishPayload: {
+                        siteId: page.url.templateArgs.site,
+                         pendingInvite: siteData.pendingInvite
+                      }
+                   }
+                });
+            }
+            else
+            {
+               // If the member is not a member of a site then give them the option to join...
+               siteConfig.config.widgets.push({
                   id: "HEADER_JOIN_SITE",
-                  label: (siteData.profile.visibility == "MODERATED" ? "join_site_moderated.label" : "join_site.label"),
-                  iconClass: "alf-leave-icon",
-                  publishTopic: (siteData.profile.visibility == "MODERATED" ? "ALF_REQUEST_SITE_MEMBERSHIP" : "ALF_JOIN_SITE"),
-                  publishPayload: {
-                     site: page.url.templateArgs.site,
-                     siteTitle: siteData.profile.title,
-                     user: user.name,
-                     userFullName: user.fullName
+                  name: "alfresco/menus/AlfMenuItem",
+                  config: {
+                     id: "HEADER_JOIN_SITE",
+                     label: (siteData.profile.visibility == "MODERATED" ? "join_site_moderated.label" : "join_site.label"),
+                     iconClass: "alf-leave-icon",
+                     publishTopic: (siteData.profile.visibility == "MODERATED" ? "ALF_REQUEST_SITE_MEMBERSHIP" : "ALF_JOIN_SITE"),
+                     publishPayload: {
+                       site: page.url.templateArgs.site,
+                       siteTitle: siteData.profile.title,
+                       user: user.name,
+                       userFullName: user.fullName
+                     }
                   }
-               }
-            });
-         }
+                });
+          }
       }
 
       // Add the site configuration to the title options...
