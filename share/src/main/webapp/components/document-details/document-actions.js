@@ -60,6 +60,56 @@
    };
 
    /**
+    * Retrieves the redirection path to list parent folder's content
+    * 
+    * @param {String} path The local path
+    * @param {String} siteId Id of the current site
+    */
+   function DocumentActions_getParentLocation(path, siteId)
+   {
+      // Update the path for My Files and Shared Files...
+      if (Alfresco.constants.PAGECONTEXT == "mine" || Alfresco.constants.PAGECONTEXT == "shared")
+      {
+         // Get rid of the first "/"
+         var tmpPath = path.substring(1); 
+         if (Alfresco.constants.PAGECONTEXT == "mine")
+         {
+            tmpPath = tmpPath.substring(tmpPath.indexOf("/") + 1);
+         }
+         var slashIndex = tmpPath.indexOf("/");
+         if (slashIndex != -1)
+         {
+            path = tmpPath.substring(slashIndex);
+         }
+         else
+         {
+            path = "";
+         }
+      }
+
+      var callbackUrl = "",
+          encodedPath = path.length > 1 ? "?path=" + encodeURIComponent(path) : "";
+
+      // Work out the correct Document Library to return to...
+      if (Alfresco.constants.PAGECONTEXT == "mine")
+      {
+         callbackUrl = "myfiles";
+      }
+      else if (Alfresco.constants.PAGECONTEXT == "shared")
+      {
+         callbackUrl = "sharedfiles";
+      }
+      else
+      {
+         callbackUrl = Alfresco.util.isValueSet(siteId) ? "documentlibrary" : "repository";
+      }
+      
+      var result =  callbackUrl + encodedPath;
+      
+      return result;
+   }
+
+   /**
     * Extend Alfresco.component.Base
     */
    YAHOO.extend(Alfresco.DocumentActions, Alfresco.component.Base);
@@ -388,7 +438,8 @@
       onActionCancelEditing: function DocumentActions_onActionCancelEditing(asset)
       {
          var displayName = asset.displayName,
-            nodeRef = new Alfresco.util.NodeRef(asset.nodeRef);
+         nodeRef = new Alfresco.util.NodeRef(asset.nodeRef),
+         parentLocation = DocumentActions_getParentLocation(asset.location.path, this.options.siteId);
 
          this.modules.actions.genericAction(
          {
@@ -401,7 +452,15 @@
                       var oldNodeRef = this.recordData.jsNode.nodeRef.nodeRef,
                       newNodeRef = data.json.results[0].nodeRef;
                       this.recordData.jsNode.setNodeRef(newNodeRef);
-                      window.location = this.getActionUrls(this.recordData).documentDetailsUrl + "#editCancelled";
+                      if(this.recordData.parent && this.recordData.parent.nodeRef == newNodeRef)
+                      {
+                         window.location = asset.parent.nodeRef ? $siteURL(parentLocation) : Alfresco.constants.URL_CONTEXT;
+                      }
+                      else
+                      {
+                         window.location = this.getActionUrls(this.recordData).documentDetailsUrl + "#editCancelled";
+                      }
+
                       // ALF-16598 fix, page is not refreshed if only hash was changed, force page reload for cancel online editing
                       if (oldNodeRef == newNodeRef)
                       {
@@ -583,48 +642,12 @@
        */
       _onActionDeleteConfirm: function DocumentActions__onActionDeleteConfirm(asset)
       {
-         var path = asset.location.path;
-         
-         // Update the path for My Files and Shared Files...
-         if (Alfresco.constants.PAGECONTEXT == "mine" || Alfresco.constants.PAGECONTEXT == "shared")
-         {
-            // Get rid of the first "/"
-            var tmpPath = path.substring(1); 
-            if (Alfresco.constants.PAGECONTEXT == "mine")
-            {
-               tmpPath = tmpPath.substring(tmpPath.indexOf("/") + 1);
-            }
-            var slashIndex = tmpPath.indexOf("/");
-            if (slashIndex != -1)
-            {
-               path = tmpPath.substring(slashIndex);
-            }
-            else
-            {
-               path = "";
-            }
-         }
-         
-         var fileName = asset.fileName,
-            displayName = asset.displayName,
-            nodeRef = new Alfresco.util.NodeRef(asset.nodeRef),
-            callbackUrl = "",
-            encodedPath = path.length > 1 ? "?path=" + encodeURIComponent(path) : "";
+         var path = asset.location.path,
+         fileName = asset.fileName,
+         displayName = asset.displayName,
+         nodeRef = new Alfresco.util.NodeRef(asset.nodeRef),
+         parentLocation = DocumentActions_getParentLocation(path, this.options.siteId);
 
-         // Work out the correct Document Library to return to...
-         if (Alfresco.constants.PAGECONTEXT == "mine")
-         {
-            callbackUrl = "myfiles";
-         }
-         else if (Alfresco.constants.PAGECONTEXT == "shared")
-         {
-            callbackUrl = "sharedfiles";
-         }
-         else
-         {
-            callbackUrl = Alfresco.util.isValueSet(this.options.siteId) ? "documentlibrary" : "repository";
-         }
-           
          this.modules.actions.genericAction(
          {
             success:
@@ -645,7 +668,7 @@
                {
                   fn: function DocumentActions_oADC_success(data)
                   {
-                     window.location = asset.parent.nodeRef ? $siteURL(callbackUrl + encodedPath) : Alfresco.constants.URL_CONTEXT;
+                     window.location = asset.parent.nodeRef ? $siteURL(parentLocation) : Alfresco.constants.URL_CONTEXT;
                   }
                }
             },
