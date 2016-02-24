@@ -23,8 +23,8 @@
          <div class="dialog-options theme-bg-color-6 theme-border-3">
             <h2>${msg("header")}</h2>
             <div class="dialog-option">
-               <#assign nodeRef>?nodeRef=${(page.url.args.nodeRef!"")?url}</#assign>
-               <a href="${page.url.uri?replace('/folder-rules', '/rule-edit', 'if')}${nodeRef}">${msg("header.create-rule")}</a>
+               <#assign nodeRef>${page.url.args.nodeRef!""}</#assign>
+               <a href="${siteURL("rule-edit?nodeRef=")}${nodeRef?url}">${msg("header.create-rule")}</a>
                <div>${msg("text.create-rule")}</div>
             </div>
             <div class="dialog-option">
