@@ -322,7 +322,19 @@
          editor.render();
 
          // Add validation to the rich text editor
-         var keyUpIdentifier = (Alfresco.constants.HTML_EDITOR === 'YAHOO.widget.SimpleEditor') ? 'editorKeyUp' : 'onKeyUp';
+         var keyUpIdentifier;
+         switch (Alfresco.constants.HTML_EDITOR)
+         {
+         case 'YAHOO.widget.SimpleEditor':
+             keyUpIdentifier = 'editorKeyUp';
+             break;
+         case 'tinyMCE':
+             keyUpIdentifier = 'change';
+             break;
+         default:
+             keyUpIdentifier = 'onKeyUp';
+         }
+         
          editor.subscribe(keyUpIdentifier, function (e)
          {
             /**

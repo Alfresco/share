@@ -10209,6 +10209,13 @@ Alfresco.util.RichEditor = function(editorName,id,config)
                      {
                         fn.apply(scope,arguments);
                      });
+                  } 
+                  else if (edtr.on)
+                  {
+                     edtr.on(event, function()
+                     {
+                        fn.apply(scope,arguments);
+                     });
                   }
                   YAHOO.Bubbling.on(event, fn, scope);
                },
