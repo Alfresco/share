@@ -54,13 +54,13 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+         <dependency>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+            <version>${dependency.surf.version}</version>
+         </dependency>
         <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webscripts</artifactId>
         </dependency>
     </dependencies>

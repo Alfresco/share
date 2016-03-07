@@ -248,9 +248,8 @@
       <property name="moduleManager"  ref="modulepackagemanager" />
    </bean>
 
-   <!-- CSS image data handler - override max image size to be 10K - anything larger is left as a resource url -->
+   <!-- CSS image data handler - override to remove YUI resources from CSS handling -->
    <bean id="css.data.image.handler" parent="css.data.image.handler.abstract" class="org.springframework.extensions.surf.CssImageDataHandler">
-      <property name="maximumImageSize" value="10240" />
       <property name="excludeCssPaths">
           <list>
              <value>yui/assets/skins/default/skin.css</value>

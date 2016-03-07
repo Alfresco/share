@@ -17,11 +17,11 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+         <dependency>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+            <version>${dependency.surf.version}</version>
+         </dependency>
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
@@ -77,7 +77,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webscripts</artifactId>
             <version>${dependency.webscripts.version}</version>
             <classifier>tests</classifier>

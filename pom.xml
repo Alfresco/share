@@ -1,10 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-super-pom</artifactId>
         <version>6</version>
     </parent>
+    
     <artifactId>alfresco-share-parent</artifactId>
     <version>5.1</version>
     <packaging>pom</packaging>
@@ -14,7 +16,6 @@
         <module>share-services</module>
         <module>share</module>
         <module>share-po</module>
-        <module>surf</module>
         <module>web-framework-commons</module>
         <module>web-editor</module>
         <module>web-editor-plugin</module>
@@ -27,7 +28,7 @@
         <version.major>5</version.major>
         <version.minor>1</version.minor>
         <version.revision>0</version.revision>
-        <!-- Version of Alfresco Platform to depen on -->
+        <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>5.1</alfresco.platform.version>
 
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
@@ -38,12 +39,11 @@
         <dependency.aikau.version>1.0.39.5</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
-        <dependency.alfresco-core.version>5.6</dependency.alfresco-core.version>
+        <dependency.alfresco-core.version>6.1</dependency.alfresco-core.version>
         <dependency.httpcomponents.version>4.5.1</dependency.httpcomponents.version>
-
         <dependency.alfresco-jlan.version>5.2</dependency.alfresco-jlan.version>
-        <dependency.webscripts.version>5.8</dependency.webscripts.version>
-
+        <dependency.webscripts.version>6.5</dependency.webscripts.version>
+        <dependency.surf.version>6.3</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
 
         <!-- Developer's runtime environment configuration -->
@@ -117,19 +117,34 @@
                 <version>${dependency.alfresco-jlan.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-webscripts</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
+                <artifactId>spring-webscripts-api</artifactId>
+                <version>${dependency.webscripts.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-core</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-core-configservice</artifactId>
                 <version>${dependency.webscripts.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.alfresco.surf</groupId>
+               <artifactId>spring-surf</artifactId>
+               <version>${dependency.surf.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.alfresco.surf</groupId>
+               <artifactId>spring-surf-api</artifactId>
+               <version>${dependency.surf.version}</version>
             </dependency>
             <dependency>
                <groupId>org.apache.httpcomponents</groupId>
