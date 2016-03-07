@@ -1,1 +1,0 @@
-model.moomin = "Giant";

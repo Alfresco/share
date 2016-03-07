@@ -1,1 +1,0 @@
-BeforeTemplateRegionDirective<@region id="taglib_component_fail_test-region" scope="page"/>AfterTemplateRegionDirective

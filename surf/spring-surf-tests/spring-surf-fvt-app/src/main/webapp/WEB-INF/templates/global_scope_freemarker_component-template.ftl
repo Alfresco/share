@@ -1,1 +1,0 @@
-BeforeGlobalScopeFreemarkerComponent<@region id="global_scope_freemarker_component-region" scope="global"/>AfterGlobalScopeFreemarkerComponent

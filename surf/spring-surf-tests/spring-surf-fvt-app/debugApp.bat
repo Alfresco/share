@@ -1,1 +1,0 @@
-mvnDebug -o jetty:run-war -DskipTests

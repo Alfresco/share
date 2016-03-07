@@ -1,6 +1,0 @@
-<webscript>
-  <shortname>Used to bootstrap Dojo</shortname>
-  <url>/surf/dojo/bootstrap</url>
-  <family>Dojo</family>
-  <format default="html">extension</format>
-</webscript>

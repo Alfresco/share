@@ -1,1 +1,0 @@
-BeforeTemplateScopeWebScriptComponent<@region id="template_scope_webscript_component_with_webscript_chromes-region" scope="template"/>AfterTemplateScopeWebScriptComponent

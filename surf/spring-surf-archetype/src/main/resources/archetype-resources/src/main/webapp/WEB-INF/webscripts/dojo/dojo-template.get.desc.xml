@@ -1,8 +1,0 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
-<webscript>
-  <shortname>Dojo Page Template</shortname>
-  <family>Dojo</family>
-  <url>/dojo/page/template</url>
-</webscript>

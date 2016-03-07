@@ -1,1 +1,0 @@
-<@region id="webscript_multifocus-region" scope="page"/>
