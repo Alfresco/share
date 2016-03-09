@@ -61,11 +61,11 @@
             <artifactId>alfresco-jlan-embed</artifactId>
             <exclusions>
                <exclusion>
-                   <groupId>org.springframework.extensions.surf</groupId>
+                   <groupId>org.alfresco.surf</groupId>
                    <artifactId>spring-surf-core</artifactId>
                </exclusion>
                <exclusion>
-                   <groupId>org.springframework.extensions.surf</groupId>
+                   <groupId>org.alfresco.surf</groupId>
                    <artifactId>spring-surf-core-configservice</artifactId>
                </exclusion>
             </exclusions>
@@ -230,19 +230,19 @@
                </exclusion>
                <!-- until Aikau pom dependencies are updated, avoid old surf versions -->
                <exclusion>
-                  <groupId>org.springframework.extensions.surf</groupId>
+                  <groupId>org.alfresco.surf</groupId>
                   <artifactId>spring-webscripts</artifactId>
                </exclusion>
                <exclusion>
-                  <groupId>org.springframework.extensions.surf</groupId>
+                  <groupId>org.alfresco.surf</groupId>
                   <artifactId>spring-webscripts-api</artifactId>
                </exclusion>
                <exclusion>
-                  <groupId>org.springframework.extensions.surf</groupId>
+                  <groupId>org.alfresco.surf</groupId>
                   <artifactId>spring-surf</artifactId>
                </exclusion>
                <exclusion>
-                  <groupId>org.springframework.extensions.surf</groupId>
+                  <groupId>org.alfresco.surf</groupId>
                   <artifactId>spring-surf-api</artifactId>
                </exclusion>
             </exclusions>
