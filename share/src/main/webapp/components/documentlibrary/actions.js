@@ -505,8 +505,10 @@
             zIndex = 0;
 
          
+         // Check if node is direct sync member node
+         var isDirectSSMN = (jsNode.hasAspect("sync:syncSetMemberNode") && $isValueSet(jsNode.properties)) ? jsNode.properties["sync:directSync"] === "true" : false;
          var deleteRemoteFile = "";
-         if (!isCloud && jsNode.hasAspect("sync:syncSetMemberNode"))
+         if (!isCloud && isDirectSSMN)
          {
             deleteRemoteFile = '<div><input type="checkbox" id="requestDeleteRemote" class="requestDeleteRemote-checkBox"><span class="requestDeleteRemote-text">' + this.msg("sync.remove." + content + ".from.cloud", displayName) + '</span></div>';
          }
@@ -534,7 +536,7 @@
                   var requestDeleteRemote = isCloud ? false : Dom.getAttribute("requestDeleteRemote", "checked");
                   this.destroy();
                   
-                  if (jsNode.hasAspect("sync:syncSetMemberNode"))
+                  if (isDirectSSMN)
                   {
                      me._onActionDeleteSyncConfirm.call(me, record, requestDeleteRemote);
                   }
