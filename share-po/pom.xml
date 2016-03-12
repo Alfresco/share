@@ -380,6 +380,63 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>upgrade-aikau</id>
+            <properties>
+                <aikau.version>RELEASE</aikau.version>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>     
+                        <executions>
+                            <execution>
+                                <id>fetch-aikau</id>
+                                <phase>generate-test-resources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.alfresco</groupId>
+                                            <artifactId>aikau</artifactId>
+                                            <version>${aikau.version}</version>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${basedir}/target</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>     
+                        <executions>
+                            <execution>
+                                <id>change-aikau</id>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo>Tweaking Aikau in share.war...</echo>
+                                        <zip destfile="${basedir}/target/share.war">
+                                            <zipfileset src="${basedir}/target/alf-installation/tomcat/webapps/share.war"
+                                                excludes="WEB-INF/lib/aikau-*.jar"/>
+                                            <zipfileset dir="${basedir}/target" includes="aikau-*.jar" prefix="WEB-INF/lib" />
+                                        </zip>
+                                        <move file="${basedir}/target/share.war" todir="${basedir}/target/alf-installation/tomcat/webapps" verbose="true" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>sanity-tests</id>
             <build>
