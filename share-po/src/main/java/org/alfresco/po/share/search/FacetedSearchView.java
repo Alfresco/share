@@ -29,6 +29,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 /**
  * The Class FacetedSearchView
@@ -38,9 +39,9 @@ import org.openqa.selenium.WebElement;
 public class FacetedSearchView extends SharePage
 {
     /** Constants. */
-    private static final By VIEW_TYPES = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP [data-dojo-attach-point$='textDirNode']");
+    private static final By VIEW_TYPES = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP > div.alf-menu-group-items td:nth-of-type(3)");
     private static final By DETAILED_VIEW_RESULTS = By.cssSelector("tbody[id=FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS] td.thumbnailCell");
-    private static final By GALLERY_VIEW_RESULTS = By.cssSelector("div[class='displayName']");
+    private static final By GALLERY_VIEW_RESULTS = By.cssSelector("#FCTSRCH_GALLERY_VIEW");
     private static final String DISPLAY_NAMES = ".displayName";
     private static final By GALLERY_VIEW_ICON = By.cssSelector(".alfresco-renderers-MoreInfo");
     private static Log logger = LogFactory.getLog(FacetedSearchView.class);
@@ -109,7 +110,7 @@ public class FacetedSearchView extends SharePage
         List<WebElement> menuElements = driver.findElements(VIEW_TYPES);
         for(WebElement option : menuElements)
         {
-        	String value = StringUtils.trim(option.getText());
+            String value = StringUtils.trim(option.getText());
             if(label.equalsIgnoreCase(value))
             {
                 StringUtils.trim(option.getText());
@@ -132,11 +133,11 @@ public class FacetedSearchView extends SharePage
     {
         try
         {
-        	detailedViewResults = driver.findElement(DETAILED_VIEW_RESULTS);
-        	if(detailedViewResults.isDisplayed())
-        	{        		
-        		return true;        		       		 
-        	}
+            detailedViewResults = driver.findElement(DETAILED_VIEW_RESULTS);
+            if(detailedViewResults.isDisplayed())
+            {
+                return true;
+            }
         }
         catch (NoSuchElementException nse)
         {
@@ -146,7 +147,7 @@ public class FacetedSearchView extends SharePage
         {
             return false;
         }
-		return false;        
+        return false;
     }
     
     /**
@@ -156,11 +157,11 @@ public class FacetedSearchView extends SharePage
     {
         try
         {
-        	galleryViewResults = driver.findElement(GALLERY_VIEW_RESULTS);
-        	if(galleryViewResults.isDisplayed())
-        	{        		
-        		return true;        		       		 
-        	}
+            galleryViewResults = driver.findElement(GALLERY_VIEW_RESULTS);
+            if(galleryViewResults.isDisplayed())
+            {
+                return true;
+            }
         }
         catch (NoSuchElementException nse)
         {
@@ -170,7 +171,7 @@ public class FacetedSearchView extends SharePage
         {
             return false;
         }
-		return false;        
+        return false;
     }
 
 
@@ -180,8 +181,10 @@ public class FacetedSearchView extends SharePage
      */
     private void openMenu()
     {
-        WebElement element = driver.findElement(By.id("FCTSRCH_VIEWS_MENU"));
-        element.click();
+        driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_MENU")).click(); //Regain page control from dojo
+        WebElement element = driver.findElement(By.cssSelector("img.alf-configure-icon"));
+        Actions action = new Actions(driver);
+        action.moveToElement(element).click().perform();
     }
 
     /**
@@ -189,7 +192,7 @@ public class FacetedSearchView extends SharePage
      */
     private void cancelMenu()
     {
-        driver.findElement(By.cssSelector("div.horizontal-widget")).click();
+        driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_MENU")).click();
     }
     
     /**

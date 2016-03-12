@@ -35,7 +35,7 @@ import org.openqa.selenium.WebElement;
 public class ActionsSet extends PageElement
 {
     /** Constants */
-    private static final By CONTROL_ELEMENT = By.cssSelector("div.dijitMenuItem");
+    private static final By CONTROL_ELEMENT = By.cssSelector("td.actionsCell>div");
     private static final By MENU_ROWS = By.cssSelector("tr.dijitMenuItem");
     private static final By MENU_LABEL = By.cssSelector("td.dijitMenuItemLabel");
     private static final By DIALOG = By.cssSelector("div.alfresco-dialog-AlfDialog");
