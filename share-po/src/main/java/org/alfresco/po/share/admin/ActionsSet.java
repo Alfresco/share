@@ -35,7 +35,7 @@ import org.openqa.selenium.WebElement;
 public class ActionsSet extends PageElement
 {
     /** Constants */
-    private static final By CONTROL_ELEMENT = By.cssSelector("td.actionsCell>div");
+    private static final By CONTROL_ELEMENT = By.cssSelector("div[aria-label='Actions ']");
     private static final By MENU_ROWS = By.cssSelector("tr.dijitMenuItem");
     private static final By MENU_LABEL = By.cssSelector("td.dijitMenuItemLabel");
     private static final By DIALOG = By.cssSelector("div.alfresco-dialog-AlfDialog");
@@ -43,8 +43,18 @@ public class ActionsSet extends PageElement
     protected String nodeRef;
     protected String rowElementXPath = null;
 
-    private WebElement control;
-
+    protected WebElement control;
+    /**
+     * Instantiates a new actions set.
+     * 
+     * @param driver the web driver
+     * @param element the element
+     */
+    public ActionsSet(WebDriver driver, FactoryPage factoryPage)
+    {
+        this.driver = driver;
+        this.factoryPage = factoryPage;
+    }
     /**
      * Instantiates a new actions set.
      * 

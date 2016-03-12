@@ -106,7 +106,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
         }
         this.factoryPage = factoryPage;
         isFolder = checkFolder(result);
-        actions = new ActionsSet(driver, result.findElement(ACTIONS), factoryPage);
+        actions = new SearchActionsSet(driver, result.findElement(ACTIONS), factoryPage);
 
     }
 
