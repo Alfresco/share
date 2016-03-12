@@ -82,6 +82,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
         elementRender(timer, new RenderElement(DESCRIPTION_TEXT, ElementState.PRESENT));
         elementRender(
                 timer,
+                new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE),
                 getVisibleRenderElement(SELECT_CLOSE_BUTTON),
                 getVisibleRenderElement(BUTTON_CANCEL_MODEL));
 

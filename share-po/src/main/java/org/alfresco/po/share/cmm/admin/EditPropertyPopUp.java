@@ -20,7 +20,9 @@ package org.alfresco.po.share.cmm.admin;
 
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SelectList;
@@ -163,6 +165,7 @@ public class EditPropertyPopUp extends ShareDialogueAikau
 
         elementRender(
                 timer,
+                new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE),
                 getVisibleRenderElement(SHARE_DIALOGUE_HEADER),
                 getVisibleRenderElement(NAME_FIELD),
                 getVisibleRenderElement(TITLE_FIELD),

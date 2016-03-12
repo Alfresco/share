@@ -22,7 +22,9 @@ import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogueAikau;
@@ -82,7 +84,8 @@ public class EditModelPopUp extends ShareDialogueAikau
                 getVisibleRenderElement(DESCRIPTION_TEXT),
                 getVisibleRenderElement(DESCRIPTION_TEXT),
                 getVisibleRenderElement(SELECT_CLOSE_BUTTON),
-                getVisibleRenderElement(BUTTON_CANCEL_EDIT_MODEL));
+                getVisibleRenderElement(BUTTON_CANCEL_EDIT_MODEL),
+                new RenderElement(ERROR_MSG_DIALOG,ElementState.INVISIBLE));
 
         return this;
     }
