@@ -5,7 +5,7 @@
          <div class="header-bar"><span class="error">${msg("label.cloud-auth.error")}</span></div>
          <div class="row">
             <span class="label"><label for="username">${msg("label.cloud-email")}</label></span>
-            <span><input type="text" id="username" value="${email}" /></span>
+            <span><input type="text" id="username" value="<#if email??>${email}</#if>" /></span>
          </div>
          <div class="row">
             <span class="label"><label for="password">${msg("label.cloud-password")}</label></span>
