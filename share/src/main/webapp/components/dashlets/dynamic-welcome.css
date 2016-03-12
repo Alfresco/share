@@ -72,6 +72,8 @@ div.dashlet.dynamic-welcome.alf-user-welcome
    font-weight: normal;
    margin-bottom: 0;
    letter-spacing: -0.7px;
+   word-wrap: break-word;
+   max-width: 80%;
 }
 
 .welcome-info h2
@@ -197,4 +199,15 @@ div.dashlet.dynamic-welcome.alf-user-welcome
 .welcome-height-adjuster
 {
    clear: both;
+}
+
+.left-and-right .left-widgets
+{
+   max-width: 60%;
+}
+
+div.left-widgets>div:nth-child(2)
+{
+   max-width: 80%;
+   word-wrap: break-word;
 }
