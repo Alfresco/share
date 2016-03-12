@@ -113,6 +113,9 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
     // NTLM authentication session object names
     private static final String NTLM_AUTH_DETAILS = "_alfwfNTLMDetails";
     
+    // Kerberos authentication session object flag (Firefox and Chrome hack for MNT-15561)
+    private static final String AUTH_BY_KERBEROS = "_alfAuthByKerberos";
+    
     private static final String MIME_HTML_TEXT = "text/html";
 
     private static final String PAGE_SERVLET_PATH = "/page";
@@ -816,7 +819,8 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
                     logger.debug("Validating repository session for " + userId);
             }
             
-            if (userId != null && !userId.equalsIgnoreCase(req.getRemoteUser()) && session.getAttribute(NTLM_AUTH_DETAILS) == null)
+            if (userId != null && !userId.equalsIgnoreCase(req.getRemoteUser()) && session.getAttribute(NTLM_AUTH_DETAILS) == null
+                    && session.getAttribute(AUTH_BY_KERBEROS) == null) // Firefox & Chrome hack for MNT-15561
             {
                 session.removeAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH);
             }
@@ -1303,6 +1307,15 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
                     boolean authenticated = doKerberosDelegateLogin(req, resp, httpSess, userName, tokenForEndpoint);
                     if (!authenticated) {
                         return null;
+                    }
+                    else
+                    {
+                        // Firefox and Chrome hack (MNT-15561):
+                        // These browsers only send the authorization header (SPNEGO - Kerberos) once
+                        // (when redirecting to /share/page/user/<username>/dashboard only Internet Explorer will send the header again).
+                        // Therefore we need to have some way of knowing that the previous authentication was done using Kerberos,
+                        // otherwise we'll end-up having problems like MNT-15561 ('Logout' button is still present in spite of SSO being set).
+                        httpSess.setAttribute(AUTH_BY_KERBEROS, true);
                     }
                 }
             }
