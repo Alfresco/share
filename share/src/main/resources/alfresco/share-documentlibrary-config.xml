@@ -1162,6 +1162,7 @@
             <evaluator>evaluator.doclib.action.notHasWorkingCopy</evaluator>
             <evaluator>evaluator.doclib.action.cancelLockedBlacklist</evaluator>
             <evaluator negate="true">evaluator.doclib.action.isSyncLock</evaluator>
+            <evaluator negate="true">evaluator.doclib.action.transferred</evaluator>
          </action>
 
          <!-- Manage folder rules -->
