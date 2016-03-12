@@ -739,11 +739,16 @@
             var galleryItemThumbnailDivChildren = Dom.getElementsByClassName('web-preview', 'div', galleryItemThumbnailDiv);
             if (galleryItemThumbnailDivChildren == null || galleryItemThumbnailDivChildren.length == 0)
             {
+               var nodeRefToUse = record.nodeRef;
+               if(thumbnail.isLink && record.node.linkedNode && record.node.linkedNode.nodeRef)
+               {
+                  nodeRefToUse = record.node.linkedNode.nodeRef;
+               }
                // Render the web-preview for the filmstrip item
                Alfresco.util.loadWebscript(
                {
                   url: Alfresco.constants.URL_SERVICECONTEXT + "/components/preview/web-preview",
-                  properties: { nodeRef: record.nodeRef },
+                  properties: { nodeRef: nodeRefToUse },
                   target: galleryItemThumbnailDiv
                });
             }
