@@ -14,13 +14,10 @@
  */
 package org.alfresco.po.share.site;
 
-import static org.testng.Assert.*;
-
 import java.io.IOException;
 import java.util.List;
 
 import org.alfresco.po.AbstractTest;
-import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.SharePopup;
@@ -235,8 +232,8 @@ public class SiteTest extends AbstractTest
     @Test(dependsOnMethods = "createPublicModerateSite")
     public void nonMemberCanJoinModeratedSite() throws Exception
     {
-    	logout(driver);
-    	dashBoard = loginAs(testuser, "password");
+        logout(driver);
+        dashBoard = loginAs(testuser, "password");
         SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
         siteFinder = siteFinder.searchForSite(moderatedSiteName).render();
         siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, moderatedSiteName);
@@ -251,7 +248,7 @@ public class SiteTest extends AbstractTest
         Assert.assertTrue(dashBoard.getPageTitle().contains(testuser));
         Assert.assertTrue(dashBoard.getPageTitle().contains("Dashboard"));
         logout(driver);
-    	dashBoard = loginAs(username, password);
+        dashBoard = loginAs(username, password);
     }
 
     @Test(dependsOnMethods = "nonMemberCanJoinModeratedSite")
