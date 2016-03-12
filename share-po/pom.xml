@@ -137,6 +137,11 @@
             <artifactId>dataprep</artifactId>
             <version>1.7</version>
         </dependency>
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>fetch</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
     
     <!-- Package Application into a standalone  -->
