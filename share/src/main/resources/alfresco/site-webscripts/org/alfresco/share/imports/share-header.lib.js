@@ -273,6 +273,7 @@ function getSiteData()
          // Call the repository to see if the user is site manager or not
          var userIsSiteManager = false,
              userIsMember = false;
+             userIsDirectMember = false;
          json = remote.call("/api/sites/" + page.url.templateArgs.site + "/memberships/" + encodeURIComponent(user.name));
          if (json.status == 200)
          {
@@ -280,6 +281,7 @@ function getSiteData()
             if (obj)
             {
                userIsMember = true;
+               userIsDirectMember = !(obj.isMemberOfGroup);
                userIsSiteManager = obj.role == "SiteManager";
             }
          }
@@ -288,6 +290,7 @@ function getSiteData()
          siteData.profile = profile;
          siteData.userIsSiteManager = userIsSiteManager;
          siteData.userIsMember = userIsMember;
+         siteData.userIsDirectMember = userIsDirectMember;
 
          // Store this in the model to allow for repeat calls to the function (and therefore
          // prevent multiple REST calls to the Repository)...
@@ -1359,8 +1362,11 @@ function getTitleBarModel() {
          }
       }
 
-      // Add the site configuration to the title options...
-      titleConfig.push(siteConfig);
+      // Add the site configuration to the title options only if is direct member of the site
+      if(siteData.userIsDirectMember)
+      {
+         titleConfig.push(siteConfig);
+      }
 
    }
    return titleConfig;
