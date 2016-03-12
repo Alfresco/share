@@ -2334,6 +2334,8 @@
                // Update the DocList
                if (this.currentPage != newPage)
                {
+                  //clear selected items as page changed;
+                  this.selectedFiles = {};
                   this._updateDocList.call(this,
                   {
                      page: newPage
