@@ -1,8 +1,0 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
-<webscript>
-  <shortname>Show the Alfresco Logo with Dojo</shortname>
-  <family>Dojo</family>
-  <url>/logo</url>
-</webscript>

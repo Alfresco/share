@@ -1,1 +1,0 @@
-BeforeJSPChromeRegion<@region id="test_region_1" chrome="test_chrome_jsp" scope="template"/>AfterJSPChromeRegion

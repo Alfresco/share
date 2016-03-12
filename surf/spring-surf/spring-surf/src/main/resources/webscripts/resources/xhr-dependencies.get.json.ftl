@@ -1,4 +1,0 @@
-{
-   "javaScript": "${jsResource}",
-   "css": "${cssResource}"
-}

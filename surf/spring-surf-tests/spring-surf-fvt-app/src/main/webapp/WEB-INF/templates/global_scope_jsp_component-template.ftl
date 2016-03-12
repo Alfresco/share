@@ -1,1 +1,0 @@
-BeforeGlobalScopeJSPComponent<@region id="global_scope_jsp_component-region" scope="global"/>AfterGlobalScopeJSPComponent
