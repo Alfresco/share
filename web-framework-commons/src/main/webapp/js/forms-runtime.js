@@ -997,6 +997,9 @@ Alfresco.forms.validation = Alfresco.forms.validation || {};
             // call the pre-submit function, passing the form for last-chance processing
             this.doBeforeFormSubmit.fn.call(this.doBeforeFormSubmit.scope, form, this.doBeforeFormSubmit.obj);
 
+            // fire event to inform any listening components that the form will be submitted
+            YAHOO.Bubbling.fire("formBeforeSubmit", this);
+
             // should submission be done using AJAX, or let
             // the browser do the submit?
             if (this.ajaxSubmit)
