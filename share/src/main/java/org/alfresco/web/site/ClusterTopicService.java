@@ -46,18 +46,21 @@ import com.hazelcast.core.Message;
 import com.hazelcast.core.MessageListener;
 
 /**
- * Hazlecast cluster aware Service. Manages the cluster by broadcasting and receiving messages
- * relating to Surf operations (such as cache changes) that affect other cluster nodes.
+ * Share cluster service - implemented on Hazelcast. Manages the web cluster by broadcasting
+ * and receiving messages relating to Surf operations (such as cache changes) that affect
+ * nodes in the cluster.
  * <p>
- * The current implementation uses a simple broadcast message that informs other cluster
- * nodes to invalidate or update specific caches e.g. remove paths from the persister cache.
+ * The current implementation uses a simple broadcast message pattern to other cluster nodes
+ * that will then for instance; invalidate specific caches or remove/update resource paths.
  * <p>
- * For example Share deals with addition (caching of nulls), removal and modification of model
- * objects relating to site and user dashboards and the site configuration object and also.
+ * In particular Share deals with addition (caching of nulls), removal and modification of
+ * model objects relating to site and user dashboards and the site configuration objects.
+ * These objects are the only dynamic entities in Share and therefore synching in the cluster.
  * <p>
- * Surf objects interested in cluster messages or publishing cluster messages implement the
- * appropriate Message interfaces. This service will automatically find all beans that
- * implement those interfaces and provide them with cluster messages when appropriate.
+ * Surf beans interested in listening for cluster messages or publishing cluster messages
+ * should implement the ClusterMessageAware interface. This service will automatically find all
+ * beans that implement those interfaces and provide them with cluster messages when appropriate.
+ * Beans implementing that interface can also publish messages to the cluster.
  * 
  * @author Kevin Roast
  */

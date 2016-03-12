@@ -26,8 +26,8 @@
     <properties>
         <version.major>5</version.major>
         <version.minor>2</version.minor>
-        <version.revision>1</version.revision>
-        <!-- Version of Alfresco Platform to depen on -->
+        <version.revision>0</version.revision>
+        <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>5.2-SNAPSHOT</alfresco.platform.version>
 
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
@@ -116,17 +116,17 @@
                 <version>${dependency.alfresco-jlan.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-webscripts</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-core</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.extensions.surf</groupId>
+                <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-core-configservice</artifactId>
                 <version>${dependency.webscripts.version}</version>
             </dependency>

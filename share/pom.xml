@@ -96,9 +96,9 @@
             <version>${dependency.surf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.extensions.surf</groupId>
+            <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-cmis-framework</artifactId>
-            <version>${project.version}</version>
+            <version>${dependency.surf.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>abdera-extensions-main</artifactId>
