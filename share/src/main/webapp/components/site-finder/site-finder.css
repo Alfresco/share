@@ -55,6 +55,7 @@
 {
    width: 100%;
    border: none;
+   table-layout: fixed;
 }
 
 .site-finder .siteFinderTableMessage
@@ -71,6 +72,7 @@
 {
    border-bottom: 1px dashed #D7D7D7;
    border-right: medium none;
+   word-wrap: break-word;
 }
 
 .site-finder .yui-dt td.yui-dt-last
