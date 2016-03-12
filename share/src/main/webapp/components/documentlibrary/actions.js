@@ -734,7 +734,8 @@
          "application/vnd.ms-excel.template.macroenabled.12": "Excel.Sheet",
          "application/vnd.ms-excel.addin.macroenabled.12": "Excel.Sheet",
          "application/vnd.ms-excel.sheet.binary.macroenabled.12": "Excel.Sheet",
-         "application/vnd.visio": "Visio.Drawing"
+         "application/vnd.visio": "Visio.Drawing",
+         "application/vnd.visio2013": "Visio.Drawing"
       },
 
       /**
