@@ -1232,7 +1232,8 @@ function getTitleBarModel() {
                      site: page.url.templateArgs.site,
                      siteTitle: siteData.profile.title,
                      user: user.name,
-                     userFullName: user.fullName
+                     userFullName: user.fullName,
+                     reloadPage: true
                   }
                }
             });
