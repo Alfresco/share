@@ -11,10 +11,10 @@
 
     <build>
         <resources>
-		
+
 		    <!-- need to filter the module.properties file only -->	
 		    <resource>
-                 <directory>source/amp</directory>
+                 <directory>src/main/amp</directory>
                  <targetPath>../${project.build.finalName}</targetPath>
                 <filtering>true</filtering>
                 <includes>
