@@ -647,6 +647,8 @@
                      {
                         delete EditDialog.browsePanel;
                      }
+                     var destroyOnHideInitialValue =   EditDialog.options.destroyOnHide;
+                     EditDialog.setOptions({destroyOnHide : false});
                      EditDialog.hide();
 
                      // Show site title, if possible:
@@ -678,12 +680,14 @@
                                  }
                                  Dom.get(EditDialog.id + "-docfolder").value = selectedDocfolder;
                                  EditDialog.browsePanel.hide();
+                                 EditDialog.setOptions({destroyOnHide : destroyOnHideInitialValue});
                                  EditDialog.dialog.show();
                               });
 
                               Alfresco.util.createYUIButton(EditDialog.browsePanel, "cancel", function()
                               {
                                  EditDialog.browsePanel.hide();
+                                 EditDialog.setOptions({destroyOnHide : destroyOnHideInitialValue});
                                  EditDialog.dialog.show();
                               });
 
