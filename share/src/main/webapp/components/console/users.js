@@ -795,22 +795,25 @@
                min: parent.options.minUsernameLength,
                max: 100,
                crop: true,
-               includeWhitespace: false
-            }, "keyup", parent._msg("Alfresco.forms.validation.length.message"));
+               includeWhitespace: false,
+               ignoreEmpty: true
+            }, "keyup", parent._msg("Alfresco.forms.validation.length.message.min", parent.options.minUsernameLength));
             form.addValidation(parent.id + "-create-password", Alfresco.forms.validation.mandatory, null, "keyup");
             form.addValidation(parent.id + "-create-password", Alfresco.forms.validation.length,
             {
                min: parent.options.minPasswordLength,
                max: 100,
-               crop: true
-            }, "change", parent._msg("Alfresco.forms.validation.length.message"));
+               crop: true,
+               ignoreEmpty: true
+            }, "change", parent._msg("Alfresco.forms.validation.length.message.min", parent.options.minPasswordLength));
             form.addValidation(parent.id + "-create-verifypassword", Alfresco.forms.validation.mandatory, null, "keyup");
             form.addValidation(parent.id + "-create-verifypassword", Alfresco.forms.validation.length,
             {
                min: parent.options.minPasswordLength,
                max: 100,
-               crop: true
-            }, "change", parent._msg("Alfresco.forms.validation.length.message"));
+               crop: true,
+               ignoreEmpty: true
+            }, "change", parent._msg("Alfresco.forms.validation.length.message.min", parent.options.minPasswordLength));
             form.addValidation(parent.id + "-create-quota", Alfresco.forms.validation.number, null, "keyup");
 
             // Initialise the form
