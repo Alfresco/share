@@ -230,12 +230,10 @@
             if (this.options.mode == "move" &&
                 window.location.pathname.lastIndexOf("document-details") === (window.location.pathname.length - "document-details".length))
             {
-               //MNT-14397 - "Move to" action from Document Details from/to multiple locations redirect page incorrectly
-               var inRepository = this.options.siteId === null;
-               var redirectUrl = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + 
-                           (inRepository ? "" : "site/" + this.options.siteId + "/") + "/"+ "document-details" + window.location.search;
-
-               window.location = redirectUrl;
+               // By reloading the page, the node-header will detect that the node is located in a different
+               // site and cause a redirect. The down-side to this is that it causes two page loads but this
+               // is most likely quite an edge case and it does ensure that we're re-using a consistent code path
+               window.location.reload();
             }
             else
             {
