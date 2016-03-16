@@ -1184,6 +1184,12 @@ span.item-modifier
    background: no-repeat url(../components/images/quickshare-indicator-16.png) center center;
    padding: 0 0.5em;
 }
+.item-social a.quickshare-indicator.enabled,
+.item-social a.quickshare-indicator.enabled:active,
+.item-social a.quickshare-indicator.enabled:hover
+{
+   background: no-repeat url(../components/images/quickshare-indicator-16.png) center center;
+}
 .quickshare-action-menu
 {
    z-index: 2147483647 !important; /* This needs to be the maximum value to cope with full screen display */
