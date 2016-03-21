@@ -1,6 +1,6 @@
 function main()
 {
-   var url = "/api/invitations?inviteeUserName=" + encodeURIComponent(user.name),
+   var url = "/api/invitations?inviteeUserName=" + encodeURIComponent(user.name) + "&resultsLimit=200",
    result = remote.connect("alfresco").get(url),
    inviteData = [];
 
