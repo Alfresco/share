@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2015 Alfresco Software Limited.
+ * Copyright (C) 2005-2016 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -193,7 +193,8 @@ public class SlingshotAlfrescoConnector extends RequestCachingConnector
                 {
                     req = MTAuthenticationFilter.getCurrentServletRequest();
                 }
-                String user = req.getHeader(userHeader);
+                // MNT-15866: In some cases req can be null so we need to check it before getHeader from it
+                String user = (req != null) ? req.getHeader(userHeader) : null;
                 if (user != null)
                 {
                     // MNT-11041 Share SSOAuthenticationFilter and non-ascii username strings
