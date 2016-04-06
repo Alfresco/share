@@ -13,6 +13,7 @@ function main()
          siteId : (page.url.templateArgs.site != null) ? page.url.templateArgs.site : "",
          containerId : template.properties.container != null ? template.properties.container : "documentLibrary",
          rootNode : model.rootNode != null ? model.rootNode : "null",
+         repositoryRoot : model.rootNode, 
          usePagination : (args.pagination == "true"),
          sortAscending : (model.preferences.sortAscending != null ? model.preferences.sortAscending : true),
          sortField : model.preferences.sortField != null ? model.preferences.sortField : "cm:name",
