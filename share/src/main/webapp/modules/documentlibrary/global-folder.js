@@ -743,7 +743,7 @@
 
          if (!(this.options.viewMode in allowedViewModes))
          {
-            this.options.viewMode = this.options.allowedViewModes[0];
+            this.options.viewMode = parseInt(Object.keys(allowedViewModes)[0]);
          }
          for (var i = 0, ii = modeButtons.length; i < ii; i++)
          {
