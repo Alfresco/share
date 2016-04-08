@@ -155,8 +155,9 @@
                         // Update the content via the parser
                         Dom.get(this.id + "-scrollableList").innerHTML = this.parser.parse(obj["content"], this.options.pages);
                         
-                        // Update the title
-                        Dom.get(this.id + "-title").innerHTML = Alfresco.util.message("label.header-prefix", this.name) + (obj.title !== "" ? " - <a href=\"wiki-page?title=" + encodeURIComponent(e.config.dataObj.wikipage) + "\">" + obj.title + "</a>" : "");
+                        // Update the title -  encode the searchTerm to prevent XSS
+                        var title = Alfresco.util.encodeHTML(obj.title);
+                        Dom.get(this.id + "-title").innerHTML = Alfresco.util.message("label.header-prefix", this.name) + (obj.title !== "" ? " - <a href=\"wiki-page?title=" + encodeURIComponent(e.config.dataObj.wikipage) + "\">" + title + "</a>" : "");
                      }
                   },
                   scope: this
