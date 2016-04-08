@@ -10,7 +10,7 @@
             <#if pageList.pages?size &gt; 0>
                <select name="wikipage">
                <#list pageList.pages as p>
-                  <option value="${p.title?html}">${p.title}</option>
+                  <option value="${p.title?html}">${p.title?html}</option>
                </#list>
                </select>
             <#else>
