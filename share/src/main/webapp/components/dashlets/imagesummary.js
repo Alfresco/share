@@ -254,7 +254,7 @@
             siteId: this.options.siteId,
             allowedViewModes: [ Alfresco.module.DoclibGlobalFolder.VIEW_MODE_SITE ],
             path: this.options.siteFolderPath,
-            title: this.msg("text.selectfolder", this.options.siteTitle)
+            title: this.msg("text.selectfolder", $html(this.options.siteTitle))
          }).showDialog();
       }
    });
