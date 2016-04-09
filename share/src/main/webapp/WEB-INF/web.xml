@@ -83,7 +83,8 @@
 
    <filter-mapping>
       <filter-name>Authentication Filter</filter-name>
-      <url-pattern>/service/*</url-pattern>
+      <url-pattern>/service/modules/*</url-pattern>
+      <url-pattern>/service/components/*</url-pattern>
    </filter-mapping>
 
    <filter-mapping>
