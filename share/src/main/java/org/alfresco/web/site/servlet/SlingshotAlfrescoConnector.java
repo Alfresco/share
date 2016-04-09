@@ -194,11 +194,15 @@ public class SlingshotAlfrescoConnector extends RequestCachingConnector
                     req = MTAuthenticationFilter.getCurrentServletRequest();
                 }
                 // MNT-15866: In some cases req can be null so we need to check it before getHeader from it
-                String user = (req != null) ? req.getHeader(userHeader) : null;
-                if (user == null)
+                String user = null;
+                if (req != null)
                 {
-                    // MNT-15795
-                    user = req.getRemoteUser();
+                    user = req.getHeader(userHeader);
+                    if (user == null)
+                    {
+                        // MNT-15795
+                        user = req.getRemoteUser();
+                    }
                 }
                 if (user != null)
                 {
