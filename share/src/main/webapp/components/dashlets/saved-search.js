@@ -66,7 +66,7 @@
        */
       onReady: function RF_onReady()
       {
-         Dom.get(this.id + "-title").innerHTML = this.buildTitle(this.options.title);
+         Dom.get(this.id + "-title").innerHTML = $html(this.buildTitle(this.options.title));
          this.createDataTable(this.options.searchTerm, this.options.limit);
       },
 
@@ -261,7 +261,7 @@
                      this.options.limit = limit;
                      this.options.title = this.buildTitle(title);
 
-                     Dom.get(this.id + "-title").innerHTML = this.options.title;
+                     Dom.get(this.id + "-title").innerHTML = $html(this.options.title);
                      this.createDataTable(searchTerm, limit);
                   },
                   scope: this
