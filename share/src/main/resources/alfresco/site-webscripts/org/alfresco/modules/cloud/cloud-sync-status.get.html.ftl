@@ -1,6 +1,6 @@
 <#include "../../include/alfresco-macros.lib.ftl" />
 <#assign el=args.htmlid?html>
-<div class="cloud-sync-status" data-sync-owner-fullname="${syncOwnerFullName!""}">
+<div class="cloud-sync-status" data-sync-owner-fullname="${(syncOwnerFullName?html)!""}">
    {title}
    <div class="cloud-sync-details">
       <div class="cloud-sync-error-details {syncFailed}">
@@ -58,7 +58,7 @@
                   <#-- Breadcrumb / path -->
                   <span class="folder-link network-link"><a target="_blank" href="${urlPrefix}">${remoteNetworkId}</a></span>
                   &gt;
-                  <span class="folder-link site-link"><a target="_blank" href="${urlPrefixSite}dashboard">${site.title}</a></span>
+                  <span class="folder-link site-link"><a target="_blank" href="${urlPrefixSite}dashboard">${site.title?html}</a></span>
                   &gt;
                   <@renderPrefixedPaths paths urlPrefixSite />
                   <#-- Show the file/folder name with a link, if we're not showing the parent. -->
