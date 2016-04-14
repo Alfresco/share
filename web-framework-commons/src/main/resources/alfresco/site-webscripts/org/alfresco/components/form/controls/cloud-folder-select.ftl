@@ -24,7 +24,7 @@
            var remoteTenantId = this.options.targetNetwork;
            var targetFolderNodeRef = args[1].selectedFolder.nodeRef;
            var targetFolderPath = args[1].selectedFolder.path;
-           var targetFolderSite = args[1].selectedFolder.siteTitle;
+           var targetFolderSite = Alfresco.util.encodeHTML(args[1].selectedFolder.siteTitle);
            var targetFolderSiteId = args[1].selectedFolder.siteId;
            console.log(args[1]);
                      
