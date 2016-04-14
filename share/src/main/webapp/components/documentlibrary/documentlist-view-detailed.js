@@ -226,7 +226,7 @@
                   desc += '<a class="indicator-action" data-action="' + indicator.action + '">';
                }
                
-               desc += '<img src="' + Alfresco.constants.URL_RESCONTEXT + 'components/documentlibrary/indicators/' + indicator.icon + '" title="' + label + '" alt="' + indicator.id + '" />';
+               desc += '<img src="' + Alfresco.constants.URL_RESCONTEXT + 'components/documentlibrary/indicators/' + indicator.icon + '" title="' + $html(label) + '" alt="' + indicator.id + '" />';
                if (indicator.action)
                {
                   desc += '</a>';
