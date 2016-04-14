@@ -80,7 +80,7 @@
        */
       buildNameWithHref: function SavedSearch_buildNameWithHref(href, name)
       {
-         return '<h3 class="itemname"> <a class="theme-color-1" href=' + href + '>' + name + '</a></h3>';
+         return '<h3 class="itemname"> <a class="theme-color-1" href=' + href + '>' + $html(name) + '</a></h3>';
       },
 
       /**
