@@ -14,7 +14,7 @@
             <ul class="portfolio-wrapper">
                 <#list articles.assets as article>      
                     <li>
-                        <a href="<@makeurl asset=article force='long'/>${(linkParam!'')?html}"><img src="<@makeurl asset=article rendition='mediumPublicationThumbnail'/>" alt="${asset.title!''}" class="img-border" /></a>
+                        <a href="<@makeurl asset=article force='long'/>${(linkParam!'')?html}"><img src="<@makeurl asset=article rendition='mediumPublicationThumbnail'/>" alt="${(asset.title!'')?html}" class="img-border" /></a>
                         <h3><a href="<@makeurl asset=article force='long'/>${(linkParam!'')?html}">${(article.title!article.name)?html}</a></h3>
                         <#if article.description??><p><@truncate value=article.description chars=100/></p></#if>
                     </li>
