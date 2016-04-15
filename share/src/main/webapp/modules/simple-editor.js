@@ -177,7 +177,7 @@ Alfresco.util.createImageEditor = function(id, options)
    // using the the siteId and when the call returns, construct a new DocumentPicker using the
    // DocLib nodeRef as the starting point for document selection...
    var documentPicker;
-   var getDocLibNodeRefUrl = Alfresco.constants.PROXY_URI + "slingshot/doclib/container/" + options.siteId + "/documentlibrary";
+   var getDocLibNodeRefUrl = Alfresco.constants.PROXY_URI + "slingshot/doclib/container/" + options.siteId + "/documentLibrary";
    Alfresco.util.Ajax.jsonGet(
    {
       url: getDocLibNodeRefUrl,
