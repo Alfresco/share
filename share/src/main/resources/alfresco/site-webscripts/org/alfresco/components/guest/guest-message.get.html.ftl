@@ -1,7 +1,8 @@
 <#assign el=args.htmlid?html>
 <div id="${el}-body" class="theme-overlay guest-message hidden">
    <#if (args.logo!"true") == "true">
-      <div class="theme-company-logo"></div>
+      <#assign aboutConfig=config.scoped["Edition"]["login"]>
+      <div class="theme-company-logo ${aboutConfig.getChildValue("css-class")!logo-com}"></div>
    </#if>
    <#if args.header??>
       <#assign header = msg(args.header)/>
