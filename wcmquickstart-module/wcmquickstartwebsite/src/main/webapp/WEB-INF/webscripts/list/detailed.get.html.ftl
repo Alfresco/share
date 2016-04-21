@@ -15,7 +15,7 @@
     	            <h2><a href="<@makeurl asset=article/>">${(article.title!article.name)?html}</a></h2>
                     <div class="blog-list-misc">
         	            <#if article.properties['ws:publishedTime']??><span>${article.properties['ws:publishedTime']?string(msg('date.format'))}</span>&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;</#if>
-                        <#if article.properties['cm:author']??><span>${article.properties['cm:author']}</span>&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;</#if>
+                        <#if article.properties['cm:author']??><span>${article.properties['cm:author']?html}</span>&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;</#if>
                         <span><a href="<@makeurl asset=article/>#read-comments">${article.properties['ws:derivedCommentCount']!0}
                                                                                 <#if (article.properties['ws:derivedCommentCount']!0) == 1>
                                                                                   comment

@@ -225,7 +225,7 @@
             url = Alfresco.constants.URL_PAGECONTEXT + "site/" + site + "/discussions-topicview?topicId=" + name + "&listViewLinkBack=true";
 
          var cellContent = "<div class=\"node topic\">";
-         cellContent += "<span class=\"nodeTitle\"><a href=\"" + url + "\">" + title + "</a>";
+         cellContent += "<span class=\"nodeTitle\"><a href=\"" + url + "\">" + $html(title) + "</a>";
          if(isUpdated)
          {
             cellContent += "<span class=\"theme-color-2 nodeStatus\"> (" + this.msg("topicList.updated") + " " + updatedDate + ")</span>"; 

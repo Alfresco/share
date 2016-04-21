@@ -21,7 +21,7 @@
     <#else>
         <ul class="tag-list">
             <#list asset.tags as tag>
-                <li><a href="${url.context}/search.html?sectionId=${section.id?url}&tag=${tag?url}">${tag}</a></li>
+                <li><a href="${url.context}/search.html?sectionId=${section.id?url}&tag=${tag?url}">${tag?html}</a></li>
             </#list>
         </ul>
     </#if>

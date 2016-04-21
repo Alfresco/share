@@ -5,7 +5,7 @@
     </div>
  
     <#if asset.mimeType?starts_with("image/")>
-        <img src="<@makeurl asset=asset rendition="imagePreview"/>" alt="${asset.title!''}" class="web-preview-image"/>
+        <img src="<@makeurl asset=asset rendition="imagePreview"/>" alt="${(asset.title!'')?html}" class="web-preview-image"/>
     <#else>
         <div id="web-preview-container" class="web-preview-empty">
             <div id="web-preview"><#if (asset?exists)>${msg("label.preparingPreviewer")}</#if></div>

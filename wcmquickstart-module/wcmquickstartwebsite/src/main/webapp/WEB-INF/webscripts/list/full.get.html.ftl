@@ -18,7 +18,7 @@
                             <h3><a href="<@makeurl asset=article force='long'/>${(linkParam!'')?html}">${(article.title!article.name)?html}</a></h3>
                             <span class="newslist-date">
                                 <#if article.properties['cmis:lastModificationDate']??>${article.properties['cmis:lastModificationDate']?string(msg('date.format'))}</#if>
-                                <#if article.properties['cm:author']??> by ${article.properties['cm:author']}</#if>
+                                <#if article.properties['cm:author']??> by ${article.properties['cm:author']?html}</#if>
                             </span>
                             <p>${(article.description!'no preview')?html}</p>
                             <h3>${msg('tags')}</h3>
@@ -27,7 +27,7 @@
                             <#else>
                                 <ul class="tag-list">
                                     <#list article.tags as tag>
-                                        <li><a href="${url.context}/search.html?sectionId=${section.id?url}&tag=${tag?url}">${tag}</a></li>
+                                        <li><a href="${url.context}/search.html?sectionId=${section.id?url}&tag=${tag?url}">${tag?html}</a></li>
                                     </#list>
                                 </ul>
                             </#if>

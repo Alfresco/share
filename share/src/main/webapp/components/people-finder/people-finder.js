@@ -1015,7 +1015,8 @@
                }
             };
 
-            this.searchTerm = searchTerm;
+            // encode the searchTerm to prevent XSS
+            this.searchTerm = Alfresco.util.encodeHTML(searchTerm);
             this.widgets.dataSource.sendRequest(this._buildSearchParams(searchTerm),
             {
                success: successHandler,

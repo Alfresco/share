@@ -6,7 +6,7 @@
       addable: [<#list aspects.addable as a>"${a}"<#if a_has_next>,</#if></#list>],
       removeable: [<#list aspects.removeable as a>"${a}"<#if a_has_next>,</#if></#list>],
       labels: {
-         <#list aspects.labels?keys as a>"${a}": "${aspects.labels[a]}"<#if a_has_next>,</#if></#list>
+         <#list aspects.labels?keys as a>"${a}": "${aspects.labels[a]?js_string?html}"<#if a_has_next>,</#if></#list>
       }
    }).setMessages(${messages});
 //]]></script>
