@@ -576,7 +576,7 @@
             }
             menuConfig.push(
             {
-	           text: Alfresco.util.message.call(this, 'message.edit', '', modifiedTitle),
+	           text: Alfresco.util.message.call(this, 'message.edit', '', Alfresco.util.encodeHTML(modifiedTitle)),
                value: editable
             });
          }
@@ -592,7 +592,7 @@
             var editable = editables[i].config, modifiedTitle = editable.title.replace("Edit ","");
             menuConfig.push(
             {
-               text: Alfresco.util.message.call(this, 'message.delete', '', modifiedTitle),
+               text: Alfresco.util.message.call(this, 'message.delete', '', Alfresco.util.encodeHTML(modifiedTitle)),
                value: editable
             });
          }
@@ -764,7 +764,7 @@
                var imgElem = Selector.query('img', elem, true);
                if(imgElem)
                {
-                  imgElem.setAttribute("title", Alfresco.util.message.call(this, 'message.edit', '', editableConfig.title)); 
+                  imgElem.setAttribute("title", Alfresco.util.message.call(this, 'message.edit', '', Alfresco.util.encodeHTML(editableConfig.title))); 
                }
 
                Event.addListener(elem, 'click', function AWE_EDIT_CONTENT_CLICK_EVENT(e, o)
