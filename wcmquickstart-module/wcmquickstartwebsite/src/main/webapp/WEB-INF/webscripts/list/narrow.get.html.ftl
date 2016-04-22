@@ -11,7 +11,9 @@
     		  	<#list articles.assets as article>
     		        <li>
     		          <h6><a href="<@makeurl asset=article/>">${(article.title!article.name)?html}</a></h6>
-    		          <p><@truncate value=article.description?html chars=100/></p>
+    		          <#if article.description??>
+    		              <p><@truncate value=article.description?html chars=100/></p>
+    		          </#if>
     		          <div class="ln-date"><#if article.properties['ws:publishedTime']??>${article.properties['ws:publishedTime']?string(msg('date.format'))}</#if></div>
     		        </li>
     		    </#list>

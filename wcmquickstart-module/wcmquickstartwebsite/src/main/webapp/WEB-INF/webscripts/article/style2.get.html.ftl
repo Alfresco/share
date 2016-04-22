@@ -2,7 +2,7 @@
     <h2>${title?html}</h2>
     <div class="blog-misc">
         <#if asset.properties['ws:publishedTime']??><span>${asset.properties['ws:publishedTime']?string(msg('date.format'))}</span>&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;</#if>
-        <#if asset.properties['cm:author']??><span>${asset.properties['cm:author']}</span>&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;</#if>
+        <#if asset.properties['cm:author']??><span>${asset.properties['cm:author']?html}</span>&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;</#if>
         <span><a href="#read-comments">${asset.properties['ws:derivedCommentCount']!0}
                                        <#if (asset.properties['ws:derivedCommentCount']!0) == 1>
                                          comment
@@ -24,7 +24,7 @@
     <#else>
         <ul class="tag-list">
             <#list asset.tags as tag>
-                <li><a href="${url.context}/search.html?sectionId=${section.id?url}&tag=${tag?url}">${tag}</a></li>
+                <li><a href="${url.context}/search.html?sectionId=${section.id?url}&tag=${tag?url}">${tag?html}</a></li>
             </#list>
         </ul>
     </#if>
