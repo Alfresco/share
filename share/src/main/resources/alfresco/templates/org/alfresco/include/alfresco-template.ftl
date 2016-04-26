@@ -32,7 +32,7 @@
         gets setup before any of the other Alfresco JavaScript dependencies try to make use of it. -->
    <@markup id="messages">
       <#-- Common i18n msg properties -->
-      <@generateMessages type="text/javascript" src="${url.context}/service/messages.js" locale="${locale}"/>
+      <@generateMessages type="text/javascript" src="${url.context}/noauth/messages.js" locale="${locale}"/>
    </@markup>
    <@markup id="dojoBootstrap">
       <@region scope="global" id="bootstrap" chromeless="true"/>

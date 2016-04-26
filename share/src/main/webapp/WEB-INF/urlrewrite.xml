@@ -25,6 +25,11 @@
       <from>^/system/(.*)</from>
       <to>/page/system/$1</to>
    </rule>
+   <!-- the webscripts which should not be protected by the Authentication Filter -->
+   <rule>
+      <from>^/noauth/(.*)</from>
+      <to>/page/$1</to>
+   </rule>
    <rule>
       <from>^/res/(.*)</from>
       <to>/page/resource/$1</to>
