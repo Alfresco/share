@@ -1826,6 +1826,7 @@
             {
                uploadURL: "api/enterprise/restoredb",
                mode: me.reauthorizeDialog.MODE_SINGLE_UPLOAD,
+               username: me.selectedUser,
                onFileUploadComplete:
                {
                   fn: function(res)
