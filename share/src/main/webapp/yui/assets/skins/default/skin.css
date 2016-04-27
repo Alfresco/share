@@ -123,6 +123,9 @@ color: #0082c8;
     background-repeat: no-repeat;
     padding-right: 20px;
 }
+.createLink button, .btn-selected-items button, .rss-feed a {
+    background-color: #dceaf4 !important;
+}
 .yui-skin-default .alf-colored-button .yui-button-focus {
 border-color: #006ca6;
 }
