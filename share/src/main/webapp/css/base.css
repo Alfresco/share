@@ -1072,6 +1072,10 @@ button.alfresco-button
    display: none;
 }
 
+a.container-close + div
+{
+    padding-right: 40px !important;
+}
 
 /* Insitu Edit */
 
