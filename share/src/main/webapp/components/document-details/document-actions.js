@@ -594,7 +594,9 @@
             {
                fn: this.onNewVersionUploadCompleteCustom,
                scope: this
-            }
+            },
+            newVersion: true,
+            jsNode : asset.jsNode
          };
          if (Alfresco.util.isValueSet(this.options.siteId))
          {

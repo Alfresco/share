@@ -1684,7 +1684,9 @@
             {
                fn: this.onNewVersionUploadComplete,
                scope: this
-            }
+            },
+            newVersion: true,
+            jsNode: jsNode
          };
 
          this.fileUpload.options.zIndex = zIndex;

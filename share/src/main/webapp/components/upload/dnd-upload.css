@@ -344,6 +344,38 @@
    vertical-align: text-bottom;
 }
 
+.dnd-upload .compare-versions
+{
+   padding: 30px;
+}
+
+.dnd-upload .compare-versions .header
+{
+   border-bottom: solid 1px #CCCCCC;
+   padding-bottom: 10px;
+   margin-bottom: 10px;
+}
+
+.dnd-upload .compare-versions .element
+{
+   width: 48%;
+   display: inline-block;
+}
+
+.dnd-upload .compare-versions .details
+{
+   max-width: 72%;
+   min-width: 65%;
+   display: inline-block;
+   vertical-align: top;
+   font-size: 10px;
+}
+
+.dnd-upload .compare-versions .details .prop-value
+{
+   word-wrap: break-word;
+}
+
 .dnd-file-selection-control
 {
    height: 25px;

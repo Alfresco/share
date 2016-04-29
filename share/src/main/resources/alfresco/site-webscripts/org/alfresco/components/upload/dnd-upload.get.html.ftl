@@ -45,6 +45,58 @@
             </div>
       
             <div id="${el}-versionSection-div">
+                <div id="${el}-compare-versions" class="hidden compare-versions">
+                   <div class="header">
+                   		<div class="element"><h3>${msg("section.currentFile")}</h3></div>
+                   		<div class="element"><h3>${msg("section.newFile")}</h3></div>
+                   </div>
+                   <div class ="current-version element">
+                      <div class="details">
+                         <div>
+                            <span>${msg("label.currentVersionValue")}:</span>
+                            <span class="prop-value" id="${el}-current-version-value"></span>
+                         </div>
+                         <div>
+                            <span>${msg("label.currentVersionFilename")}:</span>
+                            <span class="prop-value" id="${el}-current-version-filename"></span>
+                         </div>
+                         <div>
+                            <span>${msg("label.currentVersionTitle")}:</span>
+                            <span class="prop-value" id="${el}-current-version-title"></span>
+                         </div>
+                         <div>
+                            <span>${msg("label.currentVersionMimetype")}:</span>
+                            <span class="prop-value" id="${el}-current-version-mimetype"></span>
+                         </div>
+                         <div>
+                            <span>${msg("label.currentVersionLastModified")}:</span>
+                            <span class="prop-value" id="${el}-current-version-last-modified"></span>
+                         </div>
+                         <div>
+                            <span>${msg("label.currentVersionModifiedBy")}:</span>
+                            <span class="prop-value" id="${el}-current-version-modified-by"></span>
+                         </div>
+                      </div>
+                      <span>
+                      <img id="${el}-current-version-icon"/>
+                      </span>
+                   </div>
+                   <div class ="new-version element">
+                      <div class="details">
+                         <div class>
+                            <span>${msg("label.newVersionFilename")}:</span>
+                            <span class="prop-value" id="${el}-new-version-filename"></span>
+                         </div>
+                         <div>
+                            <span>${msg("label.newVersionMimetype")}:</span>
+                            <span class="prop-value" id="${el}-new-version-mimetype"></span>
+                         </div>
+                      </div>
+                      <span>
+                      <img id="${el}-new-version-icon"/>
+                      </span>
+                   </div>
+                </div>
                <div class="yui-g">
                   <h2>${msg("section.version")}</h2>
                </div>
