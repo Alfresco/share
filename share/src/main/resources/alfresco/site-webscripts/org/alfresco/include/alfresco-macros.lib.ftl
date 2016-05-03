@@ -53,7 +53,7 @@
    <#local userid=userName>
    <#local userprofilepage = userprofilepage?replace("{", "$" + "{")?interpret/>
    <#local userprofilepage><@userprofilepage/></#local>
-   <#local link><a href="${url.context + "/page" + userprofilepage?html}" ${linkAttr?html}>${displayLabel?html}</a></#local>
+   <#local link><a href="${url.context + "/page" + userprofilepage?html}" ${linkAttr?html}>${displayLabel}</a></#local>
    <#return link>
 </#function>
 
