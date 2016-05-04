@@ -474,7 +474,7 @@
          var owner = oRecord.getData("owner");
          if (owner != null && owner.userName)
          {
-            var displayName = $html(this.msg("field.owner", owner.firstName, owner.lastName));
+            var displayName = this.msg("field.owner", owner.firstName, owner.lastName);
             elCell.innerHTML = $userProfileLink(owner.userName, owner.firstName && owner.lastName ? displayName : null, null, !owner.firstName);
          }
          else {
@@ -510,7 +510,7 @@
              }
              if (creator != null && creator.userName)
              {
-                var displayName = $html(this.msg("field.owner", creator.firstName, creator.lastName));
+                var displayName = this.msg("field.owner", creator.firstName, creator.lastName);
                 elCell.innerHTML = $userProfileLink(creator.userName, creator.firstName && creator.lastName ? displayName : null, null, !creator.firstName);
              }
              else
