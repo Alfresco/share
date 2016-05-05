@@ -653,6 +653,8 @@ body .doclist tr.yui-dt-highlighted
    position: absolute;
    width: 220px;
    z-index: 1;
+   overflow-y: auto;
+   max-height: 245px;
 }
 
 .doclist .more-actions a.action-link,
