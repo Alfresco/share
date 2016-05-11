@@ -30,7 +30,9 @@ import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
@@ -81,13 +83,16 @@ public class ManagePropertiesPage extends SharePage
     private static final By TITLE_TYPE_ASPECT_NAME = By.cssSelector("div.alfresco-html-Heading>h1");
 
     private List<PropertyRow> propertyRows;
+    
+    private static final By LOADING_IN_PROGRESS = By.cssSelector(".data-loading-more");
 
     @SuppressWarnings("unchecked")
 	public ManagePropertiesPage render()
     {
     	RenderTime renderTime = new RenderTime(maxPageLoadingTime);
         elementRender(renderTime, getVisibleRenderElement(BUTTON_BACK_TO_TYPES_PROPERTYGROUPS), getVisibleRenderElement(BUTTON_CREATE_PROPERTY));
-        elementRender(renderTime, getVisibleRenderElement(CMM_PROPERTIES_LIST));
+        elementRender(renderTime, getVisibleRenderElement(CMM_PROPERTIES_LIST),
+        new RenderElement(LOADING_IN_PROGRESS, ElementState.INVISIBLE));
         loadElements();
         return this;
     }
