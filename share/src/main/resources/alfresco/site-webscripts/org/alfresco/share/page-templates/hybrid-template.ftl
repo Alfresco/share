@@ -29,7 +29,7 @@
    <title><@region id="head-title" scope="global" chromeless="true"/></title>
    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 
-   <@generateMessages type="text/javascript" src="${url.context}/service/messages.js" locale="${locale}"/>
+   <@generateMessages type="text/javascript" src="${url.context}/noauth/messages.js" locale="${locale}"/>
    
    <#-- Bootstrap Dojo -->
    <@createComponent scope="global" regionId="bootstrap" sourceId="global" uri="/surf/dojo/bootstrap"/>
