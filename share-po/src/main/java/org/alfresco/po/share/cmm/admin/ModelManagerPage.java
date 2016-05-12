@@ -32,7 +32,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
@@ -63,6 +65,7 @@ public class ModelManagerPage extends SharePage
     private static final By MODEL_ROW_STATUS = By.cssSelector("td.alfresco-lists-views-layouts-Cell.statusColumn");
     private static final By MODEL_ROW_ACTIONS = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actionsColumn");
     private static final By CMM_MODEL_NO_LISTING = By.cssSelector("div.alfresco-lists-views-layouts-AlfListView > div");
+    private static final By LOADING_IN_PROGRESS = By.cssSelector(".data-loading-more");
 
     /*
      * (non-Javadoc)
@@ -76,7 +79,8 @@ public class ModelManagerPage extends SharePage
         // Button
         elementRender(renderTime,
         			  getVisibleRenderElement(BUTTON_CREATE_NEW_MODEL),
-        			  getVisibleRenderElement(BUTTON_IMPORT_MODEL));
+        			  getVisibleRenderElement(BUTTON_IMPORT_MODEL),
+        			  new RenderElement(LOADING_IN_PROGRESS, ElementState.INVISIBLE));
 
         return this;
     }
