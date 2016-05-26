@@ -19,7 +19,7 @@
 <script type="text/javascript">//<![CDATA[
 YAHOO.util.Event.onContentReady("${fieldHtmlId}", function ()
 {
-   YAHOO.util.Dom.get("${fieldHtmlId}").innerHTML = Alfresco.util.userProfileLink("${userName}", "${fullName}", "", ${disableLink?string});
+   YAHOO.util.Dom.get("${fieldHtmlId}").innerHTML = Alfresco.util.userProfileLink("${userName}", "${fullName?js_string}", "", ${disableLink?string});
 }, this);
 //]]></script>
 </#if>
