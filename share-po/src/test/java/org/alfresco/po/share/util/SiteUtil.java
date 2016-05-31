@@ -218,7 +218,7 @@ public class SiteUtil
         {
             siteService.create(username, password, "testdomain", siteName, desc, Visibility.valueOf(siteVisibility.toUpperCase()));
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             throw new RuntimeException("Unable to create site " + siteName, e);
         }
