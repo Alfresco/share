@@ -28,6 +28,7 @@ function main()
          siteId : (model.site != null) ? model.site : null,
          containerId : model.container,
          rootNode : model.rootNode,
+         repositoryRoot : AlfrescoUtil.getRootNode(),
          replicationUrlMapping : (model.replicationUrlMapping != null) ? model.replicationUrlMapping : "{}",
          repositoryBrowsing : (model.rootNode != null),
          folderDetails : folderDetails,
