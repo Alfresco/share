@@ -71,6 +71,7 @@ public class ManageTypesAndAspectsPage extends SharePage
     private static final By BUTTON_CREATE_TYPE = By.cssSelector(".alfresco-buttons-AlfButton.createTypeButton > span");
     private static final By BUTTON_CREATE_PROPERTY_GROUP = By.cssSelector(".alfresco-buttons-AlfButton.createPropertyGroupButton > span");
     private static final By CMM_ERROR_DIALOG = By.cssSelector("span.alfresco-notifications-AlfNotification__message");
+    private static final By LOADING_IN_PROGRESS = By.cssSelector(".data-loading-more");
 
 
     @SuppressWarnings("unchecked")
@@ -80,6 +81,7 @@ public class ManageTypesAndAspectsPage extends SharePage
         elementRender(
                 renderTime,
                 new RenderElement(CMM_ERROR_DIALOG,ElementState.INVISIBLE),
+                new RenderElement(LOADING_IN_PROGRESS, ElementState.INVISIBLE),
                 getVisibleRenderElement(BUTTON_BACK_TO_MODELS),
                 getVisibleRenderElement(BUTTON_CREATE_TYPE),
                 getVisibleRenderElement(BUTTON_CREATE_PROPERTY_GROUP),
