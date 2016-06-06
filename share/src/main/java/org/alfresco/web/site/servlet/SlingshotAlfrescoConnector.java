@@ -195,6 +195,11 @@ public class SlingshotAlfrescoConnector extends RequestCachingConnector
                 }
                 // MNT-15866: In some cases req can be null so we need to check it before getHeader from it
                 String user = (req != null) ? req.getHeader(userHeader) : null;
+                if (user == null)
+                {
+                    // MNT-15795
+                    user = req.getRemoteUser();
+                }
                 if (user != null)
                 {
                     // MNT-11041 Share SSOAuthenticationFilter and non-ascii username strings
