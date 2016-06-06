@@ -629,6 +629,12 @@
             var recordCount = this.widgets.dataTable.getRecordSet().getLength();
             this.widgets.dataTable.deleteRows(0, recordCount);
          }
+         
+         // Reset the dataTable
+         this._setupDataTable();
+         var infoElementId = this.id + "-results-info";
+         Dom.addClass(infoElementId, "hidden");
+         
          Dom.get(this.id + "-search-text").value = "";
          this.singleSelectedUser = "";
          this.selectedUsers = {};
