@@ -30,8 +30,9 @@
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>5.2-SNAPSHOT</alfresco.platform.version>
 
+        <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
-        <argLine>-Xmx2G -XX:MaxPermSize=256m -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
+        <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <dependency.spring.version>3.2.14.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
