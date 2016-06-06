@@ -126,6 +126,9 @@ line-height: 2;*line-height:1.7;
 min-height: 2em;*min-height:auto;
 color: #000;
 }
+.createLink button, .btn-selected-items button, .rss-feed a {
+	background-color: #D4F8C4 !important;
+}
 .yui-skin-greenTheme .yui-button a {*line-height:1.875;*padding-bottom:1px;
 }
 .yui-skin-greenTheme .yui-split-button button,.yui-skin-greenTheme .yui-menu-button button {
