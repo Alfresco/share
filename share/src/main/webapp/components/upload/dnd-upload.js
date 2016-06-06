@@ -662,16 +662,16 @@
          // Merge the supplied config with default config and check mandatory properties
          this.suppliedConfig = config;
          this.showConfig = YAHOO.lang.merge(this.defaultShowConfig, config);
-         if (!this.showConfig.uploadDirectory && !this.showConfig.updateNodeRef && !this.showConfig.destination && !this.showConfig.uploadURL)
-         {
-             throw new Error("An updateNodeRef, uploadDirectory, destination or uploadURL must be provided");
-         }
-         
          if (this.showConfig.uploadDirectory !== null && this.showConfig.uploadDirectory.length === 0)
          {
             this.showConfig.uploadDirectory = "/";
          }
 
+         if (!this.showConfig.uploadDirectory && !this.showConfig.updateNodeRef && !this.showConfig.destination && !this.showConfig.uploadURL)
+         {
+             throw new Error("An updateNodeRef, uploadDirectory, destination or uploadURL must be provided");
+         }
+         
          // Apply the config before it is shown
          this._resetGUI();
 
