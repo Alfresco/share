@@ -3829,6 +3829,24 @@
             this.viewRenderers[this.options.viewRendererName].onFileRenamed(this, layer, args);
          }
       },
+      
+      /**
+       * MNT-15900: Share: Items remain selected at source destination after Copy action
+       */
+      _unselectCopiedFiles: function DL__unselectCopiedFiles(obj)
+      {
+         if (obj.action == "filesCopied" && obj.sourceFilesObj && obj.sourceFilesObj.nodeRefs)
+         {
+            var copiedFiles = obj.sourceFilesObj.nodeRefs;
+            for (var i = 0, j = copiedFiles.length ; i < j; i++)
+            {
+                if (this.selectedFiles[copiedFiles[i]])
+                {
+                    this.selectedFiles[copiedFiles[i]] = false;
+                }
+            }
+         }
+      },
 
       /**
        * DocList Refresh Required event handler
@@ -3840,6 +3858,7 @@
       onDocListRefresh: function DL_onDocListRefresh(layer, args)
       {
          var obj = args[1];
+         this._unselectCopiedFiles(obj);
          if (obj && (obj.highlightFile !== null))
          {
             this.options.highlightFile = obj.highlightFile;
