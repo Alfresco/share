@@ -981,6 +981,7 @@ Alfresco.Share.postActivity = function(siteId, activityType, title, page, data, 
                this.widgets.action.setAttribute("title", this.msg(i18n + "shared.tip", this._sharedBy.displayName));
                this.widgets.action.innerHTML = this.msg(i18n + "shared.label");
                Dom.addClass(this.widgets.action, "enabled");
+               this.widgets.indicator.setAttribute("title", this.msg(i18n + "shared.tip", this._sharedBy.displayName));
                Dom.addClass(this.widgets.indicator, "enabled");
             }
             else
@@ -1013,7 +1014,7 @@ Alfresco.Share.postActivity = function(siteId, activityType, title, page, data, 
 
          if (this._sharedId)
          {
-            // The widhet was eneabled, make sure the intial rendering shows that
+            // The widhet was enabled, make sure the intial rendering shows that
             tip = this.msg(i18n + "shared.tip", this._sharedBy.displayName);
             label = this.msg(i18n + "shared.label");
             linkCss += " enabled";
@@ -1021,7 +1022,7 @@ Alfresco.Share.postActivity = function(siteId, activityType, title, page, data, 
          }
 
          var html = '<a href="#" class="' + linkCss + '" title="' + tip + '">' + label + '</a>';
-         html += '<span class="' + indicatorCss + '">&nbsp;</span>';
+         html += '<a href="#" class="' + indicatorCss + '" title="' + tip + '">&nbsp;</a>';
          return html;
       },
 
@@ -1038,10 +1039,30 @@ Alfresco.Share.postActivity = function(siteId, activityType, title, page, data, 
 
          // Save reference to link and make it behave differetnly depending on the widgets state
          this.widgets.action = Selector.query("a.quickshare-action", this.widgets.spanEl, true);
-         Alfresco.util.useAsButton(this.widgets.action, function(e)
+         Alfresco.util.useAsButton(this.widgets.action, this._showShareMenu, null, this);
+         YAHOO.util.Event.addListener(this.widgets.action, "mousedown", function()
          {
-            if (!this._sharedId)
-            {
+            this._menuWasAlreadyOpened = this.widgets.overlay && this.widgets.overlay.cfg.getProperty("visible");
+         }, null, this);
+
+         this.widgets.indicator = Selector.query("a.quickshare-indicator", this.widgets.spanEl, true);
+         Alfresco.util.useAsButton(this.widgets.indicator, this._showShareMenu, null, this);
+         YAHOO.util.Event.addListener(this.widgets.indicator, "mousedown", function()
+         {
+            this._menuWasAlreadyOpened = this.widgets.overlay && this.widgets.overlay.cfg.getProperty("visible");
+         }, null, this);
+},
+      /**
+       * Handles the Share icon being clicked.
+       * 
+       * @method _showShareMenu
+       * @param event The event that occurred
+       * @private
+       */
+       _showShareMenu: function  QuickShare__showShareMenu(e) 
+       {
+           if (!this._sharedId)
+           {
                this.services.quickshare.share(this.options.nodeRef,
                {
                   successCallback:
@@ -1058,9 +1079,9 @@ Alfresco.Share.postActivity = function(siteId, activityType, title, page, data, 
                   },
                   failureMessage: this.msg("quickshare.document.share.failure")
                });
-            }
-            else
-            {
+           }
+           else
+           {
                if (this._menuWasAlreadyOpened)
                {
                   this._menuWasAlreadyOpened = false;
@@ -1069,17 +1090,10 @@ Alfresco.Share.postActivity = function(siteId, activityType, title, page, data, 
                {
                   this.showMenu();
                }
-            }
+           }
 
-            YAHOO.util.Event.preventDefault(e);
-         }, null, this);
-         YAHOO.util.Event.addListener(this.widgets.action, "mousedown", function()
-         {
-            this._menuWasAlreadyOpened = this.widgets.overlay && this.widgets.overlay.cfg.getProperty("visible");
-         }, null, this);
-
-         this.widgets.indicator = Selector.query("span.quickshare-indicator", this.widgets.spanEl, true);
-      },
+           YAHOO.util.Event.preventDefault(e);
+         },
 
       /**
        * Shows the menu dialog
