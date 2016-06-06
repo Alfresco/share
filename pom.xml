@@ -15,6 +15,7 @@
         <module>share-services</module>
         <module>share</module>
         <module>share-po</module>
+        <module>cmm-qa</module>
         <module>web-framework-commons</module>
         <module>web-editor</module>
         <module>web-editor-plugin</module>

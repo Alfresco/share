@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="CMMRegressionTestSuite" verbose="6" preserve-order="true">
+<tests>
+	<test name="unit-tests">
+		<classes>
+			<class name="org.alfresco.test.cmm.unit.UtilsUnitTest" />
+		</classes>
+    </test>
+  </tests>  
+</suite>
