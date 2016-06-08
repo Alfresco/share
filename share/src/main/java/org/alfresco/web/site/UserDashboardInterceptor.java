@@ -74,9 +74,10 @@ public class UserDashboardInterceptor extends AbstractWebFrameworkInterceptor
                     ServletUtil.setRequest(req);
                     RequestContextUtil.populateRequestContext(rc, req);
                     final String userid = rc.getUserId();
-                    
+
                     // test user dashboard page exists?
-                    if (userid != null && userid.equals(URLDecoder.decode(matcher.group(1))))
+                    String usernameFromURL = URLDecoder.decode(matcher.group(1));
+                    if (isUserIDMatchingUsernameFromURL(userid, usernameFromURL))
                     {
                         WebFrameworkServiceRegistry serviceRegistry = rc.getServiceRegistry();
                         if (serviceRegistry.getModelObjectService().getPage("user/" + userid + "/dashboard") == null)
@@ -102,7 +103,25 @@ public class UserDashboardInterceptor extends AbstractWebFrameworkInterceptor
             }
         }
     }
-    
+
+    private boolean isUserIDMatchingUsernameFromURL(final String userid, String usernameFromURL)
+    {
+        if (userid == null || usernameFromURL == null)
+        {
+            return false;
+        }
+        return shouldUseCaseSensitiveUsernameCompare() ? userid.equals(usernameFromURL) : userid.equalsIgnoreCase(usernameFromURL);
+    }
+
+    private boolean shouldUseCaseSensitiveUsernameCompare()
+    {
+        // TODO we should probably make a request to the backend and
+        // ask for the value of "user.name.caseSensitive" property
+        // all though FileFolderServiceImpl.resolveNamePath and the simpleSearch method it uses
+        // does not seem to take into consideration the case of the user name
+        return false;
+    }
+
     /* (non-Javadoc)
      * @see org.springframework.web.context.request.WebRequestInterceptor#postHandle(org.springframework.web.context.request.WebRequest, org.springframework.ui.ModelMap)
      */
