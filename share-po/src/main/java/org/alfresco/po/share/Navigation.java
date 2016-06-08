@@ -861,7 +861,7 @@ public class Navigation extends PageElement
         try
         {
         	//Check if modal is already open
-        	WebElement cancelBtn = driver.findElement(By.cssSelector("button[id$='cancel-button']"));
+        	WebElement cancelBtn = driver.findElement(By.cssSelector(".footer .cancellationButton .dijitButtonNode"));
         	if(cancelBtn.isDisplayed())
         	{
         		cancelBtn.click();
