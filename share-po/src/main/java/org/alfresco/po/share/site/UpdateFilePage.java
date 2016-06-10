@@ -111,6 +111,7 @@ public class UpdateFilePage extends SharePage
         String previousVersion = (String) executeJavaScript("Alfresco.getFileUploadInstance(this).showConfig.updateVersion;");
         findAndWait(By.cssSelector(submitButton)).click();
         waitUntilNotVisible(By.cssSelector("div[style*='visible'] div.hd span"), "Update File", SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
+        waitUntilAlert();
         HtmlPage page = getCurrentPage();
         if (page instanceof DocumentDetailsPage)
         {
