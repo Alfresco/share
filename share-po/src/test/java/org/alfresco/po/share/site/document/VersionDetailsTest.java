@@ -133,7 +133,7 @@ public class VersionDetailsTest extends AbstractTest
 
                 versionDetails = detailsPage.getCurrentVersionDetails();
                 Assert.assertEquals(versionDetails.getVersionNumber(), "2.0", "Verifying Version Number");
-                Assert.assertEquals(versionDetails.getFileName(), file.getName(), "Verifying File Name");
+                Assert.assertEquals(versionDetails.getFileName(), file2.getName(), "Verifying File Name");
                 Assert.assertFalse(versionDetails.getLastModified().isEmpty());
                 Assert.assertTrue(versionDetails.getUserName().getDescription().toLowerCase().contains("admin"), "Verifying user name");
                 Assert.assertEquals(versionDetails.getComment(), comment2, "Verifying Version comment");
@@ -144,7 +144,7 @@ public class VersionDetailsTest extends AbstractTest
                 Assert.assertEquals(olderVersions.size(), 2);
 
                 Assert.assertEquals(olderVersions.get(0).getVersionNumber(), "1.1", "Verifying Version Number");
-                Assert.assertEquals(olderVersions.get(0).getFileName(), file.getName(), "Verifying File Name");
+                Assert.assertEquals(olderVersions.get(0).getFileName(), file1.getName(), "Verifying File Name");
                 Assert.assertFalse(StringUtils.isEmpty(olderVersions.get(0).getLastModified()), "Verifying Last modified");
                 Assert.assertTrue(olderVersions.get(0).getUserName().getDescription().toLowerCase().contains("admin"), "Verifying user name");
                 Assert.assertEquals(olderVersions.get(0).getComment(), comment1, "Verifying Version comment");
