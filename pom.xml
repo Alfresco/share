@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-super-pom</artifactId>
-        <version>6</version>
+        <version>7</version>
     </parent>
     <artifactId>alfresco-share-parent</artifactId>
     <version>5.2.1-SNAPSHOT</version>
@@ -31,7 +31,6 @@
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>5.2.1-SNAPSHOT</alfresco.platform.version>
 
-        <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
@@ -274,7 +273,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>1.8</version>
                 <configuration>
                     <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
                     <organizationName>Alfresco Software Limited</organizationName>
@@ -309,7 +307,6 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.6</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>alfresco-internal-staging</serverId>
