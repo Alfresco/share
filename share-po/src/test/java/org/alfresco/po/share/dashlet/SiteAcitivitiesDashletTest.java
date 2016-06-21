@@ -38,6 +38,7 @@ import static org.alfresco.po.share.dashlet.SiteActivitiesUserFilter.IM_FOLLOWIN
 import static org.alfresco.po.share.dashlet.SiteActivitiesUserFilter.MY_ACTIVITIES;
 import static org.alfresco.po.share.dashlet.SiteActivitiesUserFilter.OTHERS_ACTIVITIES;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
@@ -48,8 +49,11 @@ import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet.LinkType;
+import org.alfresco.po.share.site.CustomizeSitePage;
+import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
-
+import org.alfresco.po.share.site.links.LinksDetailsPage;
+import org.alfresco.po.share.site.links.LinksPage;
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
@@ -69,6 +73,12 @@ import org.testng.annotations.Test;
 public class SiteAcitivitiesDashletTest extends AbstractSiteDashletTest
 {
     private static final String SITE_ACTIVITY = "site-activities";
+    private static final String LINK_COMMENT = "Link Comment";
+    private static final String DELETE_LINK_COMMENT_NOTIFICATION = "Administrator deleted a comment from SiteAcitivitiesDashletTest";
+    private String text = getClass().getSimpleName();
+    private String url = "www.alfresco.com";
+    
+    
 
     @BeforeClass(groups = { "alfresco-one" })
     public void loadFile() throws Exception
@@ -255,6 +265,43 @@ public class SiteAcitivitiesDashletTest extends AbstractSiteDashletTest
     }
 
     @Test(dependsOnMethods = "getAllHistoryFilters")
+    public void checkDeleteLinkCommentNotification() throws Exception
+    {
+       //customise site dashboard with a link
+       navigateToSiteDashboard();
+       CustomizeSitePage customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
+       List<SitePageType> addPageTypes = new ArrayList<SitePageType>();
+       addPageTypes.add(SitePageType.LINKS);
+       customizeSitePage.addPages(addPageTypes).render();
+       LinksPage linksPage = siteDashBoard.getSiteNav().selectLinksPage().render();
+       assertNotNull(linksPage);
+        
+       //create a link
+       LinksDetailsPage linksDetailsPage = linksPage.createLink(text, url).render();
+       assertEquals(linksDetailsPage.getLinkTitle(), text);
+       assertNotNull(linksDetailsPage);
+       linksDetailsPage = resolvePage(driver).render();
+       
+       //add a comment to the link
+       linksDetailsPage.addComment(LINK_COMMENT);
+               
+       //delete added comment
+       linksDetailsPage.deleteComment(LINK_COMMENT);
+       linksDetailsPage.confirmDelete();
+       
+       Thread.sleep(solrWaitTime); //wait solr
+       
+       //check notification
+       navigateToSiteDashboard();
+       SiteActivitiesDashlet dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
+       siteDashBoard = dashlet.selectHistoryFilter(TODAY).render(); 
+       dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
+       Assert.assertTrue(dashlet.getSiteActivityDescriptions().get(0).contains(DELETE_LINK_COMMENT_NOTIFICATION));
+
+    }
+    
+    
+    @Test(dependsOnMethods = "checkDeleteLinkCommentNotification")
     public void selectUserFilter()
     {
         navigateToSiteDashboard();
