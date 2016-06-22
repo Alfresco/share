@@ -26,17 +26,25 @@
 package org.alfresco.po.share.site.links;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import java.util.List;
 
 import org.alfresco.po.share.FactorySharePage;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.enums.Encoder;
 import org.alfresco.po.share.exception.ShareException;
+import org.alfresco.po.share.site.document.DetailsPage;
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.openqa.selenium.WebDriver;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
@@ -48,8 +56,10 @@ import org.openqa.selenium.WebElement;
  * @author Marina.Nenadovets
  */
 @SuppressWarnings("unused")
-public class LinksDetailsPage extends SharePage
+public class LinksDetailsPage extends DetailsPage
 {
+    private final Log logger = LogFactory.getLog(this.getClass());
+    
     private static final By TITLE = By.cssSelector(".nodeTitle>a");
     private static final By LINKS_LIST_LINK = By.cssSelector("span[class*='link']>a");
     private static final By COMMENT_LINK = By.cssSelector(".onAddCommentClick");
@@ -238,6 +248,7 @@ public class LinksDetailsPage extends SharePage
      *
      * @param comment String
      */
+    /**
     public void addComment(String comment)
     {
         checkNotNull(comment);
@@ -246,7 +257,8 @@ public class LinksDetailsPage extends SharePage
         addCommentLinkForm.insertText(comment);
         addCommentLinkForm.clickSubmit();
     }
-
+    **/
+    
     /**
      * Return object related to comment block.
      *
