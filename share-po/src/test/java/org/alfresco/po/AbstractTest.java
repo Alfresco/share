@@ -116,8 +116,10 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     @Autowired protected UserProfileActions userActions;
     
     public static Integer retrySearchCount = 3;
+    protected long solrWaitTime = 20000;
     protected WebDriver driver;
     protected static final String UNAME_PASSWORD = "password";
+    
     
 
     @BeforeClass(alwaysRun = true)

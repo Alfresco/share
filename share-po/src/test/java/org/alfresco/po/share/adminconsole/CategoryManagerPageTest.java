@@ -44,7 +44,6 @@ public class CategoryManagerPageTest extends AbstractTest
     private String subCategoryName = "SubCategory" + System.currentTimeMillis();
     private String renameCategoryName = "RenameCategory" + System.currentTimeMillis();
     private String rootCategoryName = "Category Root";
-    private long solrWaitTime = 20000;
 
     @Test(groups = "Enterprise-only", timeOut = 400000)
     public void checkThatFactoryReturnCategoryManagerPage() throws Exception
