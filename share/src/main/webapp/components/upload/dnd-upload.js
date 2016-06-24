@@ -538,6 +538,7 @@
 
          // Save a reference to the HTMLElement displaying version input so we can hide or show it
          this.versionSection = Dom.get(this.id + "-versionSection-div");
+         this.compareVersionsSection = Dom.get(this.id + "-compare-versions");
 
          // Create and save a reference to the buttons so we can alter them later
          this.widgets.cancelOkButton = Alfresco.util.createYUIButton(this, "cancelOk-button", this.onCancelOkButtonClick);
@@ -614,6 +615,14 @@
                   // comment...
                   this.widgets.uploadButton.set("disabled", false);
                   Dom.removeClass(this.widgets.uploadButton, "hidden");
+                  
+                  if (!!this.showConfig.newVersion)
+                  {
+                     Dom.removeClass(this.compareVersionsSection, "hidden");
+                     var newFileName = evt.target.files[0].name;
+                     var newFileType = evt.target.files[0].type;
+                     this._updateCompareVersionsSection(this.showConfig.jsNode, newFileName, newFileType);
+                  }
                }
                else
                {
@@ -662,16 +671,16 @@
          // Merge the supplied config with default config and check mandatory properties
          this.suppliedConfig = config;
          this.showConfig = YAHOO.lang.merge(this.defaultShowConfig, config);
-         if (!this.showConfig.uploadDirectory && !this.showConfig.updateNodeRef && !this.showConfig.destination && !this.showConfig.uploadURL)
-         {
-             throw new Error("An updateNodeRef, uploadDirectory, destination or uploadURL must be provided");
-         }
-         
          if (this.showConfig.uploadDirectory !== null && this.showConfig.uploadDirectory.length === 0)
          {
             this.showConfig.uploadDirectory = "/";
          }
 
+         if (!this.showConfig.uploadDirectory && !this.showConfig.updateNodeRef && !this.showConfig.destination && !this.showConfig.uploadURL)
+         {
+             throw new Error("An updateNodeRef, uploadDirectory, destination or uploadURL must be provided");
+         }
+         
          // Apply the config before it is shown
          this._resetGUI();
 
@@ -983,7 +992,12 @@
    
                   // Get the name of the file (note that we use ".name" and NOT ".fileName" which is non-standard and it's use 
                   // will break FireFox 7)...
-                  var fileName = file.name;
+                  var fileName = file.name,
+                      updateNameAndMimetype = false;
+                  if (!!scope.showConfig.newVersion && scope.showConfig.updateFilename && scope.showConfig.updateFilename !== fileName)
+                  {
+                      updateNameAndMimetype = true;
+                  }
                
                   // Add the event listener functions to the upload properties of the XMLHttpRequest object...
                   var request = new XMLHttpRequest();
@@ -1024,7 +1038,9 @@
                      description: scope.description.value,
                      overwrite: scope.showConfig.overwrite,
                      thumbnails: scope.showConfig.thumbnails,
-                     username: scope.showConfig.username
+                     username: scope.showConfig.username,
+                     updateNameAndMimetype: updateNameAndMimetype
+                     
                   };
                   
                   // Add the upload data to the file store. It is important that we don't initiate the XMLHttpRequest
@@ -1334,6 +1350,7 @@
             formData.append("username", fileInfo.uploadData.username);
             formData.append("overwrite", fileInfo.uploadData.overwrite);
             formData.append("thumbnails", fileInfo.uploadData.thumbnails);
+            formData.append("updatenameandmimetype", fileInfo.uploadData.updateNameAndMimetype)
             
             
             if (fileInfo.uploadData.updateNodeRef)
@@ -1450,6 +1467,7 @@
          Dom.addClass(this.id + "-file-selection-controls", "hidden");
          Dom.addClass(this.versionSection, "hidden");
          this.widgets.uploadButton.set("disabled", true);
+         Dom.addClass(this.compareVersionsSection, "hidden");
          this.processFilesForUpload(this.showConfig.files);
       },
       
@@ -1468,6 +1486,8 @@
        */
       onCancelOkButtonClick: function DNDUpload_onCancelOkButtonClick()
       {
+    	 Dom.addClass(this.compareVersionsSection, "hidden");
+
          var message, i;
          if (this.state === this.STATE_UPLOADING)
          {
@@ -1970,6 +1990,28 @@
          this.addedFiles = {};
          this.fileStore = {};
          this.dataTable.deleteRows(0, length);
+      },
+
+      /**
+       * Updates compare version sections information accordingly 
+       * 
+       * @method _updateCompareVersionsSection
+       * @private
+       */
+      _updateCompareVersionsSection: function DNDUpload__updateCompareVersionsSection(jsNode, newVersionFileName, newVersionMimetype)
+      {
+         Dom.get(this.id + "-current-version-value").innerHTML = jsNode.properties["cm:versionLabel"];
+         Dom.get(this.id + "-current-version-filename").innerHTML = jsNode.properties["cm:name"];
+         Dom.get(this.id + "-current-version-title").innerHTML = jsNode.hasProperty("cm:title") ? jsNode.properties["cm:title"] : this.msg("label.none");
+         Dom.get(this.id + "-current-version-mimetype").innerHTML =  jsNode.mimetypeDisplayName;
+         Dom.get(this.id + "-current-version-last-modified").innerHTML = Alfresco.util.formatDate(this.showConfig.jsNode.properties["cm:modified"].iso8601, "dd/mm/yyyy");
+         Dom.get(this.id + "-current-version-modified-by").innerHTML = jsNode.properties["cm:modifier"].displayName;
+         Dom.get(this.id + "-current-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(jsNode.mimetype, 48);
+         
+         Dom.get(this.id + "-new-version-filename").innerHTML = newVersionFileName;
+         Dom.get(this.id + "-new-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(newVersionMimetype, 48);
+         Dom.get(this.id + "-new-version-mimetype").innerHTML = newVersionMimetype !== "" ? newVersionMimetype : this.msg("label.mimetype.unknown");
+         
       }
    });
 })();

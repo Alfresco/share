@@ -1,16 +1,27 @@
-/**
- * Copyright (C) 2005-2014 Alfresco Software Limited.
- * This file is part of Alfresco
+/*
+ * #%L
+ * share-po
+ * %%
+ * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * %%
+ * This file is part of the Alfresco software. 
+ * If the software was purchased under a paid Alfresco license, the terms of 
+ * the paid license agreement will prevail.  Otherwise, the software is 
+ * provided under the following open source license terms:
+ * 
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
+ * 
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * #L%
  */
 package org.alfresco.po.share.site.document;
 
@@ -122,7 +133,7 @@ public class VersionDetailsTest extends AbstractTest
 
                 versionDetails = detailsPage.getCurrentVersionDetails();
                 Assert.assertEquals(versionDetails.getVersionNumber(), "2.0", "Verifying Version Number");
-                Assert.assertEquals(versionDetails.getFileName(), file.getName(), "Verifying File Name");
+                Assert.assertEquals(versionDetails.getFileName(), file2.getName(), "Verifying File Name");
                 Assert.assertFalse(versionDetails.getLastModified().isEmpty());
                 Assert.assertTrue(versionDetails.getUserName().getDescription().toLowerCase().contains("admin"), "Verifying user name");
                 Assert.assertEquals(versionDetails.getComment(), comment2, "Verifying Version comment");
@@ -133,7 +144,7 @@ public class VersionDetailsTest extends AbstractTest
                 Assert.assertEquals(olderVersions.size(), 2);
 
                 Assert.assertEquals(olderVersions.get(0).getVersionNumber(), "1.1", "Verifying Version Number");
-                Assert.assertEquals(olderVersions.get(0).getFileName(), file.getName(), "Verifying File Name");
+                Assert.assertEquals(olderVersions.get(0).getFileName(), file1.getName(), "Verifying File Name");
                 Assert.assertFalse(StringUtils.isEmpty(olderVersions.get(0).getLastModified()), "Verifying Last modified");
                 Assert.assertTrue(olderVersions.get(0).getUserName().getDescription().toLowerCase().contains("admin"), "Verifying user name");
                 Assert.assertEquals(olderVersions.get(0).getComment(), comment1, "Verifying Version comment");

@@ -1072,6 +1072,10 @@ button.alfresco-button
    display: none;
 }
 
+a.container-close + div
+{
+    padding-right: 40px !important;
+}
 
 /* Insitu Edit */
 
@@ -1183,6 +1187,12 @@ span.item-modifier
    display: inline;
    background: no-repeat url(../components/images/quickshare-indicator-16.png) center center;
    padding: 0 0.5em;
+}
+.item-social a.quickshare-indicator.enabled,
+.item-social a.quickshare-indicator.enabled:active,
+.item-social a.quickshare-indicator.enabled:hover
+{
+   background: no-repeat url(../components/images/quickshare-indicator-16.png) center center;
 }
 .quickshare-action-menu
 {

@@ -1,7 +1,8 @@
 <#assign el=args.htmlid?js_string/>
 <div id="${el}-body" class="theme-overlay hidden">
    <!-- Logo -->
-   <div class="theme-company-logo"></div>
+   <#assign aboutConfig=config.scoped["Edition"]["login"]>
+   <div class="theme-company-logo ${aboutConfig.getChildValue("css-class")!logo-com}"></div>
 
    <#if notification??>
 

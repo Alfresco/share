@@ -155,7 +155,12 @@
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/s/*</url-pattern>
    </filter-mapping>
-   
+
+   <filter-mapping>
+      <filter-name>UrlRewriteFilter</filter-name>
+      <url-pattern>/noauth/*</url-pattern>
+   </filter-mapping>
+
    <!-- Spring Context Loader listener - the name of the default global context is passed to the DispatcherServlet
         in the servlet definition below - this is to allow the NTLM filter etc. to find the single app context -->
    <listener>

@@ -15,6 +15,7 @@
         <module>share-services</module>
         <module>share</module>
         <module>share-po</module>
+        <module>cmm-qa</module>
         <module>web-framework-commons</module>
         <module>web-editor</module>
         <module>web-editor-plugin</module>
@@ -25,24 +26,25 @@
 
     <properties>
         <version.major>5</version.major>
-        <version.minor>1</version.minor>
+        <version.minor>2</version.minor>
         <version.revision>0</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>5.1.g</alfresco.platform.version>
+        <alfresco.platform.version>5.2.a-EA</alfresco.platform.version>
 
+        <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
-        <argLine>-Xmx2G -XX:MaxPermSize=256m -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
+        <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <dependency.spring.version>3.2.14.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
-        <dependency.aikau.version>1.0.63</dependency.aikau.version>
+        <dependency.aikau.version>1.0.67</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.1</dependency.httpcomponents.version>
-        <dependency.alfresco-jlan.version>6.0</dependency.alfresco-jlan.version>        
-        <dependency.alfresco-core.version>6.1</dependency.alfresco-core.version>
-        <dependency.webscripts.version>6.5</dependency.webscripts.version>
-        <dependency.surf.version>6.3</dependency.surf.version>
+        <dependency.alfresco-jlan.version>6.2</dependency.alfresco-jlan.version>        
+        <dependency.alfresco-core.version>6.3</dependency.alfresco-core.version>
+        <dependency.webscripts.version>6.7</dependency.webscripts.version>
+        <dependency.surf.version>6.5</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
 
         <!-- Developer's runtime environment configuration -->
@@ -269,6 +271,58 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.8</version>
+                <configuration>
+                    <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+                    <organizationName>Alfresco Software Limited</organizationName>
+                    <failOnMissingHeader>true</failOnMissingHeader>
+                    <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+                    <licenseResolver>classpath://alfresco</licenseResolver>
+                    <licenseName>community</licenseName>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>**/*.jsp</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>check-licenses</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>check-file-header</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.alfresco</groupId>
+                        <artifactId>alfresco-license-headers</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+			<!-- Configure deployment of releases to Staging area of Nexus -->
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.6</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>alfresco-internal-staging</serverId>
+					<nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
+					<stagingProfileId>${release.staging.profile}</stagingProfileId>
+					<stagingDescription>Staging Share ${project.version} (${bamboo_buildResultKey} ${bamboo_planRepository_revision})</stagingDescription>
+					<tags>
+						<build.number>${bamboo_buildNumber}</build.number>
+						<build.key>${bamboo_buildKey}</build.key>
+						<build.revision>${bamboo_planRepository_revision}</build.revision>
+					</tags>
+				</configuration>
+			</plugin>
         </plugins>
 
         <pluginManagement>

@@ -209,7 +209,8 @@
             {
                destination: this.currentPath,
                successCount: successCount,
-               failureCount: failureCount
+               failureCount: failureCount,
+               sourceFilesObj: p_data.config.dataObj
             });
 
             for (var i = 0, j = p_data.json.totalResults; i < j; i++)

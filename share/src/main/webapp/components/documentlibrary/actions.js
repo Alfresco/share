@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * Copyright (C) 2005-2016 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -1324,7 +1324,7 @@
 
       _aos_tryToLaunchOfficeByMsProtocolHandler: function dlA__aos_tryToLaunchOfficeByMsProtocolHandler(officeLauncher, protocolHandler, url)
       {
-          var protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
+          var protocolUrl = protocolHandler + ':ofe%7Cu%7C' + encodeURI(url);
           var protocolHandlerPresent = false;
 
           var input = document.createElement('input');
@@ -1684,7 +1684,9 @@
             {
                fn: this.onNewVersionUploadComplete,
                scope: this
-            }
+            },
+            newVersion: true,
+            jsNode: jsNode
          };
 
          this.fileUpload.options.zIndex = zIndex;
@@ -1925,17 +1927,17 @@
             parentElement = Dom.get(this.id);
          }
 
-         var repoPath = record[0] ? record[0].location.repoPath : record.location.repoPath;
          this.modules.copyMoveTo.setOptions(
          {
             allowedViewModes: allowedViewModes,
             mode: mode,
             siteId: this.options.siteId,
             containerId: this.options.containerId,
-            path: this.options.repositoryBrowsing ? repoPath : this.currentPath,
+            path: this.currentPath,
             files: record,
             /* Fix for MNT-12432. Do not overwrite this.modules.copyMoveTo.options.rootNode option if repoBrowsing is enabled. Could cause Repository tab view inconsistency */
             rootNode: this.options.repositoryBrowsing ? this.modules.copyMoveTo.options.rootNode : this.options.rootNode,
+            repositoryRoot: this.options.repositoryRoot,
             parentId: this.getParentNodeRef(record),
             zIndex: zIndex,
             parentElement : parentElement ? parentElement : undefined

@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Search Manager Tool</shortname>
+  <description>Administration Console - Search Manager Tool</description>
+  <url>/components/console/search-manager</url>
+  <family>admin-console</family>
+</webscript>

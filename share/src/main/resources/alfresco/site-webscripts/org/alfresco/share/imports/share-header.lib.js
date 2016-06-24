@@ -43,12 +43,15 @@ function getShareServices() {
       if (result.status.code == status.STATUS_OK)
       {
          ss = JSON.parse(result);
+         // Cache the response so we always know the answer from the first 15 seconds and not use
+         // a default 'true' which caused the bug.
+         user.properties['cachedNoCheck'] = ss['nocheck'];
       }
    }
    else
    {
-      //Don't check shareservices, lets inform the widget
-      ss['nocheck'] = true;
+      // Inform the widget to act like in the first 15 seconds (where the actual request was done)
+      ss['nocheck'] = user.properties['cachedNoCheck'];
    }
    return ss;
 }
@@ -273,7 +276,7 @@ function getSiteData()
          // Call the repository to see if the user is site manager or not
          var userIsSiteManager = false,
              userIsMember = false;
-             userIsDirectMember = false;
+             userIsDirectMember = true;
          json = remote.call("/api/sites/" + page.url.templateArgs.site + "/memberships/" + encodeURIComponent(user.name));
          if (json.status == 200)
          {

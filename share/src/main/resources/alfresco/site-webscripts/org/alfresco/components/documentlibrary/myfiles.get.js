@@ -1,6 +1,7 @@
 <import resource="classpath:/alfresco/site-webscripts/org/alfresco/components/documentlibrary/include/toolbar.lib.js">
 <import resource="classpath:/alfresco/site-webscripts/org/alfresco/components/upload/uploadable.lib.js">
 <import resource="classpath:/alfresco/site-webscripts/org/alfresco/components/documentlibrary/include/documentlist.lib.js">
+<import resource="classpath:/alfresco/templates/org/alfresco/import/alfresco-util.js">
 
 doclibCommon();
 
@@ -21,6 +22,7 @@ function widgets()
       options: {
          siteId: "",
          rootNode: "alfresco://user/home",
+         repositoryRoot: AlfrescoUtil.getRootNode(),
          hideNavBar: Boolean(toolbar.preferences.hideNavBar),
          repositoryBrowsing: toolbar.rootNode != null,
          useTitle: (useTitle == "true"),
@@ -38,6 +40,7 @@ function widgets()
          siteId : "",
          containerId : "documentLibrary",
          rootNode : "alfresco://user/home",
+         repositoryRoot : AlfrescoUtil.getRootNode(),
          usePagination : (args.pagination == "true"),
          sortAscending : (model.preferences.sortAscending != null ? model.preferences.sortAscending : true),
          sortField : model.preferences.sortField != null ? model.preferences.sortField : "cm:name",

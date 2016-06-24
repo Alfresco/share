@@ -1,20 +1,27 @@
 /*
- * Copyright (C) 2005-2015 Alfresco Software Limited.
- *
- * This file is part of Alfresco
- *
+ * #%L
+ * share-po
+ * %%
+ * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * %%
+ * This file is part of the Alfresco software. 
+ * If the software was purchased under a paid Alfresco license, the terms of 
+ * the paid license agreement will prevail.  Otherwise, the software is 
+ * provided under the following open source license terms:
+ * 
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * #L%
  */
 
 package org.alfresco.po.share.cmm.admin;
@@ -25,7 +32,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
@@ -56,6 +65,7 @@ public class ModelManagerPage extends SharePage
     private static final By MODEL_ROW_STATUS = By.cssSelector("td.alfresco-lists-views-layouts-Cell.statusColumn");
     private static final By MODEL_ROW_ACTIONS = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actionsColumn");
     private static final By CMM_MODEL_NO_LISTING = By.cssSelector("div.alfresco-lists-views-layouts-AlfListView > div");
+    private static final By LOADING_IN_PROGRESS = By.cssSelector(".data-loading-more");
 
     /*
      * (non-Javadoc)
@@ -69,7 +79,8 @@ public class ModelManagerPage extends SharePage
         // Button
         elementRender(renderTime,
         			  getVisibleRenderElement(BUTTON_CREATE_NEW_MODEL),
-        			  getVisibleRenderElement(BUTTON_IMPORT_MODEL));
+        			  getVisibleRenderElement(BUTTON_IMPORT_MODEL),
+        			  new RenderElement(LOADING_IN_PROGRESS, ElementState.INVISIBLE));
 
         return this;
     }

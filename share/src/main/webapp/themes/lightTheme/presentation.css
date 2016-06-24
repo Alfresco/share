@@ -47,11 +47,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner
 	font:99% Open Sans,arial,helvetica,clean,sans-serif;
 }
 
-.alfresco-share .sticky-wrapper hr,
+/* .alfresco-share .sticky-wrapper hr,
 .yui-overlay hr
 {
    height: 0 !important;
-}
+} */
 
 .sticky-wrapper,
 .sticky-footer
@@ -1500,6 +1500,7 @@ body.alfresco-guest
 {
    height: 48px;
    width: 428px;
+   background-repeat: no-repeat;
 }
 
 .theme-company-logo.logo-com
