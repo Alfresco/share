@@ -61,7 +61,7 @@ public class CustomizeSitePage extends SitePage
     private static final By CANCEL_BUTTON = By.cssSelector("#template_x002e_customise-pages_x002e_customise-site_x0023_default-save-button-button");
     private static final By THEME_MENU = By.cssSelector("#template_x002e_customise-pages_x002e_customise-site_x0023_default-theme-menu");
     private static final By DOCUMENT_LIB = By.cssSelector("li[id$='_default-page-documentlibrary']");
-    private static final By CURRENT_PAGES_CONTAINER = By.xpath("//ul[contains(@id, '_default-currentPages-ul')]/..");
+    private static final By CURRENT_PAGES_CONTAINER = By.cssSelector(".current-pages");  //By.xpath("//ul[contains(@id, '_default-currentPages-ul')]/..");
     //private static final By LAST_AVAILABLE_PAGE = By.cssSelector("ul[id$='_default-availablePages-ul']:last-child li[class$='dnd-draggable']:last-child");
     private static final By LAST_AVAILABLE_PAGE = By.xpath("//ul[contains(@id, '_default-availablePages-ul')]/..//li[@class='customise-pages-page-list-item dnd-draggable'][last()]");
     private static final By LAST_CURRENT_PAGE = By.xpath("//ul[contains(@id, '_default-currentPages-ul')]/..//li[@class='customise-pages-page-list-item dnd-draggable'][last()]");
@@ -224,7 +224,7 @@ public class CustomizeSitePage extends SitePage
      */
     public HtmlPage addPages (List<SitePageType> pageTypes)
     {
-        WebElement target = driver.findElement(CURRENT_PAGES_CONTAINER);
+        // WebElement target = driver.findElement(CURRENT_PAGES_CONTAINER);
 
         if (getAvailablePages().containsAll(pageTypes))
         {
@@ -233,8 +233,10 @@ public class CustomizeSitePage extends SitePage
                 try
                 {
                     WebElement elem = driver.findElement(theTypes.getLocator());
-                    WebElement dropZone = driver.findElement(By.cssSelector("ul[id$='default-currentPages-ul']"));
-                    new Actions(driver).dragAndDrop(elem, dropZone).build().perform();
+                    WebElement target = driver.findElement(CURRENT_PAGES_CONTAINER);
+                    
+                    executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
+                    dragAndDrop(elem, target);
                 }
                 catch (TimeoutException e)
                 {
