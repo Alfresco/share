@@ -389,7 +389,7 @@
                fullName = oRecord.getData("fullName");
 
             var desc = '<h3>' + $html(displayName) + '</h3>';
-            desc += '<div><span class="attr-name">' + me._msg('label.name') + ': </span>&nbsp;<span class="attr-value">' + $html(fullName) + '</span></div>';
+            desc += '<div><span class="attr-name">' + me._msg('label.id') + ': </span>&nbsp;<span class="attr-value">' + $html(fullName) + '</span></div>';
             
             elCell.innerHTML = desc;
          };
