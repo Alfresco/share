@@ -355,7 +355,7 @@
             var desc = '<h3 class="itemname">' + $html(oRecord.getData("displayName")) + '</h3>';
             if (me.options.viewMode !== Alfresco.GroupFinder.VIEW_MODE_COMPACT)
             {
-               desc += '<div class="detail"><span>' + me.msg("label.name") + ":</span> " + $html(oRecord.getData("fullName")) + '</div>';
+               desc += '<div class="detail"><span>' + me.msg("label.id") + ":</span> " + $html(oRecord.getData("fullName")) + '</div>';
             }
             elCell.innerHTML = desc;
          };
