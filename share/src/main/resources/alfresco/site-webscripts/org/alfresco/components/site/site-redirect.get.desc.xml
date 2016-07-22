@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Site Redirect</shortname>
+   <description>Site redirect to default page</description>
+   <url>/components/site/site-redirect</url>
+</webscript>

@@ -1,4 +1,4 @@
-<import resource="classpath:/alfresco/templates/org/alfresco/import/alfresco-util.js">
+<import resource="classpath:/alfresco/site-webscripts/org/alfresco/share/imports/share-header.lib.js">
 
 /**
  * Customise Site Pages component GET method
@@ -8,7 +8,7 @@ function main()
 {
    // site ID and available pages
    model.siteId = page.url.templateArgs.site;
-   model.pages = AlfrescoUtil.getPages(true);
+   model.pages = getPages(true);
    
    // available and currently selected site theme
    var currentTheme = null;

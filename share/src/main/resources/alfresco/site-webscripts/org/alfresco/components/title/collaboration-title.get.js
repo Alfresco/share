@@ -43,7 +43,7 @@ function main()
 
    var activePage = page.url.templateArgs.pageid || "";
    var siteTitle = (profile.title != "") ? profile.title : profile.shortName;
-   var siteDashboardUrl = page.url.context + "/page/site/" + page.url.templateArgs.site + "/dashboard";
+   var siteDashboardUrl = page.url.context + "/page/site/" + page.url.templateArgs.site;
 
    var links = [];
 

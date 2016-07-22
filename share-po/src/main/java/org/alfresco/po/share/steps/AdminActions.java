@@ -138,6 +138,14 @@ public class AdminActions extends CommonActions
         return newPage.createEnterpriseUserWithGroup(userName, fName, lName, userEmail, password, groupName).render();
     }
     
+    public HtmlPage createEnterpriseUser(WebDriver driver, String userName, String fName, String lName, String userEmail, String password)
+    {
+        UserSearchPage userPage = navigateToUserPage(driver);
+        NewUserPage newPage = userPage.selectNewUser().render();
+
+        return newPage.createEnterpriseUser(userName, fName, lName, userEmail, password).render();
+    }    
+    
     /**
      * Open DashBoard > Repository > Data Dictionary
      * 

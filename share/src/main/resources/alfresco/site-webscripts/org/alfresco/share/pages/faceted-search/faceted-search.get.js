@@ -496,6 +496,7 @@ var searchDocLib = {
                      id: "FCTSRCH_SEARCH_RESULT",
                      name: "alfresco/search/AlfSearchResult",
                      config: {
+                        siteLandingPage: "",
                         enableContextMenu: false
                      }
                   }

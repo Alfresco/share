@@ -284,7 +284,7 @@ function userProfileUrl(userId)
 }
 
 /**
- * URL to item page (could be site dashboard page)
+ * URL to item page (could be site default page)
  */
 function itemPageUrl(activity, summary)
 {
@@ -300,17 +300,17 @@ function itemPageUrl(activity, summary)
    }
    else
    {
-      localPage = "/dashboard";
+      localPage = "";
    }
    return url.context + "/page/site/" + encodeURI(activity.siteNetwork) + localPage;
 }
 
 /**
- * URL to site dashboard page
+ * URL to site default page
  */
 function sitePageUrl(activity, summary)
 {
-   return url.context + "/page/site/" + encodeURI(activity.siteNetwork) + "/dashboard";
+   return url.context + "/page/site/" + encodeURI(activity.siteNetwork);
 }
 
 /**

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>dashboard</id>
+   <title>Site Dashboard</title>
+   <title-id>page.siteDashboard.title</title-id>
+   <description>Collaboration Site Dashboard</description>
+   <description-id>page.siteDashboard.description</description-id>
+   <authentication>user</authentication>
+</page>

@@ -49,7 +49,7 @@ import org.openqa.selenium.support.FindBy;
  * 
  * @author jcule
  */
-public class AddUsersToSitePage extends SharePage
+public class AddUsersToSitePage extends SitePage
 {
     private static Log logger = LogFactory.getLog(AddUsersToSitePage.class);
 

@@ -216,7 +216,7 @@
             }
          }
 
-         desc += '</div><div><a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + oRecord.getData("site") + '/dashboard" class="theme-link-1">' + $html(oRecord.getData("siteTitle")) + '</a></div></div>';
+         desc += '</div><div><a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + oRecord.getData("site") + '" class="theme-link-1">' + $html(oRecord.getData("siteTitle")) + '</a></div></div>';
          
          elCell.innerHTML = desc;
       }

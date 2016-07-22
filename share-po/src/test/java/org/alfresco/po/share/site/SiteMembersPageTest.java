@@ -74,7 +74,7 @@ public class SiteMembersPageTest extends AbstractTest
         CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
         addUsersToSitePage = site.getSiteNav().selectAddUser().render();
-        addUsersToSite(addUsersToSitePage, userName, UserRole.COLLABORATOR);
+        siteUtil.addUsersToSite(driver, addUsersToSitePage, userName, UserRole.COLLABORATOR);
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();
     }
 

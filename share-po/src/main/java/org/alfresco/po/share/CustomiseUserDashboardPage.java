@@ -42,6 +42,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.internal.Coordinates;
+import org.openqa.selenium.internal.Locatable;
 
 public class CustomiseUserDashboardPage extends SharePage
 {
@@ -218,8 +221,21 @@ public class CustomiseUserDashboardPage extends SharePage
 
         try
         {
-            String dashletXpath = String.format("//*[@class='availableDashlet dnd-draggable']/span[text()=\"%s\"]", dashletName.getDashletName());
-            WebElement element = findAndWait(By.xpath(dashletXpath));
+//            String dashletXpath = String.format("//li[@class='availableDashlet dnd-draggable']/span[text()=\"%s\"]", dashletName.getDashletName());
+//            WebElement element = findAndWait(By.xpath(dashletXpath));
+//            executeJavaScript(String.format("window.scrollTo('%s', '%s')", element.getLocation().getX(), element.getLocation().getY()));
+            
+        	String dashletSelector = String.format("li.availableDashlet div.dnd-draggable[title*=\"%s\"]", dashletName.getDashletName().replace("'", "\'"));
+            By dashlet = By.cssSelector("li.availableDashlet div.dnd-draggable[title*=\"" + dashletName.getDashletName().replace("'", "\'") + "\"]");
+            WebElement element = findAndWait(dashlet);
+            
+            // Move element into View if not already
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element).perform();
+            
+            Coordinates coord = ((Locatable)element).getCoordinates();
+            coord.inViewPort();
+
             element.click();
             List<WebElement> dashlets = findAndWaitForElements(AVAILABLE_DASHLETS_NAMES, getDefaultWaitTime());
             for (WebElement source : dashlets)
@@ -416,7 +432,7 @@ public class CustomiseUserDashboardPage extends SharePage
      */
     public DashBoardPage removeDashlet(Dashlets dashlet)
     {
-        String dashletXpath = String.format("//div[@class='column']//span[text()='%s']/../div", dashlet.getDashletName());
+        String dashletXpath = String.format("//div[@class='column']//span[text()=\"%s\"]/../div", dashlet.getDashletName());
         WebElement element = findAndWait(By.xpath(dashletXpath));
         dragAndDrop(element, driver.findElement(TRASHCAN));
         waitUntilAlert();

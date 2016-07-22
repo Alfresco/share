@@ -221,6 +221,19 @@ public class SiteNavigation extends AbstractSiteNavigation
         boolean val = isLinkActive(documentLibrary);
         return val;
     }
+    
+     /**
+     * Mimics the action of selecting the site
+     * Site Dashboard link under More drop down.
+     * 
+     * @return HtmlPage site calendar page object
+     */
+    public HtmlPage selectSiteDashboardPage()
+    {
+        clickMoreIfExist();
+        driver.findElement(SITE_DASHBOARD_LINK).click();
+        return getCurrentPage();
+    }
 
     /**
      * Mimics the action of selecting the site
@@ -344,6 +357,16 @@ public class SiteNavigation extends AbstractSiteNavigation
         {
         }
         throw new PageException("Not able to find Join Site Link.");
+    }
+    
+    /**
+     * Check if Wiki link is displayed in the site navigation header
+     * 
+     * @return
+     */
+    public boolean isWikiDisplayed()
+    {
+        return isLinkDisplayed(WIKI_LINK);
     }
 
     /**

@@ -29,6 +29,7 @@ package org.alfresco.po.share.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
@@ -52,6 +53,7 @@ import org.openqa.selenium.support.FindBy;
 public class UserSitesPage extends SharePage
 {
     private static final By NO_SITES_MESSAGE = By.cssSelector("div.viewcolumn p");
+    private static final String SITE_NAME = "//a[contains(text(), '%s')]";
 
     private final Log logger = LogFactory.getLog(UserSitesPage.class);
 
@@ -171,7 +173,19 @@ public class UserSitesPage extends SharePage
         }
         return sites;
     }
-
+    
+    /**
+     * Click on the Site name to go to the site daskboard.
+     * 
+     * @return HtmlPage
+     */
+    public HtmlPage clickOnSiteName(String siteName)
+    {
+        findAndWait(By.xpath(String.format(SITE_NAME, siteName))).click();
+        return getCurrentPage();
+    }
+    
+ 
     /**
      * Get a {@link UserSiteItem} for the named site
      * 

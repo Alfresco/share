@@ -1,0 +1,15 @@
+.alf-site-redirect-no-pages
+{
+    width: 600px;
+    margin: 0 auto;
+    margin-top: 10%;
+    text-align: center;
+    line-height: 2em;
+}
+
+.alf-site-redirect-no-pages span.alf-configure-icon
+{
+    float: none;
+    display: inline;
+    padding: 1px 9px 3px 9px;
+}

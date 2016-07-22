@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -38,8 +39,11 @@ import javax.imageio.ImageIO;
 
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.enums.UserRole;
+import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,6 +80,7 @@ public class SiteUtil
     SiteService siteService;
     @Value("${share.url}")
     String shareUrl;
+    @Value("${render.page.wait.time}") protected long maxPageWaitTime;
 
     /**
      * Prepare a file in system temp directory to be used
@@ -399,5 +404,79 @@ public class SiteUtil
             }
         }
         throw new PageException("site search failed");
+    }
+
+    /**
+     * Method to add user to the site
+     * 
+     * @param addUsersToSitePage
+     * @param userName
+     * @param role
+     * @throws Exception
+     */
+    public void addUsersToSite(WebDriver driver, AddUsersToSitePage addUsersToSitePage, String userName, UserRole role) throws Exception
+    {
+        int counter = 0;
+        int waitInMilliSeconds = 2000;
+        List<String> searchUsers = null;
+        int retrySearchCount = 3;
+        while (counter < retrySearchCount + 8)
+        {
+            searchUsers = addUsersToSitePage.searchUser(userName);
+            if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
+            {
+                addUsersToSitePage.clickSelectUser(userName);
+                addUsersToSitePage.setUserRoles(userName, role);
+                addUsersToSitePage.clickAddUsersButton();
+                break;
+            }
+            else
+            {
+                counter++;
+                factoryPage.getPage(driver).render();
+            }
+            // double wait time to not over do solr search
+            waitInMilliSeconds = (waitInMilliSeconds * 2);
+            synchronized (SiteUtil.class)
+            {
+                try
+                {
+                    SiteUtil.class.wait(waitInMilliSeconds);
+                }
+                catch (InterruptedException e)
+                {
+                }
+            }
+        }
+        try
+        {
+            addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
+        }
+        catch (PageRenderTimeException exception)
+        {
+            //saveScreenShot("SiteTest.instantiateMembers-error");
+            throw new Exception("Waiting for object to load", exception);
+
+        }
+    }
+
+    /**
+     * Returns true if the search user list contains created user
+     * 
+     * @param searchUsers
+     * @param userName
+     * @return
+     */
+    public boolean hasUser(List<String> searchUsers, String userName)
+    {
+        boolean hasUser = false;
+        for(String searchUser : searchUsers)
+        {
+            if(searchUser.indexOf(userName) != -1)
+            {
+                hasUser = true;
+            }
+        }
+        return hasUser;
     }
 }

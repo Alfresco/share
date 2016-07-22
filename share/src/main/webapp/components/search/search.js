@@ -425,7 +425,7 @@
             if (site)
             {
                desc += ' ' + me.msg("message.insite");
-               desc += ' <a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + $html(site.shortName) + '/dashboard">' + $html(site.title) + '</a>';
+               desc += ' <a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + $html(site.shortName) + '">' + $html(site.title) + '</a>';
             }
             if (oRecord.getData("size") !== -1)
             {

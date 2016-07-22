@@ -98,7 +98,7 @@ public class TakeOwnershipTest extends AbstractTest
         siteUtil.createSite(driver, username, password, takeOwnershipSiteName, "description", "Public");
         siteDashBoard = resolvePage(driver).render();
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        addUsersToSite(addUsersToSitePage, takeOwnershipUserName, UserRole.COLLABORATOR);
+        siteUtil.addUsersToSite(driver, addUsersToSitePage, takeOwnershipUserName, UserRole.COLLABORATOR);
         logout(driver);
 
         // collaborator logs in and creates two folders and files

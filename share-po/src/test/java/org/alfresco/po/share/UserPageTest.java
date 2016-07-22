@@ -262,7 +262,7 @@ public class UserPageTest extends AbstractTest
         siteFinderPage = siteUtil.siteSearchRetry(driver, siteFinderPage, privateSiteName);
         SiteDashboardPage siteDashboardPage = siteFinderPage.selectSite(privateSiteName).render();
         AddUsersToSitePage addUsersToSitePage = siteDashboardPage.getSiteNav().selectAddUser().render();
-        addUsersToSite(addUsersToSitePage, siteUserName, UserRole.COLLABORATOR);
+        siteUtil.addUsersToSite(driver, addUsersToSitePage, siteUserName, UserRole.COLLABORATOR);
         logout(driver);
 
         //user sets private site's dashboard as a home page

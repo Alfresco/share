@@ -421,6 +421,7 @@ var AlfrescoUtil =
    },
 
    /**
+    * @deprecated Use share-header.lib.js getPages function
     * @method getPages
     * @param includeUnusedPages IF true all pages will be returned, if false only the pages used by the current site
     * @return the pages used in the site and optionally unused as well, if so at the end of list.

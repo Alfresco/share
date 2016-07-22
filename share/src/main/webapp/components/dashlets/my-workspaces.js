@@ -147,7 +147,7 @@
                siteTitle = oRecord.getData("title"),
                siteDescription = oRecord.getData("description");
             
-            var desc = '<div class="site-title"><a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + siteId + '/dashboard" class="theme-color-1">' + $html(siteTitle) + '</a></div>';
+            var desc = '<div class="site-title"><a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + siteId + '" class="theme-color-1">' + $html(siteTitle) + '</a></div>';
             desc += '<div class="site-description">' + $html(siteDescription) + '</div>';
 
             elCell.innerHTML = desc;

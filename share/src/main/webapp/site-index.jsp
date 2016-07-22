@@ -55,6 +55,6 @@
    else
    {
       // forward to site specific dashboard page
-      response.sendRedirect(request.getContextPath() + "/page/site/" + URLEncoder.encode(siteName) + "/dashboard");
+      response.sendRedirect(request.getContextPath() + "/page/site/" + URLEncoder.encode(siteName));
    }
 %>

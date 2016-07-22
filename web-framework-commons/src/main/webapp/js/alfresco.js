@@ -6208,6 +6208,63 @@ Alfresco.util.navigateTo = function(uri, method, parameters)
 };
 
 /**
+ * Generates a link to a site page using a template
+ *
+ * @method Alfresco.util.siteLink
+ * @param siteId {string} Site short name
+ * @param siteTitle {string} Site display name. "siteId" used if this param is empty or not supplied
+ * @param pageId {string} page name such as "documentlibrary" or "dashboard" or ""
+ * @param linkAttr {string} Optional attributes to add to the <a> tag, e.g. "class"
+ * @param disableLink {boolean} Optional attribute instructing the link to be disabled
+ *                             (ie returning a span element rather than an a href element)
+ * @return {string} The populated HTML Link
+ * @static
+ */
+Alfresco.util.sitePageLink = function(siteId, siteTitle, pageId, linkAttr, disableLink)
+{
+   if (!YAHOO.lang.isString(siteId) || siteId.length === 0)
+   {
+      return "";
+   }
+
+   var html = Alfresco.util.encodeHTML(YAHOO.lang.isString(siteTitle) && siteTitle.length > 0 ? siteTitle : siteId),
+         template = Alfresco.constants.URI_TEMPLATES["sitepage"],
+         uri = "";
+
+   // If the "sitepage" template doesn't exist or is empty, or we're in portlet mode we'll just return the site's title || id
+   if (disableLink || YAHOO.lang.isUndefined(template) || template.length === 0 || Alfresco.constants.PORTLET)
+   {
+      return '<span>' + html + '</span>';
+   }
+
+   // Generate the link
+   uri = Alfresco.util.uriTemplate("sitepage",
+         {
+            site: siteId,
+            pageid: pageId
+         });
+
+   return '<a href="' + uri + '" ' + (linkAttr || "") + '>' + html + '</a>';
+};
+
+/**
+ * Generates a link to a site default page
+ *
+ * @method Alfresco.util.siteDefaultPageLink
+ * @param siteId {string} Site short name
+ * @param siteTitle {string} Site display name. "siteId" used if this param is empty or not supplied
+ * @param linkAttr {string} Optional attributes to add to the <a> tag, e.g. "class"
+ * @param disableLink {boolean} Optional attribute instructing the link to be disabled
+ *                             (ie returning a span element rather than an a href element)
+ * @return {string} The populated HTML Link
+ * @static
+ */
+Alfresco.util.siteDefaultPageLink = function(siteId, siteTitle, linkAttr, disableLink)
+{
+   return Alfresco.util.sitePageLink(siteId, siteTitle, "", linkAttr, disableLink);
+};
+
+/**
  * Generates a link to a site dashboard page
  *
  * @method Alfresco.util.siteDashboardLink
@@ -6221,28 +6278,7 @@ Alfresco.util.navigateTo = function(uri, method, parameters)
  */
 Alfresco.util.siteDashboardLink = function(siteId, siteTitle, linkAttr, disableLink)
 {
-   if (!YAHOO.lang.isString(siteId) || siteId.length === 0)
-   {
-      return "";
-   }
-
-   var html = Alfresco.util.encodeHTML(YAHOO.lang.isString(siteTitle) && siteTitle.length > 0 ? siteTitle : siteId),
-         template = Alfresco.constants.URI_TEMPLATES["sitedashboardpage"],
-         uri = "";
-
-   // If the "sitedashboardpage" template doesn't exist or is empty, or we're in portlet mode we'll just return the site's title || id
-   if (disableLink || YAHOO.lang.isUndefined(template) || template.length === 0 || Alfresco.constants.PORTLET)
-   {
-      return '<span>' + html + '</span>';
-   }
-
-   // Generate the link
-   uri = Alfresco.util.uriTemplate("sitedashboardpage",
-         {
-            site: siteId
-         });
-
-   return '<a href="' + uri + '" ' + (linkAttr || "") + '>' + html + '</a>';
+   return Alfresco.util.sitePageLink(siteId, siteTitle, "dashboard", linkAttr, disableLink);
 };
 
 /**

@@ -560,7 +560,7 @@
                description = $links($html(site.description));
             }
 
-            desc += '<h3 class="site-title"><a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + site.shortName + '/dashboard" class="theme-color-1">' + $html(site.title) + '</a></h3>';
+            desc += '<h3 class="site-title"><a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + site.shortName + '" class="theme-color-1">' + $html(site.title) + '</a></h3>';
             desc += '<div class="detail"><span>' + description + '</span></div>';
 
             /* Favourite / IMAP */

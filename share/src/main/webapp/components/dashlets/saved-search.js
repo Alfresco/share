@@ -99,7 +99,7 @@
          var siteId = this.options.siteId;
          if (!(siteId && siteId != null))
          {
-            desc = resultType + ' ' + this.msg("message.insite") + ' <a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + siteShortName + '/dashboard">' + $html(siteTitle) + '</a>';
+            desc = resultType + ' ' + this.msg("message.insite") + ' <a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + siteShortName + '">' + $html(siteTitle) + '</a>';
          }
 
          return desc;
