@@ -62,7 +62,7 @@ public class AddUsersToSitePageTest extends AbstractTest
 
     @BeforeClass(groups = "Enterprise-only")
     public void createSite() throws Exception
-    {
+    {    
         dashBoard = loginAs(username, password);
         CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
         createSitePage.createNewSite(siteName, siteName, true, false).render();
@@ -299,6 +299,9 @@ public class AddUsersToSitePageTest extends AbstractTest
         siteDashBoard = siteFinderPage.selectSite(siteName).render();
 
         Assert.assertEquals(siteDashBoard.getPageTitle(), siteName);
+        
+        //check that added user cannot delete the site from the site configuration drop down
+        Assert.assertFalse(siteDashBoard.getSiteNav().isDeleteSiteDisplayed());
 
         logout(driver);
 

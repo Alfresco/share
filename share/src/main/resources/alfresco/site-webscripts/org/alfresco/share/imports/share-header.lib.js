@@ -1306,6 +1306,24 @@ function getTitleBarModel() {
                   }
                },
                {
+                  id: "HEADER_DELETE_SITE",
+                  name: "alfresco/menus/AlfMenuItem",
+                  config: {
+                     id: "HEADER_DELETE_SITE",
+                     label: "delete_site.label",
+                     iconClass: "alf-delete-20-icon",
+                     publishTopic: "ALF_DELETE_SITE",
+                     publishPayload: {
+                        shortName: page.url.templateArgs.site,
+                        redirect: {
+                           url: "user/" + encodeURIComponent(user.name) + "/dashboard",
+                           type: "PAGE_RELATIVE",
+                           target: "CURRENT"
+                        }
+                     }
+                  }
+               },
+               {
                   id: "HEADER_LEAVE_SITE",
                   name: "alfresco/menus/AlfMenuItem",
                   config: {

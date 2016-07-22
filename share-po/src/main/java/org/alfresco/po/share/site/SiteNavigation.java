@@ -316,6 +316,17 @@ public class SiteNavigation extends AbstractSiteNavigation
     }
 
     /**
+     * Check if Delete Site link is displayed in the site configuration drop down
+     * 
+     * @return
+     */
+    public boolean isDeleteSiteDisplayed()
+    {
+        selectConfigure();
+        return isLinkDisplayed(DELETE_SITE);
+    }
+
+   /**
      * Mimics the action of join Site.
      * 
      * @return {@link DashBoardPage}
@@ -335,6 +346,19 @@ public class SiteNavigation extends AbstractSiteNavigation
         throw new PageException("Not able to find Join Site Link.");
     }
 
+    /**
+     * Mimics the action of clicking on Delete Site link in site configuration drop down.
+     *
+     * @return {@link DeleteSitePage}
+     */
+    public HtmlPage selectDeleteSite()
+    {
+        selectConfigure();
+        driver.findElement(DELETE_SITE).click();
+        driver.findElement(By.xpath("//span[text()='OK']")).click();
+        return getCurrentPage();
+    }
+    
     /**
      * Mimics the action of leave Site.
      * 
