@@ -57,6 +57,19 @@
       PREF_GALLERY_COLUMNS = PREFERENCES_DOCLIST + ".galleryColumns";
 
    /**
+    * Polyfill for ES6 String.prototype.startsWith() (IE11 compatibility)
+    * @see MNT-16389
+    */
+   if (!String.prototype.startsWith) 
+   {
+       String.prototype.startsWith = function(searchString, position) 
+       {
+           position = position || 0;
+           return this.substr(position, searchString.length) === searchString;
+       };
+   }
+
+   /**
     * Document Library Drag and Drop object declaration.
     */
    Alfresco.DnD = function(id, docLib, sGroup, config)
