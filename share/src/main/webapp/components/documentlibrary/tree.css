@@ -41,20 +41,10 @@
    white-space: nowrap;
 }
 
-.treeview .ygtverror,
-.treeview .ygtverror:link,
-.treeview .ygtverror:visited,
-.treeview .ygtverror:hover
-{
-   background: red;
-   color: white;
-}
-
 .treeview .selected
 {
    background-color: #e1f0fa;
 }
-
 
 .treeview .ygtvtable 
 {

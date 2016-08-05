@@ -138,10 +138,8 @@ h3.dark
 
 .alfresco-share .sticky-wrapper .error-alt
 {
-   background-color: red !important;
-   color: white !important;
-   font-weight: bold;
-   padding: 0.2em 1em;
+   margin: 0.33em 1.2em;
+   display: inline-block;
 }
 
 .light
