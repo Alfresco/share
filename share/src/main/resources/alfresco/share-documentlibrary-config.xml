@@ -809,6 +809,12 @@
          <action type="action-link" id="onActionCloudSync" asset="document" icon="document-cloud-sync"  permission="CreateChildren" label="menu.selected-items.cloudSync" notAspect="sync:syncSetMemberNode,smf:smartFolder,smf:smartFolderChild" syncMode="ON_PREMISE" />
          <action type="action-link" id="onActionCloudSyncRequest" icon="document-request-sync" label="menu.selected-items.cloudRequestSync" hasAspect="sync:syncSetMemberNode" notAspect="smf:smartFolder,smf:smartFolderChild" syncMode="ON_PREMISE" />
       </multi-select>
+      
+      <!--
+       Enables lazy loading of filmstrip items of type IMAGE. Instead of loading all the images 
+       when the folder is opened, only load upon demand, i.e. when a thumbnail is clicked
+      -->
+      <filmstripImageLazyLoading>true</filmstripImageLazyLoading>
 
    </config>
 

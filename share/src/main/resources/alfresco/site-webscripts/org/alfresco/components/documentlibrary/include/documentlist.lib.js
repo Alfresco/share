@@ -284,4 +284,5 @@ function doclibCommon()
    model.viewCssDeps = viewData.deps.css;
    model.commonComponentStyle = viewData.commonComponentStyle;
    model.suppressComponent = viewData.suppressComponent;
+   model.filmstripImageLazyLoading = DocumentList.getConfigValue("DocumentLibrary", "filmstripImageLazyLoading");
 }
