@@ -1113,7 +1113,7 @@ function getPageTitle() {
       var siteData = getSiteData();
       if (siteData != null)
       {
-         pageTitle = siteData.profile.title;
+         pageTitle = siteData.profile.title ? siteData.profile.title : page.url.templateArgs.site;
       }
    }
    else
