@@ -238,6 +238,9 @@
                <show id="cm:modifier" for-mode="view" />
                <show id="cm:modified" for-mode="view" />                       
                
+                <!-- cm:ownable aspect -->
+               <show id="cm:owner" />
+               
                <!-- tags and categories -->
                <show id="cm:taggable" for-mode="edit" force="true" />
                <show id="cm:categories" />
