@@ -1937,3 +1937,7 @@ table.mceLayout
 .alf-site-visibility span {
    vertical-align: baseline;
 }
+
+.dijitTooltipContainer .alfresco-html-Label {
+   vertical-align: baseline;
+}
