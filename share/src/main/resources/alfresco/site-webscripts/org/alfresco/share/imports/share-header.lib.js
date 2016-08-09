@@ -1633,6 +1633,13 @@ function getHeaderModel(pageTitle) {
       };
       headerMenus.appItems.push(loggingWidget);
    }
+   
+   var siteTitle = null;
+   var siteData = getSiteData();
+   if (siteData != null)
+   {
+      siteTitle = siteData.profile.title;
+   }
 
    // Get the user and group data and generate a "currentItem" for it so that render filtering
    // can be applied based on group membership...
@@ -1671,6 +1678,8 @@ function getHeaderModel(pageTitle) {
                config: {
                   id: "HEADER_SEARCH_BOX",
                   site: page.url.templateArgs.site,
+                  siteName: siteTitle,
+                  enableContextLiveSearch: true,
                   linkToFacetedSearch: true,
                   sitePage: ""
                }
