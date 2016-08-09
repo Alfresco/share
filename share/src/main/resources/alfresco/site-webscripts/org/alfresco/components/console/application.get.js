@@ -40,6 +40,9 @@ function main()
    model.widgets = [widget];
    var editionInfo = context.properties["editionInfo"].edition;
    model.isEnterprise = "ENTERPRISE" == editionInfo;
+
+   var alfEndpointUrl = remote.getEndpointURL("alfresco");
+   model.platUrl = alfEndpointUrl.substr(0, alfEndpointUrl.lastIndexOf("/"));
 }
 
 main();
