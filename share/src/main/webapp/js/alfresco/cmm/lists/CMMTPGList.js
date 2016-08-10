@@ -55,7 +55,16 @@ define(["dojo/_base/declare",
        */
       updateLoadDataPayload: function cmm_lists_CMMTPGList__updateLoadDataPayload(payload) {
          this.inherited(arguments);
-         this.loadDataPublishPayload = payload;
+         
+         var name = lang.getObject("name", false, payload),
+             type = lang.getObject("type", false, payload),
+             propertygroup = lang.getObject("propertygroup", false, payload);
+
+         this.loadDataPublishPayload = {
+            name: name,
+            type: type,
+            propertygroup: propertygroup
+         };
       },
 
       /**
