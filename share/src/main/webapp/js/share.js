@@ -2390,7 +2390,8 @@ var DASHLET_TITLE_BAR_ACTIONS_OPACITY = 0,
       pageUsesAjaxState: function FormManager_pageUsesAjaxState(url)
       {
          return (url.match(/documentlibrary([?]|$)/) ||
-               url.match(/repository([?]|$)/));
+               url.match(/repository([?]|$)/) ||
+               url.match(/faceted-search([?]|$)/));
       },
 
       /**
