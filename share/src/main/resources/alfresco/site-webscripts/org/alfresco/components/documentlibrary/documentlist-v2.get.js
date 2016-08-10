@@ -56,7 +56,8 @@ function widgets()
          userIsSiteManager : model.userIsSiteManager,
          associatedToolbar: { _alfValue: "docListToolbar", _alfType: "REFERENCE" },
          commonComponentStyle : model.commonComponentStyle,
-         suppressComponent : model.suppressComponent
+         suppressComponent : model.suppressComponent,
+         filmstripImageLazyLoading: model.filmstripImageLazyLoading == "true"
       }
    };
    if (model.repositoryUrl != null)
