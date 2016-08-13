@@ -26,14 +26,15 @@
 package org.alfresco.po.share.site.document;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.alfresco.po.AbstractTest;
-
 import org.alfresco.po.share.enums.Encoder;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
-
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -111,7 +112,49 @@ public class DetailsPageTest extends AbstractTest
         siteUtil.deleteSite(username, password, siteName);
     }
 
-    @Test (groups = {"alfresco-one"})
+    @Test(groups = { "alfresco-one" })
+    public void deleteFileWithVersionableAspectUsingWebdav() throws Exception
+    {
+        SitePage page = resolvePage(driver).render();
+        DocumentLibraryPage documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
+        
+        //create plain text file
+        String fileWithVersionableAspectName = "plainTextFileWithVersionableAspect" + System.currentTimeMillis();
+        CreatePlainTextContentPage contentPage = documentLibPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
+        ContentDetails contentDetails = new ContentDetails();
+        contentDetails.setName(fileWithVersionableAspectName);
+        contentDetails.setTitle("Text File With Versionable Aspect Title");
+        contentDetails.setDescription("Text File With Versionable Aspect Description");
+        contentDetails.setContent("Text File With Versionable Aspect Content");
+        DocumentDetailsPage detailsPage = contentPage.create(contentDetails).render();
+        Assert.assertNotNull(detailsPage);
+        
+        //add versionable ascpect to the file
+        SelectAspectsPage aspectsPage = detailsPage.selectManageAspects().render();
+        List<DocumentAspect> aspects = new ArrayList<DocumentAspect>();
+        aspects.add(DocumentAspect.VERSIONABLE);
+        aspectsPage = aspectsPage.add(aspects).render();
+        Assert.assertFalse(aspectsPage.getAvailableSystemAspects().contains(DocumentAspect.VERSIONABLE));
+        detailsPage = aspectsPage.clickApplyChanges().render();
+        documentLibPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
+        Assert.assertTrue(documentLibPage.isFileVisible(fileWithVersionableAspectName));
+        
+        //delete file with versionable aspect using webdav
+        String fileWebdavUrl = "http://" + InetAddress.getLocalHost().getHostName() + ":8080/alfresco/webdav/Sites/" + siteName + "/documentLibrary/" + fileWithVersionableAspectName;
+        int response = executeDeleteRequest(fileWebdavUrl, username, password);
+
+        //check the http response
+        Assert.assertEquals(response, 200);
+
+        //wait for webdav to delete file and then check the file is not present in document library 
+        Thread.sleep(solrWaitTime);
+        page = resolvePage(driver).render();
+        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
+        Assert.assertFalse(documentLibPage.isFileVisible(fileWithVersionableAspectName));
+       
+    }
+            
+    @Test (dependsOnMethods = "deleteFileWithVersionableAspectUsingWebdav", groups = {"alfresco-one"})
     public void isCommentSectionPresent() throws Exception
     {
         folderDetails = documentLibPage.getFileDirectoryInfo(folderName).selectViewFolderDetails().render();
@@ -232,9 +275,8 @@ public class DetailsPageTest extends AbstractTest
     @Test(dependsOnMethods="isAddCommentButtonPresent", groups = { "Enterprise4.2" })
     public void isLinkPresentForDocumentTest() throws Exception
     {
-
         DocumentDetailsPage docDetails = resolvePage(driver).render();
-           
+        
         Assert.assertTrue(docDetails.isDocumentActionPresent(DocumentAction.COPY_TO), "Copy to is not present");
         Assert.assertTrue(docDetails.isDocumentActionPresent(DocumentAction.MOVE_TO), "Move to is not present");
         Assert.assertTrue(docDetails.isDocumentActionPresent(DocumentAction.DELETE_CONTENT), "Delete is not present");

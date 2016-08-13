@@ -59,6 +59,12 @@ import org.alfresco.po.share.util.SiteUtil;
 import org.alfresco.po.share.workflow.MyWorkFlowsPage;
 import org.alfresco.selenium.FetchUtil;
 import org.alfresco.test.AlfrescoTests;
+import org.apache.commons.httpclient.Credentials;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -384,4 +390,22 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
         return hasUser;
     }
     
+    /**
+     * Executes delete request
+     * 
+     * @param url
+     * @param username
+     * @param password
+     * @return
+     * @throws HttpException
+     * @throws IOException
+     */
+    protected int executeDeleteRequest(String url, String username, String password) throws HttpException, IOException
+    {
+        HttpClient client = new HttpClient();
+        Credentials defaultcreds = new UsernamePasswordCredentials(username, password);
+        client.getState().setCredentials(AuthScope.ANY, defaultcreds);
+        DeleteMethod method = new DeleteMethod(url);
+        return client.executeMethod(method); 
+    }
 }
