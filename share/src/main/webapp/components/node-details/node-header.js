@@ -323,7 +323,6 @@
          else
          {
             var nodeHeader = YAHOO.util.Dom.getElementsByClassName("node-header")[0];
-            YAHOO.util.Dom.setStyle(nodeHeader, 'min-height', "2em");
          }
       },
 
