@@ -2,8 +2,8 @@
     <div id="${el}-controls" class="controls flat-button">
     
         <div class="sidebarBtn">
-            <button id="${el}-sidebarBtn" disabled="disabled">
-                <img src="${url.context}/res/components/preview/images/sidebar-show-flat-16.png" align="top" height="16" title="${msg("button.sidebar")}" />
+            <button id="${el}-sidebarBtn" disabled="disabled" title="${msg("button.sidebar")}">
+                <img src="${url.context}/res/components/preview/images/sidebar-show-flat-16.png" align="top" height="16" />
             </button>
         </div>
       
@@ -26,7 +26,7 @@
             </#list>
             </select>
         <#elseif item.type == "number">
-            <input type="number"<#if item.id??> id="${el}-${item.id}"</#if> value="1" size="4" min="1"<#if item.disabled?? && item.disabled> disabled="disabled"</#if> />
+            <input style="height:1em" type="number"<#if item.id??> id="${el}-${item.id}"</#if> value="1" size="4" min="1"<#if item.disabled?? && item.disabled> disabled="disabled"</#if> />
         <#elseif item.type == "span">
             <span<#if item.id??> id="${el}-${item.id}"</#if><#if item.className??> class="${item.className}"</#if>><#if item.text??>${item.text}</#if></span>
         <#elseif item.type == "separator">
