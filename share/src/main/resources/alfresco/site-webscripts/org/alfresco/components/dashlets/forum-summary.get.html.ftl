@@ -37,7 +37,7 @@
                </#if>
                </#list>
 
-               <#if siteId != "" && userMembership.role != "SiteConsumer">
+               <#if siteId != "" && (userMembership.isMember && userMembership.role != "SiteConsumer" || user.isAdmin)>
                <span class="align-right yui-button yui-push-button yui-button-align new-topic">
                   <span class="first-child">
                      <a href="${url.context}/page/site/${siteId}/discussions-createtopic" class="theme-color-1">${msg("newTopic.button")}</a>
