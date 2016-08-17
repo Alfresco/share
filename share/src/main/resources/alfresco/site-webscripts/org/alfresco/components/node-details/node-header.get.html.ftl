@@ -125,6 +125,8 @@
                   </span>
                   </#if>
                </div>
+               <#else>
+               </div>
                </#if>
                <div class="clear"></div>
             </div>
