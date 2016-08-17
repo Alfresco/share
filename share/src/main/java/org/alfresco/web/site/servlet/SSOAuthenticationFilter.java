@@ -519,17 +519,6 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
             return;
         }
         
-        // Check if the browser is Opera, if so then display the login page as Opera does not
-        // support NTLM and displays an error page if a request to use NTLM is sent to it
-        String userAgent = req.getHeader("user-agent");
-        if (userAgent != null && userAgent.indexOf("Opera ") != -1)
-        {
-            if (debug) logger.debug("Opera detected, redirecting to login page");
-
-            redirectToLoginPage(req, res);
-            return;
-        }
-        
         // If userHeader (X-Alfresco-Remote-User or similar) external auth - does not require a challenge/response
         if (this.userHeader != null)
         {
