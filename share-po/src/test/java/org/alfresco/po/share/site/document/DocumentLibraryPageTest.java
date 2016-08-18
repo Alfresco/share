@@ -306,10 +306,10 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "isContentUploadedSucessfulTest", groups = { "alfresco-one" })
     public void testGetPreviewUrl()
     {
-        String urlRegexp = "^http(s?)://((\\w+\\.)?\\w+\\.\\w+|((2[0-5]{2}|1[0-9]{2}|[0-9]{1,2})\\.){3}(2[0-5]{2}|1[0-9]{2}|[0-9]{1,2})):[0-9]{0,4}(/).+";
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
         FileDirectoryInfo fileDirectoryInfo = documentLibPage.getFileDirectoryInfo(file3.getName());
-        assertTrue(fileDirectoryInfo.getPreViewUrl().matches(urlRegexp));
+        String filePreviewUrl = fileDirectoryInfo.getPreViewUrl();
+        assertTrue(filePreviewUrl.startsWith(shareUrl),"URL Found: " + filePreviewUrl + "Share URL: " + shareUrl);
     }
 
     @Test(dependsOnMethods = "testGetPreviewUrl", groups = { "alfresco-one" })
