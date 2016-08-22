@@ -1930,4 +1930,9 @@ table.mceLayout
 
 .alf-site-visibility span {
    vertical-align: baseline;
+   cursor: help;
+}
+
+.dijitTooltipContainer .alfresco-html-Label {
+   vertical-align: baseline;
 }
