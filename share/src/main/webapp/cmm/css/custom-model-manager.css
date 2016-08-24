@@ -172,6 +172,7 @@
 
 #FORM_EDITOR_CONSOLE #PROPERTY_PALETTE {
    min-width: 180px;
+   min-height: 42px;
 }
 #FORM_EDITOR_CONSOLE #PROPERTY_PALETTE > div.info {
    margin: 0;
@@ -188,7 +189,7 @@
 }
 #FORM_EDITOR_CONSOLE #PROPERTY_PALETTE .palette {
    border: none;
-   margin-top: 38px;
+   margin-top: 12px;
 }
 
 #FORM_EDITOR_CONSOLE .alfresco-dnd-DragAndDropItems .palette {
@@ -280,6 +281,7 @@
 
 #FORM_EDITOR_CONSOLE .alfresco-dnd-DragAndDropItems .palette .dojoDndItem {
    padding: 0;
+   border: none;
 }
 #FORM_EDITOR_CONSOLE .alfresco-dnd-DragAndDropItems .palette .alfresco-dnd-DragAndDropItem {
    margin: 0px 4px 6px 2px;
