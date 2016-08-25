@@ -328,6 +328,7 @@
          [
             { key: "userName", label: "User Name", sortable: false, formatter: this.bind(this.renderCellAvatar), width: 64 },
             { key: "bio", label: "Bio", sortable: false, formatter: this.bind(this.renderCellDescription) },
+            { key: "info", label: "Info", sortable: false, formatter: this.bind(this.renderCellInfo) },
             { key: "role", label: "Select Role", formatter: this.bind(this.renderCellRoleSelect), width: 140 },
             { key: "uninvite", label: "Uninvite", formatter: this.bind(this.renderCellUninvite)}
          ];
@@ -432,6 +433,27 @@
          }
 
          elCell.innerHTML = desc;
+      },
+      
+      /**
+       * Info custom datacell formatter
+       *
+       * @method renderCellInfo
+       * @param elCell {object}
+       * @param oRecord {object}
+       * @param oColumn {object}
+       * @param oData {object|string}
+       */
+      renderCellInfo: function SiteMembers_renderCellInfo(elCell, oRecord, oColumn, oData)
+      {
+         Dom.setStyle(elCell.parentNode, "text-align", "right");
+         
+         var inGroup = oRecord.getData("isMemberOfGroup");
+         if (inGroup)
+         {
+            // create HTML for information tooltip
+            elCell.innerHTML = '<span class="alf-site-visibility info" title="' + this.msg('message.group-info') + '">' + this.msg('site-members.group') + '</span>';
+         }
       },
 
       /**
@@ -623,9 +645,8 @@
                text: this.msg("site-members.remove-success", user)
             });
          
-            // remove the entry
-            var recordIndex = this.widgets.dataTable.getRecordIndex(event.target.id);
-            this.widgets.dataTable.deleteRow(recordIndex);
+            // update after a successful operation
+            this.onSearch();
          };
          
          // request failure handler
@@ -693,10 +714,8 @@
                   effect: null
                });
 
-               // update the data and table
-               var data = this.widgets.dataTable.getRecord(userRole.recordIndex).getData();
-               data.role = args.newRole;
-               this.widgets.dataTable.updateRow(userRole.recordIndex, data);
+               // update after a successful operation
+               this.onSearch();
             };
 
             // request failure handler
@@ -757,7 +776,6 @@
             }
          }
       },
-
       
       /**
        * Resets the YUI DataTable errors to our custom messages

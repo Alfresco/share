@@ -140,3 +140,9 @@
    padding: 0px 10px;
    min-width: 6.5em
 }
+
+.site-members span.info
+{
+   margin-top: 0;
+   cursor: help;
+}
