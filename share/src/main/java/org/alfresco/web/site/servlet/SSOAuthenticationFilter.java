@@ -96,6 +96,7 @@ import org.springframework.extensions.webscripts.connector.ConnectorContext;
 import org.springframework.extensions.webscripts.connector.ConnectorService;
 import org.springframework.extensions.webscripts.connector.Response;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.util.WebUtils;
 
 /**
  * SSO Authentication Filter Class for web-tier, supporting NTLM and Kerberos challenges from the repository tier.
@@ -677,24 +678,27 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
             final byte[] authHdrByts = authHdr.substring(5).getBytes();
             final byte[] ntlmByts = Base64.decode(authHdrByts);
             int ntlmTyp = NTLMMessage.isNTLMType(ntlmByts);
+            Object sessionMutex = WebUtils.getSessionMutex(session);
             
             if (ntlmTyp == NTLM.Type1)
             {
                 if (debug)
                     logger.debug("Process the type 1 NTLM message.");
                 Type1NTLMMessage type1Msg = new Type1NTLMMessage(ntlmByts);
-                
-                // Start with a fresh session
-                clearSession(session);
-                session = req.getSession();
-                processType1(type1Msg, req, res, session);
+                synchronized (sessionMutex)
+                {
+                    processType1(type1Msg, req, res, session);
+                }
             }
             else if (ntlmTyp == NTLM.Type3)
             {
                 if (debug)
                     logger.debug("Process the type 3 NTLM message.");
                 Type3NTLMMessage type3Msg = new Type3NTLMMessage(ntlmByts);
-                processType3(type3Msg, req, res, session, chain);
+                synchronized (sessionMutex)
+                {
+                    processType3(type3Msg, req, res, session, chain);
+                }
             }
             else
             {
@@ -965,7 +969,7 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
         NTLMLogonDetails ntlmDetails = (NTLMLogonDetails)session.getAttribute(NTLM_AUTH_DETAILS);
         
         // Check if cached logon details are available
-        if (ntlmDetails != null && ntlmDetails.hasType2Message() && ntlmDetails.hasNTLMHashedPassword())
+        if (ntlmDetails != null && ntlmDetails.hasType2Message())
         {
             // Get the authentication server type2 response
             Type2NTLMMessage cachedType2 = ntlmDetails.getType2Message();
