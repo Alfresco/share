@@ -422,6 +422,9 @@ define(["dojo/_base/declare",
             successCallback: function(res) {
                // augment response to add parent model name and the model status
                var models = res.list.entries;
+               models.sort(function (a, b) {
+                  return (a.entry.name < b.entry.name) ? -1 : 1;
+               });
                for (var i=0; i<models.length; i++)
                {
                   models[i].entry.statusLabel = this.message(models[i].entry.status === 'ACTIVE' ? "cmm.label.status.grid.active" : "cmm.label.status.grid.draft");
