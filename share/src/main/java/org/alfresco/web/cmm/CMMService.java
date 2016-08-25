@@ -307,6 +307,7 @@ public abstract class CMMService extends DeclarativeWebScript
                          " - using data:\n" + (data != null ? data.toJSONString() : "null"));
         
         // pre operation business logic
+        Map<String, String> updatedForms = null;
         Response preResponse = null;
         switch (opId)
         {
@@ -317,6 +318,36 @@ public abstract class CMMService extends DeclarativeWebScript
                 JSONObject model = getModel(modelName);
                 String prefix = (String) model.get("namespacePrefix");
                 preResponse = getConnector().call("/api/dictionary?model=" + URLEncoder.encode(prefix) + ":" + URLEncoder.encode(modelName));
+                break;
+            }
+            
+            case OP_EDIT_MODEL:
+            {
+                // if a model has form definitions, they may need updating to ensure a modified Model Prefix is applied
+                // to the widget IDs within the forms - we use the "prefix:field" approach for widget IDs for form elements
+                JSONObject model = getModel(modelName);
+                String oldPrefix = (String) model.get("namespacePrefix");
+                String newPrefix = (String) data.get("namespacePrefix");
+                // if the prefix has changed then the IDs of the widgets in the form definitions will now be incorrect
+                if (!newPrefix.equals(oldPrefix))
+                {
+                    ExtensionModule module = getExtensionModule(modelName);
+                    if (module != null)
+                    {
+                        // retrieve existing form definitions from extension configuration
+                        updatedForms = getFormDefinitions(module);
+                        if (updatedForms.size() != 0)
+                        {
+                            for (String formId: updatedForms.keySet())
+                            {
+                                // modify the form JSON string - we want to replace "oldprefix:fieldid" with "newprefix:fieldid" to
+                                // ensure the widget IDs in the form will match the expected namespace ID of the custom model
+                                String form = updatedForms.get(formId);
+                                updatedForms.put(formId, form.replace("\"id\":\"" + oldPrefix + ":", "\"id\":\"" + newPrefix + ":"));
+                            }
+                        }
+                    }
+                }
                 break;
             }
         }
@@ -390,6 +421,12 @@ public abstract class CMMService extends DeclarativeWebScript
                 case OP_EDIT_MODEL:
                 {
                     // NOTE: no need to update Dictionary - only deactivated models can be edited
+                    
+                    // updating to ensure form definitions are updated after a Model Prefix change 
+                    if (updatedForms != null && updatedForms.size() != 0)
+                    {
+                        buildExtensionModule(status, modelName, new FormOperation(FormOperationEnum.Create, updatedForms), false);
+                    }
                     break;
                 }
                 
@@ -402,7 +439,6 @@ public abstract class CMMService extends DeclarativeWebScript
                     deleteExtensionModule(status, modelName);
                     
                     // NOTE: no need to update Dictionary - only inactive models can be deleted and therefore already processed
-                    
                     break;
                 }
                 
