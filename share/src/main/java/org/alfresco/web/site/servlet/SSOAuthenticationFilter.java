@@ -86,6 +86,7 @@ import org.springframework.extensions.surf.RequestContextUtil;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.exception.ConnectorServiceException;
 import org.springframework.extensions.surf.exception.PlatformRuntimeException;
+import org.springframework.extensions.surf.mvc.PageViewResolver;
 import org.springframework.extensions.surf.site.AuthenticationUtil;
 import org.springframework.extensions.surf.types.Page;
 import org.springframework.extensions.surf.util.Base64;
@@ -132,6 +133,7 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
     private static final String ERROR_PARAMETER = "error";
     private static final String IGNORE_LINK = "/accept-invite";
     private static final String UNAUTHENTICATED_ACCESS_PROXY = "/proxy/alfresco-noauth";
+    private static final String PAGE_VIEW_RESOLVER = "pageViewResolver";
     
     private ConnectorService connectorService;
     private String endpoint;
@@ -473,7 +475,8 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
         }
         
         // external invitation link should not trigger any SSO
-        if (PAGE_SERVLET_PATH.equals(req.getServletPath()) && IGNORE_LINK.equals(req.getPathInfo()))
+        String pathInfo = req.getPathInfo();
+        if (PAGE_SERVLET_PATH.equals(req.getServletPath()) && IGNORE_LINK.equals(pathInfo))
         {
             if (debug)
                 logger.debug("SSO is by-passed for external invitation link.");
@@ -484,9 +487,8 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
         if (debug) logger.debug("Processing request " + req.getRequestURI() + " SID:" + session.getId());
         
         // Login page or login submission
-        String pathInfo;
         if (PAGE_SERVLET_PATH.equals(req.getServletPath())
-                && (LOGIN_PATH_INFORMATION.equals(pathInfo = req.getPathInfo()) || pathInfo == null
+                && (LOGIN_PATH_INFORMATION.equals(pathInfo) || pathInfo == null
                         && LOGIN_PARAMETER.equals(req.getParameter("pt"))))
         {
             if (debug)
@@ -512,6 +514,27 @@ public class SSOAuthenticationFilter implements Filter, CallbackHandler
 
         // get the page from the model if any - it may not require authentication
         Page page = context.getPage();
+        if (page == null && pathInfo != null)
+        {
+            // we didn't find a page - this may be a top-level URL call - so attempt to manually resolve the page
+            PageViewResolver pageViewResolver = (PageViewResolver)getApplicationContext().getBean(PAGE_VIEW_RESOLVER);
+            if (pageViewResolver != null)
+            {
+                try
+                {
+                    // as a side-effect of resolving the view ID into an View object
+                    // the Page context will be updated on the request context for us
+                    if (pageViewResolver.resolveViewName(pathInfo, null) != null)
+                    {
+                        page = context.getPage();
+                    }
+                }
+                catch (Exception e)
+                {
+                    // OK to fall back to null page reference if this happens
+                }
+            }
+        }
         if (page != null && page.getAuthentication() == RequiredAuthentication.none)
         {
             if (logger.isDebugEnabled())
