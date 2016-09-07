@@ -28,6 +28,7 @@ function widgets()
       options: {
          siteId: "",
          rootNode: rootNode,
+         repositoryRoot: rootNode,
          hideNavBar: Boolean(toolbar.preferences.hideNavBar),
          repositoryBrowsing: toolbar.rootNode != null,
          useTitle: (useTitle == "true"),
@@ -44,6 +45,7 @@ function widgets()
          siteId : "",
          containerId : "documentLibrary",
          rootNode : rootNode,
+         repositoryRoot : rootNode,
          usePagination : (args.pagination == "true"),
          sortAscending : (model.preferences.sortAscending != null ? model.preferences.sortAscending : true),
          sortField : model.preferences.sortField != null ? model.preferences.sortField : "cm:name",

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2016 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -743,7 +743,7 @@
 
          if (!(this.options.viewMode in allowedViewModes))
          {
-            this.options.viewMode = this.options.allowedViewModes[0];
+            this.options.viewMode = parseInt(Object.keys(allowedViewModes)[0]);
          }
          for (var i = 0, ii = modeButtons.length; i < ii; i++)
          {
@@ -1482,7 +1482,7 @@
             {
                uriTemplate += "slingshot/doclib/treenode/node/alfresco/company/home{path}";
                uriTemplate += "?children={evaluateChildFoldersRepo}";
-               uriTemplate += "&libraryRoot={rootNode}";
+               uriTemplate += "&libraryRoot={repositoryRoot}";
             }
             uriTemplate += "&max={maximumFolderCountRepo}";
          }
@@ -1492,6 +1492,7 @@
             site: encodeURIComponent(this.options.siteId),
             container: encodeURIComponent(this.options.containerId),
             rootNode: this.options.rootNode,
+            repositoryRoot: this.options.repositoryRoot ? this.options.repositoryRoot : this.options.rootNode,
             userHome: (this.options.userHome || "").replace(":/", ""),
             sharedRoot: this.options.sharedRoot,
             sharedRootPath: this.options.sharedRoot.replace(":/", ""),
