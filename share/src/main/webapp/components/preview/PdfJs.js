@@ -41,8 +41,8 @@
    // IE does not support const
    var K_UNKNOWN_SCALE = 0;
    var K_CSS_UNITS = 96.0 / 72.0;
-   var K_MIN_SCALE = 0.25;
-   var K_MAX_SCALE = 4.0;
+   var K_MIN_SCALE = 0.05;
+   var K_MAX_SCALE = 5.0;
 
    /**
     * YUI aliases
@@ -2486,13 +2486,9 @@
                   {
                      scale = tpw;
                   }
-                  else if (opw > minScale)
-                  {
-                     scale = opw;
-                  }
                   else
                   {
-                     scale = minScale;
+                     scale = opw;
                   }
                   // Make sure that the page is not zoomed in *too* far. 
                   // A limit of 125% max zoom is the default for the main view.
