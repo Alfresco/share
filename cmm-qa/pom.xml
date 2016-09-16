@@ -114,7 +114,18 @@
             <groupId>org.alfresco.test</groupId>
             <artifactId>alfresco-api-test-utils</artifactId>
             <version>${alfresco.api.utils.version}</version>
-        </dependency>   
+        </dependency>
+		<dependency>
+			<groupId>org.alfresco</groupId>
+			<artifactId>alfresco-remote-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.alfresco</groupId>
+			<artifactId>alfresco-remote-api</artifactId>
+			<version>${project.version}</version>
+			<classifier>tests</classifier>
+		</dependency>
         <dependency>
             <groupId>org.alfresco.test</groupId>
             <artifactId>alfresco-testng</artifactId>
