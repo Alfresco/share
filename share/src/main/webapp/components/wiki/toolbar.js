@@ -522,10 +522,10 @@
          {
             var defaultKey = "rename.failure",
                statusKey = defaultKey + "." + e.serverResponse.status,
-               text = $msg(statusKey, pageTitle);
+               text = $msg(statusKey, e.config.dataObj.name);
             if (statusKey == text)
             {
-               text = $msg(defaultKey, pageTitle)
+               text = $msg(defaultKey, e.config.dataObj.name)
             }
             Alfresco.util.PopupManager.displayPrompt(
             {
