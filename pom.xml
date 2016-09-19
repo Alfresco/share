@@ -30,7 +30,7 @@
         <version.minor>1</version.minor>
         <version.revision>1</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>5.1.1-SNAPSHOT</alfresco.platform.version>
+        <alfresco.platform.version>5.1.1</alfresco.platform.version>
 
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -XX:MaxPermSize=256m -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
@@ -314,7 +314,7 @@
 				<configuration>
 					<serverId>alfresco-internal-staging</serverId>
 					<nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
-					<stagingProfileId>${release.staging.profile}</stagingProfileId>
+					<stagingProfileId>${hotfix.staging.profile}</stagingProfileId>
 					<stagingDescription>Staging Share ${project.version} (${bamboo_buildResultKey} ${bamboo_planRepository_revision})</stagingDescription>
 					<tags>
 						<build.number>${bamboo_buildNumber}</build.number>
