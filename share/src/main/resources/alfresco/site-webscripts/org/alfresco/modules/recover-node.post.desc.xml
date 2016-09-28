@@ -1,0 +1,11 @@
+<webscript>
+   <shortname>Recover Node Repository Call</shortname>
+   <description>
+      Will call the repo API to recover the node from the repo
+      and then hook in additional behaviour for certain types.
+      For 'st:site' objects we clear specific Surf caches.
+   </description>
+   <format default="json"/>
+   <url>/modules/recover-node</url>
+   <authentication>user</authentication>
+</webscript>
