@@ -130,8 +130,8 @@
 
 .object-finder .picker-header
 {
-   height: 2em;
-   padding: 0.5em;
+   height: 24px;
+   padding: 10px;
 }
 
 .object-finder .picker-header div
@@ -181,16 +181,16 @@
 {
 }
 
-.object-finder .picker-header .search
+.object-finder .picker-header .picker-search
 {
    display: none;
 }
 
-.object-finder .picker-header .search .search-input
+.object-finder .picker-header .picker-search .picker-search-input
 {
    float: left;
-   width: 17em;
-   padding: 0.3em 1em 0.4em 0.5em;
+   width: 220px;
+   padding: 2px 12px 6px 7px;
 }
 
 .object-finder .picker-items
