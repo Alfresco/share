@@ -293,6 +293,7 @@ function getSortFieldsFromConfig()
             value: value,
             group: "DOCUMENT_LIBRARY_SORT_FIELD",
             publishTopic: "ALF_DOCLIST_SORT_FIELD_SELECTION",
+            hashName: "sortField",
             checked: checked,
             publishPayload: {
                label: msg.get(label),
