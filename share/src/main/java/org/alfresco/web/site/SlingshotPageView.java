@@ -181,6 +181,16 @@ public class SlingshotPageView extends PageView
                 }
                 if (login)
                 {
+                    if (!user.isGuest())
+                    {
+                        // If the user is not a guest user, and the <login> flag is true, 
+                        // that means a non admin, non guest user is logged in already.
+                        // This means that a normal user tries to access a page that requires admin privilege. 
+                        // This normal user should not even know that such a page exits.
+                        // By throwing an exception here, we force the error500.jsp page to be displayed.
+                        throw new PlatformRuntimeException("Non-admin user tries to access a page that requires admin privilege.");
+                    }
+
                     // special case for admin - need to clear user context before
                     // we can login again to "upgrade" our user authentication level
                     AuthenticationUtil.clearUserContext(request);
