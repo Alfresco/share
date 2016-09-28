@@ -206,6 +206,7 @@
          Dom.setStyle(elCell.parentNode, "text-align", "right");
          
          var nodeRef = oRecord.getData("nodeRef"),
+             nodeType = oRecord.getData("nodeType"),
              nodeName = oRecord.getData("name");
          
          this._createActionButton(
@@ -228,10 +229,16 @@
                });
 
                // make ajax call to Recover the item
-               Alfresco.util.Ajax.request(
+               Alfresco.util.Ajax.jsonPost(
                {
-                  url: Alfresco.constants.PROXY_URI + "api/archive/" + obj.nodeRef.replace(":/",""),
-                  method: "PUT",
+                  // TODO: call a Share service to complete the delete operation - this allows additional
+                  // behaviour hooks to purge the related view caches to ensure site dashboard etc. is usable again
+                  url: Alfresco.constants.URL_SERVICECONTEXT + "modules/recover-node",
+                  dataObj: {
+                     name: obj.name,
+                     nodeType: obj.nodeType,
+                     nodeRef: obj.nodeRef.replace(":/","")
+                  },
                   successCallback:
                   {
                      fn: this._onRecoverSuccess,
@@ -248,6 +255,7 @@
             },
             {
                nodeRef: nodeRef,
+               nodeType: nodeType,
                name: nodeName
             }
          );

@@ -6,8 +6,7 @@ function main()
    // collect up objects to delete later - as the repo removes component
    // definitions and we cannot retrieve them after
    var dashboardURL = "site/" + reqJSON.shortName + "/dashboard",
-       dashboardPage = sitedata.getPage(dashboardURL),
-       components = sitedata.findComponents("page", null, dashboardURL, null);
+       dashboardPage = sitedata.getPage(dashboardURL);
    
    // Call the repo to delete the site
    var conn = remote.connect("alfresco"),
@@ -22,14 +21,7 @@ function main()
       // remove dashboard page instance and update view cache
       if (dashboardPage != null)
       {
-         dashboardPage.remove();
          viewResolverUtils.removeFromCache(dashboardURL);
-      }
-      
-      // remove component instances from caches
-      for (var i=0; i < components.length; i++)
-      {
-         components[i].remove();
       }
       
       // the client will refresh on success
