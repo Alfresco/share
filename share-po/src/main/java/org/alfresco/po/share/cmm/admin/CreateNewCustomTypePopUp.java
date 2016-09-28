@@ -209,7 +209,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
             }
             else
             {
-                throw new PageOperationException("Could not select Parent Type: Value not found");
+                throw new PageOperationException("Parent Type not found: " + value);
             }
         }
         catch (TimeoutException toe)
