@@ -76,8 +76,8 @@
                </div>
             </div>
          </div>
-         <div id="${pickerId}-searchContainer" class="search">
-            <input type="text" class="search-input" name="-" id="${pickerId}-searchText" value="" maxlength="256" />
+         <div id="${pickerId}-searchContainer" class="picker-search">
+            <input type="text" class="picker-search-input" name="-" id="${pickerId}-searchText" value="" maxlength="256" />
             <span class="search-button"><button id="${pickerId}-searchButton">${msg("form.control.object-picker.search")}</button></span>
          </div>
       </div>
