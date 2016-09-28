@@ -8327,11 +8327,20 @@ Alfresco.util.Ajax = function()
          var config = serverResponse.argument.config;
 
          // Our session has likely timed-out, so refresh to offer the login page
-         var contentType = serverResponse.getResponseHeader["Content-Type"] ||
-               serverResponse.getResponseHeader["content-type"] ||
-               config.responseContentType;
+         var contentType;
 
-         if ((serverResponse.status == 401 || (serverResponse.status == 302 && (/(text\/html)/).test(contentType)))
+         if (serverResponse.getResponseHeader)
+         {
+             contentType = serverResponse.getResponseHeader["Content-Type"] || serverResponse.getResponseHeader["content-type"];
+         }
+
+         if (!contentType)
+         {
+             contentType = config.responseContentType;
+         }
+
+         if (contentType && serverResponse.getResponseHeader
+               && (serverResponse.status == 401 || (serverResponse.status == 302 && (/(text\/html)/).test(contentType)))
                && !config.noReloadOnAuthFailure)
          {
             var redirect = serverResponse.getResponseHeader["Location"];
@@ -8362,7 +8371,7 @@ Alfresco.util.Ajax = function()
                }
 
                // User provided a custom failureHandler
-               if (config.responseContentType === "application/json")
+               if (serverResponse.responseText && config.responseContentType && (config.responseContentType === "application/json"))
                {
                   json = Alfresco.util.parseJSON(serverResponse.responseText, displayBadJsonResult);
                }
@@ -8392,7 +8401,7 @@ Alfresco.util.Ajax = function()
              * User did not provide any failure info at all, display as good
              * info as possible from the server response.
              */
-            if (config.responseContentType == "application/json")
+            if (serverResponse.responseText && config.responseContentType && (config.responseContentType === "application/json"))
             {
                json = Alfresco.util.parseJSON(serverResponse.responseText);
                if (json != null)

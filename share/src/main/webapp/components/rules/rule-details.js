@@ -380,6 +380,7 @@
          {
             method: Alfresco.util.Ajax.DELETE,
             url: Alfresco.constants.PROXY_URI_RELATIVE + "api/node/" + Alfresco.util.NodeRef(this.options.nodeRef).uri + "/ruleset/rules/" + this.ruleDetails.id,
+            responseContentType: "application/json",
             successCallback:
             {
                fn: function (response)
@@ -398,10 +399,51 @@
             {
                fn: function (response)
                {
-                  this.widgets.feedbackMessage.destroy();
-                  Alfresco.util.PopupManager.displayMessage(
+                  this.widgets.deleteFeedbackMessage.hide();
+                  this.widgets.deleteButton.set("disabled", false);
+
+                  if (this.widgets.feedbackMessage)
                   {
-                     text: Alfresco.util.message("message.deletingRule-failure", this.name)
+                     this.widgets.feedbackMessage.destroy();
+                  }
+
+                  var failureCause = "";
+                  var config = response.config;
+
+                  if (response.serverResponse)
+                  {
+                     if (response.serverResponse.responseText
+                        && config && config.responseContentType
+                        && (config.responseContentType === "application/json"))
+                     {
+                        json = Alfresco.util.parseJSON(response.serverResponse.responseTex);
+
+                        if (json != null)
+                        {
+                           failureCause += json.message;
+                        }
+
+                        if (response.serverResponse.statusText)
+                        {
+                           failureCause += (" | " + response.serverResponse.statusText);
+                        }
+                     }
+                     else if (response.serverResponse.statusText)
+                     {
+                        failureCause += response.serverResponse.statusText;
+                     }
+                  }
+
+                  var displayMessage = YAHOO.lang.substitute(Alfresco.util.message("message.deletingRule-failure.cause", this.name),
+                  {
+                     url: config.url,
+                     error: failureCause
+                  });
+
+                  Alfresco.util.PopupManager.displayPrompt(
+                  {
+                     title: Alfresco.util.message("message.deletingRule-failure.title", this.name),
+                     text: displayMessage
                   });
                },
                scope: this
