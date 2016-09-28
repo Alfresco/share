@@ -35,9 +35,10 @@ function main()
       name : "Alfresco.dashlet.WikiDashlet",
       assignTo : "wiki_" + args.htmlid.replace(/-/g, "_"),
       options : {
-         pages: (model.pageList != null) ? model.pageList : [],
+         pages : (model.pageList != null) ? model.pageList : [],
          guid : instance.object.id,
-         siteId : (page.url.templateArgs.site != null) ? page.url.templateArgs.site : ""
+         siteId : (page.url.templateArgs.site != null) ? page.url.templateArgs.site : "",
+         pagePrefix : model.pagePrefix
       }
    };
 

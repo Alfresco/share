@@ -81,7 +81,15 @@
           * @property pages
           * @type Array
           */
-         pages: []
+         pages: [],
+         
+         /**
+          * The page name prefix to display before the page title.
+          *
+          * @property pagePrefix
+          * @type string
+          */
+         pagePrefix: ""
       },
 
       /**
@@ -157,7 +165,7 @@
                         
                         // Update the title -  encode the searchTerm to prevent XSS
                         var title = Alfresco.util.encodeHTML(obj.title);
-                        Dom.get(this.id + "-title").innerHTML = Alfresco.util.message("label.header-prefix", this.name) + (obj.title !== "" ? " - <a href=\"wiki-page?title=" + encodeURIComponent(e.config.dataObj.wikipage) + "\">" + title + "</a>" : "");
+                        Dom.get(this.id + "-title").innerHTML = this.options.pagePrefix + (obj.title !== "" ? " - <a href=\"wiki-page?title=" + encodeURIComponent(e.config.dataObj.wikipage) + "\">" + title + "</a>" : "");
                      }
                   },
                   scope: this
