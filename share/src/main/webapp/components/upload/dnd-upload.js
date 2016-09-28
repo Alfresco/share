@@ -616,12 +616,15 @@
                   this.widgets.uploadButton.set("disabled", false);
                   Dom.removeClass(this.widgets.uploadButton, "hidden");
                   
-                  if (!!this.showConfig.newVersion)
+                  var newUploadedFile = evt.target.files[0];
+                  if (this.showConfig.newVersion && this._isNewFileName(this.showConfig.jsNode, newUploadedFile))
                   {
                      Dom.removeClass(this.compareVersionsSection, "hidden");
-                     var newFileName = evt.target.files[0].name;
-                     var newFileType = evt.target.files[0].type;
-                     this._updateCompareVersionsSection(this.showConfig.jsNode, newFileName, newFileType);
+                     this._updateCompareVersionsSection(this.showConfig.jsNode, newUploadedFile);
+                  }
+                  else
+                  {
+                     Dom.addClass(this.compareVersionsSection, "hidden");
                   }
                }
                else
@@ -1993,13 +1996,27 @@
       },
 
       /**
+       * Checks whether the user attempts to upload a file with a different name/extension
+       * 
+       * @method _isNewFileName
+       * @private
+       */
+      _isNewFileName: function DNDUpload__isNewFileName(jsNode, newVersionFile)
+      {
+         var prevFileName = jsNode.properties["cm:name"];
+         var newFileName = newVersionFile.name;
+         return (prevFileName != newFileName);
+      },
+
+      /**
        * Updates compare version sections information accordingly 
        * 
        * @method _updateCompareVersionsSection
        * @private
        */
-      _updateCompareVersionsSection: function DNDUpload__updateCompareVersionsSection(jsNode, newVersionFileName, newVersionMimetype)
+      _updateCompareVersionsSection: function DNDUpload__updateCompareVersionsSection(jsNode, newVersionFile)
       {
+         this.getMimetypeDescription(newVersionFile.type, this._extractNewVersionMimetypeDescription, this._setNewVersionDefaultMimetype);
          Dom.get(this.id + "-current-version-value").innerHTML = jsNode.properties["cm:versionLabel"];
          Dom.get(this.id + "-current-version-filename").innerHTML = jsNode.properties["cm:name"];
          Dom.get(this.id + "-current-version-title").innerHTML = jsNode.hasProperty("cm:title") ? jsNode.properties["cm:title"] : this.msg("label.none");
@@ -2007,11 +2024,79 @@
          Dom.get(this.id + "-current-version-last-modified").innerHTML = Alfresco.util.formatDate(this.showConfig.jsNode.properties["cm:modified"].iso8601, "dd/mm/yyyy");
          Dom.get(this.id + "-current-version-modified-by").innerHTML = jsNode.properties["cm:modifier"].displayName;
          Dom.get(this.id + "-current-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(jsNode.mimetype, 48);
-         
-         Dom.get(this.id + "-new-version-filename").innerHTML = newVersionFileName;
-         Dom.get(this.id + "-new-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(newVersionMimetype, 48);
-         Dom.get(this.id + "-new-version-mimetype").innerHTML = newVersionMimetype !== "" ? newVersionMimetype : this.msg("label.mimetype.unknown");
-         
+         Dom.get(this.id + "-new-version-filename").innerHTML = newVersionFile.name;
+         Dom.get(this.id + "-new-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(newVersionFile.type, 48);
+      },
+      
+      /**
+       * Update the new file version's mimetype in the comparison section
+       * 
+       * @method _setComparisonNewVersionMimetype
+       * @private
+       */
+      _setComparisonNewVersionMimetype: function DNDUpload__setComparisonNewVersionMimetype(mimetype)
+      {
+         Dom.get(this.id + "-new-version-mimetype").innerHTML = mimetype !== "" ? mimetype : this.msg("label.mimetype.unknown");
+      },
+      
+      /**
+       * Set the new file version's mimetype with the mimetype's description from the response object
+       * 
+       * @method _extractNewVersionMimetypeDescription
+       * @private
+       */
+      _extractNewVersionMimetypeDescription: function DNDUpload__extractNewVersionMimetypeDescription(scope, response, mimetype)
+      {
+         response = response.json.data;
+          
+         if (response[mimetype])
+         {
+             scope._setComparisonNewVersionMimetype(response[mimetype].description);
+         }
+         else
+         {
+             scope._setComparisonNewVersionMimetype(mimetype);
+         }  
+      },
+      
+      /**
+       * Set the new file version's mimetype with the original mimetype extracted as 'file.type'
+       * 
+       * @method _setNewVersionDefaultMimetype
+       * @private
+       */
+      _setNewVersionDefaultMimetype: function DNDUpload__setNewVersionDefaultMimetype(scope, mimetype)
+      {
+         scope._setComparisonNewVersionMimetype(mimetype);
+      },
+      
+      
+      /**
+       * Given a particular mimetype retrieve its human readable description by calling the appropriate api
+       * 
+       * @method getMimetypeDescription
+       */
+      getMimetypeDescription: function DNDUpload_getMimetypeDescription(mimetype, successCallbackFn, failureCallbackFn)
+      {
+         Alfresco.util.Ajax.jsonGet({
+             url: Alfresco.constants.PROXY_URI + "api/mimetypes/descriptions",
+             successCallback:
+             {
+                fn: function(response)
+                    {
+                        successCallbackFn(this, response, mimetype);
+                    },
+                scope: this
+             },
+             failureCallback:
+             {
+                fn: function()
+                    {
+                        failureCallbackFn(this, mimetype);
+                    },
+                scope: this
+             }
+         });
       }
    });
 })();
