@@ -165,7 +165,7 @@
                         
                         // Update the title -  encode the searchTerm to prevent XSS
                         var title = Alfresco.util.encodeHTML(obj.title);
-                        Dom.get(this.id + "-title").innerHTML = this.options.pagePrefix + (obj.title !== "" ? " - <a href=\"wiki-page?title=" + encodeURIComponent(e.config.dataObj.wikipage) + "\">" + title + "</a>" : "");
+                        Dom.get(this.id + "-title").innerHTML = Alfresco.util.encodeHTML(this.options.pagePrefix) + (obj.title !== "" ? " - <a href=\"wiki-page?title=" + encodeURIComponent(e.config.dataObj.wikipage) + "\">" + title + "</a>" : "");
                      }
                   },
                   scope: this
