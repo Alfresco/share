@@ -357,6 +357,7 @@
             {
                allowedViewModes: allowedViewModes,
                siteId: this.options.siteId,
+               rootNode: this.options.rootNode,
                containerId: this.options.containerId,
                title: this.msg("title.destinationDialog"),
                nodeRef: this.options.rootNode
