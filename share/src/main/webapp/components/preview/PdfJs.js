@@ -450,7 +450,7 @@
 
          // Viewer HTML is contained in an external web script, which we load via XHR, then onViewerLoad() does the rest
          Alfresco.util.Ajax.request({
-            url: Alfresco.constants.URL_SERVICECONTEXT + 'components/preview/pdfjs?htmlid=' + encodeURIComponent(this.wp.id),
+            url: Alfresco.constants.URL_CONTEXT + 'noauth/components/preview/pdfjs?htmlid=' + encodeURIComponent(this.wp.id),
             successCallback : {
                fn : this.onViewerLoaded,
                scope : this
