@@ -25,19 +25,21 @@
  */
 package org.alfresco.po.share.adminconsole;
 
+
 import org.alfresco.po.AbstractTest;
+import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.admin.AdminConsolePage;
-
 import org.alfresco.test.FailedTestListener;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
+//import java.io.File;
+//import java.io.IOException;
+//import java.util.concurrent.TimeoutException;
 
-import static org.testng.Assert.assertEquals;
+//import static org.testng.Assert.assertEquals;
+
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -47,17 +49,46 @@ import static org.testng.Assert.assertTrue;
 public class AdminConsolePageTest extends AbstractTest
 {
     AdminConsolePage adminConsolePage;
+    String userName;
 
+  
+    
     @Test(groups = "Enterprise-only")
     public void checkThatFactoryReturnApplicationPage() throws Exception
     {
+        userName = "AdminConsolePage" + System.currentTimeMillis();
+        createEnterpriseUser(userName);
         SharePage page = loginAs("admin", "admin");
         page.getNav().getAdminConsolePage().render();
         resolvePage(driver).render();
 
     }
-
-    @Test(dependsOnMethods = "checkThatFactoryReturnApplicationPage", groups = "Enterprise-only", alwaysRun = true)
+    
+    
+    @Test(dependsOnMethods = "checkThatFactoryReturnApplicationPage", groups = "Enterprise-only")
+    public void adminConsoleAccessTest() throws Exception
+    {
+        adminConsolePage = resolvePage(driver).render();
+        shareUtil.logout(driver);
+        
+        //log in as normal user and check that error page is displayed
+        driver.navigate().to(shareUrl + "/page/console/admin-console/application");
+        LoginPage loginPage = factoryPage.getPage(driver).render();
+        loginPage.loginAs(userName, "password");
+        assertTrue(resolvePage(driver).getTitle().contains("System Error"));
+        
+        driver.navigate().to(shareUrl + "/page/user/" + userName + "/dashboard");
+        shareUtil.logout(driver);
+        
+        //login as admin user and check that admin console is displayed
+        driver.navigate().to(shareUrl + "/page/console/admin-console/application");
+        loginPage = factoryPage.getPage(driver).render();
+        loginPage.loginAs("admin", "admin");
+        adminConsolePage = resolvePage(driver).render();
+        assertTrue(adminConsolePage.getPageTitle().equals("Admin Tools"));
+    }  
+    /**
+    @Test(dependsOnMethods = "adminConsoleAccessTest", groups = "Enterprise-only", alwaysRun = true)
     public void selectThemeTest() throws Exception
     {
         adminConsolePage = resolvePage(driver).render();
@@ -68,7 +99,7 @@ public class AdminConsolePageTest extends AbstractTest
 
 
     }
-
+    
     @Test(dependsOnMethods = "selectThemeTest", groups = "Enterprise-only", alwaysRun = true)
     public void uploadPictureTest() throws IOException, TimeoutException, InterruptedException
     {
@@ -82,5 +113,5 @@ public class AdminConsolePageTest extends AbstractTest
 
         assertEquals(srcBeforeUpload, srcAfterUpload);
     }
-
+    **/
 }
