@@ -14,7 +14,8 @@
         <skipTests>true</skipTests>
         <selenium.version>2.39.1</selenium.version>
         <spring.version>4.1.6.RELEASE</spring.version>
-        <alfresco.api.utils.version>1.1</alfresco.api.utils.version>
+        <alfresco.api.utils.version>1.2</alfresco.api.utils.version>
+		<remote.api.version>${alfresco.platform.version}</remote.api.version>
         <enterprise.installer.path>/data/bamboo/artifacts/${enterprise.build.plan}/ALL/alfresco-*-linux-x64.???</enterprise.installer.path>
         <testng.sanity.xml>src/test/resources/cmm-sanity-testng.xml</testng.sanity.xml>
         <testng.xml>src/test/resources/cmm-complete-e2e-testng.xml</testng.xml>
@@ -114,7 +115,18 @@
             <groupId>org.alfresco.test</groupId>
             <artifactId>alfresco-api-test-utils</artifactId>
             <version>${alfresco.api.utils.version}</version>
-        </dependency>   
+        </dependency>
+		<dependency>
+			<groupId>org.alfresco</groupId>
+			<artifactId>alfresco-remote-api</artifactId>
+			<version>${remote.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.alfresco</groupId>
+			<artifactId>alfresco-remote-api</artifactId>
+			<version>${remote.api.version}</version>
+			<classifier>tests</classifier>
+		</dependency>
         <dependency>
             <groupId>org.alfresco.test</groupId>
             <artifactId>alfresco-testng</artifactId>
