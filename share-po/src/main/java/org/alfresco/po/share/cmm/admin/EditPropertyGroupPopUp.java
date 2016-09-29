@@ -201,7 +201,7 @@ public class EditPropertyGroupPopUp extends ShareDialogueAikau
      */
     public EditPropertyGroupPopUp setTitleField(String title)
     {
-        PageUtils.checkMandotaryParam("title", title);
+        PageUtils.checkMandatoryParam("title", title);
         try
         {
             WebElement titleField = findAndWait(TITLE_FIELD);
@@ -233,7 +233,7 @@ public class EditPropertyGroupPopUp extends ShareDialogueAikau
      */
     public EditPropertyGroupPopUp setDescriptionField(String description)
     {
-        PageUtils.checkMandotaryParam("description", description);
+        PageUtils.checkMandatoryParam("description", description);
         try
         {
             WebElement descField = findAndWait(DESCRIPTION_FIELD);
@@ -266,7 +266,7 @@ public class EditPropertyGroupPopUp extends ShareDialogueAikau
      */
     public EditPropertyGroupPopUp selectParentPropertyGroupField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             SelectList list = new SelectList(driver, findAndWait(PARENT_PROPERTY_GROUP_FIELD));

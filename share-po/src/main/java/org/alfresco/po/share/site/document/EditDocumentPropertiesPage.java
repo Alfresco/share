@@ -693,7 +693,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
      */
     private Map<String, WebElement> getInputFieldForProperty(String propertyName)
     {
-        PageUtils.checkMandotaryParam("Specify appropriate Property Name", propertyName);
+        PageUtils.checkMandatoryParam("Specify appropriate Property Name", propertyName);
         
         String fieldType = "input";
         String fieldSelector = "div.form-field>" + fieldType + "[id$='" + propertyName + "']";
@@ -807,7 +807,7 @@ public class EditDocumentPropertiesPage extends AbstractEditProperties
      */
     public void setProperties(Map<String, Object> properties)
     {
-        PageUtils.checkMandotaryParam("Expected Properties Map", properties);
+        PageUtils.checkMandatoryParam("Expected Properties Map", properties);
         
         for (Map.Entry<String, Object> entry : properties.entrySet())
         {

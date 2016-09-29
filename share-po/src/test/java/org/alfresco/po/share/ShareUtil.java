@@ -94,7 +94,7 @@ public class ShareUtil
      */
     public HtmlPage loginAs(final WebDriver driver, final String url, final String... userInfo) throws Exception
     {
-        PageUtils.checkMandotaryParam("webdriver", driver);
+        PageUtils.checkMandatoryParam("webdriver", driver);
         if(null == url||!url.startsWith("http://"))
         {
             throw new IllegalArgumentException("A valid shareUrl is required and can not be: " + url);
@@ -303,9 +303,9 @@ public class ShareUtil
      */
     public HtmlPage navigateToAlfresco(final WebDriver driver, final String path,final String... userInfo) throws Exception
     {
-        PageUtils.checkMandotaryParam("WebDriver", driver);
-        PageUtils.checkMandotaryParam("Path", path);
-        PageUtils.checkMandotaryParam("Username and password", userInfo);
+        PageUtils.checkMandatoryParam("WebDriver", driver);
+        PageUtils.checkMandatoryParam("Path", path);
+        PageUtils.checkMandatoryParam("Username and password", userInfo);
         String currentUrl = driver.getCurrentUrl();
         String protocolVar = PageUtils.getProtocol(currentUrl);
         String consoleUrlVar = PageUtils.getAddress(currentUrl);

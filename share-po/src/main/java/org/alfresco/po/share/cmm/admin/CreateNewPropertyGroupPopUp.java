@@ -120,7 +120,7 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
      */
     public CreateNewPropertyGroupPopUp setNameField(String name)
     {
-        PageUtils.checkMandotaryParam("name", name);
+        PageUtils.checkMandatoryParam("name", name);
         try
         {
             findAndWait(NAME_FIELD).sendKeys(name + "\t");
@@ -152,7 +152,7 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
      */
     public CreateNewPropertyGroupPopUp setParentPropertyGroupField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             SelectList list = new SelectList(driver, findAndWait(PARENT_PROPERTY_GROUP_FIELD));
@@ -208,7 +208,7 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
      */
     public CreateNewPropertyGroupPopUp setTitleField(String title)
     {
-        PageUtils.checkMandotaryParam("title", title);
+        PageUtils.checkMandatoryParam("title", title);
         try
         {
             findAndWait(TITLE_FIELD).sendKeys(title);
@@ -238,7 +238,7 @@ public class CreateNewPropertyGroupPopUp extends ShareDialogueAikau
      */
     public CreateNewPropertyGroupPopUp setDescriptionField(String description)
     {
-        PageUtils.checkMandotaryParam("description", description);
+        PageUtils.checkMandatoryParam("description", description);
         try
         {
             findAndWait(DESCRIPTION_FIELD).sendKeys(description);

@@ -147,7 +147,7 @@ public class PageUtils
      * (for {@link String} also if the value is empty or blank)
      * 
      */
-    public static <E> void checkMandotaryParam(final String paramName, final Object object)
+    public static <E> void checkMandatoryParam(final String paramName, final Object object)
     {
         if(StringUtils.isBlank(paramName))
         {

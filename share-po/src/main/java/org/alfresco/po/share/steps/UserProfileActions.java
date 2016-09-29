@@ -97,9 +97,9 @@ public class UserProfileActions extends CommonActions
      */
     public TrashCanPage deleteFromTrashCan(WebDriver driver, TrashCanValues contentType, String contentName, String path)
     {
-        PageUtils.checkMandotaryParam("Content Type must be specified", contentType);
-        PageUtils.checkMandotaryParam("Content Name must be specified", contentName);
-        PageUtils.checkMandotaryParam("Appropriate path for the content must be specified", path);
+        PageUtils.checkMandatoryParam("Content Type must be specified", contentType);
+        PageUtils.checkMandatoryParam("Content Name must be specified", contentName);
+        PageUtils.checkMandatoryParam("Appropriate path for the content must be specified", path);
         
         TrashCanPage trashCan = getSharePage(driver).render();
 
@@ -133,9 +133,9 @@ public class UserProfileActions extends CommonActions
      */
     public TrashCanPage recoverFromTrashCan(WebDriver driver, TrashCanValues contentType, String contentName, String path)
     {
-        PageUtils.checkMandotaryParam("Content Type must be specified", contentType);
-        PageUtils.checkMandotaryParam("Content Name must be specified", contentName);
-        PageUtils.checkMandotaryParam("Appropriate path for the content must be specified", path);
+        PageUtils.checkMandatoryParam("Content Type must be specified", contentType);
+        PageUtils.checkMandatoryParam("Content Name must be specified", contentName);
+        PageUtils.checkMandatoryParam("Appropriate path for the content must be specified", path);
         
         TrashCanPage trashCan = getSharePage(driver).render();
 

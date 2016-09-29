@@ -929,7 +929,7 @@ public class DocumentLibraryPage extends SitePage
 
     public boolean isItemVisble(String contentName)
     {
-        PageUtils.checkMandotaryParam("contentName", contentName);
+        PageUtils.checkMandatoryParam("contentName", contentName);
         try
         {
             return null != findFileOrFolder(contentName);

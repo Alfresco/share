@@ -135,7 +135,7 @@ public class CreateNewFilterPopUpPage extends SharePage
 
     public CreateNewFilterPopUpPage sendFilterID(String filterID)
     {
-        PageUtils.checkMandotaryParam("filterID", filterID);
+        PageUtils.checkMandatoryParam("filterID", filterID);
         try
         {
             findAndWait(FILTER_ID).sendKeys(filterID);
@@ -157,7 +157,7 @@ public class CreateNewFilterPopUpPage extends SharePage
 
     public CreateNewFilterPopUpPage sendFilterName(String filterName)
     {
-        PageUtils.checkMandotaryParam("filterName", filterName);
+        PageUtils.checkMandatoryParam("filterName", filterName);
         try
         {
             findAndWait(FILTER_NAME).sendKeys(filterName);
@@ -187,7 +187,7 @@ public class CreateNewFilterPopUpPage extends SharePage
 
     public CreateNewFilterPopUpPage selectFilterProperty(String property)
     {
-        PageUtils.checkMandotaryParam("property", property);
+        PageUtils.checkMandatoryParam("property", property);
         try
         {
             // Find the select control
@@ -242,7 +242,7 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public CreateNewFilterPopUpPage selectSortBy(String order)
     {
-        PageUtils.checkMandotaryParam("order", order);
+        PageUtils.checkMandatoryParam("order", order);
         try
         {
             // Find the select control
@@ -289,7 +289,7 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public boolean isSortByDisplayed(String sortBy)
     {
-        PageUtils.checkMandotaryParam("sortBy", sortBy);
+        PageUtils.checkMandatoryParam("sortBy", sortBy);
         try
         {
             if (findAndWait(SORT_BY_SELECTED).isDisplayed() && findAndWait(SORT_BY_SELECTED).getText().endsWith(sortBy))
@@ -310,7 +310,7 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public HtmlPage selectSaveOrCancel(String buttonName)
     {
-        PageUtils.checkMandotaryParam("buttonName", buttonName);
+        PageUtils.checkMandatoryParam("buttonName", buttonName);
         try
         {
             // Get the list of buttons
@@ -350,7 +350,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     public CreateNewFilterPopUpPage incrementMinimumFilterLength(int clickCount)
     {
 
-        PageUtils.checkMandotaryParam("clickCount", clickCount);
+        PageUtils.checkMandatoryParam("clickCount", clickCount);
         try
         {
 
@@ -423,7 +423,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     public CreateNewFilterPopUpPage incrementMaxNumberOfFilters(int clickCount)
     {
 
-        PageUtils.checkMandotaryParam("clickCount", clickCount);
+        PageUtils.checkMandatoryParam("clickCount", clickCount);
         try
         {
 
@@ -496,7 +496,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     public CreateNewFilterPopUpPage incrementMinimumRequiredResults(int clickCount)
     {
 
-        PageUtils.checkMandotaryParam("clickCount", clickCount);
+        PageUtils.checkMandatoryParam("clickCount", clickCount);
         try
         {
 
@@ -567,7 +567,7 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public CreateNewFilterPopUpPage selectFilterAvailability(String availability)
     {
-        PageUtils.checkMandotaryParam("availability", availability);
+        PageUtils.checkMandatoryParam("availability", availability);
         try
         {
             // Find the select control
@@ -613,7 +613,7 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public boolean isFilterAvailabiltyDisplayed(String availability)
     {
-        PageUtils.checkMandotaryParam("availability", availability);
+        PageUtils.checkMandatoryParam("availability", availability);
         try
         {
             if (findAndWait(FILTER_AVAI_SELECTED).isDisplayed() && findAndWait(FILTER_AVAI_SELECTED).getText().equalsIgnoreCase(availability))
@@ -698,7 +698,7 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public boolean isSelectedSiteDisplayed(String siteName)
     {
-        PageUtils.checkMandotaryParam("siteName", siteName);
+        PageUtils.checkMandatoryParam("siteName", siteName);
         try
         {
             if (findAndWait(SELECTED_SITE_DD).isDisplayed() && findAndWait(SELECTED_SITE_DD).getText().contains(siteName))
@@ -721,7 +721,7 @@ public class CreateNewFilterPopUpPage extends SharePage
     public CreateNewFilterPopUpPage selectSiteNameAndSave(String siteName)
     {
 
-        PageUtils.checkMandotaryParam("siteName", siteName);
+        PageUtils.checkMandatoryParam("siteName", siteName);
         try
         {
             // Find the select control
@@ -778,7 +778,7 @@ public class CreateNewFilterPopUpPage extends SharePage
      */
     public boolean isSavedSiteDisplayed(String siteName)
     {
-        PageUtils.checkMandotaryParam("siteName", siteName);
+        PageUtils.checkMandatoryParam("siteName", siteName);
         try
         {
             if (findAndWait(SAVED_SITE_DISPLAY).isDisplayed() && findAndWait(SAVED_SITE_DISPLAY).getText().contains(siteName))

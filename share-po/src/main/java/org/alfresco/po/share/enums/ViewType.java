@@ -61,7 +61,7 @@ public enum ViewType
      */
     public static ViewType getViewType(String name)
     {
-        PageUtils.checkMandotaryParam("name", name);
+        PageUtils.checkMandatoryParam("name", name);
 
         if (name.equalsIgnoreCase((SIMPLE_VIEW.getName())))
         {

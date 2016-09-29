@@ -195,7 +195,7 @@ public class EditCustomTypePopUp extends ShareDialogueAikau
      */
     public EditCustomTypePopUp setTitleField(String title)
     {
-        PageUtils.checkMandotaryParam("title", title);
+        PageUtils.checkMandatoryParam("title", title);
         try
         {
             WebElement titleField = findAndWait(TITLE_FIELD);
@@ -227,7 +227,7 @@ public class EditCustomTypePopUp extends ShareDialogueAikau
      */
     public EditCustomTypePopUp setDescriptionField(String description)
     {
-        PageUtils.checkMandotaryParam("description", description);
+        PageUtils.checkMandatoryParam("description", description);
         try
         {
             WebElement descField = findAndWait(DESCRIPTION_FIELD);
@@ -260,7 +260,7 @@ public class EditCustomTypePopUp extends ShareDialogueAikau
      */
     public EditCustomTypePopUp selectParentTypeField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             SelectList list = new SelectList(driver, findAndWait(PARENT_TYPE_FIELD));

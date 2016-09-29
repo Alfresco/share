@@ -212,9 +212,9 @@ public class SiteCalendarDashlet extends AbstractDashlet implements Dashlet
      */
     public boolean isEventsWithDetailDisplayed(String eventName, String startTime, String endTime)
     {
-        PageUtils.checkMandotaryParam("Event Name", eventName);
-        PageUtils.checkMandotaryParam("Start Time", startTime);;
-        PageUtils.checkMandotaryParam("End Time", endTime);;
+        PageUtils.checkMandatoryParam("Event Name", eventName);
+        PageUtils.checkMandatoryParam("Start Time", startTime);;
+        PageUtils.checkMandatoryParam("End Time", endTime);;
         List<WebElement> eventLinks = dashlet.findElements(EVENTS_DETAILS);
         for (WebElement eventLink : eventLinks)
         {

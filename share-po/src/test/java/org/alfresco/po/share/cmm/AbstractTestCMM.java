@@ -94,8 +94,8 @@ public abstract class AbstractTestCMM extends AbstractTest
      */
     public String getParentTypeAspectName(String modelName, String typeAspectName)
     {
-        PageUtils.checkMandotaryParam("Specify Model Name", modelName);
-        PageUtils.checkMandotaryParam("Specify Type or Aspect Name", typeAspectName);
+        PageUtils.checkMandatoryParam("Specify Model Name", modelName);
+        PageUtils.checkMandatoryParam("Specify Type or Aspect Name", typeAspectName);
 
         return modelName + ":" + typeAspectName + " (" + typeAspectName + ")";
     }
@@ -110,8 +110,8 @@ public abstract class AbstractTestCMM extends AbstractTest
      */
     public String getShareTypeName(String modelName, String typeName)
     {
-        PageUtils.checkMandotaryParam("Specify Model Name", modelName);
-        PageUtils.checkMandotaryParam("Specify Type or Aspect Name", typeName);
+        PageUtils.checkMandatoryParam("Specify Model Name", modelName);
+        PageUtils.checkMandatoryParam("Specify Type or Aspect Name", typeName);
 
         return typeName + " (" + modelName + ":" + typeName + ")";
     }
@@ -126,8 +126,8 @@ public abstract class AbstractTestCMM extends AbstractTest
      */
     public String getShareAspectName(String modelName, String aspectName)
     {
-        PageUtils.checkMandotaryParam("Specify Model Name", modelName);
-        PageUtils.checkMandotaryParam("Specify Aspect Name", aspectName);
+        PageUtils.checkMandatoryParam("Specify Model Name", modelName);
+        PageUtils.checkMandatoryParam("Specify Aspect Name", aspectName);
 
         return aspectName;
     }

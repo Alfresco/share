@@ -106,7 +106,7 @@ public class FacetedSearchConfigPage extends SharePage
      */
     public FacetedSearchConfigFilter getFilter(String filterName)
     {
-        PageUtils.checkMandotaryParam("Filter Name", filterName);
+        PageUtils.checkMandatoryParam("Filter Name", filterName);
         for (FacetedSearchConfigFilter facetedSearchConfigFilter : filters)
         {
             if (filterName.equalsIgnoreCase(facetedSearchConfigFilter.getFilterId_text()))

@@ -152,7 +152,7 @@ public class EditModelPopUp extends ShareDialogueAikau
 
     public EditModelPopUp setNameSpace(String namespace)
     {
-        PageUtils.checkMandotaryParam("namespace", namespace);
+        PageUtils.checkMandatoryParam("namespace", namespace);
         try
         {
             findAndWait(NAME_SPACE_TEXT).clear();
@@ -185,7 +185,7 @@ public class EditModelPopUp extends ShareDialogueAikau
 
     public EditModelPopUp setDescription(String description)
     {
-        PageUtils.checkMandotaryParam("description", description);
+        PageUtils.checkMandatoryParam("description", description);
         try
         {
             findAndWait(DESCRIPTION_TEXT).clear();
@@ -217,7 +217,7 @@ public class EditModelPopUp extends ShareDialogueAikau
 
     public EditModelPopUp setPrefix(String prefix)
     {
-        PageUtils.checkMandotaryParam("prefix", prefix);
+        PageUtils.checkMandatoryParam("prefix", prefix);
         try
         {
             findAndWait(PREFIX_TEXT).clear();
@@ -272,7 +272,7 @@ public class EditModelPopUp extends ShareDialogueAikau
 
     public boolean isCancelButtonEnabled(String buttonName)
     {
-        PageUtils.checkMandotaryParam("buttonName", buttonName);
+        PageUtils.checkMandatoryParam("buttonName", buttonName);
         try
         {
             // Get the list of buttons
@@ -300,7 +300,7 @@ public class EditModelPopUp extends ShareDialogueAikau
      */
     public boolean isEditButtonEnabled(String buttonName)
     {
-        PageUtils.checkMandotaryParam("buttonName", buttonName);
+        PageUtils.checkMandatoryParam("buttonName", buttonName);
         try
         {
             // Get the button
@@ -326,7 +326,7 @@ public class EditModelPopUp extends ShareDialogueAikau
      */
     public HtmlPage selectEditModelButton(String buttonName)
     {
-        PageUtils.checkMandotaryParam("buttonName", buttonName);
+        PageUtils.checkMandatoryParam("buttonName", buttonName);
         try
         {
             // Get the list of buttons
@@ -357,7 +357,7 @@ public class EditModelPopUp extends ShareDialogueAikau
      */
     public HtmlPage selectCancelModelButton(String buttonName)
     {
-        PageUtils.checkMandotaryParam("buttonName", buttonName);
+        PageUtils.checkMandatoryParam("buttonName", buttonName);
         try
         {
             // Get the list of buttons
