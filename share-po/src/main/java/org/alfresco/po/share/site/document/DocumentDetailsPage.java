@@ -119,7 +119,7 @@ public class DocumentDetailsPage extends DetailsPage
     private static final By HISTORY_VERSIONS = By.cssSelector("div[class*='document-versions'] span[class='document-version']");
     private static final By SYNC_MESSAGE = By.xpath(".//span[contains(text(),'Sync was created')]");
 
-    private static final By DOCUMENT_BODY = By.cssSelector("div[id$='document-details_x0023_default-viewer']");
+    private static final By DOCUMENT_BODY = By.cssSelector("div[id$='document-details_x0023_default-previewer-div']");
 
     private static final By VIEW_ORIGINAL_DOCUMENT = By.cssSelector("div.document-view-original>a");
     public static final String UNZIP_TO = "//span[text()='Unzip to...']";
@@ -333,7 +333,7 @@ public class DocumentDetailsPage extends DetailsPage
         By by = By.cssSelector("div.document-delete>a");
         WebElement button = findAndWait(by);
         button.click();
-        confirmDeleteAction();
+        confirmDeleteAction().render();
         waitUntilElementDeletedFromDom(by, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         return factoryPage.getPage(driver).render();
     }
