@@ -32,6 +32,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
@@ -332,8 +333,9 @@ public class DocumentDetailsPage extends DetailsPage
         By by = By.cssSelector("div.document-delete>a");
         WebElement button = findAndWait(by);
         button.click();
-        confirmDelete();
-        return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+        confirmDeleteAction();
+        waitUntilElementDeletedFromDom(by, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return factoryPage.getPage(driver).render();
     }
 
     /**
@@ -758,7 +760,7 @@ public class DocumentDetailsPage extends DetailsPage
         try
         {
             findAndWait(By.cssSelector(UNSYNC_FROM_CLOUD)).click();
-            waitForElement(By.cssSelector("div#prompt_h"), maxPageLoadingTime);
+            waitForElement(By.cssSelector("div#prompt_h"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             findAndWait(By.cssSelector("input#requestDeleteRemote")).click();
             findAndWait(By.cssSelector("span.button-group>span[class$='yui-push-button']")).click();
         }

@@ -1504,6 +1504,7 @@ public class CreateNewPropertyPopUp extends ShareDialogueAikau
         try
         {
             WebElement indexType = findFirstDisplayedElement(INDEX_FIELD);
+            indexType.sendKeys(Keys.TAB);
             return new SelectList(driver, indexType);
         }
         catch (NoSuchElementException nse)
