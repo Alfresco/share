@@ -12,6 +12,10 @@ function main()
    if (successUrl === null)
    {
       successUrl = url.context;
+      if (args.alfRedirectUrl)
+      {
+         successUrl += Packages.org.springframework.extensions.surf.uri.UriUtils.relativeUri(args.alfRedirectUrl);
+      }
    }
    successUrl = successUrl.replace("?error=true","");
    successUrl = successUrl.replace("&error=true","");
