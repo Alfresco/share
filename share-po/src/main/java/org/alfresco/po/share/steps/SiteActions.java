@@ -846,7 +846,7 @@ public class SiteActions extends CommonActions
      */
     public HtmlPage getEditPropertiesPage(WebDriver driver, String contentName)
     {
-        PageUtils.checkMandatoryParam("Expected ContentName", contentName);
+        PageUtils.checkMandotaryParam("Expected ContentName", contentName);
 
         try
         {
@@ -1012,7 +1012,7 @@ public class SiteActions extends CommonActions
      */
     public HtmlPage editNodeProperties(WebDriver driver, boolean saveProperties, Map<String, Object> properties)
     {
-        PageUtils.checkMandatoryParam("Expected Properties Map", properties);
+        PageUtils.checkMandotaryParam("Expected Properties Map", properties);
 
         try
         {
@@ -1047,43 +1047,6 @@ public class SiteActions extends CommonActions
             throw new UnexpectedSharePageException("Expected EditDocumentPropertiesPage Page", ce);
         }
     }
-    
-    /**
-     * Util to Save the Node Properties from Details Page but error could be expected during save.
-     * 
-     * @param driver
-     * @param properties Map<String, Object>
-     * @return HtmlPage
-     */
-    public HtmlPage editNodePropertiesExpectError(WebDriver driver, Map<String, Object> properties)
-    {
-        PageUtils.checkMandatoryParam("Expected Properties Map", properties);
-        try
-        {
-            EditDocumentPropertiesPage editPropPage = null;
-            
-            SharePage sharePage = getSharePage(driver).render();
-            if (sharePage instanceof SharePopup)
-            {
-                editPropPage = acknowledgeShareError(driver).render();
-            }
-            else
-            {
-                editPropPage = sharePage.render();
-            }
-
-            // Edit Properties
-            editPropPage.setProperties(properties);
-
-            // Save
-            return editPropPage.selectSaveExpectError();
-        }
-        catch (ClassCastException ce)
-        {
-            throw new UnexpectedSharePageException("Expected EditDocumentPropertiesPage Page", ce);
-        }
-    }
-
 
     public HtmlPage viewDetails(WebDriver driver, String name)
     {

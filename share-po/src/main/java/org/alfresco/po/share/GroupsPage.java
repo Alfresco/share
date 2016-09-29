@@ -143,7 +143,7 @@ public class GroupsPage extends SharePage
      */
     public GroupsPage selectGroup(String groupName)
     {
-        PageUtils.checkMandatoryParam("Group Name", groupName);
+        PageUtils.checkMandotaryParam("Group Name", groupName);
         try
         {
             for (WebElement name : findAndWaitForElements(By.cssSelector(GROUP_NAMES)))
@@ -171,7 +171,7 @@ public class GroupsPage extends SharePage
      */
     public boolean isGroupPresent(String GroupName)
     {
-        PageUtils.checkMandatoryParam("Group Name", GroupName);
+        PageUtils.checkMandotaryParam("Group Name", GroupName);
         try
         {
             List<WebElement> groupList = driver.findElements(By.cssSelector(GROUP_NAMES));
@@ -202,7 +202,7 @@ public class GroupsPage extends SharePage
      */
     public int countGroupPresent(String groupName)
     {
-        PageUtils.checkMandatoryParam("Group Name", groupName);
+        PageUtils.checkMandotaryParam("Group Name", groupName);
         int count = 0;
         try
         {

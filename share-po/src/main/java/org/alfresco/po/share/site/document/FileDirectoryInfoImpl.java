@@ -28,6 +28,8 @@ package org.alfresco.po.share.site.document;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -2470,7 +2472,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
      */
     private String getModelInfo(ModelInfo infoRequired)
     {
-        PageUtils.checkMandatoryParam("Specify Which Model Info is Required", infoRequired);
+        PageUtils.checkMandotaryParam("Specify Which Model Info is Required", infoRequired);
 
         if (!(getCurrentPage() instanceof ModelsPage))
         {

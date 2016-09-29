@@ -68,9 +68,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     // private final By disabledNextCss = By.cssSelector("div[class$='dijitMenuItem dijitMenuItemDisabled dijitDisabled']>span[id$='PAGE_FORWARD_text']");
     private final By nextCss = By.cssSelector("div[class$='dijitReset dijitInline dijitMenuItemLabel dijitMenuItem']>span[id$='PAGE_FORWARD_text']");
     private final By backCss = By.cssSelector("div[class$='dijitReset dijitInline dijitMenuItemLabel dijitMenuItem']>span[id$='PAGE_BACK_text']");
-    private final By siteFolderCss = By.cssSelector("span[class='dijitTreeContent']>span[ class='dijitTreeLabel']");
-    private final By selectedSiteAddIconCss = By.cssSelector("div[class^='dijitTreeRow dijitTreeRowSelected']>span[class^='dijitExpandoText']"); 
-    private final By siteRowSelectedCss = By.cssSelector("div[class^='dijitTreeRow dijitTreeRowSelected']");
+
 
 //FIXME render checking for different elements
     @Override
@@ -141,7 +139,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      * @param buttonName String
      * @return HtmlPage FacetedSerachResultsPage
      */
-    private HtmlPage selectCopyOrMoveOrCancelButton(String buttonName)
+    private FacetedSearchPage selectCopyOrMoveOrCancelButton(String buttonName)
     {
         if (StringUtils.isEmpty(buttonName))
         {
@@ -187,17 +185,17 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     /**
      * This method finds the clicks on 'Copy' button in Copy/Move pop up page
      */
-    public HtmlPage selectCopyButton()
+    public FacetedSearchPage selectCopyButton()
     {
         return selectCopyOrMoveOrCancelButton("Copy");
     }
 
-    public HtmlPage selectCancelButton()
+    public FacetedSearchPage selectCancelButton()
     {
         return selectCopyOrMoveOrCancelButton("Cancel");
     }
 
-    public HtmlPage selectMoveButton()
+    public FacetedSearchPage selectMoveButton()
     {
         return selectCopyOrMoveOrCancelButton("Move");
     }
@@ -233,7 +231,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      */
     public CopyAndMoveContentFromSearchPage selectDestination(String destinationName)
     {
-        PageUtils.checkMandatoryParam("destinationName", destinationName);
+        PageUtils.checkMandotaryParam("destinationName", destinationName);
         try
         {
             for (WebElement destination : findAndWaitForElements(destinationListCss))
@@ -279,7 +277,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     public CopyAndMoveContentFromSearchPage selectFolderInRepo(String repoFolder)
     {
 
-        PageUtils.checkMandatoryParam("repoFolder", repoFolder);
+        PageUtils.checkMandotaryParam("repoFolder", repoFolder);
 
         try
         {
@@ -321,7 +319,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      */
     public CopyAndMoveContentFromSearchPage selectFolder(String... paths)
     {
-        PageUtils.checkMandatoryParam("paths", paths);
+        PageUtils.checkMandotaryParam("paths", paths);
 
         try
         {
@@ -493,43 +491,5 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
            throw new PageOperationException("Unable to click on paginator", e);
         }
     }
-    
-    /**
-     * TODO: Add Docs
-     * @param folderName
-     * @return
-     */
-    public CopyAndMoveContentFromSearchPage selectSiteInRepo(String folderName)
-    {
-        PageUtils.checkMandatoryParam("folderName", folderName);
-        try
-        {
-            for (WebElement destination : findAndWaitForElements(siteFolderCss))
-            {
-                if (destination.getText() != null)
-                {
-                    if (destination.getText().equalsIgnoreCase(folderName))
-                    {
-                        destination.click();
-                        break;
-                    }
-
-                }
-
-            }
-
-            return this;
-        }
-        catch (NoSuchElementException | TimeoutException e)
-        {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Unable to find the required destination: " + folderName, e);
-            }
-        }
-
-        throw new PageOperationException("Unable to select Destination : " + folderName);
-    }  
-   
 
 }

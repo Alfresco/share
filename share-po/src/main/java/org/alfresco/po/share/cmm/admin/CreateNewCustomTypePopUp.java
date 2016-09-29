@@ -128,7 +128,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
      */
     public void setNameField(String value)
     {
-        PageUtils.checkMandatoryParam("name", value);
+        PageUtils.checkMandotaryParam("name", value);
         name.sendKeys(value);
     }
 
@@ -152,7 +152,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
      */
     public void setTitleField(String title)
     {
-        PageUtils.checkMandatoryParam("title", title);
+        PageUtils.checkMandotaryParam("title", title);
         this.title.sendKeys(title);
     }
 
@@ -176,7 +176,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
      */
     public void setDescriptionField(String description)
     {
-        PageUtils.checkMandatoryParam("description", description);
+        PageUtils.checkMandotaryParam("description", description);
         this.description.sendKeys(description);
     }
 
@@ -199,7 +199,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
      */
     public CreateNewCustomTypePopUp selectParentTypeField(String value)
     {
-        PageUtils.checkMandatoryParam("value", value);
+        PageUtils.checkMandotaryParam("value", value);
         try
         {
             SelectList list = new SelectList(driver, findAndWait(PARENT_PROPERTY_TYPE_FIELD));

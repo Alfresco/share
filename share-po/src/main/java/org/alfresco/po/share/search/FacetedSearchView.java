@@ -214,7 +214,7 @@ public class FacetedSearchView extends SharePage
      */
     public HtmlPage clickGalleryIconByName(String name)
     {
-        PageUtils.checkMandatoryParam("Name", name);
+        PageUtils.checkMandotaryParam("Name", name);
         
         try {
             List<WebElement> displayNames = driver.findElements(By.cssSelector(DISPLAY_NAMES));

@@ -117,7 +117,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
     
     public void setName(String name)
     {
-        PageUtils.checkMandatoryParam("name", name);
+        PageUtils.checkMandotaryParam("name", name);
         try
         {
             findAndWait(NAME_TEXT).sendKeys(name);
@@ -146,7 +146,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
 
     public CreateNewModelPopUp setNameSpace(String namespace)
     {
-        PageUtils.checkMandatoryParam("namespace", namespace);
+        PageUtils.checkMandotaryParam("namespace", namespace);
         try
         {
             findAndWait(NAME_SPACE_TEXT).sendKeys(namespace);
@@ -178,7 +178,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
 
     public CreateNewModelPopUp setDescription(String description)
     {
-        PageUtils.checkMandatoryParam("description", description);
+        PageUtils.checkMandotaryParam("description", description);
         try
         {
             findAndWait(DESCRIPTION_TEXT).sendKeys(description);
@@ -231,7 +231,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
 
     public CreateNewModelPopUp setAuthor(String author)
     {
-        PageUtils.checkMandatoryParam("author", author);
+        PageUtils.checkMandotaryParam("author", author);
         try
         {
             findAndWait(AUTHOR_TEXT).sendKeys(author);
@@ -253,7 +253,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
 
     public boolean isCancelButtonEnabled(String buttonName)
     {
-        PageUtils.checkMandatoryParam("buttonName", buttonName);
+        PageUtils.checkMandotaryParam("buttonName", buttonName);
         try
         {
             // Get the list of buttons
@@ -305,7 +305,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
      */
     public HtmlPage selectCreateModelButton(String buttonName)
     {
-        PageUtils.checkMandatoryParam("buttonName", buttonName);
+        PageUtils.checkMandotaryParam("buttonName", buttonName);
         try
         {
             // Get the list of buttons
@@ -364,7 +364,7 @@ public class CreateNewModelPopUp extends ShareDialogueAikau
      */
     public ModelManagerPage selectCancelModelButton(String buttonName)
     {
-        PageUtils.checkMandatoryParam("buttonName", buttonName);
+        PageUtils.checkMandotaryParam("buttonName", buttonName);
         try
         {
             // Get the list of buttons

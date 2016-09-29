@@ -58,7 +58,7 @@ public enum Encoder
      */
     public static Encoder getEncoder(String name)
     {
-        PageUtils.checkMandatoryParam("name", name);
+        PageUtils.checkMandotaryParam("name", name);
 
         if (name.equalsIgnoreCase((ENCODER_HTML.getName())))
         {

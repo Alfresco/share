@@ -33,7 +33,6 @@ import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.ShareDialogue;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -121,17 +120,9 @@ public class ChangeTypePage extends ShareDialogue
         {
             throw new UnsupportedOperationException("Search term is required to perform a search");
         }
-        WebElement dropDown = findAndWait(TYPE_DROPDOWN);
-        Select select = new Select(dropDown); 
+        WebElement dropDown = driver.findElement(TYPE_DROPDOWN);
+        Select select = new Select(dropDown);
         select.selectByVisibleText(changeType);
-        select.getFirstSelectedOption().click();
-    }
-    
-    public void selectChangeTypeByIndex(final int index)
-    {
-        WebElement dropDown = findAndWait(TYPE_DROPDOWN);
-        Select select = new Select(dropDown); 
-        select.selectByIndex(index);
     }
 
     /**
@@ -141,8 +132,7 @@ public class ChangeTypePage extends ShareDialogue
      */
     public HtmlPage selectSave()
     {
-        WebElement okButton = driver.findElement(OK_BUTTON);
-        okButton.click();
+        driver.findElement(OK_BUTTON).click();
         return getCurrentPage();
     }
 
