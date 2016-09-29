@@ -184,7 +184,7 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("Unable to find Search Site scope option" + nse);
+            logger.error("Unable to find Search Site scope option", nse);
             throw new PageException("Unable to find live search documents title.", nse);
         }
     }
@@ -213,7 +213,7 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (TimeoutException toe)
         {
-            logger.error("No live search document results " + toe);
+            logger.error("No live search document results ", toe);
         }
         return results;
 
@@ -240,7 +240,7 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (TimeoutException toe)
         {
-            logger.error("No live search sites results " + toe);
+            logger.error("No live search sites results ", toe);
         }
         return results;
     }
@@ -266,7 +266,7 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (TimeoutException toe)
         {
-            logger.error("No live search people results " + toe);
+            logger.error("No live search people results ", toe);
         }
         return results;
     }
@@ -284,12 +284,12 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("Close live search dropdown button not present " + nse);
+            logger.error("Close live search dropdown button not present ", nse);
             throw new PageException("Unable to find close live search dropdown button.", nse);
         }
         catch (TimeoutException te)
         {
-            logger.error("Close live search dropdown button not present " + te);
+            logger.error("Close live search dropdown button not present ", te);
             throw new PageException("Close live search dropdown button is not visible", te);
         }
 
@@ -437,12 +437,12 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("No see more results icon " + nse);
+            logger.error("No see more results icon ", nse);
             throw new PageException("Unable to find see more results icon.", nse);
         }
         catch (TimeoutException te)
         {
-            logger.error("Unable to find see more results icon. " + te);
+            logger.error("Unable to find see more results icon. ", te);
             throw new PageException("Unable to find see more results icon. ", te);
         }
 
@@ -471,7 +471,7 @@ public class LiveSearchDropdown extends SharePage
 	        }
 	        catch (NoSuchElementException nse)
 	        {
-	            logger.error("Required scope could not be selected" + nse);
+	            logger.error("Required scope could not be selected", nse);
 	            throw new PageException("Unable to find Search Alfresco option.", nse);
 	        }
     	}
@@ -496,8 +496,6 @@ public class LiveSearchDropdown extends SharePage
 	        {
 	            if(result.getTitle().getDescription().contains(liveSearchItem.getResultItemName()))
 	            {
-	            	// This is currently based on DocTitle alone. Code can be added here to check the Sitename and Username too
-	            	
 	            	// Check if SiteName matches
 	            	if (liveSearchItem.getSiteName().isEmpty() || result.getSiteName().getDescription().equalsIgnoreCase(liveSearchItem.getSiteName()))
 	            	{            	
