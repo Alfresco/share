@@ -5,6 +5,14 @@
         <artifactId>alfresco-share-parent</artifactId>
         <version>5.2-SNAPSHOT</version>
     </parent>
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <artifactId>alfresco-wcmqs-parent</artifactId>
     <packaging>pom</packaging>
     <name>Alfresco WCMQS Parent</name>
