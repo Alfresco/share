@@ -135,7 +135,7 @@ public class SiteCalendarDashletTest extends AbstractSiteDashletTest
 
         // Create multiple day event
         int anotherDate;
-        if (lastDate == todayDate)
+        if (lastDate >= todayDate)
         {
             anotherDate = todayDate - 3;
             calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.MONTH_TAB, event_dashlet, event_dashlet, event_dashlet,

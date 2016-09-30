@@ -30,7 +30,9 @@ package org.alfresco.po.share.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
@@ -49,6 +51,18 @@ import org.openqa.selenium.WebElement;
 public class LiveSearchDropdown extends SharePage
 {
     private static Log logger = LogFactory.getLog(LiveSearchDropdown.class);
+
+    // Live Search drop down
+    private static final String LIVE_SEARCH_DROPDOWN = ".alf-livesearch";
+
+    // Search scope Repository
+    private static final String SCOPE_REPOSITORY = ".alf-livesearch-context__repo";
+
+    // Search scope Site
+    private static final String SCOPE_SITE = ".alf-livesearch-context__site";
+    
+    // Site Scope: Visibility
+    private static final String SITE_VISIBILITY = "#HEADER_TITLE_VISIBILITY";
 
     // Documents Title
     private static final String DOCUMENTS_TITLE = "div[data-dojo-attach-point='titleNodeDocs']";
@@ -85,7 +99,59 @@ public class LiveSearchDropdown extends SharePage
     @Override
     public LiveSearchDropdown render(RenderTime timer)
     {
-        return this;
+    	if (isUserWithinSiteContext() && isLiveSearchDropdownVisible()) {
+    		
+    		 elementRender(timer, RenderElement.getVisibleRenderElement(By.cssSelector(SCOPE_REPOSITORY)), 
+    				 RenderElement.getVisibleRenderElement(By.cssSelector(SCOPE_SITE)));
+    	        return this;
+        }
+    	else
+    	{
+    		elementRender(timer, new RenderElement(By.cssSelector(SCOPE_REPOSITORY), ElementState.PRESENT), 
+    				new RenderElement(By.cssSelector(SCOPE_SITE), ElementState.PRESENT));
+    	}
+    	return this;    	
+    }
+    
+    /**
+     * Check is User is within Site Context, default is false, when repo context
+     *
+     * @return if displayed
+     */
+    public boolean isUserWithinSiteContext()
+    {
+        try
+        {
+            boolean displayed = driver.findElement(By.cssSelector(SITE_VISIBILITY)).isDisplayed();
+            if (logger.isTraceEnabled())
+            {
+                logger.trace(String.format("** Site Scope: %s", displayed));
+            }
+            return displayed;
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+        return false;
+    }
+
+    /**
+     * Checks if live search dropdown is displayed
+     *
+     * @return boolean
+     */
+    public boolean isLiveSearchDropdownVisible()
+    {
+        try
+        {
+            boolean liveSearchDropdownVisible = driver.findElement(By.cssSelector(LIVE_SEARCH_DROPDOWN)).isDisplayed();
+            return liveSearchDropdownVisible;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("No live search dropdown " + nse);
+        }
+        return false;
     }
 
     /**
@@ -99,7 +165,7 @@ public class LiveSearchDropdown extends SharePage
         List<LiveSearchDocumentResult> results = new ArrayList<LiveSearchDocumentResult>();
         try
         {
-            
+
             List<WebElement> elements = findAndWaitForElements(By.cssSelector(DOCUMENT_RESULTS));           
             if (elements.size() > 0)
             {

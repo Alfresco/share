@@ -100,7 +100,6 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
     @BeforeClass(groups = { "alfresco-one" })
     public void createSite() throws Exception
     {
-
     	// createEnterpriseUser(userName);
         dashBoard = loginAs(username, password);
     	adminActions.createEnterpriseUser(driver, userName, userName, userName, userName + "@test.com", userName);
