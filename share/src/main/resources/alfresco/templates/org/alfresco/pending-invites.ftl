@@ -11,6 +11,7 @@
    <div id="bd">
       <@region id="membersbar" scope="template" />
       <@region id="sent-invites" scope="template" />
+      <@region id="pending-requests" scope="template" />
    </div>
    </@>
 </@>
