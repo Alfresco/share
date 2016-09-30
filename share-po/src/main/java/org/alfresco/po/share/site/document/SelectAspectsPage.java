@@ -238,8 +238,8 @@ public class SelectAspectsPage extends SharePage
      */
     private HtmlPage addRemoveAspects(List<DocumentAspect> aspects, By by)
     {
-        PageUtils.checkMandotaryParam("aspcets", aspects);
-        PageUtils.checkMandotaryParam("By selector", by);
+        PageUtils.checkMandatoryParam("aspcets", aspects);
+        PageUtils.checkMandatoryParam("By selector", by);
         
         Map<String, ShareLink> availableAspectMap = getAllAspectsMap(by);
         if (availableAspectMap != null && !availableAspectMap.isEmpty())

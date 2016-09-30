@@ -207,7 +207,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage createNewModel(WebDriver driver, String modelName)
     {
-        PageUtils.checkMandotaryParam("modelName", modelName);
+        PageUtils.checkMandatoryParam("modelName", modelName);
 
         try
         {
@@ -235,9 +235,9 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage createNewModel(WebDriver driver, String modelName, String nameSpace, String prefix)
     {
-        PageUtils.checkMandotaryParam("modelName", modelName);
-        PageUtils.checkMandotaryParam("nameSpace", nameSpace);
-        PageUtils.checkMandotaryParam("prefix", prefix);
+        PageUtils.checkMandatoryParam("modelName", modelName);
+        PageUtils.checkMandatoryParam("nameSpace", nameSpace);
+        PageUtils.checkMandatoryParam("prefix", prefix);
 
         try
         {
@@ -263,7 +263,7 @@ public class CmmActions extends CommonActions
      */
     public void deleteModel(WebDriver driver, String modelName)
     {
-        PageUtils.checkMandotaryParam("Model Name must be specified", modelName);
+        PageUtils.checkMandatoryParam("Model Name must be specified", modelName);
 
         String deleteAction = factoryPage.getValue("cmm.model.action.delete");
 
@@ -292,7 +292,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage setModelActive(WebDriver driver, String modelName, boolean activateModel)
     {
-        PageUtils.checkMandotaryParam("Model Name must be specified", modelName);
+        PageUtils.checkMandatoryParam("Model Name must be specified", modelName);
 
         String actionName = factoryPage.getValue("cmm.model.action.activate");
 
@@ -322,7 +322,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage viewTypesAspectsForModel(WebDriver driver, String modelName) throws Exception
     {
-        PageUtils.checkMandotaryParam("Model Name must be specified", modelName);
+        PageUtils.checkMandatoryParam("Model Name must be specified", modelName);
 
         try
         {
@@ -370,7 +370,7 @@ public class CmmActions extends CommonActions
     public HtmlPage createAspect(WebDriver driver, String aspectName)
     {
 
-        PageUtils.checkMandotaryParam("Aspect Name must be specified", aspectName);
+        PageUtils.checkMandatoryParam("Aspect Name must be specified", aspectName);
 
         try
         {
@@ -395,8 +395,8 @@ public class CmmActions extends CommonActions
     public HtmlPage createAspect(WebDriver driver, String aspectName, String parentAspect)
     {
 
-        PageUtils.checkMandotaryParam("Aspect Name must be specified", aspectName);
-        PageUtils.checkMandotaryParam("Aspect Name must be specified", parentAspect);
+        PageUtils.checkMandatoryParam("Aspect Name must be specified", aspectName);
+        PageUtils.checkMandatoryParam("Aspect Name must be specified", parentAspect);
 
         try
         {
@@ -422,7 +422,7 @@ public class CmmActions extends CommonActions
     public HtmlPage createType(WebDriver driver, String typeName)
     {
 
-        PageUtils.checkMandotaryParam("Type Name must be specified", typeName);
+        PageUtils.checkMandatoryParam("Type Name must be specified", typeName);
 
         try
         {
@@ -450,8 +450,8 @@ public class CmmActions extends CommonActions
     public HtmlPage createType(WebDriver driver, String typeName, String parentType)
     {
 
-        PageUtils.checkMandotaryParam("Type Name must be specified", typeName);
-        PageUtils.checkMandotaryParam("Parent Name must be specified", parentType);
+        PageUtils.checkMandatoryParam("Type Name must be specified", typeName);
+        PageUtils.checkMandatoryParam("Parent Name must be specified", parentType);
 
         try
         {
@@ -484,8 +484,8 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage deleteAspect(WebDriver driver, String aspectName, String confirmDeleteAction)
     {
-        PageUtils.checkMandotaryParam("Aspect Name", aspectName);
-        PageUtils.checkMandotaryParam("confirmDeleteAction", confirmDeleteAction);
+        PageUtils.checkMandatoryParam("Aspect Name", aspectName);
+        PageUtils.checkMandatoryParam("confirmDeleteAction", confirmDeleteAction);
 
         String deleteAction = factoryPage.getValue("cmm.model.action.delete");
         String deleteActionCancel = factoryPage.getValue("cmm.model.action.cancel");
@@ -528,8 +528,8 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage deleteType(WebDriver driver, String typeName, String confirmDeleteAction)
     {
-        PageUtils.checkMandotaryParam("Type Name", typeName);
-        PageUtils.checkMandotaryParam("confirmDeleteAction", confirmDeleteAction);
+        PageUtils.checkMandatoryParam("Type Name", typeName);
+        PageUtils.checkMandatoryParam("confirmDeleteAction", confirmDeleteAction);
 
         String deleteAction = factoryPage.getValue("cmm.model.action.delete");
         String deleteActionCancel = factoryPage.getValue("cmm.model.action.cancel");
@@ -570,7 +570,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage viewProperties(WebDriver driver, String typeAspectName) throws Exception
     {
-        PageUtils.checkMandotaryParam("Type or Aspect Name must be specified", typeAspectName);
+        PageUtils.checkMandatoryParam("Type or Aspect Name must be specified", typeAspectName);
 
         SharePage page = getSharePage(driver).render();
 
@@ -606,7 +606,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage createProperty(WebDriver driver, String propertyName)
     {
-        PageUtils.checkMandotaryParam("Property Name must be specified", propertyName);
+        PageUtils.checkMandatoryParam("Property Name must be specified", propertyName);
 
         ManagePropertiesPage propertyListPage = getSharePage(driver).render();
 
@@ -626,7 +626,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage createProperty(WebDriver driver, String propertyName, String title, String desc, DataType dataType, MandatoryClassifier mandatory, boolean multivalued, String defaultValue)
     {
-        PageUtils.checkMandotaryParam("Property Name must be specified", propertyName);
+        PageUtils.checkMandatoryParam("Property Name must be specified", propertyName);
 
         String datatype = factoryPage.getValue(dataType.getListValue());
         String mandatoryClassifier = factoryPage.getValue(mandatory.getListValue());
@@ -661,7 +661,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage createPropertyWithConstraint(WebDriver driver, String propertyName, String title, String desc, DataType dataType, MandatoryClassifier mandatory, boolean multivalued, String defaultValue, ConstraintDetails constraintDetails)
     {
-        PageUtils.checkMandotaryParam("Property Name must be specified", propertyName);
+        PageUtils.checkMandatoryParam("Property Name must be specified", propertyName);
 
         String datatype = factoryPage.getValue(dataType.getListValue());
         String mandatoryClassifier = factoryPage.getValue(mandatory.getListValue());
@@ -723,9 +723,9 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editModel(WebDriver driver, String modelName, String nameSpace, String prefix)
     {
-        PageUtils.checkMandotaryParam("modelName", modelName);
-        PageUtils.checkMandotaryParam("nameSpace", nameSpace);
-        PageUtils.checkMandotaryParam("prefix", prefix);
+        PageUtils.checkMandatoryParam("modelName", modelName);
+        PageUtils.checkMandatoryParam("nameSpace", nameSpace);
+        PageUtils.checkMandatoryParam("prefix", prefix);
 
         try
         {
@@ -753,7 +753,7 @@ public class CmmActions extends CommonActions
      */
     public EditCustomTypePopUp getEditTypePopUp(WebDriver driver, String typeName)
     {
-        PageUtils.checkMandotaryParam("Type Name must be specified", typeName);
+        PageUtils.checkMandatoryParam("Type Name must be specified", typeName);
 
         editAction = factoryPage.getValue("cmm.model.action.edit");
 
@@ -778,7 +778,7 @@ public class CmmActions extends CommonActions
      */
     public EditPropertyGroupPopUp getEditAspectPopUp(WebDriver driver, String aspectName)
     {
-        PageUtils.checkMandotaryParam("Aspect Name must be specified", aspectName);
+        PageUtils.checkMandatoryParam("Aspect Name must be specified", aspectName);
 
         editAction = factoryPage.getValue("cmm.model.action.edit");
 
@@ -806,7 +806,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editType(WebDriver driver, String typeName, String title, String description, String parentType)
     {
-        PageUtils.checkMandotaryParam("Type Name must be specified", typeName);
+        PageUtils.checkMandatoryParam("Type Name must be specified", typeName);
 
         editAction = factoryPage.getValue("cmm.model.action.edit");
 
@@ -842,7 +842,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editAspect(WebDriver driver, String aspectName, String title, String description, String parentType)
     {
-        PageUtils.checkMandotaryParam("Aspect Name must be specified", aspectName);
+        PageUtils.checkMandatoryParam("Aspect Name must be specified", aspectName);
 
         editAction = factoryPage.getValue("cmm.model.action.edit");
 
@@ -878,7 +878,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editTypewithoutParent(WebDriver driver, String typeName, String title, String description)
     {
-        PageUtils.checkMandotaryParam("Type Name must be specified", typeName);
+        PageUtils.checkMandatoryParam("Type Name must be specified", typeName);
 
         editAction = factoryPage.getValue("cmm.model.action.edit");
 
@@ -913,7 +913,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editAspectWithoutParent(WebDriver driver, String aspectName, String title, String description)
     {
-        PageUtils.checkMandotaryParam("Aspect Name must be specified", aspectName);
+        PageUtils.checkMandatoryParam("Aspect Name must be specified", aspectName);
 
         editAction = factoryPage.getValue("cmm.model.action.edit");
 
@@ -946,8 +946,8 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage deleteProperty(WebDriver driver, String propertyName, String confirmDeleteAction)
     {
-        PageUtils.checkMandotaryParam("Property Name", propertyName);
-        PageUtils.checkMandotaryParam("confirmDeleteAction", confirmDeleteAction);
+        PageUtils.checkMandatoryParam("Property Name", propertyName);
+        PageUtils.checkMandatoryParam("confirmDeleteAction", confirmDeleteAction);
 
         String deleteAction = factoryPage.getValue("cmm.model.action.delete");
         String deleteActionCancel = factoryPage.getValue("cmm.model.action.cancel");
@@ -989,7 +989,7 @@ public class CmmActions extends CommonActions
      */
     public EditPropertyPopUp getEditPropertyForType(WebDriver driver, String typeAspectName, String compoundPropertyName)
     {
-        PageUtils.checkMandotaryParam("Type Name must be specified", typeAspectName);
+        PageUtils.checkMandatoryParam("Type Name must be specified", typeAspectName);
 
         editAction = factoryPage.getValue("cmm.model.action.edit");
 
@@ -1019,7 +1019,7 @@ public class CmmActions extends CommonActions
     public EditPropertyPopUp getEditPropertyForAspect(WebDriver driver, String typeAspectName, String compoundPropertyName)
 
     {
-        PageUtils.checkMandotaryParam("Aspect Name must be specified", typeAspectName);
+        PageUtils.checkMandatoryParam("Aspect Name must be specified", typeAspectName);
 
         editAction = factoryPage.getValue("cmm.model.action.edit");
 
@@ -1047,7 +1047,7 @@ public class CmmActions extends CommonActions
      */
     public EditPropertyPopUp getEditPropertyPopUp(WebDriver driver, String typeAspectName, String compoundPropertyName)
     {
-        PageUtils.checkMandotaryParam("Type or Aspect Name must be specified", typeAspectName);
+        PageUtils.checkMandatoryParam("Type or Aspect Name must be specified", typeAspectName);
 
         SharePage page = getSharePage(driver);
 
@@ -1097,7 +1097,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editProperty(WebDriver driver, String typeAspectName, String propertyName, String title, String desc, DataType dataType, MandatoryClassifier mandatory, boolean multivalued, String defaultValue)
     {
-        PageUtils.checkMandotaryParam("Property Name must be specified", propertyName);
+        PageUtils.checkMandatoryParam("Property Name must be specified", propertyName);
 
         String datatype = factoryPage.getValue(dataType.getListValue());
         String mandatoryClassifier = factoryPage.getValue(mandatory.getListValue());
@@ -1127,7 +1127,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editPropertyWithConstraint(WebDriver driver, String typeAspectName, String propertyName, String title, String desc, DataType dataType, MandatoryClassifier mandatory, boolean multivalued, String defaultValue, ConstraintDetails constraintDetails)
     {
-        PageUtils.checkMandotaryParam("Property Name must be specified", propertyName);
+        PageUtils.checkMandatoryParam("Property Name must be specified", propertyName);
 
         String datatype = factoryPage.getValue(dataType.getListValue());
         String mandatoryClassifier = factoryPage.getValue(mandatory.getListValue());
@@ -1184,7 +1184,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editPropertyForAM(WebDriver driver, String typeAspectName, String propertyName, String title, String desc, String defaultValue)
     {
-        PageUtils.checkMandotaryParam("Property Name must be specified", propertyName);
+        PageUtils.checkMandatoryParam("Property Name must be specified", propertyName);
 
         EditPropertyPopUp editPropertyPopup = getEditPropertyPopUp(driver, typeAspectName, propertyName).render();
         editPropertyPopup.setTitleField(title);
@@ -1202,7 +1202,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage editPropertyWithConstraintForAM(WebDriver driver, String typeAspectName, String propertyName, String title, String desc, String defaultValue, ConstraintDetails constraintDetails)
     {
-        PageUtils.checkMandotaryParam("Property Name must be specified", propertyName);
+        PageUtils.checkMandatoryParam("Property Name must be specified", propertyName);
 
         EditPropertyPopUp editPropertyPopup = getEditPropertyPopUp(driver, typeAspectName, propertyName).render();
 
@@ -1252,7 +1252,7 @@ public class CmmActions extends CommonActions
     {
         boolean match = true;
 
-        PageUtils.checkMandotaryParam("Expected Properties Map", expectedProps);
+        PageUtils.checkMandatoryParam("Expected Properties Map", expectedProps);
 
         Map<String, Object> propsToCompare = new HashMap<String, Object>();
 
@@ -1329,7 +1329,7 @@ public class CmmActions extends CommonActions
      */
     public Object getPropertyValue(WebDriver driver, String propToCheck)
     {
-        PageUtils.checkMandotaryParam("Properties to be checked", propToCheck);
+        PageUtils.checkMandatoryParam("Properties to be checked", propToCheck);
 
         DetailsPage detailsPage = getSharePage(driver).render();
 
@@ -1347,7 +1347,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage getFormEditorForTypeOrAspect(WebDriver driver, String typeAspectName)
     {
-        PageUtils.checkMandotaryParam("Type or Aspect Name", typeAspectName);
+        PageUtils.checkMandatoryParam("Type or Aspect Name", typeAspectName);
 
         String editFormsAction = factoryPage.getValue("cmm.model.action.form.editor");
 
@@ -1429,7 +1429,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage findInstances(WebDriver driver, String typeAspectName)
     {
-        PageUtils.checkMandotaryParam("Type or Aspect Name must be specified", typeAspectName);
+        PageUtils.checkMandatoryParam("Type or Aspect Name must be specified", typeAspectName);
 
         findInstanceAction = factoryPage.getValue("cmm.Find.Instance");
 
@@ -1487,7 +1487,7 @@ public class CmmActions extends CommonActions
      */
     public HtmlPage createPropertyWithIndexingOption(WebDriver driver, String propertyName, String title, String desc, DataType dataType, MandatoryClassifier mandatory, boolean multivalued, String defaultValue, IndexingOptions indexingOption)
     {
-        PageUtils.checkMandotaryParam("Property Name must be specified", propertyName);
+        PageUtils.checkMandatoryParam("Property Name must be specified", propertyName);
 
         String datatype = factoryPage.getValue(dataType.getListValue());
         String mandatoryClassifier = factoryPage.getValue(mandatory.getListValue());

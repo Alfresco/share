@@ -412,5 +412,19 @@ public class SearchResultItem extends PageElement implements SearchResult
     {
         return thumbnail;
     }
+    
+    @Override
+	public HtmlPage selectItemCheckBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+
+	@Override
+	public boolean isItemCheckBoxSelected() {		
+		
+		// TODO Auto-generated method stub
+		return true;
+	}
+   
 	
 }

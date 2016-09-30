@@ -138,7 +138,7 @@ public class ManagePropertiesPage extends SharePage
      */
     public PropertyRow getPropertyRowByName(String name)
     {
-        PageUtils.checkMandotaryParam(name, "Name can not be Null or Empty");
+        PageUtils.checkMandatoryParam(name, "Name can not be Null or Empty");
 
         for (PropertyRow row : propertyRows)
         {

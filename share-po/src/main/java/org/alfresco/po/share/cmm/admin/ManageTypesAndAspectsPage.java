@@ -121,7 +121,7 @@ public class ManageTypesAndAspectsPage extends SharePage
      */
     public ModelTypeRow getCustomModelTypeRowByName(String typeName)
     {
-        PageUtils.checkMandotaryParam(typeName, "Type Name can not be Null or Empty");
+        PageUtils.checkMandatoryParam(typeName, "Type Name can not be Null or Empty");
 
         for (ModelTypeRow row : getCustomModelTypeRows())
         {
@@ -165,7 +165,7 @@ public class ManageTypesAndAspectsPage extends SharePage
      */
     public ModelPropertyGroupRow getCustomModelPropertyGroupRowByName(String aspectName)
     {
-        PageUtils.checkMandotaryParam(aspectName, "Aspect Name can not be Null or Empty");
+        PageUtils.checkMandatoryParam(aspectName, "Aspect Name can not be Null or Empty");
 
         for (ModelPropertyGroupRow row : getCustomModelPropertyGroupRows())
         {
@@ -340,7 +340,7 @@ public class ManageTypesAndAspectsPage extends SharePage
      */
     public boolean isForModel(String modelName)
     {
-        PageUtils.checkMandotaryParam("Model Name can not be Null or Empty", modelName);
+        PageUtils.checkMandatoryParam("Model Name can not be Null or Empty", modelName);
         return modelName.equals(getModelName());
     }
 }

@@ -52,7 +52,7 @@ import org.openqa.selenium.WebElement;
 public class LiveSearchSiteResult extends PageElement
 {
     private static Log logger = LogFactory.getLog(LiveSearchSiteResult.class);
-    private static final String DOCUMENT_SITE_TITLE = "a";
+    private static final String SITE_TITLE = ".alf-live-search-sites-list .alf-livesearch-item__name";
     private WebElement webElement;
     private ShareLink siteName;
     
@@ -60,7 +60,8 @@ public class LiveSearchSiteResult extends PageElement
     /**
      * Constructor
      * @param element {@link WebElement} 
-     * @param drone WebDrone
+     * @param driver WebDriver
+     * @param factoryPage
      */
     public LiveSearchSiteResult(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
@@ -79,7 +80,7 @@ public class LiveSearchSiteResult extends PageElement
         {
             try
             {
-                WebElement siteTitleElement = webElement.findElement(By.cssSelector(DOCUMENT_SITE_TITLE));
+                WebElement siteTitleElement = webElement.findElement(By.cssSelector(SITE_TITLE));
                 siteName = new ShareLink(siteTitleElement, driver, factoryPage);
             }
             catch (NoSuchElementException e)
@@ -99,7 +100,7 @@ public class LiveSearchSiteResult extends PageElement
     {
         try
         {
-            webElement.findElement(By.cssSelector(DOCUMENT_SITE_TITLE)).click();
+            webElement.findElement(By.cssSelector(SITE_TITLE)).click();
             return getCurrentPage();
          
         }

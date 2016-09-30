@@ -2472,7 +2472,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
      */
     private String getModelInfo(ModelInfo infoRequired)
     {
-        PageUtils.checkMandotaryParam("Specify Which Model Info is Required", infoRequired);
+        PageUtils.checkMandatoryParam("Specify Which Model Info is Required", infoRequired);
 
         if (!(getCurrentPage() instanceof ModelsPage))
         {

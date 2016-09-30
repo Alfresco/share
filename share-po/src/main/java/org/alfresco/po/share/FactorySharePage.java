@@ -80,10 +80,12 @@ import org.alfresco.po.share.search.AdvanceSearchFolderPage;
 import org.alfresco.po.share.search.AdvanceSearchPage;
 import org.alfresco.po.share.search.AllSitesResultsPage;
 import org.alfresco.po.share.search.CopyAndMoveContentFromSearchPage;
+import org.alfresco.po.share.search.CopyOrMoveFailureNotificationPopUp;
 import org.alfresco.po.share.search.CreateNewFilterPopUpPage;
 import org.alfresco.po.share.search.FacetedSearchConfigPage;
 import org.alfresco.po.share.search.FacetedSearchPage;
 import org.alfresco.po.share.search.RepositoryResultsPage;
+import org.alfresco.po.share.search.SearchConfirmDeletePage;
 import org.alfresco.po.share.search.SiteResultsPage;
 import org.alfresco.po.share.site.AddGroupsPage;
 import org.alfresco.po.share.site.AddUsersToSitePage;
@@ -787,6 +789,14 @@ public class FactorySharePage implements FactoryPage
                 else if ("Import Model".equals(dialogueText))
                 {
                     sharePage = instantiatePage(driver, ImportModelPopUp.class);
+                }
+                else if ("Confirm Deletion".equals(dialogueText))
+                {
+                	sharePage = instantiatePage(driver, SearchConfirmDeletePage.class);
+                }
+                else if ("Notification".equals(dialogueText))
+                {
+                	sharePage = instantiatePage(driver, CopyOrMoveFailureNotificationPopUp.class);
                 }
             }
         }
