@@ -31,6 +31,10 @@ function main()
          }
       }
    }
+   if (page.url.args.error == "true")
+   {
+      model.authfailureMessage = msg.get("auth.message");
+   }
 }
 
 main();

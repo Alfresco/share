@@ -35,6 +35,14 @@
                   </#list>
                </@markup>
             </div>
+            
+            <#if page.url.args.error! == "true">
+               <script>
+                  Alfresco.util.PopupManager.displayMessage({
+                     text: "${authfailureMessage?js_string}"
+                  });
+               </script>
+            </#if>
 
             <div class="clear"></div>
 
