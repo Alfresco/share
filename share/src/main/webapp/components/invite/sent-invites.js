@@ -909,7 +909,7 @@
                joinRequestTaskUrl = $siteURL('task-details?taskId=' + record.getData().id);
             }
 
-            window.open(joinRequestTaskUrl, '_blank');
+            window.open(joinRequestTaskUrl, '_self');
          },
 
          function SentInvites_addCustomColumnDefinitions(columnDefinitions) {
@@ -922,24 +922,6 @@
 
 
       // Extra implementation-specific methods:
-
-      /**
-       * View join request task
-       */
-      this.viewJoinRequestTask = function Pending_viewJoinRequestTask(record) {
-    	  var joinRequestTaskUrl = '';
-
-    	  if (record.getData().isEditable)
-          {
-    		  joinRequestTaskUrl = $siteURL('task-edit?taskId=' + record.getData().id);
-          }
-    	  else
-          {
-    		  joinRequestTaskUrl = $siteURL('task-details?taskId=' + record.getData().id);
-          }
-
-    	  window.open(joinRequestTaskUrl, '_blank');
-      }
 
       /**
        * Render "Approve" button
