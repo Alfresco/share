@@ -974,6 +974,9 @@
        * "Approve" button on-click event handler
        */
       this.onApproveButtonClick = function (event, p_obj) {
+          var userName = that.getPersonData(p_obj.getData()).userName;
+          var taskId = p_obj.getData().id;
+
           // disable the button
           that.actionButtons[userName + '_approve'].set('disabled', true);
 
