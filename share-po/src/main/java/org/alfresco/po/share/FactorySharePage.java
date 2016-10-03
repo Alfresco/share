@@ -778,7 +778,7 @@ public class FactorySharePage implements FactoryPage
                     sharePage = instantiatePage(driver, ApplyDefaultLayoutPopUp.class);
                 }
                 else if ("Delete Model".equals(dialogueText) || "Delete Custom Type".equals(dialogueText)
-                        || "Delete Aspect".equals(dialogueText) || "Delete Property".equals(dialogueText))
+                        || "Delete Aspect".equals(dialogueText) || "Delete Property".equals(dialogueText) || "Delete Site".equals(dialogueText))
                 {
                     sharePage = instantiatePage(driver, ConfirmDeletePopUp.class);
                 }

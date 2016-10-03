@@ -52,7 +52,7 @@ public class DocListPaginator extends PageElement
     @FindBy(css="div[id=DOCLIB_PAGINATION_MENU_PAGE_BACK]") private WebElement prevPageButton;
     @FindBy(css="div[id=DOCLIB_PAGINATION_MENU_PAGE_FORWARD]") private WebElement nextPageButton;
     @FindBy(css="div[id=DOCLIB_PAGINATION_MENU_RESULTS_PER_PAGE_SELECTOR]") private WebElement resultsPerPageSelector;
-	@FindBy(css="div[id=DOCLIB_PAGINATION_MENU_PAGE_MARKER]") private WebElement pageNumber;
+	@FindBy(css="div[id=DOCLIB_PAGINATION_MENU_PAGE_MARKER] span") private WebElement pageNumber;
 
     /**
      * Go to the first page of results.

@@ -31,7 +31,10 @@ import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.GroupsPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.RepositoryPage;
+import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.UserSearchPage;
+import org.alfresco.po.share.admin.AdminConsolePage;
+import org.alfresco.po.share.admin.ManageSitesPage;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
 import org.alfresco.po.share.site.document.UserProfile;
 import org.alfresco.po.HtmlPage;
@@ -184,5 +187,19 @@ public class AdminActions extends CommonActions
         {
             throw new PageOperationException("Models Page can not be opened", poe);
         }
+    }
+    
+    /**
+     * Open Admin Tools > Sites Manager Page
+     * 
+     * @param driver WebDriver
+     * @return ManageSitesPage
+     */
+    public HtmlPage openSitesManagerPage(WebDriver driver)
+    {        
+    	SharePage page = getSharePage(driver).render();
+    	
+		ManageSitesPage manageSitesPage = page.getNav().selectManageSitesPage().render();
+		return manageSitesPage;
     }
 }

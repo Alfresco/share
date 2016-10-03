@@ -33,20 +33,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.List;
-
 import javax.imageio.ImageIO;
 
 import org.alfresco.dataprep.UserService;
-import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.cmm.steps.CmmActions;
 import org.alfresco.po.share.dashlet.FactoryShareDashlet;
-import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.UploadFilePage;

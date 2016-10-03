@@ -63,9 +63,9 @@ public class CreateNewCustomTypePopUpTest extends AbstractTestCMM
         ModelManagerPage cmmPage = cmmActions.navigateToModelManagerPage(driver).render();
 
         CreateNewModelPopUp createNewModelPopUpPage = cmmPage.clickCreateNewModelButton().render();
-        createNewModelPopUpPage.setName(name);
         createNewModelPopUpPage.setNameSpace(name);
         createNewModelPopUpPage.setPrefix(name);
+        createNewModelPopUpPage.setName(name);
         createNewModelPopUpPage.setDescription(name);
 
         cmmPage = createNewModelPopUpPage.selectCreateModelButton("Create").render();

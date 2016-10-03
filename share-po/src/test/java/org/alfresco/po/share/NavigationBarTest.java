@@ -60,6 +60,8 @@ public class NavigationBarTest extends AbstractTest
 {
     private SharePage page;
     private String siteName;
+    private String userinfo;
+    private String userinfoSiteAdmin;
 
     private static final String pentahoBusinessAnalystGroup = "ANALYTICS_BUSINESS_ANALYSTS";
     private String businessAnalystsUserName = "BusinessAnalystUser_" + System.currentTimeMillis();
@@ -69,7 +71,9 @@ public class NavigationBarTest extends AbstractTest
     public void setup() throws Exception
     {
         siteName = String.format("test-%d-site-crud",System.currentTimeMillis());
-        page = loginAs(username, password);
+        userinfo = "user" + System.currentTimeMillis() + "@test.com";
+        userinfoSiteAdmin = "userSA" + System.currentTimeMillis() + "@test.com";
+        page = loginAs(username, password);        
     }
     
 //    /**
@@ -230,7 +234,27 @@ public class NavigationBarTest extends AbstractTest
     }
 
     /**
-     * Navigate to manage sites from the dashboard page by Repo Admin
+     * Navigate to manage sites from the dashboard page by Non Admin User
+     * 
+     * @throws Exception if error
+     */
+    @Test (groups = { "Enterprise-only"}, dependsOnGroups ="alfresco-one")
+    public void navigateToManageSitesNotSiteAdmin() throws Exception
+    {
+        UserSearchPage userPage = page.getNav().getUsersPage().render();
+        NewUserPage newPage = userPage.selectNewUser().render();
+
+        newPage.createEnterpriseUser(userinfo, userinfo, userinfo, userinfo, userinfo);
+        shareUtil.logout(driver);
+        
+        page = loginAs(userinfo, userinfo); 
+        // shareUtil.loginAs(driver, shareUrl, userinfo, userinfo);
+        Assert.assertFalse(page.getNav().hasSelectManageSitesSiteAdminLink(), "Sites Manager Link not expected");
+        shareUtil.logout(driver);
+    }
+    
+    /**
+     * Navigate to manage sites from the dashboard page by Site Admin
      * 
      * @throws Exception if error
      */
@@ -238,12 +262,15 @@ public class NavigationBarTest extends AbstractTest
     public void navigateToManageSitesSiteAdmin() throws Exception
     {
         String siteAdmin = "SITE_ADMINISTRATORS";
+        
+        page = loginAs(username, password); 
         UserSearchPage userPage = page.getNav().getUsersPage().render();
         NewUserPage newPage = userPage.selectNewUser().render();
-        String userinfo = "user" + System.currentTimeMillis() + "@test.com";
-        newPage.createEnterpriseUserWithGroup(userinfo, userinfo, userinfo, userinfo, userinfo, siteAdmin);
+
+        newPage.createEnterpriseUserWithGroup(userinfoSiteAdmin, userinfoSiteAdmin, userinfoSiteAdmin, userinfoSiteAdmin, userinfoSiteAdmin, siteAdmin);
         shareUtil.logout(driver);
-        shareUtil.loginAs(driver, shareUrl, userinfo, userinfo);
+        
+        page = loginAs(userinfoSiteAdmin, userinfoSiteAdmin);
         ManageSitesPage manageSitesPage = page.getNav().selectManageSitesSiteAdmin().render();
         Assert.assertEquals(manageSitesPage.getPageTitle(), "Sites Manager");
 

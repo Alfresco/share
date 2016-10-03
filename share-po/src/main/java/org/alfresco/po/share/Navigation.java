@@ -88,7 +88,7 @@ public class Navigation extends PageElement
     public HtmlPage selectMyDashBoard()
     {
         home.click();
-        return getCurrentPage();
+        return getCurrentPage().render();
     }
 
     @FindBy(id = "HEADER_PEOPLE_text")
