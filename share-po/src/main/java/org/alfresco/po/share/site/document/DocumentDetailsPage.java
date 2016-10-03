@@ -32,6 +32,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
@@ -327,13 +328,14 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Mimics the action of deleting a document detail.
      */
-    public HtmlPage delete()
+    public DocumentLibraryPage delete()
     {
         By by = By.cssSelector("div.document-delete>a");
         WebElement button = findAndWait(by);
         button.click();
-        confirmDelete();
-        return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+        confirmDeleteAction();
+        waitUntilElementDeletedFromDom(by, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return factoryPage.getPage(driver).render();
     }
 
     /**

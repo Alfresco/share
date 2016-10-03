@@ -198,7 +198,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         
         // Lower Case: Invalid: Only Lower Case Chars
         properties.put(propertyName, "alf");
-        EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
 
         // TODO: Edit Property fails
         Assert.assertNotNull(editPropPage, "Error: Node with Property values that do not adhere to the Constraint");   
@@ -282,7 +282,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         // Remove Space at the end now: This should succeed
         properties = new HashMap<String, Object>();
         properties.put(propertyName, "fred");        
-        siteActions.editNodeProperties(driver, true, properties).render();
+        siteActions.editNodePropertiesExpectError(driver, properties).render();
         
         // Expected Error: Edit Property fails
         properties = new HashMap<String, Object>();
@@ -295,10 +295,10 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         // Lower Case: Invalid
         properties = new HashMap<String, Object>();
         properties.put(propertyName, "Fred1@alfresco.com");
-        siteActions.editNodeProperties(driver, true, properties);
+        siteActions.editNodePropertiesExpectError(driver, properties).render();
         
         // Expected Error: Edit Property fails
-        siteActions.editNodeProperties(driver, false, properties);
+        siteActions.editNodeProperties(driver, false, properties).render();
         
         properties = new HashMap<String, Object>();
         properties.put(detailsPagePropName, "Fred1@alfresco.com");
@@ -410,7 +410,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         properties.put(propertyName, "test@alfresco.com");
         
         siteActions.getEditPropertiesPage(driver, docFile.getName());
-        EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
 
         // TODO: Expected Error: Edit Property Fails
         Assert.assertNotNull(editPropPage, "Error: Node with Property values that do not adhere to the Constraint");
@@ -532,7 +532,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         properties.put(propertyName, "fred@alfresco1.com"); 
         
         siteActions.getEditPropertiesPage(driver, docFile.getName());
-        siteActions.editNodeProperties(driver, true, properties).render();
+        siteActions.editNodePropertiesExpectError(driver, properties).render();
         // Edit Property fails        
         siteActions.editNodeProperties(driver, false, properties);
         
@@ -545,7 +545,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         properties.put(propertyName, "anyText");
         
         siteActions.getEditPropertiesPage(driver, docFile.getName());
-        siteActions.editNodeProperties(driver, true, properties).render();
+        siteActions.editNodePropertiesExpectError(driver, properties).render();
         
         // Edit Property fails        
         siteActions.editNodeProperties(driver, false, properties);
@@ -613,7 +613,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(propertyName, docName);
 
-        EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
 
         // TODO: Edit Property fails
         Assert.assertNotNull(editPropPage, "Error: Node with Property values that do not adhere to the Constraint"); 
@@ -621,7 +621,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         // Value out of Range
         properties.put(propertyName, 20);
         
-        editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
 
         // TODO: Edit Property fails
         Assert.assertNotNull(editPropPage, "Error: Node with Property values that do not adhere to the Constraint");         
@@ -708,7 +708,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         properties.put(propertyName, "18.8");        
 
         // Edit Property fails        
-        EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
         Assert.assertNotNull(editPropPage, "Error: Node with Property values that do not adhere to the Constraint");
         
         // Add Aspect: where Value does not adhere the the constraint
@@ -716,7 +716,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         properties.put(propertyName, 19);
         
         // Edit Property fails        
-        editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
         Assert.assertNotNull(editPropPage, "Error: Node with Property values that do not adhere to the Constraint");   
     }
     
@@ -779,7 +779,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         properties = new HashMap<String, Object>();
         properties.put(propertyName, "this");
 
-        EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
 
         // TODO: Edit Property fails
         Assert.assertNotNull(editPropPage, "Error: Node with Property values that do not adhere to the Constraint");
@@ -878,7 +878,7 @@ public class PropertyWithConstraintShareTest extends AbstractCMMQATest
         properties.put(propertyName, "6chars");
         
         // Edit Property fails        
-        EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
         Assert.assertNotNull(editPropPage, "Error: Node with Property values that do not adhere to the Constraint");
         
         // Add Aspect: where value does not adhere to the constraint: Too long

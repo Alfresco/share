@@ -38,9 +38,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
-import ru.yandex.qatools.htmlelements.element.Button;
 
 /**
  * New User page object, holds all element of the html page relating to
@@ -62,6 +59,7 @@ public class NewUserPage extends SharePage
 
     private static final String GROUP_SEARCH_BUTTON = "button[id$='default-create-groupfinder-group-search-button-button']";
     
+    private static final String CREATE_USER = "button[id$='default-createuser-ok-button-button']";
     private static final String CREATE_ANOTHER_USER = "button[id$='default-createuser-another-button-button']";
     private static final String CANCEL_CREATE_USER = "button[id$='default-createuser-cancel-button-button']";
 
@@ -70,6 +68,8 @@ public class NewUserPage extends SharePage
     private static final String TABLE_GROUP_NAMES = "div[id$='create-groupfinder-results'] tbody[class$='yui-dt-data']  tr[class*='yui-dt-rec']";
     private static final String ROW_GROUP_NAME = "td[class*='yui-dt-col-description'] div h3.itemname";
     private static final String GROUP_NAME = "td[class*='yui-dt-col-actions'] div span button";
+    
+    private static final String ADDED_GROUP_NAME = "div[style='visibility: visible;'] .groupselection-row";
 
 
     @SuppressWarnings("unchecked")
@@ -221,18 +221,22 @@ public class NewUserPage extends SharePage
     protected boolean isPageLoaded()
     {
         boolean groupsFrameLoaded = false;
+        boolean pageLoaded = false;
         try
         {
             WebElement element = driver.findElement(By.cssSelector(GROUP_SEARCH_BUTTON));
             groupsFrameLoaded = element.isDisplayed();
+            
+            WebElement button = driver.findElement(By.cssSelector(CREATE_USER));
+            pageLoaded = button.isDisplayed();
         }
         catch (NoSuchElementException te)
         {
         }
-        return groupsFrameLoaded;
+        return groupsFrameLoaded && pageLoaded;
     }
 
-    @FindBy(css="button[id$='default-createuser-ok-button-button']") Button createUser;
+    
     /**
      * Clicks on Create User Button.
      * To get the error page there is wait added to delete disappear so it may not find the exact time taken to execute method,
@@ -242,9 +246,11 @@ public class NewUserPage extends SharePage
      */
     public HtmlPage selectCreateUser()
     {
-        createUser.click();
+        WebElement createUser = findAndWait(By.cssSelector(CREATE_USER));
+    	createUser.click();
+//    	submit(By.cssSelector("button[id$='ok-button-button']"), ElementState.INVISIBLE);
         waitUntilAlert();
-        return getCurrentPage();
+        return getCurrentPage().render();
     }
 
     /**
@@ -397,7 +403,9 @@ public class NewUserPage extends SharePage
                 if (groupName.equals(webElement.findElement(By.cssSelector(ROW_GROUP_NAME)).getText()))
                 {
                     webElement.findElement(By.cssSelector(GROUP_NAME)).click();
-                    isAdded = true;
+                    WebElement groupAdded = findAndWait(By.cssSelector(ADDED_GROUP_NAME));
+                    
+                    isAdded = (groupName.matches(groupAdded.getText()));
                     break;
                 }
             }

@@ -93,6 +93,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     @Value("${download.directory}")protected String downloadDirectory;
     @Value("${test.password}") protected String password;
     @Value("${test.username}") protected String username;
+    @Value("${test.network}") protected String testNetwork;
     @Value("${blog.url}") protected String blogUrl;
     @Value("${blog.username}") protected String blogUsername;
     @Value("${blog.password}") protected String blogPassword;
@@ -244,7 +245,22 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
      */
     public void createEnterpriseUser(String uname) throws Exception
     {
-        userService.create(username, password, uname, "password", uname + "@test.com", uname, uname);
+        userService.create(username, password, uname, "password", getUserEmail(uname), uname, uname);
+    }
+    
+    public String getUserEmail(String username)
+    {
+    	if (username.contains("@"))
+    	{
+    		// Use as it
+    		return username;
+    	}
+    	else if (testNetwork == null || testNetwork.isEmpty())
+    	{
+    		testNetwork = "test.com";
+    	}
+    	return username + "@" + testNetwork;
+    			 
     }
 
 

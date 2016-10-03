@@ -34,8 +34,10 @@ import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.exception.ShareException;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
@@ -232,6 +234,49 @@ public class SharePopup extends SharePage
         catch(TimeoutException te)
         {
             throw new PageOperationException("Unable to Close the Popup", te);
+        }
+    }
+    
+    /**
+     * Click Button with the name
+     * 
+     * @param buttonName
+     * @return HtmlPage
+     */
+    public HtmlPage clickActionByName(String buttonName)
+    {
+        boolean buttonFound = false;
+        try
+        {
+            List<WebElement> dialogButtons = findDisplayedElements(By.cssSelector(DEFAULT_BUTTON));
+
+            // Iterate over the dialogButtons and click the button that matches the named dialog button name
+            for (WebElement button : dialogButtons)
+            {
+                if (buttonName.equalsIgnoreCase(StringUtils.trim(button.getText())))
+                {
+                    button.click();
+                    buttonFound = true;
+                    break;
+                }
+            }
+
+            if (buttonFound)
+            {
+                return factoryPage.getPage(driver);
+            }
+            else
+            {
+                throw new PageOperationException("Not able find the button " + buttonName);
+            }
+        }
+        catch (TimeoutException e)
+        {
+            throw new PageOperationException("Not able find the button ", e);
+        }
+        catch (StaleElementReferenceException ser)
+        {
+            return clickActionByName(buttonName);
         }
     }
 

@@ -436,7 +436,7 @@ public abstract class CommonActions
        LiveSearchDropdown liveSearchResults = liveSearch(driver, searchString, searchScope).render();
        
        return expectedInResults == liveSearchResults.areAllResultsFromSite(siteName);
-   } 
+   }
    
    /**
     * Util to perform search and retry waiting for solr indexing : check if search results are as expected
