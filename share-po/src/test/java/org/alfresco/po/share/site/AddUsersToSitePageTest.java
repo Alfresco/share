@@ -504,7 +504,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     }
 
     @Test(dependsOnMethods = "testNavigateToPendingInvitesPage", groups = "Enterprise-only")
-    public void testNavigateToGroupsInvatePage() throws Exception
+    public void testNavigateToGroupsInvitePage() throws Exception
     {
         dashBoard = loginAs(username, password);
         siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
@@ -518,7 +518,7 @@ public class AddUsersToSitePageTest extends AbstractTest
 
     }
 
-    @Test(dependsOnMethods = "testNavigateToGroupsInvatePage", groups = "Enterprise-only")
+    @Test(dependsOnMethods = "testNavigateToGroupsInvitePage", groups = "Enterprise-only")
     public void testNavigateToSiteMembersPage() throws Exception
     {
         dashBoard = loginAs(username, password);
