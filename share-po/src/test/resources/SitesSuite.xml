@@ -78,11 +78,11 @@
    <class name="org.alfresco.po.share.site.SiteTest" />
   </classes>
  </test>
-<!--  <test name="SiteLinksToDefaultPageTest">
+ <test name="SiteLinksToDefaultPageTest">
   <classes>
    <class name="org.alfresco.po.share.site.SiteLinksToDefaultPageTest" />
   </classes>
- </test> -->
+ </test>
  <test name="WikiPageLibraryTest">
   <classes>
    <class name="org.alfresco.po.share.site.WikiPageLibraryTest" />
