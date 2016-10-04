@@ -63,16 +63,14 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     private final By copyMoveDialogTitleCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class='dijitDialogTitle']");
     private String PathFolderCss = "//div[starts-with(@id,'alfresco_documentlibrary_views_AlfDocumentListView')] //tr/td/span/span/span[@class='value'][text()='%s']";
     private String adButton = "//div[starts-with(@id,'alfresco_documentlibrary_views_AlfDocumentListView')] //tr/td/span/span/span[@class='value'][text()='%s']/../../../../td/span[starts-with(@id, 'alfresco_renderers_PublishAction')]";
-
-    // private final By disabledBackCss = By.cssSelector("div[class$='dijitMenuItem dijitMenuItemDisabled dijitDisabled']>span[id$='PAGE_BACK_text']");
-    // private final By disabledNextCss = By.cssSelector("div[class$='dijitMenuItem dijitMenuItemDisabled dijitDisabled']>span[id$='PAGE_FORWARD_text']");
+    
     private final By nextCss = By.cssSelector("div[class$='dijitReset dijitInline dijitMenuItemLabel dijitMenuItem']>span[id$='PAGE_FORWARD_text']");
     private final By backCss = By.cssSelector("div[class$='dijitReset dijitInline dijitMenuItemLabel dijitMenuItem']>span[id$='PAGE_BACK_text']");
-    private final By siteFolderCss = By.cssSelector("span[class='dijitTreeContent']>span[ class='dijitTreeLabel']");
-    private final By selectedSiteAddIconCss = By.cssSelector("div[class^='dijitTreeRow dijitTreeRowSelected']>span[class^='dijitExpandoText']"); 
-    private final By siteRowSelectedCss = By.cssSelector("div[class^='dijitTreeRow dijitTreeRowSelected']");
+    private final By siteFolderCss = By.cssSelector("span[class='dijitTreeContent']>span[ class='dijitTreeLabel']");    
+    private final By errorPopUp = By.cssSelector(".alfresco-notifications-AlfNotification__container");
+        
 
-//FIXME render checking for different elements
+    //FIXME render checking for different elements
     @Override
     public CopyAndMoveContentFromSearchPage render(RenderTime timer)
     {
@@ -141,7 +139,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      * @param buttonName String
      * @return HtmlPage FacetedSerachResultsPage
      */
-    private HtmlPage selectCopyOrMoveOrCancelButton(String buttonName)
+    private HtmlPage selectButton(String buttonName)
     {
         if (StringUtils.isEmpty(buttonName))
         {
@@ -156,9 +154,8 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
                 {
                     if (button.getText().equalsIgnoreCase(buttonName))
                     {
-                        button.click();
-                        //FIXME
-                        waitForPageLoad(getDefaultWaitTime());
+                        button.click();                       
+                        waitUntilElementDisappears(errorPopUp,10);
                         return getCurrentPage().render();
 
                     }
@@ -187,19 +184,22 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     /**
      * This method finds the clicks on 'Copy' button in Copy/Move pop up page
      */
-    public HtmlPage selectCopyButton()
+    public HtmlPage clickCopy()
     {
-        return selectCopyOrMoveOrCancelButton("Copy");
+    	String copyAction = factoryPage.getValue("search.button.copy");
+    	return selectButton(copyAction);
     }
 
-    public HtmlPage selectCancelButton()
+    public HtmlPage cancelCopyOrMove()
     {
-        return selectCopyOrMoveOrCancelButton("Cancel");
+    	String cancelCopyOrMoveAction = factoryPage.getValue("search.button.cancel");    	
+    	return selectButton(cancelCopyOrMoveAction);
     }
 
-    public HtmlPage selectMoveButton()
+    public HtmlPage clickMove()
     {
-        return selectCopyOrMoveOrCancelButton("Move");
+    	String moveAction = factoryPage.getValue("search.button.move");
+    	return selectButton(moveAction);
     }
 
     /**
@@ -207,7 +207,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      * 
      * @return FacetedSearchPage
      */
-    public HtmlPage selectCloseButton()
+    public HtmlPage closeCopyMoveDialog()
     {
         try
         {
