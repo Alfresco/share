@@ -160,6 +160,31 @@ public class ViewPublicLinkPage extends SharePage
     }
 
     /**
+     * Checks if Document Details button is displayed
+     *
+     * @return boolean
+     */
+    public boolean isButtonVisible()
+    {
+        try
+        {
+            WebElement button = driver.findElement(documentDetailsLinkLocator);
+            boolean displayed = button.isDisplayed();
+
+            if (logger.isTraceEnabled())
+            {
+                logger.trace(String.format("** Document Details button: %s", displayed));
+            }
+            return displayed;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("No live search dropdown ", nse);
+        }
+        return false;
+    }
+
+    /**
      * Gets the error title label
      * 
      * @return String Page not available

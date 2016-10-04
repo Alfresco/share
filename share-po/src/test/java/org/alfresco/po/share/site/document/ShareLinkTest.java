@@ -44,60 +44,71 @@ import org.testng.annotations.Test;
  * @author Chiran
  * @author adinap
  */
+@Test(groups={"alfresco-one"})
 @Listeners(FailedTestListener.class)
 public class ShareLinkTest extends AbstractDocumentTest
 {
     private static String siteName;
+    private static String sitePrivateName;
     private String userName = "user" + System.currentTimeMillis() + "@test.com";
+    private String userName2 = "user2" + System.currentTimeMillis() + "@test.com";
     private static DocumentLibraryPage documentLibPage;
     private File file;
-    private File tempFile;
     private static String folderName1;
     private static String folderDescription;
     ViewPublicLinkPage viewPage;
 
-    @BeforeClass(groups = "alfresco-one")
+    @BeforeClass
     public void prepare() throws Exception
     {
         siteName = "site" + System.currentTimeMillis();
+        sitePrivateName = "site-private" + System.currentTimeMillis();
+
         createEnterpriseUser(userName);
+        createEnterpriseUser(userName2);
+
         loginAs(userName, UNAME_PASSWORD);
+
         siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName, "description", "Public");
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, sitePrivateName, "private site", "Private");
+
         file = siteUtil.prepareFile("alfresco123");
-        tempFile = siteUtil.prepareFile("tempFile123");
-        createData();
+
+        folderName1 = "The first folder";
+        folderDescription = String.format("Description of %s", folderName1);
+
+        createData(siteName);
+        createData(sitePrivateName);
+
     }
 
-    @AfterClass(groups = "alfresco-one")
+    @AfterClass
     public void teardown()
     {
         siteUtil.deleteSite(username, password, siteName);
-    }
+        siteUtil.deleteSite(username, password, sitePrivateName);
 
+    }
 
     /**
-     * Test updating an existing file with a new uploaded file. The test covers major and minor version changes
-     * 
+     * create document and folder in site
+     *
+     * @param site String
      * @throws Exception
      */
-    public void createData() throws Exception
+    private void createData(String site) throws Exception
     {
-        folderName1 = "The first folder";
-        folderDescription = String.format("Description of %s", folderName1);
-        SitePage page = resolvePage(driver).render();
-        documentLibPage = page.getSiteNav().selectDocumentLibrary().render();
-        UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
-        documentLibPage = uploadForm.uploadFile(file.getCanonicalPath()).render();
-        uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
-        documentLibPage = uploadForm.uploadFile(tempFile.getCanonicalPath()).render();
-        NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder();
-        documentLibPage = newFolderPage.createNewFolder(folderName1, folderDescription).render();
+        siteActions.navigateToDocumentLibrary(driver, site);
+        siteActions.uploadFile(driver, file);
+        siteActions.createFolder(driver, folderName1, "folder title", folderDescription);
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 1)
+    @Test(priority = 1)
     public void testViewLink()
     {
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
+        siteActions.navigateToDocumentLibrary(driver, siteName);
+        FileDirectoryInfo thisRow = siteActions.getFileDirectoryInfo(driver, file.getName());
+
         Assert.assertTrue(thisRow.isShareLinkVisible());
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
         Assert.assertNotNull(shareLinkPage);
@@ -112,41 +123,41 @@ public class ShareLinkTest extends AbstractDocumentTest
         viewPage.clickOnDocumentDetailsButton();
     }
     
-
-    @Test(groups = { "alfresco-one" }, priority = 2)
+    @Test(priority = 2)
     public void testVerifyUnShareLink()
     {
-    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
-    	FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
+        siteActions.navigateToDocumentLibrary(driver, siteName);
+    	FileDirectoryInfo thisRow = siteActions.getFileDirectoryInfo(driver, file.getName());
+
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
         Assert.assertTrue(shareLinkPage.isUnShareLinkPresent());
         documentLibPage = shareLinkPage.clickOnUnShareButton().render();
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 3)
+    @Test(priority = 3)
     public void testVerifyEmailLink()
     {
-    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
+    	siteActions.navigateToDocumentLibrary(driver, siteName);
+        FileDirectoryInfo thisRow = siteActions.getFileDirectoryInfo(driver, file.getName());
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
         Assert.assertTrue(shareLinkPage.isEmailLinkPresent());
         documentLibPage = shareLinkPage.clickOnUnShareButton().render();
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 4, expectedExceptions = UnsupportedOperationException.class)
+    @Test(priority = 4, expectedExceptions = UnsupportedOperationException.class)
     public void clickShareLinkFolder()
     {
-    	documentLibPage.getSiteNav().selectDocumentLibrary().render();
-        FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName1);
+        siteActions.navigateToDocumentLibrary(driver, siteName);
+        FileDirectoryInfo thisRow = siteActions.getFileDirectoryInfo(driver, folderName1);
         thisRow.clickShareLink().render();
     }
 
     /**
-     * Checks that after logging in from the Public share page
-     * user is redirected to the same public share page
+     * Checks that after logging in from the Public share page with user with permissions to Document
+     * user is redirected to the same public share page and Document Details button is displayed
      */
-    @Test(groups = { "alfresco-one" }, priority = 5)
+    @Test(priority = 5)
     public void testRedirectLogin() throws Exception
     {
         siteActions.navigateToDocumentLibrary(driver, siteName);
@@ -157,16 +168,14 @@ public class ShareLinkTest extends AbstractDocumentTest
         logout(driver);
 
         driver.navigate().to(shareLink);
-
         viewPage = factoryPage.instantiatePage(driver, ViewPublicLinkPage.class).render();
 
         Assert.assertEquals(viewPage.getButtonName(), "Login");
-
         Assert.assertEquals(viewPage.getContentTitle(), file.getName());
 
         viewPage.clickOnDocumentDetailsButton().render();
 
-        LoginPage loginPage = factoryPage.instantiatePage(driver, LoginPage.class).render();
+        LoginPage loginPage = factoryPage.getPage(driver).render();
 
         Assert.assertTrue(loginPage.isBrowserTitle("login"));
         Assert.assertFalse(loginPage.hasErrorMessage());
@@ -180,17 +189,17 @@ public class ShareLinkTest extends AbstractDocumentTest
 
     }
 
-
     /**
      * Checks that when trying to login from the public share page with invalid username, login error appears and
      * user remains on the Login page
      *
      */
     // fails - bug
-
-    @Test(groups = { "alfresco-one" }, priority = 6, enabled = false)
+    @Test(priority = 6, enabled = false)
     public void testRedirectInvalidLogin() throws Exception
     {
+        driver.navigate().to(shareUrl);
+
         siteActions.navigateToDocumentLibrary(driver, siteName);
         FileDirectoryInfo thisRow = siteActions.getFileDirectoryInfo(driver, file.getName());
         ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
@@ -199,16 +208,14 @@ public class ShareLinkTest extends AbstractDocumentTest
         logout(driver);
 
         driver.navigate().to(shareLink);
-
         viewPage = factoryPage.instantiatePage(driver, ViewPublicLinkPage.class).render();
 
         Assert.assertEquals(viewPage.getButtonName(), "Login");
-
         Assert.assertEquals(viewPage.getContentTitle(), file.getName());
 
         viewPage.clickOnDocumentDetailsButton().render();
 
-        LoginPage loginPage = factoryPage.instantiatePage(driver, LoginPage.class).render();
+        LoginPage loginPage = factoryPage.getPage(driver).render();
 
         Assert.assertTrue(loginPage.isBrowserTitle("login"));
         Assert.assertFalse(loginPage.hasErrorMessage());
@@ -217,8 +224,44 @@ public class ShareLinkTest extends AbstractDocumentTest
 
         Assert.assertTrue(loginPage.isBrowserTitle("login"));
         Assert.assertTrue(loginPage.hasErrorMessage());
-
     }
 
+    /**
+     * Checks that after logging in from the Public share page with user without permissions to Document
+     * user is redirected to the same public share page and Document Details button is not displayed
+     */
+    @Test(priority = 7)
+    public void testRedirectLoginUserWithoutPermissions() throws Exception
+    {
+        driver.navigate().to(shareUrl);
+
+        siteActions.navigateToDocumentLibrary(driver, sitePrivateName);
+        FileDirectoryInfo thisRow = siteActions.getFileDirectoryInfo(driver, file.getName());
+
+        ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
+        String shareLink = shareLinkPage.getShareURL();
+
+        logout(driver);
+
+        driver.navigate().to(shareLink);
+        viewPage = factoryPage.instantiatePage(driver, ViewPublicLinkPage.class).render();
+
+        Assert.assertEquals(viewPage.getButtonName(), "Login");
+        Assert.assertEquals(viewPage.getContentTitle(), file.getName());
+
+        viewPage.clickOnDocumentDetailsButton().render();
+
+        LoginPage loginPage = factoryPage.getPage(driver).render();
+
+        Assert.assertTrue(loginPage.isBrowserTitle("login"));
+        Assert.assertFalse(loginPage.hasErrorMessage());
+
+        loginPage.loginAs(userName2, UNAME_PASSWORD).render();
+
+        viewPage.render();
+
+        Assert.assertEquals(viewPage.getContentTitle(), file.getName());
+        Assert.assertFalse(viewPage.isButtonVisible(), "Document Details button visible");
+    }
 
 }
