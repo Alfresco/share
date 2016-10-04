@@ -25,6 +25,9 @@
  */
 package org.alfresco.po.share;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import java.io.File;
 import java.util.List;
 
@@ -46,6 +49,8 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Abstract of an Alfresco Share page object which contains helper methods
@@ -129,7 +134,7 @@ public abstract class SharePage extends Page
         String pageTitleLabel = "";
         try
         {
-            waitForElement(PAGE_TITLE_LABEL, defaultWaitTime);
+            waitForElement(PAGE_TITLE_LABEL, SECONDS.convert(defaultWaitTime, MILLISECONDS));
             pageTitleLabel = findAndWait(PAGE_TITLE_LABEL).getText();
         } catch (TimeoutException toe)
         {

@@ -760,7 +760,7 @@ public class DocumentDetailsPage extends DetailsPage
         try
         {
             findAndWait(By.cssSelector(UNSYNC_FROM_CLOUD)).click();
-            waitForElement(By.cssSelector("div#prompt_h"), maxPageLoadingTime);
+            waitForElement(By.cssSelector("div#prompt_h"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             findAndWait(By.cssSelector("input#requestDeleteRemote")).click();
             findAndWait(By.cssSelector("span.button-group>span[class$='yui-push-button']")).click();
         }

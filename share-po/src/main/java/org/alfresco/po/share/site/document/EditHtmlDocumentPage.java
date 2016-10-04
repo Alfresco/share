@@ -93,7 +93,7 @@ public class EditHtmlDocumentPage extends InlineEditPage
      */
     public int countOfTxtsFromEditor()
     {
-        waitForElement(By.cssSelector("button[id$='default-form-cancel-button']"), maxPageLoadingTime);
+        waitForElement(By.cssSelector("button[id$='default-form-cancel-button']"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         driver.switchTo().frame(IFRAME_ID);
         int noOfElements = findAndWaitForElements(By.cssSelector("#tinymce>p")).size();
         driver.switchTo().defaultContent();
