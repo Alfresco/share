@@ -486,6 +486,8 @@ public class LiveSearchDropdown extends SharePage
 	        {
 	            if(result.getTitle().getDescription().contains(liveSearchItem.getResultItemName()))
 	            {
+	            	// This is currently based on DocTitle alone. Code can be added here to check the Sitename and Username too
+	            	
 	            	// Check if SiteName matches
 	            	if (liveSearchItem.getSiteName().isEmpty() || result.getSiteName().getDescription().equalsIgnoreCase(liveSearchItem.getSiteName()))
 	            	{            	
