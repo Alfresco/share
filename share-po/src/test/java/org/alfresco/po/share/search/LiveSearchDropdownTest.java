@@ -184,16 +184,6 @@ public class LiveSearchDropdownTest extends AbstractTest
     	liveSearchResult.setSiteName(siteName);
     	liveSearchResult.setUsername(username);
     	Assert.assertTrue(siteActions.checkLiveSearchResultsWithRetry(driver, fileName, Scope.DEFAULT, liveSearchResult, true, 3), "Live Search Results for Documents are not as expected");
-    	
-//        List<LiveSearchDocumentResult> documentResultList = siteActions.getLiveSearchDocResultsWithRetry(driver, fileName, Scope.DEFAULT, ResultType.DOCUMENT, true, 3);
-//        Assert.assertTrue(documentResultList.size() > 0, "Live search results not found.");
-//
-//        for(LiveSearchDocumentResult result : documentResultList)
-//        {
-//            Assert.assertTrue(result.getTitle().getDescription().contains(fileName));
-//            Assert.assertFalse(result.getSiteName().getDescription().isEmpty());
-//            Assert.assertFalse(result.getUserName().getDescription().isEmpty());
-//        }
     }
 
     /**
@@ -278,18 +268,20 @@ public class LiveSearchDropdownTest extends AbstractTest
     @Test(priority = 9)
     public void testLiveSearchSitesResult()
     {
-    	LiveSearchResultItem liveSearchResult = new LiveSearchResultItem(ResultType.SITE, siteName);
-    	liveSearchResult.setSiteName(siteName);
-    	
-    	Assert.assertTrue(siteActions.checkLiveSearchResultsWithRetry(driver, siteName, Scope.DEFAULT, liveSearchResult, true, 3), "Live Search Results for Site are not as expected: " + siteName);
-    	
-//        List<LiveSearchSiteResult> siteResultList = siteActions.getLiveSearchSitesResultsWithRetry(driver, siteName, Scope.DEFAULT, ResultType.SITE, true, 3);
-//        Assert.assertTrue(siteResultList.size() > 0, "Live search results not found.");
-//
-//        for(LiveSearchSiteResult result : siteResultList)
-//        {
-//            Assert.assertTrue(result.getSiteName().getDescription().contains(siteName));
-//        }
+        LiveSearchResultItem liveSearchResult = new LiveSearchResultItem(ResultType.SITE, siteName);
+        liveSearchResult.setSiteName(siteName);
+
+        Assert.assertTrue(siteActions.checkLiveSearchResultsWithRetry(driver, siteName, Scope.DEFAULT, liveSearchResult, true, 3), "Live Search Results for Site are not as expected: " + siteName);
+
+        LiveSearchDropdown liveSearchResultPage = siteActions.liveSearch(driver, siteName, Scope.DEFAULT).render();
+
+        List<LiveSearchSiteResult> sitesResultList = liveSearchResultPage.getSearchSitesResults();
+        Assert.assertTrue(sitesResultList.size() > 0, "Live search results not found.");
+
+        for(LiveSearchSiteResult result : sitesResultList)
+        {
+            Assert.assertTrue(result.getSiteName().getDescription().contains(siteName));
+        }
     }
 
     /**
@@ -298,18 +290,20 @@ public class LiveSearchDropdownTest extends AbstractTest
     @Test(priority = 10)
     public void testLiveSearchPeopleResult()
     {
-    	LiveSearchResultItem liveSearchResult = new LiveSearchResultItem(ResultType.PEOPLE, username);
-    	liveSearchResult.setUsername(username);
-    	
-    	Assert.assertTrue(siteActions.checkLiveSearchResultsWithRetry(driver, username, Scope.DEFAULT, liveSearchResult, true, 3), "Live Search Results for People are not as expected: " + username);
- 
-//        List<LiveSearchPeopleResult> peopleResultList = siteActions.getLiveSearchPeopleResultsWithRetry(driver, username, Scope.DEFAULT, ResultType.PEOPLE, true, 3);
-//        Assert.assertTrue(peopleResultList.size() > 0, "Live search results not found.");
-//
-//        for(LiveSearchPeopleResult result : peopleResultList)
-//        {
-//            Assert.assertTrue(result.getUserName().getDescription().contains(username));
-//        }
+        LiveSearchResultItem liveSearchResult = new LiveSearchResultItem(ResultType.PEOPLE, username);
+        liveSearchResult.setUsername(username);
+
+        Assert.assertTrue(siteActions.checkLiveSearchResultsWithRetry(driver, username, Scope.DEFAULT, liveSearchResult, true, 3), "Live Search Results for People are not as expected: " + username);
+
+        LiveSearchDropdown liveSearchResultPage = siteActions.liveSearch(driver, username, Scope.DEFAULT).render();
+
+        List<LiveSearchPeopleResult> peopleResultList = liveSearchResultPage.getSearchPeopleResults();
+        Assert.assertTrue(peopleResultList.size() > 0, "Live search results not found.");
+
+        for(LiveSearchPeopleResult result : peopleResultList)
+        {
+            Assert.assertTrue(result.getUserName().getDescription().contains(username));
+        }
     }
 
     /**
@@ -356,22 +350,9 @@ public class LiveSearchDropdownTest extends AbstractTest
     	liveSearchResult.setSiteName(siteName);
     	Assert.assertTrue(siteActions.checkLiveSearchResultsWithRetry(driver, fileName, Scope.SITE, liveSearchResult, true, 3), "Live Search Results for Documents are not as expected for: " + siteName);
 
-    	liveSearchResult = new LiveSearchResultItem(ResultType.DOCUMENT, fileName);
-    	liveSearchResult.setSiteName(siteName2);
-    	Assert.assertTrue(siteActions.checkLiveSearchResultsWithRetry(driver, fileName, Scope.SITE, liveSearchResult, false, 3), "Live Search Results for Documents are not as expected for: " + siteName);
-    	
-    	// Additionally
     	LiveSearchDropdown liveSearchResults = siteActions.liveSearch(driver, fileName, Scope.SITE).render();
 
     	Assert.assertTrue(liveSearchResults.areAllResultsFromSite(siteName), "Results from other sites are found when Search Scope = Site");
-
-//        List<LiveSearchDocumentResult> documentResultList = siteActions.getLiveSearchDocResultsWithRetry(driver, fileName, Scope.SITE, ResultType.DOCUMENT, true, 3);
-//        Assert.assertTrue(documentResultList.size() > 0, "Live search results not found.");
-//
-//        for(LiveSearchDocumentResult result : documentResultList)
-//        {
-//            Assert.assertTrue(result.getSiteName().getDescription().equals(siteName));
-//        }
     }
 
     /**
@@ -389,22 +370,6 @@ public class LiveSearchDropdownTest extends AbstractTest
     	liveSearchResult = new LiveSearchResultItem(ResultType.DOCUMENT, fileName);
     	liveSearchResult.setSiteName(siteName2);
     	Assert.assertTrue(siteActions.checkLiveSearchResultsWithRetry(driver, fileName, Scope.REPO, liveSearchResult, true, 3), "Live Search Results for Documents are not as expected: " + siteName2);
-    	
-//    	  docLib = siteActions.navigateToDocumentLibrary(driver, siteName).render();
-//        SearchBox search = docLib.getSearch().render();
-//        LiveSearchDropdown liveSearchResultPage = search.liveSearch(fileName).render();
-//
-//        liveSearchResultPage.selectScope(Scope.REPO);
-//
-//        List<LiveSearchDocumentResult> documentResultList = siteActions.getLiveSearchDocResultsWithRetry(driver, fileName, Scope.REPO, ResultType.DOCUMENT, true, 3);
-//        Assert.assertTrue(documentResultList.size() > 0, "Live search results not found.");
-//
-//        for(LiveSearchDocumentResult result : documentResultList)
-//        {
-//            Assert.assertTrue(result.getTitle().getDescription().contains(fileName));
-//            Assert.assertTrue((result.getSiteName().getDescription().equals(siteName)) ||
-//                    (result.getSiteName().getDescription().equals(siteName2)));
-//        }
     }
 
     /**
