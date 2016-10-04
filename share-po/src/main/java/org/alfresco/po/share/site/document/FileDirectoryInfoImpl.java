@@ -2284,11 +2284,8 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
             cancelEditing.click();
             waitUntilMessageAppearAndDisappear("edited");
 
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_ESCAPE);
-            robot.keyRelease(KeyEvent.VK_ESCAPE);
 
-            return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+            return factoryPage.getPage(driver).render();
         }
         catch (NoSuchElementException nse)
         {
