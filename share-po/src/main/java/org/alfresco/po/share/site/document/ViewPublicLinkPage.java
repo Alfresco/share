@@ -101,15 +101,16 @@ public class ViewPublicLinkPage extends SharePage
     }
 
     /**
-     * Click View Link present on Share Link page.
-     * 
+     * Click Document Details present on Share Link page.
+     *
      * @return HtmlPage
      */
     public HtmlPage clickOnDocumentDetailsButton()
     {
         try
         {
-            driver.findElement(documentDetailsLinkLocator).click();
+            WebElement button = driver.findElement(documentDetailsLinkLocator);
+            button.click();
             return getCurrentPage();
         }
         catch (NoSuchElementException ex)

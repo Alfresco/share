@@ -27,6 +27,7 @@ package org.alfresco.po.share.site.document;
 
 import java.io.File;
 
+import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
@@ -41,6 +42,7 @@ import org.testng.annotations.Test;
  * Integration test to verify Share Link page is operating correctly.
  * 
  * @author Chiran
+ * @author adinap
  */
 @Listeners(FailedTestListener.class)
 public class ShareLinkTest extends AbstractDocumentTest
@@ -111,7 +113,7 @@ public class ShareLinkTest extends AbstractDocumentTest
     }
     
 
-    @Test(groups = { "alfresco-one" }, priority = 3)
+    @Test(groups = { "alfresco-one" }, priority = 2)
     public void testVerifyUnShareLink()
     {
     	documentLibPage.getSiteNav().selectDocumentLibrary().render();
@@ -121,7 +123,7 @@ public class ShareLinkTest extends AbstractDocumentTest
         documentLibPage = shareLinkPage.clickOnUnShareButton().render();
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 4)
+    @Test(groups = { "alfresco-one" }, priority = 3)
     public void testVerifyEmailLink()
     {
     	documentLibPage.getSiteNav().selectDocumentLibrary().render();
@@ -132,11 +134,91 @@ public class ShareLinkTest extends AbstractDocumentTest
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
     }
 
-    @Test(groups = { "alfresco-one" }, priority = 6, expectedExceptions = UnsupportedOperationException.class)
+    @Test(groups = { "alfresco-one" }, priority = 4, expectedExceptions = UnsupportedOperationException.class)
     public void clickShareLinkFolder()
     {
     	documentLibPage.getSiteNav().selectDocumentLibrary().render();
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(folderName1);
         thisRow.clickShareLink().render();
     }
+
+    /**
+     * Checks that after logging in from the Public share page
+     * user is redirected to the same public share page
+     */
+    @Test(groups = { "alfresco-one" }, priority = 5)
+    public void testRedirectLogin() throws Exception
+    {
+        siteActions.navigateToDocumentLibrary(driver, siteName);
+        FileDirectoryInfo thisRow = siteActions.getFileDirectoryInfo(driver, file.getName());
+        ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
+        String shareLink = shareLinkPage.getShareURL();
+
+        logout(driver);
+
+        driver.navigate().to(shareLink);
+
+        viewPage = factoryPage.instantiatePage(driver, ViewPublicLinkPage.class).render();
+
+        Assert.assertEquals(viewPage.getButtonName(), "Login");
+
+        Assert.assertEquals(viewPage.getContentTitle(), file.getName());
+
+        viewPage.clickOnDocumentDetailsButton().render();
+
+        LoginPage loginPage = factoryPage.instantiatePage(driver, LoginPage.class).render();
+
+        Assert.assertTrue(loginPage.isBrowserTitle("login"));
+        Assert.assertFalse(loginPage.hasErrorMessage());
+
+        loginPage.loginAs(userName, UNAME_PASSWORD).render();
+
+        viewPage.render();
+
+        Assert.assertEquals(viewPage.getButtonName(), "Document Details");
+        Assert.assertEquals(viewPage.getContentTitle(), file.getName());
+
+    }
+
+
+    /**
+     * Checks that when trying to login from the public share page with invalid username, login error appears and
+     * user remains on the Login page
+     *
+     */
+    // fails - bug
+
+    @Test(groups = { "alfresco-one" }, priority = 6, enabled = false)
+    public void testRedirectInvalidLogin() throws Exception
+    {
+        siteActions.navigateToDocumentLibrary(driver, siteName);
+        FileDirectoryInfo thisRow = siteActions.getFileDirectoryInfo(driver, file.getName());
+        ShareLinkPage shareLinkPage = thisRow.clickShareLink().render();
+        String shareLink = shareLinkPage.getShareURL();
+
+        logout(driver);
+
+        driver.navigate().to(shareLink);
+
+        viewPage = factoryPage.instantiatePage(driver, ViewPublicLinkPage.class).render();
+
+        Assert.assertEquals(viewPage.getButtonName(), "Login");
+
+        Assert.assertEquals(viewPage.getContentTitle(), file.getName());
+
+        viewPage.clickOnDocumentDetailsButton().render();
+
+        LoginPage loginPage = factoryPage.instantiatePage(driver, LoginPage.class).render();
+
+        Assert.assertTrue(loginPage.isBrowserTitle("login"));
+        Assert.assertFalse(loginPage.hasErrorMessage());
+
+        loginPage.loginAs("invalid-user", "invalid-pass").render();
+
+        Assert.assertTrue(loginPage.isBrowserTitle("login"));
+        Assert.assertTrue(loginPage.hasErrorMessage());
+
+    }
+
+
 }
