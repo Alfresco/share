@@ -28,11 +28,13 @@ package org.alfresco.po.share.search;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.PageElement;
 import org.alfresco.po.exception.PageException;
+import org.alfresco.po.share.FactoryPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class FacetedSearchBulkActions extends PageElement
@@ -40,36 +42,59 @@ public class FacetedSearchBulkActions extends PageElement
 {
 	private static final By SELECTED_ITEMS_MENU = By.cssSelector("#SELECTED_ITEMS_MENU>span[class$='arrow']");
 	private static final By SELECT_DD_MENU = By.cssSelector("#SELECTED_LIST_ITEMS span[class$='arrow']");
-	 Log logger = LogFactory.getLog(this.getClass());
+	Log logger = LogFactory.getLog(this.getClass());
 
+    private WebElement selectActionMenu;
+    private WebElement selectItems;
+    
+	    /**
+	     * Instantiates a new faceted search form.
+	     */
+	    public FacetedSearchBulkActions(WebDriver driver, FactoryPage factoryPage)
+	    {
+	        this.driver = driver;
+	        this.factoryPage = factoryPage;
+	        this.selectActionMenu = driver.findElement(SELECTED_ITEMS_MENU);
+	        this.selectItems = driver.findElement(SELECT_DD_MENU);
+
+	    }
+	    
 	/**
 	 * Mimics the action of Selected Items.
 	 * 
 	 * @return {@link FacetedSearchResult}
 	 */
-	public HtmlPage clickSelectedItems() {
-		try {
-			WebElement selectedItemsElement = driver.findElement(SELECTED_ITEMS_MENU);
-
-			if (selectedItemsElement.isEnabled()) {
-				selectedItemsElement.click();
+	public HtmlPage clickSelectedItems() 
+	{
+		try 
+		{
+			if (selectActionMenu.isEnabled()) 
+			{
+				selectActionMenu.click();
 				return getCurrentPage();
 			}
+			
 			throw new PageException("Selected Items Button found, but is not enabled please select one or more item");
-		} catch (TimeoutException e) {
+		} 
+		catch (TimeoutException e) 
+		{
 			logger.error("Selected Item not available : " + SELECTED_ITEMS_MENU.toString());
-			throw new PageException("Not able to find the Selected Items drop down menu.", e);
+					
+			throw new PageException("Not able to find the Selected Items drop down menu.", e);				
 		}
 	}
 
 	/**
 	 * @return true is Selected Item Menu Visible, else false.
 	 */
-	public boolean isSelectedItemsMenuEnabled() {
-		try {
-			return driver.findElement(SELECTED_ITEMS_MENU).isDisplayed();
-		} catch (TimeoutException e) {
-		} catch (Exception e) {
+	public boolean isSelectedItemsMenuEnabled() 
+	{
+		try 
+		{
+			return selectActionMenu.isDisplayed();
+		} 
+		catch (TimeoutException e) 
+		{
 		}
 		return false;
 	}
@@ -79,15 +104,21 @@ public class FacetedSearchBulkActions extends PageElement
 	 * 
 	 * @return true if visible
 	 */
-	public boolean isSelectedItemsOptionDisplayed(SearchSelectedItemsMenu option) {
-		try {
+	public boolean isSelectedItemsOptionDisplayed(SearchSelectedItemsMenu option) 
+	{
+		try 
+		{
 			clickSelectedItems();
-			if (isSelectedItemsMenuEnabled()) {
-
-				return driver.findElement(By.cssSelector(option.getOption())).isDisplayed();
+			if (isSelectedItemsMenuEnabled()) 
+			{
+				WebElement bulkSelect = driver.findElement(By.cssSelector(option.getOption()));
+				return bulkSelect.isDisplayed();
 			}
-		} catch (NoSuchElementException nse) {
-			if (logger.isTraceEnabled()) {
+		} 
+		catch (NoSuchElementException nse) 
+		{
+			if (logger.isTraceEnabled()) 
+			{
 				logger.trace("Option is not present. ", nse);
 			}
 		}
@@ -104,7 +135,8 @@ public class FacetedSearchBulkActions extends PageElement
         try
         {
         	clickSelectedItems();
-        	if (isSelectedItemsMenuEnabled()) {            
+        	if (isSelectedItemsMenuEnabled()) 
+        	{            
                 driver.findElement(By.cssSelector(option.getOption())).click();
                 return factoryPage.getPage(driver);
             }    
@@ -124,16 +156,19 @@ public class FacetedSearchBulkActions extends PageElement
 	 * 
 	 * @return {@link FacetedSearchResult}
 	 */	
-	private HtmlPage clickSelectDropDownMenu() {
+	private HtmlPage clickSelectDropDownMenu() 
+	{
 		try {
-			WebElement selectMenuElement = driver.findElement(SELECT_DD_MENU);
 
-			if (selectMenuElement.isEnabled()) {
-				selectMenuElement.click();
+			if (selectItems.isEnabled()) 
+			{
+				selectItems.click();
 				return getCurrentPage();
 			}
 			throw new PageException("Select drop down menu found, but is not enabled please select one or more item");
-		} catch (TimeoutException e) {
+		} 
+		catch (TimeoutException e) 
+		{
 			logger.error("Select Item not available : " + SELECT_DD_MENU.toString());
 			throw new PageException("Not able to find the Select Item DD Menu.", e);
 		}
@@ -142,11 +177,14 @@ public class FacetedSearchBulkActions extends PageElement
 	/**
 	 * @return true is Select Drop Down Menu Visible, else false.
 	 */
-	public boolean isSelectMenuEnabled() {
-		try {
-			return driver.findElement(SELECT_DD_MENU).isEnabled();
-		} catch (TimeoutException e) {
-		} catch (Exception e) {
+	public boolean isSelectMenuEnabled() 
+	{
+		try 
+		{
+			return selectItems.isEnabled();
+		} 
+		catch (NoSuchElementException nse) 
+		{
 		}
 		return false;
 	}
@@ -156,15 +194,21 @@ public class FacetedSearchBulkActions extends PageElement
 	 * 
 	 * @return true if visible
 	 */
-	public boolean isSelectOptionEnabled(BulkSelectCheckBox option) {
-		try {
+	public boolean isSelectOptionEnabled(BulkSelectCheckBox option) 
+	{
+		try 
+		{
 			clickSelectDropDownMenu();
-			if (isSelectMenuEnabled()) {
-
-				return driver.findElement(By.cssSelector(option.getOption())).isEnabled();
+			if (isSelectMenuEnabled()) 
+			{
+            	WebElement bulkSelect = driver.findElement(By.cssSelector(option.getOption()));
+				return bulkSelect.isEnabled();
 			}
-		} catch (NoSuchElementException nse) {
-			if (logger.isTraceEnabled()) {
+		} 
+		catch (NoSuchElementException nse) 
+		{
+			if (logger.isTraceEnabled()) 
+			{
 				logger.trace("Option is not present. ", nse);
 			}
 		}
@@ -183,7 +227,8 @@ public class FacetedSearchBulkActions extends PageElement
         	clickSelectDropDownMenu();
             if (isSelectMenuEnabled())
             {
-                driver.findElement(By.cssSelector(option.getOption())).click();
+            	WebElement bulkSelect = driver.findElement(By.cssSelector(option.getOption()));
+				bulkSelect.click();
                 return getCurrentPage();
             }
             else
@@ -200,9 +245,3 @@ public class FacetedSearchBulkActions extends PageElement
     }     
 
 }
-
-
-
-	
-
-

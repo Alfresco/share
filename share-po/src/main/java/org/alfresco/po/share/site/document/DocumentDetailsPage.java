@@ -333,7 +333,7 @@ public class DocumentDetailsPage extends DetailsPage
         By by = By.cssSelector("div.document-delete>a");
         WebElement button = findAndWait(by);
         button.click();
-        confirmDeleteAction().render();
+        confirmDeleteAction();
         waitUntilElementDeletedFromDom(by, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
         return factoryPage.getPage(driver).render();
     }

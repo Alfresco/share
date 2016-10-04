@@ -494,6 +494,11 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
         }
     }
     
+    /**
+     * TODO: Add Docs
+     * @param folderName
+     * @return
+     */
     public CopyAndMoveContentFromSearchPage selectSiteInRepo(String folderName)
     {
         PageUtils.checkMandatoryParam("folderName", folderName);
@@ -506,6 +511,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
                     if (destination.getText().equalsIgnoreCase(folderName))
                     {
                         destination.click();
+                        break;
                     }
 
                 }
@@ -514,18 +520,11 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
 
             return this;
         }
-        catch (NoSuchElementException ne)
+        catch (NoSuchElementException | TimeoutException e)
         {
             if (logger.isTraceEnabled())
             {
-                logger.trace("Unable to find the inner text of destionation", ne);
-            }
-        }
-        catch (TimeoutException e)
-        {
-            if (logger.isTraceEnabled())
-            {
-                logger.trace("Unable to get the list of destionations", e);
+                logger.trace("Unable to find the required destination: " + folderName, e);
             }
         }
 

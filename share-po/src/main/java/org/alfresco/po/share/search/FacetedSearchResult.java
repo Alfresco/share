@@ -351,7 +351,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
      *
      * @return the link
      */    
-    public WebElement getCheckBoxLink()
+    public WebElement getCheckBox()
     {
         return checkBox;
     }
@@ -364,7 +364,6 @@ public class FacetedSearchResult extends PageElement implements SearchResult
     public HtmlPage selectItemCheckBox()
     {
         checkBox.click();
-        //return getCurrentPage();  
         return factoryPage.getPage(this.driver);
     }
     
@@ -373,14 +372,19 @@ public class FacetedSearchResult extends PageElement implements SearchResult
 	 * 
 	 * @return true if selected
 	 */
-	public boolean isItemCheckBoxSelected() {
+	public boolean isItemCheckBoxSelected() 
+	{
 		try {
 
-			if (selectedcheckBox.isDisplayed()) {
+			if (selectedcheckBox.isDisplayed()) 
+			{
 				return true;
 			}
-		} catch (NoSuchElementException nse) {
-			if (logger.isTraceEnabled()) {
+		} 
+		catch (NoSuchElementException nse) 
+		{
+			if (logger.isTraceEnabled()) 
+			{
 				logger.trace("checkbox not selected. ", nse);
 			}
 		}

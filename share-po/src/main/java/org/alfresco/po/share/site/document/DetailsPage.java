@@ -1702,7 +1702,7 @@ public abstract class DetailsPage extends SitePage
     {
     	deleteAction = factoryPage.getValue("delete.button.label");
 	    SharePopup confirmDelete = getCurrentPage().render();
-	    return confirmDelete.clickActionByName(deleteAction).render();
+	    return confirmDelete.clickActionByName(deleteAction);
     }
     /**
      * Select link Copy to... from Actions

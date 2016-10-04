@@ -462,11 +462,12 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      *
      * @return {@link FacetedSearchBulkActions} object.
      */
-	FacetedSearchBulkActions facetedSearchBulkActions;
+	// FacetedSearchBulkActions facetedSearchBulkActions;
 	
     public FacetedSearchBulkActions getNavigation()
     {
-        return facetedSearchBulkActions;
+        //return facetedSearchBulkActions;
+        return new FacetedSearchBulkActions(driver, factoryPage);
     }
 
 }

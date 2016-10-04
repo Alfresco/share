@@ -83,6 +83,7 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
      * @param action
      * @return - HtmlPage
      */
+    // TODO: Reduce repetitive code.
 	public HtmlPage confirmDelete() {
 		try {
 			WebElement selectDelete = driver.findElement(DELETE_BUTTON);

@@ -413,6 +413,7 @@ public class SearchResultItem extends PageElement implements SearchResult
         return thumbnail;
     }
     
+    //TODO: Implement correctly
     @Override
 	public HtmlPage selectItemCheckBox() {
 		// TODO Auto-generated method stub

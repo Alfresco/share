@@ -34,8 +34,6 @@ import java.util.List;
 
 import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.RepositoryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
@@ -45,14 +43,13 @@ import org.alfresco.po.share.workflow.StartWorkFlowPage;
 import org.alfresco.po.share.workflow.WorkFlowFormDetails;
 import org.alfresco.po.share.workflow.WorkFlowType;
 import org.alfresco.test.FailedTestListener;
-import org.junit.AfterClass;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 /**
- * Unit test to verify document library page tag operations are operating correctly. 
+ * UI test to verify document library page tag operations are operating correctly. 
  * @author Charu
  * 
  */
@@ -81,19 +78,32 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         siteName = "site" + System.currentTimeMillis();
         file1 = siteUtil.prepareFile();
         file2 = siteUtil.prepareFile();
+        
         loginAs(username, password);
+        
         siteUtil.createSite(driver, username, password, siteName, "", "Public");
+        
         SitePage site = resolvePage(driver).render();
+        
         documentLibPage = site.getSiteNav().selectDocumentLibrary().render();
+        
         // uploading new files.
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm.uploadFile(file1.getCanonicalPath()).render();
+        
         UploadFilePage uploadForm1 = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm1.uploadFile(file2.getCanonicalPath()).render();
-        SearchBox search = documentLibPage.getSearch();
-        //SearchBox search = dashBoard.getSearch();
-        resultsPage = search.search("myfile").render();
+        
+        siteActions.search(driver, "myfile");
+        
+//        SearchBox search = documentLibPage.getSearch();
+//
+//        resultsPage = search.search("myfile").render();
+        
+        // TODO: Remove asserts from setup?
+        
         Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3));
+        
         Assert.assertTrue(resultsPage.hasResults(),file1.getName());
         Assert.assertTrue(resultsPage.hasResults(),file2.getName());
 
@@ -112,6 +122,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     @Test(groups = "Enterprise-only", priority = 1, enabled = false)
     public void testSelectMenuEnabled() throws Exception
     {
+    	// Might get staleElement ref errors as resultsPage isn't latest
     	Assert.assertTrue(resultsPage.getNavigation().isSelectMenuEnabled());    	
     }
     

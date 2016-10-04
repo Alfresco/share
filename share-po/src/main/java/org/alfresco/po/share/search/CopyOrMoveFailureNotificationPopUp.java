@@ -83,18 +83,24 @@ public class CopyOrMoveFailureNotificationPopUp extends ShareDialogueAikau
      * @param action
      * @return - HtmlPage
      */
-	public HtmlPage selectOk() {
-		try {
+	public HtmlPage selectOk() 
+	{
+		try 
+		{
 			WebElement selectok = driver.findElement(OK_BUTTON);
 
-			if (selectok.isEnabled()) {
+			if (selectok.isEnabled()) 
+			{
 				selectok.click();
 				return factoryPage.getPage(driver);
 			}
-			throw new PageException("Delete Button found, but is not enabled");
-		} catch (TimeoutException e) {
-			logger.error(" : " + "Not able to find Delete Button");
-			throw new PageException("Not able to find Delete Button", e);
+			
+			throw new PageException("Ok Button found, but is not enabled");
+		} 
+		catch (TimeoutException e) 
+		{
+			logger.error(" : " + "Not able to find Ok Button");
+			throw new PageException("Not able to find Ok Button", e);
 		}
 	}
     
