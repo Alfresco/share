@@ -119,6 +119,7 @@ import org.alfresco.po.share.site.document.SelectAspectsPage;
 import org.alfresco.po.share.site.document.SharedFilesPage;
 import org.alfresco.po.share.site.document.TagPage;
 import org.alfresco.po.share.site.document.ViewPropertiesPage;
+import org.alfresco.po.share.site.document.ViewPublicLinkPage;
 import org.alfresco.po.share.site.links.LinksDetailsPage;
 import org.alfresco.po.share.site.links.LinksPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
@@ -179,6 +180,7 @@ public class FactorySharePage implements FactoryPage
     private static final String CREATE_PAGE_ERROR_MSG = "Unable to instantiate the page";
     protected static final String FAILURE_PROMPT = "div[id='prompt']";
     protected static final String NODE_REF_IDENTIFIER = "?nodeRef";
+    protected static final String QUICKVIEW_IDENTIFIER = "/share/s/";
     protected static final String SHARE_DIALOGUE = "div.hd, .dijitDialogTitleBar";
     protected static ConcurrentHashMap<String, Class<? extends Page>> pages;
     protected static final By SHARE_DIALOGUE_HEADER = By.cssSelector("div.hd");
@@ -290,6 +292,7 @@ public class FactorySharePage implements FactoryPage
         pages.put("ManageTypesAndAspects", ManageTypesAndAspectsPage.class);
         pages.put("ManageProperties", ManagePropertiesPage.class);
         pages.put("FormEditor", FormEditorPage.class);
+        pages.put("quick-view", ViewPublicLinkPage.class);
     }
 
     public HtmlPage getPage(WebDriver driver)
@@ -549,6 +552,11 @@ public class FactorySharePage implements FactoryPage
         if (url.endsWith("create"))
         {
             return "users-create";
+        }
+        
+        if (url.contains(QUICKVIEW_IDENTIFIER))
+        {
+        	return "quick-view";
         }
 
         if (url.contains(NODE_REF_IDENTIFIER))

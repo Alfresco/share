@@ -63,7 +63,7 @@ public class ViewPublicLinkPage extends SharePage
     private static final String DOCUMENT_ZOOMOUT = "#page_x002e_components_x002e_quickshare_x0023_web-preview-zoomOut-button" ;
     private static final String DOCUMENT_ZOOMSCALE = "#page_x002e_components_x002e_quickshare_x0023_web-preview-scaleSelectBtn-button" ;
 
-    @RenderWebElement
+    //@RenderWebElement: Commented out in case the file viewer is not rendered
     private static final By ZOOM = By.cssSelector(DOCUMENT_ZOOMSCALE);
 
     @SuppressWarnings("unchecked")
