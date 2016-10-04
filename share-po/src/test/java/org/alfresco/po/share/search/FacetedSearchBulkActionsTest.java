@@ -57,10 +57,8 @@ import org.testng.annotations.Test;
 @Test(groups = "Enterprise-only")
 public class FacetedSearchBulkActionsTest extends AbstractTest
 {
-   // private SearchSelectedItemsMenu SearchSelectedItemsMenu;
 	private static String siteName;
     private static DocumentLibraryPage documentLibPage;
-    //private static FacetedSearchPage facetedSearchPage;
     private static SearchConfirmDeletePage searchConfirmDeletePage;    
     private static FacetedSearchPage resultsPage;    
     private File file1;
@@ -93,23 +91,16 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         
         UploadFilePage uploadForm1 = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm1.uploadFile(file2.getCanonicalPath()).render();
-        
-        siteActions.search(driver, "myfile");
-        
-//        SearchBox search = documentLibPage.getSearch();
-//
-//        resultsPage = search.search("myfile").render();
-        
-        // TODO: Remove asserts from setup?
-        
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3));
-        
-        Assert.assertTrue(resultsPage.hasResults(),file1.getName());
-        Assert.assertTrue(resultsPage.hasResults(),file2.getName());
+                
+        SearchBox search = documentLibPage.getSearch();
 
+        resultsPage = search.search("myfile").render();       
+                
+        siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3);        
+        
     }
 
-    /*@AfterClass
+   /* @AfterClass (groups = "Enterprise-only")
     public void teardown()
     {
         SiteFinderPage siteFinder = siteUtil.searchSite(driver, siteName);
@@ -117,34 +108,28 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         DocumentLibraryPage docPage = siteDash.getSiteNav().selectDocumentLibrary().render();
         docPage.getNavigation().selectDetailedView();
         siteUtil.deleteSite(username, password, siteName);
-    }*/
+    }  */       
     
     @Test(groups = "Enterprise-only", priority = 1, enabled = false)
-    public void testSelectMenuEnabled() throws Exception
-    {
-    	// Might get staleElement ref errors as resultsPage isn't latest
-    	Assert.assertTrue(resultsPage.getNavigation().isSelectMenuEnabled());    	
-    }
-    
-    @Test(groups = "Enterprise-only", priority = 2, enabled = false)
     public void testSelectAllCheckBox() throws Exception
-    {    	   	
+    {  	   	
+    	Assert.assertTrue(resultsPage.getNavigation().isSelectMenuEnabled());  
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render();
     	Assert.assertTrue(resultsPage.getNavigation().isSelectedItemsMenuEnabled());
     	Assert.assertTrue(resultsPage.getResultByName(file1.getName()).isItemCheckBoxSelected());    	
     }
     
-    @Test(groups = "Enterprise-only", priority = 3, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 2, enabled = false)
     public void testSelectNoneCheckBox() throws Exception
     {    	   	
     	 SearchBox search = documentLibPage.getSearch();
          resultsPage = search.search("myfile").render();
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.NONE).render();
-    	Assert.assertFalse(resultsPage.getNavigation().isSelectedItemsMenuEnabled());
+    	Assert.assertTrue(resultsPage.getNavigation().isSelectedItemsMenuDisabled());
     	Assert.assertFalse(resultsPage.getResultByName(file1.getName()).isItemCheckBoxSelected());
     } 
     
-    @Test(groups = "Enterprise-only", priority = 4, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 3, enabled = false)
     public void testSelectInvertCheckBox() throws Exception
     {    	   	
     	 SearchBox search = documentLibPage.getSearch();
@@ -154,7 +139,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(resultsPage.getResultByName(file1.getName()).isItemCheckBoxSelected());    	
     }
        
-    @Test(groups = "Enterprise-only", priority = 5, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 4, enabled = false)
     public void testSelectDownload() throws Exception
     {      	 	
     	 SearchBox search = documentLibPage.getSearch();
@@ -164,10 +149,12 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(resultsPage.hasResults(),file1.getName());    	 
     }
     
-    @Test(groups = "Enterprise-only", priority = 6, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 5, enabled = false)
     public void testSelectStartWorkFlow() throws Exception
     {       		
-    	//resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render();
+    	SearchBox search = documentLibPage.getSearch();
+    	resultsPage = search.search("myfile").render();
+    	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render();
     	StartWorkFlowPage startWorkFlowPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
     	Assert.assertTrue(startWorkFlowPage.isWorkFlowTextPresent());
     	 NewWorkflowPage newWorkflowPage = ((NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW)).render();
@@ -182,7 +169,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	 
     }
     
-    @Test(groups = "Enterprise-only", priority = 7, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 6, enabled = false)
     public void testSelectActionCopy() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();
@@ -192,7 +179,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(copyAndMoveContentFromSearchPage.getDialogTitle().contains("Copy"));
     	copyAndMoveContentFromSearchPage.selectDestination("Repository").render();  
         copyAndMoveContentFromSearchPage.selectSiteInRepo("Shared").render();        
-        resultsPage = copyAndMoveContentFromSearchPage.selectCopyButton().render();
+        resultsPage = copyAndMoveContentFromSearchPage.clickCopy().render();
         openSiteDocumentLibraryFromSearch(driver, siteName);        
         assertTrue(documentLibPage.isItemVisble(file1.getName()), "File not displayed");
         RepositoryPage repositoryPage = resultsPage.getNav().selectRepository().render();
@@ -200,7 +187,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         Assert.assertTrue(repositoryPage.isFileVisible(file1.getName()));
     }
     
-    @Test(groups = "Enterprise-only", priority = 8, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 7, enabled = false)
     public void testSelectActionMove() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();
@@ -211,7 +198,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(copyAndMoveContentFromSearchPage.getDialogTitle().contains("Move"));
     	copyAndMoveContentFromSearchPage.selectDestination("Repository").render();  
         copyAndMoveContentFromSearchPage.selectSiteInRepo("Shared").render();        
-        resultsPage = copyAndMoveContentFromSearchPage.selectMoveButton().render();
+        resultsPage = copyAndMoveContentFromSearchPage.clickMove().render();
         documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);       
         assertFalse(documentLibPage.isItemVisble(file2.getName()), "File not displayed");           
         RepositoryPage repositoryPage = resultsPage.getNav().selectRepository().render();
@@ -220,7 +207,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
        	
     }  
         
-    @Test(groups = "Enterprise-only", priority = 9, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 8, enabled = false)
     public void testSelectActionDeleteConfirmCancel() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();
@@ -228,12 +215,12 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3));
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render();
     	searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
-    	resultsPage = searchConfirmDeletePage.confirmCancel().render();
+    	resultsPage = searchConfirmDeletePage.clickCancel().render();
     	Assert.assertTrue(resultsPage.hasResults(),file1.getName());
     	
     }
     
-    @Test(groups = "Enterprise-only", priority = 10, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 9, enabled = true)
     public void testSelectActionDeleteConfirmDelete() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();
@@ -241,8 +228,8 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3));    	
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render(); 	
         searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
-    	resultsPage = searchConfirmDeletePage.confirmDelete().render();
-    	Assert.assertTrue(resultsPage.hasResults(),file1.getName());
+    	resultsPage = searchConfirmDeletePage.clickDelete().render();
+    	Assert.assertFalse(resultsPage.hasResults(),file1.getName());
     	
     }
     

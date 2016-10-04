@@ -31,14 +31,12 @@ import java.util.StringTokenizer;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.PageElement;
-import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.admin.ActionsSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -77,6 +75,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
     private List<String> pathFolders = new LinkedList<String>();
     private WebElement checkBox;
     private WebElement selectedcheckBox;
+    private final boolean isItemChecked;
     
     /**
      * Instantiates a new faceted search result - some items may be null.
@@ -134,6 +133,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
         }
         this.factoryPage = factoryPage;
         isFolder = checkFolder(result);
+        isItemChecked = isItemChecked(result);
         actions = new SearchActionsSet(driver, result.findElement(ACTIONS), factoryPage);
 
     }
@@ -372,11 +372,12 @@ public class FacetedSearchResult extends PageElement implements SearchResult
 	 * 
 	 * @return true if selected
 	 */
-	public boolean isItemCheckBoxSelected() 
-	{
-		try {
 
-			if (selectedcheckBox.isDisplayed()) 
+    
+    private boolean isItemChecked(WebElement row)
+    {
+		try {			
+			if(row.findElement(SELECTEDCHECKBOX).isDisplayed())
 			{
 				return true;
 			}
@@ -390,5 +391,10 @@ public class FacetedSearchResult extends PageElement implements SearchResult
 		}
 		return false;
 	}
-
+    
+    @Override
+    public boolean isItemCheckBoxSelected()
+    {
+        return isItemChecked;
+    }
 }

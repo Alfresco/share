@@ -40,12 +40,16 @@ import org.openqa.selenium.WebElement;
 public class FacetedSearchBulkActions extends PageElement
 
 {
+	private static final By SELECTED_ITEMS = By.cssSelector(".dijitDisabled");
 	private static final By SELECTED_ITEMS_MENU = By.cssSelector("#SELECTED_ITEMS_MENU>span[class$='arrow']");
 	private static final By SELECT_DD_MENU = By.cssSelector("#SELECTED_LIST_ITEMS span[class$='arrow']");
+	private static final By SELECT_LIST_MENU = By.cssSelector("#SELECTED_LIST_ITEMS");
 	Log logger = LogFactory.getLog(this.getClass());
 
     private WebElement selectActionMenu;
     private WebElement selectItems;
+    private WebElement selectedItems;
+    private WebElement selectListMenu;
     
 	    /**
 	     * Instantiates a new faceted search form.
@@ -56,6 +60,7 @@ public class FacetedSearchBulkActions extends PageElement
 	        this.factoryPage = factoryPage;
 	        this.selectActionMenu = driver.findElement(SELECTED_ITEMS_MENU);
 	        this.selectItems = driver.findElement(SELECT_DD_MENU);
+	        this.selectListMenu = driver.findElement(SELECT_LIST_MENU);
 
 	    }
 	    
@@ -90,15 +95,33 @@ public class FacetedSearchBulkActions extends PageElement
 	public boolean isSelectedItemsMenuEnabled() 
 	{
 		try 
-		{
-			return selectActionMenu.isDisplayed();
+		{			
+			if(selectActionMenu.isDisplayed() && selectActionMenu.isEnabled())	
+			
+		    return true;			
+			
 		} 
 		catch (TimeoutException e) 
 		{
 		}
 		return false;
 	}
-
+	
+	public boolean isSelectedItemsMenuDisabled() 
+	{
+		try 
+		{			
+			selectedItems = driver.findElement(SELECTED_ITEMS);
+			if(selectedItems.isDisplayed())				
+		    return true;			
+			
+		} 
+		catch (TimeoutException e) 
+		{
+		}
+		return false;
+	}	
+		
 	/**
 	 * Checks if Options menu item is displayed.
 	 * 
@@ -160,7 +183,7 @@ public class FacetedSearchBulkActions extends PageElement
 	{
 		try {
 
-			if (selectItems.isEnabled()) 
+			if(selectListMenu.isDisplayed() && selectListMenu.isEnabled() )
 			{
 				selectItems.click();
 				return getCurrentPage();
@@ -181,7 +204,8 @@ public class FacetedSearchBulkActions extends PageElement
 	{
 		try 
 		{
-			return selectItems.isEnabled();
+			if(selectListMenu.isDisplayed() && selectListMenu.isEnabled() )
+			return true;
 		} 
 		catch (NoSuchElementException nse) 
 		{

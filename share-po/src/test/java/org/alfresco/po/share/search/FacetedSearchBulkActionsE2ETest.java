@@ -23,8 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  */
-package org.alfresco.po.share.usecases.search;
+package org.alfresco.po.share.search;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
@@ -33,11 +34,6 @@ import java.util.List;
 
 import org.alfresco.po.share.RepositoryPage;
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.search.CopyAndMoveContentFromSearchPage;
-import org.alfresco.po.share.search.FacetedSearchPage;
-import org.alfresco.po.share.search.SearchBox;
-import org.alfresco.po.share.search.SearchConfirmDeletePage;
-import org.alfresco.po.share.search.SearchSelectedItemsMenu;
 import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -127,14 +123,22 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     public void teardown()
     {
         siteUtil.deleteSite(username, password, siteName);
-    }    
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class, groups = "alfresco-one")
+    public void getShareContentWithNull()
+    {
+        DocumentLibraryPage lib = factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+        String t = null;
+        lib.getFileDirectoryInfo(t);
+    }
     
     //collaborator can copy his own and other user files/folders
-    @Test(groups = "alfresco-one", enabled = false)
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one", enabled = false)
     public void CopyFileFolderAsCollaboratorTest() throws Exception
     {    	
-    	folderName1 = "myfile1folder"+ System.currentTimeMillis();
-        folderName2 = "myfile2folder"+ System.currentTimeMillis(); 
+    	folderName1 = "myfilefolder1"+ System.currentTimeMillis();
+        folderName2 = "myfilefolder2"+ System.currentTimeMillis(); 
         folderDescription1 = String.format("Description of %s", folderName1);
         folderDescription2 = String.format("Description of %s", folderName2);
         
@@ -180,10 +184,10 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
                 
         openSiteDocumentLibraryFromSearch(driver, siteName);
        
-        Assert.assertTrue(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");  
-        Assert.assertTrue(documentLibPage.isItemVisble(bulkfile2.getName()), "File not displayed");  
-        Assert.assertTrue(documentLibPage.isItemVisble(folderName1), "File not displayed");
-        Assert.assertTrue(documentLibPage.isItemVisble(folderName2), "File not displayed");
+        assertTrue(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");  
+        assertTrue(documentLibPage.isItemVisble(bulkfile2.getName()), "File not displayed");  
+        assertTrue(documentLibPage.isItemVisble(folderName1), "File not displayed");
+        assertTrue(documentLibPage.isItemVisble(folderName2), "File not displayed");
         
         RepositoryPage repositoryPage = resultsPage.getNav().selectRepository().render();
         repositoryPage.getFileDirectoryInfo("Shared").clickOnTitle().render();        
@@ -198,7 +202,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     
     //Collaborator can  move his own files/ folders
     
-    @Test(groups = "alfresco-one", enabled = false)
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one", enabled = false)
     public void MoveOwnFileFolderAsCollaboratorTest() throws Exception
     {     	
     	folderName1 = "myfile11folder3"+ System.currentTimeMillis();
@@ -234,8 +238,8 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
                
         documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);              
         
-        Assert.assertFalse(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");  
-        Assert.assertFalse(documentLibPage.isItemVisble(folderName1), "File not displayed");
+        assertFalse(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");  
+        assertFalse(documentLibPage.isItemVisble(folderName1), "File not displayed");
                 
         RepositoryPage repositoryPage = resultsPage.getNav().selectRepository().render();
         repositoryPage.getFileDirectoryInfo("Shared").clickOnTitle().render();        
@@ -244,11 +248,81 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         
         logout(driver);   
                 
-    }    
-       
-  //Consumer cannot copy other user files/folders to any destination folder without permission
+    }
+
     
-    @Test(groups = "alfresco-one", enabled = false)
+    //Collaborator cannot  move other user files/ folders with identical folder names ( change this with the bug)
+    
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one", enabled = true)
+    public void MoveOtherUserFileFolderTest() throws Exception
+    {    	   	
+
+    	folderName1 = "myfile11folder5"+ System.currentTimeMillis();
+        folderName2 = "myfile12folder6"+ System.currentTimeMillis();
+        folderDescription1 = String.format("Description of %s", folderName1);
+        folderDescription2 = String.format("Description of %s", folderName2);
+        bulkfile1 = siteUtil.prepareFile();
+        bulkfile2 = siteUtil.prepareFile();        
+    	
+    	loginAs(userName1, UNAME_PASSWORD);
+    	documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);
+                
+    	NewFolderPage newFolderPage1 = documentLibPage.getNavigation().selectCreateNewFolder();
+        documentLibPage = newFolderPage1.createNewFolder(folderName1, folderDescription1).render();
+                
+        UploadFilePage uploadForm1 = documentLibPage.getNavigation().selectFileUpload().render();
+        documentLibPage = uploadForm1.uploadFile(bulkfile1.getCanonicalPath()).render();
+        
+        documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName1);
+        
+    	NewFolderPage newFolderPage2 = documentLibPage.getNavigation().selectCreateNewFolder();
+        documentLibPage = newFolderPage2.createNewFolder(folderName1, folderDescription1).render();           
+                
+        documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName1);        
+               
+        SearchBox search = documentLibPage.getSearch();        
+        resultsPage = search.search("myfile").render();
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile1.getName(), true, 3));
+        Assert.assertTrue(resultsPage.hasResults(),bulkfile1.getName());      	
+    	
+        resultsPage.getResultByName(bulkfile1.getName()).selectItemCheckBox();
+		for (int i = 0; i <=resultsPage.getResultCount(); i++) {
+			if (resultsPage.getResults().get(i).getName().contains(folderName1)) {
+				if (resultsPage.getResultByName(folderName1).isItemCheckBoxSelected() == false){
+				resultsPage.getResultByName(folderName1).selectItemCheckBox();
+				}
+			}
+		}
+        //resultsPage.getResultByName(folderName1).selectItemCheckBox();  
+        resultsPage.getResultByName(bulkfile1.getName()).selectItemCheckBox();  
+                   	
+        CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.MOVE_TO).render();
+        copyAndMoveContentFromSearchPage.selectDestination("Repository").render();  
+        copyAndMoveContentFromSearchPage.selectSiteInRepo("Shared").render();        
+        CopyOrMoveFailureNotificationPopUp copyOrMoveFailureNotificationPopUp = copyAndMoveContentFromSearchPage.clickMove().render();  
+        
+        copyOrMoveFailureNotificationPopUp.selectOk().render();
+        
+        documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);        
+       
+        openSiteDocumentLibraryFromSearch(driver, siteName);
+        
+        assertFalse(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");  
+       
+        assertTrue(documentLibPage.isItemVisble(folderName1), "File not displayed");
+               
+        RepositoryPage repositoryPage = resultsPage.getNav().selectRepository().render();
+        repositoryPage.getFileDirectoryInfo("Shared").clickOnTitle().render();
+        Assert.assertTrue(repositoryPage.isFileVisible(bulkfile1.getName()));
+        Assert.assertFalse(repositoryPage.isFileVisible(folderName1));
+        
+        logout(driver);    
+                
+    }
+    
+    //Consumer cannot copy other user files/folders to any destination folder without permission
+    
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one", enabled = true)
     public void CopyFileFolderConsumerTest() throws Exception
     {    	   	
     	folderName1 = "myfile11folder7"+ System.currentTimeMillis();
@@ -283,12 +357,14 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         copyAndMoveContentFromSearchPage.selectDestination("Repository").render();  
         copyAndMoveContentFromSearchPage.selectSiteInRepo("User Homes").render();       
         
-        copyAndMoveContentFromSearchPage.clickCopy().render();             
+        copyAndMoveContentFromSearchPage.clickCopy().render();
+        //CopyOrMoveFailureNotificationPopUp copyOrMoveFailureNotificationPopUp = copyAndMoveContentFromSearchPage.selectCopyButton().render();  
+        //copyOrMoveFailureNotificationPopUp.selectOk().render();       
       
         openSiteDocumentLibraryFromSearch(driver, siteName);
         
-        Assert.assertTrue(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");          
-        Assert.assertTrue(documentLibPage.isItemVisble(folderName1), "File not displayed");        
+        assertTrue(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");          
+        assertTrue(documentLibPage.isItemVisble(folderName1), "File not displayed");        
         
         RepositoryPage repositoryPage = resultsPage.getNav().selectRepository().render();
         repositoryPage.getFileDirectoryInfo("Shared").clickOnTitle().render();
@@ -297,10 +373,10 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
           
         logout(driver);               
     }
-
+    
     //Collaborator cannot move his own files/folders to any destination folder without permission
     
-    @Test(groups = "alfresco-one", enabled = false)
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one", enabled = true)
     public void MoveFileFolderCollaboratorTest() throws Exception
     {    	   	
     	folderName1 = "myfile11folder7"+ System.currentTimeMillis();
@@ -332,12 +408,14 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         copyAndMoveContentFromSearchPage.selectDestination("Repository").render();  
         copyAndMoveContentFromSearchPage.selectSiteInRepo("User Homes").render();       
         
-        copyAndMoveContentFromSearchPage.clickMove().render();        
+        copyAndMoveContentFromSearchPage.clickMove().render();
+        //CopyOrMoveFailureNotificationPopUp copyOrMoveFailureNotificationPopUp = copyAndMoveContentFromSearchPage.selectCopyButton().render();  
+        //copyOrMoveFailureNotificationPopUp.selectOk().render();       
       
         openSiteDocumentLibraryFromSearch(driver, siteName);
         
-        Assert.assertTrue(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");          
-        Assert.assertTrue(documentLibPage.isItemVisble(folderName1), "File not displayed");        
+        assertTrue(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");          
+        assertTrue(documentLibPage.isItemVisble(folderName1), "File not displayed");        
         
         RepositoryPage repositoryPage = resultsPage.getNav().selectRepository().render();
         repositoryPage.getFileDirectoryInfo("Shared").clickOnTitle().render();
@@ -349,8 +427,8 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
 
 
     //Delete and move option not displayed for Collaborator when own and other user files/folders are selected
-    //bug sha-1657
-    @Test(groups = "alfresco-one", enabled = false)
+    
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one", enabled = false)
     public void BulkDeleteAndMoveTest() throws Exception
     {    	   	
 
@@ -392,8 +470,8 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         resultsPage.getResultByName(folderName1).selectItemCheckBox();
         resultsPage.getResultByName(folderName2).selectItemCheckBox();
             	
-        Assert.assertFalse(resultsPage.getNavigation().isSelectedItemsOptionDisplayed(SearchSelectedItemsMenu.DELETE));
-        Assert.assertFalse(resultsPage.getNavigation().isSelectedItemsOptionDisplayed(SearchSelectedItemsMenu.MOVE_TO));
+        assertFalse(resultsPage.getNavigation().isSelectedItemsOptionDisplayed(SearchSelectedItemsMenu.DELETE));
+        assertFalse(resultsPage.getNavigation().isSelectedItemsOptionDisplayed(SearchSelectedItemsMenu.MOVE_TO));
                  
         logout(driver);        
         
@@ -401,7 +479,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     
     //Collaborator can delete his own file/folders in bulk
     
-    @Test(groups = "alfresco-one", enabled = false)
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one", enabled = false)
     public void BulkDeleteOwnFileFoldersTest() throws Exception
     {    	   	
     	folderName1 = "myfile11folder11"+ System.currentTimeMillis();
@@ -439,8 +517,8 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         SiteDashboardPage sitedash = sitefinder.selectSite(siteName).render();
         documentLibPage = sitedash.getSiteNav().selectDocumentLibrary().render();
        
-        Assert.assertFalse(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");  
-        Assert.assertFalse(documentLibPage.isItemVisble(folderName1), "File not displayed");
+        assertFalse(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");  
+        assertFalse(documentLibPage.isItemVisble(folderName1), "File not displayed");
         
         logout(driver);    
                 
@@ -449,7 +527,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     
     //Collaborator can download own and other user files and folders
     
-    @Test(groups = "alfresco-one", enabled = false)
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one")
     public void CollaboratorBulkDownloadTest() throws Exception
     {    	   	
     	folderName1 = "myfile11folder13"+ System.currentTimeMillis();
@@ -481,7 +559,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         
         SearchBox search = documentLibPage.getSearch();        
         resultsPage = search.search("myfile").render();
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile2.getName(), true, 3));
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile1.getName(), true, 3));
         Assert.assertTrue(resultsPage.hasResults(),bulkfile1.getName());
         Assert.assertTrue(resultsPage.hasResults(),bulkfile2.getName());
         Assert.assertTrue(resultsPage.hasResults(),folderName1);
@@ -505,7 +583,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
      
     //Consumer can create a work flow on other user files and folders 
     
-    @Test(groups = "alfresco-one", enabled = false)
+    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one", enabled = false)
     public void bulkStartWorkFlowTest() throws Exception
     {    	   	
 

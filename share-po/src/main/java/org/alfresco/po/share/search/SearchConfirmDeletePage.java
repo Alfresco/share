@@ -48,7 +48,7 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
     private static final By CONFIRM_DELETE_TITLE = By.cssSelector("span[id$=title]");
 
 	private static final By DELETE_BUTTON = By.cssSelector("span[id$=CONFIRMATION_label]");
-	private static final By CANCEL_BUTTON = By.cssSelector("span[id$=CANCELLATION_label]");
+	private static final By CANCEL_BUTTON = By.cssSelector("span[id$=CANCELLATION_label]");	
 	
     @SuppressWarnings("unchecked")
     @Override
@@ -77,48 +77,43 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
         return render(new RenderTime(maxPageLoadingTime));
     }
 
-    /**
-     * Select Action "Delete".
-     * 
-     * @param action
-     * @return - HtmlPage
-     */
-    // TODO: Reduce repetitive code.
-	public HtmlPage confirmDelete() {
-		try {
-			WebElement selectDelete = driver.findElement(DELETE_BUTTON);
-
-			if (selectDelete.isEnabled()) {
-				selectDelete.click();
-				return factoryPage.getPage(driver);
-			}
-			throw new PageException("Delete Button found, but is not enabled");
-		} catch (TimeoutException e) {
-			logger.error(" : " + "Not able to find Delete Button");
-			throw new PageException("Not able to find Delete Button", e);
-		}
-	}
-
-    /**
-     * Select Action "Cancel".
-     * 
-     * @param action
-     * @return - HtmlPage
-     */
     
-	public HtmlPage confirmCancel() {
-		try {
-			WebElement selectCancel = driver.findElement(CANCEL_BUTTON);
+    public HtmlPage clickDelete()
+    {
+    	String deleteButton = factoryPage.getValue("delete.button.label");
+    	return confirmDeleteOrCancel(deleteButton);
+    }
 
-			if (selectCancel.isEnabled()) {
-				selectCancel.click();
-				return factoryPage.getPage(driver);
-			} else {
-				throw new PageException("Cancel Button found, but is not enabled");
-			}
-		} catch (TimeoutException e) {
-			logger.error(" : " + "Not able to find Cancel Button");
-			throw new PageException("Not able to find Cancel Button", e);
+    public HtmlPage clickCancel()
+    {
+    	String cancelButton = factoryPage.getValue("button.text.cancel");
+    	return confirmDeleteOrCancel(cancelButton);
+    }
+    
+	private HtmlPage confirmDeleteOrCancel(String option) 
+	{
+		String deleteButton = factoryPage.getValue("delete.button.label");
+		By button = DELETE_BUTTON;
+		if (option != deleteButton)
+		{
+			button = CANCEL_BUTTON;
 		}
+		
+		try 
+		{			
+			WebElement selectedButton = driver.findElement(button);
+
+			selectedButton.click();
+			return factoryPage.getPage(driver);
+			
+		}		
+		catch (NoSuchElementException | TimeoutException e) 
+		{
+			logger.error(" : " + "Not able to find Cancel/Delete Button", e);
+			throw new PageException("Not able to find Cancel/Delete Button", e);
+		}
+		
 	}
+	
+	
 }
