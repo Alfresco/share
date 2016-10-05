@@ -95,7 +95,7 @@
                      <span class="item-modifier">
                               <#assign modifyUser = node.properties["cm:modifier"]>
                               <#assign modifyDate = node.properties["cm:modified"]>
-                              <#assign modifierLink = userProfileLink(modifyUser.userName, modifyUser.displayName, 'class="theme-color-1"') >
+                              <#assign modifierLink = userProfileLink(modifyUser.userName, modifyUser.displayName, 'class="theme-color-1"', modifyUser.isDeleted!false) >
                               ${msg(modifyLabel, modifierLink, "<span id='${id}-modifyDate'>${modifyDate.iso8601}</span>")}
                      </span>
                   </#if>
