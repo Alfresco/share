@@ -221,23 +221,25 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
     @Test(dependsOnMethods = "uploadFile")
     public void addLikeDislike() throws Exception
     {
-        DocumentDetailsPage docDetailsPage = selectDocument(file).render();
+    	DocumentDetailsPage docsPage = selectDocument(file).render();
         if (logger.isTraceEnabled())
         {
             logger.trace("====addLikeDislike====");
         }
-        DocumentDetailsPage docsPage = resolvePage(driver).render();
+
         Assert.assertEquals("0", docsPage.getLikeCount());
         Assert.assertFalse(docsPage.isLiked());
+        
         docsPage = docsPage.selectLike().render();
         Assert.assertEquals("1", docsPage.getLikeCount());
         Assert.assertTrue(docsPage.isLiked());
         Assert.assertNotNull(docsPage.getToolTipForLike());
+        
         docsPage = docsPage.selectUnlike().render();
         Assert.assertEquals("0", docsPage.getLikeCount());
         Assert.assertFalse(docsPage.isLiked());
-        docsPage.getToolTipForFavourite();
-        Assert.assertNotNull(docsPage.getToolTipForLike());
+        
+        Assert.assertNotNull(docsPage.getToolTipForFavourite());
     }
 
     @Test(dependsOnMethods = "addLikeDislike")
@@ -247,9 +249,12 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         {
             logger.trace("====favouriteUnfavourite====");
         }
+        
         DocumentDetailsPage docsPage = resolvePage(driver).render();
+        
         Assert.assertFalse(docsPage.isFavourite());
         Assert.assertNotNull(docsPage.getToolTipForFavourite());
+        
         docsPage = docsPage.selectFavourite().render();
         Assert.assertTrue(docsPage.isFavourite());
     }
@@ -260,6 +265,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         DocumentDetailsPage docDetailsPage = resolvePage(driver).render();
         Map<String, Object> properties = docDetailsPage.getProperties();
         Assert.assertNotNull(properties);
+        
         Assert.assertEquals(properties.get("Name"), file.getName());
         Assert.assertEquals(properties.get("Title"), "(None)");
         Assert.assertEquals(properties.get("Description"), "(None)");
@@ -283,12 +289,17 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
             logger.trace("====addComments====");
         }
         DocumentDetailsPage docsPage = resolvePage(driver).render();
+        
         Assert.assertEquals(docsPage.getCommentCount(), 0);
         docsPage = docsPage.addComment(COMMENT).render();
+        
         DocumentLibraryPage libPage = docsPage.getSiteNav().selectDocumentLibrary().render();
+        
         int commentCount = libPage.getCommentCount();
         Assert.assertEquals(commentCount, 1);
+        
         docsPage = selectDocument(file).render();
+        
         List<String> comments = docsPage.getComments();
         Assert.assertEquals(COMMENT, comments.get(0));
     }
@@ -304,8 +315,10 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
             logger.trace("====removeComment====");
         }
         DocumentDetailsPage docsPage = resolvePage(driver).render();
+        
         Assert.assertEquals(docsPage.getCommentCount(), 1);
         docsPage.removeComment(COMMENT);
+        
         DocumentLibraryPage libPage = docsPage.getSiteNav().selectDocumentLibrary().render();
         int commentCount = libPage.getCommentCount();
         Assert.assertEquals(commentCount, 0);
@@ -421,7 +434,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         {
             logger.trace("====editOffline====");
         }
-        docDetailsPage.selectEditOffLine(null).render();
+        docDetailsPage = docDetailsPage.selectEditOffLine(null).render();
         Assert.assertTrue(docDetailsPage.isCheckedOut());
 
         UpdateFilePage updatePage = docDetailsPage.selectUploadNewVersion().render();
@@ -432,7 +445,7 @@ public class DocumentDetailsPageTest extends AbstractDocumentTest
         updatePage.selectMinorVersionChange();
         updatePage.setComment("Reloading the file with correct image");
         updatePage.uploadFile(uploadFile.getCanonicalPath());
-        updatePage.render();
+        updatePage = updatePage.render();
         docDetailsPage = updatePage.submitUpload().render();
         if (logger.isTraceEnabled())
         {
