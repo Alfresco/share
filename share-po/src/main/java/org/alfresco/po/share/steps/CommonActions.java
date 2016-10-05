@@ -63,6 +63,7 @@ public abstract class CommonActions
     @Autowired protected FactoryPage factoryPage;
     
     public int retrySearchCount = 3;
+    
 
     /**
      * Checks if driver is null, throws UnsupportedOperationException if so.

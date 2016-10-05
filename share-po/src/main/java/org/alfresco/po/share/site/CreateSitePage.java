@@ -157,7 +157,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public HtmlPage selectOk()
     {
-        return submit(SUBMIT_BUTTON, ElementState.DELETE_FROM_DOM);
+        return submit(SUBMIT_BUTTON, ElementState.INVISIBLE);
     }
 
     /**

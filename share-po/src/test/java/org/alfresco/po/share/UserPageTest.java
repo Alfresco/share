@@ -30,11 +30,13 @@ import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.EditSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
+import org.alfresco.po.share.site.SiteDashboardErrorPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.po.share.user.MyProfilePage;
 import org.alfresco.test.FailedTestListener;
+import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -164,10 +166,10 @@ public class UserPageTest extends AbstractTest
         String dashboardUrl = shareUrl + "/page/user/admin/dashboard";
 
         // click on Home
-        siteFinderPage.getNav().selectMyDashBoard();
+        SiteDashboardErrorPage siteDashboardError = siteFinderPage.getNav().selectMyDashBoard().render();
 
         // check that error page is displayed
-        Assert.assertTrue(siteDashboardPage.getTitle().indexOf("System Error") != -1);
+        Assert.assertNotNull(siteDashboardError, "Site Dashboard Error Page should be displayed after Site's been deleted");
 
         driver.navigate().to(dashboardUrl);
         DashBoardPage dashBoard = resolvePage(driver).render();

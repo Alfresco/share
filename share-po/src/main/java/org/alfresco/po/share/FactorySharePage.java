@@ -96,6 +96,7 @@ import org.alfresco.po.share.site.InviteMembersPage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.PendingInvitesPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.SiteDashboardErrorPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SiteGroupsPage;
 import org.alfresco.po.share.site.SiteMembersPage;
@@ -167,6 +168,7 @@ import org.springframework.stereotype.Component;
  * @author Michael Suzuki
  * @version 1.7.1
  */
+@SuppressWarnings("deprecation")
 @Component
 public class FactorySharePage implements FactoryPage 
 {
@@ -192,11 +194,14 @@ public class FactorySharePage implements FactoryPage
     private static final String TPG_HASH = "view=types_property_groups";
     private static final String PROPERTIES_HASH = "view=properties";
     private static final String FORM_EDITOR_HASH = "view=editor";
+    
+    private static final By NO_DASHBOARD = By.cssSelector(".alf-error-nav");
     static
     {
         pages = new ConcurrentHashMap<String, Class<? extends Page>>();
         pages.put("dashboard", DashBoardPage.class);
         pages.put("site-dashboard", SiteDashboardPage.class);
+        pages.put("site-dashboard-error", SiteDashboardErrorPage.class);
         pages.put("document-details", DocumentDetailsPage.class);
         pages.put("documentlibrary", DocumentLibraryPage.class);
         pages.put("folder-details", FolderDetailsPage.class);
@@ -502,7 +507,14 @@ public class FactorySharePage implements FactoryPage
         if (pages.get(pageName) == null)
         {
             return instantiatePage(driver, UnknownSharePage.class);
-        }            
+        }
+        else if (pageName == "site-dashboard")
+        {
+        	if(checkIfError(driver))
+        	{
+        		pageName = "site-dashboard-error";
+        	}
+        }
         return instantiatePage(driver, pages.get(pageName));
     }
 
@@ -811,6 +823,19 @@ public class FactorySharePage implements FactoryPage
         catch (NoSuchElementException nse){}
 
         return sharePage;
+    }
+    
+	private boolean checkIfError(WebDriver driver)
+    {    	
+    	try
+    	{
+    		WebElement dashError = driver.findElement(NO_DASHBOARD);
+    		return (dashError != null);
+    	}
+    	catch(NoSuchElementException nse)
+    	{
+    		return false;
+    	}
     }
     
     public String getValue(String key)
