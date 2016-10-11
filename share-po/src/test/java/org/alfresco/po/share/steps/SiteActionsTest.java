@@ -60,7 +60,7 @@ public class SiteActionsTest extends AbstractTest
 	@Autowired SiteActions siteActions;
     private String  siteName = "swsdp";
     private String newSite = "site" + System.currentTimeMillis();
-    private String[] hyerarcy = new String[]{"parent", "childA", "childB"};
+    private String[] folderHierarchy = new String[]{"parent", "childA", "childB"};
 
     @BeforeClass(groups = "Enterprise-only")
     public void setup() throws Exception
@@ -188,11 +188,11 @@ public class SiteActionsTest extends AbstractTest
     }
     
     @Test(groups = "Enterprise-only", priority=7)
-    public void createHyerarcyFolders() {
+    public void createFolderHierarchy() {
 	  siteActions.openSitesDocumentLibrary(driver, newSite);
-  	  for (int i = 0; i < hyerarcy.length; i++) {
-  		  siteActions.createFolder(driver, hyerarcy[i], hyerarcy[i], hyerarcy[i]);
-  		  siteActions.navigateToFolder(driver, hyerarcy[i]);
+  	  for (int i = 0; i < folderHierarchy.length; i++) {
+  		  siteActions.createFolder(driver, folderHierarchy[i], folderHierarchy[i], folderHierarchy[i]);
+  		  siteActions.navigateToFolder(driver, folderHierarchy[i]);
   	  }
   	  
   	 siteName = "old" + System.currentTimeMillis();
@@ -210,11 +210,11 @@ public class SiteActionsTest extends AbstractTest
     public void testCopyArtifactInFolderHyerarcy(File file) throws Exception
     {
 	  String fullHyerarcy ="";
-	  copyOrMoveAction(file, ACTION.COPY, hyerarcy);
+	  copyOrMoveAction(file, ACTION.COPY, folderHierarchy);
 	  
-	  for (int i = 0; i < hyerarcy.length; i++) {
-		  fullHyerarcy += "/" + hyerarcy[i];
-		  siteActions.navigateToFolder(driver, hyerarcy[i]);
+	  for (int i = 0; i < folderHierarchy.length; i++) {
+		  fullHyerarcy += "/" + folderHierarchy[i];
+		  siteActions.navigateToFolder(driver, folderHierarchy[i]);
 	  }
 	  	  
 	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),String.format("File: [%s[ was copied in document library[%s] of site %s ", file.getName(), fullHyerarcy, newSite));  
@@ -231,11 +231,11 @@ public class SiteActionsTest extends AbstractTest
     public void testMoveArtifactInFolderHyerarcy(File file) throws Exception
     {
 	  String fullHyerarcy ="";
-	  copyOrMoveAction(file, ACTION.MOVE, hyerarcy);
+	  copyOrMoveAction(file, ACTION.MOVE, folderHierarchy);
 	  
-	  for (int i = 0; i < hyerarcy.length; i++) {
-		  fullHyerarcy += "/" + hyerarcy[i];
-		  siteActions.navigateToFolder(driver, hyerarcy[i]);
+	  for (int i = 0; i < folderHierarchy.length; i++) {
+		  fullHyerarcy += "/" + folderHierarchy[i];
+		  siteActions.navigateToFolder(driver, folderHierarchy[i]);
 	  }
 	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),String.format("File: [%s] was moved in document library[%s] of site %s ",file.getName(),fullHyerarcy, newSite));  
     }
