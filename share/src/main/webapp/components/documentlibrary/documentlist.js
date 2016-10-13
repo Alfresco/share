@@ -195,34 +195,34 @@
              }
              else if (Dom.hasClass(dropTarget, "documentDroppable"))
              {
-                // The "documentDroppable" class is not defined in any CSS files but is simply used as
-                // a marker to indicate that the element can be used as a document drop target. Only
-                // documents are dragged and dropped onto these elements should result in the drop
-                // target request being fired (it's possible that an element could be specified as a
-                // YUI drag and drop target for the purposes of controlling drag events without actually
-                // allowing drops to occur
-		var fpanel = Dom.get("alf-filters"),
-		offset = (fpanel ? parseInt(fpanel.style.width, 10) : 160);
-				
-		if(e.clientX > offset)
-                {
-		    // If the current x co-ordinate of the mouse pointer is greater than the width
-		    //of the tree element then we shouldn't move folder/documents.
-		}
-                else
-		{
-                    var payload =
-                    {
-                        elementId: id,
-                        callback: this.onDropTargetOwnerCallBack,
-                        scope: this
-                    }
-		    YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);           
-		}
-                this._inFlight = true;
-                this._setFailureTimeout();
-             }
-          }
+               // The "documentDroppable" class is not defined in any CSS files but is simply used as
+               // a marker to indicate that the element can be used as a document drop target. Only
+               // documents are dragged and dropped onto these elements should result in the drop
+               // target request being fired (it's possible that an element could be specified as a
+               // YUI drag and drop target for the purposes of controlling drag events without actually
+               // allowing drops to occur
+               var fpanel = Dom.get("alf-filters"),
+               offset = (fpanel ? parseInt(fpanel.style.width, 10) : 160);
+               
+               if (e.clientX > offset)
+               {
+                  // If the current x co-ordinate of the mouse pointer is greater than the width
+                  // of the tree element then we shouldn't move folder/documents.
+               }
+               else
+               {
+                  var payload =
+                  {
+                     elementId: id,
+                     callback: this.onDropTargetOwnerCallBack,
+                     scope: this
+                  }
+                  YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);           
+               }
+               this._inFlight = true;
+               this._setFailureTimeout();
+            }
+         }
       },
 
       /**
@@ -1080,7 +1080,16 @@
           * @type number
           * @default 3
           */
-         actionsSplitAt: 3
+         actionsSplitAt: 3,
+         
+         /**
+          * DND file system folder drag processing limit
+          *
+          * @property dndMaxFileLimit
+          * @type number
+          * @default 0
+          */
+         dndMaxFileLimit: 0
       },
 
       /**
@@ -3010,37 +3019,12 @@
                // We need to get the upload progress dialog widget so that we can display it.
                // The function called has been added to file-upload.js and ensures the dialog is a singleton.
                var progressDialog = Alfresco.getDNDUploadProgressInstance();
-
-               var continueWithUpload = false;
-
-               // Check that at least one file with some data has been dropped...
-               var zeroByteFiles = "", i, j;
-
-               j = e.dataTransfer.files.length;
-               for (i = 0; i < j; i++)
-               {
-                  if (e.dataTransfer.files[i].size > 0)
-                  {
-                     continueWithUpload = true;
-                  }
-                  else
-                  {
-                     zeroByteFiles += '"' + e.dataTransfer.files[i].fileName + '", ';
-                  }
-               }
-
-               if (!continueWithUpload)
-               {
-                  zeroByteFiles = zeroByteFiles.substring(0, zeroByteFiles.lastIndexOf(", "));
-                  Alfresco.util.PopupManager.displayMessage(
-                  {
-                     text: progressDialog.msg("message.zeroByteFiles", zeroByteFiles)
-                  });
-               }
+               
+               var continueWithUpload = true;
 
                // Perform some checks on based on the browser and selected files to ensure that we will
                // support the upload request.
-               if (continueWithUpload && progressDialog.uploadMethod === progressDialog.INMEMORY_UPLOAD)
+               if (progressDialog.uploadMethod === progressDialog.INMEMORY_UPLOAD)
                {
                   // Add up the total size of all selected files to see if they exceed the maximum allowed.
                   // If the user has requested to upload too large a file or too many files in one operation
@@ -3070,7 +3054,8 @@
                   // for) then we'll change this value to be that of the folder targeted...
                   var directory = this.currentPath,
                      directoryName = directory.substring(directory.lastIndexOf("/") + 1),
-                     destination = this.doclistMetadata.parent ? this.doclistMetadata.parent.nodeRef : null;
+                     parentNodeRef = this.doclistMetadata.parent ? this.doclistMetadata.parent.nodeRef : null,
+                     destination = parentNodeRef;
 
                   // Providing that the drop target a <TR> (or a child node of a <TR>) in the DocumentList data table then a record
                   // will be returned from this call. If nothing is returned then we cannot proceed with the file upload operation.
@@ -3081,7 +3066,7 @@
                      var oColumn = this.widgets.dataTable.getColumn(e.target),
                         record = oRecord.getData();
 
-                     if (e.target.tagName == "IMG" || e.target.className == "droppable")
+                     if ((e.target.tagName == "IMG" || e.target.className == "droppable") && record.jsNode.isContainer)
                      {
                         var location = record.location;
                         directoryName = location.file;
@@ -3097,18 +3082,36 @@
                   // Remove all the highlighting
                   Dom.removeClass(this.widgets.dataTable.getTrEl(e.target), "dndFolderHighlight");
                   Dom.removeClass(this.widgets.dataTable.getContainerEl(), "dndDocListHighlight");
-
-                  // Show uploader for multiple files
+                  
+                  var emptyDirs = [];
                   var multiUploadConfig =
                   {
-                     files: e.dataTransfer.files,
                      uploadDirectoryName: directoryName,
+                     parentNodeRef: parentNodeRef,
                      filter: [],
                      mode: progressDialog.MODE_MULTI_UPLOAD,
                      thumbnails: "doclib",
                      onFileUploadComplete:
                      {
-                        fn: this.onFileUploadComplete,
+                        fn: function DD_onFileUploadComplete(complete)
+                        {
+                           // create empty folder as required
+                           if (emptyDirs.length !== 0)
+                           {
+                              var dataObj = {
+                                 destination: destination,
+                                 paths: emptyDirs
+                              };
+                              Alfresco.util.Ajax.jsonRequest({
+                                 method: "POST",
+                                 url: Alfresco.constants.PROXY_URI + "slingshot/doclib2/mkdir",
+                                 dataObj: dataObj
+                              });
+                           }
+                           
+                           // call existing handler (defined in actions.js)
+                           this.onFileUploadComplete(complete);
+                        },
                         scope: this
                      }
                   };
@@ -3124,8 +3127,139 @@
                   {
                      multiUploadConfig.destination = destination;
                   }
+                  
+                  var dndMaxFileLimit = this.options.dndMaxFileLimit;
+                  var fnWalkFileSystem = function DL__walkFileSystem(directory, callback, error) {
+                     
+                     callback.limit = dndMaxFileLimit;
+                     callback.pending = callback.pending || 0;
+                     callback.files = callback.files || [];
+                     callback.dirmap = callback.dirmap || {};
+                     
+                     // get a dir reader and cleanup file path
+                     var reader = directory.createReader(),
+                         relativePath = directory.fullPath.replace(/^\//, "");
+                    
+                     var repeatReader = function DL__walkFileSystem_repeatReader() {
+                        
+                        // about to start an async callback function
+                        callback.pending++;
+                        
+                        reader.name = directory.name;
+                        reader.readEntries(function DL__walkFileSystem_readEntries(entries) {
+                           
+                           // processing an async callback function
+                           callback.pending--;
+                           
+                           entries.forEach(function(entry) {
+                              if (entry.isFile)
+                              {
+                                 // about to start an async callback function
+                                 callback.pending++;
+                                 
+                                 entry.file(function(File) {
+                                    switch (File.name.toLowerCase())
+                                    {
+                                       // ignore file droppings from various OSes
+                                       case "thumbs.db":
+                                       case "desktop.ini":
+                                       case ".ds_store":
+                                          break;
+                                       
+                                       default:
+                                       {
+                                          if (callback.dirmap[directory.fullPath])
+                                          {
+                                             callback.dirmap[directory.fullPath].push(entry.name);
+                                          }
+                                          
+                                          // add the relativePath property to each file - this can be used to rebuild the contents of
+                                          // a nested tree folder structure if an appropriate API is available to do so
+                                          File.relativePath = relativePath;
+                                          callback.files.push(File);
+                                          if (callback.limit && callback.files.length > callback.limit)
+                                          {
+                                             throw new Error("Maximum dnd file limit reached: " + callback.limit);
+                                          }
+                                       }
+                                    }
+                                    
+                                    // processing an async callback function
+                                    if (--callback.pending === 0)
+                                    {
+                                       // fall out here if last item processed is a file entry
+                                       callback(callback.files, callback.dirmap);
+                                    }
+                                 }, error);
+                              }
+                              else
+                              {
+                                 callback.dirmap[entry.fullPath] = [];
+                                 fnWalkFileSystem(entry, callback, error);
+                              }
+                           });
+                           
+                           // the reader API is a little esoteric,from the MDN docs:
+                           // "Continue calling readEntries() until an empty array is returned.
+                           //  You have to do this because the API might not return all entries in a single call."
+                           if (entries.length !== 0)
+                           {
+                              repeatReader();
+                           }
+                           
+                           // fall out here if last item processed is a dir entry e.g. empty dir
+                           if (callback.pending === 0)
+                           {
+                              callback(callback.files, callback.dirmap);
+                           }
+                        }, error);
+                     };
+                     repeatReader();
+                  };
 
-                  progressDialog.show(multiUploadConfig);
+                  // Function to show uploader for multiple files
+                  var fnAddSelectedFiles = function DL_fnAddSelectedFiles(files) {
+                     multiUploadConfig.files = files;
+                     progressDialog.show(multiUploadConfig);
+                  };
+
+                  var items = e.dataTransfer.items || [], firstEntry;
+                  if (items[0] && items[0].webkitGetAsEntry && (firstEntry = items[0].webkitGetAsEntry()))
+                  {
+                     // detected uploading of folders structure (only supported by Chrome >= 21)
+                     fnWalkFileSystem(firstEntry.filesystem.root, function(fs, dirs) {
+                           // collect empty dirs
+                           Object.keys(dirs).forEach(function(key) {
+                              if (dirs[key].length === 0) {
+                                 emptyDirs.push(key);
+                              }
+                           });
+                           
+                           // collapse folder list by removing folders with empty parents - we want empty leaf nodes only
+                           for (var d, n=0; n<emptyDirs.length; n++)
+                           {
+                              d = emptyDirs[n];
+                              for (var m=0; m<emptyDirs.length; m++)
+                              {
+                                 if (m !== n && emptyDirs[m].indexOf(d) === 0)
+                                 {
+                                    emptyDirs.splice(n--, 1);
+                                    break;
+                                 }
+                              }
+                           }
+                           
+                           fnAddSelectedFiles(fs);
+                        }, function() {
+                           // fallback to standard way if error happens
+                           fnAddSelectedFiles(e.dataTransfer.files);
+                        }
+                     );
+                  }
+                  else
+                  {
+                     fnAddSelectedFiles(e.dataTransfer.files);
+                  }
                }
             }
             else

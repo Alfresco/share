@@ -592,7 +592,7 @@
             // Do some checks to ensure that we can proceed with some kind of upload
             var allZeroByteFiles = true;
             for (var i=0; i<files.length; i++)
-               {
+            {
                if (files[i].size !== 0)
                {
                   allZeroByteFiles = false;
@@ -653,7 +653,7 @@
        *    siteId: {string},        // site to upload file(s) to
        *    containerId: {string},   // container to upload file(s) to (i.e. a doclib id)
        *    destination: {string},   // destination nodeRef to upload to if not using site & container
-       *    uploadPath: {string},    // directory path inside the component to where the uploaded file(s) should be save
+       *    uploadDirectory: {string},// directory path inside the component to where the uploaded file(s) should be save
        *    updateNodeRef: {string}, // nodeRef to the document that should be updated
        *    updateFilename: {string},// The name of the file that should be updated, used to display the tip
        *    mode: {int},             // MODE_SINGLE_UPLOAD, MODE_MULTI_UPLOAD or MODE_SINGLE_UPDATE
@@ -793,15 +793,14 @@
       },
 
       /**
-       * Validates the file, i.e. name & size.
+       * Calculate total expected size of upload, add files to the queue and spawn the upload process
        *
-       * @method _getFileValidationErrors
-       * @param file
+       * @method processFilesForUpload
+       * @param _files
        * @return {null|string} String describing the error (html escaped) or null if file is valid
        */
-      processFilesForUpload: function(_files)
+      processFilesForUpload: function DNDUpload_processFilesForUpload(_files)
       {
-         
          // Start the upload...
          // Calculate the total expected upload size ahead of upload start to ensure
          // that a steady progress indication is presented...
@@ -859,11 +858,7 @@
       {
          // Check if the file has size...
          var fileName = file.name;
-         if (file.size === 0)
-         {
-            return this.msg("message.zeroByteFileSelected", $html(fileName));
-         }
-         else if (this._maximumFileSizeLimit > 0 && file.size > this._maximumFileSizeLimit)
+         if (this._maximumFileSizeLimit > 0 && file.size > this._maximumFileSizeLimit)
          {
             return this.msg("message.maxFileFileSizeExceeded", $html(fileName), Alfresco.util.formatFileSize(file.size), Alfresco.util.formatFileSize(this._maximumFileSizeLimit));
          }
@@ -1028,6 +1023,11 @@
                   }
                   
                   // Construct an object containing the data required for file upload...
+                  var uploadDir = file.relativePath || "";
+                  if (scope.showConfig.uploadDirectory && scope.showConfig.uploadDirectory !== "/")
+                  {
+                     uploadDir = scope.showConfig.uploadDirectory + "/" + uploadDir;
+                  }
                   var uploadData =
                   {
                      filedata: scope.showConfig.files[i],
@@ -1035,7 +1035,8 @@
                      destination: scope.showConfig.destination,
                      siteId: scope.showConfig.siteId,
                      containerId: scope.showConfig.containerId,
-                     uploaddirectory: scope.showConfig.uploadDirectory,
+                     uploaddirectory: uploadDir,
+                     createdirectory: true,
                      majorVersion: !scope.minorVersion.checked,
                      updateNodeRef: updateNodeRef,
                      description: scope.description.value,
@@ -1043,7 +1044,6 @@
                      thumbnails: scope.showConfig.thumbnails,
                      username: scope.showConfig.username,
                      updateNameAndMimetype: updateNameAndMimetype
-                     
                   };
                   
                   // Add the upload data to the file store. It is important that we don't initiate the XMLHttpRequest
@@ -1270,7 +1270,7 @@
        * @method onRowAddEvent
        * @param event {object} a DataTable "rowAdd" event
        */
-      onRowAddEvent: function FlashUpload_onRowAddEvent(event)
+      onRowAddEvent: function DNDUpload_onRowAddEvent(event)
       {
          try
          {
@@ -1294,7 +1294,7 @@
        *
        * @method _spawnUploads
        */
-      _spawnUploads: function ()
+      _spawnUploads: function DNDUpload__spawnUploads()
       {
          var length = this.dataTable.getRecordSet().getLength();
          for (var i = 0; i < length; i++)
@@ -1319,7 +1319,7 @@
        * @method _startUpload
        * @param fileInfo {object} Contains info about the file and its request.
        */
-      _startUpload: function (fileInfo)
+      _startUpload: function DNDUpload__startUpload(fileInfo)
       {
          // Mark file as being uploaded
          fileInfo.state = this.STATE_UPLOADING;
@@ -1349,12 +1349,12 @@
             formData.append("filename", fileInfo.uploadData.filename);
             formData.append("destination", fileInfo.uploadData.destination);
             formData.append("uploaddirectory", fileInfo.uploadData.uploaddirectory);
+            formData.append("createdirectory", fileInfo.uploadData.createdirectory ? "true" : "false");
             formData.append("majorVersion", fileInfo.uploadData.majorVersion ? "true" : "false");
             formData.append("username", fileInfo.uploadData.username);
             formData.append("overwrite", fileInfo.uploadData.overwrite);
             formData.append("thumbnails", fileInfo.uploadData.thumbnails);
             formData.append("updatenameandmimetype", fileInfo.uploadData.updateNameAndMimetype)
-            
             
             if (fileInfo.uploadData.updateNodeRef)
             {
@@ -1398,29 +1398,29 @@
             var rn = "\r\n";
             var customFormData = "--" + multipartBoundary;
 
-               // Add the file parameter...
-               customFormData += rn + "Content-Disposition: form-data; name=\"filedata\"; filename=\"" + unescape(encodeURIComponent(fileInfo.uploadData.filename)) + "\"";
-               customFormData += rn + "Content-Type: image/png";
-               customFormData += rn + rn + fileInfo.uploadData.filedata.getAsBinary() + rn + "--" + multipartBoundary; // Use of getAsBinary should be fine here - in-memory upload is only used pre FF4
+            // Add the file parameter...
+            customFormData += rn + "Content-Disposition: form-data; name=\"filedata\"; filename=\"" + unescape(encodeURIComponent(fileInfo.uploadData.filename)) + "\"";
+            customFormData += rn + "Content-Type: image/png";
+            customFormData += rn + rn + fileInfo.uploadData.filedata.getAsBinary() + rn + "--" + multipartBoundary; // Use of getAsBinary should be fine here - in-memory upload is only used pre FF4
 
-               // Add the String parameters...
-               customFormData += rn + "Content-Disposition: form-data; name=\"filename\"";
-               customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.filename)) + rn + "--" + multipartBoundary;
-               customFormData += rn + "Content-Disposition: form-data; name=\"destination\"";
-               if (fileInfo.uploadData.destination !== null)
-               {
-                  customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.destination)) + rn + "--" + multipartBoundary;
-               }
-               else
-               {
-                  customFormData += rn + rn + rn + "--" + multipartBoundary;
-               }
-               customFormData += rn + "Content-Disposition: form-data; name=\"siteId\"";
-               customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.siteId)) + rn + "--" + multipartBoundary;
-               customFormData += rn + "Content-Disposition: form-data; name=\"containerId\"";
-               customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.containerId)) + rn + "--" + multipartBoundary;
-               customFormData += rn + "Content-Disposition: form-data; name=\"uploaddirectory\"";
-               customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.uploaddirectory)) + rn + "--" + multipartBoundary + "--";
+            // Add the String parameters...
+            customFormData += rn + "Content-Disposition: form-data; name=\"filename\"";
+            customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.filename)) + rn + "--" + multipartBoundary;
+            customFormData += rn + "Content-Disposition: form-data; name=\"destination\"";
+            if (fileInfo.uploadData.destination !== null)
+            {
+               customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.destination)) + rn + "--" + multipartBoundary;
+            }
+            else
+            {
+               customFormData += rn + rn + rn + "--" + multipartBoundary;
+            }
+            customFormData += rn + "Content-Disposition: form-data; name=\"siteId\"";
+            customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.siteId)) + rn + "--" + multipartBoundary;
+            customFormData += rn + "Content-Disposition: form-data; name=\"containerId\"";
+            customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.containerId)) + rn + "--" + multipartBoundary;
+            customFormData += rn + "Content-Disposition: form-data; name=\"uploaddirectory\"";
+            customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.uploaddirectory)) + rn + "--" + multipartBoundary + "--";
             customFormData += rn + "Content-Disposition: form-data; name=\"majorVersion\"";
             customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.majorVersion)) + rn + "--" + multipartBoundary + "--";
             if (fileInfo.uploadData.updateNodeRef)
@@ -1489,7 +1489,7 @@
        */
       onCancelOkButtonClick: function DNDUpload_onCancelOkButtonClick()
       {
-    	 Dom.addClass(this.compareVersionsSection, "hidden");
+         Dom.addClass(this.compareVersionsSection, "hidden");
 
          var message, i;
          if (this.state === this.STATE_UPLOADING)
@@ -1553,6 +1553,12 @@
                      currentPath: this.showConfig.path
                   });
                }
+               
+               // potentially new folders created under parent
+               YAHOO.Bubbling.fire("folderCreated",
+               {
+                  parentNodeRef: this.showConfig.parentNodeRef
+               });
             }
          }
 
