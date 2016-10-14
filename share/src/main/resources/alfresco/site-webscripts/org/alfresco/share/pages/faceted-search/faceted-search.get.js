@@ -503,6 +503,8 @@ var searchResultsMenuBar = {
                      name: "alfresco/menus/AlfMenuBarToggle",
                      config: {
                         visibilityConfig: hideOnNotSortableConfig,
+                        hashName: "sortAscending",
+                        checkedValue: "true",
                         checked: true,
                         onConfig: {
                            title: msg.get("faceted-search.sort-order-desc.title"),
