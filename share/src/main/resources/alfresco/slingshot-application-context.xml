@@ -422,4 +422,9 @@
       <property name="dictionary"               ref="slingshot.scriptprocessor.dictionaryQuery" />
    </bean>
    
+   <!-- Filter for performing SSO Authentication such as NTLM -->
+   <bean id="SSOAuthenticationFilter" class="org.alfresco.web.site.servlet.SSOAuthenticationFilter" init-method="init">
+      <property name="endpoint" value="alfresco" />
+   </bean>
+
 </beans>
