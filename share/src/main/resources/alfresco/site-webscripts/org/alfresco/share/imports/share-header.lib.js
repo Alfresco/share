@@ -732,6 +732,46 @@ function getHelpLink() {
 
 /* *********************************************************************************
  *                                                                                 *
+ * GET THE PENDING INVITE ID                                                        *
+ *                                                                                 *
+ ***********************************************************************************/
+/*
+ * Returns the pending invitation ID if exists, only for moderated sites
+ */
+function getPendingInvite(siteVisibility) {
+   var inviteData = null;
+   var pendingInvite = {};
+   var siteId = page.url.templateArgs.site;
+   if (siteVisibility == "MODERATED")
+   {
+      var json, obj;
+      json = remote.call("/api/invitations?inviteeUserName=" + encodeURIComponent(user.name) + "&invitationType=MODERATED&resultsLimit=200");
+      if (json.status == 200)
+      {
+         obj = JSON.parse(json);
+         if (obj)
+         {
+            inviteData = obj.data;
+         }
+      }
+      if (inviteData !== null)
+      {
+         for (var i = 0; i < inviteData.length; i++)
+         {
+            var invite = inviteData[i];
+            if (invite.resourceName === siteId)
+            {
+               pendingInvite.id = invite.inviteId;
+               break;
+            }
+         }
+      }
+   }
+   return pendingInvite;
+}
+
+/* *********************************************************************************
+ *                                                                                 *
  * CONSTRUCT LEFT MENU BAR (NEW)                                                   *
  *                                                                                 *
  ***********************************************************************************/
@@ -1365,23 +1405,45 @@ function getTitleBarModel() {
          }
          else if (siteData.profile.visibility != "PRIVATE" || user.isAdmin)
          {
-            // If the member is not a member of a site then give them the option to join...
-            siteConfig.config.widgets.push({
-               id: "HEADER_JOIN_SITE",
-               name: "alfresco/menus/AlfMenuItem",
-               config: {
-                  id: "HEADER_JOIN_SITE",
-                  label: (siteData.profile.visibility == "MODERATED" ? "join_site_moderated.label" : "join_site.label"),
-                  iconClass: "alf-leave-icon",
-                  publishTopic: (siteData.profile.visibility == "MODERATED" ? "ALF_REQUEST_SITE_MEMBERSHIP" : "ALF_JOIN_SITE"),
-                  publishPayload: {
-                     site: page.url.templateArgs.site,
-                     siteTitle: siteData.profile.title,
-                     user: user.name,
-                     userFullName: user.fullName
+            var pendingInvite = getPendingInvite(siteData.profile.visibility);
+            if (pendingInvite.id !== undefined)
+            {
+               siteConfig.config.widgets.push({
+                  id: "HEADER_CANCEL_JOIN_SITE_REQUEST",
+                  name: "alfresco/menus/AlfMenuItem",
+                  config: {
+                     id: "HEADER_CANCEL_JOIN_SITE_REQUEST",
+                     label: "cancel_request_to_join.label",
+                     iconClass: "alf-leave-icon",
+                     publishTopic: "ALF_CANCEL_JOIN_SITE_REQUEST",
+                     publishPayload: {
+                        siteId: page.url.templateArgs.site,
+                        siteTitle: siteData.profile.title,
+                        pendingInvite: pendingInvite
+                     }
                   }
-               }
-            });
+               });
+            }
+            else
+            {
+               // If the member is not a member of a site then give them the option to join...
+               siteConfig.config.widgets.push({
+                  id: "HEADER_JOIN_SITE",
+                  name: "alfresco/menus/AlfMenuItem",
+                  config: {
+                     id: "HEADER_JOIN_SITE",
+                     label: (siteData.profile.visibility == "MODERATED" ? "join_site_moderated.label" : "join_site.label"),
+                     iconClass: "alf-leave-icon",
+                     publishTopic: (siteData.profile.visibility == "MODERATED" ? "ALF_REQUEST_SITE_MEMBERSHIP" : "ALF_JOIN_SITE"),
+                     publishPayload: {
+                        site: page.url.templateArgs.site,
+                        siteTitle: siteData.profile.title,
+                        user: user.name,
+                        userFullName: user.fullName
+                     }
+                  }
+               });
+            }
          }
       }
 
