@@ -70,9 +70,11 @@ public class SiteMembersPageTest extends AbstractTest
         newPage.inputVerifyPassword(userName);
         UserSearchPage userCreated = newPage.selectCreateUser().render();
         userCreated.searchFor(userName).render();
-        SharePage page = resolvePage(driver).render();
-        CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
-        SitePage site = createSitePage.createNewSite(siteName).render();
+        
+        siteUtil.createSite(driver, username, password, siteName, "description", "public");
+        
+        SiteDashboardPage site = siteActions.openSiteDashboard(driver, siteName);
+        
         addUsersToSitePage = site.getSiteNav().selectAddUser().render();
         siteUtil.addUsersToSite(driver, addUsersToSitePage, userName, UserRole.COLLABORATOR);
         siteMembersPage = addUsersToSitePage.navigateToMembersSitePage().render();

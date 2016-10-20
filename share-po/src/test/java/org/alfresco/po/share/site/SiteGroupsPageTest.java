@@ -74,9 +74,11 @@ public class SiteGroupsPageTest extends AbstractTest
         NewGroupPage newGroupPage = page.navigateToNewGroupPage().render();
         newGroupPage.createGroup(groupName, groupName, NewGroupPage.ActionButton.CREATE_GROUP).render();
 
-        //navigate to site groups page
-        CreateSitePage createSitePage = page.getNav().selectCreateSite().render();
-        SitePage site = createSitePage.createNewSite(siteName).render();
+        //navigate to site groups page        
+        siteUtil.createSite(driver, username, password, siteName, "description", "public");
+
+        SiteDashboardPage site = siteActions.openSiteDashboard(driver, siteName);
+        
         //membersPage = site.getSiteNav().selectInvite().render();
         membersPage = site.getSiteNav().selectAddUser().render();
         siteGroupsPage = membersPage.navigateToSiteGroupsPage().render();

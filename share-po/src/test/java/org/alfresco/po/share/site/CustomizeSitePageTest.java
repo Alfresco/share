@@ -64,12 +64,14 @@ public class CustomizeSitePageTest extends AbstractSiteDashletTest
     public void createSite() throws Exception
     {
         createEnterpriseUser(userName);
+        siteUtil.createSite(driver, username, password, siteName, "description", "public");
         dashBoard = loginAs(username, password);
-        siteName = "customizePageSite" + System.currentTimeMillis();
-        CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
-        createSitePage.createNewSite(siteName).render();
-        navigateToSiteDashboard();
-        siteDashBoard = resolvePage(driver).render();
+//        siteName = "customizePageSite" + System.currentTimeMillis();
+//        CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
+//        siteDashBoard = createSitePage.createNewSite(siteName).render();
+
+        siteDashBoard = siteActions.openSiteDashboard(driver, siteName);
+
         AddUsersToSitePage addUsersToSitePage = siteDashBoard
                 .getSiteNav().selectAddUser().render();
         siteUtil.addUsersToSite(driver, addUsersToSitePage, userName, UserRole.COLLABORATOR);

@@ -108,21 +108,21 @@ public class SiteActionsTest extends AbstractTest
         Assert.assertTrue(endTime >= startTime + waitDuration);
         
     }
-    @Test(groups = "Enterprise-only", priority=1)
+    @Test(groups = "Enterprise-only", priority=5)
     public void testopenSiteDashBoard() throws Exception
     {
             SiteDashboardPage siteDashPage = siteActions.openSiteDashboard(driver, siteName);
             Assert.assertNotNull(siteDashPage);
     }
     
-    @Test(groups = "Enterprise-only", priority=2)
+    @Test(groups = "Enterprise-only", priority=6)
     public void testopenSitesContentLibrary() throws Exception
     {
             DocumentLibraryPage docLibPage = siteActions.openSitesDocumentLibrary(driver, siteName);
             Assert.assertNotNull(docLibPage);
     }
     
-    @Test(groups = "Enterprise-only", priority=3)
+    @Test(groups = "Enterprise-only", priority=7)
     public void testCreateSite() throws Exception
     {
             siteActions.createSite(driver, newSite, newSite, "Public");
@@ -130,7 +130,7 @@ public class SiteActionsTest extends AbstractTest
             Assert.assertNotNull(docLibPage);
     }
     
-    @Test(groups = "Enterprise-only", priority=4)
+    @Test(groups = "Enterprise-only", priority=8)
     public void testAddRemoveAspect() throws Exception
     {
         File file = siteUtil.prepareFile();
@@ -157,7 +157,7 @@ public class SiteActionsTest extends AbstractTest
         aspectsPage.clickCancel().render();
     }
     
-    @Test(groups = "Enterprise-only", priority=5)
+    @Test(groups = "Enterprise-only", priority=9)
     public void testViewDetailsForFolder() throws Exception
     {
         String folderName = "folder" + System.currentTimeMillis();
@@ -173,7 +173,7 @@ public class SiteActionsTest extends AbstractTest
         
     }
        
-    @Test(groups = "Enterprise-only", priority=6)
+    @Test(groups = "Enterprise-only", priority=10)
     public void testViewDetailsForFile() throws Exception
     {
         File file = siteUtil.prepareFile();
@@ -187,7 +187,7 @@ public class SiteActionsTest extends AbstractTest
 
     }
     
-    @Test(groups = "Enterprise-only", priority=7)
+    @Test(groups = "Enterprise-only", priority=11)
     public void createFolderHierarchy() {
 	  siteActions.openSitesDocumentLibrary(driver, newSite);
   	  for (int i = 0; i < folderHierarchy.length; i++) {
@@ -195,18 +195,18 @@ public class SiteActionsTest extends AbstractTest
   		  siteActions.navigateToFolder(driver, folderHierarchy[i]);
   	  }
   	  
-  	 siteName = "old" + System.currentTimeMillis();
-  	 siteActions.createSite(driver, siteName, siteName, "Public");
+//  	 siteName = "old" + System.currentTimeMillis();
+//  	 siteActions.createSite(driver, siteName, siteName, "Public");
     }
     
-    @Test(groups = "Enterprise-only", priority=8, dataProvider="tempFilesData")
+    @Test(groups = "Enterprise-only", priority=12, dataProvider="tempFilesData")
     public void testCopyArtifact(File file) throws Exception
     {
 	  copyOrMoveAction(file,ACTION.COPY, new String[] {});
 	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),"File: " + file.getName() + " was copied in document library of site ");  
     }
      
-    @Test(groups = "Enterprise-only", priority=9, dataProvider="tempFilesData")
+    @Test(groups = "Enterprise-only", priority=13, dataProvider="tempFilesData")
     public void testCopyArtifactInFolderHyerarcy(File file) throws Exception
     {
 	  String fullHyerarcy ="";
@@ -220,14 +220,14 @@ public class SiteActionsTest extends AbstractTest
 	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),String.format("File: [%s[ was copied in document library[%s] of site %s ", file.getName(), fullHyerarcy, newSite));  
     }
     
-    @Test(groups = "Enterprise-only", priority=10, dataProvider="tempFilesData")
+    @Test(groups = "Enterprise-only", priority=14, dataProvider="tempFilesData")
     public void testMoveArtifact(File file) throws Exception
     {
 	  copyOrMoveAction(file,ACTION.MOVE, new String[] {});	  
 	  Assert.assertTrue(siteActions.isFileVisible(driver, file.getName()),"File: " + file.getName() + " was moved in document library of site ");  
     }
     
-    @Test(groups = "Enterprise-only", priority=11, dataProvider="tempFilesData")
+    @Test(groups = "Enterprise-only", priority=15, dataProvider="tempFilesData")
     public void testMoveArtifactInFolderHyerarcy(File file) throws Exception
     {
 	  String fullHyerarcy ="";

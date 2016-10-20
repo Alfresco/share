@@ -27,7 +27,6 @@ package org.alfresco.po.share.site.calendar;
 
 import static org.testng.Assert.assertNotNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -243,7 +242,7 @@ public class CalendarPageTest extends AbstractSiteDashletTest
      * test to verify create event method with year and month
      * author Bogdan.Bocancea
      */
-    @Test(dependsOnMethods = "testStartEndDateInfoFields", groups = "Verifycalendar", timeOut = 60000)
+    @Test(dependsOnMethods = "testStartEndDateInfoFields", groups = "Verifycalendar", timeOut = 90000)
     public void testCreateEventWithMonth()
     {
         ArrayList<String> monthValues = new ArrayList<String>(Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August",

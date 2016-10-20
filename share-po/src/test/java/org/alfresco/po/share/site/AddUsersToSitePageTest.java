@@ -63,10 +63,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     @BeforeClass(groups = "Enterprise-only")
     public void createSite() throws Exception
     {    
-        dashBoard = loginAs(username, password);
-        CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
-        createSitePage.createNewSite(siteName, siteName, true, false).render();
-        logout(driver);
+        siteUtil.createSite(driver, username, password, siteName, "description", "Private");
     }
 
     /**
@@ -90,8 +87,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         UserSearchPage userCreated = newPage.selectCreateUser().render();
         userCreated.searchFor(userName).render();
 
-        page = resolvePage(driver).render();
-        siteDashBoard = page.getNav().selectMostRecentSite().render();
+        siteDashBoard = siteActions.openSiteDashboard(driver, siteName);
+
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         siteUtil.addUsersToSite(driver, addUsersToSitePage, userName, role);
     }

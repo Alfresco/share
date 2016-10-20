@@ -130,7 +130,7 @@ public class SiteActions extends CommonActions
                 site = createSite.createNewSite(siteName, desc).render();
             }
 
-            site.render();
+            site = site.render();
 
             if (siteName.equalsIgnoreCase(site.getPageTitle()))
             {
@@ -458,10 +458,11 @@ public class SiteActions extends CommonActions
         HtmlPage page = getSharePage(driver).render();
         if (page instanceof DocumentLibraryPage)
         {
-            if (((DocumentLibraryPage) page).isSite(siteName) && ((DocumentLibraryPage) page).isDocumentLibrary())
+        	DocumentLibraryPage doclibPage = page.render();
+            if (doclibPage.isSite(siteName) && doclibPage.isDocumentLibrary())
             {
                 logger.info("Site doc lib page open ");
-                return ((DocumentLibraryPage) page);
+                return doclibPage;
             }
         }
 

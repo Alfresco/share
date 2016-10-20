@@ -143,7 +143,7 @@ public class CreateSitePage extends ShareDialogue
                     inputDescription.sendKeys(description);
                 }
                 selectSiteType(siteType);
-                return selectOk();
+                return selectOk().render();
             default:
                 throw new PageOperationException("No site type match found for: " + siteType + " out of the following possible options: Collaboration");
         }
