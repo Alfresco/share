@@ -675,12 +675,13 @@ public class Navigation extends PageElement
      */
     public HtmlPage selectSiteFromFavourties(String siteName)
     {
-        // Refresh is needed since sites added in favourites dont reflect.
+        // Refresh is needed since sites added in favourites don't reflect.
         driver.navigate().refresh();
         selectSitesDropdown();
         driver.findElement(By.id("HEADER_SITES_MENU_FAVOURITES_text")).click();
         //select site name
-        findAndWait(By.xpath(String.format("//a[contains(text(), '%s')]", siteName))).click();
+        String siteSelector = "#HEADER_SITES_MENU_FAVOURITES_dropdown a[title = '" + siteName + "']";
+        findAndWait(By.cssSelector(siteSelector));
         return getCurrentPage();
     }
 

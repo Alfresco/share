@@ -255,7 +255,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     		// Use as it
     		return username;
     	}
-    	else if (testNetwork == null || testNetwork.isEmpty())
+    	else if (testNetwork == null || testNetwork.isEmpty() || testNetwork.contains("$"))
     	{
     		testNetwork = "test.com";
     	}

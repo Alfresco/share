@@ -273,9 +273,9 @@ public class SiteTest extends AbstractTest
         logout(driver);
         dashBoard = loginAs(testuser, "password");
         SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
-        siteFinder = siteFinder.searchForSite(moderatedSiteName).render();
+
         siteFinder = siteUtil.siteSearchRetry(driver, siteFinder, moderatedSiteName);
-        SiteDashboardPage siteDashboardPage = (SiteDashboardPage)siteFinder.selectSite(moderatedSiteName).render();
+        SiteDashboardPage siteDashboardPage = siteFinder.selectSite(moderatedSiteName).render();
         
         //Check that moderated site dashboard header with site name is displayed
         Assert.assertEquals(siteDashboardPage.getPageTitle(), moderatedSiteName);

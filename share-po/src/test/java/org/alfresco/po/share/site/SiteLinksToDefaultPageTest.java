@@ -100,14 +100,11 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
     @BeforeClass(groups = { "alfresco-one" })
     public void createSite() throws Exception
     {
-
-    	// createEnterpriseUser(userName);
         dashBoard = loginAs(username, password);
     	adminActions.createEnterpriseUser(driver, userName, userName, userName, userName + "@test.com", userName);
         
     	CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
-        createSitePage.createNewSite(siteName).render();
-        siteDashBoard = resolvePage(driver).render();
+        siteDashBoard = createSitePage.createNewSite(siteName).render();
        
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         siteUtil.addUsersToSite(driver, addUsersToSitePage, userName, UserRole.COLLABORATOR);
@@ -167,7 +164,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test
+    @Test(priority = 1)
     public void testSelectSiteFromRecentSites() throws Exception
     {
         dashBoard = documentLibraryPage.getNav().selectMyDashBoard().render();
@@ -180,7 +177,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteFromRecentSites")
+    @Test(priority = 2)
     public void testSelectSiteFromMySites() throws Exception
     {
         userSitesPage = documentLibraryPage.getNav().selectMySites().render();
@@ -193,7 +190,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteFromMySites")
+    @Test(priority = 3)
     public void testSelectSiteFromSiteFinder() throws Exception
     {
         SiteFinderPage siteFinderPage = documentLibraryPage.getNav().selectSearchForSites().render();
@@ -207,7 +204,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteFromSiteFinder")
+    @Test(priority = 4)
     public void testSelectEditSite() throws Exception
     {
         EditSitePage editSitePage = documentLibraryPage.getSiteNav().selectEditSite().render();
@@ -220,7 +217,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectEditSite")
+    @Test(priority = 5)
     public void testSelectSiteNameInSiteHeader() throws Exception
     {
         documentLibraryPage = documentLibraryPage.getSiteNav().clickOnPageTitle().render();
@@ -232,7 +229,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteNameInSiteHeader")
+    @Test(priority = 6)
     public void testSelectSiteFromFavourites() throws Exception
     {
         documentLibraryPage = documentLibraryPage.getNav().selectSiteFromFavourties(siteName).render();
@@ -245,7 +242,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteFromFavourites")
+    @Test(priority = 7)
     public void testSelectSiteNameFromLiveSearch() throws Exception
     {
         dashBoard = documentLibraryPage.getNav().selectMyDashBoard().render();
@@ -290,7 +287,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteNameFromLiveSearch")
+    @Test(priority = 8)
     public void testSelectBackToSiteFromAdvanceSearch() throws Exception
     {
         AdvanceSearchPage advanceSearchPage = documentLibraryPage.getNav().selectAdvanceSearch().render();
@@ -304,7 +301,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectBackToSiteFromAdvanceSearch")
+    @Test(priority = 9)
     public void testSelectSiteNameFromFacetedSearch() throws Exception
     {
         dashBoard = documentLibraryPage.getNav().selectMyDashBoard().render();
@@ -324,7 +321,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * @throws Exception
      */
     
-    @Test(dependsOnMethods = "testSelectSiteNameFromFacetedSearch")
+    @Test(priority = 10)
     public void testSelectBackToSiteFromSearch() throws Exception
     {
         AdvanceSearchPage advanceSearchPage = documentLibraryPage.getNav().selectAdvanceSearch().render();
@@ -338,7 +335,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectBackToSiteFromSearch")
+    @Test(priority = 11)
     public void testSelectSiteNameFromSiteContentDashlet() throws Exception
     {
         customizeSitePage = documentLibraryPage.getSiteNav().selectCustomizeSite().render();
@@ -386,7 +383,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteNameFromSiteContentDashlet")
+    @Test(priority = 12)
     public void testSelectSiteNameFromSiteActivitiesDashlet() throws Exception
     {
         SiteNavigation siteNavigation = documentLibraryPage.getSiteNav().render();
@@ -437,7 +434,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteNameFromSiteActivitiesDashlet")
+    @Test(priority = 13)
     public void testSelectSiteNameFromSiteSearchDashlet() throws Exception
     {
  
@@ -469,7 +466,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteNameFromSiteSearchDashlet")
+    @Test(priority = 14)
     public void testSelectSiteNameFromSavedSearchDashlet() throws Exception
     {
  
@@ -510,7 +507,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteNameFromSavedSearchDashlet")
+    @Test(priority = 15)
     public void testSelectSiteNameFromEditingContentDashlet() throws Exception
     {
  
@@ -536,7 +533,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteNameFromEditingContentDashlet")
+    @Test(priority = 16)
     public void testSelectSiteNameFromMySitesDashlet() throws Exception
     {
         dashBoard = documentLibraryPage.getNav().selectMyDashBoard().render();
@@ -578,7 +575,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testSelectSiteNameFromMySitesDashlet")
+    @Test(priority = 17)
     public void testSelectSiteNameFromMyActivitiesDashlet() throws Exception
     {
         dashBoard = documentLibraryPage.getNav().selectMyDashBoard().render();
