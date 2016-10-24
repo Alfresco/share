@@ -59,7 +59,7 @@
    padding: 0.5em 1em;
 }
 
-.node-header .status-banner span
+.node-header .status-banner > span
 {
    background-repeat: no-repeat;
    line-height: 1.5em;

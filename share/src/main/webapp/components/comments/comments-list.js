@@ -487,8 +487,17 @@
          html += '   <div class="icon">' + $userAvatar(data.author.username) + '</div>';
          html += '   <div class="details">';
          html += '      <span class="info">';
-         html += $userProfileLink(data.author.username, data.author.firstName + ' ' + data.author.lastName, 'class="theme-color-1"') + ' ';
-         html += Alfresco.util.relativeTime(Alfresco.util.fromISO8601(data.modifiedOnISO)) + '<br/>';
+         var firstName = data.author.firstName || "",
+             lastName = data.author.lastName || "";
+         if (firstName || lastName)
+         {
+            html += $userProfileLink(data.author.username, data.author.firstName + ' ' + data.author.lastName, 'class="theme-color-1"');
+         }
+         else
+         {
+            html += $html(data.author.username);
+         }
+         html += ' ' + Alfresco.util.relativeTime(Alfresco.util.fromISO8601(data.modifiedOnISO)) + '<br/>';
          html += '      </span>';
          html += '      <span class="comment-actions">';
          if (permissions["edit"])
