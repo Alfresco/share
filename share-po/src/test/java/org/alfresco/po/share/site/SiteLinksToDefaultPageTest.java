@@ -287,7 +287,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * 
      * @throws Exception
      */
-    @Test(priority = 8)
+    @Test(priority = 8, enabled = false)
     public void testSelectBackToSiteFromAdvanceSearch() throws Exception
     {
         AdvanceSearchPage advanceSearchPage = documentLibraryPage.getNav().selectAdvanceSearch().render();
@@ -321,7 +321,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
      * @throws Exception
      */
     
-    @Test(priority = 10)
+    @Test(priority = 10, enabled = false)
     public void testSelectBackToSiteFromSearch() throws Exception
     {
         AdvanceSearchPage advanceSearchPage = documentLibraryPage.getNav().selectAdvanceSearch().render();
