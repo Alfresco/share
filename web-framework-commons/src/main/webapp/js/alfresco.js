@@ -5342,7 +5342,7 @@ Alfresco.util.createInsituEditor = function(p_context, p_params, p_callback)
                 * which we will need to filter on the server.
                 *
                 **************************************************************************************/
-               var oDS = new YAHOO.util.XHRDataSource(Alfresco.constants.PROXY_URI + "api/forms/picker/category/workspace/SpacesStore/tag:tag-root/children?selectableType=cm:category&size=100&aspect=cm:taggable&searchTerm=");
+               var oDS = new YAHOO.util.XHRDataSource(Alfresco.constants.PROXY_URI + "api/forms/picker/category/workspace/SpacesStore/tag:tag-root/children?selectableType=cm:category&size=10&aspect=cm:taggable&searchTerm=");
                oDS.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
                oDS.connXhrMode = "cancelStaleRequests";
                // This schema indicates where to find the tag name in the JSON response
@@ -5357,7 +5357,7 @@ Alfresco.util.createInsituEditor = function(p_context, p_params, p_callback)
                {
                   return sQuery;
                };
-               this.tagAutoComplete.queryDelay = 0.1           // Throttle requests sent
+               this.tagAutoComplete.queryDelay = 0.3;           // Throttle requests sent
                this.tagAutoComplete.animSpeed = 0.08;
                this.tagAutoComplete.itemSelectEvent.subscribe(function(type, args)
                {
