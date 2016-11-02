@@ -46,7 +46,7 @@
                      </#if>
                      <#if lockUser??>
                         <div class="status-banner theme-bg-color-2 theme-border-4">
-                        <#assign lockedByLink = userProfileLink(lockUser.userName, lockUser.displayName, 'class="theme-color-1"') >
+                        <#assign lockedByLink = userProfileLink(lockUser.userName, lockUser.displayName, 'class="theme-color-1"', lockUser.isDeleted!false) >
                         <#if lockUser.userName == user.name>
                            <#assign status><#if node.isLocked>lock-owner<#else>editing</#if></#assign>
                            <span class="${status}">${msg("banner." + status)}</span>
@@ -59,7 +59,7 @@
                      <#assign lockUser = node.properties["cm:lockOwner"]>
                      <#if lockUser??>
                         <div class="status-banner theme-bg-color-2 theme-border-4">
-                        <#assign lockedByLink = userProfileLink(lockUser.userName, lockUser.displayName, 'class="theme-color-1"') >
+                        <#assign lockedByLink = userProfileLink(lockUser.userName, lockUser.displayName, 'class="theme-color-1"', lockUser.isDeleted!false) >
                         <#if lockUser.userName == user.name>
                            <span class="lock-owner">${msg("banner.lock-owner")}</span>
                         <#else>
