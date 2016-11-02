@@ -212,7 +212,7 @@
          else
          {
             // Display cookie error
-            document.cookie = "_alfTest=_alfTest";
+            document.cookie = "_alfTest=_alfTest; Path=/;";
             var cookieEnabled = (document.cookie.indexOf("_alfTest") != -1);
             if (cookieEnabled == false)
             {
