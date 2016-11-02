@@ -32,8 +32,33 @@ if (aspects)
    }
 }
 
+/**
+ *
+ * @returns {object} The group information for the current user
+ */
+function getUserGroupData() {
+   var userData = {};
+   var groups = user.properties["alfUserGroups"];
+   if (groups != null)
+   {
+      groups = groups.split(",");
+      var processedGroups = {};
+      for (var i=0; i<groups.length; i++)
+      {
+         processedGroups[groups[i]] = true;
+      }
+      userData.groups = processedGroups;
+   }
+   userData.isAdmin = user.capabilities["isAdmin"];
+   if (userData.isAdmin == null)
+   {
+      userData.isAdmin = false;
+   }
+
+   return userData;
+}
+
 model.jsonModel = {
-   groupMemberships: user.properties["alfUserGroups"],
    services: [
       {
          name: "cmm/services/CMMService",
@@ -66,25 +91,30 @@ model.jsonModel = {
          id: "CMM",
          name: "alfresco/layout/VerticalWidgets",
          config: {
+            currentItem: {
+               user: getUserGroupData()
+            },
             baseClass: "side-margins",
-            renderFilterMethod: "ANY",
-            renderFilter: [
-               {
-                  target: "groupMemberships",
-                  property: "GROUP_ALFRESCO_ADMINISTRATORS",
-                  values: [true]
-               },
-               {
-                  target: "groupMemberships",
-                  property: "GROUP_ALFRESCO_MODEL_ADMINISTRATORS",
-                  values: [true]
-               }
-            ],
             widgets: [
                spacer.twelve,
                {
                   name: "alfresco/layout/HorizontalWidgets",
                   config: {
+                     renderFilterMethod: "ANY",
+                     renderFilter: [
+                        {
+                           property: "user.groups.GROUP_ALFRESCO_ADMINISTRATORS",
+                           values: [true]
+                        },
+                        {
+                           property: "user.groups.GROUP_ALFRESCO_MODEL_ADMINISTRATORS",
+                           values: [true]
+                        },
+                        {
+                           property: "user.isAdmin",
+                           values: [true]
+                        }
+                     ],
                      widgets: [
                         {
                            id: "CMM_PANE_CONTAINER",
