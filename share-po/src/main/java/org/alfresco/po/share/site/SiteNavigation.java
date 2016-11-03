@@ -103,14 +103,14 @@ public class SiteNavigation extends AbstractSiteNavigation
 //        return new CalendarPage(driver);
 //    }
 
-    @FindBy(id="HEADER_SITE_CONFIGURATION_DROPDOWN") Link config;
     /**
      * Mimics the action clicking the configure button.
      * This Features available only in the Enterprise 4.2 and Cloud 2.
      */
     public void selectConfigure()
     {
-        config.click();
+        WebElement config = findAndWait(By.id("HEADER_SITE_CONFIGURATION_DROPDOWN"));
+    	config.click();
     }
 
     @FindBy(id="HEADER_SITE_CONFIGURATION_DROPDOWN") Link configMore;
@@ -195,7 +195,7 @@ public class SiteNavigation extends AbstractSiteNavigation
     public HtmlPage selectInvite()
     {
         invite.click();
-        return factoryPage.instantiatePage(driver, InviteMembersPage.class);
+        return factoryPage.getPage(driver);
     }
     
 
@@ -378,7 +378,7 @@ public class SiteNavigation extends AbstractSiteNavigation
     {
         selectConfigure();
         driver.findElement(DELETE_SITE).click();
-        driver.findElement(By.xpath("//span[text()='OK']")).click();
+        driver.findElement(By.id("ALF_SITE_SERVICE_DIALOG_CONFIRMATION_label")).click();
         return getCurrentPage();
     }
     

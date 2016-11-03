@@ -64,13 +64,35 @@ public class CreateSitePage extends ShareDialogue
     protected static final By INPUT_TITLE = By.name("title");
     protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
     protected static final By CANCEL_BUTTON = By.cssSelector("button[id$='cancel-button-button']");
-    protected static final By CREATE_SITE_FORM = By.id("alfresco-createSite-instance-form");
-    protected static final By SAVE_BUTTON = By.cssSelector("span.yui-button.yui-submit-button.alf-primary-button");
+    protected static final By SITE_DIALOG = By.id("alfresco-createSite-instance-form");
+    
+//    protected static String DIALOG_ID = "#CREATE_SITE_DIALOG";
+//    protected static By SITE_DIALOG = By.cssSelector(DIALOG_ID);  
+//    
+//    protected static final By CREATE_SITE_TITLE = By.cssSelector(DIALOG_ID + "_title");
+//    protected static final String SITE_VISIBILITY = "div[id*='_SITE_FIELD_VISIBILITY_CONTROL_OPTION";
+//    
+//    protected static final By MODERATED_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "1']");
+//    protected static final By PRIVATE_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "2']");
+//    protected static final By PUBLIC_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "0']");
+//    
+//    protected static final String CHECKBOX_HELP_TEXT = " .alfresco-forms-controls-RadioButtons__description";
+//    protected static final By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "1']" + CHECKBOX_HELP_TEXT);
+//    protected static final By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "2']" + CHECKBOX_HELP_TEXT);
+//    protected static final By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "0']" + CHECKBOX_HELP_TEXT);
+//    
+//    protected static final By SITE_TYPE_DROPDOWN = By.cssSelector("table[id*='_SITE_FIELD_PRESET_CONTROL'] .dijitSelectLabel");
+//    protected static final By INPUT_DESCRIPTION = By.cssSelector("div[id*='_SITE_FIELD_DESCRIPTION'] textarea[name='description']");
+//    protected static final By INPUT_TITLE = By.cssSelector("div[id*='_SITE_FIELD_TITLE'] input[name='title']");
+//    protected static final By INPUT_SITEID = By.cssSelector("#CREATE_SITE_FIELD_SHORTNAME input[name='shortName']");
+//    
+//    protected static final By SUBMIT_BUTTON = By.cssSelector("[id$='_SITE_DIALOG_OK_label']");
+//    protected static final By CANCEL_BUTTON = By.cssSelector("[id$='_SITE_DIALOG_CANCEL_label']");
 
     @Override
     public CreateSitePage render(RenderTime timer)
     {
-        elementRender(timer, RenderElement.getVisibleRenderElement(CREATE_SITE_FORM), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(SAVE_BUTTON));
+        elementRender(timer, RenderElement.getVisibleRenderElement(SITE_DIALOG), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(CANCEL_BUTTON));
         return this;
     }
 
@@ -85,7 +107,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            return findAndWait(CREATE_SITE_FORM).isDisplayed();
+            return findAndWait(SITE_DIALOG).isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
@@ -173,15 +195,14 @@ public class CreateSitePage extends ShareDialogue
     {
         if (isPrivate)
         {
-            findAndWait(PRIVATE_CHECKBOX).click();
-            return;
+            selectVisibility(PRIVATE_CHECKBOX);
         }
         else
         {
-            findAndWait(PUBLIC_CHECKBOX).click();
+        	selectVisibility(PUBLIC_CHECKBOX);
             if (isModerated)
             {
-                findAndWait(MODERATED_CHECKBOX).click();
+            	selectVisibility(MODERATED_CHECKBOX);
             }
         }
     }
@@ -270,14 +291,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isPrivate()
     {
-        try
-        {
-            return findAndWait(PRIVATE_CHECKBOX).isSelected();
-        }
-        catch (NoSuchElementException nse)
-        {
-            return false;
-        }
+        return isSelected(PRIVATE_CHECKBOX);
     }
 
     /**
@@ -320,14 +334,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isPublic()
     {
-        try
-        {
-            return findAndWait(PUBLIC_CHECKBOX).isSelected();
-        }
-        catch (NoSuchElementException nse)
-        {
-            return false;
-        }
+    	 return isSelected(PUBLIC_CHECKBOX);
     }
 
     /**
@@ -370,14 +377,7 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isModerate()
     {
-        try
-        {
-            return findAndWait(MODERATED_CHECKBOX).isSelected();
-        }
-        catch (NoSuchElementException nse)
-        {
-            return false;
-        }
+        	 return isSelected(MODERATED_CHECKBOX);
     }
 
     /**
@@ -399,7 +399,7 @@ public class CreateSitePage extends ShareDialogue
     {
         try
         {
-            findAndWait(MODERATED_CHECKBOX_HELP_TEXT);
+            WebElement moderatedSiteOption = findAndWait(MODERATED_CHECKBOX_HELP_TEXT);
             return true;
         }
         catch (NoSuchElementException nse)
@@ -548,6 +548,60 @@ public class CreateSitePage extends ShareDialogue
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Check whether Create Site button is enabled.
+     * 
+     * @return True if button is enabled, else false.
+     */
+    public boolean isCreateButtonEnabled()
+    {
+    	if (findAndWait(SUBMIT_BUTTON).getAttribute("disabled") == "true")
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Selects the visibility required for site to be created/edited.
+     * 
+     * @param isPrivate boolean
+     * @param isModerated boolean
+     */
+    public void selectVisibility(By visibilitySelector)
+    {
+        try
+        {
+            WebElement siteVisibility = findAndWait(visibilitySelector);
+            siteVisibility.click();
+            return;
+        }
+        catch(NoSuchElementException nse)
+        {
+            throw new PageOperationException("Error selecting site visibility", nse);
+        }
+    }
+    
+    
+
+    /**
+     * Checks if the specified radio button is selected.
+     * 
+     * @return true if selected
+     */
+    public boolean isSelected(By selector)
+    {
+        try
+        {
+            WebElement siteVisibility = findAndWait(selector);
+        	return siteVisibility.isSelected();        	
+        }
+        catch (NoSuchElementException nse)
+        {
+            return false;
+        }
     }
 
 }

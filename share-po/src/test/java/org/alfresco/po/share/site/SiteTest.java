@@ -121,7 +121,7 @@ public class SiteTest extends AbstractTest
      * @throws Exception if error
      */
     
-    @Test
+    @Test(priority = 1)
     public void createSite() throws Exception
     {
         // TODO: Create site option is not available for admin, admin user in Cloud. Pl run tests with other user, i.e. user1@freenet.test
@@ -144,7 +144,7 @@ public class SiteTest extends AbstractTest
     }
     
     
-    @Test(dependsOnMethods = "createSite")
+    @Test(priority = 2)
     public void createDuplicateSite() throws Exception
     {
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
@@ -161,7 +161,7 @@ public class SiteTest extends AbstractTest
     }
     
 
-    @Test(dependsOnMethods = "createDuplicateSite")
+    @Test(priority = 3)
     public void checkSiteNavigation()
     {
         SharePage sharePage = resolvePage(driver).render();
@@ -181,7 +181,7 @@ public class SiteTest extends AbstractTest
     }
     
 
-    @Test(dependsOnMethods = "checkSiteNavigation")
+    @Test(priority = 4)
     public void searchForSiteThatDoesntExists()
     {
         SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
@@ -196,7 +196,7 @@ public class SiteTest extends AbstractTest
      * @throws Exception if error found
      */
 
-    @Test(dependsOnMethods = { "createPrivateModerateSiteShouldYeildPrivateSite" })
+    @Test(priority = 5)
     public void deleteSite() throws Exception
     {
         SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
@@ -217,7 +217,7 @@ public class SiteTest extends AbstractTest
      * @throws Exception if error found
      */
 
-    @Test(dependsOnMethods = { "deleteSite" })
+    @Test(priority = 6)
     public void deleteSiteFromSiteConfigurationOptionsDropdown() throws Exception
     {       
         siteUtil.createSite(driver, "admin", "admin", deleteSiteName, "description", "Private");
@@ -237,7 +237,7 @@ public class SiteTest extends AbstractTest
   
     }
   
-    @Test(dependsOnMethods = "searchForSiteThatDoesntExists")
+    @Test(priority = 7)
     public void createPrivateSite()
     {
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
@@ -246,16 +246,16 @@ public class SiteTest extends AbstractTest
         EditSitePage siteDetails = site.getSiteNav().selectEditSite().render();
 
         // checks for site visbility help text
-        Assert.assertTrue(createSite.isPublicCheckboxHelpTextDisplayed());
-        Assert.assertTrue(createSite.isPrivateCheckboxHelpTextDisplayed());
-        Assert.assertTrue(createSite.isModeratedCheckboxHelpTextDisplayed());
+        Assert.assertTrue(siteDetails.isPublicCheckboxHelpTextDisplayed());
+        Assert.assertTrue(siteDetails.isPrivateCheckboxHelpTextDisplayed());
+        Assert.assertTrue(siteDetails.isModeratedCheckboxHelpTextDisplayed());
 
         Assert.assertTrue(siteDetails.isPrivate());
         Assert.assertFalse(siteDetails.isModerate());
         siteDetails.cancel();
     }
 
-    @Test(dependsOnMethods = "createPrivateSite")
+    @Test(priority = 8)
     public void createPublicModerateSite()
     {
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
@@ -267,7 +267,7 @@ public class SiteTest extends AbstractTest
         siteDetails.cancel();
     }
     
-    @Test(dependsOnMethods = "createPublicModerateSite")
+    @Test(priority = 9)
     public void nonMemberCanJoinModeratedSite() throws Exception
     {
         logout(driver);
@@ -289,7 +289,7 @@ public class SiteTest extends AbstractTest
         dashBoard = loginAs(username, password);
     }
 
-    @Test(dependsOnMethods = "nonMemberCanJoinModeratedSite")
+    @Test(priority = 10)
     public void createPrivateModerateSiteShouldYeildPrivateSite() throws Exception
     {
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
@@ -301,7 +301,7 @@ public class SiteTest extends AbstractTest
         siteDetails.cancel();
     }
 
-    @Test(dependsOnMethods = "createPrivateModerateSiteShouldYeildPrivateSite")
+    @Test(priority = 11)
     public void isEditingEnabled()
     {
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
@@ -310,14 +310,14 @@ public class SiteTest extends AbstractTest
         createSite.cancel();
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(priority = 12, expectedExceptions = IllegalArgumentException.class)
     public void checkSiteNaveActiveLinkWithNull()
     {
         SiteNavigation nav = new SiteNavigation();
         nav.isLinkActive(null);
     }
 
-    @Test(dependsOnMethods = "deleteSite")
+    @Test(priority = 13)
     public void checkSetSiteName()
     {
         CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
@@ -326,7 +326,7 @@ public class SiteTest extends AbstractTest
         createSite.cancel();
     }
 
-    @Test(dependsOnMethods = "checkSetSiteName")
+    @Test(priority = 14)
     public void checkSetSiteURL()
     {
         String siteURL = siteName + "URL";
@@ -337,7 +337,7 @@ public class SiteTest extends AbstractTest
 
     }
 
-    @Test(dependsOnMethods = "checkSetSiteURL")
+    @Test(priority = 15)
     public void checkPublicSiteVisibilityLabel() throws Exception
     {
         siteUtil.createSite(driver, "admin", "admin", publicSiteNameLabel, "description", "Public");
@@ -360,7 +360,7 @@ public class SiteTest extends AbstractTest
 
     }
 
-    @Test(dependsOnMethods = "checkPublicSiteVisibilityLabel")
+    @Test(priority = 16)
     public void checkModeratedSiteVisibilityLabel() throws Exception
     {
         siteUtil.createSite(driver, "admin", "admin", moderatedSiteNameLabel, "description", "Moderated");
@@ -383,7 +383,7 @@ public class SiteTest extends AbstractTest
 
     }
 
-    @Test(dependsOnMethods = "checkModeratedSiteVisibilityLabel")
+    @Test(priority = 17)
     public void checkPrivateSiteVisibilityLabel() throws Exception
     {
         siteUtil.createSite(driver, "admin", "admin", privateSiteNameLabel, "description", "Private");
@@ -412,7 +412,7 @@ public class SiteTest extends AbstractTest
     // * Tests SiteResultsPage by searching from a site page.
     // * @throws IOException
     // */
-    // @Test(dependsOnMethods = "searchForSiteThatDoesntExists")
+    // @Test(priority = 20)
     // public void searchInSite() throws Exception
     // {
     // try
