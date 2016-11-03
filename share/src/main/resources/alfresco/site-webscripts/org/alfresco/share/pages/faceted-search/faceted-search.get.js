@@ -1028,7 +1028,8 @@ services.push("alfresco/services/SearchService",
               {
                  name: "alfresco/services/actions/CopyMoveService",
                  config: {
-                     repoNodeRef: repoRootNode
+                     repoNodeRef: repoRootNode,
+                     supportLinkCreation: true
                  }
               },
               "alfresco/services/actions/SimpleWorkflowService",

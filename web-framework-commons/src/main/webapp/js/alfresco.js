@@ -12235,13 +12235,43 @@ Alfresco.util.matchAspect = function(node, filter)
 };
 
 /**
+ * Type filter implementation. Returns true if the node type is in enumerated in {filter.match}. 
+ * For filters examples see ["CommonComponentStyle"]["component-style"] or ["SuppressComponent"]["component-config"] configurations from share-document-library-config.xml.
+ * 
+ * @param node {object}
+ * @param filter {object}
+ * @returns {Boolean} - true if the node type is in enumerated in filter.match, false otherwise.
+ */
+Alfresco.util.matchType = function(node, filter)
+{
+   var match = true;
+   if (filter.match && filter.match.length != null)
+   {
+      for (var j = 0; j < filter.match.length; j++)
+      {
+         var type = filter.match[j];
+         if (!node.type || node.type !== type)
+         {
+            match = false;
+            break;
+         }
+      }
+   }
+   else
+   {
+      match = false;
+   }
+   return match;
+};
+
+/**
  * Returns true if filterType is accepted, false otherwise. Currently only aspect filters accepted. 
  * @param filterType
  * @returns {Boolean} - true if filterType is accepted, false otherwise.
  */
 Alfresco.util.accepted = function(filterType)
 {
-   return (filterType == "aspect");
+   return (filterType == "aspect" || filterType == "type");
 };
 
 /**
@@ -12256,6 +12286,10 @@ Alfresco.util.match = function(node, filter)
    if (filter.name == "aspect")
    {
       return Alfresco.util.matchAspect(node, filter);
+   }
+   if (filter.name == "type")
+   {
+      return Alfresco.util.matchType(node, filter);
    }
    return false;
 };

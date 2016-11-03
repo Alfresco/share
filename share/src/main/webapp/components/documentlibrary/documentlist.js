@@ -531,6 +531,7 @@
       YAHOO.Bubbling.on("fileCopied", this.onFileAction, this);
       YAHOO.Bubbling.on("fileDeleted", this.onFileAction, this);
       YAHOO.Bubbling.on("fileMoved", this.onFileAction, this);
+      YAHOO.Bubbling.on("fileLinkCreated", this.onFileAction, this);
       YAHOO.Bubbling.on("filePermissionsUpdated", this.onFileAction, this);
       YAHOO.Bubbling.on("folderCopied", this.onFileAction, this);
       YAHOO.Bubbling.on("folderDeleted", this.onFileAction, this);
@@ -540,6 +541,7 @@
       YAHOO.Bubbling.on("filesCopied", this.onDocListRefresh, this);
       YAHOO.Bubbling.on("filesDeleted", this.onDocListRefresh, this);
       YAHOO.Bubbling.on("filesMoved", this.onDocListRefresh, this);
+      YAHOO.Bubbling.on("filesLinkCreated", this.onDocListRefresh, this);
       YAHOO.Bubbling.on("filesPermissionsUpdated", this.onDocListRefresh, this);
 
       return this;
@@ -2153,8 +2155,9 @@
                id = Alfresco.util.generateDomId(),
                html = "";
 
-            var suppressTags = Alfresco.util.isSuppressed(record.node, supressComponentConfig.tags.browse.folder);
-            if(!suppressTags)
+            var suppressTagsFolder = Alfresco.util.isSuppressed(record.node, supressComponentConfig.tags.browse.folder);
+            var suppressTagsFile = Alfresco.util.isSuppressed(record.node, supressComponentConfig.tags.browse.file);
+            if(!suppressTagsFolder && ! suppressTagsFile)
             {
                var tags = jsNode.tags, tag;
                if (jsNode.hasAspect("cm:taggable") && tags.length > 0)
@@ -2249,9 +2252,10 @@
          {
             var jsNode = record.jsNode,
                html = "";
-            var supressSocial = Alfresco.util.isSuppressed(record.node, supressComponentConfig.social.browse.folder);
+            var supressSocialFolder = Alfresco.util.isSuppressed(record.node, supressComponentConfig.social.browse.folder);
+            var supressSocialFile = Alfresco.util.isSuppressed(record.node, supressComponentConfig.social.browse.file);
 
-            if (!supressSocial)
+            if (!supressSocialFolder && !supressSocialFile)
             {
                /* Favourite / Likes / Comments */
                html += '<span class="item item-social">' + Alfresco.DocumentList.generateFavourite(this, record) + '</span>';
@@ -3962,7 +3966,7 @@
       _unselectFile: function DL__unselectFile(obj)
       {
           var objAction = obj.action;
-          if (objAction && (objAction == "fileCopied" || objAction == "fileMoved" || objAction == "folderCopied" || objAction == "folderMoved"))
+          if (objAction && (objAction == "fileCopied" || objAction == "fileMoved" || objAction == "folderCopied" || objAction == "folderMoved" || objAction == "fileLinkCreated"))
           {
              if (this.selectedFiles[obj.nodeRef])
              {
@@ -4012,7 +4016,7 @@
        */
       _unselectCopiedFiles: function DL__unselectCopiedFiles(obj)
       {
-         if (obj.action == "filesCopied" && obj.sourceFilesObj && obj.sourceFilesObj.nodeRefs)
+         if ((obj.action == "filesCopied" || obj.action == "filesLinkCreated" )&& obj.sourceFilesObj && obj.sourceFilesObj.nodeRefs)
          {
             var copiedFiles = obj.sourceFilesObj.nodeRefs;
             for (var i = 0, j = copiedFiles.length ; i < j; i++)
