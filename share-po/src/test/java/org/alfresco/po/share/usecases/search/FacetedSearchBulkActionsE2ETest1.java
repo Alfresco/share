@@ -336,6 +336,7 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
         
         //Select all the items check box and click on Start work flow action from selected items drop down menu
         startWorkFlowPage = siteActions.performBulkActionOnSelectedResults(driver,selectedItems, SearchSelectedItemsMenu.START_WORKFLOW, destination).render();
+        Assert.assertTrue(startWorkFlowPage.isWorkFlowTextPresent());
         
         //Create a new workflow
         NewWorkflowPage newWorkflowPage = ((NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW)).render();

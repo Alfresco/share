@@ -49,14 +49,11 @@ import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.search.*;
 import org.alfresco.po.share.search.LiveSearchDropdown.Scope;
 import org.alfresco.po.share.site.SitePageType;
-import org.alfresco.po.share.workflow.NewWorkflowPage;
 import org.alfresco.po.share.workflow.StartWorkFlowPage;
-import org.alfresco.po.share.workflow.WorkFlowType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 public abstract class CommonActions
 {
@@ -525,7 +522,6 @@ public abstract class CommonActions
 			else if (action.name().equals("START_WORKFLOW"))
 			{
 				StartWorkFlowPage startWorkFlowPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
-				Assert.assertTrue(startWorkFlowPage.isWorkFlowTextPresent());
 			     
 			}
 			else if (action.name().equals("DELETE"))
