@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
    <display-name>Alfresco Project Slingshot</display-name>
    <description>Alfresco Project Slingshot application</description>
@@ -40,15 +42,15 @@
    </filter>
 
    <filter>
-      <description>Share CSRF Token filter. Checks for a session based CSRF token in request headers (or form parameters) based on config.</description>
+      <description>CSRF Token filter. Checks for a session based CSRF token in request headers (or form parameters) based on config.</description>
       <filter-name>CSRF Token Filter</filter-name>
-      <filter-class>org.alfresco.web.site.servlet.CSRFFilter</filter-class>
+      <filter-class>org.springframework.extensions.webscripts.servlet.CSRFFilter</filter-class>
    </filter>
 
    <filter>
-      <description>Share Security Headers filter. Adds security response headers based on config.</description>
+      <description>Security Headers filter. Adds security response headers based on config.</description>
       <filter-name>Security Headers Filter</filter-name>
-      <filter-class>org.alfresco.web.site.servlet.SecurityHeadersFilter</filter-class>
+      <filter-class>org.springframework.extensions.webscripts.servlet.SecurityHeadersFilter</filter-class>
    </filter>
 
    <filter-mapping>
