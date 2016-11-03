@@ -113,7 +113,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         siteUtil.deleteSite(username, password, siteName);
     }         
     
-    @Test(groups = "Enterprise-only", priority = 1, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 1, enabled = true)
     public void testSelectAllCheckBox() throws Exception
     {  	   	
     	Assert.assertTrue(resultsPage.getNavigation().isSelectMenuEnabled());  
@@ -122,7 +122,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(resultsPage.getResultByName(file1.getName()).isItemCheckBoxSelected());    	
     }
     
-    @Test(groups = "Enterprise-only", priority = 2, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 2, enabled = true)
     public void testSelectNoneCheckBox() throws Exception
     {    	   	
     	 SearchBox search = documentLibPage.getSearch();
@@ -132,7 +132,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertFalse(resultsPage.getResultByName(file1.getName()).isItemCheckBoxSelected());
     } 
     
-    @Test(groups = "Enterprise-only", priority = 3, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 3, enabled = true)
     public void testSelectInvertCheckBox() throws Exception
     {    	   	
     	 SearchBox search = documentLibPage.getSearch();
@@ -142,7 +142,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(resultsPage.getResultByName(file1.getName()).isItemCheckBoxSelected());    	
     }
        
-    @Test(groups = "Enterprise-only", priority = 4, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 4, enabled = true)
     public void testSelectDownload() throws Exception
     {      	 	
     	 SearchBox search = documentLibPage.getSearch();
@@ -152,7 +152,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	Assert.assertTrue(resultsPage.hasResults(),file1.getName());    	 
     }
     
-    @Test(groups = "Enterprise-only", priority = 5, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 5, enabled = true)
     public void testSelectStartWorkFlow() throws Exception
     {       		
     	SearchBox search = documentLibPage.getSearch();
@@ -172,7 +172,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	 
     }
     
-    @Test(groups = "Enterprise-only", priority = 6, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 6, enabled = true)
     public void testSelectActionCopy() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();
@@ -190,7 +190,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         Assert.assertTrue(repositoryPage.isFileVisible(file1.getName()));
     }
     
-    @Test(groups = "Enterprise-only", priority = 7, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 7, enabled = true)
     public void testSelectActionMove() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();
@@ -210,7 +210,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
        	
     }  
         
-    @Test(groups = "Enterprise-only", priority = 8, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 8, enabled = true)
     public void testSelectActionDeleteConfirmCancel() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();
@@ -223,7 +223,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	
     }
     
-    @Test(groups = "Enterprise-only", priority = 9, enabled = false)
+    @Test(groups = "Enterprise-only", priority = 9, enabled = true)
     public void testSelectActionDeleteConfirmDelete() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();

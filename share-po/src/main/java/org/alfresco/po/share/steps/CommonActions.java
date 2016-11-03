@@ -483,8 +483,8 @@ public abstract class CommonActions
      * @return
      */
     //TODO: Implement the details
-	public HtmlPage performBulkActionOnSelectedResults(WebDriver driver, String[] selectItems, SearchSelectedItemsMenu action, String sitename)
-	{
+	public HtmlPage performBulkActionOnSelectedResults(WebDriver driver, String[] selectItems, SearchSelectedItemsMenu action, String sitename, Boolean conformDelete )
+	{		
 		try
 		{
 			FacetedSearchPage resultsPage = getSharePage(driver).render();
@@ -521,13 +521,20 @@ public abstract class CommonActions
 			}
 			else if (action.name().equals("START_WORKFLOW"))
 			{
-				StartWorkFlowPage startWorkFlowPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
+				resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
 			     
 			}
 			else if (action.name().equals("DELETE"))
 			{
-				SearchConfirmDeletePage searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
-		        searchConfirmDeletePage.clickDelete().render();
+				if (conformDelete==true)
+				{ 
+			       SearchConfirmDeletePage searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
+		           searchConfirmDeletePage.clickDelete().render();
+				} else
+				{
+				   SearchConfirmDeletePage searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
+			       searchConfirmDeletePage.clickCancel().render();
+				}
 			}
 			else
 			{
