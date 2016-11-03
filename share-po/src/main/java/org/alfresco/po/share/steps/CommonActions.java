@@ -487,7 +487,7 @@ public abstract class CommonActions
 	{		
 		try
 		{
-			FacetedSearchPage resultsPage = getSharePage(driver).render();
+			FacetedSearchPage resultsPage = getSharePage(driver).render();			
 		
 			// Select Items
 			for (String item : selectItems) 
@@ -504,7 +504,7 @@ public abstract class CommonActions
 				copyAndMoveContentFromSearchPage.selectDestination("All Sites").render();
 				copyAndMoveContentFromSearchPage.selectSite(sitename).render();
 				copyAndMoveContentFromSearchPage.selectSiteFolder("Document Library");
-				resultsPage = copyAndMoveContentFromSearchPage.clickCopy().render();
+				return copyAndMoveContentFromSearchPage.clickCopy().render();			
 			}
 			if (action.name().equals("MOVE_TO"))
 			{
@@ -512,16 +512,16 @@ public abstract class CommonActions
 				copyAndMoveContentFromSearchPage.selectDestination("All Sites").render();
 				copyAndMoveContentFromSearchPage.selectSite(sitename).render();
 				copyAndMoveContentFromSearchPage.selectSiteFolder("Document Library");
-				resultsPage = copyAndMoveContentFromSearchPage.clickMove().render();
+				return copyAndMoveContentFromSearchPage.clickMove().render();
 			}
 			
 			else if (action.name().equals("DOWNLOAD_AS_ZIP"))
 			{
-				resultsPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DOWNLOAD_AS_ZIP).render();
+				return resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DOWNLOAD_AS_ZIP).render();
 			}
 			else if (action.name().equals("START_WORKFLOW"))
 			{
-				resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
+				return resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
 			     
 			}
 			else if (action.name().equals("DELETE"))
@@ -529,11 +529,12 @@ public abstract class CommonActions
 				if (conformDelete==true)
 				{ 
 			       SearchConfirmDeletePage searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
-		           searchConfirmDeletePage.clickDelete().render();
-				} else
+		           return searchConfirmDeletePage.clickDelete().render();
+				} 
+				else
 				{
 				   SearchConfirmDeletePage searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
-			       searchConfirmDeletePage.clickCancel().render();
+			       return searchConfirmDeletePage.clickCancel().render();
 				}
 			}
 			else

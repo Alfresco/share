@@ -814,7 +814,7 @@ public class FactorySharePage implements FactoryPage
                 {
                 	sharePage = instantiatePage(driver, SearchConfirmDeletePage.class);
                 }
-                else if ("Notification".equals(dialogueText))
+                else if ("Copy Failed".equals(dialogueText) || "Move Failed".equals(dialogueText))
                 {
                 	sharePage = instantiatePage(driver, CopyOrMoveFailureNotificationPopUp.class);
                 }

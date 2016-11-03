@@ -58,7 +58,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     private final RenderElement DOC_LIST_VIEW = getVisibleRenderElement((By.cssSelector("div[id^='alfresco_documentlibrary_views_AlfDocumentListView']")));
     private final By destinationListCss = By
             .cssSelector("div[class='sub-pickers']>div[class^='alfresco-menus-AlfMenuBar']>div>div[class^='dijitReset dijitInline']>span");
-    private final By copyMoveOkOrCancelButtonCss = By.cssSelector("div[class='footer']>span");
+    private final By copyMoveOkOrCancelButtonCss = By.cssSelector(".footer .dijitButtonText");
     private final By copyMoveDialogCloseButtonCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class^=dijitDialogCloseIcon ]");
     private final By copyMoveDialogTitleCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class='dijitDialogTitle']");
     private String PathFolderCss = "//div[starts-with(@id,'alfresco_documentlibrary_views_AlfDocumentListView')] //tr/td/span/span/span[@class='value'][text()='%s']";
@@ -151,17 +151,21 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
 
         try
         {
-            for (WebElement button : findAndWaitForElements(copyMoveOkOrCancelButtonCss))
+        	List<WebElement> buttons = findDisplayedElements(copyMoveOkOrCancelButtonCss);
+            for (WebElement button : buttons)
             {
-                if (button.getText() != null)
+                if(button.isDisplayed() && button.isEnabled())
                 {
-                    if (button.getText().equalsIgnoreCase(buttonName))
-                    {
-                        button.click();                       
-                        waitUntilElementDisappears(errorPopUp,10);
-                        return getCurrentPage().render();
-
-                    }
+	            	if (button.getText() != null)
+	                {
+	                    if (button.getText().equalsIgnoreCase(buttonName))
+	                    {
+	                        button.click();                       
+	                        waitUntilElementDisappears(errorPopUp,10);
+	                        return getCurrentPage().render();
+	
+	                    }
+	                }
                 }
             }
             throw new PageOperationException("Unable to find the button: " + buttonName);

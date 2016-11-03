@@ -28,6 +28,7 @@ package org.alfresco.po.share.usecases.search;
 import java.io.File;
 
 import org.alfresco.po.share.enums.UserRole;
+import org.alfresco.po.share.search.CopyAndMoveContentFromSearchPage;
 import org.alfresco.po.share.search.CopyOrMoveFailureNotificationPopUp;
 import org.alfresco.po.share.search.FacetedSearchPage;
 import org.alfresco.po.share.search.SearchSelectedItemsMenu;
@@ -56,19 +57,21 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     private static String siteName;
     private static String siteName1;
     private static String siteName2;    
-    private static String folderName1, folderName2, folderName3, folderName4;
+    private static String folderName1, folderName2, folderName3, folderName4,folderName5;
     private static String folderDescription1;
     private static String folderDescription2;
     private static String folderDescription3;
     private static String folderDescription4;
+    private static String folderDescription5;
     private static FacetedSearchPage resultsPage;
     private static DocumentLibraryPage documentLibPage;
-    private static CopyOrMoveFailureNotificationPopUp copyOrMoveFailureNotificationPopUp;
+    CopyOrMoveFailureNotificationPopUp copyOrMoveFailureNotificationPopUp;
     AddUsersToSitePage addUsersToSitePage;
     private File bulkfile1;
     private File bulkfile2;
     private File bulkfile3;
-    private File bulkfile4;    
+    private File bulkfile4; 
+    private File bulkfile5; 
     private String userName1 = "user1" + System.currentTimeMillis();
     private String userName2 = "user2" + System.currentTimeMillis();
     private String userName3 = "user3" + System.currentTimeMillis();   
@@ -106,7 +109,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         siteUtil.addUsersToSite(driver, addUsersToSitePage, userName2, UserRole.CONSUMER);        
         siteUtil.addUsersToSite(driver, addUsersToSitePage, userName3, UserRole.COLLABORATOR);
-        siteUtil.createSite(driver, userName1, UNAME_PASSWORD, siteName2, "description", "private");
+        siteUtil.createSite(driver, userName1, UNAME_PASSWORD, siteName2, "description", "public");
         
         //open user1 site document library (siteName)
     	documentLibPage = siteActions.openSitesDocumentLibrary(driver, siteName);
@@ -276,7 +279,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
      * 
      */
     
-    @Test(groups = "alfresco-one", enabled = false)
+    @Test(groups = "alfresco-one", enabled = true)
     public void CopyFileFolderConsumerTest() throws Exception
     {  	
     	        
@@ -287,11 +290,11 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile4.getName(), true, 3));
         
         resultsPage = siteActions.search(driver, "myfile").render();
-        Assert.assertTrue(resultsPage.hasResults(),bulkfile4.getName());
-        
+        Assert.assertTrue(resultsPage.hasResults(),bulkfile4.getName());       
+               
         String[] selectedItems = {bulkfile4.getName(), folderName4};
-        String destination = siteName1;
-        
+        String destination = siteName1;   	
+		        
         //Select the files and folders and copy to user2 own site (sitename1 where user is not a member)
         copyOrMoveFailureNotificationPopUp = siteActions.performBulkActionOnSelectedResults(driver,selectedItems, SearchSelectedItemsMenu.COPY_TO, destination,false).render();         
         copyOrMoveFailureNotificationPopUp.selectOk().render();
@@ -299,14 +302,14 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         //Open user1 site document library (siteName)
         documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);
         
-        //Verify files and folders are still displayed in user1 own site (siteName) 
+        //Verify files and folders are still displayed in user2 own site (siteName) 
         Assert.assertTrue(documentLibPage.isItemVisble(bulkfile4.getName()), "File not displayed");          
         Assert.assertTrue(documentLibPage.isItemVisble(folderName4), "File not displayed");        
         
-        //Open user2 site document library (siteName1)
+        //Open user1 site document library (siteName1)
         documentLibPage = siteActions.openSitesDocumentLibrary(driver, siteName1);        
         
-        //Verify files and folders are not displayed in user2 own site (siteName1) 
+        //Verify files and folders are not displayed in user1 own site (siteName1) 
         Assert.assertFalse(documentLibPage.isItemVisble(bulkfile4.getName()), "File not displayed");         
         Assert.assertFalse(documentLibPage.isItemVisble(folderName4), "File not displayed");        
           
@@ -314,21 +317,18 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     }
     
     /**
-     * Collaborator cannot move other user files/folders to any destination folder 
+     * Collaborator cannot move his own files/folders to any destination folder 
      * without permission
      * 
      */
     
-    @Test(groups = "alfresco-one", enabled = false)
+    @Test(groups = "alfresco-one", enabled = true)
     public void MoveFileFolderCollaboratorTest() throws Exception
     {    	   	
-    	folderName1 = "myfile11fold2"+ System.currentTimeMillis();
-        folderName2 = "myfile12fold3"+ System.currentTimeMillis(); 
-        folderDescription1 = String.format("Description of %s", folderName1);
-        folderDescription2 = String.format("Description of %s", folderName2);
-        bulkfile1 = siteUtil.prepareFile();
-        bulkfile2 = siteUtil.prepareFile();    	
-    	
+    	folderName5 = "myfile11fold2"+ System.currentTimeMillis();        
+        folderDescription5 = String.format("Description of %s", folderName5);       
+        bulkfile5 = siteUtil.prepareFile();
+            	
     	//Login as user3(collaborator) to siteName
         loginAs(userName3, UNAME_PASSWORD);
     	
@@ -336,20 +336,20 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         siteActions.openSitesDocumentLibrary(driver, siteName);
                 
         //create folder1 
-    	siteActions.createFolder(driver, folderName1, folderName1, folderDescription1);
+    	siteActions.createFolder(driver, folderName5, folderName5, folderDescription5);
                 
     	//upload file1
-        siteActions.uploadFile(driver, bulkfile1);               
+        siteActions.uploadFile(driver, bulkfile5);               
               
         //Try retry search until results are displayed
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile1.getName(), true, 3));
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile5.getName(), true, 3));
         resultsPage = siteActions.search(driver, "myfile").render();
-        Assert.assertTrue(resultsPage.hasResults(),bulkfile1.getName());
+        Assert.assertTrue(resultsPage.hasResults(),bulkfile5.getName());
         
-        String[] selectedItems = {bulkfile1.getName(), folderName1};
+        String[] selectedItems = {bulkfile5.getName(), folderName5};
         String destination = siteName2;
         
-        //Select the files and folders and Move to user3 own site (sitename1)
+        //Select the files and folders and Move to user1 own site (sitename2 where user3 is not a member)
         copyOrMoveFailureNotificationPopUp = siteActions.performBulkActionOnSelectedResults(driver,selectedItems, SearchSelectedItemsMenu.MOVE_TO, destination,false).render();
         copyOrMoveFailureNotificationPopUp.selectOk().render();
                 
@@ -357,15 +357,15 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);        
         
         //Verify files and folders are still displayed in user1 own site (siteName) 
-        Assert.assertTrue(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");          
-        Assert.assertTrue(documentLibPage.isItemVisble(folderName1), "File not displayed");    
+        Assert.assertTrue(documentLibPage.isItemVisble(bulkfile5.getName()), "File not displayed");          
+        Assert.assertTrue(documentLibPage.isItemVisble(folderName5), "File not displayed");    
                
         //Open user1 site document library (siteName2 where user3 is not a site member)
         documentLibPage = siteActions.openSitesDocumentLibrary(driver, siteName2);
         
         //Verify files and folders are not displayed in user1 own site (siteName2) 
-        Assert.assertFalse(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");         
-        Assert.assertFalse(documentLibPage.isItemVisble(folderName1), "File not displayed");        
+        Assert.assertFalse(documentLibPage.isItemVisble(bulkfile5.getName()), "File not displayed");         
+        Assert.assertFalse(documentLibPage.isItemVisble(folderName5), "File not displayed");        
           
         logout(driver);               
     }

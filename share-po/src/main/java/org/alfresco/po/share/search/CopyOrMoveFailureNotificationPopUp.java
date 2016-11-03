@@ -89,7 +89,7 @@ public class CopyOrMoveFailureNotificationPopUp extends ShareDialogueAikau
 		{
 			WebElement selectok = driver.findElement(OK_BUTTON);
 
-			if (selectok.isEnabled()) 
+			if (selectok.isEnabled() && selectok.isDisplayed()) 
 			{
 				selectok.click();
 				return factoryPage.getPage(driver);
