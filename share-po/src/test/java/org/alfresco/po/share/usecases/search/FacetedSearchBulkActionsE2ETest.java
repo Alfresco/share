@@ -52,6 +52,7 @@ import org.alfresco.po.share.workflow.StartWorkFlowPage;
 import org.alfresco.po.share.workflow.WorkFlowFormDetails;
 import org.alfresco.po.share.workflow.WorkFlowType;
 import org.alfresco.test.FailedTestListener;
+import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -98,15 +99,17 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         siteName1 = "Asite1" + System.currentTimeMillis();
         folderDescription1 = String.format("Description of %s", folderName1);
         folderDescription2 = String.format("Description of %s", folderName2);
+        
         createUser();
         
+        siteUtil.createSite(driver, userName1, UNAME_PASSWORD, siteName1, "description", "Public");        
         siteUtil.createSite(driver, userName1, UNAME_PASSWORD, siteName, "description", "Public");
+        
         SiteDashboardPage siteDashBoard = resolvePage(driver).render();        
+        
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         siteUtil.addUsersToSite(driver, addUsersToSitePage, userName2, UserRole.CONSUMER);        
-        siteUtil.addUsersToSite(driver, addUsersToSitePage, userName3, UserRole.COLLABORATOR);
-        siteUtil.createSite(driver, userName1, UNAME_PASSWORD, siteName1, "description", "Public");
-              
+        siteUtil.addUsersToSite(driver, addUsersToSitePage, userName3, UserRole.COLLABORATOR);                 
     }
 
     /**
@@ -117,10 +120,8 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     private void createUser() throws Exception
     {
         createEnterpriseUser(userName1);
-        createEnterpriseUser(userName2);     
+        createEnterpriseUser(userName2);
         createEnterpriseUser(userName3);
-        loginAs(userName1, UNAME_PASSWORD);        
-       
      }
 
     @AfterClass(groups = "alfresco-one")
@@ -142,32 +143,35 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         bulkfile2 = siteUtil.prepareFile();
     	
     	loginAs(userName1, UNAME_PASSWORD);
-    	documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);
+    	
+    	documentLibPage = siteActions.openSitesDocumentLibrary(driver, siteName);
+    	
+    	siteActions.createFolder(driver, folderName1, folderName1, folderDescription1);
+    	
+    	siteActions.uploadFile(driver, bulkfile1);
         
-    	NewFolderPage newFolderPage1 = documentLibPage.getNavigation().selectCreateNewFolder();
-        documentLibPage = newFolderPage1.createNewFolder(folderName1, folderDescription1).render();        
-       
-        UploadFilePage uploadForm1 = documentLibPage.getNavigation().selectFileUpload().render();
-        documentLibPage = uploadForm1.uploadFile(bulkfile1.getCanonicalPath()).render();
+        logout(driver);
         
-        logout(driver);        
-        loginAs(userName3, UNAME_PASSWORD);        
+        loginAs(userName3, UNAME_PASSWORD);      
         
-        openSiteDocumentLibraryFromSearch(driver, siteName);
+        siteActions.openSitesDocumentLibrary(driver, siteName);
         
-        NewFolderPage newFolderPage2 = documentLibPage.getNavigation().selectCreateNewFolder();
-        documentLibPage = newFolderPage2.createNewFolder(folderName2, folderDescription2).render();
-        UploadFilePage uploadForm2 = documentLibPage.getNavigation().selectFileUpload().render();
-        documentLibPage = uploadForm2.uploadFile(bulkfile2.getCanonicalPath()).render();
-        SearchBox search = documentLibPage.getSearch();       
+    	siteActions.createFolder(driver, folderName2, folderName2, folderDescription2);
+    	
+    	siteActions.uploadFile(driver, bulkfile2);
+    	
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", bulkfile2.getName(), true, 3));
         
-        resultsPage = search.search("myfile").render();
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile2.getName(), true, 3));
-        Assert.assertTrue(resultsPage.hasResults(),bulkfile1.getName());
+        resultsPage = siteActions.search(driver, "myfile").render();
+        Assert.assertTrue(resultsPage.hasResults(),bulkfile1.getName()); 
         Assert.assertTrue(resultsPage.hasResults(),bulkfile2.getName());        
         Assert.assertTrue(resultsPage.hasResults(),folderName1);
         Assert.assertTrue(resultsPage.hasResults(),folderName2);
+        
+        // Select search results
+        String[] selectedItems = {bulkfile1.getName(), bulkfile2.getName(), folderName1, folderName2};
     	
+        //TODO: Amend the following test to use Utility to make it easy readable / BDD Style
         resultsPage.getResultByName(bulkfile1.getName()).selectItemCheckBox();
         resultsPage.getResultByName(bulkfile2.getName()).selectItemCheckBox();
         resultsPage.getResultByName(folderName1).selectItemCheckBox();
@@ -178,7 +182,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         copyAndMoveContentFromSearchPage.selectSiteInRepo("Shared").render();        
         resultsPage = copyAndMoveContentFromSearchPage.clickCopy().render();    
                 
-        openSiteDocumentLibraryFromSearch(driver, siteName);
+        siteActions.openSitesDocumentLibrary(driver, siteName);
        
         Assert.assertTrue(documentLibPage.isItemVisble(bulkfile1.getName()), "File not displayed");  
         Assert.assertTrue(documentLibPage.isItemVisble(bulkfile2.getName()), "File not displayed");  
@@ -213,6 +217,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         
         documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);
         
+        //TODO: Replace PO code with appropriate utils - example in 1st test
         NewFolderPage newFolderPage1 = documentLibPage.getNavigation().selectCreateNewFolder();
         documentLibPage = newFolderPage1.createNewFolder(folderName1, folderDescription1).render();
                 
@@ -222,8 +227,11 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         SearchBox search = documentLibPage.getSearch();             
         resultsPage = search.search("myfile").render();
         Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile1.getName(), true, 3));
+        
+        // TODO: This will result into Stale element ref / incorrect results. Perform search after checkSearchResultsWithRetry
         Assert.assertTrue(resultsPage.hasResults(),bulkfile1.getName());   
        
+        // TODO: Use utility
     	resultsPage.getResultByName(bulkfile1.getName()).selectItemCheckBox();
         resultsPage.getResultByName(folderName1).selectItemCheckBox();       
             	
@@ -525,9 +533,11 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         UploadFilePage uploadForm1 = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm1.uploadFile(bulkfile1.getCanonicalPath()).render();       
         
-        logout(driver);        
+        logout(driver); 
+        
         loginAs(userName2, UNAME_PASSWORD);        
         
+        //TODO: Replace the site search utility with appropriate one used above.
         documentLibPage = openSiteDocumentLibraryFromSearch(driver, siteName);
             
         SearchBox search = documentLibPage.getSearch();          
@@ -547,7 +557,9 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
         reviewers.add(username);
         WorkFlowFormDetails formDetails = new WorkFlowFormDetails(siteName, newtaskname1, reviewers);
         newWorkflowPage.startWorkflow(formDetails).render();
+        
         openSiteDocumentLibraryFromSearch(driver, siteName);
+        
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(bulkfile1.getName());
         assertTrue(thisRow.isPartOfWorkflow(), "Document should not be part of workflow.");
         FileDirectoryInfo thisRow1 = documentLibPage.getFileDirectoryInfo(folderName1);
@@ -555,8 +567,6 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
                               
         logout(driver);   
                 
-    } 
-        
-
+    }
 }
 

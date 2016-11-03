@@ -472,5 +472,62 @@ public abstract class CommonActions
         }
         return checkLiveSearchResults(driver, searchString, searchScope, liveSearchItem, expectedInResults);
     }
+    
+    /**
+     * Utility to perform bulk action on selected search results
+     * @param driver
+     * @param selectItems
+     * @param action
+     * @param destination
+     * @return
+     */
+    //TODO: Implement the details
+	public HtmlPage performBulkActionOnSelectedResults(WebDriver driver, String[] selectItems, SearchSelectedItemsMenu action, String[] destination)
+	{
+		try
+		{
+			FacetedSearchPage resultsPage = getSharePage(driver).render();
+		
+			// Select Items
+			for (String item : selectItems) 
+			{
+				resultsPage.getResultByName(item).selectItemCheckBox();
+			}
+
+			// Select Bulk Action
+			resultsPage.getNavigation().selectActionFromSelectedItemsMenu(action).render();
+	    
+			// Check action and Provide details as necessary
+			// For Copy or Move
+			if (action.name().equals("COPY_TO") || action.name().equals("MOVE_TO"))
+			{
+				CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.COPY_TO).render();
+				copyAndMoveContentFromSearchPage.selectDestination("Repository").render();  
+				copyAndMoveContentFromSearchPage.selectSiteInRepo("Shared").render();        
+				resultsPage = copyAndMoveContentFromSearchPage.clickCopy().render();
+			}
+			else if (action.name().equals("DOWNLOAD_AS_ZIP"))
+			{
+				
+			}
+			else if (action.name().equals("START_WORKFLOW"))
+			{
+				
+			}
+			else if (action.name().equals("DELETE"))
+			{
+				
+			}
+			else
+			{
+				// Throw exception that its not a valid option
+			}
+		}
+		catch(Exception e)
+		{
+			logger.error("User not on Faceted Results page or Item not found", e);
+		}
+	    return getSharePage(driver).render();
+	}
 
 }

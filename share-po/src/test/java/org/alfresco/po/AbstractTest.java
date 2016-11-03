@@ -236,7 +236,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     }
 
     /**
-     * Function to create user on Enterprise using UI
+     * Function to create user on Enterprise using API
      *
      * @param uname - This should always be unique. So the user of this method needs to verify it is unique.
      *                eg. - "testUser" + System.currentTimeMillis();
