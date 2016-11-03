@@ -49,7 +49,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
     private static final By TITLE = By.cssSelector("div.nameAndTitleCell span.alfresco-renderers-Property.alfresco-renderers-Property.small>span.inner>span.value");
     private static final By DATE = By.cssSelector("div.dateCell span.inner");
     private static final By DESCRIPTION = By.cssSelector("div.descriptionCell span.value");
-    private static final By SITE = By.cssSelector("div.siteCell span.inner");
+    private static final By SITE = By.cssSelector("span[id$='_SITE'] .value");
     private static final By ACTIONS = By.cssSelector("tr td.actionsCell");
     private static final By IMAGE = By.cssSelector("tbody[id=FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS] td.thumbnailCell img");
     private static final By FOLDER_PATH = By.xpath("//div[@class='pathCell']//span[@class='value']");
