@@ -756,8 +756,15 @@
        */
       onCreateSite: function MySites_onCreateSite(event)
       {
-         Alfresco.module.getCreateSiteInstance().show();
          Event.preventDefault(event);
+
+         // This code is required to defer to Aikau for site creation, the
+         // SiteService that subscribes to the published topic will determine
+         // whether to use the old YUI2 code or the Aikau code...
+         require(["alfresco/core/Core","alfresco/core/topics"], function (Core, topics) {
+            var core = new Core();
+            core.alfPublish(topics.CREATE_SITE);
+         });
       },
 
       /**
