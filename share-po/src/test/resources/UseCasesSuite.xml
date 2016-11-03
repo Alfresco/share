@@ -4,12 +4,12 @@
 	
 		<test name="FacetedSearchBulkActions">			
 			<classes>
-				<class name="org.alfresco.po.share.usecaeses.search.FacetedSearchBulkActionsE2ETest" />				
+				<class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />				
 			</classes>
 		</test>
 		<test name="FacetedSearchBulkActions1">		
 			<classes>
-			<class name="org.alfresco.po.share.usecaeses.search.FacetedSearchBulkActionsE2ETest1" />
+			<class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest1" />
 		    </classes>
 		</test>		
 </suite>
