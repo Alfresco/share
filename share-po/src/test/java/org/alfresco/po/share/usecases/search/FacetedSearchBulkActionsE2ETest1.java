@@ -62,7 +62,7 @@ import org.testng.annotations.Test;
 public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest 
 {
     private static String siteName;
-    private static String siteName1;
+    
     private static String folderName1, folderName2,folderName3,folderName4,folderName5;
     private static String folderDescription1;
     private static String folderDescription2;
@@ -81,7 +81,7 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
     private File bulkfile6;
     private File bulkfile7;
     private File bulkfile8;    
-        
+    private String filename = "tfile";    
     private String userName1 = "user1" + System.currentTimeMillis();
     private String userName2 = "user2" + System.currentTimeMillis();
     private String userName3 = "user3" + System.currentTimeMillis();
@@ -97,17 +97,16 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
     @BeforeClass(groups = "alfresco-one")
     public void prepare() throws Exception
     {
-        siteName = "Asite" + System.currentTimeMillis();
-        siteName1 = "Asite1" + System.currentTimeMillis();
-        folderName1 = "myfile11folder9"+ System.currentTimeMillis(); 
-        folderName4 = "myfile11folder13"+ System.currentTimeMillis();
+        siteName = "Asite" + System.currentTimeMillis();        
+        folderName1 = "tfile11folder9"+ System.currentTimeMillis(); 
+        folderName4 = "tfile11folder13"+ System.currentTimeMillis();
         folderDescription1 = String.format("Description of %s", folderName1);
         folderDescription4 = String.format("Description of %s", folderName4);
        
-        bulkfile1 = siteUtil.prepareFile();
-        bulkfile3 = siteUtil.prepareFile();
-        bulkfile4 = siteUtil.prepareFile();
-        bulkfile6 = siteUtil.prepareFile();        
+        bulkfile1 = siteUtil.prepareFile(filename);        
+        bulkfile3 = siteUtil.prepareFile(filename);        
+        bulkfile4 = siteUtil.prepareFile(filename);       
+        bulkfile6 = siteUtil.prepareFile(filename);
               
         createUser();
         
@@ -115,8 +114,7 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
         SiteDashboardPage siteDashBoard = resolvePage(driver).render();        
         AddUsersToSitePage addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
         siteUtil.addUsersToSite(driver, addUsersToSitePage, userName2, UserRole.CONSUMER);        
-        siteUtil.addUsersToSite(driver, addUsersToSitePage, userName3, UserRole.COLLABORATOR);
-        siteUtil.createSite(driver, userName1, UNAME_PASSWORD, siteName1, "description", "private");
+        siteUtil.addUsersToSite(driver, addUsersToSitePage, userName3, UserRole.COLLABORATOR);        
         
        //Open user1 Site document library
     	documentLibPage = siteActions.openSitesDocumentLibrary(driver, siteName);
@@ -130,7 +128,8 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
         siteActions.uploadFile(driver, bulkfile1);
         siteActions.uploadFile(driver, bulkfile3);
         siteActions.uploadFile(driver, bulkfile4); 
-        siteActions.uploadFile(driver, bulkfile6);  
+        siteActions.uploadFile(driver, bulkfile6);
+        
                 
         //Logout as user1
         logout(driver);
@@ -166,10 +165,10 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
     @Test(groups = "alfresco-one", enabled = true)
     public void BulkDeleteAndMoveTest() throws Exception
     {  	
-    	folderName2 = "myfile12folder10"+ System.currentTimeMillis();      
+    	folderName2 = "tfile12folder10"+ System.currentTimeMillis();      
         folderDescription2 = String.format("Description of %s", folderName2);       
-        bulkfile2 = siteUtil.prepareFile();    	
-    	        
+        bulkfile2 = siteUtil.prepareFile(filename); 	
+    
         //Login as collaborator(user3) to siteName
         loginAs(userName3, UNAME_PASSWORD);
         
@@ -183,9 +182,9 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
         siteActions.uploadFile(driver, bulkfile2);        
                
         //Try retry search until results are displayed
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile2.getName(), true, 3));
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "tfile",bulkfile2.getName(), true, 3));
         
-        resultsPage = siteActions.search(driver, "myfile").render();
+        resultsPage = siteActions.search(driver, "tfile").render();
         Assert.assertTrue(resultsPage.hasResults(),bulkfile1.getName());        
           	
     	//select the items created by user1 and user3
@@ -209,10 +208,10 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
     @Test(groups = "alfresco-one", enabled = true)
     public void BulkDeleteOwnFileFoldersTest() throws Exception
     {    	   	
-    	folderName3 = "myfile11folder11"+ System.currentTimeMillis();     
+    	folderName3 = "tfile11folder11"+ System.currentTimeMillis();     
         folderDescription3 = String.format("Description of %s", folderName1);
    
-        bulkfile3 = siteUtil.prepareFile();   	     
+        bulkfile3 = siteUtil.prepareFile(filename);   	     
          
         //Login as collaborator(user3)
         loginAs(userName3, UNAME_PASSWORD);
@@ -227,13 +226,13 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
         siteActions.uploadFile(driver, bulkfile3);       
                  
         //Try retry search until results are displayed
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile3.getName(), true, 3));
-        resultsPage = siteActions.search(driver, "myfile").render();
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "tfile",bulkfile3.getName(), true, 3));
+        resultsPage = siteActions.search(driver, "tfile").render();
         Assert.assertTrue(resultsPage.hasResults(),bulkfile3.getName());
         Assert.assertTrue(resultsPage.hasResults(),folderName3);	
     	        
         String[] selectedItems = {bulkfile3.getName(), folderName3};
-        String destination = "Shared";
+        String destination = " ";
         
         //Select the check box on files and folders and select 'Delete' from Selected Items drop down 
         //Confirm cancel delete
@@ -247,8 +246,8 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
         Assert.assertTrue(documentLibPage.isItemVisble(folderName3), "File not displayed");
         
         //Try retry search until results are displayed
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile3.getName(), true, 3));
-        resultsPage = siteActions.search(driver, "myfile").render();
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "tfile",bulkfile3.getName(), true, 3));
+        resultsPage = siteActions.search(driver, "tfile").render();
         Assert.assertTrue(resultsPage.hasResults(),bulkfile3.getName());
         Assert.assertTrue(resultsPage.hasResults(),folderName3);             
         
@@ -274,10 +273,10 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
     @Test(groups = "alfresco-one", enabled = true)
     public void CollaboratorBulkDownloadTest() throws Exception
     {    	   	
-    	folderName5 = "myfile12folder14"+ System.currentTimeMillis();        
+    	folderName5 = "tfile12folder14"+ System.currentTimeMillis();        
         folderDescription5 = String.format("Description of %s", folderName5);
        
-        bulkfile5 = siteUtil.prepareFile();        
+        bulkfile5 = siteUtil.prepareFile(filename);        
     	
         //Login as user3 (collaborator to siteName)
         loginAs(userName3, UNAME_PASSWORD);        
@@ -292,13 +291,13 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
         siteActions.uploadFile(driver, bulkfile5);
         
         //Try retry search until results are displayed
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile5.getName(), true, 3));
-        resultsPage = siteActions.search(driver, "myfile").render();
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "tfile",bulkfile5.getName(), true, 3));
+        resultsPage = siteActions.search(driver, "tfile").render();
      
         String[] selectedItems = {bulkfile4.getName(), folderName4, bulkfile5.getName(), folderName5};
-        String destination = "Shared";
+        String destination = " ";
         
-        //Select the check box on files and folders and select 'DOWNLOAD_AS_ZIP' from Selected Items drop down 
+        //Select the check box on files and folders created by user1 and user3 and select 'DOWNLOAD_AS_ZIP' from Selected Items drop down 
         siteActions.performBulkActionOnSelectedResults(driver,selectedItems, SearchSelectedItemsMenu.DOWNLOAD_AS_ZIP, destination,false);
         Assert.assertTrue(resultsPage.hasResults(),bulkfile4.getName());
         Assert.assertTrue(resultsPage.hasResults(),bulkfile5.getName());
@@ -317,8 +316,8 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
     public void bulkStartWorkFlowTest() throws Exception
     {
     	
-        bulkfile7 = siteUtil.prepareFile();
-        bulkfile8 = siteUtil.prepareFile();      
+        bulkfile7 = siteUtil.prepareFile(filename);
+        bulkfile8 = siteUtil.prepareFile(filename);      
                 
         //Login as user3 (collaborator to siteName)
         loginAs(userName3, UNAME_PASSWORD);        
@@ -331,15 +330,15 @@ public class FacetedSearchBulkActionsE2ETest1 extends AbstractDocumentTest
         siteActions.uploadFile(driver, bulkfile8);    
             
         //Try retry search until results are displayed
-        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile",bulkfile8.getName(), true, 3));
-        resultsPage = siteActions.search(driver, "myfile").render();
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "tfile",bulkfile8.getName(), true, 3));
+        resultsPage = siteActions.search(driver, "tfile").render();
         Assert.assertTrue(resultsPage.hasResults(),bulkfile6.getName());
         Assert.assertTrue(resultsPage.hasResults(),bulkfile7.getName());
         Assert.assertTrue(resultsPage.hasResults(),bulkfile8.getName());
         
         	
         String[] selectedItems = {bulkfile6.getName(), bulkfile7.getName()};
-        String destination = "Shared";
+        String destination = " ";
         
         //Select all the items check box and click on Start work flow action from selected items drop down menu
         startWorkFlowPage = siteActions.performBulkActionOnSelectedResults(driver,selectedItems, SearchSelectedItemsMenu.START_WORKFLOW, destination,false).render();
