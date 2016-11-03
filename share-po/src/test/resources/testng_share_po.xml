@@ -18,5 +18,6 @@
         <suite-file path="CalendarPageSuite.xml" />
         <suite-file path="MyProfileSuite.xml" />
         <suite-file path="AlfrescoTestSuite.xml" />
+        <suite-file path="UseCasesSuite.xml" />
     </suite-files>
 </suite>

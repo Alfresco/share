@@ -34,6 +34,8 @@ import java.util.List;
 
 import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.RepositoryPage;
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
@@ -44,6 +46,7 @@ import org.alfresco.po.share.workflow.WorkFlowFormDetails;
 import org.alfresco.po.share.workflow.WorkFlowType;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -100,7 +103,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         
     }
 
-   /* @AfterClass (groups = "Enterprise-only")
+    @AfterClass (groups = "Enterprise-only")
     public void teardown()
     {
         SiteFinderPage siteFinder = siteUtil.searchSite(driver, siteName);
@@ -108,7 +111,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         DocumentLibraryPage docPage = siteDash.getSiteNav().selectDocumentLibrary().render();
         docPage.getNavigation().selectDetailedView();
         siteUtil.deleteSite(username, password, siteName);
-    }  */       
+    }         
     
     @Test(groups = "Enterprise-only", priority = 1, enabled = false)
     public void testSelectAllCheckBox() throws Exception
@@ -174,7 +177,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     {   
     	SearchBox search = documentLibPage.getSearch();
     	resultsPage = search.search("myfile").render();
-    	resultsPage = resultsPage.getResultByName(file1.getName()).selectItemCheckBox().render();   	
+    	resultsPage = resultsPage.getResultByName(file1.getName()).selectItemCheckBox().render();
     	CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.COPY_TO).render();
     	Assert.assertTrue(copyAndMoveContentFromSearchPage.getDialogTitle().contains("Copy"));
     	copyAndMoveContentFromSearchPage.selectDestination("Repository").render();  
@@ -220,7 +223,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     	
     }
     
-    @Test(groups = "Enterprise-only", priority = 9, enabled = true)
+    @Test(groups = "Enterprise-only", priority = 9, enabled = false)
     public void testSelectActionDeleteConfirmDelete() throws Exception
     {   
     	SearchBox search = documentLibPage.getSearch();

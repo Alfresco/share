@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Share-UseCases Suite" verbose="6" preserve-order="true" parallel="classes" thread-count="1">	
+	<tests>
+		<test name="FacetedSearchBulkActions">
+			<groups> <run> <include name=""></include> </run> </groups>
+			<classes>
+				<class name="org.alfresco.po.share.usecaeses.search.FacetedSearchBulkActionsE2ETest" />
+				<class name="org.alfresco.po.share.usecaeses.search.FacetedSearchBulkActionsE2ETest1" />
+			</classes>
+		</test>
+ 		
+	</tests>
+</suite>

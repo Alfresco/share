@@ -49,10 +49,14 @@ import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.search.*;
 import org.alfresco.po.share.search.LiveSearchDropdown.Scope;
 import org.alfresco.po.share.site.SitePageType;
+import org.alfresco.po.share.workflow.NewWorkflowPage;
+import org.alfresco.po.share.workflow.StartWorkFlowPage;
+import org.alfresco.po.share.workflow.WorkFlowType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 public abstract class CommonActions
 {
@@ -482,7 +486,7 @@ public abstract class CommonActions
      * @return
      */
     //TODO: Implement the details
-	public HtmlPage performBulkActionOnSelectedResults(WebDriver driver, String[] selectItems, SearchSelectedItemsMenu action, String[] destination)
+	public HtmlPage performBulkActionOnSelectedResults(WebDriver driver, String[] selectItems, SearchSelectedItemsMenu action, String sitename)
 	{
 		try
 		{
@@ -495,32 +499,44 @@ public abstract class CommonActions
 			}
 
 			// Select Bulk Action
-			resultsPage.getNavigation().selectActionFromSelectedItemsMenu(action).render();
-	    
 			// Check action and Provide details as necessary
 			// For Copy or Move
-			if (action.name().equals("COPY_TO") || action.name().equals("MOVE_TO"))
+			if (action.name().equals("COPY_TO"))
 			{
-				CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.COPY_TO).render();
-				copyAndMoveContentFromSearchPage.selectDestination("Repository").render();  
-				copyAndMoveContentFromSearchPage.selectSiteInRepo("Shared").render();        
+				CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(action).render();
+				copyAndMoveContentFromSearchPage.selectDestination("All Sites").render();
+				copyAndMoveContentFromSearchPage.selectSite(sitename).render();
+				copyAndMoveContentFromSearchPage.selectSiteFolder("Document Library");
 				resultsPage = copyAndMoveContentFromSearchPage.clickCopy().render();
 			}
+			if (action.name().equals("MOVE_TO"))
+			{
+				CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(action).render();
+				copyAndMoveContentFromSearchPage.selectDestination("All Sites").render();
+				copyAndMoveContentFromSearchPage.selectSite(sitename).render();
+				copyAndMoveContentFromSearchPage.selectSiteFolder("Document Library");
+				resultsPage = copyAndMoveContentFromSearchPage.clickMove().render();
+			}
+			
 			else if (action.name().equals("DOWNLOAD_AS_ZIP"))
 			{
-				
+				resultsPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DOWNLOAD_AS_ZIP).render();
 			}
 			else if (action.name().equals("START_WORKFLOW"))
 			{
-				
+				StartWorkFlowPage startWorkFlowPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
+				Assert.assertTrue(startWorkFlowPage.isWorkFlowTextPresent());
+			     
 			}
 			else if (action.name().equals("DELETE"))
 			{
-				
+				SearchConfirmDeletePage searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
+		        searchConfirmDeletePage.clickDelete().render();
 			}
 			else
 			{
 				// Throw exception that its not a valid option
+				logger.error("This is not a valid option");
 			}
 		}
 		catch(Exception e)

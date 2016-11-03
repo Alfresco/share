@@ -16,4 +16,9 @@
             <class name="org.alfresco.po.share.search.FacetedSearchResultsPageTest" />
         </classes>
     </test>
+    <test name="FacetedSearchBulkActionsTest">
+        <classes>
+            <class name="org.alfresco.po.share.search.FacetedSearchBulkActionsTest" />
+        </classes>
+    </test>
 </suite>

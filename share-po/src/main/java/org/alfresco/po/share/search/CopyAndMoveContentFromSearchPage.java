@@ -66,8 +66,11 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     
     private final By nextCss = By.cssSelector("div[class$='dijitReset dijitInline dijitMenuItemLabel dijitMenuItem']>span[id$='PAGE_FORWARD_text']");
     private final By backCss = By.cssSelector("div[class$='dijitReset dijitInline dijitMenuItemLabel dijitMenuItem']>span[id$='PAGE_BACK_text']");
-    private final By siteFolderCss = By.cssSelector("span[class='dijitTreeContent']>span[ class='dijitTreeLabel']");    
-    private final By errorPopUp = By.cssSelector(".alfresco-notifications-AlfNotification__container");
+    private final By siteFolderCss = By.cssSelector("span[class='dijitTreeContent']>span[ class='dijitTreeLabel']");
+    private final By errorPopUp = By.cssSelector(".alfresco-notifications-AlfNotification__container");    
+    
+    private final By sitenameSelector = By.cssSelector("div[class='items'] div[role='menuitem']>span");    
+    private final By folderSelector = By.cssSelector(".dijitTree .dijitTreeRow .dijitTreeContent>span[role='treeitem']");
         
 
     //FIXME render checking for different elements
@@ -530,6 +533,81 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
 
         throw new PageOperationException("Unable to select Destination : " + folderName);
     }  
+    
+    /**
+     * This helper method finds the clicks on specified site in CopyAndMoveContentFromSearchPage     
+     * @param siteName
+     * @return
+     */
+    public CopyAndMoveContentFromSearchPage selectSite(String siteName)
+    {
+        PageUtils.checkMandatoryParam("siteName", siteName);
+        try
+        {
+            for (WebElement destination : findAndWaitForElements(sitenameSelector))
+            {
+                if (destination.getText() != null)
+                {
+                    if (destination.getText().equalsIgnoreCase(siteName))
+                    {
+                        destination.click();
+                        break;
+                    }
+
+                }
+
+            }
+
+            return this;
+        }
+        catch (NoSuchElementException | TimeoutException e)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Unable to find the required Site: " + siteName, e);
+            }
+        }
+
+        throw new PageOperationException("Unable to select Site : " + siteName);
+    }
+    
+    /**
+     * This helper method finds the clicks on specified site folder in CopyAndMoveContentFromSearchPage     
+     * @param folderName
+     * @return
+     */
+    public CopyAndMoveContentFromSearchPage selectSiteFolder(String sitefolderName)
+    {
+        PageUtils.checkMandatoryParam("sitefolderName", sitefolderName);
+        try
+        {
+            for (WebElement destination : findAndWaitForElements(folderSelector))
+            {
+                if (destination.getText() != null)
+                {
+                    if (destination.getText().equalsIgnoreCase(sitefolderName))
+                    {
+                        destination.click();
+                        break;
+                    }
+
+                }
+
+            }
+
+            return this;
+        }
+        catch (NoSuchElementException | TimeoutException e)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Unable to find the required Site: " + sitefolderName, e);
+            }
+        }
+
+        throw new PageOperationException("Unable to select Site : " + sitefolderName);
+    }  
+   
    
 
 }
