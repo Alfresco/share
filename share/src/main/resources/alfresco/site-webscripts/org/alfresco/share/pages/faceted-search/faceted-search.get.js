@@ -631,7 +631,8 @@ var searchDocLib = {
                      config: {
                         siteLandingPage: "",
                         enableContextMenu: false,
-                        showSelector: true
+                        showSelector: true,
+                        showSearchTermHighlights: true
                      }
                   }
                ]
