@@ -82,7 +82,10 @@ public class CreateSitePage extends ShareDialogueAikau
     @Override
     public CreateSitePage render(RenderTime timer)
     {
-        elementRender(timer, RenderElement.getVisibleRenderElement(SITE_DIALOG), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(SUBMIT_BUTTON));
+    	DIALOG_ID = "#CREATE_SITE_DIALOG";
+    	SITE_DIALOG = By.cssSelector(DIALOG_ID);
+    	
+    	elementRender(timer, RenderElement.getVisibleRenderElement(SITE_DIALOG), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(SUBMIT_BUTTON));
         return this;
     }
 
@@ -502,6 +505,7 @@ public class CreateSitePage extends ShareDialogueAikau
 
         inputSiteURL.clear();
         inputSiteURL.sendKeys(siteURL);
+        inputSiteURL.sendKeys(Keys.ENTER);
     }
 
     /**
