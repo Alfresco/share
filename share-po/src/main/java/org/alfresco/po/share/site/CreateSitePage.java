@@ -37,6 +37,7 @@ import org.alfresco.po.share.ShareDialogueAikau;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -119,7 +120,7 @@ public class CreateSitePage extends ShareDialogueAikau
      */
     public HtmlPage createNewSite(final String siteName, final String description, final boolean isPrivate, final boolean isModerated)
     {
-        return createNewSite(siteName, description, isPrivate, isModerated, SiteType.COLLABORATION);
+        return createNewSite(siteName, description, isPrivate, isModerated, SiteType.COLLABORATION).render();
     }
 
     /**
@@ -141,7 +142,7 @@ public class CreateSitePage extends ShareDialogueAikau
 
         selectSiteVisibility(isPrivate, isModerated);
 
-        return createSite(siteName, description, siteType);
+        return createSite(siteName, description, siteType).render();
     }
 
     protected HtmlPage createSite(final String siteName, final String description, final String siteType)
@@ -179,13 +180,13 @@ public class CreateSitePage extends ShareDialogueAikau
     }
 
     /**
-     * Clicks on OK buttong and checks whether site page has been loaded.
+     * Clicks on OK button and checks whether site page has been loaded.
      * 
      * @return HtmlPage
      */
     public HtmlPage selectOk()
     {
-        return submit(SUBMIT_BUTTON, ElementState.INVISIBLE);
+        return submit(SUBMIT_BUTTON, ElementState.DELETE_FROM_DOM).render();
     }
 
     /**
@@ -218,7 +219,7 @@ public class CreateSitePage extends ShareDialogueAikau
      */
     public HtmlPage createNewSite(final String siteName)
     {
-        return createNewSite(siteName, null, false, false);
+        return createNewSite(siteName, null, false, false).render();
     }
 
     /**
@@ -459,9 +460,8 @@ public class CreateSitePage extends ShareDialogueAikau
      * @return List String site type
      */
 
-    public List<String> getSiteType()
+    public List<String> getSiteTypes()
     {
-
         List<String> options = new ArrayList<String>();
         
         try
@@ -490,7 +490,9 @@ public class CreateSitePage extends ShareDialogueAikau
     public void setSiteName(String siteName)
     {
         WebElement inputSiteName = findAndWait(INPUT_TITLE);
+        inputSiteName.clear();
         inputSiteName.sendKeys(siteName);
+        inputSiteName.sendKeys(Keys.ENTER);
     }
 
     /**
