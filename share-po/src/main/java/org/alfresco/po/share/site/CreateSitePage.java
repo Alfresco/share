@@ -33,14 +33,13 @@ import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
-import org.alfresco.po.share.ShareDialogue;
+import org.alfresco.po.share.ShareDialogueAikau;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 /**
  * Create site page object, holds all element of the HTML page relating to
@@ -50,49 +49,40 @@ import org.openqa.selenium.support.ui.Select;
  * @since 1.0
  */
 @SuppressWarnings("unchecked")
-public class CreateSitePage extends ShareDialogue
+public class CreateSitePage extends ShareDialogueAikau
 {
     private static Log logger = LogFactory.getLog(SitePage.class);
 
-    protected static final By MODERATED_CHECKBOX = By.cssSelector("input[id$='-isModerated']");
-    protected static final By PRIVATE_CHECKBOX = By.cssSelector("input[id$='-isPrivate']");
-    protected static final By PUBLIC_CHECKBOX = By.cssSelector("input[id$='-isPublic']");
-    protected static By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='moderated-help-text']");
-    protected static By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='private-help-text']");
-    protected static By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector("span[id$='public-help-text']");
-    protected static final By INPUT_DESCRIPTION = By.cssSelector("textarea[id$='-description']");
-    protected static final By INPUT_TITLE = By.name("title");
-    protected static final By SUBMIT_BUTTON = By.cssSelector("button[id$='ok-button-button']");
-    protected static final By CANCEL_BUTTON = By.cssSelector("button[id$='cancel-button-button']");
-    protected static final By SITE_DIALOG = By.id("alfresco-createSite-instance-form");
+    protected static String DIALOG_ID = "#CREATE_SITE_DIALOG";
+    protected static By SITE_DIALOG = By.cssSelector(DIALOG_ID);  
     
-//    protected static String DIALOG_ID = "#CREATE_SITE_DIALOG";
-//    protected static By SITE_DIALOG = By.cssSelector(DIALOG_ID);  
-//    
-//    protected static final By CREATE_SITE_TITLE = By.cssSelector(DIALOG_ID + "_title");
-//    protected static final String SITE_VISIBILITY = "div[id*='_SITE_FIELD_VISIBILITY_CONTROL_OPTION";
-//    
-//    protected static final By MODERATED_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "1']");
-//    protected static final By PRIVATE_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "2']");
-//    protected static final By PUBLIC_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "0']");
-//    
-//    protected static final String CHECKBOX_HELP_TEXT = " .alfresco-forms-controls-RadioButtons__description";
-//    protected static final By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "1']" + CHECKBOX_HELP_TEXT);
-//    protected static final By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "2']" + CHECKBOX_HELP_TEXT);
-//    protected static final By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "0']" + CHECKBOX_HELP_TEXT);
-//    
-//    protected static final By SITE_TYPE_DROPDOWN = By.cssSelector("table[id*='_SITE_FIELD_PRESET_CONTROL'] .dijitSelectLabel");
-//    protected static final By INPUT_DESCRIPTION = By.cssSelector("div[id*='_SITE_FIELD_DESCRIPTION'] textarea[name='description']");
-//    protected static final By INPUT_TITLE = By.cssSelector("div[id*='_SITE_FIELD_TITLE'] input[name='title']");
-//    protected static final By INPUT_SITEID = By.cssSelector("#CREATE_SITE_FIELD_SHORTNAME input[name='shortName']");
-//    
-//    protected static final By SUBMIT_BUTTON = By.cssSelector("[id$='_SITE_DIALOG_OK_label']");
-//    protected static final By CANCEL_BUTTON = By.cssSelector("[id$='_SITE_DIALOG_CANCEL_label']");
+    protected static final By CREATE_SITE_TITLE = By.cssSelector(DIALOG_ID + "_title");
+    protected static final String SITE_VISIBILITY = "div[id*='_SITE_FIELD_VISIBILITY_CONTROL_OPTION";
+    
+    protected static final By MODERATED_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "1']");
+    protected static final By PRIVATE_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "2']");
+    protected static final By PUBLIC_CHECKBOX = By.cssSelector(SITE_VISIBILITY + "0']");
+    
+    protected static final String CHECKBOX_HELP_TEXT = " .alfresco-forms-controls-RadioButtons__description";
+    protected static final By MODERATED_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "1']" + CHECKBOX_HELP_TEXT);
+    protected static final By PRIVATE_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "2']" + CHECKBOX_HELP_TEXT);
+    protected static final By PUBLIC_CHECKBOX_HELP_TEXT = By.cssSelector(SITE_VISIBILITY + "0']" + CHECKBOX_HELP_TEXT);
+    
+    protected static final By SITE_TYPE_DROPDOWN = By.cssSelector("table[id*='_SITE_FIELD_PRESET_CONTROL'] .dijitSelectLabel");
+    protected static final By INPUT_DESCRIPTION = By.cssSelector("div[id*='_SITE_FIELD_DESCRIPTION'] textarea[name='description']");
+    protected static final By INPUT_TITLE = By.cssSelector("div[id*='_SITE_FIELD_TITLE'] input[name='title']");
+    protected static final By INPUT_SITEID = By.cssSelector("#CREATE_SITE_FIELD_SHORTNAME input[name='shortName']");
+    
+    protected static final By SUBMIT_BUTTON = By.cssSelector("[id$='_SITE_DIALOG_OK_label']");
+    protected static final By CANCEL_BUTTON = By.cssSelector("[id$='_SITE_DIALOG_CANCEL_label']");
+    
+    protected static final By DUPLICATE_SITE_WARNING = By.cssSelector("div[id*='_SITE_FIELD_TITLE'] .alfresco-forms-controls-BaseFormControl__warning-row__warning");
+    protected static final By SITE_ID_ERROR = By.cssSelector("div[id*='_SITE_FIELD_SHORTNAME'] .validation-message");
 
     @Override
     public CreateSitePage render(RenderTime timer)
     {
-        elementRender(timer, RenderElement.getVisibleRenderElement(SITE_DIALOG), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(CANCEL_BUTTON));
+        elementRender(timer, RenderElement.getVisibleRenderElement(SITE_DIALOG), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(SUBMIT_BUTTON));
         return this;
     }
 
@@ -173,6 +163,16 @@ public class CreateSitePage extends ShareDialogue
                 throw new PageOperationException("No site type match found for: " + siteType + " out of the following possible options: Collaboration");
         }
 
+    }
+
+    public HtmlPage createSite(String siteName, String siteID, boolean isPrivate, boolean isModerated)
+    {
+
+                setSiteName(siteName);                
+                setSiteURL(siteID);
+                selectSiteVisibility(isPrivate, isModerated);
+
+                return selectOk().render();
     }
 
     /**
@@ -420,21 +420,33 @@ public class CreateSitePage extends ShareDialogue
      */
     public void selectSiteType(String siteType)
     {
-        WebElement dropdown = driver.findElement(By.tagName("select"));
-        // Check option size if only one in dropdown return.
-        List<WebElement> options = dropdown.findElements(By.tagName("option"));
-        if (options.isEmpty() || options.size() > 1)
+        List<WebElement> options = driver.findElements(SITE_TYPE_DROPDOWN);
+        
+    	String siteTypeText = factoryPage.getValue("site.type.collaboration");
+    	boolean siteTypeFound = false;
+    	
+        switch (siteType)
         {
-            WebElement siteOption;
-            switch (siteType)
-            {
-                case SiteType.COLLABORATION:
-                    siteOption = dropdown.findElement(By.cssSelector("option:nth-of-type(1)"));
-                    break;
-                default:
-                    throw new PageOperationException("No suitable site type was found");
-            }
-            siteOption.click();
+            case SiteType.COLLABORATION:
+            	siteTypeText = factoryPage.getValue("site.type.collaboration");
+                break;
+            default:
+            	siteTypeText = factoryPage.getValue("site.type.collaboration");
+        }
+
+        for (WebElement option : options)
+        {
+        	if (siteTypeText.equalsIgnoreCase(option.getText()))
+        	{
+        		option.click();
+        		siteTypeFound = true;
+        		break;
+        	}
+        }
+        
+        if(!siteTypeFound)
+        {
+        	throw new PageOperationException("No suitable site type was found");
         }
     }
 
@@ -448,19 +460,19 @@ public class CreateSitePage extends ShareDialogue
     {
 
         List<String> options = new ArrayList<String>();
+        
         try
         {
-            Select typeOptions = new Select(driver.findElement(By.tagName("select")));
-            List<WebElement> optionElements = typeOptions.getOptions();
-
-            for (WebElement option : optionElements)
+        	List<WebElement> siteTypes = driver.findElements(SITE_TYPE_DROPDOWN);
+        	
+            for (WebElement siteType : siteTypes)
             {
-                options.add(option.getText());
+                options.add(siteType.getText());
             }
         }
-        catch (NoSuchElementException nse)
+        catch (TimeoutException te)
         {
-            throw new PageOperationException("Unable to find After Completion Dropdown", nse);
+            throw new PageOperationException("Unable to find Site Types", te);
         }
         return options;
 
@@ -557,7 +569,8 @@ public class CreateSitePage extends ShareDialogue
      */
     public boolean isCreateButtonEnabled()
     {
-    	if (findAndWait(SUBMIT_BUTTON).getAttribute("disabled") == "true")
+        String submitButtonCss = "#CREATE_SITE_DIALOG_OK";
+    	if (findAndWait(By.cssSelector(submitButtonCss)).getAttribute("disabled") == "true")
         {
             return true;
         }
@@ -575,7 +588,8 @@ public class CreateSitePage extends ShareDialogue
         try
         {
             WebElement siteVisibility = findAndWait(visibilitySelector);
-            siteVisibility.click();
+            WebElement selection = siteVisibility.findElement(By.cssSelector(".dijitRadio"));
+            selection.click();
             return;
         }
         catch(NoSuchElementException nse)
@@ -596,12 +610,56 @@ public class CreateSitePage extends ShareDialogue
         try
         {
             WebElement siteVisibility = findAndWait(selector);
-        	return siteVisibility.isSelected();        	
+        	siteVisibility.findElement(By.cssSelector(".dijitRadioChecked"));
+        	return true;
+        	
         }
         catch (NoSuchElementException nse)
         {
             return false;
         }
+    }
+    
+    /**
+     * Returns true if sitename in use message is displayed
+     * 
+     * @return false if warning is not displayed
+     */
+    public boolean isSiteUsedMessageDisplayed()
+    {
+        try
+        {
+            findAndWait(DUPLICATE_SITE_WARNING);
+            return true;
+        }
+        catch (NoSuchElementException nse)
+        {
+        }
+        catch (TimeoutException te)
+        {
+        }
+        return false;
+    }
+    
+    /**
+     * Returns true if error is displayed for the site id input
+     * 
+     * @return false if not
+     */
+    public boolean isSiteIDErrorDisplayed()
+    {
+        try
+        {
+            findAndWait(SITE_ID_ERROR);
+            return true;
+        }
+        catch (NoSuchElementException nse)
+        {
+        }
+        catch (TimeoutException te)
+        {
+        }
+        return false;
     }
 
 }

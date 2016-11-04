@@ -385,7 +385,34 @@
                 </plugins>
             </build>
         </profile>
-
+       <profile>
+            <id>alfresco-one-e2e-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <suiteXmlFiles>
+                            	<suiteXmlFile>src/test/resources/UseCasesSuite.xml</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <excludedGroups>
+                                ${test.exclude}
+                            </excludedGroups>
+                            <groups>
+                                ${test.include}
+                            </groups>
+                            <workingDirectory>target</workingDirectory>
+                            <!--parallel>classes</parallel-->
+                            <!--<systemPropertyVariables>-->
+                            <!--<webdrone.element.wait.time>${webdrone.element.wait.time}</webdrone.element.wait.time>-->
+                            <!--</systemPropertyVariables>-->
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>upgrade-aikau</id>
             <properties>

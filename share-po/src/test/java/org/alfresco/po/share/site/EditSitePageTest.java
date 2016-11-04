@@ -27,7 +27,6 @@ package org.alfresco.po.share.site;
 
 import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
-
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -39,26 +38,29 @@ import org.testng.annotations.Test;
 public class EditSitePageTest extends AbstractTest
 {
     private String siteName;
+    private String siteName2;
 
     @BeforeClass(groups = "alfresco-one")
     public void setup() throws Exception
     {
         siteName = String.format("test-%d-editSite", System.currentTimeMillis());
+        siteName2 = String.format("test-%d-editSite2", System.currentTimeMillis());
 
         DashBoardPage dashBoard = loginAs(username, password);
         dashBoard.render();
         siteUtil.createSite(driver, username, password, siteName,"", "Public");
+        siteUtil.createSite(driver, username, password, siteName2,"", "Public");
         
     }
 
-    @Test(groups="unit")
+    @Test(groups="unit", priority = 1)
     public void testPage()
     {
         EditSitePage page = new EditSitePage();
         Assert.assertNotNull(page);
     }
 
-    @Test(groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 2)
     public void testSelectSiteVisibility()
     {
         SiteFinderPage siteFinder = siteUtil.searchSite(driver, siteName);
@@ -70,5 +72,15 @@ public class EditSitePageTest extends AbstractTest
         siteDetails.selectOk();
         siteDetails = siteDash.getSiteNav().selectEditSite().render();
         Assert.assertTrue(siteDetails.isPrivate());
+    }
+    
+    @Test(groups = "alfresco-one", priority = 3)
+    public void testDuplicateSiteName()
+    {
+        EditSitePage siteDetails = factoryPage.getPage(driver).render();
+        siteDetails.setSiteName(siteName2);
+        Assert.assertTrue(siteDetails.isSiteUsedMessageDisplayed(), "Duplicate Sitename warning is not displayed");
+        
+        siteDetails.cancel();
     }
 }

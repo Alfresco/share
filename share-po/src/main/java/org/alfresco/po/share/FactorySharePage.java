@@ -92,6 +92,7 @@ import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.CustomizeSitePage;
+import org.alfresco.po.share.site.EditSitePage;
 import org.alfresco.po.share.site.InviteMembersPage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.PendingInvitesPage;
@@ -703,6 +704,7 @@ public class FactorySharePage implements FactoryPage
             if (dialogue != null && dialogue.isDisplayed())
             {
                 String dialogueID = dialogue.getAttribute("id");
+
                 if (dialogueID.contains("createSite"))
                 {
                     sharePage = instantiatePage(driver, CreateSitePage.class);
@@ -741,7 +743,7 @@ public class FactorySharePage implements FactoryPage
                 }
                 else if(copyMoveDialogue != null && (copyMoveDialogue.getText().startsWith("Copy") || copyMoveDialogue.getText().startsWith("Move")))
                 {
-                    sharePage =instantiatePage(driver,CopyAndMoveContentFromSearchPage.class);
+                    sharePage = instantiatePage(driver,CopyAndMoveContentFromSearchPage.class);
                 }
                 else if(dialogueID.contains("Create New Filter"))
                 {
@@ -761,7 +763,15 @@ public class FactorySharePage implements FactoryPage
                 }
                 String dialogueText = dialogue.getText();
 
-                if ("Create Model".equals(dialogueText))
+                if ("Create Site".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, CreateSitePage.class);
+                }
+                else if ("Edit Site Details".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, EditSitePage.class);
+                }
+                else if ("Create Model".equals(dialogueText))
                 {
                 	sharePage = instantiatePage(driver, CreateNewModelPopUp.class);
                 }
