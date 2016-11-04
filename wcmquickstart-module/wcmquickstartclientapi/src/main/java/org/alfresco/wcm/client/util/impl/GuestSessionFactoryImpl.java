@@ -137,7 +137,7 @@ public class GuestSessionFactoryImpl implements PoolableObjectFactory, Runnable
     private void getRepository()
     {
         configureSessionFactory();
-        List<Repository> repositories = sessionFactory.getRepositories(parameters, null, authenticationProvider, null);
+        List<Repository> repositories = sessionFactory.getRepositories(parameters, null, authenticationProvider, null, null);
         this.repository = repositories.get(0);
     }
 
