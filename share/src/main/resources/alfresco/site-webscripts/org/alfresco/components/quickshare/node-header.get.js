@@ -8,14 +8,6 @@ function main()
    {
       var nodeMetadata = JSON.parse(result);
 
-      // File extension
-      model.fileExtension = "generic";
-      var i = nodeMetadata.name.lastIndexOf(".");
-      if (i > -1)
-      {
-         model.fileExtension = nodeMetadata.name.substring(i + 1);
-      }
-
       // Display name
       model.displayName = nodeMetadata.name;
 
@@ -28,7 +20,7 @@ function main()
       model.showDownload = "false";
 
       var isImage = (nodeMetadata.mimetype && nodeMetadata.mimetype.match("^image/"));
-      var  nodeRef= nodeMetadata.nodeRef;
+      var nodeRef= nodeMetadata.nodeRef;
 
       if (isImage)
       {
@@ -40,11 +32,10 @@ function main()
          }
          else
          {
-            model.contentURL="";
+            model.contentURL = "";
          }
       }
    }
-
 }
 
 main();
