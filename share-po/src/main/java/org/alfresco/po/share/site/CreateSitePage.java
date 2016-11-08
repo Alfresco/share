@@ -55,7 +55,7 @@ public class CreateSitePage extends ShareDialogueAikau
     private static Log logger = LogFactory.getLog(SitePage.class);
 
     protected static String DIALOG_ID = "#CREATE_SITE_DIALOG";
-    protected static By SITE_DIALOG = By.cssSelector(DIALOG_ID);  
+    protected static final By SITE_DIALOG = By.cssSelector("div[id*='_SITE_DIALOG']");  
     
     protected static final By CREATE_SITE_TITLE = By.cssSelector(DIALOG_ID + "_title");
     protected static final String SITE_VISIBILITY = "div[id*='_SITE_FIELD_VISIBILITY_CONTROL_OPTION";
@@ -84,7 +84,6 @@ public class CreateSitePage extends ShareDialogueAikau
     public CreateSitePage render(RenderTime timer)
     {
     	DIALOG_ID = "#CREATE_SITE_DIALOG";
-    	SITE_DIALOG = By.cssSelector(DIALOG_ID);
     	
     	elementRender(timer, RenderElement.getVisibleRenderElement(SITE_DIALOG), RenderElement.getVisibleRenderElement(INPUT_DESCRIPTION), RenderElement.getVisibleRenderElement(SUBMIT_BUTTON));
         return this;
@@ -403,7 +402,7 @@ public class CreateSitePage extends ShareDialogueAikau
     {
         try
         {
-            WebElement moderatedSiteOption = findAndWait(MODERATED_CHECKBOX_HELP_TEXT);
+            findAndWait(MODERATED_CHECKBOX_HELP_TEXT);
             return true;
         }
         catch (NoSuchElementException nse)

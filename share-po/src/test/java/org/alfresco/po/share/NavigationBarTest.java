@@ -105,7 +105,7 @@ public class NavigationBarTest extends AbstractTest
      * Selects My Sites from Sites menu and checks that User Sites List is Displayed
      * @throws Exception
      */
-    @Test(groups={"alfresco-one"})
+    @Test(groups={"alfresco-one"}, priority = 1)
     public void navigateToMySites() throws Exception
     {
         UserSitesPage userSitesPage = page.getNav().selectMySites().render();
@@ -119,7 +119,7 @@ public class NavigationBarTest extends AbstractTest
      * navigation icons.
      * @throws Exception if error
      */
-    @Test(dependsOnMethods = "navigateToMySites",groups={"alfresco-one"})
+    @Test(groups={"alfresco-one"}, priority = 2)
     public void navigateToPeopleFinder() throws Exception
     {
         PeopleFinderPage peoplePage = page.getNav().selectPeople().render();
@@ -130,7 +130,7 @@ public class NavigationBarTest extends AbstractTest
      * Test navigating to site finder page.
      * @throws Exception if error
      */
-    @Test(dependsOnMethods = "navigateToPeopleFinder",groups={"alfresco-one"})
+    @Test(groups={"alfresco-one"}, priority = 3)
     public void navigateToSearchForSites() throws Exception
     {
         page = page.getNav().selectSearchForSites().render();
@@ -141,7 +141,7 @@ public class NavigationBarTest extends AbstractTest
      * Test navigating to create site page.
      * @throws Exception if error
      */
-    @Test(dependsOnMethods = "navigateToSearchForSites",groups={"alfresco-one"})
+    @Test(groups={"alfresco-one"}, priority = 4)
     public void navigateToCreateSite() throws Exception
     {
         Assert.assertTrue(page.getNav().isCreateSitePresent());
@@ -154,7 +154,7 @@ public class NavigationBarTest extends AbstractTest
      * Test navigating to my profile page.
      * @throws Exception if error
      */
-    @Test(dependsOnMethods= "navigateToCreateSite" ,groups={"alfresco-one"})
+    @Test(groups={"alfresco-one"}, priority = 5)
     public void navigateToMyProfile() throws Exception
     {
         MyProfilePage myProfilePage = page.getNav().selectMyProfile().render();
@@ -165,7 +165,7 @@ public class NavigationBarTest extends AbstractTest
      * Test navigating to change password page.
      * @throws Exception if error
      */
-    @Test(dependsOnMethods= "navigateToMyProfile",groups={"alfresco-one"})
+    @Test(groups={"alfresco-one"}, priority = 6)
     public void navigateChangePassword() throws Exception
     {
         ChangePasswordPage changePasswordPage = page.getNav().selectChangePassword().render();
@@ -176,7 +176,7 @@ public class NavigationBarTest extends AbstractTest
      * Test navigating to change password page.
      * @throws Exception if error
      */
-    @Test(dependsOnMethods= "navigateChangePassword",groups={"alfresco-one"})
+    @Test(groups={"alfresco-one"}, priority = 7)
     public void navigateDashBoard() throws Exception
     {
         DashBoardPage dash = page.getNav().selectMyDashBoard().render();
@@ -189,7 +189,7 @@ public class NavigationBarTest extends AbstractTest
      * Test repository link, note that this is for non cloud product.
      * @throws Exception if error
      */
-    @Test(dependsOnMethods= "navigateDashBoard",groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 8)
     public void navigateToRepository() throws Exception
     {
         RepositoryPage repoPage = page.getNav().selectRepository().render();
@@ -201,7 +201,7 @@ public class NavigationBarTest extends AbstractTest
      * Note supported in cloud.
      * @throws Exception if error
      */
-    @Test(dependsOnMethods= "navigateToRepository",groups= "Enterprise-only")
+    @Test(groups= "Enterprise-only", priority = 9)
     public void advanceSearch() throws Exception
     {
         AdvanceSearchPage searchPage = page.getNav().selectAdvanceSearch().render();
@@ -214,7 +214,7 @@ public class NavigationBarTest extends AbstractTest
      * 
      * @throws Exception if error
      */
-    @Test(groups = {"Enterprise-only"})
+    @Test(groups = {"Enterprise-only"}, priority = 10)
     public void navigateToAdminTools() throws Exception
     {
         AdminConsolePage adminConsolePage = page.getNav().selectAdminTools().render();
@@ -226,7 +226,7 @@ public class NavigationBarTest extends AbstractTest
      * 
      * @throws Exception if error
      */
-    @Test(groups = { "Enterprise-only" })
+    @Test(groups = { "Enterprise-only" }, priority = 11)
     public void navigateToManageSites() throws Exception
     {
         ManageSitesPage manageSitesPage = page.getNav().selectManageSitesPage().render();
@@ -238,7 +238,7 @@ public class NavigationBarTest extends AbstractTest
      * 
      * @throws Exception if error
      */
-    @Test (groups = { "Enterprise-only"}, dependsOnGroups ="alfresco-one")
+    @Test (groups = { "Enterprise-only"}, priority = 12)
     public void navigateToManageSitesNotSiteAdmin() throws Exception
     {
         UserSearchPage userPage = page.getNav().getUsersPage().render();
@@ -258,7 +258,7 @@ public class NavigationBarTest extends AbstractTest
      * 
      * @throws Exception if error
      */
-    @Test (groups = { "Enterprise-only"}, dependsOnGroups ="alfresco-one")
+    @Test (groups = { "Enterprise-only"}, priority = 13)
     public void navigateToManageSitesSiteAdmin() throws Exception
     {
         String siteAdmin = "SITE_ADMINISTRATORS";
@@ -276,7 +276,7 @@ public class NavigationBarTest extends AbstractTest
 
     }
     
-    @Test(groups= "Enterprise-only", dependsOnMethods ="navigateToManageSitesSiteAdmin")
+    @Test(groups= "Enterprise-only", priority = 14)
     public void noRecentSites() throws Exception
     {   
         try

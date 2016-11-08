@@ -28,7 +28,6 @@ package org.alfresco.po.share.site;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
-import org.openqa.selenium.By;
 
 /**
  * Edit site page object, holds all element of the HTML page relating to
@@ -45,7 +44,6 @@ public class EditSitePage extends CreateSitePage
     	RenderTime timer = new RenderTime(maxPageLoadingTime);
     	
     	DIALOG_ID = "#EDIT_SITE_DIALOG";
-    	SITE_DIALOG = By.cssSelector(DIALOG_ID);
         
         elementRender(timer, RenderElement.getVisibleRenderElement(SITE_DIALOG));
 
