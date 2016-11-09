@@ -119,17 +119,17 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
         if (properties.has(CM_PREFERENCEVALUES))
         {
             String preferenceValues = properties.getString(CM_PREFERENCEVALUES);
-            JSONObject preferences = new JSONObject(preferenceValues);
-            try{
-                String defaultPage = preferences.getString(PREFERENCE_USERHOMEPAGE);
-                if (defaultPage != null && !defaultPage.trim().equals(""))
-                {
-                    user.setProperty(PROP_USERHOMEPAGE, defaultPage);
-                }
-            }
-            catch (JSONException e)
+            if (preferenceValues.trim().length() != 0)
             {
-                // No default page set, that's fine
+                JSONObject preferences = new JSONObject(preferenceValues);
+                if (preferences.has(PREFERENCE_USERHOMEPAGE))
+                {
+                    String defaultPage = preferences.getString(PREFERENCE_USERHOMEPAGE);
+                    if (defaultPage.trim().length() != 0)
+                    {
+                        user.setProperty(PROP_USERHOMEPAGE, defaultPage);
+                    }
+                }
             }
         }
         
