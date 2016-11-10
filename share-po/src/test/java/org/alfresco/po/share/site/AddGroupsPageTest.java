@@ -33,15 +33,19 @@ import org.alfresco.po.share.GroupsPage;
 import org.alfresco.po.share.NewGroupPage;
 import org.alfresco.po.share.NewGroupPage.ActionButton;
 import org.alfresco.po.share.enums.UserRole;
+import org.alfresco.test.FailedTestListener;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 /**
  * @author nshah
  *
  */
+@Listeners(FailedTestListener.class)
+@Test(groups={"Enterprise-only"})
 public class AddGroupsPageTest extends AbstractTest
 {
     //InviteMembersPage membersPage;
@@ -67,7 +71,7 @@ public class AddGroupsPageTest extends AbstractTest
         page = newGroupPage.createGroup(groupName, groupName, ActionButton.CREATE_GROUP).render();
 
         CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
-        SitePage site = createSitePage.createNewSite(siteName).render();
+        SiteDashboardPage site = createSitePage.createNewSite(siteName).render();
         //membersPage = site.getSiteNav().selectInvite().render();
         membersPage = site.getSiteNav().selectAddUser().render();
         SiteGroupsPage siteGroups = membersPage.navigateToSiteGroupsPage().render();

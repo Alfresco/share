@@ -34,23 +34,23 @@
    <filter>
       <description>Share SSO authentication support filter.</description>
       <filter-name>Authentication Filter</filter-name>
-      <filter-class>org.alfresco.web.site.servlet.SSOAuthenticationFilter</filter-class>
+      <filter-class>org.springframework.extensions.webscripts.servlet.BeanProxyFilter</filter-class>
       <init-param>
-         <param-name>endpoint</param-name>
-         <param-value>alfresco</param-value>
+         <param-name>beanName</param-name>
+         <param-value>SSOAuthenticationFilter</param-value>
       </init-param>
    </filter>
 
    <filter>
-      <description>Share CSRF Token filter. Checks for a session based CSRF token in request headers (or form parameters) based on config.</description>
+      <description>CSRF Token filter. Checks for a session based CSRF token in request headers (or form parameters) based on config.</description>
       <filter-name>CSRF Token Filter</filter-name>
-      <filter-class>org.alfresco.web.site.servlet.CSRFFilter</filter-class>
+      <filter-class>org.springframework.extensions.webscripts.servlet.CSRFFilter</filter-class>
    </filter>
 
    <filter>
-      <description>Share Security Headers filter. Adds security response headers based on config.</description>
+      <description>Security Headers filter. Adds security response headers based on config.</description>
       <filter-name>Security Headers Filter</filter-name>
-      <filter-class>org.alfresco.web.site.servlet.SecurityHeadersFilter</filter-class>
+      <filter-class>org.springframework.extensions.webscripts.servlet.SecurityHeadersFilter</filter-class>
    </filter>
 
    <filter-mapping>

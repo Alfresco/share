@@ -80,20 +80,24 @@ import org.alfresco.po.share.search.AdvanceSearchFolderPage;
 import org.alfresco.po.share.search.AdvanceSearchPage;
 import org.alfresco.po.share.search.AllSitesResultsPage;
 import org.alfresco.po.share.search.CopyAndMoveContentFromSearchPage;
+import org.alfresco.po.share.search.CopyOrMoveFailureNotificationPopUp;
 import org.alfresco.po.share.search.CreateNewFilterPopUpPage;
 import org.alfresco.po.share.search.FacetedSearchConfigPage;
 import org.alfresco.po.share.search.FacetedSearchPage;
 import org.alfresco.po.share.search.RepositoryResultsPage;
+import org.alfresco.po.share.search.SearchConfirmDeletePage;
 import org.alfresco.po.share.search.SiteResultsPage;
 import org.alfresco.po.share.site.AddGroupsPage;
 import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.CustomizeSitePage;
+import org.alfresco.po.share.site.EditSitePage;
 import org.alfresco.po.share.site.InviteMembersPage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.PendingInvitesPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.SiteDashboardErrorPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SiteGroupsPage;
 import org.alfresco.po.share.site.SiteMembersPage;
@@ -117,6 +121,7 @@ import org.alfresco.po.share.site.document.SelectAspectsPage;
 import org.alfresco.po.share.site.document.SharedFilesPage;
 import org.alfresco.po.share.site.document.TagPage;
 import org.alfresco.po.share.site.document.ViewPropertiesPage;
+import org.alfresco.po.share.site.document.ViewPublicLinkPage;
 import org.alfresco.po.share.site.links.LinksDetailsPage;
 import org.alfresco.po.share.site.links.LinksPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
@@ -164,6 +169,7 @@ import org.springframework.stereotype.Component;
  * @author Michael Suzuki
  * @version 1.7.1
  */
+@SuppressWarnings("deprecation")
 @Component
 public class FactorySharePage implements FactoryPage 
 {
@@ -177,6 +183,7 @@ public class FactorySharePage implements FactoryPage
     private static final String CREATE_PAGE_ERROR_MSG = "Unable to instantiate the page";
     protected static final String FAILURE_PROMPT = "div[id='prompt']";
     protected static final String NODE_REF_IDENTIFIER = "?nodeRef";
+    protected static final String QUICKVIEW_IDENTIFIER = "/share/s/";
     protected static final String SHARE_DIALOGUE = "div.hd, .dijitDialogTitleBar";
     protected static ConcurrentHashMap<String, Class<? extends Page>> pages;
     protected static final By SHARE_DIALOGUE_HEADER = By.cssSelector("div.hd");
@@ -188,11 +195,14 @@ public class FactorySharePage implements FactoryPage
     private static final String TPG_HASH = "view=types_property_groups";
     private static final String PROPERTIES_HASH = "view=properties";
     private static final String FORM_EDITOR_HASH = "view=editor";
+    
+    private static final By NO_DASHBOARD = By.cssSelector(".alf-error-nav");
     static
     {
         pages = new ConcurrentHashMap<String, Class<? extends Page>>();
         pages.put("dashboard", DashBoardPage.class);
         pages.put("site-dashboard", SiteDashboardPage.class);
+        pages.put("site-dashboard-error", SiteDashboardErrorPage.class);
         pages.put("document-details", DocumentDetailsPage.class);
         pages.put("documentlibrary", DocumentLibraryPage.class);
         pages.put("folder-details", FolderDetailsPage.class);
@@ -288,6 +298,7 @@ public class FactorySharePage implements FactoryPage
         pages.put("ManageTypesAndAspects", ManageTypesAndAspectsPage.class);
         pages.put("ManageProperties", ManagePropertiesPage.class);
         pages.put("FormEditor", FormEditorPage.class);
+        pages.put("quick-view", ViewPublicLinkPage.class);
     }
 
     public HtmlPage getPage(WebDriver driver)
@@ -497,7 +508,14 @@ public class FactorySharePage implements FactoryPage
         if (pages.get(pageName) == null)
         {
             return instantiatePage(driver, UnknownSharePage.class);
-        }            
+        }
+        else if (pageName == "site-dashboard")
+        {
+        	if(checkIfError(driver))
+        	{
+        		pageName = "site-dashboard-error";
+        	}
+        }
         return instantiatePage(driver, pages.get(pageName));
     }
 
@@ -547,6 +565,11 @@ public class FactorySharePage implements FactoryPage
         if (url.endsWith("create"))
         {
             return "users-create";
+        }
+        
+        if (url.contains(QUICKVIEW_IDENTIFIER))
+        {
+        	return "quick-view";
         }
 
         if (url.contains(NODE_REF_IDENTIFIER))
@@ -681,6 +704,7 @@ public class FactorySharePage implements FactoryPage
             if (dialogue != null && dialogue.isDisplayed())
             {
                 String dialogueID = dialogue.getAttribute("id");
+
                 if (dialogueID.contains("createSite"))
                 {
                     sharePage = instantiatePage(driver, CreateSitePage.class);
@@ -719,7 +743,7 @@ public class FactorySharePage implements FactoryPage
                 }
                 else if(copyMoveDialogue != null && (copyMoveDialogue.getText().startsWith("Copy") || copyMoveDialogue.getText().startsWith("Move")))
                 {
-                    sharePage =instantiatePage(driver,CopyAndMoveContentFromSearchPage.class);
+                    sharePage = instantiatePage(driver,CopyAndMoveContentFromSearchPage.class);
                 }
                 else if(dialogueID.contains("Create New Filter"))
                 {
@@ -739,7 +763,15 @@ public class FactorySharePage implements FactoryPage
                 }
                 String dialogueText = dialogue.getText();
 
-                if ("Create Model".equals(dialogueText))
+                if ("Create Site".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, CreateSitePage.class);
+                }
+                else if ("Edit Site Details".equals(dialogueText))
+                {
+                    sharePage = instantiatePage(driver, EditSitePage.class);
+                }
+                else if ("Create Model".equals(dialogueText))
                 {
                 	sharePage = instantiatePage(driver, CreateNewModelPopUp.class);
                 }
@@ -776,7 +808,7 @@ public class FactorySharePage implements FactoryPage
                     sharePage = instantiatePage(driver, ApplyDefaultLayoutPopUp.class);
                 }
                 else if ("Delete Model".equals(dialogueText) || "Delete Custom Type".equals(dialogueText)
-                        || "Delete Aspect".equals(dialogueText) || "Delete Property".equals(dialogueText))
+                        || "Delete Aspect".equals(dialogueText) || "Delete Property".equals(dialogueText) || "Delete Site".equals(dialogueText))
                 {
                     sharePage = instantiatePage(driver, ConfirmDeletePopUp.class);
                 }
@@ -788,11 +820,32 @@ public class FactorySharePage implements FactoryPage
                 {
                     sharePage = instantiatePage(driver, ImportModelPopUp.class);
                 }
+                else if ("Confirm Deletion".equals(dialogueText))
+                {
+                	sharePage = instantiatePage(driver, SearchConfirmDeletePage.class);
+                }
+                else if ("Copy Failed".equals(dialogueText) || "Move Failed".equals(dialogueText))
+                {
+                	sharePage = instantiatePage(driver, CopyOrMoveFailureNotificationPopUp.class);
+                }
             }
         }
         catch (NoSuchElementException nse){}
 
         return sharePage;
+    }
+    
+	private boolean checkIfError(WebDriver driver)
+    {    	
+    	try
+    	{
+    		WebElement dashError = driver.findElement(NO_DASHBOARD);
+    		return (dashError != null);
+    	}
+    	catch(NoSuchElementException nse)
+    	{
+    		return false;
+    	}
     }
     
     public String getValue(String key)

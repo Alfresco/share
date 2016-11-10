@@ -33,20 +33,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.List;
-
 import javax.imageio.ImageIO;
 
 import org.alfresco.dataprep.UserService;
-import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.ShareUtil;
 import org.alfresco.po.share.cmm.steps.CmmActions;
 import org.alfresco.po.share.dashlet.FactoryShareDashlet;
-import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.UploadFilePage;
@@ -104,6 +99,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     @Value("${download.directory}")protected String downloadDirectory;
     @Value("${test.password}") protected String password;
     @Value("${test.username}") protected String username;
+    @Value("${test.network}") protected String testNetwork;
     @Value("${blog.url}") protected String blogUrl;
     @Value("${blog.username}") protected String blogUsername;
     @Value("${blog.password}") protected String blogPassword;
@@ -248,7 +244,7 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     }
 
     /**
-     * Function to create user on Enterprise using UI
+     * Function to create user on Enterprise using API
      *
      * @param uname - This should always be unique. So the user of this method needs to verify it is unique.
      *                eg. - "testUser" + System.currentTimeMillis();
@@ -257,7 +253,22 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
      */
     public void createEnterpriseUser(String uname) throws Exception
     {
-        userService.create(username, password, uname, "password", uname + "@test.com", uname, uname);
+        userService.create(username, password, uname, "password", getUserEmail(uname), uname, uname);
+    }
+    
+    public String getUserEmail(String username)
+    {
+    	if (username.contains("@"))
+    	{
+    		// Use as it
+    		return username;
+    	}
+    	else if (testNetwork == null || testNetwork.isEmpty() || testNetwork.contains("$"))
+    	{
+    		testNetwork = "test.com";
+    	}
+    	return username + "@" + testNetwork;
+    			 
     }
 
 
@@ -316,79 +327,6 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
         return factoryPage.getPage(driver);
     }
     
-    /**
-     * Method to add user to the site
-     * 
-     * @param addUsersToSitePage
-     * @param userName
-     * @param role
-     * @throws Exception
-     */
-    protected void addUsersToSite(AddUsersToSitePage addUsersToSitePage, String userName, UserRole role) throws Exception
-    {
-        int counter = 0;
-        int waitInMilliSeconds = 2000;
-        List<String> searchUsers = null;
-        while (counter < retrySearchCount + 8)
-        {
-            searchUsers = addUsersToSitePage.searchUser(userName);
-            if (searchUsers != null && searchUsers.size() > 0 && hasUser(searchUsers, userName))
-            {
-                addUsersToSitePage.clickSelectUser(userName);
-                addUsersToSitePage.setUserRoles(userName, role);
-                addUsersToSitePage.clickAddUsersButton();
-                break;
-            }
-            else
-            {
-                counter++;
-                factoryPage.getPage(driver).render();
-            }
-            // double wait time to not over do solr search
-            waitInMilliSeconds = (waitInMilliSeconds * 2);
-            synchronized (this)
-            {
-                try
-                {
-                    this.wait(waitInMilliSeconds);
-                }
-                catch (InterruptedException e)
-                {
-                }
-            }
-        }
-        try
-        {
-            addUsersToSitePage.renderWithUserSearchResults(maxPageWaitTime);
-        }
-        catch (PageRenderTimeException exception)
-        {
-            saveScreenShot("SiteTest.instantiateMembers-error");
-            throw new Exception("Waiting for object to load", exception);
-
-        }        
-    }
-    
-    
-    /**
-     * Returns true if the search user list contains created user
-     * 
-     * @param searchUsers
-     * @param userName
-     * @return
-     */
-    protected boolean hasUser(List<String> searchUsers, String userName)
-    {
-        boolean hasUser = false;
-        for(String searchUser : searchUsers)
-        {
-            if(searchUser.indexOf(userName) != -1)
-            {
-                hasUser = true;
-            }
-        }
-        return hasUser;
-    }
     
     /**
      * Executes delete request

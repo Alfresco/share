@@ -47,13 +47,13 @@ public class HideGetStartedPanel extends SharePage
     private static Log logger = LogFactory.getLog(HideGetStartedPanel.class);
 
     // Hide Get Started Panel Title
-    public static final By HIDE_GET_STARTED_PANEL_TITLE = By.cssSelector("#prompt_h");
+    private static final By HIDE_GET_STARTED_PANEL_TITLE = By.cssSelector("#prompt_h");
 
     // Hide Get Started Panel popup Text
-    public static final String HIDE_GET_STARTED_PANEL_TEXT = "You can always show it again later by using the";
+    private static final String HIDE_GET_STARTED_PANEL_TEXT = "You can always show it again later by using the";
 
     // Hide Get Started Panel popup OK button
-    public static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='OK']";
+    private static final String HIDE_GET_STARTED_OK_BUTTON = "//button[text()='OK']";
 
     // Hide Get Started Panel popup Cancel button
     @FindBy(xpath = "//button[text()='Cancel']")

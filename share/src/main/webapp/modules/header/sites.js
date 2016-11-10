@@ -245,9 +245,10 @@
             sitesMenu.addItem(
             {
                text: $html(this.options.favouriteSites[sites[i]]),
-               url: Alfresco.util.uriTemplate("sitedashboardpage",
+               url: Alfresco.util.uriTemplate("sitepage",
                {
-                  site: sites[i]
+                  site: sites[i],
+                  pageid: ""
                })
             }, 0);
          }

@@ -324,7 +324,7 @@ public class EditPropertyPopUp extends ShareDialogueAikau
      */
     public void setDataTypeField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             SelectList list = new SelectList(driver, findAndWait(DATATYPE_FIELD));
@@ -358,7 +358,7 @@ public class EditPropertyPopUp extends ShareDialogueAikau
      */
     public void setMandatoryField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             SelectList list = new SelectList(driver, findAndWait(MANDATORY_FIELD));
@@ -534,7 +534,7 @@ public class EditPropertyPopUp extends ShareDialogueAikau
      */
     public void setConstraintField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             SelectList list = new SelectList(driver, findAndWait(CONSTRAINT_FIELD));
@@ -887,7 +887,7 @@ public class EditPropertyPopUp extends ShareDialogueAikau
      */
     public void setIndexingTextField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             WebElement indexingType = findAndWait(INDEXING_TEXT_FIELD);
@@ -920,7 +920,7 @@ public class EditPropertyPopUp extends ShareDialogueAikau
      */
     public void setIndexingBooleanField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             WebElement indexingType = findAndWait(INDEXING_BOOLEAN_FIELD);
@@ -953,7 +953,7 @@ public class EditPropertyPopUp extends ShareDialogueAikau
      */
     public void setIndexingNonTextField(String value)
     {
-    	PageUtils.checkMandotaryParam("value", value);
+    	PageUtils.checkMandatoryParam("value", value);
         try
         {
             WebElement indexingType = findAndWait(INDEXING_NONTEXT_FIELD);
@@ -1354,7 +1354,7 @@ public class EditPropertyPopUp extends ShareDialogueAikau
      */
     public void setIndexingOption(IndexingOptions indexingOption)
     {
-        PageUtils.checkMandotaryParam("IndexingOption", indexingOption);
+        PageUtils.checkMandatoryParam("IndexingOption", indexingOption);
 
         String selectOption = getValue(indexingOption.getListValue());
 

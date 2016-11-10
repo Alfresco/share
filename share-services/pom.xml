@@ -7,7 +7,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>5.2.1-SNAPSHOT</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -60,6 +60,12 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -118,7 +124,7 @@
                      <!-- No unit tests in this project - all tests are integration tests -->
                      <configuration>
                           <includes>
-                              <include>nothing</include>
+                              <include />
                           </includes>
                      </configuration>
                   </execution>

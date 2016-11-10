@@ -21,7 +21,7 @@
          <#else>
             <#assign linkClass>class="theme-color-4"</#assign>
          </#if>
-         <span class="navigation-item"><a href="${url.context}/page/site/${activeSite}/dashboard" ${linkClass}>${msg("link.siteDashboard")}</a></span>
+         <span class="navigation-item"><a href="${url.context}/page/site/${activeSite}" ${linkClass}>${msg("link.siteDashboard")}</a></span>
          <#if siteValid>
             <span class="navigation-separator">&nbsp;</span>
             <#list pages as p>

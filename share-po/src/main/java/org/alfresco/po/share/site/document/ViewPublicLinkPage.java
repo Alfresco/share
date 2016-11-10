@@ -63,7 +63,7 @@ public class ViewPublicLinkPage extends SharePage
     private static final String DOCUMENT_ZOOMOUT = "#page_x002e_components_x002e_quickshare_x0023_web-preview-zoomOut-button" ;
     private static final String DOCUMENT_ZOOMSCALE = "#page_x002e_components_x002e_quickshare_x0023_web-preview-scaleSelectBtn-button" ;
 
-    @RenderWebElement
+    //@RenderWebElement: Commented out in case the file viewer is not rendered
     private static final By ZOOM = By.cssSelector(DOCUMENT_ZOOMSCALE);
 
     @SuppressWarnings("unchecked")
@@ -101,15 +101,16 @@ public class ViewPublicLinkPage extends SharePage
     }
 
     /**
-     * Click View Link present on Share Link page.
-     * 
+     * Click Document Details present on Share Link page.
+     *
      * @return HtmlPage
      */
     public HtmlPage clickOnDocumentDetailsButton()
     {
         try
         {
-            driver.findElement(documentDetailsLinkLocator).click();
+            WebElement button = driver.findElement(documentDetailsLinkLocator);
+            button.click();
             return getCurrentPage();
         }
         catch (NoSuchElementException ex)
@@ -156,6 +157,31 @@ public class ViewPublicLinkPage extends SharePage
         {
         }
         return "";
+    }
+
+    /**
+     * Checks if Document Details button is displayed
+     *
+     * @return boolean
+     */
+    public boolean isButtonVisible()
+    {
+        try
+        {
+            WebElement button = driver.findElement(documentDetailsLinkLocator);
+            boolean displayed = button.isDisplayed();
+
+            if (logger.isTraceEnabled())
+            {
+                logger.trace(String.format("** Document Details button: %s", displayed));
+            }
+            return displayed;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("No live search dropdown ", nse);
+        }
+        return false;
     }
 
     /**

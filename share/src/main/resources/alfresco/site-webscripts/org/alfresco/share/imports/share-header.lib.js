@@ -395,6 +395,18 @@ function getPages(includeUnusedPages)
                used: true
             });
          }
+         
+         // Ensures that migrated sites that have not yet been customized since dashboard
+         // was added as a site page have the dashboard site page first
+         if (!dashboardPageData.properties.dashboardSitePage)
+         {
+            pages.unshift(
+            {
+               pageId: "dashboard",
+               sitePageTitle: null,
+               used: true
+            });
+         }
 
          // Add the unused pages if requested
          for (var i = 0, il = configPages.size(); includeUnusedPages && i < il; i++)
@@ -479,30 +491,19 @@ function getSitePages() {
  */
 function getSiteNavigationWidgets() {
    /*
-    * Currently pages are only defined for sites. By default the site dashboard and members
-    * pages are always included for sites.
+    * Currently pages are only defined for sites. By default the site members
+    * page is always included for sites.
     */
    var navigationWidgets = [],
        pages = getSitePages();
    if (pages != null)
    {
-      // Dashboard always appears in the displayed menu
       // Members always appears in the More menu
       // The current page should always be in the displayed menu
       // IF the current page is normally in the More menu then one other item gets bumped into the More menu?
       // The current page is ALWAYS displayed in the main menu (regardless of whether it is usually in the More menu)?
 
       // Construct an array of all the pages in the site...
-      navigationWidgets.push({
-         id: "HEADER_SITE_DASHBOARD",
-         name: "alfresco/menus/AlfMenuBarItem",
-         config: {
-            id: "HEADER_SITE_DASHBOARD",
-            label: msg.get("page.siteDashboard.title"),
-            targetUrl: "site/" + page.url.templateArgs.site + "/dashboard",
-            selected: (page.titleId == "page.siteDashboard.title")
-         }
-      });
       for (var i=0; i<pages.length; i++)
       {
          var targetUrl = "site/" + page.url.templateArgs.site + "/" + pages[i].pageUrl;
@@ -584,7 +585,7 @@ function getSubNavigationWidgets() {
    {
       // Build the advanced search query...
       var args = page.url.args;
-      var query;
+      var query = "";
       if (args["t"] != null || args["tag"] != null || args["q"] != null)
       {
          query = "st=" + (args["t"] != null ? encodeURIComponent(args["t"]) : "") +
@@ -607,13 +608,13 @@ function getSubNavigationWidgets() {
          // Make sure the site data is loaded so that we can get the title...
          var siteData = getSiteData();
          navigationWidgets.push({
-            id: "HEADER_SEARCH_BACK_TO_SITE_DASHBOARD",
+            id: "HEADER_SEARCH_BACK_TO_SITE_DEFAULT",
             name: "alfresco/menus/AlfMenuBarItem",
             config: {
-               id: "HEADER_SEARCH_BACK_TO_SITE_DASHBOARD",
+               id: "HEADER_SEARCH_BACK_TO_SITE_DEFAULT",
                label: msg.get("header.backlink", [siteData.profile.title]),
                iconClass: "alf-back-icon",
-               targetUrl: "site/" + page.url.templateArgs.site + "/dashboard",
+               targetUrl: "site/" + page.url.templateArgs.site,
                selected: false
             }
          });
@@ -682,13 +683,13 @@ function getSubNavigationWidgets() {
          // Make sure the site data is loaded so that we can get the title...
          var siteData = getSiteData();
          navigationWidgets.push({
-            id: "HEADER_SEARCH_BACK_TO_SITE_DASHBOARD",
+            id: "HEADER_SEARCH_BACK_TO_SITE_DEFAULT",
             name: "alfresco/menus/AlfMenuBarItem",
             config: {
-               id: "HEADER_SEARCH_BACK_TO_SITE_DASHBOARD",
+               id: "HEADER_SEARCH_BACK_TO_SITE_DEFAULT",
                label: msg.get("header.backlink", [siteData.profile.title]),
                iconClass: "alf-back-icon",
-               targetUrl: "site/" + page.url.templateArgs.site + "/dashboard",
+               targetUrl: "site/" + page.url.templateArgs.site,
                selected: false
             }
          });
@@ -815,7 +816,8 @@ function generateAppItems() {
             id: "HEADER_SITES_MENU",
             label: "header.menu.sites.label",
             currentSite: page.url.templateArgs.site,
-            currentUser: user.name
+            currentUser: user.name,
+            siteLandingPage: ""
          }
       },
       {
@@ -1286,7 +1288,7 @@ function getTitleBarModel() {
          }
          if (siteData.userIsSiteManager)
          {
-            // If the user is a site manager then let them make custmomizations...
+            // If the user is a site manager then let them make customizations...
             // Add the invite option...
             titleConfig.push({
                id: "HEADER_SITE_INVITE",
@@ -1343,6 +1345,24 @@ function getTitleBarModel() {
                      label: "customize_site.label",
                      iconClass: "alf-cog-icon",
                      targetUrl: "site/" + page.url.templateArgs.site + "/customise-site"
+                  }
+               },
+               {
+                  id: "HEADER_DELETE_SITE",
+                  name: "alfresco/menus/AlfMenuItem",
+                  config: {
+                     id: "HEADER_DELETE_SITE",
+                     label: "delete_site.label",
+                     iconClass: "alf-delete-20-icon",
+                     publishTopic: "ALF_DELETE_SITE",
+                     publishPayload: {
+                        shortName: page.url.templateArgs.site,
+                        redirect: {
+                           url: "user/" + encodeURIComponent(user.name) + "/dashboard",
+                           type: "PAGE_RELATIVE",
+                           target: "CURRENT"
+                        }
+                     }
                   }
                },
                {
@@ -1498,7 +1518,13 @@ function getHeaderServices() {
       },
       "alfresco/services/NavigationService",
       "alfresco/services/UserService",
-      "alfresco/services/SiteService",
+      {
+         id: "SITE_SERVICE",
+         name: "alfresco/services/SiteService",
+         config: {
+            legacyMode: false // NOTE: Before 5.2 is release this should be changed to false (left as true until tests are complete)
+         }
+      },
       "alfresco/services/LogoutService",
       "alfresco/services/NotificationService",
       "alfresco/services/DialogService",
@@ -1678,6 +1704,13 @@ function getHeaderModel(pageTitle) {
       };
       headerMenus.appItems.push(loggingWidget);
    }
+   
+   var siteTitle = null;
+   var siteData = getSiteData();
+   if (siteData != null)
+   {
+      siteTitle = siteData.profile.title;
+   }
 
    // Get the user and group data and generate a "currentItem" for it so that render filtering
    // can be applied based on group membership...
@@ -1716,7 +1749,10 @@ function getHeaderModel(pageTitle) {
                config: {
                   id: "HEADER_SEARCH_BOX",
                   site: page.url.templateArgs.site,
-                  linkToFacetedSearch: true
+                  siteName: siteTitle,
+                  enableContextLiveSearch: true,
+                  linkToFacetedSearch: true,
+                  sitePage: ""
                }
             }
          ]
@@ -1764,7 +1800,7 @@ function getHeaderModel(pageTitle) {
                name: "alfresco/header/Title",
                align: "left",
                config: {
-                  targetUrl: page.url.templateArgs.site != null ? "site/" + page.url.templateArgs.site + "/dashboard" : null,
+                  targetUrl: page.url.templateArgs.site != null ? "site/" + page.url.templateArgs.site : null,
                   label: (pageTitle != null) ? pageTitle : getPageTitle(),
                   setBrowserTitle: (pageTitle != null),
                   maxWidth: "500px"

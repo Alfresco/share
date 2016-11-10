@@ -57,7 +57,7 @@
 .quickshare-header-left
 {
    float: left;
-   margin-top: 1em;
+   margin-top: 16px;
    margin-bottom: 0.75em;
 }
 
@@ -66,7 +66,5 @@
    float: right;
    width: 50%;
    text-align: right;
-   margin-top: 0.5em;
    line-height: 6em;
 }
-

@@ -271,7 +271,7 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
      */
     public FacetedSearchPage selectFacet(final String title)
     {
-        PageUtils.checkMandotaryParam("Facet title", title);
+        PageUtils.checkMandatoryParam("Facet title", title);
         WebElement facet = driver.findElement(By.xpath(String.format("//span[@class = 'filterLabel'][contains(., '%s')]",title)));
         facet.click();
         return this;
@@ -456,6 +456,18 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
 		searchBtn.click();
 		return this;
 	}
-
+	
+	/**
+     * Get FacetedSearchPage sub navigation.
+     *
+     * @return {@link FacetedSearchBulkActions} object.
+     */
+	// FacetedSearchBulkActions facetedSearchBulkActions;
+	
+    public FacetedSearchBulkActions getNavigation()
+    {
+        //return facetedSearchBulkActions;
+        return new FacetedSearchBulkActions(driver, factoryPage);
+    }
 
 }

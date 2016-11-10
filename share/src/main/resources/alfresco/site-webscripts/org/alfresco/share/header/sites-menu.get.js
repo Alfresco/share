@@ -182,7 +182,7 @@ function getSitesMenuData() {
                         id: "HEADER_SITES_MENU_FAVOURITE_" + currShortName,
                         label: sites[i].title,
                         iconClass: "alf-favourite-site-icon",
-                        targetUrl: "site/" + currShortName + "/dashboard",
+                        targetUrl: "site/" + currShortName,
                         siteShortName: currShortName,
                         siteRole: sites[i].siteRole
                      }
@@ -212,7 +212,7 @@ function getSitesMenuData() {
                      id: "HEADER_SITES_MENU_RECENT_" + currShortName,
                      label: sites[i].title,
                      iconClass: "alf-recent-site-icon",
-                     targetUrl: "site/" + currShortName + "/dashboard",
+                     targetUrl: "site/" + currShortName,
                      siteShortName: currShortName,
                      siteRole: sites[i].siteRole
                   }

@@ -326,7 +326,7 @@ public class CustomiseSiteDashboardPage extends SharePage
 
         try
         {
-            String dashletXpath = String.format("//*[@class='availableDashlet dnd-draggable']/span[text()='%s']", dashletName.getDashletName());
+            String dashletXpath = String.format("//li[@class='availableDashlet dnd-draggable']/span[text()='%s']", dashletName.getDashletName());
             WebElement element = findAndWait(By.xpath(dashletXpath));
             element.click();
             List<WebElement> dashlets = findAndWaitForElements(AVAILABLE_DASHLETS_NAMES);
@@ -409,6 +409,7 @@ public class CustomiseSiteDashboardPage extends SharePage
      * @param columnNumber int
      * @return {@link SiteDashboardPage}
      */
+    @Deprecated
     public SiteDashboardPage addDashlet(String dashletName, int columnNumber)
     {
         if (dashletName == null)

@@ -42,7 +42,6 @@ import org.alfresco.po.share.cmm.admin.ManagePropertiesPage;
 import org.alfresco.po.share.cmm.admin.ModelManagerPage;
 import org.alfresco.po.share.cmm.enums.DataType;
 import org.alfresco.po.share.cmm.enums.MandatoryClassifier;
-import org.alfresco.po.share.site.document.DetailsPage;
 import org.alfresco.po.share.user.TrashCanValues;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.test.FailedTestListener;

@@ -28,6 +28,7 @@ package org.alfresco.po.share.site.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.workflow.SelectContentPage;
@@ -78,6 +79,7 @@ public abstract class AbstractEditProperties extends ShareDialogue
     protected static final By REDITION_CONFIG = By.cssSelector("textarea[id$='prop_ws_renditionConfig']");
     protected static final By INPUT_RECORD_LOCATION = By.cssSelector("input[id$='prop_rma_location']");
     protected static final By INPUT_EMAIL_ALIAS = By.cssSelector("input[id$='prop_emailserver_alias']");
+    protected static final By BUTTON_SAVE = By.cssSelector("button[id$='form-submit-button']");
     /**
      * Clear the input field and inserts the new value.
      *
@@ -234,6 +236,15 @@ public abstract class AbstractEditProperties extends ShareDialogue
     {
         findAndWait(By.cssSelector("button[id$='form-cancel-button']")).click();
     }
+    
+    /**
+     * Select cancel button.
+     */
+    public void clickOnSave()
+    {
+        findAndWait(BUTTON_SAVE).click();
+        waitUntilAlert();
+    }
 
     /**
      * Selects the save button that posts the form.
@@ -243,7 +254,8 @@ public abstract class AbstractEditProperties extends ShareDialogue
         WebElement saveButton = findAndWait(By.cssSelector("button[id$='form-submit-button']"));
         if (saveButton.isDisplayed())
         {
-            saveButton.click();
+        	submit(By.cssSelector("button[id$='form-submit-button']"), ElementState.DELETE_FROM_DOM);
+        	//saveButton.click();
             waitUntilAlert();
         }
     }

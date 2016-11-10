@@ -28,10 +28,11 @@ package org.alfresco.po.share.search;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.RenderWebElement;
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.ShareDialogueAikau;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
@@ -41,10 +42,10 @@ import org.openqa.selenium.interactions.Actions;
  * @author Charu
  */
 @SuppressWarnings("unchecked")
-public class PreViewPopUpPage extends SharePage
+public class PreViewPopUpPage extends ShareDialogueAikau
 {
     private static final By PREVIEW_POPUP = By.cssSelector(".alfresco-dialog-AlfDialog.dijitDialog");
-    private static final By IMG_ON_POPUP = By.cssSelector("div[class$='previewer Image']");
+    private static final By IMG_ON_POPUP = By.cssSelector(".previewer");
     private static final By PREVIEW_TEXT = By.cssSelector(".textLayer>div");
     @RenderWebElement
     private static final By PREVIEW_TITLE = By.cssSelector("span.dijitDialogTitle");
@@ -52,12 +53,13 @@ public class PreViewPopUpPage extends SharePage
     private WebElement closeButton;
     private WebElement previewTitle;
     private WebElement imgOnPopUp;
-    private WebElement previewText;	
+    private WebElement previewText;
 
     @Override
     public PreViewPopUpPage render()
     {
-        return render(new RenderTime(maxPageLoadingTime));
+        render(new RenderTime(maxPageLoadingTime));
+        return this;
     }
 
     /**
@@ -121,13 +123,8 @@ public class PreViewPopUpPage extends SharePage
                 return true;
             }
         }
-        catch (NoSuchElementException nse)
+        catch (NoSuchElementException | TimeoutException e)
         {
-            return false;
-        }
-        catch (StaleElementReferenceException ste)
-        {
-            return false;
         }
         return false;
     }

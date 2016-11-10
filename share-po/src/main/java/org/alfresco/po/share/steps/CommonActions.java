@@ -30,22 +30,41 @@ package org.alfresco.po.share.steps;
  * Class contains Common user steps / actions / utils for regression tests
  * 
  *  @author mbhave
+ *  @author adinap
  */
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
+import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.dashlet.ActivityShareLink;
+import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
+import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
+import org.alfresco.po.share.enums.Dashlets;
+import org.alfresco.po.share.search.*;
+import org.alfresco.po.share.search.LiveSearchDropdown.Scope;
+import org.alfresco.po.share.site.SitePageType;
+import org.alfresco.po.share.workflow.StartWorkFlowPage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class CommonActions
 {
-    public static long refreshDuration = 25000;
+	private static final Log logger = LogFactory.getLog(CommonActions.class);
+	public static long refreshDuration = 20000;
     protected static final String MY_DASHBOARD = " Dashboard";
     public final static String DOCLIB = "DocumentLibrary";
     @Autowired protected FactoryPage factoryPage;
+    
+    public int retrySearchCount = 3;
+    
 
     /**
      * Checks if driver is null, throws UnsupportedOperationException if so.
@@ -150,4 +169,385 @@ public abstract class CommonActions
 
         return refreshUserDashboard(driver);
     }
+    
+    /**
+     * Helper to search for an Element in the list of <ShareLinks>.
+     * 
+     * @param driver WebDriver Instance
+     * @param dashlet String Name of the dashlet
+     * @return List<ShareLink>: List of Share Links available in the dashlet
+     */
+    protected List<ShareLink> getDashletEntries(WebDriver driver, Dashlets dashlet)
+    {
+        List<ShareLink> entries = null;
+        List<ActivityShareLink> activityEntries = null;
+
+        DashBoardPage dashBoard = getSharePage(driver).render();
+        if (dashlet == null)
+        {
+            dashlet = Dashlets.MY_DOCUMENTS;
+        }
+
+        if (dashlet.equals(Dashlets.MY_DOCUMENTS))
+        {
+            MyDocumentsDashlet myDocumentsDashlet = dashBoard.getDashlet(dashlet.getDashletName()).render();
+            entries = myDocumentsDashlet.getDocuments();
+        }
+        else if (dashlet.equals(Dashlets.MY_ACTIVITIES))
+        {
+        	MyActivitiesDashlet activitiesDashlet = dashBoard.getDashlet(dashlet.getDashletName()).render();
+            activityEntries = activitiesDashlet.getActivities();   
+        }
+
+        return entries;
+    }
+    
+    /**
+     * Helper to search for an Element in the list of <ActivityShareLink>.
+     * 
+     * @param driver WebDriver Instance
+     * @return List<ActivityShareLink>: List of Share Links available in the dashlet
+     */
+    protected List<ActivityShareLink> getMyActivitiesDashletEntries(WebDriver driver)
+    {
+        List<ActivityShareLink> activityEntries = null;
+
+        DashBoardPage dashBoard = getSharePage(driver).render();
+        Dashlets dashlet = Dashlets.MY_ACTIVITIES;
+
+        	MyActivitiesDashlet activitiesDashlet = dashBoard.getDashlet(dashlet.getDashletName()).render();
+            activityEntries = activitiesDashlet.getActivities();
+
+        return activityEntries;
+    }
+    
+    /**
+     * Helper to search for an Element in the list of <ShareLinks>.
+     * 
+     * @param entryList <ShareLinks>
+     * @param entry String entry to be found in the ShareLinks' list
+     * @return Boolean true if entry is found, false if not
+     */
+    protected Boolean findInList(List<ShareLink> entryList, String entry)
+    {
+        for (ShareLink link : entryList)
+        {
+            if (entry.equalsIgnoreCase(link.getDescription()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Helper to search for an Element in the list of <MyActivities>.
+     * 
+     * @param entryList <ActivityShareLink>
+     * @param entry String entry to be found in the ShareLinks' list
+     * @return Boolean true if entry is found, false if not
+     */
+    protected Boolean findInMyActivitiesList(List<ActivityShareLink> entryList, String entry)
+    {
+        for (ActivityShareLink link : entryList)
+        {
+            if (entry.equalsIgnoreCase(link.getDescription()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Helper to search for an Activity Entry on the Site Dashboard Page, with configurable retry search option.
+     * 
+     * @param driver <WebDriver> instance
+     * @param dashlet <String> Name of the Dashlet such as: activities,content,myDocuments etc
+     * @param entry <String> Entry to look for within the Dashlet
+     * @param entryPresent <String> Parameter to indicate should the entry be visible within the dashlet
+     * @return <Boolean>
+     */
+    public Boolean searchUserDashBoardWithRetry(WebDriver driver, Dashlets dashlet, String entry, Boolean entryPresent)
+    {
+        Boolean found = !entryPresent;
+        Boolean resultAsExpected = false;
+
+        List<ShareLink> shareLinkEntries = new ArrayList<ShareLink>();
+        List<ActivityShareLink> entriesFound = new ArrayList<ActivityShareLink>();
+
+        // Open Site DashBoard: Assumes User is logged in
+        DashBoardPage dashBoard = openUserDashboard(driver);
+
+        // Repeat search until the element is found or Timeout is hit
+        for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
+        {
+            if (searchCount > 1)
+            {
+                // This below code is needed to wait for the solr indexing.
+                webDriverWait(driver, refreshDuration);
+
+                dashBoard = refreshUserDashboard(driver);
+            }
+
+            if (dashlet.equals(Dashlets.MY_ACTIVITIES))
+            {
+                MyActivitiesDashlet activitiesDashlet = dashBoard.getDashlet(Dashlets.MY_ACTIVITIES.getDashletName()).render();
+                entriesFound = activitiesDashlet.getActivities();
+                
+                if (!entriesFound.isEmpty())
+                {
+                    found = findInMyActivitiesList(entriesFound, entry);
+                }
+                
+            }
+            else
+            {
+                shareLinkEntries = getDashletEntries(driver, dashlet);
+
+                if (!shareLinkEntries.isEmpty())
+                {
+                    found = findInList(shareLinkEntries, entry);
+                }
+            }
+
+            // Loop again if result is not as expected: To cater for solr lag: eventual consistency
+            resultAsExpected = (entryPresent.equals(found));
+            if (resultAsExpected)
+            {
+                break;
+            }
+        }
+
+        return resultAsExpected;
+    }
+
+    /**
+     * Util to perform search using the given search string and value
+     * 
+     * @param driver WebDriver
+     * @param searchString String
+     * @return FacetedSearchPage
+     */
+    public HtmlPage search(WebDriver driver, String searchString)
+    {
+        SearchBox search = getSharePage(driver).getSearch();
+        FacetedSearchPage resultPage = search.search(searchString).render();
+        return resultPage;
+    }
+    
+    /**
+     * Util to perform search using the given search string and value
+     * 
+     * @param driver WebDriver
+     * @param searchString String
+     * @return LiveSearchDropdown
+     */
+    public LiveSearchDropdown liveSearch(WebDriver driver, String searchString, Scope scope)
+    {
+    	
+    	SearchBox search = getSharePage(driver).getSearch().render();
+        LiveSearchDropdown liveSearchResultPage = search.liveSearch(searchString).render();
+        return liveSearchResultPage.selectScope(scope).render();
+    }
+    
+    /**
+     * Util to perform search and check if search results are as expected
+     * 
+     * @param driver WebDriver
+     * @param searchString String
+     * @param nodeNameToLookFor String
+     * @param expectedInResults boolean
+     * @return true if search results are as expected
+     */
+
+    public boolean checkSearchResults(WebDriver driver, String searchString, String nodeNameToLookFor, boolean expectedInResults)
+    {
+        FacetedSearchPage resultPage = search(driver, searchString).render();
+        if (resultPage.hasResults())
+        {
+            return expectedInResults == resultPage.isItemPresentInResultsList(SitePageType.DOCUMENT_LIBRARY, nodeNameToLookFor);
+        }
+        else
+        {
+            return expectedInResults == false;
+        }
+    }
+    
+    /**
+     * Util to perform search and retry waiting for solr indexing : check if search results are as expected
+     * 
+     * @param driver WebDriver
+     * @param searchString String
+     * @param nodeNameToLookFor String
+     * @param expectedInResults boolean
+     * @param retrySearchCount int
+     * @return true if search results are as expected
+     */
+    public boolean checkSearchResultsWithRetry(WebDriver driver, String searchString, String nodeNameToLookFor, boolean expectedInResults, int retrySearchCount)
+    {
+        boolean resultOk = false;
+        
+        for (int searchCount = 1; searchCount < retrySearchCount; searchCount++)
+        {
+        	resultOk = checkSearchResults(driver, searchString, nodeNameToLookFor, expectedInResults);
+        	
+        	// ResultOk?
+        	if (resultOk)
+        	{
+        		return resultOk;
+        	}
+            else
+            {
+            	// Retry: Wait for Solr Indexing
+            	logger.info("Waiting for the solr indexing to catchup for Node: " + nodeNameToLookFor);
+				webDriverWait(driver, refreshDuration);
+				refreshSharePage(driver).render();
+            }
+         }
+        return checkSearchResults(driver, searchString, nodeNameToLookFor, expectedInResults);
+    }
+   
+    /**
+    * Util to perform search and check if search results are as expected
+    * 
+    * @param driver WebDriver
+    * @param searchString String
+    * @param searchScope Scope
+    * @param liveSearchItem LiveSearchResultItem
+    * @param expectedInResults boolean
+    * @return true if search results are as expected
+    */
+    public boolean checkLiveSearchResults(WebDriver driver, String searchString, Scope searchScope, LiveSearchResultItem liveSearchItem, boolean expectedInResults)
+    {
+        LiveSearchDropdown liveSearchResults = liveSearch(driver, searchString, searchScope).render();
+        return expectedInResults == liveSearchResults.isItemListed(liveSearchItem);
+    }
+   
+    /**
+    * 
+    * @param driver WebDriver
+    * @param searchString String
+    * @param searchScope Scope
+    * @param siteName String
+    * @param expectedInResults boolean
+    * @return boolean
+    */
+   public boolean checkAllLiveSearchResultsAreScoped(WebDriver driver, String searchString, Scope searchScope, String siteName, boolean expectedInResults)
+   {
+       LiveSearchDropdown liveSearchResults = liveSearch(driver, searchString, searchScope).render();
+       
+       return expectedInResults == liveSearchResults.areAllResultsFromSite(siteName);
+   }
+   
+   /**
+    * Util to perform search and retry waiting for solr indexing : check if search results are as expected
+    * 
+    * @param driver WebDriver
+    * @param searchString String
+    * @param searchScope Scope
+    * @param liveSearchItem LiveSearchResultItem
+    * @param expectedInResults boolean
+    * @param retrySearchCount int
+    * @return true if search results are as expected
+    */
+    public boolean checkLiveSearchResultsWithRetry(WebDriver driver, String searchString, Scope searchScope, LiveSearchResultItem liveSearchItem, boolean expectedInResults, int retrySearchCount)
+    {
+        boolean resultOk = false;
+
+        for (int searchCount = 1; searchCount < retrySearchCount; searchCount++)
+        {
+       	    resultOk = checkLiveSearchResults(driver, searchString, searchScope, liveSearchItem, expectedInResults);
+       	
+       	    // ResultOk?
+       	    if (resultOk)
+       	    {
+       		    return resultOk;
+       	    }
+            else
+            {
+           	    // Retry: Wait for Solr Indexing
+           	    logger.info("Waiting for the solr indexing to catchup for Node: " + liveSearchItem.getResultItemName());
+				webDriverWait(driver, refreshDuration);
+            }
+        }
+        return checkLiveSearchResults(driver, searchString, searchScope, liveSearchItem, expectedInResults);
+    }
+    
+    /**
+     * Utility to perform bulk action on selected search results
+     * @param driver
+     * @param selectItems
+     * @param action
+     * @param destination
+     * @return
+     */
+    //TODO: Implement the details
+	public HtmlPage performBulkActionOnSelectedResults(WebDriver driver, String[] selectItems, SearchSelectedItemsMenu action, String sitename, Boolean conformDelete )
+	{		
+		try
+		{
+			FacetedSearchPage resultsPage = getSharePage(driver).render();			
+		
+			// Select Items
+			for (String item : selectItems) 
+			{
+				resultsPage.getResultByName(item).selectItemCheckBox();
+			}
+
+			// Select Bulk Action
+			// Check action and Provide details as necessary
+			// For Copy or Move
+			if (action.name().equals("COPY_TO"))
+			{
+				CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(action).render();
+				copyAndMoveContentFromSearchPage.selectDestination("All Sites").render();
+				copyAndMoveContentFromSearchPage.selectSite(sitename).render();
+				copyAndMoveContentFromSearchPage.selectSiteFolder("Document Library");
+				return copyAndMoveContentFromSearchPage.clickCopy().render();			
+			}
+			if (action.name().equals("MOVE_TO"))
+			{
+				CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(action).render();
+				copyAndMoveContentFromSearchPage.selectDestination("All Sites").render();
+				copyAndMoveContentFromSearchPage.selectSite(sitename).render();
+				copyAndMoveContentFromSearchPage.selectSiteFolder("Document Library");
+				return copyAndMoveContentFromSearchPage.clickMove().render();
+			}
+			
+			else if (action.name().equals("DOWNLOAD_AS_ZIP"))
+			{
+				return resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DOWNLOAD_AS_ZIP).render();
+			}
+			else if (action.name().equals("START_WORKFLOW"))
+			{
+				return resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
+			     
+			}
+			else if (action.name().equals("DELETE"))
+			{
+				if (conformDelete==true)
+				{ 
+			       SearchConfirmDeletePage searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
+		           return searchConfirmDeletePage.clickDelete().render();
+				} 
+				else
+				{
+				   SearchConfirmDeletePage searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
+			       return searchConfirmDeletePage.clickCancel().render();
+				}
+			}
+			else
+			{
+				// Throw exception that its not a valid option
+				logger.error("This is not a valid option");
+			}
+		}
+		catch(Exception e)
+		{
+			logger.error("User not on Faceted Results page or Item not found", e);
+		}
+	    return getSharePage(driver).render();
+	}
+
 }

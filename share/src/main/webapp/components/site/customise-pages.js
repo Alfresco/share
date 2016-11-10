@@ -229,7 +229,7 @@
 
       /**
        * Fired when the user clicks the Save/Done button.
-       * Saves the dashboard config and takes the user back to the dashboard page.
+       * Saves the dashboard config and takes the user back to the default site page.
        *
        * @method onSaveButtonClick
        * @param event {object} a "click" event
@@ -263,7 +263,7 @@
          // Select theme option
          var themeId = Dom.get(this.id + "-theme-menu").value;
          
-         // Execute the request and redirect the user to the dashboard on success
+         // Execute the request and redirect the user to the default site page on success
          Alfresco.util.Ajax.jsonRequest(
          {
             method: Alfresco.util.Ajax.POST,
@@ -278,8 +278,8 @@
             {
                fn: function()
                {
-                  // Send the user to the newly configured dashboard
-                  document.location.href = Alfresco.constants.URL_PAGECONTEXT + "site/" + this.options.siteId + "/dashboard";
+                  // Send the user to the newly configured default site page
+                  document.location.href = Alfresco.constants.URL_PAGECONTEXT + "site/" + this.options.siteId;
                },
                scope: this
             },
@@ -311,15 +311,15 @@
 
       /**
        * Fired when the user clicks cancel layout button.
-       * Takes the user to the sites dashboard
+       * Takes the user to the default site page
        *
        * @method onCancelButtonClick
        * @param event {object} an "click" event
        */
       onCancelButtonClick: function CP_onCancelButtonClick(event)
       {
-         // Take the user back to the sites dashboard
-         document.location.href = Alfresco.constants.URL_PAGECONTEXT + "site/" + this.options.siteId + "/dashboard";
+         // Take the user back to the default site page
+         document.location.href = Alfresco.constants.URL_PAGECONTEXT + "site/" + this.options.siteId;
       }
 
    });

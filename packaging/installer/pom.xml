@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>5.2.1-SNAPSHOT</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
     <artifactId>alfresco-share-installer</artifactId>
     <packaging>pom</packaging>
@@ -188,7 +188,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-installer-resources</artifactId>
-                                    <version>${alfresco.platform.version}</version>
+                                    <version>${project.version}</version>
                                     <outputDirectory>${project.build.directory}/classes</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>

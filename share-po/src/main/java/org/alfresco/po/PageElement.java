@@ -469,8 +469,8 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
      */
     public void dragAndDrop(WebElement source, WebElement target)
     {
-        PageUtils.checkMandotaryParam("source element", source);
-        PageUtils.checkMandotaryParam("target element", target);
+        PageUtils.checkMandatoryParam("source element", source);
+        PageUtils.checkMandatoryParam("target element", target);
         Actions builder = new Actions(driver);   
         Action dragAndDrop = builder.clickAndHold(source)
            .moveToElement(target)
@@ -499,7 +499,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
      */
     public List<WebElement> findDisplayedElements(By selector)
     {
-        PageUtils.checkMandotaryParam("Locator", selector);
+        PageUtils.checkMandatoryParam("Locator", selector);
         List<WebElement> elementList = driver.findElements(selector);
         List<WebElement> displayedElementList = new ArrayList<WebElement>();
         for (WebElement elementSelected : elementList)
@@ -547,7 +547,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
      */
     public void doubleClickOnElement(WebElement element)
     {
-        PageUtils.checkMandotaryParam("doubleclick element", element);
+        PageUtils.checkMandatoryParam("doubleclick element", element);
         Actions builder = new Actions(driver);
         Action doubleClick = builder.doubleClick(element).build();
         doubleClick.perform();
@@ -690,7 +690,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
     
     public final String getValue(final String key)
     {
-        PageUtils.checkMandotaryParam("key", key);
+        PageUtils.checkMandatoryParam("key", key);
         return factoryPage.getValue(key);
     }
     /**
@@ -722,7 +722,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
      */
     public void dragAndDrop(WebElement source, int x, int y)
     {
-        PageUtils.checkMandotaryParam("source element", source);
+        PageUtils.checkMandatoryParam("source element", source);
         Actions builder = new Actions(driver);   
         Action dragAndDrop = builder.dragAndDropBy(source, x, y).build();
         dragAndDrop.perform();

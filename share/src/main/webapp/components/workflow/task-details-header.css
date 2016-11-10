@@ -15,6 +15,8 @@
 {
    width: 65%;
    float: left;
+   margin-top: -7px;
+   padding-bottom: 14px;
 }
 
 .task-details-header .clear

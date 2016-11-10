@@ -81,7 +81,7 @@ public class PropertyUsageTest extends AbstractCMMQATest
         siteName = testName + System.currentTimeMillis();
         
        
-        testUser = getUserNameFreeDomain(testName+ System.currentTimeMillis());
+        testUser = getUserNameFreeDomain(testName + System.currentTimeMillis());
         
         //Login as Admin to create a new user
         loginAs(driver, new String[] {username});
@@ -223,7 +223,7 @@ public class PropertyUsageTest extends AbstractCMMQATest
         siteActions.getEditPropertiesPage(driver, doc.getName());
         
         Map<String, Object> properties = new HashMap<String, Object>();
-        EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
         Assert.assertNotNull(editPropPage, "Error: Properties saved without entering Mandatory Not Enforced"); 
         
         // Edit Properties: Edit All
@@ -359,7 +359,7 @@ public class PropertyUsageTest extends AbstractCMMQATest
             siteActions.getEditPropertiesPage(driver, doc.getName());
             
             Map<String, Object> properties = new HashMap<String, Object>();
-            EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+            EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
             Assert.assertNotNull(editPropPage, "Error: Properties saved without entering Mandatory Not Enforced"); 
             
             // Edit Properties: Edit All
@@ -636,7 +636,7 @@ public class PropertyUsageTest extends AbstractCMMQATest
         siteActions.getEditPropertiesPage(driver, doc.getName());
         
         Map<String, Object> properties = new HashMap<String, Object>();
-        EditDocumentPropertiesPage editPropPage = siteActions.editNodeProperties(driver, true, properties).render();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
         Assert.assertNotNull(editPropPage, "Error: Properties saved without entering Mandatory Not Enforced"); 
         
         // Edit Properties: Edit All
@@ -657,6 +657,153 @@ public class PropertyUsageTest extends AbstractCMMQATest
         
         // Compare Properties: TODO: Date Specific Changes?
         // Assert.assertTrue(cmmActions.compareCMProperties(driver, expectedProps), "Property values not as expected"); 
+    }
+    
+    /**
+     * Create String Property and check the usage on Share
+     * @throws Exception
+     */
+    @AlfrescoTest(testlink="tobeaddeddel5")
+    @Test(groups = "EnterpriseOnly", priority=5, enabled=false)
+    public void testPropertyAppearsAfterChangeInPrefix() throws Exception
+    {
+        String testName = getUniqueTestName();
+        
+        String modelName = "model" + testName;
+        String typeName = "type" + testName;
+        String aspectName = "aspect" + testName;
+        
+        String newPrefixName = "pr" + modelName;
+        
+        String shareTypeName = typeName + " (" + newPrefixName + ":" + typeName + ")";
+        String aspectNameOnShare = getShareAspectName(newPrefixName, aspectName);
+        
+        String propertyOptT = "propT";
+        String propertyNotEnforcedT = propertyOptT + "NE";
+        
+        String propertyOptA = "propA";
+        String propertyNotEnforcedA = propertyOptA + "NE";
+
+        String compositeTypeName = modelName + ":" + typeName;
+        String compositeAspectName = modelName + ":" + aspectName;
+        
+        String compositePropOptT = modelName + ":" + propertyOptT;
+        String compositePropNotEnforcedT = modelName + ":" + propertyNotEnforcedT;
+        
+        String compositePropOptA = modelName + ":" + propertyOptA;
+        String compositePropNotEnforcedA = modelName + ":" + propertyNotEnforcedA;
+        
+        String contentName = "content" + testName;
+        File doc = siteUtil.prepareFile(contentName);
+
+        loginAs(driver, new String[] {testUser});
+        
+        cmmActions.navigateToModelManagerPage(driver);
+
+        // Create New Model
+        cmmActions.createNewModel(driver, modelName).render();
+                
+        // Activate Model
+        cmmActions.setModelActive(driver, modelName, true);
+
+        // View Types and Aspects: Model
+        cmmActions.viewTypesAspectsForModel(driver, modelName);
+
+        // Add Types:
+        cmmActions.createType(driver, typeName).render();
+                
+        cmmActions.viewProperties(driver, compositeTypeName);
+        
+        // Create String Property1 for Type: Optional
+        cmmActions.createProperty(driver, propertyOptT, "", "", DataType.Text, MandatoryClassifier.Optional, false, "N/A").render();                
+  
+        // Create String Property2 for Type: Mandatory Not Enforced
+        ManagePropertiesPage propListPage = cmmActions.createProperty(driver, propertyNotEnforcedT, "", "", DataType.Text, MandatoryClassifier.Mandatory, false, "").render();                
+        
+        // Check the properties are created
+        Assert.assertTrue(propListPage.isPropertyRowDisplayed(compositePropOptT), "Unable to view Property: Optional");                
+        Assert.assertTrue(propListPage.isPropertyRowDisplayed(compositePropNotEnforcedT), "Unable to view Property: Mandatory Not enforced");
+        
+        // Apply Form Editor
+        cmmActions.viewTypesAspectsForModel(driver, modelName);
+        cmmActions.applyDefaultLayoutForTypeOrAspect(driver, compositeTypeName);
+        
+        // Add Aspect: 
+        cmmActions.createAspect(driver, aspectName);
+        
+        cmmActions.viewProperties(driver, compositeAspectName);
+        
+        // Create String Property1 for Aspect: Optional
+        cmmActions.createProperty(driver, propertyOptA, "", "", DataType.Text, MandatoryClassifier.Optional, false, "").render();                
+  
+        // Create String Property2 for Aspect: Mandatory Not Enforced
+        propListPage = cmmActions.createProperty(driver, propertyNotEnforcedA, "", "", DataType.Text, MandatoryClassifier.Mandatory, false, "A-0").render();                
+        
+        // Check the properties are created
+        Assert.assertTrue(propListPage.isPropertyRowDisplayed(compositePropOptA), "Unable to view Property: Optional");                
+        Assert.assertTrue(propListPage.isPropertyRowDisplayed(compositePropNotEnforcedA), "Unable to view Property: Mandatory Not enforced");
+        
+        // Apply Form Layout: Aspect
+        cmmActions.viewTypesAspectsForModel(driver, modelName);
+        cmmActions.applyDefaultLayoutForTypeOrAspect(driver, compositeAspectName);
+        
+        cmmActions.navigateToModelManagerPage(driver);
+        
+        // Deactivate Model
+        cmmActions.setModelActive(driver, modelName, false);
+        
+        // Amend Model Prefix
+        cmmActions.editModel(driver, modelName, modelName, newPrefixName);
+
+        // Activate Model
+        cmmActions.setModelActive(driver, modelName, true);
+        
+        // Create Node in Share
+        siteActions.openSitesDocumentLibrary(driver, siteName);
+        siteActions.uploadFile(driver, doc);
+        siteActions.selectContent(driver, doc.getName());
+
+        // Change Type in Share
+        siteActions.changeType(driver, shareTypeName);
+        
+        // Add Aspect in Share
+        List<String> aspects = new ArrayList<String>();
+        aspects.add(aspectNameOnShare);
+        siteActions.addAspects(driver, aspects).render();
+        
+        // Check the property Values
+        Map<String, Object> expectedProps = new HashMap<String, Object>();
+        expectedProps.put("Name", doc.getName());
+        expectedProps.put(modelName+":"+propertyOptT, "N/A");
+        expectedProps.put(modelName+":"+propertyNotEnforcedT, "");
+        expectedProps.put(modelName+":"+propertyOptA, "");
+        expectedProps.put(modelName+":"+propertyNotEnforcedA, "A-0");
+        
+        // Compare Properties
+        Assert.assertTrue(cmmActions.compareCMProperties(driver, expectedProps), "Property values not as expected");   
+        
+        // Edit Properties: No Change: Save without specifying Mandatory Enforced Property
+        siteActions.getEditPropertiesPage(driver, doc.getName());
+        
+        Map<String, Object> properties = new HashMap<String, Object>();
+        EditDocumentPropertiesPage editPropPage = siteActions.editNodePropertiesExpectError(driver, properties).render();
+        Assert.assertNotNull(editPropPage, "Error: Properties saved without entering Mandatory Not Enforced"); 
+        
+        // Edit Properties: Edit All
+        properties = new HashMap<String, Object>();
+        properties.put(propertyOptT, "AaBcCc");
+        properties.put(propertyNotEnforcedT, "New Value");
+        properties.put(propertyOptA, "123456");
+        properties.put(propertyNotEnforcedA, "****");
+        siteActions.editNodeProperties(driver, true, properties);
+        
+        expectedProps = new HashMap<String, Object>();
+        expectedProps.put("Name", doc.getName());
+        expectedProps.put(modelName+":"+propertyOptT, "AaBcCc");
+        expectedProps.put(modelName+":"+propertyNotEnforcedT, "New Value");
+        expectedProps.put(modelName+":"+propertyOptA, "123456");
+        expectedProps.put(modelName+":"+propertyNotEnforcedA, "****");
+        Assert.assertTrue(cmmActions.compareCMProperties(driver, expectedProps), "Property values not as expected"); 
     }
 
 }

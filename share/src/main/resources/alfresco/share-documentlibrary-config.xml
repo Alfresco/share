@@ -1463,6 +1463,20 @@
                                 "name":"aspect",
                                 "match":[
                                     "smf:smartFolder"
+                                ],
+                                "name":"type",
+                                "match":[
+                                    "app:folderlink"
+                                ]
+                            }
+                        }
+                    ],
+                    "file":[
+                        {
+                            "filter":{
+                                "name":"type",
+                                "match":[
+                                    "app:filelink"
                                 ]
                             }
                         }
@@ -1475,6 +1489,20 @@
                                 "name":"aspect",
                                 "match":[
                                     "smf:smartFolder"
+                                ],
+                                "name":"type",
+                                "match":[
+                                    "app:folderlink"
+                                ]
+                            }
+                        }
+                    ],
+                    "file":[
+                        {
+                            "filter":{
+                                "name":"type",
+                                "match":[
+                                    "app:filelink"
                                 ]
                             }
                         }
@@ -1489,6 +1517,20 @@
                                 "name":"aspect",
                                 "match":[
                                     "smf:smartFolder"
+                                ],
+                                "name":"type",
+                                "match":[
+                                    "app:folderlink"
+                                ]
+                            }
+                        }
+                    ],
+                    "file":[
+                        {
+                            "filter":{
+                                "name":"type",
+                                "match":[
+                                    "app:filelink"
                                 ]
                             }
                         }

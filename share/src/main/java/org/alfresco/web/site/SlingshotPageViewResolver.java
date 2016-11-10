@@ -25,6 +25,11 @@
  */
 package org.alfresco.web.site;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.site.servlet.MTAuthenticationFilter;
@@ -50,6 +55,11 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
  */
 public class SlingshotPageViewResolver extends PageViewResolver
 {
+    protected static final String URI_SITE = "site";
+    protected static final String URI_PAGEID = "pageid";
+    protected static final Pattern REGEX_PATTERN_SITE_ROOT = Pattern.compile("site\\/((\\w|-)+)\\/?$");
+    protected static final String PAGE_ID_SITE_ROOT = "site-redirect";
+    
     @Override
     protected Page lookupPage(String pageId)
     {
@@ -106,5 +116,23 @@ public class SlingshotPageViewResolver extends PageViewResolver
         }
         
         return view;
+    }
+
+    /**
+     * Override to check for the specific pattern of a site root, i.e.
+     * site/somesite or site/somesite/
+     */
+    @Override
+    protected Map<String,String> getTokens(String viewName)
+    {
+        Matcher matcher = REGEX_PATTERN_SITE_ROOT.matcher(viewName);
+        if (matcher.matches())
+        {
+            Map<String,String> tokens = new HashMap<String, String>(4);
+            tokens.put(URI_SITE, matcher.group(1));
+            tokens.put(URI_PAGEID, PAGE_ID_SITE_ROOT);
+            return tokens;
+        }
+        return super.getTokens(viewName);
     }
 }

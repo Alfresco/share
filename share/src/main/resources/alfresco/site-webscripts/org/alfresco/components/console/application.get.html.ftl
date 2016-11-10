@@ -30,7 +30,7 @@
             <#if isEnterprise>
                <@markup id="msgNewAdminConsole">
                <div class="row info">
-                  ${msg("message.new-admin-console.repo-link", url.context)}
+                  ${msg("message.new-admin-console.repo-link", platUrl)}
                   <br />
                   ${msg("message.new-admin-console.doc-link", context.properties["docsEdition"].value)}
                </div>

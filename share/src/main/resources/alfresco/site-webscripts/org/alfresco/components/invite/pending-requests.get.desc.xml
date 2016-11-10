@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Pending Requests list</shortname>
+  <description>Pending Requests list</description>
+  <url>/components/invite/pending-requests</url>
+</webscript>

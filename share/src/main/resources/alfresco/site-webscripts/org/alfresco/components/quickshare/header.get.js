@@ -9,7 +9,7 @@ function main()
    {
       model.linkButtons.push({
          id: "login",
-         href: url.context,
+         href: url.context + "/page?pt=login&alfRedirectUrl=" + url.context + "/s/" + args.shareId,
          label: msg.get("button.login"),
          cssClass: "brand-bgcolor-2"
       });
@@ -30,6 +30,10 @@ function main()
             });
          }
       }
+   }
+   if (page.url.args.error == "true")
+   {
+      model.authfailureMessage = msg.get("auth.message");
    }
 }
 

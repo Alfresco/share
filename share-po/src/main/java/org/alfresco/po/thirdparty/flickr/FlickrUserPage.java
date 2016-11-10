@@ -25,6 +25,8 @@
  */
 package org.alfresco.po.thirdparty.flickr;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.alfresco.po.RenderElement.getVisibleRenderElement;
 
 import org.alfresco.po.Page;
@@ -65,7 +67,7 @@ public class FlickrUserPage extends Page
     public boolean isFileUpload(String fileName)
     {
         click(YOU_LINK);
-        waitForElement(PHOTO_STREAM_TITLE, getDefaultWaitTime());
+        waitForElement(PHOTO_STREAM_TITLE, SECONDS.convert(getDefaultWaitTime(), MILLISECONDS));
         return driver.findElements(By.xpath(String.format(UPLOADED_FILE_XPATH, fileName))).size() > 0;
     }
 

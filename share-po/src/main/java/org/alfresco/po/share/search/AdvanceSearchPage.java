@@ -68,7 +68,8 @@ public class AdvanceSearchPage extends SharePage
     protected static final By CONTENT_SEARCH_FORM_DROPDOWN = By.cssSelector("button[id$='selected-form-button-button']");
     protected static final By LOOK_FOR_DRP_DWN = By.cssSelector(".bd ul");
     protected static final By BACK_TO_RESULTS_LINK = By.cssSelector("#HEADER_SEARCH_BACK_TO_RESULTS");
-    protected static final By BACK_TO_SITE_LINK = By.cssSelector("#HEADER_SEARCH_BACK_TO_SITE_DASHBOARD");
+    //protected static final By BACK_TO_SITE_LINK = By.cssSelector("#HEADER_SEARCH_BACK_TO_SITE_DASHBOARD");
+    protected static final By BACK_TO_SITE_LINK = By.cssSelector("#HEADER_SEARCH_BACK_TO_SITE_DEFAULT_text");
     private final RenderElement contentSearchFormDropdownElement = getVisibleRenderElement(CONTENT_SEARCH_FORM_DROPDOWN);
     private final RenderElement searchButtonElement = getVisibleRenderElement(SEARCH_BUTTON);
 

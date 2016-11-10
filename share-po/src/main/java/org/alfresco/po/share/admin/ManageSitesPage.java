@@ -33,6 +33,7 @@ import org.alfresco.po.share.DocListPaginator;
 import org.alfresco.po.share.SharePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * The Class ManageSitesPage.
@@ -51,7 +52,7 @@ public class ManageSitesPage extends SharePage
     private static String SITE_ROW_ACTIONS = "td.alfresco-lists-views-layouts-Cell.actions";
 
     private List<ManagedSiteRow> managedSiteRows;
-    private DocListPaginator docListPaginator;
+    @FindBy(css="div[id=DOCLIB_PAGINATION_MENU]") private DocListPaginator docListPaginator;
 
     /*
      * (non-Javadoc)

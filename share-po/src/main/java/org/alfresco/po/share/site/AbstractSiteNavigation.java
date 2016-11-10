@@ -48,11 +48,12 @@ public abstract class AbstractSiteNavigation extends SharePage
     protected static final By CUSTOMIZE_SITE_DASHBOARD = By.cssSelector("#HEADER_CUSTOMIZE_SITE_DASHBOARD_text");
     protected static final By EDIT_SITE_DETAILS = By.cssSelector("#HEADER_EDIT_SITE_DETAILS_text");
     
-    
+    protected static final By DELETE_SITE = By.cssSelector("#HEADER_DELETE_SITE_text");
     protected static final By LEAVE_SITE = By.cssSelector("#HEADER_LEAVE_SITE_text");
     protected static final By JOIN_SITE = By.cssSelector("#HEADER_JOIN_SITE_text");
     protected static final By MORE_BUTTON_LINK = By.cssSelector(".links>div>div>ul>li>a");
     protected static final String SITE_DASHBOARD = "Site Dashboard";
+    protected static final By SITE_DASHBOARD_NAVIGATION = By.cssSelector("#HEADER_SITE_DASHBOARD");
     protected static final String DASHBOARD = "Dashboard";
     protected static final String PROJECT_LIBRARY = "Project Library";
     protected static final String INVITE_BUTTON = "a[href$='invite']";
@@ -66,6 +67,8 @@ public abstract class AbstractSiteNavigation extends SharePage
     protected static final By SITE_MEMBERS = By.cssSelector("div#HEADER_SITE_MEMBERS");
     protected static final By MEMBERS_LINK = By.cssSelector("span#HEADER_SITE_MEMBERS_text");
     protected static final By DOCLIB_LINK = By.cssSelector("#HEADER_SITE_DOCUMENTLIBRARY_text");
+    protected static final By WIKI_LINK = By.cssSelector("#HEADER_SITE_WIKI-PAGE_text");
+    protected static final By SITE_DASHBOARD_LINK = By.cssSelector("#HEADER_SITE_DASHBOARD_text");
     protected static final By SITE_MORE_PAGES = By.cssSelector("span#HEADER_SITE_MORE_PAGES_text");
     protected static final String SITE_LINK_NAV_PLACEHOLER = "div.site-navigation > span:nth-of-type(%d) > a";
     public static final String LABEL_DOCUMENTLIBRARY_TEXT = "span#HEADER_SITE_DOCUMENTLIBRARY_text";
@@ -126,7 +129,7 @@ public abstract class AbstractSiteNavigation extends SharePage
      */
     public boolean isDashboardDisplayed()
     {
-        return dashboard.isDisplayed();
+        return isLinkDisplayed(SITE_DASHBOARD_NAVIGATION);
     }
     
     /**

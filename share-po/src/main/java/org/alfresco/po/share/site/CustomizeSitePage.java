@@ -215,6 +215,50 @@ public class CustomizeSitePage extends SitePage
 //        waitUntilAlert();
 //        return getCurrentPage();
 //    }
+    
+    /**
+     * Move pages from Current Site Pages to Available Site Pages 
+     * 
+     * @param pageType
+     * @return
+     */
+    public HtmlPage addToAvailablePages (SitePageType pageType)
+    {
+        WebElement target = driver.findElement(AVAILABLE_PAGES);
+        try
+        {
+            WebElement elem = driver.findElement(pageType.getLocator());
+            executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
+            dragAndDrop(elem, target);
+        }
+        catch (TimeoutException toe)
+        {
+            throw new PageException("Not able to find Site Page: " + pageType, toe);
+        }
+        return getCurrentPage();
+    }
+   
+    /**
+     * Move pages from Available Site Pages to Current Site Pages
+     * 
+     * @param pageType
+     * @return
+     */
+    public HtmlPage addToCurrentPages (SitePageType pageType)
+    {
+        WebElement target = driver.findElement(CURRENT_PAGES_CONTAINER);
+        try
+        {
+            WebElement elem = driver.findElement(pageType.getLocator());
+            executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
+            dragAndDrop(elem, target);
+        }
+        catch (TimeoutException toe)
+        {
+            throw new PageException("Not able to find Site Page: " + pageType, toe);
+        }
+        return getCurrentPage();
+    }
 
     /**
      * Method used to add pages using coordinates for dropping
@@ -224,7 +268,6 @@ public class CustomizeSitePage extends SitePage
      */
     public HtmlPage addPages (List<SitePageType> pageTypes)
     {
-        // WebElement target = driver.findElement(CURRENT_PAGES_CONTAINER);
 
         if (getAvailablePages().containsAll(pageTypes))
         {
@@ -256,7 +299,44 @@ public class CustomizeSitePage extends SitePage
         waitUntilAlert();
         return getCurrentPage();
     }
+ 
+    /**
+     * Method used to add current pages to Available Pages Section using coordinates for dropping and click OK button
+     * to customise site page
+     *
+     * @param pageTypes List<SitePageType>
+     * @return SiteDashboardPage
+     */
+    public HtmlPage addToAvailablePagesAndClickOK (List<SitePageType> pageTypes)
+    {
+        WebElement target = driver.findElement(AVAILABLE_PAGES);
 
+        if (getCurrentPages().containsAll(pageTypes))
+        {
+            for (SitePageType theTypes : pageTypes)
+            {
+                try
+                {
+                    WebElement elem = driver.findElement(theTypes.getLocator());
+                    executeJavaScript(String.format("window.scrollTo(0, '%s')", target.getLocation().getY()));
+                    dragAndDrop(elem, target);
+                }
+                catch (TimeoutException e)
+                {
+                    throw new PageException("Not able to Site Page in the Page : " + theTypes, e);
+                }
+            }
+        }
+        else
+        {
+            throw new PageException("Some of Site Page(s) are not available to add to Available Pages Site, may be already added. " + pageTypes.toString());
+        }        
+        driver.findElement(SAVE_BUTTON).click();
+        waitUntilAlert();
+        return getCurrentPage();
+    }
+    
+    
     /**
      * Method to add all available pages
      *
@@ -278,4 +358,5 @@ public class CustomizeSitePage extends SitePage
     {
         return getPages(CURRENT_PAGES_CONTAINER);
     }
+    
 }

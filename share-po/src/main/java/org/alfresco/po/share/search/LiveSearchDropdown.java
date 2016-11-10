@@ -30,7 +30,9 @@ package org.alfresco.po.share.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
+import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.SharePage;
@@ -45,19 +47,33 @@ import org.openqa.selenium.WebElement;
  * Interactions with live search dropdown
  * 
  * @author jcule
+ * @author adinap
+ * @author mbhave
  */
 public class LiveSearchDropdown extends SharePage
 {
     private static Log logger = LogFactory.getLog(LiveSearchDropdown.class);
 
+    // Live Search drop down
+    private static final String LIVE_SEARCH_DROPDOWN = ".alf-livesearch[style='display: block;']";
+
+    // Search scope Repository
+    private static final String SCOPE_REPOSITORY = ".alf-livesearch-context__repo";
+
+    // Search scope Site
+    private static final String SCOPE_SITE = ".alf-livesearch-context__site";
+    
+    // Site Scope: Visibility
+    private static final String SITE_VISIBILITY = "#HEADER_TITLE_VISIBILITY";
+
     // Documents Title
-    private static final String DOCUMENTS_TITLE = "div[data-dojo-attach-point='titleNodeDocs']";
+    private static final String DOCUMENTS_TITLE = ".alf-live-search-documents-title[style='display: block;']";
 
     // Sites Title
-    private static final String SITES_TITLE = "div[data-dojo-attach-point='titleNodeSites']";
+    private static final String SITES_TITLE = ".alf-live-search-sites-title[style='display: block;']";
 
     // People Title
-    private static final String PEOPLE_TITLE = "div[data-dojo-attach-point='titleNodePeople']";
+    private static final String PEOPLE_TITLE = ".alf-live-search-people-title[style='display: block;']";
 
     // Close button
     private static final String CLOSE_DROPDOWN = ".alfresco-header-SearchBox-clear a";
@@ -73,6 +89,11 @@ public class LiveSearchDropdown extends SharePage
 
     // See more document results
     private static final String MORE_RESULTS = "a[title='More'] span";
+    
+    public enum Scope {SITE, REPO, DEFAULT};
+    
+    public enum ResultType {PEOPLE, SITE, DOCUMENT};
+     
 
     @SuppressWarnings("unchecked")
     @Override
@@ -85,7 +106,88 @@ public class LiveSearchDropdown extends SharePage
     @Override
     public LiveSearchDropdown render(RenderTime timer)
     {
-        return this;
+    	if (isUserWithinSiteContext() && isLiveSearchDropdownVisible())
+        {
+            elementRender(timer, RenderElement.getVisibleRenderElement(By.cssSelector(SCOPE_REPOSITORY)),
+    				 RenderElement.getVisibleRenderElement(By.cssSelector(SCOPE_SITE)));
+    	    return this;
+        }
+    	else
+    	{
+    		elementRender(timer, new RenderElement(By.cssSelector(SCOPE_REPOSITORY), ElementState.PRESENT), 
+    				new RenderElement(By.cssSelector(SCOPE_SITE), ElementState.PRESENT));
+    	}
+    	return this;    	
+    }
+    
+    /**
+     * Check is User is within Site Context, default is false, when repo context
+     *
+     * @return if displayed
+     */
+    public boolean isUserWithinSiteContext()
+    {
+        try
+        {
+            boolean displayed = driver.findElement(By.cssSelector(SITE_VISIBILITY)).isDisplayed();
+            if (logger.isTraceEnabled())
+            {
+                logger.trace(String.format("** Site Scope: %s", displayed));
+            }
+            return displayed;
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+        return false;
+    }
+
+    /**
+     * Checks if live search dropdown is displayed
+     *
+     * @return boolean
+     */
+    public boolean isLiveSearchDropdownVisible()
+    {
+        try
+        {
+            WebElement liveSearchDropDown = driver.findElement(By.cssSelector(LIVE_SEARCH_DROPDOWN));
+            boolean displayed = liveSearchDropDown.isDisplayed();
+            
+            if (logger.isTraceEnabled())
+            {
+                logger.trace(String.format("** Live Search dropdown: %s", displayed));
+            }
+            return displayed;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("No live search dropdown ", nse);
+        }
+        return false;
+    }
+
+    /**
+     * Gets the Search Site scope option name
+     *
+     * @return String
+     */
+    public String getScopeSiteName()
+    {
+        try
+        {
+            String siteName = driver.findElement(By.cssSelector(SCOPE_SITE)).getText();
+            if (siteName.lastIndexOf(' ') >= 0)
+            {
+                siteName = siteName.substring(siteName.lastIndexOf(' ') + 1).replaceAll("\'", "");
+            }
+            return siteName;
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Unable to find Search Site scope option", nse);
+            throw new PageException("Unable to find live search documents title.", nse);
+        }
     }
 
     /**
@@ -99,7 +201,7 @@ public class LiveSearchDropdown extends SharePage
         List<LiveSearchDocumentResult> results = new ArrayList<LiveSearchDocumentResult>();
         try
         {
-            
+
             List<WebElement> elements = findAndWaitForElements(By.cssSelector(DOCUMENT_RESULTS));           
             if (elements.size() > 0)
             {
@@ -112,7 +214,7 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (TimeoutException toe)
         {
-            logger.error("No live search document results " + toe);
+            logger.error("No live search document results ", toe);
         }
         return results;
 
@@ -139,7 +241,7 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (TimeoutException toe)
         {
-            logger.error("No live search sites results " + toe);
+            logger.error("No live search sites results ", toe);
         }
         return results;
     }
@@ -165,7 +267,7 @@ public class LiveSearchDropdown extends SharePage
         }
         catch (TimeoutException toe)
         {
-            logger.error("No live search people results " + toe);
+            logger.error("No live search people results ", toe);
         }
         return results;
     }
@@ -173,21 +275,22 @@ public class LiveSearchDropdown extends SharePage
     /**
      * clicks on close button
      */
-    public void closeLiveSearchDropdown()
+    public HtmlPage closeLiveSearchDropdown()
     {
         try
         {
             WebElement closeDropdown = findAndWait(By.cssSelector(CLOSE_DROPDOWN));
             closeDropdown.click();
+            return factoryPage.getPage(driver);
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("Close live search dropdown button not present " + nse);
+            logger.error("Close live search dropdown button not present ", nse);
             throw new PageException("Unable to find close live search dropdown button.", nse);
         }
         catch (TimeoutException te)
         {
-            logger.error("Close live search dropdown button not present " + te);
+            logger.error("Close live search dropdown button not present ", te);
             throw new PageException("Close live search dropdown button is not visible", te);
         }
 
@@ -202,13 +305,13 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement documentTitle = driver.findElement(By.cssSelector(DOCUMENTS_TITLE));
-            return documentTitle.isDisplayed();
+            WebElement title = driver.findElement(By.cssSelector(DOCUMENTS_TITLE));
+            return title.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("No live search documents title " + nse);
-            throw new PageException("Unable to find live search documents title.", nse);
+            logger.error("No live search documents title ", nse);
+            return false;
         }
     }
 
@@ -221,14 +324,14 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement sitesTitle = driver.findElement(By.cssSelector(SITES_TITLE));
-            return sitesTitle.isDisplayed();
+            WebElement title = driver.findElement(By.cssSelector(SITES_TITLE));
+            return title.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("No live search sites title " + nse);
-            throw new PageException("Unable to find live search sites title.", nse);
+            logger.error("No live search sites title ", nse);
         }
+        return false;
     }
 
     /**
@@ -240,13 +343,13 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement peopleTitle = driver.findElement(By.cssSelector(PEOPLE_TITLE));
-            return peopleTitle.isDisplayed();
+            WebElement title = driver.findElement(By.cssSelector(PEOPLE_TITLE));
+            return title.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("No live search people title " + nse);
-            throw new PageException("Unable to find live search people title.", nse);
+            logger.error("No live search people title ", nse);
+            return false;
         }
     }
 
@@ -259,116 +362,212 @@ public class LiveSearchDropdown extends SharePage
     {
         try
         {
-            WebElement moreResults = driver.findElement(By.cssSelector(MORE_RESULTS));
-            return moreResults.isDisplayed();
+            WebElement more = driver.findElement(By.cssSelector(MORE_RESULTS));
+            return more.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("No more results icon " + nse);
-            throw new PageException("Unable to find more results icon.", nse);
+            logger.error("No more results icon ", nse);
+            return false;
         }
     }
 
     /**
-     * Checks if live search returns document search results
-     * 
+     * Checks if scope Repository is displayed
+     *
      * @return boolean
      */
-    public boolean hasDocumentSearchResults()
+    public boolean isScopeRepositoryVisible()
     {
-        boolean hasDocumentSearchResults = false;
-        List<LiveSearchDocumentResult> liveSearchDocumentResults = getSearchDocumentResults();
-        if (liveSearchDocumentResults.size() > 0)
+        try
         {
-            hasDocumentSearchResults = true;
+            WebElement scopeRepo = driver.findElement(By.cssSelector(SCOPE_REPOSITORY));
+            return scopeRepo.isDisplayed();
         }
-        return hasDocumentSearchResults;
+        catch (NoSuchElementException nse)
+        {
+            logger.error("No live search scope repository option ", nse);
+            return false;
+        }
     }
 
     /**
-     * Checks if live search returns sites search results
-     * 
+     * Checks if scope Site is displayed
+     *
      * @return boolean
      */
-    public boolean hasSitesSearchResults()
+    public boolean isScopeSiteVisible()
     {
-        boolean hasSitesSearchResults = false;
-        List<LiveSearchSiteResult> liveSearchSiteResults = getSearchSitesResults();
-        if (liveSearchSiteResults.size() > 0)
+        try
         {
-            hasSitesSearchResults = true;
+            WebElement scopeSite = driver.findElement(By.cssSelector(SCOPE_SITE));
+            return scopeSite.isDisplayed();
         }
-        return hasSitesSearchResults;
-    }
-
-    /**
-     * Checks if live search returns people search results
-     * 
-     * @return boolean
-     */
-    public boolean hasPeopleSearchResults()
-    {
-        boolean hasPeopleSearchResults = false;
-        List<LiveSearchPeopleResult> liveSearchPeopleResults = getSearchPeopleResults();
-        if (liveSearchPeopleResults.size() > 0)
+        catch (NoSuchElementException nse)
         {
-            hasPeopleSearchResults = true;
+            logger.error("No live search scope site option ", nse);
+            return false;
         }
-        return hasPeopleSearchResults;
     }
 
     /**
      * Clicks on see more results arrow
      * 
      */
-    public void clickToSeeMoreDocumentResults()
+    public HtmlPage clickToSeeMoreDocumentResults()
     {
         try
         {
             WebElement expandDocumentResults = findAndWait(By.cssSelector(MORE_RESULTS));
             mouseOver(expandDocumentResults);
             expandDocumentResults.click();
+            return this.render();
         }
         catch (NoSuchElementException nse)
         {
-            logger.error("No see more results icon " + nse);
+            logger.error("No see more results icon ", nse);
             throw new PageException("Unable to find see more results icon.", nse);
         }
         catch (TimeoutException te)
         {
-            logger.error("Unable to find see more results icon. " + te);
+            logger.error("Unable to find see more results icon. ", te);
             throw new PageException("Unable to find see more results icon. ", te);
         }
 
     }
 
     /**
-     * Clicks on any link in live search results
-     * 
-     * @param liveSearchItem String
-     * @return HtmlPage
+     * Click on Search scope option
+     *
+     * @param searchScope Scope
+     * @return LiveSearchDropdown
      */
-    public HtmlPage selectLiveSearchItem(String liveSearchItem)
+    public LiveSearchDropdown selectScope(Scope searchScope)
+    { 
+    	String scopeSelector = SCOPE_REPOSITORY;
+    	
+    	if (searchScope == Scope.SITE)
+    	{
+    		scopeSelector = SCOPE_SITE;
+    	}
+    	
+    	if (searchScope != Scope.DEFAULT)
+    	{
+	        try
+	        {
+	            WebElement scopeRepository = driver.findElement(By.cssSelector(scopeSelector));
+	            mouseOver(scopeRepository);
+	            scopeRepository.click();   
+	        }
+	        catch (NoSuchElementException nse)
+	        {
+	            logger.error("Required scope could not be selected", nse);
+	            throw new PageException("Unable to find Search Alfresco option.", nse);
+	        }
+    	}
+    	return this.render();
+    }
+
+
+    /**
+    * method to find out if the expected liveSearchItem is listed on the LiveSearchDropDown Page
+    * @param liveSearchItem LiveSearchResultItem
+    * @return true if item is found
+    */
+    public boolean isItemListed(LiveSearchResultItem liveSearchItem)
     {
-        if (liveSearchItem == null || liveSearchItem.isEmpty())
+        boolean nodeFound = false;
+        
+        if (liveSearchItem.getResultType() == ResultType.DOCUMENT)
         {
-            throw new IllegalArgumentException("Live search item is required");
+        	List<LiveSearchDocumentResult> liveSearchResultsDocs = getSearchDocumentResults();
+        	
+        	for (LiveSearchDocumentResult result : liveSearchResultsDocs)
+	        {
+	            if(result.getTitle().getDescription().contains(liveSearchItem.getResultItemName()))
+	            {
+	            	// Check if SiteName matches
+	            	if (liveSearchItem.getSiteName().isEmpty() || result.getSiteName().getDescription().equalsIgnoreCase(liveSearchItem.getSiteName()))
+	            	{            	
+		            	// Check if UserName matches
+		            	if (liveSearchItem.getUsername().isEmpty() || result.getUserName().getDescription().equalsIgnoreCase(liveSearchItem.getUsername()))
+		            	{
+			            	nodeFound = true;
+			            	break;
+		            	}
+	            	}
+	            }
+	        }
         }
-        try
+
+        else if (liveSearchItem.getResultType() == ResultType.SITE)
         {
-            findAndWait(By.xpath(String.format("//a[text()='%s']", liveSearchItem))).click();
-            return getCurrentPage();
+        	List<LiveSearchSiteResult> liveSearchResultsSites = getSearchSitesResults();
+        	
+	        for (LiveSearchSiteResult result : liveSearchResultsSites)
+	        {
+	            if(result.getSiteName().getDescription().contains(liveSearchItem.getResultItemName()))
+	            {
+	            	nodeFound = true;
+	            	break;
+	            }
+	        }
         }
-        catch (NoSuchElementException nse)
+        
+        else
         {
-            logger.error(String.format("Live search result %s item not found ", liveSearchItem) + nse);
-            throw new PageException(String.format("Live search result %s item not found", liveSearchItem), nse);
+        	List<LiveSearchPeopleResult> liveSearchResultsPeople = getSearchPeopleResults();
+        	
+        	for (LiveSearchPeopleResult result : liveSearchResultsPeople)
+	        {
+	            if(result.getUserName().getDescription().contains(liveSearchItem.getResultItemName()))
+	            {
+	            	nodeFound = true;
+	            	break;
+	            }
+	        }
         }
-        catch (TimeoutException te)
+     
+        return nodeFound;
+    }
+    
+    /**
+     * Utility to return true if all Live Search results are from specified site
+     *
+     * @param siteName String
+     * @return false if content found is from site other than specified
+     */
+    public boolean areAllResultsFromSite(String siteName)
+    {
+    	boolean allResultScoped = true;
+    	
+    	List<LiveSearchDocumentResult> liveSearchResultsDocs = getSearchDocumentResults();
+    	
+    	if (liveSearchResultsDocs.size() == 0) 
+    	{
+    		allResultScoped = true;
+    	}
+    	
+    	for (LiveSearchDocumentResult result : liveSearchResultsDocs)
         {
-            logger.error(String.format("Live search result %s item not found", liveSearchItem) + te);
-            throw new PageException(String.format("Live search result %s item not found", liveSearchItem), te);
+    		logger.info("Search Results found within Site: " + result.getTitle().getDescription());
+    		
+    		if(result.getSiteName().getDescription().equals(siteName))
+            {
+            	allResultScoped = allResultScoped && true;
+            }
+            else
+            {
+            	allResultScoped = allResultScoped && false;
+            }
         }
+    	
+    	if (allResultScoped)
+    	{
+    		logger.info("No out of scope Search Results found");
+    	}
+    	
+    	return allResultScoped;
     }
 
 }

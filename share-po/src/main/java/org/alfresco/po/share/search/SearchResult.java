@@ -146,4 +146,9 @@ public interface SearchResult
      * @return PreViewPopUpPage if link found and selected
      */
 	PreViewPopUpPage clickImageLink();
+
+	HtmlPage selectItemCheckBox();
+
+	boolean isItemCheckBoxSelected();
+	
 }

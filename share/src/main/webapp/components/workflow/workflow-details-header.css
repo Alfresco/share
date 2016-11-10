@@ -7,15 +7,16 @@
 
 .workflow-details-header h1
 {
-   width: 100%;
+   width: 65%;
    float: left;
+   margin-top: -7px;
+   padding-bottom: 14px;
 }
 
 .workflow-details-header .clear
 {
    clear: both;
 }
-
 
 .workflow-details-header .separator
 {

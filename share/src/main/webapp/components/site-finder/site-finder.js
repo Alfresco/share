@@ -299,7 +299,7 @@
          renderCellThumbnail = function SiteFinder_renderCellThumbnail(elCell, oRecord, oColumn, oData)
          {
             var shortName = oRecord.getData("shortName"),
-               url = Alfresco.constants.URL_PAGECONTEXT + "site/" + shortName + "/dashboard",
+               url = Alfresco.constants.URL_PAGECONTEXT + "site/" + shortName,
                siteName = $html(oRecord.getData("title"));
 
             // Render the icon
@@ -320,7 +320,7 @@
          renderCellDescription = function SiteFinder_renderCellDescription(elCell, oRecord, oColumn, oData)
          {
             var siteVisibility = oRecord.getData("visibility").toUpperCase(),
-               url = Alfresco.constants.URL_PAGECONTEXT + "site/" + oRecord.getData("shortName") + "/dashboard";         
+               url = Alfresco.constants.URL_PAGECONTEXT + "site/" + oRecord.getData("shortName");
             
             // title/link to site page
             var details = '<h3 class="sitename"><a href="' + url + '" class="theme-color-1">' + $html(oRecord.getData("title")) + '</a></h3>';

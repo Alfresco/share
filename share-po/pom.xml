@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>5.2.1-SNAPSHOT</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>selenium-grid</artifactId>
-            <version>1.7</version>
+            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>org.alfresco.test</groupId>
@@ -385,7 +385,34 @@
                 </plugins>
             </build>
         </profile>
-
+       <profile>
+            <id>alfresco-one-e2e-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <suiteXmlFiles>
+                            	<suiteXmlFile>src/test/resources/UseCasesSuite.xml</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <excludedGroups>
+                                ${test.exclude}
+                            </excludedGroups>
+                            <groups>
+                                ${test.include}
+                            </groups>
+                            <workingDirectory>target</workingDirectory>
+                            <!--parallel>classes</parallel-->
+                            <!--<systemPropertyVariables>-->
+                            <!--<webdrone.element.wait.time>${webdrone.element.wait.time}</webdrone.element.wait.time>-->
+                            <!--</systemPropertyVariables>-->
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>upgrade-aikau</id>
             <properties>

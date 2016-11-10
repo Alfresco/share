@@ -534,7 +534,7 @@ public abstract class AbstractCMMQATest extends AbstractTestCMM
      */
     public String getDocDetailsPropName(String cmisPropertyName)
     {
-        PageUtils.checkMandotaryParam("Specify appropriate Cmis Property Name", cmisPropertyName);
+        PageUtils.checkMandatoryParam("Specify appropriate Cmis Property Name", cmisPropertyName);
         return cmisPropertyName.replace(":", "");
     }
 }

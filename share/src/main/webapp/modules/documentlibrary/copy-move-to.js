@@ -135,6 +135,132 @@
        */
 
       /**
+       * Create Link button event handler
+       *
+       * @method onCreateLink
+       * @param e {object} DomEvent
+       * @param p_obj {object} Object passed back from addListener method
+       */
+      onCreateLink: function DLCMT_onCreateLink(e, p_obj)
+      {
+
+          var files, multipleFiles = [], params, i, j;
+          this.options.mode = "link";
+
+          // Single/multi files into array of nodeRefs
+          if (YAHOO.lang.isArray(this.options.files))
+          {
+             files = this.options.files;
+          }
+          else
+          {
+             files = [this.options.files];
+          }
+          for (i = 0, j = files.length; i < j; i++)
+          {
+             multipleFiles.push(files[i].node.nodeRef);
+          }
+
+          var selectedDestination = new Alfresco.util.NodeRef(this.selectedNode.data.nodeRef);
+
+          // The URL for creating the link
+          var url = Alfresco.constants.PROXY_URI + "api/node/doclink/" + selectedDestination.storeType +"/"+ selectedDestination.storeId +"/"+ selectedDestination.id;
+          Alfresco.util.Ajax.jsonPost(
+          {
+             url: url,
+             dataObj:
+             {
+                destinationNodeRef: selectedDestination.nodeRef,
+            	multipleFiles: multipleFiles
+             },
+             successCallback:
+             {
+                fn: function(response)
+                {
+                   this.widgets.dialog.hide();
+                   if (response && response.serverResponse && response.serverResponse.status == 200)
+                   {
+                	   var jsonResponse = JSON.parse(response.serverResponse.responseText);
+                       if (jsonResponse)
+                       {
+                          var successCount = jsonResponse.successCount;
+                	      var failureCount = jsonResponse.failureCount;
+
+                	      if (successCount == "0")
+                	      {
+                              Alfresco.util.PopupManager.displayMessage(
+                              {
+                                 text: this.msg("message.failure"),
+                                 zIndex: this.options.zIndex
+                              }, this.options.parentElement);                	    	  			  
+                	      } 
+                	      else
+                	      {
+                 	         Alfresco.util.PopupManager.displayMessage(
+                        	 {
+                        	    text: this.msg("message.success", successCount),
+                        	    zIndex: this.options.zIndex
+                             }, this.options.parentElement);
+                	      }
+
+                          YAHOO.Bubbling.fire("filesLinkCreated",
+                          {
+                    	     destination: this.currentPath,
+                             successCount: successCount,
+                             failureCount: failureCount,
+                             sourceFilesObj: response.config.dataObj
+                          });
+
+                          for (var i = 0; i < multipleFiles.length; i++)
+                          {
+                             var file = multipleFiles[i];
+
+                             YAHOO.Bubbling.fire("fileLinkCreated",
+                             {
+                                multiple: true,
+                                nodeRef: file,
+                                destination: this.currentPath
+                             });
+                          }
+                       YAHOO.Bubbling.fire("metadataRefresh");
+                       }
+                    }
+                },
+                scope: this
+             },
+             wait:
+             {
+                message: this.msg("message.please-wait")
+             },
+             failureCallback:
+             {
+            	 fn: function(response)
+                 {
+                    this.widgets.dialog.hide();
+
+                    var msgFailure = "message.failure";
+
+                    if (response && response.serverResponse && response.serverResponse.status == 408)
+                    {
+                       msgFailure  = "message.timeout";
+                    }
+
+                    Alfresco.util.PopupManager.displayMessage(
+                    {
+                       text: this.msg(msgFailure),
+                       zIndex: this.options.zIndex
+                    }, this.options.parentElement);
+                 },
+                 scope: this
+             }             
+          });
+
+          this.widgets.okButton.set("disabled", true);
+          this.widgets.linkButton.set("disabled", true);
+          this.widgets.cancelButton.set("disabled", true);
+      },
+
+      /**
        * Dialog OK button event handler
        *
        * @method onOK
@@ -308,12 +434,13 @@
                dataObj:
                {
                   nodeRefs: multipleFiles,
-		  parentId: this.options.parentId
+		          parentId: this.options.parentId
                }
             }
          });
 
          this.widgets.okButton.set("disabled", true);
+         this.widgets.linkButton.set("disabled", true);
          this.widgets.cancelButton.set("disabled", true);
       },
 
@@ -353,7 +480,50 @@
       _showDialog: function DLCMT__showDialog()
       {
          this.widgets.okButton.set("label", this.msg("button"));
+
+         var siteSelected = this._isSiteSelected(this.options.files);
+
+         if (this.options.mode != "copy" || siteSelected == true) 
+         {
+        	 this.widgets.linkButton.set("style", "display:none");
+         }
+         else
+         {
+        	 this.widgets.linkButton.set("style", "");
+         }
+
          return Alfresco.module.DoclibCopyMoveTo.superclass._showDialog.apply(this, arguments);
+      },
+
+      /**
+       * returns true/false 
+       *
+       * @method isSiteSelected
+       * @param selectedFiles {string} nodeRef of local node you want to find info for
+       * @return {boolean} selected files contains any sites
+       */
+      _isSiteSelected: function DLCMT__isSiteSelected(selectedFiles)
+      {
+         var siteSelected = false;
+         if (YAHOO.lang.isArray(selectedFiles))
+         {
+            for (var i = 0; i < selectedFiles.length; i++)
+            {
+               if (selectedFiles[i].node.type == "st:site")
+               {
+                  siteSelected = true;
+                  break;
+               }
+            }
+         } 
+         else
+         {
+            if (selectedFiles.node.type == "st:site")
+            {
+               siteSelected = true;
+            }
+          }
+          return siteSelected;
       }
    });
 

@@ -34,7 +34,6 @@ import java.util.List;
 
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
-import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.enums.UserRole;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,7 +48,7 @@ import org.openqa.selenium.support.FindBy;
  * 
  * @author jcule
  */
-public class AddUsersToSitePage extends SharePage
+public class AddUsersToSitePage extends SitePage
 {
     private static Log logger = LogFactory.getLog(AddUsersToSitePage.class);
 
@@ -180,7 +179,7 @@ public class AddUsersToSitePage extends SharePage
 
     private final By linkGroups = By.linkText("Groups");
     private final By linkUsers = By.linkText("Users");
-    private final By linkPendingInvites = By.linkText("Pending Invites");
+    private final By linkPendingInvites = By.linkText("Pending");
 
     @SuppressWarnings("unchecked")
     @Override

@@ -71,79 +71,58 @@ public class SelectContentPageTest extends AbstractTest
         dashBoardPage = loginAs(username, password);
         siteName = String.format("test-%d-selectContent", System.currentTimeMillis());
         CreateSitePage createSite = dashBoardPage.getNav().selectCreateSite().render();
-        SiteDashboardPage site = (SiteDashboardPage) createSite.createNewSite(siteName);
+        SiteDashboardPage site = createSite.createNewSite(siteName).render();
         site.render();
-        DocumentLibraryPage libraryPage = (DocumentLibraryPage) site.getSiteNav().selectDocumentLibrary();
-        libraryPage.render();
+        DocumentLibraryPage libraryPage = site.getSiteNav().selectDocumentLibrary().render();
         CreatePlainTextContentPage contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
-        contentPage.render();
         ContentDetails contentDetails = new ContentDetails();
         contentDetails.setName("Doc3");
         DocumentDetailsPage detailsPage = contentPage.create(contentDetails).render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
-        libraryPage.render();
+        libraryPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
         contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
-        contentPage.render();
         contentDetails = new ContentDetails();
         contentDetails.setName("Doc1");
         detailsPage = contentPage.create(contentDetails).render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
-        libraryPage.render();
+        libraryPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
         contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
-        contentPage.render();
         contentDetails = new ContentDetails();
         contentDetails.setName("Doc2");
         detailsPage = contentPage.create(contentDetails).render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
-        libraryPage.render();
+        libraryPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
         NewFolderPage folderPage = libraryPage.getNavigation().selectCreateNewFolder();
-        folderPage.render();
-        libraryPage = (DocumentLibraryPage) folderPage.createNewFolder("Folder1");
-        libraryPage.render();
+        libraryPage = folderPage.createNewFolder("Folder1").render();
         libraryPage = libraryPage.selectFolder("Folder1").render();
 
         contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
-        contentPage.render();
         contentDetails = new ContentDetails();
         contentDetails.setName("F1Doc1");
         detailsPage = contentPage.create(contentDetails).render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
-        libraryPage.render();
+        libraryPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
 
-        libraryPage = (DocumentLibraryPage) detailsPage.getSiteNav().selectDocumentLibrary();
-        libraryPage.render();
-        folderPage = libraryPage.getNavigation().selectCreateNewFolder();
-        folderPage.render();
-        libraryPage = (DocumentLibraryPage) folderPage.createNewFolder("Folder2");
-        libraryPage.render();
+        folderPage = libraryPage.getNavigation().selectCreateNewFolder().render();
+        libraryPage = folderPage.createNewFolder("Folder2").render();
         libraryPage = libraryPage.selectFolder("Folder2").render();
 
         folderPage = libraryPage.getNavigation().selectCreateNewFolder();
-        folderPage.render();
-        libraryPage = (DocumentLibraryPage) folderPage.createNewFolder("Folder11");
-        libraryPage.render();
+        libraryPage = folderPage.createNewFolder("Folder11").render();
         libraryPage = libraryPage.selectFolder("Folder11").render();
 
         folderPage = libraryPage.getNavigation().selectCreateNewFolder();
-        folderPage.render();
-        libraryPage = (DocumentLibraryPage) folderPage.createNewFolder("Folder21");
-        libraryPage.render();
+        libraryPage = folderPage.createNewFolder("Folder21").render();
         libraryPage = libraryPage.selectFolder("Folder21").render();
  
         contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
-        contentPage.render();
         contentDetails = new ContentDetails();
         contentDetails.setName("Doc211");
         detailsPage = contentPage.create(contentDetails).render();
 
         MyTasksPage tasksPage = dashBoardPage.getNav().selectMyTasks().render();
         StartWorkFlowPage startWorkFlowPage = tasksPage.selectStartWorkflowButton().render();
-        newWorkflowPage = (NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW);
-        newWorkflowPage.render();
+        newWorkflowPage = startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW).render();
     }
     
     

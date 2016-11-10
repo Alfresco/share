@@ -38,6 +38,8 @@ import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.admin.ActionsSet;
 import org.alfresco.po.share.exception.ShareException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
@@ -69,10 +71,14 @@ public class SearchResultItem extends PageElement implements SearchResult
     private static final String DATE = "div.dateCell span.inner";
     private static final String SITE = "div.siteCell span.inner";
     private static final String IMAGE = "tbody[id=FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS] td.thumbnailCell img";
-
+    private static final String CHECKBOX = ".alfresco-renderers-Selector";
+    private static final String SELECTEDCHECKBOX = ".alfresco-lists-ItemSelectionMixin--selected";
+    Log logger = LogFactory.getLog(this.getClass());
     private WebElement webElement;
     private String title;
     private String thumbnail;
+    private WebElement checkBox;
+    private WebElement selectedcheckBox;
 
     /**
      * Constructor
@@ -412,5 +418,39 @@ public class SearchResultItem extends PageElement implements SearchResult
     {
         return thumbnail;
     }
+    
+    @Override
+    public HtmlPage selectItemCheckBox()
+    {
+    	 WebElement link = webElement.findElement(By.cssSelector(CHECKBOX));
+    	 link.click();
+         return factoryPage.getPage(this.driver);
+    }
+    
+    /**
+	 * Checks if Item Check Box is selected
+	 * 
+	 * @return true if selected
+	 */
+	public boolean isItemCheckBoxSelected() 
+	{
+		try {
+
+			if (selectedcheckBox.isDisplayed()) 
+			{
+				return true;
+			}
+		} 
+		catch (NoSuchElementException nse) 
+		{
+			if (logger.isTraceEnabled()) 
+			{
+				logger.trace("checkbox not selected. ", nse);
+			}
+		}
+		return false;
+	}
+
+   
 	
 }

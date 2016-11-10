@@ -50,9 +50,9 @@ public class LiveSearchDocumentResult extends PageElement
 {
     private static Log logger = LogFactory.getLog(LiveSearchDocumentResult.class);
     
-    private static final String DOCUMENT_RESULT_TITLE = "a[href*='document-details']";
-    private static final String DOCUMENT_RESULT_SITE_NAME = "span a[href*='documentlibrary']";
-    private static final String DOCUMENT_RESULT_USER_NAME = "span a[href*='profile']";
+    private static final String DOCUMENT_RESULT_TITLE = "div[class*='alf-livesearch-item'] a[href*='document-details']";
+    private static final String DOCUMENT_RESULT_SITE_NAME = "div[class*='alf-livesearch-item'] a[href*='documentlibrary']";
+    private static final String DOCUMENT_RESULT_USER_NAME = "div[class*='alf-livesearch-item'] a[href*='profile']";
     
     private WebElement webElement;
     private ShareLink title;
@@ -63,7 +63,8 @@ public class LiveSearchDocumentResult extends PageElement
     /**
      * Constructor
      * @param element {@link WebElement} 
-     * @param driver 
+     * @param driver WebDriver
+     * @param factoryPage FactoryPage
      */
     public LiveSearchDocumentResult(WebElement element, WebDriver driver, FactoryPage factoryPage)
     {
@@ -137,6 +138,7 @@ public class LiveSearchDocumentResult extends PageElement
     
     /**
      * Clicks on document title on document search result
+     * @return HtmlPage
      */
     public HtmlPage clickOnDocumentTitle()
     {
@@ -144,7 +146,6 @@ public class LiveSearchDocumentResult extends PageElement
         {
             webElement.findElement(By.cssSelector(DOCUMENT_RESULT_TITLE)).click();
             return getCurrentPage();
-         
         }
         catch (NoSuchElementException nse)
         {
@@ -159,6 +160,7 @@ public class LiveSearchDocumentResult extends PageElement
     
     /**
      * Clicks on document site title on document search result
+     * @return HtmlPage
      */
     public HtmlPage clickOnDocumentSiteTitle()
     {
@@ -166,7 +168,6 @@ public class LiveSearchDocumentResult extends PageElement
         {
             webElement.findElement(By.cssSelector(DOCUMENT_RESULT_SITE_NAME)).click();
             return getCurrentPage();
-         
         }
         catch (NoSuchElementException nse)
         {
@@ -181,6 +182,7 @@ public class LiveSearchDocumentResult extends PageElement
     
     /**
      * Clicks on document user name on document search result
+     * @return HtmlPage
      */
     public HtmlPage clickOnDocumentUserName()
     {
@@ -188,7 +190,6 @@ public class LiveSearchDocumentResult extends PageElement
         {
             webElement.findElement(By.cssSelector(DOCUMENT_RESULT_USER_NAME)).click();
             return getCurrentPage();
-         
         }
         catch (NoSuchElementException nse)
         {

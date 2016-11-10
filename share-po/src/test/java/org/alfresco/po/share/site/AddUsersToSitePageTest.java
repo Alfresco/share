@@ -62,11 +62,8 @@ public class AddUsersToSitePageTest extends AbstractTest
 
     @BeforeClass(groups = "Enterprise-only")
     public void createSite() throws Exception
-    {
-        dashBoard = loginAs(username, password);
-        CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
-        createSitePage.createNewSite(siteName, siteName, true, false).render();
-        logout(driver);
+    {    
+        siteUtil.createSite(driver, username, password, siteName, "description", "Private");
     }
 
     /**
@@ -90,10 +87,10 @@ public class AddUsersToSitePageTest extends AbstractTest
         UserSearchPage userCreated = newPage.selectCreateUser().render();
         userCreated.searchFor(userName).render();
 
-        page = resolvePage(driver).render();
-        siteDashBoard = page.getNav().selectMostRecentSite().render();
+        siteDashBoard = siteActions.openSiteDashboard(driver, siteName);
+
         addUsersToSitePage = siteDashBoard.getSiteNav().selectAddUser().render();
-        addUsersToSite(addUsersToSitePage, userName, role);
+        siteUtil.addUsersToSite(driver, addUsersToSitePage, userName, role);
     }
 
     /**
@@ -121,7 +118,7 @@ public class AddUsersToSitePageTest extends AbstractTest
             catch (PageRenderTimeException exception)
             {
             }
-            if (siteMembers != null && siteMembers.size() > 0 && hasUser(siteMembers, userName))
+            if (siteMembers != null && siteMembers.size() > 0 && siteUtil.hasUser(siteMembers, userName))
             {
                 break;
             }
@@ -299,6 +296,9 @@ public class AddUsersToSitePageTest extends AbstractTest
         siteDashBoard = siteFinderPage.selectSite(siteName).render();
 
         Assert.assertEquals(siteDashBoard.getPageTitle(), siteName);
+        
+        //check that added user cannot delete the site from the site configuration drop down
+        Assert.assertFalse(siteDashBoard.getSiteNav().isDeleteSiteDisplayed());
 
         logout(driver);
 
@@ -328,11 +328,11 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         // search for user and select user from search results list
         List<String> searchUsers = searchForSiteMembers(userMultiple1, true);
-        Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userMultiple1));
+        Assert.assertTrue(searchUsers.size() > 0 && siteUtil.hasUser(searchUsers, userMultiple1));
         addUsersToSitePage.clickSelectUser(userMultiple1).render();
 
         searchUsers = searchForSiteMembers(userMultiple2, true);
-        Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userMultiple2));
+        Assert.assertTrue(searchUsers.size() > 0 && siteUtil.hasUser(searchUsers, userMultiple2));
         addUsersToSitePage.clickSelectUser(userMultiple2).render();
 
         addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
@@ -361,11 +361,11 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         searchUsers = searchForSiteMembers(userMultiple3, true);
         //Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple3) != -1);
-        Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userMultiple3));
+        Assert.assertTrue(searchUsers.size() > 0 && siteUtil.hasUser(searchUsers, userMultiple3));
         addUsersToSitePage.clickSelectUser(userMultiple3).render();
         searchUsers = searchForSiteMembers(userMultiple4, true);
         //Assert.assertTrue(searchUsers.size() > 0 && searchUsers.get(0).indexOf(userMultiple4) != -1);
-        Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userMultiple4));
+        Assert.assertTrue(searchUsers.size() > 0 && siteUtil.hasUser(searchUsers, userMultiple4));
         addUsersToSitePage.clickSelectUser(userMultiple4).render();
         addUsersToSitePage.setAllRolesTo(UserRole.COLLABORATOR);
         addUsersToSitePage.clickAddUsersButton();
@@ -473,7 +473,7 @@ public class AddUsersToSitePageTest extends AbstractTest
 
         // search for user and select user from search results list
         List<String> searchUsers = searchForSiteMembers(userRemoveUserName, true);
-        Assert.assertTrue(searchUsers.size() > 0 && hasUser(searchUsers, userRemoveUserName));
+        Assert.assertTrue(searchUsers.size() > 0 && siteUtil.hasUser(searchUsers, userRemoveUserName));
         addUsersToSitePage.clickSelectUser(userRemoveUserName);
 
         // remove user from the list of selected users
@@ -501,7 +501,7 @@ public class AddUsersToSitePageTest extends AbstractTest
     }
 
     @Test(dependsOnMethods = "testNavigateToPendingInvitesPage", groups = "Enterprise-only")
-    public void testNavigateToGroupsInvatePage() throws Exception
+    public void testNavigateToGroupsInvitePage() throws Exception
     {
         dashBoard = loginAs(username, password);
         siteDashBoard = dashBoard.getNav().selectMostRecentSite().render();
@@ -515,7 +515,7 @@ public class AddUsersToSitePageTest extends AbstractTest
 
     }
 
-    @Test(dependsOnMethods = "testNavigateToGroupsInvatePage", groups = "Enterprise-only")
+    @Test(dependsOnMethods = "testNavigateToGroupsInvitePage", groups = "Enterprise-only")
     public void testNavigateToSiteMembersPage() throws Exception
     {
         dashBoard = loginAs(username, password);

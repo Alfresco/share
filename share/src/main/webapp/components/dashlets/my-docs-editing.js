@@ -77,7 +77,7 @@
                      {
                         item = items[i];
                         
-                        var linkURL = item.location.site ? $siteURL("dashboard", { site: item.location.site }) : $profileURL(item.lockedByUser, item.lockedBy),
+                        var linkURL = item.location.site ? $siteURL("", { site: item.location.site }) : $profileURL(item.lockedByUser, item.lockedBy),
                             fileExtIndex = item.fileName.lastIndexOf("."),
                             fileExt = fileExtIndex !== -1 ? item.fileName.substring(fileExtIndex + 1) : "generic",
                             editMsg = item.location.site ?
@@ -191,7 +191,7 @@
             {
                item = items[i];
                
-               var siteURL = $siteURL("dashboard", { site: item.site.shortName }),
+               var siteURL = $siteURL("", { site: item.site.shortName }),
                    editMsg = this.msg("text.edited-on", '<span class="relativeTime">' + item.modifiedOn + '</span>', '<a class="theme-color-1 site-link" href="' + siteURL + '">' + $html(item.site.title) + '</a>');
                
                var params = {

@@ -32,6 +32,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
@@ -118,7 +119,7 @@ public class DocumentDetailsPage extends DetailsPage
     private static final By HISTORY_VERSIONS = By.cssSelector("div[class*='document-versions'] span[class='document-version']");
     private static final By SYNC_MESSAGE = By.xpath(".//span[contains(text(),'Sync was created')]");
 
-    private static final By DOCUMENT_BODY = By.cssSelector("div[id$='document-details_x0023_default-viewer']");
+    private static final By DOCUMENT_BODY = By.cssSelector("div[id$='document-details_x0023_default-previewer-div']");
 
     private static final By VIEW_ORIGINAL_DOCUMENT = By.cssSelector("div.document-view-original>a");
     public static final String UNZIP_TO = "//span[text()='Unzip to...']";
@@ -327,13 +328,14 @@ public class DocumentDetailsPage extends DetailsPage
     /**
      * Mimics the action of deleting a document detail.
      */
-    public HtmlPage delete()
+    public DocumentLibraryPage delete()
     {
         By by = By.cssSelector("div.document-delete>a");
         WebElement button = findAndWait(by);
         button.click();
-        confirmDelete();
-        return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+        confirmDeleteAction();
+        waitUntilElementDeletedFromDom(by, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+        return factoryPage.getPage(driver).render();
     }
 
     /**
@@ -758,7 +760,7 @@ public class DocumentDetailsPage extends DetailsPage
         try
         {
             findAndWait(By.cssSelector(UNSYNC_FROM_CLOUD)).click();
-            waitForElement(By.cssSelector("div#prompt_h"), maxPageLoadingTime);
+            waitForElement(By.cssSelector("div#prompt_h"), SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             findAndWait(By.cssSelector("input#requestDeleteRemote")).click();
             findAndWait(By.cssSelector("span.button-group>span[class$='yui-push-button']")).click();
         }

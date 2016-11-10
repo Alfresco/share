@@ -25,6 +25,9 @@
  */
 package org.alfresco.po.share;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import java.io.File;
 import java.util.List;
 
@@ -59,6 +62,7 @@ public abstract class SharePage extends Page
 {
 
     private Log logger = LogFactory.getLog(this.getClass());
+    private static final By PAGE_TITLE_LINK = By.cssSelector("#HEADER_TITLE span a");
     protected static final By USER_LOGGED_IN_LABEL = By.cssSelector("#HEADER_USER_MENU_POPUP_text");
     protected static final By PROMPT_PANEL_ID = By.id("prompt");
     protected long popupRendertime;
@@ -128,7 +132,7 @@ public abstract class SharePage extends Page
         String pageTitleLabel = "";
         try
         {
-            waitForElement(PAGE_TITLE_LABEL, defaultWaitTime);
+            waitForElement(PAGE_TITLE_LABEL, SECONDS.convert(defaultWaitTime, MILLISECONDS));
             pageTitleLabel = findAndWait(PAGE_TITLE_LABEL).getText();
         } catch (TimeoutException toe)
         {
@@ -154,6 +158,16 @@ public abstract class SharePage extends Page
         {
         }
         return titleExists;
+    }
+    
+    /**
+     * Clicks on page title link
+     * @return
+     */
+    public HtmlPage clickOnPageTitle()
+    {
+        findAndWait(PAGE_TITLE_LINK).click();
+        return getCurrentPage();
     }
 
     /**

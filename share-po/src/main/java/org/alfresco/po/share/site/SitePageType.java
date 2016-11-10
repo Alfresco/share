@@ -32,14 +32,15 @@ import org.openqa.selenium.By;
  * @since 1.7.0
  */
 public enum SitePageType
-{
-    WIKI("//li[contains(@id, '_default-page-wiki-page')]", "Wiki"),
-    BLOG("//li[contains(@id, '_default-page-blog-postlist')]", "Blog"),
-    CALENDER("//li[contains(@id, '_default-page-calendar')]/img", "Calendar"),
-    DATA_LISTS("//li[contains(@id, '_default-page-data-lists')]", "Data Lists"),
-    DISCUSSIONS("//li[contains(@id, '_default-page-discussions-topiclist')]", "Discussions"),
-    DOCUMENT_LIBRARY("//li[contains(@id, '_default-page-documentlibrary')]", "Document Library"),
-    LINKS("//li[contains(@id, '_default-page-links')]", "Links");
+{	
+    SITE_DASHBOARD("li[id$='dashboard'] img", "Site Dashboard"),
+    WIKI("li[id$='_default-page-wiki-page'] img", "Wiki"),
+    BLOG("li[id$='_default-page-blog-postlist'] img", "Blog"),
+    CALENDER("li[id$='_default-page-calendar'] img", "Calendar"),
+    DATA_LISTS("li[id$='_default-page-data-lists'] img", "Data Lists"), 
+    DISCUSSIONS("li[id$='_default-page-discussions-topiclist'] img", "Discussions"),
+    DOCUMENT_LIBRARY("li[id$='_default-page-documentlibrary'] img", "Document Library"),
+    LINKS("li[id$='_default-page-links'] img", "Links");
 
     private String id;
     private String text;
@@ -52,7 +53,7 @@ public enum SitePageType
 
     public By getLocator()
     {
-        return By.xpath(id);
+        return By.cssSelector(id);
     }
 
     public String getXpath()

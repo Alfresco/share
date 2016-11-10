@@ -15,7 +15,7 @@
       <ul id="${id}-favouriteSites" class="favourite-sites-list separator">
       <#list favouriteSites as site>
          <li>
-            <a href="${url.context}/page/site/${site.shortName}/dashboard">${site.title?html}</a>
+            <a href="${url.context}/page/site/${site.shortName}">${site.title?html}</a>
          </li>
       </#list>
       </ul>

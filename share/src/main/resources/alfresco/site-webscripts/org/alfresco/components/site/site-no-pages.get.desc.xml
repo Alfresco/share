@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Site No Pages</shortname>
+   <description>Site message when no pages are configured</description>
+   <url>/components/site/site-no-pages</url>
+</webscript>

@@ -470,7 +470,7 @@ public abstract class WorkFlowPage extends SharePage implements WorkFlow
         {
             DateTime today = new DateTime();
 
-            waitForElement(DUE_DATED_PICKER, maxPageLoadingTime);
+            waitForElement(DUE_DATED_PICKER, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
             driver.findElement(DUE_DATED_PICKER).click();
 
             if (dueDate.isBeforeNow()

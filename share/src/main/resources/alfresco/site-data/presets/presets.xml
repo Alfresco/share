@@ -49,7 +49,8 @@
             <template-instance>dashboard-2-columns-wide-right</template-instance>
             <authentication>user</authentication>
             <properties>
-               <sitePages>[{"pageId":"documentlibrary"}]</sitePages>
+               <sitePages>[{"pageId":"dashboard"}, {"pageId":"documentlibrary"}]</sitePages>
+               <dashboardSitePage>true</dashboardSitePage>
             </properties>
          </page>
       </pages>

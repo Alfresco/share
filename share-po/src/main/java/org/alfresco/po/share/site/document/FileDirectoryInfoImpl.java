@@ -28,8 +28,6 @@ package org.alfresco.po.share.site.document;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -2286,11 +2284,8 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
             cancelEditing.click();
             waitUntilMessageAppearAndDisappear("edited");
 
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_ESCAPE);
-            robot.keyRelease(KeyEvent.VK_ESCAPE);
 
-            return factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
+            return factoryPage.getPage(driver).render();
         }
         catch (NoSuchElementException nse)
         {
@@ -2472,7 +2467,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
      */
     private String getModelInfo(ModelInfo infoRequired)
     {
-        PageUtils.checkMandotaryParam("Specify Which Model Info is Required", infoRequired);
+        PageUtils.checkMandatoryParam("Specify Which Model Info is Required", infoRequired);
 
         if (!(getCurrentPage() instanceof ModelsPage))
         {

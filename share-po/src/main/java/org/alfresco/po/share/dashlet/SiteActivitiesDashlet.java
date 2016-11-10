@@ -67,7 +67,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
             .xpath("//div[@class='activity']/following::div[@class='hidden']/preceding-sibling::div[@class='more']/a");
 
     private List<ShareLink> userLinks;
-    private List<ShareLink> documetLinks;
+    private List<ShareLink> documentLinks;
     private List<String> activityDescriptions;
 
     private Log logger = LogFactory.getLog(SiteActivitiesDashlet.class);
@@ -98,7 +98,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     private  void populateData()
     {
         userLinks = new ArrayList<ShareLink>();
-        documetLinks = new ArrayList<ShareLink>();
+        documentLinks = new ArrayList<ShareLink>();
         activityDescriptions = new ArrayList<String>();
         try
         {
@@ -118,7 +118,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
                 userLinks.add(new ShareLink(userLink, driver, factoryPage));
 
                 WebElement documentLink = div.findElement(By.cssSelector("a:nth-of-type(2)"));
-                documetLinks.add(new ShareLink(documentLink, driver, factoryPage));
+                documentLinks.add(new ShareLink(documentLink, driver, factoryPage));
 
                 WebElement desc = div.findElement(By.cssSelector("span.detail"));
                 activityDescriptions.add(desc.getText());
@@ -164,20 +164,20 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
      * @param name identifier to match against link title
      * @param type that determines document, site or user type link
      */
-    private  ShareLink selectLink(final String name, LinkType type)
+    public  ShareLink selectLink(final String name, LinkType type)
     {
         if (name == null)
         {
             throw new UnsupportedOperationException("Name value of link is required");
         }
-        if (userLinks == null || documetLinks == null)
+        if (userLinks == null || documentLinks == null)
         {
             populateData();
         }
         switch (type)
         {
             case Document:
-                return extractLink(name, documetLinks);
+                return extractLink(name, documentLinks);
             case User:
                 return extractLink(name, userLinks);
             default:
@@ -228,7 +228,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
         switch (linktype)
         {
             case Document:
-                return documetLinks;
+                return documentLinks;
             case User:
                 return userLinks;
             default:

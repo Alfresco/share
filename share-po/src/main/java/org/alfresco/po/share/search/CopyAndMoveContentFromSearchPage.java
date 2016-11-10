@@ -58,19 +58,22 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     private final RenderElement DOC_LIST_VIEW = getVisibleRenderElement((By.cssSelector("div[id^='alfresco_documentlibrary_views_AlfDocumentListView']")));
     private final By destinationListCss = By
             .cssSelector("div[class='sub-pickers']>div[class^='alfresco-menus-AlfMenuBar']>div>div[class^='dijitReset dijitInline']>span");
-    private final By copyMoveOkOrCancelButtonCss = By.cssSelector("div[class='footer']>span");
+    private final By copyMoveOkOrCancelButtonCss = By.cssSelector(".footer .dijitButtonText");
     private final By copyMoveDialogCloseButtonCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class^=dijitDialogCloseIcon ]");
     private final By copyMoveDialogTitleCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class='dijitDialogTitle']");
     private String PathFolderCss = "//div[starts-with(@id,'alfresco_documentlibrary_views_AlfDocumentListView')] //tr/td/span/span/span[@class='value'][text()='%s']";
     private String adButton = "//div[starts-with(@id,'alfresco_documentlibrary_views_AlfDocumentListView')] //tr/td/span/span/span[@class='value'][text()='%s']/../../../../td/span[starts-with(@id, 'alfresco_renderers_PublishAction')]";
-
-    // private final By disabledBackCss = By.cssSelector("div[class$='dijitMenuItem dijitMenuItemDisabled dijitDisabled']>span[id$='PAGE_BACK_text']");
-    // private final By disabledNextCss = By.cssSelector("div[class$='dijitMenuItem dijitMenuItemDisabled dijitDisabled']>span[id$='PAGE_FORWARD_text']");
+    
     private final By nextCss = By.cssSelector("div[class$='dijitReset dijitInline dijitMenuItemLabel dijitMenuItem']>span[id$='PAGE_FORWARD_text']");
     private final By backCss = By.cssSelector("div[class$='dijitReset dijitInline dijitMenuItemLabel dijitMenuItem']>span[id$='PAGE_BACK_text']");
+    private final By siteFolderCss = By.cssSelector("span[class='dijitTreeContent']>span[ class='dijitTreeLabel']");
+    private final By errorPopUp = By.cssSelector(".alfresco-notifications-AlfNotification__container");    
+    
+    private final By sitenameSelector = By.cssSelector("div[class='items'] div[role='menuitem']>span");    
+    private final By folderSelector = By.cssSelector(".dijitTree .dijitTreeRow .dijitTreeContent>span[role='treeitem']");
+        
 
-
-//FIXME render checking for different elements
+    //FIXME render checking for different elements
     @Override
     public CopyAndMoveContentFromSearchPage render(RenderTime timer)
     {
@@ -139,7 +142,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      * @param buttonName String
      * @return HtmlPage FacetedSerachResultsPage
      */
-    private FacetedSearchPage selectCopyOrMoveOrCancelButton(String buttonName)
+    private HtmlPage selectButton(String buttonName)
     {
         if (StringUtils.isEmpty(buttonName))
         {
@@ -148,18 +151,21 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
 
         try
         {
-            for (WebElement button : findAndWaitForElements(copyMoveOkOrCancelButtonCss))
+        	List<WebElement> buttons = findDisplayedElements(copyMoveOkOrCancelButtonCss);
+            for (WebElement button : buttons)
             {
-                if (button.getText() != null)
+                if(button.isDisplayed() && button.isEnabled())
                 {
-                    if (button.getText().equalsIgnoreCase(buttonName))
-                    {
-                        button.click();
-                        //FIXME
-                        waitForPageLoad(getDefaultWaitTime());
-                        return getCurrentPage().render();
-
-                    }
+	            	if (button.getText() != null)
+	                {
+	                    if (button.getText().equalsIgnoreCase(buttonName))
+	                    {
+	                        button.click();                       
+	                        waitUntilElementDisappears(errorPopUp,10);
+	                        return getCurrentPage().render();
+	
+	                    }
+	                }
                 }
             }
             throw new PageOperationException("Unable to find the button: " + buttonName);
@@ -185,19 +191,22 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     /**
      * This method finds the clicks on 'Copy' button in Copy/Move pop up page
      */
-    public FacetedSearchPage selectCopyButton()
+    public HtmlPage clickCopy()
     {
-        return selectCopyOrMoveOrCancelButton("Copy");
+    	String copyAction = factoryPage.getValue("search.button.copy");
+    	return selectButton(copyAction);
     }
 
-    public FacetedSearchPage selectCancelButton()
+    public HtmlPage cancelCopyOrMove()
     {
-        return selectCopyOrMoveOrCancelButton("Cancel");
+    	String cancelCopyOrMoveAction = factoryPage.getValue("search.button.cancel");    	
+    	return selectButton(cancelCopyOrMoveAction);
     }
 
-    public FacetedSearchPage selectMoveButton()
+    public HtmlPage clickMove()
     {
-        return selectCopyOrMoveOrCancelButton("Move");
+    	String moveAction = factoryPage.getValue("search.button.move");
+    	return selectButton(moveAction);
     }
 
     /**
@@ -205,7 +214,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      * 
      * @return FacetedSearchPage
      */
-    public HtmlPage selectCloseButton()
+    public HtmlPage closeCopyMoveDialog()
     {
         try
         {
@@ -231,7 +240,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      */
     public CopyAndMoveContentFromSearchPage selectDestination(String destinationName)
     {
-        PageUtils.checkMandotaryParam("destinationName", destinationName);
+        PageUtils.checkMandatoryParam("destinationName", destinationName);
         try
         {
             for (WebElement destination : findAndWaitForElements(destinationListCss))
@@ -277,7 +286,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     public CopyAndMoveContentFromSearchPage selectFolderInRepo(String repoFolder)
     {
 
-        PageUtils.checkMandotaryParam("repoFolder", repoFolder);
+        PageUtils.checkMandatoryParam("repoFolder", repoFolder);
 
         try
         {
@@ -319,7 +328,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
      */
     public CopyAndMoveContentFromSearchPage selectFolder(String... paths)
     {
-        PageUtils.checkMandotaryParam("paths", paths);
+        PageUtils.checkMandatoryParam("paths", paths);
 
         try
         {
@@ -491,5 +500,118 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
            throw new PageOperationException("Unable to click on paginator", e);
         }
     }
+    
+    /**
+     * TODO: Add Docs
+     * @param folderName
+     * @return
+     */
+    public CopyAndMoveContentFromSearchPage selectSiteInRepo(String folderName)
+    {
+        PageUtils.checkMandatoryParam("folderName", folderName);
+        try
+        {
+            for (WebElement destination : findAndWaitForElements(siteFolderCss))
+            {
+                if (destination.getText() != null)
+                {
+                    if (destination.getText().equalsIgnoreCase(folderName))
+                    {
+                        destination.click();
+                        break;
+                    }
+
+                }
+
+            }
+
+            return this;
+        }
+        catch (NoSuchElementException | TimeoutException e)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Unable to find the required destination: " + folderName, e);
+            }
+        }
+
+        throw new PageOperationException("Unable to select Destination : " + folderName);
+    }  
+    
+    /**
+     * This helper method finds the clicks on specified site in CopyAndMoveContentFromSearchPage     
+     * @param siteName
+     * @return
+     */
+    public CopyAndMoveContentFromSearchPage selectSite(String siteName)
+    {
+        PageUtils.checkMandatoryParam("siteName", siteName);
+        try
+        {
+            for (WebElement destination : findAndWaitForElements(sitenameSelector))
+            {
+                if (destination.getText() != null)
+                {
+                    if (destination.getText().equalsIgnoreCase(siteName))
+                    {
+                        destination.click();
+                        break;
+                    }
+
+                }
+
+            }
+
+            return this;
+        }
+        catch (NoSuchElementException | TimeoutException e)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Unable to find the required Site: " + siteName, e);
+            }
+        }
+
+        throw new PageOperationException("Unable to select Site : " + siteName);
+    }
+    
+    /**
+     * This helper method finds the clicks on specified site folder in CopyAndMoveContentFromSearchPage     
+     * @param folderName
+     * @return
+     */
+    public CopyAndMoveContentFromSearchPage selectSiteFolder(String sitefolderName)
+    {
+        PageUtils.checkMandatoryParam("sitefolderName", sitefolderName);
+        try
+        {
+            for (WebElement destination : findAndWaitForElements(folderSelector))
+            {
+                if (destination.getText() != null)
+                {
+                    if (destination.getText().equalsIgnoreCase(sitefolderName))
+                    {
+                        destination.click();
+                        break;
+                    }
+
+                }
+
+            }
+
+            return this;
+        }
+        catch (NoSuchElementException | TimeoutException e)
+        {
+            if (logger.isTraceEnabled())
+            {
+                logger.trace("Unable to find the required Site: " + sitefolderName, e);
+            }
+        }
+
+        throw new PageOperationException("Unable to select Site : " + sitefolderName);
+    }  
+   
+   
 
 }

@@ -34,5 +34,14 @@
          </properties>
       </component>
 
+      <!-- Pending Requests -->
+      <component>
+         <region-id>pending-requests</region-id>
+         <url>/components/invite/pending-requests</url>
+         <properties>
+            <minSearchTermLength>0</minSearchTermLength>
+         </properties>
+      </component>
+
    </components>
 </template-instance>

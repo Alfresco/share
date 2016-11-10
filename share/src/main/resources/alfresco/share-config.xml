@@ -101,6 +101,7 @@
 
    <config evaluator="string-compare" condition="SitePages">
       <pages>
+         <page id="dashboard">dashboard</page>
          <page id="calendar">calendar</page>
          <page id="wiki-page">wiki-page?title=Main_Page</page>
          <page id="documentlibrary">documentlibrary</page>

@@ -57,7 +57,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
 {
     private static final Log logger = LogFactory.getLog(CreateNewCustomTypePopUp.class);
 
-    private static final String UNIQUE_DIALOG_SELECTOR = "div[id='CMM_CREATE_TYPE_DIALOG']";
+    private static final String UNIQUE_DIALOG_SELECTOR = "#CMM_CREATE_TYPE_DIALOG"; //"div[id='CMM_CREATE_TYPE_DIALOG']";
 
     private static final By SHARE_DIALOGUE_HEADER = By.cssSelector(UNIQUE_DIALOG_SELECTOR + ">div>span.dijitDialogTitle");
     private static final By SHARE_DIALOGUE_CLOSE_ICON = By.cssSelector(UNIQUE_DIALOG_SELECTOR + ">div>span.dijitDialogCloseIcon");
@@ -68,11 +68,11 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
     private static final By NEW_CUSTOM_TYPE_CANCEL_BUTTON = By.cssSelector(UNIQUE_DIALOG_SELECTOR + BUTTON_LAST);
     private static final By BUTTON_CLICKABLE = By.cssSelector(".dijitButtonText");
     
-    private static final By NAME_FIELD = By.cssSelector(".create-type-name input.dijitInputInner");
+    private static final By NAME_FIELD = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-type-name input.dijitInputInner");
 
-    private static final By TITLE_FIELD = By.cssSelector(".create-type-title input.dijitInputInner");
+    private static final By TITLE_FIELD = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-type-title input.dijitInputInner");
 
-    private static final By DESCRIPTION_FIELD = By.cssSelector(".create-type-description textarea");
+    private static final By DESCRIPTION_FIELD = By.cssSelector(UNIQUE_DIALOG_SELECTOR + " .create-type-description textarea");
 
     /*
      * (non-Javadoc)
@@ -109,7 +109,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
     {
         return driver.findElement(by).getAttribute("value");
     }
-     @RenderWebElement @FindBy(css = ".create-type-name input.dijitInputInner") TextInput name;
+     @RenderWebElement @FindBy(css = UNIQUE_DIALOG_SELECTOR + " .create-type-name input.dijitInputInner") TextInput name;
     /**
      * Gets the name field.
      * 
@@ -128,12 +128,12 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
      */
     public void setNameField(String value)
     {
-        PageUtils.checkMandotaryParam("name", value);
+        PageUtils.checkMandatoryParam("name", value);
         name.sendKeys(value);
     }
 
     @RenderWebElement 
-        @FindBy(css = ".create-type-title input.dijitInputInner") TextInput title;
+        @FindBy(css = UNIQUE_DIALOG_SELECTOR + " .create-type-title input.dijitInputInner") TextInput title;
     /**
      * Gets the title field.
      * 
@@ -152,12 +152,12 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
      */
     public void setTitleField(String title)
     {
-        PageUtils.checkMandotaryParam("title", title);
+        PageUtils.checkMandatoryParam("title", title);
         this.title.sendKeys(title);
     }
 
     @RenderWebElement 
-        @FindBy(css = ".create-type-description textarea") WebElement description;
+        @FindBy(css = UNIQUE_DIALOG_SELECTOR + " .create-type-description textarea") WebElement description;
     /**
      * Gets the description.
      * 
@@ -176,7 +176,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
      */
     public void setDescriptionField(String description)
     {
-        PageUtils.checkMandotaryParam("description", description);
+        PageUtils.checkMandatoryParam("description", description);
         this.description.sendKeys(description);
     }
 
@@ -199,7 +199,7 @@ public class CreateNewCustomTypePopUp extends ShareDialogueAikau
      */
     public CreateNewCustomTypePopUp selectParentTypeField(String value)
     {
-        PageUtils.checkMandotaryParam("value", value);
+        PageUtils.checkMandatoryParam("value", value);
         try
         {
             SelectList list = new SelectList(driver, findAndWait(PARENT_PROPERTY_TYPE_FIELD));

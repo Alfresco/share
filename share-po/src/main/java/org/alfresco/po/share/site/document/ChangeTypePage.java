@@ -33,6 +33,7 @@ import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.share.ShareDialogue;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -46,7 +47,6 @@ import org.openqa.selenium.support.ui.Select;
 
 public class ChangeTypePage extends ShareDialogue
 {
-
     private static final By TYPE_DROPDOWN = By.cssSelector("div[style^='visibility: visible;'] form select");
     private static final By CANCEL_BUTTON = By.cssSelector("div[style^='visibility: visible;'] form button[id$='-cancel-button']");
     protected static final By OK_BUTTON = By.cssSelector("div[style^='visibility: visible;'] form button[id$='-ok-button']");
@@ -64,7 +64,7 @@ public class ChangeTypePage extends ShareDialogue
     {
         try
         {
-            elementRender(timer, RenderElement.getVisibleRenderElement(TYPE_DROPDOWN));
+            elementRender(timer, RenderElement.getVisibleRenderElement(TYPE_DROPDOWN), RenderElement.getVisibleRenderElement(OK_BUTTON));
         }
         catch (NoSuchElementException e)
         {
@@ -120,9 +120,17 @@ public class ChangeTypePage extends ShareDialogue
         {
             throw new UnsupportedOperationException("Search term is required to perform a search");
         }
-        WebElement dropDown = driver.findElement(TYPE_DROPDOWN);
-        Select select = new Select(dropDown);
+        WebElement dropDown = findAndWait(TYPE_DROPDOWN);
+        Select select = new Select(dropDown); 
         select.selectByVisibleText(changeType);
+        select.getFirstSelectedOption().click();
+    }
+    
+    public void selectChangeTypeByIndex(final int index)
+    {
+        WebElement dropDown = findAndWait(TYPE_DROPDOWN);
+        Select select = new Select(dropDown); 
+        select.selectByIndex(index);
     }
 
     /**
@@ -132,7 +140,8 @@ public class ChangeTypePage extends ShareDialogue
      */
     public HtmlPage selectSave()
     {
-        driver.findElement(OK_BUTTON).click();
+        WebElement okButton = driver.findElement(OK_BUTTON);
+        okButton.click();
         return getCurrentPage();
     }
 

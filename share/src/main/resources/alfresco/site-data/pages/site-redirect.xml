@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <title>Site Redirect</title>
+   <description>Page for redirecting site root to the site default page</description>
+   <template-instance>site-redirect</template-instance>
+   <authentication>user</authentication>
+</page>

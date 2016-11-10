@@ -23,6 +23,7 @@ function main()
    // Apply the list of pages to the site object property
    var p = sitedata.getPage("site/" + siteId + "/dashboard");
    p.properties.sitePages = newPagesString;
+   p.properties.dashboardSitePage = "true";
    
    // Theme override for the site
    p.properties.theme = clientJSON.themeId;

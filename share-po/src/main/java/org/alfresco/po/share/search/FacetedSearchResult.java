@@ -33,7 +33,10 @@ import org.alfresco.po.HtmlPage;
 import org.alfresco.po.PageElement;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.admin.ActionsSet;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -46,11 +49,13 @@ public class FacetedSearchResult extends PageElement implements SearchResult
     private static final By TITLE = By.cssSelector("div.nameAndTitleCell span.alfresco-renderers-Property.alfresco-renderers-Property.small>span.inner>span.value");
     private static final By DATE = By.cssSelector("div.dateCell span.inner");
     private static final By DESCRIPTION = By.cssSelector("div.descriptionCell span.value");
-    private static final By SITE = By.cssSelector("div.siteCell span.inner");
+    private static final By SITE = By.cssSelector("span[id$='_SITE'] .value");
     private static final By ACTIONS = By.cssSelector("tr td.actionsCell");
     private static final By IMAGE = By.cssSelector("tbody[id=FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS] td.thumbnailCell img");
     private static final By FOLDER_PATH = By.xpath("//div[@class='pathCell']//span[@class='value']");
-
+    private static final By CHECKBOX = By.cssSelector(".alfresco-renderers-Selector");
+    private static final By SELECTEDCHECKBOX = By.cssSelector(".alfresco-lists-ItemSelectionMixin--selected");
+    Log logger = LogFactory.getLog(this.getClass());
     private WebDriver driver;
     private WebElement link;
     private String name;
@@ -68,7 +73,10 @@ public class FacetedSearchResult extends PageElement implements SearchResult
     private WebElement contentDetails;
     private String thumbnail;
     private List<String> pathFolders = new LinkedList<String>();
-
+    private WebElement checkBox;
+    private WebElement selectedcheckBox;
+    private final boolean isItemChecked;
+    
     /**
      * Instantiates a new faceted search result - some items may be null.
      */
@@ -105,6 +113,14 @@ public class FacetedSearchResult extends PageElement implements SearchResult
             thumbnail = imageLink.getAttribute("src");
 
         }
+        if (result.findElements(CHECKBOX).size() > 0)
+        {
+            checkBox = result.findElement(CHECKBOX);            
+        }
+        if (result.findElements(SELECTEDCHECKBOX).size() > 0)
+        {
+            selectedcheckBox = result.findElement(SELECTEDCHECKBOX);            
+        }        
 
         if (result.findElements(FOLDER_PATH).size() > 0)
         {
@@ -117,6 +133,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
         }
         this.factoryPage = factoryPage;
         isFolder = checkFolder(result);
+        isItemChecked = isItemChecked(result);
         actions = new SearchActionsSet(driver, result.findElement(ACTIONS), factoryPage);
 
     }
@@ -328,5 +345,56 @@ public class FacetedSearchResult extends PageElement implements SearchResult
     {
         return pathFolders;
     }
+    
+    /**
+     * Gets the result link.
+     *
+     * @return the link
+     */    
+    public WebElement getCheckBox()
+    {
+        return checkBox;
+    }
+    /**
+     * click the result imageLink.
+     *
+     * @return the preview pop up window
+     */
+    
+    public HtmlPage selectItemCheckBox()
+    {
+        checkBox.click();
+        return factoryPage.getPage(this.driver);
+    }
+    
+    /**
+	 * Checks if Item Check Box is selected
+	 * 
+	 * @return true if selected
+	 */
 
+    
+    private boolean isItemChecked(WebElement row)
+    {
+		try {			
+			if(row.findElement(SELECTEDCHECKBOX).isDisplayed())
+			{
+				return true;
+			}
+		} 
+		catch (NoSuchElementException nse) 
+		{
+			if (logger.isTraceEnabled()) 
+			{
+				logger.trace("checkbox not selected. ", nse);
+			}
+		}
+		return false;
+	}
+    
+    @Override
+    public boolean isItemCheckBoxSelected()
+    {
+        return isItemChecked;
+    }
 }

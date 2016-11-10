@@ -40,6 +40,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Page object for searching user and selecting user. Ideally should not live w/o
@@ -186,10 +188,10 @@ public class UserSearchPage extends SharePage
             else
             {
 
-                waitForElement(SEARCH_USER_INPUT, maxPageLoadingTime);
-                waitForElement(SEARCH_USER_BUTTON, maxPageLoadingTime);
-                waitForElement(cancelButton, maxPageLoadingTime);
-                waitForElement(saveButtonLocator, maxPageLoadingTime);
+                waitForElement(SEARCH_USER_INPUT, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                waitForElement(SEARCH_USER_BUTTON, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                waitForElement(cancelButton, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                waitForElement(saveButtonLocator, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                 Thread.sleep(3000);
                 List<WebElement> elems = driver.findElements(By.xpath("//tbody/tr/td[contains(@class, 'empty')]/div"));
                 for (WebElement elem : elems)

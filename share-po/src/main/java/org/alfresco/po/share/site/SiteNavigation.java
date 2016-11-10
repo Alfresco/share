@@ -103,14 +103,14 @@ public class SiteNavigation extends AbstractSiteNavigation
 //        return new CalendarPage(driver);
 //    }
 
-    @FindBy(id="HEADER_SITE_CONFIGURATION_DROPDOWN") Link config;
     /**
      * Mimics the action clicking the configure button.
      * This Features available only in the Enterprise 4.2 and Cloud 2.
      */
     public void selectConfigure()
     {
-        config.click();
+        WebElement config = findAndWait(By.id("HEADER_SITE_CONFIGURATION_DROPDOWN"));
+    	config.click();
     }
 
     @FindBy(id="HEADER_SITE_CONFIGURATION_DROPDOWN") Link configMore;
@@ -195,7 +195,7 @@ public class SiteNavigation extends AbstractSiteNavigation
     public HtmlPage selectInvite()
     {
         invite.click();
-        return factoryPage.instantiatePage(driver, InviteMembersPage.class);
+        return factoryPage.getPage(driver);
     }
     
 
@@ -220,6 +220,19 @@ public class SiteNavigation extends AbstractSiteNavigation
     {
         boolean val = isLinkActive(documentLibrary);
         return val;
+    }
+    
+     /**
+     * Mimics the action of selecting the site
+     * Site Dashboard link under More drop down.
+     * 
+     * @return HtmlPage site calendar page object
+     */
+    public HtmlPage selectSiteDashboardPage()
+    {
+        clickMoreIfExist();
+        driver.findElement(SITE_DASHBOARD_LINK).click();
+        return getCurrentPage();
     }
 
     /**
@@ -316,6 +329,17 @@ public class SiteNavigation extends AbstractSiteNavigation
     }
 
     /**
+     * Check if Delete Site link is displayed in the site configuration drop down
+     * 
+     * @return
+     */
+    public boolean isDeleteSiteDisplayed()
+    {
+        selectConfigure();
+        return isLinkDisplayed(DELETE_SITE);
+    }
+
+   /**
      * Mimics the action of join Site.
      * 
      * @return {@link DashBoardPage}
@@ -334,7 +358,30 @@ public class SiteNavigation extends AbstractSiteNavigation
         }
         throw new PageException("Not able to find Join Site Link.");
     }
+    
+    /**
+     * Check if Wiki link is displayed in the site navigation header
+     * 
+     * @return
+     */
+    public boolean isWikiDisplayed()
+    {
+        return isLinkDisplayed(WIKI_LINK);
+    }
 
+    /**
+     * Mimics the action of clicking on Delete Site link in site configuration drop down.
+     *
+     * @return {@link DeleteSitePage}
+     */
+    public HtmlPage selectDeleteSite()
+    {
+        selectConfigure();
+        driver.findElement(DELETE_SITE).click();
+        driver.findElement(By.id("ALF_SITE_SERVICE_DIALOG_CONFIRMATION_label")).click();
+        return getCurrentPage();
+    }
+    
     /**
      * Mimics the action of leave Site.
      * 

@@ -88,7 +88,7 @@ public class Navigation extends PageElement
     public HtmlPage selectMyDashBoard()
     {
         home.click();
-        return getCurrentPage();
+        return getCurrentPage().render();
     }
 
     @FindBy(id = "HEADER_PEOPLE_text")
@@ -601,7 +601,7 @@ public class Navigation extends PageElement
     {
         List<String> recentSites = getRecentSitesPresent();
         findAndWait(By.linkText(recentSites.get(0))).click();
-        return factoryPage.instantiatePage(driver, SiteDashboardPage.class);
+        return getCurrentPage();
     }
 
     /**
@@ -665,6 +665,23 @@ public class Navigation extends PageElement
         driver.navigate().refresh();
         selectSitesDropdown();
         driver.findElement(By.id("HEADER_SITES_MENU_FAVOURITES_text")).click();
+        return getCurrentPage();
+    }
+    
+    /**
+     * Select site from favourites.
+     * 
+     * @return HtmlPage
+     */
+    public HtmlPage selectSiteFromFavourties(String siteName)
+    {
+        // Refresh is needed since sites added in favourites don't reflect.
+        driver.navigate().refresh();
+        selectSitesDropdown();
+        driver.findElement(By.id("HEADER_SITES_MENU_FAVOURITES_text")).click();
+        //select site name
+        String siteSelector = "#HEADER_SITES_MENU_FAVOURITES_dropdown a[title = '" + siteName + "']";
+        findAndWait(By.cssSelector(siteSelector));
         return getCurrentPage();
     }
 

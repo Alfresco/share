@@ -29,6 +29,7 @@
             <div id="${el}-treeview" class="treeview"></div>
          </div>
          <div class="bdft">
+            <input type="button" id="${el}-link" value="${msg("button.link")}" />
             <input type="button" id="${el}-ok" value="${msg("button.ok")}" />
             <input type="button" id="${el}-cancel" value="${msg("button.cancel")}" />
          </div>

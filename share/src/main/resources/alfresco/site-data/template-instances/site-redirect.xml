@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/site-redirect</template-type>
+   <description>Site redirect page</description>
+   <components>
+
+      <!-- Title -->
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+
+      <!-- Navigation -->
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+      
+      <!-- Redirect -->
+      <component>
+         <region-id>site-redirect</region-id>
+         <url>/components/site/site-redirect</url>
+      </component>
+      
+      <!-- No Pages message -->
+      <component>
+         <region-id>site-no-pages</region-id>
+         <url>/components/site/site-no-pages</url>
+      </component>
+
+   </components>
+</template-instance>

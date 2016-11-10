@@ -118,6 +118,10 @@ public class ConfigureSavedSearchDialogBoxPage extends SharePage
             {
                 return getCurrentPage();
             }
+            else if (getCurrentPage().render() instanceof DashBoardPage)
+            {
+                return getCurrentPage();
+            }
             else
             {
                 throw new PageOperationException("Current page is not ConfigureSavedSearchDialog or SiteDashBoardPage or DashBoardPage");
