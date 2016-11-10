@@ -721,7 +721,7 @@ public abstract class DetailsPage extends SitePage
     /**
      * Confirm delete dialog acceptance action.
      */
-    protected void confirmDelete()
+    public void confirmDelete()
     {
         try
         {
