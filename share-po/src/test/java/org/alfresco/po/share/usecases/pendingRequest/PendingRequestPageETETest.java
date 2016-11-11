@@ -223,7 +223,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));    	
         
         //click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();        
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();        
     	
     	//Click Approve button
     	pendingRequestPage = editTaskPage.selectApproveButton().render();
@@ -270,7 +270,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));    	
         
         //click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();        
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();        
     	
     	//Click Reject button in Edit Task Page
     	pendingRequestPage = editTaskPage.selectRejectButton().render();
@@ -320,7 +320,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));    	
         
         //click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();
     	
     	//Enter comment
     	editTaskPage.enterComment(comment);    	
@@ -332,7 +332,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));
     	
     	//click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render(); 
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render(); 
     	
     	//Verify added comment is displayed in the comment text area
     	assertTrue(editTaskPage.readCommentFromCommentTextArea().contains(comment)); 
@@ -374,7 +374,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));    	
         
         //click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();
     	
     	//Enter comment
     	editTaskPage.enterComment(comment);
@@ -386,7 +386,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));
     	
     	//click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();
     	
     	//Verify added comment is not displayed in the comment text area
     	assertFalse(editTaskPage.readCommentFromCommentTextArea().contains(comment)); 
@@ -493,7 +493,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));
     	
     	//click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();    	
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();    	
     	editTaskPage.selectClaim().render();
     	
     	//Click Save button
@@ -516,7 +516,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
      	pendingRequestPage = navigatePendingRequsetPage(modSiteName5);
      	
      	//click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();    	
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();    	
     	editTaskPage.selectReleaseToPool().render();
     	
     	//Navigate to Pending request page
@@ -638,7 +638,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));    	
         
         //click on the view button on user2 request
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();        
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();        
     	
     	//Click Accept button in Edit Task Page
     	pendingRequestPage = editTaskPage.selectApproveButton().render();

@@ -159,7 +159,8 @@ public class PendingInvitesPage extends SharePage
     {
         try
         {            
-        	findAndWait(REQUEST_SEARCH_BTN).click();        	
+        	WebElement button = findAndWait(REQUEST_SEARCH_BTN);
+        	button.click();        	
             return findAndWaitForElements(REQUEST_LIST_OF_USERS);
         }
         catch (TimeoutException e)
@@ -209,7 +210,7 @@ public class PendingInvitesPage extends SharePage
      * @return HtmlPage
      */
 	
-    public HtmlPage clickViewButton(String username) 
+    public HtmlPage viewRequest(String username) 
 	{
 		try 
 		{
@@ -247,7 +248,7 @@ public class PendingInvitesPage extends SharePage
      * @param username
      * @return HtmlPage
      */
-    public HtmlPage clickApproveButton(String username)
+    public HtmlPage approveRequest(String username)
     {
         try 
         {

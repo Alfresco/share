@@ -61,7 +61,7 @@ public class PendingRequestPageTest extends AbstractTest
     String siteName1;
     String siteName2;
     String modSiteName;
-    List<WebElement> perndingRequestList;
+    List<WebElement> pendingRequestList;
     String userName;    
     private String userName1;
     private String userName2;
@@ -126,12 +126,14 @@ public class PendingRequestPageTest extends AbstractTest
     	siteMembersPage = siteDashboardPage.getSiteNav().selectMembersPage().render();
     	pendingRequestPage = siteMembersPage.navigateToPendingInvites().render();*/
     	pendingRequestPage = navigatePendingRequsetPage();
+    	// TODO: Remove this assertion as its covered above
     	assertEquals(pendingRequestPage.getRequests().size(), 2);
-    	editTaskPage = pendingRequestPage.clickViewButton(userName1).render();        
+    	editTaskPage = pendingRequestPage.viewRequest(userName1).render();        
     	assertTrue(editTaskPage instanceof EditTaskPage, "The return page should be an instance of EditTask page");
+    	// TODO: Edit Task > save and close
     	pendingRequestPage = navigatePendingRequsetPage();
     	assertEquals(pendingRequestPage.getRequests().size(), 2);
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();        
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();        
     	assertTrue(editTaskPage instanceof EditTaskPage, "The return page should be an instance of EditTask page");
     	
     }
@@ -144,7 +146,7 @@ public class PendingRequestPageTest extends AbstractTest
     	pendingRequestPage = siteMembersPage.navigateToPendingInvites().render();*/
     	pendingRequestPage = navigatePendingRequsetPage();
     	assertEquals(pendingRequestPage.getRequests().size(), 2);
-    	pendingRequestPage.clickApproveButton(userName1);    	
+    	pendingRequestPage.approveRequest(userName1);    	
     	assertEquals(pendingRequestPage.getRequests().size(), 1);
     	
     }
@@ -160,7 +162,7 @@ public class PendingRequestPageTest extends AbstractTest
     	pendingRequestPage = navigatePendingRequsetPage();
     	pendingRequestPage.searchRequest(userName2);
         assertEquals(pendingRequestPage.getRequests().size(), 1);
-    	editTaskPage = pendingRequestPage.clickViewButton(userName2).render();        
+    	editTaskPage = pendingRequestPage.viewRequest(userName2).render();        
     	assertTrue(editTaskPage instanceof EditTaskPage, "The return page should be an instance of EditTask page");
         
     }
@@ -174,11 +176,11 @@ public class PendingRequestPageTest extends AbstractTest
     	pendingRequestPage = navigatePendingRequsetPage();
     	pendingRequestPage.searchRequest(userName2);
         assertEquals(pendingRequestPage.getRequests().size(), 1);
-    	pendingRequestPage.clickApproveButton(userName2).render();        
+        pendingRequestPage = pendingRequestPage.approveRequest(userName2).render();        
     	assertEquals(pendingRequestPage.getRequests().size(), 0);
     }
     
-    @Test
+    // TODO: Move to Steps as Utils
     private SiteFinderPage requestToJoinModSite()
     {
     	siteFinder = dashBoard.getNav().selectSearchForSites().render();
@@ -186,7 +188,7 @@ public class PendingRequestPageTest extends AbstractTest
         return siteFinder.requestToJoinSite(modSiteName).render();    		
     }
     
-    @Test
+    // TODO: Move to Steps as Utils    
     private PendingInvitesPage navigatePendingRequsetPage()
     {
     	siteDashboardPage = siteActions.openSiteDashboard(driver, modSiteName).render();
