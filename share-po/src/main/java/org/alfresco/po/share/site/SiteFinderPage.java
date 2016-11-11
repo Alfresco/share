@@ -58,7 +58,7 @@ public class SiteFinderPage extends SharePage
 
     public enum ButtonType
     {
-        Join("Join"), RequestToJoin("Request to Join"), Leave("Leave"), Delete("Delete");
+        Join("Join"), RequestToJoin("Request to Join"), Leave("Leave"), Delete("Delete"), CancelRequset("Cancel Request");
 
         private String value;
 
@@ -391,6 +391,22 @@ public class SiteFinderPage extends SharePage
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
         findButtonForSite(siteName, "Leave").click();
+        return getCurrentPage();
+    }
+    
+    /**
+     * Simulates the action of user clicking on Cancel Request button.
+     * 
+     * @param siteName String site name
+     * @return {@link SiteFinderPage} page response object
+     */
+    public HtmlPage cancelRequestSite(final String siteName)
+    {
+        if (StringUtils.isEmpty(siteName))
+        {
+            throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
+        }
+        findButtonForSite(siteName, "Cancel Request").click();
         return getCurrentPage();
     }
 

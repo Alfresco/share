@@ -35,6 +35,7 @@ import static org.alfresco.po.share.task.EditTaskPage.Button.REASSIGN;
 import static org.alfresco.po.share.task.EditTaskPage.Button.REJECT;
 import static org.alfresco.po.share.task.EditTaskPage.Button.SAVE_AND_CLOSE;
 import static org.alfresco.po.share.task.EditTaskPage.Button.TASK_DONE;
+import static org.alfresco.po.share.task.EditTaskPage.Button.RELEASE_TO_POOL;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -245,7 +246,7 @@ public class EditTaskPage extends SharePage
     }
 
     /**
-     * TODO - Dont know whether its absence from 4.2 is expected behaviour.
+     * TODO - Don't know whether its absence from 4.2 is expected behaviour.
      * Selects comment box and enters comment into it.
      * public void enterComment(String comment) { if (dojoSupport) { throw new
      * UnsupportedOperationException
@@ -542,6 +543,18 @@ public class EditTaskPage extends SharePage
         findAndWait(CLAIM.by).click();
         waitUntilAlert();
         return this.render();
+    }
+    
+    /**
+     * Method mimic click interaction with Release to pool button.
+     * 
+     * @return EditTaskPage
+     */
+    public HtmlPage selectReleaseToPool()
+    {
+    	findAndWait(RELEASE_TO_POOL.by).click();
+        waitUntilAlert();
+        return getCurrentPage();
     }
 
     /**
