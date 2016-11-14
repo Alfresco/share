@@ -459,7 +459,7 @@ public class DocumentLibraryPage extends SitePage
             boolean noFiles = !hasFiles();
             if (logger.isTraceEnabled())
             {
-                logger.trace(String.format("Documet list has no files: %s", noFiles));
+                logger.trace(String.format("Document list has no files: %s", noFiles));
             }
 
             if (noFiles)
