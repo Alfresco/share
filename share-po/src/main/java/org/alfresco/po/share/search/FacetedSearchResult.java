@@ -405,9 +405,9 @@ public class FacetedSearchResult extends PageElement implements SearchResult
                 return true;
             }
         }
-        catch (NoSuchElementException nse)
+        catch (WebDriverException we)
         {
-            logger.error("Actions button not present", nse);
+            logger.error("Actions button not enabled", we);
         }
         return false;
     }
@@ -416,7 +416,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
      * Click on Actions button.
      *
      */
-    public void clickActionsButton()
+    private void clickActionsButton()
     {
         try
         {
@@ -439,7 +439,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
      *
      * @return HtmlPage
      */
-    public HtmlPage selectActionFromActionsMenu(FacetedSearchResultActionsMenu option)
+    public HtmlPage selectAction(FacetedSearchResultActionsMenu option)
     {
         try
         {
@@ -452,11 +452,11 @@ public class FacetedSearchResult extends PageElement implements SearchResult
             }
             throw new PageException("Actions drop down not visible");
         }
-        catch (TimeoutException e)
+        catch (NoSuchElementException e)
         {
             String exceptionMessage = "Not able to find the option";
             logger.error(exceptionMessage, e);
-            throw new PageException(exceptionMessage);
+            throw new PageException(exceptionMessage, e);
         }
     }
     

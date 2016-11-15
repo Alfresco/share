@@ -25,7 +25,6 @@
  */
 package org.alfresco.po.share;
 
-//import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.openqa.selenium.WebDriver;
@@ -44,10 +43,11 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class DeleteGroupFromGroupPage extends SharePage
 {
+    private static Log logger = LogFactory.getLog(DeleteGroupFromGroupPage.class);
+    
     private static final String CONFIRM_MESSAGE = "div[class='yui-module yui-overlay yui-panel' ]>div[class='bd']";
     private static final String DELETE_BUTTON = "button[id*='remove-button']";
     private static final String CANCEL_BUTTON = "div[id*='deletegroupdialog_c'] button[id*='cancel-button']";
-//    private static Log logger = LogFactory.getLog(CopyOrMoveContentPage.class);
 
     public enum Action
     {
