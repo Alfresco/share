@@ -239,11 +239,16 @@
                     this.widgets.dialog.hide();
 
                     var msgFailure = "message.failure";
+                    var error = response.serverResponse.responseText.toString();
 
                     if (response && response.serverResponse && response.serverResponse.status == 408)
                     {
                        msgFailure  = "message.timeout";
                     }
+                    else if (error.indexOf("already exists in the destination folder") != -1)
+               	    {
+                    	msgFailure = "message.exists.failure";
+               	    }
 
                     Alfresco.util.PopupManager.displayMessage(
                     {
