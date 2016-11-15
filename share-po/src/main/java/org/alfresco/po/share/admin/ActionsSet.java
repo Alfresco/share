@@ -110,9 +110,10 @@ public class ActionsSet extends PageElement
         // Iterate over the menuRows and click the control that matches the named action
         for (WebElement menuRow : getMenuRows())
         {
-            if (actionName.equalsIgnoreCase(StringUtils.trim(menuRow.findElement(MENU_LABEL).getText())))
+        	WebElement actionMenu = menuRow.findElement(MENU_LABEL);
+            if (actionName.equalsIgnoreCase(StringUtils.trim(actionMenu.getText())))
             {
-                menuRow.click();
+            	actionMenu.click();
                 return getCurrentPage();
             }
         }
