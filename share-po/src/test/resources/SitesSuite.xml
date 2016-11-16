@@ -108,4 +108,10 @@
  		<class name="org.alfresco.po.share.site.DeleteSitePageTest" />
  	</classes>
  </test>
+ <test name="PendingRequestPageTest">
+ 	<classes>
+ 		<class name="org.alfresco.po.share.site.PendingRequestPageTest" />
+ 	</classes>
+ </test>
+ 
 </suite>

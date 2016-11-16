@@ -51,7 +51,10 @@ import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
+import org.alfresco.po.share.site.PendingInvitesPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.SiteFinderPage;
+import org.alfresco.po.share.site.SiteMembersPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.site.UploadFilePage;
@@ -1258,5 +1261,29 @@ public class SiteActions extends CommonActions
 
         return factoryPage.getPage(driver).render();
 
+    }
+    
+    /**
+     * Utility for requesting to join moderated site when user already logged in
+     * @param  siteName 
+     */
+    public  SiteFinderPage requestToJoinModSite(WebDriver driver, String modSiteName)
+    {
+    	DashBoardPage dashBoard = openUserDashboard(driver).render();
+    	SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
+        siteFinder = siteFinder.searchForSite(modSiteName).render();
+        return siteFinder.requestToJoinSite(modSiteName).render();    		
+    }
+    
+    /**
+     * Utility for navigating to PendingRequset Page when user already logged in
+     * @param  siteName     
+     */
+    public HtmlPage navigatePendingRequsetPage(WebDriver driver, String modSiteName)
+    {
+    	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render();
+    	SiteMembersPage siteMembersPage = siteDashboardPage.getSiteNav().selectMembersPage().render();
+    	return siteMembersPage.navigateToPendingInvites().render();
+    	
     }
 }

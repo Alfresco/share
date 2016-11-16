@@ -512,7 +512,8 @@ public class EditTaskPage extends SharePage
      */
     public ReassignPage clickReassign()
     {
-        driver.findElement(REASSIGN.by).click();
+    	WebElement reassignby = driver.findElement(REASSIGN.by);
+    	reassignby.click();
         return factoryPage.instantiatePage(driver, ReassignPage .class);
     }
 
@@ -540,7 +541,8 @@ public class EditTaskPage extends SharePage
      */
     public EditTaskPage selectClaim()
     {
-        findAndWait(CLAIM.by).click();
+    	WebElement selectClaim = findAndWait(CLAIM.by);
+    	selectClaim.click();
         waitUntilAlert();
         return this.render();
     }
@@ -552,7 +554,8 @@ public class EditTaskPage extends SharePage
      */
     public HtmlPage selectReleaseToPool()
     {
-    	findAndWait(RELEASE_TO_POOL.by).click();
+    	WebElement releasetopool = findAndWait(RELEASE_TO_POOL.by);
+    	releasetopool.click();
         waitUntilAlert();
         return getCurrentPage();
     }
