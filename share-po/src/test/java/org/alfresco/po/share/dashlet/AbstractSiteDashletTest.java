@@ -27,6 +27,7 @@ package org.alfresco.po.share.dashlet;
 
 import java.io.File;
 
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SiteFinderPage;
@@ -35,7 +36,6 @@ import org.alfresco.po.share.site.UploadFilePage;
 import org.alfresco.po.share.site.document.AbstractDocumentTest;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.document.DocumentLibraryPage;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -82,7 +82,7 @@ public class AbstractSiteDashletTest extends AbstractDocumentTest
         }
     }
    
-    protected void navigateToSiteDashboard()
+    protected HtmlPage navigateToSiteDashboard()
     {
         if(logger.isTraceEnabled())
         {
@@ -95,6 +95,7 @@ public class AbstractSiteDashletTest extends AbstractDocumentTest
         finderPage = finderPage.searchForSite(siteName).render();
         finderPage = siteUtil.siteSearchRetry(driver, finderPage, siteName);
         siteDashBoard = finderPage.selectSite(siteName).render();
+        return siteDashBoard;
     }
     
     /**

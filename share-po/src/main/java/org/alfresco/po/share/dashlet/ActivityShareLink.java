@@ -33,6 +33,7 @@ import org.alfresco.po.share.ShareLink;
  * description of activity and finally the site link.
  * 
  * @author Michael Suzuki
+ * @author mbhave
  * @since 1.5
  */
 public class ActivityShareLink
@@ -41,7 +42,40 @@ public class ActivityShareLink
     private final ShareLink user;
     private final ShareLink document;
     private final ShareLink site;
+    private final String group;
 
+    /**
+     * Constructor.
+     * 
+     * @param user {@link ShareLink} user link
+     * @param document {@link ShareLink} document link
+     * @param site {@link ShareLink} site link
+     */
+    public ActivityShareLink(final ShareLink user, final ShareLink document, final ShareLink site, final String group, final String description)
+    {
+        this.user = user;
+        this.document = document;
+        this.site = site;
+        this.group = group;
+        this.description = description;
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param user {@link ShareLink} user link
+     * @param document {@link ShareLink} document link
+     * @param site {@link ShareLink} site link
+     */
+    public ActivityShareLink(final String group, final ShareLink site, final String description)
+    {
+        this.group = group;
+        this.site = site;
+        this.description = description;
+        this.user = null;
+        this.document = null;
+    }
+    
     /**
      * Constructor.
      * 
@@ -67,7 +101,8 @@ public class ActivityShareLink
         this.document = document;
         this.site = site;
         this.description = description;
-    }
+        this.group = null;
+    }    
 
     /**
      * Constructor.
@@ -89,6 +124,7 @@ public class ActivityShareLink
         this.document = null;
         this.site = site;
         this.description = description;
+        this.group = null;
     }
 
     /**
@@ -108,6 +144,7 @@ public class ActivityShareLink
         this.description = description;
         this.document = null;
         this.site = null;
+        this.group = null;
     }
 
     @Override
@@ -142,5 +179,9 @@ public class ActivityShareLink
     {
         return site;
     }
+
+	public String getGroup() {
+		return group;
+	}
 
 }

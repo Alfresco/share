@@ -68,6 +68,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
 
     private List<ShareLink> userLinks;
     private List<ShareLink> documentLinks;
+    private List<String> groupNames;
     private List<String> activityDescriptions;
 
     private Log logger = LogFactory.getLog(SiteActivitiesDashlet.class);
@@ -99,6 +100,7 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
     {
         userLinks = new ArrayList<ShareLink>();
         documentLinks = new ArrayList<ShareLink>();
+        groupNames = new ArrayList<String>();
         activityDescriptions = new ArrayList<String>();
         try
         {
@@ -114,12 +116,36 @@ public class SiteActivitiesDashlet extends AbstractDashlet implements Dashlet
             List<WebElement> links = driver.findElements(By.cssSelector("div[id$='default-activityList'] > div.activity div:last-child[class$='content']"));
             for (WebElement div : links)
             {
-                WebElement userLink = div.findElement(By.cssSelector("a:nth-of-type(1)"));
-                userLinks.add(new ShareLink(userLink, driver, factoryPage));
-
-                WebElement documentLink = div.findElement(By.cssSelector("a:nth-of-type(2)"));
-                documentLinks.add(new ShareLink(documentLink, driver, factoryPage));
-
+                try
+                {
+                	WebElement userLink = div.findElement(By.cssSelector("a:nth-of-type(1)"));
+                	userLinks.add(new ShareLink(userLink, driver, factoryPage));
+                }
+                catch(NoSuchElementException nse)
+                {
+                	// No User Links
+                }
+                
+                try
+                {
+                	WebElement documentLink = div.findElement(By.cssSelector("a:nth-of-type(2)"));
+                	documentLinks.add(new ShareLink(documentLink, driver, factoryPage));
+				} 
+                catch (NoSuchElementException nse) 
+                {
+					// No Content Links
+				}
+                
+                try
+                { 
+                	WebElement groupLink = div.findElement(By.cssSelector("span.detail.em"));
+                	groupNames.add(groupLink.getText());
+                }
+                catch(NoSuchElementException nse)
+                {
+                	// No Group Activities
+                }
+                
                 WebElement desc = div.findElement(By.cssSelector("span.detail"));
                 activityDescriptions.add(desc.getText());
             }
