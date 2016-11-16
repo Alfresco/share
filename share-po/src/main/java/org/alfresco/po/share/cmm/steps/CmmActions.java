@@ -67,7 +67,6 @@ import org.alfresco.po.share.cmm.enums.IndexingOptions;
 import org.alfresco.po.share.cmm.enums.MandatoryClassifier;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
 import org.alfresco.po.share.search.FacetedSearchPage;
-import org.alfresco.po.share.search.SearchBox;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.document.DetailsPage;
 import org.alfresco.po.share.site.document.EditDocumentPropertiesPage;
@@ -1513,20 +1512,6 @@ public class CmmActions extends CommonActions
         createPropertyPopup.setIndexingOption(indexingOption);
 
         return createPropertyPopup.selectCreateButton().render();
-    }
-
-    /**
-     * Util to perform search using the given search string and value
-     * 
-     * @param driver
-     * @param searchString
-     * @return FacetedSearchPage
-     */
-    public HtmlPage search(WebDriver driver, String searchString)
-    {
-        SearchBox search = getSharePage(driver).getSearch();
-        FacetedSearchPage resultPage = search.search(searchString).render();
-        return resultPage;
     }
 
     /**

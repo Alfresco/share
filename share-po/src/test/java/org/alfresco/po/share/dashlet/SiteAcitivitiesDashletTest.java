@@ -49,13 +49,18 @@ import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet.LinkType;
+import org.alfresco.po.share.enums.ActivityType;
+import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.site.CustomizeSitePage;
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.links.LinksDetailsPage;
 import org.alfresco.po.share.site.links.LinksPage;
+import org.alfresco.po.share.steps.SiteActions;
 import org.alfresco.po.thirdparty.firefox.RssFeedPage;
 import org.alfresco.test.FailedTestListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -74,10 +79,12 @@ public class SiteAcitivitiesDashletTest extends AbstractSiteDashletTest
 {
     private static final String SITE_ACTIVITY = "site-activities";
     private static final String LINK_COMMENT = "Link Comment";
-    private static final String DELETE_LINK_COMMENT_NOTIFICATION = "Administrator deleted a comment from SiteAcitivitiesDashletTest";
+    private static final String DELETE_LINK_COMMENT_NOTIFICATION = " deleted a comment from SiteAcitivitiesDashletTest";
     private String text = getClass().getSimpleName();
     private String url = "www.alfresco.com";
+    @Autowired SiteActions siteActions;
     
+    SiteDashboardPage siteDashBoard;
     
 
     @BeforeClass(groups = { "alfresco-one" })
@@ -85,7 +92,7 @@ public class SiteAcitivitiesDashletTest extends AbstractSiteDashletTest
     {
         siteName = "SiteActivitiesDashletTests" + System.currentTimeMillis();
         uploadDocument();
-        navigateToSiteDashboard();
+        siteDashBoard = navigateToSiteDashboard().render();
     }
 
     @AfterClass(groups = { "alfresco-one" })
@@ -118,36 +125,13 @@ public class SiteAcitivitiesDashletTest extends AbstractSiteDashletTest
     @Test(dependsOnMethods = "selectSiteActivityDashlet")
     public void getActivities() throws IOException
     {
-        SiteActivitiesDashlet dashlet = dashletFactory.getDashlet(driver, SiteActivitiesDashlet.class).render();
-        RenderTime timer = new RenderTime(50000);
-        while (true)
-        {
-            timer.start();
-            synchronized (this)
-            {
-                try
-                {
-                    this.wait(1000L);
-                }
-                catch (InterruptedException e)
-                {
-                }
-            }
-            try
-            {
-                driver.navigate().refresh();
-                dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
-                if (!dashlet.getSiteActivities(LinkType.User).isEmpty())
-                    break;
-            }
-            catch (PageException e)
-            {
-            }
-            finally
-            {
-                timer.end();
-            }
-        }
+        String activityEntry = "Administrator added document " + fileName;
+            
+        Assert.assertTrue(siteActions.searchSiteDashBoardWithRetry(driver, Dashlets.SITE_ACTIVITIES, activityEntry, true, siteName, ActivityType.DESCRIPTION));
+        	
+        siteDashBoard = siteActions.openSiteDashboard(driver, siteName);
+        SiteActivitiesDashlet dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
+        
         List<ShareLink> userLinks = dashlet.getSiteActivities(LinkType.User);
         List<ShareLink> documentLinks = dashlet.getSiteActivities(LinkType.Document);
         Assert.assertNotNull(userLinks);
@@ -263,45 +247,8 @@ public class SiteAcitivitiesDashletTest extends AbstractSiteDashletTest
         assertTrue(allHistoryFilters.contains(FOURTEEN_DAYS));
         assertTrue(allHistoryFilters.contains(TWENTY_EIGHT_DAYS));
     }
-
+    
     @Test(dependsOnMethods = "getAllHistoryFilters")
-    public void checkDeleteLinkCommentNotification() throws Exception
-    {
-       //customise site dashboard with a link
-       navigateToSiteDashboard();
-       CustomizeSitePage customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
-       List<SitePageType> addPageTypes = new ArrayList<SitePageType>();
-       addPageTypes.add(SitePageType.LINKS);
-       customizeSitePage.addPages(addPageTypes).render();
-       LinksPage linksPage = siteDashBoard.getSiteNav().selectLinksPage().render();
-       assertNotNull(linksPage);
-        
-       //create a link
-       LinksDetailsPage linksDetailsPage = linksPage.createLink(text, url).render();
-       assertEquals(linksDetailsPage.getLinkTitle(), text);
-       assertNotNull(linksDetailsPage);
-       linksDetailsPage = resolvePage(driver).render();
-       
-       //add a comment to the link
-       linksDetailsPage.addComment(LINK_COMMENT);
-               
-       //delete added comment
-       linksDetailsPage.deleteComment(LINK_COMMENT);
-       linksDetailsPage.confirmDelete();
-       
-       Thread.sleep(solrWaitTime); //wait solr
-       
-       //check notification
-       navigateToSiteDashboard();
-       SiteActivitiesDashlet dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
-       siteDashBoard = dashlet.selectHistoryFilter(TODAY).render(); 
-       dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
-       Assert.assertTrue(dashlet.getSiteActivityDescriptions().get(0).contains(DELETE_LINK_COMMENT_NOTIFICATION));
-
-    }
-    
-    
-    @Test(dependsOnMethods = "checkDeleteLinkCommentNotification")
     public void selectUserFilter()
     {
         navigateToSiteDashboard();
@@ -339,4 +286,42 @@ public class SiteAcitivitiesDashletTest extends AbstractSiteDashletTest
         dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
         assertEquals(dashlet.getCurrentHistoryFilter(), SEVEN_DAYS);
     }
+
+    @Test(dependsOnMethods = "selectHistoryFilter")
+    public void checkDeleteLinkCommentNotification() throws Exception
+    {
+       //Customise site dashboard with a link
+       navigateToSiteDashboard();
+       CustomizeSitePage customizeSitePage = siteDashBoard.getSiteNav().selectCustomizeSite().render();
+       List<SitePageType> addPageTypes = new ArrayList<SitePageType>();
+       addPageTypes.add(SitePageType.LINKS);
+       customizeSitePage.addPages(addPageTypes).render();
+       LinksPage linksPage = siteDashBoard.getSiteNav().selectLinksPage().render();
+       assertNotNull(linksPage);
+        
+       //create a link
+       LinksDetailsPage linksDetailsPage = linksPage.createLink(text, url).render();
+       assertEquals(linksDetailsPage.getLinkTitle(), text);
+       assertNotNull(linksDetailsPage);
+       linksDetailsPage = resolvePage(driver).render();
+       
+       //add a comment to the link
+       linksDetailsPage.addComment(LINK_COMMENT);
+               
+       //delete added comment
+       linksDetailsPage.deleteComment(LINK_COMMENT);
+       linksDetailsPage.confirmDelete();
+       
+       String activityEntry = "Administrator" + DELETE_LINK_COMMENT_NOTIFICATION;
+       Assert.assertTrue(siteActions.searchSiteDashBoardWithRetry(driver, Dashlets.SITE_ACTIVITIES, activityEntry, true, siteName, ActivityType.DESCRIPTION));
+
+       
+       //check notification
+       navigateToSiteDashboard();
+       SiteActivitiesDashlet dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
+       siteDashBoard = dashlet.selectHistoryFilter(TODAY).render(); 
+       dashlet = siteDashBoard.getDashlet(SITE_ACTIVITY).render();
+       Assert.assertTrue(dashlet.getSiteActivityDescriptions().get(0).contains(DELETE_LINK_COMMENT_NOTIFICATION));
+    }
+
 }
