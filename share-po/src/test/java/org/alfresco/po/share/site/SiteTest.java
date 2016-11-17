@@ -110,7 +110,8 @@ public class SiteTest extends AbstractTest
     @BeforeMethod
     public void navigateToDash()
     {
-        SharePage page = resolvePage(driver).render();
+        driver.navigate().refresh();
+    	SharePage page = resolvePage(driver).render();
         dashBoard = page.getNav().selectMyDashBoard().render();
     }
 
