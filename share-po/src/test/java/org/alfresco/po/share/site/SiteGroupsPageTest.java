@@ -135,7 +135,7 @@ public class SiteGroupsPageTest extends AbstractTest
     @Test(dependsOnMethods = "testAssignRole")
     public void testGroupNameInUserActivitiesDashlet()
     {
-    	String activityEntry = '"' + groupId + '"' + " group added to site " + siteName + " with role " + UserRole.COLLABORATOR;
+    	String activityEntry = '"' + groupName + '"' + " group added to site " + siteName + " with role " + UserRole.COLLABORATOR;
 
     	siteActions.openUserDashboard(driver);
 

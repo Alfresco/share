@@ -105,7 +105,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         siteUtil.deleteSite(username, password, siteName);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, groups = "alfresco-one")
+    @Test(expectedExceptions = IllegalArgumentException.class, groups = "alfresco-one", priority = 1)
     public void getShareContentWithNull()
     {
         DocumentLibraryPage lib = factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
@@ -119,7 +119,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
      *
      * @throws Exception
      */
-    @Test(dependsOnMethods = "getShareContentWithNull", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 2)
     public void createNewFolder() throws Exception
     {
         SitePage page = resolvePage(driver).render();
@@ -143,7 +143,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertNotNull(documentLibPage.getFileDirectoryInfo(folderName));
     }
 
-    @Test(dependsOnMethods = "createNewFolder", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 3)
     public void uploadFile() throws Exception
     {
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
@@ -153,7 +153,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertNotNull(documentLibPage.getFileDirectoryInfo(file1.getName()));
     }
 
-    @Test(dependsOnMethods = "uploadFile", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 4)
     public void testBrowseToEntry() throws Exception
     {
         documentLibPage = documentLibPage.browseToEntry(folderName).render();
@@ -167,7 +167,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
     }
 
-    @Test(dependsOnMethods = "uploadFile", groups="alfresco-one")
+    @Test(groups="alfresco-one", priority = 5)
     public void editProperites()
     {
         FileDirectoryInfo fileInfo = documentLibPage.getFiles().get(1);
@@ -180,7 +180,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         documentLibPage = editPage.selectSave().render();
     }
 
-    @Test(dependsOnMethods = "editProperites", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 6)
     public void cancelEditProperties()
     {
         FileDirectoryInfo fileInfo = documentLibPage.getFiles().get(1);
@@ -192,14 +192,14 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertEquals(fileInfo.getName(), NEW_TEST_FILENAME);
     }
 
-    @Test(dependsOnMethods = "cancelEditProperties", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 7)
     public void deleteFile()
     {
         documentLibPage = documentLibPage.deleteItem(NEW_TEST_FILENAME).render();
         assertEquals(documentLibPage.getFiles().size(), 1);
     }
 
-    @Test(dependsOnMethods = "deleteFile", groups = "alfresco-one")
+    @Test(priority = 8, groups = "alfresco-one")
     public void navigateToFolder() throws IOException
     {
         documentLibPage = documentLibPage.selectFolder(folderName).render();
@@ -207,7 +207,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertEquals(files.size(), 0);
     }
 
-    @Test(dependsOnMethods = "navigateToFolder", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 9)
     public void goToSubFolders() throws Exception
     {
         SitePage page = resolvePage(driver).render();
@@ -231,7 +231,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertEquals(files.size(), 0);
     }
 
-    @Test(dependsOnMethods = "goToSubFolders", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 10)
     public void deleteFileOrFolder()
     {
         SitePage page = resolvePage(driver).render();
@@ -245,7 +245,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertEquals(files.size(), 0);
     }
 
-    @Test(dependsOnMethods = "deleteFileOrFolder", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 11)
     public void createNewFolderWithTitle() throws Exception
     {
         String title = "TestingFolderTitle";
@@ -263,7 +263,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(folder.getTitle().contains(title));
     }
 
-    @Test(dependsOnMethods = "createNewFolderWithTitle", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 12)
     public void selectDetailedView() throws Exception
     {
         SitePage page = resolvePage(driver).render();
@@ -274,14 +274,15 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertEquals(documentLibPage.getFiles().size(), noOfFiles);
     }
 
-    @Test(dependsOnMethods = "selectDetailedView", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 13)
     public void createFolderSelectCancel() throws Exception
     {
         NewFolderPage newFolderPage = documentLibPage.getNavigation().selectCreateNewFolder().render();
         documentLibPage = newFolderPage.selectCancel().render();
     }
 
-    @Test
+    // Disabling test as its not relevant to Share
+    @Test(priority = 14, enabled = false)
     public void testBadCaseOfPaginationRendered()
     {
         DocumentLibraryPage lib = factoryPage.instantiatePage(driver, DocumentLibraryPage.class);
@@ -294,7 +295,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
      * @throws Exception
      * <br/><br/>author sprasanna
      */
-    @Test(dependsOnMethods = "createFolderSelectCancel", groups = "alfresco-one")
+    @Test(groups = "alfresco-one", priority = 15)
     public void isContentUploadedSucessfulTest() throws Exception
     {
         file3 = siteUtil.prepareFile();
@@ -303,7 +304,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(documentLibPage.isItemVisble(file3.getName()), "File is uploaded successfully");
     }
 
-    @Test(dependsOnMethods = "isContentUploadedSucessfulTest", groups = { "alfresco-one" })
+    @Test(groups = { "alfresco-one" }, priority = 16)
     public void testGetPreviewUrl()
     {
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
@@ -312,7 +313,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(filePreviewUrl.startsWith(shareUrl),"URL Found: " + filePreviewUrl + "Share URL: " + shareUrl);
     }
 
-    @Test(dependsOnMethods = "testGetPreviewUrl", groups = { "alfresco-one" })
+    @Test(groups = { "alfresco-one" }, priority = 17)
     public void testContentCreationButtons()
     {
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
@@ -326,7 +327,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(documentLibPage.getNavigation().isNewFolderVisible());
     }
 
-    @Test(dependsOnMethods = "testContentCreationButtons", groups = { "alfresco-one" })
+    @Test(groups = { "alfresco-one" }, priority = 18)
     public void testSelectItems()
     {
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
@@ -339,7 +340,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertFalse(documentLibPage.getNavigation().isSelectedItemEnabled());
     }
 
-    @Test(dependsOnMethods = "testSelectItems", groups = { "alfresco-one" })
+    @Test(groups = { "alfresco-one" }, priority = 19)
     public void isCrumbTrailVisible()
     {
         assertTrue(documentLibPage.getNavigation().isCrumbTrailVisible());
@@ -347,7 +348,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertFalse(documentLibPage.getNavigation().isCrumbTrailVisible());
     }
 
-    @Test(dependsOnMethods = "isCrumbTrailVisible", groups = { "alfresco-one" })
+    @Test(groups = { "alfresco-one" }, priority = 20)
     public void isOptionPresent()
     {
         // Check the Options menu
@@ -366,13 +367,13 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(documentLibPage.getNavigation().isOptionPresent(LibraryOption.MEDIA_VIEW));
     }
 
-    @Test(dependsOnMethods = "isCrumbTrailVisible", groups = "Enterprise4.2")
+    @Test(groups = "Enterprise4.2", priority = 21)
     public void isSelectedItemMenuVisible()
     {
         assertFalse(documentLibPage.getNavigation().isSelectedItemMenuVisible());
     }
 
-    @Test(dependsOnMethods = "isSelectedItemMenuVisible", groups = "Enterprise4.2", expectedExceptions = PageException.class, expectedExceptionsMessageRegExp = "Selected Items Button found, but is not enabled please select one or more item")
+    @Test(priority = 22, groups = "Enterprise4.2", expectedExceptions = PageException.class, expectedExceptionsMessageRegExp = "Selected Items Button found, but is not enabled please select one or more item")
     public void clickSelectedItemsWithException()
     {
         driver.navigate().refresh();// refresh to unselect rows
@@ -380,7 +381,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         documentLibPage = documentLibPage.getNavigation().clickSelectedItems().render();
     }
 
-    @Test(dependsOnMethods = "clickSelectedItemsWithException", groups = "Enterprise4.2")
+    @Test(priority = 23, groups = "Enterprise4.2")
     public void clickSelectedItems()
     {
         documentLibPage.getFileDirectoryInfo(folderName).selectCheckbox();
@@ -388,7 +389,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(documentLibPage.getNavigation().isSelectedItemMenuVisible());
     }
 
-    @Test(dependsOnMethods = "clickSelectedItems", groups = "Enterprise4.2")
+    @Test(priority = 24, groups = "Enterprise4.2")
     public void isSelectedItemMenuCorrectForDocument()
     {
         driver.navigate().refresh();//refresh to unselect rows
@@ -398,7 +399,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(documentLibPage.getNavigation().isSelectedItemMenuCorrectForDocument());
     }
 
-    @Test(dependsOnMethods = "isSelectedItemMenuCorrectForDocument", groups = "Enterprise4.2")
+    @Test(priority = 25, groups = "Enterprise4.2")
     public void isSelectedItemMenuCorrectForFolder()
     {
         driver.navigate().refresh();//refresh to unselect rows
@@ -407,7 +408,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(documentLibPage.getNavigation().isSelectedItemMenuCorrectForFolder());
     }
 
-    @Test(dependsOnMethods = "isSelectedItemMenuCorrectForFolder", groups = "Enterprise4.2")
+    @Test(priority = 26, groups = "Enterprise4.2")
     public void selectDownloadAsZip()
     {
         if (documentLibPage.getNavigation().isSelectedItemMenuVisible())
@@ -417,7 +418,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         documentLibPage.getNavigation().selectDownloadAsZip();
     }
 
-    @Test(dependsOnMethods = "selectDownloadAsZip", groups = "Enterprise4.2")
+    @Test(priority = 27, groups = "Enterprise4.2")
     public void selectAll() throws Exception
     {
         documentLibPage.render();
@@ -432,14 +433,14 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         }
     }
 
-    @Test(dependsOnMethods = "selectAll", groups = "Enterprise4.2")
+    @Test(priority = 28, groups = "Enterprise4.2")
     public void testIsCheckBoxPresent() throws Exception
     {
         documentLibPage = resolvePage(driver).render();
         assertTrue(documentLibPage.isCheckBoxPresent());
     }
 
-    @Test(dependsOnMethods = "testIsCheckBoxPresent", groups = "Enterprise4.2")
+    @Test(priority = 29, groups = "Enterprise4.2")
     public void deleteFolderFromNavigation() throws Exception
     {
         documentLibPage.render();
@@ -450,7 +451,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         deletePage.selectAction(Action.Delete).render();
     }
 
-    @Test(dependsOnMethods = "deleteFolderFromNavigation", groups = "Enterprise4.2")
+    @Test(priority = 30, groups = "Enterprise4.2")
     public void selectCopyTo() throws Exception
     {
         String copyToFolder = "copyFolder";
@@ -471,7 +472,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
 
     }
 
-    @Test(dependsOnMethods = "selectCopyTo", groups = "Enterprise4.2")
+    @Test(priority = 31, groups = "Enterprise4.2")
     public void selectMoveTo() throws Exception
     {
         String moveToFolder = "moveFolder";
@@ -497,8 +498,8 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
      * @throws Exception
      * <br/><br/>author sprasanna
      */
-    @Test(dependsOnMethods = "selectMoveTo", groups = "Enterprise4.2")
-    public void selectUploadNewVersion() throws Exception
+    @Test(priority = 32, groups = "Enterprise4.2")
+    public void selectUploadNewVersionCancel() throws Exception
     {
         File tempFile = siteUtil.prepareFile();
         UploadFilePage uploadForm = documentLibPage.getNavigation().selectFileUpload().render();
@@ -511,7 +512,7 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         assertTrue(documentLibPage.getTitle().contains("Document Library"));
     }
 
-    @Test(dependsOnMethods = "selectUploadNewVersion", groups = "Enterprise4.2")
+    @Test(priority = 33, groups = "Enterprise4.2")
     public void testTagsCount() throws IOException
     {
         String tagName = "tagcount";

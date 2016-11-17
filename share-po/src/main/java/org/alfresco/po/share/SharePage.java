@@ -431,7 +431,7 @@ public abstract class SharePage extends Page
             }
             break;
         }
-        return getCurrentPage();
+        return getCurrentPage().render();
     }
 
     /**

@@ -72,9 +72,11 @@ public class SelectContentPageTest extends AbstractTest
         siteName = String.format("test-%d-selectContent", System.currentTimeMillis());
         CreateSitePage createSite = dashBoardPage.getNav().selectCreateSite().render();
         SiteDashboardPage site = createSite.createNewSite(siteName).render();
-        site.render();
+
         DocumentLibraryPage libraryPage = site.getSiteNav().selectDocumentLibrary().render();
+
         CreatePlainTextContentPage contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
+
         ContentDetails contentDetails = new ContentDetails();
         contentDetails.setName("Doc3");
         DocumentDetailsPage detailsPage = contentPage.create(contentDetails).render();
@@ -86,17 +88,23 @@ public class SelectContentPageTest extends AbstractTest
         detailsPage = contentPage.create(contentDetails).render();
 
         libraryPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
+
         contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
+
         contentDetails = new ContentDetails();
         contentDetails.setName("Doc2");
         detailsPage = contentPage.create(contentDetails).render();
 
         libraryPage = detailsPage.getSiteNav().selectDocumentLibrary().render();
+
         NewFolderPage folderPage = libraryPage.getNavigation().selectCreateNewFolder();
+
         libraryPage = folderPage.createNewFolder("Folder1").render();
+
         libraryPage = libraryPage.selectFolder("Folder1").render();
 
         contentPage = libraryPage.getNavigation().selectCreateContent(ContentType.PLAINTEXT).render();
+
         contentDetails = new ContentDetails();
         contentDetails.setName("F1Doc1");
         detailsPage = contentPage.create(contentDetails).render();
