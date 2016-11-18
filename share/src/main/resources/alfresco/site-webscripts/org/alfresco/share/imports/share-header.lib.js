@@ -1522,6 +1522,7 @@ function getHeaderServices() {
          id: "SITE_SERVICE",
          name: "alfresco/services/SiteService",
          config: {
+            siteHomePage: "",
             legacyMode: false // NOTE: Before 5.2 is release this should be changed to false (left as true until tests are complete)
          }
       },
