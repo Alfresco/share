@@ -98,6 +98,10 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     protected By TAG_LINK_LOCATOR = By.cssSelector("div.yui-dt-liner>div>span>span>a.tag-link");
     protected String THUMBNAIL = "td.yui-dt-col-thumbnail>div>span>a";
     protected String THUMBNAIL_TYPE = "td.yui-dt-col-thumbnail>div>span";
+    protected String THUMBNAIL_LINK_FOLDER = "td.yui-dt-col-thumbnail>div>span.folder>span.link";
+    protected String THUMBNAIL_LINK_FILE = "td.yui-dt-col-thumbnail>div>span.thumbnail>span.link";
+    protected String LOCATE_LINKED_ITEM = "div#onActionLocate a";
+    protected String DELETE_LINK = "div#onActionDelete a";
     protected String INPUT_TAG_NAME = "div.inlineTagEdit input";
     protected String INPUT_CONTENT_NAME = "input[name='prop_cm_name']";
     protected String nodeRef;
@@ -737,7 +741,47 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
         try
         {
             WebElement thumbnailType = findElement(By.cssSelector(THUMBNAIL_TYPE));
-            return thumbnailType.getAttribute("class").contains("folder");
+            return (thumbnailType.getAttribute("class").contains("folder") && (!isLinkToFolder()) );
+        }
+        catch (Exception e)
+        {
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if content in the selected data row on DocumentLibrary is
+     * link to a folder.
+     *
+     * @return {boolean} <tt>true</tt> if the content is of type link to folder.
+     */
+    @Override
+    public boolean isLinkToFolder()
+    {
+        try
+        {
+            WebElement thumbnailType = findElement(By.cssSelector(THUMBNAIL_LINK_FOLDER));
+            return (thumbnailType.isDisplayed());
+        }
+        catch (Exception e)
+        {
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if content in the selected data row on DocumentLibrary is
+     * link to file.
+     *
+     * @return {boolean} <tt>true</tt> if the content is of type link to file.
+     */
+    @Override
+    public boolean isLinkToFile()
+    {
+        try
+        {
+            WebElement thumbnailType = findElement(By.cssSelector(THUMBNAIL_LINK_FILE));
+            return (thumbnailType.isDisplayed());
         }
         catch (Exception e)
         {
@@ -1071,6 +1115,116 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
         return false;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isLocateLinkedItemDisplayed()
+     */
+    @Override
+    public boolean isLocateLinkedItemDisplayed()
+    {
+        try
+        {
+            WebElement actions = findAndWait(By.cssSelector(ACTIONS_MENU));
+            mouseOver(actions);
+            
+            WebElement action = findElement(By.cssSelector(LOCATE_LINKED_ITEM));
+            return action.isDisplayed();
+        }
+        catch (NoSuchElementException e)
+        {
+            logger.trace("Locate Linked Item is not displayed", e);
+        }
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#isDeleteLinkDisplayed()
+     */
+    @Override
+    public boolean isDeleteLinkDisplayed() 
+    {
+        try 
+        {
+            WebElement actions = findAndWait(By.cssSelector(ACTIONS_MENU));
+            mouseOver(actions);
+            
+            WebElement action = findElement(By.cssSelector(DELETE_LINK));
+            return action.isDisplayed();
+        } 
+        catch (NoSuchElementException e) 
+        {
+            logger.trace("Delete Link is not displayed", e);
+        }
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectDeleteLink()
+     */
+    @Override
+    public ConfirmDeletePage selectDeleteLink()
+    {
+        try
+        {
+            if (isDeleteLinkDisplayed())
+            {
+                WebElement deleteLink = findAndWait(By.cssSelector(DELETE_LINK));
+                deleteLink.click();
+            }
+            else 
+            {
+                throw new NoSuchElementException("Delete Link not visible");
+            }
+        }
+        catch (TimeoutException e)
+        {
+            throw new PageOperationException("Exceeded time to find the css ", e);
+        }
+        catch (StaleElementReferenceException st)
+        {
+            throw new StaleElementReferenceException("Unable to find the css ", st);
+        }
+
+        return factoryPage.instantiatePage(driver, ConfirmDeletePage.class);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#deleteLink()
+     */
+    @Override
+    public HtmlPage deleteLink()
+    {
+        return selectDeleteLink().selectAction(Action.Delete);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectLocateLinkedItem()
+     */
+    @Override
+    public HtmlPage selectLocateLinkedItem()
+    {
+        try 
+        {
+            if (isLocateLinkedItemDisplayed())
+            {
+                WebElement locateLinkedItem = findElement(By.cssSelector(LOCATE_LINKED_ITEM));
+                locateLinkedItem.click();
+                return getCurrentPage().render();
+            }
+            throw new NoSuchElementException("Locate Linked Item not visible");
+        }
+        catch (TimeoutException te)
+        {
+            logger.error("Unable to find Locate Linked Item ", te);
+            throw new PageException("Unable to find Locate Linked Item ", te);
+        }
+    }
+
+    
     /*
      * (non-Javadoc)
      * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectManageRules()

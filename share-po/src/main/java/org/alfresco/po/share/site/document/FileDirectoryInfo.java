@@ -191,6 +191,36 @@ public interface FileDirectoryInfo
     boolean isFolder();
 
     /**
+     * Returns true if content in the selected data row on DocumentLibrary is
+     * a link to a folder.
+     *
+     * @return {boolean} <tt>true</tt> if the content is of type link to folder.
+     */
+    boolean isLinkToFolder();
+
+    /**
+     * Returns true if content in the selected data row on DocumentLibrary is
+     * a link to a file.
+     *
+     * @return {boolean} <tt>true</tt> if the content is of type link to file.
+     */
+    boolean isLinkToFile();
+
+    /**
+     * Returns true if Locate Linked Item is present
+     *
+     * @return {boolean} <tt>true</tt> if the Locate Linked Item action is present.
+     */
+    boolean isLocateLinkedItemDisplayed();
+
+    /**
+     * Returns true if Delete Link is present
+     *
+     * @return {boolean} <tt>true</tt> if the Delete Link action is present.
+     */
+    boolean isDeleteLinkDisplayed();
+
+    /**
      * Returns whether the file / dir is part of workflow.
      *
      * @return boolean
@@ -279,8 +309,7 @@ public interface FileDirectoryInfo
      * the actions drop down.
      */
     HtmlPage selectManageRules();
-
-
+    
     /**
      * Verify if the Rule icon is displayed or not
      *
@@ -310,7 +339,23 @@ public interface FileDirectoryInfo
      */
     CopyOrMoveContentPage selectMoveTo();
 
+    /**
+     * Click on Locate Linked Item link from actions on links on document library.
+     *
+     * @return CopyOrMoveContentPage
+     */
+    HtmlPage selectLocateLinkedItem();
+
+    /**
+     * Click on Delete link from actions on links on document library.
+     *
+     * @return CopyOrMoveContentPage
+     */
+    ConfirmDeletePage selectDeleteLink();
+
     HtmlPage delete();
+
+    HtmlPage deleteLink();
 
     /**
      * select StartWorkFlow... link from more option of document library.

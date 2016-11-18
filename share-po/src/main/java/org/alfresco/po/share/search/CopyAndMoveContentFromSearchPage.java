@@ -475,8 +475,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
         try
         {
             WebElement createLikeButton = driver.findElement(CREATE_LINK_BUTTON);
-            //return ( isCreateLinkButtonDisplayed() && createLikeButton.isEnabled() );
-            return ( createLikeButton.getAttribute("aria-disabled").toString().equals("false") );
+            return ( createLikeButton.getAttribute("aria-disabled").equals("false") );
         }
         catch (NoSuchElementException nse)
         {

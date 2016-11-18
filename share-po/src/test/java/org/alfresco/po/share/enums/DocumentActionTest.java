@@ -51,7 +51,7 @@ public class DocumentActionTest
         assertEquals(DocumentAction.MOVE_TO.getDocumentAction(DetailsPageType.COMMON), "div[id$='onActionMoveTo']");
         assertEquals(DocumentAction.DELETE_CONTENT.getDocumentAction(DetailsPageType.COMMON), "div[id$='onActionDelete']");
         assertEquals(DocumentAction.MANAGE_ASPECTS.getDocumentAction(DetailsPageType.COMMON), "div[id$='onActionManageAspects']");        
-        assertEquals(DocumentAction.CHNAGE_TYPE.getDocumentAction(DetailsPageType.COMMON), "div[id$='onActionChangeType']");
+        assertEquals(DocumentAction.CHANGE_TYPE.getDocumentAction(DetailsPageType.COMMON), "div[id$='onActionChangeType']");
         assertEquals(DocumentAction.EDIT_PROPERTIES.getDocumentAction(DetailsPageType.COMMON), ".document-edit-metadata");
          
        

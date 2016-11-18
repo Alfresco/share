@@ -91,7 +91,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
      * @author pbrodner
      */
-    public enum ACTION{COPY, MOVE};
+    public enum ACTION{COPY, CREATE_LINK, MOVE};
     
     /**
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
@@ -316,8 +316,9 @@ public class CopyOrMoveContentPage extends ShareDialogue
     }
 
     /**
-     * This method finds and clicks on Create Link button and
+     * This method finds and clicks on Create Link button
      * 
+     * @return HtmlPage
      */
     public HtmlPage selectCreateLinkButton()
     {
@@ -325,14 +326,17 @@ public class CopyOrMoveContentPage extends ShareDialogue
         {
             WebElement button = driver.findElement(copyCreateLinkButtonCss);
             button.click();
-            // TODO: waitUntilAlert();
+            waitUntilAlert();
             return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
             logger.error("Create Link button not visible. ", nse);
         }
-        // TODO: Catch StateElementException or general Exception instead
+        catch (StaleElementReferenceException sle)
+        {
+            logger.error("Unable to find Create Link element", sle);
+        }
         catch (TimeoutException te)
         {
             logger.error("Unable to find Create Link element. ", te);
