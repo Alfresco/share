@@ -188,11 +188,8 @@ h4 .lighter
 
 .alfresco-share .sticky-wrapper .error-alt
 {
-   background-color: red !important;
-   color: white !important;
-   font-family: Open Sans Bold, Arial, sans-serif;
-   font-weight: normal;
-   padding: 0.2em 1em;
+   margin: 0.33em 1.2em;
+   display: inline-block;
 }
 
 .light
