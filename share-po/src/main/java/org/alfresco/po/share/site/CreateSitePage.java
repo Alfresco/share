@@ -27,7 +27,6 @@ package org.alfresco.po.share.site;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderElement;
@@ -491,7 +490,7 @@ public class CreateSitePage extends ShareDialogueAikau
         WebElement inputSiteName = findAndWait(INPUT_TITLE);
         inputSiteName.clear();
         inputSiteName.sendKeys(siteName);
-        inputSiteName.sendKeys(Keys.ENTER);
+        inputSiteName.sendKeys(Keys.TAB);
     }
 
     /**
@@ -506,7 +505,7 @@ public class CreateSitePage extends ShareDialogueAikau
 
         inputSiteURL.clear();
         inputSiteURL.sendKeys(siteURL);
-        inputSiteURL.sendKeys(Keys.ENTER);
+        inputSiteURL.sendKeys(Keys.TAB);
     }
 
     /**
