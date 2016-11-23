@@ -49,11 +49,10 @@ import org.alfresco.po.share.dashlet.MyActivitiesDashlet.LinkType;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
+import org.alfresco.po.share.site.ConfirmRequestToJoinPopUp;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
-import org.alfresco.po.share.site.PendingInvitesPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.SiteFinderPage;
 import org.alfresco.po.share.site.SiteMembersPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UpdateFilePage;
@@ -1268,7 +1267,6 @@ public class SiteActions extends CommonActions
     public HtmlPage viewSharedLink(WebDriver driver, String link)
     {
         driver.navigate().to(link);
-
         return factoryPage.getPage(driver).render();
 
     }
@@ -1277,12 +1275,15 @@ public class SiteActions extends CommonActions
      * Utility for requesting to join moderated site when user already logged in
      * @param  siteName 
      */
-    public  SiteFinderPage requestToJoinModSite(WebDriver driver, String modSiteName)
+    public  HtmlPage requestToJoinModSite(WebDriver driver, String modSiteName)
     {
-    	DashBoardPage dashBoard = openUserDashboard(driver).render();
-    	SiteFinderPage siteFinder = dashBoard.getNav().selectSearchForSites().render();
-        siteFinder = siteFinder.searchForSite(modSiteName).render();
-        return siteFinder.requestToJoinSite(modSiteName).render();    		
+    	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render(); 
+    	SharePage sharePage = siteDashboardPage.requestToJoinSite().render();        
+    	if (sharePage instanceof ConfirmRequestToJoinPopUp) 
+    	{
+    		 return ((ConfirmRequestToJoinPopUp) sharePage).selectOk();	
+    	}
+        return factoryPage.getPage(driver).render();
     }
     
     /**

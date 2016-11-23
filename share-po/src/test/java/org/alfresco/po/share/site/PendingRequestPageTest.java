@@ -124,7 +124,7 @@ public class PendingRequestPageTest extends AbstractTest
     	
     }   
                       
-    @Test(groups = "Enterprise-only", priority = 3, enabled = true)
+    @Test(groups = "Enterprise-only", priority = 4, enabled = true)
     public void clickViewButtonaftersearch() throws Exception
     {
     	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName).render();  	
@@ -135,7 +135,7 @@ public class PendingRequestPageTest extends AbstractTest
         
     }
     
-    @Test(groups = "Enterprise-only", priority = 4, enabled = true)
+    @Test(groups = "Enterprise-only", priority = 5, enabled = true)
     public void clickApproveButton()
     {    
     	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName).render();  	

@@ -34,6 +34,7 @@ import java.util.List;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
+import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.Dashboard;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
@@ -384,4 +385,32 @@ public class SiteDashboardPage extends SitePage implements Dashboard
 
         return list;
     }
+    
+    /**
+     * Method to request to join the site if option is displayed
+     * 
+     * @return HtmlPage
+     */
+
+    public HtmlPage requestToJoinSite()
+    {
+        try
+        {
+            siteNavigation.selectConfigure();
+            WebElement requestJoinSite = driver.findElement(AbstractSiteNavigation.JOIN_SITE);
+            if (requestJoinSite.isDisplayed())
+            {
+            	requestJoinSite.click();   
+            	waitUntilAlert();
+                return factoryPage.getPage(driver);
+            }
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Request to Join Site button not found", nse);
+        }
+        throw new PageOperationException("Unable to Request to Join Site");
+    }
+    
+    
 }

@@ -89,6 +89,7 @@ import org.alfresco.po.share.search.SearchConfirmDeletePage;
 import org.alfresco.po.share.search.SiteResultsPage;
 import org.alfresco.po.share.site.AddGroupsPage;
 import org.alfresco.po.share.site.AddUsersToSitePage;
+import org.alfresco.po.share.site.ConfirmRequestToJoinPopUp;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.CustomiseSiteDashboardPage;
 import org.alfresco.po.share.site.CustomizeSitePage;
@@ -827,6 +828,10 @@ public class FactorySharePage implements FactoryPage
                 else if ("Copy Failed".equals(dialogueText) || "Move Failed".equals(dialogueText))
                 {
                 	sharePage = instantiatePage(driver, CopyOrMoveFailureNotificationPopUp.class);
+                }
+                else if ("Request Sent".equals(dialogueText))
+                {
+                	sharePage = instantiatePage(driver, ConfirmRequestToJoinPopUp.class);
                 }
             }
         }
