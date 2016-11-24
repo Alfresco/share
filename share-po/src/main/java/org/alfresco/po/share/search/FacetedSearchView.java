@@ -25,8 +25,10 @@
  */
 package org.alfresco.po.share.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
@@ -53,6 +55,7 @@ public class FacetedSearchView extends SharePage
     private static final By VIEW_TYPES = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP > div.alf-menu-group-items td:nth-of-type(3)");
     private static final By DETAILED_VIEW_RESULTS = By.cssSelector("tbody[id=FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS] td.thumbnailCell");
     private static final By GALLERY_VIEW_RESULTS = By.cssSelector("#FCTSRCH_GALLERY_VIEW");
+    private static final By GALLERY_VIEW_RESULT = By.cssSelector(".alfresco-lists-views-layouts-Grid__cell");
     private static final String DISPLAY_NAMES = ".displayName";
     private static final By GALLERY_VIEW_ICON = By.cssSelector(".alfresco-renderers-MoreInfo");
     private static Log logger = LogFactory.getLog(FacetedSearchView.class);
@@ -244,7 +247,18 @@ public class FacetedSearchView extends SharePage
     {
         // TODO Auto-generated method stub
         return null;
-    }    
-}
+    }
 
- 
+    public boolean isAnyItemHighlightedGalleryView()
+    {
+        List<WebElement> elements = driver.findElements(GALLERY_VIEW_RESULT);
+        for (WebElement element : elements)
+        {
+             if (element.findElements(By.cssSelector("mark")).size() > 0 ) {
+                 return true;
+             }
+
+        }
+        return false;
+        }
+}

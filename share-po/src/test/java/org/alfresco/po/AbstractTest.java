@@ -35,6 +35,9 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import javax.imageio.ImageIO;
 
+import org.alfresco.dataprep.ContentService;
+import org.alfresco.dataprep.DataListsService;
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
@@ -111,6 +114,9 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     @Autowired protected FactoryShareDashlet dashletFactory;
     @Autowired protected ShareUtil shareUtil;
     @Autowired protected SiteUtil siteUtil;
+    @Autowired protected SitePagesService sitePagesService;
+    @Autowired protected DataListsService dataListPagesService;
+    @Autowired protected ContentService contentService;
     @Autowired protected UserService userService;
     @Autowired protected CmmActions cmmActions;
     @Autowired protected SiteActions siteActions;
