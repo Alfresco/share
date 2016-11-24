@@ -781,7 +781,7 @@
          var success = function SentInvites_cancelInvite_success(response)
          {
             // hide the wait message
-            that.widgets.feedbackMessage.destroy();
+            that.widgets.feedbackMessage.hide();
 
             // remove the record from the list
             var index = that.widgets.dataTable.getRecordIndex(record);
@@ -796,7 +796,7 @@
          var failure = function SentInvites_cancelInvite_failure(response)
          {
             // remove the message
-            that.widgets.feedbackMessage.destroy();
+            that.widgets.feedbackMessage.hide();
             that.actionButtons[record.getData('invitee').userName].set('disabled', true);
          };
 
@@ -974,7 +974,7 @@
           var success = function approve_success(response)
           {
               // hide the wait message
-              that.widgets.feedbackMessage.destroy();
+              that.widgets.feedbackMessage.hide();
 
               // remove the record from the list
               var index = that.widgets.dataTable.getRecordIndex(p_obj);
@@ -989,7 +989,7 @@
           var failure = function approve_failure(response)
           {
               // remove the message
-              that.widgets.feedbackMessage.destroy();
+              that.widgets.feedbackMessage.hide();
               that.actionButtons[userName + '_approve'].set('disabled', true);
           };
 
