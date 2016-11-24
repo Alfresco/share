@@ -1578,10 +1578,19 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     {
         try
         {
-            return findElement(COMMENT_LINK).isDisplayed();
+            WebElement commentLink = findElement(COMMENT_LINK);
+            return commentLink.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
+        }
+        catch (TimeoutException ex)
+        {
+            // no log needed due to negative cases.
+        }
+        catch (Exception ex)
+        {
+            // no log needed due to negative cases.
         }
         return false;
     }
@@ -1599,6 +1608,64 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
             WebElement shareLink = findElement(QUICK_SHARE_LINK);
 
             return shareLink.isDisplayed();
+        }
+        catch (NoSuchElementException nse)
+        {
+            // no log needed due to negative cases.
+        }
+        catch (TimeoutException ex)
+        {
+            // no log needed due to negative cases.
+        }
+        catch (Exception ex)
+        {
+            // no log needed due to negative cases.
+        }
+        return false;
+    }
+
+    /**
+     * Check if Like is present.
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isLikeVisible()
+    {
+        try
+        {
+            WebElement likeLink = findElement(By.cssSelector(LIKE_CONTENT));
+
+            return likeLink.isDisplayed();
+        }
+        catch (NoSuchElementException nse)
+        {
+            // no log needed due to negative cases.
+        }
+        catch (TimeoutException ex)
+        {
+            // no log needed due to negative cases.
+        }
+        catch (Exception ex)
+        {
+            // no log needed due to negative cases.
+        }
+        return false;
+    }
+
+    /**
+     * Check if Favorite is present.
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isFavoriteVisible()
+    {
+        try
+        {
+            WebElement favLink = findElement(By.cssSelector(FAVOURITE_CONTENT));
+
+            return favLink.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {

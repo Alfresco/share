@@ -445,6 +445,28 @@ public class SiteActions extends CommonActions
     }
 
     /**
+     * isFileVisible is to check whether file or folder visible in specific site.
+     *
+     * @param driver WebDriver
+     * @param contentName String
+     * @param siteName String
+     * @return boolean
+     */
+    public boolean isFileVisible(WebDriver driver, String contentName, String siteName)
+    {
+        try
+        {
+            navigateToDocumentLibrary(driver, siteName);
+            getFileDirectoryInfo(driver, contentName);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    /**
      * Open Site and then Open Document Library Assumes User is logged in and a
      * Specific Site Dashboard is open.
      *
@@ -767,19 +789,24 @@ public class SiteActions extends CommonActions
 
         //if our <destination> is already selected - continue
         String active = copyOrMoveToPage.getSelectedDestination();
-        if(!active.equals(destination.getValue())) {
-       	 copyOrMoveToPage.selectDestination(destination.getValue());	 
+        if(!active.equals(destination.getValue())) 
+        {
+            copyOrMoveToPage.selectDestination(destination.getValue());	 
         }
 
-        if(destination.hasSites()) {
-    	  if (siteDescription!=null && !siteDescription.isEmpty()){
-    		  copyOrMoveToPage.selectSiteByDescription(siteName, siteDescription).render();
-    	  }
-    	  else{
-    		  copyOrMoveToPage.selectSite(siteName).render();
-    	  }        	
+        if(destination.hasSites())
+        {
+            if (siteDescription!=null && !siteDescription.isEmpty())
+            {
+                copyOrMoveToPage.selectSiteByDescription(siteName, siteDescription).render();
+    	    } 
+    	    else
+            {
+                copyOrMoveToPage.selectSite(siteName).render();
+    	    }        	
         }
-        if (moveFolderName != null && moveFolderName.length > 0){
+        if (moveFolderName != null && moveFolderName.length > 0)
+        {
             copyOrMoveToPage.selectPath(moveFolderName).render();
         }
         if (action == ACTION.CREATE_LINK)
@@ -1267,6 +1294,7 @@ public class SiteActions extends CommonActions
     public HtmlPage viewSharedLink(WebDriver driver, String link)
     {
         driver.navigate().to(link);
+
         return factoryPage.getPage(driver).render();
 
     }

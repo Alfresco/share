@@ -38,6 +38,7 @@ import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.ShareDialogue;
+import org.alfresco.po.share.exception.ShareException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,6 +87,9 @@ public class CopyOrMoveContentPage extends ShareDialogue
     private final By rmfolderItemsListCss = By.cssSelector("div#ygtvc7.ygtvchildren");
     private final By selectedDestination = By.xpath("//span[@class='yui-button yui-radio-button yui-button-checked yui-radio-button-checked']");
     private final By siteDocumentsCount = By.cssSelector("div#ygtvc,.ygtvchildren.ygtvitem.selected div#ygtvc,.ygtvchildren");
+    
+    private final By messageBoxCss = By.cssSelector("span.message");
+    private String messageText = "";
 
     /**
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
@@ -316,6 +320,70 @@ public class CopyOrMoveContentPage extends ShareDialogue
     }
 
     /**
+     * Check if javascript message about link creation is displayed.
+     *
+     * @return true if message displayed
+     */
+    private boolean isMessageDisplayed()
+    {
+        try
+        {
+            WebElement messageBox = driver.findElement(messageBoxCss);
+            messageText = messageBox.getText();
+            return messageBox.isDisplayed();
+        }
+        catch (NoSuchElementException e)
+        {
+            logger.error("Link creation message not displayed");
+            throw new  NoSuchElementException("Link creation message not displayed", e);
+        }
+        catch (StaleElementReferenceException ser)
+        {
+            driver.navigate().refresh();
+            return isMessageDisplayed();
+        }
+    }
+    
+    /**
+     * Check if javascript message about link creation is displayed.
+     *
+     * @return true if message displayed
+     */
+    private String getMessageText()
+    {
+        isMessageDisplayed();
+        return messageText;
+    }
+
+    /**
+     * Check if successful javascript message about link creation is displayed.
+     *
+     * @return true if successful message displayed, false if link could not be created
+     */
+    private boolean isLinkCreated()
+    {
+        try
+        {
+            String text = getMessageText();
+            if (text.contains("Successfully created link"))
+            {
+                waitUntilAlert();
+                return true;
+            }
+            if (text.contains("could not"))
+            {
+                waitUntilAlert();
+                throw new ShareException(messageText);
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+            logger.error("Link creation message not displayed", e);
+        }
+        return false;
+    }
+
+    /**
      * This method finds and clicks on Create Link button
      * 
      * @return HtmlPage
@@ -326,22 +394,24 @@ public class CopyOrMoveContentPage extends ShareDialogue
         {
             WebElement button = driver.findElement(copyCreateLinkButtonCss);
             button.click();
-            waitUntilAlert();
-            return getCurrentPage();
+            
+            if (isLinkCreated())
+            {
+                //waitUntilAlert();
+                return getCurrentPage();
+            }
+            throw new ShareException(messageText);
         }
         catch (NoSuchElementException nse)
         {
             logger.error("Create Link button not visible. ", nse);
-        }
-        catch (StaleElementReferenceException sle)
-        {
-            logger.error("Unable to find Create Link element", sle);
+            throw new NoSuchElementException("Create Link button not visible. ", nse);
         }
         catch (TimeoutException te)
         {
             logger.error("Unable to find Create Link element. ", te);
+            throw new TimeoutException("Unable to find Create Link element. ", te);
         }
-        throw new PageException("Unable to Create Link.");
     }
 
     /**
