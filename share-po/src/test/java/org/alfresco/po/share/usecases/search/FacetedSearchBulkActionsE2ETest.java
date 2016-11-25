@@ -28,7 +28,6 @@ package org.alfresco.po.share.usecases.search;
 import java.io.File;
 
 import org.alfresco.po.share.enums.UserRole;
-import org.alfresco.po.share.search.CopyAndMoveContentFromSearchPage;
 import org.alfresco.po.share.search.CopyOrMoveFailureNotificationPopUp;
 import org.alfresco.po.share.search.FacetedSearchPage;
 import org.alfresco.po.share.search.SearchSelectedItemsMenu;

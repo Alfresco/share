@@ -4,31 +4,26 @@
  * %%
  * Copyright (C) 2005 - 2016 Alfresco Software Limited
  * %%
- * This file is part of the Alfresco software. 
- * If the software was purchased under a paid Alfresco license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail. Otherwise, the software is
  * provided under the following open source license terms:
- * 
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  */
 package org.alfresco.po.share.search;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.org.apache.regexp.internal.RE;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageOperationException;
@@ -47,6 +42,7 @@ import org.openqa.selenium.interactions.Actions;
 /**
  * The Class FacetedSearchView
  * This is still not completed since the development is in progress
+ * 
  * @author Charu
  */
 public class FacetedSearchView extends SharePage
@@ -59,11 +55,11 @@ public class FacetedSearchView extends SharePage
     private static final String DISPLAY_NAMES = ".displayName";
     private static final By GALLERY_VIEW_ICON = By.cssSelector(".alfresco-renderers-MoreInfo");
     private static Log logger = LogFactory.getLog(FacetedSearchView.class);
-    
+
     private String results;
     private WebElement sortOrderButton;
     private WebElement detailedViewResults;
-    private WebElement galleryViewResults;    
+    private WebElement galleryViewResults;
 
     /**
      * Gets the results.
@@ -85,8 +81,6 @@ public class FacetedSearchView extends SharePage
         return sortOrderButton;
     }
 
-
-       
     /**
      * select view by index by the indexed item in the view menu
      *
@@ -98,13 +92,13 @@ public class FacetedSearchView extends SharePage
         openMenu();
         boolean found = false;
         List<WebElement> menuElements = driver.findElements(VIEW_TYPES);
-        if(menuElements != null && !menuElements.isEmpty())
+        if (menuElements != null && !menuElements.isEmpty())
         {
-        	menuElements.get(i).click();
-        	found = true;
+            menuElements.get(i).click();
+            found = true;
         }
-        
-        if(!found)
+
+        if (!found)
         {
             cancelMenu();
         }
@@ -122,10 +116,10 @@ public class FacetedSearchView extends SharePage
         openMenu();
         boolean found = false;
         List<WebElement> menuElements = driver.findElements(VIEW_TYPES);
-        for(WebElement option : menuElements)
+        for (WebElement option : menuElements)
         {
             String value = StringUtils.trim(option.getText());
-            if(label.equalsIgnoreCase(value))
+            if (label.equalsIgnoreCase(value))
             {
                 StringUtils.trim(option.getText());
                 option.click();
@@ -133,13 +127,13 @@ public class FacetedSearchView extends SharePage
                 break;
             }
         }
-        if(!found)
+        if (!found)
         {
             cancelMenu();
         }
         return factoryPage.getPage(this.driver);
     }
-    
+
     /**
      * Verify is results displayed in detailed view
      */
@@ -148,7 +142,7 @@ public class FacetedSearchView extends SharePage
         try
         {
             detailedViewResults = driver.findElement(DETAILED_VIEW_RESULTS);
-            if(detailedViewResults.isDisplayed())
+            if (detailedViewResults.isDisplayed())
             {
                 return true;
             }
@@ -163,7 +157,7 @@ public class FacetedSearchView extends SharePage
         }
         return false;
     }
-    
+
     /**
      * Verify is results displayed in Gallery view
      */
@@ -172,7 +166,7 @@ public class FacetedSearchView extends SharePage
         try
         {
             galleryViewResults = driver.findElement(GALLERY_VIEW_RESULTS);
-            if(galleryViewResults.isDisplayed())
+            if (galleryViewResults.isDisplayed())
             {
                 return true;
             }
@@ -188,14 +182,12 @@ public class FacetedSearchView extends SharePage
         return false;
     }
 
-
-
     /**
      * Open the sort menu.
      */
     private void openMenu()
     {
-        driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_MENU")).click(); //Regain page control from dojo
+        driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_MENU")).click(); // Regain page control from dojo
         WebElement element = driver.findElement(By.cssSelector("img.alf-configure-icon"));
         Actions action = new Actions(driver);
         action.moveToElement(element).click().perform();
@@ -208,7 +200,7 @@ public class FacetedSearchView extends SharePage
     {
         driver.findElement(By.cssSelector("#FCTSRCH_RESULTS_MENU")).click();
     }
-    
+
     /**
      * Click on the GalleryIcon by name
      *
@@ -218,11 +210,12 @@ public class FacetedSearchView extends SharePage
     public HtmlPage clickGalleryIconByName(String name)
     {
         PageUtils.checkMandatoryParam("Name", name);
-        
-        try {
+
+        try
+        {
             List<WebElement> displayNames = driver.findElements(By.cssSelector(DISPLAY_NAMES));
             {
-                for(WebElement results : displayNames)
+                for (WebElement results : displayNames)
                 {
                     if (results.getText().equalsIgnoreCase(name))
                     {
@@ -234,12 +227,12 @@ public class FacetedSearchView extends SharePage
                     }
                 }
             }
-        } 
+        }
         catch (TimeoutException e)
         {
             logger.error("Unable to get the name : ", e);
         }
-        throw new PageOperationException("Unable to get the name  : ");			
+        throw new PageOperationException("Unable to get the name  : ");
     }
 
     @Override
@@ -249,16 +242,18 @@ public class FacetedSearchView extends SharePage
         return null;
     }
 
+    // TODO: Add Docs
     public boolean isAnyItemHighlightedGalleryView()
     {
         List<WebElement> elements = driver.findElements(GALLERY_VIEW_RESULT);
         for (WebElement element : elements)
         {
-             if (element.findElements(By.cssSelector("mark")).size() > 0 ) {
-                 return true;
-             }
+            if (element.findElements(By.cssSelector("mark")).size() > 0)
+            {
+                return true;
+            }
 
         }
         return false;
-        }
+    }
 }
