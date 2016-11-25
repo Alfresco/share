@@ -106,18 +106,22 @@ public class ActionsSet extends PageElement
      */
     public HtmlPage clickActionByName(String actionName)
     {
-
+        String availableActions = "";
+        
         // Iterate over the menuRows and click the control that matches the named action
         for (WebElement menuRow : getMenuRows())
         {
         	WebElement actionMenu = menuRow.findElement(MENU_LABEL);
+        	availableActions = availableActions + actionMenu.getText() + " "; 
+  
             if (actionName.equalsIgnoreCase(StringUtils.trim(actionMenu.getText())))
             {
             	actionMenu.click();
                 return getCurrentPage();
             }
         }
-        throw new PageException("Action can not be found in the dropdown, " + actionName);
+        
+        throw new PageException("Action can not be found in the dropdown, " + actionName + " Actions Found: " + availableActions);
         
     }
 
