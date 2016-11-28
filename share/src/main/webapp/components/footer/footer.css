@@ -20,7 +20,7 @@
 .footer-ent .copyright
 {
    margin: 0 auto;
-   width: 450px;
+   width: 365px;
    display: block;
 }
 
@@ -48,6 +48,8 @@
 
 .footer-com .copyright img
 {
+   height: 28px;
+   width: 104px;
    padding-right: 1em;
    vertical-align: baseline;
 }
@@ -55,6 +57,8 @@
 .footer-ent .copyright img
 {
    padding-right: 1em;
+   height: 28px;
+   width: 104px;
 }
 
 .footer-com .copyright span

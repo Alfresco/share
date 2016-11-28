@@ -15,17 +15,12 @@
 
 .about-share .logo-com
 {
-   background-image: url('images/about-bg.png');
-}
-
-.about-share .logo-team
-{
-   background-image: url('images/about-bg-team.png');
+   background-image: url('images/about-bg-vanilla.png');
 }
 
 .about-share .logo-ent
 {
-   background-image: url('images/about-bg-enterprise.png');
+   background-image: url('images/about-bg-vanilla.png');
 }
 
 .about-share .logo-vanilla

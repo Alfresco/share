@@ -59,7 +59,7 @@
    <config evaluator="string-compare" condition="Edition">
       <!-- footer logo and copyright text -->
       <footer>
-         <logo>alfresco-share-logo.png</logo>
+         <logo>alfresco-logo.svg</logo>
          <alt-text>Alfresco Share</alt-text>
          <css-class>footer-com</css-class>
          <label>label.copyright</label>

@@ -22,17 +22,22 @@ div.login
 .login .product-name
 {
    font-size: 180%;
-   color: #0c79bf;
+   color: #f8982b;
    font-family: Open Sans Bold;
    margin-top: 32px;
-   /* TODO: override for community/enterprise - AND label! */
 }
 
 .login .product-tagline
 {
    color: #888;
    font-size: 120%;
-   /* TODO: override for community/enterprise - AND label! */
+   display: none;
+}
+
+.login .product-community
+{
+   color: #888;
+   font-size: 120%;
 }
 
 .login form
@@ -59,7 +64,7 @@ div.login
 /* fake MD input focus */
 .login input[type="text"]:focus, .login input[type="password"]:focus
 {
-   border-bottom: 1px solid #0c79bf;
+   border-bottom: 1px solid #f8982b;
 }
 
 /* remove webkit autofill yellow background */
@@ -114,27 +119,55 @@ div.login
    background: transparent url(../images/alfresco-tagline-white.svg) 50% 0 no-repeat;
    background-size: 260px 20px;
    margin-top: 42px;
+   display: none;
 }
 
 .login .error
 {
-   max-width: 428px;
-   padding-top: 16px;
+   width: 320px;
+   padding-top: 32px;
+   font-size: 85%;
+   color: crimson;
 }
 
 /*
  * Overrides for specific edition
  */
 
-.form-fields.login.ENTERPRISE .form-field > span.yui-button
+.ENTERPRISE .form-fields.login .form-field > span.yui-button
 {
    border-color: #0c79bf;
 }
 
-.form-fields.login.ENTERPRISE .form-field > span.yui-button > .first-child
+.ENTERPRISE .form-fields.login .form-field > span.yui-button > .first-child
 {
    background-color: #0c79bf;
    border-color: #0c79bf;
+}
+
+.ENTERPRISE .login .product-name
+{
+   color: #0c79bf;
+}
+
+.ENTERPRISE .login .product-tagline
+{
+   display: block;
+}
+
+.ENTERPRISE .login .product-community
+{
+   display: none;
+}
+
+.ENTERPRISE .login-tagline
+{
+   display: block;
+}
+
+.ENTERPRISE .login input[type="text"]:focus, .ENTERPRISE .login input[type="password"]:focus
+{
+   border-bottom: 1px solid #0c79bf;
 }
 
 body.ENTERPRISE

@@ -18,10 +18,10 @@
       <div id="${el}-body" class="theme-overlay login hidden">
       
       <@markup id="header">
-         <#assign aboutConfig=config.scoped["Edition"]["login"]>
          <div class="theme-company-logo"></div>
          <div class="product-name">${msg("app.name")}</div>
          <div class="product-tagline">${msg("app.tagline")}</div>
+         <div class="product-community">${msg("app.community")}</div>
       </@markup>
       
       <#if errorDisplay == "container">
@@ -42,7 +42,7 @@
       </#if>
       
       <@markup id="form">
-         <form id="${el}-form" accept-charset="UTF-8" method="post" action="${loginUrl}" class="form-fields login ${edition}">
+         <form id="${el}-form" accept-charset="UTF-8" method="post" action="${loginUrl}" class="form-fields login">
             <@markup id="fields">
             <input type="hidden" id="${el}-success" name="success" value="${successUrl?replace("@","%40")?html}"/>
             <input type="hidden" name="failure" value="${failureUrl?replace("@","%40")?html}"/>
