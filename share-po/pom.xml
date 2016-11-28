@@ -348,7 +348,7 @@
             </build>
         </profile>
         <profile>
-            <id>alfresco-content-services-tests</id>
+            <id>alfresco-one-tests</id>
             <build>
                 <plugins>
                     <plugin>
@@ -391,7 +391,7 @@
             </build>
         </profile>
        <profile>
-            <id>alfresco-content-services-e2e-tests</id>
+            <id>alfresco-one-e2e-tests</id>
             <build>
                 <plugins>
                     <plugin>
