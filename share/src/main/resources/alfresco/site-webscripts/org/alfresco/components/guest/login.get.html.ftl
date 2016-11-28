@@ -19,7 +19,9 @@
       
       <@markup id="header">
          <#assign aboutConfig=config.scoped["Edition"]["login"]>
-         <div class="theme-company-logo ${aboutConfig.getChildValue("css-class")!logo-com}"></div>
+         <div class="theme-company-logo"></div>
+         <div class="product-name">${msg("app.name")}</div>
+         <div class="product-tagline">${msg("app.tagline")}</div>
       </@markup>
       
       <#if errorDisplay == "container">
@@ -45,12 +47,10 @@
             <input type="hidden" id="${el}-success" name="success" value="${successUrl?replace("@","%40")?html}"/>
             <input type="hidden" name="failure" value="${failureUrl?replace("@","%40")?html}"/>
             <div class="form-field">
-               <label for="${el}-username">${msg("label.username")}</label><br/>
-               <input type="text" id="${el}-username" name="username" maxlength="255" value="<#if lastUsername??>${lastUsername?html}</#if>" />
+               <input type="text" id="${el}-username" name="username" maxlength="255" value="<#if lastUsername??>${lastUsername?html}</#if>" placeholder="${msg("label.username")}" />
             </div>
             <div class="form-field">
-               <label for="${el}-password">${msg("label.password")}</label><br/>
-               <input type="password" id="${el}-password" name="password" maxlength="255" />
+               <input type="password" id="${el}-password" name="password" maxlength="255" placeholder="${msg("label.password")}" />
             </div>
             </@markup>
             <@markup id="buttons">
@@ -59,10 +59,6 @@
             </div>
             </@markup>
          </form>
-      </@markup>
-      
-      <@markup id="footer">
-         <div class="copy">${msg("label.copyright")} ${msg("label.trademark")}</div>
       </@markup>
       
       <@markup id="preloader">
@@ -86,5 +82,10 @@
       </@markup>
 
       </div>
+      
+      <@markup id="footer">
+      <div class="login-copy">${msg("label.copyright")}</div>
+      <div class="login-tagline"></div>
+      </@markup>
    </@>
 </@>

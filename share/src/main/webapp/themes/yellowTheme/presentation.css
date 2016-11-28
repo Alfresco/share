@@ -108,11 +108,6 @@ h4 .lighter
    background-color: #fff;
 }
 
-.alfresco-guest .sticky-wrapper
-{
-   background: none;
-}
-
 .label
 {
    font-weight: bold;
@@ -1251,6 +1246,16 @@ div.theme-bg-color-8
    border: 1px solid #c2c2c2;
 }
 
+body.alfresco-guest
+{
+   background: none;
+}
+
+.alfresco-guest .sticky-wrapper
+{
+   background: none;
+}
+
 .alfresco-guest .theme-overlay
 {
    padding-left: 24px;
@@ -1258,24 +1263,16 @@ div.theme-bg-color-8
    color: #333;
    border: 1px solid #ccc;
    background-color: #fff;
-   box-shadow: 0.33px 2px 8px rgba(0, 0, 0, 0.3);
+   box-shadow: 0.33px 2px 12px rgba(0, 0, 0, 0.3);
+   border-radius: 9px;
 }
 
 .theme-company-logo
 {
-   height: 48px;
-   width: 428px;
-   background-repeat: no-repeat;
-}
-
-.theme-company-logo.logo-com
-{
-   background: transparent url(images/logo.png) no-repeat;
-}
-
-.theme-company-logo.logo-ent
-{
-   background: transparent url(images/logo-enterprise.png) no-repeat;
+   height: 42px;
+   width: 320px;
+   background: transparent url(images/alfresco.svg) 50% 0 no-repeat;
+   background-size: 156px 42px;
 }
 
 .theme-flow-arrow

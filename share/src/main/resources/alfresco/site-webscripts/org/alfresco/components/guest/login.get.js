@@ -31,7 +31,8 @@ function main()
       options: {
          error: model.error,
          errorDisplay: model.errorDisplay,
-         lastUsername: model.lastUsername
+         lastUsername: model.lastUsername,
+         edition: model.edition
       }
    };
    model.widgets = [login];
@@ -135,7 +136,6 @@ function main()
    [
       "components/images/welcome-background.png",
       "components/images/user-16.png",
-      "components/images/alfresco-share-logo-enterprise.png",
       "components/images/header/my-dashboard.png",
       "components/images/header/sites.png",
       "components/images/header/help.png",
