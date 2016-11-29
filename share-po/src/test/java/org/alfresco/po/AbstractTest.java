@@ -109,6 +109,8 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     @Value("${render.error.popup.time}") protected long popupRendertime;
     @Value("${share.version}") protected String alfrescoVersion;
     @Value("${render.page.wait.time}") protected long maxPageWaitTime;
+    @Value("${alfresco.server}") protected String alfrescoSever;
+    @Value("${alfresco.port}") protected String alfrescoPort;
     @Autowired protected UserProfile anotherUser;
     @Autowired protected FactoryPage factoryPage;
     @Autowired protected FactoryShareDashlet dashletFactory;
