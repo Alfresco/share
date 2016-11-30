@@ -351,7 +351,7 @@ public interface FileDirectoryInfo
      *
      * @return CopyOrMoveContentPage
      */
-    ConfirmDeletePage selectDeleteLink();
+    HtmlPage selectDeleteLink();
 
     HtmlPage delete();
 

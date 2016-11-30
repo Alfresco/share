@@ -395,14 +395,14 @@ public class CopyOrMoveContentPage extends ShareDialogue
             WebElement button = driver.findElement(copyCreateLinkButtonCss);
             button.click();
             
-            if (isLinkCreated())
-            {
-                //waitUntilAlert();
+//            if (isLinkCreated())
+//            {
+                waitUntilAlert();
                 return getCurrentPage();
-            }
-            throw new ShareException(messageText);
+//            }
+//            throw new ShareException(messageText);
         }
-        catch (NoSuchElementException nse)
+        catch (NoSuchElementException | StaleElementReferenceException nse)
         {
             logger.error("Create Link button not visible. ", nse);
             throw new NoSuchElementException("Create Link button not visible. ", nse);
