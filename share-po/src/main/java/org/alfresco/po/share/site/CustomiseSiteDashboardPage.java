@@ -326,8 +326,8 @@ public class CustomiseSiteDashboardPage extends SharePage
 
         try
         {
-            String dashletXpath = String.format("//li[@class='availableDashlet dnd-draggable']/span[text()='%s']", dashletName.getDashletName());
-            WebElement element = findAndWait(By.xpath(dashletXpath));
+            String dashletSelector = String.format("li.availableDashlet div[title*='%s']", dashletName.getDashletName());
+            WebElement element = findAndWait(By.cssSelector(dashletSelector));
             element.click();
             List<WebElement> dashlets = findAndWaitForElements(AVAILABLE_DASHLETS_NAMES);
             for (WebElement source : dashlets)
@@ -341,7 +341,8 @@ public class CustomiseSiteDashboardPage extends SharePage
         }
         catch (TimeoutException te)
         {
-            logger.error("Exceeded time to find the Available dashlet names " + te);
+            logger.error("Exceeded time to find the Available dashlet names ", te);
+            throw new PageOperationException("Error in adding dashlet using drag and drop", te);
         }
 
         if (newDashlet != null)
