@@ -1031,7 +1031,14 @@ var scopeSelection = {
 main.config.widgets.splice(2, 0, scopeSelection);
 
 // Append services with those required for search
-services.push("alfresco/services/SearchService",
+services.push({
+                 name: "alfresco/services/SearchService",
+                 config: {
+                   highlightFragmentSize: 255,
+                   highlightMaxAnalyzedChars: 500,
+                   highlightSnippetCount: 100
+                }
+              },
               "alfresco/services/ActionService",
               {
                  name: "alfresco/services/actions/CopyMoveService",
