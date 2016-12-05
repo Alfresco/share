@@ -14,7 +14,7 @@
 		</test>
 		<test name="PendingRequestPageTests">		
 			<classes>
-			<class name="org.alfresco.po.share.usecases.PendingRequestPageETETest" />
+			<class name="org.alfresco.po.share.usecases.pendingRequest.PendingRequestPageETETest" />
 		    </classes>
 		</test>				
 </suite>
