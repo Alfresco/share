@@ -1034,17 +1034,16 @@ main.config.widgets.splice(2, 0, scopeSelection);
 services.push({
                  name: "alfresco/services/SearchService",
                  config: {
-                   highlightFragmentSize: 255,
-                   highlightMaxAnalyzedChars: 500,
-                   highlightSnippetCount: 100
-                }
+                    highlightFragmentSize: 100,
+                    highlightSnippetCount: 255
+                 }
               },
               "alfresco/services/ActionService",
               {
                  name: "alfresco/services/actions/CopyMoveService",
                  config: {
-                     repoNodeRef: repoRootNode,
-                     supportLinkCreation: true
+                    repoNodeRef: repoRootNode,
+                    supportLinkCreation: true
                  }
               },
               "alfresco/services/actions/SimpleWorkflowService",
