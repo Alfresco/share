@@ -96,7 +96,7 @@ public class PendingRequestPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", priority = 1, enabled = true)
     public void navigateToPendingInvitesPage() throws Exception
     {    	
-    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName).render();
+    	pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName).render();
     	assertEquals(pendingRequestPage.getRequests().size(), 2);
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName1));
     	Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));
@@ -105,10 +105,10 @@ public class PendingRequestPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", priority = 2, enabled = true)
     public void selectViewButtonBeforeSearch() throws Exception
     {    	
-    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName).render();  	
+    	pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName).render();  	
         editTaskPage = pendingRequestPage.viewRequest(userName1).render();
     	pendingRequestPage = editTaskPage.selectSaveButton().render(); 	
-        siteActions.navigatePendingRequsetPage(driver, modSiteName);
+        siteActions.navigateToPendingRequestPage(driver, modSiteName);
     	assertEquals(pendingRequestPage.getRequests().size(), 2);
     	editTaskPage = pendingRequestPage.viewRequest(userName2).render();        
     	pendingRequestPage = editTaskPage.selectSaveButton().render(); 	
@@ -118,7 +118,7 @@ public class PendingRequestPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", priority = 3, enabled = false)
     public void selectAcceptButtonBeforeSearch() throws Exception
     {    	
-    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName).render();  	
+    	pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName).render();  	
     	pendingRequestPage.approveRequest(userName1);    	
     	assertEquals(pendingRequestPage.getRequests().size(), 1);
     	
@@ -127,7 +127,7 @@ public class PendingRequestPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", priority = 4, enabled = true)
     public void clickViewButtonaftersearch() throws Exception
     {
-    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName).render();  	
+    	pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName).render();  	
     	pendingRequestPage.searchRequest(userName2);
         assertEquals(pendingRequestPage.getRequests().size(), 1);
     	editTaskPage = pendingRequestPage.viewRequest(userName2).render();        
@@ -138,7 +138,7 @@ public class PendingRequestPageTest extends AbstractTest
     @Test(groups = "Enterprise-only", priority = 5, enabled = true)
     public void clickApproveButton()
     {    
-    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName).render();  	
+    	pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName).render();  	
     	pendingRequestPage.searchRequest(userName2);       
         pendingRequestPage = pendingRequestPage.approveRequest(userName2).render();        
     	assertEquals(pendingRequestPage.getRequests().size(), 0);
