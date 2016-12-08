@@ -27,7 +27,6 @@ import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.search.FacetedSearchScopeMenu.ScopeMenuSelectedItemsMenu;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
@@ -39,7 +38,6 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Integration test to verify that highlight is working on Search Results page.
@@ -60,7 +58,6 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     protected String blogName;
     protected String discussionName;
     protected String dataListName;
-    protected String random;
 
     private DashBoardPage dashBoard;
     protected SharePage sharepage;
@@ -72,19 +69,15 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
         {
             dashBoard = loginAs(username, password);
 
-            random = UUID.randomUUID().toString();
-
-            // create 2 files, one calendar event, one wiki page, one link, one blog, one discussion, one data list to the site
-
-            siteName = "mysite-" + random;
-            fileName1 = "myfile1-" + random;
-            fileName2 = "myfile2-" + random;
-            calendarName = "calendarevent-" + random;
-            wikiPage = "wikipage-" + random;
-            linkName = "link-" + random;
-            blogName = "blogpost-" + random;
-            discussionName = "disscution-" + random;
-            dataListName = "datalist-" + random;
+            siteName = "mysite-" + + System.currentTimeMillis();;
+            fileName1 = "myfile1-" + + System.currentTimeMillis();;
+            fileName2 = "myfile2-" + + System.currentTimeMillis();;
+            calendarName = "calendarevent" + + System.currentTimeMillis();;
+            wikiPage = "wikipage" + + System.currentTimeMillis();;
+            linkName = "link" + + System.currentTimeMillis();;
+            blogName = "blogpost" + + System.currentTimeMillis();;
+            discussionName = "disscution" + + System.currentTimeMillis();;
+            dataListName = "datalist" + + System.currentTimeMillis();;
 
             Date todayDate = new Date();
             todayDate.getTime();
@@ -123,18 +116,11 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     @Test(groups = { "alfresco-one" }, priority = 1)
     public void testHighlightedDisjunction() throws Exception
     {
-        SearchBox search = dashBoard.getSearch();
-        FacetedSearchPage resultPage = search.search("myfile1 OR myfile2").render();
-        FacetedSearchScopeMenu menu = new FacetedSearchScopeMenu(driver, factoryPage);
-        resultPage = menu.selectScope(ScopeMenuSelectedItemsMenu.SPECIFIC_SITE).render();
-        Assert.assertTrue(resultPage.hasResults());
-
-        FacetedSearchResult resultItem1 = (FacetedSearchResult) resultPage.getResultByName(fileName1);
-        Assert.assertTrue(resultItem1.isItemHighlighted(ItemHighlighted.NAME));
-        Assert.assertEquals(resultItem1.getHighlightedText(ItemHighlighted.NAME), "myfile1");
-        FacetedSearchResult resultItem2 = (FacetedSearchResult) resultPage.getResultByName(fileName2);
-        Assert.assertTrue(resultItem2.isItemHighlighted(ItemHighlighted.NAME));
-        Assert.assertEquals(resultItem2.getHighlightedText(ItemHighlighted.NAME), "myfile2");
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile1 OR myfile2", fileName1, true, 3));
+        FacetedSearchResult resultItem1 = siteActions.getFacetedSearchResult(driver, fileName1);
+        Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, fileName1, ItemHighlighted.NAME, "myfile1", true), "Highlighting results do not match");
+        FacetedSearchResult resultItem2 = siteActions.getFacetedSearchResult(driver, fileName2);
+        Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, fileName2, ItemHighlighted.NAME, "myfile2", true), "Highlighting results do not match");
     }
 
     /**
@@ -162,7 +148,6 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     @Test(groups = { "alfresco-one" }, priority = 3)
     public void testHighlightedNegation1() throws Exception
     {
-        // docLib = siteActions.navigateToDocumentLibrary(driver, siteName).render();
         SearchBox search = dashBoard.getSearch();
         FacetedSearchPage resultPage = search.search("myfile NOT myfile1").render();
 
@@ -199,16 +184,10 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     @Test(groups = { "alfresco-one" }, priority = 5)
     public void testHighlightedCalendarName() throws Exception
     {
-        SearchBox search = dashBoard.getSearch();
-        FacetedSearchPage resultPage = search.search("calendarevent").render();
-        Assert.assertTrue(resultPage.hasResults());
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "calendarevent", calendarName, true, 3));
+        FacetedSearchResult resultItem = siteActions.getFacetedSearchResult(driver, calendarName);
+        Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, calendarName, ItemHighlighted.NAME, "calendarevent", true), "Highlighting results do not match");
 
-        FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResults().get(0);
-        // FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(fileName); -- why throw new
-        // PageOperationException("Unable to get the name  : ");
-        
-        Assert.assertTrue(resultItem.isItemHighlighted(ItemHighlighted.NAME));
-        Assert.assertEquals(resultItem.getHighlightedText(ItemHighlighted.NAME), "calendarevent");
     }
 
     /**
@@ -218,13 +197,9 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     @Test(groups = { "alfresco-one" }, priority = 6)
     public void testHighlightedWikiName() throws Exception
     {
-        SearchBox search = dashBoard.getSearch();
-        FacetedSearchPage resultPage = search.search("wikipage").render();
-        Assert.assertTrue(resultPage.hasResults());
-
-        FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(wikiPage);
-        Assert.assertTrue(resultItem.isItemHighlighted(ItemHighlighted.NAME));
-        Assert.assertEquals(resultItem.getHighlightedText(ItemHighlighted.NAME), "wikipage");
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "wikipage", wikiPage, true, 3));
+        FacetedSearchResult resultItem = siteActions.getFacetedSearchResult(driver, wikiPage);
+        Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, wikiPage, ItemHighlighted.NAME, "wikipage", true), "Highlighting results do not match");
     }
 
     /**
@@ -234,12 +209,9 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     @Test(groups = { "alfresco-one" }, priority = 7)
     public void testHighlightedLinkName() throws Exception
     {
-        SearchBox search = dashBoard.getSearch();
-        FacetedSearchPage resultPage = search.search(linkName).render();
-        Assert.assertTrue(resultPage.hasResults());
-
-        FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(linkName);
-        Assert.assertTrue(resultItem.isItemHighlighted(ItemHighlighted.NAME));
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, linkName, linkName, true, 3));
+        FacetedSearchResult resultItem = siteActions.getFacetedSearchResult(driver, linkName);
+        Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, linkName, ItemHighlighted.NAME, linkName, true), "Highlighting results do not match");
     }
 
     /**
@@ -249,12 +221,9 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     @Test(groups = { "alfresco-one" }, priority = 8)
     public void testHighlightedBlogName() throws Exception
     {
-        SearchBox search = dashBoard.getSearch();
-        FacetedSearchPage resultPage = search.search(blogName).render();
-        Assert.assertTrue(resultPage.hasResults());
-
-        FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(blogName);
-        Assert.assertTrue(resultItem.isItemHighlighted(ItemHighlighted.NAME));
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, blogName, blogName, true, 3));
+        FacetedSearchResult resultItem = siteActions.getFacetedSearchResult(driver, blogName);
+        Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, blogName, ItemHighlighted.NAME, blogName, true), "Highlighting results do not match");
     }
 
     /**
@@ -264,13 +233,9 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     @Test(groups = { "alfresco-one" }, priority = 9)
     public void testHighlightedDiscussionName() throws Exception
     {
-
-        SearchBox search = dashBoard.getSearch();
-        FacetedSearchPage resultPage = search.search(discussionName).render();
-        Assert.assertTrue(resultPage.hasResults());
-
-        FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(discussionName);
-        Assert.assertTrue(resultItem.isItemHighlighted(ItemHighlighted.NAME));
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, discussionName, discussionName, true, 3));
+        FacetedSearchResult resultItem = siteActions.getFacetedSearchResult(driver, discussionName);
+        Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, discussionName, ItemHighlighted.NAME, discussionName, true), "Highlighting results do not match");
     }
 
     /**
@@ -280,12 +245,9 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     @Test(groups = { "alfresco-one" }, priority = 10)
     public void testHighlightedDataListName() throws Exception
     {
-        SearchBox search = dashBoard.getSearch();
-        FacetedSearchPage resultPage = search.search(discussionName).render();
-        Assert.assertTrue(resultPage.hasResults());
-
-        FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(discussionName);
-        Assert.assertTrue(resultItem.isItemHighlighted(ItemHighlighted.NAME));
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, discussionName, discussionName, true, 3));
+        FacetedSearchResult resultItem = siteActions.getFacetedSearchResult(driver, discussionName);
+        Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, discussionName, ItemHighlighted.NAME, discussionName, true), "Highlighting results do not match");
     }
 
 }
