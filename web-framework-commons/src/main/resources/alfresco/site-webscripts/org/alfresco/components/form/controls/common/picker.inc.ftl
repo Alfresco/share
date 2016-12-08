@@ -46,7 +46,7 @@
    <#if field.control.params.startLocationParams??>
       startLocationParams: "${field.control.params.startLocationParams?js_string}",
    </#if>
-      currentValue: "${field.value}",
+      currentValue: "${field.value?js_string}",
       <#if field.control.params.valueType??>valueType: "${field.control.params.valueType}",</#if>
       <#if renderPickerJSSelectedValue??>selectedValue: "${renderPickerJSSelectedValue}",</#if>
       <#if field.control.params.selectActionLabelId??>selectActionLabelId: "${field.control.params.selectActionLabelId}",</#if>
