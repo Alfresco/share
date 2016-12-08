@@ -28,6 +28,7 @@ Carina Lansing<br/>
 Peter Lofgren<br/>
 Sebastian Lorenz<br/>
 Marlin Manowski<br/>
+Richard McKnight<br/>
 Jesper Steen M&oslash;ller<br/>
 Peter Monks<br/>
 Paolo Nacci<br/>
@@ -35,6 +36,7 @@ Guillaume Nodet<br/>
 Ian Norton<br/>
 Jan Pfitzner<br/>
 Noel Sharpe<br/>
+Antonio Soler<br/>
 Alfresco Engineering
 <br/><br/>
 Atol Conseils et D&eacute;veloppements<br/>
