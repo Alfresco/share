@@ -249,7 +249,7 @@ public class SiteActionsTest extends AbstractTest
 	  siteActions.openSiteDashboard(driver, siteName);
 	  siteActions.openDocumentLibrary(driver);
 	  siteActions.uploadFile(driver, file);
-	  siteActions.copyOrMoveArtifact(driver, factoryPage, DESTINATION.ALL_SITES, newSite, "", file.getName(), action, structure);
+	  siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, newSite, "", file.getName(), action, structure);
 	  siteActions.openSiteDashboard(driver, newSite);
 	  siteActions.openDocumentLibrary(driver);
     }

@@ -1164,7 +1164,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
      * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#selectDeleteLink()
      */
     @Override
-    public ConfirmDeletePage selectDeleteLink()
+    public HtmlPage selectDeleteLink()
     {
         try
         {
@@ -1187,7 +1187,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
             throw new StaleElementReferenceException("Unable to find the css ", st);
         }
 
-        return factoryPage.instantiatePage(driver, ConfirmDeletePage.class);
+        return factoryPage.getPage(driver);
     }
 
     /*
@@ -1197,7 +1197,8 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     @Override
     public HtmlPage deleteLink()
     {
-        return selectDeleteLink().selectAction(Action.Delete);
+        ConfirmDeletePage deleteConfirmation = selectDeleteLink().render();
+        return deleteConfirmation.selectAction(Action.Delete).render();
     }
 
     /*
@@ -2550,11 +2551,11 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     public boolean isTypeRecord()
     {
         boolean isTypeRecord = false;
-        WebElement rec = findElement(By.cssSelector(IN_COMPLETE_RECORD));
-        String rec_text = rec.getText();
 
         try
         {
+            WebElement rec = findElement(By.cssSelector(IN_COMPLETE_RECORD));
+            String rec_text = rec.getText();
             if (rec_text != null && rec_text.contains("Incomplete Record"))
             {
                 isTypeRecord = true;
@@ -2562,8 +2563,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
         }
         catch (Exception e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.info("Error checking Record: ", e);
         }
 
         return isTypeRecord;
@@ -2578,11 +2578,11 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     public boolean isFolderType()
     {
         boolean isTypeFolder = false;
-        WebElement rec = findElement(By.cssSelector(IS_FOLDER));
-        String rec_text = rec.getAttribute("src");
 
         try
         {
+            WebElement rec = findElement(By.cssSelector(IS_FOLDER));
+            String rec_text = rec.getAttribute("src");
             if (rec_text != null && rec_text.contains("png"))
             {
                 isTypeFolder = true;
@@ -2590,8 +2590,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
         }
         catch (Exception e)
         {
-
-            e.printStackTrace();
+            logger.info("Error checking if it's a folder: ", e);
         }
         return isTypeFolder;
     }
