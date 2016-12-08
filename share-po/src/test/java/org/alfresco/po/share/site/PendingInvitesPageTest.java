@@ -33,14 +33,10 @@ import java.util.List;
 
 import org.alfresco.po.AbstractTest;
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.NewUserPage;
-import org.alfresco.po.share.UserSearchPage;
 import org.alfresco.po.share.enums.UserRole;
 
 import org.alfresco.test.FailedTestListener;
-import org.alfresco.po.exception.PageRenderTimeException;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -97,6 +93,7 @@ public class PendingInvitesPageTest extends AbstractTest
         Assert.assertTrue(userCreated.hasResults());
         **/
         // Creating a site.
+        //TODO: Replace with SiteUtil code to create Site
         CreateSitePage createSitePage = dashBoard.getNav().selectCreateSite().render();
         SitePage site = createSitePage.createNewSite(siteName).render();
 
@@ -112,7 +109,7 @@ public class PendingInvitesPageTest extends AbstractTest
         membersPage.setAllRolesTo(UserRole.CONSUMER);
         membersPage.clickAddUsersButton();
         
-        
+        // TODO: Cleanup commented out code        
         /**
         for (int searchCount = 1; searchCount <= retrySearchCount; searchCount++)
         {
@@ -145,6 +142,13 @@ public class PendingInvitesPageTest extends AbstractTest
         siteMembersPage = site.getSiteNav().selectMembersPage().render();
     }
 
+    @AfterClass
+    public void tearDown()
+    {
+        siteUtil.deleteSite(username, password, siteName);
+    }
+
+    // TODO: Remove dependsOn, add priority
     @Test
     public void navigateToPendingInvitesPage()
     {
@@ -162,18 +166,14 @@ public class PendingInvitesPageTest extends AbstractTest
     @Test(dependsOnMethods = "checkSearch")
     public void cancelInvite()
     {
+    	//TODO: Amend cancelInvitation to return html page 
         pendingInvitesPage.cancelInvitation(userName);
         assertNotNull(pendingInvitesPage);
         verifyInviteCancelled(userNameTest);
         assertTrue(verifyInviteCancelled(userNameTest), "The invite wasn't cancelled!");
     }
 
-    @AfterClass
-    public void tearDown()
-    {
-        siteUtil.deleteSite(username, password, siteName);
-    }
-    
+// TODO: Remove test class specific methods, add a method on the pendingInvitesPage instead to check if there's active invite for the specified user    
     private boolean verifyInviteCancelled(String userName)
     {
         boolean cancelled = false;
