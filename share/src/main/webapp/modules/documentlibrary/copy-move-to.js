@@ -249,6 +249,10 @@
                	    {
                     	msgFailure = "message.exists.failure";
                	    }
+                    else if (error.indexOf("Cannot perform operation since the node") != -1)
+               	    {
+                    	msgFailure = "message.locked.failure";
+               	    }
 
                     Alfresco.util.PopupManager.displayMessage(
                     {
