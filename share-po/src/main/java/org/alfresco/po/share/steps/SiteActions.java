@@ -39,7 +39,6 @@ import org.alfresco.po.HtmlPage;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.SharePopup;
@@ -64,6 +63,7 @@ import org.alfresco.po.share.site.document.ContentDetails;
 import org.alfresco.po.share.site.document.ContentType;
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage;
 import org.alfresco.po.share.site.document.CopyOrMoveContentPage.ACTION;
+import org.alfresco.po.share.site.document.CopyOrMoveContentPage.DESTINATION;
 import org.alfresco.po.share.site.document.CreatePlainTextContentPage;
 import org.alfresco.po.share.site.document.DetailsPage;
 import org.alfresco.po.share.site.document.DocumentDetailsPage;
@@ -445,28 +445,6 @@ public class SiteActions extends CommonActions
     }
 
     /**
-     * isFileVisible is to check whether file or folder visible in specific site.
-     *
-     * @param driver WebDriver
-     * @param contentName String
-     * @param siteName String
-     * @return boolean
-     */
-    public boolean isFileVisible(WebDriver driver, String contentName, String siteName)
-    {
-        try
-        {
-            navigateToDocumentLibrary(driver, siteName);
-            getFileDirectoryInfo(driver, contentName);
-            return true;
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
-    }
-
-    /**
      * Open Site and then Open Document Library Assumes User is logged in and a
      * Specific Site Dashboard is open.
      *
@@ -716,56 +694,11 @@ public class SiteActions extends CommonActions
         openSiteURL(driver, siteName); 
         return openDocumentLibrary(driver).render();
     }
-
-    /**
-     * Copy or Move to File or folder from document library.
-     * 
-     * @param driver
-     * @param destination
-     * @param siteName
-     * @param fileName
-     * @return
-     */
-    public HtmlPage copyOrMoveArtifact(WebDriver driver, String destination, String siteName,  String fileName, String type, String... moveFolderName)
-    {
-        DocumentLibraryPage docPage =factoryPage.getPage(driver).render();
-        CopyOrMoveContentPage copyOrMoveToPage;
-
-        if (type.equals("Copy"))
-        {
-            copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectCopyTo().render();
-        }
-        else
-        {
-            copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectMoveTo().render();
-        }
-
-        copyOrMoveToPage.selectDestination(destination);
-        if(destination.contains("Sites"))
-        {
-        copyOrMoveToPage.selectSite(siteName).render();
-        }
-        if (moveFolderName != null)
-        {
-        	try
-        	{
-        		copyOrMoveToPage.selectPath(moveFolderName).render();
-        	}
-        	catch(Exception e)
-        	{
-        		//retry one last time.
-        		copyOrMoveToPage.selectPath(moveFolderName).render();
-        	}
-        }
-        copyOrMoveToPage.selectOkButton().render();
-        return getSharePage(driver);
-    }
     
     /**
      * Copy or Move to File or folder from document library.
      * 
      * @param driver WebDriver
-     * @param factory FactoryPage
      * @param destination String (options: Recent Sites, Favorite Sites, All Sites, Repository, Shared Files, My File)
      * @param siteName String - the siteName that exists in <destination>
      * @param siteDescription String - the siteDescription - IF THIS VALUE IS SET, THEN WE WILL SELECT THE SITE BY DESCRIPTION NOT BY <siteName>
@@ -773,11 +706,13 @@ public class SiteActions extends CommonActions
      * @return HtmlPage
      * @author pbrodner
      */
-    public HtmlPage copyOrMoveArtifact(WebDriver driver, FactoryPage factory, CopyOrMoveContentPage.DESTINATION destination, String siteName, String siteDescription, String fileName, CopyOrMoveContentPage.ACTION action, String... moveFolderName)
+    public HtmlPage copyOrMoveArtifact(WebDriver driver, DESTINATION destination, String siteName, String siteDescription, String fileName, CopyOrMoveContentPage.ACTION action, String... moveFolderName)
     {
-        DocumentLibraryPage docPage = factory.getPage(driver).render();
+        DocumentLibraryPage docPage = getSharePage(driver).render();
+        
         CopyOrMoveContentPage copyOrMoveToPage;
 
+        // Select Copy or Move To Action
         if (action == ACTION.COPY || action == ACTION.CREATE_LINK) 
         {
             copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectCopyTo().render();
@@ -787,13 +722,14 @@ public class SiteActions extends CommonActions
             copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectMoveTo().render();
         }
 
-        //if our <destination> is already selected - continue
+        // Select <destination> if not already selected
         String active = copyOrMoveToPage.getSelectedDestination();
         if(!active.equals(destination.getValue())) 
         {
             copyOrMoveToPage.selectDestination(destination.getValue());	 
         }
-
+        
+        // Select Site
         if(destination.hasSites())
         {
             if (siteDescription!=null && !siteDescription.isEmpty())
@@ -805,10 +741,14 @@ public class SiteActions extends CommonActions
                 copyOrMoveToPage.selectSite(siteName).render();
     	    }        	
         }
+        
+        // Select Destination Path
         if (moveFolderName != null && moveFolderName.length > 0)
         {
             copyOrMoveToPage.selectPath(moveFolderName).render();
         }
+        
+        // Select Create Link or Default Option
         if (action == ACTION.CREATE_LINK)
         {
             copyOrMoveToPage.selectCreateLinkButton().render();
@@ -817,6 +757,7 @@ public class SiteActions extends CommonActions
         {
             copyOrMoveToPage.selectOkButton().render();
         }
+        
         return getSharePage(driver);
     }
 

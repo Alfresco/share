@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -997,6 +998,16 @@ public class DocumentLibraryNavigation extends PageElement
     public HtmlPage selectMediaView()
     {
         return selectViewType("span.view.media_table");
+    }
+    
+    /**
+     * Selects the Filmstrip View of the Document Library.
+     * 
+     * @return {@link DocumentLibraryPage}
+     */
+    public HtmlPage selectGalleryView()
+    {
+        return selectViewType(".view.gallery");
     }
 
     /**
@@ -1948,11 +1959,11 @@ public class DocumentLibraryNavigation extends PageElement
         {
             return driver.findElement(BREAD_CRUMBS_PARENT_SPAN).getText();
         }
-        catch (TimeoutException e)
+        catch (NoSuchElementException e)
         {
-            logger.error("Exceeded time to find " + BREAD_CRUMBS_PARENT_SPAN, e);
+            logger.error("Unable to find BreadCrumb element: " + BREAD_CRUMBS_PARENT_SPAN, e);
         }
-        throw new PageException("Unable to find " + BREAD_CRUMBS_PARENT_SPAN);
+        throw new PageException("Unable to find BreadCrumb element: " + BREAD_CRUMBS_PARENT_SPAN);
     }
 
     /**
@@ -1968,7 +1979,7 @@ public class DocumentLibraryNavigation extends PageElement
             return getCurrentPage();
 
         }
-        catch (TimeoutException e)
+        catch (NoSuchElementException | StaleElementReferenceException e)
         {
             logger.error(BREAD_CRUMBS_PARENT + " isn't present");
             throw new PageException("Not able to find " + BREAD_CRUMBS_PARENT, e);
@@ -1987,7 +1998,7 @@ public class DocumentLibraryNavigation extends PageElement
             driver.findElement(BREAD_CRUMBS_PARENT_SPAN).click();
             return getCurrentPage();
         }
-        catch (TimeoutException e)
+        catch (NoSuchElementException | StaleElementReferenceException e)
         {
             logger.error(BREAD_CRUMBS_PARENT_SPAN + " isn't present");
             throw new PageException("Not able to find " + BREAD_CRUMBS_PARENT_SPAN, e);
