@@ -366,22 +366,30 @@ function getBulkActionWidgets()
       multiSelectAction = multiSelectActions.get(i);
       attr = multiSelectAction.attributes;
 
-      if(!attr["syncMode"] || attr["syncMode"].toString() == syncMode.value)
+      // See SHA-1876 - only allow actions supported by Aikau
+      if (attr.id === "onActionDownload" ||
+          attr.id === "onActionCopyTo" ||
+          attr.id === "onActionMoveTo" ||
+          attr.id === "onActionAssignWorkflow" ||
+          attr.id === "onActionDelete")
       {
-         // Multi-Select Actions
-         action = {
-            icon: attr["icon"] ? attr["icon"].toString() : "",
-            id: attr["id"] ? attr["id"].toString() : "",
-            type: attr["type"] ? attr["type"].toString() : "",
-            permission: attr["permission"] ? attr["permission"].toString() : "",
-            asset: attr["asset"] ? attr["asset"].toString() : "",
-            href: attr["href"] ? attr["href"].toString() : "",
-            label: attr["label"] ? attr["label"].toString() : "",
-            hasAspect: attr["hasAspect"] ? attr["hasAspect"].toString() : "",
-            notAspect: attr["notAspect"] ? attr["notAspect"].toString() : ""
-         };
+         if(!attr["syncMode"] || attr["syncMode"].toString() == syncMode.value)
+         {
+            // Multi-Select Actions
+            action = {
+               icon: attr["icon"] ? attr["icon"].toString() : "",
+               id: attr["id"] ? attr["id"].toString() : "",
+               type: attr["type"] ? attr["type"].toString() : "",
+               permission: attr["permission"] ? attr["permission"].toString() : "",
+               asset: attr["asset"] ? attr["asset"].toString() : "",
+               href: attr["href"] ? attr["href"].toString() : "",
+               label: attr["label"] ? attr["label"].toString() : "",
+               hasAspect: attr["hasAspect"] ? attr["hasAspect"].toString() : "",
+               notAspect: attr["notAspect"] ? attr["notAspect"].toString() : ""
+            };
 
-         actionWidgets.push(createAlfDocumentActionMenuItem(action))
+            actionWidgets.push(createAlfDocumentActionMenuItem(action))
+         }
       }
    }
    return actionWidgets;
