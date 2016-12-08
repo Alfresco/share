@@ -11,5 +11,10 @@
 			<classes>
 			<class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest1" />
 		    </classes>
-		</test>		
+		</test>
+		<test name="PendingRequestPageTests">		
+			<classes>
+			<class name="org.alfresco.po.share.usecases.PendingRequestPageETETest" />
+		    </classes>
+		</test>				
 </suite>

@@ -119,7 +119,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
                     
           createUser();    
                         
-          dashBoard = loginAs(userName1, UNAME_PASSWORD);          
+          loginAs(userName1, UNAME_PASSWORD);          
           
           siteUtil.createSite(driver, userName1, UNAME_PASSWORD, modSiteName1,"","Moderated");          
          
@@ -140,15 +140,15 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
           AddUsersToSitePage addUsersToSitePage = siteDashboardPage.getSiteNav().selectAddUser().render();
           siteUtil.addUsersToSite(driver, addUsersToSitePage, userName4, UserRole.MANAGER);      
                    
-          dashBoard = loginAs(userName2, UNAME_PASSWORD);                  
+          loginAs(userName2, UNAME_PASSWORD);                  
          
-          requestToJoinModSite(modSiteName1);
-          requestToJoinModSite(modSiteName2);
-          requestToJoinModSite(modSiteName3);
-          requestToJoinModSite(modSiteName4);
-          requestToJoinModSite(modSiteName5);
-          requestToJoinModSite(modSiteName6); 
-          requestToJoinModSite(modSiteName7); 
+          siteActions.requestToJoinModSite(driver,modSiteName1);
+          siteActions.requestToJoinModSite(driver,modSiteName2);
+          siteActions.requestToJoinModSite(driver,modSiteName3);
+          siteActions.requestToJoinModSite(driver,modSiteName4);
+          siteActions.requestToJoinModSite(driver,modSiteName5);
+          siteActions.requestToJoinModSite(driver,modSiteName6); 
+          siteActions.requestToJoinModSite(driver,modSiteName7); 
                                
     }
 
@@ -170,38 +170,15 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     public void teardown()
     {
         siteUtil.deleteSite(username, password, siteName);
-    }     
+    }    
            
-    /**
-     * Method for requesting to join moderated site when user already logged in
-     * @param  siteName
-     * @throws Exception
-     */ 
-    private SiteFinderPage requestToJoinModSite(String siteName) throws Exception
-    {
-    	siteFinder = dashBoard.getNav().selectSearchForSites().render();
-        siteFinder = siteFinder.searchForSite(siteName).render();
-        return siteFinder.requestToJoinSite(siteName).render();    		
-    }
-    
-    /**
-     * Method for navigating to PendingRequset Page when user already logged in
-     * @param  siteName
-     * @throws Exception
-     */ 
-    private PendingInvitesPage navigatePendingRequsetPage(String siteName) throws Exception
-    {
-    	siteDashboardPage = siteActions.openSiteDashboard(driver, siteName).render();
-    	siteMembersPage = siteDashboardPage.getSiteNav().selectMembersPage().render();
-    	return siteMembersPage.navigateToPendingInvites().render();    	
-    }
     
     /**
      * This test is to check User can accept the pending request from 
      * Manage pending Request Tab
      * 
      */
-    @Test(groups = "alfresco-one", enabled = true)
+    @Test(groups = "alfresco-one", priority = 1)
     public void AcceptPendingRequestTest() throws Exception
     {
     	String taskName = "Request to join "+ modSiteName1 +" site";
@@ -214,7 +191,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	assertTrue(myTasksPage.isTaskPresent(taskName), "Task is displayed");
     	    	
     	//Navigate to Pending request page on modSiteName1
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName1);
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName1).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);       
@@ -238,7 +215,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	
     	//Verify task is removed from My Task Dashlet
     	myTasksPage = dashBoard.getNav().selectMyTasks().render();
-    	 assertFalse(myTasksPage.isTaskPresent(taskName), "Task is displayed"); 	
+    	assertFalse(myTasksPage.isTaskPresent(taskName), "Task is displayed"); 	
     	    	
     } 
     
@@ -248,7 +225,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
      * 
      */
   
-    @Test(groups = "alfresco-one", enabled = true)
+    @Test(groups = "alfresco-one", priority = 2)
     public void RejectPendingRequestTest() throws Exception
     {
     	String taskName = "Request to join "+ modSiteName2 +" site";
@@ -261,7 +238,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	assertTrue(myTasksPage.isTaskPresent(taskName), "Task is displayed");  	
             	
     	//Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName2);
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName2).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);
@@ -298,7 +275,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
      * 
      */
     
-    @Test(groups = "alfresco-one", enabled = true)
+    @Test(groups = "alfresco-one", priority = 3)
     public void SavePendingRequestTest() throws Exception
     {
     	String taskName = "Request to join "+ modSiteName3 +" site";
@@ -311,7 +288,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	assertTrue(myTasksPage.isTaskPresent(taskName), "Task is displayed");  	
             	
     	//Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName3);
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName3).render();
     	
     	//Search for userName2
     	pendingRequestPage.searchRequest(userName2);     
@@ -352,7 +329,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
      * 
      */
     
-    @Test(groups = "alfresco-one", enabled = true)
+    @Test(groups = "alfresco-one", priority = 4)
     public void CancelEditTaskPendReqByApproverTest() throws Exception
     {
     	String taskName = "Request to join "+ modSiteName3 +" site";
@@ -365,7 +342,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	 assertTrue(myTasksPage.isTaskPresent(taskName), "Task is displayed");  	
             	
     	//Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName3);
+    	 pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName3).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);      
@@ -406,7 +383,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
      * 
      */
     
-    @Test(groups = "alfresco-one", enabled = true)
+    @Test(groups = "alfresco-one", priority = 5)
     public void CancelPendReqByRequestedUserTest() throws Exception
     {
     	String taskName = "Request to join "+ modSiteName4 +" site";
@@ -417,7 +394,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	 assertTrue(myTasksPage.isTaskPresent(taskName), "Task is displayed");  	
             	
     	//Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName4);
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName4).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);
@@ -447,8 +424,8 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	assertFalse(myTasksPage.isTaskPresent(taskName), "Task is displayed");
     	
     	//Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName4);
-    	
+    	siteActions.navigatePendingRequsetPage(driver, modSiteName4);
+    	 
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);
     	
@@ -465,14 +442,14 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
      * view the claimed pending request
      * 
      */ 
-    @Test(groups = "alfresco-one", enabled = true)
+    @Test(groups = "alfresco-one", priority = 6)
     public void TwoSiteManagersClaimTest() throws Exception
     {    	
 		
     	 dashBoard = loginAs(userName1, UNAME_PASSWORD);    
     	            	
     	//Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName5);
+    	 pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName5).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);      
@@ -484,7 +461,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	dashBoard = loginAs(userName4, UNAME_PASSWORD);
     	
     	//Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName5);
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName5).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);       
@@ -494,7 +471,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	
     	//click on the view button on user2 request
     	editTaskPage = pendingRequestPage.viewRequest(userName2).render();    	
-    	editTaskPage.selectClaim().render();
+    	editTaskPage = editTaskPage.selectClaim().render();
     	
     	//Click Save button
     	pendingRequestPage = editTaskPage.selectSaveButton().render();
@@ -503,24 +480,24 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	dashBoard = loginAs(userName1, UNAME_PASSWORD);   
     	
     	//Navigate to Pending request page
-     	pendingRequestPage = navigatePendingRequsetPage(modSiteName5);
-     	
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName5).render();
+    	 
      	//Search for user2
      	pendingRequestPage.searchRequest(userName2);
      	
      	//Verify Request list size is zero
         assertEquals(pendingRequestPage.getRequests().size(), 0);
          
-         dashBoard = loginAs(userName4, UNAME_PASSWORD);
-       //Navigate to Pending request page
-     	pendingRequestPage = navigatePendingRequsetPage(modSiteName5);
+        dashBoard = loginAs(userName4, UNAME_PASSWORD);
+        //Navigate to Pending request page
+        pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName5).render();
      	
      	//click on the view button on user2 request
     	editTaskPage = pendingRequestPage.viewRequest(userName2).render();    	
     	editTaskPage.selectReleaseToPool().render();
     	
     	//Navigate to Pending request page
-     	pendingRequestPage = navigatePendingRequsetPage(modSiteName5);     	
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName5).render(); 	
     	
     	//Search for user2
      	pendingRequestPage.searchRequest(userName2);	
@@ -531,8 +508,8 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	dashBoard = loginAs(userName1, UNAME_PASSWORD);    
     	
     	//Navigate to Pending request page
-     	pendingRequestPage = navigatePendingRequsetPage(modSiteName5);
-     	
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName5).render();
+    	 
      	//Search for user2
      	pendingRequestPage.searchRequest(userName2);
      	
@@ -548,7 +525,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
      * 
      */ 
     
-    @Test(groups = "alfresco-one", enabled = true)
+    @Test(groups = "alfresco-one", priority = 7)
     public void GroupSiteManagersTest() throws Exception
     {
     	
@@ -574,21 +551,22 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         addUser1.searchUser(userName4);
         addUser1.clickAddUserButton(); 
            
-        dashBoard = loginAs(userName1, UNAME_PASSWORD); 
+        loginAs(userName1, UNAME_PASSWORD);
+        siteDashboardPage = siteActions.openSiteDashboard(driver, modSiteName6).render();
         
         //Navigate to Add Users page
         addUsersToSitePage = siteDashboardPage.getSiteNav().selectAddUser().render();
         siteGroupsPage = addUsersToSitePage.navigateToSiteGroupsPage().render();
 
         //Add groupName to modSiteName6 with Manager Role
-        addGroupsPage = siteGroupsPage.navigateToAddGroupsPage();
+        addGroupsPage = siteGroupsPage.navigateToAddGroupsPage().render();
         addGroupsPage.addGroup(groupName, UserRole.MANAGER);                     
         Assert.assertTrue(addGroupsPage.isGroupAdded(groupName));    	            	
 
-      	dashBoard = loginAs(userName3, UNAME_PASSWORD);      	 
+      	loginAs(userName3, UNAME_PASSWORD);      	 
            
         //Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName6);
+      	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName6).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);       
@@ -600,7 +578,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	dashBoard = loginAs(userName4, UNAME_PASSWORD);
     	
     	//Navigate to Pending request page on modSiteName6
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName6);
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName6).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);       
@@ -616,7 +594,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
      * Edit Task Page
      * 
      */
-    @Test(groups = "alfresco-one", enabled = true)
+    @Test(groups = "alfresco-one", priority = 8)
     public void AcceptPendingRequestInEditTaskPageTest() throws Exception
     {
     	String taskName = "Request to join "+ modSiteName7 +" site";
@@ -629,7 +607,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     	assertTrue(myTasksPage.isTaskPresent(taskName), "Task is displayed");  	
             	
     	//Navigate to Pending request page
-    	pendingRequestPage = navigatePendingRequsetPage(modSiteName7);
+    	pendingRequestPage = siteActions.navigatePendingRequsetPage(driver, modSiteName7).render();
     	
     	//Search for user2
     	pendingRequestPage.searchRequest(userName2);       

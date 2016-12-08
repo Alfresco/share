@@ -278,7 +278,8 @@ public class SiteFinderPage extends SharePage
 
         try
         {
-            WebElement deleteButton = findButtonForSite(siteName, "Delete");
+        	String delete = factoryPage.getValue("delete.button.label");
+        	WebElement deleteButton = findButtonForSite(siteName, delete);
             removeSite(deleteButton);
         }
         catch (PageException pe)
@@ -306,13 +307,15 @@ public class SiteFinderPage extends SharePage
 
     /**
      * Confirm delete dialog acceptance action.
+     * {@link HtmlPage} page response object
      */
     private HtmlPage confirmDelete()
     {
         WebElement prompt = findAndWaitById(PROMPT_PANEL_ID);
         List<WebElement> elements = prompt.findElements(By.tagName("button"));
         // Find the delete button in the prompt
-        WebElement delete = findButton("Delete", elements);
+       String deleteButton = factoryPage.getValue("delete.button.label");
+        WebElement delete = findButton(deleteButton, elements);
         delete.click();
         if (logger.isTraceEnabled())
         {
@@ -323,6 +326,7 @@ public class SiteFinderPage extends SharePage
 
     /**
      * Final step to confirm delete dialog acceptance action.
+     * {@link HtmlPage} page response object
      */
     private HtmlPage finalConfimration()
     {
@@ -350,7 +354,7 @@ public class SiteFinderPage extends SharePage
      * Simulates the action of user clicking on Join button.
      * 
      * @param siteName String site name
-     * @return {@link SiteFinderPage} page response object
+     * @return {@link HtmlPage} page response object
      */
     public HtmlPage joinSite(final String siteName)
     {
@@ -358,7 +362,9 @@ public class SiteFinderPage extends SharePage
         {
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
-        findButtonForSite(siteName, "Join").click();
+        String joinButton = factoryPage.getValue("sites.button.join");
+        WebElement joinSite = findButtonForSite(siteName, joinButton);
+        joinSite.click();
         return getCurrentPage();
     }
 
@@ -366,7 +372,7 @@ public class SiteFinderPage extends SharePage
      * Simulates the action of user clicking on Request to Join button.
      * 
      * @param siteName String site name
-     * @return {@link SiteFinderPage} page response object
+     * @return {@link HtmlPage} page response object
      */
     public HtmlPage requestToJoinSite(final String siteName)
     {
@@ -374,7 +380,9 @@ public class SiteFinderPage extends SharePage
         {
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
-        findButtonForSite(siteName, "Request to Join").click();
+        String requestjoinButton = factoryPage.getValue("sites.button.requsetjoin");
+        WebElement requestJoin = findButtonForSite(siteName, requestjoinButton);
+        requestJoin.click();
         return getCurrentPage();
     }
 
@@ -382,7 +390,7 @@ public class SiteFinderPage extends SharePage
      * Simulates the action of user clicking on Leaving to Join button.
      * 
      * @param siteName String site name
-     * @return {@link SiteFinderPage} page response object
+     * @return {@link HtmlPage} page response object
      */
     public HtmlPage leaveSite(final String siteName)
     {
@@ -390,7 +398,9 @@ public class SiteFinderPage extends SharePage
         {
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
-        findButtonForSite(siteName, "Leave").click();
+        String leavesiteButton = factoryPage.getValue("sites.button.Leave"); 
+        WebElement leaveSite = findButtonForSite(siteName, leavesiteButton);
+        leaveSite.click();
         return getCurrentPage();
     }
     
@@ -398,7 +408,7 @@ public class SiteFinderPage extends SharePage
      * Simulates the action of user clicking on Cancel Request button.
      * 
      * @param siteName String site name
-     * @return {@link SiteFinderPage} page response object
+     * @return {@link HtmlPage} page response object
      */
     public HtmlPage cancelRequestSite(final String siteName)
     {
@@ -406,7 +416,9 @@ public class SiteFinderPage extends SharePage
         {
             throw new UnsupportedOperationException("Site Name can't be empty or null, It is required");
         }
-        findButtonForSite(siteName, "Cancel Request").click();
+        String cancelRequestButton = factoryPage.getValue("sites.button.cancelrequest"); 
+        WebElement cancelRequest = findButtonForSite(siteName, cancelRequestButton);
+        cancelRequest.click();
         return getCurrentPage();
     }
 
@@ -465,7 +477,7 @@ public class SiteFinderPage extends SharePage
      * Simulates the action of user clicking on Site.
      * 
      * @param siteName String site name
-     * @return {@link SiteDashboardPage} page response object
+     * @return {@link HtmlPage} page response object
      */
     public HtmlPage selectSite(final String siteName)
     {
@@ -559,7 +571,8 @@ public class SiteFinderPage extends SharePage
      */
     public HtmlPage clickDelete(String siteName)
     {
-        WebElement deleteButton = findButtonForSite(siteName, "Delete");
+    	String delete = factoryPage.getValue("delete.button.label");
+    	WebElement deleteButton = findButtonForSite(siteName, delete);
         deleteButton.click();
         return factoryPage.instantiatePage(driver, DeleteSitePage.class);
     }

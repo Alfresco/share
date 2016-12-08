@@ -192,7 +192,7 @@ public class PendingInvitesPage extends SharePage
               } 
             
         }
-        catch (NoSuchElementException e )
+        catch (TimeoutException e )
         {
             if (logger.isTraceEnabled())
             {
@@ -234,10 +234,10 @@ public class PendingInvitesPage extends SharePage
 			}
 			throw new PageException("View Button not found");
 		} 
-		catch (TimeoutException e) 
+		catch (NoSuchElementException e) 
 		{
-			logger.error("View button not available : " + VIEW_BUTTON.toString());
-			throw new PageException("Not able to find the view button.", e);
+			logger.error("No request users are retrieved : " + USER_NAME_FROM_REQUEST_LIST.toString());
+			throw new PageException("No request users are retrieved:", e);
 		}
 
 	}
@@ -272,10 +272,10 @@ public class PendingInvitesPage extends SharePage
 			}
 			throw new PageException("Accept Button not found");
 		} 
-        catch (TimeoutException e) 
+        catch (NoSuchElementException e) 
         {
-			logger.error("Accept button not available : " + ACCEPT_BUTTON.toString());
-			throw new PageException("Not able to find the accept button.", e);
+			logger.error("No request users are retrieved : " + USER_NAME_FROM_REQUEST_LIST.toString());
+			throw new PageException("No request users are retrieved", e);
 		}
 	
     }
@@ -285,15 +285,25 @@ public class PendingInvitesPage extends SharePage
      *
      * @param searchText
      */
-    public void searchRequest(String searchText)
-    {
-        checkNotNull(searchText);
-        WebElement inputField = findAndWait(REQUEST_SEARCH_FIELD);
-        inputField.clear();
-        inputField.sendKeys(searchText);
-        WebElement searchButton = findAndWait(REQUEST_SEARCH_BTN);
-        searchButton.click();      
-    }
+	public PendingInvitesPage searchRequest(String searchText) 
+	{
+		try 
+		{
+			checkNotNull(searchText);
+			WebElement inputField = findAndWait(REQUEST_SEARCH_FIELD);
+			inputField.clear();
+			inputField.sendKeys(searchText);
+			WebElement searchButton = findAndWait(REQUEST_SEARCH_BTN);
+			searchButton.click();
+			return this;
+		} 
+		catch (NoSuchElementException | TimeoutException  ne) 
+		{
+			logger.error("REQUEST_SEARCH_BTN not available : " + REQUEST_SEARCH_BTN.toString());
+			throw new PageException("Not able to find the request search button.", ne);
+		}		
+
+	}
     
     /**
      * Methods used to cancel the invitation
