@@ -452,6 +452,20 @@ public interface FileDirectoryInfo
     boolean isShareLinkVisible();
 
     /**
+     * Checks if the Like option is visible
+     *
+     * @return {boolean} true if Like option is visible
+     */
+    boolean isLikeVisible();
+
+    /**
+     * Checks if the Favorite option is visible
+     *
+     * @return {boolean} true if Favorite option is visible
+     */
+    boolean isFavoriteVisible();
+
+    /**
      * Checks if view in browser icon is visible.
      *
      * @return boolean
