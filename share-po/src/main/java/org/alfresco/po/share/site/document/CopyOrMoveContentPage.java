@@ -325,17 +325,19 @@ public class CopyOrMoveContentPage extends ShareDialogue
         {
             WebElement button = driver.findElement(copyCreateLinkButtonCss);
             button.click();
+            // TODO: waitUntilAlert();
             return getCurrentPage();
         }
         catch (NoSuchElementException nse)
         {
             logger.error("Create Link button not visible. ", nse);
         }
+        // TODO: Catch StateElementException or general Exception instead
         catch (TimeoutException te)
         {
             logger.error("Unable to find Create Link element. ", te);
         }
-        throw new PageException("Unable to find document site title element.");
+        throw new PageException("Unable to Create Link.");
     }
 
     /**

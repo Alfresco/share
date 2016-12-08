@@ -37,7 +37,6 @@ import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
-import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -57,9 +56,10 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     private final By destinationListCss = By
             .cssSelector("div[class='sub-pickers']>div[class^='alfresco-menus-AlfMenuBar']>div>div[class^='dijitReset dijitInline']>span");
     private final By copyMoveOkOrCancelButtonCss = By.cssSelector(".footer .dijitButtonText");
-    //private static final By CREATE_LIKE_BUTTON = By.xpath("//span[contains(@id,'alfresco_buttons_AlfButton')][text()='Create a link']");
-    private static final By CREATE_LIKE_BUTTON =
+    
+    private static final By CREATE_LINK_BUTTON =
             By.cssSelector("#ALF_COPY_MOVE_DIALOG > div.dijitDialogPaneContent > div.footer > span:nth-child(1) > span [aria-disabled]");
+    
     private final By copyMoveDialogCloseButtonCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class^=dijitDialogCloseIcon ]");
     private final By copyMoveDialogTitleCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class='dijitDialogTitle']");
     private String PathFolderCss = "//div[starts-with(@id,'alfresco_documentlibrary_views_AlfDocumentListView')] //tr/td/span/span/span[@class='value'][text()='%s']";
@@ -455,14 +455,14 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     {
         try
         {
-            WebElement createLikeButton = driver.findElement(CREATE_LIKE_BUTTON);
+            WebElement createLikeButton = driver.findElement(CREATE_LINK_BUTTON);
             return createLikeButton.isDisplayed();
         }
         catch (NoSuchElementException nse)
         {
             logger.error("Create Link button is not found ", nse);
-            return false;
         }
+        return false;
     }
 
     /**
@@ -474,15 +474,15 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     {
         try
         {
-            WebElement createLikeButton = driver.findElement(CREATE_LIKE_BUTTON);
+            WebElement createLikeButton = driver.findElement(CREATE_LINK_BUTTON);
             //return ( isCreateLinkButtonDisplayed() && createLikeButton.isEnabled() );
             return ( createLikeButton.getAttribute("aria-disabled").toString().equals("false") );
         }
         catch (NoSuchElementException nse)
         {
             logger.error("CreateLink button is not found ", nse);
-            return false;
         }
+        return false;
     }
 
     /**

@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.alfresco.po.AbstractTest;
-import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.RepositoryPage;
 import org.alfresco.po.share.search.*;
@@ -215,13 +214,13 @@ public class CreateLinkToFileFolderTest extends AbstractTest
 
         FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(file1.getName());
 
-        CopyAndMoveContentFromSearchPage copyDialog = resultItem.selectActionFromActionsMenu(FacetedSearchResultActionsMenu.COPY_TO).render();
+        CopyAndMoveContentFromSearchPage copyDialog = resultItem.selectAction(FacetedSearchResultActionsMenu.COPY_TO).render();
         Assert.assertTrue(copyDialog.isCreateLinkButtonDisplayed(), "Create Link button not visible");
         Assert.assertFalse(copyDialog.isCreateLinkButtonEnabled(), "Create Link button is enabled!!");
         
         copyDialog.cancelCopyOrMove().render();
 
-        copyDialog = resultItem.selectActionFromActionsMenu(FacetedSearchResultActionsMenu.MOVE_TO).render();
+        copyDialog = resultItem.selectAction(FacetedSearchResultActionsMenu.MOVE_TO).render();
         Assert.assertFalse(copyDialog.isCreateLinkButtonDisplayed(), "Create Link button visible");
     }
 
