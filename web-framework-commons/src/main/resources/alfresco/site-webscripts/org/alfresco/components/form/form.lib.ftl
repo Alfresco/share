@@ -16,7 +16,7 @@
          [
             <#list form.fields?keys as field>
             {
-               id : "${form.fields[field].id}"
+               id : "${form.fields[field].id?js_string}"
             }
             <#if field_has_next>,</#if>
             </#list>
