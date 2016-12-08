@@ -177,7 +177,15 @@ public class ActionsSet extends PageElement
         if (PageUtils.usableElement(menu))
         {
             // Within the menu element find the MENU_ROWS
-            return menu.findElements(MENU_ROWS);
+            List<WebElement> actions = menu.findElements(MENU_ROWS);
+            if (actions.size() > 0)
+            {
+                return actions;
+            }
+            else
+            {
+                return getMenuRows();
+            }
         }
 
         return new ArrayList<WebElement>();
