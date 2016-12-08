@@ -2053,15 +2053,16 @@
        */
       _extractNewVersionMimetypeDescription: function DNDUpload__extractNewVersionMimetypeDescription(scope, response, mimetype)
       {
-         response = response.json.data;
+         var mimetypesResponse = response.json.data;
+         var selectedMimetype = String(new Object(mimetype)).toLowerCase();
           
-         if (response[mimetype])
+         if (mimetypesResponse[selectedMimetype])
          {
-             scope._setComparisonNewVersionMimetype(response[mimetype].description);
+             scope._setComparisonNewVersionMimetype(mimetypesResponse[selectedMimetype].description);
          }
          else
          {
-             scope._setComparisonNewVersionMimetype(mimetype);
+             scope._setComparisonNewVersionMimetype(selectedMimetype);
          }  
       },
       
