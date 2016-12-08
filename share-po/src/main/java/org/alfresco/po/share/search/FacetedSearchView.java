@@ -230,6 +230,7 @@ public class FacetedSearchView extends SharePage
         }
         catch (TimeoutException e)
         {
+
             logger.error("Unable to get the name : ", e);
         }
         throw new PageOperationException("Unable to get the name  : ");
@@ -242,7 +243,9 @@ public class FacetedSearchView extends SharePage
         return null;
     }
 
-    // TODO: Add Docs
+    /**
+     * Verify if any search result is highlighted in Gallery View.
+     */
     public boolean isAnyItemHighlightedGalleryView()
     {
         List<WebElement> elements = driver.findElements(GALLERY_VIEW_RESULT);
