@@ -1325,7 +1325,7 @@
 
       _aos_tryToLaunchOfficeByMsProtocolHandler: function dlA__aos_tryToLaunchOfficeByMsProtocolHandler(officeLauncher, protocolHandler, url)
       {
-          var protocolUrl = protocolHandler + ':ofe%7Cu%7C' + encodeURI(url);
+          var protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
           var protocolHandlerPresent = false;
 
           var input = document.createElement('input');
