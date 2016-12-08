@@ -68,16 +68,11 @@ public class CreateLinkToFileFolderTest extends AbstractTest
     private RepositoryPage repoPage;
     private DashBoardPage dashBoard;
     private DocumentLibraryPage docLib;
-    
-
-    @Autowired
-    SiteActions siteActions;
 
     private CopyOrMoveContentPage copyOrMoveContentPage;
 
-    List<String> destinations = new LinkedList<String>();
-    List<String> sites = new LinkedList<String>();
-    List<String> folders = new LinkedList<String>();
+    @Autowired
+    SiteActions siteActions;
 
     @BeforeClass
     public void prepare() throws Exception
@@ -297,18 +292,17 @@ public class CreateLinkToFileFolderTest extends AbstractTest
     public void testCreateLinkToFile()
     {
         siteActions.navigateToDocumentLibrary(driver, siteName1).render();
-
-        FileDirectoryInfo fileRow = siteActions.getFileDirectoryInfo(driver, file1.getName());
-
-        copyOrMoveContentPage = fileRow.selectCopyTo().render();
-        Assert.assertTrue(copyOrMoveContentPage.isCreateLinkButtonVisible(), "Create Link button not visible");
-
-        copyOrMoveContentPage.selectSite(siteName2).render();
-        copyOrMoveContentPage.selectCreateLinkButton().render();
+        
+        siteActions.copyOrMoveArtifact(driver, factoryPage, CopyOrMoveContentPage.DESTINATION.ALL_SITES,
+                siteName2, "", file1.getName(), CopyOrMoveContentPage.ACTION.CREATE_LINK);
 
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName2).render();
         
-        Assert.assertTrue(docLib.isFileVisible("Link to " + file1.getName()));
+        String linkName = "Link to " + file1.getName();
+        Assert.assertTrue(docLib.isFileVisible(linkName));
+        
+        FileDirectoryInfo row = docLib.getFileDirectoryInfo(linkName);
+        Assert.assertTrue(row.isLinkToFile(), "Element is not a link to a file");
     }
 
     /**
@@ -318,35 +312,38 @@ public class CreateLinkToFileFolderTest extends AbstractTest
     public void testCreateLinkToFolder()
     {
         siteActions.navigateToDocumentLibrary(driver, siteName1).render();
-
-        FileDirectoryInfo folderRow = siteActions.getFileDirectoryInfo(driver, folderName1);
-
-        copyOrMoveContentPage = folderRow.selectCopyTo().render();
-        Assert.assertTrue(copyOrMoveContentPage.isCreateLinkButtonVisible(), "Create Link button not visible");
-
-        copyOrMoveContentPage.selectSite(siteName2).render();
-        copyOrMoveContentPage.selectCreateLinkButton().render();
+        
+        siteActions.copyOrMoveArtifact(driver, factoryPage, CopyOrMoveContentPage.DESTINATION.ALL_SITES, 
+                siteName2, "", folderName1, CopyOrMoveContentPage.ACTION.CREATE_LINK);
 
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName2).render();
         
-        Assert.assertTrue(docLib.isItemVisble("Link to " + folderName1));
+        String linkName = "Link to " + folderName1;
+        Assert.assertTrue(docLib.isItemVisble(linkName));
+        
+        FileDirectoryInfo row = docLib.getFileDirectoryInfo(linkName);
+        Assert.assertTrue(row.isLinkToFolder(), "Element is not a link to a folder");
     }
 
     /**
      * Check that multiple links can be created on a single document, in different locations
      */
-    //@Test(priority = 10)
-    public void test() throws Exception
+    @Test(priority = 10)
+    public void testCreateMultiLinksToFile() throws Exception
     {
-        //loginAs(username, password);
+        siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+        
+        siteActions.copyOrMoveArtifact(driver, factoryPage, CopyOrMoveContentPage.DESTINATION.ALL_SITES, 
+                siteName1, "", file1.getName(), CopyOrMoveContentPage.ACTION.CREATE_LINK);
 
-        dashBoard = adminActions.openUserDashboard(driver);
-        repoPage = dashBoard.getNav().selectRepository().render();
-        repoPage = repoPage.selectFolder("Sites").render();
+        siteActions.copyOrMoveArtifact(driver, factoryPage, CopyOrMoveContentPage.DESTINATION.ALL_SITES,
+                siteName2, "", file1.getName(), CopyOrMoveContentPage.ACTION.CREATE_LINK);
 
-        FileDirectoryInfo row = repoPage.getFileDirectoryInfo(siteName1);
-        CopyOrMoveContentPage copyOrMoveContentPage = row.selectCopyTo().render();
-        Assert.assertFalse(copyOrMoveContentPage.isCreateLinkButtonVisible(), "Create Link button is visible for sites!!");
+        docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+        Assert.assertTrue(docLib.isFileVisible("Link to " + file1.getName()));
+
+        docLib = siteActions.navigateToDocumentLibrary(driver, siteName2).render();
+        Assert.assertTrue(docLib.isFileVisible("Link to " + file1.getName()));
     }
     
 }

@@ -41,7 +41,7 @@ public enum DocumentAction
     MANAGE_PERMISSION_DOC(".document-manage-granular-permissions", DetailsPageType.DOCUMENT),
     MANAGE_PERMISSION_FOL(".document-manage-granular-permissions", DetailsPageType.FOLDER),
     MANAGE_PERMISSION_REPO(".document-manage-repo-permissions", DetailsPageType.FOLDER),
-    CHNAGE_TYPE("div[id$='onActionChangeType']", DetailsPageType.COMMON),
+    CHANGE_TYPE("div[id$='onActionChangeType']", DetailsPageType.COMMON),
     EDIT_PROPERTIES(".document-edit-metadata", DetailsPageType.COMMON),
     MANAGE_RULES(".folder-manage-rules", DetailsPageType.FOLDER),
     DOWNLOAD_FOLDER("div[id$='onActionFolderDownload']", DetailsPageType.FOLDER),

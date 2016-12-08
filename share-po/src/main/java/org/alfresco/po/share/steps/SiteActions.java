@@ -743,7 +743,8 @@ public class SiteActions extends CommonActions
     /**
      * Copy or Move to File or folder from document library.
      * 
-     * @param drone WebDriver
+     * @param driver WebDriver
+     * @param factory FactoryPage
      * @param destination String (options: Recent Sites, Favorite Sites, All Sites, Repository, Shared Files, My File)
      * @param siteName String - the siteName that exists in <destination>
      * @param siteDescription String - the siteDescription - IF THIS VALUE IS SET, THEN WE WILL SELECT THE SITE BY DESCRIPTION NOT BY <siteName>
@@ -756,10 +757,12 @@ public class SiteActions extends CommonActions
         DocumentLibraryPage docPage = factory.getPage(driver).render();
         CopyOrMoveContentPage copyOrMoveToPage;
 
-        if (action==ACTION.COPY) {
+        if (action == ACTION.COPY || action == ACTION.CREATE_LINK) 
+        {
             copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectCopyTo().render();
         }
-        else {
+        else
+        {
             copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectMoveTo().render();
         }
 
@@ -780,7 +783,14 @@ public class SiteActions extends CommonActions
         if (moveFolderName != null && moveFolderName.length > 0){
             copyOrMoveToPage.selectPath(moveFolderName).render();
         }
-        copyOrMoveToPage.selectOkButton().render();
+        if (action == ACTION.CREATE_LINK)
+        {
+            copyOrMoveToPage.selectCreateLinkButton().render();
+        }
+        else
+        {
+            copyOrMoveToPage.selectOkButton().render();
+        }
         return getSharePage(driver);
     }
 
