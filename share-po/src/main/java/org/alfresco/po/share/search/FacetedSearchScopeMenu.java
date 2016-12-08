@@ -30,11 +30,15 @@ import java.util.List;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.FactoryPage;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * The Class FacetedSearchScopeMenu.
@@ -49,10 +53,35 @@ public class FacetedSearchScopeMenu extends PageElement
     private static final By MENU_ITEMS = By.cssSelector("div#FCTSRCH_SCOPE_SELECTION_MENU_dropdown tr.dijitMenuItem");
 
     private WebElement labelElement;
+   // private FacetedSearchPage facetedPage;
     private WebElement menuButton;
     private String currentSelection;
     private List<WebElement> menuElements = new ArrayList<WebElement>();
+    Log logger = LogFactory.getLog(this.getClass());
 
+    public enum ScopeMenuSelectedItemsMenu
+    {
+        SPECIFIC_SITE ("div#FCTSRCH_SCOPE_SELECTION_MENU_dropdown tr#FCTSRCH_SET_SPECIFIC_SITE_SCOPE"),
+        ALL_SITES ("div#FCTSRCH_SCOPE_SELECTION_MENU_dropdown tr#FCTSRCH_SET_ALL_SITES_SCOPE"),
+        REPOSITORY ("div#FCTSRCH_SCOPE_SELECTION_MENU_dropdown tr#FCTSRCH_SET_REPO_SCOPE");
+
+        private String linkValue;
+
+        private ScopeMenuSelectedItemsMenu(String link)
+        {
+            linkValue = link;
+        }
+
+        /**
+         * Get value of CSS from the page type.
+         *
+         * @return String
+         */
+        public String getOption()
+        {
+            return linkValue;
+        }
+    }
     /**
      * Instantiates a new faceted search form.
      */
@@ -138,7 +167,7 @@ public class FacetedSearchScopeMenu extends PageElement
     /**
      * Open the scope menu.
      */
-    private void openMenu()
+    public void openMenu()
     {
         this.menuButton.click();
         this.menuElements = this.driver.findElements(MENU_ITEMS);
@@ -147,10 +176,30 @@ public class FacetedSearchScopeMenu extends PageElement
     /**
      * Cancel an open menu.
      */
-    private void cancelMenu()
+    public void cancelMenu()
     {
         this.labelElement.click();
         this.menuElements.clear();
     }
 
+    /**
+     * Navigate through the scope menu.
+     */
+    public HtmlPage navigateMenu(ScopeMenuSelectedItemsMenu item)  {
+
+        try
+        {
+            openMenu();
+
+                driver.findElement(By.cssSelector(item.getOption())).click();
+                return getCurrentPage();
+
+        }
+        catch (TimeoutException e)
+        {
+            String exceptionMessage = "Not able to find the option";
+            logger.error(exceptionMessage, e);
+            throw new PageException(exceptionMessage);
+        }
+    }
 }
