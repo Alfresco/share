@@ -1259,7 +1259,7 @@ public class SiteActions extends CommonActions
      * Utility for navigating to PendingRequset Page when user already logged in
      * @param  siteName     
      */
-    public HtmlPage navigatePendingRequsetPage(WebDriver driver, String modSiteName)
+    public HtmlPage navigateToPendingRequestPage(WebDriver driver, String modSiteName)
     {
     	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render();
     	SiteMembersPage siteMembersPage = siteDashboardPage.getSiteNav().selectMembersPage().render();
