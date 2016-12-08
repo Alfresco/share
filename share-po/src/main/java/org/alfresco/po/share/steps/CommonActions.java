@@ -550,4 +550,55 @@ public abstract class CommonActions
 	    return getSharePage(driver).render();
 	}
 
+    /**
+     * Utility to check the search highlighting works
+     * 
+     * @param driver
+     * @param searchResultName
+     * @param resultComponentToCheck
+     * @param termHighlighted
+     * @param expectedResult
+     * @return true if results are as expected, false if not
+     */
+    public boolean checkSearchResultHighlighting(WebDriver driver, String searchResultName, ItemHighlighted resultComponentToCheck, String termHighlighted, boolean expectedResult)
+    {
+
+        boolean SearchResultHighlighting = false;        
+
+        FacetedSearchPage resultPage = getSharePage(driver).render();
+
+        FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(searchResultName);
+        if (resultItem.isItemHighlighted(resultComponentToCheck) == expectedResult)
+        {
+            SearchResultHighlighting = true;
+        }
+
+        if (termHighlighted.equalsIgnoreCase(resultItem.getHighlightedText(resultComponentToCheck)))
+        {
+            SearchResultHighlighting = SearchResultHighlighting && true;
+        }
+        else
+        {
+            SearchResultHighlighting = SearchResultHighlighting && false;
+        }
+
+        return SearchResultHighlighting;
+    }
+  
+    /**
+     * Utility to get specified FacetedSearchResult from the current page
+     * @param driver
+     * @param searchResultName
+     * @return
+     */
+    public FacetedSearchResult getFacetedSearchResult(WebDriver driver, String searchResultName)
+    {
+
+      FacetedSearchPage resultPage = getSharePage(driver).render();
+
+      FacetedSearchResult resultItem = (FacetedSearchResult) resultPage.getResultByName(searchResultName);
+
+        return resultItem;
+    }
+
 }

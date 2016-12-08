@@ -33,10 +33,10 @@ package org.alfresco.po.share.search;
 public enum ItemHighlighted
 {
 
-        NAME("div.nameAndTitleCell span.alfresco-renderers-Property:first-of-type span.inner a mark"), TITLE(
-        "div.nameAndTitleCell span.alfresco-renderers-Property.alfresco-renderers-Property.small>span.inner>span.value mark"), DESCRIPTION(
-        "div.descriptionCell span.value mark"), CONTENT(
-        "div.contentCell span.alfresco-renderers-Property mark");
+        NAME("div.nameAndTitleCell span.alfresco-renderers-Property:first-of-type span.inner a mark"), 
+        TITLE("div.nameAndTitleCell span.alfresco-renderers-Property.alfresco-renderers-Property.small>span.inner>span.value mark"), 
+        DESCRIPTION("div.descriptionCell span.value mark"), 
+        CONTENT("div.contentCell span.alfresco-renderers-Property mark");
 
         private String ItemHighlighedValue;
 
