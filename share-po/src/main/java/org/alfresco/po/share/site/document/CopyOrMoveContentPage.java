@@ -76,6 +76,8 @@ public class CopyOrMoveContentPage extends ShareDialogue
             .cssSelector("button[id$='default-copyMoveTo-ok-button'], button[id$='_default-ruleConfigAction-destinationDialog-ok-button']");
     private final By copyMoveCancelButtonCss = By
             .cssSelector("button[id$='default-copyMoveTo-cancel-button'], button[id$='_default-ruleConfigAction-destinationDialog-cancel']");
+    private final By copyCreateLinkButtonCss = By
+            .cssSelector("button[id$='default-copyMoveTo-link-button']");
     private final By copyMoveDialogCloseButtonCss = By
             .cssSelector("div[id$='default-copyMoveTo-dialog'] .container-close, div[id$='_default-ruleConfigAction-destinationDialog-dialog'] .container-close");
     private final By copyMoveDialogTitleCss = By
@@ -266,6 +268,25 @@ public class CopyOrMoveContentPage extends ShareDialogue
     }
 
     /**
+     * Check if Create Link button is displayed
+     *
+     * @return boolean
+     */
+    public boolean isCreateLinkButtonVisible()
+    {
+        try
+        {
+            WebElement button = driver.findElement(copyCreateLinkButtonCss);
+            return button.isDisplayed();
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Create Link button is not present", nse);
+            return false;
+        }
+    }
+
+    /**
      * This method finds the clicks on copy/move button.
      *
      * @return HtmlPage Document library page/ Repository Page
@@ -292,6 +313,29 @@ public class CopyOrMoveContentPage extends ShareDialogue
             //ignore exception as this is only used to verify the message dialog disappears. 
         }
         return getCurrentPage();
+    }
+
+    /**
+     * This method finds and clicks on Create Link button and
+     * 
+     */
+    public HtmlPage selectCreateLinkButton()
+    {
+        try
+        {
+            WebElement button = driver.findElement(copyCreateLinkButtonCss);
+            button.click();
+            return getCurrentPage();
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Create Link button not visible. ", nse);
+        }
+        catch (TimeoutException te)
+        {
+            logger.error("Unable to find Create Link element. ", te);
+        }
+        throw new PageException("Unable to find document site title element.");
     }
 
     /**

@@ -31,14 +31,12 @@ import java.util.StringTokenizer;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.PageElement;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.admin.ActionsSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 public class FacetedSearchResult extends PageElement implements SearchResult
 {
@@ -50,6 +48,8 @@ public class FacetedSearchResult extends PageElement implements SearchResult
     private static final By DATE = By.cssSelector("div.dateCell span.inner");
     private static final By DESCRIPTION = By.cssSelector("div.descriptionCell span.value");
     private static final By SITE = By.cssSelector("span[id$='_SITE'] .value");
+    private static final By ACTIONS_BUTTON = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS");
+    private static final By ACTIONS_DROPDOWN = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN");
     private static final By ACTIONS = By.cssSelector("tr td.actionsCell");
     private static final By IMAGE = By.cssSelector("tbody[id=FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS] td.thumbnailCell img");
     private static final By FOLDER_PATH = By.xpath("//div[@class='pathCell']//span[@class='value']");
@@ -65,6 +65,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
     private String description;
     private WebElement siteLink;
     private String site;
+    private WebElement actionsButton;
     private ActionsSet actions;
     private WebElement imageLink;
     private final boolean isFolder;
@@ -134,6 +135,7 @@ public class FacetedSearchResult extends PageElement implements SearchResult
         this.factoryPage = factoryPage;
         isFolder = checkFolder(result);
         isItemChecked = isItemChecked(result);
+        this.actionsButton = driver.findElement(ACTIONS_BUTTON);
         actions = new SearchActionsSet(driver, result.findElement(ACTIONS), factoryPage);
 
     }
@@ -277,7 +279,6 @@ public class FacetedSearchResult extends PageElement implements SearchResult
         return actions;
     }
 
-
     /**
      * click the result imageLink.
      *
@@ -391,6 +392,73 @@ public class FacetedSearchResult extends PageElement implements SearchResult
 		}
 		return false;
 	}
+
+    /**
+     * @return true if Actions button is displayed and enabled.
+     */
+    public boolean isActionsButtonEnabled()
+    {
+        try
+        {
+            if(actionsButton.isDisplayed() && actionsButton.isEnabled())
+            {
+                return true;
+            }
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Actions button not present", nse);
+        }
+        return false;
+    }
+
+    /**
+     * Click on Actions button.
+     *
+     */
+    public void clickActionsButton()
+    {
+        try
+        {
+            actionsButton = driver.findElement(ACTIONS_BUTTON);
+            if (isActionsButtonEnabled())
+            {
+                actionsButton.click();
+            }
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Actions button not available : ", nse);
+            throw new PageException("Unable to find Actions button", nse);
+        }
+    }
+
+
+    /**
+     * Select an option from Actions Menu
+     *
+     * @return HtmlPage
+     */
+    public HtmlPage selectActionFromActionsMenu(FacetedSearchResultActionsMenu option)
+    {
+        try
+        {
+            clickActionsButton();
+            if (driver.findElement(ACTIONS_DROPDOWN).isDisplayed())
+            {
+                WebElement element = driver.findElement(By.cssSelector(option.getOption()));
+                element.click();
+                return factoryPage.getPage(driver);
+            }
+            throw new PageException("Actions drop down not visible");
+        }
+        catch (TimeoutException e)
+        {
+            String exceptionMessage = "Not able to find the option";
+            logger.error(exceptionMessage, e);
+            throw new PageException(exceptionMessage);
+        }
+    }
     
     @Override
     public boolean isItemCheckBoxSelected()

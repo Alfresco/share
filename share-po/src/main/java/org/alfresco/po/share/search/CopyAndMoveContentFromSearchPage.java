@@ -37,15 +37,13 @@ import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
+import org.alfresco.po.share.FactoryPage;
 import org.alfresco.po.share.ShareDialogue;
 import org.alfresco.po.share.util.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 @SuppressWarnings("unchecked")
 public class CopyAndMoveContentFromSearchPage extends ShareDialogue
@@ -59,6 +57,9 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     private final By destinationListCss = By
             .cssSelector("div[class='sub-pickers']>div[class^='alfresco-menus-AlfMenuBar']>div>div[class^='dijitReset dijitInline']>span");
     private final By copyMoveOkOrCancelButtonCss = By.cssSelector(".footer .dijitButtonText");
+    //private static final By CREATE_LIKE_BUTTON = By.xpath("//span[contains(@id,'alfresco_buttons_AlfButton')][text()='Create a link']");
+    private static final By CREATE_LIKE_BUTTON =
+            By.cssSelector("#ALF_COPY_MOVE_DIALOG > div.dijitDialogPaneContent > div.footer > span:nth-child(1) > span [aria-disabled]");
     private final By copyMoveDialogCloseButtonCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class^=dijitDialogCloseIcon ]");
     private final By copyMoveDialogTitleCss = By.cssSelector("div[class='dijitDialogTitleBar']>span[class='dijitDialogTitle']");
     private String PathFolderCss = "//div[starts-with(@id,'alfresco_documentlibrary_views_AlfDocumentListView')] //tr/td/span/span/span[@class='value'][text()='%s']";
@@ -71,7 +72,6 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     
     private final By sitenameSelector = By.cssSelector("div[class='items'] div[role='menuitem']>span");    
     private final By folderSelector = By.cssSelector(".dijitTree .dijitTreeRow .dijitTreeContent>span[role='treeitem']");
-        
 
     //FIXME render checking for different elements
     @Override
@@ -137,10 +137,10 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     }
 
     /**
-     * This method finds the clicks on copy/move/cancel button.
+     * This method finds then clicks on copy/move/cancel button.
      * 
      * @param buttonName String
-     * @return HtmlPage FacetedSerachResultsPage
+     * @return HtmlPage FacetedSearchResultsPage
      */
     private HtmlPage selectButton(String buttonName)
     {
@@ -199,7 +199,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
 
     public HtmlPage cancelCopyOrMove()
     {
-    	String cancelCopyOrMoveAction = factoryPage.getValue("search.button.cancel");    	
+    	String cancelCopyOrMoveAction = factoryPage.getValue("button.text.cancel");    	
     	return selectButton(cancelCopyOrMoveAction);
     }
 
@@ -207,6 +207,12 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     {
     	String moveAction = factoryPage.getValue("search.button.move");
     	return selectButton(moveAction);
+    }
+
+    public HtmlPage clickCreateLink()
+    {
+        String createLinkAction = factoryPage.getValue("search.button.createlink");
+        return selectButton(createLinkAction);
     }
 
     /**
@@ -441,6 +447,45 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     }
 
     /**
+     * Checks if Create Link Button is displayed
+     *
+     * @return boolean
+     */
+    public boolean isCreateLinkButtonDisplayed()
+    {
+        try
+        {
+            WebElement createLikeButton = driver.findElement(CREATE_LIKE_BUTTON);
+            return createLikeButton.isDisplayed();
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Create Link button is not found ", nse);
+            return false;
+        }
+    }
+
+    /**
+     * Checks if Create Link Button is enabled
+     *
+     * @return boolean
+     */
+    public boolean isCreateLinkButtonEnabled()
+    {
+        try
+        {
+            WebElement createLikeButton = driver.findElement(CREATE_LIKE_BUTTON);
+            //return ( isCreateLinkButtonDisplayed() && createLikeButton.isEnabled() );
+            return ( createLikeButton.getAttribute("aria-disabled").toString().equals("false") );
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("CreateLink button is not found ", nse);
+            return false;
+        }
+    }
+
+    /**
      * Helper method to return true if Next Button is displayed and enabled
      * 
      * @return boolean <tt>true</tt> is Next Button is displayed and enabled
@@ -577,7 +622,7 @@ public class CopyAndMoveContentFromSearchPage extends ShareDialogue
     
     /**
      * This helper method finds the clicks on specified site folder in CopyAndMoveContentFromSearchPage     
-     * @param folderName
+     * @param sitefolderName
      * @return
      */
     public CopyAndMoveContentFromSearchPage selectSiteFolder(String sitefolderName)
