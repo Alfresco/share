@@ -40,6 +40,7 @@ import org.alfresco.po.HtmlPage;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.FactoryPage;
+import org.alfresco.po.share.MyTasksPage;
 import org.alfresco.po.share.ShareLink;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.dashlet.ActivityShareLink;
@@ -48,8 +49,10 @@ import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.enums.Dashlets;
 import org.alfresco.po.share.search.*;
 import org.alfresco.po.share.search.LiveSearchDropdown.Scope;
-import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.workflow.StartWorkFlowPage;
+import org.alfresco.po.share.site.PendingInvitesPage;
+import org.alfresco.po.share.site.SitePageType;
+import org.alfresco.po.share.task.EditTaskPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
@@ -600,5 +603,106 @@ public abstract class CommonActions
 
         return resultItem;
     }
+    
+    /**
+     * Utility to navigate to my task dashlet and verify task displayed
+     * @param driver
+     * @param taskname
+     * @return Boolean
+     */
+    public Boolean isMyTaskDisplayed(WebDriver driver, String taskname, Boolean expectedResult)
+    {
+      SharePage page = getSharePage(driver);
+      MyTasksPage myTasksPage = page.getNav().selectMyTasks().render();
+      return expectedResult == myTasksPage.isTaskPresent(taskname);
+    }
+    
+/**
+     * Utility to verify user is displayed in the list 
+     * @param driver
+     * @param userName
+     * @return Boolean
+     */
+    public boolean  isUserDisplayedInList(WebDriver driver, String userName, Boolean expectedResult)
+    {
+      PendingInvitesPage requestPage = getSharePage(driver).render();      
+
+      // Search for userName2
+      requestPage = requestPage.searchRequest(userName).render();        
+            
+      return expectedResult == requestPage.isUserNameDisplayedInList(userName);
+     
+    }
+    
+    //Assuming user is on Pending invites page
+	private HtmlPage approveOrRejectRequest(WebDriver driver, String userName, String requestOption) 
+	{
+		try 
+		{			
+			PendingInvitesPage requestPage = getSharePage(driver).render();
+			
+			if(isUserDisplayedInList(driver,userName,true))
+			{
+			   if (requestOption.equals("Approve")) 
+			   {				
+				EditTaskPage editTaskPage = requestPage.viewRequest(userName).render();
+				 return editTaskPage.selectApproveButton().render();
+			   } 
+			   else if (requestOption.equals("Reject")) 
+			   {
+			    EditTaskPage editTaskPage = requestPage.viewRequest(userName).render();
+				 return editTaskPage.selectRejectButton().render();
+			   }
+			   else if (requestOption.equals("View")) 
+			   {
+				 return requestPage.viewRequest(userName).render();					
+			   }
+			}
+			else 
+			{
+				// Throw exception that its not a valid option
+				logger.error("This is not a valid option");
+			}
+
+		} catch (Exception e) 
+		{
+			logger.error("Item not found", e);
+		}
+		return getSharePage(driver).render();
+
+	}
+	
+	 /**
+     * Utility to approve request
+     * @param driver
+     * @param userName
+     * @return HtmlPage
+     */
+	public HtmlPage approveRequest(WebDriver driver, String userName)
+	{
+		return approveOrRejectRequest(driver, userName, "Approve");
+	}
+	
+	/**
+     * Utility to reject request
+     * @param driver
+     * @param userName
+     * @return HtmlPage
+     */
+	public HtmlPage rejectRequest(WebDriver driver, String userName)
+	{
+		return approveOrRejectRequest(driver, userName, "Reject");
+	}
+    
+	/**
+     * Utility to view request
+     * @param driver
+     * @param userName
+     * @return HtmlPage
+     */
+	public HtmlPage viewRequest(WebDriver driver, String userName)
+	{
+		return approveOrRejectRequest(driver, userName, "View");
+	}
 
 }

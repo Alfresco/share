@@ -41,7 +41,7 @@ import org.testng.annotations.Test;
 
 /**
  * Class to hold tests for Pending Request page Test 
- * Enterprise 5.1 onwards
+ * Enterprise 5.2 onwards
  * @author Charu
  */
 
@@ -136,7 +136,7 @@ public class PendingRequestPageTest extends AbstractTest
     }
     
     @Test(groups = "Enterprise-only", priority = 5, enabled = true)
-    public void clickApproveButton()
+    public void clickApproveButtonafterSearch()
     {    
     	pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName).render();  	
     	pendingRequestPage.searchRequest(userName2);       
