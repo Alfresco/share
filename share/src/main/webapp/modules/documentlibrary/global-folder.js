@@ -481,8 +481,11 @@
 
          // Link button
          this.widgets.linkButton = Alfresco.util.createYUIButton(this, "link", this.onCreateLink, {additionalClass: "alf-primary-button"});
-         this.widgets.linkButton.set("label", this.msg("link.button"));
-         this.widgets.linkButton.set("style","display:none");
+         if (this.widgets.linkButton)
+         {
+            this.widgets.linkButton.set("label", this.msg("link.button"));
+            this.widgets.linkButton.set("style","display:none");
+         }
 
          // OK button
          this.widgets.okButton = Alfresco.util.createYUIButton(this, "ok", this.onOK, {additionalClass: "alf-primary-button"});
@@ -553,7 +556,10 @@
                            if (this.selectedNode == node)
                            {
                               this.widgets.okButton.set("disabled", true);
-                              this.widgets.linkButton.set("disabled", true);
+                              if (this.widgets.linkButton)
+                              {
+                                 this.widgets.linkButton.set("disabled", true);
+                              }
                            }
                         }
                      }
@@ -715,8 +721,11 @@
       {
          // Enable buttons
          this.widgets.okButton.set("disabled", false);
-         this.widgets.linkButton.set("disabled", false);
          this.widgets.cancelButton.set("disabled", false);
+         if (this.widgets.linkButton)
+         {
+            this.widgets.linkButton.set("disabled", false);
+         }
 
          // Dialog title
          var titleDiv = Dom.get(this.id + "-title");
@@ -1470,12 +1479,18 @@
          if (node.data.userAccess && !node.data.userAccess.create)
          {
             this.widgets.okButton.set("disabled", true);
-            this.widgets.linkButton.set("disabled", true);
+            if (this.widgets.linkButton)
+            {
+               this.widgets.linkButton.set("disabled", true);
+            }
          }
          else
          {
             this.widgets.okButton.set("disabled", false);
-            this.widgets.linkButton.set("disabled", false);
+            if (this.widgets.linkButton)
+            {
+               this.widgets.linkButton.set("disabled", false);
+            }
          }
       },
 
