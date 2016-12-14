@@ -266,9 +266,9 @@ public class SiteDashboardPage extends SitePage implements Dashboard
             WebElement option = driver.findElement(AbstractSiteNavigation.CUSTOMIZE_SITE_DASHBOARD);
             return option.isDisplayed();
         }
-        catch (NoSuchElementException exc)
+        catch (NoSuchElementException nse)
         {
-            // TODO: Log Error
+        	logger.error("Cannot find CustomizeSiteDashboard link.", nse);
         }
         return false;
     }
@@ -288,9 +288,9 @@ public class SiteDashboardPage extends SitePage implements Dashboard
             WebElement option = driver.findElement(AbstractSiteNavigation.EDIT_SITE_DETAILS);
             return option.isDisplayed();
         }
-        catch (NoSuchElementException exc)
+        catch (NoSuchElementException nse)
         {
-            // TODO: Log Error
+        	logger.error("Cannot find Edit Site Details Link.", nse);
         }
         return false;
     }
@@ -310,12 +310,12 @@ public class SiteDashboardPage extends SitePage implements Dashboard
             WebElement option = driver.findElement(AbstractSiteNavigation.LEAVE_SITE);
             return option.isDisplayed();
         }
-        catch (NoSuchElementException exc)
+        catch (NoSuchElementException nse)
         {
-            // TODO: Log Error
+            logger.error("Cannot find Leave Site Link.", nse);
         }
         return false;
-    }
+     }
     
     /**
      * Method to find if the Request to Join/Join Site link is displayed
@@ -331,9 +331,9 @@ public class SiteDashboardPage extends SitePage implements Dashboard
             WebElement option = driver.findElement(AbstractSiteNavigation.JOIN_SITE);
             return option.isDisplayed();
         }
-        catch (NoSuchElementException exc)
+        catch (NoSuchElementException nse)
         {
-            // TODO: Log Error
+        	logger.error("Cannot find Edit Site Details Link.", nse);
         }
         return false;
     }
@@ -352,9 +352,9 @@ public class SiteDashboardPage extends SitePage implements Dashboard
             WebElement option = driver.findElement(AbstractSiteNavigation.CANCEL_SITE_REQUEST);
             return option.isDisplayed();
         }
-        catch (NoSuchElementException exc)
+        catch (NoSuchElementException nse)
         {
-            // TODO: Log Error
+        	logger.error("Cannot find Cancel Site Request Link.", nse);
         }
         return false;
     }
@@ -391,9 +391,9 @@ public class SiteDashboardPage extends SitePage implements Dashboard
             WebElement option = driver.findElement(MORE_PAGES_BUTTON);
             return option.isDisplayed();
         }
-        catch (NoSuchElementException exc)
+        catch (NoSuchElementException nse)
         {
-            // TODO: Log Error
+        	logger.error("Cannot find Pages More Button.", nse);
         }
         return false;
     }
