@@ -65,8 +65,6 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     private static GroupsPage groupsPage;
    
     String groupName = "GROUP1" + System.currentTimeMillis();
-    String siteName;
-    String siteName1;
     String modSiteName1;
     String modSiteName2;
     String modSiteName3;
@@ -164,7 +162,14 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
     @AfterClass(groups = "alfresco-one")
     public void teardown()
     {
-        siteUtil.deleteSite(username, password, siteName);
+        siteUtil.deleteSite(username, password, modSiteName1);
+        siteUtil.deleteSite(username, password, modSiteName2);
+        siteUtil.deleteSite(username, password, modSiteName3);
+        siteUtil.deleteSite(username, password, modSiteName4);
+        siteUtil.deleteSite(username, password, modSiteName5);
+        siteUtil.deleteSite(username, password, modSiteName6);
+        siteUtil.deleteSite(username, password, modSiteName7);
+        
     }
 
     /**
@@ -216,13 +221,13 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.isMyTaskDisplayed(driver, taskName, true);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName2).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName2);
         
         //Verify user2 displayed in the pending list
         siteActions.isUserDisplayedInList(driver,userName2, true);   
             
         //Reject request from user2
-        siteActions.rejectRequest(driver,userName2).render();
+        siteActions.rejectRequest(driver,userName2);
         siteActions.isUserDisplayedInList(driver,userName2, false);
            
         // Verify taskName is removed from My Task Dashlet        
@@ -235,8 +240,9 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         Assert.assertTrue(siteDashboardPage.isJoinSiteLinkPresent());
         
         logout(driver);
-    }
-
+    }  
+    
+   
     /**
      * This test is to check User can add comments and save from
      * Edit Task Page
@@ -255,7 +261,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.isMyTaskDisplayed(driver, taskName, true);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName3).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName3);
 
         // Verify pending request from user2 is displayed
         siteActions.isUserDisplayedInList(driver,userName2, true);
@@ -303,7 +309,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.isMyTaskDisplayed(driver, taskName, true);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName3).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName3);
 
         //Verify user2 displayed in the list
         siteActions.isUserDisplayedInList(driver,userName2, true);
@@ -324,11 +330,8 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         editTaskPage = siteActions.viewRequest(driver,userName2).render();
 
         // Verify added comment is not displayed in the comment text area
-        assertFalse(editTaskPage.readCommentFromCommentTextArea().contains(comment));
+        assertFalse(editTaskPage.readCommentFromCommentTextArea().contains(comment));      
 
-        // Verify pending request from user2 is displayed       
-        siteActions.isUserDisplayedInList(driver,userName2, true);
-        
         // Verify taskName is displayed in My Task Dashlet       
         siteActions.isMyTaskDisplayed(driver, taskName, true);
 
@@ -352,7 +355,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.isMyTaskDisplayed(driver, taskName, true);
         
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName4).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName4);
 
         //Verify user2 displayed in the pending list
         siteActions.isUserDisplayedInList(driver,userName2, true);
@@ -367,14 +370,13 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteDashboardPage = siteActions.cancelRequestToJoinModSite(driver, modSiteName4).render();
         Assert.assertTrue(siteDashboardPage.isJoinSiteLinkPresent());
         
-        //logout(driver);
         loginAs(userName1, UNAME_PASSWORD);
 
         // Verify taskName is not displayed in My Task Dashlet        
         siteActions.isMyTaskDisplayed(driver, taskName, false);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName4).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName4);
 
         //Verify user2 not displayed in the pending list
         siteActions.isUserDisplayedInList(driver,userName2, false);
@@ -395,16 +397,15 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName5).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName5);
         
         // Verify pending request from user2 is displayed      
-        siteActions.isUserDisplayedInList(driver,userName2, true);
+        siteActions.isUserDisplayedInList(driver,userName2, true);        
         
-        // logout(driver);
         loginAs(userName4, UNAME_PASSWORD);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName5).render();       
+        siteActions.navigateToPendingRequestPage(driver, modSiteName5);       
 
         // Verify pending request from user2 is displayed       
         siteActions.isUserDisplayedInList(driver,userName2, true);
@@ -420,7 +421,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName5).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName5);
 
         //Verify user2 not displayed in the list
         siteActions.isUserDisplayedInList(driver,userName2, false);
@@ -428,7 +429,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName4, UNAME_PASSWORD);
         
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName5).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName5);
         
         //Verify user2 not displayed in the list
         siteActions.isUserDisplayedInList(driver,userName2, true);
@@ -438,7 +439,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         editTaskPage.selectReleaseToPool().render();
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName5).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName5);
 
         //verify user2 displayed in the list
         siteActions.isUserDisplayedInList(driver,userName2, true);
@@ -446,7 +447,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName5).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName5);
 
         //verify user2 displayed in the list
         siteActions.isUserDisplayedInList(driver,userName2, true);        
@@ -471,7 +472,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName3, UNAME_PASSWORD);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName6).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName6);
        
         // Verify pending request from user2 is displayed       
         siteActions.isUserDisplayedInList(driver,userName2, true);
@@ -479,7 +480,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName4, UNAME_PASSWORD);
 
         // Navigate to Pending request page on modSiteName6
-        siteActions.navigateToPendingRequestPage(driver, modSiteName6).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName6);
         
         // Verify pending request from user2 is displayed       
         siteActions.isUserDisplayedInList(driver,userName2, true);
@@ -502,13 +503,13 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.isMyTaskDisplayed(driver, taskName, true);
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName7).render();
+        siteActions.navigateToPendingRequestPage(driver, modSiteName7);
 
         //Verify user2 displayed in the list
         siteActions.isUserDisplayedInList(driver,userName2, true);
         
         // Click Approve button in Edit Task Page       
-        siteActions.approveRequest(driver,userName2).render();      
+        siteActions.approveRequest(driver,userName2);      
         siteActions.isUserDisplayedInList(driver,userName2, false);
 
         //Verify user has consumer role to site
@@ -518,5 +519,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.isMyTaskDisplayed(driver, taskName, false);
 
     }
+    
+    
 
 }
