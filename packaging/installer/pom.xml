@@ -15,6 +15,7 @@
         <bitrock.folder>${project.build.directory}/installbuilder</bitrock.folder>
         <signing.key.location>${binaries.folder}/build-classpath/code-signing</signing.key.location>
         <license.file.location>${binaries.folder}/build-classpath/license.xml</license.file.location>
+        <p12Password></p12Password> 
         <bitrock.arguments>
            project.outputDirectory=${project.build.directory} 
            project.version=${project.version} 
@@ -188,7 +189,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-installer-resources</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${alfresco.platform.version}</version>
                                     <outputDirectory>${project.build.directory}/classes</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
