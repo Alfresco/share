@@ -94,6 +94,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
     /**
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
      * @author pbrodner
+     * @author adinap
      */
     public enum ACTION{COPY, CREATE_LINK, MOVE};
     
@@ -395,12 +396,8 @@ public class CopyOrMoveContentPage extends ShareDialogue
             WebElement button = driver.findElement(copyCreateLinkButtonCss);
             button.click();
             
-//            if (isLinkCreated())
-//            {
-                waitUntilAlert();
-                return getCurrentPage();
-//            }
-//            throw new ShareException(messageText);
+            waitUntilAlert();
+            return getCurrentPage();
         }
         catch (NoSuchElementException | StaleElementReferenceException nse)
         {

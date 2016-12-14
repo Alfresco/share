@@ -65,6 +65,9 @@ public final class FactoryShareFileDirectoryInfo
                 case TABLE_VIEW:
                     pe = factoryPage.instantiatePageElement(driver, DetailedTableViewFileDirectoryInfo.class);
                     break;
+                case GALLERY_VIEW:
+                    pe = factoryPage.instantiatePageElement(driver, GalleryViewFileDirectoryInfo.class);
+                    break;
                 default:
                     throw new PageException(String.format("%s does not match any known file directory view name", viewType.name()));
             }

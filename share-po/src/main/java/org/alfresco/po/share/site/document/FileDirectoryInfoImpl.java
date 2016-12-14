@@ -81,7 +81,6 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     private static final String FAVOURITE_CONTENT = "a[class*='favourite-action']";
     private static final String LIKE_CONTENT = "a[class*='like-action']";
     private static final String LIKE_COUNT = "span.likes-count";
-    private static final String ACTIONS_LIST = "div.action-set>div";
     private static final String RULES_ICON = "img[alt='rules']";
     private static final String SELECT_CHECKBOX = "input[id^='checkbox-yui']";
     private static final By INFO_BANNER = By.cssSelector("div.info-banner");
@@ -103,6 +102,9 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     protected String THUMBNAIL_LINK_FILE = "td.yui-dt-col-thumbnail>div>span.thumbnail>span.link";
     protected String LOCATE_LINKED_ITEM = "div#onActionLocate a";
     protected String DELETE_LINK = "div#onActionDelete a";
+    protected String COPY_LINK = "div#onActionCopyTo a";
+    protected String MOVE_LINK = "div#onActionMoveTo a";
+    protected static final String ACTIONS_LIST = "div.action-set>div";
     protected String INPUT_TAG_NAME = "div.inlineTagEdit input";
     protected String INPUT_CONTENT_NAME = "input[name='prop_cm_name']";
     protected String nodeRef;
@@ -166,9 +168,14 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     {
         try
         {
-            findAndWait(By.cssSelector(FILENAME_IDENTIFIER)).click();
+            WebElement element = findAndWait(By.cssSelector(FILENAME_IDENTIFIER));
+            element.click();
             domEventCompleted();
             return getCurrentPage();
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("No such element", nse);
         }
         catch (TimeoutException te)
         {
@@ -353,17 +360,29 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
      * 
      * @return List of {@link WebElement} available for the selected Content
      */
-    public List<WebElement> getContentActions()
+    /*
+     * (non-Javadoc)
+     * @see org.alfresco.po.share.site.document.FileDirectoryInfoInterface#getContentActions()
+     */
+    @Override
+    public List<String> getContentActions()
     {
+        List<String> actions = new ArrayList<>();
+
         try
         {
-            return selectContentActions().findElements(By.cssSelector(ACTIONS_LIST));
+            mouseOver(selectContentActions());           
+            List<WebElement> actionElements = findElements(By.cssSelector(ACTIONS_LIST));
+            for (WebElement webElement : actionElements)
+            {
+                actions.add(webElement.getText());
+            }
         }
-        catch (Exception e)
+        catch (NoSuchElementException e)
         {
-            logger.error("Error getting Actions" + e.toString());
+            throw new NoSuchElementException("Not able to find actions", e);
         }
-        return Collections.emptyList();
+        return actions;
     }
 
     /*
@@ -1125,8 +1144,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     {
         try
         {
-            WebElement actions = findAndWait(By.cssSelector(ACTIONS_MENU));
-            mouseOver(actions);
+            mouseOver(selectContentActions());
             
             WebElement action = findElement(By.cssSelector(LOCATE_LINKED_ITEM));
             return action.isDisplayed();
@@ -1147,8 +1165,7 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     {
         try 
         {
-            WebElement actions = findAndWait(By.cssSelector(ACTIONS_MENU));
-            mouseOver(actions);
+            mouseOver(selectContentActions());
             
             WebElement action = findElement(By.cssSelector(DELETE_LINK));
             return action.isDisplayed();
@@ -2410,7 +2427,8 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     {
         try
         {
-            return driver.findElement(MORE_ACTIONS_MENU).isDisplayed();
+            WebElement moreMenu = driver.findElement(MORE_ACTIONS_MENU); 
+            return moreMenu.isDisplayed();
         }
         catch (NoSuchElementException te)
         {

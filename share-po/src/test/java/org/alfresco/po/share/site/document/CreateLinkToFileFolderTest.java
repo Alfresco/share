@@ -87,7 +87,8 @@ public class CreateLinkToFileFolderTest extends AbstractTest
             siteUtil.createSite(driver, username, password, siteName1, "description", "Public");
             siteUtil.createSite(driver, username, password, siteName2, "description", "Public");
 
-            siteActions.navigateToDocumentLibrary(driver, siteName1);
+            docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+            docLib = docLib.getNavigation().selectDetailedView().render();
             siteActions.uploadFile(driver, file1);
             siteActions.uploadFile(driver, file2);
             siteActions.uploadFile(driver, file3);
@@ -98,7 +99,7 @@ public class CreateLinkToFileFolderTest extends AbstractTest
 
             folder1linkName = "Link to " + folderName1;
         }
-        catch (Throwable pe)
+        catch (Exception pe)
         {
             saveScreenShot("CreateLinkFileUpload");
             logger.error("Cannot upload file to site ", pe);
@@ -360,20 +361,16 @@ public class CreateLinkToFileFolderTest extends AbstractTest
     public void testCreateDuplicateLinksToFile()
     {
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+        
+        String file2linkName = "Link to " + file2.getName();
 
-        // TODO: Amend this to create a link for diff file or in another location. No iff / different path throughs in test please
-//        if (!docLib.isFileVisible(file2linkName))
-//        {
-//            // create link to file2 in siteName1
-//            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file2.getName(), ACTION.CREATE_LINK);
-//            Assert.assertTrue(docLib.isFileVisible(file2linkName));
-//        }
-
-        // Create link to file3 in siteName1
-        docLib = siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file3.getName(), ACTION.CREATE_LINK).render();
+        // Create link to file2 in siteName1
+        docLib = siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file2.getName(), ACTION.CREATE_LINK).render();
+        Assert.assertTrue(docLib.isFileVisible(file2linkName));
         int origFileCount = docLib.getFiles().size();
         
-        docLib = siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file3.getName(), ACTION.CREATE_LINK).render();
+        // try to create a duplicate link
+        docLib = siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file2.getName(), ACTION.CREATE_LINK).render();
         int newFileCount = docLib.getFiles().size();
         
         Assert.assertEquals(origFileCount, newFileCount, "Duplicate Shortcut link is created");
