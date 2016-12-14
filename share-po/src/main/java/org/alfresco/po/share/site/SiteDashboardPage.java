@@ -263,12 +263,14 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         try
         {
             siteNavigation.selectConfigure();
-            return driver.findElement(AbstractSiteNavigation.CUSTOMIZE_SITE_DASHBOARD).isDisplayed();
+            WebElement option = driver.findElement(AbstractSiteNavigation.CUSTOMIZE_SITE_DASHBOARD);
+            return option.isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
-            return false;
+            // TODO: Log Error
         }
+        return false;
     }
 
     /**
@@ -283,12 +285,14 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         try
         {
             siteNavigation.selectConfigure();
-            return driver.findElement(AbstractSiteNavigation.EDIT_SITE_DETAILS).isDisplayed();
+            WebElement option = driver.findElement(AbstractSiteNavigation.EDIT_SITE_DETAILS);
+            return option.isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
-            return false;
+            // TODO: Log Error
         }
+        return false;
     }
 
 
@@ -303,12 +307,14 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         try
         {
             siteNavigation.selectConfigure();
-            return driver.findElement(AbstractSiteNavigation.LEAVE_SITE).isDisplayed();
+            WebElement option = driver.findElement(AbstractSiteNavigation.LEAVE_SITE);
+            return option.isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
-            return false;
+            // TODO: Log Error
         }
+        return false;
     }
     
     /**
@@ -322,12 +328,14 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         try
         {
             siteNavigation.selectConfigure();
-            return driver.findElement(AbstractSiteNavigation.JOIN_SITE).isDisplayed();
+            WebElement option = driver.findElement(AbstractSiteNavigation.JOIN_SITE);
+            return option.isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
-            return false;
+            // TODO: Log Error
         }
+        return false;
     }
     
     /**
@@ -341,12 +349,14 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         try
         {
             siteNavigation.selectConfigure();
-            return driver.findElement(AbstractSiteNavigation.CANCEL_SITE_REQUEST).isDisplayed();
+            WebElement option = driver.findElement(AbstractSiteNavigation.CANCEL_SITE_REQUEST);
+            return option.isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
-            return false;
+            // TODO: Log Error
         }
+        return false;
     }
 
     /**
@@ -378,12 +388,14 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     {
         try
         {
-            return driver.findElement(MORE_PAGES_BUTTON).isDisplayed();
+            WebElement option = driver.findElement(MORE_PAGES_BUTTON);
+            return option.isDisplayed();
         }
-        catch (Exception e)
+        catch (NoSuchElementException exc)
         {
-            return false;
+            // TODO: Log Error
         }
+        return false;
     }
 
     /**
@@ -451,7 +463,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
     }
     
     /**
-     * Method to request to join the site if option is displayed
+     * Method to request to cancel the site joining request
      * 
      * @return HtmlPage
      */

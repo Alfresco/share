@@ -443,17 +443,18 @@ public class SiteMembersPage extends SharePage
      * @param userRole UserRole
      * @return boolean
      */
-    public boolean isUserHasRole(String userName, UserRole userRole)
+    public boolean checkUserRole(String userName, UserRole userRole)
     {
-        By smthElement = By.xpath(String.format(USER_ROLE_XPATH, userName));
+        By userRoleSelector = By.xpath(String.format(USER_ROLE_XPATH, userName));
         try
         {
-            WebElement element = findAndWait(smthElement, 1000);
+            WebElement element = findAndWait(userRoleSelector);
             return element.getText().contains(userRole.getRoleName());
         }
         catch (TimeoutException e)
         {
-            throw new PageException("Not found Element:" + smthElement, e);
+            logger.error("Not found Element:" + userRoleSelector, e);
         }
+        return false;
     }
 }

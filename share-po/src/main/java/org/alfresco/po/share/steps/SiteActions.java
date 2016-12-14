@@ -1261,12 +1261,12 @@ public class SiteActions extends CommonActions
     }
     
     /**
-     * Utility for cancel requesting to join moderated site when user already logged in
+     * Utility for cancel requesting to join a site when user already logged in
      * @param  siteName 
      */
-    public  HtmlPage cancelRequestToJoinModSite(WebDriver driver, String modSiteName)
+    public  HtmlPage cancelRequestToJoinSite(WebDriver driver, String siteName)
     {
-    	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render(); 
+    	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, siteName).render(); 
     	siteDashboardPage.cancelRequestToJoinSite().render();
         return factoryPage.getPage(driver).render();
     }  
@@ -1284,20 +1284,20 @@ public class SiteActions extends CommonActions
     } 
     
     /**
-     * Utility for verify user role, when user is on site dashboard
-     * @param siteName
-     * @param userName
+     * Utility for verify user role is as specified
      * @param {@link WebDriver} driver
+     * @param userName
+     * @param siteName
      * @return {@link Boolean} expectedRole    
      */
-    public Boolean isUserHasRole(WebDriver driver, String userName, String modSiteName, UserRole userRole, Boolean expectedRole )
+    public Boolean checkUserRole(WebDriver driver, String userName, String siteName, UserRole userRole, Boolean expectedRole )
     {
-       // Open modSiteName1 site dashboard
-       SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render();
+       // Open site dashboard
+       SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, siteName).render();
 
-       // Verify userName2 is a member of modSiteName1 with Consumer role
+       // Verify user is a member of site with specified role
        SiteMembersPage siteMembersPage = siteDashboardPage.getSiteNav().selectMembersPage().render();
-       return siteMembersPage.isUserHasRole(userName, userRole);
+       return siteMembersPage.checkUserRole(userName, userRole);
     }
     
     /**
@@ -1307,6 +1307,7 @@ public class SiteActions extends CommonActions
      * @param {@link WebDriver} driver
      * @return {@link Boolean} expectedRole    
      */
+    // TODO: Correct the Docs
     public HtmlPage addGroupToSite(WebDriver driver, String modSiteName, String groupName, UserRole userRole)
     {
     	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render();
