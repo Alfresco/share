@@ -56,6 +56,8 @@
    float: left;
    text-align: center;
    width: 48px;
+   max-height: 48px;
+   overflow: hidden;
 }
 
 .activities .activity > .content,
