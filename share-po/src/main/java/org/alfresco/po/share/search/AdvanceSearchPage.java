@@ -55,6 +55,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 public class AdvanceSearchPage extends SharePage
 {
     protected static final By KEYWORD_SEARCH = By.cssSelector("input[id$='default-search-text']");
+    protected static final By NAME_SEARCH = By.cssSelector("input[id$='prop_cm_name']");
     protected static final By TITLE_SEARCH = By.cssSelector("textarea[id$='prop_cm_title']");
     protected static final By DESCRIPTION_SEARCH = By.cssSelector("textarea[id$='prop_cm_description']");
     protected static final By MODIFIER_SEARCH = By.cssSelector("input[id$='prop_cm_modifier']");
@@ -145,8 +146,11 @@ public class AdvanceSearchPage extends SharePage
         {
             throw new UnsupportedOperationException("Search term is required to perform a search");
         }
-        name.clear();
-        name.sendKeys(nameSearchText);
+        WebElement nameElement = findElementDisplayed(NAME_SEARCH);
+        nameElement.clear();
+        nameElement.sendKeys(nameSearchText);
+//        name.clear();
+//        name.sendKeys(nameSearchText);
     }
 
     /**

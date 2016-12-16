@@ -415,6 +415,12 @@ public class FacetedSearchPage extends SharePage implements SearchResultPage
                 }
 
                 isPresent = result.getThumbnail().contains(thumbnailImg);
+
+                //Check for Folder
+                if  (thumbnailImg == "doclib")
+                {
+                    isPresent = result.getThumbnail().contains(thumbnailImg) || result.getThumbnail().contains("folder");
+                }
                 if (isPresent)
                     break;
             }

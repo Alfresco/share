@@ -29,10 +29,12 @@ package org.alfresco.po.share.steps;
  * @author mbhave
  * @author adinap
  * @author cganesh
+ * @author CorinaZ
  */
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.exception.PageException;
@@ -63,6 +65,7 @@ public abstract class CommonActions
     public final static String DOCLIB = "DocumentLibrary";
     @Autowired
     protected FactoryPage factoryPage;
+    public enum SelectItem {CONTENT, FOLDER}
 
     public int retrySearchCount = 3;
 
@@ -407,6 +410,140 @@ public abstract class CommonActions
             }
         }
         return checkSearchResults(driver, searchString, nodeNameToLookFor, expectedInResults);
+    }
+
+    /**
+     * Util to perform advanced search and retry waiting for solr indexing : check if search results are as expected
+     *
+     *
+     * @param driver WebDriver
+     * @param nodeNameToLookFor String
+     * @param item SelectItem
+     * @param searchConfig Map<String, String>
+     * @param expectedInResults boolean
+     * @param retrySearchCount int
+     * @return true if search results are as expected
+     */
+
+    public boolean checkAdvancedSearchResultsWithRetry(WebDriver driver, String nodeNameToLookFor, SelectItem item, Map<String, String> searchConfig, boolean expectedInResults, int retrySearchCount)
+            throws Exception
+    {
+        boolean resultOk = false;
+
+        for (int searchCount = 1; searchCount < retrySearchCount; searchCount++)
+        {
+            resultOk = checkAdvancedSearchResults(driver, nodeNameToLookFor, item, searchConfig, expectedInResults);
+
+            // ResultOk?
+            if (resultOk)
+            {
+                return resultOk;
+            }
+            else
+            {
+                // Retry: Wait for Solr Indexing
+                logger.info("Waiting for the solr indexing to catchup for Node: " + nodeNameToLookFor);
+                webDriverWait(driver, refreshDuration);
+                refreshSharePage(driver).render();
+            }
+        }
+
+        //return advanceSearch(WebDriver driver, List<String> info, Map<String, String> searchConfig);
+        return checkAdvancedSearchResults(driver, nodeNameToLookFor, item, searchConfig, expectedInResults);
+    }
+
+
+    /**
+     * Util to perform advanced search and check if search results page has results
+     *
+     * @param driver WebDriver
+     * @param nodeNameToLookFor String
+     * @param item SelectItem
+     * @param searchConfig Map<String, String>
+     * @param expectedInResults boolean
+     * @return true if search results are as expected
+     */
+
+
+    public boolean checkAdvancedSearchResults(WebDriver driver, String nodeNameToLookFor, SelectItem item, Map<String, String> searchConfig, boolean expectedInResults) throws Exception
+    {
+        FacetedSearchPage searchResults;
+
+        AdvanceSearchPage advanceSearchPage = getSharePage(driver).getNav().selectAdvanceSearch().render();
+
+
+        if (item == SelectItem.CONTENT)
+        {
+            if (searchConfig.get(SearchKeys.KEYWORD.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputKeyword(searchConfig.get(SearchKeys.KEYWORD.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.NAME.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputName(searchConfig.get(SearchKeys.NAME.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.TITLE.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputTitle(searchConfig.get(SearchKeys.TITLE.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.DESCRIPTION.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputDescription(searchConfig.get(SearchKeys.DESCRIPTION.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.MIME.getSearchKeys()) != null)
+            {
+                advanceSearchPage.selectMimeType(searchConfig.get(SearchKeys.MIME.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.MODIFIERFROMDATE.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputFromDate(searchConfig.get(SearchKeys.MODIFIERFROMDATE.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.MODIFIERTODATE.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputToDate(searchConfig.get(SearchKeys.MODIFIERTODATE.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.MODIFIER.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputModifier(searchConfig.get(SearchKeys.MODIFIER.getSearchKeys()));
+            }
+        }
+
+        if (item == SelectItem.FOLDER)
+        {
+            advanceSearchPage.searchLink("Folders").render();
+
+            if (searchConfig.get(SearchKeys.KEYWORD.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputKeyword(searchConfig.get(SearchKeys.KEYWORD.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.NAME.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputName(searchConfig.get(SearchKeys.NAME.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.TITLE.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputTitle(searchConfig.get(SearchKeys.TITLE.getSearchKeys()));
+            }
+            if (searchConfig.get(SearchKeys.DESCRIPTION.getSearchKeys()) != null)
+            {
+                advanceSearchPage.inputDescription(searchConfig.get(SearchKeys.DESCRIPTION.getSearchKeys()));
+            }
+
+        }
+
+        searchResults = advanceSearchPage.clickSearch().render();
+
+        List<SearchResult> searchOutput = searchResults.getResults();
+
+        if (searchResults.hasResults())
+        {
+            return expectedInResults == searchResults.isItemPresentInResultsList(SitePageType.DOCUMENT_LIBRARY, nodeNameToLookFor);
+        }
+        else
+        {
+            return expectedInResults == false;
+        }
+
     }
 
     /**
