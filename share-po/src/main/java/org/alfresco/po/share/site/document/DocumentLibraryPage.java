@@ -478,7 +478,10 @@ public class DocumentLibraryPage extends SitePage
                 List<FileDirectoryInfo> fileDirectoryList = new ArrayList<FileDirectoryInfo>();
                 for (WebElement result : results)
                 {
-                    String nodeRef = result.findElement(By.cssSelector("input[type='checkbox']")).getAttribute("value");
+                    WebElement element = result.findElement(By.cssSelector("input[type='checkbox']"));
+                    
+                    String nodeRef = element.getAttribute("value");
+                    
                     FileDirectoryInfo file = getFileDirectoryInfo(nodeRef, result);
                     logger.debug("adding file" + file.getName());
                     if (logger.isTraceEnabled())

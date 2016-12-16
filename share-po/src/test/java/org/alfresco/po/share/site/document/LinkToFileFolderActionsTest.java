@@ -22,13 +22,19 @@
  */
 package org.alfresco.po.share.site.document;
 
+
 import org.alfresco.po.AbstractTest;
-import org.alfresco.po.share.site.document.CopyOrMoveContentPage.ACTION;
-import org.alfresco.po.share.site.document.CopyOrMoveContentPage.DESTINATION;
+import org.alfresco.po.share.DashBoardPage;
+import org.alfresco.po.share.RepositoryPage;
+import org.alfresco.po.share.search.FacetedSearchPage;
+import org.alfresco.po.share.search.LiveSearchDropdown;
+import org.alfresco.po.share.search.SearchBox;
 import org.alfresco.po.share.steps.SiteActions;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.alfresco.po.share.site.document.CopyOrMoveContentPage.ACTION;
+import org.alfresco.po.share.site.document.CopyOrMoveContentPage.DESTINATION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -37,6 +43,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Tests to verify the Interactions with Links created on files / folders.
@@ -48,22 +55,30 @@ import java.io.File;
 @Test(groups = { "alfresco-one" })
 public class LinkToFileFolderActionsTest extends AbstractTest
 {
-    private static Log logger = LogFactory.getLog(CreateLinkToFileFolderTest.class);
+    private static Log logger = LogFactory.getLog(LinkToFileFolderActionsTest.class);
 
     private String siteName1;
     private String siteName2;
     private File file1;
     private File file2;
     private File file3;
+
     private String folderName1;
     private String folderName2;
     private String file1LinkName;
     private String file2LinkName;
     private String file3LinkName;
+
     private String folder1LinkName;
 
     private DocumentLibraryPage docLib;
+    private DashBoardPage dashBoard;
 
+    private String deleteLinkAction;
+    private String locateLinkAction;
+    private String copyLinkAction;
+    private String moveLinkAction;
+    
     @Autowired
     SiteActions siteActions;
 
@@ -72,7 +87,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     {
         try
         {
-            loginAs(username, password);
+            dashBoard = loginAs(username, password);
 
             siteName1 = "site1-" + System.currentTimeMillis();
             siteName2 = "site2-" + System.currentTimeMillis();
@@ -86,8 +101,8 @@ public class LinkToFileFolderActionsTest extends AbstractTest
 
             siteUtil.createSite(driver, username, password, siteName1, "description", "Public");
             siteUtil.createSite(driver, username, password, siteName2, "description", "Public");
-
-            siteActions.navigateToDocumentLibrary(driver, siteName1);
+            
+            docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
             siteActions.uploadFile(driver, file1);
             siteActions.uploadFile(driver, file2);
             siteActions.uploadFile(driver, file3);
@@ -96,6 +111,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
             siteActions.createFolder(driver, folderName2, "folder 2 title", "folder 2 description");
 
             siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file1.getName(), ACTION.CREATE_LINK);
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName2, "", file1.getName(), ACTION.CREATE_LINK);
             file1LinkName = "Link to " + file1.getName();
 
             siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file2.getName(), ACTION.CREATE_LINK);
@@ -106,6 +122,13 @@ public class LinkToFileFolderActionsTest extends AbstractTest
 
             siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", folderName1, ACTION.CREATE_LINK);
             folder1LinkName = "Link to " + folderName1;
+
+            deleteLinkAction = factoryPage.getValue("actions.link.delete");
+            locateLinkAction = factoryPage.getValue("actions.link.locate");
+            copyLinkAction = factoryPage.getValue("actions.link.copy");
+            moveLinkAction = factoryPage.getValue("actions.link.move");
+            
+            docLib = docLib.getNavigation().selectDetailedView().render();
         }
         catch (Exception pe)
         {
@@ -118,6 +141,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     @AfterClass
     public void tearDown()
     {
+        docLib = docLib.getNavigation().selectDetailedView().render();
         siteUtil.deleteSite(username, password, siteName1);
         siteUtil.deleteSite(username, password, siteName2);
     }
@@ -128,17 +152,17 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     @Test(priority = 1)
     public void testLinkActionsDocLib()
     {
-//        docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
-//
-//        siteActions.copyOrMoveArtifact(driver, factoryPage, CopyOrMoveContentPage.DESTINATION.ALL_SITES,
-//                siteName1, "", file1.getName(), CopyOrMoveContentPage.ACTION.CREATE_LINK);
-//
-//        String linkName = "Link to " + file1.getName();
-//
-//        Assert.assertTrue(docLib.isFileVisible(linkName));
-//        
-//        FileDirectoryInfo linkRow = docLib.getFileDirectoryInfo(linkName);
-//
+        docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+
+        FileDirectoryInfo linkRow = docLib.getFileDirectoryInfo(file1LinkName);
+
+        List<String> linkActions = linkRow.getContentActions();
+        Assert.assertTrue(linkActions.size() > 0);
+        for (String action : linkActions)
+        {
+            Assert.assertTrue(action.equals(deleteLinkAction) || action.equals(locateLinkAction) ||
+                action.equals(copyLinkAction) || action.equals(moveLinkAction));
+        }
     }
 
     /**
@@ -209,15 +233,14 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     /**
      * Check that clicking on a link to a folder redirects to folder contents page
      */
-    // enable this after SHA-1864 is fixed
-    @Test(priority = 6, enabled = false)
+    @Test(priority = 6)
     public void testClickLinkToFolder()
     {
-        siteActions.navigateToDocumentLibrary(driver, siteName1).render();
-
-        docLib = siteActions.getFileDirectoryInfo(driver, folder1LinkName).clickOnTitle().render();
-
-        String path = docLib.getNavigation().getCrumbsElementDetailsLinkName();
+        siteActions.navigateToDocumentLibrary(driver, siteName1);
+        
+        RepositoryPage repoPage = siteActions.getFileDirectoryInfo(driver, folder1LinkName).selectThumbnail().render();
+        
+        String path = repoPage.getNavigation().getCrumbsElementDetailsLinkName();
 
         Assert.assertTrue(path.equalsIgnoreCase(folderName1));
     }
@@ -288,4 +311,84 @@ public class LinkToFileFolderActionsTest extends AbstractTest
 
         Assert.assertFalse(docLib.isItemVisble(file3LinkName));
     }
+
+    /**
+     * Check that links are not displayed in Live Search Results
+     */
+    @Test(priority = 12)
+    public void testLinkNotDisplayedLiveSearch()
+    {
+        SearchBox search = dashBoard.getSearch();
+        LiveSearchDropdown liveSearchResultPage = search.liveSearch(file1LinkName).render();
+
+        Assert.assertFalse(liveSearchResultPage.isDocumentsTitleVisible());
+    }
+
+    /**
+     * Check that links are not displayed in Faceted Search Results
+     */
+    @Test(priority = 13)
+    public void testLinkNotDisplayedFacetedSearch()
+    {
+        SearchBox search = dashBoard.getSearch();
+        FacetedSearchPage resultPage = search.search(file1LinkName).render();
+        Assert.assertNotNull(resultPage);
+
+        Assert.assertFalse(resultPage.hasResults());
+    }
+
+    /**
+     * Check that a link can pe copied to another location
+     */
+    @Test(priority = 14)
+    public void testClickCopyLink()
+    {
+        docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+
+        siteActions.copyOrMoveArtifact(driver, DESTINATION.MY_FILES, "", "", file1LinkName, ACTION.COPY);
+
+        MyFilesPage myFilesPage = dashBoard.getNav().selectMyFilesPage().render();
+
+        Assert.assertTrue(myFilesPage.isItemVisble(file1LinkName));
+    }
+
+    /**
+     * Check that a link can be moved to another location
+     */
+    @Test(priority = 15)
+    public void testClickMoveLink()
+    {
+        docLib = siteActions.navigateToDocumentLibrary(driver, siteName2).render();
+
+        siteActions.copyOrMoveArtifact(driver, DESTINATION.SHARED_FILES, "", "", file1LinkName, ACTION.MOVE);
+
+        Assert.assertFalse(docLib.isItemVisble(file1LinkName));
+
+        SharedFilesPage sharedFilesPage = dashBoard.getNav().selectSharedFilesPage().render();
+
+        Assert.assertTrue(sharedFilesPage.isItemVisble(file1LinkName));
+    }
+
+    /**
+     * Check that actions available on a link to a file are correctly displayed in Gallery View
+     */
+    @Test(priority = 16, enabled = false)
+    public void testLinkActionsGalleryView()
+    {
+        docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+        docLib = docLib.getNavigation().selectGalleryView().render();
+
+        FileDirectoryInfo linkRow = docLib.getFileDirectoryInfo(file1LinkName);
+
+        List<String> linkActions = linkRow.getContentActions();
+        Assert.assertTrue(linkActions.size() > 0);
+        for (String action : linkActions)
+        {
+            Assert.assertTrue(action.equals(deleteLinkAction) || action.equals(locateLinkAction) ||
+                    action.equals(copyLinkAction) || action.equals(moveLinkAction));
+        }
+
+        docLib = docLib.getNavigation().selectDetailedView().render();
+    }
+    
 }

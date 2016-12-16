@@ -226,16 +226,23 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
     {
         try
         {
-            selectMoreAction();
+            if (isLinkToFile() || isLinkToFolder()) 
+            {
+                mouseOver(selectContentActions());
+            }
+            else 
+            {
+                selectMoreAction();
+            }
             return super.selectCopyTo();
         }
         catch (StaleElementReferenceException st)
         {
             resolveStaleness();
-            selectMoveTo();
+            selectCopyTo();
         }
         
-        throw new PageOperationException("Unable to select the MoveTo...");
+        throw new PageOperationException("Unable to select the CopyTo...");
     }
 
     /*
@@ -247,7 +254,14 @@ public abstract class SimpleDetailTableView extends FileDirectoryInfoImpl
     {
         try
         {
-            selectMoreAction();
+            if (isLinkToFile() || isLinkToFolder())
+            {
+                mouseOver(selectContentActions());
+            }
+            else 
+            {
+                selectMoreAction();
+            }
             return super.selectMoveTo();
         }
         catch (StaleElementReferenceException st)

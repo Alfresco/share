@@ -92,6 +92,13 @@ public interface FileDirectoryInfo
     List<String> getCategoryList();
 
     /**
+     * Get the {@link List} of available actions.
+     *
+     * @return {@link List} of actions
+     */
+    List<String> getContentActions();
+
+    /**
      * Select the delete button on the item.
      *
      * @return boolean <tt>true</tt> if delete option is available and clicked
