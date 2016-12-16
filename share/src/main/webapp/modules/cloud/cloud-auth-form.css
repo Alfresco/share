@@ -2,15 +2,15 @@
 
 form.cloud-auth-form
 {
-    background:white url(../../themes/default/images/loginbg.png);
     text-align:left;
     padding:5px 15px;
 }
 
 form.cloud-auth-form div.header-bar
 {
-    background: url(../../themes/default/images/logo-enterprise.png) no-repeat 5px 12px;
-    padding:62px 0 5px;
+    background: url(../../components/images/alfresco-logo.svg) no-repeat 5px 12px;
+    padding: 62px 0 5px;
+    background-size: 160px;
 }
 
 form.cloud-auth-form label
