@@ -27,9 +27,9 @@
    <#if !inline>
    <div class="activity">
       <#if activity.userAvatar != "avatar">
-      <div class="avatar"><img src="${url.context}/proxy/alfresco/slingshot/profile/avatar/${activity.userAvatar?string?replace('://','/')}/thumbnail/avatar" alt="${activity.fullName?html}" width="48" height="48" /></div>
+      <div class="avatar"><img src="${url.context}/proxy/alfresco/slingshot/profile/avatar/${activity.userAvatar?string?replace('://','/')}/thumbnail/avatar" alt="${activity.fullName?html}" width="48" /></div>
       <#else>
-      <div class="avatar"><img src="${url.context}/proxy/alfresco/slingshot/profile/avatar/${activity.userName?url}/thumbnail/avatar" alt="${activity.fullName?html}" width="48" height="48" /></div>
+      <div class="avatar"><img src="${url.context}/proxy/alfresco/slingshot/profile/avatar/${activity.userName?url}/thumbnail/avatar" alt="${activity.fullName?html}" width="48" /></div>
       </#if>
       <div class="content">
          <span class="detail">${detail}</span><br/>
