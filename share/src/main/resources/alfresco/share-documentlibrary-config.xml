@@ -1426,11 +1426,15 @@
             <action index="100" id="document-locate" label="actions.link.locate">
                <evaluator />
             </action>
-            <action index="110" id="document-delete" label="actions.link.delete" />
+            <action index="110" id="document-copy-to" />
+            <action index="120" id="document-move-to" />
+            <action index="130" id="document-delete" label="actions.link.delete" />
          </actionGroup>
 
          <actionGroup id="document-link-details">
-            <action index="100" id="document-delete" label="actions.link.delete" />
+            <action index="100" id="document-copy-to" />
+            <action index="110" id="document-move-to" />
+            <action index="120" id="document-delete" label="actions.link.delete" />
          </actionGroup>
 
          <actionGroup id="folder-link-browse">
@@ -1438,11 +1442,15 @@
             <action index="110" id="document-locate" label="actions.link.locate">
                <evaluator />
             </action>
-            <action index="120" id="document-delete" icon="folder-delete" label="actions.link.delete" />
+            <action index="120" id="document-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
+            <action index="130" id="document-move-to" icon="folder-move-to" label="actions.folder.move-to" />
+            <action index="140" id="document-delete" icon="folder-delete" label="actions.link.delete" />
          </actionGroup>
 
          <actionGroup id="folder-link-details">
             <action index="100" id="document-delete" icon="folder-delete" label="actions.link.delete" />
+            <action index="110" id="folder-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
+            <action index="120" id="folder-move-to" icon="folder-move-to" label="actions.folder.move-to" />
          </actionGroup>
 
       </actionGroups>
