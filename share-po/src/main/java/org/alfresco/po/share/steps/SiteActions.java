@@ -90,6 +90,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author sprasanna
  * @author mbhave
+ * @author charu
  */
 @Component
 public class SiteActions extends CommonActions
@@ -1301,22 +1302,22 @@ public class SiteActions extends CommonActions
     }
     
     /**
-     * Utility to add group to site user role, when user is on site dashboard
+     * Utility to add group to site with any role, when user is on site dashboard
      * @param siteName
-     * @param userName
+     * @param groupName
      * @param {@link WebDriver} driver
      * @return {@link Boolean} expectedRole    
      */
-    // TODO: Correct the Docs
-    public HtmlPage addGroupToSite(WebDriver driver, String modSiteName, String groupName, UserRole userRole)
+    
+    public HtmlPage addGroupToSite(WebDriver driver, String siteName, String groupName, UserRole userRole)
     {
-    	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render();
+    	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, siteName).render();
 
         // Navigate to Add Users page
     	AddUsersToSitePage addUsersToSitePage = siteDashboardPage.getSiteNav().selectAddUser().render();
     	SiteGroupsPage siteGroupsPage = addUsersToSitePage.navigateToSiteGroupsPage().render();
 
-        // Add groupName to modSiteName6 with Manager Role
+        // Add groupName to site with any role
     	AddGroupsPage addGroupsPage = siteGroupsPage.navigateToAddGroupsPage().render();
         return addGroupsPage.addGroup(groupName, userRole).render();
         
