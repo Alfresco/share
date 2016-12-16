@@ -47,7 +47,7 @@ public abstract class AbstractSiteNavigation extends SharePage
     protected static final By CUSTOMISE_DASHBOARD_BTN = By.cssSelector("div[class^='page-title']>div>span>span>a[href$='customise-site-dashboard']");
     protected static final By CUSTOMIZE_SITE_DASHBOARD = By.cssSelector("#HEADER_CUSTOMIZE_SITE_DASHBOARD_text");
     protected static final By EDIT_SITE_DETAILS = By.cssSelector("#HEADER_EDIT_SITE_DETAILS_text");
-    
+    protected static final By CANCEL_SITE_REQUEST = By.cssSelector("#HEADER_CANCEL_JOIN_SITE_REQUEST_text");
     protected static final By DELETE_SITE = By.cssSelector("#HEADER_DELETE_SITE_text");
     protected static final By LEAVE_SITE = By.cssSelector("#HEADER_LEAVE_SITE_text");
     protected static final By JOIN_SITE = By.cssSelector("#HEADER_JOIN_SITE_text");

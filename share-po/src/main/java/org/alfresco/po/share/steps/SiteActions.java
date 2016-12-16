@@ -46,12 +46,16 @@ import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet.LinkType;
 import org.alfresco.po.share.enums.Dashlets;
+import org.alfresco.po.share.enums.UserRole;
 import org.alfresco.po.share.exception.ShareException;
 import org.alfresco.po.share.exception.UnexpectedSharePageException;
+import org.alfresco.po.share.site.AddGroupsPage;
+import org.alfresco.po.share.site.AddUsersToSitePage;
 import org.alfresco.po.share.site.ConfirmRequestToJoinPopUp;
 import org.alfresco.po.share.site.CreateSitePage;
 import org.alfresco.po.share.site.NewFolderPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.SiteGroupsPage;
 import org.alfresco.po.share.site.SiteMembersPage;
 import org.alfresco.po.share.site.SitePage;
 import org.alfresco.po.share.site.UpdateFilePage;
@@ -79,6 +83,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
+
 
 /**
  * Share actions - All the common steps of site action
@@ -1256,6 +1261,17 @@ public class SiteActions extends CommonActions
     }
     
     /**
+     * Utility for cancel requesting to join moderated site when user already logged in
+     * @param  siteName 
+     */
+    public  HtmlPage cancelRequestToJoinModSite(WebDriver driver, String modSiteName)
+    {
+    	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render(); 
+    	siteDashboardPage.cancelRequestToJoinSite().render();
+        return factoryPage.getPage(driver).render();
+    }  
+        
+    /**
      * Utility for navigating to PendingRequset Page when user already logged in
      * @param  siteName     
      */
@@ -1265,5 +1281,43 @@ public class SiteActions extends CommonActions
     	SiteMembersPage siteMembersPage = siteDashboardPage.getSiteNav().selectMembersPage().render();
     	return siteMembersPage.navigateToPendingInvites().render();
     	
+    } 
+    
+    /**
+     * Utility for verify user role, when user is on site dashboard
+     * @param siteName
+     * @param userName
+     * @param {@link WebDriver} driver
+     * @return {@link Boolean} expectedRole    
+     */
+    public Boolean isUserHasRole(WebDriver driver, String userName, String modSiteName, UserRole userRole, Boolean expectedRole )
+    {
+       // Open modSiteName1 site dashboard
+       SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render();
+
+       // Verify userName2 is a member of modSiteName1 with Consumer role
+       SiteMembersPage siteMembersPage = siteDashboardPage.getSiteNav().selectMembersPage().render();
+       return siteMembersPage.isUserHasRole(userName, userRole);
+    }
+    
+    /**
+     * Utility to add group to site user role, when user is on site dashboard
+     * @param siteName
+     * @param userName
+     * @param {@link WebDriver} driver
+     * @return {@link Boolean} expectedRole    
+     */
+    public HtmlPage addGroupToSite(WebDriver driver, String modSiteName, String groupName, UserRole userRole)
+    {
+    	SiteDashboardPage siteDashboardPage = openSiteDashboard(driver, modSiteName).render();
+
+        // Navigate to Add Users page
+    	AddUsersToSitePage addUsersToSitePage = siteDashboardPage.getSiteNav().selectAddUser().render();
+    	SiteGroupsPage siteGroupsPage = addUsersToSitePage.navigateToSiteGroupsPage().render();
+
+        // Add groupName to modSiteName6 with Manager Role
+    	AddGroupsPage addGroupsPage = siteGroupsPage.navigateToAddGroupsPage().render();
+        return addGroupsPage.addGroup(groupName, userRole).render();
+        
     }
 }
