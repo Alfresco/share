@@ -39,6 +39,7 @@ import org.alfresco.po.RenderTime;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.exception.PageRenderTimeException;
+import org.alfresco.po.share.SharePopup;
 import org.alfresco.po.share.repository.ModelsPage;
 import org.alfresco.po.share.site.UpdateFilePage;
 import org.alfresco.po.share.site.document.ConfirmDeletePage.Action;
@@ -1197,8 +1198,8 @@ public abstract class FileDirectoryInfoImpl extends PageElement implements FileD
     @Override
     public HtmlPage deleteLink()
     {
-        ConfirmDeletePage deleteConfirmation = selectDeleteLink().render();
-        return deleteConfirmation.selectAction(Action.Delete).render();
+        SharePopup confirmDelete = selectDeleteLink().render();
+        return confirmDelete.clickActionByName(Action.Delete.toString());
     }
 
     /*
