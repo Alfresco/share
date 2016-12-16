@@ -639,35 +639,24 @@
       {
          var fileName = $isValueSet(jsNode.linkedNode.properties) ? jsNode.linkedNode.properties.name : null;
          var linkedNodeIsContainer = jsNode.linkedNode.isContainer;
-         
-         if (Alfresco.constants.PAGECONTEXT == "shared")
+
+         if (!linkedNodeIsContainer && (Alfresco.constants.PAGECONTEXT == "shared" || Alfresco.constants.PAGECONTEXT == "mine"))
          {
-            if (linkedNodeIsContainer)
-            {
-               html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "repository?path=" + encodeURIComponent(recordRepoPath + "/" + fileName);
-            }
-            else
-            {
-               var strNodeRef = jsNode.linkedNode.nodeRef.toString();
-               html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "document-details?nodeRef=" + strNodeRef;
-            }
+            var strNodeRef = jsNode.linkedNode.nodeRef.toString();
+            html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "document-details?nodeRef=" + strNodeRef;
          }
          else if (linkedNodeIsContainer)
          {
             if ($isValueSet(scope.options.siteId) && record.location.site && record.location.site.name !== scope.options.siteId)
             {
-               html = $siteURL("documentlibrary?path=" + encodeURIComponent(record.location.path+ "/" + fileName),
+               html = $siteURL("documentlibrary?path=" + encodeURIComponent(recordPath + (recordPath != "/" ? "/" : "") + fileName),
                {
                   site: record.location.site.name
                });
             }
             else
             {
-               // handle folder parent node
-               var location = {};
-               location.path = recordPath;
-               location.file = record.location.file;
-               html = '#" class="filter-change" rel="' + Alfresco.DocumentList.generatePathMarkup(location);
+               html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "repository?path=" + encodeURIComponent(recordRepoPath + (recordRepoPath != "/" ? "/" : "") + fileName);
             }
          }
          else
