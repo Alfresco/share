@@ -47,7 +47,6 @@ import java.util.Map;
  *
  * @author CorinaZ
  */
-// TODO: Add this test class to SearchSuite.xml when all tests pass consistently, so tests start running run on bamboo
 @Listeners(FailedTestListener.class)
 @Test(groups = { "alfresco-one" })
 public class FacetedSearchHighlightedTermTest1 extends AbstractTest
