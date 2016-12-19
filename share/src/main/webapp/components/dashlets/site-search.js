@@ -335,7 +335,7 @@
          {
             Dom.addClass(elCell.parentNode, "thumbnail");
          }
-         elCell.innerHTML = this.buildThumbnailHtml(oRecord, 48, 48);
+         elCell.innerHTML = this.buildThumbnailHtml(oRecord, 48);
       },
 
       /**

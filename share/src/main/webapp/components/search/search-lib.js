@@ -302,7 +302,7 @@
 
          var html = this._buildThumbnailHtml(config);
 
-         if (width && height)
+         if (width || height)
          {
             return html;
          }
@@ -347,7 +347,7 @@
          var imageUrl = this.buildThumbnailUrl(config.type, config.nodeRef, config.modifiedOn),
              htmlName = $html(config.displayName);
          
-         var html = '<span><a href="' + url + '"' + (isImage ? ' onclick="Alfresco.Lightbox.show(this);return false;"' : "") + '><img src="' + imageUrl + '" alt="' + htmlName + '" title="' + htmlName + '"' + (config.height && config.width ? ' width="' + config.width + '" height="' + config.height + '"' : "") + '/></a></span>';
+         var html = '<span><a href="' + url + '"' + (isImage ? ' onclick="Alfresco.Lightbox.show(this);return false;"' : "") + '><img src="' + imageUrl + '" alt="' + htmlName + '" title="' + htmlName + '"' + (config.width ? ' width="' + config.width + '"' : "") + (config.height ? ' height="' + config.height + '"' : "") + '/></a></span>';
          
          return html;
       }
