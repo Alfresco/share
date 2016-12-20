@@ -25,6 +25,7 @@
  */
 package org.alfresco.po.share.site.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.HtmlPage;
@@ -795,8 +796,31 @@ public abstract class FilmStripOrGalleryView extends FileDirectoryInfoImpl
         return result;
     }
 
+    /**
+     * Selects the 'Actions' menu link on the select data row on DocumentLibrary Page.
+     *
+     * @return List of {@link WebElement} available for the selected Content
+     */
+    @Override
+    public List<String> getContentActions() 
+    {
+        List<String> actions = new ArrayList<>();
+        try
+        {
+            clickInfoIcon();
+            List<WebElement> actionElements = findElements(By.cssSelector(ACTIONS_LIST));
+            for (WebElement webElement : actionElements)
+            {
+                actions.add(webElement.getText());
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+            throw new NoSuchElementException("Not able to find actions", e);
+        }
+        return actions;
+    }
 
-    
     @Override
     public boolean isModelActive()
     {

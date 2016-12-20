@@ -999,15 +999,15 @@ public class DocumentLibraryNavigation extends PageElement
     {
         return selectViewType("span.view.media_table");
     }
-    
+
     /**
-     * Selects the Filmstrip View of the Document Library.
-     * 
+     * Selects the Gallery View of the Document Library.
+     *
      * @return {@link DocumentLibraryPage}
      */
     public HtmlPage selectGalleryView()
     {
-        return selectViewType(".view.gallery");
+        return selectViewType("span.view.gallery");
     }
 
     /**
