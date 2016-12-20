@@ -639,24 +639,35 @@
       {
          var fileName = $isValueSet(jsNode.linkedNode.properties) ? jsNode.linkedNode.properties.name : null;
          var linkedNodeIsContainer = jsNode.linkedNode.isContainer;
-
-         if (!linkedNodeIsContainer && (Alfresco.constants.PAGECONTEXT == "shared" || Alfresco.constants.PAGECONTEXT == "mine"))
+         
+         if (Alfresco.constants.PAGECONTEXT == "shared")
          {
-            var strNodeRef = jsNode.linkedNode.nodeRef.toString();
-            html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "document-details?nodeRef=" + strNodeRef;
+            if (linkedNodeIsContainer)
+            {
+               html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "repository?path=" + encodeURIComponent(recordRepoPath + "/" + fileName);
+            }
+            else
+            {
+               var strNodeRef = jsNode.linkedNode.nodeRef.toString();
+               html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "document-details?nodeRef=" + strNodeRef;
+            }
          }
          else if (linkedNodeIsContainer)
          {
             if ($isValueSet(scope.options.siteId) && record.location.site && record.location.site.name !== scope.options.siteId)
             {
-               html = $siteURL("documentlibrary?path=" + encodeURIComponent((recordPath != "/") ?"/":"" + fileName),
+               html = $siteURL("documentlibrary?path=" + encodeURIComponent(record.location.path+ "/" + fileName),
                {
                   site: record.location.site.name
                });
             }
             else
             {
-               html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "repository?path=" + encodeURIComponent((recordRepoPath != "/") ?"/":"" + fileName);
+               // handle folder parent node
+               var location = {};
+               location.path = recordPath;
+               location.file = record.location.file;
+               html = '#" class="filter-change" rel="' + Alfresco.DocumentList.generatePathMarkup(location);
             }
          }
          else
