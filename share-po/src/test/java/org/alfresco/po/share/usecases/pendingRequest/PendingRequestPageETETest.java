@@ -186,9 +186,8 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         // Login as userName1
         loginAs(userName1, UNAME_PASSWORD);
 
-        // Verify taskName is present in My Task Dashlet
-        // TODO: Assert
-        siteActions.checkTaskInMyTasks(driver, taskName, true);
+        // Verify taskName is present in My Task Dashlet        
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, true),"Task not displayed when expected: " + taskName);
 
         // Navigate to Pending request page on modSiteName1
         pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName1).render();
@@ -197,13 +196,11 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         pendingRequestPage = pendingRequestPage.approveRequest(userName2).render();
         assertEquals(pendingRequestPage.getRequests().size(), 0);
 
-        // Verify user has consumer role
-        // TODO: Assert
-        siteActions.checkUserRole(driver, userName2, modSiteName1, UserRole.CONSUMER, true);
+        // Verify user has consumer role       
+        Assert.assertTrue(siteActions.checkUserRole(driver, userName2, modSiteName1, UserRole.CONSUMER, true),"User role is not"+ UserRole.CONSUMER);
 
-        // Verify task is removed from My Task Dashlet
-        // TODO: Assert
-        siteActions.checkTaskInMyTasks(driver, taskName, false);
+        // Verify task is removed from My Task Dashlet        
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, false),"Task displayed when not expected: " + taskName);
 
         logout(driver);
 
@@ -223,33 +220,28 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Verify taskName is displayed in My Task Dashlet
-        // TODO: Assert like this in all the tests below
         Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, true),"Task not displayed when expected: " + taskName);
 
         // Navigate to Pending request page
         siteActions.navigateToPendingRequestPage(driver, modSiteName2);
 
         // Verify user2 displayed in the pending list
-        // TODO: Add Assert in all the tests
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         // Reject request from user2
         siteActions.rejectRequest(driver, userName2);
         
-        // TODO: Add Assert in all the tests
-        siteActions.checkPendingRequestForUser(driver, userName2, false);
+        // Verify user2 not displayed in the pending list      
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, false),"pending request from user displayed when not expected: " + userName2);
 
-        // Verify taskName is removed from My Task Dashlet
-        // TODO: Add Assert in all the tests
-        siteActions.checkTaskInMyTasks(driver, taskName, false);
-
+        // Verify taskName is removed from My Task Dashlet       
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, false),"Task displayed when not expected: " + taskName);
+        
         loginAs(userName2, UNAME_PASSWORD);
 
         // Navigate to site dashboard page and verify the button label has 'Request to Join'
-        siteDashboardPage = siteActions.openSiteDashboard(driver, modSiteName2).render();
-        
-        // TODO: Add Error Message
-        Assert.assertTrue(siteDashboardPage.isJoinSiteLinkPresent());
+        siteDashboardPage = siteActions.openSiteDashboard(driver, modSiteName2).render();        
+        Assert.assertTrue(siteDashboardPage.isJoinSiteLinkPresent(),"Rquest to Join link not displayed");
 
         logout(driver);
     }  
@@ -270,13 +262,13 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Verify taskName is displayed in My Task Dashlet
-        siteActions.checkTaskInMyTasks(driver, taskName, true);
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, true),"Task not displayed when expected: " + taskName);
 
         // Navigate to Pending request page
         siteActions.navigateToPendingRequestPage(driver, modSiteName3);
 
         // Verify pending request from user2 is displayed
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         // click on the view button on user2 request
         editTaskPage = siteActions.viewRequest(driver, userName2).render();
@@ -288,7 +280,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         pendingRequestPage = editTaskPage.selectSaveButton().render();
 
         // Verify pending request from user2 is displayed
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         // click on the view button on user2 request
         editTaskPage = siteActions.viewRequest(driver, userName2).render();
@@ -297,7 +289,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         assertTrue(editTaskPage.readCommentFromCommentTextArea().contains(comment));
 
         // Verify taskName is displayed in My Task Dashlet
-        siteActions.checkTaskInMyTasks(driver, taskName, true);
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, true),"Task not displayed when expected: " + taskName);
 
         logout(driver);
     }
@@ -316,13 +308,13 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Verify taskName is displayed in My Task Dashlet
-        siteActions.checkTaskInMyTasks(driver, taskName, true);
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, true),"Task not displayed when expected: " + taskName);
 
         // Navigate to Pending request page
         siteActions.navigateToPendingRequestPage(driver, modSiteName3);
 
         // Verify user2 displayed in the list
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         // View user2 request
         editTaskPage = siteActions.viewRequest(driver, userName2).render();
@@ -334,8 +326,8 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         pendingRequestPage = editTaskPage.selectCancelButton().render();
 
         // Verify pending request from user2 is displayed
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
-
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
+        
         // click on the view button on user2 request
         editTaskPage = siteActions.viewRequest(driver, userName2).render();
 
@@ -343,10 +335,10 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         assertFalse(editTaskPage.readCommentFromCommentTextArea().contains(comment));      
 
         // Verify pending request from user2 is displayed
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         // Verify taskName is displayed in My Task Dashlet
-        siteActions.checkTaskInMyTasks(driver, taskName, true);
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, true),"Task not displayed when expected: " + taskName);
 
         logout(driver);
 
@@ -365,13 +357,13 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Verify my task displayed in my task dashlet
-        siteActions.checkTaskInMyTasks(driver, taskName, true);
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, true),"Task not displayed when expected: " + taskName);
 
         // Navigate to Pending request page
         siteActions.navigateToPendingRequestPage(driver, modSiteName4);
 
         // Verify user2 displayed in the pending list
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         loginAs(userName2, UNAME_PASSWORD);
 
@@ -386,13 +378,13 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Verify taskName is not displayed in My Task Dashlet
-        siteActions.checkTaskInMyTasks(driver, taskName, false);
-
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, false),"Task displayed when not expected: " + taskName);
+        
         // Navigate to Pending request page
         siteActions.navigateToPendingRequestPage(driver, modSiteName4);
 
         // Verify user2 not displayed in the pending list
-        siteActions.checkPendingRequestForUser(driver, userName2, false);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, false),"pending request from user displayed when not expected: " + userName2);
 
         logout(driver);
 
@@ -412,15 +404,15 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.navigateToPendingRequestPage(driver, modSiteName5);
 
         // Verify pending request from user2 is displayed
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
-
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
+        
         loginAs(userName4, UNAME_PASSWORD);
 
         // Navigate to Pending request page
         siteActions.navigateToPendingRequestPage(driver, modSiteName5);       
 
         // Verify pending request from user2 is displayed
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         // click on the view button on user2 request
         editTaskPage = siteActions.viewRequest(driver, userName2).render();
@@ -428,7 +420,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
 
         // Click Save button
         pendingRequestPage = editTaskPage.selectSaveButton().render();
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         loginAs(userName1, UNAME_PASSWORD);
 
@@ -436,7 +428,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.navigateToPendingRequestPage(driver, modSiteName5);
 
         // Verify user2 not displayed in the list
-        siteActions.checkPendingRequestForUser(driver, userName2, false);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, false),"pending request from user displayed when not expected: " + userName2);
 
         loginAs(userName4, UNAME_PASSWORD);
 
@@ -444,7 +436,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.navigateToPendingRequestPage(driver, modSiteName5);
 
         // Verify user2 not displayed in the list
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         // click on the view button on user2 request
         editTaskPage = siteActions.viewRequest(driver, userName2).render();
@@ -454,7 +446,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.navigateToPendingRequestPage(driver, modSiteName5);
 
         // verify user2 displayed in the list
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         loginAs(userName1, UNAME_PASSWORD);
 
@@ -462,7 +454,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.navigateToPendingRequestPage(driver, modSiteName5);
 
         // verify user2 displayed in the list
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
     }
 
@@ -486,7 +478,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.navigateToPendingRequestPage(driver, modSiteName6);
 
         // Verify pending request from user2 is displayed
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         loginAs(userName4, UNAME_PASSWORD);
 
@@ -494,7 +486,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         siteActions.navigateToPendingRequestPage(driver, modSiteName6);
 
         // Verify pending request from user2 is displayed
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
     }
 
@@ -511,24 +503,24 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         loginAs(userName1, UNAME_PASSWORD);
 
         // Verify taskName is displayed in My Task Dashlet
-        siteActions.checkTaskInMyTasks(driver, taskName, true);
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, true),"Task not displayed when expected: " + taskName);
 
         // Navigate to Pending request page
         siteActions.navigateToPendingRequestPage(driver, modSiteName7);
 
         // Verify user2 displayed in the list
-        siteActions.checkPendingRequestForUser(driver, userName2, true);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, true),"pending request from user not displayed when expected: " + userName2);
 
         // Click Approve button in Edit Task Page
         siteActions.approveRequest(driver, userName2).render();
         
-        siteActions.checkPendingRequestForUser(driver, userName2, false);
+        Assert.assertTrue(siteActions.checkPendingRequestForUser(driver, userName2, false),"pending request from user displayed when not expected: " + userName2);
 
-        // Verify user has consumer role to site
-        siteActions.checkUserRole(driver, userName2, modSiteName7, UserRole.CONSUMER, true);
+        // Verify user has consumer role to site       
+        Assert.assertTrue(siteActions.checkUserRole(driver, userName2, modSiteName7, UserRole.CONSUMER, true),"User role is not"+ UserRole.CONSUMER);
 
         // Verify task is removed from My Task Dashlet
-        siteActions.checkTaskInMyTasks(driver, taskName, false);
+        Assert.assertTrue(siteActions.checkTaskInMyTasks(driver, taskName, false),"Task displayed when not expected: " + taskName);
 
     }
     
