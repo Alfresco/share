@@ -151,7 +151,7 @@ public class PendingInvitesPage extends SharePage
     }
     
     /**
-     * This method searches all the users whose requests are pending.
+     * This method gets the list of all the users whose requests are pending.
      *
      * @return List<WebElement>
      */
@@ -281,7 +281,7 @@ public class PendingInvitesPage extends SharePage
     }
     
     /**
-     * Mimic search Request on ManagePendingRequestpage.
+     * Mimic to search for specific user Requested on ManagePendingRequestpage.
      *
      * @param searchText
      */

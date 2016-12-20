@@ -293,7 +293,7 @@ public class SiteDashboardPage extends SitePage implements Dashboard
 
 
     /**
-     * Method to find if the Customize Site link is displayed
+     * Method to find if the Leave Site link is displayed
      * 
      * @return True if displayed
      */
@@ -304,6 +304,44 @@ public class SiteDashboardPage extends SitePage implements Dashboard
         {
             siteNavigation.selectConfigure();
             return driver.findElement(AbstractSiteNavigation.LEAVE_SITE).isDisplayed();
+        }
+        catch (NoSuchElementException exc)
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * Method to find if the Request to Join/Join Site link is displayed
+     * 
+     * @return True if displayed
+     */
+
+    public boolean isJoinSiteLinkPresent()
+    {
+        try
+        {
+            siteNavigation.selectConfigure();
+            return driver.findElement(AbstractSiteNavigation.JOIN_SITE).isDisplayed();
+        }
+        catch (NoSuchElementException exc)
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * Method to find if the Cancel site request link is displayed
+     * 
+     * @return True if displayed
+     */
+
+    public boolean isCancelSiteRequestLinkPresent()
+    {
+        try
+        {
+            siteNavigation.selectConfigure();
+            return driver.findElement(AbstractSiteNavigation.CANCEL_SITE_REQUEST).isDisplayed();
         }
         catch (NoSuchElementException exc)
         {
@@ -410,6 +448,32 @@ public class SiteDashboardPage extends SitePage implements Dashboard
             logger.error("Request to Join Site button not found", nse);
         }
         throw new PageOperationException("Unable to Request to Join Site");
+    }
+    
+    /**
+     * Method to request to join the site if option is displayed
+     * 
+     * @return HtmlPage
+     */
+
+    public HtmlPage cancelRequestToJoinSite()
+    {
+        try
+        {
+            siteNavigation.selectConfigure();
+            WebElement cancelRequestToJoinSite = driver.findElement(AbstractSiteNavigation.CANCEL_SITE_REQUEST);
+            if (cancelRequestToJoinSite.isDisplayed())
+            {
+            	cancelRequestToJoinSite.click();   
+            	waitUntilAlert();
+                return factoryPage.getPage(driver);
+            }
+        }
+        catch (NoSuchElementException nse)
+        {
+            logger.error("Cancel Request to Join Site button not found", nse);
+        }
+        throw new PageOperationException("Unable to cancel Request to Join Site");
     }
     
     
