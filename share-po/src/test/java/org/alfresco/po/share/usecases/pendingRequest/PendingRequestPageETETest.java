@@ -190,7 +190,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName1).render();
 
         // Search for user2
-        // TODO: Consider adding retrySearch utility if test runs incosistently
+        // TODO: Replace with search / viewRequest Utility in all tests. Possible staleElementRef errors in current code. Consider retrySearch utility if test is inconsistent
         pendingRequestPage = pendingRequestPage.searchRequest(userName2).render();
 
         // Verify pending request from user2 is displayed
@@ -211,6 +211,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         Assert.assertTrue(siteMembersPage.isUserHasRole(userName2, UserRole.CONSUMER));
 
         // Verify task is removed from My Task Dashlet
+        // TODO: Add / Use util to navigate to MyTasks. dashBoard can result into staleElementRef
         myTasksPage = dashBoard.getNav().selectMyTasks().render();
         assertFalse(myTasksPage.isTaskPresent(taskName), "Task is displayed");
 
@@ -389,7 +390,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName4).render();
 
         // Search for user2
-        pendingRequestPage.searchRequest(userName2);
+        pendingRequestPage = pendingRequestPage.searchRequest(userName2).render();
 
         // Verify pending request from user2 is displayed
         Assert.assertTrue(pendingRequestPage.isUserNameDisplayedInList(userName2));
@@ -404,7 +405,7 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         Assert.assertTrue(siteFinder.isButtonForSitePresent(modSiteName4, ButtonType.CancelRequset));
 
         // Click on 'Cancel Request' Button
-        siteFinder.cancelRequestSite(modSiteName4);
+        siteFinder = siteFinder.cancelRequestSite(modSiteName4).render();
 
         // Verify button label has 'Request To Join'
         Assert.assertTrue(siteFinder.isButtonForSitePresent(modSiteName4, ButtonType.RequestToJoin));
@@ -417,10 +418,10 @@ public class PendingRequestPageETETest extends AbstractDocumentTest
         assertFalse(myTasksPage.isTaskPresent(taskName), "Task is displayed");
 
         // Navigate to Pending request page
-        siteActions.navigateToPendingRequestPage(driver, modSiteName4);
+        pendingRequestPage = siteActions.navigateToPendingRequestPage(driver, modSiteName4).render();
 
         // Search for user2
-        pendingRequestPage.searchRequest(userName2);
+        pendingRequestPage = pendingRequestPage.searchRequest(userName2).render();
 
         // Verify Request users list size is zero
         assertEquals(pendingRequestPage.getRequests().size(), 0);
