@@ -744,7 +744,6 @@ public abstract class CommonActions
         return resultItem;
     }
     
-
     /**
      * Utility to navigate to My Task dashlet and verify if task is displayed when expected
      * 
@@ -758,7 +757,7 @@ public abstract class CommonActions
         SharePage page = getSharePage(driver);
         MyTasksPage myTasksPage = page.getNav().selectMyTasks().render();
         return expectedResult == myTasksPage.isTaskPresent(taskname);
-    }    
+    }
 
     /**
      * Utility to verify user is displayed in the list when expected
@@ -781,6 +780,7 @@ public abstract class CommonActions
 
     /**
      * TODO: Add Docs
+     * 
      * @param driver
      * @param userName
      * @param requestOption
@@ -794,20 +794,17 @@ public abstract class CommonActions
             PendingInvitesPage requestPage = getSharePage(driver).render();
             EditTaskPage editTaskPage = requestPage.viewRequest(userName).render();
 
-            if (checkPendingRequestForUser(driver, userName, true))
+            if (requestOption.equals("Approve"))
             {
-                if (requestOption.equals("Approve"))
-                {
-                    return editTaskPage.selectApproveButton().render();
-                }
-                else if (requestOption.equals("Reject"))
-                {
-                    return editTaskPage.selectRejectButton().render();
-                }
-                else if (requestOption.equals("View"))
-                {
-                    return editTaskPage;
-                }
+                return editTaskPage.selectApproveButton().render();
+            }
+            else if (requestOption.equals("Reject"))
+            {
+                return editTaskPage.selectRejectButton().render();
+            }
+            else if (requestOption.equals("View"))
+            {
+                return editTaskPage;
             }
             else
             {
