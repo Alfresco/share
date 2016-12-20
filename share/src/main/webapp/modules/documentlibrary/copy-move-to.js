@@ -490,15 +490,14 @@
       {
          this.widgets.okButton.set("label", this.msg("button"));
 
-         var siteSelected = this._isSiteSelected(this.options.files);
-
-         if (this.options.mode != "copy" || siteSelected == true) 
+         var canCreateLinks = this._canCreateLinks(this.options.files);
+         if (this.options.mode != "copy" || canCreateLinks == false) 
          {
-        	 this.widgets.linkButton.set("style", "display:none");
+            this.widgets.linkButton.set("style", "display:none");
          }
          else
          {
-        	 this.widgets.linkButton.set("style", "");
+            this.widgets.linkButton.set("style", "");
          }
 
          return Alfresco.module.DoclibCopyMoveTo.superclass._showDialog.apply(this, arguments);
@@ -507,32 +506,32 @@
       /**
        * returns true/false 
        *
-       * @method isSiteSelected
+       * @method _canCreateLinks
        * @param selectedFiles {string} nodeRef of local node you want to find info for
        * @return {boolean} selected files contains any sites
        */
-      _isSiteSelected: function DLCMT__isSiteSelected(selectedFiles)
+      _canCreateLinks: function DLCMT__canCreateLinks(selectedFiles)
       {
-         var siteSelected = false;
+         var canCreateLinks = true;
          if (YAHOO.lang.isArray(selectedFiles))
          {
             for (var i = 0; i < selectedFiles.length; i++)
             {
-               if (selectedFiles[i].node.type == "st:site")
+               if (selectedFiles[i].node.type == "st:site" || selectedFiles[i].node.isLink)
                {
-                  siteSelected = true;
+                  canCreateLinks = false;
                   break;
                }
             }
          } 
          else
          {
-            if (selectedFiles.node.type == "st:site")
+            if (selectedFiles.node.type == "st:site" || selectedFiles.node.isLink)
             {
-               siteSelected = true;
+               canCreateLinks = false;
             }
           }
-          return siteSelected;
+          return canCreateLinks;
       }
    });
 
