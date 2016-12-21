@@ -314,7 +314,7 @@
 				<configuration>
 					<serverId>alfresco-internal-staging</serverId>
 					<nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
-					<stagingProfileId>${release.staging.profile}</stagingProfileId>
+					<stagingProfileId>${hotfix.staging.profile}</stagingProfileId>
 					<stagingDescription>Staging Share ${project.version} (${bamboo_buildResultKey} ${bamboo_planRepository_revision})</stagingDescription>
 					<tags>
 						<build.number>${bamboo_buildNumber}</build.number>
