@@ -390,9 +390,10 @@ public abstract class SharePage extends Page
      */
     protected HtmlPage submit(By locator, ElementState elementState)
     {
-        WebElement button = driver.findElement(locator);
+        WebElement button = findFirstDisplayedElement(locator);
         String id = button.getAttribute("id");
-        button.click();
+        WebElement displayedButton = findAndWaitById(id);
+        displayedButton.click();
         By locatorById = By.id(id);
         RenderTime time = new RenderTime(maxPageLoadingTime);
         time.start();
