@@ -392,8 +392,7 @@ public abstract class SharePage extends Page
     {
         WebElement button = findFirstDisplayedElement(locator);
         String id = button.getAttribute("id");
-        WebElement displayedButton = findAndWaitById(id);
-        displayedButton.click();
+        button.click();
         By locatorById = By.id(id);
         RenderTime time = new RenderTime(maxPageLoadingTime);
         time.start();
@@ -423,6 +422,7 @@ public abstract class SharePage extends Page
                 }
                 catch (PageRenderTimeException| ClassCastException exception)
                 {
+                    logger.info("Error Submitting the page:", exception);
                     continue;
                 }
             }
