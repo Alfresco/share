@@ -21,4 +21,14 @@
             <class name="org.alfresco.po.share.search.FacetedSearchBulkActionsTest" />
         </classes>
     </test>
+    <test name="FacetedSearchHighlightedTermTest1">
+        <classes>
+            <class name="org.alfresco.po.share.search.FacetedSearchHighlightedTermTest1" />
+        </classes>
+    </test>
+    <test name="FacetedSearchHighlightedTermTest2">
+        <classes>
+            <class name="org.alfresco.po.share.search.FacetedSearchHighlightedTermTest2" />
+        </classes>
+    </test>
 </suite>
