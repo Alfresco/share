@@ -25,9 +25,6 @@ package org.alfresco.po.share.search;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.AbstractTest;
-import org.alfresco.po.share.DashBoardPage;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,8 +38,9 @@ import java.util.Date;
  *
  * @author CorinaZ
  */
-
+// TODO: Add this test class to SearchSuite.xml when all tests pass consistently, so tests start running run on bamboo
 @Listeners(FailedTestListener.class)
+@Test(groups = { "alfresco-one" })
 public class FacetedSearchHighlightedTermTest2 extends AbstractTest
 {
     private static Log logger = LogFactory.getLog(LiveSearchDropdownTest.class);
@@ -56,42 +54,38 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     protected String discussionName;
     protected String dataListName;
 
-    private DashBoardPage dashBoard;
-    protected SharePage sharepage;
-
     @BeforeClass(groups = { "alfresco-one" })
     public void prepare() throws Exception
     {
         try
         {
-            dashBoard = loginAs(username, password);
+            loginAs(username, password);
 
             siteName = "mysite-" + +System.currentTimeMillis();
-            ;
-            fileName1 = "myfile1-" + +System.currentTimeMillis();
-            ;
-            fileName2 = "myfile2-" + +System.currentTimeMillis();
-            ;
-            calendarName = "calendarevent" + +System.currentTimeMillis();
-            ;
-            wikiPage = "wikipage" + +System.currentTimeMillis();
-            ;
-            linkName = "link" + +System.currentTimeMillis();
-            ;
-            blogName = "blogpost" + +System.currentTimeMillis();
-            ;
-            discussionName = "disscution" + +System.currentTimeMillis();
-            ;
-            dataListName = "datalist" + +System.currentTimeMillis();
-            ;
 
-            Date todayDate = new Date();
-            todayDate.getTime();
+            fileName1 = "myfile1-" + +System.currentTimeMillis();
+
+            fileName2 = "myfile2-" + +System.currentTimeMillis();
+
+            calendarName = "calendarevent" + +System.currentTimeMillis();
+
+            wikiPage = "wikipage" + +System.currentTimeMillis();
+
+            linkName = "link" + +System.currentTimeMillis();
+
+            blogName = "blogpost" + +System.currentTimeMillis();
+
+            discussionName = "disscution" + +System.currentTimeMillis();
+
+            dataListName = "datalist" + +System.currentTimeMillis();
+
+            Date todaysDate = new Date();
+            todaysDate.getTime();
 
             siteUtil.createSite(driver, username, password, siteName, "description", "Public");
             contentService.createDocument(username, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1, fileName1);
             contentService.createDocument(username, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName2, fileName2);
-            sitePagesService.addCalendarEvent(username, password, siteName, calendarName, calendarName, calendarName, todayDate, todayDate, null, null, false, null);
+            sitePagesService.addCalendarEvent(username, password, siteName, calendarName, calendarName, calendarName, todaysDate, todaysDate, null, null, false, null);
             sitePagesService.createWiki(username, password, siteName, wikiPage, wikiPage, null);
             sitePagesService.createLink(username, password, siteName, linkName, "www.google.com", linkName, true, null);
             sitePagesService.createBlogPost(username, password, siteName, blogName, blogName, false, null);
