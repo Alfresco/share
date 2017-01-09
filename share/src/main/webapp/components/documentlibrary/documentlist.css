@@ -363,7 +363,8 @@ body .doclist tr.yui-dt-highlighted
    margin-left: 20px;
 }
 
-.doclist .documents .thumbnail
+.doclist .documents .thumbnail,
+.doclist .documents .folder
 {
    cursor: pointer;
    display: block;
