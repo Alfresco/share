@@ -25,9 +25,11 @@
  */
 package org.alfresco.po.share.site;
 
+import org.alfresco.po.ElementState;
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
+import org.openqa.selenium.By;
 
 /**
  * Edit site page object, holds all element of the HTML page relating to
@@ -39,6 +41,8 @@ import org.alfresco.po.RenderTime;
 @SuppressWarnings("unchecked")
 public class EditSitePage extends CreateSitePage
 {
+    protected static final By SUBMIT_BUTTON = By.cssSelector("[id='EDIT_SITE_DIALOG_OK_label']");
+    
     public EditSitePage render()
     {
     	RenderTime timer = new RenderTime(maxPageLoadingTime);
@@ -57,6 +61,17 @@ public class EditSitePage extends CreateSitePage
                 selectSiteVisibility(isPrivate, isModerated);
 
                 return selectOk().render();
+    }
+
+    /**
+     * Submits the Edit Site Form
+     * 
+     * @return HtmlPage
+     */
+    @Override
+    public HtmlPage selectOk()
+    {
+        return submit(SUBMIT_BUTTON, ElementState.DELETE_FROM_DOM).render();
     }
 
 }
