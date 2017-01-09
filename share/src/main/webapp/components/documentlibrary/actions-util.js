@@ -74,6 +74,7 @@
                   var node = new Alfresco.util.Node(response.config.dataObj.nodeDetails.item.node),
                      properties = node.properties,
                      syncTime = properties.sync_syncTime,
+                     otherNodeRefString = properties.sync_otherNodeRefString,
                      syncOwner = properties.sync_syncOwner,
                      syncRequested = (properties.sync_syncRequested === "true"),
                      title = configOptions.showTitle ? '<h2>' + scope.msg("sync.status.title") + '</h2>' : "",
@@ -109,10 +110,10 @@
                      statusMsg = scope.msg(msgPrefix + "failed", errorTimeDisplay, syncOwnerDisplay, originalDocument);
                   }
 
-                  // If it has a sync time it has succeeded at least once in the past.
-                  if (syncTime && !syncRequested)
+                  // If it has a sync time or sync has succeeded at least once in the past.
+                  if ((syncTime || otherNodeRefString) && !syncRequested)
                   {
-                     var syncTimeDisplay = $relativeTime(syncTime.iso8601);
+                     var syncTimeDisplay = syncTime ? $relativeTime(syncTime.iso8601) : "";
 
                      // Assume most recent attempt was successful if no error flag
                      if (hasFailed)
