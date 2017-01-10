@@ -41,7 +41,7 @@ import org.openqa.selenium.By;
 @SuppressWarnings("unchecked")
 public class EditSitePage extends CreateSitePage
 {
-    protected static final By SUBMIT_BUTTON = By.cssSelector("[id='EDIT_SITE_DIALOG_OK_label']");
+    protected static final By SUBMIT_BUTTON = By.cssSelector("#EDIT_SITE_DIALOG_OK");
     
     public EditSitePage render()
     {

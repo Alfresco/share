@@ -220,6 +220,7 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
     @Test(priority = 5)
     public void testSelectSiteNameInSiteHeader() throws Exception
     {
+        documentLibraryPage = siteActions.refreshSharePage(driver).render();
         documentLibraryPage = documentLibraryPage.getSiteNav().clickOnPageTitle().render();
         assertTrue(documentLibraryPage.getTitle().indexOf("Document Library") != -1);
     }

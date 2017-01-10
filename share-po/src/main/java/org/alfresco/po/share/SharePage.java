@@ -36,6 +36,7 @@ import org.alfresco.po.HtmlPage;
 import org.alfresco.po.Page;
 import org.alfresco.po.RenderElement;
 import org.alfresco.po.RenderTime;
+import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.search.SearchBox;
@@ -390,47 +391,56 @@ public abstract class SharePage extends Page
      */
     protected HtmlPage submit(By locator, ElementState elementState)
     {
-        WebElement button = findFirstDisplayedElement(locator);
-        String id = button.getAttribute("id");
-        button.click();
-        By locatorById = By.id(id);
-        RenderTime time = new RenderTime(maxPageLoadingTime);
-        time.start();
-        while (true)
+        try
         {
-            try
-            {
-                switch (elementState)
-                {
-                    case INVISIBLE:
-                        waitUntilElementDisappears(locatorById, elementWaitInSeconds);
-                        break;
-                    case DELETE_FROM_DOM:
-                        waitUntilElementDeletedFromDom(locatorById, elementWaitInSeconds);
-                        break;
-                    default:
-                        throw new UnsupportedOperationException(elementState + "is not currently supported by submit.");
-                }
-            }
-            catch (TimeoutException e)
+            WebElement button = findFirstDisplayedElement(locator);
+
+            String id = button.getAttribute("id");
+            button.click();
+            By locatorById = By.id(id);
+            RenderTime time = new RenderTime(maxPageLoadingTime);
+            time.start();
+            while (true)
             {
                 try
                 {
-                    SharePopup errorPopup = getCurrentPage().render();
-                    errorPopup.render(new RenderTime(popupRendertime));
-                    return errorPopup;
+                    switch (elementState)
+                    {
+                        case INVISIBLE:
+                            waitUntilElementDisappears(locatorById, elementWaitInSeconds);
+                            break;
+                        case DELETE_FROM_DOM:
+                            waitUntilElementDeletedFromDom(locatorById, elementWaitInSeconds);
+                            break;
+                        default:
+                            throw new UnsupportedOperationException(elementState + "is not currently supported by submit.");
+                    }
                 }
-                catch (PageRenderTimeException| ClassCastException exception)
+                catch (TimeoutException e)
                 {
-                    logger.info("Error Submitting the page:", exception);
-                    continue;
+                    try
+                    {
+                        SharePopup errorPopup = getCurrentPage().render();
+                        errorPopup.render(new RenderTime(popupRendertime));
+                        return errorPopup;
+                    }
+                    catch (PageRenderTimeException | ClassCastException exception)
+                    {
+                        logger.info("Error Submitting the page:", exception);
+                        continue;
+                    }
                 }
+                finally
+                {
+                    time.end(locatorById.toString());
+                }
+                break;
             }
-            finally
-            {
-                time.end(locatorById.toString());
-            }
-            break;
+        }
+        catch (NoSuchElementException e)
+        {
+            logger.info("Error Finding the locator: " + locator, e);
+            throw new PageException("Error Submitting the Page", e);
         }
         return getCurrentPage().render();
     }
