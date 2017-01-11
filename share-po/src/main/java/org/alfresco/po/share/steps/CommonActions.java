@@ -448,7 +448,6 @@ public abstract class CommonActions
             }
         }
 
-        //return advanceSearch(WebDriver driver, List<String> info, Map<String, String> searchConfig);
         return checkAdvancedSearchResults(driver, nodeNameToLookFor, item, searchConfig, expectedInResults);
     }
 
@@ -532,8 +531,6 @@ public abstract class CommonActions
         }
 
         searchResults = advanceSearchPage.clickSearch().render();
-
-        List<SearchResult> searchOutput = searchResults.getResults();
 
         if (searchResults.hasResults())
         {
@@ -620,7 +617,6 @@ public abstract class CommonActions
      * @param destination
      * @return
      */
-    // TODO: Implement the details
     public HtmlPage performBulkActionOnSelectedResults(WebDriver driver, String[] selectItems, SearchSelectedItemsMenu action, String sitename, Boolean conformDelete)
     {
         try
@@ -634,8 +630,6 @@ public abstract class CommonActions
             }
 
             // Select Bulk Action
-            // Check action and Provide details as necessary
-            // For Copy or Move
             if (action.name().equals("COPY_TO"))
             {
                 CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(action)
