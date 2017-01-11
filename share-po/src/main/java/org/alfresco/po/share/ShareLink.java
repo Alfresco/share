@@ -48,7 +48,7 @@ public class ShareLink
         this.driver = driver;
         this.link = link;
         this.href = link.getAttribute("href");
-        this.description = link.getText();
+        this.description = link.getText().toString();
         this.factoryPage = factoryPage;
     }
 

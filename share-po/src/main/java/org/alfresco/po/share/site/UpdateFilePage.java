@@ -132,6 +132,7 @@ public class UpdateFilePage extends SharePage
     {
         WebElement input = driver.findElement(By.cssSelector(INPUT_DND_FILE_SELECTION_BUTTON));
         input.sendKeys(filePath);
+        domEventCompleted();
     }
 
     /**
