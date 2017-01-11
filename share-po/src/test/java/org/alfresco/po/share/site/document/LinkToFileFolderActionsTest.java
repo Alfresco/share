@@ -372,6 +372,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     /**
      * Check that actions available on a link to a file are correctly displayed in Gallery View
      */
+    // getFileDirectoryInfo fails on Gallery View
     @Test(priority = 16, enabled = false)
     public void testLinkActionsGalleryView()
     {
