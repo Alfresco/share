@@ -393,11 +393,14 @@ public abstract class SharePage extends Page
     {
         try
         {
+            waitUntilElementClickable(locator, SECONDS.convert(defaultWaitTime, MILLISECONDS));
+            
             WebElement button = findFirstDisplayedElement(locator);
-
             String id = button.getAttribute("id");
-            button.click();
             By locatorById = By.id(id);
+
+            button.click();
+
             RenderTime time = new RenderTime(maxPageLoadingTime);
             time.start();
             while (true)
