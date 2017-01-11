@@ -539,6 +539,8 @@ textarea.wide
 {
    padding: 5px 9px 5px 9px;
    overflow-x: hidden;
+   font-size: 13px;
+   line-height: 1.2em;
 }
 
 .dashlet .toolbar
