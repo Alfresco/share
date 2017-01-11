@@ -22,7 +22,7 @@
 <@markup id="html">
    <@uniqueIdDiv>
       <div class="dashlet wiki">
-         <div class="title" id="${args.htmlid}-title">${msg("label.header-prefix")}<#if wikiLink??> - <a href="wiki-page?title=${wikiLink?url}">${(pageTitle?html)!msg("label.header")}</a></#if></div>
+         <div class="title" id="${args.htmlid}-title">${pagePrefix?html}<#if wikiLink??> - <a href="wiki-page?title=${wikiLink?url}">${(pageTitle?html)!msg("label.header")}</a></#if></div>
          <div class="body scrollablePanel" <#if args.height??>style="height: ${args.height?html}px;"</#if>>
             <div id="${args.htmlid}-scrollableList" class="rich-content dashlet-padding">
             <#if wikipage??>${wikipage}

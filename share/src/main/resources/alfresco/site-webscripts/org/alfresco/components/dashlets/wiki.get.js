@@ -15,6 +15,7 @@ function main()
          model.pageTitle = String(wikipage).replace(/_/g, " ");
       }
    }
+   model.pagePrefix = getPagePrefix();
    
    // Call the repository to see if the user is site manager or not
    var userIsSiteManager = false,
@@ -79,4 +80,47 @@ function main()
    };
    model.widgets = [wikiDashlet, dashletResizer, dashletTitleBarActions];
 }
+
+/**
+ * Retrieve the wiki page prefix from Site Dashboard page meta-data. This additional meta-data is
+ * set when a Site Manager customizes a dashboard and renames a components - such as renaming Wiki.
+ * If we find that the wiki page component has been renamed, use that as the prefix instead.
+ * 
+ * @retrun page prefix - will default to "label.header-prefix" msg if no meta-data is set.
+ */
+function getPagePrefix()
+{
+   var siteId = page.url.templateArgs.site,
+       pagePrefix = msg.get("label.header-prefix");
+   if (siteId)
+   {
+      var dashboardPageData = sitedata.getPage("site/" + siteId + "/dashboard");
+      if (dashboardPageData !== null)
+      {
+         var sitePages = dashboardPageData.properties.sitePages;
+         if (sitePages)
+         {
+            try
+            {
+               // Print array as json and use JSON.parse so we get a Rhino javascript Array to execute as usual
+               sitePages = JSON.parse('{"$":' + sitePages + '}').$;
+               for (var i = 0; i < sitePages.length; i++)
+               {
+                  if (sitePages[i].pageId == "wiki-page")
+                  {
+                     pagePrefix = sitePages[i].sitePageTitle || pagePrefix;
+                     break;
+                  }
+               }
+            }
+            catch (e)
+            {
+               // if the meta is not available or invalid then will default back to preset label
+            }
+         }
+      }
+   }
+   return pagePrefix;
+}
+
 main();
