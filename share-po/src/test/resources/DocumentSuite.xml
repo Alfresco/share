@@ -32,11 +32,6 @@
             <class name="org.alfresco.po.share.site.document.CreateContentPageWithValidationTest"/>
         </classes>
     </test>
-    <test name="CreateContentPageWithValidationTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.CreateLinkToFileFolderTest"/>
-        </classes>
-    </test>
     <test name="DetailsPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.DetailsPageTest"/>
@@ -96,11 +91,6 @@
             <class name="org.alfresco.po.share.site.document.FolderDetailsPageTest"/>
         </classes>
     </test>
-    <test name="FolderDetailsPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.LinkToFileFolderActionsTest"/>
-        </classes>
-    </test>
     <test name="TakeOwnershipTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.TakeOwnershipTest"/>
@@ -148,4 +138,14 @@
             <class name="org.alfresco.po.share.site.document.VersionDetailsTest"/>
         </classes>
     </test>
+    <test name="CreateLinksTest">
+        <classes>
+            <class name="org.alfresco.po.share.site.document.CreateLinkToFileFolderTest"/>
+        </classes>
+    </test>   
+    <test name="LinkActionsTest">
+        <classes>
+            <class name="org.alfresco.po.share.site.document.LinkToFileFolderActionsTest"/>
+        </classes>
+    </test>     
 </suite>
