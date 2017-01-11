@@ -1,64 +1,181 @@
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: url(../../css/fonts/opensans.woff) format('woff');
+@font-face
+{
+   font-family: 'Open Sans';
+   font-style: normal;
+   font-weight: 400;
+   src: url(../../css/fonts/opensans.woff) format('woff');
 }
 
-.login
+@font-face
 {
-   padding: 1.5em !important;
+  font-family: 'Open Sans Bold';
+  font-style: normal;
+  font-weight: 600;
+  src: url(../../css/fonts/opensansbold.woff) format('woff');
+}
+
+div.login
+{
+   padding: 42px 64px !important
+}
+
+.login .product-name
+{
+   font-size: 180%;
+   color: #f8982b;
+   font-family: Open Sans Bold;
+   margin-top: 32px;
+}
+
+.login .product-tagline
+{
+   color: #888;
+   font-size: 120%;
+   display: none;
+}
+
+.login .product-community
+{
+   color: #888;
+   font-size: 120%;
 }
 
 .login form
 {
-   padding-top: 1em;
+   padding: 0;
 }
 
-/*
- * Login Branding Updates
- */
-.login .form-fields.login {
-  padding-left: 0 !important;
-}
-
-.form-fields.login .form-field > span.yui-button {
-  border-color: #ffa028;
-}
-
-.form-fields.login .form-field > span.yui-button > .first-child {
-  background-color: #ffa028;
-  border-color: #ffa028;
-}
-
-.form-fields.login .form-field > span.yui-button > .first-child > button {
-  color: #FFFFFF;
-  font-family: Open Sans Bold,Arial,sans-serif;
-}
-
-.login .copy
+.login .form-fields.login
 {
-   color: #999;
-   font-size: 80%;
-   margin-top: -8px;
+   padding-left: 0 !important;
+}
+
+/* fake MD input field */
+.login input[type="text"], .login input[type="password"]
+{
+   border: none;
+   border-bottom: 1px solid #ccc;
+   background-color: #fff;
+   outline: none;
+   font-size: 120%;
+   width: 316px;
+}
+
+/* fake MD input focus */
+.login input[type="text"]:focus, .login input[type="password"]:focus
+{
+   border-bottom: 1px solid #f8982b;
+}
+
+/* remove webkit autofill yellow background */
+.login input[type="text"]:-webkit-autofill, .login input[type="password"]:-webkit-autofill
+{
+   box-shadow: 0 0 0px 1000px white inset;
+}
+
+.form-fields.login .form-field
+{
+   margin: 32px 0;
+}
+
+.form-fields.login .form-field:last-child
+{
+   margin-bottom: 0;
+}
+
+.form-fields.login .form-field > span.yui-button
+{
+   border-color: #f8982b;
+   margin: 0;
+}
+
+.form-fields.login .form-field > span.yui-button > .first-child
+{
+   background-color: #f8982b;
+   border-color: #f8982b;
+   height: 34px;
+}
+
+.form-fields.login .form-field > span.yui-button > .first-child > button
+{
+   width: 318px;
+   color: #fff;
+   font-family: Open Sans Bold,Arial,sans-serif;
+   line-height: inherit;
+   min-height: 34px;
+}
+
+.login-copy
+{
+   color: #fff;
+   font-size: 85%;
+   margin-top: 16px;
+   text-align: center;
+}
+
+.login-tagline
+{
+   height: 22px;
+   background: transparent url(../images/alfresco-tagline-white.svg) 50% 0 no-repeat;
+   background-size: 260px 20px;
+   margin-top: 42px;
+   display: none;
 }
 
 .login .error
 {
-   max-width: 428px;
-   padding-top: 16px;
+   width: 320px;
+   padding-top: 32px;
+   font-size: 85%;
+   color: crimson;
 }
 
 /*
- * Override button colour for enterprise
+ * Overrides for specific edition
  */
- 
-.form-fields.login.ENTERPRISE .form-field > span.yui-button {
-  border-color: #7BC143;
-  margin-top: 4px;
+
+.ENTERPRISE .form-fields.login .form-field > span.yui-button
+{
+   border-color: #0c79bf;
 }
 
-.form-fields.login.ENTERPRISE .form-field > span.yui-button > .first-child {
-  background-color: #7BC143;
-  border-color: #7BC143;
+.ENTERPRISE .form-fields.login .form-field > span.yui-button > .first-child
+{
+   background-color: #0c79bf;
+   border-color: #0c79bf;
+}
+
+.ENTERPRISE .login .product-name
+{
+   color: #0c79bf;
+}
+
+.ENTERPRISE .login .product-tagline
+{
+   display: block;
+}
+
+.ENTERPRISE .login .product-community
+{
+   display: none;
+}
+
+.ENTERPRISE .login-tagline
+{
+   display: block;
+}
+
+.ENTERPRISE .login input[type="text"]:focus, .ENTERPRISE .login input[type="password"]:focus
+{
+   border-bottom: 1px solid #0c79bf;
+}
+
+body.ENTERPRISE
+{
+   background-color: #0c79bf;
+}
+
+body.UNKNOWN
+{
+   background-color: #f8982b;
 }

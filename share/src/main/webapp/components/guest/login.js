@@ -81,6 +81,8 @@
        */
       onReady: function Login_onReady()
       {
+         Dom.addClass(Dom.get("Share"), this.options.edition);
+         
          // Prevent the Enter key from causing a double form submission
          var form = Dom.get(this.id + "-form");
 
@@ -118,14 +120,7 @@
          }
          
          // fade in effect on load
-         var overlay = Alfresco.util.createYUIOverlay(Dom.get(this.id),
-         {
-            effect:
-            {
-               effect: YAHOO.widget.ContainerEffect.FADE,
-               duration: 0.25
-            }
-         }, { render: false });
+         var overlay = Alfresco.util.createYUIOverlay(Dom.get(this.id), {}, { render: false });
          Dom.removeClass(this.id + "-body", "hidden");
          overlay.render(document.body);
          overlay.center();

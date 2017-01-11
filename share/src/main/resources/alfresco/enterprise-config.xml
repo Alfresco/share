@@ -2,8 +2,8 @@
 
    <config evaluator="string-compare" condition="Edition" replace="true">
       <footer>
-         <logo>alfresco-share-logo-enterprise.png</logo>
-         <alt-text>Alfresco Enterprise</alt-text>
+         <logo>alfresco-logo.svg</logo>
+         <alt-text>Alfresco Share</alt-text>
          <css-class>footer-ent</css-class>
          <label>label.copyright.enterprise</label>
       </footer>
