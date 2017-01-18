@@ -1139,7 +1139,7 @@ function getMetaPage()
  */
 function getPageTitle() {
    var pageTitle = "";
-   if (page.titleId == "page.userDashboard.title")
+   if (page.titleId == "page.userDashboard.title" || page.titleId == "page.customiseUserDashboard.title")
    {
       // Hard-coded handling for user dashboard to support legacy pages. This is required
       // because the user dashboard pages are created from a preset and when migrating it
