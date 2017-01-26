@@ -1427,8 +1427,8 @@ function getTitleBarModel() {
          }
       }
 
-      // Add the site configuration to the title options only if is direct member of the site
-      if(siteData.userIsDirectMember)
+      // Add the site configuration to the title options only if is manager or direct member of the site
+      if(siteData.userIsSiteManager || siteData.userIsDirectMember)
       {
          titleConfig.push(siteConfig);
       }
