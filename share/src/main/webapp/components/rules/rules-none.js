@@ -141,6 +141,7 @@
          {
             mode: Alfresco.module.RulesPicker.MODE_LINK_TO,
             siteId: this.options.siteId,
+            rootNode: this.options.rootNode,
             allowedViewModes: allowedViewModes,
             files:
             {

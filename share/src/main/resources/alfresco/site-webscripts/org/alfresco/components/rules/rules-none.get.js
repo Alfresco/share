@@ -11,6 +11,7 @@ function main()
       options : {
          siteId : (page.url.templateArgs.site != null) ? page.url.templateArgs.site : "",
          nodeRef : (page.url.args.nodeRef != null) ? page.url.args.nodeRef : "",
+         rootNode : model.rootNode,
          repositoryBrowsing : (model.rootNode != null)
       }
    };
