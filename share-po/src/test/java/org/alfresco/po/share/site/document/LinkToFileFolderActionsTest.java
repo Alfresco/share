@@ -29,7 +29,11 @@ import org.alfresco.po.share.RepositoryPage;
 import org.alfresco.po.share.search.FacetedSearchPage;
 import org.alfresco.po.share.search.LiveSearchDropdown;
 import org.alfresco.po.share.search.SearchBox;
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.steps.SiteActions;
+import org.alfresco.po.share.user.MyProfilePage;
+import org.alfresco.po.share.user.TrashCanPage;
+import org.alfresco.po.share.workflow.*;
 import org.alfresco.test.FailedTestListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,12 +66,16 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     private File file1;
     private File file2;
     private File file3;
+    private File file4;
+    private File file5;
 
     private String folderName1;
     private String folderName2;
     private String file1LinkName;
     private String file2LinkName;
     private String file3LinkName;
+    private String file4LinkName;
+    private String file5LinkName;
 
     private String folder1LinkName;
 
@@ -95,6 +103,8 @@ public class LinkToFileFolderActionsTest extends AbstractTest
             file1 = siteUtil.prepareFile("file1-" + System.currentTimeMillis());
             file2 = siteUtil.prepareFile("file2-" + System.currentTimeMillis());
             file3 = siteUtil.prepareFile("file3-" + System.currentTimeMillis());
+            file4 = siteUtil.prepareFile("file4-" + System.currentTimeMillis());
+            file5 = siteUtil.prepareFile("file5-" + System.currentTimeMillis());
 
             folderName1 = "folder1-" + System.currentTimeMillis();
             folderName2 = "folder2-" + System.currentTimeMillis();
@@ -106,6 +116,8 @@ public class LinkToFileFolderActionsTest extends AbstractTest
             siteActions.uploadFile(driver, file1);
             siteActions.uploadFile(driver, file2);
             siteActions.uploadFile(driver, file3);
+            siteActions.uploadFile(driver, file4);
+            siteActions.uploadFile(driver, file5);
 
             siteActions.createFolder(driver, folderName1, "folder 1 title", "folder 1 description");
             siteActions.createFolder(driver, folderName2, "folder 2 title", "folder 2 description");
@@ -119,6 +131,12 @@ public class LinkToFileFolderActionsTest extends AbstractTest
 
             siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file3.getName(), ACTION.CREATE_LINK);
             file3LinkName = "Link to " + file3.getName();
+
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file4.getName(), ACTION.CREATE_LINK);
+            file4LinkName = "Link to " + file4.getName();
+
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file5.getName(), ACTION.CREATE_LINK);
+            file5LinkName = "Link to " + file5.getName();
 
             siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", folderName1, ACTION.CREATE_LINK);
             folder1LinkName = "Link to " + folderName1;
@@ -134,14 +152,13 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         {
             saveScreenShot("CreateLinkFileUpload");
             logger.error("Cannot upload file to site ", pe);
-            
         }
     }
 
     @AfterClass
     public void tearDown()
     {
-        docLib = docLib.getNavigation().selectDetailedView().render();
+        //docLib = docLib.getNavigation().selectDetailedView().render();
         siteUtil.deleteSite(username, password, siteName1);
         siteUtil.deleteSite(username, password, siteName2);
     }
@@ -215,6 +232,12 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         docLib = linkRow.deleteLink().render();
 
         Assert.assertFalse(docLib.isFileVisible(file2LinkName));
+
+        dashBoard = docLib.getNav().selectMyDashBoard().render();
+        MyProfilePage myProfile = dashBoard.getNav().selectMyProfile().render();
+        TrashCanPage trashCan = myProfile.getProfileNav().selectTrashCan().render();
+        
+        Assert.assertFalse(trashCan.getTrashCanItems().contains(file2LinkName));
     }
 
     /**
@@ -390,6 +413,59 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         }
 
         docLib = docLib.getNavigation().selectDetailedView().render();
+    }
+
+    /**
+     * Check that clicking on a link to a locked file redirects to original document Details page
+     */
+    @Test(priority = 17)
+    public void testClickLinkToLockedFile()
+    {
+        docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+
+        // lock the file for offline editing
+        siteActions.getFileDirectoryInfo(driver, file4.getName()).selectEditOffline().render();
+
+        DocumentDetailsPage docDetailsPage = docLib.getFileDirectoryInfo(file4LinkName).clickOnTitle().render();
+        Assert.assertTrue(docDetailsPage.getDocumentTitle().equalsIgnoreCase(file4.getName()));
+    }
+
+    /**
+     * Check that clicking on a link to a file redirects to original document Details page after the file is moved
+     */
+    @Test(priority = 18)
+    public void testClickLinkToMovedFile()
+    {
+        docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+
+        // move original document
+        siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName2, "description", file5.getName(), ACTION.MOVE);
+
+        // docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+        DocumentDetailsPage docDetailsPage = docLib.getFileDirectoryInfo(file5LinkName).clickOnTitle().render();
+
+        Assert.assertTrue(docDetailsPage.getDocumentTitle().equalsIgnoreCase(file5.getName()));
+    }
+
+    /**
+     * Check that clicking on a link to a file redirects to original document Details page after the file is moved
+     */
+    @Test(priority = 18)
+    public void testLinkNotDisplayedInStartWorkflow()
+    {
+        MyWorkFlowsPage myWorkFlowsPage = dashBoard.getNav().selectWorkFlowsIHaveStarted().render();
+
+        StartWorkFlowPage startWorkFlowPage = myWorkFlowsPage.selectStartWorkflowButton().render();
+        NewWorkflowPage newWorkflowPage = (NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW);
+        
+        SelectContentPage selectContentPage = newWorkflowPage.clickAddItems().render();
+        
+        int size = selectContentPage.getAddedItems().size();
+        
+        // try to add the link
+        selectContentPage.addItemFromSite(file1LinkName, siteName1);
+        
+        Assert.assertTrue(selectContentPage.getAddedItems().size() == size);
     }
     
 }
