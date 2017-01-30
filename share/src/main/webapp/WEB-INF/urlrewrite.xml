@@ -31,6 +31,14 @@
       <to>/page/$1</to>
    </rule>
    <rule>
+      <from>^/res/yui/uploader/assets/uploader.swf\?(.*)</from>
+      <to type="redirect">uploader.swf</to>
+   </rule>
+   <rule>
+      <from>^/yui/uploader/assets/uploader.swf\?(.*)</from>
+      <to type="redirect">uploader.swf</to>
+   </rule>
+   <rule>
       <from>^/res/(.*)</from>
       <to>/page/resource/$1</to>
    </rule>
