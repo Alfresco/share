@@ -456,15 +456,15 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         MyWorkFlowsPage myWorkFlowsPage = dashBoard.getNav().selectWorkFlowsIHaveStarted().render();
 
         StartWorkFlowPage startWorkFlowPage = myWorkFlowsPage.selectStartWorkflowButton().render();
-        NewWorkflowPage newWorkflowPage = (NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW);
-        
+        NewWorkflowPage newWorkflowPage = ((NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW)).render();
+
         SelectContentPage selectContentPage = newWorkflowPage.clickAddItems().render();
-        
+
         int size = selectContentPage.getAddedItems().size();
-        
+
         // try to add the link
         selectContentPage.addItemFromSite(file1LinkName, siteName1);
-        
+
         Assert.assertTrue(selectContentPage.getAddedItems().size() == size);
     }
     

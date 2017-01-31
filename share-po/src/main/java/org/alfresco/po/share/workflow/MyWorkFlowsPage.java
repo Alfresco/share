@@ -105,7 +105,8 @@ public class MyWorkFlowsPage extends SharePage
     {
         try
         {
-            findAndWait(By.cssSelector("button[id$='-startWorkflow-button-button']")).click();
+            WebElement button = driver.findElement(By.cssSelector("button[id$='-startWorkflow-button-button']"));
+            button.click();
             return getCurrentPage();
         }
         catch (TimeoutException e)

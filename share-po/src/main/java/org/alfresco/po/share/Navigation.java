@@ -309,7 +309,8 @@ public class Navigation extends PageElement
         try
         {
             tasks.click();
-            driver.findElement(By.cssSelector("td#HEADER_MY_WORKFLOWS_text")).click();
+            WebElement myWorkFlows = driver.findElement(By.cssSelector("td#HEADER_MY_WORKFLOWS_text"));
+            myWorkFlows.click();
             return getCurrentPage();
         }
         catch (NoSuchElementException nse)
