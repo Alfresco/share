@@ -95,7 +95,7 @@ public class ShareUtil
     public HtmlPage loginAs(final WebDriver driver, final String url, final String... userInfo) throws Exception
     {
         PageUtils.checkMandatoryParam("webdriver", driver);
-        if(null == url||!url.startsWith("http://"))
+        if(null == url||!(url.startsWith("http://")||url.startsWith("https://")))
         {
             throw new IllegalArgumentException("A valid shareUrl is required and can not be: " + url);
         }
