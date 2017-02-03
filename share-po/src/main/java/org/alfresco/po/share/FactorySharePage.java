@@ -172,11 +172,13 @@ import org.springframework.stereotype.Component;
  */
 @SuppressWarnings("deprecation")
 @Component
-public class FactorySharePage implements FactoryPage 
+public class FactorySharePage implements FactoryPage
 {
     private static Log logger = LogFactory.getLog(FactorySharePage.class);
-    @Autowired private ApplicationContext ac;
-    @Autowired FactoryShareDashlet dashletFactory;
+    @Autowired
+    private ApplicationContext ac;
+    @Autowired
+    FactoryShareDashlet dashletFactory;
     private long defaultWaitTime;
     private long maxPageLoadingTime;
     private String alfrescoUrl;
@@ -196,7 +198,7 @@ public class FactorySharePage implements FactoryPage
     private static final String TPG_HASH = "view=types_property_groups";
     private static final String PROPERTIES_HASH = "view=properties";
     private static final String FORM_EDITOR_HASH = "view=editor";
-    
+
     private static final By NO_DASHBOARD = By.cssSelector(".alf-error-nav");
     static
     {
@@ -259,7 +261,7 @@ public class FactorySharePage implements FactoryPage
         pages.put("admin-console", AdminConsolePage.class);
         pages.put("manage-sites", ManageSitesPage.class);
         pages.put("link.htm", InsertOrEditLinkPage.class);
-        pages.put("page", LoginPage.class); //temporary solution
+        pages.put("page", LoginPage.class); // temporary solution
         pages.put("sharedfiles", SharedFilesPage.class);
         pages.put("myfiles", MyFilesPage.class);
         pages.put("admin-systemsummary", SystemSummaryPage.class);
@@ -325,7 +327,7 @@ public class FactorySharePage implements FactoryPage
         // if (driver.getTitle().toLowerCase().contains(driver.getLanguageValue("login.title")))
         if (driver.getTitle().toLowerCase().contains("login"))
         {
-            return instantiatePage(driver,LoginPage.class);
+            return instantiatePage(driver, LoginPage.class);
         }
         else
         {
@@ -335,7 +337,7 @@ public class FactorySharePage implements FactoryPage
                 WebElement errorPrompt = driver.findElement(By.cssSelector(FAILURE_PROMPT));
                 if (errorPrompt.isDisplayed())
                 {
-                    return instantiatePage(driver,SharePopup.class);
+                    return instantiatePage(driver, SharePopup.class);
                 }
             }
             catch (NoSuchElementException nse)
@@ -346,16 +348,18 @@ public class FactorySharePage implements FactoryPage
             try
             {
                 WebElement shareDialogue = driver.findElement(By.cssSelector(SHARE_DIALOGUE));
-                if (shareDialogue.isDisplayed() || !driver.findElements(COPY_MOVE_DIALOGUE_SELECTOR).isEmpty())
+                if (shareDialogue.isDisplayed())
                 {
                     HtmlPage response = resolveShareDialoguePage(driver);
-                    if(response != null)
+                    if (response != null)
                     {
                         return response;
                     }
                 }
             }
-            catch(NoSuchElementException n){}
+            catch (NoSuchElementException n)
+            {
+            }
 
             // Determine what page we're on based on url
             return getPage(driver.getCurrentUrl(), driver);
@@ -370,7 +374,7 @@ public class FactorySharePage implements FactoryPage
      */
     public HtmlPage getUnknownPage(final WebDriver driver)
     {
-        return instantiatePage(driver,UnknownSharePage.class);
+        return instantiatePage(driver, UnknownSharePage.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -383,7 +387,7 @@ public class FactorySharePage implements FactoryPage
      * @return {@link SharePage} page response
      * @throws Exception 
      */
-    public <T> T instantiatePage(WebDriver driver,Class<T> pageClassToProxy) throws PageException
+    public <T> T instantiatePage(WebDriver driver, Class<T> pageClassToProxy) throws PageException
     {
         if (driver == null)
         {
@@ -395,38 +399,42 @@ public class FactorySharePage implements FactoryPage
         }
         try
         {
-          //We first create the page object.
+            // We first create the page object.
             Page page = (Page) pageClassToProxy.newInstance();
             page.setWebDriver(driver);
-            //Wrap it with a decorator to provide htmlelements with webdriver power.
+            // Wrap it with a decorator to provide htmlelements with webdriver power.
             WebDriverAwareDecorator decorator = new WebDriverAwareDecorator(driver);
-            //Init HtmlElements with webdriver power.
+            // Init HtmlElements with webdriver power.
             initElements(decorator, page);
-            //Wire spring into page.
+            // Wire spring into page.
             ac.getAutowireCapableBeanFactory().autowireBean(page);
-            return (T)page;
+            return (T) page;
         }
         catch (Exception e)
         {
             throw new PageException(CREATE_PAGE_ERROR_MSG, e);
         }
     }
+
     /**
      * Creates elements nested in page object.
-     * @param decorator 
+     * 
+     * @param decorator
      * @param page
      */
     private void initElements(FieldDecorator decorator, Object page)
     {
         Class<?> proxyIn = page.getClass();
-        while (proxyIn != Object.class) 
+        while (proxyIn != Object.class)
         {
-          proxyFields(decorator, page, proxyIn);
-          proxyIn = proxyIn.getSuperclass();
+            proxyFields(decorator, page, proxyIn);
+            proxyIn = proxyIn.getSuperclass();
         }
     }
+
     /**
      * Applies proxy and injects spring awareness to fields.
+     * 
      * @param decorator
      * @param page
      * @param proxyIn
@@ -439,27 +447,26 @@ public class FactorySharePage implements FactoryPage
             Object value = decorator.decorate(page.getClass().getClassLoader(), field);
             if (value != null)
             {
-                try 
+                try
                 {
                     field.setAccessible(true);
-                	if (value instanceof PageElement)
-                	{
-                        //Wire spring 
+                    if (value instanceof PageElement)
+                    {
+                        // Wire spring
                         ac.getAutowireCapableBeanFactory().autowireBean(value);
                         ((PageElement) value).setDefaultWaitTime(defaultWaitTime);
                         ((PageElement) value).setMaxPageLoadingTime(maxPageLoadingTime);
-                	}
+                    }
                     field.set(page, value);
                 }
-                catch (IllegalAccessException e) 
+                catch (IllegalAccessException e)
                 {
-           	      throw new RuntimeException(e);
+                    throw new RuntimeException(e);
                 }
             }
         }
     }
-    
-    
+
     public PageElement instantiatePageElement(WebDriver driver, Class<?> pageClassToProxy)
     {
         if (driver == null)
@@ -476,7 +483,7 @@ public class FactorySharePage implements FactoryPage
             PageElement pageElement = (PageElement) pageClassToProxy.newInstance();
             pageElement.setWebDriver(driver);
             PageFactory.initElements(decorator, pageElement);
-            //Wire spring into page elements.
+            // Wire spring into page elements.
             ac.getAutowireCapableBeanFactory().autowireBean(pageElement);
             return pageElement;
 
@@ -490,6 +497,7 @@ public class FactorySharePage implements FactoryPage
             throw new PageException(CREATE_PAGE_ERROR_MSG, e);
         }
     }
+
     /**
      * Resolves the required page based on the URL containing a keyword
      * that identify's the page the driver is currently on. Once a the name
@@ -512,10 +520,10 @@ public class FactorySharePage implements FactoryPage
         }
         else if (pageName == "site-dashboard")
         {
-        	if(checkIfError(driver))
-        	{
-        		pageName = "site-dashboard-error";
-        	}
+            if (checkIfError(driver))
+            {
+                pageName = "site-dashboard-error";
+            }
         }
         return instantiatePage(driver, pages.get(pageName));
     }
@@ -567,10 +575,10 @@ public class FactorySharePage implements FactoryPage
         {
             return "users-create";
         }
-        
+
         if (url.contains(QUICKVIEW_IDENTIFIER))
         {
-        	return "quick-view";
+            return "quick-view";
         }
 
         if (url.contains(NODE_REF_IDENTIFIER))
@@ -643,34 +651,34 @@ public class FactorySharePage implements FactoryPage
                 return "allSitesResultsPage";
             }
         }
-        
+
         // Remove any clutter.
         if (val.contains("?") || val.contains("#"))
         {
             val = extractName(val);
         }
-        if(val.contains("edit") && url.contains("docs.google.com"))
+        if (val.contains("edit") && url.contains("docs.google.com"))
         {
             val = "googledocsEditor";
         }
-        
+
         if (url.contains(TPG_HASH))
         {
-        	return "ManageTypesAndAspects";
+            return "ManageTypesAndAspects";
         }
         else if (url.contains(PROPERTIES_HASH))
         {
-        	return "ManageProperties";
+            return "ManageProperties";
         }
         else if (url.contains(FORM_EDITOR_HASH))
         {
-        	return "FormEditor";
+            return "FormEditor";
         }
         else if (url.contains(CMM_URL))
         {
-        	return "ModelManager";
+            return "ModelManager";
         }
-       
+
         return val;
     }
 
@@ -686,22 +694,22 @@ public class FactorySharePage implements FactoryPage
         {
             List<WebElement> dialogues = driver.findElements(By.cssSelector(SHARE_DIALOGUE));
             WebElement dialogue = null;
-            for(WebElement e : dialogues)
+            for (WebElement e : dialogues)
             {
-                if(e.isDisplayed())
+                if (e.isDisplayed())
                 {
                     dialogue = e;
                     break;
                 }
             }
             WebElement copyMoveDialogue = null;
-            try
-            {
-                copyMoveDialogue = driver.findElements(COPY_MOVE_DIALOGUE_SELECTOR).get(0);
-            }
-            catch (Exception e)
-            {
-            }
+            // try
+            // {
+            // copyMoveDialogue = driver.findElements(COPY_MOVE_DIALOGUE_SELECTOR).get(0);
+            // }
+            // catch (Exception e)
+            // {
+            // }
             if (dialogue != null && dialogue.isDisplayed())
             {
                 String dialogueID = dialogue.getAttribute("id");
@@ -726,41 +734,38 @@ public class FactorySharePage implements FactoryPage
                 {
                     sharePage = instantiatePage(driver, EditDocumentPropertiesPage.class);
                 }
-
                 else if (dialogueID.contains("copyMoveTo"))
                 {
-                    sharePage = instantiatePage(driver,CopyOrMoveContentPage.class);
+                    sharePage = instantiatePage(driver, CopyOrMoveContentPage.class);
                 }
-
                 else if (dialogueID.contains("historicPropertiesViewer"))
                 {
                     sharePage = instantiatePage(driver, ViewPropertiesPage.class);
                 }
-
                 // The below dialogeId will be changed once this ACE-1047 issue is fixed.
                 else if (dialogueID.contains("configDialog-configDialog_h"))
                 {
-                    sharePage = instantiatePage(driver,ConfigureSiteNoticeDialogBoxPage.class);
+                    sharePage = instantiatePage(driver, ConfigureSiteNoticeDialogBoxPage.class);
                 }
-                else if(copyMoveDialogue != null && (copyMoveDialogue.getText().startsWith("Copy") || copyMoveDialogue.getText().startsWith("Move")))
+                else if (copyMoveDialogue != null && (copyMoveDialogue.getText().startsWith("Copy") || copyMoveDialogue.getText().startsWith("Move")))
                 {
-                    sharePage = instantiatePage(driver,CopyAndMoveContentFromSearchPage.class);
+                    sharePage = instantiatePage(driver, CopyAndMoveContentFromSearchPage.class);
                 }
-                else if(dialogueID.contains("Create New Filter"))
+                else if (dialogueID.contains("Create New Filter"))
                 {
-                        sharePage = instantiatePage(driver,CreateNewFilterPopUpPage.class);
+                    sharePage = instantiatePage(driver, CreateNewFilterPopUpPage.class);
                 }
-                else if(dialogueID.contains("cloud-folder-title"))
+                else if (dialogueID.contains("cloud-folder-title"))
                 {
-                    sharePage = instantiatePage(driver,DestinationAndAssigneePage.class);
+                    sharePage = instantiatePage(driver, DestinationAndAssigneePage.class);
                 }
-                else if(dialogueID.contains("changeType"))
+                else if (dialogueID.contains("changeType"))
                 {
-                    sharePage = instantiatePage(driver,ChangeTypePage.class);
+                    sharePage = instantiatePage(driver, ChangeTypePage.class);
                 }
-                else if(dialogueID.contains("default-aspects"))
+                else if (dialogueID.contains("default-aspects"))
                 {
-                    sharePage = instantiatePage(driver,SelectAspectsPage.class);
+                    sharePage = instantiatePage(driver, SelectAspectsPage.class);
                 }
                 String dialogueText = dialogue.getText();
 
@@ -774,7 +779,7 @@ public class FactorySharePage implements FactoryPage
                 }
                 else if ("Create Model".equals(dialogueText))
                 {
-                	sharePage = instantiatePage(driver, CreateNewModelPopUp.class);
+                    sharePage = instantiatePage(driver, CreateNewModelPopUp.class);
                 }
                 else if ("Create Custom Type".equals(dialogueText))
                 {
@@ -808,8 +813,8 @@ public class FactorySharePage implements FactoryPage
                 {
                     sharePage = instantiatePage(driver, ApplyDefaultLayoutPopUp.class);
                 }
-                else if ("Delete Model".equals(dialogueText) || "Delete Custom Type".equals(dialogueText)
-                        || "Delete Aspect".equals(dialogueText) || "Delete Property".equals(dialogueText) || "Delete Site".equals(dialogueText))
+                else if ("Delete Model".equals(dialogueText) || "Delete Custom Type".equals(dialogueText) || "Delete Aspect".equals(dialogueText)
+                        || "Delete Property".equals(dialogueText) || "Delete Site".equals(dialogueText))
                 {
                     sharePage = instantiatePage(driver, ConfirmDeletePopUp.class);
                 }
@@ -823,70 +828,71 @@ public class FactorySharePage implements FactoryPage
                 }
                 else if ("Confirm Deletion".equals(dialogueText))
                 {
-                	sharePage = instantiatePage(driver, SearchConfirmDeletePage.class);
+                    sharePage = instantiatePage(driver, SearchConfirmDeletePage.class);
                 }
                 else if ("Copy Failed".equals(dialogueText) || "Move Failed".equals(dialogueText))
                 {
-                	sharePage = instantiatePage(driver, CopyOrMoveFailureNotificationPopUp.class);
+                    sharePage = instantiatePage(driver, CopyOrMoveFailureNotificationPopUp.class);
                 }
                 else if ("Request Sent".equals(dialogueText))
                 {
-                	sharePage = instantiatePage(driver, ConfirmRequestToJoinPopUp.class);
+                    sharePage = instantiatePage(driver, ConfirmRequestToJoinPopUp.class);
                 }
             }
         }
-        catch (NoSuchElementException nse){}
+        catch (NoSuchElementException nse)
+        {
+        }
 
         return sharePage;
     }
-    
-	private boolean checkIfError(WebDriver driver)
-    {    	
-    	try
-    	{
-    		WebElement dashError = driver.findElement(NO_DASHBOARD);
-    		return (dashError != null);
-    	}
-    	catch(NoSuchElementException nse)
-    	{
-    		return false;
-    	}
+
+    private boolean checkIfError(WebDriver driver)
+    {
+        try
+        {
+            WebElement dashError = driver.findElement(NO_DASHBOARD);
+            return (dashError != null);
+        }
+        catch (NoSuchElementException nse)
+        {
+            return false;
+        }
     }
-    
+
     public String getValue(String key)
     {
-        if(key == null || key.isEmpty())
+        if (key == null || key.isEmpty())
         {
             throw new IllegalArgumentException("Key is required to find value");
         }
-        
+
         return poProperties.getProperty(key);
     }
-    
+
     public static void setPoProperties(Properties poProperties)
     {
         FactorySharePage.poProperties = poProperties;
     }
-    
+
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
     {
         this.ac = applicationContext;
     }
 
-	public void setDefaultWaitTime(long defaultWaitTime)
-	{
-		this.defaultWaitTime = defaultWaitTime;
-	}
+    public void setDefaultWaitTime(long defaultWaitTime)
+    {
+        this.defaultWaitTime = defaultWaitTime;
+    }
 
-	public void setMaxPageLoadingTime(long maxPageLoadingTime) 
-	{
-		this.maxPageLoadingTime = maxPageLoadingTime;
-	}
+    public void setMaxPageLoadingTime(long maxPageLoadingTime)
+    {
+        this.maxPageLoadingTime = maxPageLoadingTime;
+    }
 
+    public void setAlfrescoUrl(String alfrescoUrl)
+    {
+        this.alfrescoUrl = alfrescoUrl;
+    }
 
-	public void setAlfrescoUrl(String alfrescoUrl) 
-	{
-		this.alfrescoUrl = alfrescoUrl;
-	}
-    
 }

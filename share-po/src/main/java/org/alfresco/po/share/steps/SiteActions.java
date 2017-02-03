@@ -714,18 +714,20 @@ public class SiteActions extends CommonActions
      */
     public HtmlPage copyOrMoveArtifact(WebDriver driver, DESTINATION destination, String siteName, String siteDescription, String fileName, CopyOrMoveContentPage.ACTION action, String... moveFolderName)
     {
+        CopyOrMoveContentPage copyOrMoveToPage;
+        
         DocumentLibraryPage docPage = getSharePage(driver).render();
         
-        CopyOrMoveContentPage copyOrMoveToPage;
+        FileDirectoryInfo fileInfo = docPage.getFileDirectoryInfo(fileName);
 
         // Select Copy or Move To Action
         if (action == ACTION.COPY || action == ACTION.CREATE_LINK) 
         {
-            copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectCopyTo().render();
+            copyOrMoveToPage = fileInfo.selectCopyTo().render();
         }
         else
         {
-            copyOrMoveToPage = docPage.getFileDirectoryInfo(fileName).selectMoveTo().render();
+            copyOrMoveToPage = fileInfo.selectMoveTo().render();
         }
 
         // Select <destination> if not already selected

@@ -1,24 +1,18 @@
 /*
- * #%L
- * share-po
- * %%
  * Copyright (C) 2005 - 2016 Alfresco Software Limited
  * %%
- * This file is part of the Alfresco software. 
- * If the software was purchased under a paid Alfresco license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail. Otherwise, the software is
  * provided under the following open source license terms:
- * 
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -60,10 +54,8 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
     private final By folderPathElementId = By
             .cssSelector("div[id$='default-copyMoveTo-treeview']>div.ygtvitem, div[id$='_default-ruleConfigAction-destinationDialog-treeview']>div.ygtvitem");
-    private final RenderElement footerElement = getVisibleRenderElement(By
-            .cssSelector("div[id$='default-copyMoveTo-wrapper'] div.bdft, div[id$='_default-ruleConfigAction-destinationDialog-wrapper'] div.bdft"));
-    private final RenderElement headerElement = getVisibleRenderElement(By
-            .cssSelector("div[id$='default-copyMoveTo-title'], div[id$='_default-ruleConfigAction-destinationDialog-title']"));
+    private final RenderElement footerElement = getVisibleRenderElement(By.cssSelector("div[id$='default-copyMoveTo-wrapper'] div.bdft"));
+    private final RenderElement headerElement = getVisibleRenderElement(By.cssSelector("div[id$='default-copyMoveTo-title']"));
     private final By destinationListCss = By.cssSelector(".mode.flat-button>div>span[style*='block']>span>button");
     private final By siteListCss = By.cssSelector("div.site>div>div>a>h4");
     private final By siteDescriptionsCss = By.cssSelector("div.site div div");
@@ -77,8 +69,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             .cssSelector("button[id$='default-copyMoveTo-ok-button'], button[id$='_default-ruleConfigAction-destinationDialog-ok-button']");
     private final By copyMoveCancelButtonCss = By
             .cssSelector("button[id$='default-copyMoveTo-cancel-button'], button[id$='_default-ruleConfigAction-destinationDialog-cancel']");
-    private final By copyCreateLinkButtonCss = By
-            .cssSelector("button[id$='default-copyMoveTo-link-button']");
+    private final By copyCreateLinkButtonCss = By.cssSelector("button[id$='default-copyMoveTo-link-button']");
     private final By copyMoveDialogCloseButtonCss = By
             .cssSelector("div[id$='default-copyMoveTo-dialog'] .container-close, div[id$='_default-ruleConfigAction-destinationDialog-dialog'] .container-close");
     private final By copyMoveDialogTitleCss = By
@@ -87,35 +78,50 @@ public class CopyOrMoveContentPage extends ShareDialogue
     private final By rmfolderItemsListCss = By.cssSelector("div#ygtvc7.ygtvchildren");
     private final By selectedDestination = By.xpath("//span[@class='yui-button yui-radio-button yui-button-checked yui-radio-button-checked']");
     private final By siteDocumentsCount = By.cssSelector("div#ygtvc,.ygtvchildren.ygtvitem.selected div#ygtvc,.ygtvchildren");
-    
+
     private final By messageBoxCss = By.cssSelector("span.message");
     private String messageText = "";
 
     /**
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
+     * 
      * @author pbrodner
      * @author adinap
      */
-    public enum ACTION{COPY, CREATE_LINK, MOVE};
-    
+    public enum ACTION
+    {
+        COPY, CREATE_LINK, MOVE
+    };
+
     /**
      * Enum used on {@see org.alfresco.po.share.steps.SiteActions}
+     * 
      * @author pbrodner
      */
     public enum DESTINATION
     {
-    	RECENT_SITES("Recent Sites"), FAVORITE_SITES("Favorite Sites"), ALL_SITES("All Sites"), REPOSITORY("Repository"), SHARED_FILES("Shared Files"), MY_FILES("My Files");
-    	private String value;
-    	private DESTINATION(String value){
-    		this.value = value;
-    	}
-    	public String getValue(){
-    		return this.value;
-    	}
-    	
-    	public boolean hasSites(){
-    		return getValue().contains("Sites");
-    	}
+        RECENT_SITES("Recent Sites"),
+        FAVORITE_SITES("Favorite Sites"),
+        ALL_SITES("All Sites"),
+        REPOSITORY("Repository"),
+        SHARED_FILES("Shared Files"),
+        MY_FILES("My Files");
+        private String value;
+
+        private DESTINATION(String value)
+        {
+            this.value = value;
+        }
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        public boolean hasSites()
+        {
+            return getValue().contains("Sites");
+        }
     }
 
     public CopyOrMoveContentPage render()
@@ -305,7 +311,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         catch (TimeoutException e)
         {
             logger.error("Unable to find the Copy/Move Button Css : ", e);
-            throw new PageException("Unable to find the Copy/Move button on Copy/Move Dialog.",e);
+            throw new PageException("Unable to find the Copy/Move button on Copy/Move Dialog.", e);
         }
         try
         {
@@ -315,7 +321,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         }
         catch (NoSuchElementException | TimeoutException e)
         {
-            //ignore exception as this is only used to verify the message dialog disappears. 
+            // ignore exception as this is only used to verify the message dialog disappears.
         }
         return getCurrentPage();
     }
@@ -336,7 +342,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         catch (NoSuchElementException e)
         {
             logger.error("Link creation message not displayed");
-            throw new  NoSuchElementException("Link creation message not displayed", e);
+            throw new NoSuchElementException("Link creation message not displayed", e);
         }
         catch (StaleElementReferenceException ser)
         {
@@ -344,7 +350,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             return isMessageDisplayed();
         }
     }
-    
+
     /**
      * Check if javascript message about link creation is displayed.
      *
@@ -395,7 +401,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
         {
             WebElement button = driver.findElement(copyCreateLinkButtonCss);
             button.click();
-            
+
             waitUntilAlert();
             return getCurrentPage();
         }
@@ -465,7 +471,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
             {
                 if (destination.getText() != null)
                 {
-                    if(logger.isTraceEnabled())
+                    if (logger.isTraceEnabled())
                     {
                         logger.trace("Destination test" + destination.getText());
                     }
@@ -541,7 +547,7 @@ public class CopyOrMoveContentPage extends ShareDialogue
 
         throw new PageOperationException("Unable to select site.");
     }
-    
+
     /**
      * This method finds and selects the given site name from the
      * displayed list of sites.
@@ -557,23 +563,24 @@ public class CopyOrMoveContentPage extends ShareDialogue
         }
 
         try
-        {	
+        {
             for (WebElement site : findAndWaitForElements(siteDescriptionsCss))
             {
-            	String siteFullText = site.getText();
-            	String tmpDescription ="<none>";
-            	if (siteFullText.split("\n").length>1){
-            		tmpDescription = siteFullText.split("\n")[1];
-            	}
+                String siteFullText = site.getText();
+                String tmpDescription = "<none>";
+                if (siteFullText.split("\n").length > 1)
+                {
+                    tmpDescription = siteFullText.split("\n")[1];
+                }
                 if (siteFullText != null)
                 {
                     if ((siteFullText.contains(siteName)) && tmpDescription.equalsIgnoreCase(siteDescription))
                     {
-                        site.click();                       
-                    	waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
+                        site.click();
+                        waitForElement(defaultDocumentsFolderCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
                         waitForElement(folderItemsListCss, SECONDS.convert(maxPageLoadingTime, MILLISECONDS));
 
-                        return factoryPage.instantiatePage(driver, CopyOrMoveContentPage.class);	                            
+                        return factoryPage.instantiatePage(driver, CopyOrMoveContentPage.class);
                     }
                 }
             }
@@ -695,11 +702,11 @@ public class CopyOrMoveContentPage extends ShareDialogue
             {
 
                 if (folder.getText().equalsIgnoreCase(folderName))
-                    if(logger.isTraceEnabled())
+                    if (logger.isTraceEnabled())
                     {
                         logger.trace("the folder is " + folder.getText());
                     }
-                    folder.click();
+                folder.click();
             }
             catch (Exception e)
             {
@@ -711,28 +718,29 @@ public class CopyOrMoveContentPage extends ShareDialogue
             }
         }
     }
-    
-   /**
-   * @return
-   */
-   public String getSelectedDestination()
-   {
-	   WebElement destination = findAndWait(selectedDestination);
-	   return destination.getText();
-   }
-   
-   /**
-	* @return the list of all document paths available for selected site.
-	*/
-   public int getSiteDocumentPathCount()
-   {
-	   int size = findAndWaitForElements(siteDocumentsCount).size();
-	   if (size>0){
-		   return size - 11;
-	   }
-	   else
-	   {
-		   return size;   
-	   }
-   }
+
+    /**
+     * @return
+     */
+    public String getSelectedDestination()
+    {
+        WebElement destination = findAndWait(selectedDestination);
+        return destination.getText();
+    }
+
+    /**
+     * @return the list of all document paths available for selected site.
+     */
+    public int getSiteDocumentPathCount()
+    {
+        int size = findAndWaitForElements(siteDocumentsCount).size();
+        if (size > 0)
+        {
+            return size - 11;
+        }
+        else
+        {
+            return size;
+        }
+    }
 }

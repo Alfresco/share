@@ -29,7 +29,6 @@ import org.alfresco.po.share.RepositoryPage;
 import org.alfresco.po.share.search.FacetedSearchPage;
 import org.alfresco.po.share.search.LiveSearchDropdown;
 import org.alfresco.po.share.search.SearchBox;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.steps.SiteActions;
 import org.alfresco.po.share.user.MyProfilePage;
 import org.alfresco.po.share.user.TrashCanPage;
@@ -95,6 +94,11 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     {
         try
         {
+            deleteLinkAction = factoryPage.getValue("actions.link.delete");
+            locateLinkAction = factoryPage.getValue("actions.link.locate");
+            copyLinkAction = factoryPage.getValue("actions.link.copy");
+            moveLinkAction = factoryPage.getValue("actions.link.move");
+            
             dashBoard = loginAs(username, password);
 
             siteName1 = "site1-" + System.currentTimeMillis();
@@ -118,33 +122,30 @@ public class LinkToFileFolderActionsTest extends AbstractTest
             siteActions.uploadFile(driver, file3);
             siteActions.uploadFile(driver, file4);
             siteActions.uploadFile(driver, file5);
+            
+            file1LinkName = "Link to " + file1.getName();
+            file2LinkName = "Link to " + file2.getName();
+            file3LinkName = "Link to " + file3.getName();
+            file4LinkName = "Link to " + file4.getName();
+            file5LinkName = "Link to " + file5.getName();
 
             siteActions.createFolder(driver, folderName1, "folder 1 title", "folder 1 description");
             siteActions.createFolder(driver, folderName2, "folder 2 title", "folder 2 description");
-
-            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file1.getName(), ACTION.CREATE_LINK);
-            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName2, "", file1.getName(), ACTION.CREATE_LINK);
-            file1LinkName = "Link to " + file1.getName();
-
-            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file2.getName(), ACTION.CREATE_LINK);
-            file2LinkName = "Link to " + file2.getName();
-
-            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file3.getName(), ACTION.CREATE_LINK);
-            file3LinkName = "Link to " + file3.getName();
-
-            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file4.getName(), ACTION.CREATE_LINK);
-            file4LinkName = "Link to " + file4.getName();
-
-            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file5.getName(), ACTION.CREATE_LINK);
-            file5LinkName = "Link to " + file5.getName();
-
-            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", folderName1, ACTION.CREATE_LINK);
+            
             folder1LinkName = "Link to " + folderName1;
 
-            deleteLinkAction = factoryPage.getValue("actions.link.delete");
-            locateLinkAction = factoryPage.getValue("actions.link.locate");
-            copyLinkAction = factoryPage.getValue("actions.link.copy");
-            moveLinkAction = factoryPage.getValue("actions.link.move");
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file1.getName(), ACTION.CREATE_LINK);
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName2, "", file1.getName(), ACTION.CREATE_LINK);           
+
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file2.getName(), ACTION.CREATE_LINK);
+
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file3.getName(), ACTION.CREATE_LINK);
+
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file4.getName(), ACTION.CREATE_LINK);
+
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", file5.getName(), ACTION.CREATE_LINK);
+
+            siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName1, "", folderName1, ACTION.CREATE_LINK);
             
             docLib = docLib.getNavigation().selectDetailedView().render();
         }
@@ -424,7 +425,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
 
         // lock the file for offline editing
-        siteActions.getFileDirectoryInfo(driver, file4.getName()).selectEditOffline().render();
+        docLib = siteActions.getFileDirectoryInfo(driver, file4.getName()).selectEditOffline().render();
 
         DocumentDetailsPage docDetailsPage = docLib.getFileDirectoryInfo(file4LinkName).clickOnTitle().render();
         Assert.assertTrue(docDetailsPage.getDocumentTitle().equalsIgnoreCase(file4.getName()));
@@ -439,9 +440,9 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
 
         // move original document
-        siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName2, "description", file5.getName(), ACTION.MOVE);
+        siteActions.copyOrMoveArtifact(driver, DESTINATION.ALL_SITES, siteName2, "description", file5.getName(), ACTION.MOVE).render();
 
-        // docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
+        docLib = siteActions.getSharePage(driver).render();
         DocumentDetailsPage docDetailsPage = docLib.getFileDirectoryInfo(file5LinkName).clickOnTitle().render();
 
         Assert.assertTrue(docDetailsPage.getDocumentTitle().equalsIgnoreCase(file5.getName()));
@@ -456,7 +457,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         MyWorkFlowsPage myWorkFlowsPage = dashBoard.getNav().selectWorkFlowsIHaveStarted().render();
 
         StartWorkFlowPage startWorkFlowPage = myWorkFlowsPage.selectStartWorkflowButton().render();
-        NewWorkflowPage newWorkflowPage = ((NewWorkflowPage) startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW)).render();
+        NewWorkflowPage newWorkflowPage = startWorkFlowPage.getWorkflowPage(WorkFlowType.NEW_WORKFLOW).render();
 
         SelectContentPage selectContentPage = newWorkflowPage.clickAddItems().render();
 

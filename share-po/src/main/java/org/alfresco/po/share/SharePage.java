@@ -393,8 +393,9 @@ public abstract class SharePage extends Page
     {
         try
         {
+            waitUntilNotVisible(locator, "", SECONDS.convert(defaultWaitTime, MILLISECONDS));
             waitUntilElementClickable(locator, SECONDS.convert(defaultWaitTime, MILLISECONDS));
-            
+
             WebElement button = findFirstDisplayedElement(locator);
             String id = button.getAttribute("id");
             By locatorById = By.id(id);
@@ -440,7 +441,7 @@ public abstract class SharePage extends Page
                 break;
             }
         }
-        catch (NoSuchElementException e)
+        catch (NoSuchElementException | TimeoutException e)
         {
             logger.info("Error Finding the locator: " + locator, e);
             throw new PageException("Error Submitting the Page", e);
