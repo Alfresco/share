@@ -1,4 +1,7 @@
 /*
+ * #%L
+ * share-po
+ * %%
  * Copyright (C) 2005 - 2016 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
