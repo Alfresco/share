@@ -167,7 +167,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     /**
      * Check that actions available on a link to a file are correct
      */
-    @Test(priority = 1)
+    @Test(priority = 1, enabled = false)
     public void testLinkActionsDocLib()
     {
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
@@ -205,7 +205,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
      * Check that Locate Linked Item for a link to a folder redirects to
      * document library page where the original folder is located
      */
-    @Test(priority = 3)
+    @Test(priority = 3, enabled = false)
     public void testLocateLinkedItemFolder()
     {
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
@@ -257,7 +257,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     /**
      * Check that clicking on a link to a folder redirects to folder contents page
      */
-    @Test(priority = 6)
+    @Test(priority = 6, enabled = false)
     public void testClickLinkToFolder()
     {
         siteActions.navigateToDocumentLibrary(driver, siteName1);
@@ -434,7 +434,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     /**
      * Check that clicking on a link to a file redirects to original document Details page after the file is moved
      */
-    @Test(priority = 18)
+    @Test(priority = 18, enabled = false)
     public void testClickLinkToMovedFile()
     {
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
@@ -451,7 +451,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
     /**
      * Check that clicking on a link to a file redirects to original document Details page after the file is moved
      */
-    @Test(priority = 18)
+    @Test(priority = 19)
     public void testLinkNotDisplayedInStartWorkflow()
     {
         MyWorkFlowsPage myWorkFlowsPage = dashBoard.getNav().selectWorkFlowsIHaveStarted().render();
