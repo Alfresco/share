@@ -187,7 +187,7 @@ public class FactorySharePage implements FactoryPage
     protected static final String FAILURE_PROMPT = "div[id='prompt']";
     protected static final String NODE_REF_IDENTIFIER = "?nodeRef";
     protected static final String QUICKVIEW_IDENTIFIER = "/share/s/";
-    protected static final String SHARE_DIALOGUE = "div.hd, .dijitDialogTitleBar";
+    protected static final String SHARE_DIALOGUE = ".dijitDialogTitleBar"; //"div.hd, .dijitDialogTitleBar";
     protected static ConcurrentHashMap<String, Class<? extends Page>> pages;
     protected static final By SHARE_DIALOGUE_HEADER = By.cssSelector("div.hd");
     private static Properties poProperties;
