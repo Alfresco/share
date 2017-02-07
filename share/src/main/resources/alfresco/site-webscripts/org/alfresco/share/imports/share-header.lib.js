@@ -1344,8 +1344,13 @@ function getTitleBarModel() {
                      iconClass: "alf-cog-icon",
                      targetUrl: "site/" + page.url.templateArgs.site + "/customise-site"
                   }
-               },
-               {
+               }
+            );
+
+            // Add Leave Site options only if is direct member of the site
+            if(siteData.userIsDirectMember)
+            {
+               siteConfig.config.widgets.push({
                   id: "HEADER_LEAVE_SITE",
                   name: "alfresco/menus/AlfMenuItem",
                   config: {
@@ -1360,10 +1365,11 @@ function getTitleBarModel() {
                         userFullName: user.fullName
                      }
                   }
-               }
-            );
+               });
+            }
+
          }
-         else if (siteData.userIsMember)
+         else if (siteData.userIsMember && siteData.userIsDirectMember)
          {
             // If the user is a member of a site then give them the option to leave...
             siteConfig.config.widgets.push({
@@ -1406,29 +1412,31 @@ function getTitleBarModel() {
             }
             else
             {
-               // If the member is not a member of a site then give them the option to join...
-               siteConfig.config.widgets.push({
-                  id: "HEADER_JOIN_SITE",
-                  name: "alfresco/menus/AlfMenuItem",
-                  config: {
+               // If the user is not a member of a site then give them the option to join...
+               if (!siteData.userIsMember)
+               {
+                  siteConfig.config.widgets.push({
                      id: "HEADER_JOIN_SITE",
-                     label: (siteData.profile.visibility == "MODERATED" ? "join_site_moderated.label" : "join_site.label"),
-                     iconClass: "alf-leave-icon",
-                     publishTopic: (siteData.profile.visibility == "MODERATED" ? "ALF_REQUEST_SITE_MEMBERSHIP" : "ALF_JOIN_SITE"),
-                     publishPayload: {
-                        site: page.url.templateArgs.site,
-                        siteTitle: siteData.profile.title,
-                        user: user.name,
-                        userFullName: user.fullName
+                     name: "alfresco/menus/AlfMenuItem",
+                     config: {
+                        id: "HEADER_JOIN_SITE",
+                        label: (siteData.profile.visibility == "MODERATED" ? "join_site_moderated.label" : "join_site.label"),
+                        iconClass: "alf-leave-icon",
+                        publishTopic: (siteData.profile.visibility == "MODERATED" ? "ALF_REQUEST_SITE_MEMBERSHIP" : "ALF_JOIN_SITE"),
+                        publishPayload: {
+                           site: page.url.templateArgs.site,
+                           siteTitle: siteData.profile.title,
+                           user: user.name,
+                           userFullName: user.fullName
+                        }
                      }
-                  }
-               });
+                  });
+               }
             }
          }
       }
 
-      // Add the site configuration to the title options only if is manager or direct member of the site
-      if(siteData.userIsSiteManager || siteData.userIsDirectMember)
+      if (siteConfig.config.widgets.length > 0)
       {
          titleConfig.push(siteConfig);
       }
