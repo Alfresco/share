@@ -358,7 +358,7 @@ public abstract class PageElement extends HtmlElement implements WebDriverAware
         {
             throw new IllegalArgumentException(LOCATOR_REQUIRED_ERR_MSG);
         }
-        if(text == null || text.isEmpty())
+        if(text == null)
         {
             throw new IllegalArgumentException("Text value is required");
         }
