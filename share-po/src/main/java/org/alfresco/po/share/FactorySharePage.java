@@ -706,13 +706,13 @@ public class FactorySharePage implements FactoryPage
                 }
             }
             WebElement copyMoveDialogue = null;
-            // try
-            // {
-            // copyMoveDialogue = driver.findElements(COPY_MOVE_DIALOGUE_SELECTOR).get(0);
-            // }
-            // catch (Exception e)
-            // {
-            // }
+             try
+             {
+             copyMoveDialogue = driver.findElements(COPY_MOVE_DIALOGUE_SELECTOR).get(0);
+             }
+             catch (Exception e)
+             {
+             }
             if (dialogue != null && dialogue.isDisplayed())
             {
                 String dialogueID = dialogue.getAttribute("id");
