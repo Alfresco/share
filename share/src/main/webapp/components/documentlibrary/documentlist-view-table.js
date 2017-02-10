@@ -256,7 +256,7 @@
       Dom.setStyle(elCell, "width", oColumn.width + "px");
       Dom.setStyle(elCell.parentNode, "width", oColumn.width + "px");
    
-      if (isContainer)
+      if (isContainer || (isLink && node.linkedNode.isContainer))
       {
          elCell.innerHTML = '<span class="folder-small">' + (isLink ? '<span class="link"></span>' : '') + (scope.dragAndDropEnabled ? '<span class="droppable"></span>' : '') + Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img id="' + imgId + '" src="' + this.getFolderIcon(record.node) + '" /></a>';
       }

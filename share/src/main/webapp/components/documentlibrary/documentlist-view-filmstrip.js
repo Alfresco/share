@@ -856,7 +856,7 @@
       // Just add the data table thumbnail once
       if (!document.getElementById(thumbnail.id))
       {
-         if (thumbnail.isContainer)
+     	 if (thumbnail.isContainer || (thumbnail.isLink && record.jsNode.linkedNode.isContainer))
          {
             elCell.innerHTML += '<span class="folder">' + (thumbnail.isLink ? '<span class="link"></span>' : '') + 
                   (scope.dragAndDropEnabled ? '<span class="droppable"></span>' : '') + thumbnail.html;
