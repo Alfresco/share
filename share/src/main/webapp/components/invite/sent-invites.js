@@ -801,18 +801,13 @@
          };
 
          // get the url to call
-         var url = Alfresco.constants.PROXY_URI + "api/invite/cancel";
+         var url = Alfresco.constants.PROXY_URI + "api/sites/" + this.options.siteId + "/invitations/" + record.getData('inviteId');
 
          // execute ajax request
          Alfresco.util.Ajax.request(
          {
             url: url,
-            method: "GET",
-            dataObj:
-            {
-               inviteId: record.getData('inviteId'),
-               siteShortName: encodeURIComponent(that.options.siteId)
-            },
+            method: "DELETE",
             responseContentType : "application/json",
             successMessage: that.msg("message.cancel.success"),
             successCallback:
