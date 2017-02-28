@@ -93,6 +93,15 @@
     text-align: inherit;
     width: 16px;
 }
+.doclist .documents.alf-table .thumbnail span.link,
+.doclist .documents.alf-table .folder span.link
+{
+   background: url(images/link-16.png) no-repeat;
+   height: 16px;
+   width: 16px;
+   position: absolute;
+}
+
 .doclist .documents.alf-table .thumbnail {
     width: 16px;
     height: 16px;
