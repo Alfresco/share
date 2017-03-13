@@ -864,7 +864,7 @@
          }
          else
          {
-            elCell.innerHTML += (thumbnail.isLink ? '<span class="link"></span>' : '') + thumbnail.html;
+            elCell.innerHTML += '<span class="thumbnail">' + (thumbnail.isLink ? '<span class="link"></span>' : '') + thumbnail.html + '</span>';
          }
          var thumbnailElement = document.getElementById(thumbnail.id);
          if (thumbnailElement)
