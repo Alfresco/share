@@ -15,21 +15,11 @@
       <!-- Video with posters -->
 
       <condition mimeType="video/mp4" thumbnail="imgpreview">
-         <plugin poster="imgpreview" posterFileSuffix=".png">StrobeMediaPlayback</plugin>
          <plugin poster="imgpreview" posterFileSuffix=".png">Video</plugin>
       </condition>
 
       <condition mimeType="video/m4v" thumbnail="imgpreview">
-         <plugin poster="imgpreview" posterFileSuffix=".png">StrobeMediaPlayback</plugin>
          <plugin poster="imgpreview" posterFileSuffix=".png">Video</plugin>
-      </condition>
-
-      <condition mimeType="video/x-flv" thumbnail="imgpreview">
-         <plugin poster="imgpreview" posterFileSuffix=".png">StrobeMediaPlayback</plugin>
-      </condition>
-
-      <condition mimeType="video/quicktime" thumbnail="imgpreview">
-         <plugin poster="imgpreview" posterFileSuffix=".png">StrobeMediaPlayback</plugin>
       </condition>
 
       <condition mimeType="video/ogg" thumbnail="imgpreview">
@@ -43,21 +33,11 @@
       <!-- Video without posters -->
 
       <condition mimeType="video/mp4">
-         <plugin>StrobeMediaPlayback</plugin>
          <plugin>Video</plugin>
       </condition>
 
       <condition mimeType="video/x-m4v">
-         <plugin>StrobeMediaPlayback</plugin>
          <plugin>Video</plugin>
-      </condition>
-
-      <condition mimeType="video/x-flv">
-         <plugin>StrobeMediaPlayback</plugin>
-      </condition>
-
-      <condition mimeType="video/quicktime">
-         <plugin>StrobeMediaPlayback</plugin>
       </condition>
 
       <condition mimeType="video/ogg">
@@ -70,7 +50,6 @@
 
       <!-- Audio -->
       <condition mimeType="audio/mpeg">
-         <plugin>StrobeMediaPlayback</plugin>
          <plugin>Audio</plugin>
       </condition>
 
