@@ -2,7 +2,7 @@
   #%L
   Alfresco Web Editor Samples
   %%
-  Copyright (C) 2005 - 2016 Alfresco Software Limited
+  Copyright (C) 2005 - 2017 Alfresco Software Limited
   %%
   This file is part of the Alfresco software. 
   If the software was purchased under a paid Alfresco license, the terms of 
@@ -48,7 +48,7 @@
    </div>
    <awe:markContent id="<%=subTextNodeRef%>" title="Edit Links" />
    
-   <div class="copyright">&copy; 2016 Customer, Inc. All Rights Reserved.</div>
+   <div class="copyright">&copy; 2017 Customer, Inc. All Rights Reserved.</div>
    
    <awe:endTemplate />
 </body>

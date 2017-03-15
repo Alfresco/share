@@ -1,5 +1,7 @@
 <#assign el=args.htmlid?html>
 <#assign aboutConfig=config.scoped["Edition"]["about"]>
+<#assign currentDateTime = .now/>
+<#assign currentDate = currentDateTime?iso_utc_m/>
 <div id="${el}-dialog" class="about-share">
    <div class="bd">
       <div id="${el}-logo" class="${aboutConfig.getChildValue("css-class")!logo-com} logo">
@@ -47,7 +49,7 @@ Zaizi<br/>
                </div>
             </div>
             <div class="copy">
-               <span>&copy; 2005-2016 Alfresco Software Inc. All rights reserved.</span>
+               <span>&copy; 2005-${currentDate?substring(0, 4)} Alfresco Software Inc. All rights reserved.</span>
                <a href="http://www.alfresco.com" target="new">www.alfresco.com</a>
                <a href="http://www.alfresco.com/legal/agreements/" target="new">Legal and License</a>
             </div>
