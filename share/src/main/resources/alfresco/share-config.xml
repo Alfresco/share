@@ -249,6 +249,7 @@
          <workflow name="activiti$activitiInvitationModerated"/>
          <workflow name="activiti$activitiInvitationNominated"/>
          <workflow name="activiti$activitiInvitationNominatedAddDirect"/>
+         <workflow name="activiti$resetPassword"/>
       </hidden-workflows>
 
       <!-- A list of workflow tasks that are NOT displayed in Share  -->
