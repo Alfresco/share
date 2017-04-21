@@ -51,8 +51,16 @@
             <mode>manual</mode>
             <enable-auto-deploy-modules>true</enable-auto-deploy-modules>
          </module-deployment>
+         
          <use-checksum-dependencies>true</use-checksum-dependencies>
          <generate-css-data-images>true</generate-css-data-images>
+         
+         <!-- Specify the list of path patterns to deny access for (via ResourceController). -->
+         <deny-access-resource-paths>
+            <resource-path-pattern>^/WEB-INF/.*</resource-path-pattern>
+            <resource-path-pattern>.*/\.\./WEB-INF/.*</resource-path-pattern>
+            <resource-path-pattern>.*/classes/.*\.properties</resource-path-pattern>
+         </deny-access-resource-paths>
       </web-framework>
    </config>
 
