@@ -12261,7 +12261,7 @@ Alfresco.util.isSuppressed = function(node, supressConfig)
  * @param type {String} - provided mimetype
  * @returns {String} - true if filter matches, false otherwise.
  */
-Alfresco.util.getMymetypeByFileNameExtention = function(fileName, type)
+Alfresco.util.getMimetypeByFileNameExtention = function(fileName, type)
 {
    var extns =
    {
