@@ -2016,7 +2016,9 @@
        */
       _updateCompareVersionsSection: function DNDUpload__updateCompareVersionsSection(jsNode, newVersionFile)
       {
-         this.getMimetypeDescription(newVersionFile.type, this._extractNewVersionMimetypeDescription, this._setNewVersionDefaultMimetype);
+         var newVersionMimetype = Alfresco.util.getMymetypeByFileNameExtention(newVersionFile.name, newVersionFile.type);
+
+         this.getMimetypeDescription(newVersionMimetype, this._extractNewVersionMimetypeDescription, this._setNewVersionDefaultMimetype);
          Dom.get(this.id + "-current-version-value").innerHTML = jsNode.properties["cm:versionLabel"];
          Dom.get(this.id + "-current-version-filename").innerHTML = jsNode.properties["cm:name"];
          Dom.get(this.id + "-current-version-title").innerHTML = jsNode.hasProperty("cm:title") ? jsNode.properties["cm:title"] : this.msg("label.none");
@@ -2025,7 +2027,7 @@
          Dom.get(this.id + "-current-version-modified-by").innerHTML = jsNode.properties["cm:modifier"].displayName;
          Dom.get(this.id + "-current-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(jsNode.mimetype, 48);
          Dom.get(this.id + "-new-version-filename").innerHTML = newVersionFile.name;
-         Dom.get(this.id + "-new-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(newVersionFile.type, 48);
+         Dom.get(this.id + "-new-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(newVersionMimetype, 48);
       },
       
       /**
