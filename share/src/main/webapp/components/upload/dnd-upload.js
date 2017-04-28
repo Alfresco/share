@@ -2016,7 +2016,7 @@
        */
       _updateCompareVersionsSection: function DNDUpload__updateCompareVersionsSection(jsNode, newVersionFile)
       {
-         var newVersionMimetype = Alfresco.util.getMymetypeByFileNameExtention(newVersionFile.name, newVersionFile.type);
+         var newVersionMimetype = Alfresco.util.getMimetypeByFileNameExtention(newVersionFile.name, newVersionFile.type);
 
          this.getMimetypeDescription(newVersionMimetype, this._extractNewVersionMimetypeDescription, this._setNewVersionDefaultMimetype);
          Dom.get(this.id + "-current-version-value").innerHTML = jsNode.properties["cm:versionLabel"];
