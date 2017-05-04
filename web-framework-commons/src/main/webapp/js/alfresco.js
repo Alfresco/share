@@ -11293,7 +11293,8 @@ Alfresco.util.RENDERLOOPSIZE = 25;
                       * Since everything after the "#" isn't included in the value of document.referrer we must use
                       * history.go(-1) so the page can restore to its previous ajax state.
                       */
-                     history.go(-1);
+                     var back = (document.location.href.indexOf('#') === -1) ? -1 : -2;
+                     history.go(back);
                   }
                   else if (history.state && history.state.previous_url && this.isCromeRedirectToTheSamePage(document.referrer))
                   {
