@@ -422,6 +422,9 @@ define(["dojo/_base/declare",
             successCallback: function(res) {
                // augment response to add parent model name and the model status
                var models = res.list.entries;
+               models.sort(function (a, b) {
+                  return (a.entry.name < b.entry.name) ? -1 : 1;
+               });
                for (var i=0; i<models.length; i++)
                {
                   models[i].entry.statusLabel = this.message(models[i].entry.status === 'ACTIVE' ? "cmm.label.status.grid.active" : "cmm.label.status.grid.draft");
@@ -480,6 +483,9 @@ define(["dojo/_base/declare",
                               // augment response to add parent model name and the model status
                               // and the form layout status boolean
                               var types = res.list.entries;
+                              types.sort(function (a, b) {
+                                 return (a.entry.name < b.entry.name) ? -1 : 1;
+                              });
                               for (var i=0; i<types.length; i++)
                               {
                                  types[i].modelName = name;
@@ -545,6 +551,9 @@ define(["dojo/_base/declare",
                               // augment response to add parent model name and the model status
                               // and the form layout status boolean
                               var aspects = res.list.entries;
+                              aspects.sort(function (a, b) {
+                                 return (a.entry.name < b.entry.name) ? -1 : 1;
+                              });
                               for (var i=0; i<aspects.length; i++)
                               {
                                  aspects[i].modelName = name;
@@ -1574,6 +1583,9 @@ define(["dojo/_base/declare",
                      successCallback: function(res) {
                         // augment response to create UI manadatory strings
                         var properties = res.entry.properties;
+                        properties.sort(function (a, b) {
+                           return (a.name < b.name) ? -1 : 1;
+                        });
                         for (var i=0; i<properties.length; i++)
                         {
                            var property = properties[i];

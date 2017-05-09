@@ -10,13 +10,14 @@
 
    <@markup id="html">
       <@uniqueIdDiv>
+         <#include "../../include/alfresco-macros.lib.ftl" />
          <#assign el=args.htmlid?html/>
          <div class="yui-gc quickshare-node-header">
             <#if showDownload == "true">
                <div class="yui-u first">
             </#if>
             <#-- Icon -->
-            <img src="${url.context}/res/components/images/filetypes/${fileExtension}-file-48.png"
+            <img src="${url.context}/res/components/images/filetypes/${fileIcon(displayName,48)}"
                  onerror="this.src='${url.context}/res/components/images/filetypes/generic-file-48.png'"
                  title="${displayName?html}" class="quickshare-node-header-info-thumbnail" width="48" />
 

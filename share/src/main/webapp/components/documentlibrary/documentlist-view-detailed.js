@@ -943,12 +943,6 @@
                window.scrollTo(0, yPos);
                Alfresco.util.Anim.pulse(el);
                scope.options.highlightFile = null;
-
-               // Select the file
-               var rowSelectEl = this.getRowSelectElementFromDataTableRecord(scope, recordFound);
-               rowSelectEl.checked = true;
-               scope.selectedFiles[recordFound.getData("nodeRef")] = true;
-               YAHOO.Bubbling.fire("selectedFilesChanged");
             }
          }
       },

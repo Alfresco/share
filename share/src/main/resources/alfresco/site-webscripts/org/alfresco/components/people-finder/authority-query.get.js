@@ -57,7 +57,7 @@ var getMappings = function()
    var mappings = [],
       authorityType = args.authorityType === null ? "all" : String(args.authorityType).toLowerCase(),
       maxResults = args.maxResults === null ? "0" : args.maxResults,
-      siteScope = args.site !== null ? true : false ;
+      siteScope = args.site !== null ? true : false;
    
    if (authorityType === "all" || authorityType == "user")
    {
@@ -70,7 +70,8 @@ var getMappings = function()
             rootObject: false,
             fn: mapSiteUser
          });
-      } else
+      }
+      else
       {
          mappings.push(
          {
@@ -98,9 +99,9 @@ var getMappings = function()
          fn: mapGroup
       });
 
-      if(args.defGroupsFor != null)
+      if (args.defGroupsFor != null)
       {
-         url = "/api/groups?shortNameFilter=" + encodeURIComponent("*" + args.defGroupsFor + "_*");
+         url = "/api/groups?shortNameFilter=" + encodeURIComponent("site_" + args.defGroupsFor + "_*");
          mappings.push(
          {
             type: MAPPING_TYPE.API,
