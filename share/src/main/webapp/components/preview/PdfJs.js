@@ -1412,8 +1412,11 @@
        */
       onFullScreenChange: function PdfJs_onFullScreenChange(e_obj)
       {
-         // See MNT-16920 - this prevents touch events from causing strange PDF.js behaviour...
-         if (e_obj.type !== "attrmodified-hovering" && e_obj.type !== "attrmodified-tabindex")
+         if (e_obj.type && e_obj.type.indexOf("attrmodified-" === 0))
+         {
+            // See MNT-16920 - this prevents touch events from causing strange PDF.js behaviour.
+         }
+         else
          {
             if ((document.fullScreenElement && document.fullScreenElement !== null) ||    // alternative standard method
                 (!document.mozFullScreenElement && !document.webkitFullScreenElement && !document.webkitFullscreenElement)) // current working methods

@@ -150,6 +150,11 @@
    
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
+      <url-pattern>/yui/*</url-pattern>
+   </filter-mapping>
+   
+   <filter-mapping>
+      <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/system/*</url-pattern>
    </filter-mapping>
    

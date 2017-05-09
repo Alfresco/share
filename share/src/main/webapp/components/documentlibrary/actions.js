@@ -428,14 +428,15 @@
                fn: function dLA_onActionDetails_failure(response)
                {
                   var failureMsg = this.msg("message.details.failure");
-                  if (response.json && response.json.message.indexOf("Failed to persist field 'prop_cm_name'") !== -1)
+                  if (response.json && (response.json.message.indexOf("Failed to persist field 'prop_cm_name'") !== -1 || response.json.message.indexOf("already exists") !== -1))
                   {
                      failureMsg = this.msg("message.details.failure.name");
                   }
                   Alfresco.util.PopupManager.displayMessage(
                   {
-                     text: failureMsg
-                  });
+                     text: failureMsg,
+                     zIndex: editDetails.zIndex
+                  }, editDetails.dialog.body);
                },
                scope: this
             }
