@@ -213,15 +213,6 @@
          minSearchTermLength: 1,
          
          /**
-          * Maximum number of items to display in the results list
-          * 
-          * @property maxSearchResults
-          * @type int
-          * @default 100
-          */
-         maxSearchResults: 100,
-         
-         /**
           * Flag to determine whether the added and removed items
           * should be maintained and posted separately.
           * If set to true (the default) the picker will update
@@ -2267,13 +2258,22 @@
          compactMode: false,
 
          /**
-          * Maximum number of items to display in the results list
+          * Maximum number of items to display in the search results list
           * 
           * @property maxSearchResults
           * @type int
           * @default 100
           */
          maxSearchResults: 100,
+         
+         /**
+          * Maximum number of items to display in the list when navigating children
+          * 
+          * @property maxChildResults
+          * @type int
+          * @default 1000
+          */
+         maxChildResults: 1000,
          
          /**
           * Relative URI of "create new item" data webscript.
@@ -2821,12 +2821,6 @@
             if (oFullResponse)
             {
                var items = oFullResponse.data.items;
-
-               // Crop item list to max length if required
-               if (me.options.maxSearchResults > -1 && items.length > me.options.maxSearchResults)
-               {
-                  items = items.slice(0, me.options.maxSearchResults-1);
-               }
                
                // Add the special "Create new" record if required
                if (me.options.createNewItemUri !== "" && me.createNewItemId === null)
@@ -3118,8 +3112,15 @@
        */
       _generatePickerChildrenUrlParams: function ObjectRenderer__generatePickerChildrenUrlParams(searchTerm)
       {
-         var params = "?selectableType=" + this.options.itemType + "&searchTerm=" + encodeURIComponent(searchTerm) + 
-                      "&size=" + this.options.maxSearchResults;
+         var params = "?selectableType=" + this.options.itemType;
+         if (this.options.createNewItemUri !== "")
+         {
+            params += "&searchTerm=" + encodeURIComponent(searchTerm) + "&size=" + this.options.maxSearchResults;
+         }
+         else
+         {
+            params += "&size=" + this.options.maxChildResults;
+         }
          
          // if an XPath start location has been provided and it has not been resolved 
          // yet, pass it to the pickerchildren script as a parameter
