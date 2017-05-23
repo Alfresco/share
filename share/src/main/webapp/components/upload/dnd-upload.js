@@ -699,7 +699,7 @@
             Dom.addClass(this.id + "-filelist-table", "hidden");
             Dom.addClass(this.aggregateDataWrapper, "hidden");
 
-            if (YAHOO.env.ua.ie > 9)
+            if (YAHOO.env.ua.ie > 9 || window.navigator.userAgent.indexOf('Edge/') !== -1)
             {
                // Create a new file selection input element (to ensure old data is retained we will remove any old instance...
                if (this.fileSelectionInput && this.fileSelectionInput.parentNode)
