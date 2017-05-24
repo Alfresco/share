@@ -140,7 +140,8 @@ public class DetailsPageTest extends AbstractTest
         Assert.assertTrue(documentLibPage.isFileVisible(fileWithVersionableAspectName));
         
         //delete file with versionable aspect using webdav
-        String fileWebdavUrl = "http://" + InetAddress.getLocalHost().getHostName() + ":8080/alfresco/webdav/Sites/" + siteName + "/documentLibrary/" + fileWithVersionableAspectName;
+        String fileWebdavUrl = "http://" + alfrescoSever + ":" + alfrescoPort +"/alfresco/webdav/Sites/"
+                + siteName + "/documentLibrary/" + fileWithVersionableAspectName;
         int response = executeDeleteRequest(fileWebdavUrl, username, password);
 
         //check the http response

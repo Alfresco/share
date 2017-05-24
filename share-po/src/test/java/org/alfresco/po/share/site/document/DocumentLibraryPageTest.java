@@ -309,7 +309,8 @@ public class DocumentLibraryPageTest extends AbstractDocumentTest
         documentLibPage = documentLibPage.getSiteNav().selectDocumentLibrary().render();
         FileDirectoryInfo fileDirectoryInfo = documentLibPage.getFileDirectoryInfo(file3.getName());
         String filePreviewUrl = fileDirectoryInfo.getPreViewUrl();
-        assertTrue(filePreviewUrl.startsWith(shareUrl),"URL Found: " + filePreviewUrl + "Share URL: " + shareUrl);
+		String url = shareUrl.replace(":80/", "/");
+        assertTrue(filePreviewUrl.startsWith(url),"URL Found: " + filePreviewUrl + "Share URL: " + shareUrl);
     }
 
     @Test(dependsOnMethods = "testGetPreviewUrl", groups = { "alfresco-one" })
