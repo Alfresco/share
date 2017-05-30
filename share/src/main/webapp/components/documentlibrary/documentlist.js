@@ -3247,34 +3247,51 @@
                   if (items[0] && items[0].webkitGetAsEntry && (firstEntry = items[0].webkitGetAsEntry()))
                   {
                      // detected uploading of folders structure (only supported by Chrome >= 21)
-                     fnWalkFileSystem(firstEntry.filesystem.root, function(fs, dirs) {
-                           // collect empty dirs
-                           Object.keys(dirs).forEach(function(key) {
-                              if (dirs[key].length === 0) {
-                                 emptyDirs.push(key);
-                              }
-                           });
-                           
-                           // collapse folder list by removing folders with empty parents - we want empty leaf nodes only
-                           for (var d, n=0; n<emptyDirs.length; n++)
-                           {
-                              d = emptyDirs[n];
-                              for (var m=0; m<emptyDirs.length; m++)
+                     // NOTE: FireFox partially implemented this API in FireFox 50 - see
+                     //      https://developer.mozilla.org/en-US/docs/Web/API/FileSystemEntry/filesystem
+                     //      https://developer.mozilla.org/en-US/docs/Web/API/File_and_Directory_Entries_API/Firefox_support
+                     // but it is not complete, filesystem.root does not work correctly - so need to iterate each item
+                     var list = [];
+                     if (YAHOO.env.ua.gecko)
+                     {
+                        Object.keys(items).forEach(function(key) {
+                           list.push(items[key].webkitGetAsEntry().filesystem.root);
+                        }, this);
+                     }
+                     else
+                     {
+                        list.push(firstEntry.filesystem.root);
+                     }
+                     list.forEach(function(item) {
+                        fnWalkFileSystem(item, function(fs, dirs) {
+                              // collect empty dirs
+                              Object.keys(dirs).forEach(function(key) {
+                                 if (dirs[key].length === 0) {
+                                    emptyDirs.push(key);
+                                 }
+                              });
+                              
+                              // collapse folder list by removing folders with empty parents - we want empty leaf nodes only
+                              for (var d, n=0; n<emptyDirs.length; n++)
                               {
-                                 if (m !== n && emptyDirs[m].indexOf(d) === 0)
+                                 d = emptyDirs[n];
+                                 for (var m=0; m<emptyDirs.length; m++)
                                  {
-                                    emptyDirs.splice(n--, 1);
-                                    break;
+                                    if (m !== n && emptyDirs[m].indexOf(d) === 0)
+                                    {
+                                       emptyDirs.splice(n--, 1);
+                                       break;
+                                    }
                                  }
                               }
+                              
+                              fnAddSelectedFiles(fs);
+                           }, function() {
+                              // fallback to standard way if error happens
+                              fnAddSelectedFiles(e.dataTransfer.files);
                            }
-                           
-                           fnAddSelectedFiles(fs);
-                        }, function() {
-                           // fallback to standard way if error happens
-                           fnAddSelectedFiles(e.dataTransfer.files);
-                        }
-                     );
+                        );
+                     }, this);
                   }
                   else
                   {
