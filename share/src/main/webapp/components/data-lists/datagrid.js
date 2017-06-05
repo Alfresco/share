@@ -441,7 +441,8 @@
                               break;
                      
                            case "date":
-                              html += Alfresco.util.formatDate(Alfresco.util.fromISO8601(data.value), scope.msg("date-format.defaultDateOnly"));
+                              var ignoreTime = true; // MNT-17682: date only fields should have time and timezone data stripped
+                              html += Alfresco.util.formatDate(Alfresco.util.fromISO8601(data.value, ignoreTime), scope.msg("date-format.defaultDateOnly"));
                               break;
                      
                            case "text":
