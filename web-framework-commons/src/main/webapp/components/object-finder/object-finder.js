@@ -3112,14 +3112,14 @@
        */
       _generatePickerChildrenUrlParams: function ObjectRenderer__generatePickerChildrenUrlParams(searchTerm)
       {
-         var params = "?selectableType=" + this.options.itemType;
+         var params = "?selectableType=" + this.options.itemType + "&searchTerm=" + encodeURIComponent(searchTerm) + "&size=";
          if (this.options.createNewItemUri !== "")
          {
-            params += "&searchTerm=" + encodeURIComponent(searchTerm) + "&size=" + this.options.maxSearchResults;
+            params += this.options.maxSearchResults;
          }
          else
          {
-            params += "&size=" + this.options.maxChildResults;
+            params += this.options.maxChildResults;
          }
          
          // if an XPath start location has been provided and it has not been resolved 
