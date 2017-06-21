@@ -178,9 +178,6 @@ public class LinkToFileFolderActionsTest extends AbstractTest
 
         docLib = linkRow.selectLocateLinkedItem().render();
         Assert.assertTrue(docLib.isFileVisible(file1.getName()));
-
-        FileDirectoryInfo docRow = docLib.getFileDirectoryInfo(file1.getName());
-        Assert.assertTrue(docRow.isCheckboxSelected(), "Element found, but not checked");
     }
 
     /**
@@ -197,8 +194,6 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         docLib = linkRow.selectLocateLinkedItem().render();
         Assert.assertTrue(docLib.isFileVisible(folderName1));
 
-        FileDirectoryInfo docRow = docLib.getFileDirectoryInfo(folderName1);
-        Assert.assertTrue(docRow.isCheckboxSelected(), "Element found, but not checked");
     }
 
     /**

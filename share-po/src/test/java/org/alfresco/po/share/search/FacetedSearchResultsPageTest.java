@@ -29,7 +29,6 @@ package org.alfresco.po.share.search;
 import java.util.List;
 
 import org.alfresco.po.AbstractTest;
-import org.alfresco.po.HtmlPage;
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.NewUserPage;
 import org.alfresco.po.share.SharePage;
