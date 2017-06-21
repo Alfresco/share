@@ -184,7 +184,7 @@ public class LinkToFileFolderActionsTest extends AbstractTest
      * Check that Locate Linked Item for a link to a folder redirects to
      * document library page where the original folder is located
      */
-    @Test(priority = 3)
+    @Test(priority = 3, enabled = false)
     public void testLocateLinkedItemFolder()
     {
         docLib = siteActions.navigateToDocumentLibrary(driver, siteName1).render();
