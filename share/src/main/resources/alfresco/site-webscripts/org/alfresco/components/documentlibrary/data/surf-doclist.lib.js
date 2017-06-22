@@ -63,6 +63,7 @@ var this_DocList = this;
 var DocList =
 {
    PROP_NAME: "cm:name",
+   PROP_WORKINGCOPYLABEL: "cm:workingCopyLabel",
    PROP_TITLE: "cm:title",
    ARRAY_TOSTRING: '[object Array]',
    FUNCTION_TOSTRING: '[object Function]',
@@ -94,7 +95,7 @@ var DocList =
          i, index,
          metadata = doclist.metadata,
          metaJSON = jsonUtils.toJSONObject(doclist.metadata),
-         workingCopyLabel = metadata.workingCopyLabel;
+         workingCopyLabel;
 
       /**
        * Sort actions by index attribute
@@ -150,6 +151,7 @@ var DocList =
             item.displayName = node.properties[DocList.PROP_NAME];
             if (item.workingCopy)
             {
+               workingCopyLabel = " " + node.properties[DocList.PROP_WORKINGCOPYLABEL];
                item.displayName = item.displayName.replace(workingCopyLabel, "");
             }
          }
