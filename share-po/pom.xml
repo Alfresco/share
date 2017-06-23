@@ -208,6 +208,7 @@
                 <executions>
                     <execution>
                         <id>default-cli</id>
+                        <phase>none</phase>
                         <configuration>
                             <target>
                                 <echo>Stopping Alfresco...</echo>
@@ -355,7 +356,7 @@
             </build>
         </profile>
         <profile>
-            <id>alfresco-one-tests</id>
+            <id>alfresco-content-services-tests</id>
             <build>
                 <plugins>
                     <plugin>
@@ -398,7 +399,7 @@
             </build>
         </profile>
        <profile>
-            <id>alfresco-one-e2e-tests</id>
+            <id>alfresco-content-services-e2e-tests</id>
             <build>
                 <plugins>
                     <plugin>
