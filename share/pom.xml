@@ -37,6 +37,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
+            <version>${dependency.alfresco-core.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.hibernate</groupId>
