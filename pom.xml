@@ -109,11 +109,6 @@
             <!-- Override dependencies with the locally defined versions -->
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-core</artifactId>
-                <version>${dependency.alfresco-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-jlan-embed</artifactId>
                 <version>${dependency.alfresco-jlan.version}</version>
             </dependency>
