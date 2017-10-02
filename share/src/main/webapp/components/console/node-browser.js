@@ -135,8 +135,16 @@
                            menu: stores,
                            lazyloadmenu: false
                         });
-                       parent.widgets.storeMenuButton.set("value", parent.store);
-                       parent.widgets.storeMenuButton.set("label", parent.store);
+                        parent.widgets.storeMenuButton.set("value", parent.store);
+                        if(stores.includes(parent.store))
+                        {
+                           parent.widgets.storeMenuButton.set("label", parent.store);
+                        }
+                        else
+                        {
+                           parent.widgets.storeMenuButton.set("label", encodeURIComponent(parent.store));
+                        }
+
                        parent.widgets.storeMenuButton.on("selectedMenuItemChange", onSelectedMenuItemChange);
                    },
                    scope: this
@@ -155,7 +163,7 @@
                Dom.get(parent.id + "-search-text").disabled = (parent.widgets.langMenuButton.get("value") == "storeroot");
             });
             parent.widgets.langMenuButton.set("value", parent.searchLanguage);
-            parent.widgets.langMenuButton.set("label", parent.searchLanguage);
+            parent.widgets.langMenuButton.set("label", encodeURIComponent(parent.searchLanguage));
             
             // DataTable and DataSource setup
             parent.widgets.dataSource = new YAHOO.util.DataSource(Alfresco.constants.PROXY_URI + "slingshot/node/search",
@@ -247,18 +255,35 @@
             
             // Update language menu
             parent.widgets.langMenuButton.set("value", parent.searchLanguage);
-            parent.widgets.langMenuButton.set("label", parent.searchLanguage);
+            parent.widgets.langMenuButton.set("label", encodeURIComponent(parent.searchLanguage));
             
             // Disable the query field if 'storeroot' is selected
             Dom.get(parent.id + "-search-text").disabled = (parent.widgets.langMenuButton.get("value") == "storeroot");
             
-            // Update language menu
+            // Update store menu
             if (parent.widgets.storeMenuButton)
             {
-                parent.widgets.storeMenuButton.set("value", parent.store);
-                parent.widgets.storeMenuButton.set("label", parent.store);
+                Alfresco.util.Ajax.request({
+                    url: Alfresco.constants.PROXY_URI + "slingshot/node/stores",
+                    successCallback:
+                    {
+                       fn: function(p_obj) {
+                           var stores = p_obj.json.stores;
+                           if(stores.includes(parent.store))
+                           {
+                              parent.widgets.storeMenuButton.set("label", parent.store);
+                           }
+                           else
+                           {
+                              parent.widgets.storeMenuButton.set("label", encodeURIComponent(parent.store));
+                           }
+                       },
+                       scope: this
+                    },
+                    failureMessage: parent._msg("message.getstores-failure")
+                });
             }
-            
+
             // check search length again as we may have got here via history navigation
             if (!this.isSearching && parent.searchTerm !== undefined && parent.searchTerm.length >= parent.options.minSearchTermLength)
             {
