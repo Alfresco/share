@@ -2022,12 +2022,12 @@
          
          eDescMsg = new Element(document.createElement("div"),
          {
-            innerHTML: this.msg("description." + this.currentFilter.filterId, filterDisplay)
+            innerHTML: this.msg("description." + $html(this.currentFilter.filterId), filterDisplay)
          });
          eDescMsg.addClass("message");
 
          // If filterData is populated and a ".more.filterData" i18n message exists, then use that
-         var i18n = "description." + this.currentFilter.filterId + ".more",
+         var i18n = "description." + $html(this.currentFilter.filterId) + ".more",
             i18nAlt = i18n + ".filterDisplay";
          
          if (filterDisplay !== "" && this.msg(i18nAlt) !== i18nAlt)
