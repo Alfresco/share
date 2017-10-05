@@ -73,8 +73,8 @@
     </properties>
 
    <scm>
-     <connection>scm:svn:https://svn.alfresco.com/repos/alfresco-open-mirror/web-apps/Share/trunk/</connection>
-     <developerConnection>scm:svn:https://svn.alfresco.com/repos/alfresco-enterprise/web-apps/Share/trunk/</developerConnection>
+     <connection>scm:git@github.com:Alfresco/share.git/</connection>
+     <developerConnection>scm:git@github.com:Alfresco/share.git</developerConnection>
    </scm>
     <pluginRepositories>
         <pluginRepository>
