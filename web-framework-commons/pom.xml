@@ -61,7 +61,19 @@
             <version>${dependency.alfresco-core.version}</version>            
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.2.7</version>
+        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
