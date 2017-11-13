@@ -8,13 +8,13 @@ Share is made available under the terms of LGPLv3.
 
 ## Get Share ready for patching
 1. Fork the project.
-2. Clone the project to your local machine using: git clone git@github.com:Alfresco/share.git and add a new remote for the original repository (upstream).
+2. Clone the project to your local machine using: `git clone git@github.com:Alfresco/share.git` and add a new remote for the original repository (upstream).
 3. Setup your environment by installing the following: jdk 1.8, maven 3.5, postgreSQL 9.6. After that, don't forget to edit your environment variables: JAVA_HOME and path.
 4. To check that everything is alright, build and run Share by following the instructions:
-    * build Share; in the folder were the project resides run: mvn clean install -Penterprise;
+    * build Share; in the folder were the project resides run: `mvn clean install -Penterprise`;
     * create a database and a user for it, both with the name `alfresco`; 
-    * run the platform; go to alfresco subfolder and run: mvn install -Prun;
-    * run the Share server; in the share subfolder run: mvn install -Prun.
+    * run the platform; go to alfresco subfolder and run: `mvn install -Prun`;
+    * run the Share server; in the share subfolder run: `mvn install -Prun`.
 	
 ## Make your change
 For consistency, please follow these guidelines.
@@ -23,7 +23,7 @@ For consistency, please follow these guidelines.
 2. Create a new branch for the work that you're about to do. If you're fixing a bug, we recommend to name your branch following the pattern: `fix/<ticket-id>_<ShortDescription>`. The pattern for adding a new feature is: `feature/<ticket-id>_<ShortDescription>`.
 3. When writing your code, be sure to follow the [Coding Standards for Alfresco Content Services](https://community.alfresco.com/docs/DOC-4658-coding-standards). There are some files that can be uploaded into the IDE and which take care of the formatting. You can find them in the `ide-config` folder. Also, we kindly ask you to configure your IDE to use for line endings the characters associated to Windows (CRLF).
 4. Another important thing is to make sure that the licenses of the libraries that you use in your implementation are compatible with LGPLv3. 
-5. When commiting your work, please add a clear commit message (e.g. [Pull Request Commit Messages](https://community.alfresco.com/docs/DOC-6269-submitting-contributions#jive_content_id_Pull_Request_Commit_Messages)).
+5. When committing your work, please add a clear commit message (e.g. [Pull Request Commit Messages](https://community.alfresco.com/docs/DOC-6269-submitting-contributions#jive_content_id_Pull_Request_Commit_Messages)).
 6. Include basic and clear documentation and modify or add unit tests to cover your contribution. When writing the unit tests be very careful to respect the folowing:
     * keep the test short (it should finish under 2 seconds);
     * use mocks to ensure good performance;
