@@ -837,9 +837,15 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                 userId = req.getRemoteUser();
                 // Set the external auth flag so the UI knows we are using SSO etc.
                 session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH, Boolean.TRUE);
-                if (userId != null && logger.isDebugEnabled())
-                    logger.debug("Initial login from externally authenticated user " + userId);
-                setExternalAuthSession(session);
+                if(req.getRemoteUser() != null) {
+                    // Set the external auth flag so the UI knows we are using SSO etc.
+                    session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH, Boolean.TRUE);
+                    if (userId != null && logger.isDebugEnabled())
+                        logger.debug("Initial login from externally authenticated user " + userId);
+                    setExternalAuthSession(session);
+                }else{
+                    redirectToLoginPage(req,res);
+                }
             }
             else
             {
