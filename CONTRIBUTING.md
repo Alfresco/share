@@ -19,12 +19,12 @@ Share is made available under the terms of LGPLv3.
 ## Make your change
 For consistency, please follow these guidelines.
 
-1. First of all, you need to raise a Jira ticket on the [ALF project](https://issues.alfresco.com/jira/projects/ALF/issues/ALF-21766?filter=allopenissues) for the issue that you want to address(contribution or bug). Make sure that the ticket is well documented according to it's type and it has all the information that is required. More about reporting an issue [here](https://community.alfresco.com/docs/DOC-6263-reporting-an-issue).
+1. First of all, you need to raise a Jira ticket on the [ALF project](https://issues.alfresco.com/jira/projects/ALF/issues/ALF-21766?filter=allopenissues) for the issue that you want to address(contribution or bug). Make sure that the ticket is well documented according to its type and it has all the information that is required. More about reporting an issue [here](https://community.alfresco.com/docs/DOC-6263-reporting-an-issue).
 2. Create a new branch for the work that you're about to do. If you're fixing a bug, we recommend to name your branch following the pattern: `fix/<ticket-id>_<ShortDescription>`. The pattern for adding a new feature is: `feature/<ticket-id>_<ShortDescription>`.
 3. When writing your code, be sure to follow the [Coding Standards for Alfresco Content Services](https://community.alfresco.com/docs/DOC-4658-coding-standards). There are some files that can be uploaded into the IDE and which take care of the formatting. You can find them in the `ide-config` folder. Also, we kindly ask you to configure your IDE to use for line endings the characters associated to Windows (CRLF).
 4. Another important thing is to make sure that the licenses of the libraries that you use in your implementation are compatible with LGPLv3. 
 5. When committing your work, please add a clear commit message (e.g. [Pull Request Commit Messages](https://community.alfresco.com/docs/DOC-6269-submitting-contributions#jive_content_id_Pull_Request_Commit_Messages)).
-6. Include basic and clear documentation and modify or add unit tests to cover your contribution. When writing the unit tests be very careful to respect the folowing:
+6. Include basic and clear documentation and modify or add unit tests to cover your contribution. When writing the unit tests be very careful to respect the following:
     * keep the test short (it should finish under 2 seconds);
     * use mocks to ensure good performance;
     * in the tests that do require an application context, do not use static references to the application context; use instance variables for the application context, and then, to get the desired context reference, in the setup method of the test use:<br />
