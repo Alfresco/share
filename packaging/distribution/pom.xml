@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>alfresco-content-services-share-distribution</artifactId>
     <name>Distribution of Alfresco Share</name>
@@ -98,14 +98,15 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>alfresco-repository</artifactId>
-                                    <version>${alfresco.platform.version}</version>
+                                    <version>6.11</version>
                                     <includes>alfresco/keystore/**</includes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
 
-                    <!-- Extract licenses and bin from distribution resources -->
+                    <!-- Extract licenses and bin from distribution resources 
+					Assuming this is not necessary for ACS 6.0+
                     <execution>
                         <id>unpack-resources</id>
                         <phase>generate-resources</phase>
@@ -124,7 +125,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-
+-->
                     <!-- Copy MMT jar -->
                     <execution>
                         <id>fetch-resources</id>
@@ -137,7 +138,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-mmt</artifactId>
-                                    <version>${alfresco.platform.version}</version>
+                                    <version>6.0</version>
                                     <outputDirectory>${project.build.outputDirectory}/bin</outputDirectory>
                                 </artifactItem>
                             </artifactItems>

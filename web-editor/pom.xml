@@ -6,7 +6,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>5.2-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <build>
@@ -84,11 +84,13 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
+			<version>2.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -109,6 +111,7 @@
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
+			<version>4.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -129,6 +132,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.21</version>
         </dependency>
         <dependency>
             <groupId>com.yahoo.platform.yui</groupId>

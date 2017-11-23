@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>alfresco-web-framework-commons</artifactId>
     <name>Alfresco Web Framework common libraries</name>
@@ -25,34 +25,38 @@
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
+			<version>1.1.6</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
              <groupId>commons-logging</groupId>
              <artifactId>commons-logging</artifactId>
+			 <version>1.2</version>
              <scope>provided</scope>
         </dependency>
         <!-- Test only dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+			<version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>6.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>6.11</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -65,14 +69,14 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>6.11</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>6.6</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
@@ -92,6 +96,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -100,7 +105,7 @@
             <version>1.0.4</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+      <!--  <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>test</scope>
@@ -115,6 +120,7 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+		-->
     </dependencies>
     
     <build>
