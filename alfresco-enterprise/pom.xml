@@ -19,8 +19,8 @@
         <!-- Dependency on the Alfresco Platform Enterprise WAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>alfresco-platform-enterprise</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <artifactId>content-services</artifactId>
+            <version>6.0.0-test</version>
             <type>war</type>
         </dependency>
         <!-- share-services AMP -->
