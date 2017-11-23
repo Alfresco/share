@@ -75,7 +75,7 @@
                     <overlays>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>alfresco-platform-enterprise</artifactId>
+                            <artifactId>content-services</artifactId>
                             <type>war</type>
                         </overlay>
                         <overlay>
