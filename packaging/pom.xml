@@ -30,9 +30,9 @@
 
     <modules>
         <module>distribution</module>
+        <module>docker</module>
         <module>webeditor</module>
         <module>wcmqs</module>
-        <module>installer</module>
     </modules>
     
 </project>
