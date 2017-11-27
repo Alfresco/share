@@ -640,10 +640,12 @@
          var fileName = $isValueSet(jsNode.linkedNode.properties) ? jsNode.linkedNode.properties.name : null;
          var linkedNodeIsContainer = jsNode.linkedNode.isContainer;
 
-         if (!linkedNodeIsContainer && (Alfresco.constants.PAGECONTEXT == "shared" || Alfresco.constants.PAGECONTEXT == "mine"))
-         {
-            var strNodeRef = jsNode.linkedNode.nodeRef.toString();
-            html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "document-details?nodeRef=" + strNodeRef;
+         if (!linkedNodeIsContainer && (Alfresco.constants.PAGECONTEXT == "shared" || Alfresco.constants.PAGECONTEXT == "mine")) {
+             if (jsNode.linkedNode.nodeRef != undefined) {
+
+                 var strNodeRef = jsNode.linkedNode.nodeRef.toString();
+                 html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "document-details?nodeRef=" + strNodeRef;
+             }
          }
          else if (linkedNodeIsContainer)
          {
