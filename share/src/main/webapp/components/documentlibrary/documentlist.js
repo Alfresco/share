@@ -645,6 +645,8 @@
 
                  var strNodeRef = jsNode.linkedNode.nodeRef.toString();
                  html = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + "document-details?nodeRef=" + strNodeRef;
+             }else{
+                 Alfresco.logger.debug("The original document was deleted! So the node reference is null!");
              }
          }
          else if (linkedNodeIsContainer)
