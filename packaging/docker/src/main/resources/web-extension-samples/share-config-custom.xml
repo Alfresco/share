@@ -212,7 +212,7 @@
          If set, will present a WebDAV link for the current item on the Document and Folder details pages.
          Also used to generate the "View in Alfresco Explorer" action for folders.
       -->
-      <repository-url>http://localhost:8080/alfresco</repository-url>
+      <repository-url>http://HOST:PORT/alfresco</repository-url>
 
       <!--
          Google Docs™ integration
@@ -359,7 +359,7 @@
             <name>Alfresco - unauthenticated access</name>
             <description>Access to Alfresco Repository WebScripts that do not require authentication</description>
             <connector-id>alfresco</connector-id>
-            <endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
+            <endpoint-url>http://HOST:PORT/alfresco/s</endpoint-url>
             <identity>none</identity>
          </endpoint>
 
@@ -368,7 +368,7 @@
             <name>Alfresco - user access</name>
             <description>Access to Alfresco Repository WebScripts that require user authentication</description>
             <connector-id>alfresco</connector-id>
-            <endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
+            <endpoint-url>http://HOST:PORT/alfresco/s</endpoint-url>
             <identity>user</identity>
          </endpoint>
 
@@ -377,7 +377,7 @@
             <name>Alfresco Feed</name>
             <description>Alfresco Feed - supports basic HTTP authentication via the EndPointProxyServlet</description>
             <connector-id>http</connector-id>
-            <endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
+            <endpoint-url>http://HOST:PORT/alfresco/s</endpoint-url>
             <basic-auth>true</basic-auth>
             <identity>user</identity>
          </endpoint>
@@ -389,7 +389,7 @@
             <description>Access to Alfresco Repository Public API that require user authentication.
                          This makes use of the authentication that is provided by parent 'alfresco' endpoint.</description>
             <connector-id>alfresco</connector-id>
-            <endpoint-url>http://localhost:8080/alfresco/api</endpoint-url>
+            <endpoint-url>http://HOST:PORT/alfresco/api</endpoint-url>
             <identity>user</identity>
          </endpoint>
       </remote>
