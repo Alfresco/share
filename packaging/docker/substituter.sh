@@ -1,16 +1,16 @@
 #!/bin/sh
 set -e
 
-if [[ $HOST == "" ]]; then
-   HOST=localhost
+if [[ $REPO_HOST == "" ]]; then
+   REPO_HOST=localhost
 fi
 
-if [[ $PORT == "" ]]; then
-   PORT=8080
+if [[ $REPO_PORT == "" ]]; then
+   REPO_PORT=8080
 fi
 
-echo "Replace with 'HOST' with '$HOST' and 'PORT' with '$PORT'"
+echo "Replace with 'REPO_HOST' with '$REPO_HOST' and 'REPO_PORT' with '$REPO_PORT'"
 
-sed -i -e 's/HOST:PORT/'"$HOST:$PORT"'/g' /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
+sed -i -e 's/REPO_HOST:REPO_PORT/'"$REPO_HOST:$REPO_PORT"'/g' /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
 
 bash -c "$@"
