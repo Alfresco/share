@@ -11,11 +11,7 @@ COPY target/classes/web-extension-samples/smartfolders-amp-actions-config.xml /u
 #not sure if this is needed for share:
 RUN sed -i "s/shared.loader=/shared.loader=\${catalina.base}\/shared\/classes/" /usr/local/tomcat/conf/catalina.properties
 
-ENV SUBSTITUTER_SHELL substituter.sh
-ENV SUBSTITUTER_PATH /usr/local/tomcat/shared/classes/alfresco
-ENV SUBSTITUTER $SUBSTITUTER_PATH/$SUBSTITUTER_SHELL
+COPY substituter.sh /usr/local/tomcat/shared/classes/alfresco
+RUN chmod +x /usr/local/tomcat/shared/classes/alfresco/substituter.sh
 
-COPY $SUBSTITUTER_SHELL $SUBSTITUTER_PATH
-RUN chmod +x $SUBSTITUTER
-
-ENTRYPOINT $SUBSTITUTER "catalina.sh run"
+ENTRYPOINT ["/usr/local/tomcat/shared/classes/alfresco/substituter.sh", "catalina.sh run"]
