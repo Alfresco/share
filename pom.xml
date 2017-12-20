@@ -8,7 +8,7 @@
     </parent>
     
     <artifactId>alfresco-share-parent</artifactId>
-    <version>5.1.1-SNAPSHOT</version>
+    <version>5.1.1.12</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -30,7 +30,7 @@
         <version.minor>1</version.minor>
         <version.revision>1</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>5.1.1</alfresco.platform.version>
+        <alfresco.platform.version>5.1.1.12</alfresco.platform.version>
 
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -XX:MaxPermSize=256m -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
