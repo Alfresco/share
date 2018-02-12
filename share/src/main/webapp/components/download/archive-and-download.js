@@ -85,10 +85,12 @@
        * reset by the "_resetGUI" function.
        */
       _currentArchiveNodeURL : "",
+
+      _currentArchiveNodeId : "",
       
       /**
-       * The name to give to the archive currently being built. This will be set as the Folder filename when a single folder
-       * is selected for download otherwise will just be "Archive.zip"
+       * The name to give to the archive currently being built. This will be set as the Folder filename when a single
+       * folder is selected for download otherwise will just be "Archive.zip"
        */
       _currentArchiveName: "",
       
@@ -133,12 +135,12 @@
       updateProgress: function ArchiveAndDownload_updateProgress(json)
       {
          // Remove any commas from the number to prevent NaN errors
-         var done = json.done.replace(/,/g, "");
-         var total = json.total.replace(/,/g, "");
+         var done = json.entry.bytesAdded;
+         var total = json.entry.totalBytes;
          var overallProgress = total != 0 ? (done / total) : 0;
          var overallLeft = (-300 + (overallProgress * 300));
-         Dom.setStyle(this.id + "-aggregate-progress-span", "left", overallLeft + "px"); 
-         Dom.get(this.id + "-file-count-span").innerHTML = this.msg("file.status", json.filesAdded, json.totalFiles);
+         Dom.setStyle(this.id + "-aggregate-progress-span", "left", overallLeft + "px");
+         Dom.get(this.id + "-file-count-span").innerHTML = this.msg("file.status", json.entry.filesAdded, json.entry.totalFiles);
       },
       
       /**
@@ -152,9 +154,9 @@
       archiveProgressSuccess: function ArchiveAndDownload_archiveProgressSuccess(response)
       {
          // Check the response data...
-         if (response.json)
+         if (response.json && response.json.entry)
          {
-            if (response.json.status == "PENDING")
+            if (response.json.entry.status == "PENDING")
             {
                // The archiving hasn't started yet...
                var _this = this;
@@ -162,7 +164,7 @@
                   _this.getArchivingProgress();
                }, 250);
             }
-            else if (response.json.status == "IN_PROGRESS")
+            else if (response.json.entry.status == "IN_PROGRESS")
             {
                this.updateProgress(response.json);
                var _this = this;
@@ -171,13 +173,13 @@
                }, 250);
                
             }
-            else if (response.json.status == "DONE")
+            else if (response.json.entry.status == "DONE")
             {
                // The archiving is complete and the archive can now be downloaded...
                this.updateProgress(response.json);
                this.handleArchiveComplete();
             }
-            else if (response.json.status == "MAX_CONTENT_SIZE_EXCEEDED")
+            else if (response.json.entry.status == "MAX_CONTENT_SIZE_EXCEEDED") // TODO: to be modified or to not be modified ?
             {
                // The file size is too large to be zipped up:
                Alfresco.util.PopupManager.displayPrompt(
@@ -186,7 +188,7 @@
                   });
                this.panel.hide();
             }
-            else if (response.json.status == "CANCELLED")
+            else if (response.json.entry.status == "CANCELLED")
             {
                // Do nothing; the user has already cancelled it.
             }
@@ -249,7 +251,7 @@
       {
          Alfresco.util.Ajax.jsonDelete(
          {
-            url: Alfresco.constants.PROXY_URI + "api/internal/downloads/" + this._currentArchiveNodeURL
+            url: Alfresco.constants.API_DOWNLOADS + this._currentArchiveNodeId,
          });
       },
 
@@ -261,26 +263,25 @@
        */
       getArchivingProgress: function ArchiveAndDownload_getArchivingProgress(prevFailures)
       {
-         if (this._currentArchiveNodeURL != null && this._currentArchiveNodeURL != "")
+         if (this._currentArchiveNodeId != null && this._currentArchiveNodeId != "")
          {
             Alfresco.util.Ajax.jsonGet({
-               url: Alfresco.constants.PROXY_URI + "api/internal/downloads/" + this._currentArchiveNodeURL + "/status",
-               responseContentType : "application/json",
+               url: Alfresco.constants.API_DOWNLOADS + this._currentArchiveNodeId,
+               responseContentType: "application/json",
                successCallback:
-               {
-                  fn: this.archiveProgressSuccess,
-                  scope: this
-               },
+                  {
+                     fn: this.archiveProgressSuccess,
+                     scope: this
+                  },
                failureCallback:
-               {
-                  fn: this.archiveProgressFailure,
-                  scope: this
-               },
+                  {
+                     fn: this.archiveProgressFailure,
+                     scope: this
+                  },
                failureCount: prevFailures
-           });
+            });
          }
       },
-      
       /**
        * Called when the initial request to generate an archive returns successfully. The response
        * will contain the new NodeRef of the archive being generated which should then be used
@@ -293,17 +294,17 @@
       archiveInitReqSuccess: function ArchiveAndDownload_archiveInitReqSuccess(response)
       {
          // Check the response object...
-         if (response.json && response.json.nodeRef)
+         if (response.json && response.json.entry && response.json.entry.id)
          {
-            var nodeRef = Alfresco.util.NodeRef(response.json.nodeRef);
-            this._currentArchiveNodeURL = nodeRef.storeType + "/" + nodeRef.storeId + "/" + nodeRef.id;
+            var id = response.json.entry.id;
+            this._currentArchiveNodeId = id;
             this.getArchivingProgress();
          }
       },
       
       /**
        * Called when the initial request to generate an archive fails. Failure may occur for a number
-       * of reasons including (but not limited to) the repository application not being available, 
+       * of reasons including (but not limited to) the repository application not being available,
        * invalid data in the request payload).
        * 
        * @method archiveInitReqFailure
@@ -325,16 +326,28 @@
        * 
        * @method requestArchive
        * @param nodes The list of nodes to archived. This should be in the form:
-       * [ { nodeRef: <nodeRef}, ... ]
+       * [ nodeRef.id, ... ]
        */
       requestArchive: function ArchiveAndDownload_requestArchive(nodes)
       {
+         var nodeIds = [];
+
+         for (i = 0; i < nodes.length; i++)
+         {
+            var nodeRef = new Alfresco.util.NodeRef(nodes[i].nodeRef);
+            var id = nodeRef.id;
+            nodeIds[i] = id;
+         }
+
          // Post the details of the nodeRefs to archive...
          Alfresco.util.Ajax.jsonPost(
          {
-            url: Alfresco.constants.PROXY_URI + "api/internal/downloads",
+            url: Alfresco.constants.API_DOWNLOADS,
             responseContentType : "application/json",
-            dataObj: nodes,
+            dataObj:
+               {
+                  nodeIds: nodeIds
+               },
             successCallback:
             {
                fn: this.archiveInitReqSuccess,
@@ -366,7 +379,9 @@
 
          var form = document.createElement("form");
          form.method = "GET";
-         form.action = Alfresco.constants.PROXY_URI + "api/node/content/" + this._currentArchiveNodeURL + "/" + Alfresco.util.encodeURIPath(this._currentArchiveName);
+
+         form.action = Alfresco.constants.API_NODES + this._currentArchiveNodeId + "/content?attachment=true";
+
          document.body.appendChild(form);
 
          var d = form.ownerDocument;
@@ -388,7 +403,8 @@
        * in the supplied "config" argument.
        * 
        * @method show
-       * @param config The configuration for the archive download. This object should should be in the following structure:
+       * @param config The configuration for the archive download. This object should should be in the following
+       *    structure:
        * 
        * { nodesToArchive : [ { nodeRef: <nodeRef> }, ... ] } 
        */
