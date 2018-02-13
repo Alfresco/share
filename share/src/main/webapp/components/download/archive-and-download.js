@@ -179,7 +179,7 @@
                this.updateProgress(response.json);
                this.handleArchiveComplete();
             }
-            else if (response.json.entry.status == "MAX_CONTENT_SIZE_EXCEEDED") // TODO: to be modified or to not be modified ?
+            else if (response.json.entry.status == "MAX_CONTENT_SIZE_EXCEEDED")
             {
                // The file size is too large to be zipped up:
                Alfresco.util.PopupManager.displayPrompt(
