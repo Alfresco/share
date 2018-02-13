@@ -218,8 +218,8 @@
             }, this),
             actionUrls =
             {
-               downloadUrl: $combine(Alfresco.constants.PROXY_URI, contentUrl) + "?a=true",
-               viewUrl:  $combine(Alfresco.constants.PROXY_URI, contentUrl) + "\" target=\"_blank",
+               downloadUrl: $combine(Alfresco.constants.API_NODES, nodeRef.id) + "/content?attachment=true",
+               viewUrl: $combine(Alfresco.constants.API_NODES, nodeRef.id) + "/content?attachment=false",
                documentDetailsUrl: fnPageURL("document-details?nodeRef=" + strNodeRef),
                folderDetailsUrl: fnPageURL("folder-details?nodeRef=" + strNodeRef),
                editMetadataUrl: fnPageURL("edit-metadata?nodeRef=" + strNodeRef),
