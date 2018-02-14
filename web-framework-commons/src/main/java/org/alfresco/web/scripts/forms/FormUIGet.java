@@ -274,6 +274,14 @@ public class FormUIGet extends DeclarativeWebScript
         FormConfigElement formConfig = getFormConfig(itemId, formId);
         List<String> visibleFields = getVisibleFields(mode, formConfig);
         
+        // In order to pass submissionUrl formConfig cannot be null
+        if (formConfig == null)
+        {
+        	formConfig = new FormConfigElement();
+        }
+        String submissionUrl = getParameter(request, PARAM_SUBMISSION_URL);
+        formConfig.setSubmissionURL(submissionUrl);
+        
         // get the form definition from the form service
         Response formSvcResponse = retrieveFormDefinition(itemKind, itemId, visibleFields, formConfig);
         if (formSvcResponse.getStatus().getCode() == Status.STATUS_OK)
@@ -551,6 +559,21 @@ public class FormUIGet extends DeclarativeWebScript
         writer.writeValue(PARAM_ITEM_KIND, itemKind);
         writer.writeValue(PARAM_ITEM_ID, itemId.replace(":/", ""));
 
+        // pass the submissionUrl in the body
+        if (formConfig.getSubmissionURL() != null)
+	    {
+	    	writer.startValue(MODEL_SUBMISSION_URL);
+	    	writer.writeValue(formConfig.getSubmissionURL());
+	    	writer.endValue();
+	    }
+	    // pass the formId in the body
+	    if (formConfig.getId() != null)
+	    {
+	    	writer.startValue(PARAM_FORM_ID);
+	    	writer.writeValue(formConfig.getId());
+	    	writer.endValue();
+	    }
+        
         List<String> forcedFields = null;
         if (visibleFields != null && visibleFields.size() > 0)
         {
