@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Vector;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
@@ -79,11 +80,25 @@ public class SlingshotRemoteClient extends RemoteClient
                 response.getStatusLine().getStatusCode() >= 200 &&
                 response.getStatusLine().getStatusCode() < 300)
         {
+            // get the attachment parameter from the url query
+            Pattern pattern = Pattern.compile("(attachment=)\\w+");
+            Matcher matcher = pattern.matcher(url.getQuery());
+            if (matcher.find())
+            {
+                String param = matcher.group();
+
+                // if attachment=false the file will be opened in browser
+                if (param.contains("false"))
+                {
+                    res.setHeader("Content-Disposition", "inline;");
+                }
+            }
+
             // only match if content is not an attachment - don't interfere with downloading of file content 
             Header cd = response.getFirstHeader("Content-Disposition");
             if (cd == null || !cd.getValue().startsWith("attachment"))
             {
-                // only match appropriate content REST URIs 
+                // only match appropriate content REST URIs
                 if (contentType != null && (CONTENT_PATTERN_TO_CHECK.matcher(url.getPath()).matches()
                         && !CONTENT_PATTERN_TO_WHITE_LIST.matcher(url.getPath()).matches()
                         || SLINGSHOT_WIKI_PAGE_PATTERN.matcher(url.getPath()).matches()
