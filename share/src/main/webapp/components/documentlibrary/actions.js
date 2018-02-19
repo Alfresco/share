@@ -219,7 +219,7 @@
             actionUrls =
             {
                downloadUrl: $combine(Alfresco.constants.API_NODES, nodeRef.id) + "/content?attachment=true",
-               viewUrl: $combine(Alfresco.constants.API_NODES, nodeRef.id) + "/content?attachment=false",
+               viewUrl: $combine(Alfresco.constants.API_NODES, nodeRef.id) + "/content?attachment=false \" target=\"_blank",
                documentDetailsUrl: fnPageURL("document-details?nodeRef=" + strNodeRef),
                folderDetailsUrl: fnPageURL("folder-details?nodeRef=" + strNodeRef),
                editMetadataUrl: fnPageURL("edit-metadata?nodeRef=" + strNodeRef),
