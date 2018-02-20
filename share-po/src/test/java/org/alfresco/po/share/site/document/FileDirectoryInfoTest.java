@@ -492,7 +492,7 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         FileDirectoryInfo thisRow = documentLibPage.getFileDirectoryInfo(file.getName());
         String mainWinHandle = driver.getWindowHandle();
         thisRow.selectViewInBrowser();
-        assertTrue(driver.getCurrentUrl().toLowerCase().contains(file.getName().toLowerCase()));
+        assertTrue(driver.getPageSource().contains("this is a sample test upload file"));
         driver.close();
         driver.switchTo().window(mainWinHandle);
     }
