@@ -29,7 +29,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-share-services</artifactId>
-            <version>${project.version}</version>
+            <version>6.0.0-test</version>
             <type>amp</type>
         </dependency>
     </dependencies>

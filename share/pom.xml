@@ -192,7 +192,7 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-spring</artifactId>
-            <version>2.4</version>
+            <version>3.7.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>hazelcast-client</artifactId>
@@ -556,7 +556,7 @@
                    </webApp>
                    <webAppSourceDirectory>tests/testApp</webAppSourceDirectory>
                    <classesDirectory>tests/testApp/WEB-INF/classes</classesDirectory>
-                   <baseAppFirst>false</baseAppFirst>
+                   <!--<baseAppFirst>false</baseAppFirst>-->
                 </configuration>
             </plugin>
             <plugin>
