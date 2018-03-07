@@ -28,7 +28,7 @@
         <testng.xml>src/test/resources/tests_debug.xml</testng.xml>
         <enterprise.installer.path>/data/bamboo/artifacts/${enterprise.build.plan}/ALL/alfresco-*-linux-x64.???</enterprise.installer.path>
         <selenium.version>2.45.0-alfresco</selenium.version>
-        <spring.version>4.1.6.RELEASE</spring.version>
+        <spring.version>5.0.4.RELEASE</spring.version>
     </properties>
     <dependencies>
         <dependency>
