@@ -59,7 +59,7 @@
 
         <tomcat.default.alfresco.port>8080</tomcat.default.alfresco.port>
         <tomcat.default.alfresco.ssl.port>8443</tomcat.default.alfresco.ssl.port>
-        <tomcat.default.share.port>8081</tomcat.default.share.port>
+        <tomcat.default.share.port>8181</tomcat.default.share.port>
         <tomcat.default.share.ssl.port>0</tomcat.default.share.ssl.port>
         <tomcat.default.solr.port>8082</tomcat.default.solr.port>
         <tomcat.default.solr.ssl.port>8445</tomcat.default.solr.ssl.port>
@@ -463,7 +463,7 @@
                               <artifactItem>
                                 <groupId>org.alfresco</groupId>
                                 <artifactId>alfresco-dev-tomcat</artifactId>
-                                <version>${alfresco.platform.version}</version>
+                                <version>5.2.3</version>
                                 <classifier>config</classifier>
                                 <overWrite>true</overWrite>
                                 <type>zip</type>
@@ -484,8 +484,11 @@
                             <artifactItems>
                               <artifactItem>
                                 <groupId>org.alfresco</groupId>
-                                <artifactId>alfresco-solr4</artifactId>
-                                <version>${alfresco.platform.version}</version>
+                                  <artifactId>alfresco-solr4</artifactId>
+                                  <version>5.2.3</version>
+                                  <!--<artifactId>alfresco-solrclient</artifactId>-->
+                                <!--<artifactId>alfresco-solr4</artifactId>-->
+                                <!--<version>6.7</version>-->
                                 <classifier>config</classifier>
                                 <overWrite>true</overWrite>
                                 <type>zip</type>

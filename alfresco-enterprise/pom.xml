@@ -146,9 +146,9 @@
                         <!-- Run solr4 alongside the repo -->
                         <webapp>
                             <groupId>org.alfresco</groupId>
-                            <artifactId>alfresco-solr4</artifactId>
-                            <version>${alfresco.platform.version}</version>
-                            <contextPath>/solr4</contextPath>
+                           <artifactId>alfresco-solr4</artifactId>
+                           <version>5.2.3</version>
+                           <contextPath>/solr4</contextPath>
                             <type>war</type>
                             <asWebapp>true</asWebapp>
                             <contextFile>${runtime.tomcat.conf.folder}/solr-context.xml</contextFile>
