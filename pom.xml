@@ -463,7 +463,7 @@
                               <artifactItem>
                                 <groupId>org.alfresco</groupId>
                                 <artifactId>alfresco-dev-tomcat</artifactId>
-                                <version>${alfresco.platform.version}</version>
+                                <version>5.2.3</version>
                                 <classifier>config</classifier>
                                 <overWrite>true</overWrite>
                                 <type>zip</type>
@@ -484,8 +484,11 @@
                             <artifactItems>
                               <artifactItem>
                                 <groupId>org.alfresco</groupId>
-                                <artifactId>alfresco-solr4</artifactId>
-                                <version>${alfresco.platform.version}</version>
+                                  <artifactId>alfresco-solr4</artifactId>
+                                  <version>5.2.3</version>
+                                  <!--<artifactId>alfresco-solrclient</artifactId>-->
+                                <!--<artifactId>alfresco-solr4</artifactId>-->
+                                <!--<version>6.7</version>-->
                                 <classifier>config</classifier>
                                 <overWrite>true</overWrite>
                                 <type>zip</type>
