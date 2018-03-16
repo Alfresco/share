@@ -33,7 +33,7 @@
         <alfresco.platform.version>6.0.0-SNAPSHOT</alfresco.platform.version>
 
         <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
-        <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
+        <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <dependency.spring.version>5.0.4.RELEASE</dependency.spring.version>
@@ -73,8 +73,8 @@
     </properties>
 
    <scm>
-     <connection>scm:git@github.com:Alfresco/share.git/</connection>
-     <developerConnection>scm:git@github.com:Alfresco/share.git</developerConnection>
+     <connection>scm:git:https://github.com/Alfresco/share.git/</connection>
+     <developerConnection>scm:git:https://github.com/Alfresco/share.git</developerConnection>
      <url>https://github.com/Alfresco/share</url>
      <tag>HEAD</tag>
    </scm>
@@ -89,7 +89,7 @@
     <distributionManagement>
         <repository>
             <id>alfresco-internal</id>
-            <url>https://artifacts.alfresco.com/nexus/content/repositories/internal-staging</url>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>alfresco-internal-snapshots</id>
