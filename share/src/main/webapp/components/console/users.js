@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2018 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -1868,7 +1868,7 @@
  
             me.reauthorizeDialog.widgets.titleText.innerHTML = parent._msg("reauthorize.dialog.title", me.selectedUser);
             me.reauthorizeDialog.widgets.uploadButton._button.innerHTML = parent._msg("reauthorize.dialog.button.ok");  
-            extesnsionSpan.innerHTML = parent._msg("reauthorize.dialog.message", me.selectedUser + ":" + YAHOO.lang.JSON.parse(res.serverResponse.responseText).restoreKey);
+            extesnsionSpan.innerHTML = parent._msg("reauthorize.dialog.message", me.selectedUser + "@" + YAHOO.lang.JSON.parse(res.serverResponse.responseText).restoreKey);
             selectFileMessage.innerHTML = "";
          
             // Make sure the "use Flash" tip is hidden just in case Flash is enabled...
