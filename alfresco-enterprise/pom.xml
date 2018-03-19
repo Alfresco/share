@@ -110,7 +110,7 @@
                         <goal>install</goal>
                      </goals>
                      <configuration>
-                        <ampLocation>${settings.localRepository}/org/alfresco/alfresco-share-services/${project.version}/alfresco-share-services-${project.version}.amp</ampLocation>
+                        <ampLocation>${settings.localRepository}/org/alfresco/alfresco-share-services/6.0.0-test/alfresco-share-services-6.0.0-test.amp</ampLocation>
                         <warLocation>${project.build.directory}/${project.build.finalName}.war</warLocation>
                      </configuration>
                   </execution>
