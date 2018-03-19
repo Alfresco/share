@@ -255,8 +255,8 @@ public class FormConfigElement extends ConfigElementAdapter
      * This method returns a Map of those &lt;set&gt;s which have no declared parentID
      * i&#46;e&#46; those that are 'roots' in the tree of sets. Note that this map will
      * always have at least one member; the default set.
-     * 
-     * @return List<FormSet>
+     *
+     * @return result
      * @see #DEFAULT_SET_ID
      */
     public List<FormSet> getRootSetsAsList()
