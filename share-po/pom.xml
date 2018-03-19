@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>6.0.0-testCC</version>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -469,8 +469,7 @@
                                     <target>
                                         <echo>Tweaking Aikau in share.war...</echo>
                                         <zip destfile="${basedir}/target/share.war">
-                                            <zipfileset src="${basedir}/target/alf-installation/tomcat/webapps/share.war"
-                                                excludes="WEB-INF/lib/aikau-*.jar"/>
+                                            <zipfileset src="${basedir}/target/alf-installation/tomcat/webapps/share.war" excludes="WEB-INF/lib/aikau-*.jar" />
                                             <zipfileset dir="${basedir}/target" includes="aikau-*.jar" prefix="WEB-INF/lib" />
                                         </zip>
                                         <move file="${basedir}/target/share.war" todir="${basedir}/target/alf-installation/tomcat/webapps" verbose="true" />
