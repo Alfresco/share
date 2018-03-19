@@ -314,45 +314,6 @@
                             </includes>
                         </configuration>
                     </plugin>
-
-                    <!-- Starts/stop the installed Alfresco -->
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>start-alfresco</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <echo>Starting Alfresco...</echo>
-                                        <exec executable="${basedir}/target/alf-installation/alfresco.sh" dir="target/alf-installation" failonerror="true">
-                                            <arg value="start" />
-                                            <env key="CATALINA_OPTS" value="${argLine}" />
-                                        </exec>
-                                        <sleep minutes="5" />
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>stop-alfresco</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                  <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <echo>Stopping Alfresco...</echo>
-                                        <exec executable="${basedir}/target/alf-installation/alfresco.sh" dir="target/alf-installation" failonerror="true">
-                                            <arg value="stop" />
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
