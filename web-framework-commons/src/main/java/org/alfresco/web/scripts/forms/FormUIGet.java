@@ -2466,7 +2466,7 @@ public class FormUIGet extends DeclarativeWebScript
      * Inner class used to hold all the context required to generate the model
      * and the model itself.
      *
-     * <br/><br/>author Gavin Cornwell
+     * <br><br>author Gavin Cornwell
      */
     protected class ModelContext
     {
@@ -2603,7 +2603,7 @@ public class FormUIGet extends DeclarativeWebScript
      * NOTE: This class has to be public for the template engine to
      *       access the object correctly.
      *
-     * <br/><br/>author Gavin Cornwell
+     * <br><br>author Gavin Cornwell
      */
     public abstract class Element
     {
