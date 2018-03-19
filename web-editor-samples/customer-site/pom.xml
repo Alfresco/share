@@ -5,7 +5,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>6.0.0-testCC-SNAPSHOT</version>
+        <version>6.0.0-testCC</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <packaging>war</packaging>
