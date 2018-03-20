@@ -6,7 +6,7 @@
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>                &lt;/plugin&gt;6.0.0-testCC6-SNAPSHOT</version>
+        <version>6.0.0-testCC4-SNAPSHOT</version>
     </parent>
 
     <properties>
