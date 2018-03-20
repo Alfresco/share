@@ -68,6 +68,10 @@
                     <groupId>commons-beanutils</groupId>
                     <artifactId>commons-beanutils-core</artifactId>
                 </exclusion>
+		      <exclusion>
+                    <artifactId>xercesImpl</artifactId>
+                    <groupId>xerces</groupId>
+                </exclusion>
                 <exclusion>
                     <groupId>batik</groupId>
                     <artifactId>batik-util</artifactId>
