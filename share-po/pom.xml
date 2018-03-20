@@ -16,7 +16,7 @@
         <testng.suite.filename>src/test/resources/testng-alfresco-share.xml</testng.suite.filename>
         <argLine>-Xms512m -Xmx1024m</argLine>
         <skipTests>true</skipTests>
-        <spring.version>5.0.4.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
     </properties>
     <repositories>
         <repository>
