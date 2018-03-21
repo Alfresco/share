@@ -5,7 +5,7 @@
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>6.0.0-testCC11</version>
+        <version>6.0.0-testCC11-SNAPSHOT</version>
     </parent>
     <packaging>amp</packaging>
 
