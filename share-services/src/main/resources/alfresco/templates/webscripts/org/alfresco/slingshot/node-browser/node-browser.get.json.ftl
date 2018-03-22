@@ -30,7 +30,6 @@
 </#macro>
 {
    <#if node??>
-   "nodeRef": "${node.nodeRef}",
    "qnamePath": {
       "name": "${node.qnamePath}",
       "prefixedName": "${node.prefixedQNamePath}"
