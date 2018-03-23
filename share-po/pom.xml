@@ -198,7 +198,7 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
-            <plugin>
+<!--             <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-jar-plugin</artifactId>
 		        <version>2.6</version>
@@ -209,7 +209,7 @@
 		            	</goals>
 		          	</execution>
 		        </executions>
-		    </plugin>
+		    </plugin> -->
             <plugin>
                 <!-- Configuration triggered by mvn antrun:run, used by Bamboo to stop server -->
                 <artifactId>maven-antrun-plugin</artifactId>
