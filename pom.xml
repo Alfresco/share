@@ -22,6 +22,7 @@
         <module>web-editor-plugin</module>
         <module>web-editor-samples/customer-site</module>
         <module>wcmquickstart-module</module>
+	<module>share-packaging</module>
 
     </modules>
 
