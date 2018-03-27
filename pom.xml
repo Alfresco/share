@@ -22,6 +22,8 @@
         <module>web-editor-plugin</module>
         <module>web-editor-samples/customer-site</module>
         <module>wcmquickstart-module</module>
+        <module>packaging</module>
+
 
     </modules>
 
@@ -308,25 +310,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
-			<!-- Configure deployment of releases to Staging area of Nexus -->
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.6</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>alfresco-internal-staging</serverId>
-					<nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
-					<stagingProfileId>${release.staging.profile}</stagingProfileId>
-					<stagingDescription>Staging Share ${project.version} (${bamboo_buildResultKey} ${bamboo_planRepository_revision})</stagingDescription>
-					<tags>
-						<build.number>${bamboo_buildNumber}</build.number>
-						<build.key>${bamboo_buildKey}</build.key>
-						<build.revision>${bamboo_planRepository_revision}</build.revision>
-					</tags>
-				</configuration>
-			</plugin>
         </plugins>
 
         <pluginManagement>
