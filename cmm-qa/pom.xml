@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>6.0.a</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>alfresco-cmm-qa</artifactId>
@@ -59,8 +58,7 @@
                         <configuration>
                             <target>
                                 <echo>Stopping Alfresco...</echo>
-                                <exec executable="${basedir}/target/alf-installation/alfresco.sh"
-                                    dir="target/alf-installation" failonerror="true">
+                                <exec executable="${basedir}/target/alf-installation/alfresco.sh" dir="target/alf-installation" failonerror="true">
                                     <arg value="stop" />
                                 </exec>
                             </target>
@@ -181,22 +179,15 @@
                                 <configuration>
                                     <target>
                                         <echo>Recreating database...</echo>
-                                        <sql driver="org.postgresql.Driver" url="jdbc:postgresql:template1"
-                                            userid="alfresco" password="alfresco" autocommit="true">drop
+                                        <sql driver="org.postgresql.Driver" url="jdbc:postgresql:template1" userid="alfresco" password="alfresco" autocommit="true">drop
                                             database if exists alfresco; create database alfresco</sql>
                                         <echo>Downloading Alfresco installer...</echo>
-                                        <sshexec username="tomcat" host="pbam01.alfresco.com"
-                                            keyfile="${user.home}/.ssh/id_rsa" outputproperty="installerPath"
-                                            command="ls -rt ${enterprise.installer.path} | tail -1 | tr ' ' '?' " />
-                                        <scp remoteFile="tomcat@pbam01.alfresco.com:${installerPath}"
-                                            localTofile="target/alf-installer.bin" keyfile="${user.home}/.ssh/id_rsa" />
-                                        <chmod file="target/alf-installer.bin" perm="a+x"
-                                            verbose="true" />
+                                        <sshexec username="tomcat" host="pbam01.alfresco.com" keyfile="${user.home}/.ssh/id_rsa" outputproperty="installerPath" command="ls -rt ${enterprise.installer.path} | tail -1 | tr ' ' '?' " />
+                                        <scp remoteFile="tomcat@pbam01.alfresco.com:${installerPath}" localTofile="target/alf-installer.bin" keyfile="${user.home}/.ssh/id_rsa" />
+                                        <chmod file="target/alf-installer.bin" perm="a+x" verbose="true" />
                                         <echo>Installing Alfresco...</echo>
-                                        <exec executable="${basedir}/target/alf-installer.bin"
-                                            dir="target" failonerror="true">
-                                            <arg
-                                                line="--mode unattended --alfresco_admin_password admin --disable-components postgres,alfrescowcmqs --jdbc_username alfresco --jdbc_password alfresco --prefix ${basedir}/target/alf-installation" />
+                                        <exec executable="${basedir}/target/alf-installer.bin" dir="target" failonerror="true">
+                                            <arg line="--mode unattended --alfresco_admin_password admin --disable-components postgres,alfrescowcmqs --jdbc_username alfresco --jdbc_password alfresco --prefix ${basedir}/target/alf-installation" />
                                         </exec>
                                     </target>
                                 </configuration>
@@ -254,8 +245,7 @@
                                 <configuration>
                                     <target>
                                         <echo>Starting Alfresco...</echo>
-                                        <exec executable="${basedir}/target/alf-installation/alfresco.sh"
-                                            dir="target/alf-installation" failonerror="true">
+                                        <exec executable="${basedir}/target/alf-installation/alfresco.sh" dir="target/alf-installation" failonerror="true">
                                             <arg value="start" />
                                             <env key="CATALINA_OPTS" value="${argLine}" />
                                         </exec>
@@ -272,8 +262,7 @@
                                 <configuration>
                                     <target>
                                         <echo>Stopping Alfresco...</echo>
-                                        <exec executable="${basedir}/target/alf-installation/alfresco.sh"
-                                            dir="target/alf-installation" failonerror="true">
+                                        <exec executable="${basedir}/target/alf-installation/alfresco.sh" dir="target/alf-installation" failonerror="true">
                                             <arg value="stop" />
                                         </exec>
                                     </target>
