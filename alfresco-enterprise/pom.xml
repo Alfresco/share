@@ -20,14 +20,14 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>content-services</artifactId>
-            <version>6.0.0-test</version>
+            <version>${alfresco.platform.version}</version>
             <type>war</type>
         </dependency>
         <!-- share-services AMP -->
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-share-services</artifactId>
-            <version>6.0.0-test</version>
+            <version>${project.version}</version>
             <type>amp</type>
         </dependency>
     </dependencies>
@@ -110,7 +110,7 @@
                         <goal>install</goal>
                      </goals>
                      <configuration>
-                        <ampLocation>${settings.localRepository}/org/alfresco/alfresco-share-services/6.0.0-test/alfresco-share-services-6.0.0-test.amp</ampLocation>
+                        <ampLocation>${settings.localRepository}/org/alfresco/alfresco-share-services/${project.version}/alfresco-share-services-${project.version}.amp</ampLocation>
                         <warLocation>${project.build.directory}/${project.build.finalName}.war</warLocation>
                      </configuration>
                   </execution>
