@@ -48,3 +48,11 @@ services:
             - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
         ports:
             - ${SOLR_PORT}:8983 #Browser port
+            
+    firefox:
+        image: selenium/standalone-firefox:3.11
+        volumes:
+            - /dev/shm:/dev/shm
+        ports:
+            - 4444:4444
+  
