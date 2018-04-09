@@ -53,6 +53,7 @@ services:
         image: selenium/standalone-firefox:3.11
         volumes:
             - /dev/shm:/dev/shm
+            - /home/bamboo/bamboo-agent-home/xml-data/build-dir/SHARE-SHAR0-ST/share-po:/mnt/share-po
         ports:
             - 4444:4444
   
