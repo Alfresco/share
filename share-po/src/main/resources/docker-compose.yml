@@ -56,6 +56,6 @@ services:
             - /home/bamboo/bamboo-agent-home/xml-data/build-dir/SHARE-SHAR0-ST/share-po:/mnt/share-po
         ports:
             - 4444:4444
-        command: ["sleep 60s", "&&", "apt-get upgrade", "&&", "apt-get install maven -y", "&&", "/opt/bin/entry_point.sh &", "&&", "cd /mnt/share-po; mvn -U test -Prun-alfresco,alfresco-one-tests,alfresco-content-services-tests -DskipTests=false  -Dshare.target=http://share:8181/share  -Dshare.url=http://share:8181/share -Dalfresco.server=alfresco -Dalfresco.port=9090 -Dtestng.suite.filename=src/test/resources/testng_share_po.xml -Dwebdriver.grid.url=http://localhost:4444/wd/hub"] 
+        command: ["apt-get upgrade", "&&", "apt-get install maven -y", "&&", "/opt/bin/entry_point.sh &", "&&", "cd /mnt/share-po; mvn -U test -Prun-alfresco,alfresco-one-tests,alfresco-content-services-tests -DskipTests=false  -Dshare.target=http://share:8181/share  -Dshare.url=http://share:8181/share -Dalfresco.server=alfresco -Dalfresco.port=9090 -Dtestng.suite.filename=src/test/resources/testng_share_po.xml -Dwebdriver.grid.url=http://localhost:4444/wd/hub"] 
            
   
