@@ -835,15 +835,15 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                 // If we are as yet unauthenticated but have external authentication, do a ping check as the external user.
                 // This will either establish the session or throw us out to log in as someone else!
                 userId = req.getRemoteUser();
-                
-                if(userId != null) {
-                    if (logger.isDebugEnabled())
-                        logger.debug("Initial login from externally authenticated user " + userId);
-                    
-                    setExternalAuthSession(session);
-                }else{
+                // Set the external auth flag so the UI knows we are using SSO etc.
+                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH, Boolean.TRUE);
+                if (userId != null && logger.isDebugEnabled())
+                    logger.debug("Initial login from externally authenticated user " + userId);
+
+                if (userId == null && krbRealm == null)
+                {
                     // MNT-18402 : redirect to login page, when using SSO bypass link
-                    redirectToLoginPage(req,res);
+                    redirectToLoginPage(req, res);
                 }
             }
             else
