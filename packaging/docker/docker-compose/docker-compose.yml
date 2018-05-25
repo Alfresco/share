@@ -4,6 +4,11 @@ services:
     alfresco:
         image: ${REPOSITORY_IMAGE}:${REPOSITORY_TAG}
         environment:
+            CATALINA_OPTS : "
+                  -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
+                        "
+            ports:
+                  -8000:8000
             JAVA_OPTS : "
                 -Ddb.driver=org.postgresql.Driver
                 -Ddb.username=alfresco
@@ -14,6 +19,7 @@ services:
                 -Dsolr.secureComms=none
                 -Dsolr.base.url=/solr
                 -Dindex.subsystem.name=solr6
+                -Dalfresco-pdf-renderer.url=http://alfresco-pdf-renderer:8090/
                 "
         ports:
             - ${REPOSITORY_PORT}:8080 #Browser port
@@ -21,8 +27,14 @@ services:
     share:
         image: ${SHARE_IMAGE}:${SHARE_TAG}
         environment:
-            - REPO_HOST=alfresco
-            - REPO_PORT=8080
+            REPO_HOST: alfresco
+            REPO_PORT: 8080
+            # CSRF setup
+            # if both csrf referer and csrf origin are set CSRFPolicy is set to true in share-config-custom.xml and overrides both properties
+            # if not CSRFPolicy is false
+            CSRF_FILTER_REFERER:
+            CSRF_FILTER_ORIGIN:
+            
         ports:
             - ${SHARE_PORT}:8080
 
@@ -48,3 +60,8 @@ services:
             - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
         ports:
             - ${SOLR_PORT}:8983 #Browser port
+            
+    alfresco-pdf-renderer:
+            image: alfresco/alfresco-pdf-renderer:0.10
+            ports:
+                - 8090:8090
