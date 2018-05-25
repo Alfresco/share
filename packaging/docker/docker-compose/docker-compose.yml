@@ -4,11 +4,6 @@ services:
     alfresco:
         image: ${REPOSITORY_IMAGE}:${REPOSITORY_TAG}
         environment:
-            CATALINA_OPTS : "
-                  -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
-                        "
-            ports:
-                  -8000:8000
             JAVA_OPTS : "
                 -Ddb.driver=org.postgresql.Driver
                 -Ddb.username=alfresco
