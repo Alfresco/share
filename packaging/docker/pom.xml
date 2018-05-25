@@ -13,7 +13,7 @@
     <properties>
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <!-- Alfresco GoogleDocs integration version -->
-        <alfresco.googledocs.version>3.1.0-RC1</alfresco.googledocs.version>
+        <alfresco.googledocs.version>3.1.0-RC2</alfresco.googledocs.version>
     </properties>
 
     <dependencies>
@@ -30,9 +30,8 @@
         </dependency>
         <dependency>
             <groupId>org.alfresco.integrations</groupId>
-            <artifactId>alfresco-googledocs-share</artifactId>
+            <artifactId>alfresco-googledocs-share-community</artifactId>
             <version>${alfresco.googledocs.version}</version>
-            <classifier>community</classifier>
             <type>amp</type>
         </dependency>
     </dependencies>
@@ -100,9 +99,8 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.alfresco.integrations</groupId>
-                                    <artifactId>alfresco-googledocs-share</artifactId>
+                                    <artifactId>alfresco-googledocs-share-community</artifactId>
                                     <version>${alfresco.googledocs.version}</version>
-                                    <classifier>community</classifier>
                                     <type>amp</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/amps_share</outputDirectory>
