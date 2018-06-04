@@ -113,15 +113,6 @@ div.login
    text-align: center;
 }
 
-.login-tagline
-{
-   height: 22px;
-   background: transparent url(../images/alfresco-tagline-white.svg) 50% 0 no-repeat;
-   background-size: 260px 20px;
-   margin-top: 42px;
-   display: none;
-}
-
 .login .error
 {
    width: 320px;
@@ -158,11 +149,6 @@ div.login
 .ENTERPRISE .login .product-community
 {
    display: none;
-}
-
-.ENTERPRISE .login-tagline
-{
-   display: block;
 }
 
 .ENTERPRISE .login input[type="text"]:focus, .ENTERPRISE .login input[type="password"]:focus
