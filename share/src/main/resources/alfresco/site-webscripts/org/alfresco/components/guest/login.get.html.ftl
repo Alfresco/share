@@ -85,7 +85,6 @@
       
       <@markup id="footer">
       <div class="login-copy">${msg("label.copyright")}</div>
-      <div class="login-tagline"></div>
       </@markup>
    </@>
 </@>
