@@ -1554,10 +1554,10 @@ body.alfresco-guest
 
 .theme-company-logo
 {
-   height: 60px;
+   height: 54px;
    width: 320px;
    background: transparent url(images/alfresco.svg) 50% 0 no-repeat;
-   background-size: 180px 66px;
+   background-size: 180px 58px;
 }
 
 .theme-flow-arrow
