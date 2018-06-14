@@ -13,7 +13,7 @@
     <properties>
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <!-- Alfresco GoogleDocs integration version -->
-        <alfresco.googledocs.version>3.1.0-RC2</alfresco.googledocs.version>
+        <alfresco.googledocs.version>3.1.0</alfresco.googledocs.version>
     </properties>
 
     <dependencies>
