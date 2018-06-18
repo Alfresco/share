@@ -40,7 +40,7 @@
 
         <dependency.spring.version>5.0.4.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
-        <dependency.aikau.version>1.0.101.12</dependency.aikau.version>
+        <dependency.aikau.version>1.0.101.13</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.1</dependency.httpcomponents.version>
