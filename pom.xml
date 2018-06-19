@@ -29,7 +29,7 @@
         <version.minor>2</version.minor>
         <version.revision>4</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>5.2.4</alfresco.platform.version>
+        <alfresco.platform.version>5.2.4-SNAPSHOT</alfresco.platform.version>
 
         <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
