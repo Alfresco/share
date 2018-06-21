@@ -27,7 +27,7 @@
     <properties>
         <version.major>5</version.major>
         <version.minor>2</version.minor>
-        <version.revision>4</version.revision>
+        <version.revision>5</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>5.2.5-SNAPSHOT</alfresco.platform.version>
 
