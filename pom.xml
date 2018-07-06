@@ -32,7 +32,7 @@
         <version.minor>0</version.minor>
         <version.revision>0</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>6.0.0-SNAPSHOT</alfresco.platform.version>
+        <alfresco.platform.version>6.0.0</alfresco.platform.version>
 
         <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
