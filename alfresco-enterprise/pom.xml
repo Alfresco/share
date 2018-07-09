@@ -20,7 +20,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>content-services</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>${alfresco.content-services.version}</version>
             <type>war</type>
         </dependency>
         <!-- share-services AMP -->
