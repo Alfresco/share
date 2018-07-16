@@ -92,8 +92,8 @@
     <distributionManagement>
         <repository>
             <id>alfresco-internal</id>
-         <!--   <url>https://artifacts.alfresco.com/nexus/content/repositories/internal-releases</url>-->
- 	    <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url> 
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/internal-releases</url>
+ 	    <!--<url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url> -->
         </repository>
         <snapshotRepository>
             <id>alfresco-internal-snapshots</id>
