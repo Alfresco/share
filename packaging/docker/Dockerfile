@@ -22,3 +22,5 @@ RUN java -jar /usr/local/tomcat/alfresco-mmt/alfresco-mmt*.jar install \
               /usr/local/tomcat/amps_share /usr/local/tomcat/webapps/share -directory -nobackup -force
 
 ENTRYPOINT ["/usr/local/tomcat/shared/classes/alfresco/substituter.sh", "catalina.sh run"]
+
+EXPOSE 8000
