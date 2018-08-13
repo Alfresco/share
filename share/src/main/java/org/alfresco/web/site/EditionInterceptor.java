@@ -62,6 +62,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
     /** public name of the value in the RequestContext */
     public static final String EDITION_INFO = "editionInfo";
     public static final String KEY_DOCS_EDITION = "docsEdition";
+    public static final String URL_UTIL = "urlUtil";
     
     public static final String ENTERPRISE_EDITION = EditionInfo.ENTERPRISE_EDITION;
     public static final String TEAM_EDITION = EditionInfo.TEAM_EDITION;
@@ -76,6 +77,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
      */
     private static EditionInfo EDITIONINFO = null;
     private static DocsEdition docsEdition = null;
+    private static UrlUtil urlUtil = new UrlUtil();
     
     private static volatile boolean outputInfo = false;
     private static volatile boolean outputEditionInfo = false;
@@ -155,6 +157,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                                 // set edition info for current thread
                                 ThreadLocalRequestContext.getRequestContext().setValue(EDITION_INFO, editionInfo);
                                 ThreadLocalRequestContext.getRequestContext().setValue(KEY_DOCS_EDITION, docsEdition);
+                                ThreadLocalRequestContext.getRequestContext().setValue(URL_UTIL, urlUtil);
                                 
                                 // NOTE: We do NOT assign to the EDITIONINFO so that we re-evaluate next time.
                             }
@@ -219,6 +222,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
             {
                 ThreadLocalRequestContext.getRequestContext().setValue(EDITION_INFO, EDITIONINFO);
                 ThreadLocalRequestContext.getRequestContext().setValue(KEY_DOCS_EDITION, docsEdition);
+                ThreadLocalRequestContext.getRequestContext().setValue(URL_UTIL, urlUtil);
             }
         }
         finally
