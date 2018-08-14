@@ -51,7 +51,6 @@ function main()
        var alfEndpointUrl = remote.getEndpointURL("alfresco");
        model.platUrl = alfEndpointUrl.substr(0, alfEndpointUrl.lastIndexOf("/"));
    }
-
 }
 
 main();

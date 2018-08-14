@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Share WAR
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -30,7 +30,7 @@ import com.google.common.base.Strings;
 import java.io.Serializable;
 
 /**
- * A simple structure that reads the path to Alfresco Share and Alfresco Repository from JVM system properties.
+ * A simple structure that supplies the path to Alfresco Share and Alfresco Repository from JVM system properties.
  *
  * @author Alexandru Epure
  */
