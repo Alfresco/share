@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2005-2010 Alfresco Software Limited.
  *
@@ -86,8 +87,6 @@
        */
       _currentArchiveNodeURL : "",
 
-      _currentArchiveNodeId : "",
-      
       /**
        * The name to give to the archive currently being built. This will be set as the Folder filename when a single
        * folder is selected for download otherwise will just be "Archive.zip"
@@ -135,12 +134,12 @@
       updateProgress: function ArchiveAndDownload_updateProgress(json)
       {
          // Remove any commas from the number to prevent NaN errors
-         var done = json.entry.bytesAdded;
-         var total = json.entry.totalBytes;
+         var done = json.done.replace(/,/g, "");
+         var total = json.total.replace(/,/g, "");
          var overallProgress = total != 0 ? (done / total) : 0;
          var overallLeft = (-300 + (overallProgress * 300));
          Dom.setStyle(this.id + "-aggregate-progress-span", "left", overallLeft + "px");
-         Dom.get(this.id + "-file-count-span").innerHTML = this.msg("file.status", json.entry.filesAdded, json.entry.totalFiles);
+         Dom.get(this.id + "-file-count-span").innerHTML = this.msg("file.status", json.filesAdded, json.totalFiles);
       },
       
       /**
@@ -154,9 +153,9 @@
       archiveProgressSuccess: function ArchiveAndDownload_archiveProgressSuccess(response)
       {
          // Check the response data...
-         if (response.json && response.json.entry)
+         if (response.json)
          {
-            if (response.json.entry.status == "PENDING")
+            if (response.json.status == "PENDING")
             {
                // The archiving hasn't started yet...
                var _this = this;
@@ -164,7 +163,7 @@
                   _this.getArchivingProgress();
                }, 250);
             }
-            else if (response.json.entry.status == "IN_PROGRESS")
+            else if (response.json.status == "IN_PROGRESS")
             {
                this.updateProgress(response.json);
                var _this = this;
@@ -173,7 +172,7 @@
                }, 250);
                
             }
-            else if (response.json.entry.status == "DONE")
+            else if (response.json.status == "DONE")
             {
                // The archiving is complete and the archive can now be downloaded...
                this.updateProgress(response.json);
@@ -188,7 +187,7 @@
                   });
                this.panel.hide();
             }
-            else if (response.json.entry.status == "CANCELLED")
+            else if (response.json.status == "CANCELLED")
             {
                // Do nothing; the user has already cancelled it.
             }
@@ -251,7 +250,7 @@
       {
          Alfresco.util.Ajax.jsonDelete(
          {
-            url: Alfresco.constants.API_DOWNLOADS + this._currentArchiveNodeId,
+            url: Alfresco.constants.PROXY_URI + "api/internal/downloads/" + this._currentArchiveNodeURL
          });
       },
 
@@ -263,10 +262,10 @@
        */
       getArchivingProgress: function ArchiveAndDownload_getArchivingProgress(prevFailures)
       {
-         if (this._currentArchiveNodeId != null && this._currentArchiveNodeId != "")
+         if (this._currentArchiveNodeURL != null && this._currentArchiveNodeURL != "")
          {
             Alfresco.util.Ajax.jsonGet({
-               url: Alfresco.constants.API_DOWNLOADS + this._currentArchiveNodeId,
+               url: Alfresco.constants.PROXY_URI + "api/internal/downloads/" + this._currentArchiveNodeURL + "/status",
                responseContentType: "application/json",
                successCallback:
                   {
@@ -294,10 +293,10 @@
       archiveInitReqSuccess: function ArchiveAndDownload_archiveInitReqSuccess(response)
       {
          // Check the response object...
-         if (response.json && response.json.entry && response.json.entry.id)
+         if (response.json && response.json.nodeRef)
          {
-            var id = response.json.entry.id;
-            this._currentArchiveNodeId = id;
+            var nodeRef = Alfresco.util.NodeRef(response.json.nodeRef);
+            this._currentArchiveNodeURL = nodeRef.storeType + "/" + nodeRef.storeId + "/" + nodeRef.id;
             this.getArchivingProgress();
          }
       },
@@ -326,28 +325,16 @@
        * 
        * @method requestArchive
        * @param nodes The list of nodes to archived. This should be in the form:
-       * [ nodeRef.id, ... ]
+       * [ { nodeRef: <nodeRef}, ... ]
        */
       requestArchive: function ArchiveAndDownload_requestArchive(nodes)
       {
-         var nodeIds = [];
-
-         for (i = 0; i < nodes.length; i++)
-         {
-            var nodeRef = new Alfresco.util.NodeRef(nodes[i].nodeRef);
-            var id = nodeRef.id;
-            nodeIds[i] = id;
-         }
-
          // Post the details of the nodeRefs to archive...
          Alfresco.util.Ajax.jsonPost(
          {
-            url: Alfresco.constants.API_DOWNLOADS,
+            url: Alfresco.constants.PROXY_URI + "api/internal/downloads",
             responseContentType : "application/json",
-            dataObj:
-               {
-                  nodeIds: nodeIds
-               },
+            dataObj: nodes,
             successCallback:
             {
                fn: this.archiveInitReqSuccess,
@@ -380,7 +367,7 @@
          var form = document.createElement("form");
          form.method = "GET";
 
-         form.action = Alfresco.constants.API_NODES + this._currentArchiveNodeId + "/content?attachment=true";
+         form.action = Alfresco.constants.PROXY_URI + "api/node/content/" + this._currentArchiveNodeURL + "/" + Alfresco.util.encodeURIPath(this._currentArchiveName);
 
          document.body.appendChild(form);
 
