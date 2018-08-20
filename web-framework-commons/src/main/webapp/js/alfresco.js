@@ -70,14 +70,6 @@ Alfresco.constants.CSRF_POLICY = Alfresco.constants.CSRF_POLICY || {enabled: fal
  */
 Alfresco.constants.IFRAME_POLICY = Alfresco.constants.IFRAME_POLICY || {sameDomain: "allow", crossDomainUrls: ["*"]};
 
-Alfresco.constants.API_V1_BASE_URL = "/alfresco-api/-default-/public/alfresco/versions/1/";
-
-Alfresco.constants.PROXY_V1_URI = "/share/proxy" + Alfresco.constants.API_V1_BASE_URL;
-
-Alfresco.constants.API_NODES = Alfresco.constants.PROXY_V1_URI + "nodes/";
-
-Alfresco.constants.API_DOWNLOADS = Alfresco.constants.PROXY_V1_URI + "downloads/";
-
 /**
  * Alfresco top-level template namespace.
  *
