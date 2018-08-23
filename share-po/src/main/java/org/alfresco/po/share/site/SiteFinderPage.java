@@ -31,6 +31,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.RenderTime;
@@ -160,6 +161,15 @@ public class SiteFinderPage extends SharePage
         input.clear();
         input.sendKeys(title);
         WebElement searchSiteButton = driver.findElement(SEARCH_SUBMIT);
+        try
+        {
+            Thread.sleep(8000);
+        }
+        catch (Exception e)
+        {
+
+        }
+
         searchSiteButton.click();
         searchActioned();
 
