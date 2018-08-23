@@ -162,18 +162,11 @@ div.alf-error-detail p
    </div>
    <div>
 <%
-out.println("<!--");
-StringWriter sw = new StringWriter();
-PrintWriter pw = new PrintWriter(sw);
+
 if (exception != null)
-{
-	exception.printStackTrace(pw);
-	out.print(StringUtils.encode(sw.toString()));
-	sw.close();
-	pw.close();
-	out.println("-->");
-	LogFactory.getLog("org.alfresco.web.site").error(exception, exception.getCause());
-}
+    {
+        LogFactory.getLog("org.alfresco.web.site").error(exception, exception.getCause());
+    }
 %>
    </div>
 </body>
