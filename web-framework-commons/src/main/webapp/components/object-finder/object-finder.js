@@ -950,7 +950,7 @@
                      item = items[key];
 
                      // Special case for tags, which we want to render differently to categories
-                     if (item.type == "cm:category" && item.displayPath.indexOf("/categories/Tags") !== -1)
+                     if (item.type == "cm:category" && item.qnamePath.indexOf("/cm:categoryRoot/cm:taggable") !== -1)
                      {
                         item.type = "tag";
                      }
@@ -1663,7 +1663,7 @@
                   if (items.hasOwnProperty(index))
                   {
                      item = items[index];
-                     if (item.type == "cm:category" && item.displayPath.indexOf("/categories/Tags") !== -1)
+                     if (item.type == "cm:category" && item.qnamePath.indexOf("/cm:categoryRoot/cm:taggable") !== -1)
                      {
                         item.type = "tag";
                      }
@@ -2703,7 +2703,7 @@
                         };
 
                         // Special case for tags, which we want to render differently to categories
-                        if (item.type == "cm:category" && response.displayPath.indexOf("/categories/Tags") !== -1)
+                        if (item.type == "cm:category" && response.qnamePath.indexOf("/cm:categoryRoot/cm:taggable") !== -1)
                         {
                            item.type = "tag";
                         }
@@ -2835,7 +2835,7 @@
                   if (items.hasOwnProperty(index))
                   {
                      item = items[index];
-                     if (item.type == "cm:category" && item.displayPath.indexOf("/categories/Tags") !== -1)
+                     if (item.type == "cm:category" && item.qnamePath.indexOf("/cm:categoryRoot/cm:taggable") !== -1)
                      {
                         item.type = "tag";
                         // Also set the parent type to display the drop-down correctly. This may need revising for future type support.
