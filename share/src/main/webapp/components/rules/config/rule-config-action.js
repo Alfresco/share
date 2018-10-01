@@ -454,7 +454,7 @@
                               id: "all",
                               listItems:
                               {
-                                 url: "{url.proxy}api/properties?type=d:text&type=d:mltext&type=d:int&type=d:long&type=d:float&type=d:double&type=d:date&type=d:boolean&type=d:qname",
+                                 url: "{url.proxy}api/properties?type=d:text&type=d:mltext&type=d:int&type=d:long&type=d:float&type=d:double&type=d:date&type=d:datetime&type=d:boolean&type=d:qname",
                                  dataModifier: function (listItemObjs, descriptorObj)
                                  {
                                     return this._addTransientProperties(listItemObjs);
@@ -475,7 +475,7 @@
                                  label: "{node.title}",
                                  listItems:
                                  {
-                                    url: "{url.proxy}api/classes/{node.name}/properties?type=d:text&type=d:mltext&type=d:int&type=d:long&type=d:float&type=d:double&type=d:date&type=d:boolean&type=d:qname",
+                                    url: "{url.proxy}api/classes/{node.name}/properties?type=d:text&type=d:mltext&type=d:int&type=d:long&type=d:float&type=d:double&type=d:date&type=d:datetime&type=d:boolean&type=d:qname",
                                     dataModifier: function (listItemObjs, descriptorObj)
                                     {
                                        return this._addTransientProperties(listItemObjs);
@@ -497,7 +497,7 @@
                                  label: "{node.title}",
                                  listItems:
                                  {
-                                    url: "{url.proxy}api/classes/{node.name}/properties?type=d:text&type=d:mltext&type=d:int&type=d:long&type=d:float&type=d:double&type=d:date&type=d:boolean&type=d:qname",
+                                    url: "{url.proxy}api/classes/{node.name}/properties?type=d:text&type=d:mltext&type=d:int&type=d:long&type=d:float&type=d:double&type=d:date&type=d:datetime&type=d:boolean&type=d:qname",
                                     dataModifier: function (listItemObjs, descriptorObj)
                                     {
                                        return this._addTransientProperties(listItemObjs);
