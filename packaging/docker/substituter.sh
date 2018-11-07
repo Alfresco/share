@@ -32,7 +32,3 @@ fi
 
 bash -c "$@"
 
-fi
-
-
-bash -c "$@"
