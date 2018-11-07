@@ -17,7 +17,7 @@
         <!-- Versions of binaries packaged in the installer -->
         <installer.common.version>5.1-20151118</installer.common.version>
         <installer.tomcat.version>7.0.78-alfresco-distribution</installer.tomcat.version>
-        <installer.java.version>1.8.0_131</installer.java.version>
+        <installer.java.version>11.0.1+13</installer.java.version>
         <installer.manager.version>1.0</installer.manager.version>
 
         <!-- Install builder version -->

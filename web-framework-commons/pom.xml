@@ -56,7 +56,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>6.11</version>
+            <version>${dependency.alfresco-repository.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>6.11</version>
+            <version>${dependency.alfresco-repository.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
