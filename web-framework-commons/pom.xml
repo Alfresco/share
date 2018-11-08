@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>6.6</version>
+            <version>7.11</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>6.6</version>
+            <version>7.11</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>

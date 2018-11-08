@@ -51,9 +51,9 @@
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.1</dependency.httpcomponents.version>
-        <dependency.alfresco-repository.version>7.27</dependency.alfresco-repository.version>
-        <dependency.alfresco-jlan.version>6.2</dependency.alfresco-jlan.version>
-        <dependency.alfresco-core.version>6.15</dependency.alfresco-core.version>
+        <dependency.alfresco-repository.version>7.28</dependency.alfresco-repository.version>
+        <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
+        <dependency.alfresco-core.version>7.5</dependency.alfresco-core.version>
         <dependency.webscripts.version>6.20</dependency.webscripts.version>
         <dependency.surf.version>6.11</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
@@ -184,7 +184,7 @@
             <plugin>
                 <groupId>org.alfresco.maven.plugin</groupId>
                 <artifactId>alfresco-maven-plugin</artifactId>
-                <version>2.0.0</version>
+                <version>${dependency.alfresco-sdk.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -199,7 +199,7 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>11</version>
+                                    <version>[1.8.0,)</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
@@ -382,12 +382,6 @@
                             <groupId>org.alfresco.maven.plugin</groupId>
                             <artifactId>alfresco-maven-plugin</artifactId>
                             <version>${dependency.alfresco-sdk.version}</version>
-                        </dependency>
-
-                        <dependency>
-                            <groupId>org.apache.bcel</groupId>
-                            <artifactId>bcel</artifactId>
-                            <version>6.2.99</version>
                         </dependency>
                     </dependencies>
                 </plugin>
