@@ -383,6 +383,12 @@
                             <artifactId>alfresco-maven-plugin</artifactId>
                             <version>${dependency.alfresco-sdk.version}</version>
                         </dependency>
+
+                        <dependency>
+                            <groupId>org.apache.bcel</groupId>
+                            <artifactId>bcel</artifactId>
+                            <version>6.2.99</version>
+                        </dependency>
                     </dependencies>
                 </plugin>
                 <plugin>
