@@ -156,6 +156,11 @@
                <version>${dependency.surf.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.alfresco.maven.plugin</groupId>
+                <artifactId>alfresco-maven-plugin</artifactId>
+                <version>${dependency.alfresco-sdk.version}</version>
+            </dependency>
+            <dependency>
                <groupId>org.apache.httpcomponents</groupId>
                <artifactId>httpclient</artifactId>
                <version>${dependency.httpcomponents.version}</version>
