@@ -56,7 +56,7 @@
         <dependency.alfresco-core.version>6.15</dependency.alfresco-core.version>
         <dependency.webscripts.version>6.20</dependency.webscripts.version>
         <dependency.surf.version>6.11</dependency.surf.version>
-        <dependency.alfresco-sdk.version>3.0.1</dependency.alfresco-sdk.version>
+        <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
@@ -156,11 +156,6 @@
                <version>${dependency.surf.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.alfresco.maven.plugin</groupId>
-                <artifactId>alfresco-maven-plugin</artifactId>
-                <version>${dependency.alfresco-sdk.version}</version>
-            </dependency>
-            <dependency>
                <groupId>org.apache.httpcomponents</groupId>
                <artifactId>httpclient</artifactId>
                <version>${dependency.httpcomponents.version}</version>
@@ -186,6 +181,11 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.alfresco.maven.plugin</groupId>
+                <artifactId>alfresco-maven-plugin</artifactId>
+                <version>2.0.0</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
