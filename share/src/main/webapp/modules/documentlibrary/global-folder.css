@@ -58,6 +58,7 @@
 .global-folder .mode span.yui-button
 {
    margin: 0.5em 0.5em 0px;
+   white-space: nowrap;
 }
 
 .global-folder .mode span.default
