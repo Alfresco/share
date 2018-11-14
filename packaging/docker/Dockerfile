@@ -14,6 +14,8 @@ COPY target/classes/web-extension-samples/smartfolders-amp-actions-config.xml /u
 # not sure if this is needed for share:
 RUN sed -i "s/shared.loader=/shared.loader=\${catalina.base}\/shared\/classes/" /usr/local/tomcat/conf/catalina.properties
 
+RUN sed -i "597,600d" /usr/local/tomcat/conf/web.xml
+
 COPY substituter.sh /usr/local/tomcat/shared/classes/alfresco
 RUN chmod +x /usr/local/tomcat/shared/classes/alfresco/substituter.sh
 
