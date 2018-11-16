@@ -6,7 +6,7 @@
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>5.2.3</version>
+        <version>5.2.3.5</version>
     </parent>
 
     <properties>
