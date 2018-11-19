@@ -88,6 +88,14 @@
           */
          containerId: null,
 
+          /**
+           * JSON representation of document details
+           *
+           * @property documentDetails
+           * @type object
+           */
+          documentDetails: null,
+
          /**
           * Tells if the user may upload a new version or revert the document.
           *
@@ -96,6 +104,14 @@
           */
          allowNewVersionUpload: false
       },
+
+       /**
+        * The data for the document
+        *
+        * @property recordData
+        * @type object
+        */
+       recordData: null,
 
       /**
        * The latest version of the document
@@ -330,6 +346,9 @@
        */
       onUploadNewVersionClick: function DocumentVersions_onUploadNewVersionClick()
       {
+         this.recordData = this.options.documentDetails.item;
+         this.recordData.jsNode = new Alfresco.util.Node(this.recordData.node);
+
          if (!this.modules.fileUpload)
          {
             this.modules.fileUpload = Alfresco.getFileUploadInstance();
@@ -364,7 +383,9 @@
             {
                fn: this.onNewVersionUploadComplete,
                scope: this
-            }
+            },
+             newVersion: true,
+             jsNode: this.recordData.jsNode
          });
       },
 
@@ -376,38 +397,22 @@
        */
       onNewVersionUploadComplete: function DocumentVersions_onNewVersionUploadComplete(complete)
       {
-         if (complete.failed.length == 0 && complete.successful.length > 0)
-         {
-            // No activities in Repository mode
-            if (this.options.siteId != null && this.options.siteId.length != 0)
-            {
-               try
-               {
-                  Alfresco.util.Ajax.jsonPost(
-                  {
-                     url: Alfresco.constants.PROXY_URI + "slingshot/doclib/activity",
-                     dataObj:
-                     {
-                        fileName: complete.successful[0].fileName,
-                        nodeRef: complete.successful[0].nodeRef,
-                        site: this.options.siteId,
-                        type: "file-updated",
-                        page: "document-details"
-                     }
-                  });
-               }
-               catch (e)
-               {
-                  // Ignore, not important enough to bother user about
-               }
-            }
 
-            // ALF-13561 fix, refresh page using correct nodeRef
-            YAHOO.lang.later(0, this, function()
-            {
-               window.location = window.location.href.split("?")[0] + "?nodeRef=" + complete.successful[0].nodeRef;
-            });
-         }
+          if (complete.failed.length == 0 && complete.successful.length > 0)
+          {
+              Alfresco.Share.postActivity(this.options.siteId, "org.alfresco.documentlibrary.file-updated", complete.successful[0].fileName, "document-details?nodeRef="+complete.successful[0].nodeRef,
+                  {
+                      fileName: complete.successful[0].fileName,
+                      nodeRef: complete.successful[0].nodeRef
+
+                  });
+
+              // ALF-13561 fix, refresh page using correct nodeRef
+              YAHOO.lang.later(0, this, function()
+              {
+                  window.location = window.location.href.split("?")[0] + "?nodeRef=" + complete.successful[0].nodeRef;
+              });
+          }
       },
 
       /**
