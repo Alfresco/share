@@ -15,6 +15,7 @@ function main()
       model.allowNewVersionUpload = (!documentDetails.item.node.isLocked && documentDetails.item.node.permissions.user["Write"]) || false;
       model.isWorkingCopy = (documentDetails.item && documentDetails.item.workingCopy && documentDetails.item.workingCopy.isWorkingCopy) ? true : false;
       model.exist = true;
+      model.documentDetails = true;
    }
    
    // Widget instantiation metadata...
@@ -25,6 +26,7 @@ function main()
          nodeRef : model.nodeRef,
          siteId : model.site,
          containerId : model.container,
+          documentDetails : documentDetails,
          workingCopyVersion : model.workingCopyVersion,
          allowNewVersionUpload : model.allowNewVersionUpload
       }
