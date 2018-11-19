@@ -105,14 +105,6 @@
          allowNewVersionUpload: false
       },
 
-       /**
-        * The data for the document
-        *
-        * @property recordData
-        * @type object
-        */
-       recordData: null,
-
       /**
        * The latest version of the document
        *
@@ -346,8 +338,7 @@
        */
       onUploadNewVersionClick: function DocumentVersions_onUploadNewVersionClick()
       {
-         this.recordData = this.options.documentDetails.item;
-         this.recordData.jsNode = new Alfresco.util.Node(this.recordData.node);
+         var jsNode = new Alfresco.util.Node(this.options.documentDetails.item.node);
 
          if (!this.modules.fileUpload)
          {
@@ -385,7 +376,7 @@
                scope: this
             },
              newVersion: true,
-             jsNode: this.recordData.jsNode
+             jsNode: jsNode
          });
       },
 
