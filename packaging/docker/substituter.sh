@@ -29,10 +29,4 @@ else
    sed -i -e "s|<origin><\/origin>|<origin><\/origin>|" /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
 fi
 
-
-bash -c "$@"
-
-fi
-
-
 bash -c "$@"
