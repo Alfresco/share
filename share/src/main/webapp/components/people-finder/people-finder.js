@@ -289,7 +289,17 @@
                      me.followingAllowed = true;
                   },
                   scope: this
-               }
+               },
+                failureCallback:
+                    {
+                        fn: function(response)
+                        {
+                           /* MNT-18453 - do nothing but report it */
+                            var retStatusCode = response.serverResponse.status;
+                            Alfresco.logger.warn("people-finder: Unable to get a suitable response for users the current user is following, returned status was: " + retStatusCode);
+                        },
+                        scope: this
+                    }
             });
          }
          else
