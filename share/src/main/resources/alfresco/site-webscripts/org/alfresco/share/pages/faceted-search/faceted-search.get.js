@@ -1,5 +1,6 @@
 <import resource="classpath:/alfresco/site-webscripts/org/alfresco/share/imports/share-header.lib.js">
 <import resource="classpath:/alfresco/site-webscripts/org/alfresco/share/imports/share-footer.lib.js">
+<import resource="classpath:/alfresco/site-webscripts/org/alfresco/config.lib.js">
 
 /* *********************************************************************************
  *                                                                                 *
@@ -1032,6 +1033,8 @@ var scopeSelection = {
 
 main.config.widgets.splice(2, 0, scopeSelection);
 
+var docLibAspects = getDocumentLibraryAspects();
+
 // Append services with those required for search
 services.push({
                  name: "alfresco/services/SearchService",
@@ -1056,7 +1059,15 @@ services.push({
               "alfresco/services/CrudService",
               "alfresco/services/ContentService",
               "alfresco/services/TagService",
-              "alfresco/services/LightboxService");
+              "alfresco/services/LightboxService",
+              {
+                 name: "alfresco/services/actions/ManageAspectsService",
+                 config: {
+                       availableAspects: docLibAspects.visible,
+                       addableAspects: docLibAspects.addable,
+                       removableAspects: docLibAspects.removeable
+                    }
+              });
 
 // Add in the search form and search doc lib...
 widgets.unshift(accessMenu);
