@@ -136,7 +136,7 @@
                            lazyloadmenu: false
                         });
                         parent.widgets.storeMenuButton.set("value", parent.store);
-                        if(stores.includes(parent.store))
+                        if(stores.indexOf(parent.store) >= 0)
                         {
                            parent.widgets.storeMenuButton.set("label", parent.store);
                         }
@@ -269,7 +269,7 @@
                     {
                        fn: function(p_obj) {
                            var stores = p_obj.json.stores;
-                           if(stores.includes(parent.store))
+                           if(stores.indexOf(parent.store) >= 0)
                            {
                               parent.widgets.storeMenuButton.set("label", parent.store);
                            }
