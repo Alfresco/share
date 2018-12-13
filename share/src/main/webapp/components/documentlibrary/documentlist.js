@@ -193,20 +193,6 @@
                    this._performMove(nodeRef, targetNode.location.path + "/" + targetNode.location.file);
                 }
              }
-             else if (Dom.hasClass(dropTarget, "documentDroppable") && Dom.hasClass(dropTarget, "crumb"))
-             {
-
-                // MNT-19306 - separate fire for breadcrumbs at the top (no width restrictions)
-                var payload =
-                    {
-                       elementId: id,
-                       callback: this.onDropTargetOwnerCallBack,
-                       scope: this
-                    }
-                this._inFlight = true;
-                YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);
-                this._setFailureTimeout();
-             }
              else if (Dom.hasClass(dropTarget, "documentDroppable"))
              {
                // The "documentDroppable" class is not defined in any CSS files but is simply used as
@@ -217,22 +203,24 @@
                // allowing drops to occur
                var fpanel = Dom.get("alf-filters"),
                offset = (fpanel ? parseInt(fpanel.style.width, 10) : 160);
-               
-               if (e.clientX > offset)
-               {
-                  // If the current x co-ordinate of the mouse pointer is greater than the width
-                  // of the tree element then we shouldn't move folder/documents.
-               }
-               else
-               {
-                  var payload =
-                  {
-                     elementId: id,
-                     callback: this.onDropTargetOwnerCallBack,
-                     scope: this
-                  }
-                  YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);           
-               }
+
+                // MNT-19306
+                // If the current x co-ordinate of the mouse pointer is NOT greater than the width
+                // of the tree element, or this is a breadcrumb, then we SHOULD move folder/documents.
+                if (e.clientX <= offset || Dom.hasClass(dropTarget, "crumb"))
+                {
+                   var payload =
+                       {
+                          elementId: id,
+                          callback: this.onDropTargetOwnerCallBack,
+                          scope: this
+                       }
+                   YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);
+                }
+                else {
+                   // the current x co-ordinate of the mouse pointer is greater than the width in alf_filters
+                   // of the tree element do DO NOT move folder/documents.
+                }
                this._inFlight = true;
                this._setFailureTimeout();
             }
