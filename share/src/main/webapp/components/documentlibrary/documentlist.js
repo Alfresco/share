@@ -193,6 +193,20 @@
                    this._performMove(nodeRef, targetNode.location.path + "/" + targetNode.location.file);
                 }
              }
+             else if (Dom.hasClass(dropTarget, "documentDroppable") && Dom.hasClass(dropTarget, "crumb"))
+             {
+
+                // MNT-19306 - separate fire for breadcrumbs at the top (no width restrictions)
+                var payload =
+                    {
+                       elementId: id,
+                       callback: this.onDropTargetOwnerCallBack,
+                       scope: this
+                    }
+                this._inFlight = true;
+                YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);
+                this._setFailureTimeout();
+             }
              else if (Dom.hasClass(dropTarget, "documentDroppable"))
              {
                // The "documentDroppable" class is not defined in any CSS files but is simply used as
