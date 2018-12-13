@@ -201,24 +201,24 @@
                 // target request being fired (it's possible that an element could be specified as a
                 // YUI drag and drop target for the purposes of controlling drag events without actually
                 // allowing drops to occur
-		var fpanel = Dom.get("alf-filters"),
-		offset = (fpanel ? parseInt(fpanel.style.width, 10) : 160);
-				
-		if(e.clientX > offset)
-                {
-		    // If the current x co-ordinate of the mouse pointer is greater than the width
-		    //of the tree element then we shouldn't move folder/documents.
-		}
-                else
-		{
-                    var payload =
-                    {
-                        elementId: id,
-                        callback: this.onDropTargetOwnerCallBack,
-                        scope: this
-                    }
-		    YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);           
-		}
+		        var fpanel = Dom.get("alf-filters"),
+		        offset = (fpanel ? parseInt(fpanel.style.width, 10) : 160);
+
+                 // MNT-19306
+                 // If the current x co-ordinate of the mouse pointer is NOT greater than the width
+                 // of the tree element, or this is a breadcrumb, then we SHOULD move folder/documents.
+                 // otherwise do NOT move folder/documents.
+                 if (e.clientX <= offset || Dom.hasClass(dropTarget, "crumb"))
+                 {
+                     var payload =
+                         {
+                             elementId: id,
+                             callback: this.onDropTargetOwnerCallBack,
+                             scope: this
+                         }
+                     YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);
+                 }
+
                 this._inFlight = true;
                 this._setFailureTimeout();
              }
