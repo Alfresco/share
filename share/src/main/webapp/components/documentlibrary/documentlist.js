@@ -207,6 +207,7 @@
                 // MNT-19306
                 // If the current x co-ordinate of the mouse pointer is NOT greater than the width
                 // of the tree element, or this is a breadcrumb, then we SHOULD move folder/documents.
+                // otherwise do NOT move folder/documents.
                 if (e.clientX <= offset || Dom.hasClass(dropTarget, "crumb"))
                 {
                    var payload =
@@ -217,10 +218,7 @@
                        }
                    YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);
                 }
-                else {
-                   // the current x co-ordinate of the mouse pointer is greater than the width in alf_filters
-                   // of the tree element do DO NOT move folder/documents.
-                }
+
                this._inFlight = true;
                this._setFailureTimeout();
             }
