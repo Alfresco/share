@@ -204,21 +204,21 @@
                var fpanel = Dom.get("alf-filters"),
                offset = (fpanel ? parseInt(fpanel.style.width, 10) : 160);
 
-                // MNT-19306
-                // If the current x co-ordinate of the mouse pointer is NOT greater than the width
-                // of the tree element, or this is a breadcrumb, then we SHOULD move folder/documents.
-                // otherwise do NOT move folder/documents.
-                if (e.clientX <= offset || Dom.hasClass(dropTarget, "crumb"))
-                {
-                   var payload =
-                       {
-                          elementId: id,
-                          callback: this.onDropTargetOwnerCallBack,
-                          scope: this
-                       }
-                   YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);
-                }
-
+               if (e.clientX > offset)
+               {
+                  // If the current x co-ordinate of the mouse pointer is greater than the width
+                  // of the tree element then we shouldn't move folder/documents.
+               }
+               else
+               {
+                  var payload =
+                  {
+                     elementId: id,
+                     callback: this.onDropTargetOwnerCallBack,
+                     scope: this
+                  }
+                  YAHOO.Bubbling.fire("dropTargetOwnerRequest", payload);
+               }
                this._inFlight = true;
                this._setFailureTimeout();
             }
