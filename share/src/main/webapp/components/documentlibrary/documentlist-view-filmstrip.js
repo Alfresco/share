@@ -748,7 +748,7 @@
                // Render the web-preview for the filmstrip item
                Alfresco.util.loadWebscript(
                {
-                  url: Alfresco.constants.URL_SERVICECONTEXT + "/components/preview/web-preview",
+                  url: Alfresco.constants.URL_SERVICECONTEXT + "components/preview/web-preview",
                   properties: { nodeRef: nodeRefToUse },
                   target: galleryItemThumbnailDiv
                });
