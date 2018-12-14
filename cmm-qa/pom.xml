@@ -3,7 +3,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>6.0.1-SNAPSHOT</version>
+        <version>6.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>alfresco-cmm-qa</artifactId>
@@ -14,7 +14,7 @@
         <selenium.version>2.39.1</selenium.version>
         <spring.version>5.0.4.RELEASE</spring.version>
         <alfresco.api.utils.version>1.2</alfresco.api.utils.version>
-		<remote.api.version>${alfresco.platform.version}</remote.api.version>
+		<remote.api.version>${dependency.alfresco-remote-api.version}</remote.api.version>
         <enterprise.installer.path>/data/bamboo/artifacts/${enterprise.build.plan}/ALL/alfresco-*-linux-x64.???</enterprise.installer.path>
         <testng.sanity.xml>src/test/resources/cmm-sanity-testng.xml</testng.sanity.xml>
         <testng.xml>src/test/resources/cmm-complete-e2e-testng.xml</testng.xml>
