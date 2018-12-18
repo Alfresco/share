@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-super-pom</artifactId>
-        <version>7</version>
+        <version>10</version>
     </parent>
     <artifactId>alfresco-share-parent</artifactId>
     <version>5.2.5-SNAPSHOT</version>
