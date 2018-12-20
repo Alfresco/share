@@ -1284,9 +1284,12 @@ div.theme-bg-color-8
    );
 }
 
-.theme-bg-selected
+.theme-bg-selected,
+.theme-bg-selected a,
+.theme-bg-selected a:hover
 {
    background-color: #000;
+   color: white;
 }
 
 /* Theme border type/colors */
