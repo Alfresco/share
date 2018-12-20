@@ -115,6 +115,8 @@ public class FacetedSearchHighlightedTermTest2 extends AbstractTest
     public void testHighlightedDisjunction() throws Exception
     {
         Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile1 OR myfile2", fileName1, true, 3));
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile1 OR myfile2", fileName2, true, 3));
+
 
         Assert.assertTrue(siteActions.checkSearchResultHighlighting(driver, fileName1, ItemHighlighted.NAME, "myfile1", true),
                 "Highlighting results do not match");

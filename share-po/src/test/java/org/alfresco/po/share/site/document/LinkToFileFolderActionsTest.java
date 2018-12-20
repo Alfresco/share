@@ -227,6 +227,20 @@ public class LinkToFileFolderActionsTest extends AbstractTest
         FileDirectoryInfo linkRow = docLib.getFileDirectoryInfo(file2LinkName);
         docLib = linkRow.deleteLink().render();
 
+         while (docLib.isFileVisible(file2LinkName))
+         {
+             linkRow.deleteLink().render();
+             logger.info("trying to delete link");
+             try
+             {
+                 wait(5000);
+             }
+             catch (InterruptedException e)
+             {
+                 e.printStackTrace();
+             }
+         }
+
         Assert.assertFalse(docLib.isFileVisible(file2LinkName));
 
         dashBoard = docLib.getNav().selectMyDashBoard().render();
