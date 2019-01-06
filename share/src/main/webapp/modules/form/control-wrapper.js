@@ -91,6 +91,14 @@
          label: "",
 
          /**
+          * Mandatory value of the control
+          *
+          * @property mandatory
+          * @type boolean
+          */
+         mandatory: false,
+
+         /**
           * Value of the control
           *
           * @property value
@@ -146,6 +154,7 @@
                type: this.options.type,
                name: name,
                label: this.options.label,
+               mandatory: this.options.mandatory,
                value: this.options.value || "",
                controlParams: YAHOO.lang.JSON.stringify(this.options.controlParams),
                field: YAHOO.lang.JSON.stringify(this.options.field)
