@@ -15,15 +15,6 @@
       </login>
    </config>
 
-   <config evaluator="string-compare" condition="Users" replace="true">
-      <users>
-         <!-- minimum length for username and password -->
-         <username-min-length>2</username-min-length>
-         <password-min-length>3</password-min-length>
-         <show-authorization-status>true</show-authorization-status>
-      </users>
-   </config>
-
    <!-- ************************************** -->
    <!-- Hybrid Workflow Definition Form Configuration -->
    <!-- ************************************** -->
