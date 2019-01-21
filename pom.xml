@@ -149,6 +149,13 @@
                <groupId>org.alfresco.surf</groupId>
                <artifactId>spring-surf</artifactId>
                <version>${dependency.surf.version}</version>
+               <exclusions>
+               <!-- surf pulls in a an un-patched version, MNT-20234 -->
+                    <exclusion>
+                        <groupId>com.asual.lesscss</groupId>
+                        <artifactId>lesscss-engine</artifactId>
+                    </exclusion>
+               </exclusions>
             </dependency>
             <dependency>
                <groupId>org.alfresco.surf</groupId>
