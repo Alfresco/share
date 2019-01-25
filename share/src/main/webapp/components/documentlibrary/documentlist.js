@@ -2527,7 +2527,8 @@
             { key: "status", label: "Status", sortable: false, formatter: this.fnRenderCellStatus(), width: 16 },
             { key: "thumbnail", label: "Preview", sortable: false, formatter: this.fnRenderCellThumbnail(), width: 100 },
             { key: "fileName", label: "Description", sortable: false, formatter: this.fnRenderCellDescription(), width: (Dom.getViewportWidth() - offset) },
-            { key: "actions", label: "Actions", sortable: false, formatter: this.fnRenderCellActions(), width: 200 }
+            //MNT-20314 - localised 'Actions' column heading
+            { key: "actions", label: this.msg("hybridsync.actions-header-label"), sortable: false, formatter: this.fnRenderCellActions(), width: 200 }
          ];
 
          // DataTable definition
