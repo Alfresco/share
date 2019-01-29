@@ -2527,7 +2527,11 @@
             { key: "status", label: "Status", sortable: false, formatter: this.fnRenderCellStatus(), width: 16 },
             { key: "thumbnail", label: "Preview", sortable: false, formatter: this.fnRenderCellThumbnail(), width: 100 },
             { key: "fileName", label: "Description", sortable: false, formatter: this.fnRenderCellDescription(), width: (Dom.getViewportWidth() - offset) },
-            { key: "actions", label: "Actions", sortable: false, formatter: this.fnRenderCellActions(), width: 200 }
+             // MNT-20314 - localised 'Actions' column heading
+             // Most of the columns in the data view are properties and the i18n strings are configured for each via share-documentlibrary-config.xml
+             // however there doesn't appear to be any way for labels to be injected to the action column rendering of the table. Having this untranslated
+             // may have simply been an oversight so we're creating a new translated string for this 'label.actions.column.header'
+            { key: "actions", label: this.msg("label.actions.column.header"), sortable: false, formatter: this.fnRenderCellActions(), width: 200 }
          ];
 
          // DataTable definition
