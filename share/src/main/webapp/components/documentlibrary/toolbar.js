@@ -328,7 +328,7 @@
 
                   // Create placeholder menu
                   var div = document.createElement("div");
-                  div.innerHTML = '<div class="bd"><ul></ul></div>';
+                  div.innerHTML = '<div class="bd toolbar-template-list"><ul></ul></div>';
 
                   // 
                   var li2 = document.createElement("li");
@@ -343,7 +343,7 @@
 
                   // Create placeholder menu
                   var div2 = document.createElement("div");
-                  div2.innerHTML = '<div class="bd"><ul></ul></div>';
+                  div2.innerHTML = '<div class="bd toolbar-template-list"><ul></ul></div>';
                   
                   // Add menu item
                   var createContentByTemplate = new YAHOO.widget.MenuItem(li, {

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-super-pom</artifactId>
-        <version>7</version>
+        <version>10</version>
     </parent>
     <artifactId>alfresco-share-parent</artifactId>
     <version>5.2.5-SNAPSHOT</version>
@@ -31,18 +31,23 @@
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>5.2.5-SNAPSHOT</alfresco.platform.version>
 
+        <!-- Java 8 compatibility -->
+        <maven.compile.source>1.8</maven.compile.source>
+        <maven.compile.target>1.8</maven.compile.target>
+
         <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
+
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
-        <dependency.spring.version>3.2.14.RELEASE</dependency.spring.version>
+        <dependency.spring.version>3.2.17.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
-        <dependency.aikau.version>1.0.101.17</dependency.aikau.version>
+        <dependency.aikau.version>1.0.101.16</dependency.aikau.version>
         <dependency.freemarker.version>2.3.20-alfresco-patched</dependency.freemarker.version>
         <dependency.rhino.version>1.7R4-alfresco-patched</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.1</dependency.httpcomponents.version>
         <dependency.alfresco-jlan.version>6.2</dependency.alfresco-jlan.version>                
-        <dependency.alfresco-core.version>6.13</dependency.alfresco-core.version>
+        <dependency.alfresco-core.version>6.20</dependency.alfresco-core.version>
         <dependency.webscripts.version>6.20</dependency.webscripts.version>
         <dependency.surf.version>6.11</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
@@ -167,6 +172,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M2</version>
                 <executions>
                     <execution>
                         <id>enforcer</id>
@@ -176,7 +182,7 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>1.7.0</version>
+                                    <version>[1.8.0,)</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
