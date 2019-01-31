@@ -199,6 +199,10 @@
    
    <session-config>
       <session-timeout>60</session-timeout>
+      <!-- MNT-20208: secure the session (LM-190130) -->
+      <cookie-config>
+         <secure>true</secure>
+      </cookie-config>
    </session-config>
 
    <!-- welcome file list precedence order is index.jsp -->
