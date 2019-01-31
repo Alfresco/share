@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<link rel="stylesheet" href="lib/testsuite.css" type="text/css" media="screen" />
+		
+		<script type="text/javascript" src="lib/jquery-1.8.1.js"></script>
+		<script type="text/javascript" src="lib/testrunner.js"></script>
+		<script type="text/javascript" src="lib/json2.js"></script>
+		
+		<script type="text/javascript" src="lib/getLoginTicket.js"></script>
+		
+		<script type="text/javascript" src="modules/setup.js"></script>
+		<script type="text/javascript" src="modules/testVerboseInfoExposure.js"></script>
+		
+		<!-- Import your test modules -->
+		
+		<script>
+		  	$(document).ready(function() {
+				  // start your test modules
+				  testVerboseInfoExposure();
+		  	});
+		</script>
+	</head>
+	<body>
+	  
+		<h1>Test modules</h1>
+	 	<h2 id="banner"></h2>
+	 	<h2 id="userAgent"></h2>
+		
+	 	<ol id="tests"></ol>
+		
+	 	<div id="main"></div>
+	
+	</body>
+</html>

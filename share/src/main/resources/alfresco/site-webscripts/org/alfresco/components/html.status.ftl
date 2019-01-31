@@ -8,9 +8,46 @@
    </div>
    <div class="theme-color-4" style="padding-top:8px;">
       <div style="padding: 2px"><b>Error Code Information:</b> ${status.code} - ${status.codeDescription}</div>
-      <div style="padding: 2px"><b>Error Message:</b> <#if status.message??>${status.message?html}<#else><i>&lt;Not specified&gt;</i></#if></div>
-      <div style="padding: 2px"><b>Server:</b> Alfresco ${server.edition?html} v${server.version?html} schema ${server.schema?html}</div>
-      <div style="padding: 2px"><b>Time:</b> ${date?datetime}</div>
+      <#-- MNT-20195 (LM-190130): hide server and time info, and display error log number/error message. -->
+      <@messageOrId status />
       <div style="padding: 2px"><b>Your request could not be processed at this time. Please contact your system administrator for further information.</b></div>
    </div>
 </div>
+
+<#-- MNT-20195 (LM-190130): macro to show error message if available -->
+<#macro errorMessage status>
+   <div style="padding: 2px"><b>Error Message:</b> <#if status.message??>${status.message?html}<#else><i>&lt;Not specified&gt;</i></#if></div>
+</#macro>
+
+<#-- MNT-20195 (LM-190130): macro to determine if should display error log number only or full error message. -->
+<#macro messageOrId status>
+   <#if status.message?? && status.message?is_string>
+      <#assign id = status.message?substring(0, 8)>
+      <#assign isNumeric = false>
+      <#assign seq = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]>
+      
+      <#list id?split("", "r") as c>
+         <#list seq as x>
+            <#if c == x>
+               <#assign isNumeric = true>
+               <#break>
+            <#else>
+           	   <#assign isNumeric = false>
+            </#if>
+         </#list>
+         
+         <#if !isNumeric>
+         	<#break>
+         </#if>
+      </#list>
+      
+      <#if isNumeric>
+         <div style="padding: 2px"><b>Error Log Number: </b>${id}</div>
+      <#else>
+         <@errorMessage status />
+      </#if>
+      
+   <#else>
+      <@errorMessage status />
+   </#if>
+</#macro>
