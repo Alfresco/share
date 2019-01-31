@@ -229,7 +229,7 @@
        */
       getDocumentVersionMarkup: function DocumentVersions_getDocumentVersionMarkup(doc)
       {
-         var downloadURL = Alfresco.constants.PROXY_URI + 'api/node/content/' + doc.nodeRef.replace(":/", "") + '/' + doc.name + '?a=true',
+         var downloadURL = Alfresco.constants.PROXY_URI + 'api/node/content/' + doc.nodeRef.replace(":/", "") + '/' + encodeURIComponent(doc.name) + '?a=true',
             html = '';
 
          html += '<div class="version-panel-left">'
