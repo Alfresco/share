@@ -19,6 +19,10 @@
             <directory>target/dependency/alfresco/keystore</directory>
             <outputDirectory>alf_data/keystore</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>target/licenses</directory>
+            <outputDirectory>licenses</outputDirectory>
+        </fileSet>
     </fileSets>
 
     <dependencySets>
