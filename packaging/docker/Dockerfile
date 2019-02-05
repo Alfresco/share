@@ -12,7 +12,7 @@ COPY target/classes/web-extension-samples/share-config-custom.xml /usr/local/tom
 COPY target/classes/web-extension-samples/custom-slingshot-application-context.xml.sample /usr/local/tomcat/shared/classes/alfresco/web-extension
 COPY target/classes/web-extension-samples/smartfolders-amp-actions-config.xml /usr/local/tomcat/shared/classes/alfresco/web-extension
 
-COPY target/licenses/* /licenses
+COPY target/licenses/* /licenses/
 
 # not sure if this is needed for share:
 RUN sed -i "s/shared.loader=/shared.loader=\${catalina.base}\/shared\/classes/" /usr/local/tomcat/conf/catalina.properties
