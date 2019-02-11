@@ -378,8 +378,10 @@
              doBeforeDialogShow.fn.call(doBeforeDialogShow.scope || this, this.form, this, doBeforeDialogShow.obj);
          }
          
-         // Make sure ok button is in the correct state if dialog is reused  
+         // Make sure ok button is in the correct state if dialog is reused
+         this.widgets.okButton.set("disabled", false);
          this.widgets.cancelButton.set("disabled", false);
+
          this.form.validate();
 
          this.dialog.show();
@@ -574,6 +576,12 @@
 
          this.widgets.okButton = formUI.buttons.submit;
          this.widgets.okButton.set("label", this.msg("button.save"));
+         this.widgets.okButton.set("onclick",
+             {
+                fn: this.onSubmit,
+                scope: this
+             });
+
          this.widgets.cancelButton = formUI.buttons.cancel;
          this.widgets.cancelButton.set("onclick",
          {
@@ -598,6 +606,23 @@
          
          this.formsServiceDeferred.fulfil("onBeforeFormRuntimeInit");
       },
+
+      /**
+       * Submit button event handler MNT-19397
+       *
+       * @method onSubmit
+       * @param e {object} DomEvent
+       * @param p_obj {object} Object passed back from addListener method
+       */
+      onSubmit: function AmSD_onSubmit(e, p_obj)
+      {
+         this.widgets.okButton.set("disabled", true);
+         // defensive code re-enabling the OK button if OK if the field validation fails.
+         if (!this.form.validate()) {
+            this.widgets.okButton.set("disabled", false);
+         }
+      },
+
 
       /**
        * Cancel button event handler
@@ -662,6 +687,7 @@
       onFailure: function AmSD_onFailure(response)
       {
          // Make sure ok button is in the correct state if dialog is reused
+         this.widgets.okButton.set("disabled", false);
          this.widgets.cancelButton.set("disabled", false);
          this.form.validate();
 
