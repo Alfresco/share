@@ -574,6 +574,12 @@
 
          this.widgets.okButton = formUI.buttons.submit;
          this.widgets.okButton.set("label", this.msg("button.save"));
+         this.widgets.okButton.set("onclick",
+             {
+                fn: this.onSubmit,
+                scope: this
+             });
+
          this.widgets.cancelButton = formUI.buttons.cancel;
          this.widgets.cancelButton.set("onclick",
          {
@@ -598,6 +604,19 @@
          
          this.formsServiceDeferred.fulfil("onBeforeFormRuntimeInit");
       },
+
+      /**
+       * Submit button event handler MNT-19397
+       *
+       * @method onSubmit
+       * @param e {object} DomEvent
+       * @param p_obj {object} Object passed back from addListener method
+       */
+      onSubmit: function AmSD_onSubmit(e, p_obj)
+      {
+         this.widgets.okButton.set("disabled", true);
+      },
+
 
       /**
        * Cancel button event handler
