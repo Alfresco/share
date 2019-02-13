@@ -115,7 +115,8 @@ public class SlingshotRemoteClient extends RemoteClient
                     }
                     
                     // examine the mimetype to see if additional processing is required
-                    if (mimetype.contains("text/html") || mimetype.contains("application/xhtml+xml") || mimetype.contains("text/xml"))
+                    // MNT-18730 - specifically omit UTF-16 XML content
+                    if (mimetype.contains("text/html") || mimetype.contains("application/xhtml+xml") || (mimetype.contains("text/xml") && !encoding.contains("UTF-16")))
                     {
                         // found HTML content we need to process in-memory and perform stripping on
                         ByteArrayOutputStream bos = new ByteArrayOutputStream(bufferSize);
@@ -132,8 +133,7 @@ public class SlingshotRemoteClient extends RemoteClient
                                     // halt on binary file - we assume this is HTML - it might not be - effectively a DNS attack
                                     for (int i=0; i<read; i++)
                                     {
-                                        // MNT-18730 - specifically omit UTF-16 XML content so they can be processed as normal
-                                        if (buffer[i] == 0x00 && !(encoding.contains("UTF-16") && mimetype.contains("text/xml")))
+                                        if (buffer[i] == 0x00)
                                         {
                                             res.setContentLength(0);
                                             out.close();
