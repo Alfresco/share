@@ -132,7 +132,8 @@ public class SlingshotRemoteClient extends RemoteClient
                                     // halt on binary file - we assume this is HTML - it might not be - effectively a DNS attack
                                     for (int i=0; i<read; i++)
                                     {
-                                        if (buffer[i] == 0x00)
+                                        // MNT-18730 - specifically omit UTF-16 XML content so they can be processed as normal
+                                        if (buffer[i] == 0x00 && !(encoding.contains("UTF-16") && mimetype.contains("text/xml")))
                                         {
                                             res.setContentLength(0);
                                             out.close();
