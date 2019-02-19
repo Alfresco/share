@@ -1870,7 +1870,8 @@ body.brand-bg-1 .sticky-wrapper
 {
     margin: auto 0;
 }
-.alf-fullwindow .doclist .documents
+.alf-fullwindow .doclist .documents,
+.alf-fullscreen .doclist .documents
 {
     margin: 0 !important;
 }
