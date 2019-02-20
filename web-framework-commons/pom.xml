@@ -21,6 +21,12 @@
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
             <version>${dependency.surf.version}</version>
+             <exclusions>
+                 <exclusion>
+                     <groupId>dom4j</groupId>
+                     <artifactId>dom4j</artifactId>
+                 </exclusion>
+             </exclusions>
          </dependency>
         <dependency>
             <groupId>jaxen</groupId>
@@ -61,6 +67,17 @@
             <version>${dependency.alfresco-core.version}</version>            
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${dependency.dom4j.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
