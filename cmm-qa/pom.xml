@@ -118,6 +118,12 @@
 			<groupId>org.alfresco</groupId>
 			<artifactId>alfresco-remote-api</artifactId>
 			<version>6.6</version>
+             <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.alfresco</groupId>
