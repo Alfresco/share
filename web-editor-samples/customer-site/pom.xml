@@ -19,6 +19,12 @@
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webeditor-client-jsp</artifactId>
             <version>${dependency.surf.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>

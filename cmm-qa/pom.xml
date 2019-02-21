@@ -120,6 +120,12 @@
 			<groupId>org.alfresco</groupId>
 			<artifactId>alfresco-remote-api</artifactId>
 			<version>${remote.api.version}</version>
+             <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.alfresco</groupId>
