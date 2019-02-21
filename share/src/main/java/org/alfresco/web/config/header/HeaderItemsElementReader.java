@@ -120,7 +120,12 @@ class HeaderItemsElementReader implements ConfigElementReader
         {
             Element itemElem = (Element)itemObj;
             String itemText = itemElem.getTextTrim();
-            List<Attribute> itemAttributes = itemElem.selectNodes("./@*");
+            //List<Attribute> itemAttributes = itemElem.selectNodes("./@*");
+            List<Attribute> itemAttributes = new ArrayList<Attribute>();
+
+            for (Object obj : itemElem.selectNodes("./@*")) {
+                itemAttributes.add((Attribute) obj);
+            }
             
             List<String> itemAttributeNames = new ArrayList<String>();
             List<String> itemAttributeValues = new ArrayList<String>();
