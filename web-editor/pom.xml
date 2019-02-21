@@ -97,6 +97,12 @@
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf-api</artifactId>
             <version>${dependency.surf.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
@@ -117,6 +123,12 @@
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-core</artifactId>
             <version>${dependency.alfresco-core.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
