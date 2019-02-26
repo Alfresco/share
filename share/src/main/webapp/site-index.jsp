@@ -28,9 +28,15 @@
 <%@ page import="org.springframework.extensions.surf.site.*" %>
 <%@ page import="org.springframework.extensions.surf.util.*" %>
 <%@ page import="java.util.*" %>
+
+<%@ page import="org.owasp.esapi.ESAPI" %>
 <%
    // retrieve user name from the session
    String userid = (String)session.getAttribute(SlingshotUserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
+
+   // MNT-20202: neutralize redirect url that contains user input
+   // LM_2019-01-30
+   userid = UserInputValidator.validateRedirectUrl(userid);
    
    // test user dashboard page exists?
    RequestContext context = (RequestContext)request.getAttribute(RequestContext.ATTR_REQUEST_CONTEXT);
@@ -54,6 +60,9 @@
    }
    else
    {
+      // MNT-20202: neutralize redirect url that contains user input
+      // LM_2019-01-30
+      siteName = UserInputValidator.validateRedirectUrl(siteName);
       // forward to site specific dashboard page
       response.sendRedirect(request.getContextPath() + "/page/site/" + URLEncoder.encode(siteName));
    }
