@@ -45,6 +45,7 @@
         <module>webeditor</module>
         <module>wcmqs</module>
 		<module>docker</module>
+        <module>docker-aws</module>
     </modules>
     
 </project>
