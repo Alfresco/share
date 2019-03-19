@@ -1,0 +1,163 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>share-docker-aws</artifactId>
+    <name>Alfresco Share Docker AWS image builder</name>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-share-packaging</artifactId>
+        <version>6.2.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <image.registry>quay.io</image.registry>
+        <image.name>alfresco/alfresco-share-aws</image.name>
+        <image.tag>latest</image.tag>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-ai-share</artifactId>
+            <version>0.3.1</version>
+            <type>amp</type>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>fabric8-maven-plugin</artifactId>
+                    <configuration>
+                        <verbose>true</verbose>
+                        <skipBuildPom>false</skipBuildPom>
+                        <images>
+                            <!-- Default image configuration - used by the *local* and *intenal* profiles -->
+                            <image>
+                                <name>${image.name}:${image.tag}</name>
+                                <registry>${image.registry}</registry>
+                                <build>
+                                    <dockerFileDir>${project.basedir}</dockerFileDir>
+                                </build>
+                            </image>
+                        </images>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <!-- Builds local image for development & testing only -->
+            <properties>
+                <!-- Force override the local property with the command line argument -->
+                <image.tag>${image.tag}</image.tag>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>build-image</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>internal</id>
+            <!-- Builds and publishes image to Quay -->
+            <properties>
+                <!-- Force override the local property with the command line argument -->
+                <image.tag>${image.tag}</image.tag>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>build-push-image</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>release</id>
+            <!-- Builds and publishes release image to Quay -->
+            <properties>
+                <image.tag>${project.version}</image.tag>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <configuration combine.self="override">
+                            <verbose>true</verbose>
+                            <skipBuildPom>false</skipBuildPom>
+                            <images>
+                                <image>
+                                    <name>${image.name}:${project.version}</name>
+                                    <registry>${image.registry}</registry>
+                                    <build>
+                                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build-push-image</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
