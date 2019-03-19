@@ -28,11 +28,6 @@
             <class name="org.alfresco.po.share.search.FacetedSearchResultsPageTest" />
         </classes>
     </test>
-    <test name="LiveSearchDropdownTest">
-        <classes>
-            <class name="org.alfresco.po.share.search.LiveSearchDropdownTest" />
-        </classes>
-    </test>
     <test name="DocumentDetailsPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.DocumentDetailsPageTest"/>

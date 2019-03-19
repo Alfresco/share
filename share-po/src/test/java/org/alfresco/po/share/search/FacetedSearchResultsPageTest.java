@@ -72,15 +72,6 @@ public class FacetedSearchResultsPageTest extends AbstractTest
         page.getNav().selectMyDashBoard().render();
     }
     
-    @Test(groups={"alfresco-one"}, priority = 1)
-    public void testSearchEmptyResult()
-    {
-        SearchBox search = dashBoard.getSearch();
-        FacetedSearchPage resultPage = search.search("y@z").render();
-        Assert.assertNotNull(resultPage);
-        Assert.assertFalse(resultPage.hasResults());
-    }
-
     @Test(groups = {"Enterprise-only"}, priority = 2)
     public void testSelectNthSearchResult() throws Exception
     {
