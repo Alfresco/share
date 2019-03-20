@@ -55,7 +55,7 @@
         <dependency.alfresco-jlan.version>6.2</dependency.alfresco-jlan.version>
         <dependency.alfresco-core.version>6.15</dependency.alfresco-core.version>
         <dependency.webscripts.version>6.20</dependency.webscripts.version>
-        <dependency.surf.version>6.11</dependency.surf.version>
+        <dependency.surf.version>6.12</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.1</dependency.dom4j.version>
 
