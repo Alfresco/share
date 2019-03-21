@@ -18,26 +18,6 @@
             <class name="org.alfresco.po.share.LoginPageTest" />
         </classes>
     </test>
-    <test name="NavigationBarTest">
-        <classes>
-            <class name="org.alfresco.po.share.NavigationBarTest" />
-        </classes>
-    </test>
-    <test name="FacetedSearchResultsPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.search.FacetedSearchResultsPageTest" />
-        </classes>
-    </test>
-    <test name="DocumentDetailsPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.DocumentDetailsPageTest"/>
-        </classes>
-    </test>
-    <test name="DocumentLibraryPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.document.DocumentLibraryPageTest"/>
-        </classes>
-    </test>
     <test name="FileDirectoryInfoTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.FileDirectoryInfoTest"/>
