@@ -148,28 +148,6 @@ public class SiteTest extends AbstractTest
     }
     
     
-    @Test(priority = 2)
-    public void createDuplicateSite() throws Exception
-    {
-        CreateSitePage createSite = dashBoard.getNav().selectCreateSite().render();
-        createSite.selectSiteVisibility(true, false);
-        
-        // Test Used SiteURL Message
-        createSite.setSiteName(siteName);
-        createSite.setSiteURL(siteName);
-        Assert.assertFalse(createSite.isCreateButtonEnabled(),"Create Button enabled when site url is duplicate");
-        Assert.assertTrue(createSite.isSiteIDErrorDisplayed(), "Duplicate Site URL Error is not displayed");
-        
-        // Test Used SiteName Message
-        createSite.setSiteName(siteName);
-        createSite.setSiteURL(siteName+"new");
-
-        Assert.assertTrue(createSite.isSiteUsedMessageDisplayed(), "Duplicate Sitename warning is not displayed");
-
-        createSite.cancel();
-    }
-    
-
     @Test(priority = 3)
     public void checkSiteNavigation()
     {
