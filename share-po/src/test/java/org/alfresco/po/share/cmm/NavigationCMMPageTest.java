@@ -63,19 +63,6 @@ public class NavigationCMMPageTest extends AbstractTestCMM
     }
 
     /**
-     * Navigate to manage custom models from the dashboard page by Repo Admin
-     * 
-     * @throws Exception if error
-     */
-    @Test(groups = { "Enterprise-only" }, priority = 1)
-    public void navigateToManageModelsAsAdmin() throws Exception
-    {
-        loginAs(username, password);
-        ModelManagerPage cmmPage = (ModelManagerPage) cmmActions.navigateToModelManagerPage(driver);
-        Assert.assertTrue(cmmPage.getTitle().endsWith("Model Manager"));
-    }
-
-    /**
      * Verify that the menu option to navigate to manage custom models is not available for normal User
      * 
      * @throws Exception if error
