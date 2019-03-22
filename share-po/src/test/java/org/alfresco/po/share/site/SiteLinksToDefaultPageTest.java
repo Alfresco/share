@@ -200,31 +200,6 @@ public class SiteLinksToDefaultPageTest extends AbstractSiteDashletTest
     }
 
     /**
-     * Edit site from site navigation header
-     * 
-     * @throws Exception
-     */
-    @Test(priority = 4)
-    public void testSelectEditSite() throws Exception
-    {
-        EditSitePage editSitePage = documentLibraryPage.getSiteNav().selectEditSite().render();
-        documentLibraryPage = editSitePage.selectOk().render();
-        assertTrue(documentLibraryPage.getTitle().indexOf("Document Library") != -1);
-    }
-
-    /**
-     * Site name link in the site header
-     * 
-     * @throws Exception
-     */
-    @Test(priority = 5)
-    public void testSelectSiteNameInSiteHeader() throws Exception
-    {
-        documentLibraryPage = documentLibraryPage.getSiteNav().clickOnPageTitle().render();
-        assertTrue(documentLibraryPage.getTitle().indexOf("Document Library") != -1);
-    }
-    
-    /**
      * Site name link in favourites in Sites drop down in the navigation header
      * 
      * @throws Exception
