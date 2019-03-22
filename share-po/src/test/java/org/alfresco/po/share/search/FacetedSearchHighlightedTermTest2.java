@@ -42,7 +42,7 @@ import java.util.Date;
 @Test(groups = { "alfresco-one" })
 public class FacetedSearchHighlightedTermTest2 extends AbstractTest
 {
-    private static Log logger = LogFactory.getLog(LiveSearchDropdownTest.class);
+    private static Log logger = LogFactory.getLog(FacetedSearchHighlightedTermTest2.class);
     protected String fileName1;
     protected String fileName2;
     protected String siteName;
