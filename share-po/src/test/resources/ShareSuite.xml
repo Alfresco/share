@@ -31,11 +31,6 @@
             <class name="org.alfresco.po.share.LoginPageTest" />
         </classes>
     </test>
-    <test name="NavigationBarTest">
-        <classes>
-            <class name="org.alfresco.po.share.NavigationBarTest" />
-        </classes>
-    </test>
     <test name="PeopleFinderPageTest">
         <classes>
             <class name="org.alfresco.po.share.PeopleFinderPageTest" />

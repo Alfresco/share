@@ -51,7 +51,7 @@ import java.util.Map;
 @Test(groups = { "alfresco-one" })
 public class FacetedSearchHighlightedTermTest1 extends AbstractTest
 {
-    private static Log logger = LogFactory.getLog(LiveSearchDropdownTest.class);
+    private static Log logger = LogFactory.getLog(FacetedSearchHighlightedTermTest1.class);
     protected String siteName;
     protected String fileName;
     protected String folderName;
