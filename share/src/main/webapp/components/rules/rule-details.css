@@ -11,6 +11,7 @@
 .rule-details h2
 {
    padding-bottom: 0.5em;
+   overflow-wrap: anywhere;    
 }
 
 .rule-details hr

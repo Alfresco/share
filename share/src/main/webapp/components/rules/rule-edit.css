@@ -99,8 +99,13 @@
    text-align: center;
 }
 
+.rule-edit .edit-header
+{
+   display: none;
+   overflow-wrap: anywhere;
+}
+
 .rule-edit .create-header,
-.rule-edit .edit-header,
 .rule-edit .main-buttons .create-buttons,
 .rule-edit .main-buttons .edit-buttons
 {
