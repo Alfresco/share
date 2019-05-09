@@ -11,7 +11,7 @@
 .rule-details h2
 {
    padding-bottom: 0.5em;
-   overflow-wrap: anywhere;    
+   word-wrap: break-word;    
 }
 
 .rule-details hr

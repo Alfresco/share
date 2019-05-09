@@ -102,7 +102,13 @@
 .rule-edit .edit-header
 {
    display: none;
-   overflow-wrap: anywhere;
+   word-wrap: break-word;
+}
+
+/* MNT-17551 additional word-wrap for IE11*/
+.rule-edit.edit-mode
+{
+   word-wrap: break-word;
 }
 
 .rule-edit .create-header,
