@@ -99,8 +99,19 @@
    text-align: center;
 }
 
+.rule-edit .edit-header
+{
+   display: none;
+   word-wrap: break-word;
+}
+
+/* MNT-17551 additional word-wrap for IE11*/
+.rule-edit.edit-mode
+{
+   word-wrap: break-word;
+}
+
 .rule-edit .create-header,
-.rule-edit .edit-header,
 .rule-edit .main-buttons .create-buttons,
 .rule-edit .main-buttons .edit-buttons
 {
