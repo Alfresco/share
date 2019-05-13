@@ -56,10 +56,6 @@
                     <groupId>org.quartz-scheduler</groupId>
                     <artifactId>quartz</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>dom4j</groupId>
-                    <artifactId>dom4j</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -75,11 +71,6 @@
                    <artifactId>spring-surf-core-configservice</artifactId>
                </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>${dependency.dom4j.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.portlet</groupId>

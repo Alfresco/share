@@ -110,12 +110,7 @@ class FormElementReader implements ConfigElementReader
         // xpath expressions.
         for (Object fieldObj : formElement.selectNodes("./appearance/field")) {
             Element fieldElem = (Element)fieldObj;
-            // List<Attribute> fieldAttributes = fieldElem.selectNodes("./@*");
-            List<Attribute> fieldAttributes = new ArrayList<Attribute>();
-
-            for (Object obj : fieldElem.selectNodes("./@*")) {
-                fieldAttributes.add((Attribute) obj);
-            }
+            List<Attribute> fieldAttributes = fieldElem.selectNodes("./@*");
             
             List<String> fieldAttributeNames = new ArrayList<String>();
             List<String> fieldAttributeValues = new ArrayList<String>();
@@ -136,20 +131,13 @@ class FormElementReader implements ConfigElementReader
                     fieldAttributeValues.add(nextAttributeValue);
                 }
             }
-
             if (fieldIdValue == null)
             {
                 throw new ConfigException("<field> node missing mandatory id attribute.");
             }
             result.addField(fieldIdValue, fieldAttributeNames, fieldAttributeValues);
 
-            // List<Element> controlObjs = fieldElem.selectNodes("./control");
-            List<Element> controlObjs = new ArrayList<Element>();
-
-            for (Object obj : fieldElem.selectNodes("./control")) {
-                controlObjs.add((Element) obj);
-            }
-
+            List<Element> controlObjs = fieldElem.selectNodes("./control");
             if (!controlObjs.isEmpty())
             {
                 // We are assuming that there is only one <control> child element

@@ -1094,12 +1094,7 @@ public abstract class CMMService extends DeclarativeWebScript
             List<Element> configs = module.getConfigurations();
             for (Element config: configs)
             {
-                List<Element> nodeForms = new ArrayList<Element>();
-                for (Object obj : config.selectNodes("config/form-definition")) {
-                    nodeForms.add((Element) obj);
-                }
-                //for (Element form : (List<Element>)config.selectNodes("config/form-definition"))
-                for (Element form : nodeForms)
+                for (Element form : (List<Element>)config.selectNodes("config/form-definition"))
                 {
                     String formId = form.attributeValue(JSON_ID);
                     String formJSON = form.getText();

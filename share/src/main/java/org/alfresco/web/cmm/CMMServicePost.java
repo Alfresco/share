@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -115,14 +114,7 @@ public class CMMServicePost extends CMMService
                                 // process XML and extract only forms - then regenerate the rest
                                 Map<String, String> forms = new HashMap<>();
                                 Document doc = XMLUtil.parse(formExtension);
-                                //List<Element> formDefNodes = doc.selectNodes("/module/configurations/config[@condition='FormDefinition']/form-definition");
-                                List<Element> formDefNodes = new ArrayList<Element>();
-
-                                for (Object obj : doc.selectNodes("/module/configurations/config[@condition='FormDefinition']/form-definition")) {
-                                    formDefNodes.add((Element) obj);
-                                }
-
-
+                                List<Element> formDefNodes = doc.selectNodes("/module/configurations/config[@condition='FormDefinition']/form-definition");
                                 if (formDefNodes != null)
                                 {
                                     for (Element node: formDefNodes)

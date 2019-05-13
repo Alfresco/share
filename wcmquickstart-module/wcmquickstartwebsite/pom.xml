@@ -63,12 +63,6 @@
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
             <version>${dependency.surf.version}</version>
-             <exclusions>
-                 <exclusion>
-                     <groupId>dom4j</groupId>
-                     <artifactId>dom4j</artifactId>
-                 </exclusion>
-             </exclusions>
          </dependency>
 
         <dependency>

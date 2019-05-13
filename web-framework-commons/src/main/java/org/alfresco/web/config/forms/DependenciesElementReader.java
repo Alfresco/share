@@ -91,14 +91,7 @@ public class DependenciesElementReader implements ConfigElementReader
         for (Object cssObj : typeNode.selectNodes(xpathExpression))
         {
             Element cssElem = (Element)cssObj;
-            // List<Attribute> cssAttributes = cssElem.selectNodes("./@*");
-            List<Attribute> cssAttributes = new ArrayList<Attribute>();
-
-            for (Object obj : cssElem.selectNodes("./@*")) {
-                cssAttributes.add((Attribute) obj);
-            }
-
-
+            List<Attribute> cssAttributes = cssElem.selectNodes("./@*");
             for (Attribute nextAttr : cssAttributes)
             {
                 String nextAttrName = nextAttr.getName();
