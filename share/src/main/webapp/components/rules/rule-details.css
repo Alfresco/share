@@ -3,9 +3,11 @@
    margin-top:2.7em;
 }
 
+/* MNT-20634 word-wrap fix valid for FF/Chrome/IE11 */
 .rule-details .display
 {
    padding: 1em;
+   word-wrap: break-word;
 }
 
 .rule-details h2
