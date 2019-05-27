@@ -76,6 +76,8 @@
         <img.exe>convert</img.exe>
         <swf.exe>pdf2swf</swf.exe>
         <index.subsystem.name>buildonly</index.subsystem.name>
+
+        <dependency.cxf.version>3.1.14</dependency.cxf.version>
     </properties>
 
    <scm>
@@ -165,6 +167,27 @@
                <artifactId>javax.servlet-api</artifactId>
                <version>3.0.1</version>
                <scope>provided</scope>
+            </dependency>
+            <!-- Newer cxf libs, see MNT-20520 -->
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-core</artifactId>
+                <version>${dependency.cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                <version>${dependency.cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-transports-http</artifactId>
+                <version>${dependency.cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-ws-policy</artifactId>
+                <version>${dependency.cxf.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -459,7 +482,7 @@
             <id>run</id>
             <build>
                 <plugins>
-                    
+
                     <plugin>
                       <groupId>org.apache.maven.plugins</groupId>
                       <artifactId>maven-dependency-plugin</artifactId>
