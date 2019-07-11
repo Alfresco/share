@@ -16,7 +16,7 @@ sed -i -e 's/REPO_HOST:REPO_PORT/'"$REPO_HOST:$REPO_PORT"'/g' /usr/local/tomcat/
 echo "NEW -csrf.filter.referer is '$CSRF_FILTER_REFERER'"
 echo "NEW -csrf.filter.origin is '$CSRF_FILTER_ORIGIN'"
 
-if [ $CSRF_FILTER_REFERER != "" ] && [   $CSRF_FILTER_ORIGIN != "" ]; then
+if [ "${CSRF_FILTER_REFERER}" != "" ] && [  "${CSRF_FILTER_ORIGIN}" != "" ]; then
 # set CSRFPolicy to true and set both properties referer and origin
    sed -i -e "s|<config evaluator=\"string-compare\" condition=\"CSRFPolicy\" replace=\"false\">|<config evaluator=\"string-compare\" condition=\"CSRFPolicy\" replace=\"true\">|" /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
    sed -i -e "s|<referer><\/referer>|<referer>$CSRF_FILTER_REFERER<\/referer>|" /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
