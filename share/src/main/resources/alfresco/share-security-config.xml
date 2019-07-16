@@ -97,6 +97,13 @@
       <!-- The first rule with a matching request will get its action invoked, the remaining rules will be ignored. -->
       <filter>
 
+         <rule>
+            <request>
+               <method>POST</method>
+               <path>/page/saml-authnresponse|/page/saml-logoutresponse|/page/saml-logoutrequest</path>
+            </request>
+         </rule>
+
          <!--
             Certain webscripts shall not be allowed to be accessed directly form the browser.
             Make sure to throw an error if they are used.
