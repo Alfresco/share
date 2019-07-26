@@ -53,7 +53,7 @@
         <property name="target" ref="webSiteGenerator" />
         <property name="interceptorNames">
             <list>
-                <idref local="webSiteGenerator_transaction"/>
+                <idref bean="webSiteGenerator_transaction"/>
             </list>
         </property>
     </bean>
