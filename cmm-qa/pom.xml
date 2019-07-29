@@ -12,7 +12,7 @@
         <!-- Skip Tests by default - use -Ptest to run them -->
         <skipTests>true</skipTests>
         <selenium.version>2.39.1</selenium.version>
-        <spring.version>5.1.2.RELEASE</spring.version>
+        <spring.version>5.1.8.RELEASE</spring.version>
         <alfresco.api.utils.version>1.2</alfresco.api.utils.version>
 		<remote.api.version>${alfresco.platform.version}</remote.api.version>
         <enterprise.installer.path>/data/bamboo/artifacts/${enterprise.build.plan}/ALL/alfresco-*-linux-x64.???</enterprise.installer.path>
@@ -117,7 +117,7 @@
 		<dependency>
 			<groupId>org.alfresco</groupId>
 			<artifactId>alfresco-remote-api</artifactId>
-			<version>6.6</version>
+			<version>7.34.16</version>
              <exclusions>
                 <exclusion>
                     <groupId>dom4j</groupId>
@@ -128,7 +128,7 @@
 		<dependency>
 			<groupId>org.alfresco</groupId>
 			<artifactId>alfresco-remote-api</artifactId>
-			<version>6.6</version>
+			<version>7.34.16</version>
 			<classifier>tests</classifier>
 		</dependency>
         <dependency>
