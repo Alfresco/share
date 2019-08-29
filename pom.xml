@@ -29,7 +29,7 @@
         <version.minor>2</version.minor>
         <version.revision>6</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>5.2.6.RC2</alfresco.platform.version>
+        <alfresco.platform.version>5.2.6</alfresco.platform.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
