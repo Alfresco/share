@@ -1,0 +1,12 @@
+<alfresco-config>
+
+    <!-- AIMS -->
+    <!--
+    <config evaluator="string-compare" condition="AIMS">
+       <aims>
+          <enabled>true</enabled>
+       </aims>
+    </config>
+    -->
+
+</alfresco-config>
