@@ -1,0 +1,11 @@
+{
+  "realm" : "alfresco",
+  "resource" : "alfresco",
+  "auth-server-url" : "http://localhost:8082/auth",
+  "ssl-required" : "none",
+  "public-client" : true,
+  "autodetect-bearer-only": true,
+  "always-refresh-token": true,
+  "principal-attribute": "email",
+  "enable-basic-auth": true
+}
