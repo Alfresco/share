@@ -3,6 +3,7 @@
    <plug-ins>
       <element-readers>
          <element-reader element-name="kerberos" class="org.alfresco.web.site.servlet.config.KerberosConfigElementReader"/>
+         <element-reader element-name="identity-service" class="org.alfresco.web.site.servlet.config.IdentityServiceConfigElementReader"/>
          <element-reader element-name="header" class="org.alfresco.web.config.header.HeaderElementReader"/>
       </element-readers>
    </plug-ins>

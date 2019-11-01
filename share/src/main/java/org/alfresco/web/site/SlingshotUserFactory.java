@@ -143,8 +143,15 @@ public class SlingshotUserFactory extends AlfrescoUserFactory
     @Override
     public User loadUser(RequestContext context, String userId, String endpointId) throws UserFactoryException
     {
+/*        IdentityServiceFilterConfigUtils identityServiceFilterConfigUtils = (IdentityServiceFilterConfigUtils) this.getApplicationContext().getBean("IdentityServiceFilterConfigUtils");
+        if (identityServiceFilterConfigUtils.isIdentityServiceEnabled())
+        {
+            HttpSession session = ServletUtil.getSession();
+
+        }*/
+
         User user = super.loadUser(context, userId, endpointId);
-        
+
         // set a value indicating time the user was constructed
         user.setProperty(ALF_USER_LOADED, new Date().getTime());
         
