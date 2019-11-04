@@ -321,4 +321,11 @@
       </remote>
    </config>
 
+    <!-- Identity Service settings -->
+    <config evaluator="string-compare" condition="IdentityService">
+        <identity-service>
+            <enabled>true</enabled>
+        </identity-service>
+    </config>
+
 </alfresco-config>

@@ -33,9 +33,12 @@ public class IdentityServiceConfigElement extends ConfigElementAdapter {
 
     private static final long serialVersionUID = 4278518406841891833L;
 
+    public static final String IDENTITY_SERVICE_CONFIG_CONDITION = "IdentityService";
+    public static final String IDENTITY_SERVICE_CONFIG_ELEMENT = "identity-service";
+
     private boolean enabled = false;
 
-    public IdentityServiceConfigElement() { super("identity-service"); }
+    public IdentityServiceConfigElement() { super(IDENTITY_SERVICE_CONFIG_ELEMENT); }
 
 
     @Override

@@ -38,21 +38,15 @@ import org.springframework.extensions.config.xml.elementreader.ConfigElementRead
  */
 public class IdentityServiceConfigElementReader implements ConfigElementReader
 {
-    public static final String ELEMENT_IDENTITY_SERVICE_CONFIG = "identity-service-config";
     public ConfigElement parse(Element elem)
     {
         ConfigElement configElement = null;
+
         if (elem != null)
         {
-            String name = elem.getName();
-            if (!name.equals(ELEMENT_IDENTITY_SERVICE_CONFIG))
-            {
-                throw new ConfigException(this.getClass().getName()
-                        + " can only parse " + ELEMENT_IDENTITY_SERVICE_CONFIG
-                        + " elements, the element passed was '" + name + "'");
-            }
             configElement = IdentityServiceConfigElement.newInstance(elem);
         }
+
         return configElement;
     }
 }

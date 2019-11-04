@@ -29,6 +29,7 @@ import org.alfresco.web.site.servlet.config.IdentityServiceConfigElement;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
 
 public class IdentityServiceFilterConfigUtils implements ApplicationContextAware {
@@ -40,9 +41,15 @@ public class IdentityServiceFilterConfigUtils implements ApplicationContextAware
         this.configService = (ConfigService) this.context.getBean("web.config");
     }
 
-    public boolean isIdentityServiceEnabled() {
-        IdentityServiceConfigElement config = (IdentityServiceConfigElement) this.configService.getConfig("identity-service-config")
-                .getConfigElement("identity-service");
+    public boolean isIdentityServiceEnabled()
+    {
+        Config identityServiceConfigCondition = this.configService.getConfig(IdentityServiceConfigElement.IDENTITY_SERVICE_CONFIG_CONDITION);
+        IdentityServiceConfigElement config = null;
+
+        if (identityServiceConfigCondition != null)
+        {
+            config = (IdentityServiceConfigElement) identityServiceConfigCondition.getConfigElement(IdentityServiceConfigElement.IDENTITY_SERVICE_CONFIG_ELEMENT);
+        }
 
         return config != null && config.getEnabled();
     }
