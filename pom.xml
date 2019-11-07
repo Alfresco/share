@@ -55,7 +55,7 @@
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
         <dependency.alfresco-core.version>7.5.6</dependency.alfresco-core.version>
         <dependency.webscripts.version>7.11-AIMS-SNAPSHOT</dependency.webscripts.version>
-        <dependency.surf.version>7.3</dependency.surf.version>
+        <dependency.surf.version>7.4-AIMS-SNAPSHOT</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.1</dependency.dom4j.version>
         <dependency.slf4j.version>1.7.24</dependency.slf4j.version>
