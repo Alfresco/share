@@ -73,12 +73,14 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter  {
     @Override
     public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain) throws IOException, ServletException
     {
-        if (this.enabled) {
-            super.doFilter(sreq, sres, chain);
+        HttpServletRequest req = (HttpServletRequest) sreq;
+        HttpServletResponse res = (HttpServletResponse) sres;
+        HttpSession session = req.getSession();
 
-            HttpServletRequest req = (HttpServletRequest) sreq;
-            HttpServletResponse res = (HttpServletResponse) sres;
-            HttpSession session = req.getSession();
+        if (this.enabled && !AuthenticationUtil.isAuthenticated(req)) {
+
+            // ?!
+            super.doFilter(sreq, sres, chain);
 
             KeycloakSecurityContext context = (KeycloakSecurityContext) req.getAttribute(KeycloakSecurityContext.class.getName());
             if (context != null && !AuthenticationUtil.isAuthenticated(req))
