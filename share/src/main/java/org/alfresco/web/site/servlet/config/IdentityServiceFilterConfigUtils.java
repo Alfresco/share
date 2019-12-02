@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  */
-package org.alfresco.web.site;
+package org.alfresco.web.site.servlet.config;
 
-import org.alfresco.web.site.servlet.config.IdentityServiceConfigElement;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

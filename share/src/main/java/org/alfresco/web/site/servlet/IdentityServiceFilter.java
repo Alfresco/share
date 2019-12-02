@@ -26,18 +26,21 @@
 package org.alfresco.web.site.servlet;
 
 import org.alfresco.error.AlfrescoRuntimeException;
-import org.alfresco.web.site.IdentityServiceFilterConfigUtils;
+import org.alfresco.web.site.servlet.config.IdentityServiceFilterConfigUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
+import org.keycloak.representations.AccessToken;
+import org.keycloak.representations.IDToken;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
 import org.springframework.extensions.surf.RequestContextUtil;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.exception.ConnectorServiceException;
-import org.springframework.extensions.surf.exception.RequestContextException;
 import org.springframework.extensions.surf.site.AuthenticationUtil;
 import org.springframework.extensions.surf.support.AlfrescoUserFactory;
 import org.springframework.extensions.webscripts.Status;
@@ -51,9 +54,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class IdentityServiceFilter extends KeycloakOIDCFilter /*implements DependencyInjectedFilter, ApplicationContextAware*/ {
+public class IdentityServiceFilter extends KeycloakOIDCFilter {
 
-    private static Log logger = LogFactory.getLog(SSOAuthenticationFilter.class);
+    private static Log logger = LogFactory.getLog(IdentityServiceFilter.class);
 
     private boolean enabled;
 
@@ -64,8 +67,14 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter /*implements Depen
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
 
+    /**
+     *
+     * @param filterConfig
+     * @throws ServletException
+     */
     public void init(FilterConfig filterConfig) throws ServletException {
-        super.init(filterConfig);
+
+    super.init(filterConfig);
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
 
         IdentityServiceFilterConfigUtils identityServiceFilterConfigUtils = (IdentityServiceFilterConfigUtils) this.context.getBean("identityServiceFilterConfigUtils");
@@ -75,32 +84,61 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter /*implements Depen
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
     }
 
+    /**
+     *
+     * @param sreq
+     * @param sres
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
     public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) sreq;
-        HttpServletResponse res = (HttpServletResponse) sres;
-        HttpSession session = req.getSession();
+        HttpServletRequest request = (HttpServletRequest) sreq;
+        HttpServletResponse response = (HttpServletResponse) sres;
+        HttpSession session = request.getSession();
 
-        if (this.enabled && !AuthenticationUtil.isAuthenticated(req)) {
+        if (this.enabled && !AuthenticationUtil.isAuthenticated(request))
+        {
             super.doFilter(sreq, sres, chain);
 
-            KeycloakSecurityContext context = (KeycloakSecurityContext) req.getAttribute(KeycloakSecurityContext.class.getName());
-            if (context != null) {
-                String username = context.getToken().getPreferredUsername();
+            RefreshableKeycloakSecurityContext context = (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
+            if (context != null)
+            {
+                String username = context.getIdToken().getPreferredUsername();
                 String accessToken = context.getTokenString();
-                this.onSuccess(req, res, username, accessToken, session);
+                session.setAttribute("refreshToken", context.getRefreshToken());
+                /*String idToken = context.getIdTokenString();*/
+/*                String refreshToken = context.getRefreshToken();
+                this.setTokens(session, accessToken, refreshToken);*/
+                this.onSuccess(request, response, session, username, accessToken);
             }
         }
         chain.doFilter(sreq, sres);
     }
 
-    private void onSuccess(HttpServletRequest req, HttpServletResponse res, String username, String accessToken, HttpSession session) throws ServletException {
-        try {
-            // Perform a "silent" init - i.e. no user creation or remote connections ?
-            // @TODO: Find out about the magic happening here !
-            RequestContextUtil.initRequestContext(this.context, req, true);
+    // @TODO: Is it okay to put them within session ?!
+/*    private void setTokens(HttpSession session, String accessToken, *//*String idToken, *//*String refreshToken) {
+        session.setAttribute("accessToken", accessToken);
+        session.setAttribute("refreshToken", refreshToken);
+    }*/
 
-            // Set the external auth flag so the UI knows we are using SSO etc.
-            session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH, Boolean.TRUE);
+    /**
+     *
+     * @param request
+     * @param response
+     * @param session
+     * @param username
+     * @param accessToken
+     * @throws ServletException
+     */
+    private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session, String username, String accessToken) throws ServletException {
+        try
+        {
+            // AuthenticationUtil.login(request, response, username);
+
+            // Perform a "silent" init - i.e. no user creation or remote connections ?
+            RequestContextUtil.initRequestContext(this.context, request, true);
+
             // Ensure User ID is in session so the web-framework knows we have logged in
             session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
 
@@ -119,7 +157,7 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter /*implements Depen
             vault.store(credentials);
 
             // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
-            this.loginController.beforeSuccess(req, res);
+            this.loginController.beforeSuccess(request, response);
         }
         catch (Exception e)
         {
@@ -134,9 +172,11 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter /*implements Depen
      * @param session
      * @param username
      * @param accessToken
+     * @return
      * @throws ConnectorServiceException
+     * @throws JSONException
      */
-    private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException {
+    private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException, JSONException {
         Connector connector = this.connectorService.getConnector(ALFRESCO_API_ENDPOINT_ID, username, session);
 
         ConnectorContext c = new ConnectorContext(HttpMethod.GET, null, new HashMap<String, String>() {{
@@ -144,7 +184,8 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter /*implements Depen
         }});
         c.setContentType("application/json");
         Response r = connector.call("/-default-/public/authentication/versions/1/tickets/-me-", c);
-        if (Status.STATUS_OK != r.getStatus().getCode()) {
+        if (Status.STATUS_OK != r.getStatus().getCode())
+        {
             throw new AlfrescoRuntimeException("Failed to read the returned content");
         }
 

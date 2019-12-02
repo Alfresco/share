@@ -34,7 +34,7 @@ import org.alfresco.jlan.server.auth.spnego.OID;
 import org.alfresco.jlan.server.auth.spnego.SPNEGO;
 import org.alfresco.util.Pair;
 import org.alfresco.util.log.NDC;
-import org.alfresco.web.site.IdentityServiceFilterConfigUtils;
+import org.alfresco.web.site.servlet.config.IdentityServiceFilterConfigUtils;
 import org.alfresco.web.site.servlet.config.KerberosConfigElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
