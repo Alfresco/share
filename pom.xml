@@ -348,6 +348,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
+                    <version>2.6</version>
                     <configuration>
                         <archive>
                             <manifestEntries>
@@ -378,6 +379,12 @@
                             <groupId>org.alfresco.maven.plugin</groupId>
                             <artifactId>alfresco-maven-plugin</artifactId>
                             <version>${dependency.alfresco-sdk.version}</version>
+                        </dependency>
+                        <!-- Dependency to build with Amanzon's JDK Corretto-8 -->
+                        <dependency>
+                            <groupId>com.thoughtworks.xstream</groupId>
+                            <artifactId>xstream</artifactId>
+                            <version>1.4.11.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
