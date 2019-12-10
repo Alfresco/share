@@ -27,24 +27,47 @@ package org.alfresco.web.site.servlet.config;
 
 import org.dom4j.Element;
 import org.springframework.extensions.config.ConfigElement;
-import org.springframework.extensions.config.ConfigException;
-import org.springframework.extensions.config.xml.elementreader.ConfigElementReader;
+import org.springframework.extensions.config.element.ConfigElementAdapter;
 
-/**
- * Responsible for loading Identity Service configuration settings from the share-config*.xml files that are loaded via the
- * configuration service.
- * 
- * @author dward
- */
-public class IdentityServiceConfigElementReader implements ConfigElementReader
-{
-    public ConfigElement parse(Element elem)
+public class AIMSConfigElement extends ConfigElementAdapter {
+
+    private static final long serialVersionUID = 4278518406841891833L;
+
+    public static final String AIMS_CONFIG_CONDITION = "AIMS";
+    public static final String AIMS_CONFIG_ELEMENT = "aims";
+
+    private boolean enabled = false;
+
+    public AIMSConfigElement() { super(AIMS_CONFIG_ELEMENT); }
+
+
+    @Override
+    public ConfigElement combine(ConfigElement element) {
+        AIMSConfigElement configElement = (AIMSConfigElement) element;
+
+        // new combined element
+        AIMSConfigElement combinedElement = new AIMSConfigElement();
+
+        combinedElement.enabled = configElement.enabled;
+
+        // return the combined element
+        return combinedElement;
+    }
+
+
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+
+    protected static AIMSConfigElement newInstance(Element elem)
     {
-        ConfigElement configElement = null;
+        AIMSConfigElement configElement = new AIMSConfigElement();
 
-        if (elem != null)
+        String enabled = elem.elementTextTrim("enabled");
+        if (enabled != null && enabled.length() > 0)
         {
-            configElement = IdentityServiceConfigElement.newInstance(elem);
+            configElement.enabled = Boolean.parseBoolean(enabled);
         }
 
         return configElement;

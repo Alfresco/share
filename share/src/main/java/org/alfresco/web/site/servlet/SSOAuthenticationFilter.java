@@ -34,7 +34,7 @@ import org.alfresco.jlan.server.auth.spnego.OID;
 import org.alfresco.jlan.server.auth.spnego.SPNEGO;
 import org.alfresco.util.Pair;
 import org.alfresco.util.log.NDC;
-import org.alfresco.web.site.servlet.config.IdentityServiceFilterConfigUtils;
+import org.alfresco.web.site.servlet.config.AIMSConfigUtils;
 import org.alfresco.web.site.servlet.config.KerberosConfigElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -442,8 +442,8 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         throws IOException, ServletException
     {
         // Skip this filter, if Identity Service is enabled
-        IdentityServiceFilterConfigUtils identityServiceFilterConfigUtils = (IdentityServiceFilterConfigUtils) this.context.getBean("identityServiceFilterConfigUtils");
-        if (identityServiceFilterConfigUtils.isIdentityServiceEnabled()) {
+        AIMSConfigUtils configUtils = (AIMSConfigUtils) this.context.getBean("aimsConfigUtils");
+        if (configUtils.isAIMSEnabled()) {
             chain.doFilter(sreq, sresp);
             return;
         }

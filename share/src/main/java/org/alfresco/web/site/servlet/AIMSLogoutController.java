@@ -30,11 +30,9 @@ import org.apache.commons.logging.LogFactory;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
-import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.ServerRequest;
-import org.keycloak.common.util.Base64;
-import org.keycloak.common.util.KeycloakUriBuilder;
-import org.keycloak.representations.adapters.config.AdapterConfig;
+import org.keycloak.adapters.servlet.OIDCFilterSessionStore.SerializableKeycloakAccount;
+import org.keycloak.adapters.spi.KeycloakAccount;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,9 +41,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 
-public class IdentityServiceLogoutController extends SlingshotLogoutController {
+public class AIMSLogoutController extends SlingshotLogoutController {
 
-    private static Log logger = LogFactory.getLog(IdentityServiceLogoutController.class);
+    private static Log logger = LogFactory.getLog(AIMSLogoutController.class);
 
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -58,10 +56,16 @@ public class IdentityServiceLogoutController extends SlingshotLogoutController {
             username = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
             if (username != null && !username.isEmpty())
             {
-                InputStream is = this.getServletContext().getResourceAsStream("/WEB-INF/keycloak.json");
-                KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
-                String refreshToken = (String) session.getAttribute("refreshToken");
-                ServerRequest.invokeLogout(deployment, refreshToken);
+                SerializableKeycloakAccount account = (SerializableKeycloakAccount) session.getAttribute(KeycloakAccount.class.getName());
+                if (account != null)
+                {
+                    InputStream is = this.getServletContext().getResourceAsStream("/WEB-INF/keycloak.json");
+                    KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+
+                    account.getKeycloakSecurityContext().logout(deployment);
+                    session.removeAttribute(KeycloakAccount.class.getName());
+                    session.removeAttribute(KeycloakSecurityContext.class.getName());
+                }
             }
         }
 

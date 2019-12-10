@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="logoutController" class="org.alfresco.web.site.servlet.IdentityServiceLogoutController">
+    <bean id="logoutController" class="org.alfresco.web.site.servlet.AIMSLogoutController">
         <property name="supportedMethods">
             <list>
                 <value>HEAD</value>

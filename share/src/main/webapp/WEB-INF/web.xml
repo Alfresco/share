@@ -41,10 +41,10 @@
       </init-param>
    </filter>
 
-   <!-- Identity Service -->
+   <!-- AIMS Filter -->
    <filter>
-      <filter-name>Identity Service Filter</filter-name>
-      <filter-class>org.alfresco.web.site.servlet.IdentityServiceFilter</filter-class>
+      <filter-name>AIMS Filter</filter-name>
+      <filter-class>org.alfresco.web.site.servlet.AIMSFilter</filter-class>
    </filter>
 
    <filter>
@@ -91,21 +91,21 @@
       <url-pattern>/service/*</url-pattern>
    </filter-mapping>
 
-   <!-- Identity Service Filter mappings -->
+   <!-- AIMS Filter mappings -->
    <filter-mapping>
-      <filter-name>Identity Service Filter</filter-name>
+      <filter-name>AIMS Filter</filter-name>
       <url-pattern>/page/*</url-pattern>
    </filter-mapping>
    <filter-mapping>
-      <filter-name>Identity Service Filter</filter-name>
+      <filter-name>AIMS Filter</filter-name>
       <url-pattern>/p/*</url-pattern>
    </filter-mapping>
    <filter-mapping>
-      <filter-name>Identity Service Filter</filter-name>
+      <filter-name>AIMS Filter</filter-name>
       <url-pattern>/proxy/*</url-pattern>
    </filter-mapping>
    <filter-mapping>
-      <filter-name>Identity Service Filter</filter-name>
+      <filter-name>AIMS Filter</filter-name>
       <url-pattern>/service/*</url-pattern>
    </filter-mapping>
 

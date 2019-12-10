@@ -26,16 +26,21 @@
 package org.alfresco.web.site.servlet;
 
 import org.alfresco.error.AlfrescoRuntimeException;
-import org.alfresco.web.site.servlet.config.IdentityServiceFilterConfigUtils;
+import org.alfresco.web.site.servlet.config.AIMSConfigUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
+import org.keycloak.adapters.rotation.AdapterTokenVerifier;
+import org.keycloak.adapters.servlet.FilterRequestAuthenticator;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
-import org.keycloak.representations.AccessToken;
-import org.keycloak.representations.IDToken;
+import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
+import org.keycloak.adapters.servlet.OIDCServletHttpFacade;
+import org.keycloak.adapters.spi.AuthOutcome;
+import org.keycloak.adapters.spi.KeycloakAccount;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
 import org.springframework.extensions.surf.RequestContextUtil;
@@ -54,9 +59,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class IdentityServiceFilter extends KeycloakOIDCFilter {
+public class AIMSFilter extends KeycloakOIDCFilter {
 
-    private static Log logger = LogFactory.getLog(IdentityServiceFilter.class);
+    private static Log logger = LogFactory.getLog(AIMSFilter.class);
 
     private boolean enabled;
 
@@ -66,6 +71,7 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter {
 
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
+    public static final String SESSION_ATTRIBUTE_REFRESH_TOKEN = "refreshToken";
 
     /**
      *
@@ -74,12 +80,11 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter {
      */
     public void init(FilterConfig filterConfig) throws ServletException {
 
-    super.init(filterConfig);
+        super.init(filterConfig);
+
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
-
-        IdentityServiceFilterConfigUtils identityServiceFilterConfigUtils = (IdentityServiceFilterConfigUtils) this.context.getBean("identityServiceFilterConfigUtils");
-
-        this.enabled = identityServiceFilterConfigUtils.isIdentityServiceEnabled();
+        AIMSConfigUtils configUtils = (AIMSConfigUtils) this.context.getBean("aimsConfigUtils");
+        this.enabled = configUtils.isAIMSEnabled();
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
     }
@@ -97,29 +102,41 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter {
         HttpServletResponse response = (HttpServletResponse) sres;
         HttpSession session = request.getSession();
 
-        if (this.enabled && !AuthenticationUtil.isAuthenticated(request))
+        if (this.enabled && (!AuthenticationUtil.isAuthenticated(request)/* || this.isLoggedOutFromKeycloak(request, response)*/))
         {
             super.doFilter(sreq, sres, chain);
 
             RefreshableKeycloakSecurityContext context = (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
             if (context != null)
             {
-                String username = context.getIdToken().getPreferredUsername();
-                String accessToken = context.getTokenString();
-                session.setAttribute("refreshToken", context.getRefreshToken());
-                /*String idToken = context.getIdTokenString();*/
-/*                String refreshToken = context.getRefreshToken();
-                this.setTokens(session, accessToken, refreshToken);*/
-                this.onSuccess(request, response, session, username, accessToken);
+                this.onSuccess(request, response, session, context);
             }
         }
+
         chain.doFilter(sreq, sres);
     }
 
-    // @TODO: Is it okay to put them within session ?!
-/*    private void setTokens(HttpSession session, String accessToken, *//*String idToken, *//*String refreshToken) {
-        session.setAttribute("accessToken", accessToken);
-        session.setAttribute("refreshToken", refreshToken);
+    /*private boolean isLoggedOutFromKeycloak(HttpServletRequest request, HttpServletResponse response) throws ServletException
+    {
+        OIDCServletHttpFacade facade = new OIDCServletHttpFacade(request, response);
+        KeycloakDeployment deployment = this.deploymentContext.resolveDeployment(facade);
+
+        OIDCServletHttpFacade facade = new OIDCServletHttpFacade(request, response);
+        KeycloakDeployment deployment = this.deploymentContext.resolveDeployment(facade);
+        if (deployment != null && deployment.isConfigured())
+        {
+            OIDCFilterSessionStore tokenStore = new OIDCFilterSessionStore(request, facade, 100000, deployment, this.idMapper);
+            tokenStore.checkCurrentToken();
+            FilterRequestAuthenticator authenticator = new FilterRequestAuthenticator(deployment, tokenStore, facade, request, 8443);
+            AuthOutcome outcome = authenticator.authenticate();
+
+            return outcome != AuthOutcome.AUTHENTICATED;
+        }
+        else
+        {
+            logger.error("Keycloak deployment not configured");
+            throw new ServletException("Keycloak deployment not configured");
+        }
     }*/
 
     /**
@@ -127,15 +144,16 @@ public class IdentityServiceFilter extends KeycloakOIDCFilter {
      * @param request
      * @param response
      * @param session
-     * @param username
-     * @param accessToken
+     * @param context
      * @throws ServletException
      */
-    private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session, String username, String accessToken) throws ServletException {
+    private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session, RefreshableKeycloakSecurityContext context) throws ServletException {
+
+        String username = context.getIdToken().getPreferredUsername();
+        String accessToken = context.getTokenString();
+
         try
         {
-            // AuthenticationUtil.login(request, response, username);
-
             // Perform a "silent" init - i.e. no user creation or remote connections ?
             RequestContextUtil.initRequestContext(this.context, request, true);
 

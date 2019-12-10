@@ -32,5 +32,5 @@
    <!-- Support for Default Surf Controllers -->
    <bean id="simpleControllerHandlerAdapter" class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>  
 
-   <bean id="identityServiceFilterConfigUtils" class="org.alfresco.web.site.servlet.config.IdentityServiceFilterConfigUtils" init-method="init" />
+   <bean id="aimsConfigUtils" class="org.alfresco.web.site.servlet.config.AIMSConfigUtils" init-method="init" />
 </beans>

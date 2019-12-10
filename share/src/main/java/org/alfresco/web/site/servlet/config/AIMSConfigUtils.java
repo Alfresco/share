@@ -31,7 +31,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
 
-public class IdentityServiceFilterConfigUtils implements ApplicationContextAware {
+public class AIMSConfigUtils implements ApplicationContextAware {
 
     private ApplicationContext context;
     private ConfigService configService;
@@ -40,14 +40,14 @@ public class IdentityServiceFilterConfigUtils implements ApplicationContextAware
         this.configService = (ConfigService) this.context.getBean("web.config");
     }
 
-    public boolean isIdentityServiceEnabled()
+    public boolean isAIMSEnabled()
     {
-        Config identityServiceConfigCondition = this.configService.getConfig(IdentityServiceConfigElement.IDENTITY_SERVICE_CONFIG_CONDITION);
-        IdentityServiceConfigElement config = null;
+        Config AIMSConfigCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
+        AIMSConfigElement config = null;
 
-        if (identityServiceConfigCondition != null)
+        if (AIMSConfigCondition != null)
         {
-            config = (IdentityServiceConfigElement) identityServiceConfigCondition.getConfigElement(IdentityServiceConfigElement.IDENTITY_SERVICE_CONFIG_ELEMENT);
+            config = (AIMSConfigElement) AIMSConfigCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
         }
 
         return config != null && config.getEnabled();

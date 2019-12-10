@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Share WAR
  * %%
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2016 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -23,16 +23,29 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  */
-package org.alfresco.web.site;
+package org.alfresco.web.site.servlet.config;
 
-import org.keycloak.representations.AccessToken;
-import org.springframework.extensions.webscripts.connector.AlfrescoAuthenticator;
-import org.springframework.extensions.webscripts.connector.ConnectorSession;
+import org.dom4j.Element;
+import org.springframework.extensions.config.ConfigElement;
+import org.springframework.extensions.config.xml.elementreader.ConfigElementReader;
 
-public class IdentityServiceAlfrescoAuthenticator extends AlfrescoAuthenticator {
-
-/*    public ConnectorSession authenticate(String endpoint, AccessToken token, ConnectorSession connectorSession)
+/**
+ * Responsible for loading Identity Service configuration settings from the share-config*.xml files that are loaded via the
+ * configuration service.
+ * 
+ * @author dward
+ */
+public class AIMSConfigElementReader implements ConfigElementReader
+{
+    public ConfigElement parse(Element elem)
     {
+        ConfigElement configElement = null;
 
-    }*/
+        if (elem != null)
+        {
+            configElement = AIMSConfigElement.newInstance(elem);
+        }
+
+        return configElement;
+    }
 }
