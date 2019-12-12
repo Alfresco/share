@@ -29,42 +29,36 @@ import org.dom4j.Element;
 import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.element.ConfigElementAdapter;
 
-public class AIMSConfigElement extends ConfigElementAdapter {
-
+public class AIMSConfigElement extends ConfigElementAdapter
+{
     private static final long serialVersionUID = 4278518406841891833L;
-
     public static final String AIMS_CONFIG_CONDITION = "AIMS";
     public static final String AIMS_CONFIG_ELEMENT = "aims";
-
     private boolean enabled = false;
 
     public AIMSConfigElement() { super(AIMS_CONFIG_ELEMENT); }
 
-
     @Override
-    public ConfigElement combine(ConfigElement element) {
+    public ConfigElement combine(ConfigElement element)
+    {
         AIMSConfigElement configElement = (AIMSConfigElement) element;
-
-        // new combined element
+        // New combined element
         AIMSConfigElement combinedElement = new AIMSConfigElement();
-
         combinedElement.enabled = configElement.enabled;
 
-        // return the combined element
+        // Return the combined element
         return combinedElement;
     }
-
 
     public boolean getEnabled() {
         return enabled;
     }
 
-
     protected static AIMSConfigElement newInstance(Element elem)
     {
         AIMSConfigElement configElement = new AIMSConfigElement();
-
         String enabled = elem.elementTextTrim("enabled");
+
         if (enabled != null && enabled.length() > 0)
         {
             configElement.enabled = Boolean.parseBoolean(enabled);

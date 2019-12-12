@@ -4,21 +4,21 @@
  * %%
  * Copyright (C) 2005 - 2019 Alfresco Software Limited
  * %%
- * This file is part of the Alfresco software. 
- * If the software was purchased under a paid Alfresco license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
- * 
+ *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -32,14 +32,9 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
-import org.keycloak.adapters.rotation.AdapterTokenVerifier;
-import org.keycloak.adapters.servlet.FilterRequestAuthenticator;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
 import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
-import org.keycloak.adapters.servlet.OIDCServletHttpFacade;
-import org.keycloak.adapters.spi.AuthOutcome;
 import org.keycloak.adapters.spi.KeycloakAccount;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
@@ -57,9 +52,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 
-public class AIMSFilter extends KeycloakOIDCFilter {
+public class AIMSFilter extends KeycloakOIDCFilter
+{
 
     private static Log logger = LogFactory.getLog(AIMSFilter.class);
 
@@ -71,14 +68,13 @@ public class AIMSFilter extends KeycloakOIDCFilter {
 
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
-    public static final String SESSION_ATTRIBUTE_REFRESH_TOKEN = "refreshToken";
 
     /**
-     *
      * @param filterConfig
      * @throws ServletException
      */
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) throws ServletException
+    {
 
         super.init(filterConfig);
 
@@ -90,23 +86,24 @@ public class AIMSFilter extends KeycloakOIDCFilter {
     }
 
     /**
-     *
      * @param sreq
      * @param sres
      * @param chain
      * @throws IOException
      * @throws ServletException
      */
-    public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain) throws IOException, ServletException
+    {
         HttpServletRequest request = (HttpServletRequest) sreq;
         HttpServletResponse response = (HttpServletResponse) sres;
         HttpSession session = request.getSession();
 
-        if (this.enabled && (!AuthenticationUtil.isAuthenticated(request)/* || this.isLoggedOutFromKeycloak(request, response)*/))
+        if (this.enabled && (!AuthenticationUtil.isAuthenticated(request) || this.isLoggedOutFromKeycloak(session)))
         {
             super.doFilter(sreq, sres, chain);
 
-            RefreshableKeycloakSecurityContext context = (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
+            RefreshableKeycloakSecurityContext context = (RefreshableKeycloakSecurityContext) request
+                .getAttribute(KeycloakSecurityContext.class.getName());
             if (context != null)
             {
                 this.onSuccess(request, response, session, context);
@@ -116,38 +113,40 @@ public class AIMSFilter extends KeycloakOIDCFilter {
         chain.doFilter(sreq, sres);
     }
 
-    /*private boolean isLoggedOutFromKeycloak(HttpServletRequest request, HttpServletResponse response) throws ServletException
+    /**
+     * Checks if the user is logged out from Keycloak
+     * Helps us when someone logs out from another application, but is still logged in on Share
+     *
+     * @param session
+     * @return
+     */
+    private boolean isLoggedOutFromKeycloak(HttpSession session)
     {
-        OIDCServletHttpFacade facade = new OIDCServletHttpFacade(request, response);
-        KeycloakDeployment deployment = this.deploymentContext.resolveDeployment(facade);
-
-        OIDCServletHttpFacade facade = new OIDCServletHttpFacade(request, response);
-        KeycloakDeployment deployment = this.deploymentContext.resolveDeployment(facade);
-        if (deployment != null && deployment.isConfigured())
+        OIDCFilterSessionStore.SerializableKeycloakAccount account = (OIDCFilterSessionStore.SerializableKeycloakAccount) session
+            .getAttribute(KeycloakAccount.class.getName());
+        if (account != null)
         {
-            OIDCFilterSessionStore tokenStore = new OIDCFilterSessionStore(request, facade, 100000, deployment, this.idMapper);
-            tokenStore.checkCurrentToken();
-            FilterRequestAuthenticator authenticator = new FilterRequestAuthenticator(deployment, tokenStore, facade, request, 8443);
-            AuthOutcome outcome = authenticator.authenticate();
+            RefreshableKeycloakSecurityContext context = account.getKeycloakSecurityContext();
+            if (context != null)
+            {
+                return !context.refreshExpiredToken(false);
+            }
+            return true;
+        }
 
-            return outcome != AuthOutcome.AUTHENTICATED;
-        }
-        else
-        {
-            logger.error("Keycloak deployment not configured");
-            throw new ServletException("Keycloak deployment not configured");
-        }
-    }*/
+        return true;
+    }
 
     /**
-     *
      * @param request
      * @param response
      * @param session
      * @param context
      * @throws ServletException
      */
-    private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session, RefreshableKeycloakSecurityContext context) throws ServletException {
+    private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session, RefreshableKeycloakSecurityContext context)
+        throws ServletException
+    {
 
         String username = context.getIdToken().getPreferredUsername();
         String accessToken = context.getTokenString();
@@ -194,14 +193,13 @@ public class AIMSFilter extends KeycloakOIDCFilter {
      * @throws ConnectorServiceException
      * @throws JSONException
      */
-    private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException, JSONException {
+    private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException, JSONException
+    {
         Connector connector = this.connectorService.getConnector(ALFRESCO_API_ENDPOINT_ID, username, session);
-
-        ConnectorContext c = new ConnectorContext(HttpMethod.GET, null, new HashMap<String, String>() {{
-            put("Authorization", "Bearer " + accessToken);
-        }});
+        ConnectorContext c = new ConnectorContext(HttpMethod.GET, null, Collections.singletonMap("Authorization", "Bearer " + accessToken));
         c.setContentType("application/json");
         Response r = connector.call("/-default-/public/authentication/versions/1/tickets/-me-", c);
+
         if (Status.STATUS_OK != r.getStatus().getCode())
         {
             throw new AlfrescoRuntimeException("Failed to read the returned content");
