@@ -693,22 +693,6 @@
          <indicator id="transferred-node" index="60">
             <evaluator>evaluator.doclib.indicator.transferredNode</evaluator>
          </indicator>
-         <indicator id="cloud-synced" index="70" action="onCloudSyncIndicatorAction">
-            <evaluator>evaluator.doclib.indicator.isSynced</evaluator>
-         </indicator>
-         <indicator id="cloud-sync-failed" index="80" action="onCloudSyncFailedIndicatorAction">
-            <evaluator>evaluator.doclib.indicator.isSyncFailed</evaluator>
-            <override>cloud-synced</override>
-         </indicator>
-         <indicator id="cloud-indirect-sync" index="90" action="onCloudIndirectSyncIndicatorAction">
-            <evaluator>evaluator.doclib.indicator.isIndirectSync</evaluator>
-            <override>cloud-synced</override>
-         </indicator>
-         <indicator id="cloud-indirect-sync-failed" index="90" action="onCloudIndirectSyncFailedIndicatorAction">
-            <evaluator>evaluator.doclib.indicator.isIndirectSyncFailed</evaluator>
-            <override>cloud-sync-failed</override>
-            <override>cloud-indirect-sync</override>
-         </indicator>
       </indicators>
 
       <!--
@@ -720,8 +704,6 @@
          <!-- Default (fallback) -->
          <template id="default">
             <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
-            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
-            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
             <line index="10" id="date">{date}{size}</line>
             <line index="20" id="description" view="detailed">{description}</line>
             <line index="30" id="tags" view="detailed">{tags}</line>
@@ -733,8 +715,6 @@
          <template id="isWorkingCopy">
             <evaluator>evaluator.doclib.metadata.isWorkingCopy</evaluator>
             <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
-            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
-            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
             <line index="10" id="date">{date}{size}</line>
             <line index="20" id="description" view="detailed">{description}</line>
          </template>
@@ -743,8 +723,6 @@
          <template id="dictionaryModel">
             <evaluator>evaluator.doclib.metadata.isDictionaryModel</evaluator>
             <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
-            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
-            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
             <line index="10" id="date">{date}</line>
             <line index="20" id="description" view="detailed">{description}</line>
             <line index="30" id="dictionaryModel" simpleView="true">{modelActive label.modelActive}{modelName label.modelName}{modelDescription label.modelDescription}</line>
@@ -754,8 +732,6 @@
          <template id="transferTarget">
             <evaluator>evaluator.doclib.metadata.isTransferTarget</evaluator>
             <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
-            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
-            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
             <line index="10" id="date">{date}</line>
             <line index="20" id="description" view="detailed">{description}</line>
             <line index="30" id="transferTarget" simpleView="true">{trx_enabled label.trx_enabled}{trx_endpointhost label.trx_endpointhost}{trx_endpointport label.trx_endpointport}</line>
@@ -806,8 +782,6 @@
          <action type="action-link" id="onActionMoveTo" icon="document-move-to" permission="Delete" label="menu.selected-items.move" notAspect="smf:smartFolder,smf:smartFolderChild"/>
          <action type="action-link" id="onActionAssignWorkflow" asset="document" icon="document-assign-workflow" label="menu.selected-items.assign-workflow"/>
          <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="hwf:hybridWorkflow,sys:undeletable,smf:smartFolder" />
-         <action type="action-link" id="onActionCloudSync" asset="document" icon="document-cloud-sync"  permission="CreateChildren" label="menu.selected-items.cloudSync" notAspect="sync:syncSetMemberNode,smf:smartFolder,smf:smartFolderChild" syncMode="ON_PREMISE" />
-         <action type="action-link" id="onActionCloudSyncRequest" icon="document-request-sync" label="menu.selected-items.cloudRequestSync" hasAspect="sync:syncSetMemberNode" notAspect="smf:smartFolder,smf:smartFolderChild" syncMode="ON_PREMISE" />
       </multi-select>
       
       <!--
@@ -1167,7 +1141,6 @@
             <evaluator>evaluator.doclib.metadata.isSomeoneLocked</evaluator>
             <evaluator>evaluator.doclib.action.notHasWorkingCopy</evaluator>
             <evaluator>evaluator.doclib.action.cancelLockedBlacklist</evaluator>
-            <evaluator negate="true">evaluator.doclib.action.isSyncLock</evaluator>
             <evaluator negate="true">evaluator.doclib.action.transferred</evaluator>
          </action>
 
@@ -1193,38 +1166,6 @@
             <param name="target">_blank</param>
             <!-- aspect trx:transferred -->
             <evaluator>evaluator.doclib.action.transferred</evaluator>
-         </action>
-
-         <!-- Cloud Sync: Create -->
-         <action id="document-cloud-sync" type="javascript" label="actions.document.cloud-sync">
-            <param name="function">onActionCloudSync</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator>evaluator.doclib.action.isSyncable</evaluator>
-         </action>
-
-         <!-- Cloud Sync: Delete -->
-         <action id="document-cloud-unsync" type="javascript" label="actions.document.cloud-unsync">
-            <param name="function">onActionCloudUnsync</param>
-            <permissions>
-               <permission allow="true">Delete</permission>
-            </permissions>
-            <evaluator>evaluator.doclib.action.isUnsyncable</evaluator>
-            <override>document-cloud-sync</override>
-         </action>
-
-         <!-- Cloud Sync: View In Cloud -->
-         <action id="document-view-in-cloud" type="link" label="actions.document.view-in-cloud">
-            <param name="href">{cloudViewUrl}</param>
-            <param name="target">_blank</param>
-            <evaluator>evaluator.doclib.action.isSyncedFromLocal</evaluator>
-         </action>
-         
-         <!-- Cloud Sync: Request Sync -->
-         <action id="document-request-sync" type="javascript" label="actions.document.request-sync">
-            <param name="function">onActionCloudSyncRequest</param>
-            <evaluator>evaluator.doclib.action.isSyncedFromLocal</evaluator>
          </action>
 
          <!-- Download folder -->
@@ -1297,10 +1238,6 @@
             <action index="300" id="document-manage-aspects" />
             <action index="310" id="document-view-googlemaps" />
             <action index="320" id="document-view-in-source-repository" />
-            <action index="330" id="document-cloud-sync" />
-            <action index="340" id="document-cloud-unsync" />
-            <action index="350" id="document-view-in-cloud" />
-            <action index="360" id="document-request-sync"/> 
          </actionGroup>
 
          <actionGroup id="document-details">
@@ -1342,10 +1279,6 @@
             <action index="520" id="document-copy-to" subgroup="50" />
             <action index="530" id="document-unzip-to" subgroup="50" />
             <action index="540" id="document-delete" subgroup="50" />
-            <action index="610" id="document-cloud-sync" subgroup="60" />
-            <action index="620" id="document-cloud-unsync" subgroup="60" />
-            <action index="630" id="document-view-in-cloud" subgroup="60" />
-            <action index="640" id="document-request-sync" subgroup="60" />
             <action index="710" id="document-assign-workflow" subgroup="70" appendEvaluators="true">
                 <evaluator>evaluator.doclib.action.DocumentEnableInSmartFolder</evaluator>
             </action>
@@ -1386,10 +1319,6 @@
             </action>
             <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />
             <action index="310" id="document-view-googlemaps" />
-            <action index="360" id="document-cloud-sync" />
-            <action index="370" id="document-cloud-unsync" />
-            <action index="380" id="document-view-in-cloud" />
-            <action index="390" id="document-request-sync"/>
          </actionGroup>
 
          <actionGroup id="folder-details">
@@ -1405,10 +1334,6 @@
             <action index="410" id="document-move-to" subgroup="40" icon="folder-move-to" label="actions.folder.move-to" />
             <action index="420" id="document-copy-to" subgroup="40" icon="folder-copy-to" label="actions.folder.copy-to" />
             <action index="430" id="document-delete" subgroup="40" icon="folder-delete" label="actions.folder.delete" />
-            <action index="510" id="document-cloud-sync" subgroup="50" />
-            <action index="520" id="document-cloud-unsync" subgroup="50" />
-            <action index="530" id="document-view-in-cloud" subgroup="50" />
-            <action index="540" id="document-request-sync" subgroup="50" />
             <action index="610" id="document-manage-granular-permissions" subgroup="60" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
             <action index="620" id="document-manage-repo-permissions" subgroup="60" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
             <action index="630" id="document-take-ownership" subgroup="60" icon="folder-manage-permissions" />

@@ -250,15 +250,6 @@
          </properties>
       </component>
 
-      <!-- Document Sync -->
-      <component>
-         <region-id>document-sync</region-id>
-         <url>/components/document-details/document-sync</url>
-         <properties>
-            <nodeRef>{nodeRef}</nodeRef>
-         </properties>
-      </component>
-
       <!-- Document Permissions - removed. See https://issues.alfresco.com/jira/browse/SHA-3 -->
 
       <!-- Document Workflows -->

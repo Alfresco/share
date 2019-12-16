@@ -69,28 +69,6 @@
                      </#if>
                   </@>
                   
-                  <#-- CLOUD SYNC BUTTONS -->
-                  <@markup id="cloudSyncButtons">
-                     <div class="hideable toolbar-hidden DocListTree">
-                        <div class="sync-to-cloud">
-                           <span id="${id}-syncToCloud-button" class="yui-button yui-push-button hidden">
-                              <span class="first-child">
-                                 <button name="syncToCloud">${msg("button.sync-to-cloud")}</button>
-                              </span>
-                           </span>
-                        </div>
-                     </div>
-                     <div class="hideable toolbar-hidden DocListTree">
-                        <div class="unsync-from-cloud">
-                           <span id="${id}-unsyncFromCloud-button" class="yui-button yui-push-button hidden">
-                              <span class="first-child">
-                                 <button name="unsyncFromCloud">${msg("button.unsync-from-cloud")}</button>
-                              </span>
-                           </span>
-                        </div>
-                     </div>
-                  </@>
-                  
                   <#-- SELECTED ITEMS MENU -->
                   <@markup id="selectedItems">
                      <div class="selected-items hideable toolbar-hidden DocListTree DocListFilter TagFilter DocListCategories">
