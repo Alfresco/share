@@ -4,27 +4,28 @@
  * %%
  * Copyright (C) 2005 - 2019 Alfresco Software Limited
  * %%
- * This file is part of the Alfresco software.
- * If the software was purchased under a paid Alfresco license, the terms of
- * the paid license agreement will prevail.  Otherwise, the software is
+ * This file is part of the Alfresco software. 
+ * If the software was purchased under a paid Alfresco license, the terms of 
+ * the paid license agreement will prevail.  Otherwise, the software is 
  * provided under the following open source license terms:
- *
+ * 
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  */
 package org.alfresco.web.site.servlet;
 
+import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.keycloak.KeycloakSecurityContext;
@@ -46,28 +47,32 @@ public class AIMSLogoutController extends SlingshotLogoutController
 
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-        String username = null;
+        AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aimsConfig");
 
-        // Check whether there is already an user logged in
-        HttpSession session = request.getSession(false);
-
-        if (session != null)
+        if (config.isAIMSEnabled())
         {
-            username = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
+            String username = null;
+            // Check whether there is already an user logged in
+            HttpSession session = request.getSession(false);
 
-            if (username != null && !username.isEmpty())
+            if (session != null)
             {
-                SerializableKeycloakAccount account = (SerializableKeycloakAccount) session.getAttribute(KeycloakAccount.class.getName());
+                username = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
 
-                if (account != null)
+                if (username != null && !username.isEmpty())
                 {
-                    InputStream is = this.getServletContext().getResourceAsStream("/WEB-INF/keycloak.json");
-                    KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+                    SerializableKeycloakAccount account = (SerializableKeycloakAccount) session.getAttribute(KeycloakAccount.class.getName());
 
-                    // Logs out from Keycloak
-                    account.getKeycloakSecurityContext().logout(deployment);
-                    session.removeAttribute(KeycloakAccount.class.getName());
-                    session.removeAttribute(KeycloakSecurityContext.class.getName());
+                    if (account != null)
+                    {
+                        InputStream is = this.getServletContext().getResourceAsStream("/WEB-INF/keycloak.json");
+                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+
+                        // Logs out from Keycloak
+                        account.getKeycloakSecurityContext().logout(deployment);
+                        session.removeAttribute(KeycloakAccount.class.getName());
+                        session.removeAttribute(KeycloakSecurityContext.class.getName());
+                    }
                 }
             }
         }

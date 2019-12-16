@@ -4,21 +4,21 @@
  * %%
  * Copyright (C) 2005 - 2019 Alfresco Software Limited
  * %%
- * This file is part of the Alfresco software.
- * If the software was purchased under a paid Alfresco license, the terms of
- * the paid license agreement will prevail.  Otherwise, the software is
+ * This file is part of the Alfresco software. 
+ * If the software was purchased under a paid Alfresco license, the terms of 
+ * the paid license agreement will prevail.  Otherwise, the software is 
  * provided under the following open source license terms:
- *
+ * 
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -26,7 +26,7 @@
 package org.alfresco.web.site.servlet;
 
 import org.alfresco.error.AlfrescoRuntimeException;
-import org.alfresco.web.site.servlet.config.AIMSConfigUtils;
+import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
@@ -53,11 +53,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 
 public class AIMSFilter extends KeycloakOIDCFilter
 {
-
     private static Log logger = LogFactory.getLog(AIMSFilter.class);
 
     private boolean enabled;
@@ -75,12 +73,11 @@ public class AIMSFilter extends KeycloakOIDCFilter
      */
     public void init(FilterConfig filterConfig) throws ServletException
     {
-
         super.init(filterConfig);
 
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
-        AIMSConfigUtils configUtils = (AIMSConfigUtils) this.context.getBean("aimsConfigUtils");
-        this.enabled = configUtils.isAIMSEnabled();
+        AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
+        this.enabled = config.isAIMSEnabled();
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
     }
