@@ -83,25 +83,6 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- Extract share-config-custom.xml -->
-                    <execution>
-                        <id>extract-share-config-custom</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>alfresco-installer-resources</artifactId>
-                                    <version>6.0.2.1-ea</version>
-                                    <includes>**/share-config-custom.xml</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-
                     <!-- Extract keystore from alfresco-repository -->
                     <execution>
                         <id>extract-keystore</id>
