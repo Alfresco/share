@@ -442,7 +442,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     public void doFilter(ServletRequest sreq, ServletResponse sresp, FilterChain chain)
         throws IOException, ServletException
     {
-        // Skip this filter, if Identity Service is enabled
+        // Skip this filter, if AIMS is enabled
         boolean skip = false;
         try
         {
