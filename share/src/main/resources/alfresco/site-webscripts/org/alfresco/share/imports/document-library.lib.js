@@ -569,29 +569,6 @@ function getFilters() {
       }
    };
 
-   // Add the additional cloud synchronization related filters...
-   if (syncMode != "OFF")
-   {
-      filters.config.widgets.push({
-         name: "alfresco/documentlibrary/AlfDocumentFilter",
-         config: {
-            label: "link.synced",
-            filter: "synced",
-            description: "link.synced.description"
-         }
-      });
-   }
-   if (syncMode == "ON_PREMISE")
-   {
-      filters.config.widgets.push({
-         name: "alfresco/documentlibrary/AlfDocumentFilter",
-         config: {
-            label: "link.syncedErrors",
-            filter: "syncedErrors",
-            description: "link.syncedErrors.description"
-         }
-      });
-   }
    return filters;
 }
 
@@ -933,23 +910,6 @@ function getDocumentLibraryModel(siteId, containerId, rootNode, rootLabel) {
                                              label: msg.get("upload.label"),
                                              iconClass: "alf-upload-icon",
                                              publishTopic: "ALF_SHOW_UPLOADER"
-                                          }
-                                       },
-                                       {
-                                          id: "DOCLIB_SYNC_TO_CLOUD_BUTTON",
-                                          name: "alfresco/documentlibrary/AlfCloudSyncFilteredMenuBarItem",
-                                          config: {
-                                             label: msg.get("actions.document.cloud-sync"),
-                                             publishTopic: "ALF_SYNC_CURRENT_LOCATION"
-                                          }
-                                       },
-                                       {
-                                          id: "DOCLIB_UNSYNC_FROM_CLOUD_BUTTON",
-                                          name: "alfresco/documentlibrary/AlfCloudSyncFilteredMenuBarItem",
-                                          config: {
-                                             label: msg.get("actions.document.cloud-unsync"),
-                                             invertFilter: true,
-                                             publishTopic: "ALF_UNSYNC_CURRENT_LOCATION"
                                           }
                                        },
                                        getSelectedItemActions()

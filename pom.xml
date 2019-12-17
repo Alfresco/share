@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>alfresco-share-parent</artifactId>
-    <version>6.2.0-SNAPSHOT</version>
+    <version>6.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -54,11 +54,13 @@
         <dependency.alfresco-repository.version>7.33.33</dependency.alfresco-repository.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
         <dependency.alfresco-core.version>7.5.6</dependency.alfresco-core.version>
-        <dependency.webscripts.version>7.10</dependency.webscripts.version>
-        <dependency.surf.version>7.3</dependency.surf.version>
+        <dependency.webscripts.version>7.11</dependency.webscripts.version>
+        <dependency.surf.version>7.4</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.1</dependency.dom4j.version>
         <dependency.slf4j.version>1.7.24</dependency.slf4j.version>
+        <dependency.cxf.version>3.1.16</dependency.cxf.version>
+        <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
@@ -82,8 +84,6 @@
         <test.working.dir>${project.build.directory}</test.working.dir>
         <img.exe>convert</img.exe>
         <swf.exe>pdf2swf</swf.exe>
-
-        <dependency.cxf.version>3.1.14</dependency.cxf.version>
     </properties>
 
    <scm>
@@ -212,6 +212,11 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-ws-policy</artifactId>
                 <version>${dependency.cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${dependency.beanutils.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

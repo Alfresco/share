@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>6.2.0-SNAPSHOT</version>
+        <version>6.3.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-ai-share</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.1</version>
             <type>amp</type>
         </dependency>
     </dependencies>
