@@ -36,6 +36,7 @@ import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
 import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
 import org.keycloak.adapters.spi.KeycloakAccount;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
 import org.springframework.extensions.surf.RequestContextUtil;
@@ -76,10 +77,17 @@ public class AIMSFilter extends KeycloakOIDCFilter
         super.init(filterConfig);
 
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
-        AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
-        this.enabled = config.isAIMSEnabled();
-        this.connectorService = (ConnectorService) context.getBean("connector.service");
-        this.loginController = (SlingshotLoginController) context.getBean("loginController");
+        try
+        {
+            AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
+            this.enabled = config.isAIMSEnabled();
+            this.connectorService = (ConnectorService) context.getBean("connector.service");
+            this.loginController = (SlingshotLoginController) context.getBean("loginController");
+        }
+        catch (BeansException e)
+        {
+            this.enabled = false;
+        }
     }
 
     /**

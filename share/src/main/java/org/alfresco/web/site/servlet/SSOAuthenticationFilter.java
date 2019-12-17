@@ -38,6 +38,7 @@ import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.alfresco.web.site.servlet.config.KerberosConfigElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.ConfigService;
@@ -442,8 +443,22 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         throws IOException, ServletException
     {
         // Skip this filter, if Identity Service is enabled
-        AIMSConfig aimsConfig = (AIMSConfig) this.context.getBean("aimsConfig");
-        if (aimsConfig.isAIMSEnabled()) {
+        boolean skip = false;
+        try
+        {
+            AIMSConfig aimsConfig = (AIMSConfig) this.context.getBean("aimsConfig");
+            if (aimsConfig.isAIMSEnabled()) {
+                skip = true;
+            }
+        }
+        catch (BeansException e)
+        {
+
+        }
+
+        // If AIMS filter is enabled, skip this filter
+        if (skip == true)
+        {
             chain.doFilter(sreq, sresp);
             return;
         }

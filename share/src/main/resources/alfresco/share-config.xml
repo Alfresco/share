@@ -321,11 +321,4 @@
       </remote>
    </config>
 
-    <!-- AIMS settings -->
-    <config evaluator="string-compare" condition="AIMS">
-        <aims>
-            <enabled>true</enabled>
-        </aims>
-    </config>
-
 </alfresco-config>
