@@ -409,7 +409,7 @@
    <!-- AIMS -->
    <config evaluator="string-compare" condition="AIMS">
       <aims>
-         <enabled>true</enabled>
+         <enabled>false</enabled>
       </aims>
    </config>
 
