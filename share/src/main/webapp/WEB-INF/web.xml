@@ -41,12 +41,6 @@
       </init-param>
    </filter>
 
-   <!-- AIMS Filter -->
-   <filter>
-      <filter-name>AIMS Filter</filter-name>
-      <filter-class>org.alfresco.web.site.servlet.AIMSFilter</filter-class>
-   </filter>
-
    <filter>
       <description>CSRF Token filter. Checks for a session based CSRF token in request headers (or form parameters) based on config.</description>
       <filter-name>CSRF Token Filter</filter-name>
@@ -59,121 +53,116 @@
       <filter-class>org.springframework.extensions.webscripts.servlet.SecurityHeadersFilter</filter-class>
    </filter>
 
-   <!-- MTAuthenticationFilter mappings -->
    <filter-mapping>
       <filter-name>MTAuthentationFilter</filter-name>
       <url-pattern>/page/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>MTAuthentationFilter</filter-name>
       <url-pattern>/p/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>MTAuthentationFilter</filter-name>
       <url-pattern>/proxy/*</url-pattern>
    </filter-mapping>
-
-   <!-- SSO Authentication Filter mappings -->
+   
    <filter-mapping>
       <filter-name>Authentication Filter</filter-name>
       <url-pattern>/page/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>Authentication Filter</filter-name>
       <url-pattern>/p/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>Authentication Filter</filter-name>
       <url-pattern>/proxy/*</url-pattern>
    </filter-mapping>
+
    <filter-mapping>
       <filter-name>Authentication Filter</filter-name>
       <url-pattern>/service/*</url-pattern>
    </filter-mapping>
 
-   <!-- AIMS Filter mappings -->
    <filter-mapping>
-      <filter-name>AIMS Filter</filter-name>
+      <filter-name>CSRF Token Filter</filter-name>
       <url-pattern>/page/*</url-pattern>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>AIMS Filter</filter-name>
-      <url-pattern>/p/*</url-pattern>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>AIMS Filter</filter-name>
-      <url-pattern>/proxy/*</url-pattern>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>AIMS Filter</filter-name>
-      <url-pattern>/service/*</url-pattern>
    </filter-mapping>
 
-   <!-- CSRF Token Filter mappings -->
-   <filter-mapping>
-      <filter-name>CSRF Token Filter</filter-name>
-      <url-pattern>/page/*</url-pattern>
-   </filter-mapping>
    <filter-mapping>
       <filter-name>CSRF Token Filter</filter-name>
       <url-pattern>/p/*</url-pattern>
    </filter-mapping>
+
    <filter-mapping>
       <filter-name>CSRF Token Filter</filter-name>
       <url-pattern>/proxy/*</url-pattern>
    </filter-mapping>
+
    <filter-mapping>
       <filter-name>CSRF Token Filter</filter-name>
       <url-pattern>/service/*</url-pattern>
    </filter-mapping>
 
-   <!-- Security Headers Filter mappings -->
    <filter-mapping>
       <filter-name>Security Headers Filter</filter-name>
       <url-pattern>/page/*</url-pattern>
    </filter-mapping>
+
    <filter-mapping>
       <filter-name>Security Headers Filter</filter-name>
       <url-pattern>/p/*</url-pattern>
    </filter-mapping>
+
    <filter-mapping>
       <filter-name>Security Headers Filter</filter-name>
       <url-pattern>/proxy/*</url-pattern>
    </filter-mapping>
+
    <filter-mapping>
       <filter-name>Security Headers Filter</filter-name>
       <url-pattern>/service/*</url-pattern>
    </filter-mapping>
 
-   <!-- UrlRewriteFilter mappings -->
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/proxy/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/service/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/feedservice/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/res/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/yui/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/system/*</url-pattern>
    </filter-mapping>
+   
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/s/*</url-pattern>
    </filter-mapping>
+
    <filter-mapping>
       <filter-name>UrlRewriteFilter</filter-name>
       <url-pattern>/noauth/*</url-pattern>
