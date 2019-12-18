@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>5.2.3</version>
+        <version>5.2.3.10</version>
     </parent>
     <artifactId>alfresco-wcmqs-distribution</artifactId>
     <packaging>jar</packaging>
