@@ -1,0 +1,11 @@
+{
+  "realm" : "",
+  "resource" : "",
+  "auth-server-url" : "",
+  "ssl-required" : "none",
+  "public-client" : true,
+  "autodetect-bearer-only": true,
+  "always-refresh-token": true,
+  "principal-attribute": "email",
+  "enable-basic-auth": true
+}

@@ -6,7 +6,7 @@
                 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                 http://www.hazelcast.com/schema/spring
                 https://hazelcast.com/schema/spring/hazelcast-spring-2.4.xsd">
-   
+
    <!--
         Hazelcast distributed messaging configuration - Share web-tier cluster config (3.4.8 and 4.0.1 onwards)
         - see http://www.hazelcast.com/docs.jsp
@@ -35,14 +35,14 @@
          </hz:network>
       </hz:config>
    </hz:hazelcast>
-   
+
    <bean id="webframework.slingshot.persister.remote" class="org.alfresco.web.site.ClusterAwarePathStoreObjectPersister" parent="webframework.sitedata.persister.abstract">
       <property name="store" ref="webframework.webapp.store.remote" />
       <property name="pathPrefix"><value>alfresco/site-data/${objectTypeIds}</value></property>
       <property name="hazelcastInstance" ref="webframework.cluster.slingshot" />
       <property name="hazelcastTopicName"><value>slingshot-topic</value></property>
    </bean>
-   
+
    <bean id="webframework.factory.requestcontext.servlet" class="org.alfresco.web.site.ClusterAwareRequestContextFactory" parent="webframework.factory.base">
       <property name="linkBuilderFactory" ref="webframework.factory.linkbuilder.servlet" />
       <property name="extensibilityModuleHandler" ref="webscripts.extensibility.handler" />
@@ -50,8 +50,8 @@
       <property name="clusterObjectPersister" ref="webframework.slingshot.persister.remote" />
    </bean>
    -->
-   
-   
+
+
    <!-- Override WebScripts searchpath - to include remote store -->
    <!-- This enables remote component load via a central Alfresco server -->
    <!--
@@ -71,7 +71,7 @@
       </property>
    </bean>
    -->
-   
+
    <!-- Override Templates and Scripts searchpath - to include remote store -->
    <!-- This enables remote component load via a central Alfresco server -->
    <!--
