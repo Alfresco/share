@@ -41,7 +41,7 @@ function main()
       return;
    }
 
-   var immutability = people.getImmutableProperties(username);
+   var immutableProperties = people.getImmutableProperties(username);
    if (json.has("properties"))
    {
       var props = json.get("properties");
@@ -54,7 +54,7 @@ function main()
             var propval = props.get(propname);
             
             // set simple text properties
-            if(!immutability.hasOwnProperty(String(propname)))
+            if(!immutableProperties.hasOwnProperty(String(propname)))
             {
                user.properties[propname] = propval;
             }
