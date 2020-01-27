@@ -1,9 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-
-<suite name="Site Content Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="3">
-    <test name="SimpleViewInformationTest">
-        <classes>
-            <class name="org.alfresco.po.share.dashlet.sitecontent.SimpleViewInformationTest" />
-        </classes>
-    </test>
-</suite>
