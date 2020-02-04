@@ -32,6 +32,8 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.adapters.KeycloakDeployment;
+import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
 import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
@@ -53,20 +55,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 
 public class AIMSFilter extends KeycloakOIDCFilter
 {
     private static Log logger = LogFactory.getLog(AIMSFilter.class);
 
-    private boolean enabled;
-
     private ApplicationContext context;
     private ConnectorService connectorService;
     private SlingshotLoginController loginController;
 
+    private boolean enabled = false;
+
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
+    public static final String AIMS_CONFIG_PATH = "/WEB-INF/keycloak.json";
 
     /**
      * @param filterConfig
@@ -74,11 +78,18 @@ public class AIMSFilter extends KeycloakOIDCFilter
      */
     public void init(FilterConfig filterConfig) throws ServletException
     {
+        // INFO
+        if (logger.isInfoEnabled())
+        {
+            logger.info("Initializing the AIMSFilter.");
+        }
+
         super.init(filterConfig);
 
-        this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
         try
         {
+            this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
+
             AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
             this.enabled = config.isAIMSEnabled();
             this.connectorService = (ConnectorService) context.getBean("connector.service");
@@ -86,7 +97,34 @@ public class AIMSFilter extends KeycloakOIDCFilter
         }
         catch (BeansException e)
         {
-            this.enabled = false;
+            if (logger.isErrorEnabled())
+            {
+                logger.error(e.getMessage());
+            }
+            throw new AlfrescoRuntimeException(e.getMessage());
+        }
+
+        // Check if there are valid values within keycloak.json config file
+        if (this.enabled)
+        {
+            InputStream is = filterConfig.getServletContext().getResourceAsStream(AIMS_CONFIG_PATH);
+            KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+            if (!deployment.isConfigured() || deployment.getRealm().isEmpty() ||
+                deployment.getResourceName().isEmpty() || deployment.getAuthServerBaseUrl().isEmpty())
+            {
+                String errorMessage = "AIMS is not configured properly.";
+                if (logger.isErrorEnabled())
+                {
+                    logger.error(errorMessage);
+                }
+                throw new AlfrescoRuntimeException(errorMessage);
+            }
+        }
+
+        // INFO
+        if (logger.isInfoEnabled())
+        {
+            logger.info("AIMSFilter initialized.");
         }
     }
 
