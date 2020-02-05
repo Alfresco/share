@@ -73,36 +73,26 @@ public class AIMSFilter extends KeycloakOIDCFilter
     public static final String AIMS_CONFIG_PATH = "/WEB-INF/keycloak.json";
 
     /**
+     * Initialize the filter
+     *
      * @param filterConfig
      * @throws ServletException
      */
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        // INFO
+        // Info
         if (logger.isInfoEnabled())
         {
-            logger.info("Initializing the AIMSFilter.");
+            logger.info("Initializing the AIMS filter.");
         }
 
         super.init(filterConfig);
 
-        try
-        {
-            this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
-
-            AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
-            this.enabled = config.isAIMSEnabled();
-            this.connectorService = (ConnectorService) context.getBean("connector.service");
-            this.loginController = (SlingshotLoginController) context.getBean("loginController");
-        }
-        catch (BeansException e)
-        {
-            if (logger.isErrorEnabled())
-            {
-                logger.error(e.getMessage());
-            }
-            throw new AlfrescoRuntimeException(e.getMessage());
-        }
+        this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
+        AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
+        this.enabled = config.isAIMSEnabled();
+        this.connectorService = (ConnectorService) context.getBean("connector.service");
+        this.loginController = (SlingshotLoginController) context.getBean("loginController");
 
         // Check if there are valid values within keycloak.json config file
         if (this.enabled)
@@ -112,19 +102,14 @@ public class AIMSFilter extends KeycloakOIDCFilter
             if (!deployment.isConfigured() || deployment.getRealm().isEmpty() ||
                 deployment.getResourceName().isEmpty() || deployment.getAuthServerBaseUrl().isEmpty())
             {
-                String errorMessage = "AIMS is not configured properly.";
-                if (logger.isErrorEnabled())
-                {
-                    logger.error(errorMessage);
-                }
-                throw new AlfrescoRuntimeException(errorMessage);
+                throw new AlfrescoRuntimeException("AIMS is not configured properly; realm, resource and auth-server-url should not be empty.");
             }
         }
 
-        // INFO
+        // Info
         if (logger.isInfoEnabled())
         {
-            logger.info("AIMSFilter initialized.");
+            logger.info("AIMS filter initialized.");
         }
     }
 
@@ -185,15 +170,19 @@ public class AIMSFilter extends KeycloakOIDCFilter
     }
 
     /**
+     *
      * @param request HTTP Servlet Request
      * @param response HTTP Servlet Response
      * @param session HTTP Session
      * @param context Refreshable Keycloak Security Context
-     * @throws ServletException
      */
     private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session, RefreshableKeycloakSecurityContext context)
-        throws ServletException
     {
+        // Info
+        if (logger.isInfoEnabled())
+        {
+            logger.info("Completing the AIMS authentication.");
+        }
 
         String username = context.getIdToken().getPreferredUsername();
         String accessToken = context.getTokenString();
@@ -208,40 +197,47 @@ public class AIMSFilter extends KeycloakOIDCFilter
 
             // Get the slf_ticket from repo, using the JWT token from Keycloak
             String alfTicket = this.getAlfTicket(session, username, accessToken);
+            if (alfTicket != null)
+            {
+                // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
+                Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
+                connector.getConnectorSession().setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
 
-            // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
-            Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
-            connector.getConnectorSession().setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
+                // Set credential username for further use on repo
+                // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
+                CredentialVault vault = FrameworkUtil.getCredentialVault(session, username);
+                Credentials credentials = vault.newCredentials(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
+                credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
+                vault.store(credentials);
 
-            // Set credential username for further use on repo
-            // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
-            CredentialVault vault = FrameworkUtil.getCredentialVault(session, username);
-            Credentials credentials = vault.newCredentials(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
-            credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
-            vault.store(credentials);
-
-            // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
-            this.loginController.beforeSuccess(request, response);
+                // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
+                this.loginController.beforeSuccess(request, response);
+            }
         }
         catch (Exception e)
         {
-            logger.error(e.getMessage());
-            throw new ServletException(e);
+            throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process", e);
         }
     }
 
     /**
-     * Get an alf_ticket using the JWT token from Keycloak
+     * Get an alfTicket using the JWT token from Keycloak
      *
      * @param session HTTP Session
      * @param username username
      * @param accessToken access token
-     * @return The ALF ticket
+     * @return The alfTicket
      * @throws ConnectorServiceException
-     * @throws JSONException
      */
-    private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException, JSONException
+    private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException
     {
+        // Info
+        if (logger.isInfoEnabled())
+        {
+            logger.info("retrieving the Alfresco Ticket from Repository.");
+        }
+
+        String alfTicket = null;
         Connector connector = this.connectorService.getConnector(ALFRESCO_API_ENDPOINT_ID, username, session);
         ConnectorContext c = new ConnectorContext(HttpMethod.GET, null, Collections.singletonMap("Authorization", "Bearer " + accessToken));
         c.setContentType("application/json");
@@ -249,11 +245,27 @@ public class AIMSFilter extends KeycloakOIDCFilter
 
         if (Status.STATUS_OK != r.getStatus().getCode())
         {
-            throw new AlfrescoRuntimeException("Failed to read the returned content");
+            if (logger.isErrorEnabled())
+            {
+                logger.error("Failed to retrieve Alfresco Ticket from Repository.");
+            }
         }
-
-        JSONObject json = new JSONObject(r.getText());
-        String alfTicket = json.getJSONObject("entry").getString("id");
+        else
+        {
+            // Parse the alfTicket
+            JSONObject json = new JSONObject(r.getText());
+            try
+            {
+                alfTicket = json.getJSONObject("entry").getString("id");
+            }
+            catch (JSONException e)
+            {
+                if (logger.isErrorEnabled())
+                {
+                    logger.error("Failed to parse Alfresco Ticket from Repository response.");
+                }
+            }
+        }
 
         return alfTicket;
     }
