@@ -288,10 +288,6 @@
       <property name="extensionName" value="imapServerStatus" />
    </bean>
 
-   <bean id="slingshot.scriptprocessor.syncModeConfig" parent="baseScriptExtension" class="org.alfresco.web.scripts.SyncModeConfig">
-      <property name="extensionName" value="syncMode" />
-   </bean>
-
    <bean id="slingshot.scriptprocessor.dictionaryQuery" parent="baseScriptExtension" class="org.alfresco.web.scripts.DictionaryQuery">
       <property name="extensionName" value="dictionary" />
    </bean>
