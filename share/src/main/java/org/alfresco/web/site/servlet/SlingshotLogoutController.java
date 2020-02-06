@@ -25,10 +25,6 @@
  */
 package org.alfresco.web.site.servlet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,14 +36,12 @@ import org.keycloak.adapters.spi.KeycloakAccount;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.mvc.LogoutController;
 import org.springframework.extensions.surf.support.AlfrescoUserFactory;
-import org.springframework.extensions.webscripts.connector.AlfrescoAuthenticator;
-import org.springframework.extensions.webscripts.connector.Connector;
-import org.springframework.extensions.webscripts.connector.ConnectorContext;
-import org.springframework.extensions.webscripts.connector.ConnectorService;
-import org.springframework.extensions.webscripts.connector.HttpMethod;
-import org.springframework.extensions.webscripts.connector.Response;
+import org.springframework.extensions.webscripts.connector.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 
 /**
@@ -96,7 +90,7 @@ public class SlingshotLogoutController extends LogoutController
 
                     if (account != null)
                     {
-                        InputStream is = this.getServletContext().getResourceAsStream("/WEB-INF/keycloak.json");
+                        InputStream is = this.getServletContext().getResourceAsStream(AIMSFilter.AIMS_CONFIG_PATH);
                         KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
 
                         // Logs out from Keycloak

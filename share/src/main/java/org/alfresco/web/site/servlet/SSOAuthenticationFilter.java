@@ -447,13 +447,17 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         try
         {
             AIMSConfig aimsConfig = (AIMSConfig) this.context.getBean("aimsConfig");
-            if (aimsConfig.isAIMSEnabled()) {
+            if (aimsConfig.isAIMSEnabled())
+            {
                 skip = true;
             }
         }
         catch (BeansException e)
         {
-
+            if (logger.isErrorEnabled())
+            {
+                logger.error(e);
+            }
         }
 
         // If AIMS filter is enabled, skip this filter
