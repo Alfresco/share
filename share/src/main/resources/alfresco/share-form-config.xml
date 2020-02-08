@@ -665,7 +665,6 @@
                <show id="Issued" />
                <show id="Issuer" />
                <show id="HeartBeatDisabled" />
-               <show id="CloudSyncKeyAvailable" />
                <show id="mbean_operations" for-mode="edit" />
             </field-visibility>
             <appearance>
@@ -682,9 +681,6 @@
                <field id="Issued" label-id="license.field.Issued" set="license" />
                <field id="Issuer" label-id="license.field.Issuer" set="license" />
                <field id="HeartBeatDisabled" label-id="license.field.HeartBeatDisabled" set="license">
-                  <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
-               </field>
-               <field id="CloudSyncKeyAvailable" label-id="license.field.CloudSyncKeyAvailable" set="license">
                   <control template="/org/alfresco/components/form/controls/checkbox.ftl" />
                </field>
                <field id="mbean_operations" set="operations" />

@@ -41,7 +41,6 @@ function widgets()
       id : "DocumentList", 
       name : "Alfresco.DocumentList",
       options : {
-         syncMode : model.syncMode != null ? model.syncMode : "",
          siteId : "",
          containerId : "documentLibrary",
          rootNode : rootNode,

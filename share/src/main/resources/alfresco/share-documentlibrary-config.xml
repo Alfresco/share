@@ -781,7 +781,7 @@
          <action type="action-link" id="onActionCopyTo" icon="document-copy-to" label="menu.selected-items.copy" notAspect="smf:smartFolder,smf:smartFolderChild"/>
          <action type="action-link" id="onActionMoveTo" icon="document-move-to" permission="Delete" label="menu.selected-items.move" notAspect="smf:smartFolder,smf:smartFolderChild"/>
          <action type="action-link" id="onActionAssignWorkflow" asset="document" icon="document-assign-workflow" label="menu.selected-items.assign-workflow"/>
-         <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="hwf:hybridWorkflow,sys:undeletable,smf:smartFolder" />
+         <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="sys:undeletable,smf:smartFolder" />
       </multi-select>
       
       <!--
@@ -1050,7 +1050,6 @@
                <permission allow="true">Delete</permission>
             </permissions>
             <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
-            <evaluator>evaluator.doclib.action.isNotPartOfHybridWorklfow</evaluator>
             <evaluator>evaluator.doclib.action.isDeletable</evaluator>
          </action>
 

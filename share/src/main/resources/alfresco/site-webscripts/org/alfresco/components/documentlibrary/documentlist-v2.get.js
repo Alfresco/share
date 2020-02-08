@@ -25,7 +25,6 @@ function widgets()
          hideNavBar: Boolean(toolbar.preferences.hideNavBar),
          repositoryBrowsing: toolbar.rootNode != null,
          useTitle: (useTitle == "true"),
-         syncMode: toolbar.syncMode != null ? toolbar.syncMode : "",
          createContentByTemplateEnabled: model.createContentByTemplateEnabled,
          createContentActions: model.createContent
       }
@@ -35,7 +34,6 @@ function widgets()
       id : "DocumentList", 
       name : "Alfresco.DocumentList",
       options : {
-         syncMode : model.syncMode != null ? model.syncMode : "",         
          siteId : (page.url.templateArgs.site != null) ? page.url.templateArgs.site : "",
          containerId : template.properties.container != null ? template.properties.container : "documentLibrary",
          rootNode : model.rootNode != null ? model.rootNode : "null",

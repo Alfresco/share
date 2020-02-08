@@ -1,10 +1,5 @@
 <import resource="classpath:/alfresco/templates/org/alfresco/import/alfresco-util.js">
 
-/**
- * Cloud Sync Status Information
- *
- */
-
 function main()
 {
    AlfrescoUtil.param("nodeRef");

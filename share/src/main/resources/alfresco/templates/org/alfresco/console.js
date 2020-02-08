@@ -139,7 +139,7 @@ function validForEdition(tool, edition)
          for each (var f in familys)
          {
             // test if edition or sub-edition (edition and constraint)
-            if (f.match("^edition:" + edition + "$") || (f.match("^edition:" + edition + "-CLOUDSYNCPREM$") && (syncMode.getValue() == "ON_PREMISE")))
+            if (f.match("^edition:" + edition + "$"))
             {
                valid = true;
                break;
