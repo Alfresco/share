@@ -24,8 +24,23 @@
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-core</artifactId>
+            <version>${dependency.alfresco-core.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>        
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
