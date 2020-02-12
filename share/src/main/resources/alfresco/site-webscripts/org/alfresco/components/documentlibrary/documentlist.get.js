@@ -9,7 +9,6 @@ function main()
       id : "DocumentList", 
       name : "Alfresco.DocumentList",
       options : {
-         syncMode : model.syncMode != null ? model.syncMode : "",         
          siteId : (page.url.templateArgs.site != null) ? page.url.templateArgs.site : "",
          containerId : template.properties.container != null ? template.properties.container : "documentLibrary",
          rootNode : model.rootNode != null ? model.rootNode : "null",

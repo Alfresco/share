@@ -10,7 +10,6 @@
 <@script type="text/javascript" src="${url.context}/res/components/form/workflow/transitions.js" group="form"/>
 <@script type="text/javascript" src="${url.context}/res/components/form/workflow/activiti-transitions.js" group="form"/>
 <@script type="text/javascript" src="${url.context}/res/components/form/jmx/operations.js" group="form"/>
-<@script type="text/javascript" src="${url.context}/res/components/object-finder/cloud-object-finder.js" group="form"/>
 <@script type="text/javascript" src="${url.context}/res/components/common/common-component-style-filter-chain.js" group="form"/>
 
 <#if config.global.forms?exists && config.global.forms.dependencies?exists && config.global.forms.dependencies.js?exists>

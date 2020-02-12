@@ -16,8 +16,6 @@ function main()
       model.documentDetails = true;
       doclibCommon();
    }
-   
-   model.syncMode = syncMode.getValue();
 
    // Widget instantiation metadata...
    var documentActions = {
@@ -31,8 +29,7 @@ function main()
          repositoryRoot : AlfrescoUtil.getRootNode(),
          replicationUrlMapping : (model.replicationUrlMapping != null) ? model.replicationUrlMapping : "{}",
          documentDetails : documentDetails,
-         repositoryBrowsing : (model.rootNode != null),
-         syncMode : model.syncMode != null ? model.syncMode : "",         
+         repositoryBrowsing : (model.rootNode != null)
       }
    };
    if (model.repositoryUrl != null)
