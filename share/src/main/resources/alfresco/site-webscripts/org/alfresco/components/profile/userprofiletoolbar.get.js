@@ -29,11 +29,6 @@ function main()
       }
    }
 
-   if (model.activeUserProfile)
-   {
-      model.syncEnabled = (syncMode.getValue() != "OFF");
-   }
-
    model.links = [];
 
    // Add Profile link

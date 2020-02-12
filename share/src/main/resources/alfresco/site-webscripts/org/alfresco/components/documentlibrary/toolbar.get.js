@@ -21,7 +21,6 @@ function widgets()
          hideNavBar: Boolean(toolbar.preferences.hideNavBar),
          repositoryBrowsing: toolbar.rootNode != null,
          useTitle: (useTitle == "true"),
-         syncMode: toolbar.syncMode != null ? toolbar.syncMode : "",
          createContentByTemplateEnabled: model.createContentByTemplateEnabled,
          createContentActions: model.createContent
       }
