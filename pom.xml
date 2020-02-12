@@ -248,6 +248,7 @@
               <groupId>org.keycloak</groupId>
               <artifactId>keycloak-servlet-adapter-spi</artifactId>
               <version>${dependency.keycloak.version}</version>
+            </dependency>
             <!-- SHA-2400 -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
