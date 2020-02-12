@@ -52,6 +52,7 @@
         <dependency.surf.version>6.17.2</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.1</dependency.dom4j.version>
+        <dependency.apache.taglibs.version>1.2.3</dependency.apache.taglibs.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
@@ -199,6 +200,22 @@
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-artifact</artifactId>
                 <version>3.5.0</version>
+            </dependency>
+            <!-- SHA-2423 -->
+            <dependency>
+              <groupId>org.apache.taglibs</groupId>
+              <artifactId>taglibs-standard-spec</artifactId>
+              <version>${dependency.apache.taglibs.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.taglibs</groupId>
+              <artifactId>taglibs-standard-impl</artifactId>
+              <version>${dependency.apache.taglibs.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.taglibs</groupId>
+              <artifactId>taglibs-standard-jstlel</artifactId>
+              <version>${dependency.apache.taglibs.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

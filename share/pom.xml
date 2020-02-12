@@ -215,10 +215,26 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- SHA-2423 -->
+        <!--
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
+        -->
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-spec</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-impl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-jstlel</artifactId>
+        </dependency>
+        <!-- SHA-2423 End -->
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>

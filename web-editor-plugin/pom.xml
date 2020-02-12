@@ -68,7 +68,27 @@
         <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webscripts</artifactId>
+            <exclusions>
+              <!-- SHA-2423 -->
+              <exclusion>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+              </exclusion>                    
+            </exclusions>
         </dependency>
+        <!-- SHA-2423 -->
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-spec</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-impl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-jstlel</artifactId>
+        </dependency>         
     </dependencies>
 
 </project>

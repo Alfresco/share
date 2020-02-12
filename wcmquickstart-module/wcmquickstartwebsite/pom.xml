@@ -68,6 +68,11 @@
                      <groupId>dom4j</groupId>
                      <artifactId>dom4j</artifactId>
                  </exclusion>
+            	<!-- SHA-2423 -->
+            	<exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+            	</exclusion>                 
              </exclusions>
          </dependency>
 
@@ -79,6 +84,20 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
+        
+        <!-- SHA-2423 -->
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-spec</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-impl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-jstlel</artifactId>
+        </dependency>         
 
         <!-- Test dependencies -->
         <dependency>
