@@ -77,7 +77,7 @@
         <swf.exe>pdf2swf</swf.exe>
         <index.subsystem.name>buildonly</index.subsystem.name>
 
-        <dependency.cxf.version>3.1.14</dependency.cxf.version>
+        <dependency.cxf.version>3.1.16</dependency.cxf.version>
     </properties>
 
    <scm>
