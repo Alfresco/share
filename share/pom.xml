@@ -318,7 +318,6 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-servlet-filter-adapter</artifactId>
-            <version>8.0.1</version>
         </dependency>
     </dependencies>
 
