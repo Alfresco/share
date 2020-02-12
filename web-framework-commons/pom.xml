@@ -26,8 +26,23 @@
                      <groupId>dom4j</groupId>
                      <artifactId>dom4j</artifactId>
                  </exclusion>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
              </exclusions>
          </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-core</artifactId>
+            <version>${dependency.alfresco-core.version}</version>            
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>         
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
@@ -58,12 +73,24 @@
             <artifactId>alfresco-remote-api</artifactId>
             <version>7.34.16</version>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            </exclusions>            
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
             <version>${dependency.alfresco-repository.version}</version>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            </exclusions>           
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -89,6 +116,13 @@
             <version>${dependency.alfresco-repository.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            </exclusions>
+            
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -96,6 +130,12 @@
             <version>7.34.16</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
@@ -103,6 +143,12 @@
             <version>${dependency.webscripts.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            </exclusions>            
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
