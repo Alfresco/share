@@ -197,6 +197,11 @@
         </dependency>
         <dependency>
             <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+            <version>2.4-20191107-alfresco-patched</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-spring</artifactId>
             <version>2.4-20191107-alfresco-patched</version>
             <exclusions>
