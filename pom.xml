@@ -49,16 +49,16 @@
         <dependency.httpcomponents.version>4.5.9</dependency.httpcomponents.version>
         <dependency.alfresco-repository.version>7.33.33</dependency.alfresco-repository.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
-        <dependency.alfresco-core.version>8.3</dependency.alfresco-core.version>
-        <dependency.webscripts.version>7.11</dependency.webscripts.version>
-        <dependency.surf.version>7.4</dependency.surf.version>
+        <dependency.alfresco-core.version>8.21</dependency.alfresco-core.version>
+        <dependency.webscripts.version>8.2</dependency.webscripts.version>
+        <dependency.surf.version>7.5</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.1</dependency.dom4j.version>
         <dependency.slf4j.version>1.7.24</dependency.slf4j.version>
         <dependency.cxf.version>3.1.16</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>8.0.1</dependency.keycloak.version>
-	<dependency.apache.taglibs.version>1.2.3</dependency.apache.taglibs.version>
+	      <dependency.apache.taglibs.version>1.2.3</dependency.apache.taglibs.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
