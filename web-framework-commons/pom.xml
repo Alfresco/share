@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>8.107</version>
+            <version>7.34.16</version>
             <scope>test</scope>
             <exclusions>
             	<exclusion>
@@ -90,6 +90,11 @@
 		            <groupId>org.alfresco</groupId>
 		            <artifactId>alfresco-core</artifactId>
 	        	</exclusion>
+            	<!-- SHA-2432 -->
+            	<exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+            	</exclusion>
             </exclusions>           
         </dependency>
         <dependency>
@@ -121,13 +126,18 @@
 		            <groupId>org.alfresco</groupId>
 		            <artifactId>alfresco-core</artifactId>
 	        	</exclusion>
+            	<!-- SHA-2432 -->
+            	<exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+            	</exclusion>
             </exclusions>
             
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>8.107</version>
+            <version>7.34.16</version>
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
@@ -184,6 +194,20 @@
             <scope>test</scope>
         </dependency>
 		-->
+
+        <!-- SHA-2432 -->
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-spec</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-impl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-jstlel</artifactId>
+        </dependency>
     </dependencies>
     
     <build>
