@@ -55,7 +55,6 @@
                <js src="components/preview/Flash.js" />
                <js src="components/preview/Image.js" />
                <js src="components/preview/PdfJs.js" />
-               <js src="components/preview/pdfjs/compatibility.js" />
                <js src="components/preview/pdfjs/pdf.js" />
                <js src="components/preview/pdfjs/pdf.worker.js" />
                <js src="components/preview/spin.js" />
