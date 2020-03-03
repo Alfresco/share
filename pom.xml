@@ -33,8 +33,8 @@
         <version.revision>0</version.revision>
 
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>6.1.0-EA3</alfresco.platform.version>
-        <alfresco.content-services.version>6.1.0-EA3</alfresco.content-services.version>
+        <alfresco.platform.version>6.1.0.7</alfresco.platform.version>
+        <alfresco.content-services.version>6.1.0.7</alfresco.content-services.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
