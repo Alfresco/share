@@ -103,17 +103,17 @@
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-spec</artifactId>
-          <provided>
+          <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-impl</artifactId>
-          <provided>
+          <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-jstlel</artifactId>
-          <provided>
+          <scope>provided</scope>
         </dependency>
     </dependencies>
 

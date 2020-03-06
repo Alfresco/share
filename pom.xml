@@ -207,19 +207,19 @@
               <groupId>org.apache.taglibs</groupId>
               <artifactId>taglibs-standard-spec</artifactId>
               <version>${dependency.apache.taglibs.version}</version>
-              <provided>
+              <scope>provided</scope>
             </dependency>
             <dependency>
               <groupId>org.apache.taglibs</groupId>
               <artifactId>taglibs-standard-impl</artifactId>
               <version>${dependency.apache.taglibs.version}</version>
-              <provided>
+              <scope>provided</scope>
             </dependency>
             <dependency>
               <groupId>org.apache.taglibs</groupId>
               <artifactId>taglibs-standard-jstlel</artifactId>
               <version>${dependency.apache.taglibs.version}</version>
-              <provided>
+              <scope>provided</scope>
             </dependency>
             <dependency>
               <groupId>commons-fileupload</groupId>
