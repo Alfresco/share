@@ -219,14 +219,17 @@
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-spec</artifactId>
+          <provided>
         </dependency>
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-impl</artifactId>
+          <provided>
         </dependency>
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-jstlel</artifactId>
+          <provided>
         </dependency>
         <!-- SHA-2423 End -->
         <dependency>
