@@ -32,6 +32,13 @@
              <name>Alfresco Public Snapshots Repository</name>
              <url>https://artifacts.alfresco.com/nexus/content/repositories/public-snapshots/</url>
         </repository>
+        <repository>
+            <id>redhat-ea</id>
+            <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
