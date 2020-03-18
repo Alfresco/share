@@ -620,13 +620,6 @@
       <enable-external-users-panel>false</enable-external-users-panel>
    </config>
 
-   <!-- AIMS -->
-   <config evaluator="string-compare" condition="AIMS">
-      <aims>
-         <enabled>false</enabled>
-      </aims>
-   </config>
-
    <!-- 
         Overriding endpoints to reference an Alfresco server with external SSO enabled
         NOTE: If utilising a load balancer between web-tier and repository cluster, the "sticky
