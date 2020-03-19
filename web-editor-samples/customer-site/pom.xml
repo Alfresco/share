@@ -34,7 +34,6 @@
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-core</artifactId>
             <version>${dependency.alfresco-core.version}</version>
-            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>dom4j</groupId>
