@@ -13,7 +13,7 @@
     <properties>
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <!-- Alfresco GoogleDocs integration version -->
-        <alfresco.googledocs.version>3.2.0-A2</alfresco.googledocs.version>
+        <alfresco.googledocs.version>3.2.0-A4</alfresco.googledocs.version>
 
         <image.registry>quay.io</image.registry>
         <image.name>alfresco/alfresco-share</image.name>
