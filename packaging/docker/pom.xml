@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>org.alfresco.integrations</groupId>
-            <artifactId>alfresco-googledocs-share-community</artifactId>
+            <artifactId>alfresco-googledrive-share</artifactId>
             <version>${alfresco.googledocs.version}</version>
             <type>amp</type>
         </dependency>
