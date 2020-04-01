@@ -1,6 +1,6 @@
 /*
  * #%L
- * Alfresco Share WAR
+ *  Alfresco Share Encryption
  * %%
  * Copyright (C) 2005 - 2016 Alfresco Software Limited
  * %%

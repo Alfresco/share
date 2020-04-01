@@ -1,8 +1,8 @@
 /*
  * #%L
- * Alfresco Share WAR
+ * Alfresco Share Encryption
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -55,6 +57,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
     protected String encryptionAlgorithm = "RSA/ECB/PKCS1PADDING";
 
     protected PrivateKey privateKey = null;
+
     protected PublicKey publicKey = null;
 
     static final String KEYNAME = "alfrescoSpringKey";
@@ -337,7 +340,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
                     }
                     catch (IOException error)
                     {
-                        // TODO log
+                        // nothing
                     }
                 }
             }
@@ -438,6 +441,85 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
             verifyPassword = new String(System.console().readPassword());
         } while (enteredPassword == null || enteredPassword.length() < 1 || !enteredPassword.equals(verifyPassword));
         return enteredPassword;
+    }
+
+    /**
+     * privateKey initialization using resource from classpath
+     */
+    public void init()
+    {
+        /**
+         * Read the private key file off the classpath and set privateKey
+         */
+        URL privateKeyURL = this.getClass().getResource(PRIKEYPATH);
+        if (privateKeyURL == null)
+        {
+            return;
+        }
+
+        try
+        {
+            File privateKeyFile = new File(privateKeyURL.toURI());
+
+            initPrivateKeyFile(privateKeyFile);
+        }
+        catch (URISyntaxException e)
+        {
+            throw new RuntimeException("Could not instantiate Private Key", e);
+        }
+
+    }
+
+    /**
+     * privateKey initialization using a defined uri
+     * 
+     * @param shareDir
+     */
+    public void initConfig(String shareDir)
+    {
+        File privateKeyFile = new File(getWebExtensionDir(shareDir), PRIKEYNAME);
+        initPrivateKeyFile(privateKeyFile);
+    }
+
+    private void initPrivateKeyFile(File privateKeyFile)
+    {
+        if (privateKeyFile.canRead())
+        {
+            ObjectInputStream is = null;
+            try
+            {
+                is = new ObjectInputStream(new FileInputStream(privateKeyFile));
+                privateKey = (PrivateKey) is.readObject();
+            }
+            catch (ClassNotFoundException e)
+            {
+                throw new RuntimeException("Could not instantiate Private Key", e);
+
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException("Could not instantiate Private Key", e);
+            }
+            finally
+            {
+                if (is != null)
+                {
+                    try
+                    {
+                        is.close();
+                    }
+                    catch (IOException error)
+                    {
+                        throw new RuntimeException("Problem while closing stream.", error);
+                    }
+                }
+            }
+        }
+        else
+        {
+            throw new RuntimeException("Private Key File: " + privateKeyFile.getAbsolutePath() + " Cannot be read");
+        }
+
     }
 
 }

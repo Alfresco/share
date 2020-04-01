@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Share WAR
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -30,20 +30,21 @@ import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.xml.elementreader.ConfigElementReader;
 
 /**
- * Responsible for loading Kerberos configuration settings from the share-config*.xml files that are loaded via the
- * configuration service.
+ * Responsible for loading Kerberos configuration settings from the
+ * share-config*.xml files that are loaded via the configuration service.
  * 
  * @author dward
  */
-public class KerberosConfigElementReader implements ConfigElementReader
-{
-    public ConfigElement parse(Element elem)
-    {
-        ConfigElement configElement = null;
-        if (elem != null)
-        {
-            configElement = KerberosConfigElement.newInstance(elem);
-        }
-        return configElement;
-    }
+public class KerberosConfigElementReader implements ConfigElementReader {
+	private AlfrescoEncryptionElementConvert elemConverter = new AlfrescoEncryptionElementConvert();
+
+	public ConfigElement parse(Element elem) {
+		ConfigElement configElement = null;
+		if (elem != null) {
+			elemConverter.parse(elem);
+			configElement = KerberosConfigElement.newInstance(elem);
+		}
+		return configElement;
+	}
+
 }
