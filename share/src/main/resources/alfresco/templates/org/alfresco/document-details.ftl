@@ -29,7 +29,6 @@
             <@region id="document-tags" scope="template"/>
             <@region id="document-links" scope="template"/>
             <@region id="document-metadata" scope="template"/>
-            <@region id="document-sync" scope="template"/>
             <@region id="document-workflows" scope="template"/>
             <@region id="document-versions" scope="template"/>
             <#if imapServerEnabled>

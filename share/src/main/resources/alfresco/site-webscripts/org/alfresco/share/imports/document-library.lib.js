@@ -132,8 +132,6 @@ for (var i = 0; i < multiSelectActions.size(); i++)
    multiSelectAction = multiSelectActions.get(i);
    attr = multiSelectAction.attributes;
 
-   if(!attr["syncMode"] || attr["syncMode"].toString() == syncMode.value)
-   {
       var getActionItemImage = function(attr) {
          if (attr["icon"])
          {
@@ -173,7 +171,6 @@ for (var i = 0; i < multiSelectActions.size(); i++)
          }
       };
       actionSet.push(action);
-   }
 }
 
 /* *********************************************************************************
@@ -455,8 +452,7 @@ function getReplicationUrlMappingJSON()
    return jsonUtils.toJSONString(mapping);
 }
 
-var syncMode = syncMode.getValue(),
-    useTitle = getConfigValue("DocumentLibrary", "use-title", null);
+var useTitle = getConfigValue("DocumentLibrary", "use-title", null);
 
 var userIsSiteManager = false,
     siteData = getSiteData();

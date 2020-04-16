@@ -208,20 +208,6 @@ var AlfrescoUtil =
       return null;
    },
 
-   getRemoteNodeDetails: function getRemoteNodeDetails(remoteNodeRef, remoteNetworkId, options)
-   {
-      if (remoteNodeRef)
-      {
-         var url = '/cloud/doclib2/node/' + remoteNodeRef.replace("://", "/") + "?network=" + remoteNetworkId,
-            details = AlfrescoUtil.processNodeDetails(url, true, options, null, true);
-         if (details)
-         {
-            return details;
-         }
-      }
-      return null;
-   },
-
    getLinkDetailsByPostId: function getLinkDetails(site, container, link, defaultValue)
    {
       var url = '/api/links/link/site/' + site + '/' + container + '/' + link;

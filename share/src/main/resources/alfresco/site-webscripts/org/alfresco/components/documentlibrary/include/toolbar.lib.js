@@ -33,8 +33,6 @@ function getActionSet(myConfig)
       multiSelectAction = multiSelectActions.get(i);
       attr = multiSelectAction.attributes;
 
-      if(!attr["syncMode"] || attr["syncMode"].toString() == syncMode.value)
-      {
          // Multi-Select Actions
          action = {
             id: attr["id"] ? attr["id"].toString() : "",
@@ -48,7 +46,7 @@ function getActionSet(myConfig)
          };
 
          actionSet.push(action)
-      }
+
    }
 
    model.actionSet = actionSet;
@@ -196,8 +194,6 @@ function main()
    getActionSet(myConfig);
    getCreateContent(myConfig);
    getRepositoryBrowserRoot();
-
-   toolbar.syncMode = syncMode.value;
 }
 
 main();

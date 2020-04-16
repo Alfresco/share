@@ -269,7 +269,6 @@ function doclibCommon()
    model.useTitle = DocumentList.getConfigValue("DocumentLibrary", "use-title", null);
    model.userIsSiteManager = DocumentList.isUserSiteManager();
    model.metadataTemplates = {};
-   model.syncMode = syncMode.getValue();
    
    // Get the dependencies defined for each view configured...
    var viewData = DocumentList.getViewData();

@@ -523,7 +523,6 @@
 
          Event.on(Dom.getElementsByClassName("banner-more-info-link", "span", elCell), "click", function showMoreInfoLinkClick(event)
          {
-            scope.onCloudSyncIndicatorAction(record, Event.getTarget(event))
          }, {}, scope);
       },
       
