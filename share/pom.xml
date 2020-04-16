@@ -226,11 +226,28 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- SHA-2432 -->
+	<!--
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-			<version>1.2</version>
+	    <version>1.2</version>
         </dependency>
+	-->
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-spec</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-impl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-jstlel</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
