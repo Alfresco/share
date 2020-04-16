@@ -26,6 +26,9 @@
 package org.alfresco.web.site.servlet;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
