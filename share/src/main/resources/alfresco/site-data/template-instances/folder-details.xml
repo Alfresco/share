@@ -187,15 +187,6 @@
          </properties>
       </component>
 
-      <!-- Folder Sync -->
-      <component>
-         <region-id>folder-sync</region-id>
-         <url>/components/folder-details/folder-sync</url>
-         <properties>
-            <nodeRef>{nodeRef}</nodeRef>
-         </properties>
-      </component>
-
       <!-- Folder Permissions - removed. See https://issues.alfresco.com/jira/browse/SHA-3 -->
 
       <!-- Archive and Download -->

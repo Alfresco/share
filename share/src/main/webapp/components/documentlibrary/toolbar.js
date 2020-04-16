@@ -407,22 +407,6 @@
             value: "CreateChildren"
          });
          this.dynamicControls.push(this.widgets.fileUpload);
-
-         // Sync to Cloud button
-         this.widgets.syncToCloud = Alfresco.util.createYUIButton(this, "syncToCloud-button", this.onSyncToCloud,
-         {
-            disabled: true,
-            value: "CreateChildren"
-         });
-         this.dynamicControls.push(this.widgets.syncToCloud);
-            
-         // Unsync from Cloud button
-         this.widgets.unsyncFromCloud = Alfresco.util.createYUIButton(this, "unsyncFromCloud-button", this.onUnsyncFromCloud,
-         {
-            disabled: true,
-            value: "CreateChildren"
-         });
-         this.dynamicControls.push(this.widgets.unsyncFromCloud);
             
          // Selected Items menu button
          this.widgets.selectedItems = Alfresco.util.createYUIButton(this, "selectedItems-button", this.onSelectedItems,
@@ -853,60 +837,6 @@
       },
       
       /**
-       * Sync to Cloud button click handler
-       *
-       * @method onSyncToCloud
-       * @param e {object} DomEvent
-       * @param p_obj {object|array} Object passed back from addListener method or args from Bubbling event
-       */
-      onSyncToCloud: function DLTB_onSyncToCloud(e, p_obj)
-      {
-         var record = new Object();
-         var parent = this.doclistMetadata.parent;
-
-         // Display name
-         record["displayName"] = parent.properties["cm:name"];
-
-         // NodeRef
-         record["nodeRef"] = parent.nodeRef;
-
-         // jsNode
-         var jsNode = new Object();
-         jsNode["isContainer"] = parent.isContainer;
-         record["jsNode"] = jsNode;
-
-         this.onActionCloudSync(record);
-      },
-
-      /**
-       * Unsync from Cloud button click handler
-       *
-       * @method onUnsyncFromCloud
-       * @param e {object} DomEvent
-       * @param p_obj {object|array} Object passed back from addListener method or args from Bubbling event
-       */
-      onUnsyncFromCloud: function DLTB_onUnsyncFromCloud(e, p_obj)
-      {
-         var record = new Object();
-         var parent = this.doclistMetadata.parent;
-
-         // jsNode
-         var jsNode = new Object();
-         jsNode["isContainer"] = parent.isContainer;
-         record["jsNode"] = jsNode;
-
-         // NodeRef
-         var nodeRef = new Object();
-         nodeRef["uri"] = parent.nodeRef.replace(":/", "");
-         jsNode["nodeRef"] = nodeRef;
-
-         // Display name
-         record["displayName"] = parent.properties["cm:name"];
-
-         this.onActionCloudUnsync(record);
-      },
-      
-      /**
        * File Upload button click handler
        *
        * @method onFileUpload
@@ -1308,8 +1238,6 @@
        */
       onFilterChanged: function DLTB_onFilterChanged(layer, args)
       {
-         this._handleSyncButtons();
-         
          var obj = args[1];
          if (obj && (typeof obj.filterId !== "undefined"))
          {
@@ -1365,47 +1293,6 @@
                this._generateDescription();
             }
             this._generateRSSFeedUrl();
-         }
-      },
-
-      /**
-       * Helper method for handling the visibility of sync buttons
-       */
-      _handleSyncButtons: function DLTB__onHandleSyncButtons()
-      {
-         var syncToCloudButtonDiv = Dom.get(this.id + "-syncToCloud-button");
-         var unsyncFromCloudButtonDiv = Dom.get(this.id + "-unsyncFromCloud-button");
-
-         var parent = this.doclistMetadata.parent;
-
-         if (parent)
-         {
-            var aspects = parent.aspects;
-            if (aspects)
-            {
-               if (Alfresco.util.arrayContains(aspects, "sync:syncSetMemberNode"))
-               {
-                  Dom.removeClass(unsyncFromCloudButtonDiv, "hidden");
-                  Dom.addClass(syncToCloudButtonDiv, "hidden");
-               }
-               else
-               {
-                  Dom.removeClass(syncToCloudButtonDiv, "hidden");
-                  Dom.addClass(unsyncFromCloudButtonDiv, "hidden");
-               }
-               if(Alfresco.util.arrayContains(aspects, "smf:smartFolder"))
-               {
-                  Dom.addClass(unsyncFromCloudButtonDiv, "hidden");
-                  Dom.addClass(syncToCloudButtonDiv, "hidden");
-               }
-            }
-
-            var properties = parent.properties;
-            if (properties && (properties["cm:name"] === "documentLibrary" || properties["sync:directSync"] === "false") || this.options.syncMode !== "ON_PREMISE")
-            {
-               Dom.addClass(unsyncFromCloudButtonDiv, "hidden");
-               Dom.addClass(syncToCloudButtonDiv, "hidden");
-            }
          }
       },
       
