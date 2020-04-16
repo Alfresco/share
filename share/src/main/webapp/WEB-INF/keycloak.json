@@ -1,6 +1,6 @@
 {
-  "realm" : "",
-  "resource" : "",
+  "realm" : "alfresco",
+  "resource" : "alfresco",
   "auth-server-url" : "",
   "ssl-required" : "none",
   "public-client" : true,
