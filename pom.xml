@@ -59,6 +59,7 @@
         <dependency.slf4j.version>1.7.24</dependency.slf4j.version>
         <dependency.cxf.version>3.1.16</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
+        <dependency.keycloak.version>8.0.1</dependency.keycloak.version>
         <dependency.jackson-databind.version>2.10.2</dependency.jackson-databind.version>
 
         <!-- Developer's runtime environment configuration -->
@@ -216,6 +217,37 @@
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${dependency.beanutils.version}</version>
+            </dependency>
+            <!-- SHA-2404 -->
+            <dependency>
+              <groupId>org.keycloak</groupId>
+              <artifactId>keycloak-servlet-filter-adapter</artifactId>
+              <version>${dependency.keycloak.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.keycloak</groupId>
+              <artifactId>keycloak-authz-client</artifactId>
+              <version>${dependency.keycloak.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.keycloak</groupId>
+              <artifactId>keycloak-core</artifactId>
+              <version>${dependency.keycloak.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.keycloak</groupId>
+              <artifactId>keycloak-adapter-core</artifactId>
+              <version>${dependency.keycloak.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.keycloak</groupId>
+              <artifactId>keycloak-adapter-spi</artifactId>
+              <version>${dependency.keycloak.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.keycloak</groupId>
+              <artifactId>keycloak-servlet-adapter-spi</artifactId>
+              <version>${dependency.keycloak.version}</version>
             </dependency>
             <!-- SHA-2400 -->
             <dependency>
@@ -470,6 +502,39 @@
                         <username>${db.master.username}</username>
                         <password>${db.master.password}</password>
                     </configuration>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                	<groupId>org.eclipse.m2e</groupId>
+                	<artifactId>lifecycle-mapping</artifactId>
+                	<version>1.0.0</version>
+                	<configuration>
+                		<lifecycleMappingMetadata>
+                			<pluginExecutions>
+                				<pluginExecution>
+                					<pluginExecutionFilter>
+                						<groupId>
+                							org.codehaus.mojo
+                						</groupId>
+                						<artifactId>
+                							license-maven-plugin
+                						</artifactId>
+                						<versionRange>
+                							[1.8,)
+                						</versionRange>
+                						<goals>
+                							<goal>
+                								check-file-header
+                							</goal>
+                						</goals>
+                					</pluginExecutionFilter>
+                					<action>
+                						<ignore></ignore>
+                					</action>
+                				</pluginExecution>
+                			</pluginExecutions>
+                		</lifecycleMappingMetadata>
+                	</configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
