@@ -58,7 +58,8 @@
         <dependency.cxf.version>3.1.16</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>8.0.1</dependency.keycloak.version>
-	      <dependency.apache.taglibs.version>1.2.3</dependency.apache.taglibs.version>
+        <dependency.apache.taglibs.version>1.2.3</dependency.apache.taglibs.version>
+        <dependency.jackson.version>2.10.2</dependency.jackson.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
@@ -268,6 +269,21 @@
               <groupId>org.apache.taglibs</groupId>
               <artifactId>taglibs-standard-jstlel</artifactId>
               <version>${dependency.apache.taglibs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${dependency.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${dependency.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${dependency.jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
