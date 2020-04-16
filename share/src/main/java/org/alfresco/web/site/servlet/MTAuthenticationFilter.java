@@ -36,6 +36,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.site.SlingshotPageViewResolver;
+import org.springframework.extensions.surf.util.I18NUtil;
+import org.springframework.extensions.webscripts.ui.common.StringUtils;
 
 /**
  * Filter providing access to the servlet request for the {@link SlingshotPageViewResolver}
@@ -63,18 +65,12 @@ public class MTAuthenticationFilter implements Filter
     /* (non-Javadoc)
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
      */
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-        throws IOException, ServletException
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException
     {
         if (req instanceof HttpServletRequest)
         {
-            requestHolder.set((HttpServletRequest)req);
-
-            if (((HttpServletRequest) req).getHeader(ACCEPT_LANGUAGE_HEADER) == null)
-            {
-                req = new SlingshotServletRequestWrapper((HttpServletRequest) req);
-                ((SlingshotServletRequestWrapper) req).addHeader(ACCEPT_LANGUAGE_HEADER, "en_US");
-            }
+            req = filterRequestHeader((HttpServletRequest) req);
+            requestHolder.set((HttpServletRequest) req);
         }
         try
         {
@@ -85,7 +81,35 @@ public class MTAuthenticationFilter implements Filter
             requestHolder.remove();
         }
     }
-    
+
+    private String getLanguageFromRequestHeader(HttpServletRequest req)
+    {
+        Locale locale = Locale.getDefault();
+        String acceptLang = req.getHeader(ACCEPT_LANGUAGE_HEADER);
+        if (acceptLang != null && acceptLang.length() > 0)
+        {
+            StringTokenizer tokenizer = new StringTokenizer(StringUtils.stripUnsafeHTMLTags(acceptLang), ",; ");
+            // get language and convert to java locale format
+            String language = tokenizer.nextToken().replace('-', '_');
+            locale = I18NUtil.parseLocale(language);
+        }
+        return locale.getLanguage();
+    }
+
+    private SlingshotServletRequestWrapper filterRequestHeader(HttpServletRequest req)
+    {
+        SlingshotServletRequestWrapper request = new SlingshotServletRequestWrapper(req);
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements())
+        {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            request.addHeader(key, StringUtils.stripUnsafeHTMLTags(value, false));
+        }
+        request.addHeader(ACCEPT_LANGUAGE_HEADER, getLanguageFromRequestHeader(req));
+        return request;
+    }
+
     /**
      * @return HttpServletRequest for the current thread
      */
