@@ -29,8 +29,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.adapters.KeycloakDeployment;
+import org.keycloak.adapters.KeycloakDeploymentBuilder;
+import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
+import org.keycloak.adapters.spi.KeycloakAccount;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.mvc.LogoutController;
 import org.springframework.extensions.surf.support.AlfrescoUserFactory;
@@ -41,6 +47,8 @@ import org.springframework.extensions.webscripts.connector.ConnectorService;
 import org.springframework.extensions.webscripts.connector.HttpMethod;
 import org.springframework.extensions.webscripts.connector.Response;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.InputStream;
 
 /**
  * Share specific override of the SpringSurf dologout controller.
@@ -69,9 +77,41 @@ public class SlingshotLogoutController extends LogoutController
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
             throws Exception
     {
+        AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aimsConfig");
+
+        if (config.isAIMSEnabled())
+        {
+            String username = null;
+            // Check whether there is already an user logged in
+            HttpSession session = request.getSession(false);
+
+            if (session != null)
+            {
+                username = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
+
+                if (username != null && !username.isEmpty())
+                {
+                    OIDCFilterSessionStore.SerializableKeycloakAccount account =
+                        (OIDCFilterSessionStore.SerializableKeycloakAccount) session.getAttribute(KeycloakAccount.class.getName());
+
+                    if (account != null)
+                    {
+                        InputStream is = this.getServletContext().getResourceAsStream("/WEB-INF/keycloak.json");
+                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+
+                        // Logs out from Keycloak
+                        account.getKeycloakSecurityContext().logout(deployment);
+                        session.removeAttribute(KeycloakAccount.class.getName());
+                        session.removeAttribute(KeycloakSecurityContext.class.getName());
+                    }
+                }
+            }
+        }
+
         try
         {
            HttpSession session = request.getSession(false);
+
            if (session != null)
            {
                // retrieve the current user ID from the session
@@ -87,8 +127,11 @@ public class SlingshotLogoutController extends LogoutController
                   {
                       // if we found a ticket, then expire it via REST API - not all auth will have a ticket i.e. SSO
                       Response res = connector.call("/api/login/ticket/" + ticket, new ConnectorContext(HttpMethod.DELETE));
+
                       if (logger.isDebugEnabled())
+                      {
                           logger.debug("Expired ticket: " + ticket + " user: " + userId + " - status: " + res.getStatus().getCode());
+                      }
                   }
                }
            }

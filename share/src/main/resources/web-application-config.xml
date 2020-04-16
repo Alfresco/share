@@ -8,7 +8,7 @@
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
-   
+
    <!-- SURF: required infrastructure imports -->
    <import resource="surf-config.xml"/>
 
@@ -27,9 +27,9 @@
 
    <!--   The following replaces org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter -->
    <bean id="annotationMethodHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
-   
+
    <!-- SURF: interoperability with simple controllers -->
    <!-- Support for Default Surf Controllers -->
-   <bean id="simpleControllerHandlerAdapter" class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>  
+   <bean id="simpleControllerHandlerAdapter" class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
 
 </beans>
