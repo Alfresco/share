@@ -39,7 +39,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
             <version>${dependency.alfresco-core.version}</version>
-            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.hibernate</groupId>
@@ -238,17 +237,14 @@
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-spec</artifactId>
-          <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-impl</artifactId>
-          <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-jstlel</artifactId>
-          <scope>provided</scope>
         </dependency>
 
         <dependency>
