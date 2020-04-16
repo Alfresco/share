@@ -60,7 +60,6 @@
         <dependency.cxf.version>3.1.16</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>8.0.1</dependency.keycloak.version>
-        <dependency.jackson-databind.version>2.10.2</dependency.jackson-databind.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
@@ -254,11 +253,6 @@
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-artifact</artifactId>
                 <version>3.5.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${dependency.jackson-databind.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
