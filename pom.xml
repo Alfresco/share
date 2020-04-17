@@ -54,12 +54,14 @@
         <dependency.surf.version>7.5</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.1</dependency.dom4j.version>
-        <dependency.slf4j.version>1.7.24</dependency.slf4j.version>
-        <dependency.cxf.version>3.1.16</dependency.cxf.version>
+        <dependency.slf4j.version>1.7.30</dependency.slf4j.version>
+        <dependency.cxf.version>3.3.5</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>8.0.1</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.3</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.10.2</dependency.jackson.version>
+        <dependency.commons-collections.version>3.2.2</dependency.commons-collections.version>
+        <dependency.commons-codec.version>1.14</dependency.commons-codec.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
@@ -190,6 +192,16 @@
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${dependency.commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${dependency.commons-codec.version}</version>
             </dependency>
             <!-- Newer cxf libs, see MNT-20520 -->
             <dependency>
