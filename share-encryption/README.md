@@ -10,7 +10,7 @@ You can encrypt sensitive properties from share-custom-config.xml
     c.Run the executable jar:
          
          ```bash
-          java -jar share-encryption-1.0-SNAPSHOT.jar
+          java -jar share-encryption-{version}-SNAPSHOT.jar
           Alfresco Share  Encrypted String Tool
           USAGE : org.alfresco.encryptor.ShareStringEncription initkey | encrypt | validate <shared dir> 
             initkey : initialise the public and private keystores
