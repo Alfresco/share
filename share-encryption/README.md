@@ -10,7 +10,7 @@ You can encrypt sensitive properties from share-custom-config.xml
     c.Run the executable jar:
          
          ```bash
-          java -jar share-encryption-{version}-SNAPSHOT.jar
+          java -jar alfresco-share-encryption-{version}.jar 
           Alfresco Share  Encrypted String Tool
           USAGE : org.alfresco.encryptor.ShareStringEncryption initkey | encrypt | validate <shared dir> 
             initkey : initialise the public and private keystores
@@ -20,7 +20,7 @@ You can encrypt sensitive properties from share-custom-config.xml
 2.  Initkey : initialise the public and private keystores:
         
         ```bash
-        java -jar alfresco-spring-encryptor-6.1.jar initkey /Users/p3700670/work/share/tomcat/shared/classes
+        java -jar alfresco-share-encryption-{version}.jar initkey ../tomcat/shared/classes
         public key created file: /Users/p3700670/work/share/tomcat/shared/classes/alfresco/extension/enterprise/alfrescoSpringKey.pub
         private key created file:/Users/p3700670/work/share/tomcat/shared/classes/alfresco/extension/enterprise/alfrescoSpringKey.pri
         The key files have been generated, please set permissions on the private key to keep it protected  
@@ -29,7 +29,7 @@ You can encrypt sensitive properties from share-custom-config.xml
 3.  Encrypt : encrypt a value 
         
          ```bash
-        java -jar alfresco-spring-encryptor-6.1.jar encrypt /Users/p3700670/work/share/tomcat/shared/classes
+        java -jar alfresco-share-encryption-{version}.jar encrypt ../tomcat/shared/classes
         Please Enter Value: 
         Please Repeat Value: 
         fe6z6Is2VzD8wFTZ3eSikAbv0OpNxCikwVBnfe/LhPdqevCb4G1Vrvt7cTSA9z6OHkSh8ZzyKdEfVNPmTH66QA==
