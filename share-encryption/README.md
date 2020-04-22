@@ -2,8 +2,11 @@
 You can encrypt sensitive properties from share-custom-config.xml
 
 1. Run the Alfresco Share Encryption String Tool 
+    
     a.Navigate to https://github.com/Alfresco/share/share-encryption
+    
     b.Build the project using maven: mvn clean install
+    
     c.Run the executable jar:
          
          ```bash
