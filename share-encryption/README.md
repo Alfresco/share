@@ -18,7 +18,7 @@ You can encrypt sensitive properties from share-custom-config.xml
             validate : compare an encrypted value with a value to see if they match
           ```
 2.  Initkey : initialise the public and private keystores:
-    For this tool is mandatory to have the directory structure where the share is deplyed :
+    For this tool is mandatory to have the directory structure where the share is deployed:
     ..⁨tomcat⁩/⁨shared⁩/⁨classes⁩/⁨alfresco⁩/⁨web-extension⁩
         
         ```bash
