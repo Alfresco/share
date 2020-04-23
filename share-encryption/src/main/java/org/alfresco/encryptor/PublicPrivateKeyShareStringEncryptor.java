@@ -64,7 +64,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
     static final String PUBKEYNAME = KEYNAME + ".pub";
     static final String PRIKEYNAME = KEYNAME + ".pri";
 
-    static final String KEY_PACKAGE = "/alfresco/web-extension/";
+    static final String KEY_PACKAGE = "/alfresco/web-extension";
     static final String PRIKEYPATH = KEY_PACKAGE + "/" + PRIKEYNAME;
     static final String PUBKEYPATH = KEY_PACKAGE + "/" + PUBKEYNAME;
 

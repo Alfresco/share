@@ -32,7 +32,7 @@ public class ShareStringEncryption
     static final String CMD_ENCRYPT = "encrypt";
     static final String CMD_VALIDATE = "validate";
 
-    static final String USAGE = "USAGE : " + ShareStringEncription.class.getName() + " " + CMD_INITKEY + " | " + CMD_ENCRYPT + " | " + CMD_VALIDATE
+    static final String USAGE = "USAGE : " + ShareStringEncryption.class.getName() + " " + CMD_INITKEY + " | " + CMD_ENCRYPT + " | " + CMD_VALIDATE
             + " <shared dir> ";
     static final String USAGE_1 = " initkey : initialise the public and private keystores";
     static final String USAGE_2 = " encrypt : encrypt a value ";
@@ -42,9 +42,9 @@ public class ShareStringEncryption
     private static final int ERROR_EXIT_CODE = 1;
     private static final int SUCCESS_EXIT_CODE = 0;
 
-    static final String USAGE_INITKEY = "USAGE : " + ShareStringEncription.class.getName() + " " + CMD_INITKEY + " <shared dir> ";
-    static final String USAGE_ENCRYPT = "USAGE : " + ShareStringEncription.class.getName() + " " + CMD_ENCRYPT + " <shared dir> [value to encrypt]";
-    static final String USAGE_DECRYPT = "USAGE : " + ShareStringEncription.class.getName() + " " + CMD_VALIDATE
+    static final String USAGE_INITKEY = "USAGE : " + ShareStringEncryption.class.getName() + " " + CMD_INITKEY + " <shared dir> ";
+    static final String USAGE_ENCRYPT = "USAGE : " + ShareStringEncryption.class.getName() + " " + CMD_ENCRYPT + " <shared dir> [value to encrypt]";
+    static final String USAGE_DECRYPT = "USAGE : " + ShareStringEncryption.class.getName() + " " + CMD_VALIDATE
             + " <shared dir> encrypted_value [value]";
 
     /**
