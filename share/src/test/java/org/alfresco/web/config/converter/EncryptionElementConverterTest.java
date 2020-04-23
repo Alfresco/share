@@ -30,6 +30,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.alfresco.encryptor.PublicPrivateKeyShareStringEncryptor;
 import org.alfresco.web.site.servlet.config.AlfrescoEncryptionElementConvert;
@@ -47,7 +48,7 @@ public class EncryptionElementConverterTest {
 	protected Config globalConfig;
 	protected ConfigElement globalConstraintHandlers;
 	private static PublicPrivateKeyShareStringEncryptor encryptor = new PublicPrivateKeyShareStringEncryptor();
-	static String path = "src/test/resources";
+	private static String path = null;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
@@ -55,12 +56,14 @@ public class EncryptionElementConverterTest {
 	}
 
 	private static void setUpEncryptedKeys() {
-		File file = new File(path);
-		String absolutePath = file.getAbsolutePath();
 
-		encryptor.createKeyFiles(absolutePath);
-		encryptor.initPublic(absolutePath);
-		encryptor.initPrivate(absolutePath);
+		ClassLoader cl = EncryptionElementConverterTest.class.getClassLoader();
+		URL uri = cl.getResource("alfresco/module/encryption");
+		path = uri.getPath();
+		
+		encryptor.createKeyFiles(uri.getPath());
+		encryptor.initPublic(uri.getPath());
+		encryptor.initPrivate(uri.getPath());
 	}
 
 	@Test
