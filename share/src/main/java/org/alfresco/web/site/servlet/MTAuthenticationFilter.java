@@ -28,7 +28,6 @@ package org.alfresco.web.site.servlet;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.StringTokenizer;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -39,7 +38,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.site.SlingshotPageViewResolver;
-import org.springframework.extensions.surf.util.I18NUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.extensions.webscripts.ui.common.StringUtils;
 
 /**
@@ -55,6 +55,7 @@ public class MTAuthenticationFilter implements Filter
 {
     /** Thread local holder of the HttpServletRequest */
     private static ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<HttpServletRequest>();
+    private static Log logger = LogFactory.getLog(MTAuthenticationFilter.class);
     
     private static final String ACCEPT_LANGUAGE_HEADER = "Accept-Language";
     
@@ -85,32 +86,62 @@ public class MTAuthenticationFilter implements Filter
         }
     }
 
-    private String getLanguageFromRequestHeader(HttpServletRequest req)
+    /**
+     * @param request HttpServletRequest
+     * @return language
+     */
+    private String getLanguageFromRequestHeader(HttpServletRequest request)
     {
-        Locale locale = Locale.getDefault();
-        String acceptLang = req.getHeader(ACCEPT_LANGUAGE_HEADER);
-        if (acceptLang != null && acceptLang.length() > 0)
+        String acceptLang = request.getHeader(ACCEPT_LANGUAGE_HEADER);
+        if (acceptLang != null)
         {
-            StringTokenizer tokenizer = new StringTokenizer(StringUtils.stripUnsafeHTMLTags(acceptLang), ",; ");
-            // get language and convert to java locale format
-            String language = tokenizer.nextToken().replace('-', '_');
-            locale = I18NUtil.parseLocale(language);
+            acceptLang = StringUtils.stripUnsafeHTMLTags(acceptLang);
+            if (acceptLang.length() > 0)
+            {
+                try
+                {
+                    Locale.LanguageRange.parse(acceptLang);
+                    return acceptLang;
+                }
+                catch (IllegalArgumentException e)
+                {
+                    // Warn, but carry on
+                    logger.warn("Bad value for accept-language header");
+                }
+            }
         }
-        return locale.getLanguage();
+        return "en_US";
     }
 
-    private SlingshotServletRequestWrapper filterRequestHeader(HttpServletRequest req)
+    /**
+     * @param request HttpServletRequest
+     * @return filtered header for request parameter
+     */
+    private SlingshotServletRequestWrapper filterRequestHeader(HttpServletRequest request)
     {
-        SlingshotServletRequestWrapper request = new SlingshotServletRequestWrapper(req);
-        Enumeration headerNames = request.getHeaderNames();
+        SlingshotServletRequestWrapper slingshotServletRequest = new SlingshotServletRequestWrapper(request);
+        Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements())
         {
-            String key = (String) headerNames.nextElement();
+            String key = headerNames.nextElement();
             String value = request.getHeader(key);
-            request.addHeader(key, StringUtils.stripUnsafeHTMLTags(value, false));
+            slingshotServletRequest.addHeader(key, stripUnsafeHTML(value));
         }
-        request.addHeader(ACCEPT_LANGUAGE_HEADER, getLanguageFromRequestHeader(req));
-        return request;
+        slingshotServletRequest.addHeader(ACCEPT_LANGUAGE_HEADER, getLanguageFromRequestHeader(request));
+        return slingshotServletRequest;
+    }
+
+    /**
+     * @param value
+     * @return the value without unsafe HTML
+     */
+    private String stripUnsafeHTML(String value)
+    {
+        if (value != null && value.length() > 0)
+        {
+            return StringUtils.stripUnsafeHTMLTags(value, false);
+        }
+        return "";
     }
 
     /**
