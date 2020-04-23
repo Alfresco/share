@@ -64,7 +64,7 @@ public class EncryptionElementConverterTest {
 	}
 
 	@Test
-	public void testBaseOperatios() {
+	public void testBaseOperations() {
 		String encryptedValue = encryptor.encrypt("123");
 		assertEquals("123", encryptor.decrypt(encryptedValue));
 	}
