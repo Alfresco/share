@@ -1,4 +1,5 @@
-# Encrypting configuration for share
+Encrypting configuration for share
+
 You can encrypt sensitive properties from share-custom-config.xml
 
 1. Run the Alfresco Share Encryption String Tool 
@@ -9,44 +10,37 @@ You can encrypt sensitive properties from share-custom-config.xml
     
     c.Run the executable jar:
          
-      ```bash
       java -jar alfresco-share-encryption-{version}.jar 
       Alfresco Share  Encrypted String Tool
       USAGE : org.alfresco.encryptor.ShareStringEncryption initkey | encrypt | validate <shared dir> 
         initkey : initialise the public and private keystores
         encrypt : encrypt a value 
         validate : compare an encrypted value with a value to see if they match
-      ```
    
 2.  Initkey : initialise the public and private keystores in the classpath (<ALFRESCO_HOME>/tomcat/shared/classes⁩) 
         
-    ```bash
     java -jar alfresco-share-encryption-{version}.jar initkey <ALFRESCO_HOME>/tomcat/shared/classes⁩
     public key created file: <ALFRESCO_HOME>/tomcat/shared/classes⁩/alfresco/web-extension/alfrescoSpringKey.pub
     private key created file:<ALFRESCO_HOME>/tomcat/shared/classes⁩/alfresco/web-extension/alfrescoSpringKey.pri
     The key files have been generated, please set permissions on the private key to keep it protected  
-     ```
 
 3.  Encrypt : encrypt a value 
         
-     ```bash
     java -jar alfresco-share-encryption-{version}.jar encrypt <ALFRESCO_HOME>/tomcat/shared/classes
     Please Enter Value: 
     Please Repeat Value: 
     fe6z6Is2VzD8wFTZ3eSikAbv0OpNxCikwVBnfe/LhPdqevCb4G1Vrvt7cTSA9z6OHkSh8ZzyKdEfVNPmTH66QA==
-    ```
 
 4.  Validate : compare an encrypted value with a value to see if they match
     
-    ```bash
     java -jar alfresco-share-encryption-{version}.jarvalidate /Users/p3700670/work/share/tomcat/shared/classes fe6z6Is2VzD8wFTZ3eSikAbv0OpNxCikwVBnfe/LhPdqevCb4G1Vrvt7cTSA9z6OHkSh8ZzyKdEfVNPmTH66QA==
     Please Enter Value: 
     Please Repeat Value: 
     The value and encrypted value MATCH
-    ```
+
  5. Add the encrypted password to <ALFRESCO_HOME>/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml 
  using the format: ENC('encypted-value').
-      ```bash
+
       <config evaluator="string-compare" condition="Kerberos" replace="true">
          <kerberos>
             <!--
@@ -79,6 +73,3 @@ You can encrypt sensitive properties from share-custom-config.xml
 
          </kerberos>
       </config>
-      ```
-    
-

@@ -46,6 +46,16 @@
             <useStrictFiltering>true</useStrictFiltering>
             <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>
+        <!-- Share encryption JAR -->
+        <dependencySet>
+            <includes>
+                <include>*:*:jar</include>
+            </includes>
+            <outputDirectory>alfresco-share-encryption</outputDirectory>
+            <outputFileNameMapping>alfresco-share-encryption.jar</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
     </dependencySets>
 
 </assembly>
