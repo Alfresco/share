@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>alfresco-share-encryption</artifactId>
+    <name>Alfresco Share Encryption</name>
+    <packaging>jar</packaging>
+    <parent>
+        <artifactId>alfresco-share-parent</artifactId>
+        <groupId>org.alfresco</groupId>
+        <version>6.3.0-SNAPSHOT</version>
+    </parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		
+	</dependencies>
+	
+	   <build>
+	<plugins>
+            <!-- Build a local jar, even if empty, to please maven-shade-plugin -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <skipIfEmpty>false</skipIfEmpty>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>make-spring-encryptor</id>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Main-Class>org.alfresco.encryptor.ShareStringEncryption</Main-Class>
+                            </manifestEntries>
+                        </transformer>
+                    </transformers>
+                    
+                    <artifactSet>                    
+                        <includes>
+                            <include>org.jasypt:*</include>
+                        </includes>
+                    </artifactSet>
+  
+                    <filters>
+                        <filter>
+                             <artifact>*:*</artifact>
+                             <excludes>
+                                 <exclude>META-INF/**</exclude>
+                             </excludes>
+                        </filter>
+                        
+                        <filter>
+                             <artifact>*:*</artifact>
+                                 <includes>
+                                     <include>org/**</include>
+                                 </includes>
+                        </filter>    
+                    </filters>  
+                </configuration>
+            </plugin> 
+        </plugins>
+	</build>
+</project>

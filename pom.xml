@@ -21,6 +21,7 @@
         <module>web-editor-samples/customer-site</module>
         <module>wcmquickstart-module</module>
         <module>packaging</module>
+        <module>share-encryption</module>
     </modules>
 
     <properties>
