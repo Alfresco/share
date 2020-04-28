@@ -27,7 +27,7 @@
     <properties>
         <version.major>6</version.major>
         <version.minor>2</version.minor>
-        <version.revision>0</version.revision>
+        <version.revision>1</version.revision>
 
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>6.1.0-EA3</alfresco.platform.version>
@@ -185,8 +185,8 @@
                <scope>provided</scope>
             </dependency>
             <dependency>
-               <groupId>commons-lang</groupId> 
-               <artifactId>commons-lang</artifactId> 
+               <groupId>commons-lang</groupId>
+               <artifactId>commons-lang</artifactId>
                <version>2.6</version>
             </dependency>
             <dependency>
