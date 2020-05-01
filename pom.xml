@@ -42,17 +42,17 @@
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
-        <dependency.spring.version>5.2.3.RELEASE</dependency.spring.version>
+        <dependency.spring.version>5.1.8.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
         <dependency.aikau.version>1.0.101.19</dependency.aikau.version>
         <dependency.freemarker.version>2.3.28</dependency.freemarker.version>
         <dependency.rhino.version>1.7.11</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.9</dependency.httpcomponents.version>
-        <dependency.alfresco-repository.version>7.161</dependency.alfresco-repository.version>
+        <dependency.alfresco-repository.version>7.175</dependency.alfresco-repository.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
-        <dependency.alfresco-core.version>7.29</dependency.alfresco-core.version>
-        <dependency.webscripts.version>8.2</dependency.webscripts.version>
-        <dependency.surf.version>7.5</dependency.surf.version>
+        <dependency.alfresco-core.version>7.32</dependency.alfresco-core.version>
+        <dependency.webscripts.version>7.13</dependency.webscripts.version>
+        <dependency.surf.version>7.6</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.1</dependency.dom4j.version>
         <dependency.slf4j.version>1.7.30</dependency.slf4j.version>
