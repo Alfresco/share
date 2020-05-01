@@ -123,23 +123,40 @@ public class AIMSFilter extends KeycloakOIDCFilter
     public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain) throws IOException, ServletException
     {
         HttpServletRequest request = (HttpServletRequest) sreq;
-        HttpServletResponse response = (HttpServletResponse) sres;
         HttpSession session = request.getSession();
 
         if (this.enabled && (!AuthenticationUtil.isAuthenticated(request) || this.isLoggedOutFromKeycloak(session)))
         {
-            super.doFilter(sreq, sres, chain);
+            final FilterChain downstreamFilter = chain;
 
-            RefreshableKeycloakSecurityContext context =
-                (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
-
-            if (context != null)
+            FilterChain next = new FilterChain()
             {
-                this.onSuccess(request, response, session, context);
-            }
-        }
+                public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException
+                {
+                    RefreshableKeycloakSecurityContext context =
+                        (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
 
-        chain.doFilter(sreq, sres);
+                    if ( (context == null) || (context.getIdToken() == null) )
+                    {
+                        // this should not happen
+                        throw new RuntimeException("Missing SecurityContext or token on authenticated Request");
+                    }
+
+                    HttpServletRequest httpRequest = (HttpServletRequest) request;
+                    HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+                    onSuccess(httpRequest, httpResponse, session, context);
+
+                    downstreamFilter.doFilter(httpRequest, httpResponse);
+                }
+            };
+
+            super.doFilter(sreq, sres, next);
+        }
+        else
+        {
+            chain.doFilter(sreq, sres);
+        }
     }
 
     /**
