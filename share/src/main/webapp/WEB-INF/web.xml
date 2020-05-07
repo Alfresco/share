@@ -42,10 +42,10 @@
    </filter>
 
    <!-- AIMS Filter -->
-   <filter>
+   <!--  filter>
       <filter-name>AIMS Filter</filter-name>
       <filter-class>org.alfresco.web.site.servlet.AIMSFilter</filter-class>
-   </filter>
+   </filter-->
 
    <filter>
       <description>CSRF Token filter. Checks for a session based CSRF token in request headers (or form parameters) based on config.</description>
@@ -92,7 +92,7 @@
    </filter-mapping>
 
    <!-- AIMS Filter mappings -->
-   <filter-mapping>
+   <!--filter-mapping>
       <filter-name>AIMS Filter</filter-name>
       <url-pattern>/page/*</url-pattern>
    </filter-mapping>
@@ -107,7 +107,7 @@
    <filter-mapping>
       <filter-name>AIMS Filter</filter-name>
       <url-pattern>/service/*</url-pattern>
-   </filter-mapping>
+   </filter-mapping-->
 
    <!-- CSRF Token Filter mappings -->
    <filter-mapping>
