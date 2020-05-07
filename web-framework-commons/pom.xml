@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>7.127</version>
+            <version>${dependency.alfresco-remote-api.version}</version>
             <scope>test</scope>
             <exclusions>
             	<exclusion>
@@ -137,7 +137,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>7.127</version>
+            <version>${dependency.alfresco-remote-api.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
