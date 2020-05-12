@@ -10,9 +10,12 @@
    </div>
    <div class="theme-color-4" style="padding-top:8px;">
       <div style="padding: 2px"><b>Error Code Information:</b> ${status.code} - ${status.codeDescription}</div>
+      <#assign errorCode = codeLib.getErrorCode(status.message)>
+      <#if errorCode?has_content>
+      <div style="padding: 2px"><b>Error Log Number: </b>${errorCode}</div>
+      <#else>
       <div style="padding: 2px"><b>Error Message:</b> <#if status.message??>${status.message?html}<#else><i>&lt;Not specified&gt;</i></#if></div>
-      <div style="padding: 2px"><b>Server:</b> Alfresco ${server.edition?html} v${server.version?html} schema ${server.schema?html}</div>
-      <div style="padding: 2px"><b>Time:</b> ${date?datetime}</div>
+      </#if>
       <div style="padding: 2px"><b>Your request could not be processed at this time. Please contact your system administrator for further information.</b></div>
    </div>
 </div>
