@@ -1,6 +1,8 @@
 "'></a></script>
 <!-- above dodgy HTML is required to end any open tags, script etc. before further script injection -->
 
+<#import "../errorcode.lib.ftl" as codeLib />
+
 <div class="theme-color-2" style="padding: 8px; margin: 8px; border: 1px dashed #D7D7D7;">
    <div style="font-weight: bold; font-size: 116%">
       <div style="padding: 2px">An error has occured in the Share component: ${url.service?html}.</div>
