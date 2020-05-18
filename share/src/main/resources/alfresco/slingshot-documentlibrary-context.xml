@@ -298,6 +298,7 @@
             <value>application/vnd.openxmlformats-officedocument.spreadsheetml.template</value>
             <value>application/vnd.ms-excel.addin.macroenabled.12</value>
             <value>application/vnd.ms-excel.sheet.binary.macroenabled.12</value>
+            <value>application/vnd.ms-project</value>
          </list>
       </property>
    </bean>
@@ -343,6 +344,7 @@
             <value>application/vnd.ms-powerpoint.slide.macroEnabled.12</value>
             <value>application/vnd.visio</value>
             <value>application/vnd.visio2013</value>
+            <value>application/vnd.ms-project</value>
          </list>
       </property>
    </bean>

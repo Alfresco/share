@@ -793,6 +793,8 @@
                docm: "application/vnd.ms-word.document.macroenabled.12",
                dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
                dotm: "application/vnd.ms-word.template.macroenabled.12",
+               mpp: "application/vnd.ms-project",
+               mpt: "application/vnd.ms-project",
 
                ppt: "application/vnd.ms-powerpoint",
                pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
@@ -1266,6 +1268,8 @@
             'dot'  : 'ms-word',
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
+            'mpt'  : 'ms-project',
+            'mpp'  : 'ms-project',
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',
