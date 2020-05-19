@@ -7,7 +7,7 @@
         <version>10</version>
     </parent>
     <artifactId>alfresco-share-parent</artifactId>
-    <version>5.2.7-SNAPSHOT</version>
+    <version>5.2.7.2</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -29,7 +29,7 @@
         <version.minor>2</version.minor>
         <version.revision>7</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>5.2.7</alfresco.platform.version>
+        <alfresco.platform.version>5.2.7.2</alfresco.platform.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
