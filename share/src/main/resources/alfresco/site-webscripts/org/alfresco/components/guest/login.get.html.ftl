@@ -16,21 +16,21 @@
    <@uniqueIdDiv>
       <#assign el=args.htmlid?html>
       <div id="${el}-body" class="theme-overlay login hidden">
-      
+
       <@markup id="header">
          <div class="theme-company-logo"></div>
          <div class="product-name">${msg("app.name")}</div>
          <div class="product-tagline">${msg("app.tagline")}</div>
          <div class="product-community">${msg("app.community")}</div>
       </@markup>
-      
+
       <#if errorDisplay == "container">
       <@markup id="error">
          <#if error>
          <div class="error">${msg("message.loginautherror")}</div>
          <#else>
          <script type="text/javascript">//<![CDATA[
-            document.cookie = "_alfTest=_alfTest; Path=/;";
+            document.cookie = "_alfTest=_alfTest; Path=/;SameSite=None;Secure";
             var cookieEnabled = (document.cookie.indexOf("_alfTest") !== -1);
             if (!cookieEnabled)
             {
@@ -40,7 +40,7 @@
          </#if>
       </@markup>
       </#if>
-      
+
       <@markup id="form">
          <form id="${el}-form" accept-charset="UTF-8" method="post" action="${loginUrl}" class="form-fields login">
             <@markup id="fields">
@@ -60,10 +60,10 @@
             </@markup>
          </form>
       </@markup>
-      
+
       <@markup id="preloader">
          <script type="text/javascript">//<![CDATA[
-            window.onload = function() 
+            window.onload = function()
             {
                 setTimeout(function()
                 {
@@ -82,7 +82,7 @@
       </@markup>
 
       </div>
-      
+
       <@markup id="footer">
       <div class="login-copy">${msg("label.copyright")}</div>
       </@markup>
