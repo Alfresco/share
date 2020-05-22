@@ -20,7 +20,7 @@ services:
             - ${REPOSITORY_PORT}:8080 #Browser port
 
     share:
-        image: ${SHARE_IMAGE}:${SHARE_TAG}
+        image: test
         environment:
             REPO_HOST: alfresco
             REPO_PORT: 8080

@@ -5,6 +5,11 @@
            http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+
+	<!-- -->
+	<!-- Web Framework Configuration -->
+	<!-- -->
+
    <!-- Override the config source to include Web Framework Commons and Share config -->
    <bean id="webframework.configsource" class="org.springframework.extensions.config.source.UrlConfigSource">
       <constructor-arg>
@@ -60,6 +65,20 @@
          </list>
       </constructor-arg>
    </bean>
+
+	<bean id="web.config"
+		class="org.springframework.extensions.config.xml.XMLConfigService"
+		init-method="init">
+		<constructor-arg>
+			<ref bean="webframework.configsource" />
+		</constructor-arg>
+		<property name="propertyLocations">
+			<list>
+				<value>classpath:share-config.properties</value>
+			</list>
+		</property>
+	</bean>
+   
 
    <!-- Override WebScript Messages - add slingshot application messages -->
    <bean id="webscripts.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
