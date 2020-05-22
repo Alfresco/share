@@ -29,6 +29,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.Config;
+import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.ConfigService;
 
 public class AIMSConfig implements ApplicationContextAware
@@ -44,18 +45,51 @@ public class AIMSConfig implements ApplicationContextAware
     public boolean isAIMSEnabled()
     {
         Config AIMSConfigCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
-        AIMSConfigElement config = null;
+        AIMSConfigElement aimsConfigElement = null;
 
         if (AIMSConfigCondition != null)
         {
-            config = (AIMSConfigElement) AIMSConfigCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
+            ConfigElement config = (ConfigElement) AIMSConfigCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
+            aimsConfigElement = AIMSConfigElement.buildObject(config);
         }
 
-        return config != null && config.getEnabled();
+        return aimsConfigElement != null && aimsConfigElement.getEnabled();
     }
 
-    @Override public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
     {
         this.context = applicationContext;
     }
+
+    public static class AIMSConfigElement
+    {
+
+        public static final String AIMS_CONFIG_CONDITION = "AIMS";
+        public static final String AIMS_CONFIG_ELEMENT = "aims";
+        private boolean enabled = false;
+
+        public boolean getEnabled()
+        {
+            return enabled;
+        }
+
+        public static AIMSConfigElement buildObject(ConfigElement elem)
+        {
+            AIMSConfigElement configElement = new AIMSConfigElement();
+            String enabled = null;
+            if ((elem != null) && (elem.getChild("enabled") != null))
+            {
+                enabled = elem.getChild("enabled").getValue();
+            }
+
+            if (enabled != null && enabled.length() > 0)
+            {
+                configElement.enabled = Boolean.parseBoolean(enabled);
+            }
+
+            return configElement;
+        }
+    }
+
 }
