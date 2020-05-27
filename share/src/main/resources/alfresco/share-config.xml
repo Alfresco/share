@@ -4,6 +4,7 @@
       <element-readers>
          <element-reader element-name="kerberos" class="org.alfresco.web.site.servlet.config.KerberosConfigElementReader"/>
          <element-reader element-name="header" class="org.alfresco.web.config.header.HeaderElementReader"/>
+         <element-reader element-name="aims" class="org.alfresco.web.site.servlet.config.AIMSConfigElementReader"/>
       </element-readers>
    </plug-ins>
 
@@ -320,11 +321,24 @@
       </remote>
    </config>
 
-   <!-- AIMS -->
-   <config evaluator="string-compare" condition="AIMS">
-      <aims>
-         <enabled>false</enabled>
-      </aims>
-   </config>
+	<!-- AIMS -->
+	<config evaluator="string-compare" condition="AIMS">
+		<aims>
+			<enabled>${aims.config.enabled}</enabled>
+			<realm>${aims.config.realm}</realm>
+			<resource>${aims.config.resource}</resource>
+			<authServerUrl>${aims.config.authServerUrl}</authServerUrl>
+			<sslRequired>${aims.config.sslRequired}</sslRequired>
+			<publicClient>${aims.config.publicClient}</publicClient>
+			<autodetectBearerOnly>${aims.config.autodetectBearerOnly}
+			</autodetectBearerOnly>
+			<alwaysRefreshToken>${aims.config.alwaysRefreshToken}
+			</alwaysRefreshToken>
+			<principalAttribute>${aims.config.principalAttribute}
+			</principalAttribute>
+			<enableBasicAuth>${aims.config.enableBasicAuth}</enableBasicAuth>
+		</aims>
+	</config>
+
 
 </alfresco-config>

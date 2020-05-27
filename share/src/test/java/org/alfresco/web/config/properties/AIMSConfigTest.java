@@ -30,86 +30,124 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.web.config.util.BaseTest;
-import org.alfresco.web.site.servlet.config.AIMSConfig.AIMSConfigElement;
+import org.alfresco.web.site.servlet.config.AIMSConfigElement;
 import org.junit.Test;
+import org.keycloak.representations.adapters.config.AdapterConfig;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.xml.XMLConfigService;
 
-public class AIMSConfigTest extends BaseTest
-{
+public class AIMSConfigTest extends BaseTest {
 
-    public static final String PROPERTIES_RESOURCES = "classpath*:alfresco/module/*/share-config.properties";
-    private static final String TEST_CONFIG_AIMS_BASIC_XML = "test-config-aims-basic.xml";
-    protected XMLConfigService configService;
+	public static final String PROPERTIES_RESOURCES = "classpath*:alfresco/module/*/share-config.properties";
+	private static final String TEST_CONFIG_AIMS_BASIC_XML = "test-config-aims-basic.xml";
+	protected XMLConfigService configService;
 
-    protected List<String> getConfigFiles()
-    {
-        List<String> result = new ArrayList<String>(1);
-        result.add(TEST_CONFIG_AIMS_BASIC_XML);
-        return result;
-    }
+	protected List<String> getConfigFiles() {
+		List<String> result = new ArrayList<String>(1);
+		result.add(TEST_CONFIG_AIMS_BASIC_XML);
+		return result;
+	}
 
-    @Override
-    public String getResourcesDir()
-    {
-        return "classpath:";
-    }
+	@Override
+	public String getResourcesDir() {
+		return "classpath:";
+	}
 
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 
-    }
+	}
 
-    @Test
-    public void testValidateConfigProperties()
-    {
-        AIMSConfigElement aims = initConfigAIMS();
-        assertFalse(aims.getEnabled());
+	@Test
+	public void testValidateIsEnableConfigProperties() {
+		AIMSConfigElement aims = initConfigAIMS();
+		assertFalse(aims.isEnabled());
 
-    }
+	}
 
-    @Test
-    public void testValidateSystemProperties()
-    {
-       /** System.setProperty("aims.config.enabled", "true");
-        AIMSConfigElement aims = initConfigAIMS();
-        assertTrue(aims.getEnabled());*/
-    }
+	@Test
+	public void testValidateIsEnableSystemProperties() {
+		System.setProperty("aims.config.enabled", "true");
+		AIMSConfigElement aims = initConfigAIMS();
+		assertTrue(aims.isEnabled());
 
-    private AIMSConfigElement initConfigAIMS()
-    {
-        Resource[] resources;
-        AIMSConfigElement aimsConfigElement = null;
+	}
+	
+	@Test
+	public void testValidateKeycloakProperties() {
+		AIMSConfigElement aims = initConfigAIMS();
+		AdapterConfig keycloakConfigElem = aims.getKeycloakConfigElem();
+		assertNotNull(keycloakConfigElem);
+		assertTrue("real should be alfresco.", keycloakConfigElem.getRealm().equals("alfresco"));
+		assertTrue("resource should be alfresco.", keycloakConfigElem.getResource().equals("alfresco"));
+		assertTrue("authServerUrl should be null.", (keycloakConfigElem.getAuthServerUrl()==null));
+		assertTrue("sslRequired should be none.", keycloakConfigElem.getSslRequired().equals("none"));
+		assertTrue("publicClient should be true.", keycloakConfigElem.isPublicClient());
+		assertTrue("autodetectBearerOnly should be true.", keycloakConfigElem.isAutodetectBearerOnly());
+		assertTrue("alwaysRefreshToken should be true.", keycloakConfigElem.isAlwaysRefreshToken());
+		assertTrue("principalAttribute should be email.", keycloakConfigElem.getPrincipalAttribute().equals("email"));
+		assertTrue("enableBasicAuth should be true.", keycloakConfigElem.isEnableBasicAuth());
+	}
 
-        try
-        {
-            // define properties from a property file
-            resources = new PathMatchingResourcePatternResolver().getResources(PROPERTIES_RESOURCES);
+	@Test
+	public void testValidateKeycloakConfigProperties() {
+		System.setProperty("aims.config.realm","test");
+		System.setProperty("aims.config.resource","test");
+		System.setProperty("aims.config.authServerUrl","test");
+		System.setProperty("aims.config.sslRequired","none");
+		System.setProperty("aims.config.publicClient","true");
+		System.setProperty("aims.config.autodetectBearerOnly","true");
+		System.setProperty("aims.config.alwaysRefreshToken","false");
+		System.setProperty("aims.config.principalAttribute","test");
+		System.setProperty("aims.config.enableBasicAuth","true");
 
-            configService = initXMLConfigServiceWithProperties(getConfigFiles(), resources);
-            assertNotNull("configService was null.", configService);
+		
+		AIMSConfigElement aims = initConfigAIMS();
+		AdapterConfig keycloakConfigElem = aims.getKeycloakConfigElem();
+		assertNotNull(keycloakConfigElem);
+		assertTrue("real should be test.", keycloakConfigElem.getRealm().equals("test"));
+		assertTrue("resource should be test.", keycloakConfigElem.getResource().equals("test"));
+		assertTrue("authServerUrl should be empty.", keycloakConfigElem.getAuthServerUrl().equals("test"));
+		assertTrue("sslRequired should be none.", keycloakConfigElem.getSslRequired().equals("none"));
+		assertTrue("publicClient should be true.", keycloakConfigElem.isPublicClient());
+		assertTrue("autodetectBearerOnly should be true.", keycloakConfigElem.isAutodetectBearerOnly());
+		assertFalse("alwaysRefreshToken should be false.", keycloakConfigElem.isAlwaysRefreshToken());
+		assertTrue("principalAttribute should be test.", keycloakConfigElem.getPrincipalAttribute().equals("test"));
+		assertTrue("enableBasicAuth should be true.", keycloakConfigElem.isEnableBasicAuth());
 
-            Config aimsConditionObj = configService.getConfig("AIMS");
-            assertNotNull(aimsConditionObj);
+	}
 
-            ConfigElement aimsConfigObj = aimsConditionObj.getConfigElement("aims");
+	private AIMSConfigElement initConfigAIMS() {
+		Resource[] resources;
+		AIMSConfigElement aimsConfigElement = null;
 
-            aimsConfigElement = AIMSConfigElement.buildObject(aimsConfigObj);
-            assertNotNull(aimsConfigObj);
+		try {
+			// define properties from a property file
+			resources = new PathMatchingResourcePatternResolver().getResources(PROPERTIES_RESOURCES);
 
-        }
-        catch (IOException e)
-        {
-            throw new ExceptionInInitializerError(e);
-        }
+			configService = initXMLConfigServiceWithProperties(getConfigFiles(), resources);
+			assertNotNull("configService was null.", configService);
 
-        return aimsConfigElement;
+			Config aimsConditionObj = configService.getConfig("AIMS");
+			assertNotNull(aimsConditionObj);
 
-    }
+			ConfigElement aimsConfigObj = aimsConditionObj.getConfigElement("aims");
+			assertNotNull(aimsConfigObj);
+			assertTrue("aimsConfigObj should be instanceof AIMSConfigElement.",
+					aimsConfigObj instanceof AIMSConfigElement);
+
+			aimsConfigElement = (AIMSConfigElement) aimsConfigObj;
+
+		} catch (IOException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+
+		return aimsConfigElement;
+
+	}
 
 }

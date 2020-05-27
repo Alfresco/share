@@ -96,9 +96,8 @@ public class AIMSFilter extends KeycloakOIDCFilter
 
         // Check if there are valid values within keycloak.json config file
         if (this.enabled)
-        {
-            InputStream is = filterConfig.getServletContext().getResourceAsStream(AIMS_CONFIG_PATH);
-            KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+        {     
+            KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAimsAdapterConfig());
             if (!deployment.isConfigured() || deployment.getRealm().isEmpty() ||
                 deployment.getResourceName().isEmpty() || deployment.getAuthServerBaseUrl().isEmpty())
             {
