@@ -42,7 +42,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.InputStream;
 
 /**
  * Share specific override of the SpringSurf dologout controller.
@@ -54,7 +53,7 @@ import java.io.InputStream;
  */
 public class SlingshotLogoutController extends LogoutController
 {
-    private static Log logger = LogFactory.getLog(SlingshotLogoutController.class);
+    private static final Log logger = LogFactory.getLog(SlingshotLogoutController.class);
     protected ConnectorService connectorService;
     
     
@@ -72,7 +71,7 @@ public class SlingshotLogoutController extends LogoutController
             throws Exception
     {
         AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aimsConfig");
-        if (config.isAIMSEnabled())
+        if (config.isEnabled())
         {
             String username = null;
 
@@ -88,7 +87,7 @@ public class SlingshotLogoutController extends LogoutController
 
                     if (account != null)
                     {
-                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAimsAdapterConfig());
+                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAdapterConfig());
 
                         // Logs out from Keycloak
                         account.getKeycloakSecurityContext().logout(deployment);

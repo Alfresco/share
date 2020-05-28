@@ -36,28 +36,12 @@ public class AIMSConfig implements ApplicationContextAware
 {
     private ApplicationContext context;
     private ConfigService configService;
+    private AIMSConfigElement configElement = null;
 
     public void init()
     {
-        this.configService = (ConfigService) this.context.getBean("web.config");
-    }
-
-    public boolean isAIMSEnabled()
-    {
-        AIMSConfigElement config = initAIMSConfig();
-        return config != null && config.isEnabled();
-    }
-
-    private AIMSConfigElement initAIMSConfig()
-    {
-        AIMSConfigElement config = null;
-
-        Config aimsConfigCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
-        if (aimsConfigCondition != null)
-        {
-            config = (AIMSConfigElement) aimsConfigCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
-        }
-        return config;
+        this.configService = (ConfigService) this.context.getBean("aims.configservice");
+        this.initConfigElement();
     }
 
     @Override
@@ -66,13 +50,30 @@ public class AIMSConfig implements ApplicationContextAware
         this.context = applicationContext;
     }
 
-    public AdapterConfig getAimsAdapterConfig()
+    private void initConfigElement()
     {
-        AIMSConfigElement config = initAIMSConfig();
-        if (config == null)
+        Config configCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
+        if (configCondition != null)
         {
-            return null;
+            this.configElement = (AIMSConfigElement) configCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
         }
-        return config.getKeycloakConfigElem();
+    }
+
+    /**
+     *
+     * @return boolean
+     */
+    public boolean isEnabled()
+    {
+        return this.configElement.isEnabled();
+    }
+
+    /**
+     *
+     * @return AdapterConfig
+     */
+    public AdapterConfig getAdapterConfig()
+    {
+        return (this.configElement != null) ? this.configElement.getKeycloakConfigElem() : null;
     }
 }

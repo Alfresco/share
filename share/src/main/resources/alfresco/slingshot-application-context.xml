@@ -65,17 +65,6 @@
         </constructor-arg>
     </bean>
 
-    <bean id="web.config"
-          class="org.springframework.extensions.config.xml.XMLConfigService"
-          init-method="init">
-        <constructor-arg ref="webframework.configsource"/>
-        <property name="properties">
-            <list>
-                <value>classpath:share-config.properties</value>
-            </list>
-        </property>
-    </bean>
-
     <!-- Override WebScript Messages - add slingshot application messages -->
     <bean id="webscripts.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
         <property name="resourceBundles">
@@ -468,7 +457,17 @@
         <property name="endpoint" value="alfresco"/>
     </bean>
 
-    <!-- AIMS config reader -->
+    <!-- AIMS config service and reader beans -->
+    <bean id="aims.configservice"
+          class="org.springframework.extensions.config.xml.XMLConfigService"
+          init-method="init">
+        <constructor-arg ref="webframework.configsource"/>
+        <property name="properties">
+            <list>
+                <value>classpath:share-config.properties</value>
+            </list>
+        </property>
+    </bean>
     <bean id="aimsConfig" class="org.alfresco.web.site.servlet.config.AIMSConfig" init-method="init"/>
 
 </beans>
