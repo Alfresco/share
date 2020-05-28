@@ -30,22 +30,26 @@ import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.xml.XMLConfigService.PropertyConfigurer;
 import org.springframework.extensions.config.xml.elementreader.GenericElementReader;
 
-public class AIMSConfigElementReader extends GenericElementReader {
+public class AIMSConfigElementReader extends GenericElementReader
+{
 
-	public AIMSConfigElementReader(PropertyConfigurer propertyConfigurer) {
-		super(propertyConfigurer);
-	}
+    public AIMSConfigElementReader(PropertyConfigurer propertyConfigurer)
+    {
+        super(propertyConfigurer);
+    }
 
-	public ConfigElement parse(Element elem) {
+    public ConfigElement parse(Element elem)
+    {
 
-		ConfigElement configElement = null;
+        ConfigElement configElement = null;
 
-		if (elem != null) {
-			ConfigElement parsed = super.parse(elem);
-			configElement = AIMSConfigElement.newInstance(parsed);
-		}
+        if (elem != null)
+        {
+            ConfigElement parsed = super.parse(elem);
+            configElement = AIMSConfigElement.newInstance(parsed);
+        }
 
-		return configElement;
-	}
+        return configElement;
+    }
 
 }
