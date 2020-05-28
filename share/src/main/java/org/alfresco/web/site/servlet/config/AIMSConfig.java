@@ -32,41 +32,47 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
 
-public class AIMSConfig implements ApplicationContextAware {
-	private ApplicationContext context;
-	private ConfigService configService;
+public class AIMSConfig implements ApplicationContextAware
+{
+    private ApplicationContext context;
+    private ConfigService configService;
 
-	public void init() {
-		this.configService = (ConfigService) this.context.getBean("web.config");
-	}
+    public void init()
+    {
+        this.configService = (ConfigService) this.context.getBean("web.config");
+    }
 
-	public boolean isAIMSEnabled() {
-		AIMSConfigElement config = initAIMSConfig();
-		return config != null && config.isEnabled();
-	}
+    public boolean isAIMSEnabled()
+    {
+        AIMSConfigElement config = initAIMSConfig();
+        return config != null && config.isEnabled();
+    }
 
-	private AIMSConfigElement initAIMSConfig() {
-		Config AIMSConfigCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
-		AIMSConfigElement config = null;
+    private AIMSConfigElement initAIMSConfig()
+    {
+        AIMSConfigElement config = null;
 
-		if (AIMSConfigCondition != null) {
-			config = (AIMSConfigElement) AIMSConfigCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
-		}
-		return config;
-	}
+        Config aimsConfigCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
+        if (aimsConfigCondition != null)
+        {
+            config = (AIMSConfigElement) aimsConfigCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
+        }
+        return config;
+    }
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    {
+        this.context = applicationContext;
+    }
 
-	public AdapterConfig getAimsAdapterConfig() {
-		AIMSConfigElement config = initAIMSConfig();
-		if (config == null) {
-			return null;
-
-		}
-		return config.getKeycloakConfigElem();
-	}
-
+    public AdapterConfig getAimsAdapterConfig()
+    {
+        AIMSConfigElement config = initAIMSConfig();
+        if (config == null)
+        {
+            return null;
+        }
+        return config.getKeycloakConfigElem();
+    }
 }

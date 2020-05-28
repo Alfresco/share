@@ -72,17 +72,15 @@ public class SlingshotLogoutController extends LogoutController
             throws Exception
     {
         AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aimsConfig");
-
         if (config.isAIMSEnabled())
         {
             String username = null;
+
             // Check whether there is already an user logged in
             HttpSession session = request.getSession(false);
-
             if (session != null)
             {
                 username = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
-
                 if (username != null && !username.isEmpty())
                 {
                     OIDCFilterSessionStore.SerializableKeycloakAccount account =
@@ -90,8 +88,7 @@ public class SlingshotLogoutController extends LogoutController
 
                     if (account != null)
                     {
-                        InputStream is = this.getServletContext().getResourceAsStream(AIMSFilter.AIMS_CONFIG_PATH);
-                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAimsAdapterConfig());
 
                         // Logs out from Keycloak
                         account.getKeycloakSecurityContext().logout(deployment);

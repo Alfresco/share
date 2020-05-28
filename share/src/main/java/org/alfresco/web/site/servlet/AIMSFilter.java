@@ -60,7 +60,7 @@ import java.util.Collections;
 
 public class AIMSFilter extends KeycloakOIDCFilter
 {
-    private static Log logger = LogFactory.getLog(AIMSFilter.class);
+    private static final Log logger = LogFactory.getLog(AIMSFilter.class);
 
     private ApplicationContext context;
     private ConnectorService connectorService;
@@ -96,13 +96,15 @@ public class AIMSFilter extends KeycloakOIDCFilter
 
         // Check if there are valid values within keycloak.json config file
         if (this.enabled)
-        {     
+        {
             KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAimsAdapterConfig());
-            if (!deployment.isConfigured() || deployment.getRealm().isEmpty() ||
-                deployment.getResourceName().isEmpty() || deployment.getAuthServerBaseUrl().isEmpty())
+            if (!deployment.isConfigured())
             {
                 throw new AlfrescoRuntimeException("AIMS is not configured properly; realm, resource and auth-server-url should not be empty.");
             }
+
+            // Update filter's deployment
+            this.deploymentContext.updateDeployment(config.getAimsAdapterConfig());
         }
 
         // Info
