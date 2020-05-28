@@ -35,96 +35,112 @@ import org.springframework.extensions.config.element.ConfigElementAdapter;
  * : true, "autodetect-bearer-only": true, "always-refresh-token": true,
  * "principal-attribute": "email", "enable-basic-auth": true }
  */
-public class AIMSConfigElement extends ConfigElementAdapter {
-	private static final long serialVersionUID = 4278518406841891833L;
-	public static final String AIMS_CONFIG_CONDITION = "AIMS";
-	public static final String AIMS_CONFIG_ELEMENT = "aims";
-	public AdapterConfig keycloakConfigElem = null;
+public class AIMSConfigElement extends ConfigElementAdapter
+{
+    private static final long serialVersionUID = 4278518406841891833L;
+    public static final String AIMS_CONFIG_CONDITION = "AIMS";
+    public static final String AIMS_CONFIG_ELEMENT = "aims";
+    public AdapterConfig keycloakConfigElem = null;
 
-	/** AIMS enable **/
-	private boolean enabled = false;
+    /** AIMS enable **/
+    private boolean enabled = false;
 
-	public AIMSConfigElement() {
-		super(AIMS_CONFIG_ELEMENT);
-	}
+    public AIMSConfigElement()
+    {
+        super(AIMS_CONFIG_ELEMENT);
+    }
 
-	@Override
-	public ConfigElement combine(ConfigElement element) {
-		AIMSConfigElement configElement = (AIMSConfigElement) element;
-		// New combined element
-		AIMSConfigElement combinedElement = new AIMSConfigElement();
-		combinedElement.enabled = configElement.enabled;
-		combinedElement.keycloakConfigElem = configElement.keycloakConfigElem;
+    @Override
+    public ConfigElement combine(ConfigElement element)
+    {
+        AIMSConfigElement configElement = (AIMSConfigElement) element;
+        // New combined element
+        AIMSConfigElement combinedElement = new AIMSConfigElement();
+        combinedElement.enabled = configElement.enabled;
+        combinedElement.keycloakConfigElem = configElement.keycloakConfigElem;
 
-		// Return the combined element
-		return combinedElement;
-	}
+        // Return the combined element
+        return combinedElement;
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public boolean isEnabled()
+    {
+        return enabled;
+    }
 
-	public AdapterConfig getKeycloakConfigElem() {
-		return keycloakConfigElem;
-	}
+    public AdapterConfig getKeycloakConfigElem()
+    {
+        return keycloakConfigElem;
+    }
 
-	protected static AIMSConfigElement newInstance(ConfigElement elem) {
-		AIMSConfigElement configElement = new AIMSConfigElement();
+    protected static AIMSConfigElement newInstance(ConfigElement elem)
+    {
+        AIMSConfigElement configElement = new AIMSConfigElement();
 
-		String enabled = elem.getChildValue("enabled");
-		if (enabled != null && enabled.length() > 0) {
-			configElement.enabled = Boolean.parseBoolean(enabled);
-		}
+        String enabled = elem.getChildValue("enabled");
+        if (enabled != null && enabled.length() > 0)
+        {
+            configElement.enabled = Boolean.parseBoolean(enabled);
+        }
 
-		// build keycloakConfig object
-		AdapterConfig keycloakConfigElem = new AdapterConfig();
+        // build keycloakConfig object
+        AdapterConfig keycloakConfigElem = new AdapterConfig();
 
-		String realm = elem.getChildValue("realm");
-		if (realm != null && realm.length() > 0) {
-			keycloakConfigElem.setRealm(realm);
-		}
+        String realm = elem.getChildValue("realm");
+        if (realm != null && realm.length() > 0)
+        {
+            keycloakConfigElem.setRealm(realm);
+        }
 
-		String resource = elem.getChildValue("resource");
-		if (resource != null && resource.length() > 0) {
-			keycloakConfigElem.setResource(resource);
-		}
+        String resource = elem.getChildValue("resource");
+        if (resource != null && resource.length() > 0)
+        {
+            keycloakConfigElem.setResource(resource);
+        }
 
-		String authServerUrl = elem.getChildValue("authServerUrl");
-		if (authServerUrl != null && authServerUrl.length() > 0) {
-			keycloakConfigElem.setAuthServerUrl(authServerUrl);
-		}
+        String authServerUrl = elem.getChildValue("authServerUrl");
+        if (authServerUrl != null && authServerUrl.length() > 0)
+        {
+            keycloakConfigElem.setAuthServerUrl(authServerUrl);
+        }
 
-		String sslRequired = elem.getChildValue("sslRequired");
-		if (sslRequired != null && sslRequired.length() > 0) {
-			keycloakConfigElem.setSslRequired(sslRequired);
-		}
+        String sslRequired = elem.getChildValue("sslRequired");
+        if (sslRequired != null && sslRequired.length() > 0)
+        {
+            keycloakConfigElem.setSslRequired(sslRequired);
+        }
 
-		String publicClient = elem.getChildValue("publicClient");
-		if (publicClient != null && publicClient.length() > 0) {
-			keycloakConfigElem.setPublicClient(Boolean.parseBoolean(publicClient));
-		}
+        String publicClient = elem.getChildValue("publicClient");
+        if (publicClient != null && publicClient.length() > 0)
+        {
+            keycloakConfigElem.setPublicClient(Boolean.parseBoolean(publicClient));
+        }
 
-		String autodetectBearerOnly = elem.getChildValue("autodetectBearerOnly");
-		if (autodetectBearerOnly != null && autodetectBearerOnly.length() > 0) {
-			keycloakConfigElem.setAutodetectBearerOnly(Boolean.parseBoolean(autodetectBearerOnly));
-		}
+        String autodetectBearerOnly = elem.getChildValue("autodetectBearerOnly");
+        if (autodetectBearerOnly != null && autodetectBearerOnly.length() > 0)
+        {
+            keycloakConfigElem.setAutodetectBearerOnly(Boolean.parseBoolean(autodetectBearerOnly));
+        }
 
-		String alwaysRefreshToken = elem.getChildValue("alwaysRefreshToken");
-		if (alwaysRefreshToken != null && alwaysRefreshToken.length() > 0) {
-			keycloakConfigElem.setAlwaysRefreshToken(Boolean.parseBoolean(alwaysRefreshToken));
-		}
+        String alwaysRefreshToken = elem.getChildValue("alwaysRefreshToken");
+        if (alwaysRefreshToken != null && alwaysRefreshToken.length() > 0)
+        {
+            keycloakConfigElem.setAlwaysRefreshToken(Boolean.parseBoolean(alwaysRefreshToken));
+        }
 
-		String principalAttribute = elem.getChildValue("principalAttribute");
-		if (principalAttribute != null && principalAttribute.length() > 0) {
-			keycloakConfigElem.setPrincipalAttribute(principalAttribute);
-		}
+        String principalAttribute = elem.getChildValue("principalAttribute");
+        if (principalAttribute != null && principalAttribute.length() > 0)
+        {
+            keycloakConfigElem.setPrincipalAttribute(principalAttribute);
+        }
 
-		String enableBasicAuth = elem.getChildValue("enableBasicAuth");
-		if (enableBasicAuth != null && enableBasicAuth.length() > 0) {
-			keycloakConfigElem.setEnableBasicAuth(Boolean.parseBoolean(enableBasicAuth));
-		}
-		configElement.keycloakConfigElem = keycloakConfigElem;
+        String enableBasicAuth = elem.getChildValue("enableBasicAuth");
+        if (enableBasicAuth != null && enableBasicAuth.length() > 0)
+        {
+            keycloakConfigElem.setEnableBasicAuth(Boolean.parseBoolean(enableBasicAuth));
+        }
+        configElement.keycloakConfigElem = keycloakConfigElem;
 
-		return configElement;
-	}
+        return configElement;
+    }
 }
