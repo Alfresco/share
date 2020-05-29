@@ -30,7 +30,7 @@
 
    /**
     * Login constructor.
-    *
+    * 
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.component.Login} The new Login instance
     * @constructor
@@ -82,7 +82,7 @@
       onReady: function Login_onReady()
       {
          Dom.addClass(Dom.get("Share"), this.options.edition);
-
+         
          // Prevent the Enter key from causing a double form submission
          var form = Dom.get(this.id + "-form");
 
@@ -106,19 +106,19 @@
             keys: YAHOO.util.KeyListener.KEY.ENTER
          }, fnStopEvent, "keydown");
          enterListener.enable();
-
+   
          // generate submit button
          this.widgets.submitButton = Alfresco.util.createYUIButton(this, "submit", null, {
             type: "submit"
          });
-
+         
          // optional language drop-down
          var elLang = Dom.get(this.id + "-language");
          if (elLang)
          {
             Event.addListener(elLang, "change", this.setLangCookie, this, true);
          }
-
+         
          // fade in effect on load
          var overlay = Alfresco.util.createYUIOverlay(Dom.get(this.id), {}, { render: false });
          Dom.removeClass(this.id + "-body", "hidden");
@@ -136,7 +136,7 @@
 
          }, this, true);
          overlay.show();
-
+         
          // only add the resize event for desktop OS
          if (!YAHOO.env.ua.ios && !YAHOO.env.ua.android)
          {
@@ -144,14 +144,14 @@
                overlay.center();
             }, this, true);
          }
-
+         
          // Make sure to add the hash part to the url
          Dom.get(this.id + "-success").value += location.href.indexOf("#") > -1 ? location.href.substr(location.href.indexOf("#")) : "";
       },
-
+      
       /**
        * Optional Language selection drop-down event handler
-       *
+       * 
        * @method setLangCookie
        */
       setLangCookie: function setLangCookie(p_oEvent)
@@ -159,20 +159,20 @@
          var langSelect = Event.getTarget(p_oEvent);
          var locale = langSelect.options[langSelect.selectedIndex].value;
          var username = Dom.get(this.id + "-username").value;
-
+         
          // set the cookie expiration to 10 years from now.
          expirationdate = new Date();
          expirationdate.setFullYear(expirationdate.getFullYear() + 10);
-
-         document.cookie = "alfLocale=" + locale + ";expires=" + expirationdate.toUTCString() + ";path=/;SameSite=None;Secure";
-
+         
+         document.cookie = "alfLocale=" + locale + ";expires=" + expirationdate.toUTCString() + ";path=/";
+         
          // set the cookie expiration to 7 days from now (same as SpringSurf).
          expirationdate = new Date();
          expirationdate.setDate(expirationdate.getDate() + 7);
-
+         
          // save the username in a cookie to re-populate the username field after changing language.
-         document.cookie = "alfUsername3=" + encodeURIComponent(username) + ";expires=" + expirationdate.toUTCString() + ";path=" + Alfresco.constants.URL_CONTEXT + ";SameSite=None;Secure";
-
+         document.cookie = "alfUsername3=" + encodeURIComponent(username) + ";expires=" + expirationdate.toUTCString() + ";path=" + Alfresco.constants.URL_CONTEXT;
+         
          location.reload(true);
       },
 
@@ -207,7 +207,7 @@
          else
          {
             // Display cookie error
-            document.cookie = "_alfTest=_alfTest; Path=/;SameSite=None;Secure";
+            document.cookie = "_alfTest=_alfTest; Path=/;";
             var cookieEnabled = (document.cookie.indexOf("_alfTest") != -1);
             if (cookieEnabled == false)
             {
