@@ -468,6 +468,6 @@
             </list>
         </property>
     </bean>
-    <bean id="aimsConfig" class="org.alfresco.web.site.servlet.config.AIMSConfig" init-method="init"/>
+    <bean id="aims.config" class="org.alfresco.web.site.servlet.config.AIMSConfig" init-method="init"/>
 
 </beans>

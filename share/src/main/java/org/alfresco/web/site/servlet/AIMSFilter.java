@@ -86,7 +86,7 @@ public class AIMSFilter extends KeycloakOIDCFilter
         super.init(filterConfig);
 
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
-        AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
+        AIMSConfig config = (AIMSConfig) this.context.getBean("aims.config");
         this.enabled = config.isEnabled();
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");

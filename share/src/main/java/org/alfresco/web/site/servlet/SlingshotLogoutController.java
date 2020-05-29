@@ -70,7 +70,7 @@ public class SlingshotLogoutController extends LogoutController
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
             throws Exception
     {
-        AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aimsConfig");
+        AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aims.config");
         if (config.isEnabled())
         {
             String username = null;
