@@ -42,7 +42,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.InputStream;
 
 /**
  * Share specific override of the SpringSurf dologout controller.
@@ -54,7 +53,7 @@ import java.io.InputStream;
  */
 public class SlingshotLogoutController extends LogoutController
 {
-    private static Log logger = LogFactory.getLog(SlingshotLogoutController.class);
+    private static final Log logger = LogFactory.getLog(SlingshotLogoutController.class);
     protected ConnectorService connectorService;
     
     
@@ -71,18 +70,16 @@ public class SlingshotLogoutController extends LogoutController
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
             throws Exception
     {
-        AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aimsConfig");
-
-        if (config.isAIMSEnabled())
+        AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aims.config");
+        if (config.isEnabled())
         {
             String username = null;
+
             // Check whether there is already an user logged in
             HttpSession session = request.getSession(false);
-
             if (session != null)
             {
                 username = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
-
                 if (username != null && !username.isEmpty())
                 {
                     OIDCFilterSessionStore.SerializableKeycloakAccount account =
@@ -90,8 +87,7 @@ public class SlingshotLogoutController extends LogoutController
 
                     if (account != null)
                     {
-                        InputStream is = this.getServletContext().getResourceAsStream(AIMSFilter.AIMS_CONFIG_PATH);
-                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAdapterConfig());
 
                         // Logs out from Keycloak
                         account.getKeycloakSecurityContext().logout(deployment);
