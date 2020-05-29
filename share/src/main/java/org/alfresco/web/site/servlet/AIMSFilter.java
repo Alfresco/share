@@ -95,7 +95,8 @@ public class AIMSFilter extends KeycloakOIDCFilter
         if (this.enabled)
         {
             KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAdapterConfig());
-            if (!deployment.isConfigured())
+            if (!deployment.isConfigured() || deployment.getRealm().isEmpty() ||
+                deployment.getResourceName().isEmpty() || deployment.getAuthServerBaseUrl().isEmpty())
             {
                 throw new AlfrescoRuntimeException("AIMS is not configured properly; realm, resource and auth-server-url should not be empty.");
             }
