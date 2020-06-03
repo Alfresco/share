@@ -30,6 +30,7 @@ stages:
 before_install:
   - "cp .travis.settings.xml $HOME/.m2/settings.xml"
 
+
 jobs:
   include:
     - stage: build
@@ -39,6 +40,9 @@ jobs:
     - stage: test
       name: "SHARE PO tests part1"
       jdk: openjdk11
+      before_install:
+         - chmod +x ./packaging/docker/tests/scripts/start-compose.sh
+         - chmod +x ./packaging/docker/tests/scripts/wait-for-share-start.sh
       install:
         - docker login quay.io -u ${QUAY_USERNAME} -p ${QUAY_PASSWORD}
         - travis_retry travis_wait 40 mvn -q install -f packaging/docker/pom.xml
