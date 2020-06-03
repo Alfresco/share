@@ -1,0 +1,227 @@
+# This version is for testing and development use.
+
+# For remote debug we need the CATALINA_OPTS and to expose port 8000.
+
+version: "3"
+
+services:
+    alfresco:
+        image: alfresco/alfresco-content-repository:${REPOSITORY_TAG}
+        environment:
+            CATALINA_OPTS: "
+                -agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
+                "
+            JAVA_OPTS: "
+                -Ddb.driver=org.postgresql.Driver
+                -Ddb.username=alfresco
+                -Ddb.password=alfresco
+                -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
+                -Dalfresco.host=localhost
+                -Dalfresco.port.ssl=80
+                -Dalfresco.protocol=http
+                -Dalfresco.port=8080
+                -Dalfresco.restApi.basicAuthScheme=true
+                -Dsystem.usages.enabled=true
+                -Dcsrf.filter.enabled=false
+                -Dheartbeat.enabled=${HEARTBEAT_ENABLED}
+                -Dsolr.host=search
+                -Dsolr.port=8983
+                -Dsolr.secureComms=none
+                -Dsolr.base.url=/solr
+                -Dindex.subsystem.name=solr6
+                -Daos.baseUrlOverwrite=http://localhost:8080/alfresco/aos
+                -Dimap.server.enabled=true
+                -Dimap.server.port=1143
+                -Dimap.server.imaps.port=993
+                -Dimap.server.host=0.0.0.0
+                -Dmail.protocol=smtp
+                -Dmail.port=465
+                -Dmail.host=smtp.gmail.com
+                -Demail.inbound.unknownUser=admin@alfresco.com
+                -Demail.inbound.enabled=true
+                -Demail.server.enabled=true
+                -Demail.server.port=1126
+                -Dftp.enabled=true
+                -Dftp.port=1221
+                -Dftp.dataPortFrom=30000
+                -Dftp.dataPortTo=30099
+                -Dshare.host=localhost
+
+                -Dtransform.service.enabled=${TRANSFORM_SERVICE_ENABLED}
+                -Dtransform.service.url=http://transform-router:8095
+                -Dsfs.url=http://shared-file-store:8099/
+
+                -Dlocal.transform.service.enabled=${LOCAL_TRANSFORM_SERVICE_ENABLED}
+                -DlocalTransform.pdfrenderer.url=http://alfresco-pdf-renderer:8090/
+                -DlocalTransform.imagemagick.url=http://imagemagick:8090/
+                -DlocalTransform.libreoffice.url=http://libreoffice:8090/
+                -DlocalTransform.tika.url=http://tika:8090/
+                -DlocalTransform.misc.url=http://transform-misc:8090/
+
+                -Dlegacy.transform.service.enabled=${LEGACY_TRANSFORM_SERVICE_ENABLED}
+                -Dalfresco-pdf-renderer.url=http://alfresco-pdf-renderer:8090/
+                -Djodconverter.url=http://libreoffice:8090/
+                -Dimg.url=http://imagemagick:8090/
+                -Dtika.url=http://tika:8090/
+                -Dtransform.misc.url=http://transform-misc:8090/
+
+                -Dmessaging.broker.url=\"failover:(tcp://activemq:61616)?timeout=3000&jms.useCompression=true\"
+                -Ddsync.service.uris=http://localhost:8080/alfresco
+                "
+        ports:
+            - 8080:8080 #Browser port
+            - 8000:8000 #Debug port
+            - 7203:7203 #JMX connect via service:jmx:rmi:///jndi/rmi://localhost:7203/jmxrmi
+            - 1143:1143 #IMAP port
+            - "21:1221" #FTP port
+            - "30000-30099:30000-30099" #FTP data port
+            - 446:445
+            - 1126:1126
+            - 1125:1125
+
+    share:
+        image: alfresco/alfresco-share:latest
+        environment:
+           CATALINA_OPTS: "
+                -agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n
+                "
+           REPO_HOST: alfresco
+           REPO_PORT: 8080
+        ports:
+            - 8181:8080
+            - 5005:5005
+
+    transform-router:
+        image: quay.io/alfresco/alfresco-transform-router:${TRANSFORM_ROUTER_TAG}
+        environment:
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+            IMAGEMAGICK_URL: "http://imagemagick:8090"
+            PDF_RENDERER_URL: "http://alfresco-pdf-renderer:8090"
+            LIBREOFFICE_URL: "http://libreoffice:8090"
+            TIKA_URL: "http://tika:8090"
+            MISC_URL : "http://transform-misc:8090"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+        links:
+            - activemq
+
+    alfresco-pdf-renderer:
+        image: alfresco/alfresco-pdf-renderer:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+        ports:
+            - 8090:8090
+
+    imagemagick:
+        image: alfresco/alfresco-imagemagick:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+        ports:
+            - 8091:8090
+
+    libreoffice:
+        image: alfresco/alfresco-libreoffice:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+        ports:
+            - 8092:8090
+
+    tika:
+        image: alfresco/alfresco-tika:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+        ports:
+            - 8093:8090
+
+    transform-misc:
+          image: alfresco/alfresco-transform-misc:${TRANSFORMERS_TAG}
+          environment:
+              JAVA_OPTS: " -Xms256m -Xmx256m"
+              ACTIVEMQ_URL: "nio://activemq:61616"
+              ACTIVEMQ_USER: "admin"
+              ACTIVEMQ_PASSWORD: "admin"
+              FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+          ports:
+              - 8094:8090
+
+    shared-file-store:
+        image: alfresco/alfresco-shared-file-store:${SFS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+        ports:
+            - 8099:8099
+        volumes:
+            - shared-file-store-volume:/tmp/Alfresco/sfs
+
+    postgres:
+        image: library/postgres:${POSTGRES_TAG}
+        environment:
+            - POSTGRES_PASSWORD=alfresco
+            - POSTGRES_USER=alfresco
+            - POSTGRES_DB=alfresco
+        command: postgres -c max_connections=300 -c log_min_messages=LOG
+        ports:
+            - 5432:5432
+
+    search:
+        image: quay.io/alfresco/insight-engine:${INSIGHT_ENGINE_TAG}
+        environment:
+            #Replication properties
+            #- REPLICATION_TYPE=master
+            #- REPLICATION_AFTER=commit,startup
+            #- REPLICATION_CONFIG_FILES=schema.xml,stopwords.txt
+            #Solr needs to know how to register itself with Alfresco
+            - SOLR_ALFRESCO_HOST=alfresco
+            - SOLR_ALFRESCO_PORT=8080
+            #Alfresco needs to know how to call solr
+            - SOLR_SOLR_HOST=search
+            - SOLR_SOLR_PORT=8983
+            #Create the default alfresco and archive cores
+            - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
+            #HTTP by default
+            - ALFRESCO_SECURE_COMMS=none
+        ports:
+            - 8083:8983 #Browser port
+
+    activemq:
+        image: alfresco/alfresco-activemq:${ACTIVEMQ_TAG}
+        ports:
+            - 8161:8161 # Web Console
+            - 5672:5672 # AMQP
+            - 61616:61616 # OpenWire
+            - 61613:61613 # STOMP
+    selenium:
+        image: selenium/standalone-firefox-debug:${SELENIUM_VERSION}
+        environment:
+            - VNC_NO_PASSWORD=1
+            - TZ=UTC
+        ports:
+            - 4444:4444
+            - 5900:5900
+            - 8080 # lb alfresco
+            - 8181 # lb share
+        volumes:
+            - /dev/shm:/dev/shm
+
+volumes:
+    shared-file-store-volume:
+        driver_opts:
+            type: tmpfs
+            device: tmpfs
