@@ -19,6 +19,7 @@ branches:
   only:
     - master
     - /support\/.*/
+    - fix/Travis-share-build
 
 stages:
   - name: build
