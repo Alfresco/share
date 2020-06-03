@@ -40,7 +40,7 @@ jobs:
       jdk: openjdk11
       install:
         - docker login quay.io -u ${QUAY_USERNAME} -p ${QUAY_PASSWORD}
-        - travis_retry travis_wait 40 mvn -q install -Plocal -f packaging/docker/pom.xml
+        - travis_retry travis_wait 40 mvn -q install -f packaging/docker/pom.xml
         - ./packaging/docker/tests/scripts/start-compose.sh ./packaging/docker/test/docker-env/docker-compose.yml
         - ./packaging/docker/tests/scripts/wait-for-share-start.sh "http://localhost:8181/share"
       script:
