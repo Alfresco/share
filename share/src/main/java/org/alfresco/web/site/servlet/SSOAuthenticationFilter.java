@@ -97,7 +97,7 @@ import static org.alfresco.web.site.SlingshotPageView.REDIRECT_URI;
  */
 public class SSOAuthenticationFilter implements DependencyInjectedFilter, CallbackHandler, ApplicationContextAware
 {
-    private static final Log logger = LogFactory.getLog(SSOAuthenticationFilter.class);
+    private static Log logger = LogFactory.getLog(SSOAuthenticationFilter.class);
 
     // Authentication request/response headers
     private static final String AUTH_NTLM = "NTLM";
@@ -238,54 +238,44 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     }
 
     /**
+     *
      * @param configService
      */
-    private void initKerberos(ConfigService configService)
-    {
+    private void initKerberos(ConfigService configService) {
         KerberosConfigElement config = (KerberosConfigElement) configService.getConfig("Kerberos").getConfigElement("kerberos");
         if (config != null)
         {
             if (logger.isDebugEnabled())
-            {
                 logger.debug("Found configuration for Kerberos authentication.");
-            }
-
             // Get the Kerberos realm
             String krbRealm = config.getRealm();
-            if (krbRealm != null && krbRealm.length() > 0)
+            if ( krbRealm != null && krbRealm.length() > 0)
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Found Kerberos realm: " + krbRealm);
-                }
                 // Set the Kerberos realm
                 this.krbRealm = krbRealm;
             }
             else
-            {
                 throw new AlfrescoRuntimeException("Kerberos realm not specified");
-            }
 
             // Get the HTTP service account password
             String srvPassword = config.getPassword();
-            if (srvPassword != null && srvPassword.length() > 0)
+            if ( srvPassword != null && srvPassword.length() > 0)
             {
                 // Set the HTTP service account password
                 this.krbPassword = srvPassword;
             }
             else
-            {
                 throw new AlfrescoRuntimeException("HTTP service account password not specified");
-            }
+
 
             String krbEndpointSPN = config.getEndpointSPN();
-            if (krbEndpointSPN != null && krbEndpointSPN.length() > 0)
+            if ( krbEndpointSPN != null && krbEndpointSPN.length() > 0)
             {
                 // Set the Service Principal Name to use on the endpoint
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("The Service Principal Name to use on the endpoint: " + krbEndpointSPN);
-                }
                 this.krbEndpointSPN = krbEndpointSPN;
             }
             else
@@ -293,21 +283,18 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
 
             // Get the login configuration entry name
             String loginEntry = config.getLoginEntryName();
+
             if (loginEntry != null)
             {
-                if (loginEntry.length() > 0)
+                if ( loginEntry.length() > 0)
                 {
                     // Set the login configuration entry name to use
                     if (logger.isDebugEnabled())
-                    {
                         logger.debug("The login configuration entry name to use: " + loginEntry);
-                    }
                     jaasLoginEntryName = loginEntry;
                 }
                 else
-                {
                     throw new AlfrescoRuntimeException("Invalid login entry specified");
-                }
             }
 
             // Get the login stripUserNameSuffix property
@@ -315,31 +302,26 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
 
             // Set the login configuration entry name to use
             if (logger.isDebugEnabled())
-            {
                 logger.debug("The stripUserNameSuffix property is set to: " + stripUserNameSuffix);
-            }
             this.stripUserNameSuffix = stripUserNameSuffix;
 
             // Create a login context for the HTTP server service
             try
             {
                 // Login the HTTP server service
-                jaasLoginContext = new LoginContext(jaasLoginEntryName, this);
+                jaasLoginContext = new LoginContext( jaasLoginEntryName, this);
                 jaasLoginContext.login();
 
                 // DEBUG
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("HTTP Kerberos login successful");
-                }
+                if ( logger.isDebugEnabled())
+                    logger.debug( "HTTP Kerberos login successful");
             }
-            catch (LoginException ex)
+            catch ( LoginException ex)
             {
                 // DEBUG
-                if (logger.isErrorEnabled())
-                {
+                if ( logger.isErrorEnabled())
                     logger.error("HTTP Kerberos web filter error", ex);
-                }
+
                 throw new AlfrescoRuntimeException("Failed to login HTTP server service");
             }
 
@@ -350,14 +332,13 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             krbAccountName = princ.getName();
 
             // DEBUG
-            if (logger.isDebugEnabled())
-            {
+            if ( logger.isDebugEnabled())
                 logger.debug("Logged on using principal " + krbAccountName);
-            }
         }
     }
 
-    @Override public void setApplicationContext(ApplicationContext applicationContext)
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext)
     {
         this.context = applicationContext;
     }
@@ -372,7 +353,6 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
      * use by an external SSO system to provide the name of an authenticated user.
      * The wrapper's {@link #getRemoteUser} returns the value of the header but will
      * defaults to the wrapped method's value if the header is not set.
-     *
      * @param sreq original {@code ServletRequest}
      * @return either the original {@code sreq} or a wrapped {@code HttpServletRequest}
      */
@@ -383,7 +363,8 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             final HttpServletRequest req = (HttpServletRequest) sreq;
             sreq = new HttpServletRequestWrapper(req)
             {
-                @Override public String getRemoteUser()
+                @Override
+                public String getRemoteUser()
                 {
                     // MNT-11041 Share SSOAuthenticationFilter and non-ascii username strings
                     String remoteUser = req.getHeader(userHeader);
@@ -439,29 +420,34 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         return sreq;
     }
 
-    @Override public void doFilter(ServletContext context, ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, ServletException
+    @Override
+    public void doFilter(ServletContext context, ServletRequest request,
+        ServletResponse response, FilterChain chain) throws IOException,
+        ServletException
     {
         doFilter(request, response, chain);
     }
 
+
     /**
      * Run the filter
      *
-     * @param sreq  ServletRequest
+     * @param sreq ServletRequest
      * @param sresp ServletResponse
      * @param chain FilterChain
-     * @throws IOException
-     * @throws ServletException
+     *
+     * @exception IOException
+     * @exception ServletException
      */
-    public void doFilter(ServletRequest sreq, ServletResponse sresp, FilterChain chain) throws IOException, ServletException
+    public void doFilter(ServletRequest sreq, ServletResponse sresp, FilterChain chain)
+        throws IOException, ServletException
     {
         // Skip this filter, if AIMS is enabled
         boolean skip = false;
         try
         {
-            AIMSConfig aimsConfig = (AIMSConfig) this.context.getBean("aims.config");
-            if (aimsConfig.isEnabled())
+            AIMSConfig aimsConfig = (AIMSConfig) this.context.getBean("aimsConfig");
+            if (aimsConfig.isAIMSEnabled())
             {
                 skip = true;
             }
@@ -475,7 +461,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         }
 
         // If AIMS filter is enabled, skip this filter
-        if (skip)
+        if (skip == true)
         {
             chain.doFilter(sreq, sresp);
             return;
@@ -483,6 +469,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
 
         NDC.remove();
         NDC.push(Thread.currentThread().getName());
+        final boolean debug = logger.isDebugEnabled();
 
         // Wrap externally authenticated requests that provide the user in an HTTP header
         // with one that returns the correct name from getRemoteUser(). For use in our own
@@ -492,44 +479,36 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         // Bypass the filter if we don't have an endpoint with external auth enabled
         if (this.endpoint == null)
         {
-            if (logger.isDebugEnabled())
-            {
+            if (debug)
                 logger.debug("There is no endpoint with external auth enabled.");
-            }
-
             chain.doFilter(sreq, sresp);
             return;
         }
 
         // Get the HTTP request/response/session
-        HttpServletRequest req = (HttpServletRequest) sreq;
-        HttpServletResponse res = (HttpServletResponse) sresp;
+        HttpServletRequest req = (HttpServletRequest)sreq;
+        HttpServletResponse res = (HttpServletResponse)sresp;
         HttpSession session = req.getSession();
 
         if (req.getServletPath() != null && req.getServletPath().startsWith(UNAUTHENTICATED_ACCESS_PROXY))
         {
-            if (logger.isDebugEnabled())
-            {
+            if (debug)
                 logger.debug("SSO is by-passed for unauthenticated access endpoint.");
-            }
             chain.doFilter(sreq, sresp);
             return;
         }
 
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Processing request " + req.getRequestURI() + " SID:" + session.getId());
-        }
+        if (debug) logger.debug("Processing request " + req.getRequestURI() + " SID:" + session.getId());
 
         // Login page or login submission
         String pathInfo = req.getPathInfo();
-        if (PAGE_SERVLET_PATH.equals(req.getServletPath()) && (LOGIN_PATH_INFORMATION.equals(pathInfo)
-            || pathInfo == null && LOGIN_PARAMETER.equals(req.getParameter("pt"))))
+        if (PAGE_SERVLET_PATH.equals(req.getServletPath())
+            && (LOGIN_PATH_INFORMATION.equals(pathInfo) || pathInfo == null
+            && LOGIN_PARAMETER.equals(req.getParameter("pt"))))
         {
-            if (logger.isDebugEnabled())
-            {
+            if (debug)
                 logger.debug("Login page requested, chaining ...");
-            }
+
             // Chain to the next filter
             chain.doFilter(sreq, sresp);
             return;
@@ -553,7 +532,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         if (page == null && pathInfo != null)
         {
             // we didn't find a page - this may be a top-level URL call - so attempt to manually resolve the page
-            PageViewResolver pageViewResolver = (PageViewResolver) this.context.getBean(PAGE_VIEW_RESOLVER);
+            PageViewResolver pageViewResolver = (PageViewResolver)this.context.getBean(PAGE_VIEW_RESOLVER);
             if (pageViewResolver != null)
             {
                 try
@@ -571,13 +550,10 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                 }
             }
         }
-
         if (page != null && page.getAuthentication() == RequiredAuthentication.none)
         {
             if (logger.isDebugEnabled())
-            {
                 logger.debug("Unauthenticated page requested - skipping auth filter...");
-            }
             chain.doFilter(sreq, sresp);
             return;
         }
@@ -589,9 +565,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             if (userId != null && req.getRemoteUser() != null)
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("userHeader external auth - skipping auth filter...");
-                }
                 setExternalAuthSession(session);
                 onSuccess(req, res, session, req.getRemoteUser());
                 chain.doFilter(sreq, sresp);
@@ -611,11 +585,8 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         // We are not passing on a challenge response and we have sufficient client session information
         if (authHdr == null && AuthenticationUtil.isAuthenticated(req))
         {
-            if (logger.isDebugEnabled())
-            {
+            if (debug)
                 logger.debug("Touching the repo to ensure we still have an authenticated session.");
-            }
-
             challengeOrPassThrough(chain, req, res, session);
             return;
         }
@@ -623,31 +594,26 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         // Check the authorization header
         if (authHdr == null)
         {
-            if (logger.isDebugEnabled())
-            {
-                logger.debug("New auth request from " + req.getRemoteHost() + " (" + req.getRemoteAddr() + ":" + req.getRemotePort() + ")");
-            }
-
+            if (debug) logger.debug("New auth request from " + req.getRemoteHost() + " (" +
+                req.getRemoteAddr() + ":" + req.getRemotePort() + ")");
             challengeOrPassThrough(chain, req, res, session);
+            return;
         }
         // SPNEGO / Kerberos authentication
         else if (authHdr.startsWith(AUTH_SPNEGO) && this.krbRealm != null)
         {
-            if (logger.isDebugEnabled())
-            {
+            if (debug)
                 logger.debug("Processing SPNEGO / Kerberos authentication.");
-            }
-
             // Decode the received SPNEGO blob and validate
-            final byte[] spnegoByts = Base64.decode(authHdr.substring(10).getBytes());
+
+            final byte[] spnegoByts = Base64.decode( authHdr.substring(10).getBytes());
 
             // Check if the client sent an NTLMSSP blob
-            if (isNTLMSSPBlob(spnegoByts, 0))
+
+            if ( isNTLMSSPBlob( spnegoByts, 0))
             {
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("Client sent an NTLMSSP security blob");
-                }
+                if ( logger.isDebugEnabled())
+                    logger.debug( "Client sent an NTLMSSP security blob");
 
                 // Restart the authentication
                 restartAuthProcess(session, req, res, AUTH_SPNEGO);
@@ -655,101 +621,96 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             }
 
             //  Check the received SPNEGO token type
+
             int tokType = -1;
+
             try
             {
-                tokType = SPNEGO.checkTokenType(spnegoByts, 0, spnegoByts.length);
+                tokType = SPNEGO.checkTokenType( spnegoByts, 0, spnegoByts.length);
             }
-            catch (IOException ex)
+            catch ( IOException ex)
             {
             }
 
             // Check for a NegTokenInit blob
-            if (tokType == SPNEGO.NegTokenInit)
+
+            if ( tokType == SPNEGO.NegTokenInit)
             {
-                if (logger.isDebugEnabled())
-                {
+                if (debug)
                     logger.debug("Parsing the SPNEGO security blob to get the Kerberos ticket.");
-                }
 
                 NegTokenInit negToken = new NegTokenInit();
+
                 try
                 {
                     // Decode the security blob
-                    negToken.decode(spnegoByts, 0, spnegoByts.length);
+
+                    negToken.decode( spnegoByts, 0, spnegoByts.length);
 
                     //  Determine the authentication mechanism the client is using and logon
+
                     String oidStr = null;
-                    if (negToken.numberOfOids() > 0)
-                    {
-                        oidStr = negToken.getOidAt(0).toString();
-                    }
+                    if ( negToken.numberOfOids() > 0)
+                        oidStr = negToken.getOidAt( 0).toString();
 
-                    if (oidStr != null && (oidStr.equals(OID.ID_MSKERBEROS5) || oidStr.equals(OID.ID_KERBEROS5)))
+                    if (  oidStr != null && (oidStr.equals( OID.ID_MSKERBEROS5) || oidStr.equals(OID.ID_KERBEROS5)))
                     {
-                        if (logger.isDebugEnabled())
-                        {
+                        if (debug)
                             logger.debug("Kerberos logon.");
-                        }
-
                         //  Kerberos logon
-                        if (doKerberosLogon(negToken, req, res, session) != null)
+
+                        if ( doKerberosLogon( negToken, req, res, session) != null)
                         {
                             // Allow the user to access the requested page
-                            chain.doFilter(req, res);
-                            if (logger.isDebugEnabled())
-                            {
+
+                            chain.doFilter( req, res);
+                            if ( logger.isDebugEnabled())
                                 logger.debug("Request processing ended");
-                            }
                         }
                         else
                         {
                             // Send back a request for SPNEGO authentication
+
                             restartAuthProcess(session, req, res, AUTH_SPNEGO);
                         }
                     }
                     else
                     {
                         //  Unsupported mechanism, e.g. NegoEx
-                        if (logger.isDebugEnabled())
-                        {
-                            logger.debug("Unsupported SPNEGO mechanism " + oidStr);
-                        }
+
+                        if ( logger.isDebugEnabled())
+                            logger.debug( "Unsupported SPNEGO mechanism " + oidStr);
 
                         // Try again!
+
                         restartAuthProcess(session, req, res, AUTH_SPNEGO);
                     }
                 }
-                catch (IOException ex)
+                catch ( IOException ex)
                 {
                     // Log the error
-                    if (logger.isDebugEnabled())
-                    {
+
+                    if ( logger.isDebugEnabled())
                         logger.debug(ex);
-                    }
                 }
             }
             else
             {
                 //  Unknown SPNEGO token type
 
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("Unknown SPNEGO token type");
-                }
+                if ( logger.isDebugEnabled())
+                    logger.debug( "Unknown SPNEGO token type");
 
                 // Send back a request for SPNEGO authentication
+
                 restartAuthProcess(session, req, res, AUTH_SPNEGO);
             }
         }
         // NTLM authentication
         else if (authHdr.startsWith(AUTH_NTLM))
         {
-            if (logger.isDebugEnabled())
-            {
+            if (debug)
                 logger.debug("Processing NTLM authentication.");
-            }
-
             // Decode the received NTLM blob and validate
             final byte[] authHdrByts = authHdr.substring(5).getBytes();
             final byte[] ntlmByts = Base64.decode(authHdrByts);
@@ -758,11 +719,8 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
 
             if (ntlmTyp == NTLM.Type1)
             {
-                if (logger.isDebugEnabled())
-                {
+                if (debug)
                     logger.debug("Process the type 1 NTLM message.");
-                }
-
                 Type1NTLMMessage type1Msg = new Type1NTLMMessage(ntlmByts);
                 synchronized (sessionMutex)
                 {
@@ -771,11 +729,8 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             }
             else if (ntlmTyp == NTLM.Type3)
             {
-                if (logger.isDebugEnabled())
-                {
+                if (debug)
                     logger.debug("Process the type 3 NTLM message.");
-                }
-
                 Type3NTLMMessage type3Msg = new Type3NTLMMessage(ntlmByts);
                 synchronized (sessionMutex)
                 {
@@ -784,10 +739,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             }
             else
             {
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("NTLM not handled, redirecting to login page");
-                }
+                if (debug) logger.debug("NTLM not handled, redirecting to login page");
 
                 redirectToLoginPage(req, res);
             }
@@ -795,28 +747,21 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         // Possibly basic auth - allow through
         else
         {
-            if (logger.isDebugEnabled())
-            {
+            if (debug)
                 logger.debug("Processing Basic Authentication.");
-            }
-
             // ACE-3257 fix, it looks like basic auth header was sent.
             // However lets check for presence of remote_user CGI variable in AJP.
             // If remote user is not null then it most likely that apache proxy with mod_auth_basic module is used
             if (AuthenticationUtil.isAuthenticated(req) || req.getRemoteUser() != null)
             {
-                if (logger.isDebugEnabled())
-                {
+                if (debug)
                     logger.debug("Ensuring the session is still valid.");
-                }
                 challengeOrPassThrough(chain, req, res, session);
             }
             else
             {
-                if (logger.isDebugEnabled())
-                {
+                if (debug)
                     logger.debug("Establish a new session or bring up the login page.");
-                }
                 chain.doFilter(req, res);
             }
         }
@@ -827,13 +772,11 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
      *
      * @param session Session
      */
-    @SuppressWarnings("unchecked") private void clearSession(HttpSession session)
+    @SuppressWarnings("unchecked")
+    private void clearSession(HttpSession session)
     {
         if (logger.isDebugEnabled())
-        {
             logger.debug("Clearing the session.");
-        }
-
         Enumeration<String> names = (Enumeration<String>) session.getAttributeNames();
         while (names.hasMoreElements())
         {
@@ -845,16 +788,13 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
      * JAAS callback handler
      *
      * @param callbacks Callback[]
-     * @throws IOException
-     * @throws UnsupportedCallbackException
+     * @exception IOException
+     * @exception UnsupportedCallbackException
      */
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
     {
         if (logger.isDebugEnabled())
-        {
             logger.debug("Processing the JAAS callback list of " + callbacks.length + " items.");
-        }
-
         for (int i = 0; i < callbacks.length; i++)
         {
             // Request for user name
@@ -862,10 +802,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             if (callbacks[i] instanceof NameCallback)
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Request for user name.");
-                }
-
                 NameCallback cb = (NameCallback) callbacks[i];
                 cb.setName(krbAccountName);
             }
@@ -874,20 +811,17 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             else if (callbacks[i] instanceof PasswordCallback)
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Request for password.");
-                }
                 PasswordCallback cb = (PasswordCallback) callbacks[i];
                 cb.setPassword(krbPassword.toCharArray());
             }
+
             // Request for realm
+
             else if (callbacks[i] instanceof RealmCallback)
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Request for realm.");
-                }
-
                 RealmCallback cb = (RealmCallback) callbacks[i];
                 cb.setText(krbRealm);
             }
@@ -898,8 +832,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         }
     }
 
-    private void challengeOrPassThrough(FilterChain chain, HttpServletRequest req, HttpServletResponse res, HttpSession session)
-        throws IOException, ServletException
+    private void challengeOrPassThrough(FilterChain chain, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws IOException, ServletException
     {
         try
         {
@@ -927,9 +860,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             else
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Validating repository session for " + userId);
-                }
             }
 
             if (userId != null && !userId.equalsIgnoreCase(req.getRemoteUser()) && session.getAttribute(NTLM_AUTH_DETAILS) == null
@@ -945,9 +876,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             if (req.getHeader(HEADER_ACCEPT_LANGUAGE) != null)
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Accept-Language header present: " + req.getHeader(HEADER_ACCEPT_LANGUAGE));
-                }
                 ctx = new ConnectorContext(null, Collections.singletonMap(HEADER_ACCEPT_LANGUAGE, req.getHeader(HEADER_ACCEPT_LANGUAGE)));
             }
             else
@@ -987,6 +916,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                     // restart manual login
                     redirectToLoginPage(req, res);
                 }
+                return;
             }
             else
             {
@@ -1000,6 +930,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                 }
 
                 chain.doFilter(req, res);
+                return;
             }
         }
         catch (ConnectorServiceException cse)
@@ -1018,7 +949,8 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     /**
      * Return the non-proxied headers for an NTLM /touch request
      *
-     * @param conn Connector
+     * @param conn      Connector
+     *
      * @return the headers required for the request - if any
      */
     private Map<String, String> getConnectionHeaders(Connector conn)
@@ -1045,9 +977,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     private void restartAuthProcess(HttpSession session, HttpServletRequest req, HttpServletResponse res, String authHdr) throws IOException
     {
         if (logger.isDebugEnabled())
-        {
             logger.debug("Restarting " + authHdr + " authentication.");
-        }
 
         // Clear any cached logon details from the sessiom
         clearSession(session);
@@ -1060,8 +990,10 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
 
         final PrintWriter out = res.getWriter();
         out.println("<html><head>");
-        out.println("<meta http-equiv=\"Refresh\" content=\"0; url=" + req.getContextPath() + "/page?pt=login" + "\">");
-        out.println("</head><body><p>Please <a href=\"" + req.getContextPath() + "/page?pt=login" + "\">log in</a>.</p>");
+        out.println("<meta http-equiv=\"Refresh\" content=\"0; url=" +
+            req.getContextPath() + "/page?pt=login" + "\">");
+        out.println("</head><body><p>Please <a href=\"" +
+            req.getContextPath() + "/page?pt=login" + "\">log in</a>.</p>");
         out.println("</body></html>");
         out.close();
 
@@ -1072,20 +1004,20 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
      * Process a type 1 NTLM message
      *
      * @param type1Msg Type1NTLMMessage
-     * @param req      HttpServletRequest
-     * @param res      HttpServletResponse
-     * @param session  HttpSession
-     * @throws IOException
+     * @param req HttpServletRequest
+     * @param res HttpServletResponse
+     * @param session HttpSession
+     *
+     * @exception IOException
      */
-    private void processType1(Type1NTLMMessage type1Msg, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws IOException
+    private void processType1(Type1NTLMMessage type1Msg, HttpServletRequest req, HttpServletResponse res,
+        HttpSession session) throws IOException
     {
         if (logger.isDebugEnabled())
-        {
             logger.debug("Received type1 " + type1Msg);
-        }
 
         // Get the existing NTLM details
-        NTLMLogonDetails ntlmDetails = (NTLMLogonDetails) session.getAttribute(NTLM_AUTH_DETAILS);
+        NTLMLogonDetails ntlmDetails = (NTLMLogonDetails)session.getAttribute(NTLM_AUTH_DETAILS);
 
         // Check if cached logon details are available
         if (ntlmDetails != null && ntlmDetails.hasType2Message())
@@ -1097,9 +1029,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             String ntlmBlob = "NTLM " + new String(Base64.encodeBytes(type2Bytes, Base64.DONT_BREAK_LINES));
 
             if (logger.isDebugEnabled())
-            {
                 logger.debug("Sending cached NTLM type2 to client - " + cachedType2);
-            }
 
             // Send back a request for NTLM authentication
             res.setHeader(HEADER_WWWAUTHENTICATE, ntlmBlob);
@@ -1136,9 +1066,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                             session.setAttribute(NTLM_AUTH_DETAILS, ntlmDetails);
 
                             if (logger.isDebugEnabled())
-                            {
                                 logger.debug("Sending NTLM type2 to client - " + type2Msg);
-                            }
 
                             // Send back a request for NTLM authentication
                             byte[] type2Bytes = type2Msg.getBytes();
@@ -1151,27 +1079,21 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                         else
                         {
                             if (logger.isDebugEnabled())
-                            {
                                 logger.debug("Unexpected NTLM message type from repository: NTLMType" + ntlmType);
-                            }
                             redirectToLoginPage(req, res);
                         }
                     }
                     else
                     {
                         if (logger.isDebugEnabled())
-                        {
                             logger.debug("Unexpected response from repository: WWW-Authenticate:" + authHdr);
-                        }
                         redirectToLoginPage(req, res);
                     }
                 }
                 else
                 {
                     if (logger.isDebugEnabled())
-                    {
                         logger.debug("Unexpected response from repository: " + remoteRes.getStatus().getMessage());
-                    }
                     redirectToLoginPage(req, res);
                 }
             }
@@ -1186,20 +1108,18 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
      * Process a type 3 NTLM message
      *
      * @param type3Msg Type3NTLMMessage
-     * @param req      HttpServletRequest
-     * @param res      HttpServletResponse
-     * @param session  HttpSession
-     * @param chain    FilterChain
-     * @throws IOException
-     * @throws ServletException
+     * @param req HttpServletRequest
+     * @param res HttpServletResponse
+     * @param session HttpSession
+     * @param chain FilterChain
+     * @exception IOException
+     * @exception ServletException
      */
-    private void processType3(Type3NTLMMessage type3Msg, HttpServletRequest req, HttpServletResponse res, HttpSession session, FilterChain chain)
-        throws IOException, ServletException
+    private void processType3(Type3NTLMMessage type3Msg, HttpServletRequest req, HttpServletResponse res,
+        HttpSession session, FilterChain chain) throws IOException, ServletException
     {
         if (logger.isDebugEnabled())
-        {
             logger.debug("Received type3 " + type3Msg);
-        }
 
         // Get the existing NTLM details
         NTLMLogonDetails ntlmDetails = (NTLMLogonDetails) session.getAttribute(NTLM_AUTH_DETAILS);
@@ -1236,9 +1156,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             }
 
             if (logger.isDebugEnabled())
-            {
                 logger.debug("Using cached NTLM hash, authenticated = " + authenticated);
-            }
 
             if (!authenticated)
             {
@@ -1283,13 +1201,12 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                     else
                     {
                         if (logger.isDebugEnabled())
-                        {
                             logger.debug("Unexpected response from repository: WWW-Authenticate:" + authHdr);
-                        }
                         redirectToLoginPage(req, res);
                     }
                 }
-                else if (Status.STATUS_OK == remoteRes.getStatus().getCode() || Status.STATUS_TEMPORARY_REDIRECT == remoteRes.getStatus().getCode())
+                else if (Status.STATUS_OK == remoteRes.getStatus().getCode() ||
+                    Status.STATUS_TEMPORARY_REDIRECT == remoteRes.getStatus().getCode())
                 {
                     //
                     // NTLM login successful - Update the NTLM logon details in the session
@@ -1302,9 +1219,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                         session.setAttribute(NTLM_AUTH_DETAILS, ntlmDetails);
 
                         if (logger.isDebugEnabled())
-                        {
                             logger.debug("No cached NTLM details, created");
-                        }
                     }
                     else
                     {
@@ -1313,15 +1228,11 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                         ntlmDetails.setNTLMHashedPassword(type3Msg.getNTLMHash());
 
                         if (logger.isDebugEnabled())
-                        {
                             logger.debug("Updated cached NTLM details");
-                        }
                     }
 
                     if (logger.isDebugEnabled())
-                    {
                         logger.debug("User logged on via NTLM, " + ntlmDetails);
-                    }
 
                     setExternalAuthSession(session);
                     onSuccess(req, res, session, userName);
@@ -1332,9 +1243,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                 else
                 {
                     if (logger.isDebugEnabled())
-                    {
                         logger.debug("Unexpected response from repository: " + remoteRes.getStatus().getMessage());
-                    }
                     redirectToLoginPage(req, res);
                 }
             }
@@ -1351,9 +1260,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     private void redirectToLoginPage(HttpServletRequest req, HttpServletResponse res) throws IOException
     {
         if (logger.isDebugEnabled())
-        {
             logger.debug("Redirecting to the login page.");
-        }
 
         if (PAGE_SERVLET_PATH.equals(req.getServletPath()))
         {
@@ -1374,34 +1281,28 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     /**
      * Check if a security blob starts with the NTLMSSP signature
      *
-     * @param byts   byte[]
+     * @param byts byte[]
      * @param offset int
      * @return boolean
      */
-    private boolean isNTLMSSPBlob(byte[] byts, int offset)
+    private boolean isNTLMSSPBlob( byte[] byts, int offset)
     {
         // Check if the blob has the NTLMSSP signature
+
         boolean isNTLMSSP = false;
 
-        if ((byts.length - offset) >= NTLM.Signature.length)
-        {
+        if (( byts.length - offset) >= NTLM.Signature.length) {
 
             if (logger.isDebugEnabled())
-            {
                 logger.debug("Checking if the blob has the NTLMSSP signature.");
-            }
-
             // Check for the NTLMSSP signature
-            int idx = 0;
-            while (idx < NTLM.Signature.length && byts[offset + idx] == NTLM.Signature[idx])
-            {
-                idx++;
-            }
 
-            if (idx == NTLM.Signature.length)
-            {
+            int idx = 0;
+            while ( idx < NTLM.Signature.length && byts[offset + idx] == NTLM.Signature[ idx])
+                idx++;
+
+            if ( idx == NTLM.Signature.length)
                 isNTLMSSP = true;
-            }
         }
 
         return isNTLMSSP;
@@ -1411,15 +1312,16 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
      * Perform a Kerberos login and return an SPNEGO response
      *
      * @param negToken NegTokenInit
-     * @param req      HttpServletRequest
-     * @param resp     HttpServletResponse
+     * @param req HttpServletRequest
+     * @param resp HttpServletResponse
      * @param httpSess HttpSession
      * @return NegTokenTarg
      */
-    @SuppressWarnings("unchecked") private NegTokenTarg doKerberosLogon(NegTokenInit negToken, HttpServletRequest req, HttpServletResponse resp,
-        HttpSession httpSess)
+    @SuppressWarnings("unchecked")
+    private NegTokenTarg doKerberosLogon( NegTokenInit negToken, HttpServletRequest req, HttpServletResponse resp, HttpSession httpSess)
     {
         //  Authenticate the user
+
         KerberosDetails krbDetails = null;
         NegTokenTarg negTokenTarg = null;
 
@@ -1427,36 +1329,35 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         {
             //  Run the session setup as a privileged action
 
-            KerberosSessionSetupPrivilegedAction sessSetupAction = new KerberosSessionSetupPrivilegedAction(krbAccountName, negToken.getMechtoken(),
-                krbEndpointSPN);
+            KerberosSessionSetupPrivilegedAction sessSetupAction = new KerberosSessionSetupPrivilegedAction(
+                krbAccountName, negToken.getMechtoken(), krbEndpointSPN);
 
-            Object result = Subject.doAs(jaasLoginContext.getSubject(), sessSetupAction);
+            Object result = Subject.doAs( jaasLoginContext.getSubject(), sessSetupAction);
 
-            if (result != null)
+            if ( result != null)
             {
                 // Access the Kerberos response
-                Pair<KerberosDetails, String> resultPair = (Pair<KerberosDetails, String>) result;
+                Pair<KerberosDetails, String> resultPair = (Pair<KerberosDetails, String>)result;
 
                 krbDetails = resultPair.getFirst();
                 String tokenForEndpoint = resultPair.getSecond();
 
                 // Create the NegTokenTarg response blob
-                negTokenTarg = new NegTokenTarg(SPNEGO.AcceptCompleted, OID.KERBEROS5, krbDetails.getResponseToken());
+
+                negTokenTarg = new NegTokenTarg( SPNEGO.AcceptCompleted, OID.KERBEROS5, krbDetails.getResponseToken());
 
                 // Check if the user has been authenticated, if so then setup the user environment
-                if (negTokenTarg != null)
+
+                if ( negTokenTarg != null)
                 {
                     String userName = stripUserNameSuffix ? krbDetails.getUserName() : krbDetails.getSourceName();
 
                     // Debug
-                    if (logger.isDebugEnabled())
-                    {
+                    if ( logger.isDebugEnabled())
                         logger.debug("User " + userName + " logged on via Kerberos; attempting to log on to Alfresco then");
-                    }
 
                     boolean authenticated = doKerberosDelegateLogin(req, resp, httpSess, userName, tokenForEndpoint);
-                    if (!authenticated)
-                    {
+                    if (!authenticated) {
                         return null;
                     }
                     else
@@ -1473,19 +1374,17 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             else
             {
                 // Debug
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("No SPNEGO response, Kerberos logon failed");
-                }
+
+                if ( logger.isDebugEnabled())
+                    logger.debug( "No SPNEGO response, Kerberos logon failed");
             }
         }
         catch (Exception ex)
         {
             // Log the error
-            if (logger.isDebugEnabled())
-            {
+
+            if ( logger.isDebugEnabled())
                 logger.debug("Kerberos logon error", ex);
-            }
         }
 
         // Return the response SPNEGO blob
@@ -1493,9 +1392,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         return negTokenTarg;
     }
 
-    private boolean doKerberosDelegateLogin(HttpServletRequest req, HttpServletResponse res, HttpSession session, String userName,
-        String tokenForEndpoint) throws IOException
-    {
+    private boolean doKerberosDelegateLogin(HttpServletRequest req, HttpServletResponse res, HttpSession session, String userName, String tokenForEndpoint) throws IOException {
 
         try
         {
@@ -1506,9 +1403,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             if (req.getHeader(HEADER_ACCEPT_LANGUAGE) != null)
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Accept-Language header present: " + req.getHeader(HEADER_ACCEPT_LANGUAGE));
-                }
                 Map<String, String> headers = new HashMap(7);
                 headers.put(HEADER_ACCEPT_LANGUAGE, req.getHeader(HEADER_ACCEPT_LANGUAGE));
 
@@ -1536,50 +1431,45 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                     ctx = new ConnectorContext(null, headers);
                     remoteRes = conn.call("/touch", ctx);
 
-                    if (Status.STATUS_OK == remoteRes.getStatus().getCode() || Status.STATUS_TEMPORARY_REDIRECT == remoteRes.getStatus().getCode())
+                    if (Status.STATUS_OK == remoteRes.getStatus().getCode() ||
+                        Status.STATUS_TEMPORARY_REDIRECT == remoteRes.getStatus().getCode())
                     {
                         if (logger.isDebugEnabled())
-                        {
                             logger.debug("Authentication succeeded on the repo side.");
-                        }
+
                         setExternalAuthSession(session);
                         onSuccess(req, res, session, userName);
                     }
                     else if (Status.STATUS_UNAUTHORIZED == remoteRes.getStatus().getCode())
                     {
                         if (logger.isDebugEnabled())
-                        {
                             logger.debug("Authentication failed on repo side - beging login process again.");
-                        }
                         res.setHeader(HEADER_WWWAUTHENTICATE, authHdr);
                         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
                         res.flushBuffer();
                     }
                 }
                 else
                 {
                     if (logger.isDebugEnabled())
-                    {
                         logger.debug("Unexpected response from repository: WWW-Authenticate:" + authHdr);
-                    }
                     return false;
                 }
             }
-            else if (Status.STATUS_OK == remoteRes.getStatus().getCode() || Status.STATUS_TEMPORARY_REDIRECT == remoteRes.getStatus().getCode())
+            else if (Status.STATUS_OK == remoteRes.getStatus().getCode() ||
+                Status.STATUS_TEMPORARY_REDIRECT == remoteRes.getStatus().getCode())
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Authentication succeeded on the repo side.");
-                }
+
                 setExternalAuthSession(session);
                 onSuccess(req, res, session, userName);
             }
             else
             {
                 if (logger.isDebugEnabled())
-                {
                     logger.debug("Unexpected response from repository: " + remoteRes.getStatus().getMessage());
-                }
                 return false;
             }
         }
@@ -1622,9 +1512,9 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     /**
      * Success login method handler.
      *
-     * @param req      current http request
-     * @param res      current http response
-     * @param session  current session
+     * @param req current http request
+     * @param res current http response
+     * @param session current session
      * @param username logged in user name
      */
     private void onSuccess(HttpServletRequest req, HttpServletResponse res, HttpSession session, String username)
