@@ -49,7 +49,7 @@ jobs:
         - ./packaging/docker/tests/scripts/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
         - ./packaging/docker/tests/scripts/wait-for-share-start.sh "http://localhost:8181/share"
       script:
-        - git clone https://github.com/Alfresco/alfresco-tas-share-test.git 
+        - git clone git@github.com:Alfresco/alfresco-tas-share-test.git
         - cd alfresco-tas-share-test
         - git checkout 6.2.0-24i
         - mvn -U clean install -DskipTests
