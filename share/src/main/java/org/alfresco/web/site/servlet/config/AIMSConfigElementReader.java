@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Share WAR
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -27,25 +27,29 @@ package org.alfresco.web.site.servlet.config;
 
 import org.dom4j.Element;
 import org.springframework.extensions.config.ConfigElement;
-import org.springframework.extensions.config.xml.elementreader.ConfigElementReader;
+import org.springframework.extensions.config.xml.XMLConfigService.PropertyConfigurer;
+import org.springframework.extensions.config.xml.elementreader.GenericElementReader;
 
-/**
- * Responsible for loading Identity Service configuration settings from the share-config*.xml files that are loaded via the
- * configuration service.
- *
- * @author bgabor
- */
-public class AIMSConfigElementReader implements ConfigElementReader
+public class AIMSConfigElementReader extends GenericElementReader
 {
+
+    public AIMSConfigElementReader(PropertyConfigurer propertyConfigurer)
+    {
+        super(propertyConfigurer);
+    }
+
     public ConfigElement parse(Element elem)
     {
+
         ConfigElement configElement = null;
 
         if (elem != null)
         {
-            configElement = AIMSConfigElement.newInstance(elem);
+            ConfigElement parsed = super.parse(elem);
+            configElement = AIMSConfigElement.newInstance(parsed);
         }
 
         return configElement;
     }
+
 }

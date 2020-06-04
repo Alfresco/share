@@ -25,6 +25,7 @@
  */
 package org.alfresco.web.site.servlet.config;
 
+import org.keycloak.representations.adapters.config.AdapterConfig;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -35,27 +36,44 @@ public class AIMSConfig implements ApplicationContextAware
 {
     private ApplicationContext context;
     private ConfigService configService;
+    private AIMSConfigElement configElement = null;
 
     public void init()
     {
-        this.configService = (ConfigService) this.context.getBean("web.config");
+        this.configService = (ConfigService) this.context.getBean("aims.configservice");
+        this.initConfigElement();
     }
 
-    public boolean isAIMSEnabled()
-    {
-        Config AIMSConfigCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
-        AIMSConfigElement config = null;
-
-        if (AIMSConfigCondition != null)
-        {
-            config = (AIMSConfigElement) AIMSConfigCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
-        }
-
-        return config != null && config.getEnabled();
-    }
-
-    @Override public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
     {
         this.context = applicationContext;
+    }
+
+    private void initConfigElement()
+    {
+        Config configCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
+        if (configCondition != null)
+        {
+            this.configElement = (AIMSConfigElement) configCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
+        }
+    }
+
+    /**
+     *
+     * @return boolean
+     */
+    public boolean isEnabled()
+    {
+        return this.configElement.isEnabled();
+    }
+
+    /**
+     *
+     * @return AdapterConfig
+     */
+    public AdapterConfig getAdapterConfig()
+    {
+        return (this.configElement != null) ? this.configElement.getKeycloakConfigElem() : null;
     }
 }

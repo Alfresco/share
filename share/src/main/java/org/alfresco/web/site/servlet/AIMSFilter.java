@@ -38,7 +38,6 @@ import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
 import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
 import org.keycloak.adapters.spi.KeycloakAccount;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
 import org.springframework.extensions.surf.RequestContextUtil;
@@ -55,12 +54,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 
 public class AIMSFilter extends KeycloakOIDCFilter
 {
-    private static Log logger = LogFactory.getLog(AIMSFilter.class);
+    private static final Log logger = LogFactory.getLog(AIMSFilter.class);
 
     private ApplicationContext context;
     private ConnectorService connectorService;
@@ -70,7 +68,6 @@ public class AIMSFilter extends KeycloakOIDCFilter
 
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
-    public static final String AIMS_CONFIG_PATH = "/WEB-INF/keycloak.json";
 
     /**
      * Initialize the filter
@@ -89,21 +86,23 @@ public class AIMSFilter extends KeycloakOIDCFilter
         super.init(filterConfig);
 
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
-        AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
-        this.enabled = config.isAIMSEnabled();
+        AIMSConfig config = (AIMSConfig) this.context.getBean("aims.config");
+        this.enabled = config.isEnabled();
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
 
         // Check if there are valid values within keycloak.json config file
         if (this.enabled)
         {
-            InputStream is = filterConfig.getServletContext().getResourceAsStream(AIMS_CONFIG_PATH);
-            KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+            KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAdapterConfig());
             if (!deployment.isConfigured() || deployment.getRealm().isEmpty() ||
                 deployment.getResourceName().isEmpty() || deployment.getAuthServerBaseUrl().isEmpty())
             {
                 throw new AlfrescoRuntimeException("AIMS is not configured properly; realm, resource and auth-server-url should not be empty.");
             }
+
+            // Update filter's deployment
+            this.deploymentContext.updateDeployment(config.getAdapterConfig());
         }
 
         // Info
