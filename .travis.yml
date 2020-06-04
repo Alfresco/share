@@ -53,4 +53,4 @@ jobs:
         - cd alfresco-tas-share-test
         - git checkout 6.2.0-24i
         - mvn -U clean install -DskipTests
-        - travis_wait 300 mvn test -DsuiteXmlFile=src/test/resources/share-po-runner-suite.xml -DincludeGroups=sanity -DexcludeGroups=google-docs,unit,SmartFolders,ExternalUsers,tobefixed,office,TransformationServer,xsstests -DrunBugs=false -Dalfresco.server=localhost -Dalfresco.port=8080  -Dshare.port=8181 -Djmx.useJolokiaAgent=true -Dbrowser.name=Firefox -Dalfresco.scheme=http -Dadmin.user=admin -Dadmin.password=admin
+        - travis_wait 60 mvn test -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' -DincludeGroups='sanity' -DexcludeGroups='google-docs,unit,SmartFolders,ExternalUsers' -DrunBugs=false-Dalfresco.server=localhost -Dalfresco.port=8080  -Dshare.port=8181 -Djmx.useJolokiaAgent=false -Dbrowser.name=Firefox -Dalfresco.scheme=http -Dadmin.user=admin -Dadmin.password=admin
