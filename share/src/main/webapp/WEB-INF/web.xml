@@ -6,12 +6,12 @@
 
    <display-name>Alfresco Project Slingshot</display-name>
    <description>Alfresco Project Slingshot application</description>
-   
+
    <context-param>
       <param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>
       <param-value>true</param-value>
    </context-param>
-   
+
    <!-- Spring Application Context location and context class -->
    <context-param>
       <description>Spring config file location</description>
@@ -24,7 +24,7 @@
       <filter-name>MTAuthentationFilter</filter-name>
       <filter-class>org.alfresco.web.site.servlet.MTAuthenticationFilter</filter-class>
    </filter>
-   
+
    <filter>
       <description>Redirects view and service URLs to the dispatcher servlet.</description>
       <filter-name>UrlRewriteFilter</filter-name>
@@ -36,7 +36,7 @@
       <filter-name>AIMS Filter</filter-name>
       <filter-class>org.alfresco.web.site.servlet.AIMSFilter</filter-class>
    </filter>
-   
+
    <filter>
       <description>Share SSO authentication support filter.</description>
       <filter-name>Authentication Filter</filter-name>
@@ -184,7 +184,7 @@
    <listener>
       <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
    </listener>
-   
+
    <servlet>
       <servlet-name>Spring Surf Dispatcher Servlet</servlet-name>
       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -198,7 +198,7 @@
       </init-param>
       <load-on-startup>1</load-on-startup>
    </servlet>
-   
+
    <servlet-mapping>
       <servlet-name>Spring Surf Dispatcher Servlet</servlet-name>
       <url-pattern>/page/*</url-pattern>
@@ -207,7 +207,7 @@
       <servlet-name>Spring Surf Dispatcher Servlet</servlet-name>
       <url-pattern>/p/*</url-pattern>
    </servlet-mapping>
-   
+
    <session-config>
       <session-timeout>60</session-timeout>
    </session-config>
@@ -216,10 +216,10 @@
    <welcome-file-list>
       <welcome-file>index.jsp</welcome-file>
    </welcome-file-list>
-   
-   <error-page> 
-      <error-code>500</error-code> 
-      <location>/error500.jsp</location> 
+
+   <error-page>
+      <error-code>500</error-code>
+      <location>/error500.jsp</location>
    </error-page>
 
 </web-app>
