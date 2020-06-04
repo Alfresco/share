@@ -268,7 +268,8 @@ public class AIMSFilter extends KeycloakOIDCFilter
     private void initUser(HttpServletRequest request) throws UserFactoryException
     {
         RequestContext context = ThreadLocalRequestContext.getRequestContext();
-        if (context != null && context.getUser() == null) {
+        if (context != null && context.getUser() == null)
+        {
             String userEndpointId = (String) context.getAttribute(RequestContext.USER_ENDPOINT);
             UserFactory userFactory = context.getServiceRegistry().getUserFactory();
             User user = userFactory.initialiseUser(context, request, userEndpointId);
