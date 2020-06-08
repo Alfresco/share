@@ -316,6 +316,7 @@
             <value>application/vnd.openxmlformats-officedocument.spreadsheetml.template</value>
             <value>application/vnd.ms-excel.addin.macroenabled.12</value>
             <value>application/vnd.ms-excel.sheet.binary.macroenabled.12</value>
+            <value>application/vnd.ms-project</value>
          </list>
       </property>
    </bean>
@@ -361,6 +362,7 @@
             <value>application/vnd.ms-powerpoint.slide.macroEnabled.12</value>
             <value>application/vnd.visio</value>
             <value>application/vnd.visio2013</value>
+            <value>application/vnd.ms-project</value>
          </list>
       </property>
    </bean>
@@ -388,10 +390,10 @@
          </bean>
       </property>
    </bean>
-   
+
    <!-- Edit Offline -->
    <bean id="evaluator.doclib.action.offlineEdit" parent="evaluator.doclib.action.notEditBrowser" />
-   
+
    <!-- Cancel editing - should work for working copies -->
    <bean id="evaluator.doclib.action.cancelEditing" parent="evaluator.doclib.action.chainedMatchOne">
       <property name="evaluators">
@@ -415,7 +417,7 @@
       </property>
       <property name="negateOutput" value="true" />
    </bean>
-   
+
    <!-- Upload -->
    <bean id="evaluator.doclib.action.upload" parent="evaluator.doclib.action.notUploadBrowser" />
 
@@ -498,7 +500,7 @@
          </list>
       </property>
    </bean>
-   
+
    <bean id="evaluator.doclib.action.notEditable" parent="evaluator.doclib.action.chainedMatchOne">
       <property name="evaluators">
          <list>
@@ -646,7 +648,7 @@
          </bean>
       </property>
    </bean>
-   
+
    <bean id="evaluator.doclib.action.isPartOfHybridWorklfow" parent="evaluator.doclib.action.hasAspect">
       <property name="aspects">
          <list>
@@ -654,7 +656,7 @@
          </list>
       </property>
    </bean>
-   
+
    <bean id="evaluator.doclib.action.isDeletable" parent="evaluator.doclib.action.hasAspect">
       <property name="aspects">
          <list>
@@ -663,7 +665,7 @@
       </property>
       <property name="negateOutput" value="true" />
    </bean>
-   
+
    <bean id="evaluator.doclib.action.isNotPartOfHybridWorklfow" parent="evaluator.doclib.action.hasAspect">
       <property name="aspects">
          <list>
@@ -757,7 +759,7 @@
          </list>
       </property>
    </bean>
-   
+
    <bean id="evaluator.doclib.action.unzipTo" parent="evaluator.doclib.action.isMimetype">
       <property name="mimetypes">
          <list>
