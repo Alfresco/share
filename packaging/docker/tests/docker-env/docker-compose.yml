@@ -207,6 +207,7 @@ services:
             - 5672:5672 # AMQP
             - 61616:61616 # OpenWire
             - 61613:61613 # STOMP
+            
     selenium:
         image: selenium/standalone-firefox-debug:${SELENIUM_VERSION}
         environment:
