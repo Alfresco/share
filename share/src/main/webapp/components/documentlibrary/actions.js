@@ -132,7 +132,7 @@
             "label": $html(Alfresco.util.substituteDotNotation(this.msg(p_action.label), p_record)),
             "additionalCssClasses" : p_action.additionalCssClasses ? " " + p_action.additionalCssClasses : ""
          };
-         
+
          if (p_action.lastActionInSubgroup)
          {
             markupParams.additionalCssClasses = " alf-action-group-end";
@@ -510,7 +510,7 @@
             isCloud = (this.options.syncMode === "CLOUD"),
             zIndex = 0;
 
-         
+
          // Check if node is direct sync member node
          var isDirectSSMN = (jsNode.hasAspect("sync:syncSetMemberNode") && $isValueSet(jsNode.properties)) ? jsNode.properties["sync:directSync"] === "true" : false;
          var deleteRemoteFile = "";
@@ -518,7 +518,7 @@
          {
             deleteRemoteFile = '<div><input type="checkbox" id="requestDeleteRemote" class="requestDeleteRemote-checkBox"><span class="requestDeleteRemote-text">' + this.msg("sync.remove." + content + ".from.cloud", displayName) + '</span></div>';
          }
-         
+
          var displayPromptText = this.msg("message.confirm.delete", displayName);
 
          if (this.fullscreen !== undefined && ( this.fullscreen.isWindowOnly || Dom.hasClass(this.id, 'alf-fullscreen')))
@@ -541,7 +541,7 @@
                {
                   var requestDeleteRemote = isCloud ? false : Dom.getAttribute("requestDeleteRemote", "checked");
                   this.destroy();
-                  
+
                   if (isDirectSSMN)
                   {
                      me._onActionDeleteSyncConfirm.call(me, record, requestDeleteRemote);
@@ -562,7 +562,7 @@
             }
          ];
 
-         
+
          Alfresco.util.PopupManager.displayPrompt(
          {
             title: this.msg("actions." + content + ".delete"),
@@ -573,7 +573,7 @@
             zIndex: zIndex
          }, parent);
       },
-      
+
       /**
        * Delete sync record confirmed.
        *
@@ -782,9 +782,9 @@
                      }
                      if (encodeURI(record.onlineEditUrl).length > 256)
                      {
-                        // If we get here it might be that the filename contains a lot of space characters that (when converted to %20) 
+                        // If we get here it might be that the filename contains a lot of space characters that (when converted to %20)
                         // would lead to a total encoded URL length that's greater than 256 characters.
-                        // Since it's a very rare case we'll just reduce the record's display name (from the URL) 
+                        // Since it's a very rare case we'll just reduce the record's display name (from the URL)
                         // to a (presumably) safe size of 5 characters plus extension.
                         var ext = record.displayName.split(".").pop();
                         var recordName = record.onlineEditUrl.split("/").pop();
@@ -856,6 +856,9 @@
                docm: "application/vnd.ms-word.document.macroenabled.12",
                dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
                dotm: "application/vnd.ms-word.template.macroenabled.12",
+
+               mpp: "application/vnd.ms-project",
+               mpt: "application/vnd.ms-project",
 
                ppt: "application/vnd.ms-powerpoint",
                pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
@@ -1106,12 +1109,12 @@
                   if (node.isLocked)
                   {
                       var checkedOut = Alfresco.util.arrayContains(node.aspects,"cm:checkedOut");
-                      var lockOwner = node.properties["cm:lockOwner"]; 
+                      var lockOwner = node.properties["cm:lockOwner"];
                       var differentLockOwner = lockOwner.userName !== Alfresco.constants.USERNAME;
 
                       // If locked for offline editing, ask for user's confirmation to continue with online editing
                       if (checkedOut && differentLockOwner)
-                      { 
+                      {
                           this._onAlreadyLockedConfirmation(record, lockOwner);
                       }
                       else
@@ -1125,7 +1128,7 @@
                   }
               }
           };
-          
+
           // Populate the node details before triggering the action, in case the isLocked state changed
           Alfresco.util.Ajax.request(
           {
@@ -1137,7 +1140,7 @@
               }
           });
       },
-      
+
       _onAlreadyLockedConfirmation: function dlA_onAlreadyLockedConfirmation(record, lockOwner)
       {
           var me = this;
@@ -1165,7 +1168,7 @@
               ]
           });
       },
-      
+
       _triggerEditOnlineAos: function dlA_triggerEditOnlineAos(record)
       {
          if (!$isValueSet(record.onlineEditUrlAos))
@@ -1329,6 +1332,10 @@
             'dot'  : 'ms-word',
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
+
+            'mpt'  : 'ms-project',
+            'mpp'  : 'ms-project',
+
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',
@@ -1498,7 +1505,7 @@
          // Finally display form as dialog
          Alfresco.util.PopupManager.displayForm(config);
       },
-      
+
       /**
        * Form Dialog Action with disabling submit buttons.
        *
@@ -1516,7 +1523,7 @@
       onActionFormDialogWithSubmitDisable: function dlA_onActionFormDialogWithSubmitDisable(record, owner)
       {
          var config = this.generateConfigForFormDialogAction(record, owner);
-         
+
          config.properties.disableSubmitButton = true;
 
          // Finally display form as dialog
@@ -1761,12 +1768,12 @@
             record: record
          });
       },
-	  
+
      /**
        * Unlock document
        *
        * @method onActionUnlockDocument
-       * @param record {object} 
+       * @param record {object}
        */
       onActionUnlockDocument: function dlA_onActionUnlockDocument(record)
       {
@@ -1830,7 +1837,7 @@
       {
          this._copyMoveTo("move", record);
       },
-      
+
       /**
        * Unzip a single archive.
        *
@@ -1968,7 +1975,7 @@
             files: record
          }).showDialog();
       },
-      
+
       /**
        * Take Ownership.
        *
@@ -1998,7 +2005,7 @@
          {
             parent = container;
          }
-       
+
          var buttons =
          [
             {
@@ -2018,7 +2025,7 @@
                isDefault: true
             }
          ];
-         
+
          Alfresco.util.PopupManager.displayPrompt(
          {
             title: this.msg("message.confirm.take-ownership.title"),
@@ -2151,7 +2158,7 @@
        */
       onActionCloudSync: function dlA_onActionCloudSync(record)
       {
-         // MNT-15212 : If the Cloud Folder Picker was initialized before delete it 
+         // MNT-15212 : If the Cloud Folder Picker was initialized before delete it
          if(cloudFolderPicker)
          {
                cloudFolderPicker.destroy();
