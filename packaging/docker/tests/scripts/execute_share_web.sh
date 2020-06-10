@@ -8,10 +8,10 @@ mvn test \
         -Dalfresco.server=localhost \
         -Dalfresco.host=localhost \
         -Dalfresco.port=8080 \
-        -Dalfresco.url=http://localhost:8080/alfresco \
+        -Dalfresco.url='http://localhost:8080/alfresco' \
         -Dshare.host=localhost \
         -Dshare.port=8181 \
-        -Dshare.url=http://localhost:8181/share \
+        -Dshare.url='http://localhost:8181/share' \
         -Djmx.useJolokiaAgent=true \
         -Dalfresco.scheme=http \
         -Dadmin.user=admin \
@@ -19,12 +19,12 @@ mvn test \
         -Dbrowser.name=Firefox \
         -DrunBugs=false \
         -Dskip.automationtests=false \
-        -Dwebdriver.grid.url=http://127.0.0.1:4444/wd/hub \
+        -Dwebdriver.grid.url='http://127.0.0.1:4444/wd/hub' \
         -Dwebdriver.local.grid=false \
         -Dwebdriver.localGrid=false \
         -Dwebdriver.element.wait.time=20000 \
         -Dwebdriver.page.render.wait.time=60000 \ 
-        -Dgrid.url=http://127.0.0.1:4444/wd/hub \
+        -Dgrid.url='http://127.0.0.1:4444/wd/hub' \
         -Dbrowser.name=firefox \
         -Dbrowser.version=59 \
         -Denv.platform=linux

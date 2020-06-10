@@ -207,19 +207,6 @@ services:
             - 5672:5672 # AMQP
             - 61616:61616 # OpenWire
             - 61613:61613 # STOMP
-            
-    selenium:
-        image: selenium/standalone-firefox-debug:${SELENIUM_VERSION}
-        environment:
-            - VNC_NO_PASSWORD=1
-            - TZ=UTC
-        ports:
-            - 4444:4444
-            - 5900:5900
-            - 8080 # lb alfresco
-            - 8181 # lb share
-        volumes:
-            - /dev/shm:/dev/shm
 
 volumes:
     shared-file-store-volume:
