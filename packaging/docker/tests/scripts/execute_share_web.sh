@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mvn clean install \
+travis_wait 30 mvn clean install -q \
                -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
                -Dskip.automationtests=false \
                -Dalfresco.port=8080 \

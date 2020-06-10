@@ -6,14 +6,12 @@ jdk:
   - openjdk11
 
 addons:
-  firefox: "44.0"
+  firefox: "59"
   
 services:
   - docker
   - xvfb
   
-
-
 cache:
   directories:
     - $HOME/.m2
@@ -62,4 +60,4 @@ jobs:
         - cd alfresco-tas-share-test
         - git checkout 6.2.0-24i
         - mvn -U clean install -DskipTests
-        - travis_retry travis_wait 40 ../packaging/docker/tests/scripts/execute_share_web.sh
+        - ../packaging/docker/tests/scripts/execute_share_web.sh
