@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 mvn test \
         -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml'\
         -Dalfresco.restApi.basicAuthScheme=true \
