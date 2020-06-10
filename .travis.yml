@@ -42,6 +42,7 @@ jobs:
       before_install:
          - chmod +x ./packaging/docker/tests/scripts/start-compose.sh
          - chmod +x ./packaging/docker/tests/scripts/wait-for-share-start.sh
+         - chmod +x ./packaging/docker/tests/scripts/execute_share_web.sh
       install:
         - docker login quay.io -u ${QUAY_USERNAME} -p ${QUAY_PASSWORD}
         - travis_retry travis_wait 40 mvn install -Plocal -f packaging/docker/pom.xml
@@ -52,4 +53,4 @@ jobs:
         - cd alfresco-tas-share-test
         - git checkout 6.2.0-24i
         - mvn -U clean install -DskipTests
-        - ./packaging/docker/tests/scripts/execute_share_web.sh
+        - ../packaging/docker/tests/scripts/execute_share_web.sh
