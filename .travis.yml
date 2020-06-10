@@ -60,4 +60,4 @@ jobs:
         - cd alfresco-tas-share-test
         - git checkout 6.2.0-24i
         - mvn -U clean install -DskipTests
-        - ../packaging/docker/tests/scripts/execute_share_web.sh
+        - travis_wait 30 ../packaging/docker/tests/scripts/execute_share_web.sh
