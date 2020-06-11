@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export SHARE_SUITE=$1
+export lmportal.xvfb.id=:99.0 
 
 mvn clean install \
                -DsuiteXmlFile=${SHARE_SUITE} \
