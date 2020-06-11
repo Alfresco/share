@@ -6,7 +6,7 @@ jdk:
   - openjdk11
 
 addons:
-  firefox: latest
+  firefox: "49.0"
   
 services:
   - docker
