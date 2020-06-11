@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+export SHARE_SUITE=$1
+
 mvn clean install \
-               -DsuiteXmlFile='src/test/resources/share-po-suite1.xml' \
+               -DsuiteXmlFile=${SHARE_SUITE} \
                -Dskip.automationtests=false \
                -Dalfresco.port=8080 \
                -Dalfresco.restApi.basicAuthScheme=true \
