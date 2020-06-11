@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 export SHARE_SUITE=$1
-export lmportal.xvfb.id=:99.0 
 
 mvn clean install \
                -DsuiteXmlFile=${SHARE_SUITE} \
@@ -35,6 +34,7 @@ mvn clean install \
                -DtestManagement.apiKey=6z8dAK8oYhO89N36iDtB-Lwmp2k8.aDmFfXLeR90o \
                -DtestManagement.project=1 \
                -DtestManagement.suiteId=1 \
+               -Dlmportal.xvfb.id=":99.0" 
                -Denv.platform=linux
     
                
