@@ -6,7 +6,7 @@ jdk:
   - openjdk11
   
 addons:
-  firefox: "44.0"
+  firefox: "76.0.1"
   
 services:
   - docker
