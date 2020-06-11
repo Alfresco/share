@@ -27,8 +27,8 @@ mvn clean install \
                -Dwebdriver.element.wait.time=20000 \
                -Dwebdriver.page.render.wait.time=60000 \ 
                -Dgrid.url='http://127.0.0.1:4444/wd/hub' \
-               -Dbrowser.name=firefox \
-               -Dbrowser.version=59 \
+               -Dbrowser.name=Firefox \
+               -Dbrowser.version=76.0.1 \
                -DtestManagement.enabled=false \
                -DtestManagement.testRun="test" \
                -DtestManagement.apiKey=6z8dAK8oYhO89N36iDtB-Lwmp2k8.aDmFfXLeR90o \
