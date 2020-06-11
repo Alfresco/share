@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 mvn clean install \
-               -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
+               -DsuiteXmlFile='src/test/resources/share-po-suite1.xml' \
                -Dskip.automationtests=false \
                -Dalfresco.port=8080 \
                -Dalfresco.restApi.basicAuthScheme=true \
