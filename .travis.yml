@@ -4,9 +4,9 @@ sudo: required
 language: java
 jdk:
   - openjdk11
-
+  
 addons:
-  firefox: "76.0.1"
+  firefox: "44.0"
   
 services:
   - docker
@@ -33,6 +33,9 @@ stages:
 # This should not be required on community build
 before_install:
   - "cp .travis.settings.xml $HOME/.m2/settings.xml"
+  
+before_script:
+  - export DISPLAY=:99.0
   
 jobs:
   include:
