@@ -29,6 +29,11 @@ mvn clean install \
                -Dgrid.url='http://127.0.0.1:4444/wd/hub' \
                -Dbrowser.name=firefox \
                -Dbrowser.version=59 \
+               -DtestManagement.enabled=false \
+               -DtestManagement.testRun="test" \
+               -DtestManagement.apiKey=6z8dAK8oYhO89N36iDtB-Lwmp2k8.aDmFfXLeR90o \
+               -DtestManagement.project=1 \
+               -DtestManagement.suiteId=1 \
                -Denv.platform=linux
     
                
