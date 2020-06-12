@@ -73,7 +73,7 @@
 
         <tomcat.default.alfresco.port>8080</tomcat.default.alfresco.port>
         <tomcat.default.alfresco.ssl.port>8443</tomcat.default.alfresco.ssl.port>
-        <tomcat.default.share.port>8081</tomcat.default.share.port>
+        <tomcat.default.share.port>8181</tomcat.default.share.port>
         <tomcat.default.share.ssl.port>0</tomcat.default.share.ssl.port>
         <tomcat.default.solr.port>8082</tomcat.default.solr.port>
         <tomcat.default.solr.ssl.port>8445</tomcat.default.solr.ssl.port>
