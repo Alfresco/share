@@ -8,7 +8,7 @@ mvn clean install \
                -Dalfresco.port=8080 \
                -Dalfresco.restApi.basicAuthScheme=true \
                -Djmx.useJolokiaAgent=true \
-               -DincludeGroups='admin-tools' \
+               -DincludeGroups='sanity' \
                -DexcludeGroups='google-docs,unit,SmartFolders,ExternalUsers,tobefixed,office,TransformationServer,xsstests' \
                -DrunBugs=false \
                -Dalfresco.server=localhost \
