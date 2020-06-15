@@ -23,7 +23,6 @@
       <input id="yui-history-field" type="hidden" />
       
       <#assign el=args.htmlid?html>
-      <#assign aimsEnabled=widgets[0].options.aimsEnabled>
       <div id="${el}-body" class="users">
       
          <!-- Search panel -->
@@ -323,7 +322,7 @@
             <!-- If AIMS is enabled, display a message to inform the user that some settings are restricted -->
             <#if aimsEnabled>
                <div class="yui-u first">
-                  <div style="float:left">${msg("label.restricted-settings")}</div>
+                  <div style="float:left;margin-left:16px">${msg("label.restricted-settings")}</div>
                </div>
             </#if>
             <form id="${el}-update-form">
@@ -430,7 +429,7 @@
 
                   <div class="field-row">
                      <!-- If AIMS is enabled then make the HTML input element disabled. -->
-                     <span class="crud-label"><input type="checkbox" id="${el}-update-disableaccount" <#if aimsEnabled>hidden</#if> />&nbsp;${msg("label.disableaccount")}</span>
+                     <span class="crud-label" <#if aimsEnabled>hidden</#if> ><input type="checkbox" id="${el}-update-disableaccount" />&nbsp;${msg("label.disableaccount")}</span>
                   </div>
                
                <div class="header-bar">${msg("label.photo")}</div>

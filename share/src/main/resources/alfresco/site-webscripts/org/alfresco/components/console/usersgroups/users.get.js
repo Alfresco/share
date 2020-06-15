@@ -32,8 +32,8 @@ function main() {
          docsEdition: context.properties["docsEdition"].getValue()
       }
    };
-   // widget.options.aimsEnabled = model.aimsEnabled ? model.aimsEnabled : false;
-   widget.options.aimsEnabled = typeof aimsEnabled === "boolean" ? aimsEnabled : false;
+
+   model.aimsEnabled = typeof aimsEnabled === "boolean" ? aimsEnabled : false;
    model.widgets = [widget];
 }
 main();

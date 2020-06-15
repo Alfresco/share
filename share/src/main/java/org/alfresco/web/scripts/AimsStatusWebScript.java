@@ -37,7 +37,11 @@ import org.springframework.extensions.webscripts.WebScriptRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UsersWebScript extends DeclarativeWebScript implements ApplicationContextAware
+/**
+ * Java controller to determine if AIMS is enabled or not.
+ * Used by WebScripts such as users.get, userprofile.get, change-password.get.
+ */
+public class AimsStatusWebScript extends DeclarativeWebScript implements ApplicationContextAware
 {
     private ApplicationContext context;
 
