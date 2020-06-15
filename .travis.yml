@@ -51,10 +51,11 @@ jobs:
         - travis_retry travis_wait 40 mvn install -Plocal -f packaging/docker/pom.xml
         - ./packaging/docker/tests/scripts/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
         - ./packaging/docker/tests/scripts/wait-for-share-start.sh "http://localhost:8181/share"
+        - ./packaging/docker/tests/scripts/wait-for-share-start.sh "http://localhost:8080/alfresco"
       script:
         - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
         - cd alfresco-tas-share-test
-        - git checkout claudia/6.2.N_TagManagerTests
+        - git checkout travis-tse
         - mvn -U clean install -DskipTests
         - travis_wait 30 ../packaging/docker/tests/scripts/execute_share_web.sh "src/test/resources/share-po-runner-suite.xml"
      
