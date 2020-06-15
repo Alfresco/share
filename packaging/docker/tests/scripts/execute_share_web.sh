@@ -34,7 +34,5 @@ mvn clean install \
                -DtestManagement.apiKey=6z8dAK8oYhO89N36iDtB-Lwmp2k8.aDmFfXLeR90o \
                -DtestManagement.project=1 \
                -DtestManagement.suiteId=1 \
-               -Ddisplay.xport="99.0" \
+               -Ddisplay.xport=99.0 \
                -Denv.platform=linux
-    
-               
