@@ -54,7 +54,7 @@ jobs:
       script:
         - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
         - cd alfresco-tas-share-test
-        - git checkout travis-tse
+        - git checkout claudia/6.2.N_TagManagerTests
         - mvn -U clean install -DskipTests
         - travis_wait 30 ../packaging/docker/tests/scripts/execute_share_web.sh "src/test/resources/share-po-runner-suite.xml"
      
