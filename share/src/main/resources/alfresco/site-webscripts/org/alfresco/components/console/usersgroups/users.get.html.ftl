@@ -229,77 +229,126 @@
             <div id="${el}-create-main" class="create-main">
                <!-- Each info section separated by a header-bar div -->
                <div class="header-bar">${msg("label.info")}</div>
+               <!-- If AIMS is enabled, display a message to inform the user that some settings are restricted -->
+               <#if aimsEnabled>
+                  <div class="yui-u first">
+                     <div style="float:left;margin-left:16px">${msg("label.restricted-settings")}</div>
+                  </div>
+               </#if>
                <div class="field-row">
-                  <span class="crud-label">${msg("label.firstname")}:&nbsp;*</span>
+                  <#if !aimsEnabled>
+                     <span class="crud-label">${msg("label.firstname")}:&nbsp;*</span>
+                  </#if>
                </div>
                <div class="field-row">
-                  <input class="crud-input" id="${el}-create-firstname" type="text" maxlength="256" />
+                  <input class="crud-input" id="${el}-create-firstname" type="text" maxlength="256"
+                     <#if aimsEnabled>
+                        hidden
+                     </#if>
+                  />
                </div>
                <div class="field-row">
-                  <span class="crud-label">${msg("label.lastname")}:</span>
+                  <#if !aimsEnabled>
+                     <span class="crud-label">${msg("label.lastname")}:</span>
+                  </#if>
                </div>
                <div class="field-row">
-                  <input class="crud-input" id="${el}-create-lastname" type="text" maxlength="256" />
+                  <input class="crud-input" id="${el}-create-lastname" type="text" maxlength="256"
+                     <#if aimsEnabled>
+                        hidden
+                     </#if>
+                  />
                </div>
                <div class="field-row">
-                  <span class="crud-label">${msg("label.email")}:&nbsp;*</span>
+                  <#if !aimsEnabled>
+                     <span class="crud-label">${msg("label.email")}:&nbsp;*</span>
+                  </#if>
                </div>
                <div class="field-row">
-                  <input class="crud-input" id="${el}-create-email" type="text" maxlength="256" />
+                  <input class="crud-input" id="${el}-create-email" type="text" maxlength="256"
+                     <#if aimsEnabled>
+                        hidden
+                     </#if>
+                  />
                </div>
-               
-               <div class="header-bar">${msg("label.aboutuser")}</div>
+
+               <#if !aimsEnabled>
+                  <div class="header-bar">${msg("label.aboutuser")}</div>
+               </#if>
                <div class="field-row">
-                  <span class="crud-label">${msg("label.username")}:&nbsp;*</span>
-               </div>
-               <div class="field-row">
-                  <input class="crud-input" id="${el}-create-username" type="text" maxlength="100" />
-               </div>
-               <div class="field-row">
-                  <span class="crud-label">${msg("label.password")}:&nbsp;*</span>
-               </div>
-               <div class="field-row">
-                  <input class="crud-input" id="${el}-create-password" type="password" maxlength="100" />
-               </div>
-               <div class="field-row">
-                  <span class="crud-label">${msg("label.verifypassword")}:&nbsp;*</span>
+                  <#if !aimsEnabled>
+                     <span class="crud-label">${msg("label.username")}:&nbsp;*</span>
+                  </#if>
                </div>
                <div class="field-row">
-                  <input class="crud-input" id="${el}-create-verifypassword" type="password" maxlength="100" />
+                  <input class="crud-input" id="${el}-create-username" type="text" maxlength="100"
+                     <#if aimsEnabled>
+                        hidden
+                     </#if>
+                  />
                </div>
                <div class="field-row">
-                  <span class="crud-label">${msg("label.groups")}:</span>
+                  <#if !aimsEnabled>
+                     <span class="crud-label">${msg("label.password")}:&nbsp;*</span>
+                  </#if>
+               </div>
+               <div class="field-row">
+                  <input class="crud-input" id="${el}-create-password" type="password" maxlength="100"
+                     <#if aimsEnabled>
+                        hidden
+                     </#if>
+                  />
+               </div>
+               <div class="field-row">
+                  <#if !aimsEnabled>
+                     <span class="crud-label">${msg("label.verifypassword")}:&nbsp;*</span>
+                  </#if>
+               </div>
+               <div class="field-row">
+                  <input class="crud-input" id="${el}-create-verifypassword" type="password" maxlength="100"
+                     <#if aimsEnabled>
+                        hidden
+                     </#if>
+                  />
+               </div>
+               <div class="field-row">
+                  <#if !aimsEnabled>
+                     <span class="crud-label">${msg("label.groups")}:</span>
+                  </#if>
                </div>
                <!-- groups picker inserted here -->
-               <div class="grouppicker-row" id="${el}-create-groupfinder"></div>
-               <div class="groupselection-row" id="${el}-create-groups"></div>
+               <div class="grouppicker-row" id="${el}-create-groupfinder" <#if aimsEnabled>hidden</#if> ></div>
+               <div class="groupselection-row" id="${el}-create-groups" <#if aimsEnabled>hidden</#if> ></div>
                <div class="field-row">
-                  <span class="crud-label">${msg("label.quota")}:</span>
+                  <#if !aimsEnabled>
+                     <span class="crud-label">${msg("label.quota")}:</span>
+                  </#if>
                </div>
                <div class="field-row">
-                  <input class="crud-input-quota" id="${el}-create-quota" type="text" maxlength="8" />
-                  <select id="${el}-create-quotatype">
+                  <input class="crud-input-quota" id="${el}-create-quota" type="text" maxlength="8" <#if aimsEnabled>hidden</#if> />
+                  <select id="${el}-create-quotatype" <#if aimsEnabled>hidden</#if> >
                      <option value="gb">${msg("size.gigabytes")}</option>
                      <option value="mb">${msg("size.megabytes")}</option>
                      <option value="kb">${msg("size.kilobytes")}</option>
                   </select>
                </div>
                <div class="field-row">
-                  <span class="crud-label"><input type="checkbox" id="${el}-create-disableaccount" />&nbsp;${msg("label.disableaccount")}</span>
+                  <span class="crud-label" <#if aimsEnabled>hidden</#if> ><input type="checkbox" id="${el}-create-disableaccount" />&nbsp;${msg("label.disableaccount")}</span>
                </div>
             </div>
-            
             <div>
-               <div class="createuser-ok-button left">
-                  <span class="yui-button yui-push-button" id="${el}-createuser-ok-button">
-                     <span class="first-child"><button>${msg("button.createuser")}</button></span>
-                  </span>
-               </div>
-               <div class="createuser-another-button left">
-                  <span class="yui-button yui-push-button" id="${el}-createuser-another-button">
-                     <span class="first-child"><button>${msg("button.createanother")}</button></span>
-                  </span>
-               </div>
+               <#if !aimsEnabled>
+                  <div class="createuser-ok-button left">
+                     <span class="yui-button yui-push-button" id="${el}-createuser-ok-button">
+                        <span class="first-child"><button>${msg("button.createuser")}</button></span>
+                     </span>
+                  </div>
+                  <div class="createuser-another-button left">
+                     <span class="yui-button yui-push-button" id="${el}-createuser-another-button">
+                        <span class="first-child"><button>${msg("button.createanother")}</button></span>
+                     </span>
+                  </div>
+               </#if>
                <div class="createuser-cancel-button">
                   <span class="yui-button yui-push-button" id="${el}-createuser-cancel-button">
                      <span class="first-child"><button>${msg("button.cancel")}</button></span>
@@ -332,14 +381,14 @@
                <div class="field-row">
                   <span class="crud-label">${msg("label.firstname")}:&nbsp;*</span>
                </div>
-                  <div class="field-row">
-                     <!-- If AIMS is enabled then make the HTML input element disabled. -->
-                     <input class="crud-input" id="${el}-update-firstname" type="text" maxlength="256"
-                        <#if aimsEnabled>
-                           disabled
-                        </#if>
-                     />
-                  </div>
+               <div class="field-row">
+                  <!-- If AIMS is enabled then make the HTML input element disabled. -->
+                  <input class="crud-input" id="${el}-update-firstname" type="text" maxlength="256"
+                     <#if aimsEnabled>
+                        disabled
+                     </#if>
+                  />
+               </div>
                <div class="field-row">
                   <span class="crud-label">${msg("label.lastname")}:</span>
                </div>
