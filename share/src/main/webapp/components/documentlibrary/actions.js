@@ -971,7 +971,7 @@
             'xlt'  : 'ms-excel',
             'xltx' : 'ms-excel',
             'xltm' : 'ms-excel',
-            'xlsm' : 'ms-excel',
+            'xlam' : 'ms-excel',
             'ppt'  : 'ms-powerpoint',
             'pptx' : 'ms-powerpoint',
             'pot'  : 'ms-powerpoint',
