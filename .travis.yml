@@ -71,21 +71,7 @@ jobs:
         - git checkout claudia/6.2.N_adminToolsFixes
         - mvn -U clean install -DskipTests
         - travis_wait 30 ../packaging/docker/tests/scripts/execute_share_web.sh "AlfrescoConsoles"
-    - name: "SHARE PO SITES"
-      jdk: openjdk11
-      install:
-        - docker login quay.io -u ${QUAY_USERNAME} -p ${QUAY_PASSWORD}  
-        - travis_retry travis_wait 40 mvn install -Plocal -f packaging/docker/pom.xml
-        - ./packaging/docker/tests/scripts/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
-        - ./packaging/docker/tests/scripts/wait-for-share-start.sh "http://localhost:8080/alfresco"
-        - ./packaging/docker/tests/scripts/wait-for-share-start.sh "http://localhost:8181/share"
-      script:
-        - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
-        - cd alfresco-tas-share-test
-        - git checkout claudia/6.2.N_adminToolsFixes
-        - mvn -U clean install -DskipTests
-        - travis_wait 30 ../packaging/docker/tests/scripts/execute_share_web.sh "sites"
-    - name: "SHARE PO SITES FEATURES"
+    - name: "SHARE PO USER"
       jdk: openjdk11
       install:
         - docker login quay.io -u ${QUAY_USERNAME} -p ${QUAY_PASSWORD}
@@ -98,6 +84,21 @@ jobs:
         - cd alfresco-tas-share-test
         - git checkout claudia/6.2.N_adminToolsFixes
         - mvn -U clean install -DskipTests
-        - travis_wait 30 ../packaging/docker/tests/scripts/execute_share_web.sh "sites-features"
+        - travis_wait 30 ../packaging/docker/tests/scripts/execute_share_web.sh "user"
+    - name: "SHARE PO USER-DASHBOARD"
+      jdk: openjdk11
+      install:
+        - docker login quay.io -u ${QUAY_USERNAME} -p ${QUAY_PASSWORD}
+        - travis_retry travis_wait 40 mvn install -Plocal -f packaging/docker/pom.xml
+        - ./packaging/docker/tests/scripts/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
+        - ./packaging/docker/tests/scripts/wait-for-share-start.sh "http://localhost:8080/alfresco"
+        - ./packaging/docker/tests/scripts/wait-for-share-start.sh "http://localhost:8181/share"
+      script:
+        - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
+        - cd alfresco-tas-share-test
+        - git checkout claudia/6.2.N_adminToolsFixes
+        - mvn -U clean install -DskipTests
+        - travis_wait 30 ../packaging/docker/tests/scripts/execute_share_web.sh "user-dashboard"
+    
     
      
