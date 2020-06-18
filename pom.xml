@@ -298,12 +298,13 @@
                 <configuration>
                     <aggregate>true</aggregate>
                     <!-- DO NOT ALIGN or FORMAT XML otherwise the license check considers the whitespace before!!! -->
-                    <inlineHeader>
-Copyright (C) 2005 - 2020 Alfresco Software Limited
+                   <inlineHeader>
+<![CDATA[
+Copyright 2005 - 2020 Alfresco Software Limited. 
+
 This file is part of the Alfresco software. 
-If the software was purchased under a paid Alfresco license, the terms of 
-the paid license agreement will prevail.  Otherwise, the software is 
-provided under the following open source license terms:
+If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.  
+Otherwise, the software is provided under the following open source license terms:
 
 Alfresco is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -316,7 +317,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Lesser General Public License for more details.
  
 You should have received a copy of the GNU Lesser General Public License
-along with Alfresco. 
+along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+]]>
                  </inlineHeader>
                     <includes>
                         <include>**/*.java</include>
@@ -449,40 +451,6 @@ along with Alfresco.
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>1.8</version>
-                <configuration>
-                    <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-                    <organizationName>Alfresco Software Limited</organizationName>
-                    <failOnMissingHeader>true</failOnMissingHeader>
-                    <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
-                    <licenseResolver>classpath://alfresco</licenseResolver>
-                    <licenseName>community</licenseName>
-                    <includes>
-                        <include>**/*.java</include>
-                        <include>**/*.jsp</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>check-licenses</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>check-file-header</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.alfresco</groupId>
-                        <artifactId>alfresco-license-headers</artifactId>
-                        <version>1.0</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
 
