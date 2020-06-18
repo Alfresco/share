@@ -35,14 +35,8 @@ import org.springframework.extensions.config.ConfigService;
 public class AIMSConfig implements ApplicationContextAware
 {
     private ApplicationContext context;
-    private ConfigService configService;
-    private AIMSConfigElement configElement = null;
-
-    public void init()
-    {
-        this.configService = (ConfigService) this.context.getBean("aims.configservice");
-        this.initConfigElement();
-    }
+    private boolean enabled;
+    private AdapterConfig adapterConfig;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
@@ -50,30 +44,81 @@ public class AIMSConfig implements ApplicationContextAware
         this.context = applicationContext;
     }
 
-    private void initConfigElement()
+    public void init()
     {
-        Config configCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
-        if (configCondition != null)
+        ConfigService configService = (ConfigService) this.context.getBean("web.config");
+        Config config = configService.getConfig("AIMS");
+
+        String enabled = config.getConfigElementValue("enabled");
+        if (enabled != null && enabled.length() > 0)
         {
-            this.configElement = (AIMSConfigElement) configCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
+            this.enabled = Boolean.parseBoolean(enabled);
+        }
+
+        this.adapterConfig = new AdapterConfig();
+
+        String realm = config.getConfigElementValue("realm");
+        if (realm != null && realm.length() > 0)
+        {
+            this.adapterConfig.setRealm(realm);
+        }
+
+        String resource = config.getConfigElementValue("resource");
+        if (resource != null && resource.length() > 0)
+        {
+            this.adapterConfig.setResource(resource);
+        }
+
+        String authServerUrl = config.getConfigElementValue("authServerUrl");
+        if (authServerUrl != null && authServerUrl.length() > 0)
+        {
+            this.adapterConfig.setAuthServerUrl(authServerUrl);
+        }
+
+        String sslRequired = config.getConfigElementValue("sslRequired");
+        if (sslRequired != null && sslRequired.length() > 0)
+        {
+            this.adapterConfig.setSslRequired(sslRequired);
+        }
+
+        String publicClient = config.getConfigElementValue("publicClient");
+        if (publicClient != null && publicClient.length() > 0)
+        {
+            this.adapterConfig.setPublicClient(Boolean.parseBoolean(publicClient));
+        }
+
+        String autodetectBearerOnly = config.getConfigElementValue("autodetectBearerOnly");
+        if (autodetectBearerOnly != null && autodetectBearerOnly.length() > 0)
+        {
+            this.adapterConfig.setAutodetectBearerOnly(Boolean.parseBoolean(autodetectBearerOnly));
+        }
+
+        String alwaysRefreshToken = config.getConfigElementValue("alwaysRefreshToken");
+        if (alwaysRefreshToken != null && alwaysRefreshToken.length() > 0)
+        {
+            this.adapterConfig.setAlwaysRefreshToken(Boolean.parseBoolean(alwaysRefreshToken));
+        }
+
+        String principalAttribute = config.getConfigElementValue("principalAttribute");
+        if (principalAttribute != null && principalAttribute.length() > 0)
+        {
+            this.adapterConfig.setPrincipalAttribute(principalAttribute);
+        }
+
+        String enableBasicAuth = config.getConfigElementValue("enableBasicAuth");
+        if (enableBasicAuth != null && enableBasicAuth.length() > 0)
+        {
+            this.adapterConfig.setEnableBasicAuth(Boolean.parseBoolean(enableBasicAuth));
         }
     }
 
-    /**
-     *
-     * @return boolean
-     */
     public boolean isEnabled()
     {
-        return this.configElement.isEnabled();
+        return this.enabled;
     }
 
-    /**
-     *
-     * @return AdapterConfig
-     */
     public AdapterConfig getAdapterConfig()
     {
-        return (this.configElement != null) ? this.configElement.getKeycloakConfigElem() : null;
+        return this.adapterConfig;
     }
 }

@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.web.config.util.BaseTest;
-import org.alfresco.web.site.servlet.config.AIMSConfigElement;
 import org.junit.Test;
 import org.keycloak.representations.adapters.config.AdapterConfig;
 import org.springframework.core.io.Resource;
@@ -41,9 +40,8 @@ import org.springframework.extensions.config.xml.XMLConfigService;
 
 public class AIMSConfigTest extends BaseTest
 {
-
-    public static final String PROPERTIES_RESOURCES = "classpath*:alfresco/module/*/share-config.properties";
-    private static final String TEST_CONFIG_AIMS_BASIC_XML = "test-config-aims-basic.xml";
+    // public static final String PROPERTIES_RESOURCES = "classpath*:alfresco/module/*/share-config.properties";
+    /*private static final String TEST_CONFIG_AIMS_BASIC_XML = "test-config-aims-basic.xml";
     protected XMLConfigService configService;
 
     protected List<String> getConfigFiles()
@@ -158,6 +156,5 @@ public class AIMSConfigTest extends BaseTest
 
         return aimsConfigElement;
 
-    }
-
+    }*/
 }
