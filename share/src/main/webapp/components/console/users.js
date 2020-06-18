@@ -119,8 +119,6 @@
           */
          onLoad: function onLoad()
          {
-            var aimsEnabled =  typeof parent.options.aimsEnabled === "boolean" ?  parent.options.aimsEnabled : false;
-
             // Buttons
             parent.widgets.searchButton = Alfresco.util.createYUIButton(parent, "search-button", parent.onSearchClick);
             parent.widgets.newuserButton = Alfresco.util.createYUIButton(parent, "newuser-button", parent.onNewUserClick);
