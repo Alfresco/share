@@ -43,10 +43,6 @@ public class AIMSConfigTest extends BaseTest
     public static final String CLASSPATH_SHARE_CONFIG_PROPERTIES = "classpath*:alfresco/module/*/share-config.properties";
     private static final String TEST_CONFIG_AIMS_BASIC_XML = "test-config-aims-basic.xml";
 
-    @Before public void setUp()
-    {
-    }
-
     private List<String> getConfigFiles()
     {
         List<String> result = new ArrayList<String>(1);
