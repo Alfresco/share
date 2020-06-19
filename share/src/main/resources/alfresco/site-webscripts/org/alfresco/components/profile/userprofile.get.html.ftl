@@ -150,16 +150,24 @@
 
             <#-- EDIT ABOUT -->
             <@markup id="editAbout">
+            <!-- If AIMS is enabled, display a message to inform the user that some settings are restricted -->
+            <#if aimsEnabled>
+               <div class="yui-u first">
+                  <br>
+                  <div style="float:left;margin-left:16px">${msg("label.restricted-settings")}</div>
+                  <br>
+               </div>
+            </#if>
             <div class="header-bar">${msg("label.about")}</div>
             <div class="drow">
                <div class="reqcolumn">&nbsp;</div>
                <div class="leftcolumn">
                   <span class="label"><label for="${el}-input-firstName">${msg("label.firstname")}:</label></span>
-                  <span><input type="text" maxlength="256" size="30" id="${el}-input-firstName" value="" <@immutablefield field="firstName" /> />&nbsp;*</span>
+                  <span><input type="text" maxlength="256" size="30" id="${el}-input-firstName" value="" <@immutablefield field="firstName" /> <#if aimsEnabled>disabled</#if>  />&nbsp;*</span>
                </div>
                <div class="rightcolumn">
                   <span class="label"><label for="${el}-input-lastName">${msg("label.lastname")}:</label></span>
-                  <span><input type="text" maxlength="256" size="30" id="${el}-input-lastName" value="" <@immutablefield field="lastName" /> /></span>
+                  <span><input type="text" maxlength="256" size="30" id="${el}-input-lastName" value="" <@immutablefield field="lastName" /> <#if aimsEnabled>disabled</#if>  /></span>
                </div>
             </div>
             <div class="drow">
@@ -214,7 +222,7 @@
             </div>
             <div class="row">
                <span class="label"><label for="${el}-input-email">${msg("label.email")}:</label></span>
-               <span><input type="text" maxlength="256" size="30" id="${el}-input-email" value="" <@immutablefield field="email" /> />&nbsp;*</span>
+               <span><input type="text" maxlength="256" size="30" id="${el}-input-email" value="" <@immutablefield field="email" /> <#if aimsEnabled>disabled</#if>  />&nbsp;*</span>
             </div>
             <div class="row">
                <span class="label"><label for="${el}-input-skype">${msg("label.skype")}:</label></span>
