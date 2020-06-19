@@ -322,6 +322,7 @@ along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
                  </inlineHeader>
                     <includes>
                         <include>**/*.java</include>
+                        <include>**/*.jsp</include>
                     </includes>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>
