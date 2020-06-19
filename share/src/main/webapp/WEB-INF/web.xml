@@ -30,6 +30,12 @@
       <filter-name>UrlRewriteFilter</filter-name>
       <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
    </filter>
+
+   <!-- AIMS Filter -->
+   <filter>
+      <filter-name>AIMS Filter</filter-name>
+      <filter-class>org.alfresco.web.site.servlet.AIMSFilter</filter-class>
+   </filter>
    
    <filter>
       <description>Share SSO authentication support filter.</description>
@@ -39,12 +45,6 @@
          <param-name>beanName</param-name>
          <param-value>SSOAuthenticationFilter</param-value>
       </init-param>
-   </filter>
-
-   <!-- AIMS Filter -->
-   <filter>
-      <filter-name>AIMS Filter</filter-name>
-      <filter-class>org.alfresco.web.site.servlet.AIMSFilter</filter-class>
    </filter>
 
    <filter>
@@ -73,24 +73,6 @@
       <url-pattern>/proxy/*</url-pattern>
    </filter-mapping>
 
-   <!-- SSO Authentication Filter mappings -->
-   <filter-mapping>
-      <filter-name>Authentication Filter</filter-name>
-      <url-pattern>/page/*</url-pattern>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>Authentication Filter</filter-name>
-      <url-pattern>/p/*</url-pattern>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>Authentication Filter</filter-name>
-      <url-pattern>/proxy/*</url-pattern>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>Authentication Filter</filter-name>
-      <url-pattern>/service/*</url-pattern>
-   </filter-mapping>
-
    <!-- AIMS Filter mappings -->
    <filter-mapping>
       <filter-name>AIMS Filter</filter-name>
@@ -106,6 +88,24 @@
    </filter-mapping>
    <filter-mapping>
       <filter-name>AIMS Filter</filter-name>
+      <url-pattern>/service/*</url-pattern>
+   </filter-mapping>
+
+   <!-- SSO Authentication Filter mappings -->
+   <filter-mapping>
+      <filter-name>Authentication Filter</filter-name>
+      <url-pattern>/page/*</url-pattern>
+   </filter-mapping>
+   <filter-mapping>
+      <filter-name>Authentication Filter</filter-name>
+      <url-pattern>/p/*</url-pattern>
+   </filter-mapping>
+   <filter-mapping>
+      <filter-name>Authentication Filter</filter-name>
+      <url-pattern>/proxy/*</url-pattern>
+   </filter-mapping>
+   <filter-mapping>
+      <filter-name>Authentication Filter</filter-name>
       <url-pattern>/service/*</url-pattern>
    </filter-mapping>
 

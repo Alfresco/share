@@ -88,6 +88,11 @@
       Alfresco.constants.MENU_ARROW_SYMBOL = "&#9662;";
 
       Alfresco.constants.TINY_MCE_SUPPORTED_LOCALES = "${config.global["I18N"].getChildValue("tiny-mce-supported-locales")}";
+
+      <#assign aimsConfig = config.scoped["AIMS"] />
+      <#if aimsConfig?? && aimsConfig.enabled.getValue()?boolean == true>
+         Alfresco.constants.AIMS_AUTH_SERVER_URL = "${aimsConfig.authServerUrl.getValue()!""}";
+      </#if>
    </@>
 </@>
 
