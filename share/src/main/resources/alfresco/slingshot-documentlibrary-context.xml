@@ -304,6 +304,7 @@
             <value>application/vnd.openxmlformats-officedocument.spreadsheetml.template</value>
             <value>application/vnd.ms-excel.addin.macroenabled.12</value>
             <value>application/vnd.ms-excel.sheet.binary.macroenabled.12</value>
+            <value>application/rtf</value>
          </list>
       </property>
    </bean>
@@ -355,6 +356,7 @@
             <value>application/vnd.ms-visio.stencil.main+xml</value>
             <value>application/vnd.ms-visio.template.macroenabled.main+xml</value>
             <value>application/vnd.ms-visio.template.main+xml</value>
+            <value>application/rtf</value>
          </list>
       </property>
    </bean>

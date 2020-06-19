@@ -8358,6 +8358,16 @@ Alfresco.util.Ajax = function()
             }
          }
 
+         if (serverResponse.status === 0 &&
+             document.referrer.length > 0 &&
+             Alfresco.constants.AIMS_AUTH_SERVER_URL !== undefined &&
+             document.referrer.startsWith(Alfresco.constants.AIMS_AUTH_SERVER_URL)
+         )
+         {
+            window.location.reload(true);
+            return;
+         }
+
          // Invoke the callback
          var callback = config.failureCallback, json = null;
 
@@ -8384,6 +8394,7 @@ Alfresco.util.Ajax = function()
                         serverResponse: serverResponse
                      }, callback.obj);
             }
+
             if (config.failureMessage)
             {
                /**

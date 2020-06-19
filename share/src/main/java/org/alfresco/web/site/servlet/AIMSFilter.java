@@ -1,27 +1,22 @@
 /*
- * #%L
- * Alfresco Share WAR
- * %%
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
- * %%
- * This file is part of the Alfresco software. 
- * If the software was purchased under a paid Alfresco license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
- * provided under the following open source license terms:
- * 
+ * Copyright 2005 - 2020 Alfresco Software Limited.
+ *
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
+ * Otherwise, the software is provided under the following open source license terms:
+ *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
- * #L%
  */
 package org.alfresco.web.site.servlet;
 
@@ -38,16 +33,23 @@ import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
 import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
 import org.keycloak.adapters.spi.KeycloakAccount;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
-import org.springframework.extensions.surf.RequestContextUtil;
+import org.springframework.extensions.surf.RequestContext;
+import org.springframework.extensions.surf.ServletUtil;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.exception.ConnectorServiceException;
+import org.springframework.extensions.surf.exception.RequestContextException;
+import org.springframework.extensions.surf.exception.UserFactoryException;
 import org.springframework.extensions.surf.site.AuthenticationUtil;
 import org.springframework.extensions.surf.support.AlfrescoUserFactory;
+import org.springframework.extensions.surf.support.ServletRequestContextFactory;
+import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.webscripts.Status;
 import org.springframework.extensions.webscripts.connector.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
@@ -55,12 +57,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 
 public class AIMSFilter extends KeycloakOIDCFilter
 {
-    private static Log logger = LogFactory.getLog(AIMSFilter.class);
+    private static final Log logger = LogFactory.getLog(AIMSFilter.class);
 
     private ApplicationContext context;
     private ConnectorService connectorService;
@@ -70,7 +71,6 @@ public class AIMSFilter extends KeycloakOIDCFilter
 
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
-    public static final String AIMS_CONFIG_PATH = "/WEB-INF/keycloak.json";
 
     /**
      * Initialize the filter
@@ -89,21 +89,23 @@ public class AIMSFilter extends KeycloakOIDCFilter
         super.init(filterConfig);
 
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
-        AIMSConfig config = (AIMSConfig) this.context.getBean("aimsConfig");
-        this.enabled = config.isAIMSEnabled();
+        AIMSConfig config = (AIMSConfig) this.context.getBean("aims.config");
+        this.enabled = config.isEnabled();
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
 
         // Check if there are valid values within keycloak.json config file
         if (this.enabled)
         {
-            InputStream is = filterConfig.getServletContext().getResourceAsStream(AIMS_CONFIG_PATH);
-            KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(is);
+            KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAdapterConfig());
             if (!deployment.isConfigured() || deployment.getRealm().isEmpty() ||
                 deployment.getResourceName().isEmpty() || deployment.getAuthServerBaseUrl().isEmpty())
             {
                 throw new AlfrescoRuntimeException("AIMS is not configured properly; realm, resource and auth-server-url should not be empty.");
             }
+
+            // Update filter's deployment
+            this.deploymentContext.updateDeployment(config.getAdapterConfig());
         }
 
         // Info
@@ -123,35 +125,20 @@ public class AIMSFilter extends KeycloakOIDCFilter
     public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain) throws IOException, ServletException
     {
         HttpServletRequest request = (HttpServletRequest) sreq;
+        HttpServletResponse response = (HttpServletResponse) sres;
         HttpSession session = request.getSession();
 
         if (this.enabled && (!AuthenticationUtil.isAuthenticated(request) || this.isLoggedOutFromKeycloak(session)))
         {
-            final FilterChain downstreamFilter = chain;
+            super.doFilter(sreq, sres, chain);
 
-            FilterChain next = new FilterChain()
+            RefreshableKeycloakSecurityContext context =
+                (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
+
+            if (context != null)
             {
-                public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException
-                {
-                    RefreshableKeycloakSecurityContext context =
-                        (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
-
-                    if ( (context == null) || (context.getIdToken() == null) )
-                    {
-                        // this should not happen
-                        throw new RuntimeException("Missing SecurityContext or token on authenticated Request");
-                    }
-
-                    HttpServletRequest httpRequest = (HttpServletRequest) request;
-                    HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-                    onSuccess(httpRequest, httpResponse, session, context);
-
-                    downstreamFilter.doFilter(httpRequest, httpResponse);
-                }
-            };
-
-            super.doFilter(sreq, sres, next);
+                this.onSuccess(request, response, session, context);
+            }
         }
         else
         {
@@ -201,21 +188,21 @@ public class AIMSFilter extends KeycloakOIDCFilter
             logger.info("Completing the AIMS authentication.");
         }
 
-        String username = context.getIdToken().getPreferredUsername();
+        String username = context.getToken().getPreferredUsername();
         String accessToken = context.getTokenString();
 
         try
         {
-            // Perform a "silent" init - i.e. no user creation or remote connections ?
-            RequestContextUtil.initRequestContext(this.context, request, true);
+            // Init request context for further use on getting user
+            this.initRequestContext(request, response);
 
-            // Ensure User ID is in session so the web-framework knows we have logged in
-            session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
-
-            // Get the slf_ticket from repo, using the JWT token from Keycloak
+            // Get the alfTicket from repo, using the JWT token from Keycloak
             String alfTicket = this.getAlfTicket(session, username, accessToken);
             if (alfTicket != null)
             {
+                // Ensure User ID is in session so the web-framework knows we have logged in
+                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
+
                 // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
                 Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
                 connector.getConnectorSession().setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
@@ -227,13 +214,64 @@ public class AIMSFilter extends KeycloakOIDCFilter
                 credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
                 vault.store(credentials);
 
+                // Initialise the user metadata object used by some web scripts
+                this.initUser(request);
+
                 // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
                 this.loginController.beforeSuccess(request, response);
+            }
+            else
+            {
+                logger.error("Could not get an alfTicket from Repository.");
             }
         }
         catch (Exception e)
         {
-            throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process", e);
+            throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
+        }
+    }
+
+    /**
+     * Initialise the request context and request attributes for further use by some web scripts
+     * that require authentication
+     *
+     * @param request
+     * @throws RequestContextException
+     */
+    private void initRequestContext(HttpServletRequest request, HttpServletResponse response) throws RequestContextException
+    {
+        RequestContext context = ThreadLocalRequestContext.getRequestContext();
+        if (context == null)
+        {
+            ServletRequestContextFactory factory =
+                (ServletRequestContextFactory) this.context.getBean("webframework.factory.requestcontext.servlet");
+            context = factory.newInstance(new ServletWebRequest(request));
+            request.setAttribute(RequestContext.ATTR_REQUEST_CONTEXT, context);
+        }
+
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request, response));
+        ServletUtil.setRequest(request);
+    }
+
+    /**
+     * Initialise the user meta data object and set it into the session and request context (_alf_USER_OBJECT)
+     * The user meta data object is used by web scripts that require authentication
+     *
+     * This is present in the filter for avoiding Basic Authentication prompt for those web scripts,
+     * when user access them and is logged out (see https://issues.alfresco.com/jira/browse/APPS-117)
+     *
+     * @param request
+     * @throws UserFactoryException
+     */
+    private void initUser(HttpServletRequest request) throws UserFactoryException
+    {
+        RequestContext context = ThreadLocalRequestContext.getRequestContext();
+        if (context != null && context.getUser() == null)
+        {
+            String userEndpointId = (String) context.getAttribute(RequestContext.USER_ENDPOINT);
+            UserFactory userFactory = context.getServiceRegistry().getUserFactory();
+            User user = userFactory.initialiseUser(context, request, userEndpointId);
+            context.setUser(user);
         }
     }
 
@@ -251,7 +289,7 @@ public class AIMSFilter extends KeycloakOIDCFilter
         // Info
         if (logger.isInfoEnabled())
         {
-            logger.info("retrieving the Alfresco Ticket from Repository.");
+            logger.info("Retrieving the Alfresco Ticket from Repository.");
         }
 
         String alfTicket = null;

@@ -657,6 +657,8 @@
          "application/vnd.ms-word.document.macroenabled.12": "Word.Document",
          "application/vnd.openxmlformats-officedocument.wordprocessingml.template": "Word.Document",
          "application/vnd.ms-word.template.macroenabled.12": "Word.Document",
+         "application/rtf":"Word.Document",
+
 
          "application/vnd.ms-powerpoint": "PowerPoint.Slide",
          "application/vnd.openxmlformats-officedocument.presentationml.presentation": "PowerPoint.Slide",
@@ -725,9 +727,9 @@
                      }
                      if (encodeURI(record.onlineEditUrl).length > 256)
                      {
-                        // If we get here it might be that the filename contains a lot of space characters that (when converted to %20) 
+                        // If we get here it might be that the filename contains a lot of space characters that (when converted to %20)
                         // would lead to a total encoded URL length that's greater than 256 characters.
-                        // Since it's a very rare case we'll just reduce the record's display name (from the URL) 
+                        // Since it's a very rare case we'll just reduce the record's display name (from the URL)
                         // to a (presumably) safe size of 5 characters plus extension.
                         var ext = record.displayName.split(".").pop();
                         var recordName = record.onlineEditUrl.split("/").pop();
@@ -799,7 +801,8 @@
                docm: "application/vnd.ms-word.document.macroenabled.12",
                dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
                dotm: "application/vnd.ms-word.template.macroenabled.12",
-
+               rtf: "application/rtf",
+              
                vsd: "application/vnd.visio",
                vss: "application/vnd.visio",
                vst: "application/vnd.visio",
@@ -917,6 +920,7 @@
             'dot'  : 'ms-word',
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
+            'rtf'  : 'ms-word',
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',
@@ -1059,12 +1063,12 @@
                   if (node.isLocked)
                   {
                       var checkedOut = Alfresco.util.arrayContains(node.aspects,"cm:checkedOut");
-                      var lockOwner = node.properties["cm:lockOwner"]; 
+                      var lockOwner = node.properties["cm:lockOwner"];
                       var differentLockOwner = lockOwner.userName !== Alfresco.constants.USERNAME;
 
                       // If locked for offline editing, ask for user's confirmation to continue with online editing
                       if (checkedOut && differentLockOwner)
-                      { 
+                      {
                           this._onAlreadyLockedConfirmation(record, lockOwner);
                       }
                       else
@@ -1282,6 +1286,8 @@
             'dot'  : 'ms-word',
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
+            'rtf'  : 'ms-word',
+           
             'vsd': 'ms-visio',
             'vss': 'ms-visio',
             'vst': 'ms-visio',
@@ -1291,6 +1297,7 @@
             'vssm': 'ms-visio',
             'vstx': 'ms-visio',
             'vstm': 'ms-visio',
+
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',

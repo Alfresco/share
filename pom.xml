@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>alfresco-share-parent</artifactId>
-    <version>6.2.1-SNAPSHOT</version>
+    <version>6.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -44,7 +44,7 @@
 
         <dependency.spring.version>5.1.15.RELEASE</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
-        <dependency.aikau.version>1.0.101.19</dependency.aikau.version>
+        <dependency.aikau.version>1.0.101.20</dependency.aikau.version>
         <dependency.freemarker.version>2.3.28</dependency.freemarker.version>
         <dependency.rhino.version>1.7.11</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.9</dependency.httpcomponents.version>
@@ -52,7 +52,7 @@
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
         <dependency.alfresco-core.version>7.33</dependency.alfresco-core.version>
         <dependency.alfresco-remote-api.version>7.134</dependency.alfresco-remote-api.version>
-        <dependency.webscripts.version>7.14</dependency.webscripts.version>
+        <dependency.webscripts.version>7.15</dependency.webscripts.version>
         <dependency.surf.version>7.7</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.1</dependency.dom4j.version>
@@ -87,6 +87,7 @@
         <test.working.dir>${project.build.directory}</test.working.dir>
         <img.exe>convert</img.exe>
         <swf.exe>pdf2swf</swf.exe>
+        <license-maven-plugin.version>3.0</license-maven-plugin.version>
     </properties>
 
    <scm>
@@ -305,6 +306,52 @@
     <build>
         <plugins>
             <plugin>
+            <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <!-- DO NOT ALIGN or FORMAT XML otherwise the license check considers the whitespace before!!! -->
+                   <inlineHeader>
+<![CDATA[
+Copyright 2005 - 2020 Alfresco Software Limited. 
+
+This file is part of the Alfresco software. 
+If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.  
+Otherwise, the software is provided under the following open source license terms:
+
+Alfresco is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Alfresco is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+ 
+You should have received a copy of the GNU Lesser General Public License
+along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+]]>
+                 </inlineHeader>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>**/*.jsp</include>
+                    </includes>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                </configuration>
+                <executions>
+                <execution>
+                    <id>validate-license</id>
+                    <phase>validate</phase>
+                    <goals>
+                            <goal>check</goal>
+                    </goals>
+                </execution>
+                </executions>
+                </plugin>
+            <plugin>
                 <groupId>org.alfresco.maven.plugin</groupId>
                 <artifactId>alfresco-maven-plugin</artifactId>
                 <version>${dependency.alfresco-sdk.version}</version>
@@ -419,44 +466,15 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>1.8</version>
-                <configuration>
-                    <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-                    <organizationName>Alfresco Software Limited</organizationName>
-                    <failOnMissingHeader>true</failOnMissingHeader>
-                    <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
-                    <licenseResolver>classpath://alfresco</licenseResolver>
-                    <licenseName>community</licenseName>
-                    <includes>
-                        <include>**/*.java</include>
-                        <include>**/*.jsp</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>check-licenses</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>check-file-header</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.alfresco</groupId>
-                        <artifactId>alfresco-license-headers</artifactId>
-                        <version>1.0</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
         </plugins>
 
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${license-maven-plugin.version}</version>
+                </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <configuration>

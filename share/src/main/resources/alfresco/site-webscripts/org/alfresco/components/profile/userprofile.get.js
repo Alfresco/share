@@ -82,6 +82,8 @@ function main()
          }
       }
    };
+
+   model.aimsEnabled = typeof aimsEnabled === "boolean" ? aimsEnabled : false;
    model.widgets = [userProfile];
 }
 
