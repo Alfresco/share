@@ -25,139 +25,105 @@
  */
 package org.alfresco.web.config.properties;
 
+import org.alfresco.web.config.util.BaseTest;
+import org.alfresco.web.site.servlet.config.AIMSConfig;
+import org.junit.Assert;
+import org.junit.Before;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.extensions.config.Config;
+import org.springframework.extensions.config.xml.XMLConfigService;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.web.config.util.BaseTest;
-import org.alfresco.web.site.servlet.config.AIMSConfigElement;
-import org.junit.Test;
-import org.keycloak.representations.adapters.config.AdapterConfig;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.extensions.config.Config;
-import org.springframework.extensions.config.ConfigElement;
-import org.springframework.extensions.config.xml.XMLConfigService;
-
 public class AIMSConfigTest extends BaseTest
 {
-
-    public static final String PROPERTIES_RESOURCES = "classpath*:alfresco/module/*/share-config.properties";
+    public static final String CLASSPATH_SHARE_CONFIG_PROPERTIES = "classpath*:alfresco/module/*/share-config.properties";
     private static final String TEST_CONFIG_AIMS_BASIC_XML = "test-config-aims-basic.xml";
-    protected XMLConfigService configService;
 
-    protected List<String> getConfigFiles()
+    private List<String> getConfigFiles()
     {
         List<String> result = new ArrayList<String>(1);
         result.add(TEST_CONFIG_AIMS_BASIC_XML);
         return result;
     }
 
-    @Override
     public String getResourcesDir()
     {
         return "classpath:";
     }
 
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-
-    }
-
-    @Test
-    public void testValidateIsEnableConfigProperties()
-    {
-        AIMSConfigElement aims = initConfigAIMS();
-        assertFalse(aims.isEnabled());
-
-    }
-
-    @Test
-    public void testValidateIsEnableSystemProperties()
-    {
-        System.setProperty("aims.config.enabled", "true");
-        AIMSConfigElement aims = initConfigAIMS();
-        assertTrue(aims.isEnabled());
-
-    }
-
-    @Test
-    public void testValidateKeycloakProperties()
-    {
-        AIMSConfigElement aims = initConfigAIMS();
-        AdapterConfig keycloakConfigElem = aims.getKeycloakConfigElem();
-        assertNotNull(keycloakConfigElem);
-        assertTrue("real should be alfresco.", keycloakConfigElem.getRealm().equals("alfresco"));
-        assertTrue("resource should be alfresco.", keycloakConfigElem.getResource().equals("alfresco"));
-        assertTrue("authServerUrl should be null.", (keycloakConfigElem.getAuthServerUrl() == null));
-        assertTrue("sslRequired should be none.", keycloakConfigElem.getSslRequired().equals("none"));
-        assertTrue("publicClient should be true.", keycloakConfigElem.isPublicClient());
-        assertTrue("autodetectBearerOnly should be true.", keycloakConfigElem.isAutodetectBearerOnly());
-        assertTrue("alwaysRefreshToken should be true.", keycloakConfigElem.isAlwaysRefreshToken());
-        assertTrue("principalAttribute should be email.", keycloakConfigElem.getPrincipalAttribute().equals("email"));
-        assertTrue("enableBasicAuth should be true.", keycloakConfigElem.isEnableBasicAuth());
-    }
-
-    @Test
-    public void testValidateKeycloakConfigProperties()
-    {
-        System.setProperty("aims.config.realm", "test");
-        System.setProperty("aims.config.resource", "test");
-        System.setProperty("aims.config.authServerUrl", "test");
-        System.setProperty("aims.config.sslRequired", "none");
-        System.setProperty("aims.config.publicClient", "true");
-        System.setProperty("aims.config.autodetectBearerOnly", "true");
-        System.setProperty("aims.config.alwaysRefreshToken", "false");
-        System.setProperty("aims.config.principalAttribute", "test");
-        System.setProperty("aims.config.enableBasicAuth", "true");
-
-        AIMSConfigElement aims = initConfigAIMS();
-        AdapterConfig keycloakConfigElem = aims.getKeycloakConfigElem();
-        assertNotNull(keycloakConfigElem);
-        assertTrue("real should be test.", keycloakConfigElem.getRealm().equals("test"));
-        assertTrue("resource should be test.", keycloakConfigElem.getResource().equals("test"));
-        assertTrue("authServerUrl should be empty.", keycloakConfigElem.getAuthServerUrl().equals("test"));
-        assertTrue("sslRequired should be none.", keycloakConfigElem.getSslRequired().equals("none"));
-        assertTrue("publicClient should be true.", keycloakConfigElem.isPublicClient());
-        assertTrue("autodetectBearerOnly should be true.", keycloakConfigElem.isAutodetectBearerOnly());
-        assertFalse("alwaysRefreshToken should be false.", keycloakConfigElem.isAlwaysRefreshToken());
-        assertTrue("principalAttribute should be test.", keycloakConfigElem.getPrincipalAttribute().equals("test"));
-        assertTrue("enableBasicAuth should be true.", keycloakConfigElem.isEnableBasicAuth());
-
-    }
-
-    private AIMSConfigElement initConfigAIMS()
+    /**
+     *
+     * @return
+     */
+    private AIMSConfig initAIMSConfig()
     {
         Resource[] resources;
-        AIMSConfigElement aimsConfigElement = null;
+        AIMSConfig aimsConfig = new AIMSConfig();
 
         try
         {
-            // define properties from a property file
-            resources = new PathMatchingResourcePatternResolver().getResources(PROPERTIES_RESOURCES);
+            // Define properties from a property file
+            resources = new PathMatchingResourcePatternResolver().getResources(CLASSPATH_SHARE_CONFIG_PROPERTIES);
+            XMLConfigService configService = initXMLConfigServiceWithProperties(this.getConfigFiles(), resources);
+            Assert.assertNotNull(configService);
 
-            configService = initXMLConfigServiceWithProperties(getConfigFiles(), resources);
-            assertNotNull("configService was null.", configService);
+            Config config = configService.getConfig("AIMS");
+            Assert.assertNotNull(config);
 
-            Config aimsConditionObj = configService.getConfig("AIMS");
-            assertNotNull(aimsConditionObj);
-
-            ConfigElement aimsConfigObj = aimsConditionObj.getConfigElement("aims");
-            assertNotNull(aimsConfigObj);
-            assertTrue("aimsConfigObj should be instanceof AIMSConfigElement.", aimsConfigObj instanceof AIMSConfigElement);
-
-            aimsConfigElement = (AIMSConfigElement) aimsConfigObj;
-
+            aimsConfig.setConfigService(configService);
+            aimsConfig.init();
         }
         catch (IOException e)
         {
             throw new ExceptionInInitializerError(e);
         }
 
-        return aimsConfigElement;
-
+        return aimsConfig;
     }
 
+    public void testEnabledPropertyIsFalseByDefault()
+    {
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+        Assert.assertFalse(aimsConfig.isEnabled());
+    }
+
+    public void testFromSystemEnvironmentAreSetCorrectly()
+    {
+        System.setProperty("aims.enabled", "false");
+        System.setProperty("aims.realm", "alfresco");
+        System.setProperty("aims.resource", "alfresco");
+        System.setProperty("aims.authServerUrl", "http://localhost:8080/auth");
+        System.setProperty("aims.sslRequired", "none");
+        System.setProperty("aims.publicClient", "true");
+        System.setProperty("aims.autodetectBearerOnly", "true");
+        System.setProperty("aims.alwaysRefreshToken", "true");
+        System.setProperty("aims.principalAttribute", "email");
+        System.setProperty("aims.enableBasicAuth", "true");
+
+        AIMSConfig aimsConfig = initAIMSConfig();
+
+        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.enabled")), aimsConfig.isEnabled());
+        Assert.assertEquals(System.getProperty("aims.realm"), aimsConfig.getAdapterConfig().getRealm());
+        Assert.assertEquals(System.getProperty("aims.resource"), aimsConfig.getAdapterConfig().getResource());
+        Assert.assertEquals(System.getProperty("aims.authServerUrl"), aimsConfig.getAdapterConfig().getAuthServerUrl());
+        Assert.assertEquals(System.getProperty("aims.sslRequired"), aimsConfig.getAdapterConfig().getSslRequired());
+
+        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.publicClient")),
+            aimsConfig.getAdapterConfig().isPublicClient());
+
+        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.autodetectBearerOnly")),
+            aimsConfig.getAdapterConfig().isAutodetectBearerOnly());
+
+        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.alwaysRefreshToken")),
+            aimsConfig.getAdapterConfig().isAlwaysRefreshToken());
+
+        Assert.assertEquals(System.getProperty("aims.principalAttribute"), aimsConfig.getAdapterConfig().getPrincipalAttribute());
+
+        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.enableBasicAuth")),
+            aimsConfig.getAdapterConfig().isEnableBasicAuth());
+    }
 }

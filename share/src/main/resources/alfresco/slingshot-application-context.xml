@@ -457,18 +457,22 @@
         <property name="endpoint" value="alfresco"/>
     </bean>
 
-    <!-- AIMS config service and reader beans -->
-    <bean id="aims.configservice"
+    <!-- Override web.config bean, so it make use of placeholders -->
+    <bean id="web.config"
           class="org.springframework.extensions.config.xml.XMLConfigService"
           init-method="init">
-        <constructor-arg ref="webframework.configsource"/>
+        <constructor-arg ref="webframework.configsource" />
         <property name="properties">
             <list>
                 <value>classpath:share-config.properties</value>
             </list>
         </property>
     </bean>
-    <bean id="aims.config" class="org.alfresco.web.site.servlet.config.AIMSConfig" init-method="init"/>
+
+    <!-- AIMS -->
+    <bean id="aims.config" class="org.alfresco.web.site.servlet.config.AIMSConfig" init-method="init">
+        <property name="configService" ref="web.config" />
+    </bean>
 
     <!-- Java controller for the org.alfresco.components.console.usersgroups.users.get WebScript -->
     <bean id="webscript.org.alfresco.components.console.usersgroups.users.get" parent="webscript"

@@ -26,37 +26,41 @@
 package org.alfresco.web.site.servlet.config;
 
 import org.keycloak.representations.adapters.config.AdapterConfig;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
 
-public class AIMSConfig implements ApplicationContextAware
+public class AIMSConfig
 {
-    private ApplicationContext context;
+    private boolean enabled;
     private ConfigService configService;
-    private AIMSConfigElement configElement = null;
+    private AdapterConfig adapterConfig;
 
+    /**
+     *
+     */
     public void init()
     {
-        this.configService = (ConfigService) this.context.getBean("aims.configservice");
-        this.initConfigElement();
+        Config config = this.configService.getConfig("AIMS");
+        this.setEnabled(Boolean.parseBoolean(config.getConfigElementValue("enabled")));
+        this.initAdapterConfig(config);
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    /**
+     *
+     * @param configService ConfigService
+     */
+    public void setConfigService(ConfigService configService)
     {
-        this.context = applicationContext;
+        this.configService = configService;
     }
 
-    private void initConfigElement()
+    /**
+     *
+     * @param enabled boolean
+     */
+    private void setEnabled(boolean enabled)
     {
-        Config configCondition = this.configService.getConfig(AIMSConfigElement.AIMS_CONFIG_CONDITION);
-        if (configCondition != null)
-        {
-            this.configElement = (AIMSConfigElement) configCondition.getConfigElement(AIMSConfigElement.AIMS_CONFIG_ELEMENT);
-        }
+        this.enabled = enabled;
     }
 
     /**
@@ -65,7 +69,26 @@ public class AIMSConfig implements ApplicationContextAware
      */
     public boolean isEnabled()
     {
-        return this.configElement.isEnabled();
+        return this.enabled;
+    }
+
+    /**
+     *
+     * @param config Config
+     */
+    private void initAdapterConfig(Config config)
+    {
+        this.adapterConfig = new AdapterConfig();
+
+        this.adapterConfig.setRealm(config.getConfigElementValue("realm"));
+        this.adapterConfig.setResource(config.getConfigElementValue("resource"));
+        this.adapterConfig.setAuthServerUrl(config.getConfigElementValue("authServerUrl"));
+        this.adapterConfig.setSslRequired(config.getConfigElementValue("sslRequired"));
+        this.adapterConfig.setPublicClient(Boolean.parseBoolean(config.getConfigElementValue("publicClient")));
+        this.adapterConfig.setAutodetectBearerOnly(Boolean.parseBoolean(config.getConfigElementValue("autodetectBearerOnly")));
+        this.adapterConfig.setAlwaysRefreshToken(Boolean.parseBoolean(config.getConfigElementValue("alwaysRefreshToken")));
+        this.adapterConfig.setPrincipalAttribute(config.getConfigElementValue("principalAttribute"));
+        this.adapterConfig.setEnableBasicAuth(Boolean.parseBoolean(config.getConfigElementValue("enableBasicAuth")));
     }
 
     /**
@@ -74,6 +97,6 @@ public class AIMSConfig implements ApplicationContextAware
      */
     public AdapterConfig getAdapterConfig()
     {
-        return (this.configElement != null) ? this.configElement.getKeycloakConfigElem() : null;
+        return this.adapterConfig;
     }
 }
