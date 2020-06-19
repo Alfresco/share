@@ -322,6 +322,7 @@
             <value>application/vnd.ms-visio.stencil.main+xml</value>
             <value>application/vnd.ms-visio.template.macroenabled.main+xml</value>
             <value>application/vnd.ms-visio.template.main+xml</value>
+            <value>application/rtf</value>
          </list>
       </property>
    </bean>
@@ -373,6 +374,7 @@
             <value>application/vnd.ms-visio.stencil.main+xml</value>
             <value>application/vnd.ms-visio.template.macroenabled.main+xml</value>
             <value>application/vnd.ms-visio.template.main+xml</value>
+            <value>application/rtf</value>
          </list>
       </property>
    </bean>
