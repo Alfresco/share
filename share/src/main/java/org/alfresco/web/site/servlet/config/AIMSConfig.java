@@ -26,97 +26,75 @@
 package org.alfresco.web.site.servlet.config;
 
 import org.keycloak.representations.adapters.config.AdapterConfig;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
 
-public class AIMSConfig implements ApplicationContextAware
+public class AIMSConfig
 {
-    private ApplicationContext context;
     private boolean enabled;
+    private ConfigService configService;
     private AdapterConfig adapterConfig;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
-    {
-        this.context = applicationContext;
-    }
-
+    /**
+     *
+     */
     public void init()
     {
-        ConfigService configService = (ConfigService) this.context.getBean("web.config");
-        Config config = configService.getConfig("AIMS");
-
-        String enabled = config.getConfigElementValue("enabled");
-        if (enabled != null && enabled.length() > 0)
-        {
-            this.enabled = Boolean.parseBoolean(enabled);
-        }
-
-        this.adapterConfig = new AdapterConfig();
-
-        String realm = config.getConfigElementValue("realm");
-        if (realm != null && realm.length() > 0)
-        {
-            this.adapterConfig.setRealm(realm);
-        }
-
-        String resource = config.getConfigElementValue("resource");
-        if (resource != null && resource.length() > 0)
-        {
-            this.adapterConfig.setResource(resource);
-        }
-
-        String authServerUrl = config.getConfigElementValue("authServerUrl");
-        if (authServerUrl != null && authServerUrl.length() > 0)
-        {
-            this.adapterConfig.setAuthServerUrl(authServerUrl);
-        }
-
-        String sslRequired = config.getConfigElementValue("sslRequired");
-        if (sslRequired != null && sslRequired.length() > 0)
-        {
-            this.adapterConfig.setSslRequired(sslRequired);
-        }
-
-        String publicClient = config.getConfigElementValue("publicClient");
-        if (publicClient != null && publicClient.length() > 0)
-        {
-            this.adapterConfig.setPublicClient(Boolean.parseBoolean(publicClient));
-        }
-
-        String autodetectBearerOnly = config.getConfigElementValue("autodetectBearerOnly");
-        if (autodetectBearerOnly != null && autodetectBearerOnly.length() > 0)
-        {
-            this.adapterConfig.setAutodetectBearerOnly(Boolean.parseBoolean(autodetectBearerOnly));
-        }
-
-        String alwaysRefreshToken = config.getConfigElementValue("alwaysRefreshToken");
-        if (alwaysRefreshToken != null && alwaysRefreshToken.length() > 0)
-        {
-            this.adapterConfig.setAlwaysRefreshToken(Boolean.parseBoolean(alwaysRefreshToken));
-        }
-
-        String principalAttribute = config.getConfigElementValue("principalAttribute");
-        if (principalAttribute != null && principalAttribute.length() > 0)
-        {
-            this.adapterConfig.setPrincipalAttribute(principalAttribute);
-        }
-
-        String enableBasicAuth = config.getConfigElementValue("enableBasicAuth");
-        if (enableBasicAuth != null && enableBasicAuth.length() > 0)
-        {
-            this.adapterConfig.setEnableBasicAuth(Boolean.parseBoolean(enableBasicAuth));
-        }
+        Config config = this.configService.getConfig("AIMS");
+        this.setEnabled(Boolean.parseBoolean(config.getConfigElementValue("enabled")));
+        this.initAdapterConfig(config);
     }
 
+    /**
+     *
+     * @param configService ConfigService
+     */
+    public void setConfigService(ConfigService configService)
+    {
+        this.configService = configService;
+    }
+
+    /**
+     *
+     * @param enabled boolean
+     */
+    private void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+    }
+
+    /**
+     *
+     * @return boolean
+     */
     public boolean isEnabled()
     {
         return this.enabled;
     }
 
+    /**
+     *
+     * @param config Config
+     */
+    private void initAdapterConfig(Config config)
+    {
+        this.adapterConfig = new AdapterConfig();
+
+        this.adapterConfig.setRealm(config.getConfigElementValue("realm"));
+        this.adapterConfig.setResource(config.getConfigElementValue("resource"));
+        this.adapterConfig.setAuthServerUrl(config.getConfigElementValue("authServerUrl"));
+        this.adapterConfig.setSslRequired(config.getConfigElementValue("sslRequired"));
+        this.adapterConfig.setPublicClient(Boolean.parseBoolean(config.getConfigElementValue("publicClient")));
+        this.adapterConfig.setAutodetectBearerOnly(Boolean.parseBoolean(config.getConfigElementValue("autodetectBearerOnly")));
+        this.adapterConfig.setAlwaysRefreshToken(Boolean.parseBoolean(config.getConfigElementValue("alwaysRefreshToken")));
+        this.adapterConfig.setPrincipalAttribute(config.getConfigElementValue("principalAttribute"));
+        this.adapterConfig.setEnableBasicAuth(Boolean.parseBoolean(config.getConfigElementValue("enableBasicAuth")));
+    }
+
+    /**
+     *
+     * @return AdapterConfig
+     */
     public AdapterConfig getAdapterConfig()
     {
         return this.adapterConfig;
