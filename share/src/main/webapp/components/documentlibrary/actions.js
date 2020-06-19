@@ -720,6 +720,7 @@
          "application/vnd.ms-word.document.macroenabled.12": "Word.Document",
          "application/vnd.openxmlformats-officedocument.wordprocessingml.template": "Word.Document",
          "application/vnd.ms-word.template.macroenabled.12": "Word.Document",
+         "application/rtf":"Word.Document",
 
          "application/vnd.ms-powerpoint": "PowerPoint.Slide",
          "application/vnd.openxmlformats-officedocument.presentationml.presentation": "PowerPoint.Slide",
@@ -856,6 +857,7 @@
                docm: "application/vnd.ms-word.document.macroenabled.12",
                dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
                dotm: "application/vnd.ms-word.template.macroenabled.12",
+               rtf: "application/rtf",
 
                ppt: "application/vnd.ms-powerpoint",
                pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
@@ -964,6 +966,7 @@
             'dot'  : 'ms-word',
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
+            'rtf'  : 'ms-word',
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',
@@ -1329,6 +1332,7 @@
             'dot'  : 'ms-word',
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
+            'rtf'  : 'ms-word',
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',
