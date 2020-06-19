@@ -470,5 +470,7 @@
     </bean>
 
     <!-- AIMS -->
-    <bean id="aims.config" class="org.alfresco.web.site.servlet.config.AIMSConfig" init-method="init" />
+    <bean id="aims.config" class="org.alfresco.web.site.servlet.config.AIMSConfig" init-method="init">
+        <property name="configService" ref="web.config" />
+    </bean>
 </beans>

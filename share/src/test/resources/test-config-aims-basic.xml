@@ -10,8 +10,7 @@
         <publicClient>${aims.publicClient}</publicClient>
         <autodetectBearerOnly>${aims.autodetectBearerOnly}</autodetectBearerOnly>
         <alwaysRefreshToken>${aims.alwaysRefreshToken}</alwaysRefreshToken>
-        <principalAttribute>${aims.principalAttribute}
-        </principalAttribute>
+        <principalAttribute>${aims.principalAttribute}</principalAttribute>
         <enableBasicAuth>${aims.enableBasicAuth}</enableBasicAuth>
     </config>
 
