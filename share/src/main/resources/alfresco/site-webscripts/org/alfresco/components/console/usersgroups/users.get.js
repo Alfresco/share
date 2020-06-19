@@ -32,6 +32,8 @@ function main() {
          docsEdition: context.properties["docsEdition"].getValue()
       }
    };
+
+   model.aimsEnabled = typeof aimsEnabled === "boolean" ? aimsEnabled : false;
    model.widgets = [widget];
 }
 main();

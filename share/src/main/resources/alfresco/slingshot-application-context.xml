@@ -470,4 +470,16 @@
     </bean>
     <bean id="aims.config" class="org.alfresco.web.site.servlet.config.AIMSConfig" init-method="init"/>
 
+    <!-- Java controller for the org.alfresco.components.console.usersgroups.users.get WebScript -->
+    <bean id="webscript.org.alfresco.components.console.usersgroups.users.get" parent="webscript"
+          class="org.alfresco.web.scripts.AimsStatusWebScript"/>
+
+    <!-- Java controller for the org.alfresco.components.profile.change-password.get WebScript -->
+    <bean id="webscript.org.alfresco.components.profile.change-password.get" parent="webscript"
+          class="org.alfresco.web.scripts.AimsStatusWebScript"/>
+
+    <!-- Java controller for the org.alfresco.components.profile.userprofile.get WebScript -->
+    <bean id="webscript.org.alfresco.components.profile.userprofile.get" parent="webscript"
+          class="org.alfresco.web.scripts.AimsStatusWebScript"/>
+
 </beans>
