@@ -8359,9 +8359,9 @@ Alfresco.util.Ajax = function()
          }
 
          if (serverResponse.status === 0 &&
-             document.referrer.length > 0 &&
-             Alfresco.constants.AIMS_AUTH_SERVER_URL !== undefined &&
-             document.referrer.startsWith(Alfresco.constants.AIMS_AUTH_SERVER_URL)
+             serverResponse.statusText === "communication failure" &&
+             Alfresco.constants.AIMS_ENABLED !== undefined &&
+             Alfresco.constants.AIMS_ENABLED === true
          )
          {
             window.location.reload(true);
