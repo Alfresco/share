@@ -983,6 +983,17 @@
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
             'rtf'  : 'ms-word',
+
+            'vsd': 'ms-visio',
+            'vss': 'ms-visio',
+            'vst': 'ms-visio',
+            'vsdx': 'ms-visio',
+            'vsdm': 'ms-visio',
+            'vssx': 'ms-visio',
+            'vssm': 'ms-visio',
+            'vstx': 'ms-visio',
+            'vstm': 'ms-visio',
+
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',
