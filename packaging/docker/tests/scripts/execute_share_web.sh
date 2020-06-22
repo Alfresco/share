@@ -17,7 +17,7 @@ mvn clean install \
                -Dalfresco.url='http://localhost:8080/alfresco' \
                -Dshare.host=localhost \
                -Dshare.port=8181 \
-               -Dshare.url='http://localhost:8181/share' \
+               -Dshare.url='http://localhost:8181/share'
                -Dalfresco.scheme=http \
                -Dadmin.user=admin \
                -Dadmin.password=admin \
@@ -31,7 +31,7 @@ mvn clean install \
                -Dbrowser.name=Firefox \
                -Dbrowser.version=44.0 \
                -DtestManagement.enabled=false \
-               -DtestManagement.testRun='test' \
+               -DtestManagement.testRun="test" \
                -DtestManagement.apiKey=6z8dAK8oYhO89N36iDtB-Lwmp2k8.aDmFfXLeR90o \
                -DtestManagement.project=1 \
                -DtestManagement.suiteId=1 \
