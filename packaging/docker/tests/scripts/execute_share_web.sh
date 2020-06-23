@@ -29,7 +29,7 @@ mvn clean install \
                -Dbrowser.name=Firefox \
                -Dbrowser.version=44.0 \
                -DtestManagement.enabled=false \
-               -DtestManagement.testRun="test" \
+               -DtestManagement.testRun=test \
                -DtestManagement.apiKey=6z8dAK8oYhO89N36iDtB-Lwmp2k8.aDmFfXLeR90o \
                -DtestManagement.project=1 \
                -DtestManagement.suiteId=1 \
