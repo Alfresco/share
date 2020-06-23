@@ -17,8 +17,7 @@ mvn clean install \
                -Dalfresco.url='http://localhost:8080/alfresco' \
                -Dshare.host=localhost \
                -Dshare.port=8181 \
-               -Dshare.url='http://localhost:8181/share'
-               -Dalfresco.scheme=http \
+               -Dshare.url='http://localhost:8181/share' \
                -Dadmin.user=admin \
                -Dadmin.password=admin \
                -Dwebdriver.grid.url='http://127.0.0.1:4444/wd/hub' \
@@ -27,7 +26,6 @@ mvn clean install \
                -Dwebdriver.element.wait.time=30000 \
                -Dwebdriver.element.wait.time=20000 \
                -Dwebdriver.page.render.wait.time=60000 \ 
-               -Dgrid.url='http://127.0.0.1:4444/wd/hub' \
                -Dbrowser.name=Firefox \
                -Dbrowser.version=44.0 \
                -DtestManagement.enabled=false \
