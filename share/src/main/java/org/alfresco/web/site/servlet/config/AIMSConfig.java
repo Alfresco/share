@@ -20,12 +20,23 @@
  */
 package org.alfresco.web.site.servlet.config;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.keycloak.common.enums.SslRequired;
 import org.keycloak.representations.adapters.config.AdapterConfig;
 import org.springframework.extensions.config.Config;
+import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.ConfigService;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 public class AIMSConfig
 {
+    private static final Log logger = LogFactory.getLog(AIMSConfig.class);
+
     private boolean enabled;
     private ConfigService configService;
     private AdapterConfig adapterConfig;
@@ -73,17 +84,48 @@ public class AIMSConfig
      */
     private void initAdapterConfig(Config config)
     {
+        String value, methodName;
         this.adapterConfig = new AdapterConfig();
 
-        this.adapterConfig.setRealm(config.getConfigElementValue("realm"));
-        this.adapterConfig.setResource(config.getConfigElementValue("resource"));
-        this.adapterConfig.setAuthServerUrl(config.getConfigElementValue("authServerUrl"));
-        this.adapterConfig.setSslRequired(config.getConfigElementValue("sslRequired"));
-        this.adapterConfig.setPublicClient(Boolean.parseBoolean(config.getConfigElementValue("publicClient")));
-        this.adapterConfig.setAutodetectBearerOnly(Boolean.parseBoolean(config.getConfigElementValue("autodetectBearerOnly")));
-        this.adapterConfig.setAlwaysRefreshToken(Boolean.parseBoolean(config.getConfigElementValue("alwaysRefreshToken")));
-        this.adapterConfig.setPrincipalAttribute(config.getConfigElementValue("principalAttribute"));
-        this.adapterConfig.setEnableBasicAuth(Boolean.parseBoolean(config.getConfigElementValue("enableBasicAuth")));
+        for (Map.Entry<String, ConfigElement> configElement: config.getConfigElements().entrySet())
+        {
+            value = configElement.getValue().getValue();
+            methodName = "set" + StringUtils.capitalize(configElement.getKey());
+
+            // Skip null or empty values
+            if (value == null || value.isEmpty())
+            {
+                continue;
+            }
+
+            // Loop through AdapterConfig setter methods and call the setter for each value available from properties
+            for (Method method: this.adapterConfig.getClass().getMethods())
+            {
+                try
+                {
+                    if (method.getName().equals(methodName) && method.getParameterCount() == 1)
+                    {
+                        if (method.getParameterTypes()[0] == String.class)
+                        {
+                            // Special case of ssl-required; make sure we don't set an invalid value
+                            if (methodName.equals("setSslRequired"))
+                            {
+                                SslRequired.valueOf(value.toUpperCase());
+                            }
+                            method.invoke(this.adapterConfig, value);
+                        }
+                        else if (method.getParameterTypes()[0] == boolean.class)
+                        {
+                            method.invoke(this.adapterConfig, Boolean.parseBoolean(value));
+                        }
+                    }
+                }
+                catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e)
+                {
+                    logger.debug(e.getMessage());
+                }
+            }
+        }
     }
 
     /**
