@@ -298,13 +298,6 @@
             <value>application/vnd.ms-excel.sheet.binary.macroenabled.12</value>
             <value>application/vnd.visio</value>
             <value>application/vnd.visio2013</value>
-            <value>application/vnd.ms-visio.drawing.macroenabled.main+xml</value>
-            <value>application/vnd.ms-visio.drawing.main+xml</value>
-            <value>application/vnd.ms-visio.stencil.macroenabled.main+xml</value>
-            <value>application/vnd.ms-visio.stencil.main+xml</value>
-            <value>application/vnd.ms-visio.template.macroenabled.main+xml</value>
-            <value>application/vnd.ms-visio.template.main+xml</value>
-            <value>application/rtf</value>
          </list>
       </property>
    </bean>
@@ -350,13 +343,6 @@
             <value>application/vnd.ms-powerpoint.slide.macroEnabled.12</value>
             <value>application/vnd.visio</value>
             <value>application/vnd.visio2013</value>
-            <value>application/vnd.ms-visio.drawing.macroEnabled.main+xml</value>
-            <value>application/vnd.ms-visio.drawing.main+xml</value>
-            <value>application/vnd.ms-visio.stencil.macroenabled.main+xml</value>
-            <value>application/vnd.ms-visio.stencil.main+xml</value>
-            <value>application/vnd.ms-visio.template.macroenabled.main+xml</value>
-            <value>application/vnd.ms-visio.template.main+xml</value
-            <value>application/rtf</value>
          </list>
       </property>
    </bean>
