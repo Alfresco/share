@@ -5,7 +5,6 @@ export GROUP=$1
 mvn clean install \
                -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
                -Dskip.automationtests=false \
-               -Dalfresco.port=8080 \
                -Dalfresco.restApi.basicAuthScheme=true \
                -Djmx.useJolokiaAgent=true \
                -DincludeGroups=${GROUP} \
