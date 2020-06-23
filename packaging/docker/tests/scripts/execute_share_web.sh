@@ -19,7 +19,7 @@ mvn clean install \
                -Dshare.url="http://localhost:8181/share" \
                -Dadmin.user=admin \
                -Dadmin.password=admin \
-               -Dwebdriver.grid.url="http://127.0.0.1:4444/wd/hub \
+               -Dwebdriver.grid.url="http://127.0.0.1:4444/wd/hub" \
                -Dwebdriver.local.grid=false \
                -Dwebdriver.localGrid=false \
                -Dwebdriver.element.wait.time=30000 \
