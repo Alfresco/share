@@ -8359,7 +8359,6 @@ Alfresco.util.Ajax = function()
          }
 
          if (serverResponse.status === 0 &&
-             serverResponse.statusText === "communication failure" &&
              Alfresco.constants.AIMS_ENABLED !== undefined &&
              Alfresco.constants.AIMS_ENABLED === true
          )
