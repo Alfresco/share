@@ -90,8 +90,10 @@
       Alfresco.constants.TINY_MCE_SUPPORTED_LOCALES = "${config.global["I18N"].getChildValue("tiny-mce-supported-locales")}";
 
       <#assign aimsConfig = config.scoped["AIMS"] />
-      <#if aimsConfig?? && aimsConfig.enabled.getValue()?boolean == true>
-         Alfresco.constants.AIMS_AUTH_SERVER_URL = "${aimsConfig.authServerUrl.getValue()!""}";
+      <#if aimsConfig?? && (aimsConfig.enabled.getValue() == "true" || aimsConfig.enabled.getValue() == "false")>
+         Alfresco.constants.AIMS_ENABLED = ${aimsConfig.enabled.getValue()};
+      <#else>
+         Alfresco.constants.AIMS_ENABLED = false;
       </#if>
    </@>
 </@>
