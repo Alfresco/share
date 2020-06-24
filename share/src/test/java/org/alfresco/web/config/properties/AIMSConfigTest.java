@@ -24,6 +24,7 @@ import org.alfresco.web.config.util.BaseTest;
 import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.junit.Assert;
 import org.junit.Before;
+import org.keycloak.common.enums.SslRequired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.extensions.config.Config;
@@ -48,6 +49,25 @@ public class AIMSConfigTest extends BaseTest
     public String getResourcesDir()
     {
         return "classpath:";
+    }
+
+    /**
+     * Clear system properties before each test run so we won't clutter the environment
+     */
+    private void clearSystemProperties()
+    {
+        System.clearProperty("aims.enabled");
+        System.clearProperty("aims.realm");
+        System.clearProperty("aims.resource");
+        System.clearProperty("aims.authServerUrl");
+        System.clearProperty("aims.sslRequired");
+        System.clearProperty("aims.publicClient");
+        System.clearProperty("aims.autodetectBearerOnly");
+        System.clearProperty("aims.alwaysRefreshToken");
+        System.clearProperty("aims.principalAttribute");
+        System.clearProperty("aims.enableBasicAuth");
+
+
     }
 
     /**
@@ -80,14 +100,60 @@ public class AIMSConfigTest extends BaseTest
         return aimsConfig;
     }
 
-    public void testEnabledPropertyIsFalseByDefault()
+    /**
+     * Test if default properties are set correctly
+     */
+    public void testDefaultPropertiesAreSetCorrectly()
     {
+        this.clearSystemProperties();
+
         AIMSConfig aimsConfig = this.initAIMSConfig();
+
         Assert.assertFalse(aimsConfig.isEnabled());
+        Assert.assertEquals(aimsConfig.getAdapterConfig().getRealm(), "");
+        Assert.assertEquals(aimsConfig.getAdapterConfig().getResource(), "");
+        Assert.assertEquals(aimsConfig.getAdapterConfig().getAuthServerUrl(), "");
+        Assert.assertEquals(aimsConfig.getAdapterConfig().getSslRequired().toUpperCase(), SslRequired.EXTERNAL.toString());
+        Assert.assertFalse(aimsConfig.getAdapterConfig().isPublicClient());
+        Assert.assertFalse(aimsConfig.getAdapterConfig().isAutodetectBearerOnly());
+        Assert.assertFalse(aimsConfig.getAdapterConfig().isAlwaysRefreshToken());
+        Assert.assertEquals(aimsConfig.getAdapterConfig().getPrincipalAttribute(), "sub");
+        Assert.assertFalse(aimsConfig.getAdapterConfig().isEnableBasicAuth());
     }
 
+    /**
+     *
+     */
+    public void testSslRequiredCantHaveInvalidValueSet()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.sslRequired", "invalid");
+        AIMSConfig aimsConfig = initAIMSConfig();
+
+        Assert.assertEquals(aimsConfig.getAdapterConfig().getSslRequired().toUpperCase(), SslRequired.EXTERNAL.toString());
+    }
+
+    /**
+     *
+     */
+    public void testSslRequiredIsCorrectlySetForAValidValue()
+    {
+        this.clearSystemProperties();
+
+        System.setProperty("aims.sslRequired", SslRequired.ALL.toString().toLowerCase());
+
+        AIMSConfig aimsConfig = initAIMSConfig();
+
+        Assert.assertEquals(aimsConfig.getAdapterConfig().getSslRequired().toUpperCase(), SslRequired.ALL.toString());
+    }
+
+    /**
+     * Test if AIMSConfig is correctly configured with values from system properties
+     */
     public void testFromSystemEnvironmentAreSetCorrectly()
     {
+        this.clearSystemProperties();
+
         System.setProperty("aims.enabled", "false");
         System.setProperty("aims.realm", "alfresco");
         System.setProperty("aims.resource", "alfresco");
