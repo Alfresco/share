@@ -93,7 +93,7 @@ public class AIMSConfig
             methodName = "set" + StringUtils.capitalize(configElement.getKey());
 
             // Skip null or empty values
-            if (value == null || value.isEmpty())
+            if (value == null)
             {
                 continue;
             }
@@ -107,12 +107,19 @@ public class AIMSConfig
                     {
                         if (method.getParameterTypes()[0] == String.class)
                         {
-                            // Special case of ssl-required; make sure we don't set an invalid value
-                            if (methodName.equals("setSslRequired"))
+                            try
                             {
-                                SslRequired.valueOf(value.toUpperCase());
+                                // Special case of ssl-required; make sure we don't set an invalid value
+                                if (methodName.equals("setSslRequired"))
+                                {
+                                    SslRequired.valueOf(value.toUpperCase());
+                                }
+                                method.invoke(this.adapterConfig, value);
                             }
-                            method.invoke(this.adapterConfig, value);
+                            catch (IllegalArgumentException e)
+                            {
+                                method.invoke(this.adapterConfig, SslRequired.EXTERNAL.toString().toLowerCase());
+                            }
                         }
                         else if (method.getParameterTypes()[0] == boolean.class)
                         {
@@ -120,7 +127,7 @@ public class AIMSConfig
                         }
                     }
                 }
-                catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e)
+                catch (InvocationTargetException | IllegalAccessException e)
                 {
                     logger.debug(e.getMessage());
                 }
