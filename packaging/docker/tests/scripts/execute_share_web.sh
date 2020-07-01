@@ -25,7 +25,6 @@ mvn clean install \
                -Dwebdriver.local.grid=false \
                -Dwebdriver.localGrid=false \
                -Dwebdriver.element.wait.time=30000 \
-               -Dwebdriver.element.wait.time=20000 \
                -Dwebdriver.page.render.wait.time=60000 \ 
                -Ddisplay.xport=99.0 \
                -Denv.platform=linux
