@@ -13,6 +13,12 @@ mvn test \
     -Dalfresco.port=8080 \
     -Dshare.port=8081 \
     -Djmx.useJolokiaAgent=true \
+    -Dwebdriver.grid.url="http://127.0.0.1:4444/wd/hub" \
+    -Dwebdriver.local.grid=false \
+    -Dwebdriver.localGrid=false \
+    -Dwebdriver.element.wait.time=30000 \
+    -Dwebdriver.element.wait.time=20000 \
+    -Dwebdriver.page.render.wait.time=60000 \ 
     -Dbrowser.name=Firefox \
     -Dalfresco.scheme=http \
     -Dadmin.user=admin \
