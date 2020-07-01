@@ -21,5 +21,11 @@ mvn clean install \
                -DtestManagement.apiKey=6z8dAK8oYhO89N36iDtB-Lwmp2k8.aDmFfXLeR90o \
                -DtestManagement.project=1 \
                -DtestManagement.suiteId=1 \
+               -Dwebdriver.grid.url="http://127.0.0.1:4444/wd/hub" \
+               -Dwebdriver.local.grid=false \
+               -Dwebdriver.localGrid=false \
+               -Dwebdriver.element.wait.time=30000 \
+               -Dwebdriver.element.wait.time=20000 \
+               -Dwebdriver.page.render.wait.time=60000 \ 
                -Ddisplay.xport=99.0 \
                -Denv.platform=linux
