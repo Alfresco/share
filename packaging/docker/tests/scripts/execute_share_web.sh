@@ -26,5 +26,5 @@ mvn clean install \
                -Dbrowser.name=Firefox \
                -Dbrowser.version=44.0 \
                -Ddisplay.xport=99.0 \
-			   -Daims.enabled=false
+               -Daims.enabled=false \
                -Denv.platform=linux
