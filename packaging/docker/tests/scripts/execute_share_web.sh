@@ -22,8 +22,7 @@ mvn clean install \
                -Dwebdriver.local.grid=false \
                -Dwebdriver.localGrid=false \
                -Dwebdriver.element.wait.time=30000 \
-               -Dwebdriver.page.render.wait.time=60000 \ 
-               -Dgrid.url='http://127.0.0.1:4444/wd/hub' \
+               -Dwebdriver.page.render.wait.time=60000 \
                -Dbrowser.name=Firefox \
                -Dbrowser.version=44.0 \
                -Ddisplay.xport=99.0 \
