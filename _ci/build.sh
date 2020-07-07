@@ -7,7 +7,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
 # Change tag if you are on a branch
 if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
-  sed  -i "s/<image.tag>latest/<image.tag>latest-$TRAVIS_BRANCH/" packaging/docker/pom.xml
+  sed  -i 's|<image.tag>latest/<image.tag>latest-$TRAVIS_BRANCH|' packaging/docker/pom.xml
 fi
 
 mvn -B -U \
