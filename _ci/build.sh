@@ -13,12 +13,9 @@ if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
   sed  -i "s/<image.tag>latest/<image.tag>latest-$TAG_NAME/" packaging/docker/pom.xml
 fi
 
-mvn -B -U \
-    clean install \
-    -Dbuildnumber=${TRAVIS_BUILD_NUMBER} \
-    "-Plocal"
-
 cd packaging/docker
+
+mvn install -Plocal 
 mvn fabric8:push
 
 popd
