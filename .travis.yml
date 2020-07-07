@@ -23,7 +23,7 @@ branches:
   only:
     - master
     - /support\/.*/
-    - fix/Travis-share-build
+    - /^APPS-.*$/
     
 stages:
   - build
