@@ -38,14 +38,10 @@ before_install:
 
 jobs:
   include:
-    - name: "Build"
-      stage: build
-      script: mvn clean install
-
     - name: "WhiteSource"
       stage: build
       # only on SP branches or master and if it is not a PR
-      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/) AND type != pull_request
+      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
       script:
         # Download the latest version of WhiteSource Unified Agent
         - curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
@@ -55,10 +51,13 @@ jobs:
     - name: "Source Clear Scan (SCA)"
       stage: build
       # only on SP branches or master and if it is not a PR
-      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/) AND type != pull_request
+      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
       # Run Veracode
       install: skip
       script: travis_wait 30 bash _ci/source_clear.sh
 
-
+     - name: "Build"
+       stage: build
+       script: travis_wait 30 bash _ci/build.sh
+      
    
