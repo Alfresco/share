@@ -16,12 +16,11 @@ services:
 
 cache:
   directories:
-    - ${HOME}/.m2/repository
-    
+    - $HOME/.m2
 # the cache can grow constantly
 before_cache:
   - rm -rf $HOME/.m2/repository/org/alfresco/alfresco-share*
-
+  
 branches:
   only:
     - master
@@ -34,6 +33,7 @@ stages:
   - release
   - company_release
   
+# This should not be required on community build
 before_install:
   - "cp _ci/.travis.settings.xml $HOME/.m2/settings.xml"
 
@@ -89,7 +89,8 @@ jobs:
         - mvn --batch-mode -q -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DskipTests -Darguments=-DskipTests release:clean release:prepare release:perform
 
     - name: "Company Release"
-      stage: commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
+      stage: company_release
+      if: commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
       if: branch = company_release
       before_install: bash _ci/init.sh
       script: -bash _ci/company-release.sh
