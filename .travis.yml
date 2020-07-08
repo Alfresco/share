@@ -32,6 +32,7 @@ stages:
   - build
   - tests
   - release
+  - company_release
   
 before_install:
   - "cp _ci/.travis.settings.xml $HOME/.m2/settings.xml"
@@ -58,11 +59,13 @@ jobs:
 
     - name: "Build and Test"
       stage: build
+      before_install: bash _ci/init.sh
       script: bash _ci/build.sh
     
     - name: "SHARE PO USER"
       stage: tests
       jdk: openjdk11
+      before_install: bash _ci/init.sh
       install:
         - bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
         - bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
@@ -72,5 +75,23 @@ jobs:
         - cd alfresco-tas-share-test
         - git checkout 6.2.N
         - travis_wait 60 .._ci/execute_share_web.sh "user"
+        
+    - name: "Release"
+      stage: release
+      name: "Push to Nexus"
+      if: commit_message ~= /\[trigger release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
+      script:
+        # Use full history for release
+        - git checkout -B "${TRAVIS_BRANCH}"
+        # Add email to link commits to user
+        - git config user.email "${GIT_EMAIL}"
+        # Skip building of release commits
+        - mvn --batch-mode -q -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DskipTests -Darguments=-DskipTests release:clean release:prepare release:perform
+
+    - name: "Company Release"
+      stage: commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
+      if: branch = company_release
+      before_install: bash _ci/init.sh
+      script: -bash _ci/company-release.sh
       
    

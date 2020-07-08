@@ -13,8 +13,6 @@ if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
   sed  -i "s/<image.tag>latest/<image.tag>latest-$TAG_NAME/" packaging/docker/pom.xml
 fi
 
-echo "${QUAY_PASSWORD}" | docker login -u="alfresco+bamboo" --password-stdin quay.io
-
 cd packaging/docker
 
 mvn install -Plocal 
