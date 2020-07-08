@@ -80,7 +80,7 @@ services:
             - 1125:1125
 
     share:
-        image: alfresco/alfresco-share:latest
+        image: quay.io/alfresco/alfresco-share:latest
         environment:
            CATALINA_OPTS: "
                 -agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n
