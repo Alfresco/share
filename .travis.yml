@@ -32,10 +32,6 @@ stages:
   - tests
   - release
   - company_release
-  
-# This should not be required on community build
-before_install:
-  - "cp _ci/.travis.settings.xml $HOME/.m2/settings.xml"
 
 jobs:
   include:
@@ -43,6 +39,7 @@ jobs:
       stage: build
       # only on SP branches or master and if it is not a PR
       if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
+      before_install: bash _ci/init.sh
       script:
         # Download the latest version of WhiteSource Unified Agent
         - curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
@@ -53,6 +50,7 @@ jobs:
       stage: build
       # only on SP branches or master and if it is not a PR
       if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
+      before_install: bash _ci/init.sh
       # Run Veracode
       install: skip
       script: travis_wait 30 bash _ci/source_clear.sh
@@ -80,6 +78,7 @@ jobs:
       stage: release
       name: "Push to Nexus"
       if: commit_message ~= /\[trigger release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
+      before_install: bash _ci/init.sh
       script:
         # Use full history for release
         - git checkout -B "${TRAVIS_BRANCH}"
@@ -91,7 +90,6 @@ jobs:
     - name: "Company Release"
       stage: company_release
       if: commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
-      if: branch = company_release
       before_install: bash _ci/init.sh
       script: -bash _ci/company-release.sh
       
