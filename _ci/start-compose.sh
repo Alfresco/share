@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+echo "=========================== Starting Docker compose Script ==========================="
+PS4="\[\e[35m\]+ \[\e[m\]"
+set -vex
+pushd "$(dirname "${BASH_SOURCE[0]}")/../"
+
 export DOCKER_COMPOSE_PATH=$1
 
 if [ -z "$DOCKER_COMPOSE_PATH" ]
@@ -11,11 +16,11 @@ fi
 echo "Starting Share stack in ${DOCKER_COMPOSE_PATH}"
 
 # substitude all '/' to '-' as Docker doesn't allow it
-TAG_NAME=`echo $TRAVIS_BRANCH | tr / -
+TAG_NAME=`echo $TRAVIS_BRANCH | tr / - `
 
 # Change tag if you are on a branch
 if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
-  sed  -i "s/image: alfresco/alfresco-share:latest/image: alfresco/alfresco-share:latest-$TAG_NAME/" ${DOCKER_COMPOSE_PATH}
+  sed  -i "s/alfresco-share:latest/alfresco-share:latest-$TAG_NAME/"  ${DOCKER_COMPOSE_PATH}
 fi
 
 # .env files are picked up from project directory correctly on docker-compose 1.23.0+
@@ -28,3 +33,5 @@ else
   echo "Docker Compose failed to start" >&2
   exit 1
 fi
+
+echo "=========================== Ending Docker compose Script ==========================="
