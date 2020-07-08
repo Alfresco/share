@@ -59,5 +59,18 @@ jobs:
     - name: "Build and Test"
       stage: build
       script: bash _ci/build.sh
+    
+    - name: "SHARE PO USER"
+      stage: tests
+      jdk: openjdk11
+      install:
+        - bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
+        - bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
+        - bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
+      script:
+        - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
+        - cd alfresco-tas-share-test
+        - git checkout 6.2.N
+        - travis_wait 60 .._ci/execute_share_web.sh "user"
       
    
