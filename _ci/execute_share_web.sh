@@ -1,4 +1,15 @@
 #!/usr/bin/env bash
+
+echo "=========================== Starting Project Alfresco Tas Share ==========================="
+PS4="\[\e[35m\]+ \[\e[m\]"
+set -vex
+pushd "$(dirname "${BASH_SOURCE[0]}")/../"
+
+
+git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
+cd alfresco-tas-share-test
+git checkout 6.2.N
+
 export GROUP=$1
 mvn clean install \
                -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
@@ -28,3 +39,10 @@ mvn clean install \
                -Ddisplay.xport=99.0 \
                -Daims.enabled=false \
                -Denv.platform=linux
+               
+popd
+set +vex
+echo "=========================== Finishing Project Alfresco Tas Share =========================="
+
+exit ${SUCCESS}
+
