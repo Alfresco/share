@@ -5,7 +5,7 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-PROJECT_VERSION = echo '${project.version}' | mvn -N -q -DforceStdout help:evaluate
+PROJECT_VERSION = "echo '${project.version}' | mvn -N -q -DforceStdout help:evaluate"
 
 echo "The branch is ${TRAVIS_BRANCH}"
 echo "Project version: ${PROJECT_VERSION}"
