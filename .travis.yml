@@ -13,6 +13,25 @@ git:
 services:
   - xvfb
   - docker
+  
+  
+definitions: 
+  steps:
+    - step: &install-test
+        stage: tests
+        jdk: openjdk11
+        before_install: bash _ci/init.sh
+        install:
+          - bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
+          - bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
+          - bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
+    - step: &artifact-test
+        addons:
+        artifacts:
+            paths:
+              - alfresco-tas-share-test/target/surefire-reports
+              - alfresco-tas-share-test/target/reports
+            target_paths: $TRAVIS_BUILD_NUMBER
 
 cache:
   directories:
@@ -57,38 +76,16 @@ jobs:
       script: bash _ci/build.sh
     
     - name: "SHARE PO USER"
-      stage: tests
-      jdk: openjdk11
-      before_install: bash _ci/init.sh
-      install:
-        - bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
-        - bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
-        - bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
+      step: *install-test
       script:
         - travis_wait 60 bash _ci/execute_share_web.sh "user"
-      addons:
-        artifacts:
-            paths:
-              - alfresco-tas-share-test/target/surefire-reports
-              - alfresco-tas-share-test/target/reports
-            target_paths: $TRAVIS_BUILD_NUMBER
+      step: *artifact-test
     
     - name: "SHARE PO AUTH"
-      stage: tests
-      jdk: openjdk11
-      before_install: bash _ci/init.sh
-      install:
-        - bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
-        - bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
-        - bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
+      step: *install-test
       script:
         - travis_wait 60 bash _ci/execute_share_web.sh "auth"
-      addons:
-        artifacts:
-            paths:
-              - alfresco-tas-share-test/target/surefire-reports
-              - alfresco-tas-share-test/target/surefire-reports
-            target_paths: $TRAVIS_BUILD_NUMBER
+       step: *artifact-test
         
     - name: "Release"
       stage: release
