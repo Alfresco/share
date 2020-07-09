@@ -3,6 +3,9 @@ dist: xenial
 language: java
 jdk: openjdk11
 
+env:
+  - TAG_NAME=latest
+
 addons:
   firefox: "76.0.1"
 

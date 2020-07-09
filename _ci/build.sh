@@ -5,12 +5,24 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-# substitude all '/' to '-' as Docker doesn't allow it
-TAG_NAME=`echo $TRAVIS_BRANCH | tr / - `
+export PROJECT_VERSION = $(mvn help:evaluate -Dexpression=project.version | grep -v '\[')
+
+echo "The branch is ${TRAVIS_BRANCH}"
+echo "Project version: ${PROJECT_VERSION}"
+
+if [ "${TRAVIS_BRANCH}" = "master" ]; then
+  TAG_NAME="latest"
+else
+  # substitude all '/' to '-' as Docker doesn't allow it
+  TAG_NAME=`echo ${TRAVIS_BRANCH} | tr / - `
+  TAG_NAME=${TAG_NAME}-${PROJECT_VERSION}
+fi
+
+echo "Saving tag name as ${TAG_NAME}"
 
 # Change tag if you are on a branch
 if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
-  sed  -i "s/<image.tag>latest/<image.tag>latest-$TAG_NAME/" packaging/docker/pom.xml
+  sed  -i "s/<image.tag>latest/<image.tag>$TAG_NAME/" packaging/docker/pom.xml
 fi
 
 cd packaging/docker
