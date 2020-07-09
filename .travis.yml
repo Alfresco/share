@@ -75,6 +75,9 @@ jobs:
     
     - <<: *test-staging
       script: travis_wait 60 bash _ci/execute_share_web.sh "auth"
+    
+    - <<: *test-staging
+      script: travis_wait 60 bash _ci/execute_share_web.sh "admin-tools"
 
     - name: "Release"
       stage: release
