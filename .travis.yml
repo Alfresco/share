@@ -55,9 +55,8 @@ jobs:
       stage: build
       before_install: bash _ci/init.sh
       script: bash _ci/build.sh
-    
+      
     - &test-staging
-      name: "SHARE PO USER"
       stage: tests
       jdk: openjdk11
       before_install: bash _ci/init.sh
@@ -75,27 +74,8 @@ jobs:
             target_paths: $TRAVIS_BUILD_NUMBER
     
     - <<: *test-staging
-      name: "SHARE PO USER"
-      script:
-        - travis_wait 60 bash _ci/execute_share_web.sh "user"
-    
-    - name: "SHARE PO AUTH"
-      stage: tests
-      jdk: openjdk11
-      before_install: bash _ci/init.sh
-      install:
-        - bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
-        - bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
-        - bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
-      script:
-        - travis_wait 60 bash _ci/execute_share_web.sh "auth"
-       addons:
-        artifacts:
-            paths:
-              - alfresco-tas-share-test/target/surefire-reports
-              - alfresco-tas-share-test/target/reports
-            target_paths: $TRAVIS_BUILD_NUMBER
-        
+      script: travis_wait 60 bash _ci/execute_share_web.sh "auth"
+
     - name: "Release"
       stage: release
       name: "Push to Nexus"
