@@ -6,7 +6,6 @@ set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
 export DOCKER_COMPOSE_PATH=$1
-
 if [ -z "$DOCKER_COMPOSE_PATH" ]
 then
   echo "Please provide path to docker-compose.yml: \"${0##*/} /path/to/docker-compose.yml\""
@@ -14,6 +13,7 @@ then
 fi
 
 echo "Starting Share stack in ${DOCKER_COMPOSE_PATH}"
+source init_tag.sh
 
 # Change tag if you are on a branch
 if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
