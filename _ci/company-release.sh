@@ -5,7 +5,7 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set +e -v -x
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-source init_tag.sh
+source _ci/init_tag.sh
 
 TAG=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 

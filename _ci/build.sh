@@ -5,7 +5,7 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-source init_tag.sh
+source _ci//init_tag.sh
 
 # Change tag if you are on a branch
 if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then

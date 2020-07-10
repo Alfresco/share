@@ -13,7 +13,7 @@ then
 fi
 
 echo "Starting Share stack in ${DOCKER_COMPOSE_PATH}"
-source init_tag.sh
+source _ci/init_tag.sh
 
 # Change tag if you are on a branch
 if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
