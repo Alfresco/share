@@ -81,7 +81,10 @@ jobs:
     
     - <<: *test-staging
       script: travis_wait 60 bash _ci/execute_share_web.sh "admin-tools"
-
+    
+    - <<: *test-staging
+      script: travis_wait 60 bash _ci/execute_share_web.sh  "AlfrescoConsoles"
+    
     - name: "Release"
       stage: release
       name: "Push to Nexus"
