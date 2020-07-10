@@ -64,9 +64,9 @@ jobs:
       jdk: openjdk11
       before_install: bash _ci/init.sh
       install:
-        - bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
-        - bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
-        - bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
+        - travis_wait 60  bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
+        - travis_wait 30 bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
+        - travis_wait 30 bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
       script:
         - travis_wait 60 bash _ci/execute_share_web.sh "user"
       addons:
