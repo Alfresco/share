@@ -165,6 +165,20 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>fabric8-maven-plugin</artifactId>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <skipBuildPom>false</skipBuildPom>
+                            <images>
+                                <!-- Default image configuration - used by the *local* and *intenal* profiles -->
+                                <image>
+                                    <name>${image.name}:${image.tag}</name>
+                                    <registry>${image.registry}</registry>
+                                    <build>
+                                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>build-image</id>

@@ -1,0 +1,107 @@
+os: linux
+dist: xenial
+language: java
+jdk: openjdk11
+
+env:
+  - TAG_NAME=latest
+
+addons:
+  firefox: "76.0.1"
+
+git:
+  depth: false
+  quiet: true
+
+services:
+  - xvfb
+  - docker
+
+cache:
+  directories:
+    - $HOME/.m2
+# the cache can grow constantly
+before_cache:
+  - rm -rf $HOME/.m2/repository/org/alfresco/alfresco-share*
+  
+branches:
+  only:
+    - master
+    - /^SP\/.+$/
+    - /.*\/APPS-.*$/
+
+stages:
+  - build
+  - tests
+  - release
+  - company_release
+
+jobs:
+  include:
+    - name: "White Source"
+      stage: build
+      # only on SP branches or master and if it is not a PR
+      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
+      before_install: bash _ci/init.sh
+      script: travis_wait 30 bash _ci/whitesource.sh _ci/.wss-unified-agent.config
+
+    - name: "Source Clear Scan (SCA)"
+      stage: build
+      # only on SP branches or master and if it is not a PR
+      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
+      before_install: bash _ci/init.sh
+      # Run Veracode
+      install: skip
+      script: travis_wait 30 bash _ci/source_clear.sh
+
+    - name: "Build and Test"
+      stage: build
+      before_install: bash _ci/init.sh
+      script: bash _ci/build.sh
+      
+    - &test-staging
+      stage: tests
+      jdk: openjdk11
+      before_install: bash _ci/init.sh
+      install:
+        - travis_wait 60  bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
+        - travis_wait 30 bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
+        - travis_wait 30 bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
+      script:
+        - travis_wait 60 bash _ci/execute_share_web.sh "user"
+      addons:
+        artifacts:
+            paths:
+              - alfresco-tas-share-test/target/surefire-reports
+              - alfresco-tas-share-test/target/reports
+            target_paths: $TRAVIS_BUILD_NUMBER
+    
+    - <<: *test-staging
+      script: travis_wait 60 bash _ci/execute_share_web.sh "auth"
+    
+    - <<: *test-staging
+      script: travis_wait 60 bash _ci/execute_share_web.sh "admin-tools"
+    
+    - <<: *test-staging
+      script: travis_wait 60 bash _ci/execute_share_web.sh  "AlfrescoConsoles"
+    
+    - name: "Release"
+      stage: release
+      name: "Push to Nexus"
+      if: commit_message ~= /\[trigger release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
+      before_install: bash _ci/init.sh
+      script:
+        # Use full history for release
+        - git checkout -B "${TRAVIS_BRANCH}"
+        # Add email to link commits to user
+        - git config user.email "${GIT_EMAIL}"
+        # Skip building of release commits
+        - mvn --batch-mode -q -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DskipTests -Darguments=-DskipTests release:clean release:prepare release:perform
+
+    - name: "Company Release"
+      stage: company_release
+      if: commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
+      before_install: bash _ci/init.sh
+      script: travis_wait 30 _ci/company-release.sh
+      
+   
