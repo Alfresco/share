@@ -29,6 +29,7 @@ branches:
     - master
     - /^SP\/.+$/
     - /.*\/APPS-.*$/
+    - APPS-*
 
 stages:
   - build
