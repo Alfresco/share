@@ -720,6 +720,7 @@
          "application/vnd.ms-word.document.macroenabled.12": "Word.Document",
          "application/vnd.openxmlformats-officedocument.wordprocessingml.template": "Word.Document",
          "application/vnd.ms-word.template.macroenabled.12": "Word.Document",
+         "application/rtf":"Word.Document",
 
          "application/vnd.ms-powerpoint": "PowerPoint.Slide",
          "application/vnd.openxmlformats-officedocument.presentationml.presentation": "PowerPoint.Slide",
@@ -740,7 +741,13 @@
          "application/vnd.ms-excel.addin.macroenabled.12": "Excel.Sheet",
          "application/vnd.ms-excel.sheet.binary.macroenabled.12": "Excel.Sheet",
          "application/vnd.visio": "Visio.Drawing",
-         "application/vnd.visio2013": "Visio.Drawing"
+         "application/vnd.visio2013": "Visio.Drawing",
+         "application/vnd.ms-visio.drawing.macroenabled.main+xml": "Visio.Drawing",
+         "application/vnd.ms-visio.drawing.main+xml": "Visio.Drawing",
+         "application/vnd.ms-visio.stencil.macroenabled.main+xml": "Visio.Drawing",
+         "application/vnd.ms-visio.stencil.main+xml": "Visio.Drawing",
+         "application/vnd.ms-visio.template.macroenabled.main+xml": "Visio.Drawing",
+         "application/vnd.ms-visio.template.main+xml": "Visio.Drawing"
       },
 
       /**
@@ -856,6 +863,17 @@
                docm: "application/vnd.ms-word.document.macroenabled.12",
                dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
                dotm: "application/vnd.ms-word.template.macroenabled.12",
+               rtf: "application/rtf",
+              
+               vsd: "application/vnd.visio",
+               vss: "application/vnd.visio",
+               vst: "application/vnd.visio",
+               vsdx: "application/vnd.ms-visio.drawing.main+xml",
+               vsdm: "application/vnd.ms-visio.drawing.macroenabled.main+xml",
+               vssx: "application/vnd.ms-visio.stencil.main+xml",
+               vssm: "application/vnd.ms-visio.stencil.macroenabled.main+xml",
+               vstx: "application/vnd.ms-visio.template.main+xml",
+               vstm: "application/vnd.ms-visio.template.macroenabled.main+xml",
 
                ppt: "application/vnd.ms-powerpoint",
                pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
@@ -964,6 +982,18 @@
             'dot'  : 'ms-word',
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
+            'rtf'  : 'ms-word',
+
+            'vsd': 'ms-visio',
+            'vss': 'ms-visio',
+            'vst': 'ms-visio',
+            'vsdx': 'ms-visio',
+            'vsdm': 'ms-visio',
+            'vssx': 'ms-visio',
+            'vssm': 'ms-visio',
+            'vstx': 'ms-visio',
+            'vstm': 'ms-visio',
+
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',
@@ -1329,6 +1359,18 @@
             'dot'  : 'ms-word',
             'dotx' : 'ms-word',
             'dotm' : 'ms-word',
+            'rtf'  : 'ms-word',
+           
+            'vsd': 'ms-visio',
+            'vss': 'ms-visio',
+            'vst': 'ms-visio',
+            'vsdx': 'ms-visio',
+            'vsdm': 'ms-visio',
+            'vssx': 'ms-visio',
+            'vssm': 'ms-visio',
+            'vstx': 'ms-visio',
+            'vstm': 'ms-visio',
+
             'xls'  : 'ms-excel',
             'xlsx' : 'ms-excel',
             'xlsb' : 'ms-excel',
