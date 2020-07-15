@@ -101,7 +101,8 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                             User user = (User)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_OBJECT);
                             if (user == null || AuthenticationUtil.isGuest(user.getId()))
                             {
-                                return new BasicHttpAuthenticatorFactory.BasicHttpAuthenticator(req, res).authenticate(required, isGuest);
+                                return SlingshotBasicHttpAuthenticatorFactory.super.create(req, res)
+                                    .authenticate(required, isGuest);
                             }
                             return true;
                         }
@@ -132,7 +133,8 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                             User user = (User)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_OBJECT);
                             if (user == null || !AuthenticationUtil.isGuest(user.getId()))
                             {
-                                return new BasicHttpAuthenticatorFactory.BasicHttpAuthenticator(req, res).authenticate(required, isGuest);
+                                return SlingshotBasicHttpAuthenticatorFactory.super.create(req, res)
+                                    .authenticate(required, isGuest);
                             }
                             return true;
                         }
