@@ -99,9 +99,17 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                         public boolean authenticate(RequiredAuthentication required, boolean isGuest)
                         {
                             User user = (User)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_OBJECT);
-                            return (user != null && !AuthenticationUtil.isGuest(user.getId()));
+                            if (user == null || AuthenticationUtil.isGuest(user.getId()))
+                            {
+                                return new BasicHttpAuthenticatorFactory.BasicHttpAuthenticator(req, res).authenticate(required, isGuest);
+                            }
+                            return true;
                         }
                     };
+                }
+                else
+                {
+                    auth = super.create(req, res);
                 }
                 break;
             }
@@ -122,11 +130,19 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                         public boolean authenticate(RequiredAuthentication required, boolean isGuest)
                         {
                             User user = (User)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_OBJECT);
-                            return (user != null && AuthenticationUtil.isGuest(user.getId()));
+                            if (user == null || !AuthenticationUtil.isGuest(user.getId()))
+                            {
+                                return new BasicHttpAuthenticatorFactory.BasicHttpAuthenticator(req, res).authenticate(required, isGuest);
+                            }
+                            return true;
                         }
                     };
-                    break;
                 }
+                else
+                {
+                    auth = super.create(req, res);
+                }
+                break;
             }
         }
         return auth;
