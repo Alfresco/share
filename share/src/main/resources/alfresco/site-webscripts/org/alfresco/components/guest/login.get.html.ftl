@@ -39,7 +39,7 @@
             var cookieDefinition = "_alfTest=_alfTest; Path=/;";
             if(Alfresco.constants.secureCookie)
             {
-               cookieDefinition += " Secure; HttpOnly;";
+               cookieDefinition += " Secure;";
             }
             if(Alfresco.constants.sameSite)
             {
