@@ -167,7 +167,7 @@
          var cookieDefinition = "alfLocale=" + locale + ";expires=" + expirationdate.toUTCString() + ";path=/";
          if(Alfresco.constants.secureCookie)
          {
-            cookieDefinition+=" Secure; HttpOnly;";
+            cookieDefinition+=" Secure;";
          }
          if(Alfresco.constants.sameSite)
          {
@@ -182,7 +182,7 @@
          var cookieDefinitionAlfUsername3 = "alfUsername3=" + encodeURIComponent(username) + ";expires=" + expirationdate.toUTCString() + ";path=" + Alfresco.constants.URL_CONTEXT;
          if(Alfresco.constants.secureCookie)
          {
-            cookieDefinitionAlfUsername3+=" Secure; HttpOnly;";
+            cookieDefinitionAlfUsername3+=" Secure;";
          }
          if(Alfresco.constants.sameSite)
          {
@@ -227,7 +227,7 @@
             var cookieDefinition = "_alfTest=_alfTest; Path=/;";
             if(Alfresco.constants.secureCookie)
             {
-               cookieDefinition+=" Secure; HttpOnly;";
+               cookieDefinition+=" Secure;";
             }
             if(Alfresco.constants.sameSite)
             {
