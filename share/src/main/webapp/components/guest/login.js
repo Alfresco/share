@@ -163,16 +163,33 @@
          // set the cookie expiration to 10 years from now.
          expirationdate = new Date();
          expirationdate.setFullYear(expirationdate.getFullYear() + 10);
-         
-         document.cookie = "alfLocale=" + locale + ";expires=" + expirationdate.toUTCString() + ";path=/";
-         
+
+         var cookieDefinition = "alfLocale=" + locale + ";expires=" + expirationdate.toUTCString() + ";path=/";
+         if(Alfresco.constants.secureCookie)
+         {
+            cookieDefinition+=" Secure;";
+         }
+         if(Alfresco.constants.sameSite)
+         {
+            cookieDefinition+=" SameSite="+Alfresco.constants.sameSite+";";
+         }
+         document.cookie = cookieDefinition;
+
          // set the cookie expiration to 7 days from now (same as SpringSurf).
          expirationdate = new Date();
          expirationdate.setDate(expirationdate.getDate() + 7);
-         
-         // save the username in a cookie to re-populate the username field after changing language.
-         document.cookie = "alfUsername3=" + encodeURIComponent(username) + ";expires=" + expirationdate.toUTCString() + ";path=" + Alfresco.constants.URL_CONTEXT;
-         
+
+         var cookieDefinitionAlfUsername3 = "alfUsername3=" + encodeURIComponent(username) + ";expires=" + expirationdate.toUTCString() + ";path=" + Alfresco.constants.URL_CONTEXT;
+         if(Alfresco.constants.secureCookie)
+         {
+            cookieDefinitionAlfUsername3+=" Secure;";
+         }
+         if(Alfresco.constants.sameSite)
+         {
+            cookieDefinitionAlfUsername3+=" SameSite="+Alfresco.constants.sameSite+";";
+         }
+         document.cookie = cookieDefinitionAlfUsername3;
+
          location.reload(true);
       },
 
@@ -207,7 +224,17 @@
          else
          {
             // Display cookie error
-            document.cookie = "_alfTest=_alfTest; Path=/;";
+            var cookieDefinition = "_alfTest=_alfTest; Path=/;";
+            if(Alfresco.constants.secureCookie)
+            {
+               cookieDefinition+=" Secure;";
+            }
+            if(Alfresco.constants.sameSite)
+            {
+               cookieDefinition+=" SameSite="+Alfresco.constants.sameSite+";";
+            }
+            document.cookie = cookieDefinition;
+
             var cookieEnabled = (document.cookie.indexOf("_alfTest") != -1);
             if (cookieEnabled == false)
             {
