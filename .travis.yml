@@ -23,11 +23,11 @@ cache:
 # the cache can grow constantly
 before_cache:
   - rm -rf $HOME/.m2/repository/org/alfresco/alfresco-share*
-  
+
 branches:
   only:
     - master
-    - /^SP\/.+$/
+    - /support\/.*/
     - /.*\/APPS-.*$/
 
 stages:
@@ -58,7 +58,7 @@ jobs:
       stage: build
       before_install: bash _ci/init.sh
       script: bash _ci/build.sh
-      
+
     - &test-staging
       stage: tests
       jdk: openjdk11
@@ -75,16 +75,16 @@ jobs:
               - alfresco-tas-share-test/target/surefire-reports
               - alfresco-tas-share-test/target/reports
             target_paths: $TRAVIS_BUILD_NUMBER
-    
+
     - <<: *test-staging
       script: travis_wait 60 bash _ci/execute_share_web.sh "auth"
-    
+
     - <<: *test-staging
       script: travis_wait 60 bash _ci/execute_share_web.sh "admin-tools"
-    
+
     - <<: *test-staging
       script: travis_wait 60 bash _ci/execute_share_web.sh  "AlfrescoConsoles"
-    
+
     - name: "Release"
       stage: release
       name: "Push to Nexus"
@@ -103,5 +103,4 @@ jobs:
       if: commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
       before_install: bash _ci/init.sh
       script: travis_wait 30 _ci/company-release.sh
-      
-   
+
