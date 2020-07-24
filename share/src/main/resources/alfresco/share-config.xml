@@ -335,6 +335,12 @@
         <enableBasicAuth>${aims.enableBasicAuth}</enableBasicAuth>
     </config>
 
+    <!-- Cookie Headers-->
+    <config evaluator="string-compare" condition="COOKIES">
+        <sameSite>${cookies.sameSite}</sameSite>
+        <secure>${http.secured.session}</secure>
+    </config>
+
     <!-- Test -->
     <config evaluator="string-compare" condition="Test">
         <firstName>${test.firstName}</firstName>
