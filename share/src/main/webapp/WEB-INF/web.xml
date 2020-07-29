@@ -35,10 +35,6 @@
    <filter>
       <filter-name>AIMS Filter</filter-name>
       <filter-class>org.alfresco.web.site.servlet.AIMSFilter</filter-class>
-      <init-param>
-         <param-name>keycloak.config.skipPattern</param-name>
-         <param-value>/page/sfdc/canvas/signedrequest</param-value>
-      </init-param>
    </filter>
    
    <filter>
