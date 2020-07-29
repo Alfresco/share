@@ -214,11 +214,12 @@ public class AIMSFilter extends KeycloakOIDCFilter
                 credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
                 vault.store(credentials);
 
+                // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
+                this.loginController.beforeSuccess(request, response);
+
                 // Initialise the user metadata object used by some web scripts
                 this.initUser(request);
 
-                // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
-                this.loginController.beforeSuccess(request, response);
             }
             else
             {
