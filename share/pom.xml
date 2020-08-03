@@ -194,7 +194,7 @@
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
-			<version>1.1.6</version>
+			<version>1.2.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -314,7 +314,7 @@
         </dependency>
         <dependency>
             <groupId>junit</groupId>
-			<version>4.12</version>
+			<version>4.13</version>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>

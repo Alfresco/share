@@ -46,7 +46,7 @@
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
-			<version>1.1.6</version>
+			<version>1.2.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -65,13 +65,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>4.13</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>8.107</version>
+            <version>${dependency.alfresco-remote-api.version}</version>
             <scope>test</scope>
             <exclusions>
             	<exclusion>
@@ -137,7 +137,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>8.107</version>
+            <version>${dependency.alfresco-remote-api.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
@@ -211,7 +211,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-			<version>24.1.1-jre</version>
+			<version>28.2-jre</version>
         </dependency>        
     </dependencies>
     
