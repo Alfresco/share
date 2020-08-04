@@ -29,6 +29,7 @@ branches:
     - master
     - /^SP\/.+$/
     - /.*\/APPS-.*$/
+    - fix/travis-wait
 
 stages:
   - build
@@ -68,7 +69,7 @@ jobs:
         - travis_wait 30 bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
         - travis_wait 30 bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
       script:
-        - travis_wait 60 bash _ci/execute_share_web.sh "user"
+        - bash _ci/execute_share_web.sh "user"
       addons:
         artifacts:
             paths:
@@ -77,13 +78,13 @@ jobs:
             target_paths: $TRAVIS_BUILD_NUMBER
     
     - <<: *test-staging
-      script: travis_wait 60 bash _ci/execute_share_web.sh "auth"
+      script: bash _ci/execute_share_web.sh "auth"
     
     - <<: *test-staging
-      script: travis_wait 60 bash _ci/execute_share_web.sh "admin-tools"
+      script: bash _ci/execute_share_web.sh "admin-tools"
     
     - <<: *test-staging
-      script: travis_wait 60 bash _ci/execute_share_web.sh  "AlfrescoConsoles"
+      script: bash _ci/execute_share_web.sh  "AlfrescoConsoles"
     
     - name: "Release"
       stage: release
