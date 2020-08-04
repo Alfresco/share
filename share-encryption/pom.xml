@@ -16,14 +16,14 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.13</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
-			<version>1.9.2</version>
+			<version>1.9.3</version>
 		</dependency>
 		
 	</dependencies>

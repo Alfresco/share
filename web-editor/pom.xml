@@ -161,7 +161,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.21</version>
+			<version>1.7.30</version>
         </dependency>
         <dependency>
             <groupId>com.yahoo.platform.yui</groupId>
@@ -172,7 +172,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-			<version>24.1.1-jre</version>
+			<version>28.2-jre</version>
         </dependency>        
     </dependencies>
 
