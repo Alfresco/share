@@ -14,6 +14,12 @@ else
   TAG_NAME=${TAG_NAME}-${PROJECT_VERSION}
 fi
 
+#in case of release 
+if [ "${TRAVIS_COMMIT_MESSAGE}" = "trigger release" ]; then
+  TAG_NAME=$RELEASE_VERSION
+fi
+
 echo "Saving tag name as ${TAG_NAME}"
 
 echo "=========================== Ending Init Tag =========================="
+
