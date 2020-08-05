@@ -15,7 +15,7 @@ else
 fi
 
 #in case of release 
-if [ "${TRAVIS_COMMIT_MESSAGE}" = "trigger release" ]; then
+if [ "${TRAVIS_COMMIT_MESSAGE}" = *release* ]; then
   TAG_NAME=$RELEASE_VERSION
 fi
 
