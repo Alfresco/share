@@ -7,7 +7,7 @@ echo "The branch is ${TRAVIS_BRANCH}"
 echo "Project version: ${PROJECT_VERSION}"
 
 if [ "${TRAVIS_BRANCH}" = "master" ]; then
-  TAG_NAME="latest"
+  TAG_NAME=$RELEASE_VERSION
 else
   # substitude all '/' to '-' as Docker doesn't allow it
   TAG_NAME=`echo ${TRAVIS_BRANCH} | tr / - `

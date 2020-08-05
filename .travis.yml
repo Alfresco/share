@@ -30,6 +30,12 @@ branches:
     - /^SP\/.+$/
     - /.*\/APPS-.*$/
 
+env:
+  global:
+    # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
+    - RELEASE_VERSION=7.0.0-A1
+    - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
+
 stages:
   - build
   - tests
@@ -88,19 +94,13 @@ jobs:
     - name: "Release"
       stage: release
       name: "Push to Nexus"
-      if: commit_message ~= /\[trigger release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
+      if: fork=false AND commit_message ~= /\[trigger release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
       before_install: bash _ci/init.sh
-      script:
-        # Use full history for release
-        - git checkout -B "${TRAVIS_BRANCH}"
-        # Add email to link commits to user
-        - git config user.email "${GIT_EMAIL}"
-        # Skip building of release commits
-        - mvn --batch-mode -q -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DskipTests -Darguments=-DskipTests release:clean release:prepare release:perform
+      script: travis_wait 30 _ci/maven-release.sh
 
     - name: "Company Release"
       stage: company_release
-      if: commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
+      if: fork=false AND commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
       before_install: bash _ci/init.sh
       script: travis_wait 30 _ci/company-release.sh
       
