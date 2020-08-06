@@ -97,7 +97,7 @@ jobs:
       name: "Push to Nexus"
       if: fork=false AND commit_message =~ /\[release\]/ AND branch =~ /^(master|SP\/.+|HF\/.+)$/
       before_install: bash _ci/init.sh
-      script: travis_wait 30 _ci/maven-release.sh
+      script: travis_wait 30 _ci/maven_release.sh
 
     - name: "Company Release"
       stage: company_release
