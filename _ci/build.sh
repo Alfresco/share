@@ -8,7 +8,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 source _ci/init_tag.sh
 
 # Change tag if you are on a branch
-if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
+if [ ! -z "$TRAVIS_BRANCH"]; then
   sed  -i "s/<image.tag>latest/<image.tag>$TAG_NAME/" packaging/docker/pom.xml
 fi
 

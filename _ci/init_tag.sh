@@ -13,7 +13,14 @@ else
   TAG_NAME=`echo ${TRAVIS_BRANCH} | tr / - `
   TAG_NAME=${TAG_NAME}-${PROJECT_VERSION}
 fi
+#in case of release 
+if [[ ${TRAVIS_COMMIT_MESSAGE} = *"release"* ]]; then
+    echo "Release version: ${RELEASE_VERSION}"
+    TAG_NAME=$RELEASE_VERSION
+fi
+
 
 echo "Saving tag name as ${TAG_NAME}"
 
 echo "=========================== Ending Init Tag =========================="
+
