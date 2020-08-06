@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>alfresco-share-parent</artifactId>
-    <version>6.3.0-SNAPSHOT</version>
+    <version>7.0.0-A1</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -92,7 +92,7 @@
      <connection>scm:git:https://github.com/Alfresco/share.git/</connection>
      <developerConnection>scm:git:https://github.com/Alfresco/share.git</developerConnection>
      <url>https://github.com/Alfresco/share</url>
-     <tag>alfresco-share-parent--A2</tag>
+     <tag>alfresco-share-parent-7.0.0-A1</tag>
    </scm>
     <pluginRepositories>
         <pluginRepository>
@@ -319,7 +319,7 @@
 <!--GNU Lesser General Public License for more details.-->
 <!-- -->
 <!--You should have received a copy of the GNU Lesser General Public License-->
-<!--along with Alfresco. If not, see <http://www.gnu.org/licenses/>.-->
+<!--along with Alfresco. If not, see <http://www.gnu.org/licenses />.-->
 <!--]]>-->
 <!--                 </inlineHeader>-->
 <!--                    <includes>-->
