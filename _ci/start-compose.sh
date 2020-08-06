@@ -15,10 +15,8 @@ fi
 echo "Starting Share stack in ${DOCKER_COMPOSE_PATH}"
 source _ci/init_tag.sh
 
-# Change tag if you are on a branch
-if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != "master" ]; then
-  sed  -i "s/alfresco-share:latest/alfresco-share:$TAG_NAME/"  ${DOCKER_COMPOSE_PATH}
-fi
+# Change tag with the value on $TAG_NAME
+sed  -i "s/alfresco-share:latest/alfresco-share:$TAG_NAME/"  ${DOCKER_COMPOSE_PATH}
 
 # .env files are picked up from project directory correctly on docker-compose 1.23.0+
 docker-compose --file "${DOCKER_COMPOSE_PATH}" --project-directory $(dirname "${DOCKER_COMPOSE_PATH}") up -d
