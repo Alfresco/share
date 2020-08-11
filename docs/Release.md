@@ -71,4 +71,7 @@ the latest branch git tag to identify the version.
 5. Once it is approved, merge the PR, you need to ensure that the _commit message_ contains the [trigger company release] tag (sub-string).
 
 
+Note : These instructions are only for Branches in this repo and are not available for forks?
+
+
 
