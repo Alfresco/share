@@ -15,7 +15,6 @@
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
             <version>${dependency.alfresco-remote-api.version}</version>
-
             <scope>provided</scope>
             <exclusions>
             	<exclusion>
