@@ -15,8 +15,8 @@ Travis CI builds differ by branch:
   - regular builds which include the _Build_ and _Tests_ stages;
   - if the commit message contains the `[release]` key word, the builds will also 
   include the _Release_ stage;
-- if the commit message contains the `[trigger company release]` as commit message, the builds will also 
-include the _Company Release_ stage;
+  - if the commit message contains the `[trigger company release]` as commit message, the builds will also 
+  include the _Company Release_ stage;
 * `APPS-*` branches:
   - regular builds which include only the _Build_ and _Tests_ stages;
 
