@@ -4,7 +4,7 @@ The `.travis.yml` config file can be found in the root of the repository.
 
 
 ## Stages and Jobs
-1. **Build**: Java Build with Unit Tests, WhiteSource, Source Clear Scan (SCA)
+1. **Build**: Java Build with Unit Tests, Push a new image to quay.io, WhiteSource, Source Clear Scan (SCA)
 2. **Tests**: Executes the E2E tests in `alfresco-tas-share-test`
 3. **Release**: Release by publishing to Nexus.
 4. **Company Release**: Publish docker image for share to Docker Hub.
