@@ -20,5 +20,7 @@ else
    -DskipTests \
    -Darguments=-DskipTests \
    -Darguments=-Dmaven.javadoc.skip=true \
+   -DscmCommentPrefix="[maven-release-plugin][skip ci]" \
+   -Dlicense.skipExistingHeaders=true \
    -Prelease release:clean release:prepare release:perform
 fi
