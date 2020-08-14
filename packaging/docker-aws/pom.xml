@@ -20,7 +20,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-ai-share</artifactId>
-            <version>1.2.0</version>
+            <version>1.2.1-RC2</version>
             <type>amp</type>
         </dependency>
     </dependencies>
