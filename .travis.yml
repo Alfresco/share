@@ -23,7 +23,7 @@ cache:
 # the cache can grow constantly
 before_cache:
   - rm -rf $HOME/.m2/repository/org/alfresco/alfresco-share*
-  
+
 branches:
   only:
     - master
@@ -34,7 +34,7 @@ branches:
 env:
   global:
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.0.0-A1
+    - RELEASE_VERSION=7.0.0-A2
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
 
 stages:
@@ -65,7 +65,7 @@ jobs:
       stage: build
       before_install: bash _ci/init.sh
       script: bash _ci/build.sh
-      
+
     - &test-staging
       stage: tests
       jdk: openjdk11
@@ -82,13 +82,13 @@ jobs:
               - alfresco-tas-share-test/target/surefire-reports
               - alfresco-tas-share-test/target/reports
             target_paths: $TRAVIS_BUILD_NUMBER
-    
+
     - <<: *test-staging
       script: bash _ci/execute_share_web.sh "admin-tools"
-    
+
     - <<: *test-staging
       script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
-    
+
     - name: "Release"
       stage: release
       name: "Push to Nexus"
@@ -101,5 +101,5 @@ jobs:
       if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /^(master|SP\/.+|HF\/.+)$/
       before_install: bash _ci/init.sh
       script: travis_wait 30 _ci/company-release.sh
-      
-   
+
+
