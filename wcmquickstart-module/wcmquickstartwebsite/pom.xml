@@ -88,8 +88,8 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-			<version>28.2-jre</version>
-        </dependency>        
+      			<version>29.0-jre</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
