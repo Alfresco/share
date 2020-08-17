@@ -187,8 +187,8 @@
                <scope>provided</scope>
             </dependency>
             <dependency>
-               <groupId>commons-lang</groupId> 
-               <artifactId>commons-lang</artifactId> 
+               <groupId>commons-lang</groupId>
+               <artifactId>commons-lang</artifactId>
                <version>2.6</version>
             </dependency>
             <dependency>
@@ -295,53 +295,53 @@
 
     <build>
         <plugins>
-        <plugin>
-            <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>${license-maven-plugin.version}</version>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <!-- DO NOT ALIGN or FORMAT XML otherwise the license check considers the whitespace before!!! -->
-                   <inlineHeader>
-<![CDATA[
-Copyright 2005 - 2020 Alfresco Software Limited. 
+<!--        <plugin>-->
+<!--            <groupId>com.mycila</groupId>-->
+<!--                <artifactId>license-maven-plugin</artifactId>-->
+<!--                <version>${license-maven-plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    <aggregate>true</aggregate>-->
+<!--                    &lt;!&ndash; DO NOT ALIGN or FORMAT XML otherwise the license check considers the whitespace before!!! &ndash;&gt;-->
+<!--                   <inlineHeader>-->
+<!--<![CDATA[-->
+<!--Copyright 2005 - 2020 Alfresco Software Limited. -->
 
-This file is part of the Alfresco software. 
-If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.  
-Otherwise, the software is provided under the following open source license terms:
+<!--This file is part of the Alfresco software. -->
+<!--If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.  -->
+<!--Otherwise, the software is provided under the following open source license terms:-->
 
-Alfresco is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+<!--Alfresco is free software: you can redistribute it and/or modify-->
+<!--it under the terms of the GNU Lesser General Public License as published by-->
+<!--the Free Software Foundation, either version 3 of the License, or-->
+<!--(at your option) any later version.-->
 
-Alfresco is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
- 
-You should have received a copy of the GNU Lesser General Public License
-along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
-]]>
-                 </inlineHeader>
-                    <includes>
-                        <include>**/*.java</include>
-                        <include>**/*.jsp</include>
-                    </includes>
-                    <mapping>
-                        <java>SLASHSTAR_STYLE</java>
-                    </mapping>
-                </configuration>
-                <executions>
-                <execution>
-                    <id>validate-license</id>
-                    <phase>validate</phase>
-                    <goals>
-                      <goal>check</goal>
-                    </goals>
-                </execution>
-                </executions>
-            </plugin>
+<!--Alfresco is distributed in the hope that it will be useful,-->
+<!--but WITHOUT ANY WARRANTY; without even the implied warranty of-->
+<!--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the-->
+<!--GNU Lesser General Public License for more details.-->
+<!-- -->
+<!--You should have received a copy of the GNU Lesser General Public License-->
+<!--along with Alfresco. If not, see <http://www.gnu.org/licenses/>.-->
+<!--]]>-->
+<!--                 </inlineHeader>-->
+<!--                    <includes>-->
+<!--                        <include>**/*.java</include>-->
+<!--                        <include>**/*.jsp</include>-->
+<!--                    </includes>-->
+<!--                    <mapping>-->
+<!--                        <java>SLASHSTAR_STYLE</java>-->
+<!--                    </mapping>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                <execution>-->
+<!--                    <id>validate-license</id>-->
+<!--                    <phase>validate</phase>-->
+<!--                    <goals>-->
+<!--                      <goal>check</goal>-->
+<!--                    </goals>-->
+<!--                </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.alfresco.maven.plugin</groupId>
                 <artifactId>alfresco-maven-plugin</artifactId>
