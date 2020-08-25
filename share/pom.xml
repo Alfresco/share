@@ -218,7 +218,7 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-spring</artifactId>
-            <version>3.12.6</version>
+            <version>4.0.2</version>
             <exclusions>
                 <exclusion>
                     <artifactId>hazelcast-client</artifactId>
