@@ -49,7 +49,7 @@
         <dependency.freemarker.version>2.3.30</dependency.freemarker.version>
         <dependency.rhino.version>1.7.12</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.12</dependency.httpcomponents.version>
-        <dependency.alfresco-repository.version>8.267</dependency.alfresco-repository.version>
+        <dependency.alfresco-repository.version>8.300-TEST1</dependency.alfresco-repository.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
         <dependency.alfresco-core.version>8.45</dependency.alfresco-core.version>
         <dependency.alfresco-remote-api.version>8.220</dependency.alfresco-remote-api.version>
