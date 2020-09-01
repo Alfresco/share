@@ -69,6 +69,7 @@ jobs:
     - &test-staging
       stage: tests
       jdk: openjdk11
+      if: fork=false AND commit_message !~ /\[trigger company release\]/
       before_install: bash _ci/init.sh
       install:
         - travis_wait 60  bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
