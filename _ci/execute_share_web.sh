@@ -58,5 +58,4 @@ popd
 set +vex
 echo "=========================== Finishing Project Alfresco Tas Share =========================="
 
-exit ${SUCCESS}
 
