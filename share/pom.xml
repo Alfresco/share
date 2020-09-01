@@ -12,7 +12,7 @@
     <description>Alfresco Share</description>
 
     <properties>
-        <tomcat.version>7.0.86</tomcat.version>
+        <tomcat.version>8.5.2</tomcat.version>
         <maven.tomcat.path>/share</maven.tomcat.path>
         <maven.tomcat.port>${tomcat.default.share.port}</maven.tomcat.port>
         <maven.tomcat.httpsPort>${tomcat.default.share.ssl.port}</maven.tomcat.httpsPort>
