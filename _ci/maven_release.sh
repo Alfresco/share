@@ -3,6 +3,8 @@ set -e
 
 # Use full history for release
 git checkout -B "${TRAVIS_BRANCH}"
+# Get the latest changes on branch
+git pull
 # Add email to link commits to user
 git config user.email "${GIT_EMAIL}"
 
