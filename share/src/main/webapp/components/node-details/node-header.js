@@ -55,21 +55,21 @@
       {
          /**
           * Current page context, if any (e.g. "mine", "shared" - as extracted from URI template)
-          * 
+          *
           * @property pagecontext
           * @type string
           * @default null
           */
          pagecontext: null,
-         
+
          /**
-          * 
+          *
           * @property libraryRoot
           * @type string
           * @default null
           */
          libraryRoot: null,
-         
+
          /**
           * Reference to the current document
           *
@@ -114,13 +114,13 @@
 
          /**
           * Show only the location. Overrides the other option settings.
-          * 
+          *
           * @property showOnlyLocation
           * @type boolean
           * @default false
           */
          showOnlyLocation: false,
-         
+
          /**
           * Flag indicating whether or not to show favourite
           *
@@ -211,12 +211,22 @@
 
          /**
           * Flag indicating whether or not to show item modifier
-          * 
+          *
           * @property showItemModifier
           * @type boolean
           * @default: true
           */
-         showItemModifier: true
+         showItemModifier: true,
+
+         /**
+          * Flag indicating if user is not a member of the site where item belongs
+          * but has permissions on the item itself
+          *
+          * @property notSiteMemberWithPermissions
+          * @type boolean
+          * @default: false
+          */
+         notSiteMemberWithPermissions: false
       },
 
       /**
@@ -227,14 +237,36 @@
        */
       onReady: function NodeHeader_onReady()
       {
+          // MNT-20006, redirect non member user (but with collaborator permissions) to the document direct location instead of site location
+          if (this.options.notSiteMemberWithPermissions === true)
+          {
+            var correctUrl = "/share/page/document-details?nodeRef=" + this.options.nodeRef;
+            Alfresco.util.PopupManager.displayPrompt(
+            {
+               text: this.msg("message.document.notSiteMember"),
+               buttons: [
+               {
+                  text: this.msg("button.ok"),
+                  handler: function()
+                  {
+                     window.location = correctUrl;
+                  },
+                  isDefault: true
+               }]
+            });
+            YAHOO.lang.later(10000, this, function()
+            {
+              window.location = correctUrl;
+            });
+          }
           // MNT-9081 fix, redirect user to the correct location, if requested site is not the actual site where document is located
-          if (this.options.siteId != this.options.actualSiteId)
+          else if (this.options.siteId != this.options.actualSiteId)
           {
              // Moved to a site...
              if (this.options.actualSiteId != null)
              {
                 var inRepository = this.options.actualSiteId === null,
-                    correctUrl = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT + 
+                    correctUrl = window.location.protocol + "//" + window.location.host + Alfresco.constants.URL_PAGECONTEXT +
                           (inRepository ? "" : "site/" + this.options.actualSiteId + "/") + "document-details" + window.location.search;
                 Alfresco.util.PopupManager.displayPrompt(
                 {
@@ -313,7 +345,7 @@
                      displayName: this.options.displayName
                   }).display(this.options.sharedId, this.options.sharedBy);
          }
-         
+
          // Parse the date
          if (this.options.showItemModifier && !this.options.showOnlyLocation)
          {
@@ -338,7 +370,7 @@
          var url = 'components/node-details/node-header?nodeRef={nodeRef}&rootPage={rootPage}' +
             '&rootLabelId={rootLabelId}&showFavourite={showFavourite}&showLikes={showLikes}' +
             '&showComments={showComments}&showQuickShare={showQuickShare}&showDownload={showDownload}&showPath={showPath}&showItemModifier={showItemModifier}' +
-            (this.options.pagecontext ? '&pagecontext={pagecontext}' :  '') + 
+            (this.options.pagecontext ? '&pagecontext={pagecontext}' :  '') +
             (this.options.libraryRoot ? '&libraryRoot={libraryRoot}' :  '') +
             (this.options.siteId ? '&site={siteId}' :  '');
 

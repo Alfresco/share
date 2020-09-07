@@ -2,12 +2,12 @@
 
 /**
  * Gets icon resource URL for specified {node} parameter.
- * 
+ *
  * The URL is composed by {url.context} + "/res/" +
- *  - icon resource string path from {style} configuration that corresponds with matching filter from 
- *     share-documentlibrary-config.xml [CommonComponentStyle][component-style], {browse.folder} component 
+ *  - icon resource string path from {style} configuration that corresponds with matching filter from
+ *     share-documentlibrary-config.xml [CommonComponentStyle][component-style], {browse.folder} component
  *  - "components/images/filetypes/generic-folder-48.png" if there are no matching filters.
- * 
+ *
  * @param node
  * @returns icon resource URL for specified {node} parameter.
  */
@@ -64,6 +64,10 @@ function main()
       model.commentCount = (count != undefined ? count : null);
       model.lock = (nodeDetails.item.node.properties["cm:lockType"] != undefined ? nodeDetails.item.node.properties["cm:lockType"] : null);
 
+      // MNT-20006, verifies if user has access to a document located in a certain site where is not a member
+      var siteMembership = model.site != null ? AlfrescoUtil.getSiteMembership(model.site) : null;
+      model.notSiteMemberWithPermissions = (model.site != null && siteMembership != null && siteMembership.isMember == false).toString();
+
       var suppressConfig = AlfrescoUtil.getSupressConfig();
       var supressDateFolderDetailsConfig = {};
       if (suppressConfig)
@@ -71,8 +75,8 @@ function main()
          supressDateFolderDetailsConfig = JSON.parse(suppressConfig).date.details.folder;
       }
       var supressDate = AlfrescoUtil.isComponentSuppressed(nodeDetails.item.node, supressDateFolderDetailsConfig);
-      
-      model.showItemModifier = (!supressDate).toString(); 
+
+      model.showItemModifier = (!supressDate).toString();
 
       // Widget instantiation metadata...
       var likes = {};
@@ -108,10 +112,11 @@ function main()
             libraryRoot: model.libraryRoot,
             lock: model.lock,
             folderIcon: model.folderIcon,
-            showItemModifier: (model.showItemModifier == "true")
+            showItemModifier: (model.showItemModifier == "true"),
+            notSiteMemberWithPermissions: (model.notSiteMemberWithPermissions == "true")
          }
       };
-      
+
       if(nodeDetails.item.workingCopy != null && nodeDetails.item.workingCopy.isWorkingCopy)
       {
          nodeHeader.options.showFavourite = false;
@@ -119,7 +124,7 @@ function main()
          model.showQuickShare = "false";
          model.showComments = "false";
       }
-      
+
       model.widgets = [nodeHeader];
    }
 }
