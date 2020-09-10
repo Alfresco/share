@@ -92,6 +92,9 @@ jobs:
       
     - <<: *test-staging
       script: bash _ci/execute_share_web.sh "user"
+      
+    - <<: *test-staging
+      script: bash _ci/execute_share_web.sh "user-dashboard"
 
     - name: "Release"
       stage: release
