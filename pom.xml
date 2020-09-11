@@ -51,7 +51,7 @@
         <dependency.httpcomponents.version>4.5.12</dependency.httpcomponents.version>
         <dependency.alfresco-repository.version>8.267</dependency.alfresco-repository.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
-        <dependency.alfresco-core.version>8.45</dependency.alfresco-core.version>
+        <dependency.alfresco-core.version>8.300-TEST2</dependency.alfresco-core.version>
         <dependency.alfresco-remote-api.version>8.220</dependency.alfresco-remote-api.version>
 
         <dependency.webscripts.version>8.8</dependency.webscripts.version>
