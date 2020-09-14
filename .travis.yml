@@ -87,38 +87,6 @@ jobs:
       install: skip
       script: bash _ci/deploy_k8s.sh
 
-#    - name: "Build and Test"
-#      stage: build
-#      before_install: bash _ci/init.sh
-#      script: bash _ci/build.sh
-#
-#    - &test-staging
-#      stage: tests
-#      jdk: openjdk11
-#      if: fork=false AND commit_message !~ /\[trigger company release\]/
-#      before_install: bash _ci/init.sh
-#      install:
-#        - travis_wait 60  bash _ci/start-compose.sh ./packaging⁩/docker⁩/tests⁩/docker-env⁩/docker-compose.yml
-#        - travis_wait 30 bash _ci/wait-for-share-start.sh "http://localhost:8080/alfresco"
-#        - travis_wait 30 bash _ci/wait-for-share-start.sh "http://localhost:8181/share"
-#      script:
-#        - bash _ci/execute_share_web.sh "auth"
-#      addons:
-#        artifacts:
-#            paths:
-#              - alfresco-tas-share-test/target/surefire-reports
-#              - alfresco-tas-share-test/target/reports
-#            target_paths: $TRAVIS_BUILD_NUMBER
-#
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "admin-tools"
-#
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
-#
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "user"
-
     - name: "Release"
       stage: release
       if: fork=false AND commit_message =~ /\[release\]/ AND branch =~ /^(master|SP\/.+|HF\/.+)$/
