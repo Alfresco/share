@@ -5,6 +5,7 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
+export HOST="travis-${TRAVIS_BUILD_ID}.${HOSTED_ZONE}"
 
 git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
 cd alfresco-tas-share-test
@@ -13,22 +14,21 @@ git checkout 6.2.N
 export GROUP=$1
 mvn clean install \
                -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
-               -Dalfresco.port=8080 \
                -Dalfresco.restApi.basicAuthScheme=true \
                -Djmx.useJolokiaAgent=true \
                -DincludeGroups=${GROUP} \
                -DexcludeGroups='google-docs,unit,SmartFolders,ExternalUsers,tobefixed,office,TransformationServer,xsstests' \
                -DrunBugs=false \
-               -Dalfresco.server=localhost \
-               -Dalfresco.host=localhost \
-               -Dalfresco.port=8080 \
-               -Dalfresco.url='http://localhost:8080/alfresco' \
-               -Dshare.host=localhost \
-               -Dshare.port=8181 \
-               -Dshare.url='http://localhost:8181/share' \
-               -Dalfresco.scheme=http \
+               -Dalfresco.server=${HOST} \
+               -Dalfresco.host=${HOST} \
+               -Dalfresco.port=443 \
+               -Dalfresco.url="https://${HOST}/alfresco" \
+               -Dshare.host=${HOST} \
+               -Dshare.port=443 \
+               -Dshare.url="https://${HOST}/share" \
+               -Dalfresco.scheme=https \
                -Dadmin.user=admin \
-               -Dadmin.password=admin \
+               -Dadmin.password=${ADMIN_PWD} \
                -Dwebdriver.grid.url='http://127.0.0.1:4444/wd/hub' \
                -Dwebdriver.local.grid=false \
                -Dwebdriver.localGrid=false \
@@ -53,7 +53,7 @@ mvn clean install \
 
     sleep 60
   done
-               
+
 popd
 set +vex
 echo "=========================== Finishing Project Alfresco Tas Share =========================="
