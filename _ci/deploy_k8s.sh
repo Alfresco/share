@@ -176,7 +176,4 @@ if $(isBranchDevelop); then
 else
   echo "On development branch"
   createEnv
-  if [[ $KEEP_ENV = false ]]; then
-    deleteEnv
-  fi;
 fi
