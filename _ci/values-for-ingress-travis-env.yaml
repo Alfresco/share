@@ -1,0 +1,42 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: REPLACEME_NAMESPACE:psp
+  namespace: REPLACEME_NAMESPACE
+rules:
+  - apiGroups:
+      - policy
+    resourceNames:
+      - kube-system
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: REPLACEME_NAMESPACE:psp:default
+  namespace: REPLACEME_NAMESPACE
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: REPLACEME_NAMESPACE:psp
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: REPLACEME_NAMESPACE
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: REPLACEME_NAMESPACE:psp:REPLACEME_RELEASE_INGRESS-nginx-ingress
+  namespace: REPLACEME_NAMESPACE
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: REPLACEME_NAMESPACE:psp
+subjects:
+  - kind: ServiceAccount
+    name: REPLACEME_RELEASE_INGRESS-nginx-ingress
+    namespace: REPLACEME_NAMESPACE
