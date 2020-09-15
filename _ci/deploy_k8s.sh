@@ -158,23 +158,6 @@ function createEnv {
   aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch "$(get_route53_json  "UPSERT")"
 }
 
-#
-# Deletes the environment
-#
-function deleteEnv {
-  echo "=========================== Deleting the environment ==========================="
-
-  # remove environments
-  helm uninstall $RELEASE_NAME --namespace $NAMESPACE
-  helm uninstall $RELEASE_INGRESS_NAME --namespace $NAMESPACE
-
-  # remove Route53 entry
-  aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch "$(get_route53_json "DELETE")"
-
-  # remove namespace
-  kubectl delete namespace $NAMESPACE
-}
-
 # Main
 if $(isBranchDevelop); then
   echo "On branch develop"

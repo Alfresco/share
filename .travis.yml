@@ -45,6 +45,7 @@ stages:
   - build
   - deploy
   - tests
+  - tearDown
   - release
   - company_release
 
@@ -109,6 +110,11 @@ jobs:
 
     - <<: *test-staging
       script: bash _ci/execute_share_web.sh "user"
+
+    - name: "Delete environment"
+      stage: tearDown
+      install: skip
+      script: bash _ci/delete-env.sh
 
     - name: "Release"
       stage: release
