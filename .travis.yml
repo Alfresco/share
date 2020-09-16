@@ -34,7 +34,8 @@ branches:
 
 env:
   global:
-    - TAG_NAME=latest
+    - REPO_TAG_NAME=latest
+    - SHARE_TAG_NAME=latest
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
     - RELEASE_VERSION=7.0.0-M2
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT

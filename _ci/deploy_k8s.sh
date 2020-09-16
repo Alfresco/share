@@ -2,7 +2,7 @@ export NAMESPACE="travis-${TRAVIS_BUILD_ID}"
 export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
-export ALFRESCO_AOS_IMAGE="alfresco-aos"
+export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
 export ALFRESCO_SHARE_IMAGE="alfresco-share"
 export DEVELOP_URL="https://develop.dev.alfresco.me"
 
@@ -54,8 +54,8 @@ function updateDevelopEnv()  {
           --set persistence.storageClass.name="nfs-sc" \
           --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
           --set repository.adminPassword="${ADMIN_PWD}" \
-          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_AOS_IMAGE}" \
-          --set repository.image.tag="${TAG_NAME}" \
+          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
+          --set repository.image.tag="${REPO_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
           --namespace $NAMESPACE
