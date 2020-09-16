@@ -103,9 +103,9 @@ jobs:
               - alfresco-tas-share-test/target/reports
             target_paths: $TRAVIS_BUILD_NUMBER
 
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "admin-tools"
-#
+    - <<: *test-staging
+      script: bash _ci/execute_share_web.sh "admin-tools"
+
 #    - <<: *test-staging
 #      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
 #
