@@ -84,10 +84,10 @@ jobs:
 #      install: skip
 #      script: travis_wait 30 bash _ci/source_clear.sh
 
-    - name: "Deploy on K8s"
-      stage: deploy
-      install: skip
-      script: bash _ci/deploy_k8s.sh
+#    - name: "Deploy on K8s"
+#      stage: deploy
+#      install: skip
+#      script: bash _ci/deploy_k8s.sh
 
     - &test-staging
       stage: tests
