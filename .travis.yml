@@ -106,11 +106,11 @@ jobs:
     - <<: *test-staging
       script: bash _ci/execute_share_web.sh "admin-tools"
 
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
-#
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "user"
+    - <<: *test-staging
+      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
+
+    - <<: *test-staging
+      script: bash _ci/execute_share_web.sh "user"
 
 #    - name: "Delete environment"
 #      stage: tearDown
