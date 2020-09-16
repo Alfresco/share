@@ -142,6 +142,7 @@ function createEnv {
           --set repository.image.tag="${REPO_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
+          --set repository.environment.JAVA_OPTS="-Dalfresco.restApi.basicAuthScheme=true -Dsolr.base.url=/solr -Dsolr.secureComms=none -Dindex.subsystem.name=solr6 -Dalfresco.cluster.enabled=true -Ddeployment.method=HELM_CHART -Dtransform.service.enabled=true -Xms2000M -Xmx2000M" \
           --namespace $NAMESPACE
 
   # get ELB address required for Route53 entry

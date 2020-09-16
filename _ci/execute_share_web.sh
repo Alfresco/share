@@ -11,8 +11,6 @@ git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-t
 cd alfresco-tas-share-test
 git checkout 6.2.N
 
-export HOST="travis-184646563.dev.alfresco.me"
-
 export GROUP=$1
 mvn clean install \
                -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
