@@ -1,4 +1,4 @@
-export NAMESPACE="travis-${TRAVIS_BUILD_ID}"
+export NAMESPACE="travis-share-${TRAVIS_BUILD_ID}"
 export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
