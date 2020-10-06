@@ -52,6 +52,7 @@ function updateDevelopEnv()  {
           --set persistence.baseSize=10Gi \
           --set persistence.storageClass.enabled=true \
           --set persistence.storageClass.name="nfs-sc" \
+          --set activemq.persistence.mountPath="/opt/activemq/data/${NAMESPACE}" \
           --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
           --set repository.adminPassword="${ADMIN_PWD}" \
           --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
