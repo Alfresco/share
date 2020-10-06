@@ -28,7 +28,7 @@ mvn install \
                -Dshare.url="https://$HOST/share" \
                -Dalfresco.scheme=https \
                -Dadmin.user=admin \
-               -Dadmin.password=$ADMIN_PWD \
+               -Dadmin.password=$ALF_PASSWORD \
                -Dwebdriver.grid.url='http://127.0.0.1:4444/wd/hub' \
                -Dwebdriver.local.grid=false \
                -Dwebdriver.localGrid=false \
