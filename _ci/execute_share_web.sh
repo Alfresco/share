@@ -12,23 +12,23 @@ cd alfresco-tas-share-test
 git checkout 6.2.N
 
 export GROUP=$1
-mvn clean install \
+mvn install \
                -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
                -Dalfresco.restApi.basicAuthScheme=true \
                -Djmx.useJolokiaAgent=true \
-               -DincludeGroups=${GROUP} \
+               -DincludeGroups=$GROUP \
                -DexcludeGroups='google-docs,unit,SmartFolders,ExternalUsers,tobefixed,office,TransformationServer,xsstests' \
                -DrunBugs=false \
-               -Dalfresco.server=${HOST} \
-               -Dalfresco.host=${HOST} \
+               -Dalfresco.server=$HOST \
+               -Dalfresco.host=$HOST \
                -Dalfresco.port=443 \
-               -Dalfresco.url="https://${HOST}/alfresco" \
-               -Dshare.host=${HOST} \
+               -Dalfresco.url="https://$HOST/alfresco" \
+               -Dshare.host=$HOST \
                -Dshare.port=443 \
-               -Dshare.url="https://${HOST}/share" \
+               -Dshare.url="https://$HOST/share" \
                -Dalfresco.scheme=https \
                -Dadmin.user=admin \
-               -Dadmin.password=${ADMIN_PWD} \
+               -Dadmin.password=$ADMIN_PWD \
                -Dwebdriver.grid.url='http://127.0.0.1:4444/wd/hub' \
                -Dwebdriver.local.grid=false \
                -Dwebdriver.localGrid=false \
