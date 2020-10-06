@@ -31,6 +31,9 @@ function get_route53_json {
 function deleteEnv {
   echo "=========================== Deleting the environment ==========================="
 
+  # get Route53 hosted zone id
+  export HOSTED_ZONE_ID=$(aws route53 list-hosted-zones-by-name --dns-name $HOSTED_ZONE | jq -r '.HostedZones | .[] | .Id')
+
   # remove environments
   helm uninstall $RELEASE_NAME --namespace $NAMESPACE
   helm uninstall $RELEASE_INGRESS_NAME --namespace $NAMESPACE
