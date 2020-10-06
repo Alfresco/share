@@ -40,22 +40,28 @@ mvn clean install \
                -Daims.enabled=false \
                -Denv.platform=linux & # send the long living command to background!
 
-  minutes=0
-  limit=30
-  while kill -0 $! >/dev/null 2>&1; do
-    echo -n -e " \b" # never leave evidences!
+minutes=0
+limit=30
+while kill -0 $! >/dev/null 2>&1; do
+  echo -n -e " \b" # never leave evidences!
 
-    if [ $minutes == $limit ]; then
-      break;
-    fi
+  if [ $minutes == $limit ]; then
+    break;
+  fi
 
-    minutes=$((minutes+1))
+  minutes=$((minutes+1))
 
-    sleep 60
-  done
+  sleep 60
+done
+
+# wait for the exit code of the background process
+wait $!
+SUCCESS=$?
 
 popd
 set +vex
 echo "=========================== Finishing Project Alfresco Tas Share =========================="
+
+exit ${SUCCESS}
 
 
