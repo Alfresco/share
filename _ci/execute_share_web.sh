@@ -5,7 +5,7 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-export HOST="travis-share-188349900.${HOSTED_ZONE}"
+#export HOST="travis-share-188349900.${HOSTED_ZONE}"
 
 git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
 cd alfresco-tas-share-test

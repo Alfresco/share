@@ -41,6 +41,8 @@ env:
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
     - HOSTED_ZONE=dev.alfresco.me
     - KEEP_ENV=false
+    - NAMESPACE="travis-share-${TRAVIS_BUILD_ID}"
+    - HOST="${NAMESPACE}.${HOSTED_ZONE}"
 
 stages:
   - build
