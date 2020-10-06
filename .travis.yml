@@ -84,38 +84,38 @@ jobs:
 #      install: skip
 #      script: travis_wait 30 bash _ci/source_clear.sh
 
-#    - name: "Deploy on K8s"
-#      stage: deploy
-#      install: skip
-#      script: bash _ci/deploy_k8s.sh
+    - name: "Deploy on K8s"
+      stage: deploy
+      install: skip
+      script: bash _ci/deploy_k8s.sh
 
-    - &test-staging
-      stage: tests
-      jdk: openjdk11
-      if: fork=false AND commit_message !~ /\[trigger company release\]/
-      before_install: bash _ci/init.sh
-      script:
-        - bash _ci/execute_share_web.sh "auth"
-      addons:
-        artifacts:
-            paths:
-              - alfresco-tas-share-test/target/surefire-reports
-              - alfresco-tas-share-test/target/reports
-            target_paths: $TRAVIS_BUILD_NUMBER
+#    - &test-staging
+#      stage: tests
+#      jdk: openjdk11
+#      if: fork=false AND commit_message !~ /\[trigger company release\]/
+#      before_install: bash _ci/init.sh
+#      script:
+#        - bash _ci/execute_share_web.sh "auth"
+#      addons:
+#        artifacts:
+#            paths:
+#              - alfresco-tas-share-test/target/surefire-reports
+#              - alfresco-tas-share-test/target/reports
+#            target_paths: $TRAVIS_BUILD_NUMBER
+#
+#    - <<: *test-staging
+#      script: bash _ci/execute_share_web.sh "admin-tools"
+#
+#    - <<: *test-staging
+#      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
+#
+#    - <<: *test-staging
+#      script: bash _ci/execute_share_web.sh "user"
 
-    - <<: *test-staging
-      script: bash _ci/execute_share_web.sh "admin-tools"
-
-    - <<: *test-staging
-      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
-
-    - <<: *test-staging
-      script: bash _ci/execute_share_web.sh "user"
-
-#    - name: "Delete environment"
-#      stage: tearDown
-#      install: skip
-#      script: bash _ci/delete-env.sh
+    - name: "Delete environment"
+      stage: tearDown
+      install: skip
+      script: bash _ci/delete-env.sh
 
 #    - name: "Release"
 #      stage: release
