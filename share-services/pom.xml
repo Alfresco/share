@@ -21,6 +21,10 @@
 		            <groupId>org.alfresco</groupId>
 		            <artifactId>alfresco-core</artifactId>
 	        	</exclusion>
+                    <exclusion>
+                        <groupId>commons-collections</groupId>
+                        <artifactId>commons-collections</artifactId>
+                    </exclusion>
                 <!-- SHA-2432 -->
                 <exclusion>
                   <groupId>javax.servlet</groupId>
@@ -76,6 +80,10 @@
 		            <groupId>org.alfresco</groupId>
 		            <artifactId>alfresco-core</artifactId>
 	        	</exclusion>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
             	<!-- SHA-2432 -->
                 <exclusion>
                   <groupId>javax.servlet</groupId>
@@ -96,6 +104,12 @@
             <version>${dependency.webscripts.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
