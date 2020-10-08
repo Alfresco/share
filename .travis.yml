@@ -95,7 +95,7 @@ jobs:
     - name: "Wait for pods"
       stage: wait
       install: skip
-      script: bash _ci/wait_for_pods.sh
+      script: bash _ci/wait_for_pods.sh $NAMESPACE
 
 #    - &test-staging
 #      stage: tests
