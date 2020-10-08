@@ -89,7 +89,9 @@ jobs:
     - name: "Deploy on K8s"
       stage: deploy
       install: skip
-      script: bash _ci/deploy_k8s.sh
+      script:
+        ./_ci/deploy_k8s.sh;
+        ./_ci/wait_for_pods.sh;
 
 #    - &test-staging
 #      stage: tests
