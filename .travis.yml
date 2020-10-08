@@ -97,28 +97,28 @@ jobs:
       install: skip
       script: bash _ci/wait_for_pods.sh $NAMESPACE
 
-#    - &test-staging
-#      stage: tests
-#      jdk: openjdk11
-#      if: fork=false AND commit_message !~ /\[trigger company release\]/
-#      before_install: bash _ci/init.sh
-#      script:
-#        - bash _ci/execute_share_web.sh "auth"
-#      addons:
-#        artifacts:
-#            paths:
-#              - alfresco-tas-share-test/target/surefire-reports
-#              - alfresco-tas-share-test/target/reports
-#            target_paths: $TRAVIS_BUILD_NUMBER
-#
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "admin-tools"
-#
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
-#
-#    - <<: *test-staging
-#      script: bash _ci/execute_share_web.sh "user"
+    - &test-staging
+      stage: tests
+      jdk: openjdk11
+      if: fork=false AND commit_message !~ /\[trigger company release\]/
+      before_install: bash _ci/init.sh
+      script:
+        - bash _ci/execute_share_web.sh "auth"
+      addons:
+        artifacts:
+            paths:
+              - alfresco-tas-share-test/target/surefire-reports
+              - alfresco-tas-share-test/target/reports
+            target_paths: $TRAVIS_BUILD_NUMBER
+
+    - <<: *test-staging
+      script: bash _ci/execute_share_web.sh "admin-tools"
+
+    - <<: *test-staging
+      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
+
+    - <<: *test-staging
+      script: bash _ci/execute_share_web.sh "user"
 
     - name: "Delete environment"
       stage: tearDown
