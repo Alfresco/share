@@ -47,6 +47,7 @@ env:
 stages:
   - build
   - deploy
+  - wait
   - tests
   - tearDown
   - release
@@ -89,9 +90,12 @@ jobs:
     - name: "Deploy on K8s"
       stage: deploy
       install: skip
-      script:
-        ./_ci/deploy_k8s.sh;
-        ./_ci/wait_for_pods.sh;
+      script: bash _ci/deploy_k8s.sh
+
+    - name: "Wait for pods"
+      stage: wait
+      install: skip
+      script: bash _ci/wait_for_pods.sh
 
 #    - &test-staging
 #      stage: tests
