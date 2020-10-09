@@ -32,7 +32,7 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 import org.alfresco.error.AlfrescoRuntimeException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.extensions.webscripts.processor.BaseProcessorExtension;
 
