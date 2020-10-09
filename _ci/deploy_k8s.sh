@@ -161,11 +161,6 @@ function createEnv {
 if $(isBranchDevelop); then
   echo "On branch develop"
 
-  export NAMESPACE="develop-share"
-  export HOST="${NAMESPACE}.${HOSTED_ZONE}"
-  export RELEASE_NAME=$NAMESPACE
-  export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
-
   if $(isDevelopUp); then
     echo "Update develop environment"
     updateDevelopEnv
