@@ -40,7 +40,7 @@ env:
     - RELEASE_VERSION=7.0.0-M2
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
     - HOSTED_ZONE=dev.alfresco.me
-    - KEEP_ENV=false
+    - KEEP_ENV=true
     - NAMESPACE="travis-share-${TRAVIS_BUILD_ID}"
     - HOST="${NAMESPACE}.${HOSTED_ZONE}"
 

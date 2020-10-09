@@ -48,5 +48,8 @@ function deleteEnv {
 }
 
 if [[ $KEEP_ENV = false ]]; then
-    deleteEnv
+  deleteEnv
+else
+  echo "Keeping environment $HOST";
+  echo "Please delete it manually when you will no longer need it!"
 fi;
