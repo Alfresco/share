@@ -24,6 +24,7 @@ cache:
 # the cache can grow constantly
 before_cache:
   - rm -rf $HOME/.m2/repository/org/alfresco/alfresco-share*
+  - rm -rf $HOME/.m2/repository/org/alfresco/share*
 
 branches:
   only:
@@ -102,6 +103,7 @@ jobs:
       jdk: openjdk11
       if: fork=false AND commit_message !~ /\[trigger company release\]/
       before_install: bash _ci/init.sh
+      install: skip
       script:
         - bash _ci/execute_share_web.sh "auth"
       addons:

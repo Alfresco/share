@@ -2,13 +2,13 @@ export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
 export ALFRESCO_SHARE_IMAGE="alfresco-share"
-export DEVELOP_URL="https://develop.dev.alfresco.me"
 
 #
 # Determine if the current branch is develop or not
 #
+# TODO: Change branch name with  develop
 function isBranchDevelop() {
-  if [ "${TRAVIS_BRANCH}" = "develop" ]; then
+  if [ "${TRAVIS_BRANCH}" = "feature/APPS-422" ]; then
     return 0
   else
     return 1
@@ -29,8 +29,6 @@ function isDevelopUp() {
 
 function updateDevelopEnv()  {
   echo "Update develop"
-
-  echo "RELEASE_NAME="$RELEASE_NAME
 
   helm uninstall $RELEASE_NAME --namespace $NAMESPACE
 
@@ -163,12 +161,13 @@ function createEnv {
 if $(isBranchDevelop); then
   echo "On branch develop"
 
-  export NAMESPACE="develop"
+  export NAMESPACE="develop-share"
   export HOST="${NAMESPACE}.${HOSTED_ZONE}"
   export RELEASE_NAME=$NAMESPACE
   export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 
   if $(isDevelopUp); then
+    echo "Update develop environment"
     updateDevelopEnv
   else
     echo "Create develop environment"
