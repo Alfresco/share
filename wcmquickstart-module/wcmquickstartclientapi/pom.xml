@@ -38,7 +38,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-			<version>20090211</version>
+			<version>20200518</version>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
