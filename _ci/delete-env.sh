@@ -1,8 +1,12 @@
+if [[ "$TRAVIS_BRANCH" = "develop" ]]; then
+  NAMESPACE="develop-share"
+else
+  NAMESPACE="travis-share-$TRAVIS_BRANCH"
+fi
+
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 
-# TODO: move this into a common_tools script and import it here
-#
 # Returns the Route53 json payload ChangeResourceRecordSets API call
 # Can take one argument that specifies the action: "CREATE", "DELETE", "UPSERT"; if none
 # specified, it defaults to "CREATE"
@@ -47,7 +51,7 @@ function deleteEnv {
   kubectl delete namespace $NAMESPACE
 }
 
-if [[ $KEEP_ENV = false ]]; then
+if [[ $KEEP_ENV = false && "$TRAVIS_BRANCH" != "develop" ]]; then
   deleteEnv
 else
   echo "Keeping environment $HOST";

@@ -6,9 +6,8 @@ export ALFRESCO_SHARE_IMAGE="alfresco-share"
 #
 # Determine if the current branch is develop or not
 #
-# TODO: Change branch name with  develop
 function isBranchDevelop() {
-  if [ "${TRAVIS_BRANCH}" = "feature/APPS-422" ]; then
+  if [ "${TRAVIS_BRANCH}" = "develop" ]; then
     return 0
   else
     return 1
@@ -202,7 +201,7 @@ function wait_for_pods {
 # Main
 if $(isBranchDevelop); then
   echo "On branch develop"
-
+  NAMESPACE="develop-share"
   if $(isDevelopUp); then
     echo "Update develop environment"
     updateDevelopEnv
@@ -214,6 +213,7 @@ if $(isBranchDevelop); then
   fi
 else
   echo "On development branch"
+  NAMESPACE="travis-share-$TRAVIS_BRANCH"
   createEnv
   wait_for_pods $NAMESPACE
 fi
