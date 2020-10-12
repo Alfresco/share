@@ -316,7 +316,7 @@
 
         <!-- This is used for the LESS CSS processing. It allows us to include LESS code in both
              the Theme XML files and in widget CSS files. We deliberately exclude it's preferred
-             Rhino version so as to avoid conflicts with our own dependencies.
+             Rhino version so as to avoid conflicts with our own dependencies. 
              Using pateched version, MNT-20234 -->
         <dependency>
             <groupId>org.alfresco.3rdparty.com.asual.lesscss</groupId>
