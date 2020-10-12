@@ -9,6 +9,14 @@ git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-t
 cd alfresco-tas-share-test
 git checkout 6.2.N
 
+if [[ "$TRAVIS_BRANCH" = "develop" ]]; then
+  NAMESPACE="develop-share"
+else
+  NAMESPACE="travis-share-$TRAVIS_BUILD_NUMBER"
+fi
+
+export HOST="${NAMESPACE}.${HOSTED_ZONE}"
+
 export GROUP=$1
 mvn install \
                -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
