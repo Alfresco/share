@@ -1,3 +1,9 @@
+if [[ "$TRAVIS_BRANCH" = "develop" ]]; then
+  NAMESPACE="develop-share"
+else
+  NAMESPACE="travis-share-$TRAVIS_BUILD_NUMBER"
+fi
+
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
@@ -201,7 +207,6 @@ function wait_for_pods {
 # Main
 if $(isBranchDevelop); then
   echo "On branch develop"
-  NAMESPACE="develop-share"
   if $(isDevelopUp); then
     echo "Update develop environment"
     updateDevelopEnv
@@ -213,7 +218,6 @@ if $(isBranchDevelop); then
   fi
 else
   echo "On development branch"
-  NAMESPACE="travis-share-$TRAVIS_BUILD_NUMBER"
   createEnv
   wait_for_pods $NAMESPACE
 fi
