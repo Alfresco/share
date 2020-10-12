@@ -213,7 +213,7 @@ if $(isBranchDevelop); then
   fi
 else
   echo "On development branch"
-  NAMESPACE="travis-share-$TRAVIS_BRANCH"
+  NAMESPACE="travis-share-$TRAVIS_BUILD_NUMBER"
   createEnv
   wait_for_pods $NAMESPACE
 fi

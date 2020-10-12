@@ -1,7 +1,7 @@
 if [[ "$TRAVIS_BRANCH" = "develop" ]]; then
   NAMESPACE="develop-share"
 else
-  NAMESPACE="travis-share-$TRAVIS_BRANCH"
+  NAMESPACE="travis-share-$TRAVIS_BUILD_NUMBER"
 fi
 
 export RELEASE_NAME=$NAMESPACE
