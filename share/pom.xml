@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0-A3</version>
     </parent>
 
     <artifactId>share</artifactId>
@@ -373,13 +372,12 @@
                 <configuration>
                     <target>
                         <copy todir="${project.build.outputDirectory}">
-                            <fileset dir="${basedir}/src/main/resources"
-                                     includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties"/>
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
+                            <fileset dir="${basedir}/src/main/resources" includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
                         </copy>
                         <copy todir="${project.build.directory}/${project.build.finalName}">
-                            <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties"/>
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
+                            <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties" />
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
                         </copy>
                     </target>
                 </configuration>
