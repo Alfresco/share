@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.alfresco</groupId>
@@ -315,7 +316,7 @@
 
         <!-- This is used for the LESS CSS processing. It allows us to include LESS code in both
              the Theme XML files and in widget CSS files. We deliberately exclude it's preferred
-             Rhino version so as to avoid conflicts with our own dependencies. 
+             Rhino version so as to avoid conflicts with our own dependencies.
              Using pateched version, MNT-20234 -->
         <dependency>
             <groupId>org.alfresco.3rdparty.com.asual.lesscss</groupId>
@@ -372,12 +373,13 @@
                 <configuration>
                     <target>
                         <copy todir="${project.build.outputDirectory}">
-                            <fileset dir="${basedir}/src/main/resources" includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
+                            <fileset dir="${basedir}/src/main/resources"
+                                     includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties"/>
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
                         </copy>
                         <copy todir="${project.build.directory}/${project.build.finalName}">
-                            <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties" />
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
+                            <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties"/>
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
                         </copy>
                     </target>
                 </configuration>
