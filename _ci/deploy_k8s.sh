@@ -4,6 +4,7 @@ else
   NAMESPACE="travis-share-$TRAVIS_BUILD_NUMBER"
 fi
 
+export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
