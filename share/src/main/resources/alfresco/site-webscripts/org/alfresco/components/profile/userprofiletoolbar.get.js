@@ -29,11 +29,6 @@ function main()
       }
    }
 
-   if (model.activeUserProfile)
-   {
-      model.syncEnabled = (syncMode.getValue() != "OFF");
-   }
-
    model.links = [];
 
    // Add Profile link
@@ -65,12 +60,6 @@ function main()
 
       // Add Notifications links
       addLink("user-notifications-link", "user-notifications", "link.notifications");
-
-      if (model.syncEnabled)
-      {
-         // Add Cloud Sync
-         addLink("user-cloud-auth-link", "user-cloud-auth", "link.cloud-auth");
-      }
       
       // Add Trashcan link
       addLink("user-trashcan-link", "user-trashcan", "link.trashcan");

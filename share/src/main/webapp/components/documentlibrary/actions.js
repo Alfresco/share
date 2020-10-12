@@ -40,13 +40,6 @@
       $isValueSet = Alfresco.util.isValueSet;
 
    /**
-    * Cloud folder picker dialog.
-    * This will be defined globally, because the sync actions are available in the actions panel as well as in the
-    * sync panel. And clicking those actions from different panels creates different panels in different contexts.
-    */
-   var cloudFolderPicker;
-
-   /**
     * Alfresco.doclib.Actions implementation
     */
    Alfresco.doclib.Actions = {};
@@ -219,7 +212,7 @@
             actionUrls =
             {
                downloadUrl: $combine(Alfresco.constants.PROXY_URI, contentUrl) + "?a=true",
-               viewUrl: $combine(Alfresco.constants.PROXY_URI, contentUrl) + "\" target=\"_blank",
+               viewUrl:  $combine(Alfresco.constants.PROXY_URI, contentUrl) + "\" target=\"_blank",
                documentDetailsUrl: fnPageURL("document-details?nodeRef=" + strNodeRef),
                folderDetailsUrl: fnPageURL("folder-details?nodeRef=" + strNodeRef),
                editMetadataUrl: fnPageURL("edit-metadata?nodeRef=" + strNodeRef),
@@ -227,8 +220,7 @@
                managePermissionsUrl: fnPageURL("manage-permissions?nodeRef=" + strNodeRef),
                manageTranslationsUrl: fnPageURL("manage-translations?nodeRef=" + strNodeRef),
                workingCopyUrl: fnPageURL("document-details?nodeRef=" + (workingCopy.workingCopyNodeRef || strNodeRef)),
-               workingCopySourceUrl: fnPageURL("document-details?nodeRef=" + (workingCopy.sourceNodeRef || strNodeRef)),
-               cloudViewUrl: $combine(Alfresco.constants.URL_SERVICECONTEXT, "cloud/cloudUrl?nodeRef=" +strNodeRef)
+               workingCopySourceUrl: fnPageURL("document-details?nodeRef=" + (workingCopy.sourceNodeRef || strNodeRef))
             };
 
          actionUrls.sourceRepositoryUrl = this.viewInSourceRepositoryURL(record, actionUrls) + "\" target=\"_blank";
@@ -507,17 +499,9 @@
             jsNode = record.jsNode,
             content = jsNode.isContainer ? "folder" : "document",
             displayName = record.displayName,
-            isCloud = (this.options.syncMode === "CLOUD"),
             zIndex = 0;
 
-         
-         // Check if node is direct sync member node
-         var isDirectSSMN = (jsNode.hasAspect("sync:syncSetMemberNode") && $isValueSet(jsNode.properties)) ? jsNode.properties["sync:directSync"] === "true" : false;
          var deleteRemoteFile = "";
-         if (!isCloud && isDirectSSMN)
-         {
-            deleteRemoteFile = '<div><input type="checkbox" id="requestDeleteRemote" class="requestDeleteRemote-checkBox"><span class="requestDeleteRemote-text">' + this.msg("sync.remove." + content + ".from.cloud", displayName) + '</span></div>';
-         }
          
          var displayPromptText = this.msg("message.confirm.delete", displayName);
 
@@ -539,17 +523,8 @@
                text: this.msg("button.delete"),
                handler: function dlA_onActionDelete_delete()
                {
-                  var requestDeleteRemote = isCloud ? false : Dom.getAttribute("requestDeleteRemote", "checked");
                   this.destroy();
-                  
-                  if (isDirectSSMN)
-                  {
-                     me._onActionDeleteSyncConfirm.call(me, record, requestDeleteRemote);
-                  }
-                  else
-                  {
-                     me._onActionDeleteConfirm.call(me, record);
-                  }
+                  me._onActionDeleteConfirm.call(me, record);
                }
             },
             {
@@ -572,44 +547,6 @@
             buttons: buttons,
             zIndex: zIndex
          }, parent);
-      },
-      
-      /**
-       * Delete sync record confirmed.
-       *
-       * @method _onActionDeleteSyncConfirm
-       * @param record {object} Object literal representing the file or folder to be actioned
-       * @param requestDeleteRemote {boolean} True if data should be removed also from destination, false otherwise.
-       * @private
-       */
-      _onActionDeleteSyncConfirm: function dlA__onActionDeleteSyncConfirm(record, requestDeleteRemote)
-      {
-          var jsNode = record.jsNode,
-          path = record.location.path,
-          fileName = record.location.file,
-          filePath = $combine(path, fileName),
-          displayName = record.displayName,
-          nodeRef = jsNode.nodeRef,
-          parentNodeRef = this.getParentNodeRef(record);
-
-          Alfresco.util.Ajax.request(
-          {
-             url: Alfresco.constants.PROXY_URI + "enterprise/sync/syncsetmembers/" + record.jsNode.nodeRef.uri + "?requestDeleteRemote=" + requestDeleteRemote,
-             method: Alfresco.util.Ajax.DELETE,
-             successCallback: {
-                fn: function cloudSync_onCloudUnsync_success()
-                {
-                   YAHOO.Bubbling.fire("metadataRefresh");
-                   Alfresco.util.PopupManager.displayMessage(
-                   {
-                      text: this.msg("message.unsync.success")
-                   });
-                   this._onActionDeleteConfirm.call(this, record);
-                },
-                scope: this
-             },
-             failureMessage: this.msg("message.unsync.failure")
-          });
       },
 
       /**
@@ -741,6 +678,7 @@
          "application/vnd.ms-excel.sheet.binary.macroenabled.12": "Excel.Sheet",
          "application/vnd.visio": "Visio.Drawing",
          "application/vnd.visio2013": "Visio.Drawing"
+
       },
 
       /**
@@ -782,9 +720,9 @@
                      }
                      if (encodeURI(record.onlineEditUrl).length > 256)
                      {
-                        // If we get here it might be that the filename contains a lot of space characters that (when converted to %20) 
+                        // If we get here it might be that the filename contains a lot of space characters that (when converted to %20)
                         // would lead to a total encoded URL length that's greater than 256 characters.
-                        // Since it's a very rare case we'll just reduce the record's display name (from the URL) 
+                        // Since it's a very rare case we'll just reduce the record's display name (from the URL)
                         // to a (presumably) safe size of 5 characters plus extension.
                         var ext = record.displayName.split(".").pop();
                         var recordName = record.onlineEditUrl.split("/").pop();
@@ -856,7 +794,7 @@
                docm: "application/vnd.ms-word.document.macroenabled.12",
                dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
                dotm: "application/vnd.ms-word.template.macroenabled.12",
-
+              
                ppt: "application/vnd.ms-powerpoint",
                pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
                pptm: "application/vnd.ms-powerpoint.presentation.macroenabled.12",
@@ -1106,12 +1044,12 @@
                   if (node.isLocked)
                   {
                       var checkedOut = Alfresco.util.arrayContains(node.aspects,"cm:checkedOut");
-                      var lockOwner = node.properties["cm:lockOwner"]; 
+                      var lockOwner = node.properties["cm:lockOwner"];
                       var differentLockOwner = lockOwner.userName !== Alfresco.constants.USERNAME;
 
                       // If locked for offline editing, ask for user's confirmation to continue with online editing
                       if (checkedOut && differentLockOwner)
-                      { 
+                      {
                           this._onAlreadyLockedConfirmation(record, lockOwner);
                       }
                       else
@@ -2139,260 +2077,6 @@
       },
 
       /**
-       * CLOUD SYNC
-       */
-
-      /**
-       * Create Sync
-       * loads folder picker populated with networks, sites and folders from The Cloud.
-       *
-       * @method onActionCloudSync
-       * @param record {object} Object literal representing the file or folder to be actioned
-       */
-      onActionCloudSync: function dlA_onActionCloudSync(record)
-      {
-         // MNT-15212 : If the Cloud Folder Picker was initialized before delete it 
-         if(cloudFolderPicker)
-         {
-               cloudFolderPicker.destroy();
-         }
-
-         // Instantiate Cloud Folder Picker & Cloud Auth Dialogue
-         cloudFolderPicker = new Alfresco.module.DoclibCloudFolder(this.id + "-cloud-folder");
-
-         var me = this;
-
-         // Set up handler for when the sync location has been chosen:
-         YAHOO.Bubbling.on("folderSelected", function cloudSync_onCloudFolderSelected(event, args)
-         {
-            this.updateSyncOptions();
-
-            Alfresco.util.Ajax.jsonPost(
-            {
-               url: Alfresco.constants.PROXY_URI + "enterprise/sync/syncsetdefinitions",
-               dataObj: YAHOO.lang.merge(this.options.syncOptions,
-               {
-                  memberNodeRefs: me.getMemberNodeRefs(this.options.files),
-                  remoteTenantId: this.options.targetNetwork,
-                  targetFolderNodeRef: args[1].selectedFolder.nodeRef
-               }),
-               successCallback: {
-                  fn: function cloudSync_onCloudFolderSelectedSuccess()
-                  {
-                     YAHOO.Bubbling.fire("metadataRefresh");
-                     Alfresco.util.PopupManager.displayMessage(
-                     {
-                        text: this.msg("message.sync.success")
-                     });
-                  },
-                  scope: this
-               },
-               failureMessage: this.msg("message.sync.failure")
-            })
-         }, cloudFolderPicker);
-
-         if(!this.modules.cloudAuth)
-         {
-            this.modules.cloudAuth = new Alfresco.module.CloudAuth(this.id + "cloudAuth");
-         }
-
-         cloudFolderPicker.setOptions(
-         {
-            files: record
-         });
-
-         this.modules.cloudAuth.setOptions(
-         {
-            authCallback: cloudFolderPicker.showDialog,
-            authCallbackContext: cloudFolderPicker
-         }).checkAuth();
-      },
-
-      /**
-       * Remove Sync
-       * loads folder picker populated with networks, sites and folders from The Cloud.
-       *
-       * @method onActionCloudUnsync
-       * @param record {object} Object literal representing the file or folder to be actioned
-       */
-      onActionCloudUnsync: function dlA_onActionCloudUnsync(record)
-      {
-         var me = this,
-            content = record.jsNode.isContainer ? "folder" : "document",
-            displayName = record.displayName,
-            isCloud = (this.options.syncMode === "CLOUD"),
-            deleteRemoteFile = isCloud ? "" : '<div><input type="checkbox" id="requestDeleteRemote" class="requestDeleteRemote-checkBox"><span class="requestDeleteRemote-text">' + this.msg("sync.remove." + content + ".from.cloud", displayName) + '</span></div>';
-
-         Alfresco.util.PopupManager.displayPrompt(
-         {
-            title: this.msg("actions." + content + ".cloud-unsync"),
-            noEscape: true,
-            text: this.msg("message.unsync.confirm", displayName) + deleteRemoteFile,
-            buttons: [
-            {
-               text: this.msg("button.unsync"),
-               handler: function dlA_onActionCloudUnsync_unsync()
-               {
-                  var requestDeleteRemote = isCloud ? false : Dom.getAttribute("requestDeleteRemote", "checked");
-                  this.destroy();
-                  Alfresco.util.Ajax.request(
-                  {
-                     url: Alfresco.constants.PROXY_URI + "enterprise/sync/syncsetmembers/" + record.jsNode.nodeRef.uri + "?requestDeleteRemote=" + requestDeleteRemote,
-                     method: Alfresco.util.Ajax.DELETE,
-                     successCallback: {
-                        fn: function cloudSync_onCloudUnsync_success()
-                        {
-                           YAHOO.Bubbling.fire("metadataRefresh");
-                           Alfresco.util.PopupManager.displayMessage(
-                           {
-                              text: me.msg("message.unsync.success")
-                           })
-                        },
-                        scope: me
-                     },
-                     failureMessage: me.msg("message.unsync.failure")
-                  });
-               }
-            },
-            {
-               text: this.msg("button.cancel"),
-               handler: function dlA_onActionCloudUnsync_cancel()
-               {
-                  this.destroy();
-               },
-               isDefault: true
-            }]
-         });
-      },
-
-      /**
-       * Triggered when the Cloud Sync Icon is clicked
-       * Shows the status and location in cloud.
-       *
-       * @method onCloudSyncIndicatorAction
-       * @param record {object} Object literal representing the file or folder to be actioned
-       * @param target {HTML DOM Element} HTML Element that was the target of the initial action.
-       */
-      onCloudSyncIndicatorAction: function dlA_onCloudSyncIndicatorAction(record, target)
-      {
-         var balloon = new Alfresco.util.createInfoBalloon(this.widgets.dataTable.getTrEl(target),
-         {
-            text: this.msg("label.loading"),
-            width: "455px"
-         });
-
-         // Show Balloon with initial message:
-         balloon.show();
-
-         Alfresco.util.Ajax.request(
-         {
-            url: Alfresco.constants.PROXY_URI + "slingshot/doclib2/node/"  + record.nodeRef.replace('://', '/'),
-            successCallback:
-            {
-               fn: function onCloudSyncGettingNodeDetailsAction_success(response)
-               {
-                  var me = this,
-                     configOptions =
-                  {
-                     showTitle: true,
-                     showRequestSyncButton: true,
-                     showUnsyncButton: true,
-                     showMoreInfoLink: true
-                  };
-
-                  Alfresco.util.getSyncStatus(this, record, response.json, configOptions, function(callbackResult)
-                  {
-                     if (callbackResult != null)
-                     {
-                        // Render Error Banner
-                        balloon.html(callbackResult.html);
-
-                        balloon.requestsync = Alfresco.util.createYUIButton(me, "button-requestsyn", function()
-                        {
-                           me.onActionCloudSyncRequest(record);
-                           balloon.hide();
-                        },
-                        {
-                           id: me.id
-                        });
-                        if (!callbackResult.showRequestSyncButton && balloon.requestsync != null)
-                        {
-                           balloon.requestsync.setStyle('display', 'none');
-                        }
-
-                        balloon.unsync = Alfresco.util.createYUIButton(me, "button-unsync", function()
-                        {
-                           me.onActionCloudUnsync(record);
-                           balloon.hide();
-                        },
-                        {
-                           id: me.id
-                        });
-                        if (!callbackResult.showUnsyncButton && balloon.unsync != null)
-                        {
-                           balloon.unsync.setStyle('display', 'none');
-                        }
-
-                        var root = balloon.content;
-                        Alfresco.util.syncClickOnShowDetailsLinkEvent(me, root);
-                        Alfresco.util.syncClickOnHideLinkEvent(me, root);
-                        Alfresco.util.syncClickOnTransientErrorShowDetailsLinkEvent(me, root);
-                        Alfresco.util.syncClickOnTransientErrorHideLinkEvent(me, root);
-                     }
-                     else
-                     {
-                        balloon.hide();
-                     }
-                  });
-               },
-               scope: this
-            },
-            failureCallback:
-            {
-               fn: function onCloudSyncGettingNodeDetailsAction_failure(response)
-               {
-                  Alfresco.util.PopupManager.displayMessage(
-                  {
-                     text: this.msg("sync.unable.get.details")
-                  });
-               },
-               scope: this
-            }
-         });
-      },
-
-      /**
-       * Request Sync
-       *
-       * @method onActionCloudSyncRequest
-       * @param record {object} Object literal representing the file or folder to be actioned
-       * @param target {HTML DOM Element} HTML Element that was the target of the initial action.
-       */
-      onActionCloudSyncRequest: function dlA_onActionCloudSyncRequest(record, target)
-      {
-         Alfresco.util.Ajax.jsonPost(
-         {
-            url: Alfresco.constants.PROXY_URI + "enterprise/sync/syncrequest",
-            dataObj:
-            {
-               memberNodeRefs: this.getMemberNodeRefs(record)
-            },
-            successCallback: {
-               fn: function cloudSync_onActionCloudSyncRequest_success()
-               {
-                  YAHOO.Bubbling.fire("metadataRefresh");
-                  Alfresco.util.PopupManager.displayMessage(
-                  {
-                     text: this.msg("message.request.sync.success")
-                  })
-               },
-               scope: this
-            },
-            failureMessage: this.msg("message.request.sync.failure")
-         })
-      },
-
-      /**
        * Helper method for getting the MemberNodeRefs from an object
        *
        * @method getMemberNodeRefs
@@ -2414,36 +2098,6 @@
             memberNodeRefs.push(record.nodeRef);
          }
          return memberNodeRefs;
-      },
-
-      /**
-       * Triggered when the Cloud Sync Failed Icon is clicked
-       * Shows the status and location in cloud.
-       *
-       * @method onCloudSyncFailedIndicatorAction
-       * @param record {object} Object literal representing the file or folder to be actioned
-       * @param target {HTML DOM Element} HTML Element that was the target of the initial action.
-       */
-      onCloudSyncFailedIndicatorAction: function dlA_onCloudSyncFailedIndicatorAction(record, target)
-      {
-         this.onCloudSyncIndicatorAction(record, target);
-      },
-
-      /**
-       * Triggered when the Cloud Indirect Sync Icon is clicked
-       * Shows the status and location in cloud.
-       *
-       * @method onCloudIndirectSyncIndicatorAction
-       * @param record {object} Object literal representing the file or folder to be actioned
-       * @param target {HTML DOM Element} HTML Element that was the target of the initial action.
-       */
-      onCloudIndirectSyncIndicatorAction: function dlA_onCloudIndirectSyncIndicatorAction(record, target)
-      {
-         this.onCloudSyncIndicatorAction(record, target);
-      },
-      onCloudIndirectSyncFailedIndicatorAction: function dlA_onCloudIndirectSyncFailedIndicatorAction(record, target)
-      {
-         this.onCloudSyncIndicatorAction(record, target);
       },
 
       /**

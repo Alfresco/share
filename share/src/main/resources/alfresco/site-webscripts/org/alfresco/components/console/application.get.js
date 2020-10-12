@@ -41,8 +41,16 @@ function main()
    var editionInfo = context.properties["editionInfo"].edition;
    model.isEnterprise = "ENTERPRISE" == editionInfo;
 
-   var alfEndpointUrl = remote.getEndpointURL("alfresco");
-   model.platUrl = alfEndpointUrl.substr(0, alfEndpointUrl.lastIndexOf("/"));
+   var alfrescoPath = context.properties["urlUtil"].repoURL;
+   if (alfrescoPath != "")
+   {
+       model.platUrl = alfrescoPath + "/alfresco"
+   }
+   else
+   {
+       var alfEndpointUrl = remote.getEndpointURL("alfresco");
+       model.platUrl = alfEndpointUrl.substr(0, alfEndpointUrl.lastIndexOf("/"));
+   }
 }
 
 main();

@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>alfresco-content-services-share-distribution</artifactId>
     <name>Distribution of Alfresco Share</name>
@@ -26,6 +26,12 @@
             <artifactId>alfresco-share-services</artifactId>
             <version>${project.version}</version>
             <type>amp</type>
+        </dependency>
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-share-encryption</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 
@@ -61,31 +67,28 @@
                             <useDefaultDelimiters>false</useDefaultDelimiters>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/licenses</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../licenses</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- Extract share-config-custom.xml -->
-                    <execution>
-                        <id>extract-share-config-custom</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>alfresco-installer-resources</artifactId>
-                                    <version>${alfresco.platform.version}</version>
-                                    <includes>**/share-config-custom.xml</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-
                     <!-- Extract keystore from alfresco-repository -->
                     <execution>
                         <id>extract-keystore</id>
@@ -98,14 +101,15 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>alfresco-repository</artifactId>
-                                    <version>${alfresco.platform.version}</version>
+                                    <version>${dependency.alfresco-repository.version}</version>
                                     <includes>alfresco/keystore/**</includes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
 
-                    <!-- Extract licenses and bin from distribution resources -->
+                    <!-- Extract licenses and bin from distribution resources 
+					Assuming this is not necessary for ACS 6.0+
                     <execution>
                         <id>unpack-resources</id>
                         <phase>generate-resources</phase>
@@ -124,7 +128,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-
+-->
                     <!-- Copy MMT jar -->
                     <execution>
                         <id>fetch-resources</id>
@@ -137,7 +141,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-mmt</artifactId>
-                                    <version>${alfresco.platform.version}</version>
+                                    <version>6.0</version>
                                     <outputDirectory>${project.build.outputDirectory}/bin</outputDirectory>
                                 </artifactItem>
                             </artifactItems>

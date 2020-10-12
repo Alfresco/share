@@ -1,27 +1,22 @@
 /*
- * #%L
- * Alfresco Share WAR
- * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
- * %%
- * This file is part of the Alfresco software. 
- * If the software was purchased under a paid Alfresco license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
- * provided under the following open source license terms:
- * 
+ * Copyright 2005 - 2020 Alfresco Software Limited.
+ *
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
+ * Otherwise, the software is provided under the following open source license terms:
+ *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
- * #L%
  */
 package org.alfresco.web.site;
 
@@ -62,6 +57,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
     /** public name of the value in the RequestContext */
     public static final String EDITION_INFO = "editionInfo";
     public static final String KEY_DOCS_EDITION = "docsEdition";
+    public static final String URL_UTIL = "urlUtil";
     
     public static final String ENTERPRISE_EDITION = EditionInfo.ENTERPRISE_EDITION;
     public static final String TEAM_EDITION = EditionInfo.TEAM_EDITION;
@@ -76,6 +72,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
      */
     private static EditionInfo EDITIONINFO = null;
     private static DocsEdition docsEdition = null;
+    private static UrlUtil urlUtil = new UrlUtil();
     
     private static volatile boolean outputInfo = false;
     private static volatile boolean outputEditionInfo = false;
@@ -118,7 +115,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                             if (MTAuthenticationFilter.getCurrentServletRequest() != null)
                             {
                                 HttpSession session = MTAuthenticationFilter.getCurrentServletRequest().getSession(false);
-                                if (session != null)
+                                if (session != null && session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID) != null)
                                 {
                                     // we try now that a Session is acquired and we have an authenticated user
                                     // this is the only time that we can successfully retrieve the license information
@@ -155,6 +152,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                                 // set edition info for current thread
                                 ThreadLocalRequestContext.getRequestContext().setValue(EDITION_INFO, editionInfo);
                                 ThreadLocalRequestContext.getRequestContext().setValue(KEY_DOCS_EDITION, docsEdition);
+                                ThreadLocalRequestContext.getRequestContext().setValue(URL_UTIL, urlUtil);
                                 
                                 // NOTE: We do NOT assign to the EDITIONINFO so that we re-evaluate next time.
                             }
@@ -219,6 +217,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
             {
                 ThreadLocalRequestContext.getRequestContext().setValue(EDITION_INFO, EDITIONINFO);
                 ThreadLocalRequestContext.getRequestContext().setValue(KEY_DOCS_EDITION, docsEdition);
+                ThreadLocalRequestContext.getRequestContext().setValue(URL_UTIL, urlUtil);
             }
         }
         finally

@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>share</artifactId>
@@ -12,12 +13,13 @@
     <description>Alfresco Share</description>
 
     <properties>
+        <tomcat.version>7.0.86</tomcat.version>
         <maven.tomcat.path>/share</maven.tomcat.path>
         <maven.tomcat.port>${tomcat.default.share.port}</maven.tomcat.port>
         <maven.tomcat.httpsPort>${tomcat.default.share.ssl.port}</maven.tomcat.httpsPort>
         <!-- Files to exclude from SonarQube analysis -->
         <sonar.exclusions>
-            src/main/webapp/jquery/**, 
+            src/main/webapp/jquery/**,
             src/main/webapp/js/flash/extMouseWheel.js,
             src/main/webapp/js/lightbox.js,
             src/main/webapp/yui/**,
@@ -33,6 +35,11 @@
             <artifactId>alfresco-web-framework-commons</artifactId>
             <version>${project.version}</version>
             <classifier>classes</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-share-encryption</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -65,14 +72,14 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-jlan-embed</artifactId>
             <exclusions>
-               <exclusion>
-                   <groupId>*</groupId>
-                   <artifactId>spring-surf-core</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>*</groupId>
-                   <artifactId>spring-surf-core-configservice</artifactId>
-               </exclusion>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>spring-surf-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>spring-surf-core-configservice</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -83,7 +90,7 @@
         <dependency>
             <groupId>javax.portlet</groupId>
             <artifactId>portlet-api</artifactId>
-            <version>2.0</version>
+            <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -94,17 +101,25 @@
         <dependency>
             <groupId>org.apache.chemistry.opencmis</groupId>
             <artifactId>chemistry-opencmis-client-impl</artifactId>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.alfresco.cmis.client</groupId>
             <artifactId>alfresco-opencmis-extension</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf-api</artifactId>
             <version>${dependency.surf.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-cmis-framework</artifactId>
@@ -142,8 +157,13 @@
                     <groupId>org.jvnet.staxex</groupId>
                     <artifactId>stax-ex</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
+
         <!-- Dependency on Alfresco patched version of Rhino available in artifacts.alfresco.com -->
         <dependency>
             <groupId>org.mozilla</groupId>
@@ -164,6 +184,7 @@
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
+            <version>4.0.4</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -174,6 +195,7 @@
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
+            <version>1.2.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -197,7 +219,7 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-spring</artifactId>
-            <version>2.4</version>
+            <version>3.12.6</version>
             <exclusions>
                 <exclusion>
                     <artifactId>hazelcast-client</artifactId>
@@ -209,13 +231,24 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-spec</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-jstlel</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
+            <version>2.3.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>javax.servlet</groupId>
@@ -226,37 +259,40 @@
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-impl</artifactId>
+            <version>2.3.6</version>
         </dependency>
+
         <!-- Dependency on external Aikau project (this includes Dojo) -->
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>aikau</artifactId>
             <version>${dependency.aikau.version}</version>
             <exclusions>
-               <!-- surf pulls in a patched version -->
-               <exclusion>
-                  <groupId>com.asual.lesscss</groupId>
-                  <artifactId>lesscss-engine</artifactId>
-               </exclusion>
-               <!-- until Aikau pom dependencies are updated, avoid old surf versions -->
-               <exclusion>
-                  <groupId>*</groupId>
-                  <artifactId>spring-webscripts</artifactId>
-               </exclusion>
-               <exclusion>
-                  <groupId>*</groupId>
-                  <artifactId>spring-webscripts-api</artifactId>
-               </exclusion>
-               <exclusion>
-                  <groupId>*</groupId>
-                  <artifactId>spring-surf</artifactId>
-               </exclusion>
-               <exclusion>
-                  <groupId>*</groupId>
-                  <artifactId>spring-surf-api</artifactId>
-               </exclusion>
+                <!-- surf pulls in a patched version -->
+                <exclusion>
+                    <groupId>com.asual.lesscss</groupId>
+                    <artifactId>lesscss-engine</artifactId>
+                </exclusion>
+                <!-- until Aikau pom dependencies are updated, avoid old surf versions -->
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>spring-webscripts</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>spring-webscripts-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>spring-surf</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>spring-surf-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
+
         <!-- Dependency on YUI ZIP (custom version deployed at artifacts.alfresco.com) -->
         <dependency>
             <groupId>com.yahoo.platform.yui</groupId>
@@ -268,10 +304,12 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
+            <version>4.13</version>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
@@ -281,9 +319,9 @@
              Rhino version so as to avoid conflicts with our own dependencies. 
              Using pateched version, MNT-20234 -->
         <dependency>
-          <groupId>org.alfresco.3rdparty.com.asual.lesscss</groupId>
-          <artifactId>lesscss-engine</artifactId>
-          <version>1.5.1-patched</version>
+            <groupId>org.alfresco.3rdparty.com.asual.lesscss</groupId>
+            <artifactId>lesscss-engine</artifactId>
+            <version>1.5.1-patched</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.mozilla</groupId>
@@ -291,7 +329,30 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${dependency.slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${dependency.slf4j.version}</version>
+        </dependency>
+
+        <!-- Keycloak -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-servlet-filter-adapter</artifactId>
+        </dependency>
+        <!-- APPS-480 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.66</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -300,7 +361,7 @@
             <!-- ACE-3329 Create _en.properties message files  -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                 <executions>
+                <executions>
                     <execution>
                         <id>duplicate-english-messages</id>
                         <phase>generate-resources</phase>
@@ -312,12 +373,13 @@
                 <configuration>
                     <target>
                         <copy todir="${project.build.outputDirectory}">
-                            <fileset dir="${basedir}/src/main/resources" includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties" />
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
+                            <fileset dir="${basedir}/src/main/resources"
+                                     includes="alfresco/messages/**/*.properties,alfresco/site-webscripts/**/*.properties"/>
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
                         </copy>
                         <copy todir="${project.build.directory}/${project.build.finalName}">
-                            <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties" />
-                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties" />
+                            <fileset dir="${basedir}/src/main/webapp" includes="js/alfresco/**/i18n/*.properties"/>
+                            <mapper type="regexp" from="^([^_]*).properties$" to="\1_en.properties"/>
                         </copy>
                     </target>
                 </configuration>
@@ -388,7 +450,7 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
-                <version>1.4.0</version>
+                <version>1.5.1</version>
                 <executions>
                     <execution>
                         <id>minimize-slingshot-javascript</id>
@@ -499,74 +561,167 @@
                     </aggregations>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
-                  <!-- Set up an interval to scan for changes -->
-                  <!--
-                  <scanIntervalSeconds>10</scanIntervalSeconds>
-                  <scanTargetPatterns>
-                     <scanTargetPattern>
-                        <directory>${project.build.directory}/${project.build.finalName}/js/alfresco</directory>
-                        <includes>
-                          <include>**/*.js</include>
-                          <include>**/*.css</include>
-                          <include>**/*.html</include>
-                          <include>**/*.properties</include>
-                        </includes>
-                    </scanTargetPattern>
-                    <scanTargetPattern>
-                        <directory>tests/testApp</directory>
-                        <includes>
-                          <include>js/aikau/**/*.js</include>
-                          <include>js/aikau/**/*.css</include>
-                          <include>js/aikau/**/*.html</include>
-                          <include>js/aikau/**/*.properties</include>
-                          <include>WEB-INF/classes/alfresco/site-webscripts/**</include>
-                        </includes>
-                    </scanTargetPattern>
-                 </scanTargetPatterns> -->
-                  
-                  <!-- Sets the port when using mvn jetty:run-forked -->
-                  <jvmArgs>-Djetty.port=8089</jvmArgs>
-                  <!-- Override the system properties to set a port that *should* be unused -->
-                   <systemProperties>
-                     <force>true</force>
-                     <systemProperty>
-                        <name>jetty.port</name>
-                        <value>8089</value>
-                      </systemProperty>
-                   </systemProperties>
-                   <!--  The following 3 settings allow us to execute a mvn jetty:stop command to shutdown the test application -->
-                   <stopPort>9966</stopPort>
-                   <stopKey>foo</stopKey>
-                   <stopWait>20</stopWait>
-                   <!-- Configure the application, this will essentially be Share but overlaid with the test resources -->
-                   <webApp>
-                     <!--  <descriptor>${project.build.directory}/${project.build.finalName}/WEB-INF/web.xml</descriptor> -->
-                     <descriptor>tests/testApp/WEB-INF/web.xml</descriptor>
-                     <!--  <descriptor>tests/testApp/WEB-INF/web.xml</descriptor> -->
-                     <contextPath>/aikau</contextPath>
-                     <resourceBases>
-                        <resourceBase>tests/testApp</resourceBase>
-                        <resourceBase>${project.build.directory}/${project.build.finalName}</resourceBase>
-                     </resourceBases>
-                     <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames> 
-                   </webApp>
-                   <webAppSourceDirectory>tests/testApp</webAppSourceDirectory>
-                   <classesDirectory>tests/testApp/WEB-INF/classes</classesDirectory>
-                   <baseAppFirst>false</baseAppFirst>
+                    <!-- Set up an interval to scan for changes -->
+                    <!--
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <scanTargetPatterns>
+                       <scanTargetPattern>
+                          <directory>${project.build.directory}/${project.build.finalName}/js/alfresco</directory>
+                          <includes>
+                            <include>**/*.js</include>
+                            <include>**/*.css</include>
+                            <include>**/*.html</include>
+                            <include>**/*.properties</include>
+                          </includes>
+                      </scanTargetPattern>
+                      <scanTargetPattern>
+                          <directory>tests/testApp</directory>
+                          <includes>
+                            <include>js/aikau/**/*.js</include>
+                            <include>js/aikau/**/*.css</include>
+                            <include>js/aikau/**/*.html</include>
+                            <include>js/aikau/**/*.properties</include>
+                            <include>WEB-INF/classes/alfresco/site-webscripts/**</include>
+                          </includes>
+                      </scanTargetPattern>
+                   </scanTargetPatterns> -->
+
+                    <!-- Sets the port when using mvn jetty:run-forked -->
+                    <jvmArgs>-Djetty.port=8089</jvmArgs>
+                    <!-- Override the system properties to set a port that *should* be unused -->
+                    <systemProperties>
+                        <force>true</force>
+                        <systemProperty>
+                            <name>jetty.port</name>
+                            <value>8089</value>
+                        </systemProperty>
+                    </systemProperties>
+                    <!--  The following 3 settings allow us to execute a mvn jetty:stop command to shutdown the test application -->
+                    <stopPort>9966</stopPort>
+                    <stopKey>foo</stopKey>
+                    <stopWait>20</stopWait>
+                    <!-- Configure the application, this will essentially be Share but overlaid with the test resources -->
+                    <webApp>
+                        <!--  <descriptor>${project.build.directory}/${project.build.finalName}/WEB-INF/web.xml</descriptor> -->
+                        <descriptor>tests/testApp/WEB-INF/web.xml</descriptor>
+                        <!--  <descriptor>tests/testApp/WEB-INF/web.xml</descriptor> -->
+                        <contextPath>/aikau</contextPath>
+                        <resourceBases>
+                            <resourceBase>tests/testApp</resourceBase>
+                            <resourceBase>${project.build.directory}/${project.build.finalName}</resourceBase>
+                        </resourceBases>
+                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                    </webApp>
+                    <webAppSourceDirectory>tests/testApp</webAppSourceDirectory>
+                    <classesDirectory>tests/testApp/WEB-INF/classes</classesDirectory>
+                    <!--<baseAppFirst>false</baseAppFirst>-->
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
                 <configuration>
                     <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
                     <contextFile>${basedir}/tomcat/share-context.xml</contextFile>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.tomcat.embed</groupId>
+                        <artifactId>tomcat-embed-core</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-util</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-coyote</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-api</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-jdbc</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-dbcp</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-servlet-api</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-jsp-api</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-jasper</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-jasper-el</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-el-api</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-catalina</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-tribes</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-catalina-ha</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-annotations-api</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-juli</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat.embed</groupId>
+                        <artifactId>tomcat-embed-logging-juli</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat.embed</groupId>
+                        <artifactId>tomcat-embed-logging-log4j</artifactId>
+                        <version>${tomcat.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -579,6 +734,7 @@
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.2</version>
                         <executions>
                             <execution>
                                 <id>run-exploded-webapp</id>
@@ -588,10 +744,101 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.tomcat.embed</groupId>
+                                <artifactId>tomcat-embed-core</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-util</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-coyote</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-api</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-jdbc</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-dbcp</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-servlet-api</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-jsp-api</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-jasper</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-jasper-el</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-el-api</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-catalina</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-tribes</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-catalina-ha</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-annotations-api</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-juli</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat.embed</groupId>
+                                <artifactId>tomcat-embed-logging-juli</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat.embed</groupId>
+                                <artifactId>tomcat-embed-logging-log4j</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
-
 </project>

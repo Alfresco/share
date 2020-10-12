@@ -19,6 +19,10 @@
             <directory>target/dependency/alfresco/keystore</directory>
             <outputDirectory>alf_data/keystore</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>target/licenses</directory>
+            <outputDirectory>licenses</outputDirectory>
+        </fileSet>
     </fileSets>
 
     <dependencySets>
@@ -39,6 +43,16 @@
             </includes>
             <outputDirectory>amps</outputDirectory>
             <outputFileNameMapping>alfresco-share-services.amp</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+        <!-- Share encryption JAR -->
+        <dependencySet>
+            <includes>
+                <include>*:*:jar</include>
+            </includes>
+            <outputDirectory>alfresco-share-encryption</outputDirectory>
+            <outputFileNameMapping>alfresco-share-encryption.jar</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>

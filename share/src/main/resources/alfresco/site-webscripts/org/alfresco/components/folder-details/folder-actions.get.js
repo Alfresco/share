@@ -16,8 +16,6 @@ function main()
       model.folderDetails = true;
       doclibCommon();
    }
-   
-   model.syncMode = syncMode.getValue();
 
    // Widget instantiation metadata...
    var folderActions = {

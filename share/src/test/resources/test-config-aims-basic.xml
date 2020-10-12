@@ -1,0 +1,17 @@
+<alfresco-config>
+
+    <!-- AIMS -->
+    <config evaluator="string-compare" condition="AIMS">
+        <enabled>${aims.enabled}</enabled>
+        <realm>${aims.realm}</realm>
+        <resource>${aims.resource}</resource>
+        <authServerUrl>${aims.authServerUrl}</authServerUrl>
+        <sslRequired>${aims.sslRequired}</sslRequired>
+        <publicClient>${aims.publicClient}</publicClient>
+        <autodetectBearerOnly>${aims.autodetectBearerOnly}</autodetectBearerOnly>
+        <alwaysRefreshToken>${aims.alwaysRefreshToken}</alwaysRefreshToken>
+        <principalAttribute>${aims.principalAttribute}</principalAttribute>
+        <enableBasicAuth>${aims.enableBasicAuth}</enableBasicAuth>
+    </config>
+
+</alfresco-config>

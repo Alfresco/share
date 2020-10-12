@@ -25,7 +25,6 @@
             <@region id="folder-tags" scope="template"/>
             <@region id="folder-links" scope="template"/>
             <@region id="folder-metadata" scope="template"/>
-            <@region id="folder-sync" scope="template"/>
          </div>
       </div>
       <@region id="archive-and-download" scope="template"/>

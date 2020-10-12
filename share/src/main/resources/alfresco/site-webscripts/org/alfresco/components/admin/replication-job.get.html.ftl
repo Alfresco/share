@@ -1,5 +1,5 @@
 <#include "../form/form.dependencies.inc">
-<#assign jobName = page.url.args.jobName!"">
+<#assign jobName = (page.url.args.jobName?html)!"">
 <#assign mode = (jobName = "")?string("create", "edit")>
 <#assign action = url.context + "/proxy/alfresco/api/replication-definition" + (jobName = "")?string("s", "/" + jobName?url)>
 <#assign intervalPeriods =

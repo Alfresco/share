@@ -1,27 +1,22 @@
 /*
- * #%L
- * Alfresco Share WAR
- * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
- * %%
- * This file is part of the Alfresco software. 
- * If the software was purchased under a paid Alfresco license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
- * provided under the following open source license terms:
- * 
+ * Copyright 2005 - 2020 Alfresco Software Limited.
+ *
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
+ * Otherwise, the software is provided under the following open source license terms:
+ *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
- * #L%
  */
 package org.alfresco.web.scripts;
 
@@ -31,7 +26,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Vector;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
@@ -80,25 +74,11 @@ public class SlingshotRemoteClient extends RemoteClient
                 response.getStatusLine().getStatusCode() >= 200 &&
                 response.getStatusLine().getStatusCode() < 300)
         {
-            // get the attachment parameter from the url query
-            Pattern pattern = Pattern.compile("(attachment=)\\w+");
-            Matcher matcher = pattern.matcher(url.getQuery());
-            if (matcher.find())
-            {
-                String param = matcher.group();
-
-                // if attachment=false the file will be opened in browser
-                if (param.contains("false"))
-                {
-                    res.setHeader("Content-Disposition", "inline;");
-                }
-            }
-
             // only match if content is not an attachment - don't interfere with downloading of file content 
             Header cd = response.getFirstHeader("Content-Disposition");
             if (cd == null || !cd.getValue().startsWith("attachment"))
             {
-                // only match appropriate content REST URIs
+                // only match appropriate content REST URIs 
                 if (contentType != null && (CONTENT_PATTERN_TO_CHECK.matcher(url.getPath()).matches()
                         && !CONTENT_PATTERN_TO_WHITE_LIST.matcher(url.getPath()).matches()
                         || SLINGSHOT_WIKI_PAGE_PATTERN.matcher(url.getPath()).matches()

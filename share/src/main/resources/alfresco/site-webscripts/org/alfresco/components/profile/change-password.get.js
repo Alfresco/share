@@ -11,6 +11,7 @@ function main()
          minPasswordLength : parseInt(minPasswordLength)
       }
    };
+   model.aimsEnabled = typeof aimsEnabled === "boolean" ? aimsEnabled : false;
    model.widgets = [changePassword];
 }
 

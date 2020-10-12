@@ -379,8 +379,16 @@
          }
          
          // Make sure ok button is in the correct state if dialog is reused
-         this.widgets.okButton.set("disabled", false);
-         this.widgets.cancelButton.set("disabled", false);
+         // Defensive check against null (SHA-2308)
+         if (this.widgets.okButton)
+         {
+            this.widgets.okButton.set("disabled", false);
+         }
+
+         if (this.widgets.cancelButton)
+         {
+            this.widgets.cancelButton.set("disabled", false);
+         }
 
          this.form.validate();
 

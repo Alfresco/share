@@ -374,8 +374,7 @@ function getBulkActionWidgets()
           attr.id === "onActionAssignWorkflow" ||
           attr.id === "onActionDelete")
       {
-         if(!attr["syncMode"] || attr["syncMode"].toString() == syncMode.value)
-         {
+
             // Multi-Select Actions
             action = {
                icon: attr["icon"] ? attr["icon"].toString() : "",
@@ -390,7 +389,6 @@ function getBulkActionWidgets()
             };
 
             actionWidgets.push(createAlfDocumentActionMenuItem(action))
-         }
       }
    }
    return actionWidgets;

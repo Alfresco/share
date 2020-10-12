@@ -1,80 +1,39 @@
 /*
- * #%L
- * Alfresco Share WAR
- * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
- * %%
- * This file is part of the Alfresco software. 
- * If the software was purchased under a paid Alfresco license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
- * provided under the following open source license terms:
- * 
+ * Copyright 2005 - 2020 Alfresco Software Limited.
+ *
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
+ * Otherwise, the software is provided under the following open source license terms:
+ *
  * Alfresco is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Alfresco is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
- * #L%
  */
 package org.alfresco.web.site.servlet;
 
-import static org.alfresco.web.site.SlingshotPageView.REDIRECT_QUERY;
-import static org.alfresco.web.site.SlingshotPageView.REDIRECT_URI;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.security.Principal;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.security.auth.Subject;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-import javax.security.sasl.RealmCallback;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.jlan.server.auth.kerberos.KerberosDetails;
-import org.alfresco.jlan.server.auth.ntlm.NTLM;
-import org.alfresco.jlan.server.auth.ntlm.NTLMLogonDetails;
-import org.alfresco.jlan.server.auth.ntlm.NTLMMessage;
-import org.alfresco.jlan.server.auth.ntlm.Type1NTLMMessage;
-import org.alfresco.jlan.server.auth.ntlm.Type2NTLMMessage;
-import org.alfresco.jlan.server.auth.ntlm.Type3NTLMMessage;
+import org.alfresco.jlan.server.auth.ntlm.*;
 import org.alfresco.jlan.server.auth.spnego.NegTokenInit;
 import org.alfresco.jlan.server.auth.spnego.NegTokenTarg;
 import org.alfresco.jlan.server.auth.spnego.OID;
 import org.alfresco.jlan.server.auth.spnego.SPNEGO;
 import org.alfresco.util.Pair;
 import org.alfresco.util.log.NDC;
+import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.alfresco.web.site.servlet.config.KerberosConfigElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.extensions.config.ConfigService;
@@ -97,6 +56,30 @@ import org.springframework.extensions.webscripts.connector.ConnectorService;
 import org.springframework.extensions.webscripts.connector.Response;
 import org.springframework.extensions.webscripts.servlet.DependencyInjectedFilter;
 import org.springframework.web.util.WebUtils;
+
+import javax.security.auth.Subject;
+import javax.security.auth.callback.*;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+import javax.security.sasl.RealmCallback;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.alfresco.web.site.SlingshotPageView.REDIRECT_QUERY;
+import static org.alfresco.web.site.SlingshotPageView.REDIRECT_URI;
 
 /**
  * SSO Authentication Filter Class for web-tier, supporting NTLM and Kerberos challenges from the repository tier.
@@ -132,8 +115,9 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     private static final String ERROR_PARAMETER = "error";
     private static final String UNAUTHENTICATED_ACCESS_PROXY = "/proxy/alfresco-noauth";
     private static final String PAGE_VIEW_RESOLVER = "pageViewResolver";
-    
+
     private ApplicationContext context;
+
     private ConnectorService connectorService;
     private String endpoint;
     private String userHeader;
@@ -181,12 +165,12 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         if (logger.isDebugEnabled())
             logger.debug("Initializing the SSOAuthenticationFilter.");
         
-        this.loginController = (SlingshotLoginController)context.getBean("loginController");
+        this.loginController = (SlingshotLoginController) context.getBean("loginController");
         
         // retrieve the connector service
-        this.connectorService = (ConnectorService)context.getBean("connector.service");
+        this.connectorService = (ConnectorService) context.getBean("connector.service");
         
-        ConfigService configService = (ConfigService)context.getBean("web.config");
+        ConfigService configService = (ConfigService) context.getBean("web.config");
         
         // Retrieve the remote configuration
         RemoteConfigElement remoteConfig = (RemoteConfigElement) configService.getConfig("Remote").getConfigElement("remote");
@@ -241,40 +225,47 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             logger.error("Unable to find connector " + endpointDescriptor.getConnectorId() + " for the endpoint " + endpoint, e);
         }
         
-        // retrieve the optional kerberos configuration
-        KerberosConfigElement krbConfig = (KerberosConfigElement) configService.getConfig("Kerberos").getConfigElement("kerberos");
-        if (krbConfig != null)
+        // Retrieve the optional kerberos configuration
+        this.initKerberos(configService);
+
+        if (logger.isInfoEnabled())
+            logger.info("SSOAuthenticationFilter initialised.");
+    }
+
+    /**
+     *
+     * @param configService
+     */
+    private void initKerberos(ConfigService configService) {
+        KerberosConfigElement config = (KerberosConfigElement) configService.getConfig("Kerberos").getConfigElement("kerberos");
+        if (config != null)
         {
             if (logger.isDebugEnabled())
                 logger.debug("Found configuration for Kerberos authentication.");
             // Get the Kerberos realm
-            
-            String krbRealm = krbConfig.getRealm();
+            String krbRealm = config.getRealm();
             if ( krbRealm != null && krbRealm.length() > 0)
             {
                 if (logger.isDebugEnabled())
                     logger.debug("Found Kerberos realm: " + krbRealm);
                 // Set the Kerberos realm
-                
                 this.krbRealm = krbRealm;
             }
             else
                 throw new AlfrescoRuntimeException("Kerberos realm not specified");
-            
+
             // Get the HTTP service account password
-            
-            String srvPassword = krbConfig.getPassword();
+            String srvPassword = config.getPassword();
             if ( srvPassword != null && srvPassword.length() > 0)
             {
                 // Set the HTTP service account password
-                
                 this.krbPassword = srvPassword;
             }
             else
                 throw new AlfrescoRuntimeException("HTTP service account password not specified");
-            
-    
-            String krbEndpointSPN = krbConfig.getEndpointSPN();
+
+
+            String krbEndpointSPN = config.getEndpointSPN();
             if ( krbEndpointSPN != null && krbEndpointSPN.length() > 0)
             {
                 // Set the Service Principal Name to use on the endpoint
@@ -284,12 +275,11 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             }
             else
                 throw new AlfrescoRuntimeException("endpoint service principal name not specified");
-            
+
             // Get the login configuration entry name
-            
-            String loginEntry = krbConfig.getLoginEntryName();
-            
-            if ( loginEntry != null)
+            String loginEntry = config.getLoginEntryName();
+
+            if (loginEntry != null)
             {
                 if ( loginEntry.length() > 0)
                 {
@@ -301,10 +291,9 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                 else
                     throw new AlfrescoRuntimeException("Invalid login entry specified");
             }
-            
-            // Get the login stripUserNameSuffix property
 
-            boolean stripUserNameSuffix = krbConfig.getStripUserNameSuffix();
+            // Get the login stripUserNameSuffix property
+            boolean stripUserNameSuffix = config.getStripUserNameSuffix();
 
             // Set the login configuration entry name to use
             if (logger.isDebugEnabled())
@@ -312,44 +301,35 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
             this.stripUserNameSuffix = stripUserNameSuffix;
 
             // Create a login context for the HTTP server service
-            
             try
             {
                 // Login the HTTP server service
-                
                 jaasLoginContext = new LoginContext( jaasLoginEntryName, this);
                 jaasLoginContext.login();
-                
+
                 // DEBUG
-                
                 if ( logger.isDebugEnabled())
                     logger.debug( "HTTP Kerberos login successful");
             }
             catch ( LoginException ex)
             {
-                // Debug
-                
+                // DEBUG
                 if ( logger.isErrorEnabled())
                     logger.error("HTTP Kerberos web filter error", ex);
-                
+
                 throw new AlfrescoRuntimeException("Failed to login HTTP server service");
             }
-            
+
             // Get the HTTP service account name from the subject
-            
             Subject subj = jaasLoginContext.getSubject();
             Principal princ = subj.getPrincipals().iterator().next();
-            
-            krbAccountName = princ.getName();
-            
-            // DEBUG
-            
-            if ( logger.isDebugEnabled())
-                logger.debug("Logged on using principal " + krbAccountName);        
-        }
 
-        if (logger.isInfoEnabled())
-            logger.info("SSOAuthenticationFilter initialised.");
+            krbAccountName = princ.getName();
+
+            // DEBUG
+            if ( logger.isDebugEnabled())
+                logger.debug("Logged on using principal " + krbAccountName);
+        }
     }
     
     @Override
@@ -375,7 +355,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     {
         if (userHeader != null && sreq instanceof HttpServletRequest)
         {
-            final HttpServletRequest req = (HttpServletRequest)sreq;
+            final HttpServletRequest req = (HttpServletRequest) sreq;
             sreq = new HttpServletRequestWrapper(req)
             {
                 @Override
@@ -457,6 +437,31 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
     public void doFilter(ServletRequest sreq, ServletResponse sresp, FilterChain chain)
         throws IOException, ServletException
     {
+        // Skip this filter, if AIMS is enabled
+        boolean skip = false;
+        try
+        {
+            AIMSConfig aimsConfig = (AIMSConfig) this.context.getBean("aims.config");
+            if (aimsConfig.isEnabled())
+            {
+                skip = true;
+            }
+        }
+        catch (BeansException e)
+        {
+            if (logger.isErrorEnabled())
+            {
+                logger.error(e);
+            }
+        }
+
+        // If AIMS filter is enabled, skip this filter
+        if (skip == true)
+        {
+            chain.doFilter(sreq, sresp);
+            return;
+        }
+
         NDC.remove();
         NDC.push(Thread.currentThread().getName());
         final boolean debug = logger.isDebugEnabled();
@@ -479,7 +484,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
         HttpServletRequest req = (HttpServletRequest)sreq;
         HttpServletResponse res = (HttpServletResponse)sresp;
         HttpSession session = req.getSession();
-        
+
         if (req.getServletPath() != null && req.getServletPath().startsWith(UNAUTHENTICATED_ACCESS_PROXY))
         {
             if (debug)
@@ -606,7 +611,6 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                     logger.debug( "Client sent an NTLMSSP security blob");
                 
                 // Restart the authentication
-                
                 restartAuthProcess(session, req, res, AUTH_SPNEGO);
                 return;
             }
@@ -842,7 +846,7 @@ public class SSOAuthenticationFilter implements DependencyInjectedFilter, Callba
                     logger.debug("Initial login from externally authenticated user " + userId);
                 }
 
-                if (userId == null && krbRealm == null)
+                if (userId == null && this.krbRealm == null)
                 {
                     // MNT-18402 : redirect to login page, when using SSO bypass link
                     redirectToLoginPage(req, res);

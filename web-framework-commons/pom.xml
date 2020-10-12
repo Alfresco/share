@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>alfresco-web-framework-commons</artifactId>
     <name>Alfresco Web Framework common libraries</name>
@@ -26,45 +26,81 @@
                      <groupId>dom4j</groupId>
                      <artifactId>dom4j</artifactId>
                  </exclusion>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
              </exclusions>
          </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alfresco-core</artifactId>
+            <version>${dependency.alfresco-core.version}</version>            
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>         
+        <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
+			<version>1.2.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
              <groupId>commons-logging</groupId>
              <artifactId>commons-logging</artifactId>
+			 <version>1.2</version>
              <scope>provided</scope>
         </dependency>
         <!-- Test only dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+			<version>4.13</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>${dependency.alfresco-remote-api.version}</version>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            </exclusions>            
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>${dependency.alfresco-repository.version}</version>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            	<!-- SHA-2432 -->
+            	<exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+            	</exclusion>
+            </exclusions>           
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
-            <version>${dependency.alfresco-core.version}</version>            
+            <version>${dependency.alfresco-core.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
@@ -82,16 +118,34 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>${dependency.alfresco-repository.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            	<!-- SHA-2432 -->
+            	<exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+            	</exclusion>
+            </exclusions>
+            
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <version>${dependency.alfresco-remote-api.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
@@ -99,6 +153,12 @@
             <version>${dependency.webscripts.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.alfresco</groupId>
+		            <artifactId>alfresco-core</artifactId>
+	        	</exclusion>
+            </exclusions>            
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -109,15 +169,16 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.shale</groupId>
             <artifactId>shale-test</artifactId>
-            <version>1.0.4</version>
+            <version>1.0.5</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+      <!--  <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>test</scope>
@@ -131,6 +192,26 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
+        </dependency>
+		-->
+
+        <!-- SHA-2432 -->
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-spec</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-impl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.taglibs</groupId>
+          <artifactId>taglibs-standard-jstlel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+      			<version>29.0-jre</version>
         </dependency>
     </dependencies>
     

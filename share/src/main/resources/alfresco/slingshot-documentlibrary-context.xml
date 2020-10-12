@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
-
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
 
    <!--                                            -->
    <!-- Document Library Doclist Data URl Resolver -->
@@ -160,26 +162,6 @@
       </property>
    </bean>
 
-   <!-- Sync Failed Banner -->
-   <bean id="evaluator.doclib.metadata.hasSyncFailedBanner" parent="evaluator.doclib.action.chainedMatchAll">
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.hasSyncFailedAspect" />
-            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
-         </list>
-      </property>
-   </bean>
-
-   <!-- Transient Sync Error Banner -->
-   <bean id="evaluator.doclib.metadata.hasSyncTransientErrorBanner" parent="evaluator.doclib.action.chainedMatchAll">
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.hasSyncTransientErrorAspect" />
-            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
-         </list>
-      </property>
-   </bean>
-
    <!--                                    -->
    <!-- Document Library Action Evaluators -->
    <!--                                    -->
@@ -304,8 +286,6 @@
             <value>application/vnd.ms-excel.template.macroenabled.12</value>
             <value>application/vnd.ms-powerpoint.presentation.macroenabled.12</value>
             <value>application/vnd.ms-powerpoint.template.macroenabled.12</value>
-            <value>application/vnd.visio</value>
-            <value>application/vnd.visio2013</value>
             <value>application/vnd.openxmlformats-officedocument.wordprocessingml.template</value>
             <value>application/vnd.openxmlformats-officedocument.presentationml.slideshow</value>
             <value>application/vnd.ms-powerpoint.slideshow.macroenabled.12</value>
@@ -316,6 +296,8 @@
             <value>application/vnd.openxmlformats-officedocument.spreadsheetml.template</value>
             <value>application/vnd.ms-excel.addin.macroenabled.12</value>
             <value>application/vnd.ms-excel.sheet.binary.macroenabled.12</value>
+            <value>application/vnd.visio</value>
+            <value>application/vnd.visio2013</value>
          </list>
       </property>
    </bean>
@@ -554,106 +536,6 @@
    </bean>
 
    <bean id="evaluator.doclib.action.locateAction" class="org.alfresco.web.evaluator.doclib.action.LocateActionEvaluator" />
-
-   <!--
-      Cloud Sync Actions and Indicators
-   -->
-
-   <!-- Sync: System Mode -->
-
-   <bean id="evaluator.doclib.action.syncMode" class="org.alfresco.web.evaluator.SyncModeEvaluator" />
-   <bean id="evaluator.doclib.action.isSyncModeOnPremise" parent="evaluator.doclib.action.syncMode">
-      <property name="syncMode" ref="slingshot.scriptprocessor.syncModeConfig" />
-      <property name="validMode" value="ON_PREMISE" />
-   </bean>
-
-   <bean id="evaluator.doclib.action.isSyncOn" parent="evaluator.doclib.action.chainedMatchOne">
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.isSyncModeOnPremise"/>
-         </list>
-      </property>
-   </bean>
-
-   <!-- Sync: Node State -->
-
-   <bean id="evaluator.doclib.action.isSyncedAspect" parent="evaluator.doclib.action.hasAspect">
-      <property name="aspects">
-         <list>
-            <value>sync:syncSetMemberNode</value>
-         </list>
-      </property>
-   </bean>
-
-   <bean id="evaluator.doclib.action.isNotSyncedAspect" parent="evaluator.doclib.action.hasAspect">
-      <property name="aspects">
-         <list>
-            <value>sync:syncSetMemberNode</value>
-         </list>
-      </property>
-      <property name="negateOutput" value="true" />
-   </bean>
-
-   <bean id="evaluator.doclib.action.isSyncLock" parent="evaluator.doclib.metadata.value">
-      <property name="accessor" value="node.properties.sync:syncLock"/>
-      <property name="comparator">
-         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
-            <property name="value" value="true" />
-         </bean>
-      </property>
-   </bean>
-
-   <bean id="evaluator.doclib.action.hasSyncFailedAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator">
-      <property name="aspects">
-         <list>
-            <value>sync:failed</value>
-         </list>
-      </property>
-   </bean>
-
-   <bean id="evaluator.doclib.action.hasSyncTransientErrorAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator">
-      <property name="aspects">
-         <list>
-            <value>sync:transientError</value>
-         </list>
-      </property>
-   </bean>
-
-   <bean id="evaluator.doclib.action.hasSyncErrorAspect" class="org.alfresco.web.evaluator.ChainedMatchOneEvaluator">
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.hasSyncFailedAspect" />
-            <ref bean="evaluator.doclib.action.hasSyncTransientErrorAspect" />
-         </list>
-      </property>
-
-   </bean>
-
-   <bean id="evaluator.doclib.action.isSyncedDirectly" parent="evaluator.doclib.metadata.value">
-      <property name="accessor" value="node.properties.sync:directSync"/>
-      <property name="comparator">
-         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
-            <property name="value" value="true" />
-         </bean>
-      </property>
-   </bean>
-
-   <bean id="evaluator.doclib.action.isSyncedIndirectly" parent="evaluator.doclib.metadata.value">
-      <property name="accessor" value="node.properties.sync:directSync"/>
-      <property name="comparator">
-         <bean class="org.alfresco.web.evaluator.StringEqualsComparator">
-            <property name="value" value="false" />
-         </bean>
-      </property>
-   </bean>
-   
-   <bean id="evaluator.doclib.action.isPartOfHybridWorklfow" parent="evaluator.doclib.action.hasAspect">
-      <property name="aspects">
-         <list>
-            <value>hwf:hybridWorkflow</value>
-         </list>
-      </property>
-   </bean>
    
    <bean id="evaluator.doclib.action.isDeletable" parent="evaluator.doclib.action.hasAspect">
       <property name="aspects">
@@ -663,17 +545,6 @@
       </property>
       <property name="negateOutput" value="true" />
    </bean>
-   
-   <bean id="evaluator.doclib.action.isNotPartOfHybridWorklfow" parent="evaluator.doclib.action.hasAspect">
-      <property name="aspects">
-         <list>
-            <value>hwf:hybridWorkflow</value>
-         </list>
-      </property>
-      <property name="negateOutput" value="true" />
-   </bean>
-
-   <!-- Sync: Action evaluators -->
 
    <bean id="evaluator.doclib.action.isNotDocumentLibrary" parent="evaluator.doclib.metadata.value">
       <property name="accessor" value="node.properties.cm:name"/>
@@ -683,79 +554,6 @@
          </bean>
       </property>
       <property name="negateOutput" value="true" />
-   </bean>
-   <bean id="evaluator.doclib.action.isSyncable" parent="evaluator.doclib.action.chainedMatchAll">
-      <!--Used by: "Sync to cloud" action-->
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.isNotSyncedAspect" />
-            <ref bean="evaluator.doclib.action.isSyncModeOnPremise" />
-            <ref bean="evaluator.doclib.action.isNotDocumentLibrary" />
-            <ref bean="evaluator.doclib.action.siteBased" />
-            <ref bean="evaluator.doclib.action.isNotWorkingCopy" />
-         </list>
-      </property>
-   </bean>
-
-   <!-- Sync: Was this server the source of the sync? -->
-   <bean id="evaluator.doclib.action.isSyncedFromLocal" parent="evaluator.doclib.action.chainedMatchAll">
-      <!-- Used by: "Request Sync" and "View In Cloud" actions-->
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.isSyncedAspect" />
-            <ref bean="evaluator.doclib.action.isSyncModeOnPremise" />
-            <ref bean="evaluator.doclib.action.isNotWorkingCopy" />
-         </list>
-      </property>
-   </bean>
-
-   <bean id="evaluator.doclib.action.isUnsyncable" parent="evaluator.doclib.action.chainedMatchAll">
-      <!-- Used by: "Unsync from Cloud" action -->
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
-            <ref bean="evaluator.doclib.action.isSyncedDirectly" />
-            <ref bean="evaluator.doclib.action.isNotWorkingCopy" />
-            <ref bean="evaluator.doclib.action.isNotPartOfHybridWorklfow" />
-         </list>
-      </property>
-   </bean>
-
-   <!-- Sync Indicators -->
-   <bean id="evaluator.doclib.indicator.isSynced" parent="evaluator.doclib.action.chainedMatchAll">
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.isSyncOn" />
-            <ref bean="evaluator.doclib.action.isSyncedAspect" />
-         </list>
-      </property>
-   </bean>
-
-   <bean id="evaluator.doclib.indicator.isSyncFailed" parent="evaluator.doclib.action.chainedMatchAll">
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
-            <ref bean="evaluator.doclib.action.hasSyncErrorAspect" />
-         </list>
-      </property>
-   </bean>
-
-   <bean id="evaluator.doclib.indicator.isIndirectSync" parent="evaluator.doclib.action.chainedMatchAll">
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.isSyncOn" />
-            <ref bean="evaluator.doclib.action.isSyncedIndirectly" />
-         </list>
-      </property>
-   </bean>
-   <bean id="evaluator.doclib.indicator.isIndirectSyncFailed" parent="evaluator.doclib.action.chainedMatchAll">
-      <property name="evaluators">
-         <list>
-            <ref bean="evaluator.doclib.action.isSyncedFromLocal" />
-            <ref bean="evaluator.doclib.action.isSyncedIndirectly" />
-            <ref bean="evaluator.doclib.action.hasSyncErrorAspect" />
-         </list>
-      </property>
    </bean>
    
    <bean id="evaluator.doclib.action.unzipTo" parent="evaluator.doclib.action.isMimetype">

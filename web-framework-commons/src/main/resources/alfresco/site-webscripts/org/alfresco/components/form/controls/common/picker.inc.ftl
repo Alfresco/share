@@ -23,11 +23,7 @@
       </#if>
    </#if>
 
-   <#if cloud>
-      var ${picker} = new Alfresco.CloudObjectFinder("${controlId}", "${fieldHtmlId}").setOptions(
-   <#else>
-      var ${picker} = new Alfresco.ObjectFinder("${controlId}", "${fieldHtmlId}").setOptions(
-   </#if>
+   var ${picker} = new Alfresco.ObjectFinder("${controlId}", "${fieldHtmlId}").setOptions(
    {
       <#if form.mode == "view" || (field.disabled && !(field.control.params.forceEditable?? && field.control.params.forceEditable == "true"))>disabled: true,</#if>
       field: "${field.name}",

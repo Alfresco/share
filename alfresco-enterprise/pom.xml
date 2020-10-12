@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>6.3.0-SNAPSHOT</version>
     </parent>
     <artifactId>alfresco-enterprise</artifactId>
     <packaging>war</packaging>
@@ -19,8 +19,8 @@
         <!-- Dependency on the Alfresco Platform Enterprise WAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>alfresco-platform-enterprise</artifactId>
-            <version>${alfresco.platform.version}</version>
+            <artifactId>content-services</artifactId>
+            <version>${alfresco.content-services.version}</version>
             <type>war</type>
         </dependency>
         <!-- share-services AMP -->
@@ -75,7 +75,7 @@
                     <overlays>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>alfresco-platform-enterprise</artifactId>
+                            <artifactId>content-services</artifactId>
                             <type>war</type>
                         </overlay>
                         <overlay>
@@ -146,9 +146,9 @@
                         <!-- Run solr4 alongside the repo -->
                         <webapp>
                             <groupId>org.alfresco</groupId>
-                            <artifactId>alfresco-solr4</artifactId>
-                            <version>${alfresco.platform.version}</version>
-                            <contextPath>/solr4</contextPath>
+                           <artifactId>alfresco-solr4</artifactId>
+                           <version>5.2.3</version>
+                           <contextPath>/solr4</contextPath>
                             <type>war</type>
                             <asWebapp>true</asWebapp>
                             <contextFile>${runtime.tomcat.conf.folder}/solr-context.xml</contextFile>
