@@ -34,7 +34,7 @@ branches:
 env:
   global:
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.0.0-M2
+    - RELEASE_VERSION=7.0.0-A3
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
 
 stages:
@@ -97,13 +97,13 @@ jobs:
       stage: release
       name: "Push to Nexus"
       if: fork=false AND commit_message =~ /\[release\]/ AND branch =~ /^(master|SP\/.+|HF\/.+)$/
-      before_install: bash _ci/init.sh
+      before_install: bash _ci/init_tag.sh
       script: travis_wait 30 _ci/maven_release.sh
 
     - name: "Company Release"
       stage: company_release
       if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /^(master|SP\/.+|HF\/.+)$/
-      before_install: bash _ci/init.sh
+      before_install: bash _ci/init_tag.sh
       script: travis_wait 30 _ci/company-release.sh
 
 
