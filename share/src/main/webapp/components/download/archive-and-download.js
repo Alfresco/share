@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2005-2010 Alfresco Software Limited.
  *
@@ -85,10 +86,10 @@
        * reset by the "_resetGUI" function.
        */
       _currentArchiveNodeURL : "",
-      
+
       /**
-       * The name to give to the archive currently being built. This will be set as the Folder filename when a single folder
-       * is selected for download otherwise will just be "Archive.zip"
+       * The name to give to the archive currently being built. This will be set as the Folder filename when a single
+       * folder is selected for download otherwise will just be "Archive.zip"
        */
       _currentArchiveName: "",
       
@@ -137,7 +138,7 @@
          var total = json.total.replace(/,/g, "");
          var overallProgress = total != 0 ? (done / total) : 0;
          var overallLeft = (-300 + (overallProgress * 300));
-         Dom.setStyle(this.id + "-aggregate-progress-span", "left", overallLeft + "px"); 
+         Dom.setStyle(this.id + "-aggregate-progress-span", "left", overallLeft + "px");
          Dom.get(this.id + "-file-count-span").innerHTML = this.msg("file.status", json.filesAdded, json.totalFiles);
       },
       
@@ -177,7 +178,7 @@
                this.updateProgress(response.json);
                this.handleArchiveComplete();
             }
-            else if (response.json.status == "MAX_CONTENT_SIZE_EXCEEDED")
+            else if (response.json.entry.status == "MAX_CONTENT_SIZE_EXCEEDED")
             {
                // The file size is too large to be zipped up:
                Alfresco.util.PopupManager.displayPrompt(
@@ -265,22 +266,21 @@
          {
             Alfresco.util.Ajax.jsonGet({
                url: Alfresco.constants.PROXY_URI + "api/internal/downloads/" + this._currentArchiveNodeURL + "/status",
-               responseContentType : "application/json",
+               responseContentType: "application/json",
                successCallback:
-               {
-                  fn: this.archiveProgressSuccess,
-                  scope: this
-               },
+                  {
+                     fn: this.archiveProgressSuccess,
+                     scope: this
+                  },
                failureCallback:
-               {
-                  fn: this.archiveProgressFailure,
-                  scope: this
-               },
+                  {
+                     fn: this.archiveProgressFailure,
+                     scope: this
+                  },
                failureCount: prevFailures
-           });
+            });
          }
       },
-      
       /**
        * Called when the initial request to generate an archive returns successfully. The response
        * will contain the new NodeRef of the archive being generated which should then be used
@@ -303,7 +303,7 @@
       
       /**
        * Called when the initial request to generate an archive fails. Failure may occur for a number
-       * of reasons including (but not limited to) the repository application not being available, 
+       * of reasons including (but not limited to) the repository application not being available,
        * invalid data in the request payload).
        * 
        * @method archiveInitReqFailure
@@ -366,7 +366,9 @@
 
          var form = document.createElement("form");
          form.method = "GET";
+
          form.action = Alfresco.constants.PROXY_URI + "api/node/content/" + this._currentArchiveNodeURL + "/" + Alfresco.util.encodeURIPath(this._currentArchiveName);
+
          document.body.appendChild(form);
 
          var d = form.ownerDocument;
@@ -388,7 +390,8 @@
        * in the supplied "config" argument.
        * 
        * @method show
-       * @param config The configuration for the archive download. This object should should be in the following structure:
+       * @param config The configuration for the archive download. This object should should be in the following
+       *    structure:
        * 
        * { nodesToArchive : [ { nodeRef: <nodeRef> }, ... ] } 
        */

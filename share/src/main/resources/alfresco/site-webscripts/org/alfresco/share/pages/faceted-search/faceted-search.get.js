@@ -510,7 +510,9 @@ var searchResultsMenuBar = {
                      name: "alfresco/menus/AlfMenuBarToggle",
                      config: {
                         visibilityConfig: hideOnNotSortableConfig,
+                        // subscriptionAttribute and hashName need to match. MNT-18879
                         hashName: "sortAscending",
+                        subscriptionAttribute: "sortAscending",
                         checkedValue: "true",
                         checked: true,
                         onConfig: {

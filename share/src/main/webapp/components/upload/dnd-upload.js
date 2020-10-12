@@ -2023,14 +2023,14 @@
       _updateCompareVersionsSection: function DNDUpload__updateCompareVersionsSection(jsNode, newVersionFile)
       {
          this.getMimetypeDescription(newVersionFile.type, this._extractNewVersionMimetypeDescription, this._setNewVersionDefaultMimetype);
-         Dom.get(this.id + "-current-version-value").innerHTML = jsNode.properties["cm:versionLabel"];
-         Dom.get(this.id + "-current-version-filename").innerHTML = jsNode.properties["cm:name"];
-         Dom.get(this.id + "-current-version-title").innerHTML = jsNode.hasProperty("cm:title") ? jsNode.properties["cm:title"] : this.msg("label.none");
-         Dom.get(this.id + "-current-version-mimetype").innerHTML =  jsNode.mimetypeDisplayName;
+         Dom.get(this.id + "-current-version-value").innerHTML = $html(jsNode.properties["cm:versionLabel"]);
+         Dom.get(this.id + "-current-version-filename").innerHTML = $html(jsNode.properties["cm:name"]);
+         Dom.get(this.id + "-current-version-title").innerHTML = jsNode.hasProperty("cm:title") ? $html(jsNode.properties["cm:title"]) : this.msg("label.none");
+         Dom.get(this.id + "-current-version-mimetype").innerHTML = $html(jsNode.mimetypeDisplayName);
          Dom.get(this.id + "-current-version-last-modified").innerHTML = Alfresco.util.formatDate(this.showConfig.jsNode.properties["cm:modified"].iso8601, "dd/mm/yyyy");
-         Dom.get(this.id + "-current-version-modified-by").innerHTML = jsNode.properties["cm:modifier"].displayName;
+         Dom.get(this.id + "-current-version-modified-by").innerHTML = $html(jsNode.properties["cm:modifier"].displayName);
          Dom.get(this.id + "-current-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(jsNode.mimetype, 48);
-         Dom.get(this.id + "-new-version-filename").innerHTML = newVersionFile.name;
+         Dom.get(this.id + "-new-version-filename").innerHTML = $html(newVersionFile.name);
          Dom.get(this.id + "-new-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(newVersionFile.type, 48);
       },
       

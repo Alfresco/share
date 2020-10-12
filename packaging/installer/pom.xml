@@ -223,6 +223,25 @@
                             </nonFilteredFileExtensions>
                         </configuration>
                     </execution>
+               <!--MNT-18012 - missing sample configuration files from share-distribution-installer -->
+                <execution>
+                    <id>copy-resource</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${basedir}/target/classes/bitrock/bitrock/alfresco/shared/web-extension</outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>../distribution/src/main/resources/web-extension-samples</directory>
+                                <includes>
+                                    <include>**/*</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
+                 </execution>
                 </executions>
             </plugin>
 
