@@ -11,14 +11,14 @@ source _ci/init_tag.sh
 sed  -i "s/<image.tag>latest/<image.tag>$TAG_NAME/" packaging/docker/pom.xml
 
 #build share
-mvn -B -q clean install \
+mvn -B -q install \
     -DskipTests \
-    -Dmaven.javadoc.skip=true 
-  
+    -Dmaven.javadoc.skip=true
+
 
 #build image
 cd packaging/docker
-mvn install -Plocal 
+mvn install -Plocal
 mvn fabric8:push
 
 popd

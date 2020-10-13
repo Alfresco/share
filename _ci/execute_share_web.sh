@@ -5,30 +5,36 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-
 git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
 cd alfresco-tas-share-test
 git checkout 6.2.N
 
+if [[ "$TRAVIS_BRANCH" = "develop" ]]; then
+  NAMESPACE="develop-share"
+else
+  NAMESPACE="travis-share-$TRAVIS_BUILD_NUMBER"
+fi
+
+export HOST="${NAMESPACE}.${HOSTED_ZONE}"
+
 export GROUP=$1
-mvn clean install \
+mvn install \
                -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
-               -Dalfresco.port=8080 \
                -Dalfresco.restApi.basicAuthScheme=true \
                -Djmx.useJolokiaAgent=true \
-               -DincludeGroups=${GROUP} \
+               -DincludeGroups=$GROUP \
                -DexcludeGroups='google-docs,unit,SmartFolders,ExternalUsers,tobefixed,office,TransformationServer,xsstests' \
                -DrunBugs=false \
-               -Dalfresco.server=localhost \
-               -Dalfresco.host=localhost \
-               -Dalfresco.port=8080 \
-               -Dalfresco.url='http://localhost:8080/alfresco' \
-               -Dshare.host=localhost \
-               -Dshare.port=8181 \
-               -Dshare.url='http://localhost:8181/share' \
-               -Dalfresco.scheme=http \
+               -Dalfresco.server=$HOST \
+               -Dalfresco.host=$HOST \
+               -Dalfresco.port=443 \
+               -Dalfresco.url="https://$HOST/alfresco" \
+               -Dshare.host=$HOST \
+               -Dshare.port=443 \
+               -Dshare.url="https://$HOST/share" \
+               -Dalfresco.scheme=https \
                -Dadmin.user=admin \
-               -Dadmin.password=admin \
+               -Dadmin.password=$ALF_PASSWORD \
                -Dwebdriver.grid.url='http://127.0.0.1:4444/wd/hub' \
                -Dwebdriver.local.grid=false \
                -Dwebdriver.localGrid=false \
@@ -57,7 +63,7 @@ done
 # wait for the exit code of the background process
 wait $!
 SUCCESS=$?
-               
+
 popd
 set +vex
 echo "=========================== Finishing Project Alfresco Tas Share =========================="
