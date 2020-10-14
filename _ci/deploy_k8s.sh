@@ -44,7 +44,7 @@ function updateDevelopEnv()  {
   # update the helm repos
   helm repo update
 
-  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0 \
+  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
           --set externalPort="443" \
           --set externalProtocol="https" \
           --set externalHost=$HOST \
@@ -130,7 +130,7 @@ function createEnv {
           --namespace $NAMESPACE
 
   # install ACS chart
-  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0 \
+  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
           --set externalPort="443" \
           --set externalProtocol="https" \
           --set externalHost=$HOST \
