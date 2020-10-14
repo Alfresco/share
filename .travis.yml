@@ -32,6 +32,7 @@ branches:
     - develop
     - /^SP\/.+$/
     - /.*\/APPS-.*$/
+    - fix/env_update
 
 env:
   global:
