@@ -211,12 +211,18 @@ function wait_for_pods {
 if $(isBranchDevelop); then
   echo "On branch develop"
   SHARE_TAG_NAME=$TAG_NAME
-  if $(isDevelopUp); then
-    echo "Update develop environment"
-    updateDevelopEnv
-    wait_for_pods $NAMESPACE
+  if [ "${TRAVIS_EVENT_TYPE}" != "pull_request" ]; then
+    if $(isDevelopUp); then
+      echo "Update develop environment"
+      updateDevelopEnv
+      wait_for_pods $NAMESPACE
+    else
+      echo "Create develop environment"
+      createEnv
+      wait_for_pods $NAMESPACE
+    fi
   else
-    echo "Create develop environment"
+    echo "Create PR env environment"
     createEnv
     wait_for_pods $NAMESPACE
   fi
