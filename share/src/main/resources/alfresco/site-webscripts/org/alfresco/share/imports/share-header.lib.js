@@ -60,6 +60,10 @@ function getShareVersion() {
    return shareManifest.getSpecificationVersion();
 }
 
+function getShareImplementationVersion() {
+   return shareManifest.getImplementationVersion();
+}
+
 /* *********************************************************************************
  *                                                                                 *
  * USER GROUP INFO                                                                 *
@@ -1780,7 +1784,7 @@ function getHeaderModel(pageTitle) {
       name: "share/services/ServicesWarning",
       config: {
          shareServices: getShareServices(),
-         shareVersion: getShareVersion(),
+         shareVersion: getShareImplementationVersion(),
          userIsAdmin: user.isAdmin
       }
    },
