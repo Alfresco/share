@@ -210,11 +210,7 @@ function wait_for_pods {
 # Main
 if $(isBranchDevelop); then
   echo "On branch develop"
-
-  if [ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]; then
-    SHARE_TAG_NAME=$TAG_NAME
-  fi
-
+  SHARE_TAG_NAME=$TAG_NAME
   if $(isDevelopUp); then
     echo "Update develop environment"
     updateDevelopEnv
