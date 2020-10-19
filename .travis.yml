@@ -41,7 +41,7 @@ env:
     - RELEASE_VERSION=7.0.0-A4
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
     - HOSTED_ZONE=dev.alfresco.me
-    - KEEP_ENV=false
+    - KEEP_ENV=true
 
 stages:
   - build
