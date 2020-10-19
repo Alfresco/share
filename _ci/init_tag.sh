@@ -8,7 +8,7 @@ echo "Project version: ${PROJECT_VERSION}"
 echo "Travis commit message: ${TRAVIS_COMMIT_MESSAGE}"
 echo "Release version: ${RELEASE_VERSION}"
 
-if [ "${TRAVIS_BRANCH}" = "master" ]; then
+if [ "${TRAVIS_BRANCH}" = "develop" ] && [ "${TRAVIS_EVENT_TYPE}" != "pull_request" ]; then
   TAG_NAME="latest"
 else
   # substitude all '/' to '-' as Docker doesn't allow it
@@ -16,7 +16,7 @@ else
   TAG_NAME=${TAG_NAME}-${PROJECT_VERSION}
 fi
 
-#in case of release 
+#in case of release
 if [[ "${TRAVIS_COMMIT_MESSAGE}" = *"release"* ]]; then
   TAG_NAME=${RELEASE_VERSION}
 fi
