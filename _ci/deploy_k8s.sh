@@ -4,6 +4,8 @@ else
   NAMESPACE="travis-share-$TRAVIS_BUILD_NUMBER"
 fi
 
+source _ci/init_tag.sh
+
 export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
@@ -208,17 +210,25 @@ function wait_for_pods {
 # Main
 if $(isBranchDevelop); then
   echo "On branch develop"
-  if $(isDevelopUp); then
-    echo "Update develop environment"
-    updateDevelopEnv
-    wait_for_pods $NAMESPACE
+  SHARE_TAG_NAME=$TAG_NAME
+  if [ "${TRAVIS_EVENT_TYPE}" != "pull_request" ]; then
+    if $(isDevelopUp); then
+      echo "Update develop environment"
+      updateDevelopEnv
+      wait_for_pods $NAMESPACE
+    else
+      echo "Create develop environment"
+      createEnv
+      wait_for_pods $NAMESPACE
+    fi
   else
-    echo "Create develop environment"
+    echo "Create PR env environment"
     createEnv
     wait_for_pods $NAMESPACE
   fi
 else
   echo "On development branch"
+  SHARE_TAG_NAME=$TAG_NAME
   createEnv
   wait_for_pods $NAMESPACE
 fi
