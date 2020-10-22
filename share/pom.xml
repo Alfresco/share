@@ -308,7 +308,7 @@
         </dependency>
         <dependency>
             <groupId>junit</groupId>
-            <version>4.13</version>
+            <version>4.13.1</version>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
