@@ -99,6 +99,10 @@
             <version>${dependency.surf.version}</version>
             <exclusions>
                 <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
@@ -106,7 +110,7 @@
 		            <groupId>org.alfresco</groupId>
 		            <artifactId>alfresco-core</artifactId>
 	        	</exclusion>
-                
+
             </exclusions>
         </dependency>
         <dependency>
