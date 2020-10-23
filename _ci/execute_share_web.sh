@@ -19,7 +19,7 @@ export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 
 export XML_SUITE=$1
 mvn install \
-               -DsuiteXmlFile='src/test/resources/test-suites/$XML_SUITE' \
+               -DsuiteXmlFile="src/test/resources/test-suites/$XML_SUITE" \
                -Djmx.useJolokiaAgent=true \
                -DexcludeGroups='google-docs,unit,SmartFolders,ExternalUsers,tobefixed,office,TransformationServer,xsstests' \
                -DrunBugs=false \
