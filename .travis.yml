@@ -94,13 +94,14 @@ jobs:
       script: bash _ci/deploy_k8s.sh
 
     - &test-staging
+      name: "Admin Tools Tests"
       stage: tests
       jdk: openjdk11
       if: fork=false AND commit_message !~ /\[trigger company release\]/
       before_install: bash _ci/init.sh
       install: skip
       script:
-        - bash _ci/execute_share_web.sh "auth"
+        - bash _ci/execute_share_web.sh "admin-tools-tests.xml"
       addons:
         artifacts:
             paths:
@@ -109,13 +110,16 @@ jobs:
             target_paths: $TRAVIS_BUILD_NUMBER
 
     - <<: *test-staging
-      script: bash _ci/execute_share_web.sh "admin-tools"
+      name: "User and Authentication Tests"
+      script: bash _ci/execute_share_web.sh "user-tests.xml"
 
     - <<: *test-staging
-      script: bash _ci/execute_share_web.sh "AlfrescoConsoles"
+      name: "User Dashboard Tests"
+      script: bash _ci/execute_share_web.sh "user-dashboard-tests.xml"
 
     - <<: *test-staging
-      script: bash _ci/execute_share_web.sh "user"
+      name: "Content Tests"
+      script: bash _ci/execute_share_web.sh "content-tests.xml"
 
     - name: "Delete environment"
       stage: tearDown
