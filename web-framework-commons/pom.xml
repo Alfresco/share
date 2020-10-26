@@ -23,6 +23,10 @@
             <version>${dependency.surf.version}</version>
              <exclusions>
                  <exclusion>
+                     <groupId>commons-collections</groupId>
+                     <artifactId>commons-collections</artifactId>
+                 </exclusion>
+                 <exclusion>
                      <groupId>dom4j</groupId>
                      <artifactId>dom4j</artifactId>
                  </exclusion>
@@ -65,7 +69,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-			<version>4.13</version>
+			<version>4.13.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -74,10 +78,10 @@
             <version>${dependency.alfresco-remote-api.version}</version>
             <scope>test</scope>
             <exclusions>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
             </exclusions>            
         </dependency>
         <dependency>
@@ -86,15 +90,19 @@
             <version>${dependency.alfresco-repository.version}</version>
             <scope>test</scope>
             <exclusions>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
-            	<!-- SHA-2432 -->
-            	<exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
+                <!-- SHA-2432 -->
+                <exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>jstl</artifactId>
-            	</exclusion>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
             </exclusions>           
         </dependency>
         <dependency>
@@ -122,15 +130,19 @@
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
-            	<!-- SHA-2432 -->
-            	<exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
+                <!-- SHA-2432 -->
+                <exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>jstl</artifactId>
-            	</exclusion>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
             </exclusions>
             
         </dependency>
@@ -141,10 +153,10 @@
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -154,10 +166,14 @@
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
             </exclusions>            
         </dependency>
         <dependency>
