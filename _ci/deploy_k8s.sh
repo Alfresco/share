@@ -47,7 +47,7 @@ function updateDevelopEnv()  {
   helm repo update
 
   helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
-		  --set repository.replicaCount=1 \
+	  --set repository.replicaCount=1 \
           --set externalPort="443" \
           --set externalProtocol="https" \
           --set externalHost=$HOST \
