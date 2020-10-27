@@ -32,7 +32,6 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 import org.alfresco.error.AlfrescoRuntimeException;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.extensions.webscripts.processor.BaseProcessorExtension;
 
@@ -246,7 +245,7 @@ public class ShareManifest extends BaseProcessorExtension
     private String getVersion(String key)
     {
         String version = manifest.getMainAttributes().getValue(key);
-        if (StringUtils.isEmpty(version))
+        if (version == null || version.isEmpty())
         {
             throw new AlfrescoRuntimeException("Invalid MANIFEST.MF: Share "+key
                     +" is missing, are you using the valid MANIFEST.MF supplied with the Share.war?");
