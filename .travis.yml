@@ -28,7 +28,7 @@ branches:
   only:
     - master
     - /support\/.*/
-    - /.*\/MNT-.*$/
+    - /.*\/APPS-.*$/
 
 stages:
   - build
@@ -41,14 +41,14 @@ jobs:
     - name: "White Source"
       stage: build
       # only on SP branches or master and if it is not a PR
-      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/MNT-.*$/) AND type != pull_request
+      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
       before_install: bash _ci/init.sh
       script: travis_wait 30 bash _ci/whitesource.sh _ci/.wss-unified-agent.config
 
     - name: "Source Clear Scan (SCA)"
       stage: build
       # only on SP branches or master and if it is not a PR
-      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/MNT-.*$/) AND type != pull_request
+      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
       before_install: bash _ci/init.sh
       # Run Veracode
       install: skip
