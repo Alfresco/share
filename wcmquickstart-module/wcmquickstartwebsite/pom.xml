@@ -68,10 +68,14 @@
                      <groupId>dom4j</groupId>
                      <artifactId>dom4j</artifactId>
                  </exclusion>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
+                 <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                 </exclusion>
+                 <exclusion>
+                     <groupId>commons-collections</groupId>
+                     <artifactId>commons-collections</artifactId>
+                 </exclusion>
              </exclusions>
          </dependency>
 
