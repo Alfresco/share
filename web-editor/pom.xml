@@ -104,7 +104,11 @@
             	<exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>jstl</artifactId>
-            	</exclusion>                 
+            	</exclusion>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -165,12 +169,12 @@
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-jstlel</artifactId>
-        </dependency>       
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>24.1.1-jre</version>
-        </dependency>    
+        </dependency>
     </dependencies>
 
 </project>

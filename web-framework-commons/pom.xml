@@ -26,6 +26,10 @@
                      <groupId>dom4j</groupId>
                      <artifactId>dom4j</artifactId>
                  </exclusion>
+                 <exclusion>
+                     <groupId>commons-collections</groupId>
+                     <artifactId>commons-collections</artifactId>
+                 </exclusion>
              </exclusions>
          </dependency>
         <dependency>
@@ -59,14 +63,18 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-repository</artifactId>
             <version>${alfresco.platform.version}</version>
-            <scope>test</scope>   
+            <scope>test</scope>
              <exclusions>
             	<!-- SHA-2423 -->
             	<exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>jstl</artifactId>
             	</exclusion>
-            </exclusions>                    
+                 <exclusion>
+                     <groupId>commons-collections</groupId>
+                     <artifactId>commons-collections</artifactId>
+                 </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -78,7 +86,7 @@
                 <exclusion>
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
-                </exclusion>                
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -91,14 +99,18 @@
             <artifactId>alfresco-repository</artifactId>
             <version>${alfresco.platform.version}</version>
             <classifier>tests</classifier>
-            <scope>test</scope>     
+            <scope>test</scope>
             <exclusions>
             	<!-- SHA-2423 -->
             	<exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>jstl</artifactId>
-            	</exclusion>            
-            </exclusions>       
+            	</exclusion>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -113,6 +125,12 @@
             <version>${dependency.webscripts.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -158,12 +176,12 @@
         <dependency>
           <groupId>org.apache.taglibs</groupId>
           <artifactId>taglibs-standard-jstlel</artifactId>
-        </dependency>   
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>24.1.1-jre</version>
-        </dependency>                 
+        </dependency>
     </dependencies>
     
     <build>
