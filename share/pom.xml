@@ -106,6 +106,12 @@
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf-api</artifactId>
             <version>${dependency.surf.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
@@ -220,21 +226,11 @@
 			<version>1.2</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.myfaces.core</groupId>
-            <artifactId>myfaces-api</artifactId>
-			<version>1.1.10</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>jstl</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.myfaces.core</groupId>
-            <artifactId>myfaces-impl</artifactId>
-			<version>1.1.10</version>
-        </dependency>
+
         <!-- Dependency on external Aikau project (this includes Dojo) -->
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -313,7 +309,7 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${dependency.slf4j.version}</version>
         </dependency>
-        
+
     </dependencies>
 
     <build>
