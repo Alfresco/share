@@ -1,0 +1,18 @@
+{
+  "Comment": "Creating Alias resource record sets in Route 53",
+  "Changes": [
+    {
+      "Action": "$Action",
+      "ResourceRecordSet": {
+        "Name": "$Name",
+        "Type": "CNAME",
+        "ResourceRecords": [
+          {
+            "Value": "$Value"
+          }
+        ],
+        "TTL": 300
+      }
+    }
+  ]
+}
