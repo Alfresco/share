@@ -17,12 +17,10 @@ fi
 
 export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 
-export GROUP=$1
+export XML_SUITE=$1
 mvn install \
-               -DsuiteXmlFile='src/test/resources/share-po-runner-suite.xml' \
-               -Dalfresco.restApi.basicAuthScheme=true \
+               -DsuiteXmlFile="src/test/resources/test-suites/${XML_SUITE}" \
                -Djmx.useJolokiaAgent=true \
-               -DincludeGroups=$GROUP \
                -DexcludeGroups='google-docs,unit,SmartFolders,ExternalUsers,tobefixed,office,TransformationServer,xsstests' \
                -DrunBugs=false \
                -Dalfresco.server=$HOST \
