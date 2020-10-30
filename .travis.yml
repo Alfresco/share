@@ -32,12 +32,12 @@ branches:
   only:
     - master
     - develop
-    - /^SP\/.+$/
+    - /support\/.*/
     - /.*\/APPS-.*$/
 
 env:
   global:
-    - REPO_TAG_NAME=7.0.0-M2
+    - REPO_TAG_NAME=6.1.1
     - SHARE_TAG_NAME=latest
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
     - RELEASE_VERSION=7.0.0-A6
