@@ -32,7 +32,7 @@ branches:
   only:
     - master
     - develop
-    - /^SP\/.+$/
+    - /support\/.*/
     - /.*\/APPS-.*$/
 
 env:
