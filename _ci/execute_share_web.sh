@@ -8,7 +8,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
 git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
 cd alfresco-tas-share-test
-git checkout 6.2.N
+git checkout investigate
 
 export GROUP=$1
 mvn clean install \
