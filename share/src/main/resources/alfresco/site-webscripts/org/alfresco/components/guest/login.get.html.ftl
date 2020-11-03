@@ -30,7 +30,23 @@
          <div class="error">${msg("message.loginautherror")}</div>
          <#else>
          <script type="text/javascript">//<![CDATA[
-            document.cookie = "_alfTest=_alfTest; Path=/;";
+            <#assign cookieHeadersConfig = config.scoped["COOKIES"] />
+            <#if cookieHeadersConfig?? && (cookieHeadersConfig.secure.getValue() == "true" || cookieHeadersConfig.secure.getValue() == "false")>
+               Alfresco.constants.secureCookie = ${cookieHeadersConfig.secure.getValue()};
+               Alfresco.constants.sameSite = "${cookieHeadersConfig.sameSite.getValue()}";
+            </#if>
+
+            var cookieDefinition = "_alfTest=_alfTest; Path=/;";
+            if(Alfresco.constants.secureCookie)
+            {
+               cookieDefinition += " Secure;";
+            }
+            if(Alfresco.constants.sameSite)
+            {
+               cookieDefinition += " SameSite="+Alfresco.constants.sameSite+";";
+            }
+            document.cookie = cookieDefinition;
+
             var cookieEnabled = (document.cookie.indexOf("_alfTest") !== -1);
             if (!cookieEnabled)
             {
