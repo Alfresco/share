@@ -20,6 +20,7 @@
  */
 package org.alfresco.web.site.servlet.config;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.keycloak.common.enums.SslRequired;
@@ -27,7 +28,6 @@ import org.keycloak.representations.adapters.config.AdapterConfig;
 import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigElement;
 import org.springframework.extensions.config.ConfigService;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
