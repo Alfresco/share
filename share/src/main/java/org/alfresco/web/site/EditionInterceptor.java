@@ -115,7 +115,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                             if (MTAuthenticationFilter.getCurrentServletRequest() != null)
                             {
                                 HttpSession session = MTAuthenticationFilter.getCurrentServletRequest().getSession(false);
-                                if (session != null && session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID) != null)
+                                if (session != null)
                                 {
                                     // we try now that a Session is acquired and we have an authenticated user
                                     // this is the only time that we can successfully retrieve the license information
