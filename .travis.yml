@@ -130,12 +130,12 @@ jobs:
 
     - name: "Release"
       stage: release
-      if: fork=false AND commit_message =~ /\[release\]/ AND branch =~ /^(master|develop|SP\/.+|HF\/.+)$/
+      if: fork=false AND commit_message =~ /\[release\]/ AND branch =~ /(master|develop|SP\/.+|HF\/.+)$/
       before_install: bash _ci/init_tag.sh
       script: travis_wait 30 _ci/maven_release.sh
 
     - name: "Company Release"
       stage: company_release
-      if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /^(master|SP\/.+|HF\/.+)$/
+      if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /(master|SP\/.+|HF\/.+)$/
       before_install: bash _ci/init_tag.sh
       script: travis_wait 30 _ci/company-release.sh
