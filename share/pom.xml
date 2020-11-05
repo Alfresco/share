@@ -43,7 +43,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
-            <version>${dependency.alfresco-core.version}</version>
+            <version>${dependency.alfresco-community-repo.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.hibernate</groupId>
@@ -396,7 +396,7 @@
                             <manifestSection>
                                 <name>Share Libraries</name>
                                 <manifestEntries>
-                                    <alfresco-core>${dependency.alfresco-core.version}</alfresco-core>
+                                    <alfresco-core>${dependency.alfresco-community-repo.version}</alfresco-core>
                                     <alfresco-jlan>${dependency.alfresco-jlan.version}</alfresco-jlan>
                                     <spring>${dependency.spring.version}</spring>
                                     <surf>${project.version}</surf>
