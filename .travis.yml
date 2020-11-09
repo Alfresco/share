@@ -87,20 +87,13 @@ jobs:
 
     - name: "Release"
       stage: release
-      name: "Push to Nexus"
-      if: commit_message ~= /\[trigger release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
-      before_install: bash _ci/init.sh
-      script:
-        # Use full history for release
-        - git checkout -B "${TRAVIS_BRANCH}"
-        # Add email to link commits to user
-        - git config user.email "${GIT_EMAIL}"
-        # Skip building of release commits
-        - mvn --batch-mode -q -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DskipTests -Darguments=-DskipTests release:clean release:prepare release:perform
+      if: fork=false AND commit_message =~ /\[release\]/ AND branch =~ /(master|develop|SP\/.+|HF\/.+)$/
+      before_install: bash _ci/init_tag.sh
+      script: travis_wait 30 _ci/maven_release.sh
 
     - name: "Company Release"
       stage: company_release
-      if: commit_message ~= /\[trigger company release\]/ AND branch ~= /^(master|SP\/.+|HF\/.+)$/
-      before_install: bash _ci/init.sh
+      if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /(master|SP\/.+|HF\/.+)$/
+      before_install: bash _ci/init_tag.sh
       script: travis_wait 30 _ci/company-release.sh
 
