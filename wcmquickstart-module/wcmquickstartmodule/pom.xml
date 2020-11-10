@@ -13,13 +13,13 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>${dependency.alfresco-remote-api.version}</version>
+            <version>${dependency.alfresco-community-repo.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>${dependency.alfresco-repository.version}</version>
+            <version>${dependency.alfresco-community-repo.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -58,14 +58,14 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-repository</artifactId>
-            <version>${dependency.alfresco-repository.version}</version>
+            <version>${dependency.alfresco-community-repo.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-remote-api</artifactId>
-            <version>${dependency.alfresco-remote-api.version}</version>
+            <version>${dependency.alfresco-community-repo.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
@@ -134,7 +134,7 @@
                         <artifactItem>
                             <groupId>org.alfresco</groupId>
                             <artifactId>alfresco-repository</artifactId>
-                            <version>${dependency.alfresco-repository.version}</version>
+                            <version>${dependency.alfresco-community-repo.version}</version>
                             <classifier>tests</classifier>
                         </artifactItem>
                     </artifactItems>

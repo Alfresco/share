@@ -101,7 +101,7 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>alfresco-repository</artifactId>
-                                    <version>${dependency.alfresco-repository.version}</version>
+                                    <version>${dependency.alfresco-community-repo.version}</version>
                                     <includes>alfresco/keystore/**</includes>
                                 </artifactItem>
                             </artifactItems>
