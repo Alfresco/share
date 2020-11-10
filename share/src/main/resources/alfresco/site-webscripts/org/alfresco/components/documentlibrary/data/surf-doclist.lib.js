@@ -1144,13 +1144,18 @@ var DocList =
    }
 };
 
-var surfDoclist_main = function surfDoclist_main(includeThumbnails)
+var surfDoclist_main = function surfDoclist_main(includeThumbnails, stripLinkedNodeProperties)
 {
    var json = "{}",
       dataUrl = DocList_Custom.calculateRemoteDataURL();
    if (includeThumbnails === true)
    {
       dataUrl += "&includeThumbnails=true";
+   }
+
+   if (stripLinkedNodeProperties && stripLinkedNodeProperties === true)
+   {
+      dataUrl += "&stripLinkedNodeProperties=true";
    }
 
    var result = remote.call(dataUrl);
