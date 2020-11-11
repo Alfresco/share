@@ -482,6 +482,10 @@
     <bean id="webscript.org.alfresco.components.profile.change-password.get" parent="webscript"
           class="org.alfresco.web.scripts.AimsStatusWebScript"/>
 
+    <!-- Java controller for the org.alfresco.components.profile.userprofile.get WebScript -->
+    <bean id="webscript.org.alfresco.components.profile.userprofile.get" parent="webscript"
+          class="org.alfresco.web.scripts.AimsStatusWebScript"/>
+
     <!-- Java controller for the org.alfresco.components.documentlibrary.data.surf-doclist.get WebScript -->
     <bean id="webscript.org.alfresco.components.documentlibrary.data.surf-doclist.get" parent="webscript"
           class="org.alfresco.web.scripts.StripLinkedNodePropertiesOption"/>
