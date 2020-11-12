@@ -53,7 +53,7 @@
         <dependency.alfresco-core.version>7.33</dependency.alfresco-core.version>
         <dependency.alfresco-remote-api.version>7.144</dependency.alfresco-remote-api.version>
         <dependency.webscripts.version>7.18</dependency.webscripts.version>
-        <dependency.surf.version>7.10</dependency.surf.version>
+        <dependency.surf.version>7.13</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
         <dependency.slf4j.version>1.7.30</dependency.slf4j.version>
