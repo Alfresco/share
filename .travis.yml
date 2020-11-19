@@ -41,8 +41,8 @@ env:
     - REPO_TAG_NAME=6.2.2
     - SHARE_TAG_NAME=latest
     # Release version has to start with real version (6.2.2.1) for the docker image to build successfully.
-    - RELEASE_VERSION=6.2.2.1
-    - DEVELOPMENT_VERSION=6.2.2.2-SNAPSHOT
+    - RELEASE_VERSION=6.2.2.2
+    - DEVELOPMENT_VERSION=6.2.2.3-SNAPSHOT
     - HOSTED_ZONE=dev.alfresco.me
     - KEEP_ENV=false
 
