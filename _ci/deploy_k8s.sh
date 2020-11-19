@@ -41,7 +41,8 @@ function updateDevelopEnv()  {
   # add the helm repos
   helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
   helm repo add alfresco-stable https://kubernetes-charts.alfresco.com/stable
-  helm repo add stable https://kubernetes-charts.storage.googleapis.com
+  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
 
   # update the helm repos
   helm repo update
@@ -103,7 +104,7 @@ function createEnv {
   # add the helm repos
   helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
   helm repo add alfresco-stable https://kubernetes-charts.alfresco.com/stable
-  helm repo add stable https://kubernetes-charts.storage.googleapis.com
+  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
   # update the helm repos
   helm repo update
@@ -119,7 +120,7 @@ function createEnv {
   kubectl apply -f _ci/values-for-ingress-travis-env.yaml
 
   # install ingress
-  helm upgrade --install $RELEASE_INGRESS_NAME stable/nginx-ingress \
+  helm upgrade --install $RELEASE_INGRESS_NAME ingress-nginx/ingress-nginx \
           --set controller.scope.enabled=true \
           --set controller.scope.namespace=$NAMESPACE \
           --set rbac.create=true \
