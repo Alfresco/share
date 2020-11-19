@@ -156,7 +156,7 @@ function createEnv {
           --namespace $NAMESPACE
 
   # get ELB address required for Route53 entry
-  export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-nginx-ingress-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
+  export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-ingress-nginx-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
 
   # get hosted zone id for Alias Target
   IFS='-' read -r -a array <<< "$ELBADDRESS"
