@@ -36,7 +36,7 @@ function get_route53_json {
 function deleteEnv {
   echo "=========================== Deleting the environment ==========================="
 
-  export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-nginx-ingress-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
+  export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-ingress-nginx-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
 
   # get Route53 hosted zone id
   export HOSTED_ZONE_ID=$(aws route53 list-hosted-zones-by-name --dns-name $HOSTED_ZONE | jq -r '.HostedZones | .[] | .Id')
