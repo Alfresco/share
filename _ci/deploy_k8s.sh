@@ -48,7 +48,7 @@ function updateDevelopEnv()  {
   helm repo update
   
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
-  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 4.1.1 \
+  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
 	  --set repository.replicaCount=1 \
           --set externalPort="443" \
           --set externalProtocol="https" \
@@ -136,7 +136,7 @@ function createEnv {
 
   # install ACS chart
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
-  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 4.1.1 \
+  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
           --set repository.replicaCount=1 \
           --set externalPort="443" \
           --set externalProtocol="https" \
