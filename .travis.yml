@@ -37,6 +37,7 @@ branches:
 
 env:
   global:
+    - HELM_VERSION=2.13.0
     - REPO_TAG_NAME=6.2.2
     - SHARE_TAG_NAME=latest
     # Release version has to start with real version (6.2.2.1) for the docker image to build successfully.
