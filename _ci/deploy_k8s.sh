@@ -48,7 +48,7 @@ function updateDevelopEnv()  {
   helm repo update
   
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
-  helm upgrade --install $RELEASE_NAME -f _ci/6.2.N_values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
+  helm upgrade --install $RELEASE_NAME -f _ci/values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
 }
 
 
@@ -119,7 +119,7 @@ function createEnv {
 
   # install ACS chart
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
-  helm upgrade --install $RELEASE_NAME -f _ci/6.2.N_values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
+  helm upgrade --install $RELEASE_NAME -f _ci/values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
 
   # get ELB address required for Route53 entry
   export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-ingress-nginx-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
