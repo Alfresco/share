@@ -103,7 +103,7 @@ function createEnv {
   kubectl apply -f _ci/values-for-ingress-travis-env.yaml
 
   # install ingress
-  helm upgrade --install $RELEASE_INGRESS_NAME ingress-nginx/ingress-nginx --version 2.16.0 \
+  helm upgrade --install $RELEASE_INGRESS_NAME ingress-nginx/ingress-nginx --version 3.7.1 \
           --set controller.scope.enabled=true \
           --set controller.scope.namespace=$NAMESPACE \
           --set rbac.create=true \
@@ -115,6 +115,7 @@ function createEnv {
           --set controller.service.annotations."external-dns\.alpha\.kubernetes\.io/hostname"=$HOST \
           --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-ssl-negotiation-policy"="ELBSecurityPolicy-TLS-1-2-2017-01" \
           --set controller.publishService.enabled=true \
+          --wait \
           --namespace $NAMESPACE
 
   # install ACS chart
