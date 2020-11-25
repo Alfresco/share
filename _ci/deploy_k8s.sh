@@ -100,7 +100,7 @@ function createEnv {
   sed -i 's/REPLACEME_NAMESPACE/'"$NAMESPACE"'/g' _ci/values-for-ingress-travis-env.yaml
 
   # apply cluster role bindings
-  # kubectl apply -f _ci/values-for-ingress-travis-env.yaml
+  kubectl apply -f _ci/values-for-ingress-travis-env.yaml
 
   # install ingress
   helm upgrade --install $RELEASE_INGRESS_NAME ingress-nginx/ingress-nginx --version 2.16.0 \
