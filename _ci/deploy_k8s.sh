@@ -48,24 +48,7 @@ function updateDevelopEnv()  {
   helm repo update
   
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
-  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 4.1.1 \
-	  --set repository.replicaCount=1 \
-          --set externalPort="443" \
-          --set externalProtocol="https" \
-          --set externalHost=$HOST \
-          --set persistence.enabled=true \
-          --set persistence.baseSize=10Gi \
-          --set persistence.storageClass.enabled=true \
-          --set persistence.storageClass.name="nfs-sc" \
-          --set activemq.persistence.mountPath="/opt/activemq/data/${NAMESPACE}" \
-          --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
-          --set repository.adminPassword="${ADMIN_PWD}" \
-          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
-          --set repository.image.tag="${REPO_TAG_NAME}" \
-          --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
-          --set share.image.tag="${SHARE_TAG_NAME}" \
-          --set repository.environment.JAVA_OPTS="-Dalfresco.restApi.basicAuthScheme=true -Dsolr.base.url=/solr -Dsolr.secureComms=none -Dindex.subsystem.name=solr6 -Dalfresco.cluster.enabled=true -Ddeployment.method=HELM_CHART -Dtransform.service.enabled=true -Xms2000M -Xmx2000M" \
-          --namespace $NAMESPACE
+  helm upgrade --install $RELEASE_NAME -f _ci/6.2.N_values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
 }
 
 
@@ -136,24 +119,7 @@ function createEnv {
 
   # install ACS chart
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
-  helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 4.1.1 \
-          --set repository.replicaCount=1 \
-          --set externalPort="443" \
-          --set externalProtocol="https" \
-          --set externalHost=$HOST \
-          --set persistence.enabled=true \
-          --set persistence.baseSize=10Gi \
-          --set persistence.storageClass.enabled=true \
-          --set persistence.storageClass.name="nfs-sc" \
-          --set activemq.persistence.mountPath="/opt/activemq/data/${NAMESPACE}" \
-          --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
-          --set repository.adminPassword="${ADMIN_PWD}" \
-          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
-          --set repository.image.tag="${REPO_TAG_NAME}" \
-          --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
-          --set share.image.tag="${SHARE_TAG_NAME}" \
-          --set repository.environment.JAVA_OPTS="-Dalfresco.restApi.basicAuthScheme=true -Dsolr.base.url=/solr -Dsolr.secureComms=none -Dindex.subsystem.name=solr6 -Dalfresco.cluster.enabled=true -Ddeployment.method=HELM_CHART -Dtransform.service.enabled=true -Xms2000M -Xmx2000M" \
-          --namespace $NAMESPACE
+  helm upgrade --install $RELEASE_NAME -f _ci/6.2.N_values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
 
   # get ELB address required for Route53 entry
   export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-ingress-nginx-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
