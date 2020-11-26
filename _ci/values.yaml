@@ -327,7 +327,7 @@ share:
   image:
     repository: quay.io/alfresco/alfresco-share
     #tag: "fix-APPS-refactor-helm-6.2.2.2-SNAPSHOT"
-    tag: "6.2.2"
+    tag: "latest"
     pullPolicy: Always
     internalPort: 8080
   service:
