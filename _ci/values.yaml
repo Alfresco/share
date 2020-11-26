@@ -253,7 +253,7 @@ transformmisc:
     maxTransformSeconds: 1800
 
 aiTransformer:
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: quay.io/alfresco/alfresco-ai-docker-engine
     tag: "1.2.0"
@@ -362,7 +362,7 @@ persistence:
     enabled: false
     accessModes:
       - ReadWriteMany
-    name: "nfs" #Custom storage classs name
+    name: "nfs-sc" #Custom storage classs name
   existingClaim: "alfresco-volume-claim"
   repository:
     enabled: true
