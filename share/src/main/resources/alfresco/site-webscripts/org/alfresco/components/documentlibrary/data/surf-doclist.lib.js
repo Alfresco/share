@@ -1144,10 +1144,10 @@ var DocList =
    }
 };
 
-var surfDoclist_main = function surfDoclist_main(includeThumbnails, stripLinkedNodeProperties)
+function surfDoclist_main_with_stripLinkedNodeProperties(includeThumbnails, stripLinkedNodeProperties)
 {
    var json = "{}",
-      dataUrl = DocList_Custom.calculateRemoteDataURL();
+       dataUrl = DocList_Custom.calculateRemoteDataURL();
    if (includeThumbnails === true)
    {
       dataUrl += "&includeThumbnails=true";
@@ -1166,11 +1166,11 @@ var surfDoclist_main = function surfDoclist_main(includeThumbnails, stripLinkedN
       if (obj && (obj.item || obj.items))
       {
          DocList.processResult(obj,
-         {
-            actions: true,
-            indicators: true,
-            metadataTemplate: true
-         });
+             {
+                actions: true,
+                indicators: true,
+                metadataTemplate: true
+             });
          json = jsonUtils.toJSONString(obj);
       }
    }
@@ -1180,4 +1180,20 @@ var surfDoclist_main = function surfDoclist_main(includeThumbnails, stripLinkedN
    }
 
    model.json = json;
-};
+}
+
+function surfDoclist_main_without_stripLinkedNodeProperties(includeThumbnails)
+{
+   surfDoclist_main_with_stripLinkedNodeProperties(includeThumbnails, null);
+}
+
+var surfDoclist_main;
+
+if (typeof stripLinkedNodeProperties !== 'undefined')
+{
+   surfDoclist_main = surfDoclist_main_with_stripLinkedNodeProperties;
+}
+else
+{
+   surfDoclist_main = surfDoclist_main_without_stripLinkedNodeProperties;
+}
