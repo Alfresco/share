@@ -363,7 +363,6 @@ persistence:
     accessModes:
       - ReadWriteMany
     name: "nfs-sc" #Custom storage classs name
-  existingClaim: "alfresco-volume-claim"
   repository:
     enabled: true
     config:
