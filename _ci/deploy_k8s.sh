@@ -50,7 +50,7 @@ function updateDevelopEnv()  {
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
   # helm upgrade --install $RELEASE_NAME -f _ci/values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
 	helm install $RELEASE_NAME alfresco-incubator/alfresco-content-services --devel \
-    --values=6.2.N_values.yaml \
+    --values=_ci/6.2.N_values.yaml \
     --set externalPort="443" \
     --set externalProtocol="https" \
     --set externalHost=$HOST \
@@ -135,7 +135,7 @@ function createEnv {
 #  				--set global.alfrescoRegistryPullSecrets=quay-registry-secret \
 #  				--namespace $NAMESPACE
 	helm install $RELEASE_NAME alfresco-incubator/alfresco-content-services --devel \
-    --values=6.2.N_values.yaml \
+    --values=_ci/6.2.N_values.yaml \
     --set externalPort="443" \
     --set externalProtocol="https" \
     --set externalHost=$HOST \
