@@ -49,25 +49,18 @@ function updateDevelopEnv()  {
   
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
   # helm upgrade --install $RELEASE_NAME -f _ci/values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
-	helm install sfdc-acs alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
-        --set externalPort="443" \
-        --set externalProtocol="https" \
-        --set externalHost=$HOST \
-        --set persistence.enabled=true \
-        --set persistence.baseSize=10Gi \
-        --set persistence.storageClass.enabled=true \
-        --set persistence.storageClass.name="nfs-sc" \
-        --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
-        --set repository.adminPassword="${ADMIN_PWD}" \
-        --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
-        --set repository.image.tag="${REPO_TAG_NAME}" \
-        --set repository.environment.JAVA_TOOL_OPTIONS=" -Dmetadata-keystore.aliases=metadata -Dmetadata-keystore.metadata.algorithm=AES" \
-        --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
-        --set share.image.tag="${SHARE_TAG_NAME}" \
-        --set share.environment.JAVA_OPTS="-Dalfresco.proxy=https://${HOST}:443" \
-        --set alfresco-search.ingress.enabled=true \
-        --set repository.replicaCount=1 \
-        --namespace=$NAMESPACE
+	helm install $RELEASE_NAME alfresco-incubator/alfresco-content-services --devel \
+    --values=6.2.N_values.yaml \
+    --set externalPort="443" \
+    --set externalProtocol="https" \
+    --set externalHost=$HOST \
+    --set repository.adminPassword="${ADMIN_PWD}" \
+    --set persistence.enabled=true \
+    --set persistence.storageClass.enabled=true \
+    --set persistence.storageClass.name="nfs-sc" \
+    --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
+    --atomic \
+    --namespace=$NAMESPACE
 }
 
 
@@ -122,45 +115,37 @@ function createEnv {
   kubectl apply -f _ci/values-for-ingress-travis-env.yaml
 
   # install ingress
-  helm upgrade --install $RELEASE_INGRESS_NAME ingress-nginx/ingress-nginx --version 3.7.1 \
-          --set controller.scope.enabled=true \
-          --set controller.scope.namespace=$NAMESPACE \
-          --set rbac.create=true \
-          --set controller.config."proxy-body-size"="100m" \
-          --set controller.service.targetPorts.https=80 \
-          --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-backend-protocol"="http" \
-          --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-ssl-ports"="https" \
-          --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-ssl-cert"=$SSL_CERT \
-          --set controller.service.annotations."external-dns\.alpha\.kubernetes\.io/hostname"=$HOST \
-          --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-ssl-negotiation-policy"="ELBSecurityPolicy-TLS-1-2-2017-01" \
-          --set controller.publishService.enabled=true \
-          --wait \
-          --namespace $NAMESPACE
-
+	helm install $RELEASE_INGRESS_NAME ingress-nginx/ingress-nginx --version=3.7.1 \
+    --set controller.scope.enabled=true \
+    --set controller.scope.namespace=$NAMESPACE \
+    --set rbac.create=true \
+    --set controller.config."proxy-body-size"="100m" \
+    --set controller.service.targetPorts.https=80 \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-backend-protocol"="http" \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-ssl-ports"="https" \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-ssl-cert"=$SSL_CERT \
+    --set controller.service.annotations."external-dns\.alpha\.kubernetes\.io/hostname"=$HOST \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-ssl-negotiation-policy"="ELBSecurityPolicy-TLS-1-2-2017-01" \
+    --set controller.publishService.enabled=true \
+    --atomic \
+    --namespace $NAMESPACE
   # install ACS chart
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
 #  helm upgrade --install $RELEASE_NAME --values _ci/values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 \
 #  				--set global.alfrescoRegistryPullSecrets=quay-registry-secret \
 #  				--namespace $NAMESPACE
-	helm install sfdc-acs alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
-        --set externalPort="443" \
-        --set externalProtocol="https" \
-        --set externalHost=$HOST \
-        --set persistence.enabled=true \
-        --set persistence.baseSize=10Gi \
-        --set persistence.storageClass.enabled=true \
-        --set persistence.storageClass.name="nfs-sc" \
-        --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
-        --set repository.adminPassword="${ADMIN_PWD}" \
-        --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
-        --set repository.image.tag="6.2.2" \
-        --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
-        --set share.image.tag="6.2.2" \
-        --set share.environment.JAVA_OPTS="-Dalfresco.proxy=https://${HOST}:443" \
-        --set alfresco-search.ingress.enabled=true \
-        --set repository.replicaCount=1 \
-        --namespace=$NAMESPACE
-
+	helm install $RELEASE_NAME alfresco-incubator/alfresco-content-services --devel \
+    --values=6.2.N_values.yaml \
+    --set externalPort="443" \
+    --set externalProtocol="https" \
+    --set externalHost=$HOST \
+    --set repository.adminPassword="${ADMIN_PWD}" \
+    --set persistence.enabled=true \
+    --set persistence.storageClass.enabled=true \
+    --set persistence.storageClass.name="nfs-sc" \
+    --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
+    --atomic \
+    --namespace=$NAMESPACE
   # get ELB address required for Route53 entry
   export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-ingress-nginx-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
 
