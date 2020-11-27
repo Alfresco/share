@@ -61,7 +61,7 @@ function updateDevelopEnv()  {
         --set repository.adminPassword="${ADMIN_PWD}" \
         --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
         --set repository.image.tag="${REPO_TAG_NAME}" \
-        --set repository.environment.JAVA_TOOL_OPTIONS="-Dmetadata-keystore.aliases=metadata -Dmetadata-keystore.metadata.algorithm=AES" \
+        --set repository.environment.JAVA_TOOL_OPTIONS=" -Dmetadata-keystore.aliases=metadata -Dmetadata-keystore.metadata.algorithm=AES" \
         --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
         --set share.image.tag="${SHARE_TAG_NAME}" \
         --set share.environment.JAVA_OPTS="-Dalfresco.proxy=https://${HOST}:443" \
