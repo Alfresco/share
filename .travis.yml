@@ -37,7 +37,6 @@ branches:
 
 env:
   global:
-    - HELM_VERSION=2.13.1
     - REPO_TAG_NAME=6.2.2
     - SHARE_TAG_NAME=latest
     # Release version has to start with real version (6.2.2.1) for the docker image to build successfully.
@@ -65,7 +64,6 @@ before_install:
     mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
     export PATH=$PATH:$HOME/bin
     aws eks update-kubeconfig --name appsTeam --region=eu-west-1
-    helm init
 
 jobs:
   include:
@@ -90,43 +88,43 @@ jobs:
       install: skip
       script: travis_wait 30 bash _ci/source_clear.sh
 
-    - name: "Deploy on K8s"
-      stage: deploy
-      install: skip
-      script: bash _ci/deploy_k8s.sh
-
-    - &test-staging
-      name: "Admin Tools Tests"
-      stage: tests
-      jdk: openjdk11
-      if: fork=false AND commit_message !~ /\[trigger company release\]/
-      before_install: bash _ci/init.sh
-      install: skip
-      script:
-        - bash _ci/execute_share_web.sh "admin-tools-tests.xml"
-      addons:
-        artifacts:
-            paths:
-              - alfresco-tas-share-test/target/surefire-reports
-              - alfresco-tas-share-test/target/reports
-            target_paths: $TRAVIS_BUILD_NUMBER
-
-    - <<: *test-staging
-      name: "User and Authentication Tests"
-      script: bash _ci/execute_share_web.sh "user-tests.xml"
-
-    - <<: *test-staging
-      name: "User Dashboard Tests"
-      script: bash _ci/execute_share_web.sh "user-dashboard-tests.xml"
-
-    - <<: *test-staging
-      name: "Content Tests"
-      script: bash _ci/execute_share_web.sh "content-tests.xml"
-
-    - name: "Delete environment"
-      stage: tearDown
-      install: skip
-      script: bash _ci/delete-env.sh
+#    - name: "Deploy on K8s"
+#      stage: deploy
+#      install: skip
+#      script: bash _ci/deploy_k8s.sh
+#
+#    - &test-staging
+#      name: "Admin Tools Tests"
+#      stage: tests
+#      jdk: openjdk11
+#      if: fork=false AND commit_message !~ /\[trigger company release\]/
+#      before_install: bash _ci/init.sh
+#      install: skip
+#      script:
+#        - bash _ci/execute_share_web.sh "admin-tools-tests.xml"
+#      addons:
+#        artifacts:
+#            paths:
+#              - alfresco-tas-share-test/target/surefire-reports
+#              - alfresco-tas-share-test/target/reports
+#            target_paths: $TRAVIS_BUILD_NUMBER
+#
+#    - <<: *test-staging
+#      name: "User and Authentication Tests"
+#      script: bash _ci/execute_share_web.sh "user-tests.xml"
+#
+#    - <<: *test-staging
+#      name: "User Dashboard Tests"
+#      script: bash _ci/execute_share_web.sh "user-dashboard-tests.xml"
+#
+#    - <<: *test-staging
+#      name: "Content Tests"
+#      script: bash _ci/execute_share_web.sh "content-tests.xml"
+#
+#    - name: "Delete environment"
+#      stage: tearDown
+#      install: skip
+#      script: bash _ci/delete-env.sh
 
     - name: "Release"
       stage: release
