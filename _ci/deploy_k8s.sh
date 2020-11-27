@@ -49,7 +49,7 @@ function updateDevelopEnv()  {
   
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
   # helm upgrade --install $RELEASE_NAME -f _ci/values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 --namespace $NAMESPACE
-	helm install acs alfresco-incubator/alfresco-content-services --devel \
+	helm install $RELEASE_NAME alfresco-incubator/alfresco-content-services --devel \
     --values=_ci/6.2.N_values.yaml \
     --set externalPort="443" \
     --set externalProtocol="https" \
@@ -117,7 +117,7 @@ function createEnv {
   kubectl apply -f _ci/values-for-ingress-travis-env.yaml
 
   # install ingress
-	helm install acs-ingress ingress-nginx/ingress-nginx --version=3.7.1 \
+	helm install $RELEASE_INGRESS_NAME ingress-nginx/ingress-nginx --version=3.7.1 \
     --set controller.scope.enabled=true \
     --set controller.scope.namespace=$NAMESPACE \
     --set rbac.create=true \
@@ -136,7 +136,7 @@ function createEnv {
 #  helm upgrade --install $RELEASE_NAME --values _ci/values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 \
 #  				--set global.alfrescoRegistryPullSecrets=quay-registry-secret \
 #  				--namespace $NAMESPACE
-	helm install acs alfresco-incubator/alfresco-content-services --devel \
+	helm install $RELEASE_NAME alfresco-incubator/alfresco-content-services --devel \
     --values=_ci/6.2.N_values.yaml \
     --set externalPort="443" \
     --set externalProtocol="https" \
@@ -152,7 +152,7 @@ function createEnv {
   echo "the host is: $HOST"
 
   # get ELB address required for Route53 entry
-  export ELBADDRESS=$(kubectl get services acs-ingress-ingress-nginx-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
+  export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-nginx-ingress-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
 
   # get hosted zone id for Alias Target
   IFS='-' read -r -a array <<< "$ELBADDRESS"
