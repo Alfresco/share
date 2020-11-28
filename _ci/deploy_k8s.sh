@@ -152,14 +152,17 @@ function createEnv {
   echo "the host is: $HOST"
 
   # get ELB address required for Route53 entry
-  export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-nginx-ingress-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
+  export ELBADDRESS=$(kubectl get services $RELEASE_INGRESS_NAME-ingress-nginx-controller --namespace=$NAMESPACE -o jsonpath={.status.loadBalancer.ingress[0].hostname})
+	echo "ELBADDRES FOUND: $ELBADDRESS"
 
   # get hosted zone id for Alias Target
   IFS='-' read -r -a array <<< "$ELBADDRESS"
   export ALIAS_HOSTED_ZONE_ID=$(aws elb describe-load-balancers --load-balancer-name ${array[0]} | jq -r '.LoadBalancerDescriptions | .[] | .CanonicalHostedZoneNameID')
+	echo "ALIAS HOSTED ZONE ID: $ALIAS_HOSTED_ZONE_ID"
 
   # get Route53 hosted zone id
   export HOSTED_ZONE_ID=$(aws route53 list-hosted-zones-by-name --dns-name $HOSTED_ZONE | jq -r '.HostedZones | .[] | .Id')
+	echo "HOSTED ZONE ID: $HOSTED_ZONE_ID"
 
   # create Route53 entry
   aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch "$(get_route53_json  "UPSERT")"
