@@ -4,7 +4,7 @@ language: java
 jdk: openjdk11
 
 addons:
-  firefox: "76.0.1"
+  firefox: "83.0"
 
 git:
   depth: false
@@ -112,10 +112,6 @@ jobs:
     - <<: *test-staging
       name: "User and Authentication Tests"
       script: bash _ci/execute_share_web.sh "user-tests.xml"
-
-    - <<: *test-staging
-      name: "User Dashboard Tests"
-      script: bash _ci/execute_share_web.sh "user-dashboard-tests.xml"
 
     - <<: *test-staging
       name: "Content Tests"
