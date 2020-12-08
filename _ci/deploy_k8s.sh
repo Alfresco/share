@@ -38,6 +38,8 @@ function isDevelopUp() {
 function replaceDeployValues {
 
   # update the tags for acs and share in values.yaml file
+  echo "Repo tag name: ${REPO_TAG_NAME}"
+  echo "Share tag name: $TAG_NAME"
 
   sed -i 's/ACS_TAG/'"${REPO_TAG_NAME}"'/g' _ci/6.2.N_values.yaml
   sed -i 's/SHARE_TAG/'"$TAG_NAME"'/g' _ci/6.2.N_values.yaml
