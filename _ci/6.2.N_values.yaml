@@ -326,7 +326,7 @@ filestore:
 share:
   replicaCount: 1
   image:
-    repository: alfresco/alfresco-share
+    repository: quay.io/alfresco/alfresco-share
     tag: SHARE_TAG
     pullPolicy: Always
     internalPort: 8080
