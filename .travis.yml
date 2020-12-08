@@ -37,7 +37,7 @@ branches:
 
 env:
   global:
-    - REPO_TAG_NAME=7.0.0-M2
+    - REPO_TAG_NAME=7.0.0-A16
     - SHARE_TAG_NAME=latest
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
     - RELEASE_VERSION=7.0.0-A14
@@ -97,7 +97,7 @@ jobs:
       name: "Admin Tools Tests"
       stage: tests
       jdk: openjdk11
-      if: fork=false AND commit_message !~ /\[trigger company release\]/
+      if: fork=false AND commit_message !~ /\[trigger company release|skip tests\]/
       before_install: bash _ci/init.sh
       install: skip
       script:
