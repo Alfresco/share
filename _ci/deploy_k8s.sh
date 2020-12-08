@@ -11,7 +11,7 @@ export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
 export ALFRESCO_SHARE_IMAGE="alfresco-share"
-
+export TAG_
 #
 # Determine if the current branch is develop or not
 #
@@ -34,6 +34,15 @@ function isDevelopUp() {
     return 1
   fi
 }
+
+function replaceDeployValues {
+
+  # update the tags for acs and share in values.yaml file
+
+  sed -i 's/ACS_TAG/'"${REPO_TAG_NAME}"'/g' _ci/6.2.N_values.yaml
+  sed -i 's/SHARE_TAG/'"$TAG_NAME"'/g' _ci/6.2.N_values.yaml
+}
+
 
 function updateDevelopEnv()  {
   echo "Update develop"
@@ -131,11 +140,13 @@ function createEnv {
     --set controller.publishService.enabled=true \
     --atomic \
     --namespace $NAMESPACE
+
   # install ACS chart
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
-#  helm upgrade --install $RELEASE_NAME --values _ci/values.yaml alfresco-incubator/alfresco-content-services --version 5.0.0-M2 \
-#  				--set global.alfrescoRegistryPullSecrets=quay-registry-secret \
-#  				--namespace $NAMESPACE
+
+  # replace share and repo tags values in 6.2.N_values.yaml
+  replaceDeployValues
+
 	helm install $RELEASE_NAME alfresco-incubator/alfresco-content-services --devel \
     --values=_ci/6.2.N_values.yaml \
     --set externalPort="443" \

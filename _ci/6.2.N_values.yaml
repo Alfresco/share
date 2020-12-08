@@ -16,7 +16,7 @@ repository:
     type: Recreate
   image:
     repository: quay.io/alfresco/alfresco-content-repository
-    tag: "6.2.2"
+    tag: ACS_TAG
     pullPolicy: Always
     internalPort: 8080
     hazelcastPort: 5701
@@ -34,7 +34,8 @@ repository:
     annotations: {}
       # nginx.ingress.kubernetes.io/enable-cors: "true"
   environment:
-    JAVA_OPTS: " -Dsolr.base.url=/solr
+    JAVA_OPTS: " -Dalfresco.restApi.basicAuthScheme=true
+      -Dsolr.base.url=/solr
       -Dsolr.secureComms=none
       -Dindex.subsystem.name=solr6
       -Dalfresco.cluster.enabled=true
@@ -326,7 +327,7 @@ share:
   replicaCount: 1
   image:
     repository: alfresco/alfresco-share
-    tag: "6.2.2"
+    tag: SHARE_TAG
     pullPolicy: Always
     internalPort: 8080
   service:
