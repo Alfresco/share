@@ -29,12 +29,8 @@
         <version.minor>0</version.minor>
         <version.revision>0</version.revision>
 
-        <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>7.0.0-A3</alfresco.platform.version>
-        <alfresco.content-services.version>7.0.0-A16</alfresco.content-services.version>
-        
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>8.345</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.346</dependency.alfresco-community-repo.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
@@ -584,23 +580,6 @@
     </build>
 
     <profiles>
-
-        <!-- Profile to build Enterprise version of share-enabled alfresco war -->
-        <profile>
-            <id>enterprise</id>
-            <modules>
-                <module>alfresco-enterprise</module>
-            </modules>
-        </profile>
-
-        <!-- Profile to build Share packaging, including installer -->
-        <profile>
-            <id>packaging</id>
-            <modules>
-                <module>packaging</module>
-            </modules>
-        </profile>
-
         <profile>
             <properties>
                 <!-- Filter solrcore.properties -->

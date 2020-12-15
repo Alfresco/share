@@ -108,27 +108,6 @@
                         </configuration>
                     </execution>
 
-                    <!-- Extract licenses and bin from distribution resources 
-					Assuming this is not necessary for ACS 6.0+
-                    <execution>
-                        <id>unpack-resources</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-platform-community-distributionzip</artifactId>
-                                    <version>${alfresco.platform.version}</version>
-                                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                                    <includes>bin/**,licenses/**</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
--->
                     <!-- Copy MMT jar -->
                     <execution>
                         <id>fetch-resources</id>
