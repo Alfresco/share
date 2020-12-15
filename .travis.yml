@@ -131,5 +131,8 @@ jobs:
     - name: "Company Release"
       stage: company_release
       if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /(master|SP\/.+|HF\/.+)$/
-      before_install: bash _ci/init_tag.sh
-      script: travis_wait 30 _ci/company-release.sh
+      before_install: 
+        - bash _ci/init.
+        - bash _ci/init_tag.
+      script: travis_wait 30 _ci/company-release.
+      
