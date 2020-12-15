@@ -4,7 +4,7 @@ language: java
 jdk: openjdk11
 
 addons:
-  firefox: "76.0.1"
+  firefox: "83.0"
 
 git:
   depth: false
@@ -37,10 +37,10 @@ branches:
 
 env:
   global:
-    - REPO_TAG_NAME=7.0.0-M2
+    - REPO_TAG_NAME=7.0.0-A16
     - SHARE_TAG_NAME=latest
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.0.0-A13
+    - RELEASE_VERSION=7.0.0-A14
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
     - HOSTED_ZONE=dev.alfresco.me
     - KEEP_ENV=false
@@ -97,7 +97,7 @@ jobs:
       name: "Admin Tools Tests"
       stage: tests
       jdk: openjdk11
-      if: fork=false AND commit_message !~ /\[trigger company release\]/
+      if: fork=false AND commit_message !~ /\[trigger company release|skip tests\]/
       before_install: bash _ci/init.sh
       install: skip
       script:
@@ -112,10 +112,6 @@ jobs:
     - <<: *test-staging
       name: "User and Authentication Tests"
       script: bash _ci/execute_share_web.sh "user-tests.xml"
-
-    - <<: *test-staging
-      name: "User Dashboard Tests"
-      script: bash _ci/execute_share_web.sh "user-dashboard-tests.xml"
 
     - <<: *test-staging
       name: "Content Tests"
