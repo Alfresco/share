@@ -87,7 +87,9 @@
         <test.working.dir>${project.build.directory}</test.working.dir>
         <img.exe>convert</img.exe>
         <swf.exe>pdf2swf</swf.exe>
+
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
+        <license-header-location>${maven.multiModuleProjectDirectory}</license-header-location>
     </properties>
 
    <scm>
@@ -302,7 +304,7 @@
                 <configuration>
                     <aggregate>true</aggregate>
                     <!-- DO NOT ALIGN or FORMAT the license header as it would mess up the license check! -->
-                    <header>${maven.multiModuleProjectDirectory}/license-header.txt</header>
+                    <header>${license-header-location}/license-header.txt</header>
                     <includes>
                         <include>**/*.java</include>
                         <include>**/*.jsp</include>
