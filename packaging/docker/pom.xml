@@ -15,7 +15,7 @@
 
     <properties>
         <!-- Alfresco GoogleDocs integration version -->
-        <alfresco.googledocs.version>3.2.0</alfresco.googledocs.version>
+        <dependency.alfresco-googledrive-share.version>3.2.0</dependency.alfresco-googledrive-share.version>
 
         <image.registry>quay.io</image.registry>
         <image.name>alfresco/alfresco-share</image.name>
@@ -31,15 +31,17 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-mmt</artifactId>
             <version>${dependency.alfresco-mmt.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.alfresco.integrations</groupId>
             <artifactId>alfresco-googledrive-share</artifactId>
-            <version>${alfresco.googledocs.version}</version>
+            <version>${dependency.alfresco-googledrive-share.version}</version>
             <type>amp</type>
         </dependency>
     </dependencies>
@@ -51,6 +53,7 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -61,6 +64,7 @@
                             <goal>resources</goal>
                         </goals>
                     </execution>
+
                     <execution>
                         <id>copy-resources</id>
                         <phase>process-resources</phase>
@@ -105,6 +109,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>copy-resources</id>
                         <phase>process-resources</phase>
@@ -124,7 +129,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco.integrations</groupId>
                                     <artifactId>alfresco-googledrive-share</artifactId>
-                                    <version>${alfresco.googledocs.version}</version>
+                                    <version>${dependency.alfresco-googledrive-share.version}</version>
                                     <type>amp</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/amps_share</outputDirectory>
@@ -161,9 +166,9 @@
     </build>
 
     <profiles>
+        <!-- Builds local image for development & testing only -->
         <profile>
             <id>local</id>
-            <!-- Builds local image for development & testing only -->
             <build>
                 <plugins>
                     <plugin>
@@ -173,7 +178,7 @@
                             <verbose>true</verbose>
                             <skipBuildPom>false</skipBuildPom>
                             <images>
-                                <!-- Default image configuration - used by the *local* and *intenal* profiles -->
+                                <!-- Default image configuration - used by the *local* and *internal* profiles -->
                                 <image>
                                     <name>${image.name}:${image.tag}</name>
                                     <registry>${image.registry}</registry>
@@ -197,9 +202,9 @@
             </build>
         </profile>
 
+        <!-- Builds and publishes image to Quay -->
         <profile>
             <id>internal</id>
-            <!-- Builds and publishes image to Quay -->
             <build>
                 <plugins>
                     <plugin>
@@ -220,9 +225,9 @@
             </build>
         </profile>
 
+        <!-- Builds and publishes release image to Quay -->
         <profile>
             <id>release</id>
-            <!-- Builds and publishes release image to Quay -->
             <build>
                 <plugins>
                     <plugin>
