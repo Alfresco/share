@@ -18,6 +18,8 @@
         <image.registry>quay.io</image.registry>
         <image.name>alfresco/alfresco-share</image.name>
         <image.tag>latest</image.tag>
+
+        <license-header-location>${project.parent.parent.basedir}</license-header-location>
     </properties>
 
     <dependencies>
