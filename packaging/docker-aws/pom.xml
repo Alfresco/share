@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>share-docker-aws</artifactId>
     <name>Alfresco Share Docker AWS image builder</name>
@@ -15,7 +18,7 @@
         <image.name>alfresco/alfresco-share-aws</image.name>
         <image.tag>latest</image.tag>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -24,7 +27,7 @@
             <type>amp</type>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -42,7 +45,7 @@
                 </executions>
             </plugin>
         </plugins>
-        
+
         <pluginManagement>
             <plugins>
                 <plugin>

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -22,7 +23,7 @@
         <module>wcmquickstart-module</module>
         <module>packaging</module>
         <module>share-encryption</module>
-        <module>docker-repo-with-share-services</module>
+        <!--        <module>docker-repo-with-share-services</module>-->
     </modules>
 
     <properties>
@@ -39,7 +40,8 @@
 
         <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
 
-        <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
+        <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots
+        </maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <dependency.spring.version>5.2.9.RELEASE</dependency.spring.version>
@@ -87,12 +89,12 @@
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
     </properties>
 
-   <scm>
-     <connection>scm:git:https://github.com/Alfresco/share.git/</connection>
-     <developerConnection>scm:git:https://github.com/Alfresco/share.git</developerConnection>
-     <url>https://github.com/Alfresco/share</url>
-     <tag>alfresco-share-parent--A2</tag>
-   </scm>
+    <scm>
+        <connection>scm:git:https://github.com/Alfresco/share.git/</connection>
+        <developerConnection>scm:git:https://github.com/Alfresco/share.git</developerConnection>
+        <url>https://github.com/Alfresco/share</url>
+        <tag>alfresco-share-parent--A2</tag>
+    </scm>
     <pluginRepositories>
         <pluginRepository>
             <!-- Only used for the customised version of yuicompressor in yuicompressor-maven-plugin -->
@@ -104,8 +106,7 @@
     <distributionManagement>
         <repository>
             <id>alfresco-internal</id>
-         <!--   <url>https://artifacts.alfresco.com/nexus/content/repositories/internal-releases</url>-->
- 	    <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>alfresco-internal-snapshots</id>
@@ -115,15 +116,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Import all dependencyManagement from Alfresco Platform
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-parent</artifactId>
-                <version>6.0.</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
--->
             <!-- Override dependencies with the locally defined versions -->
             <dependency>
                 <groupId>org.alfresco</groupId>
@@ -151,42 +143,42 @@
                 <version>${dependency.webscripts.version}</version>
             </dependency>
             <dependency>
-               <groupId>org.alfresco.surf</groupId>
-               <artifactId>spring-surf</artifactId>
-               <version>${dependency.surf.version}</version>
-               <exclusions>
-               <!-- surf pulls in a an un-patched version, MNT-20234 -->
+                <groupId>org.alfresco.surf</groupId>
+                <artifactId>spring-surf</artifactId>
+                <version>${dependency.surf.version}</version>
+                <exclusions>
+                    <!-- surf pulls in a an un-patched version, MNT-20234 -->
                     <exclusion>
                         <groupId>com.asual.lesscss</groupId>
                         <artifactId>lesscss-engine</artifactId>
                     </exclusion>
-               </exclusions>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.alfresco.surf</groupId>
-               <artifactId>spring-surf-api</artifactId>
-               <version>${dependency.surf.version}</version>
+                <artifactId>spring-surf-api</artifactId>
+                <version>${dependency.surf.version}</version>
             </dependency>
             <dependency>
-               <groupId>org.apache.httpcomponents</groupId>
-               <artifactId>httpclient</artifactId>
-               <version>${dependency.httpcomponents.version}</version>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${dependency.httpcomponents.version}</version>
             </dependency>
             <dependency>
-               <groupId>org.apache.httpcomponents</groupId>
-               <artifactId>httpmime</artifactId>
-               <version>${dependency.httpcomponents.version}</version>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${dependency.httpcomponents.version}</version>
             </dependency>
             <dependency>
-               <groupId>javax.servlet</groupId>
-               <artifactId>javax.servlet-api</artifactId>
-               <version>4.0.1</version>
-               <scope>provided</scope>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>4.0.1</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
-               <groupId>commons-lang</groupId>
-               <artifactId>commons-lang</artifactId>
-               <version>2.6</version>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
             </dependency>
             <dependency>
                 <groupId>commons-fileupload</groupId>
@@ -221,34 +213,34 @@
             </dependency>
             <!-- SHA-2404 -->
             <dependency>
-              <groupId>org.keycloak</groupId>
-              <artifactId>keycloak-servlet-filter-adapter</artifactId>
-              <version>${dependency.keycloak.version}</version>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-servlet-filter-adapter</artifactId>
+                <version>${dependency.keycloak.version}</version>
             </dependency>
             <dependency>
-              <groupId>org.keycloak</groupId>
-              <artifactId>keycloak-authz-client</artifactId>
-              <version>${dependency.keycloak.version}</version>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-authz-client</artifactId>
+                <version>${dependency.keycloak.version}</version>
             </dependency>
             <dependency>
-              <groupId>org.keycloak</groupId>
-              <artifactId>keycloak-core</artifactId>
-              <version>${dependency.keycloak.version}</version>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-core</artifactId>
+                <version>${dependency.keycloak.version}</version>
             </dependency>
             <dependency>
-              <groupId>org.keycloak</groupId>
-              <artifactId>keycloak-adapter-core</artifactId>
-              <version>${dependency.keycloak.version}</version>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-adapter-core</artifactId>
+                <version>${dependency.keycloak.version}</version>
             </dependency>
             <dependency>
-              <groupId>org.keycloak</groupId>
-              <artifactId>keycloak-adapter-spi</artifactId>
-              <version>${dependency.keycloak.version}</version>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-adapter-spi</artifactId>
+                <version>${dependency.keycloak.version}</version>
             </dependency>
             <dependency>
-              <groupId>org.keycloak</groupId>
-              <artifactId>keycloak-servlet-adapter-spi</artifactId>
-              <version>${dependency.keycloak.version}</version>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-servlet-adapter-spi</artifactId>
+                <version>${dependency.keycloak.version}</version>
             </dependency>
             <!-- SHA-2400 -->
             <dependency>
@@ -258,19 +250,19 @@
             </dependency>
             <!-- SHA-2432 -->
             <dependency>
-              <groupId>org.apache.taglibs</groupId>
-              <artifactId>taglibs-standard-spec</artifactId>
-              <version>${dependency.apache.taglibs.version}</version>
+                <groupId>org.apache.taglibs</groupId>
+                <artifactId>taglibs-standard-spec</artifactId>
+                <version>${dependency.apache.taglibs.version}</version>
             </dependency>
             <dependency>
-              <groupId>org.apache.taglibs</groupId>
-              <artifactId>taglibs-standard-impl</artifactId>
-              <version>${dependency.apache.taglibs.version}</version>
+                <groupId>org.apache.taglibs</groupId>
+                <artifactId>taglibs-standard-impl</artifactId>
+                <version>${dependency.apache.taglibs.version}</version>
             </dependency>
             <dependency>
-              <groupId>org.apache.taglibs</groupId>
-              <artifactId>taglibs-standard-jstlel</artifactId>
-              <version>${dependency.apache.taglibs.version}</version>
+                <groupId>org.apache.taglibs</groupId>
+                <artifactId>taglibs-standard-jstlel</artifactId>
+                <version>${dependency.apache.taglibs.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -322,7 +314,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
                 <executions>
-                <!-- Read alfresco-global.properties if it exists, to use it for cleaning runtime data (e.g. which database?) -->
+                    <!-- Read alfresco-global.properties if it exists, to use it for cleaning runtime data (e.g. which database?) -->
                     <execution>
                         <id>read-alfresco-global-properties</id>
                         <phase>initialize</phase>
@@ -351,16 +343,16 @@
                         <configuration>
                             <exportAntProperties>true</exportAntProperties>
                             <target>
-                                <property name="db.driver" value="org.postgresql.Driver" />
-                                <property name="db.name" value="alfresco" />
-                                <property name="db.url" value="jdbc:postgresql:${db.name}" />
-                                <property name="db.master.url" value="jdbc:postgresql:template1" />
-                                <property name="db.username" value="alfresco" />
-                                <property name="db.password" value="alfresco" />
-                                <property name="db.master.username" value="alfresco" />
-                                <property name="db.master.password" value="alfresco" />
-                                <property name="db.drop.command" value="drop database if exists ${db.name}" />
-                                <property name="db.create.command" value="create database ${db.name}" />
+                                <property name="db.driver" value="org.postgresql.Driver"/>
+                                <property name="db.name" value="alfresco"/>
+                                <property name="db.url" value="jdbc:postgresql:${db.name}"/>
+                                <property name="db.master.url" value="jdbc:postgresql:template1"/>
+                                <property name="db.username" value="alfresco"/>
+                                <property name="db.password" value="alfresco"/>
+                                <property name="db.master.username" value="alfresco"/>
+                                <property name="db.master.password" value="alfresco"/>
+                                <property name="db.drop.command" value="drop database if exists ${db.name}"/>
+                                <property name="db.create.command" value="create database ${db.name}"/>
                             </target>
                         </configuration>
                     </execution>
@@ -498,36 +490,36 @@
                 </plugin>
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
                 <plugin>
-                	<groupId>org.eclipse.m2e</groupId>
-                	<artifactId>lifecycle-mapping</artifactId>
-                	<version>1.0.0</version>
-                	<configuration>
-                		<lifecycleMappingMetadata>
-                			<pluginExecutions>
-                				<pluginExecution>
-                					<pluginExecutionFilter>
-                						<groupId>
-                							org.codehaus.mojo
-                						</groupId>
-                						<artifactId>
-                							license-maven-plugin
-                						</artifactId>
-                						<versionRange>
-                							[1.8,)
-                						</versionRange>
-                						<goals>
-                							<goal>
-                								check-file-header
-                							</goal>
-                						</goals>
-                					</pluginExecutionFilter>
-                					<action>
-                						<ignore />
-                					</action>
-                				</pluginExecution>
-                			</pluginExecutions>
-                		</lifecycleMappingMetadata>
-                	</configuration>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.codehaus.mojo
+                                        </groupId>
+                                        <artifactId>
+                                            license-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.8,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>
+                                                check-file-header
+                                            </goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -544,56 +536,56 @@
                 <plugins>
 
                     <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-dependency-plugin</artifactId>
-                      <executions>
-                        <!-- Download and unpack the tomcat config zip file -->
-                        <execution>
-                          <id>unpack-tomcat-config</id>
-                          <phase>generate-resources</phase>
-                          <goals>
-                            <goal>unpack</goal>
-                          </goals>
-                          <configuration>
-                            <outputDirectory>${project.build.directory}/tomcat-conf</outputDirectory>
-                            <artifactItems>
-                              <artifactItem>
-                                <groupId>org.alfresco</groupId>
-                                <artifactId>alfresco-dev-tomcat</artifactId>
-                                <version>5.2.3</version>
-                                <classifier>config</classifier>
-                                <overWrite>true</overWrite>
-                                <type>zip</type>
-                              </artifactItem>
-                            </artifactItems>
-                          </configuration>
-                        </execution>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <!-- Download and unpack the tomcat config zip file -->
+                            <execution>
+                                <id>unpack-tomcat-config</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/tomcat-conf</outputDirectory>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.alfresco</groupId>
+                                            <artifactId>alfresco-dev-tomcat</artifactId>
+                                            <version>5.2.3</version>
+                                            <classifier>config</classifier>
+                                            <overWrite>true</overWrite>
+                                            <type>zip</type>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
 
-                        <!-- Download and unpack the solr4 config zip file -->
-                        <execution>
-                          <id>unpack-solr4-config</id>
-                          <phase>generate-resources</phase>
-                          <goals>
-                            <goal>unpack</goal>
-                          </goals>
-                          <configuration>
-                            <outputDirectory>${project.build.directory}/solr4</outputDirectory>
-                            <artifactItems>
-                              <artifactItem>
-                                <groupId>org.alfresco</groupId>
-                                  <artifactId>alfresco-solr4</artifactId>
-                                  <version>5.2.3</version>
-                                  <!--<artifactId>alfresco-solrclient</artifactId>-->
-                                <!--<artifactId>alfresco-solr4</artifactId>-->
-                                <!--<version>6.7</version>-->
-                                <classifier>config</classifier>
-                                <overWrite>true</overWrite>
-                                <type>zip</type>
-                              </artifactItem>
-                            </artifactItems>
-                          </configuration>
-                        </execution>
-                      </executions>
+                            <!-- Download and unpack the solr4 config zip file -->
+                            <execution>
+                                <id>unpack-solr4-config</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/solr4</outputDirectory>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.alfresco</groupId>
+                                            <artifactId>alfresco-solr4</artifactId>
+                                            <version>5.2.3</version>
+                                            <!--<artifactId>alfresco-solrclient</artifactId>-->
+                                            <!--<artifactId>alfresco-solr4</artifactId>-->
+                                            <!--<version>6.7</version>-->
+                                            <classifier>config</classifier>
+                                            <overWrite>true</overWrite>
+                                            <type>zip</type>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
 
                     <plugin>
@@ -658,16 +650,16 @@
                                 <phase>generate-resources</phase>
                                 <configuration>
                                     <target>
-                                        <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
+                                        <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
                                         <if>
-                                            <available file="${runtime.tomcat.conf.folder}" type="dir" />
+                                            <available file="${runtime.tomcat.conf.folder}" type="dir"/>
                                             <then>
-                                                <echo message="Skipping creation of tomcat configuration, already exists: ${runtime.tomcat.conf.folder}" />
+                                                <echo message="Skipping creation of tomcat configuration, already exists: ${runtime.tomcat.conf.folder}"/>
                                             </then>
                                             <else>
-                                                <echo message="Creating tomcat runtime configuration: ${runtime.tomcat.conf.folder}" />
+                                                <echo message="Creating tomcat runtime configuration: ${runtime.tomcat.conf.folder}"/>
                                                 <copy todir="${runtime.tomcat.conf.folder}">
-                                                    <fileset dir="${project.build.directory}/tomcat-conf" />
+                                                    <fileset dir="${project.build.directory}/tomcat-conf"/>
                                                 </copy>
                                             </else>
                                         </if>
