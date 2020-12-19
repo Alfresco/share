@@ -15,8 +15,9 @@ services:
   - docker
 
 import:
-  - Alfresco/alfresco-process-tools:.travis.kubernetes_install.yml@master
-  - Alfresco/alfresco-process-tools:.travis.helm_install.yml@master
+  - source: Alfresco/alfresco-build-tools:.travis.kubernetes_install.yml@v1.0.0
+  - source: Alfresco/alfresco-build-tools:.travis.helm_install.yml@v1.0.0
+  - source: Alfresco/alfresco-build-tools:.travis.pre-commit.yml@v1.0.0
 
 cache:
   directories:
