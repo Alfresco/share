@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acs-docker-share-services</artifactId>
-    <name>Alfresco Share Docker With Share Services image builder</name>
+    <name>Alfresco Content Services Docker With Share Services image builder</name>
     <packaging>pom</packaging>
 
     <parent>
@@ -15,7 +15,7 @@
 
     <properties>
         <image.registry>quay.io</image.registry>
-        <image.name>alfresco/alfresco-content-services-share-services</image.name>
+        <image.name>alfresco/acs-community-share-services</image.name>
         <image.tag>latest</image.tag>
     </properties>
 
@@ -26,27 +26,6 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack-resources</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.alfresco</groupId>
-                                    <artifactId>share</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>war</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/war/share</outputDirectory>
-                                    <destFileName>share.war</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-
-                    <execution>
                         <id>copy-resources</id>
                         <phase>process-resources</phase>
                         <goals>
@@ -56,21 +35,14 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-mmt</artifactId>
-                                    <version>${dependency.alfresco-mmt.version}</version>
-                                    <type>jar</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/alfresco-mmt</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-share-services</artifactId>
                                     <version>${project.version}</version>
                                     <type>amp</type>
-                                    <overWrite>false</overWrite>
+                                    <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/amps</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
+                            <useBaseVersion>true</useBaseVersion>
                         </configuration>
                     </execution>
                 </executions>
@@ -82,6 +54,7 @@
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>fabric8-maven-plugin</artifactId>
+                    <version>4.4.0</version>
                     <configuration>
                         <verbose>true</verbose>
                         <skipBuildPom>false</skipBuildPom>
@@ -91,6 +64,9 @@
                                 <registry>${image.registry}</registry>
                                 <build>
                                     <dockerFileDir>${project.basedir}</dockerFileDir>
+<!--                                    <buildOptions>
+                                        <squash>true</squash>
+                                    </buildOptions>-->
                                 </build>
                             </image>
                         </images>
@@ -101,6 +77,7 @@
     </build>
 
     <profiles>
+        <!-- Builds local image for development & testing only -->
         <profile>
             <id>local</id>
             <build>
@@ -108,20 +85,6 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>fabric8-maven-plugin</artifactId>
-                        <configuration>
-                            <verbose>true</verbose>
-                            <skipBuildPom>false</skipBuildPom>
-                            <images>
-                                <image>
-                                    <name>${image.name}:${image.tag}</name>
-                                    <registry>${image.registry}</registry>
-                                    <build>
-                                        <dockerFileDir>${project.basedir}</dockerFileDir>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-
                         <executions>
                             <execution>
                                 <id>build-image</id>
@@ -136,6 +99,7 @@
             </build>
         </profile>
 
+        <!-- Builds and publishes image to Quay -->
         <profile>
             <id>internal</id>
             <build>
@@ -158,32 +122,14 @@
             </build>
         </profile>
 
-        <profile>
+        <!-- Builds and publishes release image to Quay -->
+        <!--<profile>
             <id>release</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>fabric8-maven-plugin</artifactId>
-                        <configuration combine.self="override">
-                            <verbose>true</verbose>
-                            <skipBuildPom>false</skipBuildPom>
-                            <images>
-                                <image>
-                                    <name>${image.name}:${project.version}</name>
-                                    <build>
-                                        <dockerFileDir>${project.basedir}</dockerFileDir>
-                                    </build>
-                                </image>
-                                <image>
-                                    <name>${image.name}:${project.version}</name>
-                                    <registry>${image.registry}</registry>
-                                    <build>
-                                        <dockerFileDir>${project.basedir}</dockerFileDir>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>build-push-image</id>
@@ -197,6 +143,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
+        </profile>-->
     </profiles>
 </project>
