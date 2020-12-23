@@ -50,7 +50,6 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>false</filtering>
             </resource>
         </resources>
 
@@ -132,7 +131,7 @@
                                     <version>${dependency.alfresco-googledrive-share.version}</version>
                                     <type>amp</type>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/amps_share</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/amps/share</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

@@ -46,6 +46,7 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+
             <resource>
                 <directory>${project.build.directory}/dependency/bitrock/bitrock/alfresco/shared/web-extension</directory>
                 <targetPath>${project.build.outputDirectory}/web-extension-samples</targetPath>
@@ -71,6 +72,7 @@
                             <useDefaultDelimiters>false</useDefaultDelimiters>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>copy-resources</id>
                         <phase>process-resources</phase>
