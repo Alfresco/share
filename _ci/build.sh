@@ -21,6 +21,16 @@ cd packaging/docker
 mvn install -Plocal
 mvn fabric8:push
 
+#build community repo with share services image
+cd packaging/docker-acs-share-services/community
+mvn install -Plocal
+mvn fabric8:push
+
+#build enterprise repo with share services image
+cd packaging/docker-acs-share-services/enterprise
+mvn install -Plocal
+mvn fabric8:push
+
 popd
 set +vex
 echo "=========================== Finishing Build&Test Script =========================="
