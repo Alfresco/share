@@ -49,7 +49,6 @@
                <js src="components/preview/web-preview.js" />
                <js src="components/preview/WebPreviewer.js" />
                <js src="js/flash/extMouseWheel.js" />
-               <js src="components/preview/StrobeMediaPlayback.js" />
                <js src="components/preview/Video.js" />
                <js src="components/preview/Audio.js" />
                <js src="components/preview/Flash.js" />
