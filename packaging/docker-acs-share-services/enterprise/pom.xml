@@ -15,7 +15,7 @@
 
     <properties>
         <image.registry>quay.io</image.registry>
-        <image.name>alfresco/alfresco-enterprise-repo-share-services</image.name>
+        <image.name>alfresco/alfresco-content-repository-share-services</image.name>
         <image.tag>latest</image.tag>
     </properties>
 </project>

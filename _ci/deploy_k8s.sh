@@ -10,6 +10,7 @@ export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
+export ALFRESCO_REPO_SHARE_SERVICES_IMAGE="alfresco-content-repository-share-services"
 export ALFRESCO_SHARE_IMAGE="alfresco-share"
 
 #
@@ -49,7 +50,7 @@ function updateDevelopEnv()  {
   
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
   helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
-	  --set repository.replicaCount=1 \
+          --set repository.replicaCount=1 \
           --set externalPort="443" \
           --set externalProtocol="https" \
           --set externalHost=$HOST \
@@ -95,7 +96,7 @@ function get_route53_json {
 #
 # Creates the environment
 #
-function createEnv {
+function createDevelopEnv {
   echo "=========================== Creating the environment ==========================="
 
   # create k8s namespace
@@ -172,7 +173,7 @@ function createEnv {
 #
 # Before running the tests make sure that all pods are green
 #
-function wait_for_pods {
+function waitForPods {
   # counters
   PODS_COUNTER=0
   # counters limit
@@ -220,20 +221,20 @@ if $(isBranchDevelop); then
     if $(isDevelopUp); then
       echo "Update develop environment"
       updateDevelopEnv
-      wait_for_pods $NAMESPACE
+      waitForPods $NAMESPACE
     else
       echo "Create develop environment"
-      createEnv
-      wait_for_pods $NAMESPACE
+      createDevelopEnv
+      waitForPods $NAMESPACE
     fi
   else
     echo "Create PR env environment"
-    createEnv
-    wait_for_pods $NAMESPACE
+    createDevelopEnv
+    waitForPods $NAMESPACE
   fi
 else
   echo "On development branch"
   SHARE_TAG_NAME=$TAG_NAME
-  createEnv
-  wait_for_pods $NAMESPACE
+  createDevelopEnv
+  waitForPods $NAMESPACE
 fi
