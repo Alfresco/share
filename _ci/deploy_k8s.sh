@@ -149,7 +149,7 @@ function createDevelopEnv {
           --set activemq.persistence.mountPath="/opt/activemq/data/${NAMESPACE}" \
           --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
           --set repository.adminPassword="${ADMIN_PWD}" \
-          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
+          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_SHARE_SERVICES_IMAGE}" \
           --set repository.image.tag="${REPO_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
