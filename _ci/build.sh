@@ -21,15 +21,22 @@ cd packaging/docker
 mvn install -Plocal
 mvn fabric8:push
 
-#build community repo with share services image
-cd ../docker-acs-share-services/community
-mvn install -Plocal
-mvn fabric8:push
+echo $(pwd)
+echo ${TRAVIS_BUILD_DIR}
 
-#build enterprise repo with share services image
-cd ../enterprise
-mvn install -Plocal
-mvn fabric8:push
+if [[ $TRAVIS_COMMIT_MESSAGE = *\[with_share_services\]* ]]; then
+
+  #build community repo with share services image
+  cd ../docker-acs-share-services/community
+  mvn install -Plocal
+  mvn fabric8:push
+
+  #build enterprise repo with share services image
+  cd ../enterprise
+  mvn install -Plocal
+  mvn fabric8:push
+
+fi
 
 popd
 set +vex

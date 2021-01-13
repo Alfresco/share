@@ -10,7 +10,7 @@ export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
-export ALFRESCO_REPO_SHARE_SERVICES_IMAGE="alfresco-content-repository-share-services"
+# export ALFRESCO_REPO_SHARE_SERVICES_IMAGE="alfresco-content-repository-share-services"
 export ALFRESCO_SHARE_IMAGE="alfresco-share"
 
 #
@@ -61,7 +61,7 @@ function updateDevelopEnv()  {
           --set activemq.persistence.mountPath="/opt/activemq/data/${NAMESPACE}" \
           --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
           --set repository.adminPassword="${ADMIN_PWD}" \
-          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_SHARE_SERVICES_IMAGE}" \
+          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
           --set repository.image.tag="${REPO_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
@@ -75,7 +75,7 @@ function updateDevelopEnv()  {
 # Can take one argument that specifies the action: "CREATE", "DELETE", "UPSERT"; if none
 # specified, it defaults to "CREATE"
 #
-function get_route53_json {
+function getRoute53Json {
   local out
   local action
   local path="_ci/route53.json"
@@ -149,7 +149,7 @@ function createDevelopEnv {
           --set activemq.persistence.mountPath="/opt/activemq/data/${NAMESPACE}" \
           --set global.alfrescoRegistryPullSecrets=quay-registry-secret \
           --set repository.adminPassword="${ADMIN_PWD}" \
-          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_SHARE_SERVICES_IMAGE}" \
+          --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
           --set repository.image.tag="${REPO_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
@@ -167,7 +167,7 @@ function createDevelopEnv {
   export HOSTED_ZONE_ID=$(aws route53 list-hosted-zones-by-name --dns-name $HOSTED_ZONE | jq -r '.HostedZones | .[] | .Id')
 
   # create Route53 entry
-  aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch "$(get_route53_json  "UPSERT")"
+  aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch "$(getRoute53Json  "UPSERT")"
 }
 
 #

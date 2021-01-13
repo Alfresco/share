@@ -12,7 +12,7 @@ export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 # Can take one argument that specifies the action: "CREATE", "DELETE", "UPSERT"; if none
 # specified, it defaults to "CREATE"
 #
-function get_route53_json {
+function getRoute53Json {
   local out
   local action
   local path="_ci/route53.json"
@@ -46,7 +46,7 @@ function deleteEnv {
   helm uninstall $RELEASE_INGRESS_NAME --namespace $NAMESPACE
 
   # remove Route53 entry
-  aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch "$(get_route53_json "DELETE")"
+  aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch "$(getRoute53Json "DELETE")"
 
   # remove namespace
   kubectl delete namespace $NAMESPACE
