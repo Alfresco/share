@@ -72,67 +72,67 @@ jobs:
       before_install: bash _ci/init.sh
       script: bash _ci/build.sh
 
-#    - name: "White Source"
-#      stage: build
-#      # only on SP branches or master and if it is not a PR
-#      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
-#      before_install: bash _ci/init.sh
-#      script: travis_wait 30 bash _ci/whitesource.sh _ci/.wss-unified-agent.config
+    - name: "White Source"
+      stage: build
+      # only on SP branches or master and if it is not a PR
+      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
+      before_install: bash _ci/init.sh
+      script: travis_wait 30 bash _ci/whitesource.sh _ci/.wss-unified-agent.config
 
-#    - name: "Source Clear Scan (SCA)"
-#      stage: build
-#      # only on SP branches or master and if it is not a PR
-#      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
-#      before_install: bash _ci/init.sh
-#      # Run Veracode
-#      install: skip
-#      script: travis_wait 30 bash _ci/source_clear.sh
+    - name: "Source Clear Scan (SCA)"
+      stage: build
+      # only on SP branches or master and if it is not a PR
+      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
+      before_install: bash _ci/init.sh
+      # Run Veracode
+      install: skip
+      script: travis_wait 30 bash _ci/source_clear.sh
 
-#    - name: "Deploy on K8s"
-#      stage: deploy
-#      install: skip
-#      script: bash _ci/deploy_k8s.sh
+    - name: "Deploy on K8s"
+      stage: deploy
+      install: skip
+      script: bash _ci/deploy_k8s.sh
 
-#    - &test-staging
-#      name: "Admin Tools Tests"
-#      stage: tests
-#      jdk: openjdk11
-#      if: fork=false AND commit_message !~ /\[trigger company release|skip tests\]/
-#      before_install: bash _ci/init.sh
-#      install: skip
-#      script:
-#        - bash _ci/execute_share_web.sh "admin-tools-tests.xml"
-#      addons:
-#        artifacts:
-#            paths:
-#              - alfresco-tas-share-test/target/surefire-reports
-#              - alfresco-tas-share-test/target/reports
-#            target_paths: $TRAVIS_BUILD_NUMBER
+    - &test-staging
+      name: "Admin Tools Tests"
+      stage: tests
+      jdk: openjdk11
+      if: fork=false AND commit_message !~ /\[trigger company release|skip tests\]/
+      before_install: bash _ci/init.sh
+      install: skip
+      script:
+        - bash _ci/execute_share_web.sh "admin-tools-tests.xml"
+      addons:
+        artifacts:
+            paths:
+              - alfresco-tas-share-test/target/surefire-reports
+              - alfresco-tas-share-test/target/reports
+            target_paths: $TRAVIS_BUILD_NUMBER
 
-#    - <<: *test-staging
-#      name: "User and Authentication Tests"
-#      script: bash _ci/execute_share_web.sh "user-tests.xml"
-#
-#    - <<: *test-staging
-#      name: "Content Tests"
-#      script: bash _ci/execute_share_web.sh "content-tests.xml"
-#
-#    - name: "Delete environment"
-#      stage: tearDown
-#      install: skip
-#      script: bash _ci/delete-env.sh
-#
-#    - name: "Release"
-#      stage: release
-#      if: fork=false AND commit_message =~ /\[release\]/ AND branch =~ /(master|develop|SP\/.+|HF\/.+)$/
-#      before_install: bash _ci/init_tag.sh
-#      script: travis_wait 30 _ci/maven_release.sh
-#
-#    - name: "Company Release"
-#      stage: company_release
-#      if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /(master|SP\/.+|HF\/.+)$/
-#      before_install: bash _ci/init_tag.sh
-#      script: travis_wait 30 _ci/company-release.sh
+    - <<: *test-staging
+      name: "User and Authentication Tests"
+      script: bash _ci/execute_share_web.sh "user-tests.xml"
+
+    - <<: *test-staging
+      name: "Content Tests"
+      script: bash _ci/execute_share_web.sh "content-tests.xml"
+
+    - name: "Delete environment"
+      stage: tearDown
+      install: skip
+      script: bash _ci/delete-env.sh
+
+    - name: "Release"
+      stage: release
+      if: fork=false AND commit_message =~ /\[release\]/ AND branch =~ /(master|develop|SP\/.+|HF\/.+)$/
+      before_install: bash _ci/init_tag.sh
+      script: travis_wait 30 _ci/maven_release.sh
+
+    - name: "Company Release"
+      stage: company_release
+      if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /(master|SP\/.+|HF\/.+)$/
+      before_install: bash _ci/init_tag.sh
+      script: travis_wait 30 _ci/company-release.sh
 
 notifications:
   slack:
