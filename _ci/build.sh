@@ -17,22 +17,19 @@ mvn -B -q install \
 
 
 #build image
-cd packaging/docker
+cd ${TRAVIS_BUILD_DIR}/packaging/docker
 mvn install -Plocal
 mvn fabric8:push
 
-echo $(pwd)
-echo ${TRAVIS_BUILD_DIR}
+echo ${TRAVIS_BRANCH}
+echo $TRAVIS_BRANCH
 
-if [[ $TRAVIS_COMMIT_MESSAGE = *\[with_share_services\]* ]]; then
+if [ $TRAVIS_BRANCH != "master" ]; then
 
-  #build community repo with share services image
-  cd ../docker-acs-share-services/community
-  mvn install -Plocal
-  mvn fabric8:push
+  echo "We're building the image"
 
   #build enterprise repo with share services image
-  cd ../enterprise
+  cd ${TRAVIS_BUILD_DIR}/packaging/enterprise
   mvn install -Plocal
   mvn fabric8:push
 
