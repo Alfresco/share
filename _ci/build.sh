@@ -21,18 +21,11 @@ cd ${TRAVIS_BUILD_DIR}/packaging/docker
 mvn install -Plocal
 mvn fabric8:push
 
-echo ${TRAVIS_BRANCH}
-echo $TRAVIS_BRANCH
-
 if [ $TRAVIS_BRANCH != "master" ]; then
-
-  echo "We're building the image"
-
   #build enterprise repo with share services image
   cd ${TRAVIS_BUILD_DIR}/packaging/enterprise
   mvn install -Plocal
   mvn fabric8:push
-
 fi
 
 popd

@@ -9,8 +9,12 @@ source _ci/init_tag.sh
 export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
-export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
-# export ALFRESCO_REPO_SHARE_SERVICES_IMAGE="alfresco-content-repository-share-services"
+if [ $TRAVIS_BRANCH != "master" ]; then
+  export ALFRESCO_REPO_IMAGE="alfresco-content-repository-share-services"
+  export REPO_TAG_NAME="latest"
+else
+  export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
+fi
 export ALFRESCO_SHARE_IMAGE="alfresco-share"
 
 #
