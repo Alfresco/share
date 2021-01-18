@@ -21,12 +21,12 @@ RUN chgrp -R ${GROUPNAME} ${TOMCAT_DIR}/amps && \
     chmod 664 ${TOMCAT_DIR}/amps/alfresco-share-services-*.amp
 
 # Remove installed amps
-#RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar uninstall \
-#    org.alfresco.integrations.google.docs \
-#    ${TOMCAT_DIR}/webapps/alfresco
-#RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar uninstall \
-#    alfresco-aos-module \
-#    ${TOMCAT_DIR}/webapps/alfresco
+RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar uninstall \
+    org.alfresco.integrations.google.docs \
+    ${TOMCAT_DIR}/webapps/alfresco
+RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar uninstall \
+    alfresco-aos-module \
+    ${TOMCAT_DIR}/webapps/alfresco
 
 # Apply Share Services amp
 RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
