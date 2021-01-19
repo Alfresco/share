@@ -1,5 +1,5 @@
 # Fetch image of ACS Enterprise Edition
-FROM quay.io/alfresco/alfresco-enterprise-repo-base:latest
+FROM quay.io/alfresco/alfresco-enterprise-repo-base:${image.tag}
 
 USER root
 

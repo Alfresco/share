@@ -80,6 +80,9 @@
         <!-- Builds local image for development & testing only -->
         <profile>
             <id>local</id>
+            <properties>
+                <image.tag>${image.tag}</image.tag>
+            </properties>
             <build>
                 <plugins>
                     <plugin>

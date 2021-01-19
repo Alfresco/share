@@ -24,7 +24,7 @@ mvn fabric8:push
 if [ $TRAVIS_BRANCH != "master" ]; then
   #build enterprise repo with share services image
   cd ${TRAVIS_BUILD_DIR}/packaging/docker-acs-share-services/enterprise
-  mvn install -Plocal
+  mvn install -Plocal -Dimage.tag=${REPO_TAG_NAME}
   mvn fabric8:push
 fi
 
