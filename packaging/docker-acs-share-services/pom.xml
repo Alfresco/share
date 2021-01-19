@@ -17,6 +17,8 @@
         <image.registry>quay.io</image.registry>
         <image.name>alfresco/acs-community-share-services</image.name>
         <image.tag>latest</image.tag>
+
+        <alfresco.desktop-sync.version>3.4.0-M2</alfresco.desktop-sync.version>
     </properties>
 
     <build>
@@ -43,6 +45,25 @@
                                 </artifactItem>
                             </artifactItems>
                             <useBaseVersion>true</useBaseVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-amps</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.alfresco.services.sync</groupId>
+                                    <artifactId>alfresco-device-sync-repo</artifactId>
+                                    <version>${alfresco.desktop-sync.version}</version>
+                                    <type>amp</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/amps</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
@@ -80,9 +101,6 @@
         <!-- Builds local image for development & testing only -->
         <profile>
             <id>local</id>
-            <properties>
-                <image.tag>${image.tag}</image.tag>
-            </properties>
             <build>
                 <plugins>
                     <plugin>

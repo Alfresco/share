@@ -11,6 +11,7 @@ export RELEASE_NAME=$NAMESPACE
 export RELEASE_INGRESS_NAME="${NAMESPACE}-ingress"
 if [ $TRAVIS_BRANCH != "master" ]; then
   export ALFRESCO_REPO_IMAGE="alfresco-content-repository-share-services"
+  export REPO_TAG_NAME="latest"
 else
   export ALFRESCO_REPO_IMAGE="alfresco-content-repository"
 fi

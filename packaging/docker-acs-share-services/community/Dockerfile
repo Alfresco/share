@@ -1,5 +1,5 @@
 # Fetch image of ACS Community Edition
-FROM alfresco/alfresco-community-repo-base:${image.tag}
+FROM alfresco/alfresco-community-repo-base:latest
 
 USER root
 
