@@ -31,10 +31,10 @@
 
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>7.0.0-A3</alfresco.platform.version>
-        <alfresco.content-services.version>7.0.0-A16</alfresco.content-services.version>
+        <alfresco.content-services.version>7.0.0-A23</alfresco.content-services.version>
         
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>8.345</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.377</dependency.alfresco-community-repo.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
@@ -45,7 +45,7 @@
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
-        <dependency.spring.version>5.2.9.RELEASE</dependency.spring.version>
+        <dependency.spring.version>5.3.3</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.0.106</dependency.aikau.version>
