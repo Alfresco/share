@@ -63,7 +63,7 @@
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>11.0.2</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.11.2</dependency.jackson.version>
+        <dependency.jackson.version>2.12.1</dependency.jackson.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
