@@ -3,15 +3,11 @@ dist: xenial
 language: java
 jdk: openjdk11
 
-addons:
-  firefox: "83.0"
-
 git:
   depth: false
   quiet: true
 
 services:
-  - xvfb
   - docker
 
 import:
@@ -37,7 +33,7 @@ branches:
 
 env:
   global:
-    - REPO_TAG_NAME=7.0.0-A16
+    - REPO_TAG_NAME=7.0.0-M3
     - SHARE_TAG_NAME=latest
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
     - RELEASE_VERSION=7.0.0-A14
@@ -72,12 +68,12 @@ jobs:
       before_install: bash _ci/init.sh
       script: bash _ci/build.sh
 
-    - name: "White Source"
-      stage: build
-      # only on SP branches or master and if it is not a PR
-      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
-      before_install: bash _ci/init.sh
-      script: travis_wait 30 bash _ci/whitesource.sh _ci/.wss-unified-agent.config
+#    - name: "White Source"
+#      stage: build
+#      # only on SP branches or master and if it is not a PR
+#      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
+#      before_install: bash _ci/init.sh
+#      script: travis_wait 30 bash _ci/whitesource.sh _ci/.wss-unified-agent.config
 
     - name: "Source Clear Scan (SCA)"
       stage: build
@@ -94,15 +90,16 @@ jobs:
       script: bash _ci/deploy_k8s.sh
 
     - &test-staging
-      name: "Admin Tools Tests"
+      name: "User and Authentication Tests"
       stage: tests
       jdk: openjdk11
       if: fork=false AND commit_message !~ /\[trigger company release|skip tests\]/
       before_install: bash _ci/init.sh
       install: skip
       script:
-        - bash _ci/execute_share_web.sh "admin-tools-tests.xml"
+        - bash _ci/execute_share_web.sh "user-tests.xml"
       addons:
+        chrome: stable
         artifacts:
             paths:
               - alfresco-tas-share-test/target/surefire-reports
@@ -110,8 +107,12 @@ jobs:
             target_paths: $TRAVIS_BUILD_NUMBER
 
     - <<: *test-staging
-      name: "User and Authentication Tests"
-      script: bash _ci/execute_share_web.sh "user-tests.xml"
+      name: "User and Site Dashboard Tests"
+      script: bash _ci/execute_share_web.sh "user-and-site-dashboard-tests.xml"
+
+    - <<: *test-staging
+      name: "Admin Tools Tests"
+      script: bash _ci/execute_share_web.sh "admin-tools-tests.xml"
 
     - <<: *test-staging
       name: "Content Tests"

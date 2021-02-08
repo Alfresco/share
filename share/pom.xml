@@ -29,6 +29,7 @@
             src/main/webapp/components/console/**,
             src/main/webapp/ctools/**
         </sonar.exclusions>
+        <license-header-location>${project.parent.basedir}</license-header-location>
     </properties>
 
     <dependencies>
