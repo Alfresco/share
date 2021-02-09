@@ -18,7 +18,7 @@
         <image.name>alfresco/acs-community-share-services</image.name>
         <image.tag>latest</image.tag>
 
-        <alfresco.desktop-sync.version>3.4.0-M2</alfresco.desktop-sync.version>
+        <alfresco.desktop-sync.version>3.4.0-M5</alfresco.desktop-sync.version>
     </properties>
 
     <build>
