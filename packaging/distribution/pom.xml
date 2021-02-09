@@ -1,13 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+    <artifactId>alfresco-content-services-share-distribution</artifactId>
+    <name>Distribution of Alfresco Share</name>
+    <packaging>pom</packaging>
+
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
         <version>7.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>alfresco-content-services-share-distribution</artifactId>
-    <name>Distribution of Alfresco Share</name>
-    <packaging>pom</packaging>
 
     <!-- To replace in share-config-custom.xml -->
     <properties>
@@ -42,6 +46,7 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+
             <resource>
                 <directory>${project.build.directory}/dependency/bitrock/bitrock/alfresco/shared/web-extension</directory>
                 <targetPath>${project.build.outputDirectory}/web-extension-samples</targetPath>
@@ -67,6 +72,7 @@
                             <useDefaultDelimiters>false</useDefaultDelimiters>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>copy-resources</id>
                         <phase>process-resources</phase>
@@ -108,27 +114,6 @@
                         </configuration>
                     </execution>
 
-                    <!-- Extract licenses and bin from distribution resources 
-					Assuming this is not necessary for ACS 6.0+
-                    <execution>
-                        <id>unpack-resources</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-platform-community-distributionzip</artifactId>
-                                    <version>${alfresco.platform.version}</version>
-                                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                                    <includes>bin/**,licenses/**</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
--->
                     <!-- Copy MMT jar -->
                     <execution>
                         <id>fetch-resources</id>
@@ -141,7 +126,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-mmt</artifactId>
-                                    <version>6.0</version>
+                                    <version>${dependency.alfresco-mmt.version}</version>
                                     <outputDirectory>${project.build.outputDirectory}/bin</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
@@ -153,7 +138,7 @@
 
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                 <executions>
+                <executions>
                     <execution>
                         <id>package-share</id>
                         <phase>package</phase>

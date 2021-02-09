@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>share-docker</artifactId>
     <name>Alfresco Share Docker image builder</name>
@@ -11,9 +14,8 @@
     </parent>
 
     <properties>
-        <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <!-- Alfresco GoogleDocs integration version -->
-        <alfresco.googledocs.version>3.2.0</alfresco.googledocs.version>
+        <dependency.alfresco-googledrive-share.version>3.2.0</dependency.alfresco-googledrive-share.version>
 
         <image.registry>quay.io</image.registry>
         <image.name>alfresco/alfresco-share</image.name>
@@ -29,15 +31,17 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-mmt</artifactId>
             <version>${dependency.alfresco-mmt.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.alfresco.integrations</groupId>
             <artifactId>alfresco-googledrive-share</artifactId>
-            <version>${alfresco.googledocs.version}</version>
+            <version>${dependency.alfresco-googledrive-share.version}</version>
             <type>amp</type>
         </dependency>
     </dependencies>
@@ -46,9 +50,9 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>false</filtering>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -59,6 +63,7 @@
                             <goal>resources</goal>
                         </goals>
                     </execution>
+
                     <execution>
                         <id>copy-resources</id>
                         <phase>process-resources</phase>
@@ -103,6 +108,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>copy-resources</id>
                         <phase>process-resources</phase>
@@ -122,10 +128,10 @@
                                 <artifactItem>
                                     <groupId>org.alfresco.integrations</groupId>
                                     <artifactId>alfresco-googledrive-share</artifactId>
-                                    <version>${alfresco.googledocs.version}</version>
+                                    <version>${dependency.alfresco-googledrive-share.version}</version>
                                     <type>amp</type>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/amps_share</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/amps/share</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -159,28 +165,14 @@
     </build>
 
     <profiles>
+        <!-- Builds local image for development & testing only -->
         <profile>
             <id>local</id>
-            <!-- Builds local image for development & testing only -->
             <build>
                 <plugins>
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>fabric8-maven-plugin</artifactId>
-                        <configuration>
-                            <verbose>true</verbose>
-                            <skipBuildPom>false</skipBuildPom>
-                            <images>
-                                <!-- Default image configuration - used by the *local* and *intenal* profiles -->
-                                <image>
-                                    <name>${image.name}:${image.tag}</name>
-                                    <registry>${image.registry}</registry>
-                                    <build>
-                                        <dockerFileDir>${project.basedir}</dockerFileDir>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>build-image</id>
@@ -195,9 +187,9 @@
             </build>
         </profile>
 
+        <!-- Builds and publishes image to Quay -->
         <profile>
             <id>internal</id>
-            <!-- Builds and publishes image to Quay -->
             <build>
                 <plugins>
                     <plugin>
@@ -218,9 +210,9 @@
             </build>
         </profile>
 
+        <!-- Builds and publishes release image to Quay -->
         <profile>
             <id>release</id>
-            <!-- Builds and publishes release image to Quay -->
             <build>
                 <plugins>
                     <plugin>
@@ -232,6 +224,13 @@
                             <images>
                                 <image>
                                     <name>${image.name}:${project.version}</name>
+                                    <build>
+                                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                                    </build>
+                                </image>
+
+                                <image>
+                                    <name>${image.name}:${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
                                         <dockerFileDir>${project.basedir}</dockerFileDir>
@@ -239,6 +238,7 @@
                                 </image>
                             </images>
                         </configuration>
+
                         <executions>
                             <execution>
                                 <id>build-push-image</id>

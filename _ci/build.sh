@@ -17,9 +17,16 @@ mvn -B -q install \
 
 
 #build image
-cd packaging/docker
+cd ${TRAVIS_BUILD_DIR}/packaging/docker
 mvn install -Plocal
 mvn fabric8:push
+
+if [ $TRAVIS_BRANCH != "master" ]; then
+  #build enterprise repo with share services image
+  cd ${TRAVIS_BUILD_DIR}/packaging/docker-acs-share-services/enterprise
+  mvn install -Plocal
+  mvn fabric8:push
+fi
 
 popd
 set +vex
