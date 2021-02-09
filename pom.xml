@@ -24,7 +24,6 @@
         <module>wcmquickstart-module</module>
         <module>packaging</module>
         <module>share-encryption</module>
-        <!--        <module>docker-repo-with-share-services</module>-->
     </modules>
 
     <properties>

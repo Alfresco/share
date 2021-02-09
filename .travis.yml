@@ -36,7 +36,7 @@ env:
     - REPO_TAG_NAME=7.0.0-M3
     - SHARE_TAG_NAME=latest
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.0.0-A14
+    - RELEASE_VERSION=7.0.0-A15
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
     - HOSTED_ZONE=dev.alfresco.me
     - KEEP_ENV=false
@@ -134,21 +134,3 @@ jobs:
       if: fork=false AND commit_message =~ /\[trigger company release\]/ AND branch =~ /(master|SP\/.+|HF\/.+)$/
       before_install: bash _ci/init_tag.sh
       script: travis_wait 30 _ci/company-release.sh
-
-notifications:
-  slack:
-    - rooms:
-        - secure: "OIpmY02fOEhzLbp9EVjEpwERFtCz7vibXNN0WjzYp63M1UTrlUgoUh5wRWbE/VOyWryY4tFqA/jBpeirz+QyS6OAmM+DdtvKR6I4BVo8QwDBPAIHuoxz4xPDvCbfVsATrTNJvPhPE6tD5WYktZwnnDovoajnbJXQz1g20A8/IdC1ZrLrbHlu2LNc292HeObB53AEr0vADCawzCKIVjHRmhpHqkw4cPWArWbgIOnKTIi+kV18M1nl0GuB1GLg+ZUygilZ5YXh4OaRWZgdMsFk5E1xDtR1w4O/fLoJ8kJUCDs2aP8KRii4HvgJhydjIFMQ7ulmd+QUyY+mLcFSmP+LD7gKOwEnGk9goRibOTG9AlescJT6y1vN6111vkkiSwcvrjHVTJ+Jx1XLQpasjEMfLyJxiRCZaRfSl/Y2AxC6FFiIo9Eka6Vo9S8MCpLuiRCn4ars5BdhydixzLYiBHO3Nh2SnlskC6lSbtLhXNNwPBSXS9Ain5VkvTu4llppWEo3KNbxyQQwUUBIcRwPAaawrIZGlO81gHOA/w5jl/z0EeNkh8mu1rpqGdv5q3XV2La6FWU96D1azy3iNhFdNUIkv4JzCfoYka6IJhy+e/FLSo+/umlTS112IZyOaNitivcOPtFrokzjW/+mZ/ZGsQCP0cfgbqtwI64K6VaiAucpK5w="
-      on_success: always
-      on_failure: always
-      on_pull_requests: false
-      template:
-        - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}"
-    - rooms:
-        - secure: "ki0MCQMCREU62BH4dGElozATxt36rSL41YJdlTtk15vUA32dwEcCHadVmtG/QLWPUwa45jK7UIf+qJriubzlMMF7Pxpuo6xBye30WMSw4T+5c9NvVzjwjL9ZLPHIhypmxMS1ffAEPog4HHdiHI16I4bw1IS4wjtVMF4kRiqhJUY/voX/IqGImBveGhngw8nrxt+1RstcL9i9VTXSFq0sfHs75J8nbidg6v+PzbmEFoLHcI5Dzk7Nj049HgLh7vFdljMs/CxOnVo6sew92WRnkuRMDq8qlqSyfZpGaAHlidoIYU3lztWzYl474XjWZzxdv00EvIJ/hwL3CLZ7o2Eh4qRUjfmV6js3iRvHwPE9w4zT1En1ffInYQ+8MTtyhppb4E0EYqu5uPhcyYzS1UKt3jxinZFPpAfkG4IluaBw1lQ2gEymTL9ocdiNuwb6HgJcowisH353kfhAA7987kBA416vMtxvXMy+w8or/jKa6KqomdpyEQedf+amzDZ9izB8yAq0PPwZGcc7S4yNncCsCObRKWBZO+8oICD2d+jRf3lSByIW6KerefUItiaDf9ZTSHfRbij4ax7x+bJ4tORF0YGTt4lHv8YpsqsxhIcl2uxibwhKWYSd4ezdzovsaCId8/k/e3fP76laAP8gbQTofrksXhRnUN+qX4ihmiWk1i8="
-      if: fork=false AND commit_message =~ /\[release\]/
-      on_success: always
-      on_failure: never
-      on_pull_requests: false
-      template:
-        - "Release message"
