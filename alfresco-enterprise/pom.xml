@@ -1,0 +1,214 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-share-parent</artifactId>
+        <version>6.3.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>alfresco-enterprise</artifactId>
+    <packaging>war</packaging>
+    <name>Alfresco Repository WAR Enterprise</name>
+    <description>Alfresco Enterprise Repository WAR</description>
+
+    <properties>
+        <!-- Developer's runtime environment configuration -->
+        <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
+    </properties>
+
+    <dependencies>
+        <!-- Dependency on the Alfresco Platform Enterprise WAR -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>content-services</artifactId>
+            <version>${alfresco.content-services.version}</version>
+            <type>war</type>
+        </dependency>
+        <!-- share-services AMP -->
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-share-services</artifactId>
+            <version>${project.version}</version>
+            <type>amp</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+      <finalName>alfresco</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.google.code.maven-replacer-plugin</groupId>
+                                        <artifactId>replacer</artifactId>
+                                        <versionRange>1.5.0</versionRange>
+                                        <goals>
+                                            <goal>replace</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute>
+                                            <runOnIncremental>true</runOnIncremental>
+                                            <runOnConfiguration>true</runOnConfiguration>
+                                        </execute>
+                                    </action>
+                                    <comment>source: </comment>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <!-- Explicit overlay declaration -->
+                    <overlays>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>content-services</artifactId>
+                            <type>war</type>
+                        </overlay>
+                        <overlay>
+                            <groupId>org.alfresco</groupId>
+                            <artifactId>alfresco-share-services</artifactId>
+                            <type>amp</type>
+                        </overlay>
+                    </overlays>
+                </configuration>
+                <!-- This allows overlays to be prepared on the FS for minification and faster run -->
+                <executions>
+                    <execution>
+                        <id>prepare-exploded-war</id>
+                        <goals>
+                            <goal>exploded</goal>
+                        </goals>
+                        <!-- Must be done before the replacer filter-copies web.xml into place -->
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Additional call to MMT for share-services (See bug #297 in alfresco-maven-plugin) -->
+            <plugin>
+               <groupId>org.alfresco.maven.plugin</groupId>
+               <artifactId>alfresco-maven-plugin</artifactId>
+               <executions>
+                  <execution>
+                     <id>install-shareservices-amp</id>
+                     <phase>package</phase>
+                     <goals>
+                        <goal>install</goal>
+                     </goals>
+                     <configuration>
+                        <ampLocation>${settings.localRepository}/org/alfresco/alfresco-share-services/${project.version}/alfresco-share-services-${project.version}.amp</ampLocation>
+                        <warLocation>${project.build.directory}/${project.build.finalName}.war</warLocation>
+                     </configuration>
+                  </execution>
+               </executions>
+            </plugin>
+
+            <!--
+                Configure the Tomcat plugin. Keeping the configuration separate from the 'run' profile,
+                allows explicit running of tomcat, e.g: mvn tomcat7:run-war-only
+            -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <systemProperties>
+                        <dir.root>${dir.root}</dir.root>
+                        <index.subsystem.name>solr4</index.subsystem.name>
+                        <solr.host>localhost</solr.host>
+                        <solr.secureComms>none</solr.secureComms>
+                        <solr.port>8080</solr.port>
+                        <solr.port.ssl />
+                        <solr.backup.alfresco.numberToKeep>0</solr.backup.alfresco.numberToKeep>
+                        <solr.backup.archive.numberToKeep>0</solr.backup.archive.numberToKeep>
+                        <solr.solr.home>${runtime.solr.folder}</solr.solr.home>
+                        <solr.solr.model.dir>${runtime.solr.folder}/alfrescoModels</solr.solr.model.dir>
+                        <solr.solr.content.dir>${runtime.solr.folder}/content</solr.solr.content.dir>
+                    </systemProperties>
+                    <delegate>false</delegate>
+                    <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
+                    <contextFile>${runtime.tomcat.conf.folder}/alfresco-context.xml</contextFile>
+                    <tomcatUsers>${runtime.tomcat.conf.folder}/tomcat-users.xml</tomcatUsers>
+                    <webapps>
+                        <!-- Run solr4 alongside the repo -->
+                        <webapp>
+                            <groupId>org.alfresco</groupId>
+                           <artifactId>alfresco-solr4</artifactId>
+                           <version>5.2.3</version>
+                           <contextPath>/solr4</contextPath>
+                            <type>war</type>
+                            <asWebapp>true</asWebapp>
+                            <contextFile>${runtime.tomcat.conf.folder}/solr-context.xml</contextFile>
+                        </webapp>
+                    </webapps> 
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>pentaho</id>
+            <build>
+             <plugins>
+                <plugin>
+                   <artifactId>maven-dependency-plugin</artifactId>
+                   <executions>
+                      <execution>
+                         <id>fetch-amps-pentaho</id>
+                         <phase>prepare-package</phase>
+                         <goals>
+                            <goal>copy</goal>
+                         </goals>
+                         <configuration>
+                            <artifactItems>
+                               <artifactItem>
+                                  <groupId>org.alfresco.integrations</groupId>
+                                  <artifactId>pentaho-repo</artifactId>
+                                  <version>${alfresco.pentaho.version}</version>
+                                  <type>amp</type>
+                               </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>target/pentaho-amps</outputDirectory>
+                         </configuration>
+                      </execution>
+                   </executions>
+                </plugin>
+                <!-- Apply amp files -->
+                <plugin>
+                   <groupId>org.alfresco.maven.plugin</groupId>
+                   <artifactId>alfresco-maven-plugin</artifactId>
+                   <configuration>
+                      <warLocation>${project.build.directory}/${project.build.finalName}</warLocation>
+                   </configuration>
+                   <executions>
+                      <execution>
+                         <id>install-amps</id>
+                         <phase>prepare-package</phase>
+                         <goals>
+                            <goal>install</goal>
+                         </goals>
+                         <configuration>
+                            <ampLocation>target/pentaho-amps</ampLocation>
+                         </configuration>
+                      </execution>
+                   </executions>
+                </plugin>
+             </plugins>
+            </build>
+         </profile>
+     </profiles>
+</project>
