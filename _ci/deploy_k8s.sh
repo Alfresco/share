@@ -62,7 +62,7 @@ function updateDevelopEnv()  {
           --set repository.adminPassword="${ADMIN_PWD}" \
           --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
           --set repository.image.tag="${REPO_TAG_NAME}" \
-          --set alfresco-sync-service.syncservice.enabled=false \
+          --set alfresco-sync-service.syncservice.image.tag="${SYNC_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
           --set repository.environment.JAVA_OPTS="-Dalfresco.restApi.basicAuthScheme=true -Dsolr.base.url=/solr -Dsolr.secureComms=none -Dindex.subsystem.name=solr6 -Dalfresco.cluster.enabled=true -Ddeployment.method=HELM_CHART -Dtransform.service.enabled=true -Xms2000M -Xmx2000M" \
@@ -153,7 +153,7 @@ function createEnv {
           --set repository.image.tag="${REPO_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
-          --set alfresco-sync-service.syncservice.enabled=false \
+          --set alfresco-sync-service.syncservice.image.tag="${SYNC_TAG_NAME}" \
           --set repository.environment.JAVA_OPTS="-Dalfresco.restApi.basicAuthScheme=true -Dsolr.base.url=/solr -Dsolr.secureComms=none -Dindex.subsystem.name=solr6 -Dalfresco.cluster.enabled=true -Ddeployment.method=HELM_CHART -Dtransform.service.enabled=true -Xms2000M -Xmx2000M" \
           --namespace $NAMESPACE
 
