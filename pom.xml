@@ -32,7 +32,7 @@
         <version.revision>0</version.revision>
 
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>8.346</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.345</dependency.alfresco-community-repo.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
@@ -40,8 +40,7 @@
 
         <maven.build.sourceVersion>1.8</maven.build.sourceVersion>
 
-        <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots
-        </maven.distributionManagement.snapshot.url>
+        <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <dependency.spring.version>5.2.9.RELEASE</dependency.spring.version>
@@ -69,8 +68,7 @@
         <runtime.data.folder>${runtime.parent.folder}/runtime</runtime.data.folder>
         <runtime.tomcat.conf.folder>${runtime.parent.folder}/tomcat</runtime.tomcat.conf.folder>
         <runtime.solr.folder>${runtime.data.folder}/solr4-instance</runtime.solr.folder>
-        <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties
-        </alfresco.properties.file>
+        <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties</alfresco.properties.file>
         <!-- Define the location where alfresco will store its content files, i.e. *.bin) -->
         <dir.root>${runtime.data.folder}/alf_data</dir.root>
 
@@ -87,7 +85,9 @@
         <test.working.dir>${project.build.directory}</test.working.dir>
         <img.exe>convert</img.exe>
         <swf.exe>pdf2swf</swf.exe>
+
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
+        <license-header-location>${maven.multiModuleProjectDirectory}</license-header-location>
     </properties>
 
     <scm>
@@ -437,8 +437,7 @@
                     <configuration>
                         <archive>
                             <manifestEntries>
-                                <Specification-Version>${version.major}.${version.minor}.${version.revision}
-                                </Specification-Version>
+                                <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
                                 <Build-Date>${maven.build.timestamp}</Build-Date>
                                 <Build-Name>${bamboo_planName}</Build-Name>
@@ -454,8 +453,7 @@
                     <configuration>
                         <archive>
                             <manifestEntries>
-                                <Specification-Version>${version.major}.${version.minor}.${version.revision}
-                                </Specification-Version>
+                                <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
                                 <Build-Date>${maven.build.timestamp}</Build-Date>
                                 <Build-Name>${bamboo_planName}</Build-Name>
@@ -467,8 +465,7 @@
                                 <manifestSection>
                                     <name>Source-control</name>
                                     <manifestEntries>
-                                        <Last-change-Revision>${bamboo_custom_svn_lastchange_revision_number}
-                                        </Last-change-Revision>
+                                        <Last-change-Revision>${bamboo_custom_svn_lastchange_revision_number}</Last-change-Revision>
                                         <Source-Revision>${bamboo_repository_revision_number}</Source-Revision>
                                         <Source-Url>${bamboo_planRepository_repositoryUrl}</Source-Url>
                                     </manifestEntries>
