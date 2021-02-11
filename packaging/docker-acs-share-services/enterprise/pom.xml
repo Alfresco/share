@@ -15,5 +15,6 @@
 
     <properties>
         <image.name>alfresco/alfresco-content-repository-share-services</image.name>
+        <license-header-location>${project.parent.parent.parent.basedir}</license-header-location>
     </properties>
 </project>

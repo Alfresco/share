@@ -32,8 +32,6 @@
 
         <!-- Alfresco Module Management Tool version -->
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
-
-        <license-header-location>${project.parent.parent.parent.basedir}</license-header-location>
     </properties>
 
     <build>
