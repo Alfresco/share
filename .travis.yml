@@ -35,6 +35,7 @@ env:
   global:
     - REPO_TAG_NAME=latest
     - SHARE_TAG_NAME=latest
+    - SYNC_TAG_NAME=3.4.0-M5
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
     - RELEASE_VERSION=7.0.0-A15
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
@@ -68,6 +69,13 @@ jobs:
       before_install: bash _ci/init.sh
       script: bash _ci/build.sh
 
+#    - name: "White Source"
+#      stage: build
+#      # only on SP branches or master and if it is not a PR
+#      if: fork = false AND (branch = develop OR branch =~ /support\/SP\/.*/ OR branch =~ /.*\/APPS-.*$/) AND type != pull_request
+#      before_install: bash _ci/init.sh
+#      script: travis_wait 30 bash _ci/whitesource.sh _ci/.wss-unified-agent.config
+
     - name: "Source Clear Scan (SCA)"
       stage: build
       # only on SP branches or master and if it is not a PR
@@ -98,6 +106,10 @@ jobs:
               - alfresco-tas-share-test/target/surefire-reports
               - alfresco-tas-share-test/target/reports
             target_paths: $TRAVIS_BUILD_NUMBER
+
+    - <<: *test-staging
+      name: "User and Site Dashboard Tests"
+      script: bash _ci/execute_share_web.sh "user-and-site-dashboard-tests.xml"
 
     - <<: *test-staging
       name: "Admin Tools Tests"
