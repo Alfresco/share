@@ -31,10 +31,10 @@
 
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>7.0.0-A3</alfresco.platform.version>
-        <alfresco.content-services.version>7.0.0-A16</alfresco.content-services.version>
+        <alfresco.content-services.version>8.419</alfresco.content-services.version>
         
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>8.345</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.382</dependency.alfresco-community-repo.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
@@ -45,7 +45,7 @@
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
-        <dependency.spring.version>5.2.9.RELEASE</dependency.spring.version>
+        <dependency.spring.version>5.3.3</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.0.106</dependency.aikau.version>
@@ -54,7 +54,7 @@
         <dependency.httpcomponents.version>4.5.12</dependency.httpcomponents.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
-        <dependency.webscripts.version>8.12</dependency.webscripts.version>
+        <dependency.webscripts.version>8.15</dependency.webscripts.version>
         <dependency.surf.version>8.6</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
@@ -63,7 +63,7 @@
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>11.0.2</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.11.2</dependency.jackson.version>
+        <dependency.jackson.version>2.12.1</dependency.jackson.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
