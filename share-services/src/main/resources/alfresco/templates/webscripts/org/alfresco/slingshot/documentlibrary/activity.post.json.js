@@ -42,8 +42,8 @@ function postActivity()
       status.setCode(status.STATUS_BAD_REQUEST, "'site' parameter missing when posting activity");
       return;
    }
-   var site = siteService.getSite(siteId);
-   if (site == null)
+   var siteInfo = siteService.getSiteInfo(siteId);
+   if (siteInfo == null)
    {
       status.setCode(status.STATUS_BAD_REQUEST, "'" + siteId + "' is not a valid site");
       return;

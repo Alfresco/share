@@ -1558,7 +1558,7 @@ function getHeaderServices() {
          
          // user may have access to document library paths/folders if given explicit permissions
          // other pages should be blocked from direct URL access to avoid messy errors and broken pages
-         if (page.id != "documentlibrary" && page.id != "document-details" && page.id != "folder-details" && !page.url.uri.endsWith("/faceted-search"))
+         if (page.id != "documentlibrary" && page.id != "document-details" && page.id != "folder-details" && !page.url.uri.endsWith("/faceted-search") && page.id != "edit-metadata")
          {
             if (siteData.profile.shortName == "")
             {
