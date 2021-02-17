@@ -59,6 +59,7 @@ import org.springframework.extensions.webscripts.ui.common.StringUtils;
 public class SlingshotRemoteClient extends RemoteClient
 {
     private static final Pattern CONTENT_PATTERN_TO_CHECK = Pattern.compile(".*/(api|slingshot)/(node|path)/(content.*/)?workspace/SpacesStore/.+");
+    private static final Pattern TRASHCAN_PATTERN_TO_CHECK = Pattern.compile(".*/(api|slingshot)/(node|path)/(content.*/)?archive/SpacesStore/.+");
     private static final Pattern CONTENT_PATTERN_TO_WHITE_LIST = Pattern.compile(".*/api/node/workspace/SpacesStore/[a-z0-9-]+/content/thumbnails/webpreview");
     private static final Pattern SLINGSHOT_WIKI_PAGE_PATTERN = Pattern.compile(".*/slingshot/wiki/page/.*");
     private static final Pattern SLINGSHOT_WIKI_VERSION_PATTERN = Pattern.compile(".*/slingshot/wiki/version/.*");
@@ -88,7 +89,8 @@ public class SlingshotRemoteClient extends RemoteClient
                 if (contentType != null && (CONTENT_PATTERN_TO_CHECK.matcher(url.getPath()).matches()
                         && !CONTENT_PATTERN_TO_WHITE_LIST.matcher(url.getPath()).matches()
                         || SLINGSHOT_WIKI_PAGE_PATTERN.matcher(url.getPath()).matches()
-                        || SLINGSHOT_WIKI_VERSION_PATTERN.matcher(url.getPath()).matches()))
+                        || SLINGSHOT_WIKI_VERSION_PATTERN.matcher(url.getPath()).matches())
+                        || TRASHCAN_PATTERN_TO_CHECK.matcher(url.getPath()).matches())
                 {
                     // found a GET request that might be a security risk
                     String mimetype = contentType;
