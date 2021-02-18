@@ -157,6 +157,16 @@
             <null/>
         </property>
         <property name="proxyControllerInterceptor" ref="slingshotProxyControllerInterceptor"/>
+        <property name="uriWhitelist">
+            <list>
+                <value>^.*$</value>
+            </list>
+        </property>
+        <property name="uriBlacklist">
+            <list>
+                <value>^.*/api/solr/.*$</value>
+            </list>
+        </property>
     </bean>
 
     <!-- Override FeedController so we can manipulate the authentication for SSO if needed -->
