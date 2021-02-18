@@ -34,7 +34,7 @@
         <alfresco.content-services.version>8.433</alfresco.content-services.version>
         
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>8.393</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.394</dependency.alfresco-community-repo.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
