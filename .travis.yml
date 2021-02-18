@@ -1,0 +1,36 @@
+dist: xenial
+language: java
+jdk: openjdk8
+
+git:
+  quiet: true
+
+services:
+  - docker
+
+# import:
+#   - Alfresco/alfresco-process-tools:.travis.kubernetes_install.yml@master
+#   - Alfresco/alfresco-process-tools:.travis.helm_install.yml@master
+
+cache:
+  directories:
+    - $HOME/.m2/repository
+# the cache can grow constantly
+# before_cache:
+#   - rm -rf $HOME/.m2/repository/org/alfresco/alfresco-share*
+#   - rm -rf $HOME/.m2/repository/org/alfresco/share*
+#   - rm -rf $HOME/.m2/repository/org/alfresco/alfresco-content-services-share-*
+#   - rm -rf $HOME/.m2/repository/org/alfresco/alfresco-wcmqs*
+
+branches:
+  only:
+    - /^SP\/.+$/
+
+stages:
+  - tests
+
+jobs:
+  include:   
+    - name: "Testing"
+      stage: tests
+      script: echo 'this is working'
