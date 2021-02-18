@@ -33,5 +33,6 @@ stages:
 jobs:
   include:   
     - name: "Testing"
+      install: skip
       stage: tests
       script: echo 'this is working'
