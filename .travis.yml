@@ -2,15 +2,11 @@ dist: xenial
 language: java
 jdk: openjdk8
 
-git:
-  quiet: true
-
 services:
   - docker
 
-# import:
-#   - Alfresco/alfresco-process-tools:.travis.kubernetes_install.yml@master
-#   - Alfresco/alfresco-process-tools:.travis.helm_install.yml@master
+git:
+  quiet: true
 
 cache:
   directories:
@@ -29,6 +25,8 @@ branches:
 
 stages:
   - tests
+
+before_install: travis_retry bash scripts/travis/init.sh
 
 jobs:
   include:   

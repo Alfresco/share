@@ -29,8 +29,7 @@
         <version.minor>2</version.minor>
         <version.revision>7</version.revision>
         <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>5.2.7</alfresco.platform.version>
-        <alfresco.parent.version>5.2.7.8</alfresco.parent.version>
+        <alfresco.platform.version>5.2.7.8</alfresco.platform.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
@@ -114,7 +113,7 @@
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-parent</artifactId>
-                <version>${alfresco.parent.version}</version>
+                <version>${alfresco.platform.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
