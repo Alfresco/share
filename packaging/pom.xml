@@ -32,7 +32,8 @@
         <module>distribution</module>
         <module>webeditor</module>
         <module>wcmqs</module>
-        <module>installer</module>
+<!--        <module>installer</module>-->
+        <module>docker-share</module>
     </modules>
     
 </project>

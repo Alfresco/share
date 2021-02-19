@@ -1,0 +1,102 @@
+# Using version 2 as 3 does not support resource constraint options (cpu_*, mem_* limits) for non swarm mode in Compose
+version: "2.2"
+
+services:
+    alfresco1:
+        image: quay.io/alfresco/alfresco-legacy-aio:latest
+        environment:
+          JAVA_OPTS :
+            "
+            -Ddir.root=/usr/local/tomcat/alf_data
+            -Ddir.license.external=/usr/local/tomcat/shared/classes/alfresco/extension/license
+            -Dalfresco.port=8080
+            -Dalfresco.host=localhost
+            -Ddb.driver=org.postgresql.Driver
+            -Ddb.username=alfresco
+            -Ddb.password=alfresco
+            -Ddb.url=jdbc:postgresql://database:5432/alfresco
+            -Dindex.subsystem.name=solr4
+            -Dsolr.host=localhost
+            -Dsolr.port.ssl=8443
+            -Dalfresco.restApi.basicAuthScheme=true
+            -Dimap.server.enabled=true
+            -Dimap.server.port=1143
+            -Dimap.server.host=0.0.0.0
+            -Dimap.server.imaps.port=1193
+            -Dmail.protocol=smtp
+            -Dmail.port=1587
+            -Dmail.host=smtp.gmail.com        
+            -Demail.inbound.unknownUser=admin@alfresco.com
+            -Demail.inbound.enabled=true
+            -Demail.server.enabled=true
+            -Demail.server.port=1126        
+            -Dsystem.usages.enabled=false
+            -Dmail.encoding=UTF-8
+            -Dmail.from.enabled=false
+            -Dnotification.email.siteinvite=false
+            -Dmonitor.rmi.service.port=0
+            -Djava.rmi.server.hostname=localhost
+            -Dalfresco.rmi.services.host=0.0.0.0
+            -Dsmart.folders.enabled=true
+            -Daudit.enabled=true 
+            -Daudit.tagging.enabled=true
+            -Daudit.alfresco-access.enabled=false
+            -Daudit.alfresco-access.sub-actions.enabled=false
+            -Dcifs.enabled=true
+            -Dcifs.ipv6.enabled=false
+            -Dcifs.hostannounce=true
+            -Dcifs.tcpipSMB.port=1445
+            -Dcifs.netBIOSSMB.namePort=1137
+            -Dcifs.netBIOSSMB.datagramPort=1138
+            -Dcifs.netBIOSSMB.sessionPort=1139
+            -Dcifs.maximumVirtualCircuitsPerSession=2000
+            -Dftp.enabled=true
+            -Dftp.port=1221
+            -Dftp.dataPortFrom=30000
+            -Dftp.dataPortTo=30200
+            -Dftp.passiveMode=true
+            -Dalfresco-pdf-renderer.root=/usr/bin/
+            -Dalfresco-pdf-renderer.exe=/usr/bin/alfresco-pdf-renderer
+            -Djodconverter.enabled=true
+            -Djodconverter.portNumbers=8100
+            -Djodconverter.officeHome=/opt/libreoffice5.4/
+            -Dooo.exe=/opt/libreoffice5.4/program/soffice.bin
+            -Dooo.enabled=false
+            -Dooo.port=8100
+            -Dimg.root=/usr/lib64/ImageMagick-7.0.7
+            -Dimg.coders=/usr/lib64/ImageMagick-7.0.7/modules-Q16HDRI/coders
+            -Dimg.config=/usr/lib64/ImageMagick-7.0.7/config-Q16HDRI
+            -Dimg.exe=/usr/bin/convert
+            "
+        ports:
+          - 8080:8080
+          - "1221:1221" # ftp port
+          - "30000-30199:30000-30199" #ftp ports
+          - "1143:1143" # imap server port
+          - "1193:1193" # imaps server port
+          - "1126:1126" # email server port
+          - "1125:1125" # some tests change email port to this value
+          - "1445:1445" # cifs port
+          - "1137:1137" # cifs biossmb name port
+          - "1138:1138" # cifs biossmb datagram port
+          - "1139:1139" # cifs biossmb session port
+
+    database:
+        image: library/postgres:11.4
+        environment:
+          - POSTGRES_PASSWORD=alfresco
+          - POSTGRES_USER=alfresco
+          - POSTGRES_DB=alfresco
+        ports:
+          - 5432:5432
+
+    selenium:
+        image: selenium/standalone-firefox-debug:2.52.0
+        environment:
+          - VNC_NO_PASSWORD=1
+        ports:
+          - 4444:4444
+          - 5900:5900
+          - 8080 # lb alfresco
+        volumes:
+          - /dev/shm:/dev/shm

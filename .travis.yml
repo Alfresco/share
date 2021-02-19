@@ -33,6 +33,11 @@ stages:
 jobs:
   include:   
     - name: "Testing"
-      install: skip
-      stage: tests
-      script: echo 'this is working'
+      install: mvn clean install -DskipTests -Penterprise,packaging,enterpriseDocker
+      before_script:
+        - scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - travis_wait 60 mvn -B -U -Palfresco-content-services-tests -DskipTests=false -Dwebdriver.grid.url=http://127.0.0.1:4444/wd/hub -Dwebdriver.local.grid=false -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dgrid.enabled=true -Dgrid.url=http://127.0.0.1:4444/wd/hub -Dbrowser.name=firefox -Dbrowser.version=59 -Denv.platform=linux -Dwebdriver.local.grid=false -Dshare.target=http://127.0.0.1:8080/share  -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
+
