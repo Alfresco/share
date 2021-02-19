@@ -24,7 +24,7 @@ COPY ${RESOURCE_PATH}/amps_share ${TOMCAT_DIR}/amps_share
 COPY ${RESOURCE_PATH}/amps ${TOMCAT_DIR}/amps
 
 # Install amps on share.war and alfresco.war
-RUN chmod -R =rwx ${TOMCAT_DIR}/webapps &&\
+RUN chmod -R =rwx ${TOMCAT_DIR}/webapps && \
     java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
               ${TOMCAT_DIR}/amps_share ${TOMCAT_DIR}/webapps/share -directory -nobackup -force && \
     java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
