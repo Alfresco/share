@@ -29,10 +29,10 @@ RUN chmod -R =rwx ${TOMCAT_DIR}/webapps && \
               ${TOMCAT_DIR}/amps_share ${TOMCAT_DIR}/webapps/share -directory -nobackup -force && \
     java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
               ${TOMCAT_DIR}/amps ${TOMCAT_DIR}/webapps/alfresco -directory -nobackup -force && \
-    rm -f amps && \
-    rm -f amps_share
+    rm -rf amps && \
+    rm -rf amps_share
 
 RUN chmod -R =r ${TOMCAT_DIR}/webapps && \
-# Add share.war
-# Grant all security permissions to share webapp because of numerous permissions required in order to work properly.
+    # Add share.war
+    # Grant all security permissions to share webapp because of numerous permissions required in order to work properly.
     sed -i -e "\$a\grant\ codeBase\ \"file:\$\{catalina.base\}\/webapps\/share\/-\" \{\n\    permission\ java.security.AllPermission\;\n\};" /usr/local/tomcat/conf/catalina.policy
