@@ -738,8 +738,8 @@
             <modules>
                 <module>share-services</module>
                 <module>share</module>
-                <module>web-framework-commons</module>
-                <module>packaging</module>
+                <module>packaging/distribution</module>
+                <module>packaging/docker-share</module>
             </modules>
         </profile>
 
