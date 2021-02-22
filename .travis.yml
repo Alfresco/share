@@ -41,7 +41,7 @@ jobs:
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
         - cd share-po
       script:
-        - mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.grid.url=http://127.0.0.1:4444/wd/hub -Dwebdriver.local.grid=false -Dwebdriver.browser=RemoteFireFox -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
+        - mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.grid.url=http://127.0.0.1:4444/wd/hub -Dwebdriver.local.grid=false -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
 
 #    - name: "Building Docker Image"
 #      install: skip
