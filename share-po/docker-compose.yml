@@ -3,7 +3,7 @@ version: "2.2"
 
 services:
     alfresco1:
-        image: quay.io/alfresco/alfresco-legacy-aio:latest
+        image: alfresco/alfresco-legacy-aio:latest
         environment:
           JAVA_OPTS :
             "
