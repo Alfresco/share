@@ -11,19 +11,6 @@
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
-    <modules>
-        <module>share-services</module>
-        <module>share</module>
-        <module>share-po</module>
-        <module>cmm-qa</module>
-        <module>web-framework-commons</module>
-        <module>web-editor</module>
-        <module>web-editor-plugin</module>
-        <module>web-editor-samples/customer-site</module>
-        <module>wcmquickstart-module</module>
-        <module>alfresco</module>
-    </modules>
-
     <properties>
         <version.major>5</version.major>
         <version.minor>2</version.minor>
@@ -744,6 +731,35 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+        <!-- This profile will build only project required to produce the Share docker image. -->
+            <id>enterpriseDocker</id>
+            <modules>
+                <module>share-services</module>
+                <module>share</module>
+                <module>web-framework-commons</module>
+                <module>packaging</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>share-services</module>
+                <module>share</module>
+                <module>share-po</module>
+                <module>cmm-qa</module>
+                <module>web-framework-commons</module>
+                <module>web-editor</module>
+                <module>web-editor-plugin</module>
+                <module>web-editor-samples/customer-site</module>
+                <module>wcmquickstart-module</module>
+                <module>alfresco</module>
+            </modules>
         </profile>
     </profiles>
 </project>
