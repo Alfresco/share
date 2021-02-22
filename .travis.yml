@@ -31,7 +31,7 @@ before_install: travis_retry bash scripts/travis/init.sh
 jobs:
   include:   
     - name: "Testing"
-      install: travis_wait 60 mvn clean install -DskipTests -Penterprise,packaging,enterpriseDocker
+      install: travis_wait 60 mvn clean install -DskipTests -PenterpriseDocker
       before_script:
         - scripts/travis/start-compose.sh share-po/docker-compose.yml
         - scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
