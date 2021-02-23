@@ -14,6 +14,7 @@
         <test.exclude>nonEnterprise</test.exclude>
         <test.include>unit,alfresco-one,Enterprise4.2,Enterprise-only</test.include>
         <testng.suite.filename>src/test/resources/testng-alfresco-share.xml</testng.suite.filename>
+        <suite.filename></suite.filename>
         <argLine>-Xms512m -Xmx1024m</argLine>
         <skipTests>true</skipTests>
         <spring.version>4.1.6.RELEASE</spring.version>
@@ -374,23 +375,24 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <suiteXmlFiles>
-                            	<!-- <suiteXmlFile>src/test/resources/SearchSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/DashletSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/DocumentSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/DownloadSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/EnumSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/SiteContentSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/SitesSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/TasksSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/ShareSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/WorkflowSuite.xml</suiteXmlFile> -->
-                                <suiteXmlFile>src/test/resources/AdminConsoleSuite.xml</suiteXmlFile>
-                                <!-- <suiteXmlFile>src/test/resources/ContentRulesSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/LinksPageSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/CalendarPageSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/MyProfileSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/ShareStepsSuite.xml</suiteXmlFile>
-                                <suiteXmlFile>src/test/resources/CmmSuite.xml</suiteXmlFile> -->
+                                <suiteXmlFile>${suite.filename}</suiteXmlFile>
+<!--                            	<suiteXmlFile>src/test/resources/SearchSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/DashletSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/DocumentSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/DownloadSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/EnumSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/SiteContentSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/SitesSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/TasksSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/ShareSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/WorkflowSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/AdminConsoleSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/ContentRulesSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/LinksPageSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/CalendarPageSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/MyProfileSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/ShareStepsSuite.xml</suiteXmlFile>-->
+<!--                                <suiteXmlFile>src/test/resources/CmmSuite.xml</suiteXmlFile>-->
                             </suiteXmlFiles>
                             <excludedGroups>
                                 ${test.exclude}
