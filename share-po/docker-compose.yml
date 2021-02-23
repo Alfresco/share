@@ -90,13 +90,13 @@ services:
         ports:
           - 5432:5432
 
-    # selenium:
-    #     image: selenium/standalone-firefox-debug:2.52.0
-    #     environment:
-    #       - VNC_NO_PASSWORD=1
-    #     ports:
-    #       - 4444:4444
-    #       - 5900:5900
-    #       - 8080 # lb alfresco
-    #     volumes:
-    #       - /dev/shm:/dev/shm
+    selenium:
+        image: selenium/standalone-firefox-debug:2.52.0
+        environment:
+          - VNC_NO_PASSWORD=1
+        ports:
+          - 4444:4444
+          - 5900:5900
+          - 8080 # lb alfresco
+        volumes:
+          - /dev/shm:/dev/shm
