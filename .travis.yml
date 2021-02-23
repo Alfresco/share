@@ -51,7 +51,7 @@ jobs:
         - cd share-po
       script:
         # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DashletSuite.xm
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DashletSuite.xml
 
     - name: "DocumentSuite"
       stage: test
@@ -62,7 +62,7 @@ jobs:
         - cd share-po
       script:
         # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DocumentSuite.xml.xml
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DocumentSuite.xml
 
     - name: "DownloadSuite"
       stage: test
