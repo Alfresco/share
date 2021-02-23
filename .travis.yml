@@ -4,6 +4,7 @@ jdk: openjdk8
 
 services:
   - docker
+  - xvfb
 
 addons:
   firefox: "43.0.1"
