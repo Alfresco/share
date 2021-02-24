@@ -39,181 +39,164 @@ jobs:
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
         - cd share-po
       script:
-        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
         - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/SearchSuite.xml
-#
-#    - name: "DashletSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -q -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DashletSuite.xml
-#
-#    - name: "DocumentSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -q -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DocumentSuite.xml
-#
-#    - name: "DownloadSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DownloadSuite.xml
-#
-#    - name: "EnumSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/EnumSuite.xml
-#
-#    - name: "SiteContentSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/SiteContentSuite.xml
-#
-#    - name: "SitesSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - travis_wait 60 xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -q -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/SitesSuite.xml
-#
-#    - name: "TasksSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TasksSuite.xml
-#
-#    - name: "ShareSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - travis_wait 60 xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/ShareSuite.xml
-#
-#    - name: "WorkflowSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/WorkflowSuite.xml
-#
-#    - name: "AdminConsoleSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/AdminConsoleSuite.xml
-#
-#    - name: "ContentRulesSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/ContentRulesSuite.xml
-#
-#    - name: "LinksPageSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/LinksPageSuite.xml
-#
-#    - name: "CalendarPageSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/CalendarPageSuite.xml
-#
-#    - name: "MyProfileSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/MyProfileSuite.xml
 
-#    - name: "ShareStepsSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/ShareStepsSuite.xml
+    - name: "DashletSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -q -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DashletSuite.xml
 
-#    - name: "CmmSuite"
-#      stage: test
-#      install: mvn clean install -DskipTests -PenterpriseDocker
-#      before_script:
-#        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-#        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-#        - cd share-po
-#      script:
-#        # -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dtest.include=unit,alfresco-one,Enterprise4.2,Enterprise-only -Dtestng.suite.filename=src/test/resources/testng_share_po.xml
-#        - travis_wait 60 xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -q -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/CmmSuite.xml
+    - name: "DocumentSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -q -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DocumentSuite.xml
+
+    - name: "DownloadSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/DownloadSuite.xml
+
+    - name: "EnumSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/EnumSuite.xml
+
+    - name: "SiteContentSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/SiteContentSuite.xml
+
+    - name: "SitesSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - travis_wait 60 xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -q -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/SitesSuite.xml
+
+    - name: "TasksSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TasksSuite.xml
+
+    - name: "ShareSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - travis_wait 60 xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/ShareSuite.xml
+
+    - name: "WorkflowSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/WorkflowSuite.xml
+
+    - name: "AdminConsoleSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/AdminConsoleSuite.xml
+
+    - name: "ContentRulesSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/ContentRulesSuite.xml
+
+    - name: "LinksPageSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/LinksPageSuite.xml
+
+    - name: "CalendarPageSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/CalendarPageSuite.xml
+
+    - name: "MyProfileSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/MyProfileSuite.xml
+
+    - name: "ShareStepsSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/ShareStepsSuite.xml
+
+    - name: "CmmSuite"
+      stage: test
+      install: mvn clean install -DskipTests -PenterpriseDocker
+      before_script:
+        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
+        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
+        - cd share-po
+      script:
+        - travis_wait 60 xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -q -Pdefault,alfresco-content-services-tests -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/CmmSuite.xml
