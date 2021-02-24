@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Search Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">
+<suite name="Search Suite" verbose="1" preserve-order="true" parallel="tests" thread-count="1">
 	<test name="AdvanceSearchContentTest">
     	<classes>
             <class name="org.alfresco.po.share.search.AdvanceSearchContentTest" />
