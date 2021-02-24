@@ -374,6 +374,12 @@
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
+                            <systemProperties>
+                                <property>
+                                    <name>java.util.logging.config.file</name>
+                                    <value>${project.build.directory}/src/test/resources/log4j.properties</value>
+                                </property>
+                            </systemProperties>
                             <suiteXmlFiles>
                                 <suiteXmlFile>${suite.filename}</suiteXmlFile>
 <!--                            	<suiteXmlFile>src/test/resources/SearchSuite.xml</suiteXmlFile>-->
