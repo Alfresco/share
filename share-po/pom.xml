@@ -374,31 +374,24 @@
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
-                            <systemProperties>
-                                <property>
-                                    <name>java.util.logging.config.file</name>
-                                    <value>${project.build.directory}/src/test/resources/log4j.properties</value>
-                                </property>
-                            </systemProperties>
                             <suiteXmlFiles>
-                                <suiteXmlFile>${suite.filename}</suiteXmlFile>
-<!--                            	<suiteXmlFile>src/test/resources/SearchSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/DashletSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/DocumentSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/DownloadSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/EnumSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/SiteContentSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/SitesSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/TasksSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/ShareSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/WorkflowSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/AdminConsoleSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/ContentRulesSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/LinksPageSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/CalendarPageSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/MyProfileSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/ShareStepsSuite.xml</suiteXmlFile>-->
-<!--                                <suiteXmlFile>src/test/resources/CmmSuite.xml</suiteXmlFile>-->
+                            	<suiteXmlFile>src/test/resources/SearchSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/DashletSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/DocumentSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/DownloadSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/EnumSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/SiteContentSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/SitesSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/TasksSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/ShareSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/WorkflowSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/AdminConsoleSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/ContentRulesSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/LinksPageSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/CalendarPageSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/MyProfileSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/ShareStepsSuite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/CmmSuite.xml</suiteXmlFile>
                             </suiteXmlFiles>
                             <excludedGroups>
                                 ${test.exclude}
@@ -411,6 +404,35 @@
                             <!--<systemPropertyVariables>-->
                             <!--<webdrone.element.wait.time>${webdrone.element.wait.time}</webdrone.element.wait.time>-->
                             <!--</systemPropertyVariables>-->
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>single-test-suite</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <systemProperties>
+                                <property>
+                                    <name>java.util.logging.config.file</name>
+                                    <value>${project.build.directory}/src/test/resources/log4j.properties</value>
+                                </property>
+                            </systemProperties>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>${suite.filename}</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <excludedGroups>
+                                ${test.exclude}
+                            </excludedGroups>
+                            <groups>
+                                ${test.include}
+                            </groups>
+                            <workingDirectory>target</workingDirectory>
                             <redirectTestOutputToFile>false</redirectTestOutputToFile>
                         </configuration>
                     </plugin>

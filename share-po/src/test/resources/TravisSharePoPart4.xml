@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Alfresco Share Page Object Tests" verbose="1">
+    <suite-files>
+        <suite-file path="DownloadSuite.xml" />
+        <suite-file path="EnumSuite.xml" />
+        <suite-file path="SiteContentSuite.xml" />
+        <suite-file path="SitesSuite.xml" />
+    </suite-files>
+</suite>
