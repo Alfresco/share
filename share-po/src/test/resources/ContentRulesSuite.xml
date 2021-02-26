@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Content Rules Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">
+<suite name="Content Rules Suite" verbose="6" preserve-order="true" parallel="classes" thread-count="1">
     <test name="Rules Pages Test">
         <classes>
             <class name="org.alfresco.po.share.rules.RulePagesTest"/>

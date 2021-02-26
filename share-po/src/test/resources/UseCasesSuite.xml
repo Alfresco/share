@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="UseCases Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="1">	
+<suite name="UseCases Suite" verbose="6" preserve-order="true" parallel="classes" thread-count="1">
 	
 		<test name="FacetedSearchBulkActions">			
 			<classes>

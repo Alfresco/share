@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Alfresco Share Page Object Tests" verbose="1">
+<suite name="Alfresco Share Page Object Tests" verbose="1" parallel="classes">
     <suite-files>
         <suite-file path="TasksSuite.xml" />
         <suite-file path="AdminConsoleSuite.xml" />

@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Enum Suite" verbose="6" preserve-order="true" parallel="tests" thread-count="5">
+<suite name="Enum Suite" verbose="6" preserve-order="true" parallel="classes" thread-count="5">
     <test name="LinksTest">
         <classes>
             <class name="org.alfresco.po.share.enums.DocumentActionTest" />

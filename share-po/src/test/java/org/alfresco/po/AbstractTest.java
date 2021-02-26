@@ -79,6 +79,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 @ContextConfiguration("classpath*:share-po-test-context.xml")
@@ -137,6 +138,9 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     {
         driver = (WebDriver) ctx.getBean("webDriver");
         driver.manage().window().maximize();
+
+        String className = getClass().getSimpleName();
+        System.out.println("====== STARTING SUITE : " + className + " =====");
     }
 
     @AfterClass(alwaysRun = true)
@@ -152,7 +156,24 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
             driver.quit();
             driver = null;
         }
+
+        String className = getClass().getSimpleName();
+        System.out.println("====== END SUITE : " + className + " =====\n");
     }
+
+    @BeforeMethod(alwaysRun = true)
+    protected void startSession(Method method) throws Exception
+    {
+        String testName = method.getName();
+        System.out.println("\t TEST - " + testName);
+    }
+
+//    @AfterMethod(alwaysRun = true)
+//    protected void endTest(Method method) throws Exception
+//    {
+//        String testName = method.getName();
+//        System.out.println("\t\t\t TEST DONE : \t\t" + testName);
+//    }
 
     /**
      * Helper to log admin user into dashboard.
@@ -210,18 +231,6 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     public void savePageSource(String methodName) throws IOException
     {
         FetchUtil.save(driver, methodName + ".html");
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    protected void startSession(Method method) throws Exception
-    {
-        String testName = method.getName();
-        if(logger.isTraceEnabled())
-        {
-            logger.trace(String.format("Test run:%s.%s",
-                                        method.getDeclaringClass().getCanonicalName(),
-                                        testName));
-        }
     }
 
     /**

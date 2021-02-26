@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="1" parallel="tests" preserve-order="true" verbose="6" name="Document Suite">
+<suite thread-count="1" parallel="classes" preserve-order="true" verbose="6" name="Document Suite">
     <test name="CategoryPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.document.CategoryPageTest"/>
