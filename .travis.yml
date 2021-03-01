@@ -39,7 +39,7 @@ jobs:
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
         - cd share-po
       script:
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TravisSharePoPart1.xml
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dsuite.filename=src/test/resources/TravisSharePoPart1.xml
 
     - name: "Share PO - Part 2"
       stage: test
@@ -49,7 +49,7 @@ jobs:
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
         - cd share-po
       script:
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TravisSharePoPart2.xml
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dsuite.filename=src/test/resources/TravisSharePoPart2.xml
 
     - name: "Share PO - Part 3"
       stage: test
@@ -59,7 +59,7 @@ jobs:
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
         - cd share-po
       script:
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TravisSharePoPart3.xml
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dsuite.filename=src/test/resources/TravisSharePoPart3.xml
 
     - name: "Share PO - Part 4"
       stage: test
@@ -69,7 +69,7 @@ jobs:
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
         - cd share-po
       script:
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TravisSharePoPart4.xml
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dsuite.filename=src/test/resources/TravisSharePoPart4.xml
 
     - name: "Share PO - Part 5"
       stage: test
@@ -79,7 +79,7 @@ jobs:
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
         - cd share-po
       script:
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TravisSharePoPart5.xml
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dsuite.filename=src/test/resources/TravisSharePoPart5.xml
 
     - name: "Share PO - Part 6"
       stage: test
@@ -89,14 +89,4 @@ jobs:
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
         - cd share-po
       script:
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TravisSharePoPart6.xml
-
-    - name: "Share PO - Part 7"
-      stage: test
-      install: mvn clean install -DskipTests -PenterpriseDocker
-      before_script:
-        - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
-        - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
-        - cd share-po
-      script:
-        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dtest.exclude=.*Bug42,.*Bug,chromeOnly,Hybrid,download,NonGrid -Dsuite.filename=src/test/resources/TravisSharePoPart7.xml
+        - xvfb-run -a --server-args="-screen 0 1920x1080x24" mvn clean install -B -U -Pdefault,single-test-suite -DskipTests=false -Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dwebdriver.element.wait.time=20000 -Dwebdriver.page.render.wait.time=60000 -Dshare.target=http://127.0.0.1:8080/share -Dshare.url=http://127.0.0.1:8080/share -Dsuite.filename=src/test/resources/TravisSharePoPart6.xml

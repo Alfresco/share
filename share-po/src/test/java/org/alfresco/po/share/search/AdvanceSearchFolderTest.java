@@ -67,7 +67,7 @@ public class AdvanceSearchFolderTest extends AbstractTest
      * 
      * @throws Exception
      */
-    @Test(groups={"Enterprise-only","Enterprise4.2Bug"})
+    @Test(groups={"Enterprise-only","bug"})
     public void folderSearchTest() throws Exception
     {
     	AdvanceSearchContentPage contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();
@@ -113,7 +113,7 @@ public class AdvanceSearchFolderTest extends AbstractTest
      * 
      */
     
-    @Test(groups={"Enterprise-only","Enterprise4.2Bug"})
+    @Test(groups={"Enterprise-only","bug"})
     public void folderKeywordSearchTest() throws Exception
     {
         AdvanceSearchContentPage contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();

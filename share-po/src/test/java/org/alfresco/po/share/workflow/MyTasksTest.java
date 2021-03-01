@@ -50,7 +50,7 @@ import org.testng.annotations.Test;
  * @since 1.6.2
  */
 @Listeners(FailedTestListener.class)
-@Test(groups = {"TestBug" })
+@Test(groups = {"bug" })
 public class MyTasksTest extends AbstractTest
 {
     private String siteName;

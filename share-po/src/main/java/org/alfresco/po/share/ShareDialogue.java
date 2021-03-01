@@ -46,8 +46,7 @@ import org.openqa.selenium.WebElement;
 public class ShareDialogue extends SharePage
 {
     private static Log logger = LogFactory.getLog(ShareDialogue.class);
-
-    private static final By SHARE_DIALOGUE_PARENT = By.xpath("//div[@class='hd']/..");
+    private static final By SHARE_DIALOGUE_PARENT = By.cssSelector(".yui-dialog[style*='visibility: visible']");
     private static final By CLOSE_BUTTON = By.cssSelector("a.container-close");
     private static final By TITLE_TEXT_UPLOAD_FILE = By.cssSelector("span");
     private static final By CANCEL_BUTTON = By.cssSelector("button[id$='form-cancel-button']");
@@ -94,7 +93,9 @@ public class ShareDialogue extends SharePage
     {
         try
         {
-            findAndWait(CLOSE_BUTTON).click();
+            WebElement button = getDialogue().findElement(CLOSE_BUTTON);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
+            button.click();
         }
         catch (TimeoutException e)
         {

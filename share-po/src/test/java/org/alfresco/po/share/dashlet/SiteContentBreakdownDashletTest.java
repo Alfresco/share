@@ -51,7 +51,7 @@ import org.testng.annotations.Test;
  * 
  * @author jcule
  */
-@Test(groups = { "alfresco-one-QA-1661-bug" })
+
 @Listeners(FailedTestListener.class)
 public class SiteContentBreakdownDashletTest extends AbstractSiteDashletTest
 {

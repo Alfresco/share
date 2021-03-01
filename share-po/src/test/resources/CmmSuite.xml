@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="Share-CMM Suite" verbose="6" preserve-order="true" parallel="classes" thread-count="1">	
+<suite name="Share-CMM Suite" verbose="6" preserve-order="true" parallel="classes" thread-count="1">
+	<groups>
+		<run>
+			<exclude name="bug"/>
+			<exclude name="chromeOnly"/>
+			<exclude name="Hybrid"/>
+			<exclude name="download"/>
+			<exclude name="NonGrid"/>
+			<exclude name="Cloud-only"/>
+		</run>
+	</groups>
+
 	<tests>
 		<test name="NavigationTest">
-			<groups> <run> <include name=""></include> </run> </groups>
 			<classes>
 				<class name="org.alfresco.po.share.cmm.NavigationCMMPageTest" />
 			</classes>

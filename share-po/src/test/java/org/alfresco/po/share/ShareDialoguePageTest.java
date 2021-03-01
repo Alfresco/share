@@ -262,12 +262,13 @@ public class ShareDialoguePageTest extends AbstractTest
         closeDialogue().render();
     }
 */
-public HtmlPage closeDialogue() throws Exception
-{
-    ShareDialogue dialogue = factoryPage.getPage(driver).render();
-    HtmlPage sharePage = dialogue.clickClose().render();
-    
-    Assert.assertNotNull(sharePage);
-    return sharePage;
-}
+
+    public HtmlPage closeDialogue() throws Exception
+    {
+        dialogue = factoryPage.getPage(driver).render();
+        HtmlPage sharePage = dialogue.clickClose().render();
+
+        Assert.assertNotNull(sharePage);
+        return sharePage;
+    }
 }

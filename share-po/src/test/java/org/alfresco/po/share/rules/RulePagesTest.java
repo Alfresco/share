@@ -116,7 +116,7 @@ public class RulePagesTest extends AbstractTest
         assertEquals(folderRulesPage.getInheritRulesText(), "Inherit Rules");
     }
 
-    @Test(dependsOnMethods = "folderRulePageTest", groups = {"alfresco-one", "TestBug"})
+    @Test(dependsOnMethods = "folderRulePageTest", groups = {"alfresco-one", "bug"})
     public void createRuleAndThenAnotherTest()
     {
         FolderRulesPage folderRulesPage = resolvePage(driver).render();
@@ -136,7 +136,7 @@ public class RulePagesTest extends AbstractTest
         createRulePage = createRulePage.clickAnotherCreate();
     }
 
-//    @Test(dependsOnMethods = "createRuleAndThenAnotherTest", groups = {"alfresco-one", "TestBug"})
+//    @Test(dependsOnMethods = "createRuleAndThenAnotherTest", groups = {"alfresco-one", "bug"})
 //    public void createNextRuleTest()
 //    {
 //        CreateRulePage createRulePage = resolvePage(driver).render();
@@ -159,7 +159,7 @@ public class RulePagesTest extends AbstractTest
 //        assertTrue(folderRulesPageWithRules.isPageCorrect(folderName));
 //    }
 //
-//    @Test(dependsOnMethods = "createNextRuleTest", groups = {"alfresco-one", "TestBug"})
+//    @Test(dependsOnMethods = "createNextRuleTest", groups = {"alfresco-one", "bug"})
 //    public void foldersRuleWithRulesPageTest()
 //    {
 //        FolderRulesPageWithRules folderRulesPageWithRules = resolvePage(driver).render();
@@ -167,14 +167,14 @@ public class RulePagesTest extends AbstractTest
 //        assertTrue(folderRulesPageWithRules.isInheritRuleToggleAvailable());
 //    }
 //
-//    @Test(dependsOnMethods = "foldersRuleWithRulesPageTest", groups = {"alfresco-one", "TestBug"})
+//    @Test(dependsOnMethods = "foldersRuleWithRulesPageTest", groups = {"alfresco-one", "bug"})
 //    public void deleteRuleTest()
 //    {
 //        FolderRulesPageWithRules folderRulesPageWithRules = resolvePage(driver).render();
 //        folderRulesPageWithRules.deleteRule("testRuleName2");
 //    }
 //
-//    @Test(dependsOnMethods = "deleteRuleTest", groups = {"alfresco-one", "TestBug"})
+//    @Test(dependsOnMethods = "deleteRuleTest", groups = {"alfresco-one", "bug"})
 //    public void clickNewRuleThenCancelTest()
 //    {
 //        FolderRulesPageWithRules folderRulesPageWithRules = resolvePage(driver).render();
@@ -183,7 +183,7 @@ public class RulePagesTest extends AbstractTest
 //        assertTrue(folderRulesPageWithRules.isPageCorrect(folderName));
 //    }
 //
-//    @Test(dependsOnMethods = "clickNewRuleThenCancelTest", groups = {"alfresco-one", "TestBug"})
+//    @Test(dependsOnMethods = "clickNewRuleThenCancelTest", groups = {"alfresco-one", "bug"})
 //    public void getInheritedRulesFolderNameTest()
 //    {
 //        FolderRulesPageWithRules folderRulesPageWithRules = resolvePage(driver).render();
@@ -212,7 +212,7 @@ public class RulePagesTest extends AbstractTest
 //        assertEquals(folderRulesPageWithRules.getInheritedRulesFolderName("testRuleName1"), folderName);
 //    }
 //
-//    @Test(dependsOnMethods = "getInheritedRulesFolderNameTest", groups = {"alfresco-one", "TestBug"})
+//    @Test(dependsOnMethods = "getInheritedRulesFolderNameTest", groups = {"alfresco-one", "bug"})
 //    public void isRuleNameDisplayedTest()
 //    {
 //        FolderRulesPageWithRules folderRulesPageWithRules = resolvePage(driver).render();

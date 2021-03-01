@@ -132,7 +132,7 @@ public class SavedSearchDashletTest extends AbstractSiteDashletTest
         siteDashBoard = configureSavedSearchDialogBoxPage.clickOnOKButton().render();
     }
 
-    @Test(dependsOnMethods = "configureSavedSearch", groups="TestBug")
+    @Test(dependsOnMethods = "configureSavedSearch", groups="bug")
     public void verifySavedSearchResult()
     {
         Assert.assertNotNull(siteDashBoard);

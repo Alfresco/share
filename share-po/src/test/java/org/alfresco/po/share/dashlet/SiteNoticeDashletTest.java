@@ -154,7 +154,7 @@ public class SiteNoticeDashletTest extends AbstractSiteDashletTest
         Assert.assertNotEquals(noticeDashlet.getContent(), titleAndText); 
     }
 
-    @Test(dependsOnMethods = "configureWithDetailsAndClickClose", groups = {"ProductBug"})
+    @Test(dependsOnMethods = "configureWithDetailsAndClickClose", groups = {"bug"})
     //TODO ACE-3776
     public void getTextFromEditor()
     {

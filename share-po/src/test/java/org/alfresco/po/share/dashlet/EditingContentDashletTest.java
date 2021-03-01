@@ -52,7 +52,7 @@ import org.testng.annotations.Test;
  * Created by olga Lokhach
  */
 @Listeners(FailedTestListener.class)
-@Test(groups={"alfresco-one", "ProductBug"})
+@Test(groups={"alfresco-one", "bug"})
 public class EditingContentDashletTest extends AbstractSiteDashletTest
 {
     private DashBoardPage dashBoardPage;

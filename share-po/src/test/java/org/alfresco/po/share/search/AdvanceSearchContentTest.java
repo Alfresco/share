@@ -113,7 +113,7 @@ public class AdvanceSearchContentTest extends AbstractTest
      * Currently this feature is only present in Alfresco Enterprise.
      * @throws Exception
      */
-    @Test(groups={"Enterprise-only","Enterprise4.2Bug"})
+    @Test(groups={"Enterprise-only","bug"})
     public void contentSearchTest() throws Exception
     {
         Date todayDate = new Date();
@@ -181,7 +181,7 @@ public class AdvanceSearchContentTest extends AbstractTest
     /**
      * Test to validate mime type
      */
-    @Test(groups={"Enterprise-only","Enterprise4.2Bug"})
+    @Test(groups={"Enterprise-only","bug"})
     public void mimeTypeSearchTest() throws Exception
     {
         contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();
@@ -221,7 +221,7 @@ public class AdvanceSearchContentTest extends AbstractTest
      * 
      * @throws Exception
      */
-    @Test(dependsOnMethods = "validateInvalidFromDateTest",groups = {"Enterprise-only","TestBug"})
+    @Test(dependsOnMethods = "validateInvalidFromDateTest",groups = {"Enterprise-only","bug"})
     public void testIsFolder() throws Exception
     {
         contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();
@@ -238,7 +238,7 @@ public class AdvanceSearchContentTest extends AbstractTest
      * Note: This test will be enabled only with chrome browser execution.
      * @throws Exception
      */
-    @Test(dependsOnMethods = "testIsFolder", groups = { "Enterprise-only", "chromeOnly" ,"TestBug"})
+    @Test(dependsOnMethods = "testIsFolder", groups = { "Enterprise-only", "chromeOnly" ,"bug"})
     public void testClickOnDownloadAndViewInBrowserLink() throws Exception
     {
         contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();
@@ -259,7 +259,7 @@ public class AdvanceSearchContentTest extends AbstractTest
      * Note: This test will be enabled only with chrome browser execution.
      * @throws Exception
      */
-    @Test(dependsOnMethods="testIsFolder", groups={"Enterprise-only","TestBug"})
+    @Test(dependsOnMethods="testIsFolder", groups={"Enterprise-only","bug"})
     public void testGetFolderNamesFromPath() throws Exception
     {
         File newFile = siteUtil.prepareFile("folderPath");

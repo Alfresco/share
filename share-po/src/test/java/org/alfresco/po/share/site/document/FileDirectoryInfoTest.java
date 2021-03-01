@@ -265,7 +265,7 @@ public class FileDirectoryInfoTest extends AbstractDocumentTest
         Assert.assertTrue(thisRow.getVersionInfo().equalsIgnoreCase("1.0"));
     }
 
-    @Test(groups = { "alfresco-one", "TestBug" }, priority = 11)
+    @Test(groups = { "alfresco-one", "bug" }, priority = 11)
     public void test111ContentEditInfoForFile() throws Exception
     {
         // Get File

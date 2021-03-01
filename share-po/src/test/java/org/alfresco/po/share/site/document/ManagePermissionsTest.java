@@ -51,7 +51,7 @@ import org.testng.annotations.Test;
  * (JIRA Issue: WEBDRONE-284) 
  *  Add group names back. 
  **/
-@Test(groups = { "Enterprise4.2", "Cloud2", "BambooBug", "AutomationBug"})
+@Test(groups = { "Enterprise4.2", "cloud", "bug"})
 public class ManagePermissionsTest extends AbstractTest
 {
     private static String FNAME = "Administrator";
