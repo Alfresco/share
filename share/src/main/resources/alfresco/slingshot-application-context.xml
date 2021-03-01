@@ -98,6 +98,7 @@
                 /dologin/**=loginController
                 /dologout/**=logoutController
                 /generator/**=generatorController
+                /aims/logout/**=AIMSLogoutController
             </value>
         </property>
     </bean>
@@ -137,6 +138,16 @@
                 <value>HEAD</value>
                 <value>POST</value>
                 <value>OPTIONS</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AIMSLogoutController" class="org.alfresco.web.site.servlet.AIMSLogoutController">
+        <property name="config" ref="aims.config" />
+        <property name="logoutController" ref="logoutController" />
+        <property name="supportedMethods">
+            <list>
+                <value>GET</value>
             </list>
         </property>
     </bean>

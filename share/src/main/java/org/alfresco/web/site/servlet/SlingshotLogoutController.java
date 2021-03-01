@@ -23,6 +23,9 @@ package org.alfresco.web.site.servlet;
 import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
@@ -34,9 +37,11 @@ import org.springframework.extensions.surf.support.AlfrescoUserFactory;
 import org.springframework.extensions.webscripts.connector.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.URI;
 
 /**
  * Share specific override of the SpringSurf dologout controller.
@@ -65,42 +70,14 @@ public class SlingshotLogoutController extends LogoutController
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
             throws Exception
     {
-        AIMSConfig config = (AIMSConfig) this.getApplicationContext().getBean("aims.config");
-        if (config.isEnabled())
-        {
-            String username = null;
-
-            // Check whether there is already an user logged in
-            HttpSession session = request.getSession(false);
-            if (session != null)
-            {
-                username = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
-                if (username != null && !username.isEmpty())
-                {
-                    OIDCFilterSessionStore.SerializableKeycloakAccount account =
-                        (OIDCFilterSessionStore.SerializableKeycloakAccount) session.getAttribute(KeycloakAccount.class.getName());
-
-                    if (account != null)
-                    {
-                        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAdapterConfig());
-
-                        // Logs out from Keycloak
-                        account.getKeycloakSecurityContext().logout(deployment);
-                        session.removeAttribute(KeycloakAccount.class.getName());
-                        session.removeAttribute(KeycloakSecurityContext.class.getName());
-                    }
-                }
-            }
-        }
-
         try
         {
+           // Expire the Alfresco ticket
            HttpSession session = request.getSession(false);
-
            if (session != null)
            {
                // retrieve the current user ID from the session
-               String userId = (String)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
+               String userId = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
                
                if (userId != null)
                {
@@ -123,6 +100,7 @@ public class SlingshotLogoutController extends LogoutController
         }
         finally
         {
+            // Clear the session
             return super.handleRequestInternal(request, response);
         }
     }

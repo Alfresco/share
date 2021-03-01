@@ -31,8 +31,6 @@ import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
-import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
-import org.keycloak.adapters.spi.KeycloakAccount;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
 import org.springframework.extensions.surf.RequestContext;
@@ -128,14 +126,14 @@ public class AIMSFilter extends KeycloakOIDCFilter
         HttpServletResponse response = (HttpServletResponse) sres;
         HttpSession session = request.getSession();
 
-        if (this.enabled && (!AuthenticationUtil.isAuthenticated(request) || this.isLoggedOutFromKeycloak(session)))
+        if (this.enabled)
         {
             super.doFilter(sreq, sres, chain);
 
             RefreshableKeycloakSecurityContext context =
                 (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
 
-            if (context != null)
+            if (context != null && !AuthenticationUtil.isAuthenticated(request))
             {
                 this.onSuccess(request, response, session, context);
             }
@@ -144,33 +142,6 @@ public class AIMSFilter extends KeycloakOIDCFilter
         {
             chain.doFilter(sreq, sres);
         }
-    }
-
-    /**
-     * Checks if the user is logged out from Keycloak
-     * Helps us when someone logs out from another application, but is still logged in on Share
-     *
-     * @param session
-     * @return
-     */
-    private boolean isLoggedOutFromKeycloak(HttpSession session)
-    {
-        OIDCFilterSessionStore.SerializableKeycloakAccount account =
-            (OIDCFilterSessionStore.SerializableKeycloakAccount) session.getAttribute(KeycloakAccount.class.getName());
-
-        if (account != null)
-        {
-            RefreshableKeycloakSecurityContext context = account.getKeycloakSecurityContext();
-
-            if (context != null)
-            {
-                return !context.refreshExpiredToken(false);
-            }
-
-            return true;
-        }
-
-        return true;
     }
 
     /**
@@ -202,6 +173,7 @@ public class AIMSFilter extends KeycloakOIDCFilter
             {
                 // Ensure User ID is in session so the web-framework knows we have logged in
                 session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
+                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH, true);
 
                 // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
                 Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
