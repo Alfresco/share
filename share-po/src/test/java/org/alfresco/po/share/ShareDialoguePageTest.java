@@ -69,14 +69,15 @@ public class ShareDialoguePageTest extends AbstractTest
     private static String folderName;
     private static String folderDescription;
 
-    @BeforeClass(groups = { "Enterprise-only", "Cloud-only" })
+    @BeforeClass(alwaysRun = true)
     public void setup() throws Exception
     {
         siteName = "site-" + System.currentTimeMillis();
         fileName = "File";
         folderName = "The first folder";
-        folderDescription = folderName;  
-        
+        folderDescription = folderName;
+
+        driver.navigate().to(shareUrl);
         dashBoard = loginAs(username, password);
         dashBoard = dashBoard.getNav().selectMyDashBoard().render();
         
@@ -97,7 +98,7 @@ public class ShareDialoguePageTest extends AbstractTest
         fileName = file.getName();
         
         // Back to DashBoardPage
-        documentLibPage = resolvePage(driver).render();        
+        documentLibPage = resolvePage(driver).render();
     }
 
     @Test

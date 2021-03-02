@@ -47,7 +47,7 @@ public class GroupPageTest extends AbstractTest
     private String groupName = "testGrp" + System.currentTimeMillis();
     private String siteAdmin = "SITE_ADMINISTRATORS";
 
-    @BeforeClass(groups = "Enterprise-only")
+    @BeforeClass(alwaysRun = true)
     public void setup() throws Exception
     {
         dashBoard = loginAs(username, password);

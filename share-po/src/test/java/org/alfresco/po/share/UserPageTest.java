@@ -57,19 +57,19 @@ public class UserPageTest extends AbstractTest
     private String publicSiteName = "publicSiteName" + System.currentTimeMillis();
     private String siteUserName = "siteUserName" + System.currentTimeMillis();
     
-    @BeforeClass(groups = "Enterprise-only")
+    @BeforeClass(alwaysRun = true)
     public void prepare() throws Exception
     {
         siteUtil.createSite(driver, username, password, publicSiteName,"", "Public");
         siteUtil.createSite(driver, username, password, privateSiteName,"", "Private");
         createEnterpriseUser(siteUserName);
+        driver.navigate().to(shareUrl);
     }
     
     
     @Test(groups = "alfresco-one")
     public void userPageLinks() throws Exception
     {
-        driver.navigate().to(shareUrl);
         DashBoardPage dashBoard = loginAs(username, password);
         userpage = dashBoard.getNav().selectUserDropdown().render();
         Assert.assertTrue(userpage.isHelpLinkPresent());
