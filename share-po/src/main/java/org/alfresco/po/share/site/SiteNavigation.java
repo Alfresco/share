@@ -393,7 +393,9 @@ public class SiteNavigation extends AbstractSiteNavigation
         {
             selectConfigure();
             driver.findElement(LEAVE_SITE).click();
-            driver.findElement(By.xpath("//span[text()='OK']")).click();
+            WebElement okButton = driver.findElement(By.xpath("//span[text()='OK']"));
+            okButton.click();
+            okButton.click();
             return getCurrentPage();
         }
         catch (TimeoutException te)

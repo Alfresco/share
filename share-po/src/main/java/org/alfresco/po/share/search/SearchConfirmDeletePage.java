@@ -37,6 +37,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 public class SearchConfirmDeletePage extends ShareDialogueAikau
 {
@@ -47,8 +48,8 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
     
     private static final By CONFIRM_DELETE_TITLE = By.cssSelector("span[id$=title]");
 
-	private static final By DELETE_BUTTON = By.cssSelector("span[id$=CONFIRMATION_label]");
-	private static final By CANCEL_BUTTON = By.cssSelector("span[id$=CANCELLATION_label]");	
+	private static final By DELETE_BUTTON = By.cssSelector("[widgetid='ALF_DELETE_CONTENT_DIALOG_CONFIRMATION']");
+	private static final By CANCEL_BUTTON = By.cssSelector("[widgetid='ALF_DELETE_CONTENT_DIALOG_CANCELLATION']");
 	
     @SuppressWarnings("unchecked")
     @Override
@@ -100,10 +101,11 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
 		}
 		
 		try 
-		{			
-			WebElement selectedButton = driver.findElement(button);
-
-			selectedButton.click();
+		{
+			waitUntilElementClickable(button, 5);
+            WebElement selectedButton = driver.findElement(button);
+            selectedButton.click();
+            selectedButton.click();
 			return factoryPage.getPage(driver);
 			
 		}		

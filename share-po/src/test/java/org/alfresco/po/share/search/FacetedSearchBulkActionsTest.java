@@ -46,10 +46,7 @@ import org.alfresco.po.share.workflow.WorkFlowFormDetails;
 import org.alfresco.po.share.workflow.WorkFlowType;
 import org.alfresco.test.FailedTestListener;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * UI test to verify document library page tag operations are operating correctly. 
@@ -94,13 +91,23 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         
         UploadFilePage uploadForm1 = documentLibPage.getNavigation().selectFileUpload().render();
         documentLibPage = uploadForm1.uploadFile(file2.getCanonicalPath()).render();
-                
+    }
+
+    @BeforeMethod
+    public void searchFiles()
+    {
         SearchBox search = documentLibPage.getSearch();
 
-        resultsPage = search.search("myfile").render();       
-                
-        siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3);        
-        
+        resultsPage = search.search("myfile").render();
+
+        Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3));
+
+    }
+
+    @AfterMethod
+    public void goHome()
+    {
+        resultsPage.getNav().selectMyDashBoard().render();
     }
 
     @AfterClass (groups = "Enterprise-only")
@@ -124,9 +131,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     
     @Test(groups = "Enterprise-only", priority = 2, enabled = true)
     public void testSelectNoneCheckBox() throws Exception
-    {    	   	
-    	 SearchBox search = documentLibPage.getSearch();
-         resultsPage = search.search("myfile").render();
+    {
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.NONE).render();
     	Assert.assertTrue(resultsPage.getNavigation().isSelectedItemsMenuDisabled());
     	Assert.assertFalse(resultsPage.getResultByName(file1.getName()).isItemCheckBoxSelected());
@@ -134,9 +139,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     
     @Test(groups = "Enterprise-only", priority = 3, enabled = true)
     public void testSelectInvertCheckBox() throws Exception
-    {    	   	
-    	 SearchBox search = documentLibPage.getSearch();
-         resultsPage = search.search("myfile").render();
+    {
     	resultsPage = resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.INVERT).render();
     	Assert.assertTrue(resultsPage.getNavigation().isSelectedItemsMenuEnabled());
     	Assert.assertTrue(resultsPage.getResultByName(file1.getName()).isItemCheckBoxSelected());    	
@@ -144,9 +147,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
        
     @Test(groups = "Enterprise-only", priority = 4, enabled = true)
     public void testSelectDownload() throws Exception
-    {      	 	
-    	 SearchBox search = documentLibPage.getSearch();
-         resultsPage = search.search("myfile").render();
+    {
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render();
     	resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DOWNLOAD_AS_ZIP).render();
     	Assert.assertTrue(resultsPage.hasResults(),file1.getName());    	 
@@ -154,9 +155,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     
     @Test(groups = "Enterprise-only", priority = 5, enabled = true)
     public void testSelectStartWorkFlow() throws Exception
-    {       		
-    	SearchBox search = documentLibPage.getSearch();
-    	resultsPage = search.search("myfile").render();
+    {
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render();
     	StartWorkFlowPage startWorkFlowPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.START_WORKFLOW).render();
     	Assert.assertTrue(startWorkFlowPage.isWorkFlowTextPresent());
@@ -174,9 +173,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     
     @Test(groups = "Enterprise-only", priority = 6, enabled = true)
     public void testSelectActionCopy() throws Exception
-    {   
-    	SearchBox search = documentLibPage.getSearch();
-    	resultsPage = search.search("myfile").render();
+    {
     	resultsPage = resultsPage.getResultByName(file1.getName()).selectItemCheckBox().render();
     	CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.COPY_TO).render();
     	Assert.assertTrue(copyAndMoveContentFromSearchPage.getDialogTitle().contains("Copy"));
@@ -192,10 +189,7 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
     
     @Test(groups = "Enterprise-only", priority = 7, enabled = true)
     public void testSelectActionMove() throws Exception
-    {   
-    	SearchBox search = documentLibPage.getSearch();
-    	resultsPage = search.search("myfile").render();
-    	Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3));
+    {
     	resultsPage = resultsPage.getResultByName(file2.getName()).selectItemCheckBox().render();   		
     	CopyAndMoveContentFromSearchPage copyAndMoveContentFromSearchPage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.MOVE_TO).render();
     	Assert.assertTrue(copyAndMoveContentFromSearchPage.getDialogTitle().contains("Move"));
@@ -212,28 +206,20 @@ public class FacetedSearchBulkActionsTest extends AbstractTest
         
     @Test(groups = "Enterprise-only", priority = 8, enabled = true)
     public void testSelectActionDeleteConfirmCancel() throws Exception
-    {   
-    	SearchBox search = documentLibPage.getSearch();
-    	resultsPage = search.search("myfile").render();
-    	Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3));
+    {
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render();
     	searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
     	resultsPage = searchConfirmDeletePage.clickCancel().render();
     	Assert.assertTrue(resultsPage.hasResults(),file1.getName());
-    	
     }
     
     @Test(groups = "Enterprise-only", priority = 9, enabled = true)
     public void testSelectActionDeleteConfirmDelete() throws Exception
-    {   
-    	SearchBox search = documentLibPage.getSearch();
-    	resultsPage = search.search("myfile").render();
-    	Assert.assertTrue(siteActions.checkSearchResultsWithRetry(driver, "myfile", file2.getName(), true, 3));    	
+    {
     	resultsPage.getNavigation().bulkSelect(BulkSelectCheckBox.ALL).render(); 	
         searchConfirmDeletePage = resultsPage.getNavigation().selectActionFromSelectedItemsMenu(SearchSelectedItemsMenu.DELETE).render();
     	resultsPage = searchConfirmDeletePage.clickDelete().render();
     	Assert.assertFalse(resultsPage.hasResults(),file1.getName());
-    	
     }
     
 }
