@@ -86,12 +86,6 @@ public class RepositoryPageTest extends AbstractDocumentTest
         logger.info("===completed create site");
     }
 
-    @AfterClass(groups={"Repository", "Enterprise4.2"})
-    public void deleteSite()
-    {
-        closeWebDriver();
-    }
-
     @Test
     public void navigateToRepository() throws Exception
     {

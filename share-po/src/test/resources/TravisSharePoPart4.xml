@@ -53,11 +53,14 @@
             <class name="org.alfresco.po.share.site.AddGroupsPageTest" />
         </classes>
     </test>
-    <test name="CustomizeSiteDashboardPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.site.CustomizeSiteDashboardPageTest" />
-        </classes>
-    </test>
+
+    <!-- FLAKY -->
+<!--    <test name="CustomizeSiteDashboardPageTest">-->
+<!--        <classes>-->
+<!--            <class name="org.alfresco.po.share.site.CustomizeSiteDashboardPageTest" />-->
+<!--        </classes>-->
+<!--    </test>-->
+
     <test name="CustomizeSitePageTest">
         <classes>
             <class name="org.alfresco.po.share.site.CustomizeSitePageTest" />

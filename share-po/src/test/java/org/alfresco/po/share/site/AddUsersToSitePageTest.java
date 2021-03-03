@@ -133,8 +133,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         // add user to site with manager role
         String siteManagerUserName = "userManager" + System.currentTimeMillis() + "@test.com";
 
-        System.out.println("SITE MANAGER *** " + siteName);
-        System.out.println("USER MANAGER *** " + siteManagerUserName);
+        logger.info("SITE MANAGER *** " + siteName);
+        logger.info("USER MANAGER *** " + siteManagerUserName);
 
         addUserToSite(siteManagerUserName, UserRole.MANAGER);
 
@@ -170,8 +170,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         // add user to site with manager role
         String siteCollaboratorUserName = "userCollaborator" + System.currentTimeMillis() + "@test.com";
 
-        System.out.println("SITE COLLABORATOR *** " + siteName);
-        System.out.println("USER COLLABORATOR *** " + siteCollaboratorUserName);
+        logger.info("SITE COLLABORATOR *** " + siteName);
+        logger.info("USER COLLABORATOR *** " + siteCollaboratorUserName);
 
         addUserToSite(siteCollaboratorUserName, UserRole.COLLABORATOR);
 
@@ -208,8 +208,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         String siteContributorUserName = "userContributor" + System.currentTimeMillis() + "@test.com";
 
 
-        System.out.println("SITE CONTRIBUTOR *** " + siteName);
-        System.out.println("USER CONTRIBUTOR *** " + siteContributorUserName);
+        logger.info("SITE CONTRIBUTOR *** " + siteName);
+        logger.info("USER CONTRIBUTOR *** " + siteContributorUserName);
 
         addUserToSite(siteContributorUserName, UserRole.CONTRIBUTOR);
 
@@ -245,8 +245,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         // add user to site with manager role
         String siteConsumerUserName = "userConsumer" + System.currentTimeMillis() + "@test.com";
 
-        System.out.println("SITE CONSUMER *** " + siteName);
-        System.out.println("USER CONTRIBUTOR *** " + siteConsumerUserName);
+        logger.info("SITE CONSUMER *** " + siteName);
+        logger.info("USER CONTRIBUTOR *** " + siteConsumerUserName);
 
         addUserToSite(siteConsumerUserName, UserRole.CONSUMER);
 
@@ -283,8 +283,8 @@ public class AddUsersToSitePageTest extends AbstractTest
         // add user to site with manager role
         String userNavigateToSiteDashboard = "userNavigateToSiteDashboard" + System.currentTimeMillis() + "@test.com";
 
-        System.out.println("SITE NAVIGATE TO DASHBOARD *** " + siteName);
-        System.out.println("USER NAVIGATE TO DASHBOARD *** " + userNavigateToSiteDashboard);
+        logger.info("SITE NAVIGATE TO DASHBOARD *** " + siteName);
+        logger.info("USER NAVIGATE TO DASHBOARD *** " + userNavigateToSiteDashboard);
 
         addUserToSite(userNavigateToSiteDashboard, UserRole.CONSUMER);
         logout(driver);

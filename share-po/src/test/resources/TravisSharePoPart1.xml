@@ -19,11 +19,14 @@
             <class name="org.alfresco.po.share.search.AdvanceSearchContentTest" />
         </classes>
     </test>
-    <test name="FacetedSearchBulkActionsTest">
-        <classes>
-            <class name="org.alfresco.po.share.search.FacetedSearchBulkActionsTest" />
-        </classes>
-    </test>
+
+    <!-- FLAKY -->
+<!--    <test name="FacetedSearchBulkActionsTest">-->
+<!--        <classes>-->
+<!--            <class name="org.alfresco.po.share.search.FacetedSearchBulkActionsTest" />-->
+<!--        </classes>-->
+<!--    </test>-->
+
     <test name="FacetedSearchHighlightedTermTest1">
         <classes>
             <class name="org.alfresco.po.share.search.FacetedSearchHighlightedTermTest1" />
@@ -57,11 +60,14 @@
             <class name="org.alfresco.po.share.FactorySharePageTest" />
         </classes>
     </test>
-    <test name="GroupPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.GroupPageTest" />
-        </classes>
-    </test>
+
+<!-- FLAKY -->
+<!--    <test name="GroupPageTest">-->
+<!--        <classes>-->
+<!--            <class name="org.alfresco.po.share.GroupPageTest" />-->
+<!--        </classes>-->
+<!--    </test>-->
+
     <test name="LoginPageTest">
         <classes>
             <class name="org.alfresco.po.share.LoginPageTest" />
@@ -175,7 +181,7 @@
             <class name="org.alfresco.po.share.workflow.WorkFlowTypeTest" />
         </classes>
     </test>
-    <test name="CalenderDatePickerTest ">
+    <test name="CalendarDatePickerTest ">
         <classes>
             <class name="org.alfresco.po.share.workflow.CalendarDatePickerTest" />
         </classes>

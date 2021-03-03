@@ -105,19 +105,22 @@
 
     <!-- ======= AlfrescoTestSuite ======= -->
 
-    <test name="Alfresco Page Test">
-        <classes>
-            <class name="org.alfresco.po.alfresco.AlfrescoTest"/>
-        </classes>
-    </test>
+    <!-- FLAKY -->
+<!--    <test name="Alfresco Page Test">-->
+<!--        <classes>-->
+<!--            <class name="org.alfresco.po.alfresco.AlfrescoTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <!-- ======= UseCasesSuite ======= -->
 
-    <test name="FacetedSearchBulkActions">
-        <classes>
-            <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />
-        </classes>
-    </test>
+    <!-- FLAKY -->
+<!--    <test name="FacetedSearchBulkActions">-->
+<!--        <classes>-->
+<!--            <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />-->
+<!--        </classes>-->
+<!--    </test>-->
+
     <test name="FacetedSearchBulkActions1">
         <classes>
             <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest1" />

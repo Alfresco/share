@@ -168,8 +168,8 @@ public class TakeOwnershipTest extends AbstractTest
             logger.trace("====testTakeOwnershipOfTheFolder====");
         }
 
-        System.out.println("SITE **** " + takeOwnershipSiteName);
-        System.out.println("USER **** " + takeOwnershipUserName);
+        logger.info("SITE **** " + takeOwnershipSiteName);
+        logger.info("USER **** " + takeOwnershipUserName);
 
         // admin user takes ownership of the folder created by collaborator
         dashBoard = siteMembersPage.getNav().selectMyDashBoard().render();

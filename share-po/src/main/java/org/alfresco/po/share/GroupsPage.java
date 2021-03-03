@@ -366,7 +366,9 @@ public class GroupsPage extends SharePage
 
         try
         {
-            WebElement element = driver.findElement(By.cssSelector(USER_NAMES));
+            By subgroupPanel = By.cssSelector(".yui-columnbrowser-column:nth-of-type(2)");
+            waitForElement(subgroupPanel, defaultWaitTime);
+            WebElement element = driver.findElement(subgroupPanel).findElement(By.cssSelector(USER_NAMES));
             if (element.isDisplayed())
             {
                 return true;

@@ -78,10 +78,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+
 @ContextConfiguration("classpath*:share-po-test-context.xml")
 @PropertySources({
     @PropertySource("classpath:test.properties"),
@@ -168,15 +170,14 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     {
         count++;
         String testName = method.getName();
-        System.out.println(String.format("\t %d. %s", count, testName));
+        System.out.print(String.format("\t %d. %s", count, testName));
     }
 
-//    @AfterMethod(alwaysRun = true)
-//    protected void endTest(Method method) throws Exception
-//    {
-//        String testName = method.getName();
-//        System.out.println("\t\t\t TEST DONE : \t\t" + testName);
-//    }
+    @AfterMethod(alwaysRun = true)
+    protected void endTest(ITestResult result) throws Exception
+    {
+        System.out.println(String.format("\t : %s", result.isSuccess() ? "PASSED" : "FAILED"));
+    }
 
     /**
      * Helper to log admin user into dashboard.

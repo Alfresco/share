@@ -36,6 +36,8 @@ import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.enums.UserRole;
 
 import org.alfresco.test.FailedTestListener;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -53,6 +55,8 @@ import org.testng.annotations.Test;
 @Test(groups = { "Enterprise-only" })
 public class PendingInvitesPageTest extends AbstractTest
 {
+
+    private static Log logger = LogFactory.getLog(PendingInvitesPageTest.class);
 
     //InviteMembersPage membersPage;
     AddUsersToSitePage membersPage;
@@ -72,8 +76,8 @@ public class PendingInvitesPageTest extends AbstractTest
         userNameTest = userName + "@test.com";
         siteName = "PendingInvitesTest" + System.currentTimeMillis();
         
-        System.out.println("SITE ******** " + siteName);
-        System.out.println("USER ******** " + userNameTest);
+        logger.info("SITE ******** " + siteName);
+        logger.info("USER ******** " + userNameTest);
         
         
         dashBoard = loginAs(username, password);
