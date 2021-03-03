@@ -393,9 +393,16 @@ public class SiteNavigation extends AbstractSiteNavigation
         {
             selectConfigure();
             driver.findElement(LEAVE_SITE).click();
-            WebElement okButton = driver.findElement(By.xpath("//span[text()='OK']"));
+
+            By dialogSelector = By.cssSelector(".alfresco-dialog-AlfDialog");
+            WebElement dialog = findAndWait(dialogSelector);
+            dialog.click();
+
+            By okButtonSelector = By.cssSelector(".footer span[class*='call-to-action'] span[role='button']");
+            WebElement okButton = findAndWait(okButtonSelector);
             okButton.click();
-            okButton.click();
+
+            waitUntilElementDisappears(dialogSelector, defaultWaitTime);
             return getCurrentPage();
         }
         catch (TimeoutException te)

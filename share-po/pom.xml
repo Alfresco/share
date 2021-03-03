@@ -367,6 +367,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>alfresco-content-services-tests</id>
             <build>
@@ -410,6 +411,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>single-test-suite</id>
             <build>
@@ -426,12 +428,8 @@
                             <suiteXmlFiles>
                                 <suiteXmlFile>${suite.filename}</suiteXmlFile>
                             </suiteXmlFiles>
-                            <excludedGroups>
-                                ${test.exclude}
-                            </excludedGroups>
-                            <groups>
-                                ${test.include}
-                            </groups>
+                            <excludedGroups></excludedGroups>
+                            <groups></groups>
                             <workingDirectory>target</workingDirectory>
                             <redirectTestOutputToFile>false</redirectTestOutputToFile>
                         </configuration>
@@ -439,6 +437,7 @@
                 </plugins>
             </build>
         </profile>
+
        <profile>
             <id>alfresco-content-services-e2e-tests</id>
             <build>
@@ -467,6 +466,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>upgrade-aikau</id>
             <properties>

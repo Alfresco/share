@@ -1,14 +1,132 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Alfresco Share Page Object Tests" verbose="1" parallel="classes">
-    <suite-files>
-        <suite-file path="TasksSuite.xml" />
-        <suite-file path="AdminConsoleSuite.xml" />
-        <suite-file path="ContentRulesSuite.xml" />
-        <suite-file path="LinksPageSuite.xml" />
-        <suite-file path="CalendarPageSuite.xml" />
-        <suite-file path="ShareStepsSuite.xml" />
-        <suite-file path="AlfrescoTestSuite.xml" />
-        <suite-file path="UseCasesSuite.xml" />
-    </suite-files>
+    <groups>
+        <run>
+            <exclude name="bug"/>
+            <exclude name="chromeOnly"/>
+            <exclude name="Hybrid"/>
+            <exclude name="download"/>
+            <exclude name="NonGrid"/>
+            <exclude name="Cloud-only"/>
+        </run>
+    </groups>
+
+    <!-- ======= TasksSuite ======= -->
+
+    <test name="EditTaskPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.task.EditTaskPageTest" />
+        </classes>
+    </test>
+    <test name="TaskDetailsTest">
+        <classes>
+            <class name="org.alfresco.po.share.task.TaskDetailsTest" />
+        </classes>
+    </test>
+    <test name="TaskStatusTest">
+        <classes>
+            <class name="org.alfresco.po.share.task.TaskStatusTest" />
+        </classes>
+    </test>
+
+    <!-- ======= AdminConsoleSuite ======= -->
+
+    <test name="Admin Tools">
+        <classes>
+            <class name="org.alfresco.po.share.adminconsole.AdminConsolePageTest"/>
+        </classes>
+    </test>
+    <!--
+    <test name="Category Manager">
+        <classes>
+            <class name="org.alfresco.po.share.adminconsole.CategoryManagerPageTest"/>
+        </classes>
+    </test>
+    -->
+    <test name="Node Browser">
+        <classes>
+            <class name="org.alfresco.po.share.adminconsole.NodeBrowserPageTest"/>
+        </classes>
+    </test>
+    <!-- Issue with solr not finding in time, re-enable when meta data query is available.
+        <test name="Mange Groups">
+            <classes>
+                <class name="org.alfresco.po.share.adminconsole.AddUserGroupPageTest"/>
+            </classes>
+        </test> -->
+
+    <!-- ======= ContentRulesSuite ======= -->
+
+    <test name="Rules Pages Test">
+        <classes>
+            <class name="org.alfresco.po.share.rules.RulePagesTest"/>
+        </classes>
+    </test>
+
+    <!-- ======= LinksPageSuite ======= -->
+
+    <test name="Links Page Test">
+        <classes>
+            <class name="org.alfresco.po.share.site.links.LinksPageTest"/>
+        </classes>
+    </test>
+
+    <!-- ======= CalendarPageSuite ======= -->
+
+    <test name="Calendar Page Test">
+        <classes>
+            <class name="org.alfresco.po.share.site.calendar.CalendarPageTest"/>
+        </classes>
+    </test>
+
+    <!-- ======= ShareStepsSuite ======= -->
+
+    <test name="AdminActionsTest">
+        <classes>
+            <class name="org.alfresco.po.share.steps.AdminActionsTest" />
+        </classes>
+    </test>
+    <test name="DashBoardActionsTest">
+        <classes>
+            <class name="org.alfresco.po.share.steps.DashBoardActionsTest" />
+        </classes>
+    </test>
+    <test name="UserProfileActionsTest">
+        <classes>
+            <class name="org.alfresco.po.share.steps.UserProfileActionsTest" />
+        </classes>
+    </test>
+    <test name="SiteActionsTest">
+        <classes>
+            <class name="org.alfresco.po.share.steps.SiteActionsTest" />
+        </classes>
+    </test>
+
+    <!-- ======= AlfrescoTestSuite ======= -->
+
+    <test name="Alfresco Page Test">
+        <classes>
+            <class name="org.alfresco.po.alfresco.AlfrescoTest"/>
+        </classes>
+    </test>
+
+    <!-- ======= UseCasesSuite ======= -->
+
+    <test name="FacetedSearchBulkActions">
+        <classes>
+            <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />
+        </classes>
+    </test>
+    <test name="FacetedSearchBulkActions1">
+        <classes>
+            <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest1" />
+        </classes>
+    </test>
+    <test name="PendingRequestPageTests">
+        <classes>
+            <class name="org.alfresco.po.share.usecases.pendingRequest.PendingRequestPageETETest" />
+        </classes>
+    </test>
+
 </suite>

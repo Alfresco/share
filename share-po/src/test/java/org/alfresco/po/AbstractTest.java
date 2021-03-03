@@ -130,8 +130,8 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     protected long solrWaitTime = 20000;
     protected WebDriver driver;
     protected static final String UNAME_PASSWORD = "password";
-    
-    
+
+    public static long count = 0;
 
     @BeforeClass(alwaysRun = true)
     public void getWebDriver() throws Exception
@@ -141,6 +141,8 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
 
         String className = getClass().getSimpleName();
         System.out.println("====== STARTING SUITE : " + className + " =====");
+
+        count = 0;
     }
 
     @AfterClass(alwaysRun = true)
@@ -164,8 +166,9 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     @BeforeMethod(alwaysRun = true)
     protected void startSession(Method method) throws Exception
     {
+        count++;
         String testName = method.getName();
-        System.out.println("\t TEST - " + testName);
+        System.out.println(String.format("\t %d. %s", count, testName));
     }
 
 //    @AfterMethod(alwaysRun = true)

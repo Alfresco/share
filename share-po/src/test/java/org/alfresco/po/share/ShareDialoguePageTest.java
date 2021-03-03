@@ -77,9 +77,8 @@ public class ShareDialoguePageTest extends AbstractTest
         folderName = "The first folder";
         folderDescription = folderName;
 
-        driver.navigate().to(shareUrl);
-        dashBoard = loginAs(username, password);
-        dashBoard = dashBoard.getNav().selectMyDashBoard().render();
+        loginAs(username, password);
+        dashBoard = ((DashBoardPage) resolvePage(driver).render()).getNav().selectMyDashBoard().render();
         
         siteUtil.createSite(driver, username, password, siteName, "description", "Public");
 

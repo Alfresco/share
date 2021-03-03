@@ -51,6 +51,7 @@ import org.testng.annotations.Test;
 public class UserPageTest extends AbstractTest
 {
     UserPage userpage;
+    DashBoardPage dashBoard;
     private String setHomePageUserSiteName = "setHomePageUserSite" + System.currentTimeMillis();
     private String setHomePageFolder = "setHomePageFolder" + System.currentTimeMillis();
     private String privateSiteName = "privateSiteName" + System.currentTimeMillis();
@@ -64,13 +65,13 @@ public class UserPageTest extends AbstractTest
         siteUtil.createSite(driver, username, password, privateSiteName,"", "Private");
         createEnterpriseUser(siteUserName);
         driver.navigate().to(shareUrl);
+        dashBoard = loginAs(username, password);
     }
     
     
     @Test(groups = "alfresco-one")
     public void userPageLinks() throws Exception
     {
-        DashBoardPage dashBoard = loginAs(username, password);
         userpage = dashBoard.getNav().selectUserDropdown().render();
         Assert.assertTrue(userpage.isHelpLinkPresent());
         Assert.assertTrue(userpage.isLogoutLinkPresent());

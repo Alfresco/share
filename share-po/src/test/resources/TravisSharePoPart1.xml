@@ -1,9 +1,183 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Alfresco Share Page Object Tests" verbose="1" parallel="classes">
-    <suite-files>
-        <suite-file path="SearchSuite.xml" />
-        <suite-file path="WorkflowSuite.xml" />
-        <suite-file path="ShareSuite.xml" />
-    </suite-files>
+<suite name="Alfresco Share Page Object Tests" verbose="1" parallel="classes" thread-count="1">
+    <groups>
+        <run>
+            <exclude name="bug"/>
+            <exclude name="chromeOnly"/>
+            <exclude name="Hybrid"/>
+            <exclude name="download"/>
+            <exclude name="NonGrid"/>
+            <exclude name="Cloud-only"/>
+        </run>
+    </groups>
+
+    <!-- ======= SearchSuite ======= -->
+
+    <test name="AdvanceSearchContentTest">
+        <classes>
+            <class name="org.alfresco.po.share.search.AdvanceSearchContentTest" />
+        </classes>
+    </test>
+    <test name="FacetedSearchBulkActionsTest">
+        <classes>
+            <class name="org.alfresco.po.share.search.FacetedSearchBulkActionsTest" />
+        </classes>
+    </test>
+    <test name="FacetedSearchHighlightedTermTest1">
+        <classes>
+            <class name="org.alfresco.po.share.search.FacetedSearchHighlightedTermTest1" />
+        </classes>
+    </test>
+    <test name="FacetedSearchHighlightedTermTest2">
+        <classes>
+            <class name="org.alfresco.po.share.search.FacetedSearchHighlightedTermTest2" />
+        </classes>
+    </test>
+
+    <!-- ======= ShareSuite ======= -->
+
+    <test name="AlfrescoVersionTest">
+        <classes>
+            <class name="org.alfresco.po.share.AlfrescoVersionTest" />
+        </classes>
+    </test>
+    <test name="DashBoardPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.DashBoardPageTest" />
+        </classes>
+    </test>
+    <test name="EditUserPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.EditUserPageTest" />
+        </classes>
+    </test>
+    <test name="FactorySharePageTest">
+        <classes>
+            <class name="org.alfresco.po.share.FactorySharePageTest" />
+        </classes>
+    </test>
+    <test name="GroupPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.GroupPageTest" />
+        </classes>
+    </test>
+    <test name="LoginPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.LoginPageTest" />
+        </classes>
+    </test>
+    <test name="PeopleFinderPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.PeopleFinderPageTest" />
+        </classes>
+    </test>
+    <test name="RepositoryPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.RepositoryPageTest" />
+        </classes>
+    </test>
+    <test name="RepositoryModelsPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.repository.ModelsPageTest" />
+        </classes>
+    </test>
+    <test name="ShareDialoguePageTest">
+        <classes>
+            <class name="org.alfresco.po.share.ShareDialoguePageTest" />
+        </classes>
+    </test>
+    <test name="UserProfilePageTest">
+        <classes>
+            <class name="org.alfresco.po.share.UserProfilePageTest" />
+        </classes>
+    </test>
+    <test name="UserSearchPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.UserSearchPageTest" />
+        </classes>
+    </test>
+    <test name="UserPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.UserPageTest" />
+        </classes>
+    </test>
+
+    <!-- ======= WorkflowSuite ======= -->
+
+    <test name="CurrentTaskTypeTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.CurrentTaskTypeTest" />
+        </classes>
+    </test>
+    <test name="KeepContentStrategyTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.KeepContentStrategyTest" />
+        </classes>
+    </test>
+    <test name="MyTasksTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.MyTasksTest" />
+        </classes>
+    </test>
+    <test name="MyWorkFlowsPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.MyWorkFlowsPageTest" />
+        </classes>
+    </test>
+    <test name="NewWorkflowPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.NewWorkflowPageTest" />
+        </classes>
+    </test>
+    <test name="PriorityTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.PriorityTest" />
+        </classes>
+    </test>
+    <test name="SelectContentPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.SelectContentPageTest" />
+        </classes>
+    </test>
+    <test name="SendEMailNotificationsTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.SendEMailNotificationsTest" />
+        </classes>
+    </test>
+    <test name="StartWorkFlowPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.StartWorkFlowPageTest" />
+        </classes>
+    </test>
+    <test name="ViewWorkflowPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.ViewWorkflowPageTest" />
+        </classes>
+    </test>
+    <test name="WorkFlowHistoryTypeTest">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.WorkFlowHistoryTypeTest" />
+        </classes>
+    </test>
+    <test name="WorkFlowStatusTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.WorkFlowStatusTest" />
+        </classes>
+    </test>
+    <test name="WorkFlowTitleTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.WorkFlowTitleTest" />
+        </classes>
+    </test>
+    <test name="WorkFlowTypeTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.WorkFlowTypeTest" />
+        </classes>
+    </test>
+    <test name="CalenderDatePickerTest ">
+        <classes>
+            <class name="org.alfresco.po.share.workflow.CalendarDatePickerTest" />
+        </classes>
+    </test>
 </suite>
