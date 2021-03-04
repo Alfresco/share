@@ -135,6 +135,11 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
 
     public static long count = 0;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[91m";
+    public static final String ANSI_GREEN = "\u001B[92m";
+    public static final String ANSI_BOLD = "\u001B[1m";
+
     @BeforeClass(alwaysRun = true)
     public void getWebDriver() throws Exception
     {
@@ -169,14 +174,20 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     protected void startSession(Method method) throws Exception
     {
         count++;
-        String testName = method.getName();
-        System.out.print(String.format("\t %d. %s", count, testName));
+        System.out.print(String.format("\t %d. ", count));
     }
 
     @AfterMethod(alwaysRun = true)
-    protected void endTest(ITestResult result) throws Exception
+    protected void endTest(Method method, ITestResult result) throws Exception
     {
-        System.out.println(String.format("\t : %s", result.isSuccess() ? "PASSED" : "FAILED"));
+        String testName = method.getName();
+        if (result.isSuccess())
+        {
+            System.out.println(ANSI_GREEN + testName + ANSI_BOLD + String.format("\t : PASSED") + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_RED + testName + ANSI_BOLD + String.format("\t : FAILED") + ANSI_RESET);
+        }
     }
 
     /**
