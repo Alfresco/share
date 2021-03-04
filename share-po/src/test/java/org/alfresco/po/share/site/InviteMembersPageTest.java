@@ -208,7 +208,6 @@ public class InviteMembersPageTest extends AbstractTest
             if (driver != null && !StringUtils.isEmpty(siteName))
             {
                 siteUtil.deleteSite(username, password, siteName);
-                closeWebDriver();
             }
         }
         catch (Exception e)

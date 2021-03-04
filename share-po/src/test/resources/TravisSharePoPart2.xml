@@ -116,13 +116,6 @@
         </classes>
     </test>
 
-    <!-- FLAKY -->
-<!--    <test name="SiteWelcomeDashletTest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.dashlet.SiteWelcomeDashletTest" />-->
-<!--        </classes>-->
-<!--    </test>-->
-
     <test name="WebViewDashletTest">
         <classes>
             <class name="org.alfresco.po.share.dashlet.WebViewDashletTest" />

@@ -48,7 +48,7 @@ import org.openqa.selenium.support.FindBy;
 public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
 {
     private static final String REMOVE_WELCOME_DASHLET = ".alf-welcome-hide-button";
-    private static final String DASHLET_CONTAINER_PLACEHOLDER = "div.dashlet.dynamic-welcome";
+    private static final By DASHLET_CONTAINER_PLACEHOLDER = By.cssSelector("div.dashlet.dynamic-welcome");
     private static final String PROMPT_PANEL_ID = "prompt.panel.id";
     private static final String OPTIONS_CSS_LOCATION = ".welcome-details-column-info>a";
     private static Log logger = LogFactory.getLog(SiteWelcomeDashlet.class);
@@ -58,6 +58,7 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
+            setResizeHandle(DASHLET_CONTAINER_PLACEHOLDER);
             while (true)
             {
                 timer.start();
@@ -74,8 +75,8 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
                 try
                 {
                     scrollDownToDashlet();
-                    getFocus(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
-                    dashlet = driver.findElement(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER));
+                    getFocus(DASHLET_CONTAINER_PLACEHOLDER);
+                    dashlet = driver.findElement(DASHLET_CONTAINER_PLACEHOLDER);
                     if (logger.isTraceEnabled())
                     {
                         logger.trace("== found it == " + dashlet.isDisplayed());
@@ -152,7 +153,7 @@ public class SiteWelcomeDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
-            return driver.findElement(By.cssSelector(DASHLET_CONTAINER_PLACEHOLDER)).isDisplayed();
+            return driver.findElement(DASHLET_CONTAINER_PLACEHOLDER).isDisplayed();
         }
         catch (NoSuchElementException e)
         {

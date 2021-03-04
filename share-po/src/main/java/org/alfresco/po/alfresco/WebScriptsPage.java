@@ -52,8 +52,7 @@ public class WebScriptsPage extends SharePage
     public WebScriptsPage render(RenderTime renderTime)
     {
         elementRender(renderTime,
-            getVisibleRenderElement(REFRESH_WEB_SCRIPTS_BUTTON),
-            getVisibleRenderElement(CLEAR_CHACHES_BUTTON));
+            getVisibleRenderElement(REFRESH_WEB_SCRIPTS_BUTTON));
         return this;
     }
 

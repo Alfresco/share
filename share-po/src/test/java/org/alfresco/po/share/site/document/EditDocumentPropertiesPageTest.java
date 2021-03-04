@@ -81,7 +81,6 @@ public class EditDocumentPropertiesPageTest extends AbstractDocumentTest
         {
             siteUtil.deleteSite(username, password, siteName);
         }
-        closeWebDriver();
     }
 
     /**

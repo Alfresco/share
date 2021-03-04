@@ -42,12 +42,6 @@
         </classes>
     </test>
 
-    <test name="SiteWelcomeDashletTest">
-        <classes>
-            <class name="org.alfresco.po.share.dashlet.SiteWelcomeDashletTest" />
-        </classes>
-    </test>
-
     <test name="TopSiteContributorDashletTest">
         <classes>
             <class name="org.alfresco.po.share.dashlet.TopSiteContributorDashletTest" />

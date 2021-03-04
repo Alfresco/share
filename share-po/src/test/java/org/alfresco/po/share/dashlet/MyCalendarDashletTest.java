@@ -63,7 +63,7 @@ import org.testng.annotations.Test;
 public class MyCalendarDashletTest extends AbstractSiteDashletTest
 {
     private static final String MY_CALENDAR_DASHLET = "my-calendar";
-    private MyCalendarDashlet myCalendarDashlet = null;
+    private MyCalendarDashlet myCalendarDashlet;
     private CustomiseUserDashboardPage customiseUserDashBoard = null;
     private static final String EXP_HELP_BALLOON_MSG = "This dashlet shows the upcoming events in sites you belong to.";
     private static final String EMPTY_DASHLET_MESSAGE = "No upcoming events";
@@ -96,14 +96,14 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
     {
         SharePage page = resolvePage(driver).render();
         // customize user dashboard
-        customiseUserDashBoard = page.getNav().selectCustomizeUserDashboard().render();
+        customiseUserDashBoard = page.getNav().selectCustomizeUserDashboard();
+        customiseUserDashBoard.render();
         // add My Calendar Dashlet
         dashBoard = customiseUserDashBoard.addDashlet(Dashlets.MY_CALENDAR, 1).render();
         // get My Calendar dashlet
-        myCalendarDashlet = (MyCalendarDashlet) dashBoard.getDashlet(MY_CALENDAR_DASHLET).render();
+        myCalendarDashlet = dashletFactory.getDashlet(driver, MyCalendarDashlet.class).render();
 
         assertNotNull(myCalendarDashlet);
-
     }
 
     @Test(dependsOnMethods = "instantiateMyCalendarDashlet")

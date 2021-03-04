@@ -72,6 +72,7 @@ public class MyCalendarDashlet extends AbstractDashlet implements Dashlet
     {
         try
         {
+            setResizeHandle(DASHLET_CONTAINER_PLACEHOLDER);
             while (true)
             {
                 timer.start();

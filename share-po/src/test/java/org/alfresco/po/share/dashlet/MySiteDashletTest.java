@@ -149,10 +149,9 @@ public class MySiteDashletTest extends AbstractTest
         SharePage page = resolvePage(driver).render();
         dashBoard = page.getNav().selectMyDashBoard().render();
         MySitesDashlet dashlet = dashBoard.getDashlet("my-sites").render();
-        //Site created by api is not a favorite by default.
-        Assert.assertFalse(dashlet.isSiteFavourite(siteName));
-        dashlet.selectFavorite(siteName);
         Assert.assertTrue(dashlet.isSiteFavourite(siteName));
+        dashlet.selectFavorite(siteName);
+        Assert.assertFalse(dashlet.isSiteFavourite(siteName));
         Assert.assertFalse(dashlet.isSiteFavourite(sampleSiteFullName));
     }
     

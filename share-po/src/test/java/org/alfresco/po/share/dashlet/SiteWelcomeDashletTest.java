@@ -42,6 +42,7 @@ import org.testng.annotations.Test;
  * @author Shan Nagarajan
  * @since  1.6.1
  */
+@Deprecated // Welcome dashlet was removed starting with 5.0 / 5.1
 @Listeners(FailedTestListener.class)
 public class SiteWelcomeDashletTest extends AbstractSiteDashletTest
 {
