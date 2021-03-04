@@ -105,12 +105,11 @@
 
     <!-- ======= AlfrescoTestSuite ======= -->
 
-    <!-- FLAKY -->
-<!--    <test name="Alfresco Page Test">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.alfresco.AlfrescoTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Alfresco Page Test">
+        <classes>
+            <class name="org.alfresco.po.alfresco.AlfrescoTest"/>
+        </classes>
+    </test>
 
     <!-- ======= UseCasesSuite ======= -->
 

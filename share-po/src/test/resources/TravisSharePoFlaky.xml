@@ -18,27 +18,9 @@
         </classes>
     </test>
 
-    <test name="GroupPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.GroupPageTest" />
-        </classes>
-    </test>
-
     <test name="MyCalendarDashletTest">
         <classes>
             <class name="org.alfresco.po.share.dashlet.MyCalendarDashletTest" />
-        </classes>
-    </test>
-
-    <test name="MySiteDashletTest">
-        <classes>
-            <class name="org.alfresco.po.share.dashlet.MySiteDashletTest" />
-        </classes>
-    </test>
-
-    <test name="SiteCalendarDashletTest">
-        <classes>
-            <class name="org.alfresco.po.share.dashlet.SiteCalendarDashletTest" />
         </classes>
     </test>
 
@@ -57,12 +39,6 @@
     <test name="CustomizeSiteDashboardPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.CustomizeSiteDashboardPageTest" />
-        </classes>
-    </test>
-
-    <test name="Alfresco Page Test">
-        <classes>
-            <class name="org.alfresco.po.alfresco.AlfrescoTest"/>
         </classes>
     </test>
 

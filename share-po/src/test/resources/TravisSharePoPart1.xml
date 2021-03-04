@@ -61,12 +61,11 @@
         </classes>
     </test>
 
-<!-- FLAKY -->
-<!--    <test name="GroupPageTest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.GroupPageTest" />-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="GroupPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.GroupPageTest" />
+        </classes>
+    </test>
 
     <test name="LoginPageTest">
         <classes>

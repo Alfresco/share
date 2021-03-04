@@ -48,12 +48,11 @@
             </classes>
         </test>-->
 
-    <!-- FLAKY -->
-<!--    <test name="MySiteDashletTest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.dashlet.MySiteDashletTest" />-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="MySiteDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.MySiteDashletTest" />
+        </classes>
+    </test>
 
     <!--WEBDRONE-746 FIXME
     <test name="MyTasksDashletTest">
@@ -83,12 +82,11 @@
         </classes>
     </test>
 
-    <!-- FLAKY -->
-<!--    <test name="SiteCalendarDashletTest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.dashlet.SiteCalendarDashletTest" />-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="SiteCalendarDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.SiteCalendarDashletTest" />
+        </classes>
+    </test>
 
     <test name="SiteContentDashletTest">
         <classes>
