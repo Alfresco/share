@@ -11,6 +11,11 @@
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
+    <modules>
+        <module>share-services</module>
+        <module>share</module>
+        <module>web-framework-commons</module>
+    </modules>
     <properties>
         <version.major>5</version.major>
         <version.minor>2</version.minor>
@@ -495,11 +500,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>share-services</module>
-                <module>share</module>
                 <module>share-po</module>
                 <module>cmm-qa</module>
-                <module>web-framework-commons</module>
                 <module>web-editor</module>
                 <module>web-editor-plugin</module>
                 <module>web-editor-samples/customer-site</module>
@@ -752,11 +754,8 @@
         </profile>
         <profile>
         <!-- This profile will build only project required to produce the Share docker image. -->
-            <id>enterpriseDocker</id>
+            <id>buildDockerImageent</id>
             <modules>
-                <module>share-services</module>
-                <module>share</module>
-                <module>web-framework-commons</module>
                 <module>packaging/distribution</module>
                 <module>packaging/docker-share</module>
             </modules>

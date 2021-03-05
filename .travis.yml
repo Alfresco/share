@@ -33,7 +33,7 @@ jobs:
   include:   
     - name: "Share PO - Part 1"
       stage: test
-      install: mvn clean install -DskipTests -PenterpriseDocker
+      install: mvn clean install -DskipTests -PbuildDockerImage,enterpriseDocker
       before_script:
         - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
@@ -43,7 +43,7 @@ jobs:
 
     - name: "Share PO - Part 2"
       stage: test
-      install: mvn clean install -DskipTests -PenterpriseDocker
+      install: mvn clean install -DskipTests -PbuildDockerImage,enterpriseDocker
       before_script:
         - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
@@ -53,7 +53,7 @@ jobs:
 
     - name: "Share PO - Part 3"
       stage: test
-      install: mvn clean install -DskipTests -PenterpriseDocker
+      install: mvn clean install -DskipTests -PbuildDockerImage,enterpriseDocker
       before_script:
         - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
@@ -63,7 +63,7 @@ jobs:
 
     - name: "Share PO - Part 4"
       stage: test
-      install: mvn clean install -DskipTests -PenterpriseDocker
+      install: mvn clean install -DskipTests -PbuildDockerImage,enterpriseDocker
       before_script:
         - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
@@ -73,7 +73,7 @@ jobs:
 
     - name: "Share PO - Part 5"
       stage: test
-      install: mvn clean install -DskipTests -PenterpriseDocker
+      install: mvn clean install -DskipTests -PbuildDockerImage,enterpriseDocker
       before_script:
         - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
@@ -83,7 +83,7 @@ jobs:
 
     - name: "Share PO - Part 6"
       stage: test
-      install: mvn clean install -DskipTests -PenterpriseDocker
+      install: mvn clean install -DskipTests -PbuildDockerImage,enterpriseDocker
       before_script:
         - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
@@ -93,7 +93,7 @@ jobs:
 
     - name: "Share PO - Flaky Tests"
       stage: test
-      install: mvn clean install -DskipTests -PenterpriseDocker
+      install: mvn clean install -DskipTests -PbuildDockerImage,enterpriseDocker
       before_script:
         - bash scripts/travis/start-compose.sh share-po/docker-compose.yml
         - bash scripts/travis/wait-for-alfresco-start.sh "http://localhost:8080/alfresco"
