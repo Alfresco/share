@@ -183,10 +183,10 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
         String testName = method.getName();
         if (result.isSuccess())
         {
-            System.out.println(ANSI_GREEN + testName + ANSI_BOLD + "\t : PASSED" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + testName + ANSI_GREEN + ANSI_BOLD + "\t : PASSED" + ANSI_RESET);
         }
         else {
-            System.out.println(ANSI_RED + testName + ANSI_BOLD + "\t : FAILED" + ANSI_RESET);
+            System.out.println(ANSI_RED + testName + ANSI_RED + ANSI_BOLD + "\t : FAILED" + ANSI_RESET);
         }
     }
 

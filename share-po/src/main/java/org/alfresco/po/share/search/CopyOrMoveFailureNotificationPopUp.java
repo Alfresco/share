@@ -48,7 +48,7 @@ public class CopyOrMoveFailureNotificationPopUp extends ShareDialogueAikau
     
     private static final By CONFIRM_NOTIFICATION_TITLE = By.cssSelector("#NOTIFICATION_PROMPT_title");
 
-	private static final By OK_BUTTON = By.cssSelector("#NOTIFCATION_PROMPT_ACKNOWLEDGEMENT_label");	
+	private static final By OK_BUTTON = By.id("NOTIFCATION_PROMPT_ACKNOWLEDGEMENT_label");
 	
     @SuppressWarnings("unchecked")
     @Override
@@ -91,7 +91,9 @@ public class CopyOrMoveFailureNotificationPopUp extends ShareDialogueAikau
 
 			if (selectok.isEnabled() && selectok.isDisplayed()) 
 			{
-				selectok.click();
+                WebElement dialog = findAndWait(By.id("NOTIFICATION_PROMPT"));
+                dialog.click();
+			    selectok.click();
 				return factoryPage.getPage(driver);
 			}
 			

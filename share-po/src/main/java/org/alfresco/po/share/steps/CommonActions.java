@@ -396,7 +396,6 @@ public abstract class CommonActions
         {
             resultOk = checkSearchResults(driver, searchString, nodeNameToLookFor, expectedInResults);
 
-            // ResultOk?
             if (resultOk)
             {
                 return resultOk;
@@ -636,7 +635,7 @@ public abstract class CommonActions
                         .render();
                 copyAndMoveContentFromSearchPage.selectDestination("All Sites").render();
                 copyAndMoveContentFromSearchPage.selectSite(sitename).render();
-                copyAndMoveContentFromSearchPage.selectSiteFolder("Document Library");
+                copyAndMoveContentFromSearchPage.selectSiteFolder("documentLibrary");
                 return copyAndMoveContentFromSearchPage.clickCopy().render();
             }
             if (action.name().equals("MOVE_TO"))
@@ -645,7 +644,7 @@ public abstract class CommonActions
                         .render();
                 copyAndMoveContentFromSearchPage.selectDestination("All Sites").render();
                 copyAndMoveContentFromSearchPage.selectSite(sitename).render();
-                copyAndMoveContentFromSearchPage.selectSiteFolder("Document Library");
+                copyAndMoveContentFromSearchPage.selectSiteFolder("documentLibrary");
                 return copyAndMoveContentFromSearchPage.clickMove().render();
             }
 
