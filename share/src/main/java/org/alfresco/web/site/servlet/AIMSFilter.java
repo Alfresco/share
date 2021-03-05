@@ -31,6 +31,8 @@ import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.servlet.KeycloakOIDCFilter;
+import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
+import org.keycloak.adapters.spi.KeycloakAccount;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
 import org.springframework.extensions.surf.RequestContext;
@@ -57,6 +59,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collections;
 
+/**
+ * Uses Keycloak Java Servlet Filter Adapter
+ * @see: https://www.keycloak.org/docs/5.0/securing_apps/#_servlet_filter_adapter
+ */
 public class AIMSFilter extends KeycloakOIDCFilter
 {
     private static final Log logger = LogFactory.getLog(AIMSFilter.class);
@@ -128,8 +134,25 @@ public class AIMSFilter extends KeycloakOIDCFilter
 
         if (this.enabled)
         {
+            // Pre Keycloak filter
+            // Avoid remaining logged in in Share, if we're logged out from Keycloak
+            // If we can;t refresh the token on Keycloak, we invalidate the session
+            if (session != null)
+            {
+                OIDCFilterSessionStore.SerializableKeycloakAccount account =
+                        (OIDCFilterSessionStore.SerializableKeycloakAccount) session.getAttribute(KeycloakAccount.class.getName());
+
+                if (account != null && !account.getKeycloakSecurityContext().refreshExpiredToken(false))
+                {
+                    session.invalidate();
+                }
+            }
+
+            // Run the Keycloak filter
             super.doFilter(sreq, sres, chain);
 
+            // Post Keycloak filter
+            // Proceed with logging in the user on Share, if the log in on Keycloak was successful
             RefreshableKeycloakSecurityContext context =
                 (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
 
