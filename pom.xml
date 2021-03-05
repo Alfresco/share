@@ -754,7 +754,7 @@
         </profile>
         <profile>
         <!-- This profile will build only project required to produce the Share docker image. -->
-            <id>buildDockerImageent</id>
+            <id>buildDockerImage</id>
             <modules>
                 <module>packaging/distribution</module>
                 <module>packaging/docker-share</module>
