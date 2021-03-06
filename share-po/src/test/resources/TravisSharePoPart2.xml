@@ -25,12 +25,11 @@
         </classes>
     </test>
 
-    <!-- FLAKY -->
-<!--    <test name="MyCalendarDashletTest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.dashlet.MyCalendarDashletTest" />-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="MyCalendarDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.MyCalendarDashletTest" />
+        </classes>
+    </test>
 
     <test name="SiteNoticeDashletTest">
         <classes>

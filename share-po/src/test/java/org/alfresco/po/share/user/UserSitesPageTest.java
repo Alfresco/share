@@ -140,6 +140,7 @@ public class UserSitesPageTest extends AbstractTest
 
         userSitesPage.getSite(siteName1).toggleActivityFeed(false);
 
+        userSitesPage.render();
         assertFalse(userSitesPage.getSite(siteName1).isActivityFeedEnabled());
         assertEquals(userSitesPage.getSite(siteName1).getActivityFeedButtonLabel(), factoryPage.getValue("user.profile.sites.enable.activity.feeds"));
     }

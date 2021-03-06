@@ -18,17 +18,11 @@
         </classes>
     </test>
 
-    <test name="MyCalendarDashletTest">
-        <classes>
-            <class name="org.alfresco.po.share.dashlet.MyCalendarDashletTest" />
-        </classes>
-    </test>
-
-    <test name="TopSiteContributorDashletTest">
-        <classes>
-            <class name="org.alfresco.po.share.dashlet.TopSiteContributorDashletTest" />
-        </classes>
-    </test>
+<!--    <test name="TopSiteContributorDashletTest">-->
+<!--        <classes>-->
+<!--            <class name="org.alfresco.po.share.dashlet.TopSiteContributorDashletTest" />-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <test name="UserSitesPageTest">
         <classes>
@@ -42,7 +36,7 @@
         </classes>
     </test>
 
-    <test name="FacetedSearchBulkActions">
+    <test name="FacetedSearchBulkActionsE2ETest">
         <classes>
             <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />
         </classes>

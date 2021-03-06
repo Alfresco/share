@@ -102,10 +102,11 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
 		
 		try 
 		{
-			waitUntilElementClickable(button, 5);
-            WebElement selectedButton = driver.findElement(button);
+			WebElement dialog = findAndWait(DELETE_POPUP);
+			dialog.click();
+            WebElement selectedButton = findAndWait(button);
             selectedButton.click();
-            selectedButton.click();
+
 			return factoryPage.getPage(driver);
 			
 		}		

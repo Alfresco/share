@@ -114,18 +114,18 @@
     <!-- ======= UseCasesSuite ======= -->
 
     <!-- FLAKY -->
-<!--    <test name="FacetedSearchBulkActions">-->
+<!--    <test name="FacetedSearchBulkActionsE2ETest">-->
 <!--        <classes>-->
 <!--            <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />-->
 <!--        </classes>-->
 <!--    </test>-->
 
-    <test name="FacetedSearchBulkActions1">
+    <test name="FacetedSearchBulkActionsE2ETest1">
         <classes>
             <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest1" />
         </classes>
     </test>
-    <test name="PendingRequestPageTests">
+    <test name="PendingRequestPageETETest">
         <classes>
             <class name="org.alfresco.po.share.usecases.pendingRequest.PendingRequestPageETETest" />
         </classes>
