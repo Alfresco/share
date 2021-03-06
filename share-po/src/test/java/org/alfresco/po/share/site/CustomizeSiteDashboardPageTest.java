@@ -27,17 +27,14 @@ package org.alfresco.po.share.site;
 
 import static org.alfresco.po.share.enums.Dashlets.SITE_MEMBERS;
 import static org.alfresco.po.share.enums.Dashlets.SITE_NOTICE;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 import org.alfresco.po.share.DashBoardPage;
 import org.alfresco.po.share.dashlet.AbstractSiteDashletTest;
 
+import org.alfresco.po.share.site.document.DocumentLibraryPage;
 import org.alfresco.test.FailedTestListener;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * Customize Site Dashboard Page Test.
@@ -49,82 +46,75 @@ import org.testng.annotations.Test;
 @Test(groups = { "Enterprise-only" })
 public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
 {
+    private String user;
+
+    SiteNavigation siteNavigation;
     DashBoardPage dashBoard;
     CustomiseSiteDashboardPage customizeSiteDashboardPage;
 
     @BeforeClass
     public void loadFile() throws Exception
     {
-        dashBoard = loginAs(username, password);
+        user = "user-" + System.currentTimeMillis();
+        createEnterpriseUser(user);
+        shareUtil.loginAs(driver, shareUrl, user, UNAME_PASSWORD).render();
         siteName = "customizeSiteDashboardPage" + System.currentTimeMillis();
-        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
-        navigateToSiteDashboard();
+        siteUtil.createSite(driver, user, UNAME_PASSWORD, siteName, "description", "Public");
+    }
+
+    @BeforeMethod
+    public void goToSiteDashboard()
+    {
+        siteDashBoard = siteUtil.navigateToSiteDashboardByUrl(driver, siteName).render();
+        customizeSiteDashboardPage = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
     }
 
     @AfterClass
     public void tearDown()
     {
-        siteUtil.deleteSite(username, password, siteName);
+        siteUtil.deleteSite(user, UNAME_PASSWORD, siteName);
     }
 
     @Test
     public void selectCustomizeDashboard() throws Exception
     {
-        customizeSiteDashboardPage = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         assertTrue(resolvePage(driver).render() instanceof CustomiseSiteDashboardPage);
         assertFalse(customizeSiteDashboardPage.isGetStartedPanelDisplayed());
         assertFalse(customizeSiteDashboardPage.isShowOnDashboardDisplayed());
         assertFalse(customizeSiteDashboardPage.isHideFromDashboardDisplayed());
     }
 
-
-    @Test(dependsOnMethods = "selectCustomizeDashboard")
-    public void checkDashletCountInColumn()
+    @Test
+    public void checkDashletsColumns()
     {
-        assertTrue(customizeSiteDashboardPage.getDashletsCountIn(1) == 1);
-        assertTrue(customizeSiteDashboardPage.getDashletsCountIn(2) == 2);
-    }
-
-    @Test(dependsOnMethods = "checkDashletCountInColumn")
-    public void checkIsDashletInColumn()
-    {
+        assertEquals(customizeSiteDashboardPage.getDashletsCountIn(1), 1);
+        assertEquals(customizeSiteDashboardPage.getDashletsCountIn(2), 2);
         assertTrue(customizeSiteDashboardPage.isDashletInColumn(SITE_MEMBERS, 1));
         assertFalse(customizeSiteDashboardPage.isDashletInColumn(SITE_MEMBERS, 2));
     }
 
-    @Test(dependsOnMethods = "checkIsDashletInColumn")
-    public void checkAddDashletToColumn()
+    @Test
+    public void checkAddRemoveDashletToColumn()
     {
         siteDashBoard = customizeSiteDashboardPage.addDashlet(SITE_NOTICE, 1);
         customizeSiteDashboardPage = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         assertTrue(customizeSiteDashboardPage.isDashletInColumn(SITE_NOTICE, 1));
-        assertTrue(customizeSiteDashboardPage.getDashletsCountIn(1) == 2);
-    }
-
-    @Test(dependsOnMethods = "checkAddDashletToColumn")
-    public void checkRemoveDashlet()
-    {
         siteDashBoard = customizeSiteDashboardPage.remove(SITE_NOTICE);
         customizeSiteDashboardPage = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         assertFalse(customizeSiteDashboardPage.isDashletInColumn(SITE_NOTICE, 1));
-        assertTrue(customizeSiteDashboardPage.getDashletsCountIn(1) == 1);
     }
 
-
-    @Test(dependsOnMethods = "checkRemoveDashlet")
-    public void selectChangeLayout() throws Exception
+    @Test
+    public void checkAddNewLayout()
     {
         customizeSiteDashboardPage.selectChangeLayout();
         assertTrue(resolvePage(driver).render() instanceof CustomiseSiteDashboardPage);
-    }
-
-    @Test(dependsOnMethods = "selectChangeLayout")
-    public void checkAddNewLayout()
-    {
         customizeSiteDashboardPage.selectNewLayout(4);
         assertTrue(resolvePage(driver).render() instanceof CustomiseSiteDashboardPage);
-        assertTrue(customizeSiteDashboardPage.getDashletsCountIn(3) == 0);
-        assertTrue(customizeSiteDashboardPage.getDashletsCountIn(4) == 0);
+        assertEquals(customizeSiteDashboardPage.getDashletsCountIn(3), 0);
+        assertEquals(customizeSiteDashboardPage.getDashletsCountIn(4), 0);
+        customizeSiteDashboardPage.selectChangeLayout();
+        customizeSiteDashboardPage.selectNewLayout(2);
     }
 
  /**
