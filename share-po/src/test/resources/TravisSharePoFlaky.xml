@@ -12,33 +12,15 @@
         </run>
     </groups>
 
-    <test name="FacetedSearchBulkActionsTest">
+    <test name="TopSiteContributorDashletTest">
         <classes>
-            <class name="org.alfresco.po.share.search.FacetedSearchBulkActionsTest" />
-        </classes>
-    </test>
-
-<!--    <test name="TopSiteContributorDashletTest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.dashlet.TopSiteContributorDashletTest" />-->
-<!--        </classes>-->
-<!--    </test>-->
-
-    <test name="UserSitesPageTest">
-        <classes>
-            <class name="org.alfresco.po.share.user.UserSitesPageTest" />
+            <class name="org.alfresco.po.share.dashlet.TopSiteContributorDashletTest" />
         </classes>
     </test>
 
     <test name="CustomizeSiteDashboardPageTest">
         <classes>
             <class name="org.alfresco.po.share.site.CustomizeSiteDashboardPageTest" />
-        </classes>
-    </test>
-
-    <test name="FacetedSearchBulkActionsE2ETest">
-        <classes>
-            <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />
         </classes>
     </test>
 

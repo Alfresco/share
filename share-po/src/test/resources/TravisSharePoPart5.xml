@@ -113,12 +113,11 @@
 
     <!-- ======= UseCasesSuite ======= -->
 
-    <!-- FLAKY -->
-<!--    <test name="FacetedSearchBulkActionsE2ETest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="FacetedSearchBulkActionsE2ETest">
+        <classes>
+            <class name="org.alfresco.po.share.usecases.search.FacetedSearchBulkActionsE2ETest" />
+        </classes>
+    </test>
 
     <test name="FacetedSearchBulkActionsE2ETest1">
         <classes>

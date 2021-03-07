@@ -155,12 +155,11 @@
         </classes>
     </test>
 
-    <!-- FLAKY -->
-<!--    <test name="UserSitesPageTest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.user.UserSitesPageTest" />-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="UserSitesPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.user.UserSitesPageTest" />
+        </classes>
+    </test>
 
     <test name="UserContentsPageTest">
         <classes>

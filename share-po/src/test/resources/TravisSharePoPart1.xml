@@ -20,12 +20,11 @@
         </classes>
     </test>
 
-    <!-- FLAKY -->
-<!--    <test name="FacetedSearchBulkActionsTest">-->
-<!--        <classes>-->
-<!--            <class name="org.alfresco.po.share.search.FacetedSearchBulkActionsTest" />-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="FacetedSearchBulkActionsTest">
+        <classes>
+            <class name="org.alfresco.po.share.search.FacetedSearchBulkActionsTest" />
+        </classes>
+    </test>
 
     <test name="FacetedSearchHighlightedTermTest1">
         <classes>
