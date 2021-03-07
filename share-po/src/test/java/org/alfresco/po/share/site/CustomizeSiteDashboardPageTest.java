@@ -96,10 +96,10 @@ public class CustomizeSiteDashboardPageTest extends AbstractSiteDashletTest
     @Test
     public void checkAddRemoveDashletToColumn()
     {
-        siteDashBoard = customizeSiteDashboardPage.addDashlet(SITE_NOTICE, 1);
+        siteDashBoard = customizeSiteDashboardPage.addDashlet(SITE_NOTICE, 1).render();
         customizeSiteDashboardPage = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         assertTrue(customizeSiteDashboardPage.isDashletInColumn(SITE_NOTICE, 1));
-        siteDashBoard = customizeSiteDashboardPage.remove(SITE_NOTICE);
+        siteDashBoard = customizeSiteDashboardPage.remove(SITE_NOTICE).render();
         customizeSiteDashboardPage = siteDashBoard.getSiteNav().selectCustomizeDashboard().render();
         assertFalse(customizeSiteDashboardPage.isDashletInColumn(SITE_NOTICE, 1));
     }
