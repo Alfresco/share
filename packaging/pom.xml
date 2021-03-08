@@ -36,7 +36,7 @@
 
     <profiles>
         <profile>
-            <id>buildDockerImage</id>
+            <id>dockerImage</id>
             <modules>
                 <module>docker-share</module>
             </modules>
