@@ -19,6 +19,7 @@ branches:
   only:
     - /^SP\/.+$/
     - /feature\/.*/
+    - /fix\/.*/
 
 env:
   global:

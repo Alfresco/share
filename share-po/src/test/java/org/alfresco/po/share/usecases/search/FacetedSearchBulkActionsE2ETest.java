@@ -228,7 +228,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     @Test(groups = "alfresco-one", enabled = true)
     public void MoveOwnFileFolderAsCollaboratorTest() throws Exception
     {
-    	folderName3 = "search-folder3-" + System.currentTimeMillis();
+        folderName3 = "search-folder3-" + System.currentTimeMillis();
         folderDescription3 = String.format("Description of %s", folderName3);
 
         bulkfile3 = siteUtil.prepareFile(filename);
@@ -323,7 +323,7 @@ public class FacetedSearchBulkActionsE2ETest extends AbstractDocumentTest
     @Test(groups = "alfresco-one", enabled = true)
     public void MoveFileFolderCollaboratorTest() throws Exception
     {
-    	folderName5 = "search-folder5-" + System.currentTimeMillis();
+        folderName5 = "search-folder5-" + System.currentTimeMillis();
         folderDescription5 = String.format("Description of %s", folderName5);
         bulkfile5 = siteUtil.prepareFile(filename);
 
