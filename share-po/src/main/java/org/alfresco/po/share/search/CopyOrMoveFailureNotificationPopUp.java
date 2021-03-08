@@ -91,10 +91,10 @@ public class CopyOrMoveFailureNotificationPopUp extends ShareDialogueAikau
 
 			if (selectok.isEnabled() && selectok.isDisplayed()) 
 			{
-                WebElement dialog = findAndWait(By.id("NOTIFICATION_PROMPT"));
-                dialog.click();
+			    WebElement dialog = findAndWait(By.id("NOTIFICATION_PROMPT"));
+			    dialog.click();
 			    selectok.click();
-				return factoryPage.getPage(driver);
+			    return factoryPage.getPage(driver);
 			}
 			
 			throw new PageException("Ok Button found, but is not enabled");

@@ -37,7 +37,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 public class SearchConfirmDeletePage extends ShareDialogueAikau
 {
@@ -104,11 +103,9 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
 		{
 			WebElement dialog = findAndWait(DELETE_POPUP);
 			dialog.click();
-            WebElement selectedButton = findAndWait(button);
-            selectedButton.click();
-
+			WebElement selectedButton = findAndWait(button);
+			selectedButton.click();
 			return factoryPage.getPage(driver);
-			
 		}		
 		catch (NoSuchElementException | TimeoutException e) 
 		{
