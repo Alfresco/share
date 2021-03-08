@@ -31,10 +31,10 @@
 
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>7.0.0-A3</alfresco.platform.version>
-        <alfresco.content-services.version>7.0.0-A16</alfresco.content-services.version>
+        <alfresco.content-services.version>8.433</alfresco.content-services.version>
         
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>8.345</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.393</dependency.alfresco-community-repo.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
@@ -45,25 +45,25 @@
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
-        <dependency.spring.version>5.2.9.RELEASE</dependency.spring.version>
+        <dependency.spring.version>5.3.3</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
-        <dependency.aikau.version>1.0.106</dependency.aikau.version>
+        <dependency.aikau.version>1.0.107</dependency.aikau.version>
         <dependency.freemarker.version>2.3.30</dependency.freemarker.version>
         <dependency.rhino.version>1.7.13</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.12</dependency.httpcomponents.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
-        <dependency.webscripts.version>8.12</dependency.webscripts.version>
-        <dependency.surf.version>8.6</dependency.surf.version>
+        <dependency.webscripts.version>8.18</dependency.webscripts.version>
+        <dependency.surf.version>8.9</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.0.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
         <dependency.slf4j.version>1.7.30</dependency.slf4j.version>
-        <dependency.cxf.version>3.3.7</dependency.cxf.version>
+        <dependency.cxf.version>3.4.1</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>11.0.2</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.11.2</dependency.jackson.version>
+        <dependency.jackson.version>2.12.1</dependency.jackson.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
@@ -87,7 +87,9 @@
         <test.working.dir>${project.build.directory}</test.working.dir>
         <img.exe>convert</img.exe>
         <swf.exe>pdf2swf</swf.exe>
+
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
+        <license-header-location>${maven.multiModuleProjectDirectory}</license-header-location>
     </properties>
 
    <scm>
@@ -295,53 +297,32 @@
 
     <build>
         <plugins>
-<!--        <plugin>-->
-<!--            <groupId>com.mycila</groupId>-->
-<!--                <artifactId>license-maven-plugin</artifactId>-->
-<!--                <version>${license-maven-plugin.version}</version>-->
-<!--                <configuration>-->
-<!--                    <aggregate>true</aggregate>-->
-<!--                    &lt;!&ndash; DO NOT ALIGN or FORMAT XML otherwise the license check considers the whitespace before!!! &ndash;&gt;-->
-<!--                   <inlineHeader>-->
-<!--<![CDATA[-->
-<!--Copyright 2005 - 2020 Alfresco Software Limited. -->
-
-<!--This file is part of the Alfresco software. -->
-<!--If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.  -->
-<!--Otherwise, the software is provided under the following open source license terms:-->
-
-<!--Alfresco is free software: you can redistribute it and/or modify-->
-<!--it under the terms of the GNU Lesser General Public License as published by-->
-<!--the Free Software Foundation, either version 3 of the License, or-->
-<!--(at your option) any later version.-->
-
-<!--Alfresco is distributed in the hope that it will be useful,-->
-<!--but WITHOUT ANY WARRANTY; without even the implied warranty of-->
-<!--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the-->
-<!--GNU Lesser General Public License for more details.-->
-<!-- -->
-<!--You should have received a copy of the GNU Lesser General Public License-->
-<!--along with Alfresco. If not, see <http://www.gnu.org/licenses />.-->
-<!--]]>-->
-<!--                 </inlineHeader>-->
-<!--                    <includes>-->
-<!--                        <include>**/*.java</include>-->
-<!--                        <include>**/*.jsp</include>-->
-<!--                    </includes>-->
-<!--                    <mapping>-->
-<!--                        <java>SLASHSTAR_STYLE</java>-->
-<!--                    </mapping>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                <execution>-->
-<!--                    <id>validate-license</id>-->
-<!--                    <phase>validate</phase>-->
-<!--                    <goals>-->
-<!--                      <goal>check</goal>-->
-<!--                    </goals>-->
-<!--                </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+        <plugin>
+            <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <!-- DO NOT ALIGN or FORMAT the license header as it would mess up the license check! -->
+                    <header>${license-header-location}/license-header.txt</header>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>**/*.jsp</include>
+                    </includes>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                </configuration>
+                <executions>
+                <execution>
+                    <id>validate-license</id>
+                    <phase>validate</phase>
+                    <goals>
+                      <goal>check</goal>
+                    </goals>
+                </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.alfresco.maven.plugin</groupId>
                 <artifactId>alfresco-maven-plugin</artifactId>
