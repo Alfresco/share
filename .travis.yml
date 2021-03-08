@@ -37,8 +37,8 @@ env:
     - SHARE_TAG_NAME=latest
     - SYNC_TAG_NAME=3.4.0-A1
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.0.0-A20
-    - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
+    - RELEASE_VERSION=7.0.0
+    - DEVELOPMENT_VERSION=7.0.1-SNAPSHOT
     - HOSTED_ZONE=dev.alfresco.me
     - KEEP_ENV=false
 
