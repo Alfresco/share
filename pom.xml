@@ -17,6 +17,12 @@
         <module>web-framework-commons</module>
     </modules>
     <properties>
+        <build-number>0</build-number>
+        <build-key>BUILD-KEY</build-key>
+        <build-name>Build-Name</build-name>
+        <scm-path>${scm.url}</scm-path>
+        <scm-revision>${build-number}</scm-revision>
+
         <version.major>5</version.major>
         <version.minor>2</version.minor>
         <version.revision>7</version.revision>
@@ -385,11 +391,11 @@
 					<serverId>alfresco-internal-staging</serverId>
 					<nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
 					<stagingProfileId>${release.staging.profile}</stagingProfileId>
-					<stagingDescription>Staging Share ${project.version} (${bamboo_buildResultKey} ${bamboo_planRepository_revision})</stagingDescription>
+					<stagingDescription>Staging Share ${project.version} (${build-key}-${build-number} ${scm-revision})</stagingDescription>
 					<tags>
-						<build.number>${bamboo_buildNumber}</build.number>
-						<build.key>${bamboo_buildKey}</build.key>
-						<build.revision>${bamboo_planRepository_revision}</build.revision>
+                        <build.number>${build-number}</build.number>
+                        <build.key>${build-key}</build.key>
+                        <build.revision>${scm-revision}</build.revision>
 					</tags>
 				</configuration>
 			</plugin>
@@ -405,10 +411,10 @@
                                 <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
                                 <Build-Date>${maven.build.timestamp}</Build-Date>
-                                <Build-Name>${bamboo_planName}</Build-Name>
-                                <Build-Key>${bamboo_fullBuildKey}</Build-Key>
-                                <Build-Number>${bamboo_buildNumber}</Build-Number>
-                                <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
+                                <Build-Name>${build-name}</Build-Name>
+                                <Build-Key>${build-key}</Build-Key>
+                                <Build-Number>${build-number}</Build-Number>
+                                <Build-Revision>${scm-revision}</Build-Revision>
                             </manifestEntries>
                         </archive>
                     </configuration>
@@ -422,18 +428,18 @@
                                 <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
                                 <Build-Date>${maven.build.timestamp}</Build-Date>
-                                <Build-Name>${bamboo_planName}</Build-Name>
-                                <Build-Key>${bamboo_fullBuildKey}</Build-Key>
-                                <Build-Number>${bamboo_buildNumber}</Build-Number>
-                                <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
+                                <Build-Name>${build-name}</Build-Name>
+                                <Build-Key>${build-key}</Build-Key>
+                                <Build-Number>${build-number}</Build-Number>
+                                <Build-Revision>${scm-revision}</Build-Revision>
                             </manifestEntries>
                             <manifestSections>
                                 <manifestSection>
                                     <name>Source-control</name>
                                     <manifestEntries>
-                                        <Last-change-Revision>${bamboo_custom_svn_lastchange_revision_number}</Last-change-Revision>
-                                        <Source-Revision>${bamboo_repository_revision_number}</Source-Revision>
-                                        <Source-Url>${bamboo_planRepository_repositoryUrl}</Source-Url>
+                                        <Last-change-Revision>${scm-revision}</Last-change-Revision>
+                                        <Source-Revision>${scm-revision}</Source-Revision>
+                                        <Source-Url>${scm-path}</Source-Url>
                                     </manifestEntries>
                                 </manifestSection>
                             </manifestSections>
@@ -506,7 +512,6 @@
                 <module>web-editor-plugin</module>
                 <module>web-editor-samples/customer-site</module>
                 <module>wcmquickstart-module</module>
-                <module>alfresco</module>
             </modules>
         </profile>
 
@@ -515,6 +520,13 @@
             <id>enterprise</id>
             <modules>
                 <module>alfresco-enterprise</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>community</id>
+            <modules>
+                <module>alfresco</module>
             </modules>
         </profile>
 
