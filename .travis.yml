@@ -33,7 +33,7 @@ branches:
 
 env:
   global:
-    - REPO_TAG_NAME=7.0.0-A29
+    - REPO_TAG_NAME=7.0.0-A30
     - SHARE_TAG_NAME=latest
     - SYNC_TAG_NAME=3.4.0-A1
     # Release version has to start with real version (7.0.0-....) for the docker image to build successfully.
