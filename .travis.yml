@@ -66,7 +66,7 @@ jobs:
   include:
     - name: "Build and Test"
       stage: build
-      if: commit_message !~ /\[trigger company release\]/
+      if: commit_message !~ /\[trigger company release|release\]/ 
       before_install: bash _ci/init.sh
       script: bash _ci/build.sh
 
@@ -88,7 +88,7 @@ jobs:
 
     - name: "Deploy on K8s"
       stage: deploy
-      if: commit_message !~ /\[trigger company release\]/
+      if: commit_message !~ /\[trigger company release|skip tests\]/
       install: skip
       script: bash _ci/deploy_k8s.sh
 
@@ -123,7 +123,7 @@ jobs:
 
     - name: "Delete environment"
       stage: tearDown
-      if: commit_message !~ /\[trigger company release\]/
+      if: commit_message !~ /\[trigger company release|skip tests\]/
       install: skip
       script: bash _ci/delete-env.sh
 
