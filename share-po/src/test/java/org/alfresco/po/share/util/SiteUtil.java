@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -38,6 +38,7 @@ import java.util.zip.ZipOutputStream;
 import javax.imageio.ImageIO;
 
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.HtmlPage;
 import org.alfresco.po.exception.PageException;
 import org.alfresco.po.exception.PageRenderTimeException;
 import org.alfresco.po.share.FactoryPage;
@@ -239,6 +240,14 @@ public class SiteUtil
             throw new RuntimeException("Unable to create site " + siteName, e);
         }
         driver.navigate().to(shareUrl + "/page/site/" + siteName + "/dashboard");
+    }
+
+    public HtmlPage navigateToSiteDashboardByUrl(final WebDriver driver, final String siteName)
+    {
+        if (siteName == null || siteName.isEmpty())
+            throw new UnsupportedOperationException("site name is required");
+        driver.navigate().to(shareUrl + "/page/site/" + siteName + "/dashboard");
+        return factoryPage.getPage(driver);
     }
 
     /**
