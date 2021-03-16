@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -393,7 +393,16 @@ public class SiteNavigation extends AbstractSiteNavigation
         {
             selectConfigure();
             driver.findElement(LEAVE_SITE).click();
-            driver.findElement(By.xpath("//span[text()='OK']")).click();
+
+            By dialogSelector = By.cssSelector(".alfresco-dialog-AlfDialog");
+            WebElement dialog = findAndWait(dialogSelector);
+            dialog.click();
+
+            By okButtonSelector = By.cssSelector(".footer span[class*='call-to-action'] span[role='button']");
+            WebElement okButton = findAndWait(okButtonSelector);
+            okButton.click();
+
+            waitUntilElementDisappears(dialogSelector, defaultWaitTime);
             return getCurrentPage();
         }
         catch (TimeoutException te)

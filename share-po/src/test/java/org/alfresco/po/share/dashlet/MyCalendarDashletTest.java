@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.alfresco.po.share.CustomiseUserDashboardPage;
 import org.alfresco.po.share.DashBoardPage;
@@ -63,7 +64,7 @@ import org.testng.annotations.Test;
 public class MyCalendarDashletTest extends AbstractSiteDashletTest
 {
     private static final String MY_CALENDAR_DASHLET = "my-calendar";
-    private MyCalendarDashlet myCalendarDashlet = null;
+    private MyCalendarDashlet myCalendarDashlet;
     private CustomiseUserDashboardPage customiseUserDashBoard = null;
     private static final String EXP_HELP_BALLOON_MSG = "This dashlet shows the upcoming events in sites you belong to.";
     private static final String EMPTY_DASHLET_MESSAGE = "No upcoming events";
@@ -96,14 +97,14 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
     {
         SharePage page = resolvePage(driver).render();
         // customize user dashboard
-        customiseUserDashBoard = page.getNav().selectCustomizeUserDashboard().render();
+        customiseUserDashBoard = page.getNav().selectCustomizeUserDashboard();
+        customiseUserDashBoard.render();
         // add My Calendar Dashlet
         dashBoard = customiseUserDashBoard.addDashlet(Dashlets.MY_CALENDAR, 1).render();
         // get My Calendar dashlet
-        myCalendarDashlet = (MyCalendarDashlet) dashBoard.getDashlet(MY_CALENDAR_DASHLET).render();
+        myCalendarDashlet = dashletFactory.getDashlet(driver, MyCalendarDashlet.class).render();
 
         assertNotNull(myCalendarDashlet);
-
     }
 
     @Test(dependsOnMethods = "instantiateMyCalendarDashlet")
@@ -139,7 +140,7 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
         String event1 = "MyCalendarEvents";
 
         // Create public site
-        siteUtil.createSite(driver, username, password, siteName, "description", "Public");
+        siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName, "description", "Public");
 
         siteDashBoard = resolvePage(driver).render();
         // customize site
@@ -155,7 +156,7 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
 
         // Create any single day event, e.g. event1
         calendarPage = calendarPage.createEvent(CalendarPage.ActionEventVia.DAY_TAB, event1, event1, event1, null, null, null, null, null, false).render();
-
+        
         // verify the event is present
         Assert.assertTrue(calendarPage.isEventPresent(CalendarPage.EventType.DAY_TAB_SINGLE_EVENT, event1), "The " + event1
                 + " isn't correctly displayed on the day tab");
@@ -184,6 +185,8 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
 
         String comparing = event1 + "\n" + start_date + " " + start_month + " " + start_year + " " + start_hour + " " + start_type + " - " + end_hour + " "
                 + end_type + "\n" + siteName;
+
+        eventInfo.closeInformationForm().render();
 
         // navigate to MyCalendar
         dashBoard = dashBoard.getNav().selectMyDashBoard().render();
@@ -218,6 +221,7 @@ public class MyCalendarDashletTest extends AbstractSiteDashletTest
     {
         DateFormat sdfDayFormat = new SimpleDateFormat("d MMMM, Y");
         Date currentDate = new Date();
+        sdfDayFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String date = sdfDayFormat.format(currentDate);
         String eventDate = date + " 12:00 PM - 1:00 PM";
         String event1 = "MyCalendarEvents";

@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -132,7 +132,7 @@ public class SavedSearchDashletTest extends AbstractSiteDashletTest
         siteDashBoard = configureSavedSearchDialogBoxPage.clickOnOKButton().render();
     }
 
-    @Test(dependsOnMethods = "configureSavedSearch", groups="TestBug")
+    @Test(dependsOnMethods = "configureSavedSearch", groups="bug")
     public void verifySavedSearchResult()
     {
         Assert.assertNotNull(siteDashBoard);
