@@ -7,7 +7,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
 git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-tas-share-test.git
 cd alfresco-tas-share-test
-git checkout master
+git checkout APPS-880
 
 if [[ "$TRAVIS_BRANCH" = "develop" ]]; then
   NAMESPACE="develop-share"
@@ -20,7 +20,6 @@ export HOST="${NAMESPACE}.${HOSTED_ZONE}"
 export XML_SUITE=$1
 mvn install \
                -DsuiteXmlFile="src/test/resources/test-suites/${XML_SUITE}" \
-               -DexcludeGroups='google-docs,unit,SmartFolders,ExternalUsers,tobefixed,office,TransformationServer,xsstests' \
                -Dalfresco.scheme=https \
                -Dalfresco.server=$HOST \
                -Dalfresco.port=443 \
