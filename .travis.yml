@@ -17,7 +17,7 @@ cache:
 
 branches:
   only:
-    - /^SP\/.+$/
+    - /support\/.*/
     - /feature\/.*/
     - /fix\/.*/
 

@@ -16,10 +16,6 @@
         <alfresco.googledocs.version>3.0.4.4</alfresco.googledocs.version>
     </properties>
 
-    <dependencies>
-
-    </dependencies>
-
     <build>
         <plugins>
         <plugin>
