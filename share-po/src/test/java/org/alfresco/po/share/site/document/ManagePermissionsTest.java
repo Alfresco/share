@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -51,7 +51,7 @@ import org.testng.annotations.Test;
  * (JIRA Issue: WEBDRONE-284) 
  *  Add group names back. 
  **/
-@Test(groups = { "Enterprise4.2", "Cloud2", "BambooBug", "AutomationBug"})
+@Test(groups = { "Enterprise4.2", "cloud", "bug"})
 public class ManagePermissionsTest extends AbstractTest
 {
     private static String FNAME = "Administrator";

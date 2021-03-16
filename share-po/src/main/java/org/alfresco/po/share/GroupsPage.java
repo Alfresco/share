@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -366,7 +366,9 @@ public class GroupsPage extends SharePage
 
         try
         {
-            WebElement element = driver.findElement(By.cssSelector(USER_NAMES));
+            By subgroupPanel = By.cssSelector(".yui-columnbrowser-column:nth-of-type(2)");
+            waitForElement(subgroupPanel, defaultWaitTime);
+            WebElement element = driver.findElement(subgroupPanel).findElement(By.cssSelector(USER_NAMES));
             if (element.isDisplayed())
             {
                 return true;
