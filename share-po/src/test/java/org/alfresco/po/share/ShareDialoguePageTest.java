@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -69,16 +69,16 @@ public class ShareDialoguePageTest extends AbstractTest
     private static String folderName;
     private static String folderDescription;
 
-    @BeforeClass(groups = { "Enterprise-only", "Cloud-only" })
+    @BeforeClass(alwaysRun = true)
     public void setup() throws Exception
     {
         siteName = "site-" + System.currentTimeMillis();
         fileName = "File";
         folderName = "The first folder";
-        folderDescription = folderName;  
-        
-        dashBoard = loginAs(username, password);
-        dashBoard = dashBoard.getNav().selectMyDashBoard().render();
+        folderDescription = folderName;
+
+        loginAs(username, password);
+        dashBoard = ((DashBoardPage) resolvePage(driver).render()).getNav().selectMyDashBoard().render();
         
         siteUtil.createSite(driver, username, password, siteName, "description", "Public");
 
@@ -97,7 +97,7 @@ public class ShareDialoguePageTest extends AbstractTest
         fileName = file.getName();
         
         // Back to DashBoardPage
-        documentLibPage = resolvePage(driver).render();        
+        documentLibPage = resolvePage(driver).render();
     }
 
     @Test
@@ -262,12 +262,13 @@ public class ShareDialoguePageTest extends AbstractTest
         closeDialogue().render();
     }
 */
-public HtmlPage closeDialogue() throws Exception
-{
-    ShareDialogue dialogue = factoryPage.getPage(driver).render();
-    HtmlPage sharePage = dialogue.clickClose().render();
-    
-    Assert.assertNotNull(sharePage);
-    return sharePage;
-}
+
+    public HtmlPage closeDialogue() throws Exception
+    {
+        dialogue = factoryPage.getPage(driver).render();
+        HtmlPage sharePage = dialogue.clickClose().render();
+
+        Assert.assertNotNull(sharePage);
+        return sharePage;
+    }
 }

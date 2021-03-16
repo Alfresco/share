@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -42,6 +42,7 @@ import org.testng.annotations.Test;
  * @author Shan Nagarajan
  * @since  1.6.1
  */
+@Deprecated // Welcome dashlet was removed starting with 5.0 / 5.1
 @Listeners(FailedTestListener.class)
 public class SiteWelcomeDashletTest extends AbstractSiteDashletTest
 {
