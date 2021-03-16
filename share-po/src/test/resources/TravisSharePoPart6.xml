@@ -1,0 +1,107 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Alfresco Share Page Object Tests" verbose="1" parallel="classes">
+    <groups>
+        <run>
+            <exclude name="bug"/>
+            <exclude name="chromeOnly"/>
+            <exclude name="Hybrid"/>
+            <exclude name="download"/>
+            <exclude name="NonGrid"/>
+            <exclude name="Cloud-only"/>
+        </run>
+    </groups>
+
+    <!-- ======= CmmSuite ======= -->
+
+    <test name="NavigationTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.NavigationCMMPageTest" />
+        </classes>
+    </test>
+    <test name="ModelManagerPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.ModelManagerPageTest" />
+        </classes>
+    </test>
+    <test name="CreateModelPopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.CreateNewModelPopUpTest" />
+        </classes>
+    </test>
+    <test name="ManageTypesAndAspectsPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.ManageTypesAndAspectsPageTest" />
+        </classes>
+    </test>
+    <test name="CreateTypePopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.CreateNewCustomTypePopUpTest" />
+        </classes>
+    </test>
+    <test name="CreatePropGroupPopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.CreateNewPropertyGroupPopUpTest" />
+        </classes>
+    </test>
+    <test name="ManagePropertiesPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.ManagePropertiesPageTest" />
+        </classes>
+    </test>
+    <test name="CreateNewPropertyPopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.CreateNewPropertyPopUpTest" />
+        </classes>
+    </test>
+    <test name="EditModelPopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.EditModelPopUpTest" />
+        </classes>
+    </test>
+    <test name="EditCustomTypePopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.EditCustomTypePopUpTest" />
+        </classes>
+    </test>
+    <test name="EditPropertyGroupPopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.EditPropertyGroupPopUpTest" />
+        </classes>
+    </test>
+    <test name="EditPropertyPopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.EditPropertyPopUpTest" />
+        </classes>
+    </test>
+    <test name="FormEditorPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.FormEditorPageTest" />
+        </classes>
+    </test>
+    <test name="ImportModelPopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.ImportModelPopUpTest" />
+        </classes>
+    </test>
+    <test name="ModelExportImportTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.ModelExportImportTest" />
+        </classes>
+    </test>
+    <test name="ValidateModelTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.ValidateModelTest" />
+        </classes>
+    </test>
+    <test name="CreateNewCustomTypePopUpTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.CreateNewCustomTypePopUpTest" />
+        </classes>
+    </test>
+    <test name="CreateEditPropertyPopUpDefaultValueTest">
+        <classes>
+            <class name="org.alfresco.po.share.cmm.CreateEditPropertyPopUpDefaultValueTest" />
+        </classes>
+    </test>
+</suite>

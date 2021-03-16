@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -67,7 +67,7 @@ public class AdvanceSearchFolderTest extends AbstractTest
      * 
      * @throws Exception
      */
-    @Test(groups={"Enterprise-only","Enterprise4.2Bug"})
+    @Test(groups={"Enterprise-only","bug"})
     public void folderSearchTest() throws Exception
     {
     	AdvanceSearchContentPage contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();
@@ -113,7 +113,7 @@ public class AdvanceSearchFolderTest extends AbstractTest
      * 
      */
     
-    @Test(groups={"Enterprise-only","Enterprise4.2Bug"})
+    @Test(groups={"Enterprise-only","bug"})
     public void folderKeywordSearchTest() throws Exception
     {
         AdvanceSearchContentPage contentSearchPage = dashBoard.getNav().selectAdvanceSearch().render();

@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -47,8 +47,8 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
     
     private static final By CONFIRM_DELETE_TITLE = By.cssSelector("span[id$=title]");
 
-	private static final By DELETE_BUTTON = By.cssSelector("span[id$=CONFIRMATION_label]");
-	private static final By CANCEL_BUTTON = By.cssSelector("span[id$=CANCELLATION_label]");	
+	private static final By DELETE_BUTTON = By.cssSelector("[widgetid='ALF_DELETE_CONTENT_DIALOG_CONFIRMATION']");
+	private static final By CANCEL_BUTTON = By.cssSelector("[widgetid='ALF_DELETE_CONTENT_DIALOG_CANCELLATION']");
 	
     @SuppressWarnings("unchecked")
     @Override
@@ -100,12 +100,12 @@ public class SearchConfirmDeletePage extends ShareDialogueAikau
 		}
 		
 		try 
-		{			
-			WebElement selectedButton = driver.findElement(button);
-
+		{
+			WebElement dialog = findAndWait(DELETE_POPUP);
+			dialog.click();
+			WebElement selectedButton = findAndWait(button);
 			selectedButton.click();
 			return factoryPage.getPage(driver);
-			
 		}		
 		catch (NoSuchElementException | TimeoutException e) 
 		{
