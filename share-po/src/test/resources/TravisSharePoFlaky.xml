@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Alfresco Share Page Object Tests" verbose="1" parallel="classes" thread-count="1">
+    <groups>
+        <run>
+            <exclude name="bug"/>
+            <exclude name="chromeOnly"/>
+            <exclude name="Hybrid"/>
+            <exclude name="download"/>
+            <exclude name="NonGrid"/>
+            <exclude name="Cloud-only"/>
+        </run>
+    </groups>
+
+    <test name="TopSiteContributorDashletTest">
+        <classes>
+            <class name="org.alfresco.po.share.dashlet.TopSiteContributorDashletTest" />
+        </classes>
+    </test>
+
+    <test name="CustomizeSiteDashboardPageTest">
+        <classes>
+            <class name="org.alfresco.po.share.site.CustomizeSiteDashboardPageTest" />
+        </classes>
+    </test>
+
+</suite>
