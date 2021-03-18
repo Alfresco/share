@@ -120,11 +120,11 @@ jobs:
       script: bash _ci/execute_share_web.sh "admin-tools-tests.xml"
 
     - <<: *test-staging
-      name: "Content Tests - Part 1"
+      name: "Building And Organizing Content Tests"
       script: bash _ci/execute_share_web.sh "content-tests-part1.xml"
 
     - <<: *test-staging
-      name: "Content Tests - Part 2"
+      name: "Content filters Tests"
       script: bash _ci/execute_share_web.sh "content-tests-part2.xml"
 
     - name: "Delete environment"
