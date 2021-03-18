@@ -112,6 +112,10 @@ jobs:
       script: bash _ci/execute_share_web.sh "user-and-site-dashboard-tests.xml"
 
     - <<: *test-staging
+      name: "Site Members Tests"
+      script: bash _ci/execute_share_web.sh "site-members-tests.xml"
+
+    - <<: *test-staging
       name: "Admin Tools Tests"
       script: bash _ci/execute_share_web.sh "admin-tools-tests.xml"
 
