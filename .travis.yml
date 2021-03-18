@@ -120,7 +120,7 @@ jobs:
       script: bash _ci/execute_share_web.sh "admin-tools-tests.xml"
 
     - <<: *test-staging
-      name: "Building And Organizing Content Tests"
+      name: "Content Actions Tests"
       script: bash _ci/execute_share_web.sh "content-tests-part1.xml"
 
     - <<: *test-staging
