@@ -497,4 +497,12 @@
     <!-- Java controller for the org.alfresco.components.dashlets.async-rssfeed.get WebScript -->
     <bean id="webscript.org.alfresco.components.dashlets.async-rssfeed.get" parent="webscript"
           class="org.alfresco.web.scripts.RssDashletStatusWebScript"/>
+
+    <!-- Java controller for the org.alfresco.components.dashlets.addons.get WebScript -->
+    <bean id="webscript.org.alfresco.components.dashlets.addons.get" parent="webscript"
+          class="org.alfresco.web.scripts.RssDashletStatusWebScript"/>
+
+    <!-- Java controller for the org.alfresco.components.dashboard.customise-dashlets.get WebScript -->
+    <bean id="webscript.org.alfresco.components.dashboard.customise-dashlets.get" parent="webscript"
+          class="org.alfresco.web.scripts.RssDashletStatusWebScript"/>
 </beans>

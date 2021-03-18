@@ -24,16 +24,18 @@
 
 <@markup id="html">
    <@uniqueIdDiv>
-      <div class="dashlet rssfeed">
-         <div class="title" id="${el}-title">${title!msg("label.header")}</div>
-         <div class="toolbar">
-            <div>${msg("label.body")} <a href="${msg("label.addonsLink")}" target="${target}">${msg("label.addonsText")}</a></div>
-         </div>
-         <div class="body scrollableList" <#if args.height??>style="height: ${args.height?html}px;"</#if>>
-            <div class="dashlet-padding" id="${el}-scrollableList">
-               <h3>${msg("label.loading")}</h3>
+      <#if showDashlet>
+         <div class="dashlet rssfeed">
+            <div class="title" id="${el}-title">${title!msg("label.header")}</div>
+            <div class="toolbar">
+               <div>${msg("label.body")} <a href="${msg("label.addonsLink")}" target="${target}">${msg("label.addonsText")}</a></div>
+            </div>
+            <div class="body scrollableList" <#if args.height??>style="height: ${args.height?html}px;"</#if>>
+               <div class="dashlet-padding" id="${el}-scrollableList">
+                  <h3>${msg("label.loading")}</h3>
+               </div>
             </div>
          </div>
-      </div>
+      </#if>
    </@>
 </@>

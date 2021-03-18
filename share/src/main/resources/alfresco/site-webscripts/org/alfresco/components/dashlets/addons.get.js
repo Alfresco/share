@@ -6,6 +6,7 @@ function defineWidgets()
 {
    // Widget instantiation metadata...
    model.target = args.target || "_self";
+   model.showDashlet = typeof showDashlet === "boolean" ? showDashlet : false;
    var rssFeed = {
       id : "RssFeed",
       name : "Alfresco.dashlet.RssFeed",
