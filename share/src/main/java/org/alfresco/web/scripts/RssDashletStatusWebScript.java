@@ -33,8 +33,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Java controller to determine if the RSS dashlet is enabled or not.
- * Used by rssfeed.get and async-rssfeed.get.
+ * Java controller to determine if the RSS dashlet should be enabled (it is disabled by default since MNT-22156).
+ * Used by the following webscripts:
+ *     org.alfresco.components.dashlets.rssfeed.get
+ *     org.alfresco.components.dashlets.async-rssfeed.get
+ *     org.alfresco.components.dashlets.addons.get
+ *     org.alfresco.components.dashboard.customise-dashlets.get
  */
 public class RssDashletStatusWebScript extends DeclarativeWebScript implements ApplicationContextAware
 {
