@@ -121,11 +121,11 @@ jobs:
 
     - <<: *test-staging
       name: "Content Actions Tests"
-      script: bash _ci/execute_share_web.sh "content-tests-part1.xml"
+      script: bash _ci/execute_share_web.sh "content-actions-tests.xml"
 
     - <<: *test-staging
       name: "Content filters Tests"
-      script: bash _ci/execute_share_web.sh "content-tests-part2.xml"
+      script: bash _ci/execute_share_web.sh "content-filters-tests.xml"
 
     - name: "Delete environment"
       stage: tearDown
