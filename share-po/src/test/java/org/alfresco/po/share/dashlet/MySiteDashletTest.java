@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -149,10 +149,9 @@ public class MySiteDashletTest extends AbstractTest
         SharePage page = resolvePage(driver).render();
         dashBoard = page.getNav().selectMyDashBoard().render();
         MySitesDashlet dashlet = dashBoard.getDashlet("my-sites").render();
-        //Site created by api is not a favorite by default.
-        Assert.assertFalse(dashlet.isSiteFavourite(siteName));
-        dashlet.selectFavorite(siteName);
         Assert.assertTrue(dashlet.isSiteFavourite(siteName));
+        dashlet.selectFavorite(siteName);
+        Assert.assertFalse(dashlet.isSiteFavourite(siteName));
         Assert.assertFalse(dashlet.isSiteFavourite(sampleSiteFullName));
     }
     

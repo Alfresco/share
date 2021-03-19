@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -168,8 +168,8 @@ public class TakeOwnershipTest extends AbstractTest
             logger.trace("====testTakeOwnershipOfTheFolder====");
         }
 
-        System.out.println("SITE **** " + takeOwnershipSiteName);
-        System.out.println("USER **** " + takeOwnershipUserName);
+        logger.info("SITE **** " + takeOwnershipSiteName);
+        logger.info("USER **** " + takeOwnershipUserName);
 
         // admin user takes ownership of the folder created by collaborator
         dashBoard = siteMembersPage.getNav().selectMyDashBoard().render();
