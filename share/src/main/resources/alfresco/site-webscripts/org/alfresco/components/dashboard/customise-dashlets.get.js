@@ -73,6 +73,13 @@ function main()
                   break;
                }
             }
+            var showDashletValue = typeof showDashlet === "boolean" ? showDashlet : false;
+            if (!showDashletValue &&
+                (webscript.getURIs()[0] == "/components/dashlets/rssfeed" ||
+                 webscript.getURIs()[0] == "/components/dashlets/addonsfeed"))
+            {
+               allowed = false;
+            }
          }
 
          if (allowed)
