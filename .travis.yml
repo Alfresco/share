@@ -112,12 +112,20 @@ jobs:
       script: bash _ci/execute_share_web.sh "user-and-site-dashboard-tests.xml"
 
     - <<: *test-staging
+      name: "Site Members Tests"
+      script: bash _ci/execute_share_web.sh "site-members-tests.xml"
+
+    - <<: *test-staging
       name: "Admin Tools Tests"
       script: bash _ci/execute_share_web.sh "admin-tools-tests.xml"
 
     - <<: *test-staging
-      name: "Content Tests"
-      script: bash _ci/execute_share_web.sh "content-tests.xml"
+      name: "Content Actions Tests"
+      script: bash _ci/execute_share_web.sh "content-actions-tests.xml"
+
+    - <<: *test-staging
+      name: "Content filters Tests"
+      script: bash _ci/execute_share_web.sh "content-filters-tests.xml"
 
     - name: "Delete environment"
       stage: tearDown
