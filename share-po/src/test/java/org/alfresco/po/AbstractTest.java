@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -78,9 +78,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+
 @ContextConfiguration("classpath*:share-po-test-context.xml")
 @PropertySources({
     @PropertySource("classpath:test.properties"),
@@ -129,14 +132,24 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     protected long solrWaitTime = 20000;
     protected WebDriver driver;
     protected static final String UNAME_PASSWORD = "password";
-    
-    
+
+    public static long count = 0;
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_BOLD = "\u001B[1m";
 
     @BeforeClass(alwaysRun = true)
     public void getWebDriver() throws Exception
     {
         driver = (WebDriver) ctx.getBean("webDriver");
         driver.manage().window().maximize();
+
+        String className = getClass().getSimpleName();
+        System.out.println("====== STARTING SUITE : " + className + " =====");
+
+        count = 0;
     }
 
     @AfterClass(alwaysRun = true)
@@ -151,6 +164,29 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
         {
             driver.quit();
             driver = null;
+        }
+
+        String className = getClass().getSimpleName();
+        System.out.println("====== END SUITE : " + className + " =====\n");
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    protected void startSession(Method method) throws Exception
+    {
+        count++;
+        System.out.print(String.format("\t %d. ", count));
+    }
+
+    @AfterMethod(alwaysRun = true)
+    protected void endTest(Method method, ITestResult result) throws Exception
+    {
+        String testName = method.getName();
+        if (result.isSuccess())
+        {
+            System.out.println(ANSI_GREEN + testName + ANSI_GREEN + ANSI_BOLD + "\t : PASSED" + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_RED + testName + ANSI_RED + ANSI_BOLD + "\t : FAILED" + ANSI_RESET);
         }
     }
 
@@ -210,18 +246,6 @@ public abstract class AbstractTest extends AbstractTestNGSpringContextTests impl
     public void savePageSource(String methodName) throws IOException
     {
         FetchUtil.save(driver, methodName + ".html");
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    protected void startSession(Method method) throws Exception
-    {
-        String testName = method.getName();
-        if(logger.isTraceEnabled())
-        {
-            logger.trace(String.format("Test run:%s.%s",
-                                        method.getDeclaringClass().getCanonicalName(),
-                                        testName));
-        }
     }
 
     /**
