@@ -14,7 +14,7 @@ Represents a concise test reporting framework
     *sudo apt-get install allure
 
 3. Add a new build stage called test_reports
-* - name: Generate tests report     
+  - name: Generate tests report     
     stage: tests_report    
     install: skip     
     script:         

@@ -29,7 +29,8 @@ mvn install \
                -Dadmin.user=admin \
                -Dadmin.password=$ALF_PASSWORD \
                -Dbrowser.name=chrome \
-               -Daims.enabled=false & # send the long living command to background!
+               -Daims.enabled=false \
+               -Dsuite-name=${XML_SUITE}& # send the long living command to background!
 
 #minutes=0
 #limit=30
