@@ -47,7 +47,7 @@ stages:
   - deploy
   - wait
   - tests
-  - tests_report
+  - report
   - tearDown
   - release
   - company_release
@@ -152,7 +152,7 @@ jobs:
           target_paths: $TRAVIS_BUILD_NUMBER/content-filters-tests
 
     - name: "Generate tests report"
-      stage: tests_report
+      stage: report
       install: skip
       script: bash _ci/upload_test_artifacts.sh
 
