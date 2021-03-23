@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>5.2.7-SNAPSHOT</version>
+        <version>5.2.5-SNAPSHOT</version>
     </parent>
     <artifactId>share-enterprise-docker</artifactId>
     <packaging>pom</packaging>

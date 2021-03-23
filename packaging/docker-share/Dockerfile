@@ -1,6 +1,6 @@
 # Fetch image based on Tomcat 8.5 and Java 8
 # More infos about this image: https://github.com/Alfresco/alfresco-docker-base-tomcat
-FROM quay.io/alfresco/alfresco-legacy-repo:${project.version}
+FROM quay.io/alfresco/alfresco-legacy-repo:5.2.5-SNAPSHOT
 
 # Set default docker_context.
 ARG RESOURCE_PATH=target
