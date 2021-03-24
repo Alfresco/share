@@ -15,6 +15,7 @@ function main()
    model.uri = uri;
    model.limit = args.limit || 100;
    model.target = args.target || "_self";
+   model.showDashlet = typeof showDashlet === "boolean" ? showDashlet : false;
 
    var userIsSiteManager = true;
    if (page.url.templateArgs.site)

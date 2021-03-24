@@ -5,6 +5,7 @@
  */
 function main()
 {
+   var showDashletValue = typeof showDashlet === "boolean" ? showDashlet : false;
    var uri = args["feed-url"];
    if (!uri || uri == "default")
    {
@@ -23,7 +24,17 @@ function main()
    model.limit = url.templateArgs.limit;
    model.target = url.templateArgs.target;
 
-   var feed = getRSSFeed(uri);
+   var feed = {};
+
+   if (!showDashletValue)
+   {
+      feed.error = "RSS dashlet has been disabled.";
+   }
+   else
+   {
+      feed = getRSSFeed(uri);
+   }
+
    if (feed.error)
    {
       model.title = msg.get("title.error." + feed.error);
