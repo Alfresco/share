@@ -25,7 +25,6 @@
  */
 package org.alfresco.web.scripts;
 
-import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
