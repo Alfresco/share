@@ -109,7 +109,7 @@ jobs:
           paths:
             - alfresco-tas-share-test/target/surefire-reports
             - alfresco-tas-share-test/target/reports
-          target_paths: $TRAVIS_BUILD_NUMBER/user_tests
+          target_paths: $TRAVIS_BUILD_NUMBER/user-tests
 
     - <<: *test-staging
       name: "User and Site Dashboard Tests"
