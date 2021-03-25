@@ -1,4 +1,4 @@
-#Allure Test Report.
+#Allure Test Report
 Represents a concise test reporting framework
 > https://docs.qameta.io/allure/
 
@@ -9,7 +9,7 @@ The extension is developed in the following way:
 > - Collect the tests artifacts on a specific S3 bucket
 
 On the report generation side, a new Travis stage is added "Generate tests report" and is developed in the following way:
-> - Download all the tests artifact from the specified S3 bucket
+> - Download all the tests artifacts from the specified S3 bucket
 > - Run the Allure command to generate an aggregated report for all the previous tests executed
 > - Upload the generated report inside an S3 bucket
 
@@ -64,6 +64,12 @@ On the report generation side, a new Travis stage is added "Generate tests repor
         script:         
             - bash _ci/upload_test_artifacts.sh
 
-##Allure visualization:
+##Allure report visualization:
+1. Navigate to https://s3.console.aws.amazon.com/
+2. Login with your aws credentials account
+3. Search your bucket where tests artifacts are stored
+4. Open folder with aggregated test report, e.g. `final-report`
+> - Make sure that above folder is public in order to be able to view the report
+5. Open folder which corresponding to travis build number
+6. Access `index.html` url
 
-vsdvsvdsdv
