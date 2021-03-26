@@ -381,24 +381,24 @@
                 </dependencies>
             </plugin>
 
-			<!-- Configure deployment of releases to Staging area of Nexus -->
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.6</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>alfresco-internal-staging</serverId>
-					<nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
-					<stagingProfileId>${release.staging.profile}</stagingProfileId>
-					<stagingDescription>Staging Share ${project.version} (${build-key}-${build-number} ${scm-revision})</stagingDescription>
-					<tags>
+            <!-- Configure deployment of releases to Staging area of Nexus -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.6</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>alfresco-internal-staging</serverId>
+                    <nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
+                    <stagingProfileId>${release.staging.profile}</stagingProfileId>
+                    <stagingDescription>Staging Share ${project.version} (${build-key}-${build-number} ${scm-revision})</stagingDescription>
+                    <tags>
                         <build.number>${build-number}</build.number>
                         <build.key>${build-key}</build.key>
                         <build.revision>${scm-revision}</build.revision>
-					</tags>
-				</configuration>
-			</plugin>
+                    </tags>
+                </configuration>
+            </plugin>
         </plugins>
 
         <pluginManagement>
