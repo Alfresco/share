@@ -27,7 +27,7 @@ env:
 
 stages:
   - name: test
-  if: fork = false AND type != pull_request
+    if: type != pull_request
 
 before_install: travis_retry bash scripts/travis/init.sh
 
