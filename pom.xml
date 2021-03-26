@@ -16,6 +16,7 @@
         <module>share</module>
         <module>web-framework-commons</module>
     </modules>
+
     <properties>
         <build-number>0</build-number>
         <build-key>BUILD-KEY</build-key>
@@ -684,7 +685,6 @@
                             </dependency>
                         </dependencies>
                     </plugin>
-
 
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
