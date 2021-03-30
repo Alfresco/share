@@ -12,6 +12,10 @@
         </run>
     </groups>
 
+    <listeners>
+        <listener class-name="org.alfresco.po.RetryListener"/>
+    </listeners>
+
     <!-- ======= DocumentSuite ======= -->
 
     <test name="CategoryPageTest">
