@@ -12,10 +12,6 @@
         </run>
     </groups>
 
-    <listeners>
-        <listener class-name="org.alfresco.po.RetryListener"/>
-    </listeners>
-
     <!-- ======= CmmSuite ======= -->
 
     <test name="NavigationTest">
