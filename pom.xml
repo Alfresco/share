@@ -20,7 +20,7 @@
         <build-number>0</build-number>
         <build-key>BUILD-KEY</build-key>
         <build-name>Build-Name</build-name>
-        <scm-path>${scm.url}</scm-path>
+        <scm-path>https://github.com/Alfresco/share</scm-path>
         <scm-revision>${build-number}</scm-revision>
 
         <version.major>5</version.major>
