@@ -3,15 +3,11 @@ dist: xenial
 language: java
 jdk: openjdk11
 
-addons:
-  firefox: "83.0"
-
 git:
   depth: false
   quiet: true
 
 services:
-  - xvfb
   - docker
 
 import:
@@ -37,11 +33,11 @@ branches:
 
 env:
   global:
-    - REPO_TAG_NAME=6.2.1
-    - SHARE_TAG_NAME=6.2.1
+    - REPO_TAG_NAME=6.2.0
+    - SHARE_TAG_NAME=6.2.0
     # Release version has to start with real version (6.2.2.1) for the docker image to build successfully.
-    - RELEASE_VERSION=6.2.1.1
-    - DEVELOPMENT_VERSION=6.2.2.2-SNAPSHOT
+    - RELEASE_VERSION=6.2.0.1
+    - DEVELOPMENT_VERSION=6.2.0.2-SNAPSHOT
     - HOSTED_ZONE=dev.alfresco.me
     - KEEP_ENV=false
 
@@ -93,28 +89,61 @@ jobs:
       script: bash _ci/deploy_k8s.sh
 
     - &test-staging
-      name: "Admin Tools Tests"
+      name: "User and Authentication Tests"
       stage: tests
       jdk: openjdk11
-      if: fork=false AND commit_message !~ /\[trigger company release\]/
+      if: fork=false AND commit_message !~ /\[trigger company release|skip tests\]/
       before_install: bash _ci/init.sh
       install: skip
       script:
-        - bash _ci/execute_share_web.sh "admin-tools-tests.xml"
+        - bash _ci/execute_share_web.sh "user-tests.xml"
+      addons:
+        chrome: stable
+        artifacts:
+          paths:
+            - alfresco-tas-share-test/target/surefire-reports
+            - alfresco-tas-share-test/target/reports
+          target_paths: $TRAVIS_BUILD_NUMBER/user-tests
+
+    - <<: *test-staging
+      name: "User and Site Dashboard Tests"
+      script: bash _ci/execute_share_web.sh "user-and-site-dashboard-tests.xml"
       addons:
         artifacts:
-            paths:
-              - alfresco-tas-share-test/target/surefire-reports
-              - alfresco-tas-share-test/target/reports
-            target_paths: $TRAVIS_BUILD_NUMBER
+          paths:
+            - alfresco-tas-share-test/target/surefire-reports
+            - alfresco-tas-share-test/target/reports
+          target_paths: $TRAVIS_BUILD_NUMBER/user-and-site-dashboard-tests
 
     - <<: *test-staging
-      name: "User and Authentication Tests"
-      script: bash _ci/execute_share_web.sh "user-tests.xml"
+      name: "Admin Tools Tests"
+      script: bash _ci/execute_share_web.sh "admin-tools-tests.xml"
+      addons:
+        artifacts:
+          paths:
+            - alfresco-tas-share-test/target/surefire-reports
+            - alfresco-tas-share-test/target/reports
+          target_paths: $TRAVIS_BUILD_NUMBER/admin-tools-tests
 
     - <<: *test-staging
-      name: "Content Tests"
-      script: bash _ci/execute_share_web.sh "content-tests.xml"
+      name: "Content Actions Tests"
+      script: bash _ci/execute_share_web.sh "content-actions-tests.xml"
+      addons:
+        artifacts:
+          paths:
+            - alfresco-tas-share-test/target/surefire-reports
+            - alfresco-tas-share-test/target/reports
+          target_paths: $TRAVIS_BUILD_NUMBER/content-actions-tests
+
+    - <<: *test-staging
+      name: "Content Filters Tests"
+      script: bash _ci/execute_share_web.sh "content-filters-tests.xml"
+      addons:
+        artifacts:
+          paths:
+            - alfresco-tas-share-test/target/surefire-reports
+            - alfresco-tas-share-test/target/reports
+          target_paths: $TRAVIS_BUILD_NUMBER/content-filters-tests
 
     - name: "Delete environment"
       stage: tearDown
