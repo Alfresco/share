@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>5.2.6</version>
+        <version>5.2.6.99travistestrelease</version>
     </parent>
     <artifactId>alfresco-content-services-share-distribution</artifactId>
     <name>Distribution of Alfresco Share</name>
