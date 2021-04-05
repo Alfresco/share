@@ -46,7 +46,7 @@ function updateDevelopEnv()  {
 
   # update the helm repos
   helm repo update
-  
+
   # repository.replicaCount=1 - this is a temporary fix until issues on clusterd environments are fixed.
   helm upgrade --install $RELEASE_NAME alfresco-incubator/alfresco-content-services --version 5.0.0-M1 \
 	  --set repository.replicaCount=1 \
@@ -62,6 +62,7 @@ function updateDevelopEnv()  {
           --set repository.adminPassword="${ADMIN_PWD}" \
           --set repository.image.repository="quay.io/alfresco/${ALFRESCO_REPO_IMAGE}" \
           --set repository.image.tag="${REPO_TAG_NAME}" \
+          --set alfresco-sync-service.syncservice.image.tag="${SYNC_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
           --set repository.environment.JAVA_OPTS="-Dalfresco.restApi.basicAuthScheme=true -Dsolr.base.url=/solr -Dsolr.secureComms=none -Dindex.subsystem.name=solr6 -Dalfresco.cluster.enabled=true -Ddeployment.method=HELM_CHART -Dtransform.service.enabled=true -Xms2000M -Xmx2000M" \
@@ -152,6 +153,7 @@ function createEnv {
           --set repository.image.tag="${REPO_TAG_NAME}" \
           --set share.image.repository="quay.io/alfresco/${ALFRESCO_SHARE_IMAGE}" \
           --set share.image.tag="${SHARE_TAG_NAME}" \
+          --set alfresco-sync-service.syncservice.image.tag="${SYNC_TAG_NAME}" \
           --set repository.environment.JAVA_OPTS="-Dalfresco.restApi.basicAuthScheme=true -Dsolr.base.url=/solr -Dsolr.secureComms=none -Dindex.subsystem.name=solr6 -Dalfresco.cluster.enabled=true -Ddeployment.method=HELM_CHART -Dtransform.service.enabled=true -Xms2000M -Xmx2000M" \
           --namespace $NAMESPACE
 
