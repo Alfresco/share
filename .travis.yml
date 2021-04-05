@@ -33,8 +33,8 @@ branches:
 
 env:
   global:
-    - REPO_TAG_NAME=6.2.0
-    - SHARE_TAG_NAME=support-HF-6.2.0-6.2.0.1-SNAPSHOT
+    - REPO_TAG_NAME=6.2.0.7
+    - SHARE_TAG_NAME=6.2.0.1
     # Release version has to start with real version (6.2.2.1) for the docker image to build successfully.
     - RELEASE_VERSION=6.2.0.1
     - DEVELOPMENT_VERSION=6.2.0.2-SNAPSHOT
