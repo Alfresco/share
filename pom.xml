@@ -14,17 +14,15 @@
     <modules>
         <module>share-services</module>
         <module>share</module>
-        <module>share-po</module>
-        <module>cmm-qa</module>
         <module>web-framework-commons</module>
-        <module>web-editor</module>
-        <module>web-editor-plugin</module>
-        <module>web-editor-samples/customer-site</module>
-        <module>wcmquickstart-module</module>
-        <module>alfresco</module>
     </modules>
-
     <properties>
+        <build-number>0</build-number>
+        <build-key>BUILD-KEY</build-key>
+        <build-name>Build-Name</build-name>
+        <scm-path>https://github.com/Alfresco/share</scm-path>
+        <scm-revision>${build-number}</scm-revision>
+
         <version.major>5</version.major>
         <version.minor>2</version.minor>
         <version.revision>6</version.revision>
@@ -338,24 +336,24 @@
                 </dependencies>
             </plugin>
 
-			<!-- Configure deployment of releases to Staging area of Nexus -->
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.6</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>alfresco-internal-staging</serverId>
-					<nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
-					<stagingProfileId>${release.staging.profile}</stagingProfileId>
-					<stagingDescription>Staging Share ${project.version} (${bamboo_buildResultKey} ${bamboo_planRepository_revision})</stagingDescription>
-					<tags>
-						<build.number>${bamboo_buildNumber}</build.number>
-						<build.key>${bamboo_buildKey}</build.key>
-						<build.revision>${bamboo_planRepository_revision}</build.revision>
-					</tags>
-				</configuration>
-			</plugin>
+            <!-- Configure deployment of releases to Staging area of Nexus -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.6</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>alfresco-internal-staging</serverId>
+                    <nexusUrl>https://artifacts.alfresco.com/nexus</nexusUrl>
+                    <stagingProfileId>${release.staging.profile}</stagingProfileId>
+                    <stagingDescription>Staging Share ${project.version} (${build-key}-${build-number} ${scm-revision})</stagingDescription>
+                    <tags>
+                        <build.number>${build-number}</build.number>
+                        <build.key>${build-key}</build.key>
+                        <build.revision>${scm-revision}</build.revision>
+                    </tags>
+                </configuration>
+            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -368,10 +366,10 @@
                                 <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
                                 <Build-Date>${maven.build.timestamp}</Build-Date>
-                                <Build-Name>${bamboo_planName}</Build-Name>
-                                <Build-Key>${bamboo_fullBuildKey}</Build-Key>
-                                <Build-Number>${bamboo_buildNumber}</Build-Number>
-                                <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
+                                <Build-Name>${build-name}</Build-Name>
+                                <Build-Key>${build-key}</Build-Key>
+                                <Build-Number>${build-number}</Build-Number>
+                                <Build-Revision>${scm-revision}</Build-Revision>
                             </manifestEntries>
                         </archive>
                     </configuration>
@@ -385,18 +383,18 @@
                                 <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
                                 <Build-Date>${maven.build.timestamp}</Build-Date>
-                                <Build-Name>${bamboo_planName}</Build-Name>
-                                <Build-Key>${bamboo_fullBuildKey}</Build-Key>
-                                <Build-Number>${bamboo_buildNumber}</Build-Number>
-                                <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
+                                <Build-Name>${build-name}</Build-Name>
+                                <Build-Key>${build-key}</Build-Key>
+                                <Build-Number>${build-number}</Build-Number>
+                                <Build-Revision>${scm-revision}</Build-Revision>
                             </manifestEntries>
                             <manifestSections>
                                 <manifestSection>
                                     <name>Source-control</name>
                                     <manifestEntries>
-                                        <Last-change-Revision>${bamboo_custom_svn_lastchange_revision_number}</Last-change-Revision>
-                                        <Source-Revision>${bamboo_repository_revision_number}</Source-Revision>
-                                        <Source-Url>${bamboo_planRepository_repositoryUrl}</Source-Url>
+                                        <Last-change-Revision>${scm-revision}</Last-change-Revision>
+                                        <Source-Revision>${scm-revision}</Source-Revision>
+                                        <Source-Url>${scm-path}</Source-Url>
                                     </manifestEntries>
                                 </manifestSection>
                             </manifestSections>
@@ -457,12 +455,33 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>share-po</module>
+                <module>cmm-qa</module>
+                <module>web-editor</module>
+                <module>web-editor-plugin</module>
+                <module>web-editor-samples/customer-site</module>
+                <module>wcmquickstart-module</module>
+            </modules>
+        </profile>
 
         <!-- Profile to build Enterprise version of share-enabled alfresco war -->
         <profile>
             <id>enterprise</id>
             <modules>
                 <module>alfresco-enterprise</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>community</id>
+            <modules>
+                <module>alfresco</module>
             </modules>
         </profile>
 
@@ -699,6 +718,14 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+        <!-- This profile will build only project required to produce the Share docker image. -->
+            <id>buildDockerImage</id>
+            <modules>
+                <module>packaging/distribution</module>
+                <module>packaging/docker-share</module>
+            </modules>
         </profile>
     </profiles>
 </project>

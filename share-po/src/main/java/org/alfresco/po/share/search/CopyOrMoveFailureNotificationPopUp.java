@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -48,7 +48,7 @@ public class CopyOrMoveFailureNotificationPopUp extends ShareDialogueAikau
     
     private static final By CONFIRM_NOTIFICATION_TITLE = By.cssSelector("#NOTIFICATION_PROMPT_title");
 
-	private static final By OK_BUTTON = By.cssSelector("#NOTIFCATION_PROMPT_ACKNOWLEDGEMENT_label");	
+	private static final By OK_BUTTON = By.id("NOTIFCATION_PROMPT_ACKNOWLEDGEMENT_label");
 	
     @SuppressWarnings("unchecked")
     @Override
@@ -91,8 +91,10 @@ public class CopyOrMoveFailureNotificationPopUp extends ShareDialogueAikau
 
 			if (selectok.isEnabled() && selectok.isDisplayed()) 
 			{
-				selectok.click();
-				return factoryPage.getPage(driver);
+			    WebElement dialog = findAndWait(By.id("NOTIFICATION_PROMPT"));
+			    dialog.click();
+			    selectok.click();
+			    return factoryPage.getPage(driver);
 			}
 			
 			throw new PageException("Ok Button found, but is not enabled");
