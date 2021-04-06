@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -92,7 +92,7 @@ public class SiteSearchDashletTest extends AbstractSiteDashletTest
         Assert.assertEquals(searchDashlet.getSearchText(), searchText);
     }
     
-    @Test(dependsOnMethods="search", groups="TestBug")
+    @Test(dependsOnMethods="search", groups="bug")
     public void getSearchItems()
     {
         searchDashlet.search(fileName).render();
@@ -104,7 +104,7 @@ public class SiteSearchDashletTest extends AbstractSiteDashletTest
         Assert.assertNotNull(items.get(0).getThumbnail());
     }
 
-    @Test(dependsOnMethods="getSearchItems", groups="TestBug")
+    @Test(dependsOnMethods="getSearchItems", groups="bug")
     public void searchWithSearchLimit()
     {
         searchDashlet.search(fileName, SearchLimit.TWENTY_FIVE).render();
