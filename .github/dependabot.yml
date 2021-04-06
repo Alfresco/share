@@ -8,8 +8,8 @@ updates:
   - package-ecosystem: "maven"
     directory: "../"
     schedule:
-      interval: "daily"
-      time: "09:00"
+      interval: "weekly"
+      day: "sunday"
       # Use Romania Standard Time (UTC +02:00)
       timezone: "Europe/Bucharest"
     open-pull-requests-limit: 5
