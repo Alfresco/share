@@ -14,6 +14,7 @@
         <test.exclude>nonEnterprise</test.exclude>
         <test.include>unit,alfresco-one,Enterprise4.2,Enterprise-only</test.include>
         <testng.suite.filename>src/test/resources/testng-alfresco-share.xml</testng.suite.filename>
+        <suite.filename></suite.filename>
         <argLine>-Xms512m -Xmx1024m</argLine>
         <skipTests>true</skipTests>
         <spring.version>4.1.6.RELEASE</spring.version>
@@ -142,7 +143,7 @@
         <dependency>
             <groupId>org.alfresco.test</groupId>
             <artifactId>dataprep</artifactId>
-            <version>1.9</version>
+            <version>1.28</version>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -354,6 +355,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>alfresco-content-services-tests</id>
             <build>
@@ -397,6 +399,33 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>single-test-suite</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <systemProperties>
+                                <property>
+                                    <name>java.util.logging.config.file</name>
+                                    <value>${project.build.directory}/src/test/resources/log4j.properties</value>
+                                </property>
+                            </systemProperties>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>${suite.filename}</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <excludedGroups></excludedGroups>
+                            <groups></groups>
+                            <workingDirectory>target</workingDirectory>
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
        <profile>
             <id>alfresco-content-services-e2e-tests</id>
             <build>
@@ -425,6 +454,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>upgrade-aikau</id>
             <properties>

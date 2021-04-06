@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -52,8 +52,7 @@ public class WebScriptsPage extends SharePage
     public WebScriptsPage render(RenderTime renderTime)
     {
         elementRender(renderTime,
-            getVisibleRenderElement(REFRESH_WEB_SCRIPTS_BUTTON),
-            getVisibleRenderElement(CLEAR_CHACHES_BUTTON));
+            getVisibleRenderElement(REFRESH_WEB_SCRIPTS_BUTTON));
         return this;
     }
 
