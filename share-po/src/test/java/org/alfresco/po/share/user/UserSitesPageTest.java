@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -127,31 +127,28 @@ public class UserSitesPageTest extends AbstractTest
     @Test(dependsOnMethods = "getSites", groups = { "alfresco-one" })
     public void getSiteName()
     {
-        userSiteItem = userSitesPage.getSite(siteName1);
-
-        assertEquals(userSiteItem.getSiteName(), siteName1);
+        assertEquals(userSitesPage.getSite(siteName1).getSiteName(), siteName1);
     }
 
     @Test(dependsOnMethods = "getSiteName", groups = { "alfresco-one" })
     public void toggleActivityFeed()
     {
-        userSiteItem.toggleActivityFeed(true);
-        userSiteItem = userSitesPage.getSite(siteName1);
+        userSitesPage.getSite(siteName1).toggleActivityFeed(true);
 
-        assertTrue(userSiteItem.isActivityFeedEnabled());
-        assertEquals(userSiteItem.getActivityFeedButtonLabel(), factoryPage.getValue("user.profile.sites.disable.activity.feeds"));
+        assertTrue(userSitesPage.getSite(siteName1).isActivityFeedEnabled());
+        assertEquals(userSitesPage.getSite(siteName1).getActivityFeedButtonLabel(), factoryPage.getValue("user.profile.sites.disable.activity.feeds"));
 
-        userSiteItem.toggleActivityFeed(false);
-        userSiteItem = userSitesPage.getSite(siteName1);
+        userSitesPage.getSite(siteName1).toggleActivityFeed(false);
 
-        assertFalse(userSiteItem.isActivityFeedEnabled());
-        assertEquals(userSiteItem.getActivityFeedButtonLabel(), factoryPage.getValue("user.profile.sites.enable.activity.feeds"));
+        userSitesPage.render();
+        assertFalse(userSitesPage.getSite(siteName1).isActivityFeedEnabled());
+        assertEquals(userSitesPage.getSite(siteName1).getActivityFeedButtonLabel(), factoryPage.getValue("user.profile.sites.enable.activity.feeds"));
     }
 
     @Test(dependsOnMethods = "toggleActivityFeed", groups = { "alfresco-one" })
     public void clickOnSiteName()
     {
-        SiteDashboardPage siteDashboardPage = userSiteItem.clickOnSiteName().render();
+        SiteDashboardPage siteDashboardPage = userSitesPage.getSite(siteName1).clickOnSiteName().render();
 
         assertTrue(siteDashboardPage.isSiteTitle(siteName1));
     }
