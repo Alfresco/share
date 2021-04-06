@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -51,26 +51,27 @@ import org.testng.annotations.Test;
 public class UserPageTest extends AbstractTest
 {
     UserPage userpage;
+    DashBoardPage dashBoard;
     private String setHomePageUserSiteName = "setHomePageUserSite" + System.currentTimeMillis();
     private String setHomePageFolder = "setHomePageFolder" + System.currentTimeMillis();
     private String privateSiteName = "privateSiteName" + System.currentTimeMillis();
     private String publicSiteName = "publicSiteName" + System.currentTimeMillis();
     private String siteUserName = "siteUserName" + System.currentTimeMillis();
     
-    @BeforeClass(groups = "Enterprise-only")
+    @BeforeClass(alwaysRun = true)
     public void prepare() throws Exception
     {
         siteUtil.createSite(driver, username, password, publicSiteName,"", "Public");
         siteUtil.createSite(driver, username, password, privateSiteName,"", "Private");
         createEnterpriseUser(siteUserName);
+        driver.navigate().to(shareUrl);
+        dashBoard = loginAs(username, password);
     }
     
     
     @Test(groups = "alfresco-one")
     public void userPageLinks() throws Exception
     {
-        driver.navigate().to(shareUrl);
-        DashBoardPage dashBoard = loginAs(username, password);
         userpage = dashBoard.getNav().selectUserDropdown().render();
         Assert.assertTrue(userpage.isHelpLinkPresent());
         Assert.assertTrue(userpage.isLogoutLinkPresent());

@@ -2,7 +2,7 @@
  * #%L
  * share-po
  * %%
- * Copyright (C) 2005 - 2016 Alfresco Software Limited
+ * Copyright (C) 2005 - 2021 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software. 
  * If the software was purchased under a paid Alfresco license, the terms of 
@@ -112,7 +112,7 @@ public class UserContentsPageTest extends AbstractTest
         assertTrue(userContentPage.isNoContentModifiedMessagePresent());
     }
 
-    @Test(dependsOnMethods = "getContentNoContent", groups = { "alfresco-one", "TestBug" })
+    @Test(dependsOnMethods = "getContentNoContent", groups = { "alfresco-one", "bug" })
     public void getContents() throws IOException
     {
         siteUtil.createSite(driver, userName, UNAME_PASSWORD, siteName1, "description", "Public");
@@ -166,7 +166,7 @@ public class UserContentsPageTest extends AbstractTest
         }
     }
 
-    @Test(dependsOnMethods = "getContents", groups = { "alfresco-one", "TestBug" })
+    @Test(dependsOnMethods = "getContents", groups = { "alfresco-one", "bug" })
     public void getAddedContentName()
     {
         List<UserContentItems> contentItems = userContentPage.getContentAdded(fileName);
@@ -175,7 +175,7 @@ public class UserContentsPageTest extends AbstractTest
         assertEquals(addedContent.getContentName(), fileName);
     }
 
-    @Test(dependsOnMethods = "getContents", groups = { "alfresco-one", "TestBug" })
+    @Test(dependsOnMethods = "getContents", groups = { "alfresco-one", "bug" })
     public void getModifiedContentName()
     {
         List<UserContentItems> contentItemsMod = userContentPage.getContentModified(fileName);
@@ -184,7 +184,7 @@ public class UserContentsPageTest extends AbstractTest
         assertEquals(modifiedContent.getContentName(), fileName);
     }
 
-    @Test(dependsOnMethods = "getAddedContentName", groups = { "alfresco-one", "TestBug" })
+    @Test(dependsOnMethods = "getAddedContentName", groups = { "alfresco-one", "bug" })
     public void clickContentAdded()
     {
         detailsPage = addedContent.clickOnContentName().render();
@@ -196,7 +196,7 @@ public class UserContentsPageTest extends AbstractTest
         Assert.assertEquals(editPage.getName(), fileName);
     }
 
-    @Test(dependsOnMethods = "getModifiedContentName", groups = { "alfresco-one", "TestBug" })
+    @Test(dependsOnMethods = "getModifiedContentName", groups = { "alfresco-one", "bug" })
     public void clickcontentModified()
     {
         // navigate to my profile -> Content
