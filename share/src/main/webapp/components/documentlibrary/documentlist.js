@@ -1983,16 +1983,6 @@
             return html;
          });
 
-         this.registerRenderer("syncFailed", function(record, label)
-         {
-            return '<span class="banner-more-info-link">' + this.msg("details.banner.more-info") + '</span>' + this.msg("details.banner.sync-failed");
-         });
-
-         this.registerRenderer("syncTransientError", function(record, label)
-         {
-            return '<span class="banner-more-info-link">' + this.msg("details.banner.more-info") + '</span>' + this.msg("details.banner.sync-transient-error");
-         });
-
          /**
           * Date
           */
