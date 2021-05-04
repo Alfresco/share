@@ -70,6 +70,7 @@ jobs:
   include:
     - name: "Build and Test"
       stage: build
+      if: fork = false
       before_install: bash _ci/init.sh
       script: bash _ci/build.sh
 
@@ -91,6 +92,7 @@ jobs:
 
     - name: "Deploy on K8s"
       stage: deploy
+      if: fork = false
       install: skip
       script: bash _ci/deploy_k8s.sh
 
@@ -153,11 +155,13 @@ jobs:
 
     - name: "Generate tests report"
       stage: report
+      if: fork = false
       install: skip
       script: bash _ci/upload_test_artifacts.sh
 
     - name: "Delete environment"
       stage: tearDown
+      if: fork = false
       install: skip
       script: bash _ci/delete-env.sh
 
