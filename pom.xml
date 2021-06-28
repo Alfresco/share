@@ -45,7 +45,7 @@
         <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
-        <dependency.spring.version>5.3.3</dependency.spring.version>
+        <dependency.spring.version>5.3.8</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.0.107</dependency.aikau.version>
