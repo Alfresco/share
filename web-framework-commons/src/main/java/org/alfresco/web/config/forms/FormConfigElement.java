@@ -678,7 +678,7 @@ public class FormConfigElement extends ConfigElementAdapter
         return result;
     }
 
-    /* package */void setSubmissionURL(String newURL)
+    public void setSubmissionURL(String newURL)
     {
         this.submissionURL = newURL;
     }
