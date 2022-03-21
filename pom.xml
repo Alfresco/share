@@ -61,7 +61,7 @@
         <dependency.slf4j.version>1.7.30</dependency.slf4j.version>
         <dependency.cxf.version>3.4.1</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
-        <dependency.keycloak.version>11.0.2</dependency.keycloak.version>
+        <dependency.keycloak.version>13.0.0</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.12.1</dependency.jackson.version>
 
