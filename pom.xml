@@ -196,7 +196,7 @@
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
-                <version>1.4</version>
+                <version>1.5</version>
             </dependency>
             <!-- Newer cxf libs, see MNT-20520 -->
             <dependency>
